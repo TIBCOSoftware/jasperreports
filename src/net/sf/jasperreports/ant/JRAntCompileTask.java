@@ -388,12 +388,15 @@ public class JRAntCompileTask extends MatchingTask
 
 				try
 				{
+					System.out.print("File : " + srcFileName + " ... ");
 					JasperCompileManager.compileReportToFile(srcFileName, destFileName);
+					System.out.println("OK.");
 				}
 				catch(JRException e)
 				{
+					System.out.println("FAILED.");
 					System.out.println("Error compiling report design : " + srcFileName);
-					e.printStackTrace();
+					e.printStackTrace(System.out);
 					isError = true;
 				}
 			}
