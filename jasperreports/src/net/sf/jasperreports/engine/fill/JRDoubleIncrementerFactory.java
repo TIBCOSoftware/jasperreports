@@ -86,6 +86,12 @@ public class JRDoubleIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Double ZERO = new Double(0);
+
+
+	/**
+	 *
+	 */
 	private static JRDoubleIncrementerFactory mainInstance = new JRDoubleIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRDoubleCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_DOUBLE;
+				return JRDoubleIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRDoubleCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_DOUBLE;
+				value = JRDoubleIncrementerFactory.ZERO;
 			}
 
 			return new Double(value.doubleValue() + 1);
@@ -274,7 +280,7 @@ class JRDoubleSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_DOUBLE;
+				value = JRDoubleIncrementerFactory.ZERO;
 			}
 
 			return new Double(value.doubleValue() + newValue.doubleValue());
@@ -442,7 +448,7 @@ class JRDoubleVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_DOUBLE;
+			return JRDoubleIncrementerFactory.ZERO;
 		}
 		else
 		{

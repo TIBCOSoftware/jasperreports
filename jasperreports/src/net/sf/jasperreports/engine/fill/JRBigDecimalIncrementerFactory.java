@@ -88,6 +88,13 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final BigDecimal ZERO = new BigDecimal(0);
+	protected static final BigDecimal ONE = new BigDecimal(1);
+
+
+	/**
+	 *
+	 */
 	private static JRBigDecimalIncrementerFactory mainInstance = new JRBigDecimalIncrementerFactory();
 
 
@@ -204,7 +211,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_BIG_DECIMAL;
+				return JRBigDecimalIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -215,10 +222,10 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_BIG_DECIMAL;
+				value = JRBigDecimalIncrementerFactory.ZERO;
 			}
 
-			return value.add(ONE_BIG_DECIMAL);
+			return value.add(JRBigDecimalIncrementerFactory.ONE);
 		}
 	}
 }
@@ -276,7 +283,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_BIG_DECIMAL;
+				value = JRBigDecimalIncrementerFactory.ZERO;
 			}
 
 			return value.add(newValue);
@@ -444,17 +451,17 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_BIG_DECIMAL;
+			return JRBigDecimalIncrementerFactory.ZERO;
 		}
 		else
 		{
 			BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
 			BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
 			return
-				countValue.subtract(ONE_BIG_DECIMAL).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
+				countValue.subtract(JRBigDecimalIncrementerFactory.ONE).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
 					sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(
 						sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue)
-						).divide(countValue.subtract(ONE_BIG_DECIMAL), BigDecimal.ROUND_HALF_UP)
+						).divide(countValue.subtract(JRBigDecimalIncrementerFactory.ONE), BigDecimal.ROUND_HALF_UP)
 					);
 		}
 	}

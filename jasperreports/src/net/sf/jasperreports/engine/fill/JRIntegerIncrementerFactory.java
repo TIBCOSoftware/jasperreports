@@ -86,6 +86,12 @@ public class JRIntegerIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Integer ZERO = new Integer(0);
+
+
+	/**
+	 *
+	 */
 	private static JRIntegerIncrementerFactory mainInstance = new JRIntegerIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRIntegerCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_INTEGER;
+				return JRIntegerIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRIntegerCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_INTEGER;
+				value = JRIntegerIncrementerFactory.ZERO;
 			}
 
 			return new Integer(value.intValue() + 1);
@@ -274,7 +280,7 @@ class JRIntegerSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_INTEGER;
+				value = JRIntegerIncrementerFactory.ZERO;
 			}
 
 			return new Integer(value.intValue() + newValue.intValue());
@@ -442,7 +448,7 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_INTEGER;
+			return JRIntegerIncrementerFactory.ZERO;
 		}
 		else
 		{
