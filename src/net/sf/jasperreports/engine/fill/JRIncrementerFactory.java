@@ -71,21 +71,18 @@
  */
 package dori.jasper.engine.fill;
 
-import dori.jasper.engine.JRException;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRIncrementer
+public interface JRIncrementerFactory
 {
 
 
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException;
-
+	public JRIncrementer getIncrementer(byte calculation);
 
 }
