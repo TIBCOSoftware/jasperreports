@@ -617,10 +617,10 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
-		if (image.getWhenNotAvailableType() != JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE)
+		if (image.getOnErrorType() != JRImage.ON_ERROR_TYPE_ERROR)
 		{
-			sbuffer.append(" whenNotAvailableType=\"");
-			sbuffer.append((String)JRXmlConstants.getWhenNotAvailableTypeMap().get(new Byte(image.getWhenNotAvailableType())));
+			sbuffer.append(" onErrorType=\"");
+			sbuffer.append((String)JRXmlConstants.getOnErrorTypeMap().get(new Byte(image.getOnErrorType())));
 			sbuffer.append("\"");
 		}
 		

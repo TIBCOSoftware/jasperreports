@@ -57,7 +57,7 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	private byte[] imageData = null;
 	private String imageLocation = null;
-	private byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
+	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 
 	/**
 	 *
@@ -68,20 +68,20 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private JRImageRenderer(byte[] imageData, byte whenNotAvailableType)
+	private JRImageRenderer(byte[] imageData, byte onErrorType)
 	{
 		this.imageData = imageData;
-		this.whenNotAvailableType = whenNotAvailableType;
+		this.onErrorType = onErrorType;
 	}
 
 
 	/**
 	 *
 	 */
-	private JRImageRenderer(String imageLocation, byte whenNotAvailableType)
+	private JRImageRenderer(String imageLocation, byte onErrorType)
 	{
 		this.imageLocation = imageLocation;
-		this.whenNotAvailableType = whenNotAvailableType;
+		this.onErrorType = onErrorType;
 	}
 
 
@@ -90,14 +90,14 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
 	{
-		return getInstance(imageData, JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE);
+		return getInstance(imageData, JRImage.ON_ERROR_TYPE_ERROR);
 	}
 
 
 	/**
 	 *
 	 */
-	public static JRImageRenderer getInstance(byte[] imageData, byte whenNotAvailableType)
+	public static JRImageRenderer getInstance(byte[] imageData, byte onErrorType)
 	{
 		if (imageData == null || imageData.length == 0)
 		{
@@ -105,7 +105,7 @@ public class JRImageRenderer implements JRRenderable
 		}
 		else
 		{
-			return new JRImageRenderer(imageData, whenNotAvailableType);
+			return new JRImageRenderer(imageData, onErrorType);
 		}
 	}
 
@@ -115,23 +115,23 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public static JRRenderable getInstance(String imageLocation) throws JRException
 	{
-		return getInstance(imageLocation, JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE, true);
+		return getInstance(imageLocation, JRImage.ON_ERROR_TYPE_ERROR, true);
 	}
 
 
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(String imageLocation, byte whenNotAvailableType) throws JRException
+	public static JRRenderable getInstance(String imageLocation, byte onErrorType) throws JRException
 	{
-		return getInstance(imageLocation, whenNotAvailableType, true);
+		return getInstance(imageLocation, onErrorType, true);
 	}
 
 
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(String imageLocation, byte whenNotAvailableType, boolean isLazy) throws JRException
+	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy) throws JRException
 	{
 		if (imageLocation == null)
 		{
@@ -141,17 +141,17 @@ public class JRImageRenderer implements JRRenderable
 		{
 			if (isLazy)
 			{
-				return new JRImageRenderer(imageLocation, whenNotAvailableType);
+				return new JRImageRenderer(imageLocation, onErrorType);
 			}
 			else
 			{
 				try
 				{
-					return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), whenNotAvailableType);
+					return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), onErrorType);
 				}
 				catch (JRException e)
 				{
-					return getWhenNotAvailableRenderer(whenNotAvailableType, e);
+					return getOnErrorRenderer(onErrorType, e);
 				}
 			}
 		}
@@ -161,15 +161,15 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(Image img, byte whenNotAvailableType) throws JRException
+	public static JRRenderable getInstance(Image img, byte onErrorType) throws JRException
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(img), whenNotAvailableType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(img), onErrorType);
 		}
 		catch (JRException e)
 		{
-			return getWhenNotAvailableRenderer(whenNotAvailableType, e); 
+			return getOnErrorRenderer(onErrorType, e); 
 		}
 	}
 
@@ -177,15 +177,15 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(InputStream is, byte whenNotAvailableType) throws JRException
+	public static JRRenderable getInstance(InputStream is, byte onErrorType) throws JRException
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromInputStream(is), whenNotAvailableType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromInputStream(is), onErrorType);
 		}
 		catch (JRException e)
 		{
-			return getWhenNotAvailableRenderer(whenNotAvailableType, e); 
+			return getOnErrorRenderer(onErrorType, e); 
 		}
 	}
 
@@ -193,15 +193,15 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(URL url, byte whenNotAvailableType) throws JRException
+	public static JRRenderable getInstance(URL url, byte onErrorType) throws JRException
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromURL(url), whenNotAvailableType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromURL(url), onErrorType);
 		}
 		catch (JRException e)
 		{
-			return getWhenNotAvailableRenderer(whenNotAvailableType, e); 
+			return getOnErrorRenderer(onErrorType, e); 
 		}
 	}
 
@@ -209,15 +209,15 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(File file, byte whenNotAvailableType) throws JRException
+	public static JRRenderable getInstance(File file, byte onErrorType) throws JRException
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromFile(file), whenNotAvailableType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromFile(file), onErrorType);
 		}
 		catch (JRException e)
 		{
-			return getWhenNotAvailableRenderer(whenNotAvailableType, e); 
+			return getOnErrorRenderer(onErrorType, e); 
 		}
 	}
 
@@ -225,24 +225,24 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private static JRImageRenderer getWhenNotAvailableRenderer(byte whenNotAvailableType, JRException e) throws JRException
+	private static JRImageRenderer getOnErrorRenderer(byte onErrorType, JRException e) throws JRException
 	{
 		JRImageRenderer renderer = null;
 		
-		switch (whenNotAvailableType)
+		switch (onErrorType)
 		{
-			case JRImage.WHEN_NOT_AVAILABLE_TYPE_ICON :
+			case JRImage.ON_ERROR_TYPE_ICON :
 			{
-				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/noimage.GIF", JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE);
+				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/noimage.GIF", JRImage.ON_ERROR_TYPE_ERROR);
 				//FIXME cache these renderers
 				break;
 			}
-			case JRImage.WHEN_NOT_AVAILABLE_TYPE_BLANK :
+			case JRImage.ON_ERROR_TYPE_BLANK :
 			{
-				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/pixel.GIF", JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE);
+				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/pixel.GIF", JRImage.ON_ERROR_TYPE_ERROR);
 				break;
 			}
-			case JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE :
+			case JRImage.ON_ERROR_TYPE_ERROR :
 			default :
 			{
 				throw e;
@@ -266,7 +266,7 @@ public class JRImageRenderer implements JRRenderable
 			}
 			catch (JRException e)
 			{
-				awtImage = getWhenNotAvailableRenderer(whenNotAvailableType, e).getImage();
+				awtImage = getOnErrorRenderer(onErrorType, e).getImage();
 			}
 		}
 		return awtImage;
@@ -314,7 +314,7 @@ public class JRImageRenderer implements JRRenderable
 			}
 			catch (JRException e)
 			{
-				imageData = getWhenNotAvailableRenderer(whenNotAvailableType, e).getImageData();
+				imageData = getOnErrorRenderer(onErrorType, e).getImageData();
 			}
 		}
 

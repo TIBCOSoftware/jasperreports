@@ -54,7 +54,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	private byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	protected boolean isLazy = false;
-	private byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
+	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private JRBox box = null;
@@ -80,7 +80,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 		setHorizontalAlignment(image.getHorizontalAlignment());
 		setVerticalAlignment(image.getVerticalAlignment());
 		setLazy(image.isLazy());
-		setWhenNotAvailableType(image.getWhenNotAvailableType());
+		setOnErrorType(image.getOnErrorType());
 		setHyperlinkType(image.getHyperlinkType());
 		setHyperlinkTarget(image.getHyperlinkTarget());
 
@@ -154,17 +154,17 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType()
+	public byte getOnErrorType()
 	{
-		return this.whenNotAvailableType;
+		return this.onErrorType;
 	}
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	public void setOnErrorType(byte onErrorType)
 	{
-		this.whenNotAvailableType = whenNotAvailableType;
+		this.onErrorType = onErrorType;
 	}
 
 	/**

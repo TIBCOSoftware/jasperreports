@@ -56,7 +56,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
 	protected boolean isUsingCache = true;
 	protected boolean isLazy = false;
-	protected byte whenNotAvailableType = WHEN_NOT_AVAILABLE_TYPE_NONE;
+	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -252,17 +252,17 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType()
+	public byte getOnErrorType()
 	{
-		return whenNotAvailableType;
+		return onErrorType;
 	}
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	public void setOnErrorType(byte onErrorType)
 	{
-		this.whenNotAvailableType = whenNotAvailableType;
+		this.onErrorType = onErrorType;
 	}
 
 	/**

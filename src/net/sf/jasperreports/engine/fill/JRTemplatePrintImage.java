@@ -143,15 +143,15 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType()
+	public byte getOnErrorType()
 	{
-		return ((JRTemplateImage)this.template).getWhenNotAvailableType();
+		return ((JRTemplateImage)this.template).getOnErrorType();
 	}
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	public void setOnErrorType(byte onErrorType)
 	{
 	}
 

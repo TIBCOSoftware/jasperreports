@@ -91,7 +91,7 @@ public class JRPrintImageSourceObject
 				Base64Decoder decoder = new Base64Decoder(bais, baos);
 				decoder.process();
 				
-				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray(), JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE));
+				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray(), JRImage.ON_ERROR_TYPE_ERROR));
 			}
 			catch (Exception e)
 			{
@@ -103,7 +103,7 @@ public class JRPrintImageSourceObject
 			printImage.setRenderer(
 				JRImageRenderer.getInstance(
 					imageSource,
-					printImage.getWhenNotAvailableType()
+					printImage.getOnErrorType()
 					)
 				);
 		}

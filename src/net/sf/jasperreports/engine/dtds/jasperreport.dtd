@@ -136,7 +136,7 @@
 	vAlign (Top | Middle | Bottom) "Top"
 	isUsingCache (true | false) "true"
 	isLazy (true | false) "false"
-	whenNotAvailableType (None | Blank | Icon) "None"
+	onErrorType (Error | Blank | Icon) "Error"
 	evaluationTime (Now | Report | Page | Column | Group) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
