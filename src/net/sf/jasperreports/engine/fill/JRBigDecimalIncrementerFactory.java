@@ -202,7 +202,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();
@@ -262,7 +262,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();
@@ -323,7 +323,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		if (expressionValue == null)
@@ -378,7 +378,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		if (expressionValue == null)
@@ -432,7 +432,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();

@@ -199,7 +199,7 @@ class JRShortCountIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
@@ -259,7 +259,7 @@ class JRShortSumIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
@@ -320,7 +320,7 @@ class JRShortAverageIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		if (expressionValue == null)
@@ -375,7 +375,7 @@ class JRShortStandardDeviationIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		if (expressionValue == null)
@@ -429,7 +429,7 @@ class JRShortVarianceIncrementer implements JRIncrementer
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,
-		JRVariableValueProvider valueProvider
+		AbstractValueProvider valueProvider
 		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
