@@ -815,9 +815,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			else
 			{
 				fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
-				
+			
 				setLastPageFooter(true);
-				
+			
 				if (isSummaryNewPage)
 				{
 					fillSummaryNewPage();
@@ -853,7 +853,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 				
-			if (summary.willOverflow() && !summary.isSplitAllowed())
+			if (summary.willOverflow() && !summary.isSplitAllowed())// && !isNewPage)
 			{
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 			
@@ -928,17 +928,49 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 				
-			if (summary.willOverflow() && !summary.isSplitAllowed())
+			if (summary.willOverflow() && !summary.isSplitAllowed())// && !isNewPage)
 			{
-				fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
+				if (offsetY <= lastPageColumnFooterOffsetY)
+				{
+					setLastPageFooter(true);
+
+					fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 		
-				setLastPageFooter(true);
+					fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 
-				printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
-				//printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+					resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
+					resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
+					resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
+					resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
+					resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
+					resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+					scriptlet.callBeforePageInit();
+					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+					scriptlet.callAfterPageInit();
+		
+					addPage(false);
+		
+					printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 
-				fillBand(printBand);
-				offsetY += printBand.getHeight();
+					fillBand(printBand);
+					offsetY += printBand.getHeight();
+				}
+				else
+				{
+					fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
+		
+					setLastPageFooter(true);
+
+					printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
+					//printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+
+					fillBand(printBand);
+					offsetY += printBand.getHeight();
+
+					fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
+		
+					fillPageFooter(JRExpression.EVALUATION_DEFAULT);
+				}
 			}
 			else
 			{
@@ -956,11 +988,11 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 				}
-			}
 
-			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
+				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 		
-			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
+				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
+			}
 
 			while (summary.willOverflow())
 			{
@@ -1023,12 +1055,13 @@ public class JRVerticalFiller extends JRBaseFiller
 	
 			addPage(false);
 	
-			columnIndex = -1;
+			columnIndex = -1;// FIXME why?
 
 			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 				
 			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 				
+			/*
 			if (summary.willOverflow() && !summary.isSplitAllowed())
 			{
 				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
@@ -1045,6 +1078,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 				printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 			}
+			*/
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
