@@ -2,6 +2,7 @@
 <!ELEMENT jasperReport (property*, import*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
+	language NMTOKEN "java"
 	columnCount NMTOKEN "1"
 	printOrder (Vertical | Horizontal) "Vertical"
 	pageWidth NMTOKEN "595"

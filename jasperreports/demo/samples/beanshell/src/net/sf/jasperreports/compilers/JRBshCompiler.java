@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
@@ -55,6 +56,16 @@ public class JRBshCompiler implements JRCompiler
 	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
 		JasperReport jasperReport = null;
+		
+		if (!JRReport.LANGUAGE_JAVA.equals(jasperDesign.getLanguage()))
+		{
+			throw 
+				new JRException(
+					"Language \"" + jasperDesign.getLanguage() 
+					+ "\" not supported by this report compiler.\n"
+					+ "Expecting \"java\" instead."
+					);
+		}
 		
 		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign);
 		if (brokenRules != null && brokenRules.size() > 0)

@@ -62,6 +62,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 *
 	 */
 	protected String name = null;
+	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
 	protected byte printOrder = PRINT_ORDER_VERTICAL;
 	protected int pageWidth = 595;
@@ -117,6 +118,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		/*   */
 		name = report.getName();
+		language = report.getLanguage();
 		columnCount = report.getColumnCount();
 		printOrder = report.getPrintOrder();
 		pageWidth = report.getPageWidth();
@@ -238,6 +240,14 @@ public class JRBaseReport implements JRReport, Serializable
 		return name;
 	}
 
+	/**
+	 *
+	 */
+	public String getLanguage()
+	{
+		return language;
+	}
+		
 	/**
 	 *
 	 */
