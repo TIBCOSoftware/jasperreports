@@ -37,7 +37,7 @@
 			<classpath refid="classpath"/>
 		</taskdef>
 
-		<jrc destdir="./" compiler="net.sf.jasperreports.compilers.JRBshCompiler" keepjava="true">
+		<jrc destdir="./" compiler="net.sf.jasperreports.compilers.JRBshCompiler">
 			<src>
 				<fileset dir="./">
 					<include name="**/*.jrxml"/>
