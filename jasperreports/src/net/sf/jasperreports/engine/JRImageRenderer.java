@@ -141,6 +141,10 @@ public class JRImageRenderer implements JRRenderable
 		{
 			if (isLazy)
 			{
+				return new JRImageRenderer(imageLocation, whenNotAvailableType);
+			}
+			else
+			{
 				try
 				{
 					return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), whenNotAvailableType);
@@ -149,10 +153,6 @@ public class JRImageRenderer implements JRRenderable
 				{
 					return getWhenNotAvailableRenderer(whenNotAvailableType, e);
 				}
-			}
-			else
-			{
-				return new JRImageRenderer(imageLocation, whenNotAvailableType);
 			}
 		}
 	}
