@@ -242,17 +242,17 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setBold(boolean isBold)
 	{
-		this.isBold = new Boolean(isBold);
-		attributes = null;
+		setBold(Boolean.valueOf(isBold));
 	}
-	
+
 	/**
-	 *
+	 * Alternative setBold method which allows also to reset
+	 * the "own" isBold property.
 	 */
-	public void resetBold()
+	public void setBold(Boolean isBold)
 	{
-		isBold = null;
-		attributes = null;
+		this.isBold = isBold;
+		this.attributes = null;
 	}
 
 	
@@ -284,20 +284,18 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setItalic(boolean isItalic)
 	{
-		this.isItalic = new Boolean(isItalic);
-		attributes = null;
+		setItalic(Boolean.valueOf(isItalic));
 	}
 	
 	/**
-	 *
+	 * Alternative setItalic method which allows also to reset
+	 * the "own" isItalic property.
 	 */
-	public void resetItalic()
-	{
-		isItalic = null;
-		attributes = null;
+	public void setItalic(Boolean isItalic) {
+		this.isItalic = isItalic;
+		this.attributes = null;
 	}
 	
-
 	/**
 	 *
 	 */
@@ -326,19 +324,17 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setUnderline(boolean isUnderline)
 	{
-		this.isUnderline = new Boolean(isUnderline);
-		attributes = null;
+		setUnderline(Boolean.valueOf(isUnderline));
 	}
 	
 	/**
-	 *
+	 * Alternative setUnderline method which allows also to reset
+	 * the "own" isUnderline property.
 	 */
-	public void resetUnderline()
-	{
-		isUnderline = null;
-		attributes = null;
+	public void setUnderline(Boolean isUnderline) {
+		this.isUnderline = isUnderline;
+		this.attributes = null;
 	}
-	
 
 	/**
 	 *
@@ -368,19 +364,17 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		this.isStrikeThrough = new Boolean(isStrikeThrough);
-		attributes = null;
-	}
-	
-	/**
-	 *
-	 */
-	public void resetStrikeThrough()
-	{
-		isStrikeThrough = null;
-		attributes = null;
+		setStrikeThrough(Boolean.valueOf(isStrikeThrough));
 	}
 
+	/**
+	 * Alternative setStrikeThrough method which allows also to reset
+	 * the "own" isStrikeThrough property.
+	 */
+	public void setStrikeThrough(Boolean isStrikeThrough) {
+		this.isStrikeThrough = isStrikeThrough;
+		this.attributes = null;
+	}
 
 	/**
 	 *
@@ -410,19 +404,17 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setSize(int size)
 	{
-		this.size = new Integer(size);
-		attributes = null;
-	}
-	
-	/**
-	 *
-	 */
-	public void resetSize()
-	{
-		size = null;
-		attributes = null;
+		setSize(new Integer(size));
 	}
 
+	/**
+	 * Alternative setSize method which allows also to reset
+	 * the "own" size property.
+	 */
+	public void setSize(Integer size) {
+		this.size = size;
+		this.attributes = null;
+	}
 
 	/**
 	 *
@@ -516,17 +508,17 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		this.isPdfEmbedded = new Boolean(isPdfEmbedded);
+		setPdfEmbedded(Boolean.valueOf(isPdfEmbedded));
 	}
 	
 	/**
-	 *
+	 * Alternative setPdfEmbedded method which allows also to reset
+	 * the "own" isPdfEmbedded property.
 	 */
-	public void resetPdfEmbedded()
-	{
-		isPdfEmbedded = null;
+	public void setPdfEmbedded(Boolean isPdfEmbedded) {
+		this.isPdfEmbedded = isPdfEmbedded;
+		this.attributes = null;
 	}
-	
 
 	/**
 	 *
