@@ -93,22 +93,22 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	/**
 	 *
 	 */
-	public float getAbsoluteLineSpacing();
+	public float getLineSpacingFactor();
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLineSpacing(float absoluteLineSpacing);
+	public void setLineSpacingFactor(float lineSpacingFactor);
 
 	/**
 	 *
 	 */
-	public float getAbsoluteLeading();
+	public float getLeadingOffset();
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLeading(float absoluteLeading);
+	public void setLeadingOffset(float leadingOffset);
 
 	/**
 	 *

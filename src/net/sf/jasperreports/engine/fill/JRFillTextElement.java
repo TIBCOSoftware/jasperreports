@@ -71,8 +71,10 @@
  */
 package dori.jasper.engine.fill;
 
+import java.awt.Dimension;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
@@ -111,14 +113,16 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private JRFont font = null;
 
+	private Dimension dimension = null;
 	private float floatLineSpacing = 0;
-	private float absoluteLineSpacing = 0;
-	private float absoluteLeading = 0;
+	private float lineSpacingFactor = 0;
+	private float leadingOffset = 0;
 	private float textHeight = 0;
 	private int textStart = 0;
 	private int textEnd = 0;
 	private String rawText = null;
 	private JRStyledText styledText = null;
+	private MaxFontSizeFinder maxFontSizeFinder = null;
 
 
 	/**
@@ -134,6 +138,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		/*   */
 		font = factory.getFont(textElement.getFont());
+		
+		/*   */
+		initializeDimension();
+		initilizeFloatLineSpacing();
+		initilizeMaxFontFinder();
 	}
 
 
@@ -220,71 +229,111 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return font;
 	}
 		
+
 	/**
 	 *
 	 */
-	protected float getFloatLineSpacing()
+	private void initializeDimension()
 	{
-		if (floatLineSpacing == 0)
+		int width = getWidth();
+		int height = getHeight();
+		
+		switch (getRotation())
 		{
-			floatLineSpacing = 1f;
-			switch (getLineSpacing())
+			case JRTextElement.ROTATION_LEFT :
 			{
-				case JRTextElement.LINE_SPACING_SINGLE : 
-				{
-					floatLineSpacing = 1f;
-					break;
-				}
-				case JRTextElement.LINE_SPACING_1_1_2 : 
-				{
-					floatLineSpacing = 1.5f;
-					break;
-				}
-				case JRTextElement.LINE_SPACING_DOUBLE : 
-				{
-					floatLineSpacing = 2f;
-					break;
-				}
-				default : 
-				{
-					floatLineSpacing = 1f;
-				}
+				width = getHeight();
+				height = getWidth();
+				break;
+			}
+			case JRTextElement.ROTATION_RIGHT :
+			{
+				width = getHeight();
+				height = getWidth();
+				break;
+			}
+			case JRTextElement.ROTATION_NONE :
+			default :
+			{
 			}
 		}
 		
-		return floatLineSpacing;
+		dimension = new Dimension(width, height);
 	}
-
 	/**
 	 *
 	 */
-	protected float getAbsoluteLineSpacing()
+	private void initilizeFloatLineSpacing()
 	{
-		return absoluteLineSpacing;
+		switch (getLineSpacing())
+		{
+			case JRTextElement.LINE_SPACING_SINGLE : 
+			{
+				floatLineSpacing = 1f;
+				break;
+			}
+			case JRTextElement.LINE_SPACING_1_1_2 : 
+			{
+				floatLineSpacing = 1.5f;
+				break;
+			}
+			case JRTextElement.LINE_SPACING_DOUBLE : 
+			{
+				floatLineSpacing = 2f;
+				break;
+			}
+			default : 
+			{
+				floatLineSpacing = 1f;
+			}
+		}
 	}
 		
 	/**
 	 *
 	 */
-	protected void setAbsoluteLineSpacing(float absoluteLineSpacing)
+	private void initilizeMaxFontFinder()
 	{
-		this.absoluteLineSpacing = absoluteLineSpacing;
+		if (isStyledText())
+		{
+			maxFontSizeFinder = new StyledTextMaxFontFinder();
+		}
+		else
+		{
+			maxFontSizeFinder = new DefaultMaxFontFinder();
+		}
 	}
 
 	/**
 	 *
 	 */
-	protected float getAbsoluteLeading()
+	protected float getLineSpacingFactor()
 	{
-		return absoluteLeading;
+		return lineSpacingFactor;
 	}
 		
 	/**
 	 *
 	 */
-	protected void setAbsoluteLeading(float absoluteLeading)
+	protected void setLineSpacingFactor(float lineSpacingFactor)
 	{
-		this.absoluteLeading = absoluteLeading;
+		this.lineSpacingFactor = lineSpacingFactor;
+	}
+
+	/**
+	 *
+	 */
+	protected float getLeadingOffset()
+	{
+		return leadingOffset;
+	}
+		
+	/**
+	 *
+	 */
+	protected void setLeadingOffset(float leadingOffset)
+	{
+		this.leadingOffset = leadingOffset;
 	}
 
 	/**
@@ -360,8 +409,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super.reset();
 		
-		absoluteLineSpacing = 0;
-		absoluteLeading = 0;
+		lineSpacingFactor = 0;
+		leadingOffset = 0;
 		textHeight = 0;
 	}
 
@@ -384,7 +433,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		if (styledText == null)
 		{
 			String text = getRawText();
-			if (text != null && text.length() > 0)
+			if (text != null)
 			{
 				if (isStyledText())
 				{
@@ -420,7 +469,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		if (styledText == null)
 		{
-			return "";
+			return null;
 		}
 		else
 		{
@@ -453,46 +502,20 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		//allText = JRStringUtil.treatNewLineChars(allText);
-
-		int width = getWidth();
-		int height = getHeight();
-		
-		switch (getRotation())
-		{
-			case JRTextElement.ROTATION_LEFT :
-			{
-				width = getHeight();
-				height = getWidth();
-				break;
-			}
-			case JRTextElement.ROTATION_RIGHT :
-			{
-				width = getHeight();
-				height = getWidth();
-				break;
-			}
-			case JRTextElement.ROTATION_NONE :
-			default :
-			{
-			}
-		}
-		
-		float formatWidth = (float)width;
-		float lineSpacing = getFloatLineSpacing();
-		int maxHeight = height + availableStretchHeight;
-
+		float formatWidth = (float)dimension.width;
+		float lineSpacing = floatLineSpacing;
 		float drawPosY = 0;
-		//float lastDrawPosY = 0;
-		
+		float firstLineLeading = 0;
+		int maxHeight = dimension.height + availableStretchHeight;
 		int strpos = 0;
 		int lastPosition = 0;
 		int lines = 0;
-		boolean isMaxHeightReached = false;
-		boolean wasDelim = false;
-
+		int fontSizeSum = 0;
+		int firstLineMaxFontSize = 0;
 		int paragraphStart = 0;
 		int paragraphEnd = getTextEnd();
+		boolean isMaxHeightReached = false;
+		boolean wasDelim = false;
 
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
@@ -518,18 +541,32 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
 			{
+				int lineStart = lineMeasurer.getPosition();
+
 				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-	
-				if (lines == 0)
-				{
-					absoluteLeading = layout.getLeading() + lineSpacing * layout.getAscent();
-				}
-				
+
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
 
 				if (drawPosY + layout.getDescent() <= maxHeight)
 				{
 				    lines++;
+
+					fontSizeSum += 
+						maxFontSizeFinder.findMaxFontSize(
+							new AttributedString(
+								paragraph, 
+								lineStart, 
+								lineStart + layout.getCharacterCount()
+								).getIterator(),
+							getFont().getSize()
+							);
+							
+					if (lines == 1)
+					{
+						firstLineLeading = drawPosY;
+						firstLineMaxFontSize = fontSizeSum;
+					}
+
 				    lastPosition = lineMeasurer.getPosition();
 					// here is the Y offset where we would draw the line
 					//lastDrawPosY = drawPosY;
@@ -585,18 +622,83 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextStart(getTextEnd());
 		setTextEnd(getTextStart() + strpos);
 		//setTextEnd(strpos);
-		if (lines != 0)
+		if (lines > 0)
 		{
-			//setAbsoluteLineSpacing((lastDrawPosY - 1) / lines);
-			//setAbsoluteLineSpacing(drawPosY / lines);
-			setAbsoluteLineSpacing(getTextHeight() / lines);
+			//setLineSpacingFactor((lastDrawPosY - 1) / lines);
+			//setLineSpacingFactor(drawPosY / lines);
+			//setLineSpacingFactor((getTextHeight() - firstLineLeading) / (fontSizeSum - firstLineMaxFontSize));
+			setLineSpacingFactor(getTextHeight() / fontSizeSum);
+			//setLeadingOffset(0);
+			//setLeadingOffset(- firstLineLeading + firstLineMaxFontSize * getLineSpacingFactor());
+			setLeadingOffset(firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor());
+			//setLeadingOffset(firstLineLeading);
 		}
 		else
 		{
-			setAbsoluteLineSpacing(0);
+			setLineSpacingFactor(0);
+			setLeadingOffset(0);
 		}
-		//setAbsoluteLineSpacing(drawPosY / lines);
+		//setLineSpacingFactor(drawPosY / lines);
 	}
 	
+	
+}
 
+
+/**
+ * 
+ */
+interface MaxFontSizeFinder
+{
+	/**
+	 * 
+	 */
+	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize);
+}
+
+
+/**
+ * 
+ */
+class StyledTextMaxFontFinder implements MaxFontSizeFinder
+{
+	
+	private static final Float ZERO = new Float(0);
+	
+	/**
+	 * 
+	 */
+	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize)
+	{
+		line.setIndex(0);
+		Float maxFontSize = ZERO;
+		int runLimit = 0;
+
+		while(runLimit < line.getEndIndex() && (runLimit = line.getRunLimit(TextAttribute.SIZE)) <= line.getEndIndex())
+		{
+			Float size = (Float)line.getAttribute(TextAttribute.SIZE);
+			if (maxFontSize.compareTo(size) < 0)
+			{
+				maxFontSize = size;
+			}
+			line.setIndex(runLimit);
+		}
+
+		return maxFontSize.intValue();
+	}
+}
+
+
+/**
+ * 
+ */
+class DefaultMaxFontFinder implements MaxFontSizeFinder
+{
+	/**
+	 * 
+	 */
+	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize)
+	{
+		return defaultFontSize;
+	}
 }

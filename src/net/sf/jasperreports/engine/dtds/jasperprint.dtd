@@ -68,8 +68,8 @@
 	textHeight NMTOKEN "0"
 	lineSpacing (Single | 1_1_2 | Double) "Single"
 	isStyledText (true | false) "false"
-	absoluteLineSpacing NMTOKEN "0"
-	absoluteLeading NMTOKEN "0"
+	lineSpacingFactor NMTOKEN "0"
+	leadingOffset NMTOKEN "0"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	anchorName NMTOKEN #IMPLIED
 	hyperlinkReference CDATA #IMPLIED

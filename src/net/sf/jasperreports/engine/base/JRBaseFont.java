@@ -79,6 +79,7 @@ import java.util.Map;
 import dori.jasper.engine.JRDefaultFontProvider;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRReportFont;
+import dori.jasper.engine.util.JRTextAttribute;
 
 
 /**
@@ -134,6 +135,49 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public JRBaseFont()
 	{
+	}
+		
+
+	/**
+	 *
+	 */
+	public JRBaseFont(Map attributes)
+	{
+		Float size = (Float)attributes.get(TextAttribute.SIZE);
+		if (size != null)
+		{
+			setSize(size.intValue());
+		}
+		
+		Object underline = attributes.get(TextAttribute.UNDERLINE);
+		if (underline != null)
+		{
+			setUnderline(TextAttribute.UNDERLINE_ON.equals(underline));
+		}
+
+		Object strikeThrough = attributes.get(TextAttribute.STRIKETHROUGH);
+		if (strikeThrough != null)
+		{
+			setStrikeThrough(TextAttribute.STRIKETHROUGH_ON.equals(strikeThrough));
+		}
+
+		String pdfFontName = (String)attributes.get(JRTextAttribute.PDF_FONT_NAME);
+		if (pdfFontName != null)
+		{
+			setPdfFontName(pdfFontName);
+		}
+		
+		String pdfEncoding = (String)attributes.get(JRTextAttribute.PDF_ENCODING);
+		if (pdfEncoding != null)
+		{
+			setPdfEncoding(pdfEncoding);
+		}
+		
+		Boolean isPdfEmbedded = (Boolean)attributes.get(JRTextAttribute.IS_PDF_EMBEDDED);
+		if (isPdfEmbedded != null)
+		{
+			setPdfEmbedded(isPdfEmbedded.booleanValue());
+		}
 	}
 		
 

@@ -92,8 +92,8 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 *
 	 */
 	private String text = "";
-	private float absoluteLineSpacing = 0;
-	private float absoluteLeading = 0;
+	private float lineSpacingFactor = 0;
+	private float leadingOffset = 0;
 	private float textHeight = 0;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
@@ -128,33 +128,33 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	public float getAbsoluteLineSpacing()
+	public float getLineSpacingFactor()
 	{
-		return absoluteLineSpacing;
+		return lineSpacingFactor;
 	}
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLineSpacing(float absoluteLineSpacing)
+	public void setLineSpacingFactor(float lineSpacingFactor)
 	{
-		this.absoluteLineSpacing = absoluteLineSpacing;
+		this.lineSpacingFactor = lineSpacingFactor;
 	}
 
 	/**
 	 *
 	 */
-	public float getAbsoluteLeading()
+	public float getLeadingOffset()
 	{
-		return absoluteLeading;
+		return leadingOffset;
 	}
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLeading(float absoluteLeading)
+	public void setLeadingOffset(float leadingOffset)
 	{
-		this.absoluteLeading = absoluteLeading;
+		this.leadingOffset = leadingOffset;
 	}
 
 	/**

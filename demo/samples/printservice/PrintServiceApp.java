@@ -253,7 +253,7 @@ public class PrintServiceApp
 		text.setWidth(345);
 		text.setHeight(30);
 		text.setTextAlignment(JRTextElement.TEXT_ALIGN_RIGHT);
-		text.setAbsoluteLineSpacing(18f);
+		text.setLineSpacingFactor(18f);
 		JRDesignFont font = new JRDesignFont();
 		font.setReportFont(boldFont);
 		font.setSize(18);
@@ -267,7 +267,7 @@ public class PrintServiceApp
 		text.setWidth(325);
 		text.setHeight(15);
 		text.setTextAlignment(JRTextElement.TEXT_ALIGN_RIGHT);
-		text.setAbsoluteLineSpacing(12f);
+		text.setLineSpacingFactor(12f);
 		font = new JRDesignFont();
 		font.setReportFont(italicFont);
 		font.setSize(12);
@@ -281,7 +281,7 @@ public class PrintServiceApp
 		text.setWidth(515);
 		text.setHeight(200);
 		text.setTextAlignment(JRTextElement.TEXT_ALIGN_JUSTIFIED);
-		text.setAbsoluteLineSpacing(14f);
+		text.setLineSpacingFactor(14f);
 		font = new JRDesignFont();
 		font.setReportFont(normalFont);
 		font.setSize(14);

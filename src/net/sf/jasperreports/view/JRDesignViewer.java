@@ -83,6 +83,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -90,7 +91,9 @@ import java.io.InputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
@@ -1512,6 +1515,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 				font = getDefaultFont();
 			}
 
+			Map attributes = new HashMap(); 
+			attributes.putAll(font.getAttributes());
+			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+
 			if (
 				textElement instanceof JRStaticText
 				&& textElement.isStyledText()
@@ -1519,7 +1527,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			{
 				try
 				{
-					styledText = styledTextParser.parse(font.getAttributes(), text);
+					styledText = styledTextParser.parse(attributes, text);
 				}
 				catch (SAXException e)
 				{
@@ -1531,7 +1539,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			{
 				styledText = new JRStyledText();
 				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(font.getAttributes(), 0, text.length()));
+				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
 			}
 		}
 		

@@ -96,8 +96,8 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 *
 	 */
 	protected String text = "";
-	protected float absoluteLineSpacing = 0;
-	protected float absoluteLeading = 0;
+	protected float lineSpacingFactor = 0;
+	protected float leadingOffset = 0;
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	protected byte rotation = JRTextElement.ROTATION_NONE;
@@ -142,33 +142,33 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 *
 	 */
-	public float getAbsoluteLineSpacing()
+	public float getLineSpacingFactor()
 	{
-		return absoluteLineSpacing;
+		return lineSpacingFactor;
 	}
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLineSpacing(float absoluteLineSpacing)
+	public void setLineSpacingFactor(float lineSpacingFactor)
 	{
-		this.absoluteLineSpacing = absoluteLineSpacing;
+		this.lineSpacingFactor = lineSpacingFactor;
 	}
 
 	/**
 	 *
 	 */
-	public float getAbsoluteLeading()
+	public float getLeadingOffset()
 	{
-		return absoluteLeading;
+		return leadingOffset;
 	}
 		
 	/**
 	 *
 	 */
-	public void setAbsoluteLeading(float absoluteLeading)
+	public void setLeadingOffset(float leadingOffset)
 	{
-		this.absoluteLeading = absoluteLeading;
+		this.leadingOffset = leadingOffset;
 	}
 
 	/**

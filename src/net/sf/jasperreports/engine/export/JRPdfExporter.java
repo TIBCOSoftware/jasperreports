@@ -71,7 +71,9 @@
  */
 package dori.jasper.engine.export;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -79,9 +81,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.AttributedCharacterIterator;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.xml.sax.SAXException;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -116,6 +123,8 @@ import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRLoader;
+import dori.jasper.engine.util.JRStyledText;
+import dori.jasper.engine.util.JRStyledTextParser;
 
 
 /**
@@ -124,6 +133,12 @@ import dori.jasper.engine.util.JRLoader;
  */
 public class JRPdfExporter extends JRAbstractExporter
 {
+
+
+	/**
+	 *
+	 */
+	private static final String EMPTY_STRING = "";
 
 
 	/**
@@ -150,6 +165,11 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected JRFont defaultFont = null;
+
+	/**
+	 *
+	 */
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 
 	/**
@@ -1134,15 +1154,257 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		JRStyledText styledText = null;
+
+		String text = textElement.getText();
+		if (text != null)
+		{
+			JRFont font = textElement.getFont();
+			if (font == null)
+			{
+				font = getDefaultFont();
+			}
+
+			Map attributes = new HashMap(); 
+			attributes.putAll(font.getAttributes());
+			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+
+			if (textElement.isStyledText())
+			{
+				try
+				{
+					styledText = styledTextParser.parse(attributes, text);
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
+
+	/**
+	 * 
+	 */
+	protected Chunk getHyperlinkInfoChunk(JRPrintText text)
+	{
+		Chunk chunk = new Chunk(EMPTY_STRING);
+		
+		if (text.getAnchorName() != null)
+		{
+			chunk.setLocalDestination(text.getAnchorName());
+		}
+
+		switch(text.getHyperlinkType())
+		{
+			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			{
+				if (text.getHyperlinkReference() != null)
+				{
+					chunk.setAnchor(text.getHyperlinkReference());
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+			{
+				if (text.getHyperlinkAnchor() != null)
+				{
+					chunk.setLocalGoto(text.getHyperlinkAnchor());
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			{
+				if (text.getHyperlinkPage() != null)
+				{
+					chunk.setLocalGoto("JR_PAGE_ANCHOR_" + text.getHyperlinkPage().toString());
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+			{
+				if (
+					text.getHyperlinkReference() != null &&
+					text.getHyperlinkAnchor() != null
+					)
+				{
+					chunk.setRemoteGoto(
+						text.getHyperlinkReference(),
+						text.getHyperlinkAnchor()
+						);
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			{
+				if (
+					text.getHyperlinkReference() != null &&
+					text.getHyperlinkPage() != null
+					)
+				{
+					chunk.setRemoteGoto(
+						text.getHyperlinkReference(),
+						text.getHyperlinkPage().intValue()
+						);
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_NONE :
+			default :
+			{
+				break;
+			}
+		}
+		
+		return chunk;
+	}
+	
+
+	/**
+	 *
+	 */
+	protected Phrase getPhrase(JRStyledText styledText, Chunk hyperlinkInfoChunk) throws JRException, DocumentException, IOException
+	{
+		Phrase phrase = new Phrase();
+
+		String text = styledText.getText();
+		
+		/*
+		List runs = styledText.getRuns();
+		for(int i = 0; i < runs.size(); i++)
+		{
+			JRStyledText.Run run = (JRStyledText.Run)runs.get(i);
+			Chunk chunk = getChunk(run, text);
+			chunk.setMarkupAttributes(hyperlinkInfoChunk.getMarkupAttributes());
+			phrase.add(chunk);
+		}
+		*/
+		
+		int runLimit = 0;
+
+		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+		
+		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		{
+			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			chunk.setMarkupAttributes(hyperlinkInfoChunk.getMarkupAttributes());
+			phrase.add(chunk);
+
+			iterator.setIndex(runLimit);
+		}
+
+		return phrase;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Chunk getChunk(Map attributes, String text) throws JRException, DocumentException, IOException
+	{
+		JRFont jrFont = new JRBaseFont(attributes);
+		
+		BaseFont baseFont = null;
+		Exception initialException = null;
+
+		try
+		{
+			baseFont =
+				BaseFont.createFont(
+					jrFont.getPdfFontName(),
+					jrFont.getPdfEncoding(),
+					jrFont.isPdfEmbedded(),
+					true,
+					null,
+					null
+					);
+		}
+		catch(Exception e)
+		{
+			initialException = e;
+		}
+
+		if (baseFont == null)
+		{
+			byte[] bytes = null;
+
+			try
+			{
+				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName());
+			}
+			catch(JRException e)
+			{
+				throw 
+					new JRException(
+						"Could not load the following font : " 
+						+ "\npdfFontName   : " + jrFont.getPdfFontName() 
+						+ "\npdfEncoding   : " + jrFont.getPdfEncoding() 
+						+ "\nisPdfEmbedded : " + jrFont.isPdfEmbedded(), 
+						initialException
+						);
+			}
+
+			baseFont =
+				BaseFont.createFont(
+					jrFont.getPdfFontName(),
+					jrFont.getPdfEncoding(),
+					jrFont.isPdfEmbedded(),
+					true,
+					bytes,
+					null
+					);
+		}
+
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		/*
+		if (forecolor == null)
+		{
+			forecolor = Color.black;
+		}
+		*/
+		
+		Font font =
+			new Font(
+				baseFont,
+				(float)jrFont.getSize(),
+				//((jrFont.isBold())?Font.BOLD:0) +
+				//((jrFont.isItalic())?Font.ITALIC:0) +
+				(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
+					+ (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+				forecolor
+				);
+
+		return new Chunk(text, font);
+	}
+
+
+	/**
+	 *
+	 */
 	protected void exportText(JRPrintText text) throws JRException, DocumentException, IOException
 	{
-		String strText = text.getText();
+		JRStyledText styledText = getStyledText(text);
 
-		if (strText == null)
+		if (styledText == null)
 		{
 			return;
 		}
 
+		String strText = styledText.getText();
+		
 		int x = text.getX();
 		int y = text.getY();
 		int width = text.getWidth();
@@ -1225,74 +1487,6 @@ public class JRPdfExporter extends JRAbstractExporter
 			return;
 		}
 
-		JRFont jrFont = text.getFont();
-		if (jrFont == null)
-		{
-			jrFont = getDefaultFont();
-		}
-
-		BaseFont baseFont = null;
-		Exception initialException = null;
-
-		try
-		{
-			baseFont =
-				BaseFont.createFont(
-					jrFont.getPdfFontName(),
-					jrFont.getPdfEncoding(),
-					jrFont.isPdfEmbedded(),
-					true,
-					null,
-					null
-					);
-		}
-		catch(Exception e)
-		{
-			initialException = e;
-		}
-
-		if (baseFont == null)
-		{
-			byte[] bytes = null;
-
-			try
-			{
-				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName());
-			}
-			catch(JRException e)
-			{
-				throw 
-					new JRException(
-						"Could not load the following font : " 
-						+ "\npdfFontName   : " + jrFont.getPdfFontName() 
-						+ "\npdfEncoding   : " + jrFont.getPdfEncoding() 
-						+ "\nisPdfEmbedded : " + jrFont.isPdfEmbedded(), 
-						initialException
-						);
-			}
-
-			baseFont =
-				BaseFont.createFont(
-					jrFont.getPdfFontName(),
-					jrFont.getPdfEncoding(),
-					jrFont.isPdfEmbedded(),
-					true,
-					bytes,
-					null
-					);
-		}
-
-		Font font =
-			new Font(
-				baseFont,
-				jrFont.getSize(),
-				//((jrFont.isBold())?Font.BOLD:0) +
-				//((jrFont.isItalic())?Font.ITALIC:0) +
-				((jrFont.isUnderline())?Font.UNDERLINE:0) +
-				((jrFont.isStrikeThrough())?Font.STRIKETHRU:0),
-				text.getForecolor()
-				);
-
 		int horizontalAlignment = Element.ALIGN_LEFT;
 		switch (text.getTextAlignment())
 		{
@@ -1346,91 +1540,25 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 		}
 
-		Chunk chunk = new Chunk(strText, font);
-		
-		if (text.getAnchorName() != null)
-		{
-			chunk.setLocalDestination(text.getAnchorName());
-		}
-
-		switch(text.getHyperlinkType())
-		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
-			{
-				if (text.getHyperlinkReference() != null)
-				{
-					chunk.setAnchor(text.getHyperlinkReference());
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-			{
-				if (text.getHyperlinkAnchor() != null)
-				{
-					chunk.setLocalGoto(text.getHyperlinkAnchor());
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-			{
-				if (text.getHyperlinkPage() != null)
-				{
-					chunk.setLocalGoto("JR_PAGE_ANCHOR_" + text.getHyperlinkPage().toString());
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-			{
-				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkAnchor() != null
-					)
-				{
-					chunk.setRemoteGoto(
-						text.getHyperlinkReference(),
-						text.getHyperlinkAnchor()
-						);
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-			{
-				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkPage() != null
-					)
-				{
-					chunk.setRemoteGoto(
-						text.getHyperlinkReference(),
-						text.getHyperlinkPage().intValue()
-						);
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
-			default :
-			{
-				break;
-			}
-		}
-		
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
-			new Phrase(chunk),
+			getPhrase(styledText, getHyperlinkInfoChunk(text)),
 			x, 
 			jasperPrint.getPageHeight() 
 				- y 
-				- verticalOffset 
-				- text.getAbsoluteLeading() 
-				+ text.getAbsoluteLineSpacing(), 
+				- verticalOffset
+				- text.getLeadingOffset(), 
+				//+ text.getLineSpacingFactor() * text.getFont().getSize(), 
 			x + width, 
 			jasperPrint.getPageHeight() 
 				- y 
 				- height,
-			text.getAbsoluteLineSpacing(),
+			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			horizontalAlignment
 			);
-		
+
+		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+
 		colText.go();
 
 		atrans = new AffineTransform();
