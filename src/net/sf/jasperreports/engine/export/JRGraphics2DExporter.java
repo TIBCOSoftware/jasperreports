@@ -411,10 +411,23 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				);
 		}
 
-		int availableImageWidth = printImage.getWidth();
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
+		
+		if (printImage.getBox() != null)
+		{
+			topPadding = printImage.getBox().getTopPadding();
+			leftPadding = printImage.getBox().getLeftPadding();
+			bottomPadding = printImage.getBox().getBottomPadding();
+			rightPadding = printImage.getBox().getRightPadding();
+		}
+		
+		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = printImage.getHeight();
+		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
 		JRRenderable renderer = printImage.getRenderer();
@@ -485,16 +498,16 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
 					grx.setClip(
-						printImage.getX() + globalOffsetX, 
-						printImage.getY() + globalOffsetY, 
+						printImage.getX() + leftPadding + globalOffsetX, 
+						printImage.getY() + topPadding + globalOffsetY, 
 						availableImageWidth, 
 						availableImageHeight
 						);
 					renderer.render(
 						grx, 
 						new Rectangle(
-							printImage.getX() + globalOffsetX + xoffset, 
-							printImage.getY() + globalOffsetY + yoffset, 
+							printImage.getX() + leftPadding + globalOffsetX + xoffset, 
+							printImage.getY() + topPadding + globalOffsetY + yoffset, 
 							normalWidth, 
 							normalHeight
 							) 
@@ -513,8 +526,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					renderer.render(
 						grx,
 						new Rectangle(
-							printImage.getX() + globalOffsetX, 
-							printImage.getY() + globalOffsetY, 
+							printImage.getX() + leftPadding + globalOffsetX, 
+							printImage.getY() + topPadding + globalOffsetY, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -546,8 +559,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 						renderer.render(
 							grx,
 							new Rectangle(
-								printImage.getX() + globalOffsetX + xoffset, 
-								printImage.getY() + globalOffsetY + yoffset, 
+								printImage.getX() + leftPadding + globalOffsetX + xoffset, 
+								printImage.getY() + topPadding + globalOffsetY + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 

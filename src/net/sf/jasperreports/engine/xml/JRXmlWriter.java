@@ -1240,7 +1240,7 @@ public class JRXmlWriter
 			}
 			if (box.getBorderColor() != null)
 			{
-				tmpBuffer.append(" borderColor=\"");
+				tmpBuffer.append(" borderColor=\"#");
 				tmpBuffer.append(Integer.toHexString(box.getBorderColor().getRGB() & colorMask));
 				tmpBuffer.append("\"");
 			}
@@ -1260,7 +1260,7 @@ public class JRXmlWriter
 			}
 			if (box.getOwnTopBorderColor() != null)
 			{
-				tmpBuffer.append(" topBorderColor=\"");
+				tmpBuffer.append(" topBorderColor=\"#");
 				tmpBuffer.append(Integer.toHexString(box.getOwnTopBorderColor().getRGB() & colorMask));
 				tmpBuffer.append("\"");
 			}
@@ -1280,7 +1280,7 @@ public class JRXmlWriter
 			}
 			if (box.getOwnLeftBorderColor() != null)
 			{
-				tmpBuffer.append(" leftBorderColor=\"");
+				tmpBuffer.append(" leftBorderColor=\"#");
 				tmpBuffer.append(Integer.toHexString(box.getOwnLeftBorderColor().getRGB() & colorMask));
 				tmpBuffer.append("\"");
 			}
@@ -1300,7 +1300,7 @@ public class JRXmlWriter
 			}
 			if (box.getOwnBottomBorderColor() != null)
 			{
-				tmpBuffer.append(" bottomBorderColor=\"");
+				tmpBuffer.append(" bottomBorderColor=\"#");
 				tmpBuffer.append(Integer.toHexString(box.getOwnBottomBorderColor().getRGB() & colorMask));
 				tmpBuffer.append("\"");
 			}
@@ -1320,7 +1320,7 @@ public class JRXmlWriter
 			}
 			if (box.getOwnRightBorderColor() != null)
 			{
-				tmpBuffer.append(" rightBorderColor=\"");
+				tmpBuffer.append(" rightBorderColor=\"#");
 				tmpBuffer.append(Integer.toHexString(box.getOwnRightBorderColor().getRGB() & colorMask));
 				tmpBuffer.append("\"");
 			}
@@ -1334,9 +1334,9 @@ public class JRXmlWriter
 			
 			if (tmpBuffer.length() > 0)
 			{
-				sb.append("<box");
+				sb.append("\t\t\t\t<box");
 				sb.append(tmpBuffer.toString());
-				sb.append("/>");
+				sb.append("/>\n");
 			}
 		}
 	}
