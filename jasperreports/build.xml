@@ -18,14 +18,12 @@
 				</fileset>
 			</classpath>
 		</javac>
-		<copy todir="./classes/net/sf/jasperreports/engine/dtds">
-			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
-		</copy>
-		<copy todir="./classes/net/sf/jasperreports/engine/images">
-			<fileset dir="./src/net/sf/jasperreports/engine/images"/>
-		</copy>
-		<copy todir="./classes/net/sf/jasperreports/view/images">
-			<fileset dir="./src/net/sf/jasperreports/view/images"/>
+		<copy todir="./classes">
+			<fileset dir="./src">
+				<include name="**/*.dtd"/>
+				<include name="**/*.properties"/>
+				<include name="**/*.GIF"/>
+			</fileset>
 		</copy>
 	</target>
 
