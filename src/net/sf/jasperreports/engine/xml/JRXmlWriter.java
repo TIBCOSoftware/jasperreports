@@ -125,7 +125,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private StringBuffer sbuffer = null;
+	private StringBuffer sb = null;
 	private Map fontsMap = new HashMap();
 
 	/**
@@ -222,101 +222,101 @@ public class JRXmlWriter
 	 */
 	protected String writeReport() throws JRException
 	{
-		sbuffer = new StringBuffer();
+		sb = new StringBuffer();
 		
-		sbuffer.append("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n");
-		sbuffer.append("<!DOCTYPE jasperReport PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperreport.dtd\">\n");
-		sbuffer.append("\n");
+		sb.append("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n");
+		sb.append("<!DOCTYPE jasperReport PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperreport.dtd\">\n");
+		sb.append("\n");
 
-		sbuffer.append("<jasperReport name=\"");
-		sbuffer.append(report.getName());
-		sbuffer.append("\"");
+		sb.append("<jasperReport name=\"");
+		sb.append(report.getName());
+		sb.append("\"");
 
 		if(report.getColumnCount() != 1)
 		{
-			sbuffer.append(" columnCount=\"");
-			sbuffer.append(report.getColumnCount());
-			sbuffer.append("\"");
+			sb.append(" columnCount=\"");
+			sb.append(report.getColumnCount());
+			sb.append("\"");
 		}
 
 		if(report.getPrintOrder() != JRReport.PRINT_ORDER_VERTICAL)
 		{
-			sbuffer.append(" printOrder=\"");
-			sbuffer.append((String)JRXmlConstants.getPrintOrderMap().get(new Byte(report.getPrintOrder())));
-			sbuffer.append("\"");
+			sb.append(" printOrder=\"");
+			sb.append((String)JRXmlConstants.getPrintOrderMap().get(new Byte(report.getPrintOrder())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(" pageWidth=\"");
-		sbuffer.append(report.getPageWidth());
-		sbuffer.append("\"");
+		sb.append(" pageWidth=\"");
+		sb.append(report.getPageWidth());
+		sb.append("\"");
 
-		sbuffer.append(" pageHeight=\"");
-		sbuffer.append(report.getPageHeight());
-		sbuffer.append("\"");
+		sb.append(" pageHeight=\"");
+		sb.append(report.getPageHeight());
+		sb.append("\"");
 		
 		if(report.getOrientation() != JRReport.ORIENTATION_PORTRAIT)
 		{
-			sbuffer.append(" orientation=\"");
-			sbuffer.append((String)JRXmlConstants.getOrientationMap().get(new Byte(report.getOrientation())));
-			sbuffer.append("\"");
+			sb.append(" orientation=\"");
+			sb.append((String)JRXmlConstants.getOrientationMap().get(new Byte(report.getOrientation())));
+			sb.append("\"");
 		}
 
 		if(report.getWhenNoDataType() != JRReport.WHEN_NO_DATA_TYPE_NO_PAGES)
 		{
-			sbuffer.append(" whenNoDataType=\"");
-			sbuffer.append((String)JRXmlConstants.getWhenNoDataTypeMap().get(new Byte(report.getWhenNoDataType())));
-			sbuffer.append("\"");
+			sb.append(" whenNoDataType=\"");
+			sb.append((String)JRXmlConstants.getWhenNoDataTypeMap().get(new Byte(report.getWhenNoDataType())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(" columnWidth=\"");
-		sbuffer.append(report.getColumnWidth());
-		sbuffer.append("\"");
+		sb.append(" columnWidth=\"");
+		sb.append(report.getColumnWidth());
+		sb.append("\"");
 		
 		if(report.getColumnSpacing() != 0)
 		{
-			sbuffer.append(" columnSpacing=\"");
-			sbuffer.append(report.getColumnSpacing());
-			sbuffer.append("\"");
+			sb.append(" columnSpacing=\"");
+			sb.append(report.getColumnSpacing());
+			sb.append("\"");
 		}
 
-		sbuffer.append(" leftMargin=\"");
-		sbuffer.append(report.getLeftMargin());
-		sbuffer.append("\"");
+		sb.append(" leftMargin=\"");
+		sb.append(report.getLeftMargin());
+		sb.append("\"");
 		
-		sbuffer.append(" rightMargin=\"");
-		sbuffer.append(report.getRightMargin());
-		sbuffer.append("\"");
+		sb.append(" rightMargin=\"");
+		sb.append(report.getRightMargin());
+		sb.append("\"");
 		
-		sbuffer.append(" topMargin=\"");
-		sbuffer.append(report.getTopMargin());
-		sbuffer.append("\"");
+		sb.append(" topMargin=\"");
+		sb.append(report.getTopMargin());
+		sb.append("\"");
 		
-		sbuffer.append(" bottomMargin=\"");
-		sbuffer.append(report.getBottomMargin());
-		sbuffer.append("\"");
+		sb.append(" bottomMargin=\"");
+		sb.append(report.getBottomMargin());
+		sb.append("\"");
 		
 		if(report.isTitleNewPage())
 		{
-			sbuffer.append(" isTitleNewPage=\"");
-			sbuffer.append(report.isTitleNewPage());
-			sbuffer.append("\"");
+			sb.append(" isTitleNewPage=\"");
+			sb.append(report.isTitleNewPage());
+			sb.append("\"");
 		}
 
 		if(report.isSummaryNewPage())
 		{
-			sbuffer.append(" isSummaryNewPage=\"");
-			sbuffer.append(report.isSummaryNewPage());
-			sbuffer.append("\"");
+			sb.append(" isSummaryNewPage=\"");
+			sb.append(report.isSummaryNewPage());
+			sb.append("\"");
 		}
 
 		if(report.getScriptletClass() != null)
 		{
-			sbuffer.append(" scriptletClass=\"");
-			sbuffer.append(report.getScriptletClass());
-			sbuffer.append("\"");
+			sb.append(" scriptletClass=\"");
+			sb.append(report.getScriptletClass());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 		
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -327,11 +327,27 @@ public class JRXmlWriter
 				String value = report.getProperty(propertyNames[i]);
 				if (value != null)
 				{
-					sbuffer.append("\t<property name=\"");
-					sbuffer.append(propertyNames[i]);
-					sbuffer.append("\" value=\"");
-					sbuffer.append(JRStringUtil.xmlEncode(value));
-					sbuffer.append("\"/>\n");
+					sb.append("\t<property name=\"");
+					sb.append(propertyNames[i]);
+					sb.append("\" value=\"");
+					sb.append(JRStringUtil.xmlEncode(value));
+					sb.append("\"/>\n");
+				}
+			}
+		}
+
+		/*   */
+		String[] imports = report.getImports();
+		if (imports != null && imports.length > 0)
+		{
+			for(int i = 0; i < imports.length; i++)
+			{
+				String value = imports[i];
+				if (value != null)
+				{
+					sb.append("\t<import value=\"");
+					sb.append(JRStringUtil.xmlEncode(value));
+					sb.append("\"/>\n");
 				}
 			}
 		}
@@ -402,70 +418,70 @@ public class JRXmlWriter
 		
 		if (report.getBackground() != null)
 		{
-			sbuffer.append("\t<background>\n");
+			sb.append("\t<background>\n");
 			writeBand(report.getBackground());
-			sbuffer.append("\t</background>\n");
+			sb.append("\t</background>\n");
 		}
 
 		if (report.getTitle() != null)
 		{
-			sbuffer.append("\t<title>\n");
+			sb.append("\t<title>\n");
 			writeBand(report.getTitle());
-			sbuffer.append("\t</title>\n");
+			sb.append("\t</title>\n");
 		}
 
 		if (report.getPageHeader() != null)
 		{
-			sbuffer.append("\t<pageHeader>\n");
+			sb.append("\t<pageHeader>\n");
 			writeBand(report.getPageHeader());
-			sbuffer.append("\t</pageHeader>\n");
+			sb.append("\t</pageHeader>\n");
 		}
 
 		if (report.getColumnHeader() != null)
 		{
-			sbuffer.append("\t<columnHeader>\n");
+			sb.append("\t<columnHeader>\n");
 			writeBand(report.getColumnHeader());
-			sbuffer.append("\t</columnHeader>\n");
+			sb.append("\t</columnHeader>\n");
 		}
 
 		if (report.getDetail() != null)
 		{
-			sbuffer.append("\t<detail>\n");
+			sb.append("\t<detail>\n");
 			writeBand(report.getDetail());
-			sbuffer.append("\t</detail>\n");
+			sb.append("\t</detail>\n");
 		}
 
 		if (report.getColumnFooter() != null)
 		{
-			sbuffer.append("\t<columnFooter>\n");
+			sb.append("\t<columnFooter>\n");
 			writeBand(report.getColumnFooter());
-			sbuffer.append("\t</columnFooter>\n");
+			sb.append("\t</columnFooter>\n");
 		}
 
 		if (report.getPageFooter() != null)
 		{
-			sbuffer.append("\t<pageFooter>\n");
+			sb.append("\t<pageFooter>\n");
 			writeBand(report.getPageFooter());
-			sbuffer.append("\t</pageFooter>\n");
+			sb.append("\t</pageFooter>\n");
 		}
 
 		if (report.getLastPageFooter() != null)
 		{
-			sbuffer.append("\t<lastPageFooter>\n");
+			sb.append("\t<lastPageFooter>\n");
 			writeBand(report.getLastPageFooter());
-			sbuffer.append("\t</lastPageFooter>\n");
+			sb.append("\t</lastPageFooter>\n");
 		}
 
 		if (report.getSummary() != null)
 		{
-			sbuffer.append("\t<summary>\n");
+			sb.append("\t<summary>\n");
 			writeBand(report.getSummary());
-			sbuffer.append("\t</summary>\n");
+			sb.append("\t</summary>\n");
 		}
 
-		sbuffer.append("</jasperReport>\n");
+		sb.append("</jasperReport>\n");
 
-		return sbuffer.toString();
+		return sb.toString();
 	}
 
 
@@ -474,53 +490,53 @@ public class JRXmlWriter
 	 */
 	private void writeReportFont(JRReportFont font)
 	{
-		sbuffer.append("\t<reportFont");
+		sb.append("\t<reportFont");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(font.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(font.getName());
+		sb.append("\"");
 
-		sbuffer.append(" isDefault=\"");
-		sbuffer.append(font.isDefault());
-		sbuffer.append("\"");
+		sb.append(" isDefault=\"");
+		sb.append(font.isDefault());
+		sb.append("\"");
 
-		sbuffer.append(" fontName=\"");
-		sbuffer.append(font.getFontName());
-		sbuffer.append("\"");
+		sb.append(" fontName=\"");
+		sb.append(font.getFontName());
+		sb.append("\"");
 
-		sbuffer.append(" size=\"");
-		sbuffer.append(font.getSize());
-		sbuffer.append("\"");
+		sb.append(" size=\"");
+		sb.append(font.getSize());
+		sb.append("\"");
 
-		sbuffer.append(" isBold=\"");
-		sbuffer.append(font.isBold());
-		sbuffer.append("\"");
+		sb.append(" isBold=\"");
+		sb.append(font.isBold());
+		sb.append("\"");
 
-		sbuffer.append(" isItalic=\"");
-		sbuffer.append(font.isItalic());
-		sbuffer.append("\"");
+		sb.append(" isItalic=\"");
+		sb.append(font.isItalic());
+		sb.append("\"");
 
-		sbuffer.append(" isUnderline=\"");
-		sbuffer.append(font.isUnderline());
-		sbuffer.append("\"");
+		sb.append(" isUnderline=\"");
+		sb.append(font.isUnderline());
+		sb.append("\"");
 
-		sbuffer.append(" isStrikeThrough=\"");
-		sbuffer.append(font.isStrikeThrough());
-		sbuffer.append("\"");
+		sb.append(" isStrikeThrough=\"");
+		sb.append(font.isStrikeThrough());
+		sb.append("\"");
 
-		sbuffer.append(" pdfFontName=\"");
-		sbuffer.append(font.getPdfFontName());
-		sbuffer.append("\"");
+		sb.append(" pdfFontName=\"");
+		sb.append(font.getPdfFontName());
+		sb.append("\"");
 
-		sbuffer.append(" pdfEncoding=\"");
-		sbuffer.append(font.getPdfEncoding());
-		sbuffer.append("\"");
+		sb.append(" pdfEncoding=\"");
+		sb.append(font.getPdfEncoding());
+		sb.append("\"");
 
-		sbuffer.append(" isPdfEmbedded=\"");
-		sbuffer.append(font.isPdfEmbedded());
-		sbuffer.append("\"");
+		sb.append(" isPdfEmbedded=\"");
+		sb.append(font.isPdfEmbedded());
+		sb.append("\"");
 
-		sbuffer.append("/>\n");
+		sb.append("/>\n");
 	}
 
 
@@ -529,40 +545,40 @@ public class JRXmlWriter
 	 */
 	private void writeParameter(JRParameter parameter)
 	{
-		sbuffer.append("\t<parameter");
+		sb.append("\t<parameter");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(parameter.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(parameter.getName());
+		sb.append("\"");
 
-		sbuffer.append(" class=\"");
-		sbuffer.append(parameter.getValueClassName());
-		sbuffer.append("\"");
+		sb.append(" class=\"");
+		sb.append(parameter.getValueClassName());
+		sb.append("\"");
 
 		if (!parameter.isForPrompting())
 		{
-			sbuffer.append(" isForPrompting=\"");
-			sbuffer.append(parameter.isForPrompting());
-			sbuffer.append("\"");
+			sb.append(" isForPrompting=\"");
+			sb.append(parameter.isForPrompting());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		if (parameter.getDescription() != null)
 		{
-			sbuffer.append("\t\t<parameterDescription><![CDATA[");
-			sbuffer.append(parameter.getDescription());
-			sbuffer.append("]]></parameterDescription>\n");
+			sb.append("\t\t<parameterDescription><![CDATA[");
+			sb.append(parameter.getDescription());
+			sb.append("]]></parameterDescription>\n");
 		}
 
 		if (parameter.getDefaultValueExpression() != null)
 		{
-			sbuffer.append("\t\t<defaultValueExpression><![CDATA[");
-			sbuffer.append(parameter.getDefaultValueExpression().getText());
-			sbuffer.append("]]></defaultValueExpression>\n");
+			sb.append("\t\t<defaultValueExpression><![CDATA[");
+			sb.append(parameter.getDefaultValueExpression().getText());
+			sb.append("]]></defaultValueExpression>\n");
 		}
 
-		sbuffer.append("\t</parameter>\n");
+		sb.append("\t</parameter>\n");
 	}
 
 
@@ -571,11 +587,11 @@ public class JRXmlWriter
 	 */
 	private void writeQuery(JRQuery query)
 	{
-		sbuffer.append("\t<queryString><![CDATA[");
+		sb.append("\t<queryString><![CDATA[");
 
-		sbuffer.append(query.getText());
+		sb.append(query.getText());
 
-		sbuffer.append("]]></queryString>\n");
+		sb.append("]]></queryString>\n");
 	}
 
 
@@ -584,26 +600,26 @@ public class JRXmlWriter
 	 */
 	private void writeField(JRField field)
 	{
-		sbuffer.append("\t<field");
+		sb.append("\t<field");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(field.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(field.getName());
+		sb.append("\"");
 
-		sbuffer.append(" class=\"");
-		sbuffer.append(field.getValueClassName());
-		sbuffer.append("\"");
+		sb.append(" class=\"");
+		sb.append(field.getValueClassName());
+		sb.append("\"");
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		if (field.getDescription() != null)
 		{
-			sbuffer.append("\t\t<fieldDescription><![CDATA[");
-			sbuffer.append(field.getDescription());
-			sbuffer.append("]]></fieldDescription>\n");
+			sb.append("\t\t<fieldDescription><![CDATA[");
+			sb.append(field.getDescription());
+			sb.append("]]></fieldDescription>\n");
 		}
 
-		sbuffer.append("\t</field>\n");
+		sb.append("\t</field>\n");
 	}
 
 
@@ -612,61 +628,61 @@ public class JRXmlWriter
 	 */
 	private void writeVariable(JRVariable variable)
 	{
-		sbuffer.append("\t<variable");
+		sb.append("\t<variable");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(variable.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(variable.getName());
+		sb.append("\"");
 
-		sbuffer.append(" class=\"");
-		sbuffer.append(variable.getValueClassName());
-		sbuffer.append("\"");
+		sb.append(" class=\"");
+		sb.append(variable.getValueClassName());
+		sb.append("\"");
 
 		if (variable.getResetType() != JRVariable.RESET_TYPE_REPORT)
 		{
-			sbuffer.append(" resetType=\"");
-			sbuffer.append((String)JRXmlConstants.getResetTypeMap().get(new Byte(variable.getResetType())));
-			sbuffer.append("\"");
+			sb.append(" resetType=\"");
+			sb.append((String)JRXmlConstants.getResetTypeMap().get(new Byte(variable.getResetType())));
+			sb.append("\"");
 		}
 
 		if (variable.getResetGroup() != null)
 		{
-			sbuffer.append(" resetGroup=\"");
-			sbuffer.append(variable.getResetGroup().getName());
-			sbuffer.append("\"");
+			sb.append(" resetGroup=\"");
+			sb.append(variable.getResetGroup().getName());
+			sb.append("\"");
 		}
 
 		if (variable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 		{
-			sbuffer.append(" calculation=\"");
-			sbuffer.append((String)JRXmlConstants.getCalculationMap().get(new Byte(variable.getCalculation())));
-			sbuffer.append("\"");
+			sb.append(" calculation=\"");
+			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(variable.getCalculation())));
+			sb.append("\"");
 		}
 
 		if (variable.getIncrementerFactoryClassName() != null)
 		{
-			sbuffer.append(" incrementerFactoryClass=\"");
-			sbuffer.append(variable.getIncrementerFactoryClassName());
-			sbuffer.append("\"");
+			sb.append(" incrementerFactoryClass=\"");
+			sb.append(variable.getIncrementerFactoryClassName());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		if (variable.getExpression() != null)
 		{
-			sbuffer.append("\t\t<variableExpression><![CDATA[");
-			sbuffer.append(variable.getExpression().getText());
-			sbuffer.append("]]></variableExpression>\n");
+			sb.append("\t\t<variableExpression><![CDATA[");
+			sb.append(variable.getExpression().getText());
+			sb.append("]]></variableExpression>\n");
 		}
 
 		if (variable.getInitialValueExpression() != null)
 		{
-			sbuffer.append("\t\t<initialValueExpression><![CDATA[");
-			sbuffer.append(variable.getInitialValueExpression().getText());
-			sbuffer.append("]]></initialValueExpression>\n");
+			sb.append("\t\t<initialValueExpression><![CDATA[");
+			sb.append(variable.getInitialValueExpression().getText());
+			sb.append("]]></initialValueExpression>\n");
 		}
 
-		sbuffer.append("\t</variable>\n");
+		sb.append("\t</variable>\n");
 	}
 
 
@@ -675,71 +691,71 @@ public class JRXmlWriter
 	 */
 	private void writeGroup(JRGroup group)
 	{
-		sbuffer.append("\t<group");
+		sb.append("\t<group");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(group.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(group.getName());
+		sb.append("\"");
 
 		if (group.isStartNewColumn())
 		{
-			sbuffer.append(" isStartNewColumn=\"");
-			sbuffer.append(group.isStartNewColumn());
-			sbuffer.append("\"");
+			sb.append(" isStartNewColumn=\"");
+			sb.append(group.isStartNewColumn());
+			sb.append("\"");
 		}
 
 		if (group.isStartNewPage())
 		{
-			sbuffer.append(" isStartNewPage=\"");
-			sbuffer.append(group.isStartNewPage());
-			sbuffer.append("\"");
+			sb.append(" isStartNewPage=\"");
+			sb.append(group.isStartNewPage());
+			sb.append("\"");
 		}
 
 		if (group.isResetPageNumber())
 		{
-			sbuffer.append(" isResetPageNumber=\"");
-			sbuffer.append(group.isResetPageNumber());
-			sbuffer.append("\"");
+			sb.append(" isResetPageNumber=\"");
+			sb.append(group.isResetPageNumber());
+			sb.append("\"");
 		}
 
 		if (group.isReprintHeaderOnEachPage())
 		{
-			sbuffer.append(" isReprintHeaderOnEachPage=\"");
-			sbuffer.append(group.isReprintHeaderOnEachPage());
-			sbuffer.append("\"");
+			sb.append(" isReprintHeaderOnEachPage=\"");
+			sb.append(group.isReprintHeaderOnEachPage());
+			sb.append("\"");
 		}
 
 		if (group.getMinHeightToStartNewPage() > 0)
 		{
-			sbuffer.append(" minHeightToStartNewPage=\"");
-			sbuffer.append(group.getMinHeightToStartNewPage());
-			sbuffer.append("\"");
+			sb.append(" minHeightToStartNewPage=\"");
+			sb.append(group.getMinHeightToStartNewPage());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		if (group.getExpression() != null)
 		{
-			sbuffer.append("\t\t<groupExpression><![CDATA[");
-			sbuffer.append(group.getExpression().getText());
-			sbuffer.append("]]></groupExpression>\n");
+			sb.append("\t\t<groupExpression><![CDATA[");
+			sb.append(group.getExpression().getText());
+			sb.append("]]></groupExpression>\n");
 		}
 
 		if (group.getGroupHeader() != null)
 		{
-			sbuffer.append("\t\t<groupHeader>\n");
+			sb.append("\t\t<groupHeader>\n");
 			writeBand(group.getGroupHeader());
-			sbuffer.append("\t\t</groupHeader>\n");
+			sb.append("\t\t</groupHeader>\n");
 		}
 
 		if (group.getGroupFooter() != null)
 		{
-			sbuffer.append("\t\t<groupFooter>\n");
+			sb.append("\t\t<groupFooter>\n");
 			writeBand(group.getGroupFooter());
-			sbuffer.append("\t\t</groupFooter>\n");
+			sb.append("\t\t</groupFooter>\n");
 		}
 
-		sbuffer.append("\t</group>\n");
+		sb.append("\t</group>\n");
 	}
 
 
@@ -748,30 +764,30 @@ public class JRXmlWriter
 	 */
 	private void writeBand(JRBand band)
 	{
-		sbuffer.append("\t\t<band");
+		sb.append("\t\t<band");
 
 		if (band.getHeight() > 0)
 		{
-			sbuffer.append(" height=\"");
-			sbuffer.append(band.getHeight());
-			sbuffer.append("\"");
+			sb.append(" height=\"");
+			sb.append(band.getHeight());
+			sb.append("\"");
 		}
 
 		if (!band.isSplitAllowed())
 		{
-			sbuffer.append(" isSplitAllowed=\"");
-			sbuffer.append(band.isSplitAllowed());
-			sbuffer.append("\"");
+			sb.append(" isSplitAllowed=\"");
+			sb.append(band.isSplitAllowed());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		/*   */
 		if (band.getPrintWhenExpression() != null)
 		{
-			sbuffer.append("\t\t\t<printWhenExpression><![CDATA[");
-			sbuffer.append(band.getPrintWhenExpression().getText());
-			sbuffer.append("]]></printWhenExpression>\n");
+			sb.append("\t\t\t<printWhenExpression><![CDATA[");
+			sb.append(band.getPrintWhenExpression().getText());
+			sb.append("]]></printWhenExpression>\n");
 		}
 
 		/*   */
@@ -793,7 +809,7 @@ public class JRXmlWriter
 			}
 		}
 
-		sbuffer.append("\t\t</band>\n");
+		sb.append("\t\t</band>\n");
 	}
 
 
@@ -802,7 +818,7 @@ public class JRXmlWriter
 	 */
 	private void writeElementGroup(JRElementGroup elementGroup)
 	{
-		sbuffer.append("\t\t\t<elementGroup>\n");
+		sb.append("\t\t\t<elementGroup>\n");
 
 		/*   */
 		List children = elementGroup.getChildren();
@@ -823,7 +839,7 @@ public class JRXmlWriter
 			}
 		}
 
-		sbuffer.append("\t\t\t</elementGroup>\n");
+		sb.append("\t\t\t</elementGroup>\n");
 	}
 
 
@@ -868,21 +884,21 @@ public class JRXmlWriter
 	 */
 	private void writeLine(JRLine line)
 	{
-		sbuffer.append("\t\t\t<line");
+		sb.append("\t\t\t<line");
 
 		if (line.getDirection() != JRLine.DIRECTION_TOP_DOWN)
 		{
-			sbuffer.append(" direction=\"");
-			sbuffer.append((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
-			sbuffer.append("\"");
+			sb.append(" direction=\"");
+			sb.append((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		writeReportElement(line);
 		writeGraphicElement(line);
 
-		sbuffer.append("\t\t\t</line>\n");
+		sb.append("\t\t\t</line>\n");
 	}
 
 
@@ -891,34 +907,34 @@ public class JRXmlWriter
 	 */
 	private void writeReportElement(JRElement element)
 	{
-		sbuffer.append("\t\t\t\t<reportElement");
+		sb.append("\t\t\t\t<reportElement");
 
 		if (element.getKey() != null)
 		{
-			sbuffer.append(" key=\"");
-			sbuffer.append(element.getKey());
-			sbuffer.append("\"");
+			sb.append(" key=\"");
+			sb.append(element.getKey());
+			sb.append("\"");
 		}
 
 		if (element.getPositionType() != JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP)
 		{
-			sbuffer.append(" positionType=\"");
-			sbuffer.append((String)JRXmlConstants.getPositionTypeMap().get(new Byte(element.getPositionType())));
-			sbuffer.append("\"");
+			sb.append(" positionType=\"");
+			sb.append((String)JRXmlConstants.getPositionTypeMap().get(new Byte(element.getPositionType())));
+			sb.append("\"");
 		}
 
 		if (element.getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
 		{
-			sbuffer.append(" stretchType=\"");
-			sbuffer.append((String)JRXmlConstants.getStretchTypeMap().get(new Byte(element.getStretchType())));
-			sbuffer.append("\"");
+			sb.append(" stretchType=\"");
+			sb.append((String)JRXmlConstants.getStretchTypeMap().get(new Byte(element.getStretchType())));
+			sb.append("\"");
 		}
 
 		if (!element.isPrintRepeatedValues())
 		{
-			sbuffer.append(" isPrintRepeatedValues=\"");
-			sbuffer.append(element.isPrintRepeatedValues());
-			sbuffer.append("\"");
+			sb.append(" isPrintRepeatedValues=\"");
+			sb.append(element.isPrintRepeatedValues());
+			sb.append("\"");
 		}
 
 		if (
@@ -930,82 +946,82 @@ public class JRXmlWriter
 			(element instanceof JRSubreport && element.getMode() != JRElement.MODE_TRANSPARENT)
 			)
 		{
-			sbuffer.append(" mode=\"");
-			sbuffer.append((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
-			sbuffer.append("\"");
+			sb.append(" mode=\"");
+			sb.append((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(" x=\"");
-		sbuffer.append(element.getX());
-		sbuffer.append("\"");
+		sb.append(" x=\"");
+		sb.append(element.getX());
+		sb.append("\"");
 
-		sbuffer.append(" y=\"");
-		sbuffer.append(element.getY());
-		sbuffer.append("\"");
+		sb.append(" y=\"");
+		sb.append(element.getY());
+		sb.append("\"");
 
-		sbuffer.append(" width=\"");
-		sbuffer.append(element.getWidth());
-		sbuffer.append("\"");
+		sb.append(" width=\"");
+		sb.append(element.getWidth());
+		sb.append("\"");
 
-		sbuffer.append(" height=\"");
-		sbuffer.append(element.getHeight());
-		sbuffer.append("\"");
+		sb.append(" height=\"");
+		sb.append(element.getHeight());
+		sb.append("\"");
 
 		if (element.isRemoveLineWhenBlank())
 		{
-			sbuffer.append(" isRemoveLineWhenBlank=\"");
-			sbuffer.append(element.isRemoveLineWhenBlank());
-			sbuffer.append("\"");
+			sb.append(" isRemoveLineWhenBlank=\"");
+			sb.append(element.isRemoveLineWhenBlank());
+			sb.append("\"");
 		}
 
 		if (element.isPrintInFirstWholeBand())
 		{
-			sbuffer.append(" isPrintInFirstWholeBand=\"");
-			sbuffer.append(element.isPrintInFirstWholeBand());
-			sbuffer.append("\"");
+			sb.append(" isPrintInFirstWholeBand=\"");
+			sb.append(element.isPrintInFirstWholeBand());
+			sb.append("\"");
 		}
 
 		if (element.isPrintWhenDetailOverflows())
 		{
-			sbuffer.append(" isPrintWhenDetailOverflows=\"");
-			sbuffer.append(element.isPrintWhenDetailOverflows());
-			sbuffer.append("\"");
+			sb.append(" isPrintWhenDetailOverflows=\"");
+			sb.append(element.isPrintWhenDetailOverflows());
+			sb.append("\"");
 		}
 
 		if (element.getPrintWhenGroupChanges() != null)
 		{
-			sbuffer.append(" printWhenGroupChanges=\"");
-			sbuffer.append(element.getPrintWhenGroupChanges().getName());
-			sbuffer.append("\"");
+			sb.append(" printWhenGroupChanges=\"");
+			sb.append(element.getPrintWhenGroupChanges().getName());
+			sb.append("\"");
 		}
 
 		if (element.getForecolor().getRGB() != Color.black.getRGB())
 		{
-			sbuffer.append(" forecolor=\"#");
-			sbuffer.append(Integer.toHexString(element.getForecolor().getRGB() & colorMask));
-			sbuffer.append("\"");
+			sb.append(" forecolor=\"#");
+			sb.append(Integer.toHexString(element.getForecolor().getRGB() & colorMask));
+			sb.append("\"");
 		}
 
 		if (element.getBackcolor().getRGB() != Color.white.getRGB())
 		{
-			sbuffer.append(" backcolor=\"#");
-			sbuffer.append(Integer.toHexString(element.getBackcolor().getRGB() & colorMask));
-			sbuffer.append("\"");
+			sb.append(" backcolor=\"#");
+			sb.append(Integer.toHexString(element.getBackcolor().getRGB() & colorMask));
+			sb.append("\"");
 		}
 
 		if (element.getPrintWhenExpression() != null)
 		{
-			sbuffer.append(">\n");
+			sb.append(">\n");
 			
-			sbuffer.append("\t\t\t\t\t<printWhenExpression><![CDATA[");
-			sbuffer.append(element.getPrintWhenExpression().getText());
-			sbuffer.append("]]></printWhenExpression>\n");
+			sb.append("\t\t\t\t\t<printWhenExpression><![CDATA[");
+			sb.append(element.getPrintWhenExpression().getText());
+			sb.append("]]></printWhenExpression>\n");
 
-			sbuffer.append("\t\t\t\t</reportElement>\n");
+			sb.append("\t\t\t\t</reportElement>\n");
 		}
 		else
 		{
-			sbuffer.append("/>\n");
+			sb.append("/>\n");
 		}
 	}
 
@@ -1015,7 +1031,7 @@ public class JRXmlWriter
 	 */
 	private void writeGraphicElement(JRGraphicElement element)
 	{
-		sbuffer.append("\t\t\t\t<graphicElement");
+		sb.append("\t\t\t\t<graphicElement");
 
 		if (
 			(element instanceof JRLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
@@ -1024,19 +1040,19 @@ public class JRXmlWriter
 			(element instanceof JRImage && element.getPen() != JRGraphicElement.PEN_NONE)
 			)
 		{
-			sbuffer.append(" pen=\"");
-			sbuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
-			sbuffer.append("\"");
+			sb.append(" pen=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
+			sb.append("\"");
 		}
 
 		if (element.getFill() != JRGraphicElement.FILL_SOLID)
 		{
-			sbuffer.append(" fill=\"");
-			sbuffer.append((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
-			sbuffer.append("\"");
+			sb.append(" fill=\"");
+			sb.append((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
+			sb.append("\"");
 		}
 
-		sbuffer.append("/>\n");
+		sb.append("/>\n");
 	}
 
 
@@ -1045,21 +1061,21 @@ public class JRXmlWriter
 	 */
 	private void writeRectangle(JRRectangle rectangle)
 	{
-		sbuffer.append("\t\t\t<rectangle");
+		sb.append("\t\t\t<rectangle");
 
 		if (rectangle.getRadius() != 0)
 		{
-			sbuffer.append(" radius=\"");
-			sbuffer.append(rectangle.getRadius());
-			sbuffer.append("\"");
+			sb.append(" radius=\"");
+			sb.append(rectangle.getRadius());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		writeReportElement(rectangle);
 		writeGraphicElement(rectangle);
 
-		sbuffer.append("\t\t\t</rectangle>\n");
+		sb.append("\t\t\t</rectangle>\n");
 	}
 
 
@@ -1068,12 +1084,12 @@ public class JRXmlWriter
 	 */
 	private void writeEllipse(JREllipse ellipse)
 	{
-		sbuffer.append("\t\t\t<ellipse>\n");
+		sb.append("\t\t\t<ellipse>\n");
 
 		writeReportElement(ellipse);
 		writeGraphicElement(ellipse);
 
-		sbuffer.append("\t\t\t</ellipse>\n");
+		sb.append("\t\t\t</ellipse>\n");
 	}
 
 
@@ -1082,105 +1098,105 @@ public class JRXmlWriter
 	 */
 	private void writeImage(JRImage image)
 	{
-		sbuffer.append("\t\t\t<image");
+		sb.append("\t\t\t<image");
 
 		if (image.getScaleImage() != JRImage.SCALE_IMAGE_RETAIN_SHAPE)
 		{
-			sbuffer.append(" scaleImage=\"");
-			sbuffer.append((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
-			sbuffer.append("\"");
+			sb.append(" scaleImage=\"");
+			sb.append((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
+			sb.append("\"");
 		}
 
 		if (image.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			sbuffer.append(" hAlign=\"");
-			sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
-			sbuffer.append("\"");
+			sb.append(" hAlign=\"");
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
+			sb.append("\"");
 		}
 
 		if (image.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
-			sbuffer.append(" vAlign=\"");
-			sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
-			sbuffer.append("\"");
+			sb.append(" vAlign=\"");
+			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
+			sb.append("\"");
 		}
 
 		if (!image.isUsingCache())
 		{
-			sbuffer.append(" isUsingCache=\"");
-			sbuffer.append(image.isUsingCache());
-			sbuffer.append("\"");
+			sb.append(" isUsingCache=\"");
+			sb.append(image.isUsingCache());
+			sb.append("\"");
 		}
 
 		if (image.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 		{
-			sbuffer.append(" evaluationTime=\"");
-			sbuffer.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(image.getEvaluationTime())));
-			sbuffer.append("\"");
+			sb.append(" evaluationTime=\"");
+			sb.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(image.getEvaluationTime())));
+			sb.append("\"");
 		}
 
 		if (image.getEvaluationGroup() != null)
 		{
-			sbuffer.append(" evaluationGroup=\"");
-			sbuffer.append(image.getEvaluationGroup().getName());
-			sbuffer.append("\"");
+			sb.append(" evaluationGroup=\"");
+			sb.append(image.getEvaluationGroup().getName());
+			sb.append("\"");
 		}
 
 		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			sbuffer.append(" hyperlinkType=\"");
-			sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
-			sbuffer.append("\"");
+			sb.append(" hyperlinkType=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		writeReportElement(image);
 		writeGraphicElement(image);
 
 		if (image.getExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<imageExpression");
+			sb.append("\t\t\t\t<imageExpression");
 	
-			sbuffer.append(" class=\"");
-			sbuffer.append(image.getExpression().getValueClassName());//FIXME class is mandatory in verifier
-			sbuffer.append("\"");
+			sb.append(" class=\"");
+			sb.append(image.getExpression().getValueClassName());//FIXME class is mandatory in verifier
+			sb.append("\"");
 	
-			sbuffer.append("><![CDATA[");
+			sb.append("><![CDATA[");
 	
-			sbuffer.append(image.getExpression().getText());
-			sbuffer.append("]]></imageExpression>\n");
+			sb.append(image.getExpression().getText());
+			sb.append("]]></imageExpression>\n");
 		}
 
 		if (image.getAnchorNameExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<anchorNameExpression><![CDATA[");
-			sbuffer.append(image.getAnchorNameExpression().getText());
-			sbuffer.append("]]></anchorNameExpression>\n");
+			sb.append("\t\t\t\t<anchorNameExpression><![CDATA[");
+			sb.append(image.getAnchorNameExpression().getText());
+			sb.append("]]></anchorNameExpression>\n");
 		}
 
 		if (image.getHyperlinkReferenceExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
-			sbuffer.append(image.getHyperlinkReferenceExpression().getText());
-			sbuffer.append("]]></hyperlinkReferenceExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
+			sb.append(image.getHyperlinkReferenceExpression().getText());
+			sb.append("]]></hyperlinkReferenceExpression>\n");
 		}
 
 		if (image.getHyperlinkAnchorExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
-			sbuffer.append(image.getHyperlinkAnchorExpression().getText());
-			sbuffer.append("]]></hyperlinkAnchorExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
+			sb.append(image.getHyperlinkAnchorExpression().getText());
+			sb.append("]]></hyperlinkAnchorExpression>\n");
 		}
 
 		if (image.getHyperlinkPageExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
-			sbuffer.append(image.getHyperlinkPageExpression().getText());
-			sbuffer.append("]]></hyperlinkPageExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
+			sb.append(image.getHyperlinkPageExpression().getText());
+			sb.append("]]></hyperlinkPageExpression>\n");
 		}
 
-		sbuffer.append("\t\t\t</image>\n");
+		sb.append("\t\t\t</image>\n");
 	}
 
 
@@ -1189,19 +1205,19 @@ public class JRXmlWriter
 	 */
 	private void writeStaticText(JRStaticText staticText)
 	{
-		sbuffer.append("\t\t\t<staticText>\n");
+		sb.append("\t\t\t<staticText>\n");
 
 		writeReportElement(staticText);
 		writeTextElement(staticText);
 
 		if (staticText.getText() != null)
 		{
-			sbuffer.append("\t\t\t\t<text><![CDATA[");
-			sbuffer.append(staticText.getText());
-			sbuffer.append("]]></text>\n");
+			sb.append("\t\t\t\t<text><![CDATA[");
+			sb.append(staticText.getText());
+			sb.append("]]></text>\n");
 		}
 
-		sbuffer.append("\t\t\t</staticText>\n");
+		sb.append("\t\t\t</staticText>\n");
 	}
 
 
@@ -1210,55 +1226,55 @@ public class JRXmlWriter
 	 */
 	private void writeTextElement(JRTextElement textElement)
 	{
-		sbuffer.append("\t\t\t\t<textElement");
+		sb.append("\t\t\t\t<textElement");
 
 		if (textElement.getTextAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			sbuffer.append(" textAlignment=\"");
-			sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(textElement.getTextAlignment())));
-			sbuffer.append("\"");
+			sb.append(" textAlignment=\"");
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(textElement.getTextAlignment())));
+			sb.append("\"");
 		}
 
 		if (textElement.getVerticalAlignment() != JRTextElement.VERTICAL_ALIGN_TOP)
 		{
-			sbuffer.append(" verticalAlignment=\"");
-			sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(textElement.getVerticalAlignment())));
-			sbuffer.append("\"");
+			sb.append(" verticalAlignment=\"");
+			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(textElement.getVerticalAlignment())));
+			sb.append("\"");
 		}
 
 		if (textElement.getRotation() != JRTextElement.ROTATION_NONE)
 		{
-			sbuffer.append(" rotation=\"");
-			sbuffer.append((String)JRXmlConstants.getRotationMap().get(new Byte(textElement.getRotation())));
-			sbuffer.append("\"");
+			sb.append(" rotation=\"");
+			sb.append((String)JRXmlConstants.getRotationMap().get(new Byte(textElement.getRotation())));
+			sb.append("\"");
 		}
 
 		if (textElement.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
-			sbuffer.append(" lineSpacing=\"");
-			sbuffer.append((String)JRXmlConstants.getLineSpacingMap().get(new Byte(textElement.getLineSpacing())));
-			sbuffer.append("\"");
+			sb.append(" lineSpacing=\"");
+			sb.append((String)JRXmlConstants.getLineSpacingMap().get(new Byte(textElement.getLineSpacing())));
+			sb.append("\"");
 		}
 
 		if (textElement.isStyledText())
 		{
-			sbuffer.append(" isStyledText=\"");
-			sbuffer.append(textElement.isStyledText());
-			sbuffer.append("\"");
+			sb.append(" isStyledText=\"");
+			sb.append(textElement.isStyledText());
+			sb.append("\"");
 		}
 
 		String font = writeFont(textElement.getFont());
 		if (font != null)
 		{
-			sbuffer.append(">\n");
+			sb.append(">\n");
 
-			sbuffer.append("\t\t\t\t\t" + font + "\n");
+			sb.append("\t\t\t\t\t" + font + "\n");
 			
-			sbuffer.append("\t\t\t\t</textElement>\n");
+			sb.append("\t\t\t\t</textElement>\n");
 		}
 		else
 		{
-			sbuffer.append("/>\n");
+			sb.append("/>\n");
 		}
 	}
 
@@ -1374,98 +1390,98 @@ public class JRXmlWriter
 	 */
 	private void writeTextField(JRTextField textField)
 	{
-		sbuffer.append("\t\t\t<textField");
+		sb.append("\t\t\t<textField");
 
 		if (textField.isStretchWithOverflow())
 		{
-			sbuffer.append(" isStretchWithOverflow=\"");
-			sbuffer.append(textField.isStretchWithOverflow());
-			sbuffer.append("\"");
+			sb.append(" isStretchWithOverflow=\"");
+			sb.append(textField.isStretchWithOverflow());
+			sb.append("\"");
 		}
 
 		if (textField.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 		{
-			sbuffer.append(" evaluationTime=\"");
-			sbuffer.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(textField.getEvaluationTime())));
-			sbuffer.append("\"");
+			sb.append(" evaluationTime=\"");
+			sb.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(textField.getEvaluationTime())));
+			sb.append("\"");
 		}
 
 		if (textField.getEvaluationGroup() != null)
 		{
-			sbuffer.append(" evaluationGroup=\"");
-			sbuffer.append(textField.getEvaluationGroup().getName());
-			sbuffer.append("\"");
+			sb.append(" evaluationGroup=\"");
+			sb.append(textField.getEvaluationGroup().getName());
+			sb.append("\"");
 		}
 
 		if (textField.getPattern() != null)
 		{
-			sbuffer.append(" pattern=\"");
-			sbuffer.append(textField.getPattern());
-			sbuffer.append("\"");
+			sb.append(" pattern=\"");
+			sb.append(textField.getPattern());
+			sb.append("\"");
 		}
 
 		if (textField.isBlankWhenNull())
 		{
-			sbuffer.append(" isBlankWhenNull=\"");
-			sbuffer.append(textField.isBlankWhenNull());
-			sbuffer.append("\"");
+			sb.append(" isBlankWhenNull=\"");
+			sb.append(textField.isBlankWhenNull());
+			sb.append("\"");
 		}
 
 		if (textField.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			sbuffer.append(" hyperlinkType=\"");
-			sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(textField.getHyperlinkType())));
-			sbuffer.append("\"");
+			sb.append(" hyperlinkType=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(textField.getHyperlinkType())));
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		writeReportElement(textField);
 		writeTextElement(textField);
 
 		if (textField.getExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<textFieldExpression");
+			sb.append("\t\t\t\t<textFieldExpression");
 	
-			sbuffer.append(" class=\"");
-			sbuffer.append(textField.getExpression().getValueClassName());
-			sbuffer.append("\"");
+			sb.append(" class=\"");
+			sb.append(textField.getExpression().getValueClassName());
+			sb.append("\"");
 	
-			sbuffer.append("><![CDATA[");
+			sb.append("><![CDATA[");
 	
-			sbuffer.append(textField.getExpression().getText());
-			sbuffer.append("]]></textFieldExpression>\n");
+			sb.append(textField.getExpression().getText());
+			sb.append("]]></textFieldExpression>\n");
 		}
 
 		if (textField.getAnchorNameExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<anchorNameExpression><![CDATA[");
-			sbuffer.append(textField.getAnchorNameExpression().getText());
-			sbuffer.append("]]></anchorNameExpression>\n");
+			sb.append("\t\t\t\t<anchorNameExpression><![CDATA[");
+			sb.append(textField.getAnchorNameExpression().getText());
+			sb.append("]]></anchorNameExpression>\n");
 		}
 
 		if (textField.getHyperlinkReferenceExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
-			sbuffer.append(textField.getHyperlinkReferenceExpression().getText());
-			sbuffer.append("]]></hyperlinkReferenceExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
+			sb.append(textField.getHyperlinkReferenceExpression().getText());
+			sb.append("]]></hyperlinkReferenceExpression>\n");
 		}
 
 		if (textField.getHyperlinkAnchorExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
-			sbuffer.append(textField.getHyperlinkAnchorExpression().getText());
-			sbuffer.append("]]></hyperlinkAnchorExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
+			sb.append(textField.getHyperlinkAnchorExpression().getText());
+			sb.append("]]></hyperlinkAnchorExpression>\n");
 		}
 
 		if (textField.getHyperlinkPageExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
-			sbuffer.append(textField.getHyperlinkPageExpression().getText());
-			sbuffer.append("]]></hyperlinkPageExpression>\n");
+			sb.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
+			sb.append(textField.getHyperlinkPageExpression().getText());
+			sb.append("]]></hyperlinkPageExpression>\n");
 		}
 		
-		sbuffer.append("\t\t\t</textField>\n");
+		sb.append("\t\t\t</textField>\n");
 	}
 
 
@@ -1474,24 +1490,24 @@ public class JRXmlWriter
 	 */
 	private void writeSubreport(JRSubreport subreport)
 	{
-		sbuffer.append("\t\t\t<subreport");
+		sb.append("\t\t\t<subreport");
 
 		if (!subreport.isUsingCache())
 		{
-			sbuffer.append(" isUsingCache=\"");
-			sbuffer.append(subreport.isUsingCache());
-			sbuffer.append("\"");
+			sb.append(" isUsingCache=\"");
+			sb.append(subreport.isUsingCache());
+			sb.append("\"");
 		}
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		writeReportElement(subreport);
 
 		if (subreport.getParametersMapExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<parametersMapExpression><![CDATA[");
-			sbuffer.append(subreport.getParametersMapExpression().getText());
-			sbuffer.append("]]></parametersMapExpression>\n");
+			sb.append("\t\t\t\t<parametersMapExpression><![CDATA[");
+			sb.append(subreport.getParametersMapExpression().getText());
+			sb.append("]]></parametersMapExpression>\n");
 		}
 
 		/*   */
@@ -1506,33 +1522,33 @@ public class JRXmlWriter
 
 		if (subreport.getConnectionExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<connectionExpression><![CDATA[");
-			sbuffer.append(subreport.getConnectionExpression().getText());
-			sbuffer.append("]]></connectionExpression>\n");
+			sb.append("\t\t\t\t<connectionExpression><![CDATA[");
+			sb.append(subreport.getConnectionExpression().getText());
+			sb.append("]]></connectionExpression>\n");
 		}
 
 		if (subreport.getDataSourceExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<dataSourceExpression><![CDATA[");
-			sbuffer.append(subreport.getDataSourceExpression().getText());
-			sbuffer.append("]]></dataSourceExpression>\n");
+			sb.append("\t\t\t\t<dataSourceExpression><![CDATA[");
+			sb.append(subreport.getDataSourceExpression().getText());
+			sb.append("]]></dataSourceExpression>\n");
 		}
 
 		if (subreport.getExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t<subreportExpression");
+			sb.append("\t\t\t\t<subreportExpression");
 	
-			sbuffer.append(" class=\"");
-			sbuffer.append(subreport.getExpression().getValueClassName());
-			sbuffer.append("\"");
+			sb.append(" class=\"");
+			sb.append(subreport.getExpression().getValueClassName());
+			sb.append("\"");
 	
-			sbuffer.append("><![CDATA[");
+			sb.append("><![CDATA[");
 	
-			sbuffer.append(subreport.getExpression().getText());
-			sbuffer.append("]]></subreportExpression>\n");
+			sb.append(subreport.getExpression().getText());
+			sb.append("]]></subreportExpression>\n");
 		}
 
-		sbuffer.append("\t\t\t</subreport>\n");
+		sb.append("\t\t\t</subreport>\n");
 	}
 
 
@@ -1541,22 +1557,22 @@ public class JRXmlWriter
 	 */
 	private void writeSubreportParameter(JRSubreportParameter subreportParameter)
 	{
-		sbuffer.append("\t\t\t\t<subreportParameter");
+		sb.append("\t\t\t\t<subreportParameter");
 
-		sbuffer.append(" name=\"");
-		sbuffer.append(subreportParameter.getName());
-		sbuffer.append("\"");
+		sb.append(" name=\"");
+		sb.append(subreportParameter.getName());
+		sb.append("\"");
 
-		sbuffer.append(">\n");
+		sb.append(">\n");
 
 		if (subreportParameter.getExpression() != null)
 		{
-			sbuffer.append("\t\t\t\t\t<subreportParameterExpression><![CDATA[");
-			sbuffer.append(subreportParameter.getExpression().getText());
-			sbuffer.append("]]></subreportParameterExpression>\n");
+			sb.append("\t\t\t\t\t<subreportParameterExpression><![CDATA[");
+			sb.append(subreportParameter.getExpression().getText());
+			sb.append("]]></subreportParameterExpression>\n");
 		}
 
-		sbuffer.append("\t\t\t\t</subreportParameter>\n");
+		sb.append("\t\t\t\t</subreportParameter>\n");
 	}
 	
 

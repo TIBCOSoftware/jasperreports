@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.2
+-----------------------------------
+- added support for import statements in order to eliminate 
+the need to use complete class names inside report expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.1
 -----------------------------------
 - new "lastPageFooter" report section added to simplify the creation of some

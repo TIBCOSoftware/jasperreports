@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, import*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
 	columnCount NMTOKEN "1"
@@ -22,6 +22,10 @@
 <!ATTLIST property
 	name CDATA #REQUIRED
 	value CDATA #IMPLIED
+>
+<!ELEMENT import EMPTY>
+<!ATTLIST import
+	value CDATA #REQUIRED
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont

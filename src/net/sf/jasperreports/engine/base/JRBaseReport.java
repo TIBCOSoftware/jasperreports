@@ -72,7 +72,9 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -123,6 +125,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 *
 	 */
 	protected Map propertiesMap = null;
+	protected Set importsSet = null;
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
 	protected JRParameter[] parameters = null;
@@ -179,6 +182,14 @@ public class JRBaseReport implements JRReport, Serializable
 			{
 				setProperty(propertyNames[i], report.getProperty(propertyNames[i]));
 			}
+		}
+
+		/*   */
+		String[] imports = report.getImports();
+		if (imports != null && imports.length > 0)
+		{
+			importsSet = new HashSet(imports.length);
+			importsSet.addAll(Arrays.asList(imports));
 		}
 
 		/*   */
@@ -446,6 +457,21 @@ public class JRBaseReport implements JRReport, Serializable
 		if (propertiesMap != null)
 		{
 			propertiesMap.remove(name);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public String[] getImports()
+	{
+		if (importsSet != null)
+		{
+			return (String[])importsSet.toArray(new String[importsSet.size()]);
+		}
+		else
+		{
+			return null;
 		}
 	}
 

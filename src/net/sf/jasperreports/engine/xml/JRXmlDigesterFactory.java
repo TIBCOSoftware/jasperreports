@@ -139,6 +139,10 @@ public class JRXmlDigesterFactory
 		digester.addCallParam("jasperReport/property", 1, "value");
 
 		/*   */
+		digester.addCallMethod("jasperReport/import", "addImport", 1);
+		digester.addCallParam("jasperReport/import", 0, "value");
+
+		/*   */
 		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
 		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
 
