@@ -141,7 +141,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private String reportFileName = null;
 	private JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
-	private float zoom = 1f;
+	private float zoom = 0f;
 
 	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
 
@@ -167,11 +167,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		setZoomRatio(1);
+		//setZoomRatio(1);
 
 		loadReport(fileName, isXML);
 		setPageIndex(0);
-		refreshPage();
+
+		cmbZoom.setSelectedIndex(2);//100%
+		//refreshPage();
 		
 		addHyperlinkListener(this);
 	}
@@ -184,11 +186,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		setZoomRatio(1);
+		//setZoomRatio(1);
 
 		loadReport(is, isXML);
 		setPageIndex(0);
-		refreshPage();
+
+		cmbZoom.setSelectedIndex(2);//100%
+		//refreshPage();
 
 		addHyperlinkListener(this);
 	}
@@ -201,11 +205,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		setZoomRatio(1);
+		//setZoomRatio(1);
 
 		loadReport(jrPrint);
 		setPageIndex(0);
-		refreshPage();
+
+		cmbZoom.setSelectedIndex(2);//100%
+		//refreshPage();
 
 		addHyperlinkListener(this);
 	}
