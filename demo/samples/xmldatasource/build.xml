@@ -2,7 +2,7 @@
 
 	<property name="class.name" value="XmlDataSourceApp" />
 	<property name="file.name" value="CustomersReport" />
-	<property name="classes.dir" value="../../../classes" />
+	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
 	
@@ -30,18 +30,17 @@
 		and produces the .jasper files.
 	-->
 	<target name="compile">
-		<echo message="Compiling the ${file.name}.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jrxml"/>
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
-		</java>
-		<echo message="Compiling the OrdersReport.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-FOrdersReport.jrxml"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
 			<classpath refid="classpath"/>
-		</java>
+		</jrc> 
 	</target>
 
 	<!--

@@ -26,12 +26,16 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.view.*;
-import java.util.*;
-import java.io.*;
+import java.io.File;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -47,7 +51,6 @@ public class PdfEncryptApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
 	
@@ -80,13 +83,7 @@ public class PdfEncryptApp
 		try
 		{
 			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL.equals(taskName))
+			if (TASK_FILL.equals(taskName))
 			{
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
@@ -144,7 +141,7 @@ public class PdfEncryptApp
 	{
 		System.out.println( "PdfEncryptApp usage:" );
 		System.out.println( "\tjava PdfEncryptApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | pdf" );
+		System.out.println( "\tTasks : fill | pdf" );
 	}
 
 

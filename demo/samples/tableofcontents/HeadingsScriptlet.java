@@ -27,10 +27,10 @@
  * Email: teodord@users.sourceforge.net
  */
 
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.fill.*;
+import java.util.Collection;
 
-import java.util.*;
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
 
 
 /**

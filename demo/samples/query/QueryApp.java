@@ -26,14 +26,25 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.view.*;
-import java.sql.*;
-import java.util.*;
-import java.io.*;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**

@@ -30,18 +30,17 @@
 		and produces the .jasper file.
 	-->
 	<target name="compile">
-		<echo message="Compiling the ${file.name}.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jrxml"/>
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
-		</java>
-		<echo message="Compiling the HeadingsReport.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-FHeadingsReport.jrxml"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
 			<classpath refid="classpath"/>
-		</java>
+		</jrc> 
 	</target>
 
 	<!--
