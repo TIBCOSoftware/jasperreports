@@ -86,7 +86,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *

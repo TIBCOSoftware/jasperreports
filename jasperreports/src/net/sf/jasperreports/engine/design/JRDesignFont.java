@@ -87,7 +87,7 @@ public class JRDesignFont extends JRBaseFont
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 
 	/**

@@ -90,7 +90,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *

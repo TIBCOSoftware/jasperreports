@@ -91,7 +91,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *
