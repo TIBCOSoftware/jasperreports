@@ -364,7 +364,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected boolean isInterrupted()
 	{
-		
 		return (this.isInterrupted || (this.parentFiller != null && this.parentFiller.isInterrupted()));
 	}
 
