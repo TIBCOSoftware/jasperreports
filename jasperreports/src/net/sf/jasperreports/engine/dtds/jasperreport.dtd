@@ -139,15 +139,6 @@
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
 >
-<!ELEMENT imageExpression (#PCDATA)>
-<!ATTLIST imageExpression
-	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
->
-<!ELEMENT anchorNameExpression (#PCDATA)>
-<!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
-<!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
-<!ELEMENT hyperlinkPageExpression (#PCDATA)>
-<!ELEMENT staticText (reportElement, box?, textElement?, text?)>
 <!ELEMENT box EMPTY>
 <!ATTLIST box
 	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
@@ -166,6 +157,15 @@
 	rightBorderColor CDATA #IMPLIED
 	rightPadding NMTOKEN #IMPLIED
 >
+<!ELEMENT imageExpression (#PCDATA)>
+<!ATTLIST imageExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
+>
+<!ELEMENT anchorNameExpression (#PCDATA)>
+<!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
+<!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
+<!ELEMENT hyperlinkPageExpression (#PCDATA)>
+<!ELEMENT staticText (reportElement, box?, textElement?, text?)>
 <!ELEMENT textElement (font?)>
 <!ATTLIST textElement
 	textAlignment (Left | Center | Right | Justified) "Left"

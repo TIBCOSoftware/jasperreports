@@ -86,6 +86,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -278,6 +279,10 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("*/image", JRPrintImageFactory.class.getName());
 		digester.addSetNext("*/image", "addElement", JRPrintElement.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
+		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());
