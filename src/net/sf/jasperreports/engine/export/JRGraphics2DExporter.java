@@ -748,7 +748,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				try
 				{
-					styledText = styledTextParser.parse(textElement.getFont().getAttributes(), "<st>" + text + "</st>");
+					styledText = styledTextParser.parse(textElement.getFont().getAttributes(), text);
 				}
 				catch (SAXException e)
 				{
