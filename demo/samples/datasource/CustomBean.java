@@ -70,8 +70,6 @@
  * Email: teodord@users.sourceforge.net
  */
 
-import java.util.*;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
