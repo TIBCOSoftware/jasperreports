@@ -139,7 +139,10 @@ public class Scriptlet extends JRDefaultScriptlet
 	 */
 	public void beforeGroupInit(String groupName) throws JRScriptletException
 	{
-		System.out.println("call       beforeGroupInit : City = " + this.getFieldValue("City"));
+		if (groupName.equals("CityGroup"))
+		{
+			System.out.println("call       beforeGroupInit : City = " + this.getFieldValue("City"));
+		}
 	}
 
 
@@ -148,20 +151,23 @@ public class Scriptlet extends JRDefaultScriptlet
 	 */
 	public void afterGroupInit(String groupName) throws JRScriptletException
 	{
-		System.out.println("call       afterGroupInit  : City = " + this.getFieldValue("City"));
-		
-		String allCities = (String)this.getVariableValue("AllCities");
-		String city = (String)this.getFieldValue("City");
-		StringBuffer sbuffer = new StringBuffer();
-		
-		if (allCities != null)
+		if (groupName.equals("CityGroup"))
 		{
-			sbuffer.append(allCities);
-			sbuffer.append(", ");
-		}
+			System.out.println("call       afterGroupInit  : City = " + this.getFieldValue("City"));
 		
-		sbuffer.append(city);
-		this.setVariableValue("AllCities", sbuffer.toString());
+			String allCities = (String)this.getVariableValue("AllCities");
+			String city = (String)this.getFieldValue("City");
+			StringBuffer sbuffer = new StringBuffer();
+		
+			if (allCities != null)
+			{
+				sbuffer.append(allCities);
+				sbuffer.append(", ");
+			}
+		
+			sbuffer.append(city);
+			this.setVariableValue("AllCities", sbuffer.toString());
+		}
 	}
 
 
