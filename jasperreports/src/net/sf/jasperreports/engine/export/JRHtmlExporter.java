@@ -1080,11 +1080,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
+		String target = null;
+		switch(text.getHyperlinkTarget())
+		{
+			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			{
+				target = "_blank";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			default :
+			{
+				break;
+			}
+		}
+
 		if (href != null)
 		{
 			writer.write("<a href=\"");
 			writer.write(href);
-			writer.write("\">");
+			writer.write("\"");
+			if (target != null)
+			{
+				writer.write(" target=\"");
+				writer.write(target);
+				writer.write("\"");
+			}
+			writer.write(">");
 		}
 
 		if (textLength > 0)
@@ -1248,11 +1270,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
+		String target = null;
+		switch(image.getHyperlinkTarget())
+		{
+			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			{
+				target = "_blank";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			default :
+			{
+				break;
+			}
+		}
+
 		if (href != null)
 		{
 			writer.write("<a href=\"");
 			writer.write(href);
-			writer.write("\">");
+			writer.write("\"");
+			if (target != null)
+			{
+				writer.write(" target=\"");
+				writer.write(target);
+				writer.write("\"");
+			}
+			writer.write(">");
 		}
 
 		writer.write("<img");

@@ -137,6 +137,7 @@
 	evaluationTime (Now | Report | Page | Column | Group) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkTarget (Self | Blank) "Self"
 >
 <!ELEMENT imageExpression (#PCDATA)>
 <!ATTLIST imageExpression
@@ -177,6 +178,7 @@
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) "false"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkTarget (Self | Blank) "Self"
 >
 <!ELEMENT textFieldExpression (#PCDATA)>
 <!ATTLIST textFieldExpression

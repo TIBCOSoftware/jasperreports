@@ -215,6 +215,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public byte getHyperlinkTarget()
+	{
+		return ((JRImage)this.parent).getHyperlinkTarget();
+	}
+		
+	/**
+	 *
+	 */
 	public JRExpression getExpression()
 	{
 		return ((JRImage)this.parent).getExpression();

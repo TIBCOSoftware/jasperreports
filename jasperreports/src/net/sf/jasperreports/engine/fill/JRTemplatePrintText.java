@@ -314,6 +314,21 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
+	public byte getHyperlinkTarget()
+	{
+		return ((JRTemplateText)template).getHyperlinkTarget();
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public String getHyperlinkReference()
 	{
 		return hyperlinkReference;

@@ -97,6 +97,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_pattern = "pattern";
 	private static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 
 
 	/**
@@ -145,6 +146,12 @@ public class JRTextFieldFactory extends JRBaseFactory
 		if (hyperlinkType != null)
 		{
 			textField.setHyperlinkType(hyperlinkType.byteValue());
+		}
+
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		if (hyperlinkTarget != null)
+		{
+			textField.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
 		return textField;

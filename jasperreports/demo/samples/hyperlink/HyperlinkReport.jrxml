@@ -38,13 +38,13 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
 				<hyperlinkPageExpression><![CDATA[new Integer(2)]]></hyperlinkPageExpression>
 			</textField>
-			<textField hyperlinkType="Reference">
+			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
 				<reportElement x="5" y="95" width="200" height="15"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 			</textField>
-			<image hAlign="Center" vAlign="Middle" hyperlinkType="Reference">
+			<image hAlign="Center" vAlign="Middle" hyperlinkType="Reference" hyperlinkTarget="Blank">
 				<reportElement x="230" y="90" width="200" height="30"/>
 				<graphicElement/>
 				<imageExpression class="java.lang.String"><![CDATA["google.gif"]]></imageExpression>

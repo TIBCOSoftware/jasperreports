@@ -656,6 +656,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
+		if (image.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
+		{
+			sbuffer.append(" hyperlinkTarget=\"");
+			sbuffer.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
+			sbuffer.append("\"");
+		}
+
 		if (image.getAnchorName() != null)
 		{
 			sbuffer.append(" anchorName=\"");
@@ -835,6 +842,13 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			sbuffer.append(" hyperlinkType=\"");
 			sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(text.getHyperlinkType())));
+			sbuffer.append("\"");
+		}
+
+		if (text.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
+		{
+			sbuffer.append(" hyperlinkTarget=\"");
+			sbuffer.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(text.getHyperlinkTarget())));
 			sbuffer.append("\"");
 		}
 

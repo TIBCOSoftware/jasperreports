@@ -93,6 +93,16 @@ public interface JRPrintHyperlink
 	/**
 	 *
 	 */
+	public byte getHyperlinkTarget();
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget);
+		
+	/**
+	 *
+	 */
 	public String getHyperlinkReference();
 		
 	/**

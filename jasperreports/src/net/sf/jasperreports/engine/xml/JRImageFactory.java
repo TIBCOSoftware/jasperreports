@@ -98,6 +98,7 @@ public class JRImageFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
 	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 
 
 	/**
@@ -156,6 +157,12 @@ public class JRImageFactory extends JRBaseFactory
 		if (hyperlinkType != null)
 		{
 			image.setHyperlinkType(hyperlinkType.byteValue());
+		}
+
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		if (hyperlinkTarget != null)
+		{
+			image.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
 		return image;
