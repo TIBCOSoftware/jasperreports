@@ -71,7 +71,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.text.AttributedString;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -104,7 +103,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private TextChopper textChopper = null;
 	private Format format = null;
 	private boolean isValueRepeating = false;
 	private String anchorName = null;
@@ -138,8 +136,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		
 		evaluationGroup = (JRGroup)factory.getGroup(textField.getEvaluationGroup());
-
-		textChopper = textField.isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
 
@@ -698,49 +694,4 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 	
 	
-	/**
-	 *
-	 */
-	protected static interface TextChopper
-	{
-		/**
-		 *
-		 */
-		public String chop(JRFillTextField textField, int startIndex, int endIndex);
-	}
-
-
-	/**
-	 *
-	 */
-	private static TextChopper simpleTextChopper = 
-		new TextChopper()
-		{
-			public String chop(JRFillTextField textField, int startIndex, int endIndex)
-			{
-				return textField.getStyledText().getText().substring(startIndex, endIndex);
-			}
-		};
-
-	/**
-	 *
-	 */
-	private static TextChopper styledTextChopper = 
-		new TextChopper()
-		{
-			public String chop(JRFillTextField textField, int startIndex, int endIndex)
-			{
-				return 
-					textField.filler.getStyledTextParser().write(
-						textField.getStyledTextAttributes(),
-						new AttributedString(
-							textField.getStyledText().getAttributedString().getIterator(), 
-							startIndex, 
-							endIndex
-							).getIterator(),
-						textField.getText().substring(startIndex, endIndex)
-						);
-			}
-		};
-
 }
