@@ -109,7 +109,7 @@ public interface JRDataSourceProvider
 {
 
 	/**
-	 * Returns true if the provider supports the {@link #getFields() getFields} 
+	 * Returns true if the provider supports the {@link #getFields(JasperReport) getFields} 
 	 * operation. By returning true in this method the data source provider indicates
 	 * that it is able to introspect the data source and discover the available fields.
 	 * 
@@ -143,7 +143,7 @@ public interface JRDataSourceProvider
 
 	/**
 	 * Disposes the data source previously obtained using the 
-	 * {@link #createDataSource() createDataSource()} method.
+	 * {@link #create(JasperReport) create} method.
 	 * This method must close any resources associated with the 
 	 * data source. For instance the database connection should be 
 	 * closed in case of the
