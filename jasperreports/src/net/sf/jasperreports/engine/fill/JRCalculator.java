@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -457,7 +458,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	public String getString(String key)
+	public String str(String key)
 	{
 		String str = null;
 		
@@ -473,6 +474,31 @@ public abstract class JRCalculator
 		}
 
 		return str;
+	}
+
+
+	/**
+	 *
+	 */
+	public String msg(String pattern, Object arg0)
+	{
+		return MessageFormat.format(pattern, new Object[]{arg0});
+	}
+
+	/**
+	 *
+	 */
+	public String msg(String pattern, Object arg0, Object arg1)
+	{
+		return MessageFormat.format(pattern, new Object[]{arg0, arg1});
+	}
+
+	/**
+	 *
+	 */
+	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
+	{
+		return MessageFormat.format(pattern, new Object[]{arg0, arg1, arg2});
 	}
 
 
