@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
 	columnCount NMTOKEN "1"
@@ -17,6 +17,11 @@
 	isTitleNewPage (true | false) "false"
 	isSummaryNewPage (true | false) "false"
 	scriptletClass NMTOKEN #IMPLIED
+>
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont

@@ -72,6 +72,9 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRField;
@@ -118,6 +121,7 @@ public class JRBaseReport implements JRReport, Serializable
 	/**
 	 *
 	 */
+	protected Map propertiesMap = null;
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
 	protected JRParameter[] parameters = null;
@@ -164,6 +168,16 @@ public class JRBaseReport implements JRReport, Serializable
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
 		scriptletClass = report.getScriptletClass();
+
+		/*   */
+		String[] propertyNames = report.getPropertyNames();
+		if (propertyNames != null && propertyNames.length > 0)
+		{
+			for(int i = 0; i < propertyNames.length; i++)
+			{
+				setProperty(propertyNames[i], report.getProperty(propertyNames[i]));
+			}
+		}
 
 		/*   */
 		JRBaseObjectFactory factory = new JRBaseObjectFactory(this);
@@ -246,7 +260,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getName()
 	{
-		return this.name;
+		return name;
 	}
 
 	/**
@@ -254,7 +268,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getColumnCount()
 	{
-		return this.columnCount;
+		return columnCount;
 	}
 		
 	/**
@@ -262,7 +276,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public byte getPrintOrder()
 	{
-		return this.printOrder;
+		return printOrder;
 	}
 		
 	/**
@@ -270,7 +284,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getPageWidth()
 	{
-		return this.pageWidth;
+		return pageWidth;
 	}
 		
 	/**
@@ -278,7 +292,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getPageHeight()
 	{
-		return this.pageHeight;
+		return pageHeight;
 	}
 		
 	/**
@@ -286,7 +300,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public byte getOrientation()
 	{
-		return this.orientation;
+		return orientation;
 	}
 		
 	/**
@@ -294,7 +308,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public byte getWhenNoDataType()
 	{
-		return this.whenNoDataType;
+		return whenNoDataType;
 	}
 		
 	/**
@@ -310,7 +324,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getColumnWidth()
 	{
-		return this.columnWidth;
+		return columnWidth;
 	}
 		
 	/**
@@ -318,7 +332,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getColumnSpacing()
 	{
-		return this.columnSpacing;
+		return columnSpacing;
 	}
 		
 	/**
@@ -326,7 +340,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getLeftMargin()
 	{
-		return this.leftMargin;
+		return leftMargin;
 	}
 		
 	/**
@@ -334,7 +348,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getRightMargin()
 	{
-		return this.rightMargin;
+		return rightMargin;
 	}
 		
 	/**
@@ -342,7 +356,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getTopMargin()
 	{
-		return this.topMargin;
+		return topMargin;
 	}
 		
 	/**
@@ -350,7 +364,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public int getBottomMargin()
 	{
-		return this.bottomMargin;
+		return bottomMargin;
 	}
 		
 	/**
@@ -358,7 +372,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public boolean isTitleNewPage()
 	{
-		return this.isTitleNewPage;
+		return isTitleNewPage;
 	}
 		
 	/**
@@ -366,7 +380,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public boolean isSummaryNewPage()
 	{
-		return this.isSummaryNewPage;
+		return isSummaryNewPage;
 	}
 		
 	/**
@@ -374,7 +388,62 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getScriptletClass()
 	{
-		return this.scriptletClass;
+		return scriptletClass;
+	}
+
+	/**
+	 *
+	 */
+	public String[] getPropertyNames()
+	{
+		if (propertiesMap != null)
+		{
+			Set names = propertiesMap.keySet(); 
+			return (String[])names.toArray(new String[names.size()]);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public String getProperty(String name)
+	{
+		if (propertiesMap != null)
+		{
+			return (String)propertiesMap.get(name);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public void setProperty(String name, String value)
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new HashMap();
+		}
+		
+		propertiesMap.put(name, value);
+	}
+
+	/**
+	 *
+	 */
+	public void removeProperty(String name)
+	{
+		if (propertiesMap != null)
+		{
+			propertiesMap.remove(name);
+		}
 	}
 
 	/**
@@ -382,7 +451,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRReportFont getDefaultFont()
 	{
-		return this.defaultFont;
+		return defaultFont;
 	}
 
 	/**
@@ -390,7 +459,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRReportFont[] getFonts()
 	{
-		return this.fonts;
+		return fonts;
 	}
 
 	/**
@@ -398,7 +467,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRParameter[] getParameters()
 	{
-		return this.parameters;
+		return parameters;
 	}
 
 	/**
@@ -406,7 +475,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRQuery getQuery()
 	{
-		return this.query;
+		return query;
 	}
 
 	/**
@@ -414,7 +483,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRField[] getFields()
 	{
-		return this.fields;
+		return fields;
 	}
 
 	/**
@@ -422,7 +491,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRVariable[] getVariables()
 	{
-		return this.variables;
+		return variables;
 	}
 
 	/**
@@ -430,7 +499,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRGroup[] getGroups()
 	{
-		return this.groups;
+		return groups;
 	}
 
 	/**
@@ -438,7 +507,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getBackground()
 	{
-		return this.background;
+		return background;
 	}
 
 	/**
@@ -446,7 +515,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getTitle()
 	{
-		return this.title;
+		return title;
 	}
 
 	/**
@@ -454,7 +523,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getPageHeader()
 	{
-		return this.pageHeader;
+		return pageHeader;
 	}
 
 	/**
@@ -462,7 +531,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getColumnHeader()
 	{
-		return this.columnHeader;
+		return columnHeader;
 	}
 
 	/**
@@ -470,7 +539,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getDetail()
 	{
-		return this.detail;
+		return detail;
 	}
 
 	/**
@@ -478,7 +547,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getColumnFooter()
 	{
-		return this.columnFooter;
+		return columnFooter;
 	}
 
 	/**
@@ -486,7 +555,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getPageFooter()
 	{
-		return this.pageFooter;
+		return pageFooter;
 	}
 
 	/**
@@ -494,7 +563,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getSummary()
 	{
-		return this.summary;
+		return summary;
 	}
 
 

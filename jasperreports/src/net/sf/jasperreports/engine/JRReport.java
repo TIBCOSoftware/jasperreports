@@ -187,6 +187,26 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public String[] getPropertyNames();
+
+	/**
+	 *
+	 */
+	public String getProperty(String name);
+
+	/**
+	 *
+	 */
+	public void setProperty(String name, String value);
+
+	/**
+	 *
+	 */
+	public void removeProperty(String name);
+
+	/**
+	 *
+	 */
 	public JRReportFont[] getFonts();
 
 	/**

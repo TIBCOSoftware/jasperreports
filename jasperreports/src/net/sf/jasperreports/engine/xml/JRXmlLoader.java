@@ -454,6 +454,11 @@ public class JRXmlLoader implements ErrorHandler
 		digester.addSetNext("jasperReport", "setJasperDesign", "dori.jasper.engine.design.JasperDesign");
 
 		/*   */
+		digester.addCallMethod("jasperReport/property", "setProperty", 2);
+		digester.addCallParam("jasperReport/property", 0, "name");
+		digester.addCallParam("jasperReport/property", 1, "value");
+
+		/*   */
 		digester.addFactoryCreate("jasperReport/reportFont", "dori.jasper.engine.xml.JRReportFontFactory");
 		digester.addSetNext("jasperReport/reportFont", "addFont", "dori.jasper.engine.JRReportFont");
 

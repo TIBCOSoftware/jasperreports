@@ -105,6 +105,7 @@ import dori.jasper.engine.JRSubreportParameter;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.JRTextField;
 import dori.jasper.engine.JRVariable;
+import dori.jasper.engine.util.JRStringUtil;
 
 
 /**
@@ -316,6 +317,24 @@ public class JRXmlWriter
 
 		this.sbuffer.append(">\n");
 		
+		/*   */
+		String[] propertyNames = report.getPropertyNames();
+		if (propertyNames != null && propertyNames.length > 0)
+		{
+			for(int i = 0; i < propertyNames.length; i++)
+			{
+				String value = report.getProperty(propertyNames[i]);
+				if (value != null)
+				{
+					this.sbuffer.append("\t<property name=\"");
+					this.sbuffer.append(propertyNames[i]);
+					this.sbuffer.append("\" value=\"");
+					this.sbuffer.append(JRStringUtil.xmlEncode(value));
+					this.sbuffer.append("\"/>\n");
+				}
+			}
+		}
+
 		/*   */
 		JRReportFont[] fonts = report.getFonts();
 		if (fonts != null && fonts.length > 0)
