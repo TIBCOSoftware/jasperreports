@@ -395,10 +395,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			if (expression != null)
-			{
-				value = this.evaluateOld(expression.getId());
-			}
+			value = this.evaluateOld(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
@@ -421,10 +418,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			if (expression != null)
-			{
-				value = this.evaluateEstimated(expression.getId());
-			}
+			value = this.evaluateEstimated(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
@@ -447,10 +441,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			if (expression != null)
-			{
-				value = this.evaluate(expression.getId());
-			}
+			value = this.evaluate(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
