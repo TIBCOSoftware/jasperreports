@@ -932,14 +932,32 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
 		
-				setLastPageFooter(false);
+				setLastPageFooter(true);
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+				printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
+				//printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
+
+				fillBand(printBand);
+				offsetY += printBand.getHeight();
+			}
+			else
+			{
+				fillBand(printBand);
+				offsetY += printBand.getHeight();
+				
+				fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
+
+				setLastPageFooter(true);
+				
+				if (summary.willOverflow())
+				{
+					printBand = summary.fill(lastPageColumnFooterOffsetY - offsetY - summary.getHeight());
+
+					fillBand(printBand);
+					offsetY += printBand.getHeight();
+				}
 			}
 
-			fillBand(printBand);
-			offsetY += printBand.getHeight();
-			
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 		
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -966,8 +984,11 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
-			fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
-		
+			if(offsetY > lastPageColumnFooterOffsetY)
+			{
+				fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
+			}
+
 			setLastPageFooter(true);
 
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
