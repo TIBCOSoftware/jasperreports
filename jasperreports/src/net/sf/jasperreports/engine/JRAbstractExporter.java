@@ -74,7 +74,9 @@ package net.sf.jasperreports.engine;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -96,7 +98,9 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
+	protected List jasperPrintList = null;
 	protected JasperPrint jasperPrint = null;
+	protected boolean isModeBatch = true;
 	protected int startPageIndex = 0;
 	protected int endPageIndex = 0;
 
@@ -148,42 +152,57 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void setInput() throws JRException
 	{
-		jasperPrint = (JasperPrint)parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
+		jasperPrintList = (List)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
+		if (jasperPrintList == null || jasperPrintList.size() == 0)
 		{
-			InputStream is = (InputStream)parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
+			isModeBatch = false;
+			
+			jasperPrint = (JasperPrint)parameters.get(JRExporterParameter.JASPER_PRINT);
+			if (jasperPrint == null)
 			{
-				jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
+				InputStream is = (InputStream)parameters.get(JRExporterParameter.INPUT_STREAM);
+				if (is != null)
 				{
-					jasperPrint = (JasperPrint)JRLoader.loadObject(url);
+					jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 				}
 				else
 				{
-					File file = (File)parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
+					URL url = (URL)parameters.get(JRExporterParameter.INPUT_URL);
+					if (url != null)
 					{
-						jasperPrint = (JasperPrint)JRLoader.loadObject(file);
+						jasperPrint = (JasperPrint)JRLoader.loadObject(url);
 					}
 					else
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
+						File file = (File)parameters.get(JRExporterParameter.INPUT_FILE);
+						if (file != null)
 						{
-							jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+							jasperPrint = (JasperPrint)JRLoader.loadObject(file);
 						}
 						else
 						{
-							throw new JRException("No input source supplied to the exporter.");
+							String fileName = (String)parameters.get(JRExporterParameter.INPUT_FILE_NAME);
+							if (fileName != null)
+							{
+								jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+							}
+							else
+							{
+								throw new JRException("No input source supplied to the exporter.");
+							}
 						}
 					}
 				}
 			}
+
+			jasperPrintList = new ArrayList();
+			jasperPrintList.add(jasperPrint);
+		}
+		else
+		{
+			isModeBatch = true;
+			
+			jasperPrint = (JasperPrint)jasperPrintList.get(0);
 		}
 	}
 	
@@ -193,52 +212,55 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void setPageRange() throws JRException
 	{
-		int lastPageIndex = -1;
-		if (jasperPrint.getPages() != null)
+		if (!isModeBatch)
 		{
-			lastPageIndex = jasperPrint.getPages().size() - 1;
-		}
-
-		Integer start = (Integer)parameters.get(JRExporterParameter.START_PAGE_INDEX);
-		if (start == null)
-		{
-			startPageIndex = 0;
-		}
-		else
-		{
-			startPageIndex = start.intValue();
-			if (startPageIndex < 0 || startPageIndex > lastPageIndex)
+			int lastPageIndex = -1;
+			if (jasperPrint.getPages() != null)
 			{
-				throw new JRException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
+				lastPageIndex = jasperPrint.getPages().size() - 1;
 			}
-		}
 
-		Integer end = (Integer)parameters.get(JRExporterParameter.END_PAGE_INDEX);
-		if (end == null)
-		{
-			endPageIndex = lastPageIndex;
-		}
-		else
-		{
-			endPageIndex = end.intValue();
-			if (endPageIndex < 0 || endPageIndex > lastPageIndex)
+			Integer start = (Integer)parameters.get(JRExporterParameter.START_PAGE_INDEX);
+			if (start == null)
 			{
-				throw new JRException("End page index out of range : " + endPageIndex + " of " + lastPageIndex);
-			}
-		}
-
-		Integer index = (Integer)parameters.get(JRExporterParameter.PAGE_INDEX);
-		if (index != null)
-		{
-			int pageIndex = index.intValue();
-			if (pageIndex < 0 || pageIndex > lastPageIndex)
-			{
-				throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
+				startPageIndex = 0;
 			}
 			else
 			{
-				startPageIndex = pageIndex;
-				endPageIndex = pageIndex;
+				startPageIndex = start.intValue();
+				if (startPageIndex < 0 || startPageIndex > lastPageIndex)
+				{
+					throw new JRException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
+				}
+			}
+
+			Integer end = (Integer)parameters.get(JRExporterParameter.END_PAGE_INDEX);
+			if (end == null)
+			{
+				endPageIndex = lastPageIndex;
+			}
+			else
+			{
+				endPageIndex = end.intValue();
+				if (endPageIndex < 0 || endPageIndex > lastPageIndex)
+				{
+					throw new JRException("End page index out of range : " + endPageIndex + " of " + lastPageIndex);
+				}
+			}
+
+			Integer index = (Integer)parameters.get(JRExporterParameter.PAGE_INDEX);
+			if (index != null)
+			{
+				int pageIndex = index.intValue();
+				if (pageIndex < 0 || pageIndex > lastPageIndex)
+				{
+					throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
+				}
+				else
+				{
+					startPageIndex = pageIndex;
+					endPageIndex = pageIndex;
+				}
 			}
 		}
 	}

@@ -108,6 +108,7 @@ public class JRExporterParameter
 	 *
 	 */
 	public static final JRExporterParameter JASPER_PRINT = new JRExporterParameter("JasperPrint Object");
+	public static final JRExporterParameter JASPER_PRINT_LIST = new JRExporterParameter("JasperPrint List");
 	public static final JRExporterParameter INPUT_STREAM = new JRExporterParameter("InputStream Object");
 	public static final JRExporterParameter INPUT_URL = new JRExporterParameter("URL Object");
 	public static final JRExporterParameter INPUT_FILE = new JRExporterParameter("Input File");

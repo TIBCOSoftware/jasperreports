@@ -122,6 +122,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -140,17 +141,22 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static final String CSS_TEXT_ALIGN_LEFT = "left";
-	public static final String CSS_TEXT_ALIGN_RIGHT = "right";
-	public static final String CSS_TEXT_ALIGN_CENTER = "center";
-	public static final String CSS_TEXT_ALIGN_JUSTIFY = "justify";
+	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
 	/**
 	 *
 	 */
-	public static final String HTML_VERTICAL_ALIGN_TOP = "top";
-	public static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
-	public static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
+	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
+	protected static final String CSS_TEXT_ALIGN_RIGHT = "right";
+	protected static final String CSS_TEXT_ALIGN_CENTER = "center";
+	protected static final String CSS_TEXT_ALIGN_JUSTIFY = "justify";
+
+	/**
+	 *
+	 */
+	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
+	protected static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
+	protected static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
 
 	/**
 	 *
@@ -159,6 +165,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map loadedImagesMap = null;
 	protected Map imagesMap = null;
+
+	protected int reportIndex = 0;
 
 	/**
 	 *
@@ -523,35 +531,46 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(htmlHeader);
 		}
 
-		List pages = jasperPrint.getPages();
-		if (pages != null && pages.size() > 0)
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			JRPrintPage page = null;
-			
-			for(int i = startPageIndex; i <= endPageIndex; i++)
+			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			defaultFont = null;
+
+			List pages = jasperPrint.getPages();
+			if (pages != null && pages.size() > 0)
 			{
-				if (Thread.currentThread().isInterrupted())
+				if (isModeBatch)
 				{
-					throw new JRException("Current thread interrupted.");
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
 				}
+
+				JRPrintPage page = null;
+				for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+				{
+					if (Thread.currentThread().isInterrupted())
+					{
+						throw new JRException("Current thread interrupted.");
+					}
 				
-				page = (JRPrintPage)pages.get(i);
+					page = (JRPrintPage)pages.get(pageIndex);
 
-				writer.write("<a name=\"JR_PAGE_ANCHOR_" + (i + 1) + "\">\n");
+					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\">\n");
 
-				/*   */
-				exportPage(page);
+					/*   */
+					exportPage(page);
 				
-				if (betweenPagesHtml == null)
-				{
-					writer.write("<br>\n<br>\n");
-				}
-				else
-				{
-					writer.write(betweenPagesHtml);
-				}
+					if (betweenPagesHtml == null)
+					{
+						writer.write("<br>\n<br>\n");
+					}
+					else
+					{
+						writer.write(betweenPagesHtml);
+					}
 
-				writer.write("\n");
+					writer.write("\n");
+				}
 			}
 		}
 
@@ -1020,7 +1039,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				if (text.getHyperlinkPage() != null)
 				{
-					href = "#JR_PAGE_ANCHOR_" + text.getHyperlinkPage().toString();
+					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + text.getHyperlinkPage().toString();
 				}
 				break;
 			}
@@ -1042,7 +1061,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					text.getHyperlinkPage() != null
 					)
 				{
-					href = text.getHyperlinkReference() + "#JR_PAGE_ANCHOR_" + text.getHyperlinkPage().toString();
+					href = text.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + text.getHyperlinkPage().toString();
 				}
 				break;
 			}
@@ -1188,7 +1207,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				if (image.getHyperlinkPage() != null)
 				{
-					href = "#JR_PAGE_ANCHOR_" + image.getHyperlinkPage().toString();
+					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + image.getHyperlinkPage().toString();
 				}
 				break;
 			}
@@ -1210,7 +1229,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					image.getHyperlinkPage() != null
 					)
 				{
-					href = image.getHyperlinkReference() + "#JR_PAGE_ANCHOR_" + image.getHyperlinkPage().toString();
+					href = image.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + image.getHyperlinkPage().toString();
 				}
 				break;
 			}

@@ -113,6 +113,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
@@ -148,6 +149,8 @@ public class JRXlsExporter extends JRAbstractExporter
 	protected HSSFCellStyle emptyCellStyle = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
+
+	protected int reportIndex = 0;
 
 	/**
 	 *
@@ -296,67 +299,77 @@ public class JRXlsExporter extends JRAbstractExporter
 		
 		try
 		{
-			List pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
+			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
-				JRPrintPage page = null;
-				
-				if (isOnePagePerSheet)
-				{
-					pageHeight = jasperPrint.getPageHeight();
-					
-					for(int i = startPageIndex; i <= endPageIndex; i++)
-					{
-						if (Thread.currentThread().isInterrupted())
-						{
-							throw new JRException("Current thread interrupted.");
-						}
-				
-						page = (JRPrintPage)pages.get(i);
-		
-						sheet = workbook.createSheet("Page " + (i + 1));
-	
-						/*   */
-						exportPage(page, page);
-					}
-				}
-				else
-				{
-					pageHeight = jasperPrint.getPageHeight() * pages.size();
+				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+				defaultFont = null;
 
-					JRPrintPage alterYAllPages = new JRBasePrintPage();
-					JRPrintPage allPages = new JRBasePrintPage();
-					Collection elements = null;
-					JRPrintElement alterYElement = null;
-					JRPrintElement element = null;
-					for(int i = startPageIndex; i <= endPageIndex; i++)
+				List pages = jasperPrint.getPages();
+				if (pages != null && pages.size() > 0)
+				{
+					if (isModeBatch)
 					{
-						if (Thread.currentThread().isInterrupted())
+						startPageIndex = 0;
+						endPageIndex = pages.size() - 1;
+					}
+
+					if (isOnePagePerSheet)
+					{
+						pageHeight = jasperPrint.getPageHeight();
+					
+						for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 						{
-							throw new JRException("Current thread interrupted.");
-						}
-				
-						page = (JRPrintPage)pages.get(i);
-		
-						elements = page.getElements();
-						if (elements != null && elements.size() > 0)
-						{
-							for(Iterator it = elements.iterator(); it.hasNext();)
+							if (Thread.currentThread().isInterrupted())
 							{
-								element = (JRPrintElement)it.next();
-								allPages.addElement(element);
+								throw new JRException("Current thread interrupted.");
+							}
+				
+							JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+		
+							sheet = workbook.createSheet("Page " + (pageIndex + 1));
+	
+							/*   */
+							exportPage(page, page);
+						}
+					}
+					else
+					{
+						pageHeight = jasperPrint.getPageHeight() * (endPageIndex - startPageIndex + 1);
+
+						JRPrintPage alterYAllPages = new JRBasePrintPage();
+						JRPrintPage allPages = new JRBasePrintPage();
+						Collection elements = null;
+						JRPrintElement alterYElement = null;
+						JRPrintElement element = null;
+						for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+						{
+							if (Thread.currentThread().isInterrupted())
+							{
+								throw new JRException("Current thread interrupted.");
+							}
+				
+							JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+		
+							elements = page.getElements();
+							if (elements != null && elements.size() > 0)
+							{
+								for(Iterator it = elements.iterator(); it.hasNext();)
+								{
+									element = (JRPrintElement)it.next();
+									allPages.addElement(element);
 								
-								alterYElement = new JRBasePrintElement();
-								alterYElement.setY(element.getY() + jasperPrint.getPageHeight() * i);
-								alterYAllPages.addElement(alterYElement);
+									alterYElement = new JRBasePrintElement();
+									alterYElement.setY(element.getY() + jasperPrint.getPageHeight() * pageIndex);
+									alterYAllPages.addElement(alterYElement);
+								}
 							}
 						}
+
+						sheet = workbook.createSheet(jasperPrint.getName());
+
+						/*   */
+						exportPage(alterYAllPages, allPages);
 					}
-
-					sheet = workbook.createSheet("Sheet1");
-
-					/*   */
-					exportPage(alterYAllPages, allPages);
 				}
 			}
 

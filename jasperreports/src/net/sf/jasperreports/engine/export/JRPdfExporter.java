@@ -110,6 +110,8 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -132,6 +134,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -150,6 +153,12 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+
+
+	/**
+	 *
+	 */
 	protected Document document = null;
 	protected PdfContentByte pdfContentByte = null;
 
@@ -157,6 +166,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected PdfContentByte imageTesterPdfContentByte = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
+
+	protected int reportIndex = 0;
 
 	/**
 	 *
@@ -234,8 +245,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			permissions = permissionsParameter.intValue();
 		}
-
-		loadedImagesMap = new HashMap();
 
 		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
@@ -325,6 +334,9 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			document.open();
 
+			pdfContentByte = pdfWriter.getDirectContent();
+			PdfOutline root = pdfContentByte.getRootOutline();
+
 			PdfWriter imageTesterPdfWriter = 
 				PdfWriter.getInstance(
 					imageTesterDocument, 
@@ -335,52 +347,71 @@ public class JRPdfExporter extends JRAbstractExporter
 		 	imageTesterPdfContentByte = imageTesterPdfWriter.getDirectContent();
 		 	imageTesterPdfContentByte.setLiteral("\n");
 
-			List pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
+			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
-				Chunk chunk = null;
-				ColumnText colText = null;
-				JRPrintPage page = null;
-				for(int i = startPageIndex; i <= endPageIndex; i++)
-				{
-					if (Thread.currentThread().isInterrupted())
-					{
-						throw new JRException("Current thread interrupted.");
-					}
+				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+				defaultFont = null;
+				loadedImagesMap = new HashMap();
+				document.setPageSize(new Rectangle(jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
 				
-					page = (JRPrintPage)pages.get(i);
+				List pages = jasperPrint.getPages();
+				if (pages != null && pages.size() > 0)
+				{
+					if (isModeBatch)
+					{
+						document.newPage();
+						// add a new level to our outline for this report
+						PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
+						new PdfOutline(root, newReport, jasperPrint.getName(), false);
 
-					document.newPage();
+						startPageIndex = 0;
+						endPageIndex = pages.size() - 1;
+					}
 
-		 			pdfContentByte = pdfWriter.getDirectContent();
+					Chunk chunk = null;
+					ColumnText colText = null;
+					JRPrintPage page = null;
+					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					{
+						if (Thread.currentThread().isInterrupted())
+						{
+							throw new JRException("Current thread interrupted.");
+						}
+				
+						page = (JRPrintPage)pages.get(pageIndex);
 
-					pdfContentByte.setLineCap(2);
+						document.newPage();
 
-					chunk = new Chunk(" ");
-					chunk.setLocalDestination("JR_PAGE_ANCHOR_" + (i + 1));
+						pdfContentByte = pdfWriter.getDirectContent();
 
-					colText = new ColumnText(pdfContentByte);
-					colText.setSimpleColumn(
-						new Phrase(chunk),
-						0,
-						jasperPrint.getPageHeight(),
-						1,
-						1,
-						0,
-						Element.ALIGN_LEFT
-						);
+						pdfContentByte.setLineCap(2);
 
-					colText.go();
+						chunk = new Chunk(" ");
+						chunk.setLocalDestination(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
-					/*   */
-					exportPage(page);
+						colText = new ColumnText(pdfContentByte);
+						colText.setSimpleColumn(
+							new Phrase(chunk),
+							0,
+							jasperPrint.getPageHeight(),
+							1,
+							1,
+							0,
+							Element.ALIGN_LEFT
+							);
+
+						colText.go();
+
+						/*   */
+						exportPage(page);
+					}
 				}
-			}
-			else
-			{
-				document.newPage();
-				pdfContentByte = pdfWriter.getDirectContent();
-				pdfContentByte.setLiteral("\n");
+				else
+				{
+					document.newPage();
+					pdfContentByte = pdfWriter.getDirectContent();
+					pdfContentByte.setLiteral("\n");
+				}
 			}
 		}
 		catch(DocumentException e)
@@ -1141,7 +1172,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					if (printImage.getHyperlinkPage() != null)
 					{
-						chunk.setLocalGoto("JR_PAGE_ANCHOR_" + printImage.getHyperlinkPage().toString());
+						chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + printImage.getHyperlinkPage().toString());
 					}
 					break;
 				}
@@ -1306,7 +1337,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				if (text.getHyperlinkPage() != null)
 				{
-					chunk.setLocalGoto("JR_PAGE_ANCHOR_" + text.getHyperlinkPage().toString());
+					chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + text.getHyperlinkPage().toString());
 				}
 				break;
 			}
