@@ -9,6 +9,8 @@ with independent properties such as color, style and padding on all four sides;
 
 - new "isFloatColumnFooter" attribute;
 
+- new global offset exporter parameters;
+
 - minor bug fixes and improvements;
 
 
