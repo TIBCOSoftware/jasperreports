@@ -1609,7 +1609,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 			}
 		}
 
-		if (text.getBox() == null)
+		if (
+			topStroke == null
+			&& leftStroke == null
+			&& bottomStroke == null
+			&& rightStroke == null
+			)
 		{
 			grx.setColor(text.getForecolor());
 			grx.setStroke(new BasicStroke(1f / zoom));
