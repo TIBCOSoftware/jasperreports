@@ -744,11 +744,17 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		String text = textElement.getText();
 		if (text != null && text.length() > 0)
 		{
+			JRFont font = textElement.getFont();
+			if (font == null)
+			{
+				font = getDefaultFont();
+			}
+
 			if (textElement.isStyledText())
 			{
 				try
 				{
-					styledText = styledTextParser.parse(textElement.getFont().getAttributes(), text);
+					styledText = styledTextParser.parse(font.getAttributes(), text);
 				}
 				catch (SAXException e)
 				{
@@ -760,7 +766,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				styledText = new JRStyledText();
 				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(textElement.getFont().getAttributes(), 0, text.length()));
+				styledText.addRun(new JRStyledText.Run(font.getAttributes(), 0, text.length()));
 			}
 		}
 		

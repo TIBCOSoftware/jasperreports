@@ -88,24 +88,35 @@ public class JRVariableFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_class = "class";
+	private static final String ATTRIBUTE_resetType = "resetType";
+	private static final String ATTRIBUTE_resetGroup = "resetGroup";
+	private static final String ATTRIBUTE_calculation = "calculation";
+	private static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignVariable variable = new JRDesignVariable();
 		
-		variable.setName(atts.getValue("name"));
+		variable.setName(atts.getValue(ATTRIBUTE_name));
 
-		if (atts.getValue("class") != null)
+		if (atts.getValue(ATTRIBUTE_class) != null)
 		{
-			variable.setValueClassName(atts.getValue("class"));
+			variable.setValueClassName(atts.getValue(ATTRIBUTE_class));
 		}
 
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue("resetType"));
+		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			variable.setResetType(resetType.byteValue());
 		}
 		
-		String groupName = atts.getValue("resetGroup");
+		String groupName = atts.getValue(ATTRIBUTE_resetGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -113,15 +124,15 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setResetGroup(group);
 		}
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue("calculation"));
+		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			variable.setCalculation(calculation.byteValue());
 		}
 
-		if (atts.getValue("incrementerFactoryClass") != null)
+		if (atts.getValue(ATTRIBUTE_incrementerFactoryClass) != null)
 		{
-			variable.setIncrementerFactoryClassName(atts.getValue("incrementerFactoryClass"));
+			variable.setIncrementerFactoryClassName(atts.getValue(ATTRIBUTE_incrementerFactoryClass));
 		}
 
 		return variable;

@@ -91,6 +91,17 @@ public class JRTextFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
+	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
+	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	private static final String ATTRIBUTE_pattern = "pattern";
+	private static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
+	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
@@ -98,13 +109,13 @@ public class JRTextFieldFactory extends JRBaseFactory
 
 		JRDesignTextField textField = new JRDesignTextField();
 
-		String isStretchWithOverflow = atts.getValue("isStretchWithOverflow");
+		String isStretchWithOverflow = atts.getValue(ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)
 		{
 			textField.setStretchWithOverflow(Boolean.valueOf(isStretchWithOverflow).booleanValue());
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue("evaluationTime"));
+		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			textField.setEvaluationTime(evaluationTime.byteValue());
@@ -113,7 +124,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		{
 			groupEvaluatedTextFields.add(textField);
 			
-			String groupName = atts.getValue("evaluationGroup");
+			String groupName = atts.getValue(ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -122,15 +133,15 @@ public class JRTextFieldFactory extends JRBaseFactory
 			}
 		}
 		
-		textField.setPattern(atts.getValue("pattern"));
+		textField.setPattern(atts.getValue(ATTRIBUTE_pattern));
 
-		String isBlankWhenNull = atts.getValue("isBlankWhenNull");
+		String isBlankWhenNull = atts.getValue(ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
 			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull).booleanValue());
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue("hyperlinkType"));
+		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
 		if (hyperlinkType != null)
 		{
 			textField.setHyperlinkType(hyperlinkType.byteValue());

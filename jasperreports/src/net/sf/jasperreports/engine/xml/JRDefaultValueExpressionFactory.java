@@ -73,6 +73,7 @@ package dori.jasper.engine.xml;
 
 import org.xml.sax.Attributes;
 
+import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.design.JRDesignExpression;
 import dori.jasper.engine.design.JRDesignParameter;
 
@@ -94,7 +95,7 @@ public class JRDefaultValueExpressionFactory extends JRBaseFactory
 
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClassName(parameter.getValueClassName());
-		expression.setName("parameterDefaultValue_" + parameter.getName());
+		expression.setName(JRExpression.PREFIX_parameterDefaultValue + parameter.getName());
 
 		return expression;
 	}

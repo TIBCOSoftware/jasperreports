@@ -87,6 +87,12 @@ public class JRPrintImageSourceFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_isEmbedded = "isEmbedded";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRPrintImage printImage = (JRPrintImage)digester.peek();
@@ -95,7 +101,7 @@ public class JRPrintImageSourceFactory extends JRBaseFactory
 
 		imageSource.setPrintImage(printImage);
 
-		String isEmbedded = atts.getValue("isEmbedded");
+		String isEmbedded = atts.getValue(ATTRIBUTE_isEmbedded);
 		if (isEmbedded != null && isEmbedded.length() > 0)
 		{
 			imageSource.setEmbedded(Boolean.valueOf(isEmbedded).booleanValue());

@@ -87,17 +87,24 @@ public class JRBandFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_height = "height";
+	private static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignBand band = new JRDesignBand();
 		
-		String height = atts.getValue("height");
+		String height = atts.getValue(ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			band.setHeight(Integer.parseInt(height));
 		}
 
-		String isSplitAllowed = atts.getValue("isSplitAllowed");
+		String isSplitAllowed = atts.getValue(ATTRIBUTE_isSplitAllowed);
 		if (isSplitAllowed != null && isSplitAllowed.length() > 0)
 		{
 			band.setSplitAllowed(Boolean.valueOf(isSplitAllowed).booleanValue());

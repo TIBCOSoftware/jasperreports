@@ -91,6 +91,18 @@ public class JRImageFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_scaleImage = "scaleImage";
+	private static final String ATTRIBUTE_hAlign = "hAlign";
+	private static final String ATTRIBUTE_vAlign = "vAlign";
+	private static final String ATTRIBUTE_isUsingCache = "isUsingCache";
+	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
+	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
@@ -98,31 +110,31 @@ public class JRImageFactory extends JRBaseFactory
 
 		JRDesignImage image = new JRDesignImage();
 
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue("scaleImage"));
+		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage.byteValue());
 		}
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue("hAlign"));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			image.setHorizontalAlignment(horizontalAlignment.byteValue());
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue("vAlign"));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment.byteValue());
 		}
 
-		String isUsingCache = atts.getValue("isUsingCache");
+		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
 			image.setUsingCache(Boolean.valueOf(isUsingCache).booleanValue());
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue("evaluationTime"));
+		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			image.setEvaluationTime(evaluationTime.byteValue());
@@ -131,7 +143,7 @@ public class JRImageFactory extends JRBaseFactory
 		{
 			groupEvaluatedImages.add(image);
 
-			String groupName = atts.getValue("evaluationGroup");
+			String groupName = atts.getValue(ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -140,7 +152,7 @@ public class JRImageFactory extends JRBaseFactory
 			}
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue("hyperlinkType"));
+		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
 		if (hyperlinkType != null)
 		{
 			image.setHyperlinkType(hyperlinkType.byteValue());

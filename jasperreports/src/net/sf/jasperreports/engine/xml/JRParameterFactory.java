@@ -87,18 +87,26 @@ public class JRParameterFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_class = "class";
+	private static final String ATTRIBUTE_isForPrompting = "isForPrompting";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignParameter parameter = new JRDesignParameter();
 		
-		parameter.setName(atts.getValue("name"));
+		parameter.setName(atts.getValue(ATTRIBUTE_name));
 		
-		if (atts.getValue("class") != null)
+		if (atts.getValue(ATTRIBUTE_class) != null)
 		{
-			parameter.setValueClassName(atts.getValue("class"));
+			parameter.setValueClassName(atts.getValue(ATTRIBUTE_class));
 		}
 
-		String isForPrompting = atts.getValue("isForPrompting");
+		String isForPrompting = atts.getValue(ATTRIBUTE_isForPrompting);
 		if (isForPrompting != null && isForPrompting.length() > 0)
 		{
 			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());

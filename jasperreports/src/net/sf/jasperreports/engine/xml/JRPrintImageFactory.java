@@ -87,39 +87,52 @@ public class JRPrintImageFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_scaleImage = "scaleImage";
+	private static final String ATTRIBUTE_hAlign = "hAlign";
+	private static final String ATTRIBUTE_vAlign = "vAlign";
+	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	private static final String ATTRIBUTE_anchorName = "anchorName";
+	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
+	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
+	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRBasePrintImage image = new JRBasePrintImage();
 
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue("scaleImage"));
+		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage.byteValue());
 		}
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue("hAlign"));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			image.setHorizontalAlignment(horizontalAlignment.byteValue());
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue("vAlign"));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment.byteValue());
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue("hyperlinkType"));
+		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
 		if (hyperlinkType != null)
 		{
 			image.setHyperlinkType(hyperlinkType.byteValue());
 		}
 
-		image.setAnchorName(atts.getValue("anchorName"));
-		image.setHyperlinkReference(atts.getValue("hyperlinkReference"));
-		image.setHyperlinkAnchor(atts.getValue("hyperlinkAnchor"));
+		image.setAnchorName(atts.getValue(ATTRIBUTE_anchorName));
+		image.setHyperlinkReference(atts.getValue(ATTRIBUTE_hyperlinkReference));
+		image.setHyperlinkAnchor(atts.getValue(ATTRIBUTE_hyperlinkAnchor));
 		
-		String hyperlinkPage = atts.getValue("hyperlinkPage");
+		String hyperlinkPage = atts.getValue(ATTRIBUTE_hyperlinkPage);
 		if (hyperlinkPage != null)
 		{
 			image.setHyperlinkPage(new Integer(hyperlinkPage));

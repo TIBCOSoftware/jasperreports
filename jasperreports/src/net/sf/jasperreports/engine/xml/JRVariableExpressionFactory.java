@@ -73,6 +73,7 @@ package dori.jasper.engine.xml;
 
 import org.xml.sax.Attributes;
 
+import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRVariable;
 import dori.jasper.engine.design.JRDesignExpression;
 import dori.jasper.engine.design.JRDesignVariable;
@@ -102,7 +103,7 @@ public class JRVariableExpressionFactory extends JRBaseFactory
 		{
 			expression.setValueClassName(variable.getValueClassName());
 		}
-		expression.setName("variable_" + variable.getName());
+		expression.setName(JRExpression.PREFIX_variable + variable.getName());
 
 		return expression;
 	}

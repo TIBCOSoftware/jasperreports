@@ -203,7 +203,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_PAGE_NUMBER");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.PAGE_NUMBER);
 		//expression.setText("($V{PAGE_NUMBER} != null)?(new Integer($V{PAGE_NUMBER}.intValue() + 1)):(new Integer(1))");
 		expression.setText("new Integer(1)");
 		variable.setInitialValueExpression((JRExpression)expression);
@@ -227,7 +227,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_COLUMN_NUMBER");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.COLUMN_NUMBER);
 		//expression.setText("($V{COLUMN_NUMBER} != null)?(new Integer($V{COLUMN_NUMBER}.intValue() + 1)):(new Integer(1))");
 		expression.setText("new Integer(1)");
 		variable.setInitialValueExpression((JRExpression)expression);
@@ -250,12 +250,12 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variable_REPORT_COUNT");
+		expression.setName(JRExpression.PREFIX_variable + JRVariable.REPORT_COUNT);
 		expression.setText("new Integer(1)");
 		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_REPORT_COUNT");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.REPORT_COUNT);
 		expression.setText("new Integer(0)");
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
@@ -277,12 +277,12 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variable_PAGE_COUNT");
+		expression.setName(JRExpression.PREFIX_variable + JRVariable.PAGE_COUNT);
 		expression.setText("new Integer(1)");
 		variable.setExpression((JRExpression)expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_PAGE_COUNT");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.PAGE_COUNT);
 		expression.setText("new Integer(0)");
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
@@ -304,12 +304,12 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variable_COLUMN_COUNT");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.COLUMN_COUNT);
 		expression.setText("new Integer(1)");
 		variable.setExpression((JRExpression)expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_COLUMN_COUNT");
+		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.COLUMN_COUNT);
 		expression.setText("new Integer(0)");
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
@@ -980,12 +980,12 @@ public class JasperDesign extends JRBaseReport
 		countVariable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variable_" + countVariable.getName());
+		expression.setName(JRExpression.PREFIX_variable + countVariable.getName());
 		expression.setText("new Integer(1)");
 		countVariable.setExpression((JRExpression)expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName("variableInitialValue_" + countVariable.getName());
+		expression.setName(JRExpression.PREFIX_variableInitialValue + countVariable.getName());
 		expression.setText("new Integer(0)");
 		countVariable.setInitialValueExpression((JRExpression)expression);
 

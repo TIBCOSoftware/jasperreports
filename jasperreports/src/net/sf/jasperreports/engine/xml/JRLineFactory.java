@@ -87,11 +87,17 @@ public class JRLineFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_direction = "direction";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignLine line = new JRDesignLine();
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue("direction"));
+		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(ATTRIBUTE_direction));
 		if (direction != null)
 		{
 			line.setDirection(direction.byteValue());

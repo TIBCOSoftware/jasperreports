@@ -87,6 +87,12 @@ public class JRSubreportFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_isUsingCache = "isUsingCache";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
@@ -96,7 +102,7 @@ public class JRSubreportFactory extends JRBaseFactory
 
 		JRDesignSubreport subreport = new JRDesignSubreport();
 
-		String isUsingCache = atts.getValue("isUsingCache");
+		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
 			subreport.setUsingCache(Boolean.valueOf(isUsingCache).booleanValue());

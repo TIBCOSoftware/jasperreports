@@ -87,11 +87,17 @@ public class JRRectangleFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_radius = "radius";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignRectangle rectangle = new JRDesignRectangle();
 		
-		String radius = atts.getValue("radius");
+		String radius = atts.getValue(ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
 			rectangle.setRadius(Integer.parseInt(radius));
