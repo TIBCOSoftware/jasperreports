@@ -8,7 +8,7 @@
 		<band height="15">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="Thin" leftBorder="Thin" bottomBorder="Thin" borderColor="red"/>
+				<box leftPadding="10" topBorder="Thin" leftBorder="Thin" bottomBorder="Thin" borderColor="red"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
@@ -85,21 +85,23 @@
 			</rectangle>
 			-->
 
+			<elementGroup>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="0" width="50" height="15" stretchType="RelativeToTallestObject"/>
+				<box padding="10" leftBorder="Thin" bottomBorder="Thin" borderColor="red"/>
+				<textFieldExpression><![CDATA["Thin\nThin"]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="50" height="15"/>
+				<reportElement mode="Opaque" x="50" y="0" width="50" height="15" stretchType="RelativeToTallestObject"/>
 				<box leftBorder="Thin" bottomBorder="Thin" borderColor="red"/>
 				<text><![CDATA[Thin]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="50" y="0" width="50" height="15"/>
-				<box leftBorder="Thin" bottomBorder="Thin" borderColor="red"/>
-				<text><![CDATA[Thin]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="100" y="0" width="50" height="15"/>
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="15" stretchType="RelativeToTallestObject"/>
 				<box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" borderColor="red"/>
 				<text><![CDATA[Thin]]></text>
 			</staticText>
+			</elementGroup>
 
 			<staticText>
 				<reportElement mode="Opaque" x="200" y="0" width="50" height="15"/>

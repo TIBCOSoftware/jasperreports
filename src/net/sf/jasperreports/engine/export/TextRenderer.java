@@ -124,6 +124,8 @@ public class TextRenderer
 	private Graphics2D grx = null;
 	private int x = 0;
 	private int y = 0;
+	private int topPadding = 0;
+	private int leftPadding = 0;
 	private float formatWidth = 0;
 	private float verticalOffset = 0;
 	private float floatLineSpacing = 0;
@@ -143,6 +145,10 @@ public class TextRenderer
 		int y,
 		int width,
 		int height,
+		int topPadding,
+		int leftPadding,
+		int bottomPadding,
+		int rightPadding,
 		float textHeight,
 		byte textAlignment,
 		byte verticalAlignment,
@@ -152,7 +158,21 @@ public class TextRenderer
 		)
 	{
 		/*   */
-		initialize(grx, x, y, width, height, textHeight, textAlignment, verticalAlignment, lineSpacing);
+		initialize(
+			grx, 
+			x, 
+			y, 
+			width, 
+			height, 
+			topPadding,
+			leftPadding,
+			bottomPadding,
+			rightPadding,
+			textHeight, 
+			textAlignment, 
+			verticalAlignment, 
+			lineSpacing
+			);
 		
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
@@ -198,6 +218,10 @@ public class TextRenderer
 		int y,
 		int width,
 		int height,
+		int topPadding,
+		int leftPadding,
+		int bottomPadding,
+		int rightPadding,
 		float textHeight,
 		byte textAlignment,
 		byte verticalAlignment,
@@ -258,8 +282,12 @@ public class TextRenderer
 
 		this.x = x;
 		this.y = y;
-		formatWidth = (float)width;
-		maxHeight = height;
+		this.topPadding = topPadding;
+		this.leftPadding = leftPadding;
+		formatWidth = width - leftPadding - rightPadding;
+		formatWidth = formatWidth < 0 ? 0 : formatWidth;
+		maxHeight = height - topPadding - bottomPadding;
+		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 
 		drawPosY = 0;
 	    drawPosX = 0;
@@ -400,8 +428,8 @@ public class TextRenderer
 	{
 	    layout.draw(
 			grx,
-			drawPosX + x,
-			drawPosY + y + verticalOffset
+			drawPosX + x + leftPadding,
+			drawPosY + y + topPadding + verticalOffset
 			);
 	}
 	

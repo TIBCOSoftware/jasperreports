@@ -1434,6 +1434,18 @@ public class JRDesignViewer extends javax.swing.JPanel
 		int y = text.getY();
 		int width = text.getWidth();
 		int height = text.getHeight();
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
+		
+		if (text.getBox() != null)
+		{
+			topPadding = text.getBox().getTopPadding();
+			leftPadding = text.getBox().getLeftPadding();
+			bottomPadding = text.getBox().getBottomPadding();
+			rightPadding = text.getBox().getRightPadding();
+		}
 		
 		double angle = 0;
 		
@@ -1444,6 +1456,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 				y = text.getY() + text.getHeight();
 				width = text.getHeight();
 				height = text.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
 				angle = - Math.PI / 2;
 				break;
 			}
@@ -1452,6 +1469,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 				x = text.getX() + text.getWidth();
 				width = text.getHeight();
 				height = text.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
 				angle = Math.PI / 2;
 				break;
 			}
@@ -1477,7 +1499,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 			x, 
 			y, 
 			width, 
-			height, 
+			height,
+			topPadding,
+			leftPadding,
+			bottomPadding,
+			rightPadding,
 			0f, 
 			text.getTextAlignment(), 
 			text.getVerticalAlignment(), 
@@ -1493,6 +1519,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 			y, 
 			width, 
 			height, 
+			topPadding,
+			leftPadding,
+			bottomPadding,
+			rightPadding,
 			simluationTextRenderer.getTextHeight(), 
 			text.getTextAlignment(), 
 			text.getVerticalAlignment(), 
