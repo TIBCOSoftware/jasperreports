@@ -77,7 +77,8 @@ import javax.swing.*;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRViewerSimple extends JRViewer
 {
