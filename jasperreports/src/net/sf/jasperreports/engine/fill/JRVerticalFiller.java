@@ -853,7 +853,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 				
-			if (summary.willOverflow() && !summary.isSplitAllowed())// && !isNewPage)
+			if (summary.willOverflow() && !summary.isSplitAllowed())
 			{
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 			
@@ -928,7 +928,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY - summary.getHeight());
 				
-			if (summary.willOverflow() && !summary.isSplitAllowed())// && !isNewPage)
+			if (summary.willOverflow() && !summary.isSplitAllowed())
 			{
 				if (offsetY <= lastPageColumnFooterOffsetY)
 				{
@@ -1061,7 +1061,6 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 				
-			/*
 			if (summary.willOverflow() && !summary.isSplitAllowed())
 			{
 				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
@@ -1078,7 +1077,6 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 				printBand = summary.refill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 			}
-			*/
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
