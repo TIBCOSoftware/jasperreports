@@ -154,12 +154,12 @@ public class JasperFillManager
 		String sourceFileName, 
 		String destFileName, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFileName);
 
-		fillReportToFile(jasperReport, destFileName, parameters, conn);
+		fillReportToFile(jasperReport, destFileName, parameters, connection);
 	}
 
 	
@@ -176,10 +176,10 @@ public class JasperFillManager
 		JasperReport jasperReport, 
 		String destFileName, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
-		JasperPrint jasperPrint = fillReport(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = fillReport(jasperReport, parameters, connection);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -197,14 +197,14 @@ public class JasperFillManager
 	public static JasperPrint fillReport(
 		String sourceFileName, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		return fillReport(jasperReport, parameters, conn);
+		return fillReport(jasperReport, parameters, connection);
 	}
 
 	
@@ -221,12 +221,12 @@ public class JasperFillManager
 		InputStream inputStream, 
 		OutputStream outputStream, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(inputStream);
 
-		fillReportToStream(jasperReport, outputStream, parameters, conn);
+		fillReportToStream(jasperReport, outputStream, parameters, connection);
 	}
 
 	
@@ -243,10 +243,10 @@ public class JasperFillManager
 		JasperReport jasperReport, 
 		OutputStream outputStream, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
-		JasperPrint jasperPrint = fillReport(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = fillReport(jasperReport, parameters, connection);
 
 		JRSaver.saveObject(jasperPrint, outputStream);
 	}
@@ -264,12 +264,12 @@ public class JasperFillManager
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(inputStream);
 
-		return fillReport(jasperReport, parameters, conn);
+		return fillReport(jasperReport, parameters, connection);
 	}
 
 	
@@ -285,10 +285,10 @@ public class JasperFillManager
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
 		Map parameters, 
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
-		return JRFiller.fillReport(jasperReport, parameters, conn);
+		return JRFiller.fillReport(jasperReport, parameters, connection);
 	}
 
 	
