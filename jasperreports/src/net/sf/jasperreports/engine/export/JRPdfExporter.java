@@ -1063,7 +1063,7 @@ public class JRPdfExporter extends JRAbstractExporter
 								java.awt.Image awtImage = 
 									JRImageRenderer.getInstance(
 										renderer.getImageData(),
-										printImage.getWhenNotAvailableType()
+										printImage.getOnErrorType()
 										).getImage();
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}

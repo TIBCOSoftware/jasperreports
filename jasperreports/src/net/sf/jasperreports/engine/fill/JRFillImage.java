@@ -163,15 +163,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType()
+	public byte getOnErrorType()
 	{
-		return ((JRImage)this.parent).getWhenNotAvailableType();
+		return ((JRImage)this.parent).getOnErrorType();
 	}
 		
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	public void setOnErrorType(byte onErrorType)
 	{
 	}
 
@@ -355,22 +355,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			if (Image.class.getName().equals(expressionClass.getName()))
 			{
 				Image img = (Image)source;
-				newRenderer = JRImageRenderer.getInstance(img, getWhenNotAvailableType());
+				newRenderer = JRImageRenderer.getInstance(img, getOnErrorType());
 			}
 			else if (InputStream.class.getName().equals(expressionClass.getName()))
 			{
 				InputStream is = (InputStream)source;
-				newRenderer = JRImageRenderer.getInstance(is, getWhenNotAvailableType());
+				newRenderer = JRImageRenderer.getInstance(is, getOnErrorType());
 			}
 			else if (URL.class.getName().equals(expressionClass.getName()))
 			{
 				URL url = (URL)source;
-				newRenderer = JRImageRenderer.getInstance(url, getWhenNotAvailableType());
+				newRenderer = JRImageRenderer.getInstance(url, getOnErrorType());
 			}
 			else if (File.class.getName().equals(expressionClass.getName()))
 			{
 				File file = (File)source;
-				newRenderer = JRImageRenderer.getInstance(file, getWhenNotAvailableType());
+				newRenderer = JRImageRenderer.getInstance(file, getOnErrorType());
 			}
 			else if (String.class.getName().equals(expressionClass.getName()))
 			{
@@ -383,7 +383,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					}
 					else
 					{
-						newRenderer = JRImageRenderer.getInstance(location, getWhenNotAvailableType(), isLazy());
+						newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
 						JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
 						img.setRenderer(newRenderer);
 						this.filler.loadedImages.put(location, img);
@@ -391,7 +391,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				else
 				{
-					newRenderer = JRImageRenderer.getInstance(location, getWhenNotAvailableType(), isLazy());
+					newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
 				}
 			}
 			else if (JRRenderable.class.getName().equals(expressionClass.getName()))

@@ -51,7 +51,7 @@
 	hAlign (Left | Center | Right) "Left"
 	vAlign (Top | Middle | Bottom) "Top"
 	isLazy (true | false) "false"
-	whenNotAvailableType (None | Blank | Icon) "None"
+	onErrorType (Error | Blank | Icon) "Error"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	anchorName NMTOKEN #IMPLIED

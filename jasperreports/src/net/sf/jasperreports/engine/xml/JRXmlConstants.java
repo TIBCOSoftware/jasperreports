@@ -338,26 +338,26 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	private static final String WHEN_NOT_AVAILABLE_TYPE_NONE = "None";
-	private static final String WHEN_NOT_AVAILABLE_TYPE_BLANK = "Blank";
-	private static final String WHEN_NOT_AVAILABLE_TYPE_ICON = "Icon";
+	private static final String ON_ERROR_TYPE_ERROR = "Error";
+	private static final String ON_ERROR_TYPE_BLANK = "Blank";
+	private static final String ON_ERROR_TYPE_ICON = "Icon";
 
-	private static Map whenNotAvailableTypeMap = null;
+	private static Map onErrorTypeMap = null;
 
-	public static Map getWhenNotAvailableTypeMap()
+	public static Map getOnErrorTypeMap()
 	{
-		if (whenNotAvailableTypeMap == null)
+		if (onErrorTypeMap == null)
 		{
-			whenNotAvailableTypeMap = new HashMap(6);
-			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_NONE,  new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE));
-			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_BLANK, new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_BLANK));
-			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_ICON,  new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_ICON));
-			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE),  WHEN_NOT_AVAILABLE_TYPE_NONE);
-			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_BLANK), WHEN_NOT_AVAILABLE_TYPE_BLANK);
-			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_ICON),  WHEN_NOT_AVAILABLE_TYPE_ICON);
+			onErrorTypeMap = new HashMap(6);
+			onErrorTypeMap.put(ON_ERROR_TYPE_ERROR, new Byte(JRImage.ON_ERROR_TYPE_ERROR));
+			onErrorTypeMap.put(ON_ERROR_TYPE_BLANK, new Byte(JRImage.ON_ERROR_TYPE_BLANK));
+			onErrorTypeMap.put(ON_ERROR_TYPE_ICON,  new Byte(JRImage.ON_ERROR_TYPE_ICON));
+			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_ERROR), ON_ERROR_TYPE_ERROR);
+			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), ON_ERROR_TYPE_BLANK);
+			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  ON_ERROR_TYPE_ICON);
 		}
 		
-		return whenNotAvailableTypeMap;
+		return onErrorTypeMap;
 	}
 
 	/**

@@ -1701,7 +1701,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			JRRenderable pxRenderer = 
 				JRImageRenderer.getInstance(
 					"net/sf/jasperreports/engine/images/pixel.GIF",
-					JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE
+					JRImage.ON_ERROR_TYPE_ERROR
 					);
 			rendererToImagePathMap.put(pxRenderer, imagesURI + "px");
 			imageNameToImageDataMap.put("px", pxRenderer.getImageData());

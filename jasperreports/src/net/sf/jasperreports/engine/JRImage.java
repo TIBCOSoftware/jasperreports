@@ -47,9 +47,9 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	/**
 	 *
 	 */
-	public static final byte WHEN_NOT_AVAILABLE_TYPE_NONE = 1;
-	public static final byte WHEN_NOT_AVAILABLE_TYPE_BLANK = 2;
-	public static final byte WHEN_NOT_AVAILABLE_TYPE_ICON = 3;
+	public static final byte ON_ERROR_TYPE_ERROR = 1;
+	public static final byte ON_ERROR_TYPE_BLANK = 2;
+	public static final byte ON_ERROR_TYPE_ICON = 3;
 
 
 	/**
@@ -105,12 +105,12 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType();
+	public byte getOnErrorType();
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType);
+	public void setOnErrorType(byte onErrorType);
 
 	/**
 	 *

@@ -97,12 +97,12 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType();
+	public byte getOnErrorType();
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType);
+	public void setOnErrorType(byte onErrorType);
 
 	/**
 	 *

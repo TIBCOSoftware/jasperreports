@@ -1107,10 +1107,10 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (image.getWhenNotAvailableType() != JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE)
+		if (image.getOnErrorType() != JRImage.ON_ERROR_TYPE_ERROR)
 		{
-			sb.append(" whenNotAvailableType=\"");
-			sb.append((String)JRXmlConstants.getWhenNotAvailableTypeMap().get(new Byte(image.getWhenNotAvailableType())));
+			sb.append(" onErrorType=\"");
+			sb.append((String)JRXmlConstants.getOnErrorTypeMap().get(new Byte(image.getOnErrorType())));
 			sb.append("\"");
 		}
 

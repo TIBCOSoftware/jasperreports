@@ -59,7 +59,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	protected boolean isLazy = false;
-	protected byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
+	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	protected JRBox box = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
@@ -164,17 +164,17 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	public byte getWhenNotAvailableType()
+	public byte getOnErrorType()
 	{
-		return whenNotAvailableType;
+		return onErrorType;
 	}
 
 	/**
 	 *
 	 */
-	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	public void setOnErrorType(byte onErrorType)
 	{
-		this.whenNotAvailableType = whenNotAvailableType;
+		this.onErrorType = onErrorType;
 	}
 
 	/**
