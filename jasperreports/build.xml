@@ -103,7 +103,7 @@
 		Deletes all the .class files.
 	-->
 	<target name="clean">
-		<delete dir="./classes/dori"/>
+		<delete dir="./classes/net"/>
 		<delete dir="./classes/org"/>
 		<delete>
 			<fileset dir="./dist" includes="**/*.jar"/>
@@ -114,7 +114,7 @@
 		Compiles the library API documentation.
 	-->
 	<target name="docs" depends="compile">
-		<delete dir="./docs/api/dori"/>
+		<delete dir="./docs/api/net"/>
 		<delete>
 			<fileset dir="./docs/api" includes="**/*.*" />
 		</delete>
