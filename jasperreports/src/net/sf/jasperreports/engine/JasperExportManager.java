@@ -248,7 +248,8 @@ public class JasperExportManager
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
-		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, Boolean.valueOf(isEmbeddingImages));
+		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES,
+			isEmbeddingImages ? Boolean.TRUE : Boolean.FALSE);
 		
 		exporter.exportReport();
 	}
