@@ -89,7 +89,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	/**
 	 *

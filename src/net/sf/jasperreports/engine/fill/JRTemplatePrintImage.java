@@ -87,7 +87,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	/**
 	 *

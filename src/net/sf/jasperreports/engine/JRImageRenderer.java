@@ -90,7 +90,7 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	/**
 	 *

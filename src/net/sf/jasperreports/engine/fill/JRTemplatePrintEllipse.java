@@ -84,7 +84,7 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	/**
 	 *

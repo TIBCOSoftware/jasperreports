@@ -90,7 +90,7 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	
 	/**

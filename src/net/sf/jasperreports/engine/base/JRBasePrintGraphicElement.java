@@ -87,7 +87,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 603;
+	private static final long serialVersionUID = 604;
 
 	/**
 	 *
