@@ -176,7 +176,7 @@ public abstract class JRCalculator
 				expressionValue = evaluateEstimated(variable.getExpression());
 				newValue = variable.getIncrementer().increment(variable, expressionValue,  AbstractValueProvider.getEstimatedValueProvider());
 				variable.setEstimatedValue(newValue);
-				variable.setInitialized(false);
+				//variable.setInitialized(false);
 			}
 		}
 	}
