@@ -130,6 +130,16 @@ public interface JRVariable
 	/**
 	 *
 	 */
+	public Class getIncrementerClass();
+		
+	/**
+	 *
+	 */
+	public String getIncrementerClassName();
+		
+	/**
+	 *
+	 */
 	public byte getResetType();
 		
 	/**

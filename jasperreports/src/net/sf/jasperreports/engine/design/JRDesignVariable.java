@@ -118,6 +118,23 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
+	public void setIncrementerClass(Class clazz)
+	{
+		setIncrementerClassName(clazz.getName());
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementerClassName(String className)
+	{
+		incrementerClassName = className;
+		incrementerClass = null;
+	}
+		
+	/**
+	 *
+	 */
 	public void setResetType(byte resetType)
 	{
 		this.resetType = resetType;
