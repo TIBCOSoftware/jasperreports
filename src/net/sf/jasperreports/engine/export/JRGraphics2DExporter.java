@@ -73,6 +73,9 @@
 /*
  * Contributors:
  * Eugene D - eugenedruy@users.sourceforge.net 
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 

@@ -69,63 +69,58 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.engine;
+
+import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink
+public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 503;
 
 	/**
 	 *
 	 */
-	public JRRenderable getRenderer();
-		
-	/**
-	 *
-	 */
-	public void setRenderer(JRRenderable renderer);
-		
-	/**
-	 *
-	 */
-	public byte getScaleImage();
+	private JRRenderable renderer = null;
+	private Dimension2D dimension = null;
 
-	/**
-	 *
-	 */
-	public void setScaleImage(byte scaleImage);
 	
 	/**
 	 *
 	 */
-	public byte getHorizontalAlignment();
-		
+	public JRWrappingSvgRenderer(JRRenderable renderer, Dimension2D dimension)
+	{
+		this.renderer = renderer;
+		this.dimension = dimension;
+	}
+
+
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(byte horizontalAlignment);
-		
+	public Dimension2D getDimension()
+	{
+		return dimension;
+	}
+
+
 	/**
 	 *
 	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
+	public void render(Graphics2D grx, Rectangle2D rectangle)
+	{
+		renderer.render(grx, rectangle);
+	}
+
 
 }

@@ -686,6 +686,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 		grx.transform(atrans);
 
 		printDesign(grx);
+
+		grx.dispose();
 		
 		return designImage;
 	}
