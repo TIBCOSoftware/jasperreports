@@ -892,10 +892,13 @@ public class JasperDesign extends JRBaseReport
 				calculation == JRVariable.CALCULATION_VARIANCE
 				)
 			{
-				if(variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
-				{
-					this.removeVariable(variable.getCountVariable());
-				}
+				this.removeVariable(variable.getCountVariable());
+				this.removeVariable(variable.getSumVariable());
+			}
+
+			if (calculation == JRVariable.CALCULATION_STANDARD_DEVIATION)
+			{
+				this.removeVariable(variable.getVarianceVariable());
 			}
 
 			this.variablesList.remove(variable);
