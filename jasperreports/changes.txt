@@ -7,15 +7,20 @@ JasperReports 0.6.2
 - added support for import statements in order to eliminate 
 the need to use complete class names inside report expressions;
 
-- new REPORT_LOCALE, REPORT_RESOURCE_BUNDLE;
+- new "resourceBundle" attribute and new build-in REPORT_LOCALE and 
+REPORT_RESOURCE_BUNDLE report parameters, to allow associating 
+a ResourceBundle and a Locale with the report design when filling it with data;
 
-- new syntax $R{};
+- new $R{...} syntax available inside report expressions to access the
+resource bundle information based on resource keys;
 
-- new built-in functions msg() and str();
+- new built-in msg() and str() functions to allow formatting messages in
+different languages inside the report expressions;
 
-- arabic and hebrew;
+- support for right-to-left writing (like Arabic and Hebrew);
 
-- hyperlinkTarget;
+- new "hyperlinkTarget" attribute available for hyperlink elements
+in order to allow opening documents in a new window;
 
 - minor bug fixes and improvements;
 
