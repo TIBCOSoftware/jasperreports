@@ -135,6 +135,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected float MIN_ZOOM = 0.5f;
 	protected float MAX_ZOOM = 2.5f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250};
+	protected int defaultZoomIndex = 2;
 
 	private int type = TYPE_FILE_NAME;
 	private boolean isXML = false;
@@ -167,13 +168,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		//setZoomRatio(1);
-
 		loadReport(fileName, isXML);
 		setPageIndex(0);
 
-		cmbZoom.setSelectedIndex(2);//100%
-		//refreshPage();
+		cmbZoom.setSelectedIndex(defaultZoomIndex);
 		
 		addHyperlinkListener(this);
 	}
@@ -186,13 +184,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		//setZoomRatio(1);
-
 		loadReport(is, isXML);
 		setPageIndex(0);
 
-		cmbZoom.setSelectedIndex(2);//100%
-		//refreshPage();
+		cmbZoom.setSelectedIndex(defaultZoomIndex);
 
 		addHyperlinkListener(this);
 	}
@@ -205,13 +200,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		initComponents();
 		
-		//setZoomRatio(1);
-
 		loadReport(jrPrint);
 		setPageIndex(0);
 
-		cmbZoom.setSelectedIndex(2);//100%
-		//refreshPage();
+		cmbZoom.setSelectedIndex(defaultZoomIndex);
 
 		addHyperlinkListener(this);
 	}

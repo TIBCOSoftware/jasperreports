@@ -66,9 +66,11 @@
 				<include name="**/net/sf/jasperreports/engine/JRGraphicElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImage.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRRenderable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRuntimeException.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
