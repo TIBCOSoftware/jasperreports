@@ -97,11 +97,23 @@ public class JRDefaultCompiler implements JRCompiler
 		{
 			try 
 			{
-				JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
-				jrCompiler = new JRJdk13Compiler();
+				JRClassLoader.loadClassForName("org.eclipse.jdt.internal.compiler.Compiler");
+				jrCompiler = new JRJdtCompiler();
 			}
 			catch (Exception e)
 			{
+			}
+	
+			if (jrCompiler == null)
+			{
+				try 
+				{
+					JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
+					jrCompiler = new JRJdk13Compiler();
+				}
+				catch (Exception e)
+				{
+				}
 			}
 	
 			if (jrCompiler == null)
