@@ -615,7 +615,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		if (detail.isToPrint())
 		{
 			while (
-				detail.getHeight() > columnFooterOffsetY - offsetY
+				columnIndex == columnCount - 1 
+				&& detail.getHeight() > columnFooterOffsetY - offsetY
 				)
 			{
 				byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
