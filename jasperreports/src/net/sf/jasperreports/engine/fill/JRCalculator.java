@@ -71,7 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import dori.jasper.engine.JRException;
@@ -258,237 +257,49 @@ public abstract class JRCalculator
 	private Object calculateVariable(JRFillVariable variable, Object expressionValue) throws JRException
 	{
 		Object retValue = null;
+		
+		JRIncrementer incrementer = variable.getIncrementer();
 
 		switch (variable.getCalculation())
 		{
 			case JRVariable.CALCULATION_COUNT :
 			{
-				if (variable.getValueClass().equals(java.math.BigDecimal.class))
-				{
-					BigDecimal value = (BigDecimal)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new BigDecimal("0");
-					}
-					BigDecimal newValue = null;
-					if (expressionValue == null)
-					{
-						newValue = value;
-					}
-					else
-					{
-						newValue = value.add(new BigDecimal("1"));
-					}
-					
-					retValue = newValue;
-				}
-				else
-				{
-					Number value = (Number)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new Double(0);
-					}
-
-					Number newValue = null;
-					if (expressionValue == null)
-					{
-						newValue = value;
-					}
-					else
-					{
-						newValue = new Double(value.doubleValue() + 1);
-					}
-					
-					retValue = convertToVariableClass(variable, newValue);
-				}
-				
+				retValue = incrementer.incrementCount(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_SUM :
 			{
-				if (variable.getValueClass().equals(java.math.BigDecimal.class))
-				{
-					BigDecimal value = (BigDecimal)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new BigDecimal("0");
-					}
-					BigDecimal newValue = (BigDecimal)expressionValue;
-					if (newValue == null)
-					{
-						newValue = new BigDecimal("0");
-					}
-					newValue = value.add(newValue);
-					
-					retValue = newValue;
-				}
-				else
-				{
-					Number value = (Number)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new Double(0);
-					}
-					Number newValue = (Number)expressionValue;
-					if (newValue == null)
-					{
-						newValue = new Double(0);
-					}
-					newValue = new Double(value.doubleValue() + newValue.doubleValue());
-					
-					retValue = convertToVariableClass(variable, newValue);
-				}
-				
+				retValue = incrementer.incrementSum(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_AVERAGE :
 			{
-				if (variable.getValueClass().equals(java.math.BigDecimal.class))
-				{
-					BigDecimal newValue = null;
-
-					long count = ((java.lang.Number)((JRFillVariable)variable.getCountVariable()).getValue()).longValue();
-					if (count > 0)
-					{
-						BigDecimal countValue = BigDecimal.valueOf(count);
-						BigDecimal sumValue = (BigDecimal)((JRFillVariable)variable.getSumVariable()).getValue();
-						newValue = sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
-					}
-					
-					retValue = newValue;
-				}
-				else
-				{
-					Number newValue = null;
-
-					Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-					if (countValue.longValue() > 0)
-					{
-						Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-						newValue = convertToVariableClass(variable, new Double(sumValue.doubleValue() / countValue.doubleValue()));
-					}
-					
-					retValue = newValue;
-				}
-				
+				retValue = incrementer.incrementAverage(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_LOWEST :
 			{
-				Comparable value = (Comparable)variable.getValue();
-				Comparable newValue = (Comparable)expressionValue;
-
-				if (
-					value != null && !variable.isInitialized() &&
-					(newValue == null || value.compareTo(newValue) < 0)
-					)
-				{
-					newValue = value;
-				}
-				
-				retValue = newValue;
-				
+				retValue = incrementer.incrementLowest(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_HIGHEST :
 			{
-				Comparable value = (Comparable)variable.getValue();
-				Comparable newValue = (Comparable)expressionValue;
-
-				if (
-					value != null && !variable.isInitialized() &&
-					(newValue == null || value.compareTo(newValue) > 0)
-					)
-				{
-					newValue = value;
-				}
-				
-				retValue = newValue;
-				
+				retValue = incrementer.incrementHighest(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
 			{
-				if (variable.getValueClass().equals(java.math.BigDecimal.class))
-				{
-					BigDecimal varianceValue = (BigDecimal)((JRFillVariable)variable.getVarianceVariable()).getValue();
-					BigDecimal newValue = new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
-					
-					retValue = newValue;
-				}
-				else
-				{
-					Number varianceValue = (Number)((JRFillVariable)variable.getVarianceVariable()).getValue();
-					Number newValue = new Double( Math.sqrt(varianceValue.doubleValue()) );
-					
-					retValue = convertToVariableClass(variable, newValue);
-				}
-				
+				retValue = incrementer.incrementStandardDeviation(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_VARIANCE :
 			{
-				if (variable.getValueClass().equals(java.math.BigDecimal.class))
-				{
-					BigDecimal value = (BigDecimal)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new BigDecimal("0");
-					}
-					BigDecimal countValue = BigDecimal.valueOf( ((java.lang.Number)((JRFillVariable)variable.getCountVariable()).getValue()).longValue() );
-					BigDecimal sumValue = (BigDecimal)((JRFillVariable)variable.getSumVariable()).getValue();
-					BigDecimal newValue = (BigDecimal)expressionValue;
-	
-					if (countValue.intValue() == 1)
-					{
-						newValue = new BigDecimal("0");
-					}
-					else
-					{
-						newValue = 
-							countValue.subtract(new BigDecimal("1")).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
-								sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(
-									sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue)
-									).divide(countValue.subtract(new BigDecimal("1")), BigDecimal.ROUND_HALF_UP)
-								);
-					}
-					
-					retValue = newValue;
-				}
-				else
-				{
-					Number value = (Number)variable.getValue();
-					if (value == null || variable.isInitialized())
-					{
-						value = new Double(0);
-					}
-					Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-					Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-					Number newValue = (Number)expressionValue;
-	
-					if (countValue.intValue() == 1)
-					{
-						newValue = new Double(0);
-					}
-					else
-					{
-						newValue = new Double(
-							(countValue.doubleValue() - 1) * value.doubleValue() / countValue.doubleValue() +
-							( sumValue.doubleValue() / countValue.doubleValue() - newValue.doubleValue() ) *
-							( sumValue.doubleValue() / countValue.doubleValue() - newValue.doubleValue() ) /
-							(countValue.doubleValue() - 1)
-							);
-					}
-					
-					retValue = convertToVariableClass(variable, newValue);
-				}
-				
+				retValue = incrementer.incrementVariance(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_SYSTEM :
 			{
-				retValue = variable.getValue();
+				retValue = incrementer.incrementSystem(expressionValue);
 				break;
 			}
 			case JRVariable.CALCULATION_NOTHING :
@@ -500,42 +311,6 @@ public abstract class JRCalculator
 		}
 
 		return retValue;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Number convertToVariableClass(JRFillVariable variable, Number newValue) throws JRException
-	{
-		Class valueClass = variable.getValueClass();
-
-		if (valueClass.equals(java.lang.Byte.class))
-		{
-			newValue = new Byte(newValue.byteValue());
-		}
-		else if (valueClass.equals(java.lang.Short.class))
-		{
-			newValue = new Short(newValue.shortValue());
-		}
-		else if (valueClass.equals(java.lang.Integer.class))
-		{
-			newValue = new Integer(newValue.intValue());
-		}
-		else if (valueClass.equals(java.lang.Long.class))
-		{
-			newValue = new Long(newValue.longValue());
-		}
-		else if (valueClass.equals(java.lang.Float.class))
-		{
-			newValue = new Float(newValue.floatValue());
-		}
-		else if (valueClass.equals(java.lang.Double.class))
-		{
-			newValue = new Double(newValue.doubleValue());
-		}
-		
-		return newValue;
 	}
 
 
