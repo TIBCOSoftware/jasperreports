@@ -236,8 +236,8 @@ public class JRFillElementGroup implements JRElementGroup
 
 			if (elements != null && elements.length > 0)
 			{
-				JRFillElement topElem = null;
-				JRFillElement bottomElem = null;
+				JRFillElement topElem = (JRFillElement)topElementInGroup;
+				JRFillElement bottomElem = (JRFillElement)bottomElementInGroup;
 
 				for(int i = 0; i < elements.length; i++)
 				{
