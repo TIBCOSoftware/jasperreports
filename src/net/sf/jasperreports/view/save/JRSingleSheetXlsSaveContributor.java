@@ -90,6 +90,12 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 	/**
 	 * 
 	 */
+	private static final String EXTENSION_XLS = ".xls"; 
+
+	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -98,7 +104,7 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 		}
 		else
 		{
-			return file.getName().toLowerCase().endsWith(".xls");
+			return file.getName().toLowerCase().endsWith(EXTENSION_XLS);
 		}
 	}
 
@@ -115,6 +121,11 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
+		if (!file.getName().endsWith(EXTENSION_XLS))
+		{
+			file = new File(file.getAbsolutePath() + EXTENSION_XLS);
+		}
+		
 		JRXlsExporter exporter = new JRXlsExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);

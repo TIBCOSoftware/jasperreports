@@ -89,6 +89,13 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	/**
 	 * 
 	 */
+	private static final String EXTENSION_HTM = ".htm"; 
+	private static final String EXTENSION_HTML = ".html"; 
+
+	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -98,7 +105,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 		else
 		{
 			String name = file.getName().toLowerCase();
-			return (name.endsWith(".htm") || name.endsWith(".html"));
+			return (name.endsWith(EXTENSION_HTM) || name.endsWith(EXTENSION_HTML));
 		}
 	}
 
@@ -115,6 +122,14 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
+		if (
+				!file.getName().endsWith(EXTENSION_HTM)
+				&& !file.getName().endsWith(EXTENSION_HTML)
+				)
+			{
+				file = new File(file.getAbsolutePath() + EXTENSION_HTML);
+			}
+			
 		JRHtmlExporter exporter = new JRHtmlExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
