@@ -821,6 +821,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("; ");
 		}
 
+		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (backcolor != null)
+		{
+			writer.write("background-color: #");
+			String hexa = Integer.toHexString(backcolor.getRGB() & colorMask).toUpperCase();
+			hexa = ("000000" + hexa).substring(hexa.length());
+			writer.write(hexa);
+			writer.write("; ");
+		}
+
 		writer.write("font-size: ");
 		writer.write(String.valueOf(attributes.get(TextAttribute.SIZE)));
 		writer.write("px;");

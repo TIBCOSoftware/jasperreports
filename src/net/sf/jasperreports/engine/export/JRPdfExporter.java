@@ -1361,6 +1361,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		/*
 		if (forecolor == null)
 		{
@@ -1379,7 +1380,14 @@ public class JRPdfExporter extends JRAbstractExporter
 				forecolor
 				);
 
-		return new Chunk(text, font);
+		Chunk chunk = new Chunk(text, font);
+		
+		if (backcolor != null)
+		{
+			chunk.setBackground(backcolor);
+		}
+		
+		return chunk;
 	}
 
 
