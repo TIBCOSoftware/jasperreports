@@ -1210,7 +1210,8 @@ public class JRVerifier
 				java.io.File.class.getName(),
 				java.net.URL.class.getName(),
 				java.io.InputStream.class.getName(),
-				java.awt.Image.class.getName()
+				java.awt.Image.class.getName(),
+				dori.jasper.engine.JRRenderable.class.getName()
 			};
 
 			Arrays.sort(imageClassNames);
