@@ -5,6 +5,7 @@
 	-->
 	<taskdef name="jrc" classname="dori.jasper.ant.JRAntCompileTask"> 
 		<classpath>
+			<pathelement location="./build/classes"/>
 			<pathelement location="../../../classes"/>
 			<fileset dir="../../../lib">
 				<include name="**/*.jar"/>
