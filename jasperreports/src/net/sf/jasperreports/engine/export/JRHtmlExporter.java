@@ -141,6 +141,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Writer writer = null;
+	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map loadedImagesMap = null;
 	protected Map imagesMap = null;
 
@@ -205,6 +206,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -644,6 +647,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write("</table>\n");
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
+		}
 	}
 
 

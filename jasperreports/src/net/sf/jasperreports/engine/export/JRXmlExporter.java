@@ -122,6 +122,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected StringBuffer sbuffer = null;
+	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map loadedImagesMap = null;
 	protected Map fontsMap = new HashMap();
 
@@ -143,6 +144,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -444,6 +447,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 
 		sbuffer.append("\t</page>\n");
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
+		}
 	}
 	
 	

@@ -69,58 +69,24 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+
+import dori.jasper.engine.export.JRExportProgressMonitor;
 
 
 /**
  *
  */
-public class JRExporterParameter
+public class SimpleExportProgressMonitor implements JRExportProgressMonitor
 {
 
 
 	/**
 	 *
 	 */
-	private String name = null;
-
-
-	/**
-	 *
-	 */
-	protected JRExporterParameter(String name)
+	public void afterPageExport()
 	{
-		this.name = name;
+		System.out.println("call afterPageExport");
 	}
-
-
-	/**
-	 *
-	 */
-	public String toString()
-	{
-		return this.name;
-	}
-
-
-	/**
-	 *
-	 */
-	public static final JRExporterParameter JASPER_PRINT = new JRExporterParameter("JasperPrint Object");
-	public static final JRExporterParameter INPUT_STREAM = new JRExporterParameter("InputStream Object");
-	public static final JRExporterParameter INPUT_URL = new JRExporterParameter("URL Object");
-	public static final JRExporterParameter INPUT_FILE = new JRExporterParameter("Input File");
-	public static final JRExporterParameter INPUT_FILE_NAME = new JRExporterParameter("Input File Name");
-	public static final JRExporterParameter OUTPUT_STRING_BUFFER = new JRExporterParameter("Output StringBuffer Object");
-	public static final JRExporterParameter OUTPUT_WRITER = new JRExporterParameter("Output Writer Object");
-	public static final JRExporterParameter OUTPUT_STREAM = new JRExporterParameter("OutputStream Object");
-	public static final JRExporterParameter OUTPUT_FILE = new JRExporterParameter("Output File");
-	public static final JRExporterParameter OUTPUT_FILE_NAME = new JRExporterParameter("Output File Name");
-	public static final JRExporterParameter PAGE_INDEX = new JRExporterParameter("Page Index");
-	public static final JRExporterParameter START_PAGE_INDEX = new JRExporterParameter("Start Page Index");
-	public static final JRExporterParameter END_PAGE_INDEX = new JRExporterParameter("End Page Index");
-	public static final JRExporterParameter CHARACTER_ENCODING = new JRExporterParameter("Character Encoding");
-	public static final JRExporterParameter PROGRESS_MONITOR = new JRExporterParameter("Progress Monitor");
 
 
 }

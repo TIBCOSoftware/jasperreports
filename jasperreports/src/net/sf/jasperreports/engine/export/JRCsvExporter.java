@@ -114,6 +114,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Writer writer = null;
+	protected JRExportProgressMonitor progressMonitor = null;
 
 	/**
 	 *
@@ -130,6 +131,8 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -339,6 +342,11 @@ public class JRCsvExporter extends JRAbstractExporter
 					writer.write("\n");
 				}
 			}
+		}
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
 		}
 	}
 

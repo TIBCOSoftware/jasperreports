@@ -97,6 +97,7 @@ import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRAlignment;
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRExporterParameter;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRImage;
@@ -126,6 +127,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Graphics2D grx = null;
+	protected JRExportProgressMonitor progressMonitor = null;
 	protected float zoom = 1f;
 
 	/**
@@ -166,6 +168,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -260,6 +264,11 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					exportText((JRPrintText)element);
 				}
 			}
+		}
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
 		}
 	}
 	

@@ -134,6 +134,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Document imageTesterDocument = null;
 	protected PdfContentByte imageTesterPdfContentByte = null;
 
+	protected JRExportProgressMonitor progressMonitor = null;
+
 	/**
 	 *
 	 */
@@ -172,6 +174,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -397,6 +401,11 @@ public class JRPdfExporter extends JRAbstractExporter
 					exportText((JRPrintText)element);
 				}
 			}
+		}
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
 		}
 	}
 	
