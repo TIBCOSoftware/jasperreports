@@ -54,9 +54,33 @@
 		Fills the compiled report design with data 
 		and produces the .jrprint file.
 	-->
-	<target name="fill">
+	<target name="fillEN">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tfill"/>
+			<arg value="-TfillEN"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fillFR">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TfillFR"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fillDE">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TfillDE"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -66,31 +90,33 @@
 		Launches the report viewer to preview the report 
 		stored in the .jrprint file.
 	-->
-	<target name="view">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+	<target name="viewEN">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TviewEN"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<!--
-		Launches the report viewer to preview the generated report 
-		stored in an XML file.
+		Launches the report viewer to preview the report 
+		stored in the .jrprint file.
 	-->
-	<target name="viewXML">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
+	<target name="viewFR">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TviewFR"/>
+			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<!--
-		Sends the report in the .jrprint file to the printer.
+		Launches the report viewer to preview the report 
+		stored in the .jrprint file.
 	-->
-	<target name="print">
+	<target name="viewDE">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tprint"/>
+			<arg value="-TviewDE"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -103,30 +129,6 @@
 	<target name="pdf">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xml">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Txml"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xmlEmbed">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TxmlEmbed"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -164,18 +166,6 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates a PDF file by filling the .jasper report design.
-		No intermediate .jrprint file is produced.
-	-->
-	<target name="run">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Trun"/>
-			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
