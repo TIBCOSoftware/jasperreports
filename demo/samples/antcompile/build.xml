@@ -1,16 +1,21 @@
 <project name="JasperReports" default="compile1" basedir=".">
 
 	<!--
+		Classpath
+	-->
+	<path id="classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../../classes"/>
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<!--
 		Defines the report design compilation Ant task.
 	-->
 	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-		<classpath>
-			<pathelement location="./build/classes"/>
-			<pathelement location="../../../classes"/>
-			<fileset dir="../../../lib">
-				<include name="**/*.jar"/>
-			</fileset>
-		</classpath>
+		<classpath refid="classpath"/>
 	</taskdef>
 
 	<!--
@@ -34,13 +39,7 @@
 				tempdir="./build/temp"
 				keepjava="true"
 				xmlvalidation="true">
-			<classpath>
-				<pathelement location="./build/classes"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</jrc> 
 	</target> 
 
@@ -62,13 +61,7 @@
 					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
-			<classpath>
-				<pathelement location="./build/classes"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</jrc> 
 	</target> 
 

@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.4
+-----------------------------------
+- new JRJdtCompiler;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.3
 -----------------------------------
 - new <box> tag available for putting border around text and image elements
