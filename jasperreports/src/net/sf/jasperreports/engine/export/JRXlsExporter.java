@@ -150,6 +150,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	private boolean isOnePagePerSheet = false;
 	private boolean isRemoveEmptySpace = false;
 	private boolean isWhitePageBackground = true;
+	private boolean isAutoDetectCellType = true;
 
 	/**
 	 *
@@ -212,6 +213,12 @@ public class JRXlsExporter extends JRAbstractExporter
 		{
 			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
 			backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+		}
+		
+		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
+		if (isAutoDetectCellTypeParameter != null)
+		{
+			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
 		
 		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
@@ -610,11 +617,18 @@ public class JRXlsExporter extends JRAbstractExporter
 
 			cell = row.createCell((short)x);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-			try
+			if (isAutoDetectCellType)
 			{
-				cell.setCellValue(Double.parseDouble(text.getText()));
+				try
+				{
+					cell.setCellValue(Double.parseDouble(text.getText()));
+				}
+				catch(NumberFormatException e)
+				{
+					cell.setCellValue(text.getText());
+				}
 			}
-			catch(NumberFormatException e)
+			else
 			{
 				cell.setCellValue(text.getText());
 			}
