@@ -497,6 +497,15 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	public void setLastPageFooter(JRBand lastPageFooter)
+	{
+		this.lastPageFooter = lastPageFooter;
+	}
+		
+
+	/**
+	 *
+	 */
 	public void setColumnHeader(JRBand columnHeader)
 	{
 		this.columnHeader = columnHeader;
@@ -1022,6 +1031,7 @@ public class JasperDesign extends JRBaseReport
 		expressions.addAll(this.getBandExpressions(this.detail));
 		expressions.addAll(this.getBandExpressions(this.columnFooter));
 		expressions.addAll(this.getBandExpressions(this.pageFooter));
+		expressions.addAll(this.getBandExpressions(this.lastPageFooter));
 		expressions.addAll(this.getBandExpressions(this.summary));
 		
 		return expressions;

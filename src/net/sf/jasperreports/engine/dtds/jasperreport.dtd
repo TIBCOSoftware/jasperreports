@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
 	columnCount NMTOKEN "1"
@@ -82,6 +82,7 @@
 <!ELEMENT detail (band?)>
 <!ELEMENT columnFooter (band?)>
 <!ELEMENT pageFooter (band?)>
+<!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
 <!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*)>
 <!ATTLIST band

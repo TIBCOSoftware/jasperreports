@@ -171,6 +171,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected JRFillBand detail = null;
 	protected JRFillBand columnFooter = null;
 	protected JRFillBand pageFooter = null;
+	protected JRFillBand lastPageFooter = null;
 	protected JRFillBand summary = null;
 
 	protected JRCalculator calculator = null;
@@ -311,6 +312,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		this.detail = factory.getBand(jasperReport.getDetail());
 		this.columnFooter = factory.getBand(jasperReport.getColumnFooter());
 		this.pageFooter = factory.getBand(jasperReport.getPageFooter());
+		this.lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		this.summary = factory.getBand(jasperReport.getSummary());
 
 		/*   */

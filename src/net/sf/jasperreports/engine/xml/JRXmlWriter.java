@@ -449,6 +449,13 @@ public class JRXmlWriter
 			sbuffer.append("\t</pageFooter>\n");
 		}
 
+		if (report.getLastPageFooter() != null)
+		{
+			sbuffer.append("\t<lastPageFooter>\n");
+			writeBand(report.getLastPageFooter());
+			sbuffer.append("\t</lastPageFooter>\n");
+		}
+
 		if (report.getSummary() != null)
 		{
 			sbuffer.append("\t<summary>\n");
