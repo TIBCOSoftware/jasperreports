@@ -140,6 +140,15 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
+	public byte getType()
+	{
+		return TYPE_IMAGE;
+	}
+
+
+	/**
+	 *
+	 */
 	public Dimension2D getDimension()
 	{
 		Image img = getImage();

@@ -96,6 +96,15 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	/**
 	 *
 	 */
+	public byte getType()
+	{
+		return TYPE_SVG;
+	}
+
+
+	/**
+	 *
+	 */
 	public Dimension2D getDimension()
 	{
 		return null;
