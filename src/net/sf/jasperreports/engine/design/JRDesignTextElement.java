@@ -92,6 +92,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	protected byte horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
+	protected byte rotation = ROTATION_NONE;
 	protected byte lineSpacing = LINE_SPACING_SINGLE;
 
 	/**
@@ -130,6 +131,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
+	public byte getRotation()
+	{
+		return this.rotation;
+	}
+		
+	/**
+	 *
+	 */
 	public byte getLineSpacing()
 	{
 		return this.lineSpacing;
@@ -157,6 +166,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation)
+	{
+		this.rotation = rotation;
 	}
 		
 	/**
