@@ -113,7 +113,7 @@ public interface JRDataSourceProvider
 	 * operation. By returning true in this method the data source provider indicates
 	 * that it is able to introspect the data source and discover the available fields.
 	 * 
-	 * @return true if the {@link #getFields() getFields} operation is supported.
+	 * @return true if the getFields() operation is supported.
 	 */
 	public boolean supportsGetFieldsOperation();
 	
@@ -126,6 +126,7 @@ public interface JRDataSourceProvider
 	 * @throws JRException if an error occurs.
 	 *  
 	 * @param report the report that will be filled using the data source created by this provider.
+	 * 	The passed in report can be null. That means that no compiled report is available yet.
 	 * @return a non null fields array. If there are no fields then an empty array must be returned.
 	 */
 	public JRField[] getFields(JasperReport report) throws JRException, UnsupportedOperationException;
