@@ -54,6 +54,7 @@
 				<include name="**/dori/jasper/engine/JRAbstractExporter.class"/>
 				<include name="**/dori/jasper/engine/JRAlignment.class"/>
 				<include name="**/dori/jasper/engine/JRAnchor.class"/>
+				<include name="**/dori/jasper/engine/JRDefaultFontProvider.class"/>
 				<include name="**/dori/jasper/engine/JRElement.class"/>
 				<include name="**/dori/jasper/engine/JREllipse.class"/>
 				<include name="**/dori/jasper/engine/JRException.class"/>
@@ -69,6 +70,7 @@
 				<include name="**/dori/jasper/engine/JRPrint*.class"/>
 				<include name="**/dori/jasper/engine/JRRectangle.class"/>
 				<include name="**/dori/jasper/engine/JRReportFont.class"/>
+				<include name="**/dori/jasper/engine/JRRuntimeException.class"/>
 				<include name="**/dori/jasper/engine/JRStaticText.class"/>
 				<include name="**/dori/jasper/engine/JRTextElement.class"/>
 				<include name="**/dori/jasper/engine/JRTextField.class"/>
