@@ -4,6 +4,9 @@ JasperReports Change Log
 
 JasperReports 0.6.5
 -----------------------------------
+- LGPL only;
+
+- new "onErrorType" and "isLazy" attributes;
 
 - minor bug fixes and improvements;
 
