@@ -1282,17 +1282,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		String text = styledText.getText();
 		
-		/*
-		List runs = styledText.getRuns();
-		for(int i = 0; i < runs.size(); i++)
-		{
-			JRStyledText.Run run = (JRStyledText.Run)runs.get(i);
-			Chunk chunk = getChunk(run, text);
-			chunk.setMarkupAttributes(hyperlinkInfoChunk.getMarkupAttributes());
-			phrase.add(chunk);
-		}
-		*/
-		
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
@@ -1403,7 +1392,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			return;
 		}
 
-		String strText = styledText.getText();
+		int textLength = styledText.length();
 		
 		int x = text.getX();
 		int y = text.getY();
@@ -1482,7 +1471,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			*/
 		}
 
-		if (strText.length() == 0)
+		if (textLength == 0)
 		{
 			return;
 		}

@@ -141,7 +141,7 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
-	public JRBaseFont(Map attributes)
+	public JRBaseFont(Map attributes)//FIXME deal also with bold and italic?
 	{
 		Float size = (Float)attributes.get(TextAttribute.SIZE);
 		if (size != null)
