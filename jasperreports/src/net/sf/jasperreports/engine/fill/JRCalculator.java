@@ -371,7 +371,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
+	public Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
@@ -394,7 +394,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
+	public Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
@@ -417,7 +417,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluate(JRExpression expression) throws JRExpressionEvalException
+	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
