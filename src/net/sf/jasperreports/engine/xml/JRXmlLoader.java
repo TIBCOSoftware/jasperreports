@@ -428,15 +428,19 @@ public class JRXmlLoader implements ErrorHandler
 	private JRXmlDigester prepareDigester() throws ParserConfigurationException, SAXException
 	{
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-		SAXParser saxParser = saxParserFactory.newSAXParser();
-		//XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-		XMLReader xmlReader = saxParser.getXMLReader();
 
 		String validation = System.getProperty("jasper.reports.compile.xml.validation");
 		if (validation == null || validation.length() == 0)
 		{
 			validation = "true";
 		}
+
+		saxParserFactory.setValidating(Boolean.valueOf(validation).booleanValue());
+
+		SAXParser saxParser = saxParserFactory.newSAXParser();
+		//XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+		XMLReader xmlReader = saxParser.getXMLReader();
+
 		xmlReader.setFeature("http://xml.org/sax/features/validation", Boolean.valueOf(validation).booleanValue());
 		
 		JRXmlDigester digester = new JRXmlDigester(xmlReader);

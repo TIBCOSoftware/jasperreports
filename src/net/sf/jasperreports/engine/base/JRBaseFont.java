@@ -291,7 +291,8 @@ public class JRBaseFont implements JRFont, Serializable
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
-	public void setItalic(Boolean isItalic) {
+	public void setItalic(Boolean isItalic) 
+	{
 		this.isItalic = isItalic;
 		this.attributes = null;
 	}
@@ -331,7 +332,8 @@ public class JRBaseFont implements JRFont, Serializable
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
-	public void setUnderline(Boolean isUnderline) {
+	public void setUnderline(Boolean isUnderline) 
+	{
 		this.isUnderline = isUnderline;
 		this.attributes = null;
 	}
@@ -371,7 +373,8 @@ public class JRBaseFont implements JRFont, Serializable
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
-	public void setStrikeThrough(Boolean isStrikeThrough) {
+	public void setStrikeThrough(Boolean isStrikeThrough) 
+	{
 		this.isStrikeThrough = isStrikeThrough;
 		this.attributes = null;
 	}
@@ -411,7 +414,8 @@ public class JRBaseFont implements JRFont, Serializable
 	 * Alternative setSize method which allows also to reset
 	 * the "own" size property.
 	 */
-	public void setSize(Integer size) {
+	public void setSize(Integer size) 
+	{
 		this.size = size;
 		this.attributes = null;
 	}
@@ -515,7 +519,8 @@ public class JRBaseFont implements JRFont, Serializable
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
-	public void setPdfEmbedded(Boolean isPdfEmbedded) {
+	public void setPdfEmbedded(Boolean isPdfEmbedded) 
+	{
 		this.isPdfEmbedded = isPdfEmbedded;
 		this.attributes = null;
 	}
