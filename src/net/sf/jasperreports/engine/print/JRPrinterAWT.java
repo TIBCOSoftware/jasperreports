@@ -164,7 +164,7 @@ public class JRPrinterAWT implements Printable
 		if (
 			firstPageIndex < 0 ||
 			firstPageIndex > lastPageIndex ||
-			lastPageIndex > jasperPrint.getPages().size()
+			lastPageIndex >= jasperPrint.getPages().size()
 			)
 		{
 			throw new JRException(
