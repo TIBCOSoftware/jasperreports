@@ -190,6 +190,13 @@ public class JRXmlWriter
 		sb.append(report.getName());
 		sb.append("\"");
 
+		if(report.getLanguage() != JRReport.LANGUAGE_JAVA)
+		{
+			sb.append(" language=\"");
+			sb.append(report.getLanguage());
+			sb.append("\"");
+		}
+
 		if(report.getColumnCount() != 1)
 		{
 			sb.append(" columnCount=\"");

@@ -45,6 +45,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	 *
 	 */
 	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_language = "language";
 	private static final String ATTRIBUTE_columnCount = "columnCount";
 	private static final String ATTRIBUTE_printOrder = "printOrder";
 	private static final String ATTRIBUTE_pageWidth = "pageWidth";
@@ -72,6 +73,8 @@ public class JasperDesignFactory extends JRBaseFactory
 		JasperDesign jasperDesign = new JasperDesign();
 		
 		jasperDesign.setName(atts.getValue(ATTRIBUTE_name));
+
+		jasperDesign.setLanguage(atts.getValue(ATTRIBUTE_language));
 		
 		String columnCount = atts.getValue(ATTRIBUTE_columnCount);
 		if (columnCount != null && columnCount.length() > 0)

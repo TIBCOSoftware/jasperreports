@@ -324,6 +324,15 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	public void setLanguage(String language)
+	{
+		this.language = language;
+	}
+		
+
+	/**
+	 *
+	 */
 	public void setColumnCount(int columnCount)
 	{
 		this.columnCount = columnCount;

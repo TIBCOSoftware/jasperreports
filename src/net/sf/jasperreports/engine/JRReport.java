@@ -40,6 +40,11 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public static final String LANGUAGE_JAVA = "java";
+
+	/**
+	 *
+	 */
 	public static final byte PRINT_ORDER_VERTICAL = 1;
 	public static final byte PRINT_ORDER_HORIZONTAL = 2;
 
@@ -62,6 +67,11 @@ public interface JRReport extends JRDefaultFontProvider
 	 */
 	public String getName();
 
+	/**
+	 *
+	 */
+	public String getLanguage();
+		
 	/**
 	 *
 	 */
