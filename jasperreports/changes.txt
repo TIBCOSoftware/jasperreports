@@ -2,6 +2,21 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.1
+-----------------------------------
+- new "lastPageFooter" report section added to simplify the creation of some
+special report designs;
+
+- new sample "barbecue" added to show how to render barcodes using 
+the Barbecue open source library;
+
+- new "Go To Page" option available in the viewer's toolbar;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.0
 -----------------------------------
 - the package name hierarchy has changed throughout the entire library.
