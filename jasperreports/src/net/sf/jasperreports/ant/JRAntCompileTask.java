@@ -291,7 +291,7 @@ public class JRAntCompileTask extends MatchingTask
 		{
 			throw 
 				new BuildException(
-					"srcdir attribute must be set!", 
+					"The srcdir attribute must be set.", 
 					this.location
 					);
 		}
@@ -300,10 +300,10 @@ public class JRAntCompileTask extends MatchingTask
 		{
 			throw 
 				new BuildException(
-					"destination directory \"" 
+					"The destination directory \"" 
 						+ this.destdir 
 						+ "\" does not exist "
-						+ "or is not a directory", 
+						+ "or is not a directory.", 
 					this.location
 					);
 		}
@@ -312,10 +312,10 @@ public class JRAntCompileTask extends MatchingTask
 		{
 			throw 
 				new BuildException(
-					"temporary directory \"" 
+					"The temporary directory \"" 
 						+ this.tempdir 
 						+ "\" does not exist "
-						+ "or is not a directory", 
+						+ "or is not a directory.", 
 					this.location
 					);
 		}
@@ -335,9 +335,9 @@ public class JRAntCompileTask extends MatchingTask
 			{
 				throw 
 					new BuildException(
-						"srcdir \""
+						"The srcdir \""
 							+ srcdir.getPath() 
-							+ "\" does not exist!", 
+							+ "\" does not exist.", 
 						location
 						);
 			}
