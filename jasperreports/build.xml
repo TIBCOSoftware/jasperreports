@@ -34,7 +34,7 @@
 	-->
 	<target name="jar" depends="compile, applet">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-0.5.0.jar">
+		<jar jarfile="./dist/jasperreports-0.5.1.jar">
 			<fileset dir="./classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
@@ -47,7 +47,7 @@
 		Builds the jasperreports-applet.jar file.
 	-->
 	<target name="applet" depends="compile">
-		<jar jarfile="./dist/jasperreports-0.5.0-applet.jar">
+		<jar jarfile="./dist/jasperreports-0.5.1-applet.jar">
 			<fileset dir="./classes">
 				<include name="**/dori/jasper/engine/JasperPrint.class"/>
 				<include name="**/dori/jasper/engine/JasperPrintManager.class"/>
