@@ -353,7 +353,28 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				);
 		*/
 		
+		/*   */
+		scriptlet = createScriptlet();
+		
+		/*   */
+		scriptlet.setData(
+			parametersMap,
+			fieldsMap,
+			variablesMap,
+			groups
+			);
+
+		/*   */
 		calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
+
+		/*   */
+		calculator.init(
+			parametersMap,
+			fieldsMap,
+			variablesMap,
+			variables,
+			groups
+			);
 	}
 
 
@@ -584,16 +605,17 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			setParameter(parameter, resourceBundle);
 		}
 
-		/*   */
+		/*   *
 		scriptlet = createScriptlet();
 		
-		/*   */
+		/*   *
 		scriptlet.setData(
 			parametersMap,
 			fieldsMap,
 			variablesMap,
 			groups
 			);
+		*/
 
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET);
@@ -602,7 +624,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			setParameter(parameter, scriptlet);
 		}
 
-		/*   */
+		/*   *
 		calculator.init(
 			parametersMap,
 			fieldsMap,
@@ -610,6 +632,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			variables,
 			groups
 			);
+		*/
 
 		jasperPrint.setName(name);
 		jasperPrint.setPageWidth(pageWidth);
