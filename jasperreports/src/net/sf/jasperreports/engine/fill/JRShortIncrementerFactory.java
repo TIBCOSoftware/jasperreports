@@ -86,6 +86,12 @@ public class JRShortIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Short ZERO = new Short((short)0);
+
+
+	/**
+	 *
+	 */
 	private static JRShortIncrementerFactory mainInstance = new JRShortIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRShortCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_SHORT;
+				return JRShortIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRShortCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_SHORT;
+				value = JRShortIncrementerFactory.ZERO;
 			}
 
 			return new Short((short)(value.shortValue() + 1));
@@ -274,7 +280,7 @@ class JRShortSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_SHORT;
+				value = JRShortIncrementerFactory.ZERO;
 			}
 
 			return new Short((short)(value.shortValue() + newValue.shortValue()));
@@ -442,7 +448,7 @@ class JRShortVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_SHORT;
+			return JRShortIncrementerFactory.ZERO;
 		}
 		else
 		{
