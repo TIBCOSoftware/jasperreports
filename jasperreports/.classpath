@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
-    <classpathentry kind="lib" path="lib/xmlParserAPIs.jar"/>
-    <classpathentry kind="lib" path="lib/ant-1.5.1.jar"/>
-    <classpathentry kind="lib" path="lib/commons-beanutils-1.5.jar"/>
-    <classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
-    <classpathentry kind="lib" path="lib/commons-digester-1.3.jar"/>
-    <classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
-    <classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
-    <classpathentry kind="lib" path="lib/itext-1.01.jar"/>
-    <classpathentry kind="lib" path="lib/bsh-1.3.0.jar"/>
-    <classpathentry kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
-    <classpathentry kind="lib" path="lib/xalan.jar"/>
-    <classpathentry kind="output" path="classes"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xmlParserAPIs.jar"/>
+	<classpathentry kind="lib" path="lib/ant-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-digester-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext-1.01.jar"/>
+	<classpathentry kind="lib" path="lib/bsh-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
+	<classpathentry kind="lib" path="lib/xalan.jar"/>
+	<classpathentry kind="lib" path="lib/jdt-compiler.jar"/>
+	<classpathentry kind="output" path="classes"/>
 </classpath>
