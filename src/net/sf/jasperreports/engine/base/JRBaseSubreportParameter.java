@@ -87,7 +87,7 @@ public class JRBaseSubreportParameter implements JRSubreportParameter, Serializa
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
+	private static final long serialVersionUID = 502;
 
 	/**
 	 *

@@ -94,7 +94,7 @@ public class JRDesignExpression extends JRBaseExpression
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
+	private static final long serialVersionUID = 502;
 
 	/**
 	 *
