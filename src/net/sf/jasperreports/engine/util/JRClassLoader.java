@@ -150,10 +150,6 @@ public class JRClassLoader extends ClassLoader
 	}
 
 
-	// @JVM Crash workaround
-	// Reference to the loaded class class in a per thread map
-	private static ThreadLocal classFromBytesRef = new ThreadLocal();
-
 	/**
 	 *
 	 */
@@ -180,8 +176,6 @@ public class JRClassLoader extends ClassLoader
 					.loadClass(className, bytecodes);
 		}
 
-		classFromBytesRef.set(clazz);
-		
 		return clazz;
 	}
 

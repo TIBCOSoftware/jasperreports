@@ -185,6 +185,10 @@ public abstract class JRAbstractJavaCompiler implements JRCompiler, JRClassCompi
 	}
 
 	
+	// @JVM Crash workaround
+	// Reference to the loaded class class in a per thread map
+	private static ThreadLocal classFromBytesRef = new ThreadLocal();
+
 	/**
 	 *
 	 */
@@ -200,6 +204,8 @@ public abstract class JRAbstractJavaCompiler implements JRCompiler, JRClassCompi
 					(byte[])jasperReport.getCompileData()
 					);
 					
+			classFromBytesRef.set(clazz);
+		
 			calculator = (JRCalculator)clazz.newInstance();
 		}
 		catch (Exception e)
