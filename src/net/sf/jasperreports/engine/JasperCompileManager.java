@@ -90,18 +90,25 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * and for getting the XML representation of report design objects for
  * storage or network transfer. 
  * 
+ * @see net.sf.jasperreports.engine.design.JasperDesign
+ * @see net.sf.jasperreports.engine.JasperReport
+ * @see net.sf.jasperreports.engine.design.JRDefaultCompiler
+ * @see net.sf.jasperreports.engine.design.JRVerifier
+ * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlWriter
+ * @see net.sf.jasperreports.engine.util.JRLoader
+ * @see net.sf.jasperreports.engine.util.JRSaver
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperCompileManager
+public abstract class JasperCompileManager
 {
 
 
 	/**
-	 * Compiles the XML report design file represented by the filename received as parameter.
-	 * The result of this operation is a file that contains a serialized instance of a 
+	 * Compiles the XML report design file specified by the parameter.
+	 * The result of this operation is another file that will contain the serialized  
 	 * {@link net.sf.jasperreports.engine.JasperReport} object representing the compiled report design,
 	 * having the same name as the report design as declared in the XML plus the *.jasper extension,
 	 * located in the same directory as the XML source file. 
@@ -122,8 +129,8 @@ public class JasperCompileManager
 
 
 	/**
-	 * Compiles the XML report design file represented by the first parameter, placing the result 
-	 * in a file specified by the second parameter.
+	 * Compiles the XML report design file received as the first parameter, placing the result 
+	 * in the file specified by the second parameter.
 	 * The resulting file will contain a serialized instance of a 
 	 * {@link net.sf.jasperreports.engine.JasperReport} object representing 
 	 * the compiled report design. 
@@ -140,8 +147,8 @@ public class JasperCompileManager
 
 
 	/**
-	 * Compiles the report design object represented by the first parameter, placing the result 
-	 * in a file specified by the second parameter.
+	 * Compiles the report design object received as the first parameter, placing the result 
+	 * in the file specified by the second parameter.
 	 * The resulting file will contain a serialized instance of a 
 	 * {@link net.sf.jasperreports.engine.JasperReport} object representing the compiled report design. 
 	 */
@@ -157,8 +164,8 @@ public class JasperCompileManager
 
 
 	/**
-	 * Compiles the XML report design file represented by the first parameter, and returns 
-	 * an object representing the compiled report design. 
+	 * Compiles the XML report design file received as parameter, and returns 
+	 * the compiled report design object. 
 	 */
 	public static JasperReport compileReport(String sourceFileName) throws JRException
 	{
@@ -169,7 +176,7 @@ public class JasperCompileManager
 
 
 	/**
-	 * Compiles the serialized report design object read from the supplied input stream and
+	 * Compiles the XML representation of the report design read from the supplied input stream and
 	 * writes the generated compiled report design object to the output stream specified 
 	 * by the second parameter.
 	 */
@@ -213,8 +220,10 @@ public class JasperCompileManager
 
 
 	/**
-	 * Compiles the report design object represented by the first parameter and
+	 * Compiles the report design object received as parameter and
 	 * returns the generated compiled report design object.
+	 *
+	 * @see net.sf.jasperreports.engine.design.JRDefaultCompiler
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
@@ -223,7 +232,10 @@ public class JasperCompileManager
 
 
 	/**
+	 * Verifies the validity and consistency of the report design object.
+	 * Returns a collection of error messages (String), if problems are found in the report design.
 	 *
+	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign) throws JRException
 	{
@@ -232,7 +244,10 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Generates the XML representation of the report design loaded from the specified filename.
+	 * The result of this operation is an "UTF-8" encoded XML file having the same name as 
+	 * the report design, plus the *.jasper.jrxml extension, located in the same directory as 
+	 * the source file.
 	 */
 	public static String writeReportToXmlFile(
 		String sourceFileName
@@ -256,7 +271,8 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Generates the XML representation of the report design loaded from the first file parameter
+	 * and place it in the file specified by the second parameter. The result is "UTF-8" encoded.
 	 */
 	public static void writeReportToXmlFile(
 		String sourceFileName, 
@@ -273,7 +289,10 @@ public class JasperCompileManager
 
 	
 	/**
+	 * Generates the XML representation of the report design supplied as the first parameter
+	 * and place it in the file specified by the second parameter. The result is "UTF-8" encoded.
 	 *
+	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
 	public static void writeReportToXmlFile(
 		JRReport report,
@@ -289,7 +308,8 @@ public class JasperCompileManager
 
 
 	/**
-	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
+	 * Generates the XML representation of the serialized report design object read from the supplied 
+	 * input stream abd writes it to the specified output stream, using the "UTF-8" encoding.
 	 */
 	public static void writeReportToXmlStream(
 		InputStream inputStream, 
@@ -303,7 +323,10 @@ public class JasperCompileManager
 
 	
 	/**
+	 * Generates the XML representation of the report design object supplied as parameter
+	 * and writes it to the specified output stream, using the "UTF-8" encoding.
 	 *
+	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
 	public static void writeReportToXmlStream(
 		JRReport report, 
@@ -319,7 +342,10 @@ public class JasperCompileManager
 
 
 	/**
+	 * Generates the XML representation of the report design object supplied as parameter
+	 * using the "UTF-8" enconding.
 	 *
+	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
 	public static String writeReportToXml(JRReport report) throws JRException
 	{
