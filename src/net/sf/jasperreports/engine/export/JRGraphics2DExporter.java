@@ -744,6 +744,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		String text = textElement.getText();
 		if (text != null && text.length() > 0)
 		{
+			text = JRStringUtil.treatNewLineChars(text);
+
 			JRFont font = textElement.getFont();
 			if (font == null)
 			{
@@ -841,8 +843,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 		
 		grx.setColor(text.getForecolor());
-
-		allText = JRStringUtil.treatNewLineChars(allText);
 
 		float formatWidth = (float)width;
 

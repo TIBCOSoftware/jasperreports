@@ -118,7 +118,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textStart = 0;
 	private int textEnd = 0;
 	private String rawText = null;
-	private JRStyledTextParser styledTextParser = null;
 	private JRStyledText styledText = null;
 
 
@@ -133,11 +132,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super(filler, textElement, factory);
 
-		if (isStyledText())
-		{
-			styledTextParser = new JRStyledTextParser();//FIXME put this in the filler?
-		}
-		
 		/*   */
 		font = factory.getFont(textElement.getFont());
 	}
@@ -396,7 +390,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					try
 					{
-						styledText = styledTextParser.parse(getFont().getAttributes(), text);
+						styledText = filler.getStyledTextParser().parse(getFont().getAttributes(), text);
 					}
 					catch (SAXException e)
 					{
@@ -498,7 +492,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		boolean wasDelim = false;
 
 		int paragraphStart = 0;
-		int paragraphEnd = 0;
+		int paragraphEnd = getTextEnd();
 
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
