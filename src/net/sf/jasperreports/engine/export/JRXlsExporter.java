@@ -156,7 +156,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	 *
 	 */
 	private short whiteIndex = (new HSSFColor.WHITE()).getIndex();
-	private short backgroundMode = HSSFCellStyle.NO_FILL;
+	private short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
 	/**
 	 *
@@ -211,9 +211,9 @@ public class JRXlsExporter extends JRAbstractExporter
 		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
-			if (isWhitePageBackgroundParameter.booleanValue())
+			if (!isWhitePageBackgroundParameter.booleanValue())
 			{
-				backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+				backgroundMode = HSSFCellStyle.NO_FILL;
 			}
 		}
 		
