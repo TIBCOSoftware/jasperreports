@@ -16,6 +16,10 @@ Adrian Jackson, David Taylor and Lars Kristensen, was incorporated in the main v
 JRExporterParameter.JASPER_PRINT_LIST, which accepts a list containing JasperPrint objects 
 (contribution by Jason Essington);
 
+- new XPath based XML data source implementation provided. The "xmldatasource" sample shows 
+how the net.sf.jasperreports.engine.data.JRXmlDataSource can be used in combination 
+with subreports (contribution by Peter Severin);
+
 - minor bug fixes and improvements;
 
 
