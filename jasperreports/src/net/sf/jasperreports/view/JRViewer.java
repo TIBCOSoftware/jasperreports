@@ -374,6 +374,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         btnPrevious = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
+        txtGoTo = new javax.swing.JTextField();
         pnlSep02 = new javax.swing.JPanel();
         btnActualSize = new javax.swing.JToggleButton();
         btnFitPage = new javax.swing.JToggleButton();
@@ -515,6 +516,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnLast);
 
+        txtGoTo.setToolTipText("Go To Page");
+        txtGoTo.setMaximumSize(new java.awt.Dimension(40, 23));
+        txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
+        txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
+        txtGoTo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGoToActionPerformed(evt);
+            }
+        });
+
+        tlbToolBar.add(txtGoTo);
+
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep02);
 
@@ -601,7 +614,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 cmbZoomActionPerformed(evt);
             }
         });
-
         cmbZoom.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbZoomItemStateChanged(evt);
@@ -645,7 +657,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 pnlLinksMouseReleased(evt);
             }
         });
-
         pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 pnlLinksMouseDragged(evt);
@@ -737,6 +748,25 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         add(pnlStatus, java.awt.BorderLayout.SOUTH);
 
     }//GEN-END:initComponents
+
+	private void txtGoToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGoToActionPerformed
+		try
+		{
+			int pageNumber = Integer.parseInt(txtGoTo.getText());
+			if (
+				pageNumber != pageIndex + 1
+				&& pageNumber > 0
+				&& pageNumber <= jasperPrint.getPages().size()
+				)
+			{
+				setPageIndex(pageNumber - 1);
+				refreshPage();
+			}
+		}
+		catch(NumberFormatException e)
+		{
+		}
+	}//GEN-LAST:event_txtGoToActionPerformed
 
     private void cmbZoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbZoomItemStateChanged
 		// Add your handling code here:
@@ -1189,6 +1219,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnPrevious.setEnabled( (pageIndex > 0) );
 			btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
 			btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+			txtGoTo.setEnabled(btnFirst.isEnabled() || btnLast.isEnabled());
+			txtGoTo.setText("" + (pageIndex + 1));
 			lblStatus.setText("Page " + (pageIndex + 1) + " of " + jasperPrint.getPages().size());
 		}
 		else
@@ -1197,6 +1229,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnPrevious.setEnabled(false);
 			btnNext.setEnabled(false);
 			btnLast.setEnabled(false);
+			txtGoTo.setEnabled(false);
+			txtGoTo.setText("");
 			lblStatus.setText("");
 		}
 	}
@@ -1479,38 +1513,39 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JPanel tlbToolBar;
-    private javax.swing.JPanel pnlInScroll;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel pnlPage;
+    protected javax.swing.JToggleButton btnActualSize;
+    protected javax.swing.JButton btnFirst;
+    protected javax.swing.JToggleButton btnFitPage;
+    protected javax.swing.JToggleButton btnFitWidth;
+    protected javax.swing.JButton btnLast;
+    protected javax.swing.JButton btnNext;
+    protected javax.swing.JButton btnPrevious;
+    protected javax.swing.JButton btnPrint;
+    protected javax.swing.JButton btnReload;
+    protected javax.swing.JButton btnSave;
+    protected javax.swing.JButton btnZoomIn;
+    protected javax.swing.JButton btnZoomOut;
+    protected javax.swing.JComboBox cmbZoom;
     private javax.swing.JLabel jLabel1;
-    protected javax.swing.JPanel pnlStatus;
-    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lblPage;
+    protected javax.swing.JLabel lblStatus;
+    private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel pnlLinks;
     private javax.swing.JPanel pnlMain;
-    protected javax.swing.JButton btnSave;
-    protected javax.swing.JToggleButton btnActualSize;
-    protected javax.swing.JPanel pnlSep02;
-    protected javax.swing.JLabel lblStatus;
-    protected javax.swing.JButton btnLast;
-    protected javax.swing.JButton btnReload;
-    private javax.swing.JPanel jPanel5;
-    protected javax.swing.JButton btnPrevious;
-    protected javax.swing.JButton btnZoomOut;
-    protected javax.swing.JPanel pnlSep03;
-    private javax.swing.JLabel lblPage;
-    private javax.swing.JPanel jPanel8;
-    protected javax.swing.JButton btnZoomIn;
-    protected javax.swing.JToggleButton btnFitPage;
-    private javax.swing.JPanel jPanel7;
-    protected javax.swing.JButton btnNext;
+    private javax.swing.JPanel pnlPage;
     protected javax.swing.JPanel pnlSep01;
-    protected javax.swing.JButton btnFirst;
-    private javax.swing.JPanel jPanel6;
-    protected javax.swing.JComboBox cmbZoom;
-    private javax.swing.JPanel jPanel9;
-    protected javax.swing.JToggleButton btnFitWidth;
-    protected javax.swing.JButton btnPrint;
+    protected javax.swing.JPanel pnlSep02;
+    protected javax.swing.JPanel pnlSep03;
+    protected javax.swing.JPanel pnlStatus;
+    private javax.swing.JScrollPane scrollPane;
+    protected javax.swing.JPanel tlbToolBar;
+    protected javax.swing.JTextField txtGoTo;
     // End of variables declaration//GEN-END:variables
 
 }
