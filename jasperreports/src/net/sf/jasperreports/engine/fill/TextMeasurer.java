@@ -106,10 +106,15 @@ public class TextMeasurer
 	 */
 	private MaxFontSizeFinder maxFontSizeFinder = null;
 
-	private float width = 0;
-	private float height = 0;
+	private int width = 0;
+	private int height = 0;
+	private int topPadding = 0;
+	private int leftPadding = 0;
+	private int bottomPadding = 0;
+	private int rightPadding = 0;
 	private float lineSpacing = 0;
 
+	private float formatWidth = 0;
 	private int maxHeight = 0;
 	private int textOffset = 0;
 	private int lines = 0;
@@ -130,6 +135,14 @@ public class TextMeasurer
 		/*   */
 		width = fillTextElement.getWidth();
 		height = fillTextElement.getHeight();
+		
+		if (fillTextElement.getBox() != null)
+		{
+			topPadding = fillTextElement.getBox().getTopPadding();
+			leftPadding = fillTextElement.getBox().getLeftPadding();
+			bottomPadding = fillTextElement.getBox().getBottomPadding();
+			rightPadding = fillTextElement.getBox().getRightPadding();
+		}
 
 		switch (fillTextElement.getRotation())
 		{
@@ -137,12 +150,22 @@ public class TextMeasurer
 			{
 				width = fillTextElement.getHeight();
 				height = fillTextElement.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
 				break;
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
 				width = fillTextElement.getHeight();
 				height = fillTextElement.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
 				break;
 			}
 			case JRTextElement.ROTATION_NONE :
@@ -191,7 +214,10 @@ public class TextMeasurer
 	 */
 	private void initialize(int availableStretchHeight)
 	{
-		maxHeight = (int)height + availableStretchHeight;
+		formatWidth = width - leftPadding - rightPadding;
+		formatWidth = formatWidth < 0 ? 0 : formatWidth;
+		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
+		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 		textOffset = 0;
 		lines = 0;
 		fontSizeSum = 0;
