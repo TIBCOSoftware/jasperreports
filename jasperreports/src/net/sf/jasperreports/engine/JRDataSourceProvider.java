@@ -119,15 +119,21 @@ public interface JRDataSourceProvider
 	
 	/**
 	 * Returns the fields that are available from the data source.
+	 * The provider can use the passed in report to extract some additional
+	 * configuration information such as report properties. 
 	 * 
 	 * @throws UnsupportedOperationException is the method is not supported
-	 * @throws JRException if an error occurs. 
+	 * @throws JRException if an error occurs.
+	 *  
+	 * @param report the report that will be filled using the data source created by this provider.
 	 * @return a non null fields array. If there are no fields then an empty array must be returned.
 	 */
-	public JRField[] getFields() throws JRException, UnsupportedOperationException;
+	public JRField[] getFields(JasperReport report) throws JRException, UnsupportedOperationException;
 	
 	/**
 	 * Creates and returns a new instance of the provided data source.
+	 * The provider can use the passed in report to extract some additional
+	 * configuration information such as report properties. 
 	 *  
 	 * @param report the report that will be filled using the created data source.
 	 * @throws JRException if the data source creation has failed

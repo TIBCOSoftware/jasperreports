@@ -82,6 +82,7 @@ import java.util.Arrays;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
 
@@ -117,9 +118,9 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	}
 	
 	/**
-	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#getFields()
+	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#getFields(net.sf.jasperreports.engine.JasperReport)
 	 */
-	public JRField[] getFields() throws JRException {
+	public JRField[] getFields(JasperReport report) throws JRException {
 		BeanInfo beanInfo = null;
 
 		try {
