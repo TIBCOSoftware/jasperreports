@@ -112,6 +112,7 @@ public class JRDesignFont extends JRBaseFont
 	public void setReportFont(JRReportFont reportFont)
 	{
 		this.reportFont = reportFont;
+		attributes = null;
 	}
 
 
