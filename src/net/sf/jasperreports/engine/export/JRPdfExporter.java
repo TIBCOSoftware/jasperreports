@@ -1075,7 +1075,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						- borderOffset);
 				pdfContentByte.restoreState();
 
-				chunk = new Chunk("");
+				chunk = new Chunk("");//FIXME hyperlinks do not work for SVG images
 			}
 
 			/*
