@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JREllipse;
 
 
@@ -92,9 +90,9 @@ public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	protected JRBaseEllipse(JREllipse ellipse, Map baseObjectsMap)
+	protected JRBaseEllipse(JREllipse ellipse, JRBaseObjectFactory factory)
 	{
-		super(ellipse, baseObjectsMap);
+		super(ellipse, factory);
 	}
 
 

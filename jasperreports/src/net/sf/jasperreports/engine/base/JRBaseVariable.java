@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
@@ -122,23 +121,23 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseVariable(JRVariable variable, Map baseObjectsMap)
+	protected JRBaseVariable(JRVariable variable, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(variable, this);
-
+		factory.put(variable, this);
+		
 		name = variable.getName();
 		valueClass = variable.getValueClass();
 		resetType = variable.getResetType();
 		calculation = variable.getCalculation();
 		isSystemDefined = variable.isSystemDefined();
 		
-		expression = JRBaseObjectFactory.getExpression(variable.getExpression(), baseObjectsMap);
-		initialValueExpression = JRBaseObjectFactory.getExpression(variable.getInitialValueExpression(), baseObjectsMap);
+		expression = factory.getExpression(variable.getExpression());
+		initialValueExpression = factory.getExpression(variable.getInitialValueExpression());
 
-		resetGroup = JRBaseObjectFactory.getGroup(variable.getResetGroup(), baseObjectsMap);
-		countVariable = JRBaseObjectFactory.getVariable(variable.getCountVariable(), baseObjectsMap);
-		sumVariable = JRBaseObjectFactory.getVariable(variable.getSumVariable(), baseObjectsMap);
-		varianceVariable = JRBaseObjectFactory.getVariable(variable.getVarianceVariable(), baseObjectsMap);
+		resetGroup = factory.getGroup(variable.getResetGroup());
+		countVariable = factory.getVariable(variable.getCountVariable());
+		sumVariable = factory.getVariable(variable.getSumVariable());
+		varianceVariable = factory.getVariable(variable.getVarianceVariable());
 	}
 		
 

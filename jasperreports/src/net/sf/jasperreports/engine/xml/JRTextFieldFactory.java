@@ -78,7 +78,6 @@ import org.xml.sax.Attributes;
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.design.JRDesignGroup;
 import dori.jasper.engine.design.JRDesignTextField;
-import dori.jasper.engine.design.JasperDesign;
 
 
 /**
@@ -135,9 +134,6 @@ public class JRTextFieldFactory extends JRBaseFactory
 		{
 			textField.setHyperlinkType(hyperlinkType.byteValue());
 		}
-
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-		textField.setFont(jasperDesign.getDefaultFont());
 
 		return textField;
 	}

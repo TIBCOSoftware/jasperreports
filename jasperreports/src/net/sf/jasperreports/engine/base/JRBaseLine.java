@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRLine;
 
 
@@ -97,9 +95,9 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	protected JRBaseLine(JRLine line, Map baseObjectsMap)
+	protected JRBaseLine(JRLine line, JRBaseObjectFactory factory)
 	{
-		super(line, baseObjectsMap);
+		super(line, factory);
 		
 		direction = line.getDirection();
 	}

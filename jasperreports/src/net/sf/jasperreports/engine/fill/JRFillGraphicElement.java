@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRGraphicElement;
@@ -98,10 +96,10 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	protected JRFillGraphicElement(
 		JRBaseFiller filler,
 		JRGraphicElement graphicElement, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, graphicElement, fillObjectsMap);
+		super(filler, graphicElement, factory);
 	}
 	
 

@@ -71,6 +71,7 @@
  */
 package dori.jasper.engine.fill;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import dori.jasper.engine.JRBand;
@@ -78,15 +79,20 @@ import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRElementGroup;
 import dori.jasper.engine.JREllipse;
 import dori.jasper.engine.JRField;
+import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRImage;
 import dori.jasper.engine.JRLine;
 import dori.jasper.engine.JRParameter;
 import dori.jasper.engine.JRRectangle;
+import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JRStaticText;
 import dori.jasper.engine.JRSubreport;
 import dori.jasper.engine.JRTextField;
 import dori.jasper.engine.JRVariable;
+import dori.jasper.engine.base.JRBaseFont;
+import dori.jasper.engine.base.JRBaseReportFont;
+import dori.jasper.engine.design.JRDesignFont;
 
 
 /**
@@ -99,26 +105,100 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillParameter getParameter(
-		JRBaseFiller filler,
-		JRParameter parameter, 
-		Map fillObjectsMap
-		)
+	private JRBaseFiller filler = null;
+	private Map fillObjectsMap = new HashMap();
+
+	private JRFont defaultFont = null;
+
+
+	/**
+	 *
+	 */
+	protected JRFillObjectFactory(JRBaseFiller filler)
+	{
+		this.filler = filler;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void put(Object object, Object fillObject)
+	{
+		fillObjectsMap.put(object, fillObject);
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseReportFont getReportFont(JRReportFont font)
+	{
+		JRBaseReportFont fillFont = null;
+		
+		if (font != null)
+		{
+			fillFont = (JRBaseReportFont)fillObjectsMap.get(font);
+			if (fillFont == null)
+			{
+				fillFont = new JRBaseReportFont(font);
+				fillFont.setCachingAttributes(true);
+				fillObjectsMap.put(font, fillFont);
+			}
+		}
+		
+		return fillFont;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseFont getFont(JRFont font)
+	{
+		JRBaseFont fillFont = null;
+		
+		if (font != null)
+		{
+			fillFont = (JRBaseFont)fillObjectsMap.get(font);
+			if (fillFont == null)
+			{
+				fillFont = 
+					new JRBaseFont(
+						filler.getJasperPrint(), 
+						getReportFont(font.getReportFont()), 
+						font
+						);
+				fillFont.setCachingAttributes(true);
+				fillObjectsMap.put(font, fillFont);
+			}
+		}
+		else 
+		{
+			if (defaultFont == null)
+			{
+				defaultFont = new JRDesignFont();
+			}
+			fillFont = getFont(defaultFont);
+		}
+		
+		return fillFont;
+	}
+
+
+	/**
+	 *
+	 */
+	protected  JRFillParameter getParameter(JRParameter parameter)
 	{
 		JRFillParameter fillParameter = null;
 		
 		if (parameter != null)
 		{
 			fillParameter = (JRFillParameter)fillObjectsMap.get(parameter);
-	
 			if (fillParameter == null)
 			{
-				fillParameter = 
-					new JRFillParameter(
-						filler,
-						parameter, 
-						fillObjectsMap
-						);
+				fillParameter = new JRFillParameter(parameter, this);
 			}
 		}
 		
@@ -129,26 +209,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillField getField(
-		JRBaseFiller filler,
-		JRField field, 
-		Map fillObjectsMap
-		)
+	protected JRFillField getField(JRField field)
 	{
 		JRFillField fillField = null;
 		
 		if (field != null)
 		{
 			fillField = (JRFillField)fillObjectsMap.get(field);
-	
 			if (fillField == null)
 			{
-				fillField = 
-					new JRFillField(
-						filler,
-						field, 
-						fillObjectsMap
-						);
+				fillField = new JRFillField(field, this);
 			}
 		}
 		
@@ -159,26 +229,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillVariable getVariable(
-		JRBaseFiller filler,
-		JRVariable variable, 
-		Map fillObjectsMap
-		)
+	protected JRFillVariable getVariable(JRVariable variable)
 	{
 		JRFillVariable fillVariable = null;
 		
 		if (variable != null)
 		{
 			fillVariable = (JRFillVariable)fillObjectsMap.get(variable);
-	
 			if (fillVariable == null)
 			{
-				fillVariable = 
-					new JRFillVariable(
-						filler,
-						variable, 
-						fillObjectsMap
-						);
+				fillVariable = new JRFillVariable(variable, this);
 			}
 		}
 		
@@ -189,26 +249,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillGroup getGroup(
-		JRBaseFiller filler,
-		JRGroup group,
-		Map fillObjectsMap
-		)
+	protected JRFillGroup getGroup(JRGroup group)
 	{
 		JRFillGroup fillGroup = null;
 		
 		if (group != null)
 		{
 			fillGroup = (JRFillGroup)fillObjectsMap.get(group);
-	
 			if (fillGroup == null)
 			{
-				fillGroup = 
-					new JRFillGroup(
-						filler,
-						group, 
-						fillObjectsMap
-						);
+				fillGroup = new JRFillGroup(group, this);
 			}
 		}
 		
@@ -219,26 +269,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillBand getBand(
-		JRBaseFiller filler,
-		JRBand band,
-		Map fillObjectsMap
-		)
+	protected JRFillBand getBand(JRBand band)
 	{
 		JRFillBand fillBand = null;
 		
 		//if (band != null)
 		//{
 			fillBand = (JRFillBand)fillObjectsMap.get(band);
-	
 			if (fillBand == null)
 			{
-				fillBand = 
-					new JRFillBand(
-						filler,
-						band, 
-						fillObjectsMap
-						);
+				fillBand = new JRFillBand(filler, band, this);
 			}
 		//}
 		
@@ -249,26 +289,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillElementGroup getElementGroup(
-		JRBaseFiller filler,
-		JRElementGroup elementGroup, 
-		Map fillObjectsMap
-		)
+	protected JRFillElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRFillElementGroup fillElementGroup = null;
 		
 		if (elementGroup != null)
 		{
 			fillElementGroup = (JRFillElementGroup)fillObjectsMap.get(elementGroup);
-	
 			if (fillElementGroup == null)
 			{
-				fillElementGroup = 
-					new JRFillElementGroup(
-						filler,
-						elementGroup, 
-						fillObjectsMap
-						);
+				fillElementGroup = new JRFillElementGroup(elementGroup, this);
 			}
 		}
 		
@@ -279,41 +309,37 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillElement getElement(
-		JRBaseFiller filler,
-		JRElement element, 
-		Map fillObjectsMap
-		)
+	protected JRFillElement getElement(JRElement element)
 	{
 		JRFillElement fillElement = null;
 		
 		if (element instanceof JRLine)
 		{
-			fillElement = getLine(filler, (JRLine)element, fillObjectsMap);
+			fillElement = getLine((JRLine)element);
 		}
 		else if (element instanceof JRRectangle)
 		{
-			fillElement = getRectangle(filler, (JRRectangle)element, fillObjectsMap);
+			fillElement = getRectangle((JRRectangle)element);
 		}
 		else if (element instanceof JREllipse)
 		{
-			fillElement = getEllipse(filler, (JREllipse)element, fillObjectsMap);
+			fillElement = getEllipse((JREllipse)element);
 		}
 		else if (element instanceof JRImage)
 		{
-			fillElement = getImage(filler, (JRImage)element, fillObjectsMap);
+			fillElement = getImage((JRImage)element);
 		}
 		else if (element instanceof JRStaticText)
 		{
-			fillElement = getStaticText(filler, (JRStaticText)element, fillObjectsMap);
+			fillElement = getStaticText((JRStaticText)element);
 		}
 		else if (element instanceof JRTextField)
 		{
-			fillElement = getTextField(filler, (JRTextField)element, fillObjectsMap);
+			fillElement = getTextField((JRTextField)element);
 		}
 		else if (element instanceof JRSubreport)
 		{
-			fillElement = getSubreport(filler, (JRSubreport)element, fillObjectsMap);
+			fillElement = getSubreport((JRSubreport)element);
 		}
 		
 		return fillElement;
@@ -323,26 +349,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillLine getLine(
-		JRBaseFiller filler,
-		JRLine line, 
-		Map fillObjectsMap
-		)
+	protected JRFillLine getLine(JRLine line)
 	{
 		JRFillLine fillLine = null;
 		
 		if (line != null)
 		{
 			fillLine = (JRFillLine)fillObjectsMap.get(line);
-	
 			if (fillLine == null)
 			{
-				fillLine = 
-					new JRFillLine(
-						filler,
-						line, 
-						fillObjectsMap
-						);
+				fillLine = new JRFillLine(filler, line, this);
 			}
 		}
 		
@@ -353,26 +369,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillRectangle getRectangle(
-		JRBaseFiller filler,
-		JRRectangle rectangle, 
-		Map fillObjectsMap
-		)
+	protected JRFillRectangle getRectangle(JRRectangle rectangle)
 	{
 		JRFillRectangle fillRectangle = null;
 		
 		if (rectangle != null)
 		{
 			fillRectangle = (JRFillRectangle)fillObjectsMap.get(rectangle);
-	
 			if (fillRectangle == null)
 			{
-				fillRectangle = 
-					new JRFillRectangle(
-						filler,
-						rectangle, 
-						fillObjectsMap
-						);
+				fillRectangle = new JRFillRectangle(filler, rectangle, this);
 			}
 		}
 		
@@ -383,26 +389,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillEllipse getEllipse(
-		JRBaseFiller filler,
-		JREllipse ellipse, 
-		Map fillObjectsMap
-		)
+	protected JRFillEllipse getEllipse(JREllipse ellipse)
 	{
 		JRFillEllipse fillEllipse = null;
 		
 		if (ellipse != null)
 		{
 			fillEllipse = (JRFillEllipse)fillObjectsMap.get(ellipse);
-	
 			if (fillEllipse == null)
 			{
-				fillEllipse = 
-					new JRFillEllipse(
-						filler,
-						ellipse, 
-						fillObjectsMap
-						);
+				fillEllipse = new JRFillEllipse(filler, ellipse, this);
 			}
 		}
 		
@@ -413,26 +409,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillImage getImage(
-		JRBaseFiller filler,
-		JRImage image, 
-		Map fillObjectsMap
-		)
+	protected JRFillImage getImage(JRImage image)
 	{
 		JRFillImage fillImage = null;
 		
 		if (image != null)
 		{
 			fillImage = (JRFillImage)fillObjectsMap.get(image);
-	
 			if (fillImage == null)
 			{
-				fillImage = 
-					new JRFillImage(
-						filler,
-						image, 
-						fillObjectsMap
-						);
+				fillImage = new JRFillImage(filler, image, this);
 			}
 		}
 		
@@ -443,26 +429,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillStaticText getStaticText(
-		JRBaseFiller filler,
-		JRStaticText staticText, 
-		Map fillObjectsMap
-		)
+	protected JRFillStaticText getStaticText(JRStaticText staticText)
 	{
 		JRFillStaticText fillStaticText = null;
 		
 		if (staticText != null)
 		{
 			fillStaticText = (JRFillStaticText)fillObjectsMap.get(staticText);
-	
 			if (fillStaticText == null)
 			{
-				fillStaticText = 
-					new JRFillStaticText(
-						filler,
-						staticText, 
-						fillObjectsMap
-						);
+				fillStaticText = new JRFillStaticText(filler, staticText, this);
 			}
 		}
 		
@@ -473,26 +449,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillTextField getTextField(
-		JRBaseFiller filler,
-		JRTextField textField, 
-		Map fillObjectsMap
-		)
+	protected JRFillTextField getTextField(JRTextField textField)
 	{
 		JRFillTextField fillTextField = null;
 		
 		if (textField != null)
 		{
 			fillTextField = (JRFillTextField)fillObjectsMap.get(textField);
-	
 			if (fillTextField == null)
 			{
-				fillTextField = 
-					new JRFillTextField(
-						filler,
-						textField, 
-						fillObjectsMap
-						);
+				fillTextField = new JRFillTextField(filler, textField, this);
 			}
 		}
 		
@@ -503,26 +469,16 @@ public class JRFillObjectFactory
 	/**
 	 *
 	 */
-	protected static JRFillSubreport getSubreport(
-		JRBaseFiller filler,
-		JRSubreport subreport, 
-		Map fillObjectsMap
-		)
+	protected JRFillSubreport getSubreport(JRSubreport subreport)
 	{
 		JRFillSubreport fillSubreport = null;
 		
 		if (subreport != null)
 		{
 			fillSubreport = (JRFillSubreport)fillObjectsMap.get(subreport);
-	
 			if (fillSubreport == null)
 			{
-				fillSubreport = 
-					new JRFillSubreport(
-						filler,
-						subreport, 
-						fillObjectsMap
-						);
+				fillSubreport = new JRFillSubreport(filler, subreport, this);
 			}
 		}
 		

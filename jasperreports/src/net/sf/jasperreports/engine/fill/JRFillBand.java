@@ -86,6 +86,7 @@ import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRPrintElement;
+import dori.jasper.engine.JRReportFont;
 
 
 /**
@@ -136,10 +137,10 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	protected JRFillBand(
 		JRBaseFiller filler,
 		JRBand band, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, band, fillObjectsMap);
+		super(band, factory);
 
 		this.parent = band;
 		this.filler = filler;
@@ -763,7 +764,25 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 						
 						if (element instanceof JRFillSubreport)
 						{
-							Collection printElements = ((JRFillSubreport)element).getPrintElements();
+							JRFillSubreport subreport = (JRFillSubreport)element;
+							
+							JRReportFont[] fonts = subreport.getFonts();
+							if (fonts != null)
+							{
+								for(int j = 0; j < fonts.length; j++)
+								{
+									try
+									{
+										filler.getJasperPrint().addFont(fonts[j]);
+									}
+									catch(JRException e)
+									{
+										//ignore font duplication exception
+									}
+								}
+							}
+							
+							Collection printElements = subreport.getPrintElements();
 							if (printElements != null && printElements.size() > 0)
 							{
 								for(Iterator it = printElements.iterator(); it.hasNext();)

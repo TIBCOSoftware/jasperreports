@@ -75,7 +75,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRElementGroup;
@@ -134,17 +133,17 @@ public abstract class JRFillElement implements JRElement
 	protected JRFillElement(
 		JRBaseFiller filler, 
 		JRElement element, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		fillObjectsMap.put(element, this);
+		factory.put(element, this);
 
 		this.parent = element;
 		this.filler = filler;
 
 		/*   */
-		printWhenGroupChanges = JRFillObjectFactory.getGroup(filler, element.getPrintWhenGroupChanges(), fillObjectsMap);
-		elementGroup = JRFillObjectFactory.getElementGroup(filler, element.getElementGroup(), fillObjectsMap);
+		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+		elementGroup = factory.getElementGroup(element.getElementGroup());
 	}
 
 

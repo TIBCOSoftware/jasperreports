@@ -117,12 +117,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected JRFillTextField(
 		JRBaseFiller filler,
 		JRTextField textField, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, textField, fillObjectsMap);
+		super(filler, textField, factory);
 		
-		evaluationGroup = (JRGroup)JRFillObjectFactory.getGroup(filler, textField.getEvaluationGroup(), fillObjectsMap);
+		evaluationGroup = (JRGroup)factory.getGroup(textField.getEvaluationGroup());
 
 		JRExpression expression = textField.getExpression();
 		String pattern = textField.getPattern();
@@ -307,7 +307,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		if (template == null)
 		{
-			template = new JRTemplateText((JRTextField)this.parent);
+			template = new JRTemplateText((JRTextField)this.parent, getFont());
 		}
 		
 		return (JRTemplateText)template;

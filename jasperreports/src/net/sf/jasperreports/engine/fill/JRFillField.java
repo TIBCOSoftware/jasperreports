@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRField;
 
 
@@ -99,12 +97,11 @@ public class JRFillField implements JRField
 	 *
 	 */
 	protected JRFillField(
-		JRBaseFiller filler,
 		JRField field, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		fillObjectsMap.put(field, this);
+		factory.put(field, this);
 
 		parent = field;
 	}

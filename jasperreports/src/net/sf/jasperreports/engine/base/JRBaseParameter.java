@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRParameter;
@@ -116,17 +115,17 @@ public class JRBaseParameter implements JRParameter, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseParameter(JRParameter parameter, Map baseObjectsMap)
+	protected JRBaseParameter(JRParameter parameter, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(parameter, this);
-
+		factory.put(parameter, this);
+		
 		name = parameter.getName();
 		description = parameter.getDescription();
 		valueClass = parameter.getValueClass();
 		isSystemDefined = parameter.isSystemDefined();
 		isForPrompting = parameter.isForPrompting();
 
-		defaultValueExpression = JRBaseObjectFactory.getExpression(parameter.getDefaultValueExpression(), baseObjectsMap);
+		defaultValueExpression = factory.getExpression(parameter.getDefaultValueExpression());
 	}
 		
 

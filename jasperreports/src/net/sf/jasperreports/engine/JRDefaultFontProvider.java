@@ -69,127 +69,20 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
-
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRStaticText;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRTextField;
+package dori.jasper.engine;
 
 
 /**
  *
  */
-public class JRTemplateText extends JRTemplateElement
+public interface JRDefaultFontProvider
 {
 
-
+	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
+	public JRReportFont getDefaultFont();
 
-	/**
-	 *
-	 */
-	private byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
-	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
-	private byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
-	private JRFont font = null;
-
-
-	/**
-	 *
-	 */
-	protected JRTemplateText(JRStaticText staticText, JRFont font)
-	{
-		setStaticText(staticText);
-		
-		this.font = font;
-	}
-
-	/**
-	 *
-	 */
-	protected JRTemplateText(JRTextField textField, JRFont font)
-	{
-		setTextField(textField);
-		
-		this.font = font;
-	}
-
-
-	/**
-	 *
-	 */
-	protected void setStaticText(JRStaticText staticText)
-	{
-		setTextElement(staticText);
-	}
-
-	/**
-	 *
-	 */
-	protected void setTextField(JRTextField textField)
-	{
-		setTextElement(textField);
-
-		hyperlinkType = textField.getHyperlinkType();
-	}
-
-	/**
-	 *
-	 */
-	protected void setTextElement(JRTextElement textElement)
-	{
-		super.setElement(textElement);
-
-		horizontalAlignment = textElement.getTextAlignment();
-		verticalAlignment = textElement.getVerticalAlignment();
-		lineSpacing = textElement.getLineSpacing();
-	}
-
-	/**
-	 *
-	 */
-	public byte getTextAlignment()
-	{
-		return this.horizontalAlignment;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment()
-	{
-		return this.verticalAlignment;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getLineSpacing()
-	{
-		return this.lineSpacing;
-	}
-		
-	/**
-	 *
-	 */
-	public JRFont getFont()
-	{
-		return this.font;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getHyperlinkType()
-	{
-		return this.hyperlinkType;
-	}
 
 }

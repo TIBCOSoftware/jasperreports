@@ -95,7 +95,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 
-		JRReportFont baseFont = null;
+		JRDesignFont font = new JRDesignFont();
 
 		if (atts.getValue("reportFont") != null)
 		{
@@ -106,16 +106,14 @@ public class JRPrintFontFactory extends JRBaseFactory
 				printXmlLoader.addError(new Exception("Unknown report font : " + atts.getValue("reportFont")));
 			}
 
-			baseFont = (JRReportFont)fontsMap.get(atts.getValue("reportFont"));
+			font = new JRDesignFont();
+			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue("reportFont")));
 		}
 		else
 		{
-			baseFont = jasperPrint.getDefaultFont();
+			font = new JRDesignFont(jasperPrint);
 		}
 
-		JRDesignFont font = new JRDesignFont();
-		font.setReportFont(baseFont);
-		
 		if (atts.getValue("fontName") != null)
 			font.setFontName(atts.getValue("fontName"));
 

@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRTextElement;
@@ -117,15 +115,15 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 *
 	 */
-	protected JRBaseTextElement(JRTextElement textElement, Map baseObjectsMap)
+	protected JRBaseTextElement(JRTextElement textElement, JRBaseObjectFactory factory)
 	{
-		super((JRElement)textElement, baseObjectsMap);
+		super((JRElement)textElement, factory);
 		
 		horizontalAlignment = textElement.getTextAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
 		lineSpacing = textElement.getLineSpacing();
 
-		font = JRBaseObjectFactory.getFont(textElement.getFont(), baseObjectsMap);
+		font = factory.getFont(textElement.getFont());
 	}
 		
 

@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRQueryChunk;
 
@@ -107,10 +106,10 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseQueryChunk(JRQueryChunk queryChunk, Map baseObjectsMap)
+	protected JRBaseQueryChunk(JRQueryChunk queryChunk, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(queryChunk, this);
-
+		factory.put(queryChunk, this);
+		
 		type = queryChunk.getType();
 		text = queryChunk.getText();
 	}

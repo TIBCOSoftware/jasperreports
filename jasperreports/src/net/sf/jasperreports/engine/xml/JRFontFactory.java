@@ -75,7 +75,6 @@ import java.util.Map;
 
 import org.xml.sax.Attributes;
 
-import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.design.JRDesignFont;
 import dori.jasper.engine.design.JRDesignReportFont;
 import dori.jasper.engine.design.JasperDesign;
@@ -96,8 +95,8 @@ public class JRFontFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		JRReportFont baseFont = null;
-
+		JRDesignFont font = null;
+		
 		if (atts.getValue("reportFont") != null)
 		{
 			Map fontsMap = jasperDesign.getFontsMap();
@@ -107,16 +106,14 @@ public class JRFontFactory extends JRBaseFactory
 				xmlLoader.addError(new Exception("Unknown report font : " + atts.getValue("reportFont")));
 			}
 
-			baseFont = (JRDesignReportFont)fontsMap.get(atts.getValue("reportFont"));
+			font = new JRDesignFont();
+			font.setReportFont((JRDesignReportFont)fontsMap.get(atts.getValue("reportFont")));
 		}
 		else
 		{
-			baseFont = jasperDesign.getDefaultFont();
+			font = new JRDesignFont(jasperDesign);
 		}
 
-		JRDesignFont font = new JRDesignFont();
-		font.setReportFont(baseFont);
-		
 		if (atts.getValue("fontName") != null)
 			font.setFontName(atts.getValue("fontName"));
 

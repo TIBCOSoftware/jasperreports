@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRParameter;
 
@@ -99,12 +97,11 @@ public class JRFillParameter implements JRParameter
 	 *
 	 */
 	protected JRFillParameter(
-		JRBaseFiller filler,
 		JRParameter parameter, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		fillObjectsMap.put(parameter, this);
+		factory.put(parameter, this);
 
 		parent = parameter;
 	}

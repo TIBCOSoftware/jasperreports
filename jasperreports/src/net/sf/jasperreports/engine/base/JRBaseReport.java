@@ -72,8 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRField;
@@ -168,10 +166,10 @@ public class JRBaseReport implements JRReport, Serializable
 		scriptletClass = report.getScriptletClass();
 
 		/*   */
-		Map baseObjectsMap = new HashMap();
+		JRBaseObjectFactory factory = new JRBaseObjectFactory(this);
 		
 		/*   */
-		defaultFont = JRBaseObjectFactory.getReportFont(report.getDefaultFont(), baseObjectsMap);
+		defaultFont = factory.getReportFont(report.getDefaultFont());
 
 		/*   */
 		JRReportFont[] jrFonts = report.getFonts();
@@ -180,7 +178,7 @@ public class JRBaseReport implements JRReport, Serializable
 			fonts = new JRReportFont[jrFonts.length];
 			for(int i = 0; i < fonts.length; i++)
 			{
-				fonts[i] = JRBaseObjectFactory.getReportFont(jrFonts[i], baseObjectsMap);
+				fonts[i] = factory.getReportFont(jrFonts[i]);
 			}
 		}
 
@@ -191,12 +189,12 @@ public class JRBaseReport implements JRReport, Serializable
 			parameters = new JRParameter[jrParameters.length];
 			for(int i = 0; i < parameters.length; i++)
 			{
-				parameters[i] = JRBaseObjectFactory.getParameter(jrParameters[i], baseObjectsMap);
+				parameters[i] = factory.getParameter(jrParameters[i]);
 			}
 		}
 
 		/*   */
-		query = JRBaseObjectFactory.getQuery(report.getQuery(), baseObjectsMap);
+		query = factory.getQuery(report.getQuery());
 		
 		/*   */
 		JRField[] jrFields = report.getFields();
@@ -205,7 +203,7 @@ public class JRBaseReport implements JRReport, Serializable
 			fields = new JRField[jrFields.length];
 			for(int i = 0; i < fields.length; i++)
 			{
-				fields[i] = JRBaseObjectFactory.getField(jrFields[i], baseObjectsMap);
+				fields[i] = factory.getField(jrFields[i]);
 			}
 		}
 
@@ -216,7 +214,7 @@ public class JRBaseReport implements JRReport, Serializable
 			variables = new JRVariable[jrVariables.length];
 			for(int i = 0; i < variables.length; i++)
 			{
-				variables[i] = JRBaseObjectFactory.getVariable(jrVariables[i], baseObjectsMap);
+				variables[i] = factory.getVariable(jrVariables[i]);
 			}
 		}
 
@@ -227,19 +225,19 @@ public class JRBaseReport implements JRReport, Serializable
 			groups = new JRGroup[jrGroups.length];
 			for(int i = 0; i < groups.length; i++)
 			{
-				groups[i] = JRBaseObjectFactory.getGroup(jrGroups[i], baseObjectsMap);
+				groups[i] = factory.getGroup(jrGroups[i]);
 			}
 		}
 
 		/*   */
-		background = JRBaseObjectFactory.getBand(report.getBackground(), baseObjectsMap);
-		title = JRBaseObjectFactory.getBand(report.getTitle(), baseObjectsMap);
-		pageHeader = JRBaseObjectFactory.getBand(report.getPageHeader(), baseObjectsMap);
-		columnHeader = JRBaseObjectFactory.getBand(report.getColumnHeader(), baseObjectsMap);
-		detail = JRBaseObjectFactory.getBand(report.getDetail(), baseObjectsMap);
-		columnFooter = JRBaseObjectFactory.getBand(report.getColumnFooter(), baseObjectsMap);
-		pageFooter = JRBaseObjectFactory.getBand(report.getPageFooter(), baseObjectsMap);
-		summary = JRBaseObjectFactory.getBand(report.getSummary(), baseObjectsMap);
+		background = factory.getBand(report.getBackground());
+		title = factory.getBand(report.getTitle());
+		pageHeader = factory.getBand(report.getPageHeader());
+		columnHeader = factory.getBand(report.getColumnHeader());
+		detail = factory.getBand(report.getDetail());
+		columnFooter = factory.getBand(report.getColumnFooter());
+		pageFooter = factory.getBand(report.getPageFooter());
+		summary = factory.getBand(report.getSummary());
 	}
 
 

@@ -76,6 +76,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import dori.jasper.engine.JRDefaultFontProvider;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRReportFont;
 
@@ -96,12 +97,22 @@ public class JRBaseFont implements JRFont, Serializable
 	 *
 	 */
 	private static final String DEFAULT_FONT_NAME = "sansserif";
+	private static final boolean DEFAULT_FONT_BOLD = false;
+	private static final boolean DEFAULT_FONT_ITALIC = false;
+	private static final boolean DEFAULT_FONT_UNDERLINE = false;
+	private static final boolean DEFAULT_FONT_STRIKETHROUGH = false;
+	private static final int DEFAULT_FONT_SIZE = 10;
 	private static final String DEFAULT_PDF_FONT_NAME = "Helvetica";
 	private static final String DEFAULT_PDF_ENCODING = "Cp1252";
+	private static final boolean DEFAULT_PDF_EMBEDDED = false;
+
+	private static JRFont defaultFont = null;
 
 	/**
 	 *
 	 */
+	protected JRDefaultFontProvider defaultFontProvider = null;
+
 	protected JRReportFont reportFont = null;
 	protected String fontName = null;
 	protected Boolean isBold = null;
@@ -113,7 +124,8 @@ public class JRBaseFont implements JRFont, Serializable
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
 
-	protected Map attributes = null;
+	protected boolean isCachingAttributes = false;
+	protected transient Map attributes = null;
 
 
 	/**
@@ -127,10 +139,25 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseFont(JRFont font, Map baseObjectsMap)
+	protected JRBaseFont(JRDefaultFontProvider defaultFontProvider)
 	{
-		baseObjectsMap.put(font, this);
+		this.defaultFontProvider = defaultFontProvider;
+	}
+		
 
+	/**
+	 *
+	 */
+	public JRBaseFont(
+		JRDefaultFontProvider defaultFontProvider, 
+		JRReportFont reportFont,
+		JRFont font
+		)
+	{
+		this.defaultFontProvider = defaultFontProvider;
+		
+		this.reportFont = reportFont;
+		
 		fontName = font.getOwnFontName();
 		isBold = font.isOwnBold();
 		isItalic = font.isOwnItalic();
@@ -140,8 +167,8 @@ public class JRBaseFont implements JRFont, Serializable
 		pdfFontName = font.getOwnPdfFontName();
 		pdfEncoding = font.getOwnPdfEncoding();
 		isPdfEmbedded = font.isOwnPdfEmbedded();
-
-		reportFont = JRBaseObjectFactory.getReportFont(font.getReportFont(), baseObjectsMap);
+		
+		isCachingAttributes = font.isCachingAttributes();
 	}
 		
 
@@ -150,7 +177,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public JRReportFont getReportFont()
 	{
-		return this.reportFont;
+		return reportFont;
 	}
 	
 
@@ -159,25 +186,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getFontName()
 	{
-		String ret = null;
-
-		if (this.fontName != null)
+		if (fontName == null)
 		{
-			ret = this.fontName;
+			return getBaseFont().getFontName();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.getFontName();
-			}
-			else
-			{
-				ret = DEFAULT_FONT_NAME;
-			}
+			return fontName;
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -185,7 +201,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getOwnFontName()
 	{
-		return this.fontName;
+		return fontName;
 	}
 	
 	/**
@@ -194,7 +210,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setFontName(String fontName)
 	{
 		this.fontName = fontName;
-		this.attributes = null;
 	}
 	
 
@@ -203,25 +218,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public boolean isBold()
 	{
-		boolean ret = false;
-
-		if (this.isBold != null)
+		if (isBold == null)
 		{
-			ret = this.isBold.booleanValue();
+			return getBaseFont().isBold();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.isBold();
-			}
-			else
-			{
-				ret = false;
-			}
+			return isBold.booleanValue();
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -229,7 +233,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Boolean isOwnBold()
 	{
-		return this.isBold;
+		return isBold;
 	}
 	
 	/**
@@ -238,7 +242,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setBold(boolean isBold)
 	{
 		this.isBold = new Boolean(isBold);
-		this.attributes = null;
 	}
 
 	
@@ -247,25 +250,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public boolean isItalic()
 	{
-		boolean ret = false;
-
-		if (this.isItalic != null)
+		if (isItalic == null)
 		{
-			ret = this.isItalic.booleanValue();
+			return getBaseFont().isItalic();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.isItalic();
-			}
-			else
-			{
-				ret = false;
-			}
+			return isItalic.booleanValue();
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -273,7 +265,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Boolean isOwnItalic()
 	{
-		return this.isItalic;
+		return isItalic;
 	}
 	
 	/**
@@ -282,7 +274,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setItalic(boolean isItalic)
 	{
 		this.isItalic = new Boolean(isItalic);
-		this.attributes = null;
 	}
 	
 
@@ -291,25 +282,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public boolean isUnderline()
 	{
-		boolean ret = false;
-
-		if (this.isUnderline != null)
+		if (isUnderline == null)
 		{
-			ret = this.isUnderline.booleanValue();
+			return getBaseFont().isUnderline();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.isUnderline();
-			}
-			else
-			{
-				ret = false;
-			}
+			return isUnderline.booleanValue();
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -317,7 +297,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Boolean isOwnUnderline()
 	{
-		return this.isUnderline;
+		return isUnderline;
 	}
 	
 	/**
@@ -326,7 +306,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setUnderline(boolean isUnderline)
 	{
 		this.isUnderline = new Boolean(isUnderline);
-		this.attributes = null;
 	}
 	
 
@@ -335,25 +314,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public boolean isStrikeThrough()
 	{
-		boolean ret = false;
-
-		if (this.isStrikeThrough != null)
+		if (isStrikeThrough == null)
 		{
-			ret = this.isStrikeThrough.booleanValue();
+			return getBaseFont().isStrikeThrough();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.isStrikeThrough();
-			}
-			else
-			{
-				ret = false;
-			}
+			return isStrikeThrough.booleanValue();
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -361,7 +329,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Boolean isOwnStrikeThrough()
 	{
-		return this.isStrikeThrough;
+		return isStrikeThrough;
 	}
 	
 	/**
@@ -370,7 +338,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		this.isStrikeThrough = new Boolean(isStrikeThrough);
-		this.attributes = null;
 	}
 
 
@@ -379,25 +346,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public int getSize()
 	{
-		int ret = 0;
-
-		if (this.size != null)
+		if (size == null)
 		{
-			ret = this.size.intValue();
+			return getBaseFont().getSize();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.getSize();
-			}
-			else
-			{
-				ret = 10;
-			}
+			return size.intValue();
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -405,7 +361,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Integer getOwnSize()
 	{
-		return this.size;
+		return size;
 	}
 	
 	/**
@@ -414,7 +370,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setSize(int size)
 	{
 		this.size = new Integer(size);
-		this.attributes = null;
 	}
 
 
@@ -423,25 +378,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getPdfFontName()
 	{
-		String ret = null;
-
-		if (this.pdfFontName != null)
+		if (pdfFontName == null)
 		{
-			ret = this.pdfFontName;
+			return getBaseFont().getPdfFontName();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.getPdfFontName();
-			}
-			else
-			{
-				ret = DEFAULT_PDF_FONT_NAME;
-			}
+			return pdfFontName;
 		}
-		
-		return ret;
 	}
 
 	/**
@@ -449,7 +393,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getOwnPdfFontName()
 	{
-		return this.pdfFontName;
+		return pdfFontName;
 	}
 	
 	/**
@@ -466,25 +410,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getPdfEncoding()
 	{
-		String ret = null;
-
-		if (this.pdfEncoding != null)
+		if (pdfEncoding == null)
 		{
-			ret = this.pdfEncoding;
+			return getBaseFont().getPdfEncoding();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.getPdfEncoding();
-			}
-			else
-			{
-				ret = DEFAULT_PDF_ENCODING;
-			}
+			return pdfEncoding;
 		}
-		
-		return ret;
 	}
 	
 	/**
@@ -492,7 +425,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public String getOwnPdfEncoding()
 	{
-		return this.pdfEncoding;
+		return pdfEncoding;
 	}
 	
 	/**
@@ -509,25 +442,14 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public boolean isPdfEmbedded()
 	{
-		boolean ret = false;
-
-		if (this.isPdfEmbedded != null)
+		if (isPdfEmbedded == null)
 		{
-			ret = this.isPdfEmbedded.booleanValue();
+			return getBaseFont().isPdfEmbedded();
 		}
 		else
 		{
-			if (this.reportFont != null)
-			{
-				ret = this.reportFont.isPdfEmbedded();
-			}
-			else
-			{
-				ret = false;
-			}
+			return isPdfEmbedded.booleanValue();
 		}
-		
-		return ret;
 	}
 
 	/**
@@ -535,7 +457,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Boolean isOwnPdfEmbedded()
 	{
-		return this.isPdfEmbedded;
+		return isPdfEmbedded;
 	}
 	
 	/**
@@ -550,9 +472,26 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
+	public boolean isCachingAttributes()
+	{
+		return isCachingAttributes;
+	}
+
+	/**
+	 *
+	 */
+	public void setCachingAttributes(boolean isCachingAttributes)
+	{
+		this.isCachingAttributes = isCachingAttributes;
+	}
+	
+
+	/**
+	 *
+	 */
 	public Map getAttributes()
 	{
-		if (attributes == null)
+		if (attributes == null || !isCachingAttributes)
 		{
 			attributes = new HashMap();
 
@@ -572,12 +511,62 @@ public class JRBaseFont implements JRFont, Serializable
 			{
 				attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 			}
-			
+		
 			attributes.put(TextAttribute.SIZE, new Float(this.getSize()));
 			attributes.put(TextAttribute.FAMILY, this.getFontName());
 		}
 		
 		return attributes;
+	}
+	
+
+	/**
+	 *
+	 */
+	private JRFont getBaseFont()
+	{
+		JRFont baseFont = null;
+
+		if (this.reportFont != null)
+		{
+			baseFont = this.reportFont;
+		}
+		else if (
+			defaultFontProvider != null 
+			&& defaultFontProvider.getDefaultFont() != null
+			)
+		{
+			baseFont = defaultFontProvider.getDefaultFont();
+		}
+		else
+		{
+			baseFont = getDefaultFont();
+		}
+		
+		return baseFont;
+	}
+	
+
+	/**
+	 *
+	 */
+	private static JRFont getDefaultFont()
+	{
+		if (defaultFont == null)
+		{
+			defaultFont = new JRBaseFont();
+			defaultFont.setFontName(DEFAULT_FONT_NAME);
+			defaultFont.setBold(DEFAULT_FONT_BOLD);
+			defaultFont.setItalic(DEFAULT_FONT_ITALIC);
+			defaultFont.setUnderline(DEFAULT_FONT_UNDERLINE);
+			defaultFont.setStrikeThrough(DEFAULT_FONT_STRIKETHROUGH);
+			defaultFont.setSize(DEFAULT_FONT_SIZE);
+			defaultFont.setPdfFontName(DEFAULT_PDF_FONT_NAME);
+			defaultFont.setPdfEncoding(DEFAULT_PDF_ENCODING);
+			defaultFont.setPdfEmbedded(DEFAULT_PDF_EMBEDDED);
+		}
+		
+		return defaultFont;
 	}
 	
 

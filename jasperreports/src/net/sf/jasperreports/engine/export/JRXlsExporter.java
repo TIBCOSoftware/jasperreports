@@ -112,11 +112,10 @@ import dori.jasper.engine.JRPrintLine;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBasePrintPage;
-import dori.jasper.engine.design.JRDesignReportFont;
+import dori.jasper.engine.design.JRDesignFont;
 import dori.jasper.engine.util.JRLoader;
 
 
@@ -149,7 +148,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JRReportFont defaultFont = null;
+	private JRFont defaultFont = null;
 	private List loadedFonts = new ArrayList();
 	private List loadedCellStyles = new ArrayList();
 
@@ -178,18 +177,18 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JRReportFont getDefaultFont()
+	private JRFont getDefaultFont()
 	{
-		if (this.defaultFont == null)
+		if (defaultFont == null)
 		{
-			this.defaultFont = jasperPrint.getDefaultFont();
-			if (this.defaultFont == null)
+			defaultFont = jasperPrint.getDefaultFont();
+			if (defaultFont == null)
 			{
-				this.defaultFont = new JRDesignReportFont();
+				defaultFont = new JRDesignFont();
 			}
 		}
 		
-		return this.defaultFont;
+		return defaultFont;
 	}
 
 

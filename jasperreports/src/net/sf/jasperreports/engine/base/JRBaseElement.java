@@ -73,7 +73,6 @@ package dori.jasper.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRElementGroup;
@@ -129,9 +128,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseElement(JRElement element, Map baseObjectsMap)
+	protected JRBaseElement(JRElement element, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(element, this);
+		factory.put(element, this);
 		
 		key = element.getKey();
 		positionType = element.getPositionType();
@@ -147,9 +146,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 		forecolor = element.getForecolor();
 		backcolor = element.getBackcolor();
 
-		printWhenExpression = JRBaseObjectFactory.getExpression(element.getPrintWhenExpression(), baseObjectsMap);
-		printWhenGroupChanges = JRBaseObjectFactory.getGroup(element.getPrintWhenGroupChanges(), baseObjectsMap);
-		elementGroup = JRBaseObjectFactory.getElementGroup(element.getElementGroup(), baseObjectsMap);
+		printWhenExpression = factory.getExpression(element.getPrintWhenExpression());
+		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+		elementGroup = factory.getElementGroup(element.getElementGroup());
 	}
 		
 

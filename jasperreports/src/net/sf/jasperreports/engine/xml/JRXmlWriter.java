@@ -98,13 +98,13 @@ import dori.jasper.engine.JRQuery;
 import dori.jasper.engine.JRRectangle;
 import dori.jasper.engine.JRReport;
 import dori.jasper.engine.JRReportFont;
+import dori.jasper.engine.JRRuntimeException;
 import dori.jasper.engine.JRStaticText;
 import dori.jasper.engine.JRSubreport;
 import dori.jasper.engine.JRSubreportParameter;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.JRTextField;
 import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignFont;
 
 
 /**
@@ -1213,115 +1213,104 @@ public class JRXmlWriter
 	 */
 	private String writeFont(JRFont font)
 	{
-		StringBuffer tmpBuffer = new StringBuffer();
+		String fontChunk = null;
 		
-		if (font == null)
+		if (font != null)
 		{
-			font = report.getDefaultFont();
-		}
-		if (font == null)
-		{
-			font = new JRDesignFont();
-		}
+			StringBuffer tmpBuffer = new StringBuffer();
 
-		JRFont baseFont = null;
-		
-		if(font.getReportFont() == null)
-		{
-			baseFont = report.getDefaultFont();
-		}
-		else
-		{
-			baseFont = (JRFont)this.fontsMap.get(font.getReportFont().getName());
-			if(baseFont != null)
+			if (font.getReportFont() != null)
 			{
-				tmpBuffer.append(" reportFont=\"");
-				tmpBuffer.append(font.getReportFont().getName());
+				JRFont baseFont = 
+					(JRFont)this.fontsMap.get(
+						font.getReportFont().getName()
+						);
+				if(baseFont != null)
+				{
+					tmpBuffer.append(" reportFont=\"");
+					tmpBuffer.append(font.getReportFont().getName());
+					tmpBuffer.append("\"");
+				}
+				else
+				{
+					throw 
+						new JRRuntimeException(
+							"Referenced report font not found : " 
+							+ font.getReportFont().getName()
+							);
+				}
+			}
+		
+			if (font.getOwnFontName() != null)
+			{
+				tmpBuffer.append(" fontName=\"");
+				tmpBuffer.append(font.getOwnFontName());
 				tmpBuffer.append("\"");
 			}
-			else
+
+			if (font.getOwnSize() != null)
 			{
-				//normally, this should never occur, due to the JRVerifier
-				baseFont = report.getDefaultFont();
+				tmpBuffer.append(" size=\"");
+				tmpBuffer.append(font.getOwnSize());
+				tmpBuffer.append("\"");
+			}
+
+			if (font.isOwnBold() != null)
+			{
+				tmpBuffer.append(" isBold=\"");
+				tmpBuffer.append(font.isOwnBold());
+				tmpBuffer.append("\"");
+			}
+
+			if (font.isOwnItalic() != null)
+			{
+				tmpBuffer.append(" isItalic=\"");
+				tmpBuffer.append(font.isOwnItalic());
+				tmpBuffer.append("\"");
+			}
+	
+			if (font.isOwnUnderline() != null)
+			{
+				tmpBuffer.append(" isUnderline=\"");
+				tmpBuffer.append(font.isOwnUnderline());
+				tmpBuffer.append("\"");
+			}
+	
+			if (font.isOwnStrikeThrough() != null)
+			{
+				tmpBuffer.append(" isStrikeThrough=\"");
+				tmpBuffer.append(font.isOwnStrikeThrough());
+				tmpBuffer.append("\"");
+			}
+
+			if (font.getOwnPdfFontName() != null)
+			{
+				tmpBuffer.append(" pdfFontName=\"");
+				tmpBuffer.append(font.getOwnPdfFontName());
+				tmpBuffer.append("\"");
+			}
+
+			if (font.getOwnPdfEncoding() != null)
+			{
+				tmpBuffer.append(" pdfEncoding=\"");
+				tmpBuffer.append(font.getOwnPdfEncoding());
+				tmpBuffer.append("\"");
+			}
+
+			if (font.isOwnPdfEmbedded() != null)
+			{
+				tmpBuffer.append(" isPdfEmbedded=\"");
+				tmpBuffer.append(font.isOwnPdfEmbedded());
+				tmpBuffer.append("\"");
+			}
+
+			if (tmpBuffer.length() > 0)
+			{
+				fontChunk = "<font" + tmpBuffer.toString() + "/>";
 			}
 		}
 		
-		if (baseFont == null)
-		{
-			baseFont = new JRDesignFont();
-		}
-		
-		if ( !baseFont.getFontName().equals(font.getFontName()) )
-		{
-			tmpBuffer.append(" fontName=\"");
-			tmpBuffer.append(font.getFontName());
-			tmpBuffer.append("\"");
-		}
-
-		if (font.getSize() != baseFont.getSize())
-		{
-			tmpBuffer.append(" size=\"");
-			tmpBuffer.append(font.getSize());
-			tmpBuffer.append("\"");
-		}
-
-		if (font.isBold() != baseFont.isBold())
-		{
-			tmpBuffer.append(" isBold=\"");
-			tmpBuffer.append(font.isBold());
-			tmpBuffer.append("\"");
-		}
-
-		if (font.isItalic() != baseFont.isItalic())
-		{
-			tmpBuffer.append(" isItalic=\"");
-			tmpBuffer.append(font.isItalic());
-			tmpBuffer.append("\"");
-		}
-	
-		if (font.isUnderline() != baseFont.isUnderline())
-		{
-			tmpBuffer.append(" isUnderline=\"");
-			tmpBuffer.append(font.isUnderline());
-			tmpBuffer.append("\"");
-		}
-	
-		if (font.isStrikeThrough() != baseFont.isStrikeThrough())
-		{
-			tmpBuffer.append(" isStrikeThrough=\"");
-			tmpBuffer.append(font.isStrikeThrough());
-			tmpBuffer.append("\"");
-		}
-
-		if ( !baseFont.getPdfFontName().equals(font.getPdfFontName()) )
-		{
-			tmpBuffer.append(" pdfFontName=\"");
-			tmpBuffer.append(font.getPdfFontName());
-			tmpBuffer.append("\"");
-		}
-
-		if ( !baseFont.getPdfEncoding().equals(font.getPdfEncoding()) )
-		{
-			tmpBuffer.append(" pdfEncoding=\"");
-			tmpBuffer.append(font.getPdfEncoding());
-			tmpBuffer.append("\"");
-		}
-
-		if (font.isPdfEmbedded() != baseFont.isPdfEmbedded())
-		{
-			tmpBuffer.append(" isPdfEmbedded=\"");
-			tmpBuffer.append(font.isPdfEmbedded());
-			tmpBuffer.append("\"");
-		}
-
-		if (tmpBuffer.length() > 0)
-		{
-			return "<font" + tmpBuffer.toString() + "/>";
-		}
-		else
-		{
-			return null;
-		}
+		return fontChunk;
 	}
 
 

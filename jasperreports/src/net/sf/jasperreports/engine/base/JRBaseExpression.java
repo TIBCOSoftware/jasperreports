@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRExpressionChunk;
@@ -114,10 +113,10 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseExpression(JRExpression expression, Map baseObjectsMap)
+	protected JRBaseExpression(JRExpression expression, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(expression, this);
-
+		factory.put(expression, this);
+		
 		valueClass = expression.getValueClass();
 		name = expression.getName();
 		id = expression.getId();
@@ -129,7 +128,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 			chunks = new JRExpressionChunk[jrChunks.length];
 			for(int i = 0; i < chunks.length; i++)
 			{
-				chunks[i] = JRBaseObjectFactory.getExpressionChunk(jrChunks[i], baseObjectsMap);
+				chunks[i] = factory.getExpressionChunk(jrChunks[i]);
 			}
 		}
 	}

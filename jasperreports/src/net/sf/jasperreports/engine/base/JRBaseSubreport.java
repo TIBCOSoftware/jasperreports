@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRSubreport;
 import dori.jasper.engine.JRSubreportParameter;
@@ -119,13 +117,13 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected JRBaseSubreport(JRSubreport subreport, Map baseObjectsMap)
+	protected JRBaseSubreport(JRSubreport subreport, JRBaseObjectFactory factory)
 	{
-		super(subreport, baseObjectsMap);
+		super(subreport, factory);
 		
 		isUsingCache = subreport.isUsingCache();
 
-		parametersMapExpression = JRBaseObjectFactory.getExpression(subreport.getParametersMapExpression(), baseObjectsMap);
+		parametersMapExpression = factory.getExpression(subreport.getParametersMapExpression());
 
 		/*   */
 		JRSubreportParameter[] jrSubreportParameters = subreport.getParameters();
@@ -134,13 +132,13 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 			parameters = new JRSubreportParameter[jrSubreportParameters.length];
 			for(int i = 0; i < parameters.length; i++)
 			{
-				parameters[i] = JRBaseObjectFactory.getSubreportParameter(jrSubreportParameters[i], baseObjectsMap);
+				parameters[i] = factory.getSubreportParameter(jrSubreportParameters[i]);
 			}
 		}
 
-		connectionExpression = JRBaseObjectFactory.getExpression(subreport.getConnectionExpression(), baseObjectsMap);
-		dataSourceExpression = JRBaseObjectFactory.getExpression(subreport.getDataSourceExpression(), baseObjectsMap);
-		expression = JRBaseObjectFactory.getExpression(subreport.getExpression(), baseObjectsMap);
+		connectionExpression = factory.getExpression(subreport.getConnectionExpression());
+		dataSourceExpression = factory.getExpression(subreport.getDataSourceExpression());
+		expression = factory.getExpression(subreport.getExpression());
 	}
 		
 

@@ -73,7 +73,6 @@ package dori.jasper.engine.xml;
 
 import org.xml.sax.Attributes;
 
-import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBasePrintText;
 
 
@@ -143,9 +142,6 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setHyperlinkPage(new Integer(hyperlinkPage));
 		}
 
-		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-		text.setFont(jasperPrint.getDefaultFont());
-		
 		return text;
 	}
 	

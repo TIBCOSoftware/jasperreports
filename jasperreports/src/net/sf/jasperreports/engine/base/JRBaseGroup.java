@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRExpression;
@@ -122,10 +121,10 @@ public class JRBaseGroup implements JRGroup, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseGroup(JRGroup group, Map baseObjectsMap)
+	protected JRBaseGroup(JRGroup group, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(group, this);
-
+		factory.put(group, this);
+		
 		name = group.getName();
 		isStartNewColumn = group.isStartNewColumn();
 		isStartNewPage = group.isStartNewPage();
@@ -133,11 +132,11 @@ public class JRBaseGroup implements JRGroup, Serializable
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
 		
-		expression = JRBaseObjectFactory.getExpression(group.getExpression(), baseObjectsMap);
+		expression = factory.getExpression(group.getExpression());
 
-		groupHeader = JRBaseObjectFactory.getBand(group.getGroupHeader(), baseObjectsMap);
-		groupFooter = JRBaseObjectFactory.getBand(group.getGroupFooter(), baseObjectsMap);
-		countVariable = JRBaseObjectFactory.getVariable(group.getCountVariable(), baseObjectsMap);
+		groupHeader = factory.getBand(group.getGroupHeader());
+		groupFooter = factory.getBand(group.getGroupFooter());
+		countVariable = factory.getVariable(group.getCountVariable());
 	}
 		
 
