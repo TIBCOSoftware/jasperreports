@@ -163,6 +163,16 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	/**
 	 *
 	 */
+	public boolean isStyledText();
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText);
+		
+	/**
+	 *
+	 */
 	public JRFont getFont();
 
 	/**

@@ -147,6 +147,7 @@
 	verticalAlignment (Top | Middle | Bottom) "Top"
 	rotation (None | Left | Right) "None"
 	lineSpacing (Single | 1_1_2 | Double) "Single"
+	isStyledText (true | false) "false"
 >
 <!ELEMENT font EMPTY>
 <!ATTLIST font

@@ -103,6 +103,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected byte rotation = JRTextElement.ROTATION_NONE;
 	protected float textHeight = 0;
 	protected byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
+	protected boolean isStyledText = false;
 	protected JRFont font = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
@@ -118,7 +119,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	{
 		super();
 		
-		this.mode = JRElement.MODE_TRANSPARENT;
+		mode = JRElement.MODE_TRANSPARENT;
 	}
 
 
@@ -127,7 +128,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getText()
 	{
-		return this.text;
+		return text;
 	}
 		
 	/**
@@ -143,7 +144,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public float getAbsoluteLineSpacing()
 	{
-		return this.absoluteLineSpacing;
+		return absoluteLineSpacing;
 	}
 		
 	/**
@@ -159,7 +160,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public float getAbsoluteLeading()
 	{
-		return this.absoluteLeading;
+		return absoluteLeading;
 	}
 		
 	/**
@@ -175,7 +176,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public byte getTextAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -191,7 +192,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -207,7 +208,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public byte getRotation()
 	{
-		return this.rotation;
+		return rotation;
 	}
 		
 	/**
@@ -223,7 +224,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public float getTextHeight()
 	{
-		return this.textHeight;
+		return textHeight;
 	}
 		
 	/**
@@ -239,7 +240,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public byte getLineSpacing()
 	{
-		return this.lineSpacing;
+		return lineSpacing;
 	}
 		
 	/**
@@ -253,9 +254,25 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 *
 	 */
+	public boolean isStyledText()
+	{
+		return isStyledText;
+	}
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText)
+	{
+		this.isStyledText = isStyledText;
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
-		return this.font;
+		return font;
 	}
 
 	/**
@@ -271,7 +288,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getAnchorName()
 	{
-		return this.anchorName;
+		return anchorName;
 	}
 		
 	/**
@@ -287,7 +304,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return hyperlinkType;
 	}
 		
 	/**
@@ -303,7 +320,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getHyperlinkReference()
 	{
-		return this.hyperlinkReference;
+		return hyperlinkReference;
 	}
 		
 	/**
@@ -319,7 +336,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getHyperlinkAnchor()
 	{
-		return this.hyperlinkAnchor;
+		return hyperlinkAnchor;
 	}
 		
 	/**
@@ -335,7 +352,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public Integer getHyperlinkPage()
 	{
-		return this.hyperlinkPage;
+		return hyperlinkPage;
 	}
 		
 	/**

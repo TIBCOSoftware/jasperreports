@@ -121,6 +121,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setLineSpacing(lineSpacing.byteValue());
 		}
 
+		String isStyledText = atts.getValue("isStyledText");
+		if (isStyledText != null && isStyledText.length() > 0)
+		{
+			text.setStyledText(Boolean.valueOf(isStyledText).booleanValue());
+		}
+
 		String absoluteLineSpacing = atts.getValue("absoluteLineSpacing");
 		if (absoluteLineSpacing != null && absoluteLineSpacing.length() > 0)
 		{

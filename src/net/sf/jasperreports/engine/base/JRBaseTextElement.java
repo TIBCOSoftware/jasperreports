@@ -96,6 +96,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
 	protected byte rotation = ROTATION_NONE;
 	protected byte lineSpacing = LINE_SPACING_SINGLE;
+	protected boolean isStyledText = false;
 
 	/**
 	 *
@@ -110,7 +111,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	{
 		super();
 		
-		this.mode = MODE_TRANSPARENT;
+		mode = MODE_TRANSPARENT;
 	}
 		
 
@@ -125,6 +126,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
+		isStyledText = textElement.isStyledText();
 
 		font = factory.getFont(textElement.getFont());
 	}
@@ -135,7 +137,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public byte getTextAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -151,7 +153,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -167,7 +169,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public byte getRotation()
 	{
-		return this.rotation;
+		return rotation;
 	}
 		
 	/**
@@ -183,7 +185,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	public byte getLineSpacing()
 	{
-		return this.lineSpacing;
+		return lineSpacing;
 	}
 		
 	/**
@@ -197,9 +199,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 *
 	 */
+	public boolean isStyledText()
+	{
+		return isStyledText;
+	}
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText)
+	{
+		this.isStyledText = isStyledText;
+	}
+		
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
-		return this.font;
+		return font;
 	}
 
 

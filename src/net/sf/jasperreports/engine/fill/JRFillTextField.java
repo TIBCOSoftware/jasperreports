@@ -102,10 +102,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private String text = null;
 	private Format format = null;
 	private boolean isValueRepeating = false;
-	private String oldText = null;
+	private String oldRawText = null;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -136,11 +135,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			Class expressionClass = expression.getValueClass();
 			if (java.util.Date.class.isAssignableFrom(expressionClass))
 			{
-				this.format = new SimpleDateFormat(pattern);
+				format = new SimpleDateFormat(pattern);
 			}
 			else if (java.lang.Number.class.isAssignableFrom(expressionClass))
 			{
-				this.format = new DecimalFormat(pattern);
+				format = new DecimalFormat(pattern);
 			}
 		}
 	}
@@ -151,7 +150,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public boolean isStretchWithOverflow()
 	{
-		return ((JRTextField)this.parent).isStretchWithOverflow();
+		return ((JRTextField)parent).isStretchWithOverflow();
 	}
 
 	/**
@@ -166,7 +165,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public byte getEvaluationTime()
 	{
-		return ((JRTextField)this.parent).getEvaluationTime();
+		return ((JRTextField)parent).getEvaluationTime();
 	}
 		
 	/**
@@ -174,7 +173,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public String getPattern()
 	{
-		return ((JRTextField)this.parent).getPattern();
+		return ((JRTextField)parent).getPattern();
 	}
 		
 	/**
@@ -189,7 +188,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public boolean isBlankWhenNull()
 	{
-		return ((JRTextField)this.parent).isBlankWhenNull();
+		return ((JRTextField)parent).isBlankWhenNull();
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRTextField)this.parent).getHyperlinkType();
+		return ((JRTextField)parent).getHyperlinkType();
 	}
 		
 	/**
@@ -212,7 +211,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRGroup getEvaluationGroup()
 	{
-		return this.evaluationGroup;
+		return evaluationGroup;
 	}
 		
 	/**
@@ -220,7 +219,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRExpression getExpression()
 	{
-		return ((JRTextField)this.parent).getExpression();
+		return ((JRTextField)parent).getExpression();
 	}
 
 	/**
@@ -228,7 +227,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRExpression getAnchorNameExpression()
 	{
-		return ((JRTextField)this.parent).getAnchorNameExpression();
+		return ((JRTextField)parent).getAnchorNameExpression();
 	}
 
 	/**
@@ -236,7 +235,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkReferenceExpression()
 	{
-		return ((JRTextField)this.parent).getHyperlinkReferenceExpression();
+		return ((JRTextField)parent).getHyperlinkReferenceExpression();
 	}
 
 	/**
@@ -244,7 +243,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
-		return ((JRTextField)this.parent).getHyperlinkAnchorExpression();
+		return ((JRTextField)parent).getHyperlinkAnchorExpression();
 	}
 
 	/**
@@ -252,24 +251,16 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkPageExpression()
 	{
-		return ((JRTextField)this.parent).getHyperlinkPageExpression();
+		return ((JRTextField)parent).getHyperlinkPageExpression();
 	}
 
 		
 	/**
 	 *
 	 */
-	protected String getText()
-	{
-		return this.text;
-	}
-
-	/**
-	 *
-	 */
 	protected String getAnchorName()
 	{
-		return this.anchorName;
+		return anchorName;
 	}
 
 	/**
@@ -277,7 +268,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected String getHyperlinkReference()
 	{
-		return this.hyperlinkReference;
+		return hyperlinkReference;
 	}
 
 	/**
@@ -285,7 +276,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected String getHyperlinkAnchor()
 	{
-		return this.hyperlinkAnchor;
+		return hyperlinkAnchor;
 	}
 
 	/**
@@ -293,7 +284,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected Integer getHyperlinkPage()
 	{
-		return this.hyperlinkPage;
+		return hyperlinkPage;
 	}
 		
 
@@ -304,7 +295,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		if (template == null)
 		{
-			template = new JRTemplateText((JRTextField)this.parent, getFont());
+			template = new JRTemplateText((JRTextField)parent, getFont());
 		}
 		
 		return (JRTemplateText)template;
@@ -318,19 +309,19 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
-		this.reset();
+		reset();
 		
-		this.evaluatePrintWhenExpression(evaluation);
+		evaluatePrintWhenExpression(evaluation);
 
 		if (
-			(this.isPrintWhenExpressionNull() ||
-			(!this.isPrintWhenExpressionNull() && 
-			this.isPrintWhenTrue()))
+			(isPrintWhenExpressionNull() ||
+			(!isPrintWhenExpressionNull() && 
+			isPrintWhenTrue()))
 			)
 		{
-			if (this.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+			if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
 			{
-				this.evaluateText(evaluation);
+				evaluateText(evaluation);
 			}
 		}
 	}
@@ -343,50 +334,50 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
-		Object textFieldValue = this.filler.calculator.evaluate(this.getExpression(), evaluation);
+		Object textFieldValue = filler.calculator.evaluate(getExpression(), evaluation);
 
 		if (textFieldValue == null)
 		{
-			if (this.isBlankWhenNull())
+			if (isBlankWhenNull())
 			{
 				textFieldValue = "";
 			}
 		}
 		else
 		{
-			if (this.format != null)
+			if (format != null)
 			{
-				textFieldValue = this.format.format(textFieldValue);
+				textFieldValue = format.format(textFieldValue);
 			}
 		}
 
-		String newText = 
+		String newRawText = 
 			JRStringUtil.treatNewLineChars(
 				String.valueOf(textFieldValue)
 				);
-		String oldText = this.getText();
+		String oldRawText = getRawText();
 
-		this.oldText = oldText;
-		this.text = newText;
-		this.setTextStart(0);
-		this.setTextEnd(0);
+		this.oldRawText = oldRawText;
+		setRawText(newRawText);
+		setTextStart(0);
+		setTextEnd(0);
 
 		if (
-			(oldText == null && newText == null) ||
-			(oldText != null && oldText.equals(newText))
+			(oldRawText == null && newRawText == null) ||
+			(oldRawText != null && oldRawText.equals(newRawText))
 			)
 		{
-			this.isValueRepeating = true;
+			isValueRepeating = true;
 		}
 		else
 		{
-			this.isValueRepeating = false;
+			isValueRepeating = false;
 		}
 
-		this.anchorName = (String)this.filler.calculator.evaluate(this.getAnchorNameExpression(), evaluation);
-		this.hyperlinkReference = (String)this.filler.calculator.evaluate(this.getHyperlinkReferenceExpression(), evaluation);
-		this.hyperlinkAnchor = (String)this.filler.calculator.evaluate(this.getHyperlinkAnchorExpression(), evaluation);
-		this.hyperlinkPage = (Integer)this.filler.calculator.evaluate(this.getHyperlinkPageExpression(), evaluation);
+		anchorName = (String)filler.calculator.evaluate(getAnchorNameExpression(), evaluation);
+		hyperlinkReference = (String)filler.calculator.evaluate(getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkAnchor = (String)filler.calculator.evaluate(getHyperlinkAnchorExpression(), evaluation);
+		hyperlinkPage = (Integer)filler.calculator.evaluate(getHyperlinkPageExpression(), evaluation);
 	}
 
 
@@ -402,7 +393,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		super.prepare(availableStretchHeight, isOverflow);
 
-		if (!this.isToPrint())
+		if (!isToPrint())
 		{
 			return willOverflow;
 		}
@@ -410,37 +401,37 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (this.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
 		{
 			if (isOverflow)
 			{
-				if (this.getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
+				if (getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
 				{
 					// the content of the band bottom text fields is not
 					// consumed during overflows, because they only appear on the last overflow
-					this.setTextStart(0);
-					this.setTextEnd(0);
+					setTextStart(0);
+					setTextEnd(0);
 				}
 
 				if (
-					this.getTextEnd() >= this.getText().length()
-					|| !this.isStretchWithOverflow()
-					|| this.getRotation() != ROTATION_NONE
+					getTextEnd() >= getText().length()
+					|| !isStretchWithOverflow()
+					|| getRotation() != ROTATION_NONE
 					)
 				{
 					// there is no more text left in the text field to overflow
 					// on the new page, or the text field is not stretchable
 					
-					if (this.isAlreadyPrinted())
+					if (isAlreadyPrinted())
 					{
 						// the text field has already displayed all its content
 						// on the previous page even if it not stretchable
 						
-						if (this.isPrintWhenDetailOverflows())
+						if (isPrintWhenDetailOverflows())
 						{
 							// the whole content is reprinted
-							this.setTextStart(0);
-							this.setTextEnd(0);
+							setTextStart(0);
+							setTextEnd(0);
 
 							isReprinted = true;
 						}
@@ -463,9 +454,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 				if (
 					isToPrint &&
-					this.isPrintWhenExpressionNull() &&
-					!this.isPrintRepeatedValues() &&
-					this.isValueRepeating
+					isPrintWhenExpressionNull() &&
+					!isPrintRepeatedValues() &&
+					isValueRepeating
 					)
 				{
 					isToPrint = false; // FIXME, shouldn't we test for the first whole band and the other exceptions to the rule?
@@ -474,14 +465,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			else
 			{
 				if (
-					this.isPrintWhenExpressionNull() &&
-					!this.isPrintRepeatedValues() &&
-					this.isValueRepeating
+					isPrintWhenExpressionNull() &&
+					!isPrintRepeatedValues() &&
+					isValueRepeating
 					)
 				{
 					if (
-						( !this.isPrintInFirstWholeBand() || !this.getBand().isNewPageColumn() ) &&
-						( this.getPrintWhenGroupChanges() == null || !this.getBand().isNewGroup(this.getPrintWhenGroupChanges()) )
+						( !isPrintInFirstWholeBand() || !getBand().isNewPageColumn() ) &&
+						( getPrintWhenGroupChanges() == null || !getBand().isNewGroup(getPrintWhenGroupChanges()) )
 						)
 					{
 						isToPrint = false;
@@ -491,28 +482,28 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 			if (isToPrint)
 			{
-				if (availableStretchHeight >= this.getRelativeY() - this.getY() - this.getBandBottomY())
+				if (availableStretchHeight >= getRelativeY() - getY() - getBandBottomY())
 				{
 					// the available vertical space is sufficient
 
 					if (
-						this.getTextEnd() < this.getText().length() 
-						|| this.getTextEnd() == 0
+						getTextEnd() < getText().length() 
+						|| getTextEnd() == 0
 						)
 					{
 						// there is still some text left in the text field or
 						// the text field is empty
 
 						if (
-							this.isStretchWithOverflow()
-							&& this.getRotation() == ROTATION_NONE
+							isStretchWithOverflow()
+							&& getRotation() == ROTATION_NONE
 							)
 						{
 							// the text field is allowed to stretch downwards in order to
 							// display all its content
 
-							this.chopTextElement(availableStretchHeight - this.getRelativeY() + this.getY() + this.getBandBottomY());
-							if (this.getTextEnd() < this.getText().length())// - 1)
+							chopTextElement(availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
+							if (getTextEnd() < getText().length())// - 1)
 							{
 								// even after the current chop operation there is some text left
 								// that will overflow on the next page
@@ -525,7 +516,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// the text field is not allowed to stretch downwards in order to
 							// display all its content
 
-							this.chopTextElement(0);
+							chopTextElement(0);
 						}
 					}
 					else
@@ -553,10 +544,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 			if (
 				isToPrint &&
-				this.isRemoveLineWhenBlank() && //FIXME if the line won't be removed, the background does not appear
-				this.getText().substring(
-					this.getTextStart(),
-					this.getTextEnd()
+				isRemoveLineWhenBlank() && //FIXME if the line won't be removed, the background does not appear
+				getText().substring(
+					getTextStart(),
+					getTextEnd()
 					).trim().length() == 0
 				)
 			{
@@ -564,8 +555,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
-		this.setToPrint(isToPrint);
-		this.setReprinted(isReprinted);
+		setToPrint(isToPrint);
+		setReprinted(isReprinted);
 
 		return willOverflow;
 	}
@@ -578,45 +569,45 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		JRPrintText text = null;
 
-		text = new JRTemplatePrintText(this.getJRTemplateText());
-		text.setX(this.getX());
-		text.setY(this.getRelativeY());
-		if (this.getRotation() == ROTATION_NONE)
+		text = new JRTemplatePrintText(getJRTemplateText());
+		text.setX(getX());
+		text.setY(getRelativeY());
+		if (getRotation() == ROTATION_NONE)
 		{
-			text.setHeight(this.getStretchHeight());
+			text.setHeight(getStretchHeight());
 		}
 		else
 		{
-			text.setHeight(this.getHeight());
+			text.setHeight(getHeight());
 		}
 
-		switch (this.getEvaluationTime())
+		switch (getEvaluationTime())
 		{
 			case JRExpression.EVALUATION_TIME_REPORT :
 			{
-				this.filler.reportBoundTexts.put(text, this);
+				filler.reportBoundTexts.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_PAGE :
 			{
-				this.filler.pageBoundTexts.put(text, this);
+				filler.pageBoundTexts.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_COLUMN :
 			{
-				this.filler.columnBoundTexts.put(text, this);
+				filler.columnBoundTexts.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_GROUP :
 			{
-				Map specificGroupBoundTexts = (Map)this.filler.groupBoundTexts.get(this.getEvaluationGroup().getName());
+				Map specificGroupBoundTexts = (Map)filler.groupBoundTexts.get(getEvaluationGroup().getName());
 				specificGroupBoundTexts.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_NOW :
 			default :
 			{
-				this.copy(text);
+				copy(text);
 			}
 		}
 
@@ -629,21 +620,24 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected void copy(JRPrintText text) throws JRException
 	{
-		text.setAbsoluteLineSpacing(this.getAbsoluteLineSpacing());
-		text.setAbsoluteLeading(this.getAbsoluteLeading());
-		text.setTextHeight(this.getTextHeight());
+		text.setAbsoluteLineSpacing(getAbsoluteLineSpacing());
+		text.setAbsoluteLeading(getAbsoluteLeading());
+		text.setTextHeight(getTextHeight());
 
+		text.setText(getRawText());
+		/*
 		text.setText(
-			this.getText().substring(
-				this.getTextStart(),
-				this.getTextEnd()
+			getRawText().substring(
+				getTextStart(),
+				getTextEnd()
 				)
 			);
+		*/
 
-		text.setAnchorName(this.getAnchorName());
-		text.setHyperlinkReference(this.getHyperlinkReference());
-		text.setHyperlinkAnchor(this.getHyperlinkAnchor());
-		text.setHyperlinkPage(this.getHyperlinkPage());
+		text.setAnchorName(getAnchorName());
+		text.setHyperlinkReference(getHyperlinkReference());
+		text.setHyperlinkAnchor(getHyperlinkAnchor());
+		text.setHyperlinkPage(getHyperlinkPage());
 	}
 
 

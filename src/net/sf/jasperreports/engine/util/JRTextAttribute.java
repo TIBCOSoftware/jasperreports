@@ -69,94 +69,31 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package dori.jasper.engine.util;
+
+import java.text.AttributedCharacterIterator;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextElement extends JRElement, JRAlignment
+public class JRTextAttribute extends AttributedCharacterIterator.Attribute
 {
 
+	/**
+	 *
+	 */
+	public static JRTextAttribute PDF_FONT_NAME = new JRTextAttribute("PDF_FONT_NAME");
+	public static JRTextAttribute PDF_ENCODING = new JRTextAttribute("PDF_ENCODING");
+	public static JRTextAttribute IS_PDF_EMBEDDED = new JRTextAttribute("IS_PDF_EMBEDDED");
 
 	/**
 	 *
 	 */
-	public static final byte TEXT_ALIGN_LEFT = HORIZONTAL_ALIGN_LEFT;
-	public static final byte TEXT_ALIGN_CENTER = HORIZONTAL_ALIGN_CENTER;
-	public static final byte TEXT_ALIGN_RIGHT = HORIZONTAL_ALIGN_RIGHT;
-	public static final byte TEXT_ALIGN_JUSTIFIED = HORIZONTAL_ALIGN_JUSTIFIED;
-
-	/**
-	 *
-	 */
-	public static final byte ROTATION_NONE = 0;
-	public static final byte ROTATION_LEFT = 1;
-	public static final byte ROTATION_RIGHT = 2;
-
-	/**
-	 *
-	 */
-	public static final byte LINE_SPACING_SINGLE = 0;
-	public static final byte LINE_SPACING_1_1_2 = 1;
-	public static final byte LINE_SPACING_DOUBLE = 2;
-
-
-	/**
-	 *
-	 */
-	public byte getTextAlignment();
-		
-	/**
-	 *
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getRotation();
-		
-	/**
-	 *
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 *
-	 */
-	public byte getLineSpacing();
-
-	/**
-	 *
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 *
-	 */
-	public boolean isStyledText();
-		
-	/**
-	 *
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 *
-	 */
-	public JRFont getFont();
-		
+	private JRTextAttribute(String name)
+	{
+		super(name);
+	}
 
 }

@@ -78,6 +78,20 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import dori.jasper.engine.JRBand;
+import dori.jasper.engine.JRExpression;
+import dori.jasper.engine.JRField;
+import dori.jasper.engine.JRFont;
+import dori.jasper.engine.JRParameter;
+import dori.jasper.engine.JRQuery;
+import dori.jasper.engine.JRReportFont;
+import dori.jasper.engine.JRSubreportParameter;
+import dori.jasper.engine.design.JRDesignElement;
+import dori.jasper.engine.design.JRDesignElementGroup;
+import dori.jasper.engine.design.JRDesignGroup;
+import dori.jasper.engine.design.JRDesignVariable;
+import dori.jasper.engine.design.JasperDesign;
+
 
 /**
  * JRXmlDigesterFactory encapsulates the code necessary to construct and configure
@@ -116,8 +130,8 @@ public class JRXmlDigesterFactory
 		digester.setFeature("http://xml.org/sax/features/validation", validating);
 				
 		/*   */
-		digester.addFactoryCreate("jasperReport", "dori.jasper.engine.xml.JasperDesignFactory");
-		digester.addSetNext("jasperReport", "setJasperDesign", "dori.jasper.engine.design.JasperDesign");
+		digester.addFactoryCreate("jasperReport", JasperDesignFactory.class.getName());
+		digester.addSetNext("jasperReport", "setJasperDesign", JasperDesign.class.getName());
 
 		/*   */
 		digester.addCallMethod("jasperReport/property", "setProperty", 2);
@@ -125,182 +139,182 @@ public class JRXmlDigesterFactory
 		digester.addCallParam("jasperReport/property", 1, "value");
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/reportFont", "dori.jasper.engine.xml.JRReportFontFactory");
-		digester.addSetNext("jasperReport/reportFont", "addFont", "dori.jasper.engine.JRReportFont");
+		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
+		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/parameter", "dori.jasper.engine.xml.JRParameterFactory");
-		digester.addSetNext("jasperReport/parameter", "addParameter", "dori.jasper.engine.JRParameter");
+		digester.addFactoryCreate("jasperReport/parameter", JRParameterFactory.class.getName());
+		digester.addSetNext("jasperReport/parameter", "addParameter", JRParameter.class.getName());
 		digester.addCallMethod("jasperReport/parameter/parameterDescription", "setDescription", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/parameter/defaultValueExpression", "dori.jasper.engine.xml.JRDefaultValueExpressionFactory");
-		digester.addSetNext("jasperReport/parameter/defaultValueExpression", "setDefaultValueExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("jasperReport/parameter/defaultValueExpression", JRDefaultValueExpressionFactory.class.getName());
+		digester.addSetNext("jasperReport/parameter/defaultValueExpression", "setDefaultValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/parameter/defaultValueExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/queryString", "dori.jasper.engine.xml.JRQueryFactory");
-		digester.addSetNext("jasperReport/queryString", "setQuery", "dori.jasper.engine.JRQuery");
+		digester.addFactoryCreate("jasperReport/queryString", JRQueryFactory.class.getName());
+		digester.addSetNext("jasperReport/queryString", "setQuery", JRQuery.class.getName());
 		digester.addCallMethod("jasperReport/queryString", "setText", 0);
   		
 		/*   */
-		digester.addFactoryCreate("jasperReport/field", "dori.jasper.engine.xml.JRFieldFactory");
-		digester.addSetNext("jasperReport/field", "addField", "dori.jasper.engine.JRField");
+		digester.addFactoryCreate("jasperReport/field", JRFieldFactory.class.getName());
+		digester.addSetNext("jasperReport/field", "addField", JRField.class.getName());
 		digester.addCallMethod("jasperReport/field/fieldDescription", "setDescription", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable", "dori.jasper.engine.xml.JRVariableFactory");
-		digester.addSetNext("jasperReport/variable", "addVariable", "dori.jasper.engine.design.JRDesignVariable");
+		digester.addFactoryCreate("jasperReport/variable", JRVariableFactory.class.getName());
+		digester.addSetNext("jasperReport/variable", "addVariable", JRDesignVariable.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable/variableExpression", "dori.jasper.engine.xml.JRVariableExpressionFactory");
-		digester.addSetNext("jasperReport/variable/variableExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("jasperReport/variable/variableExpression", JRVariableExpressionFactory.class.getName());
+		digester.addSetNext("jasperReport/variable/variableExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/variable/variableExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable/initialValueExpression", "dori.jasper.engine.xml.JRInitialValueExpressionFactory");
-		digester.addSetNext("jasperReport/variable/initialValueExpression", "setInitialValueExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("jasperReport/variable/initialValueExpression", JRInitialValueExpressionFactory.class.getName());
+		digester.addSetNext("jasperReport/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/variable/initialValueExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/group", "dori.jasper.engine.xml.JRGroupFactory");
-		digester.addSetNext("jasperReport/group", "addGroup", "dori.jasper.engine.design.JRDesignGroup");
+		digester.addFactoryCreate("jasperReport/group", JRGroupFactory.class.getName());
+		digester.addSetNext("jasperReport/group", "addGroup", JRDesignGroup.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/group/groupExpression", "dori.jasper.engine.xml.JRGroupExpressionFactory");
-		digester.addSetNext("jasperReport/group/groupExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("jasperReport/group/groupExpression", JRGroupExpressionFactory.class.getName());
+		digester.addSetNext("jasperReport/group/groupExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/group/groupExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/background/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/background/band", "setBackground", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/title/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/title/band", "setTitle", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/pageHeader/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/pageHeader/band", "setPageHeader", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/columnHeader/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/columnHeader/band", "setColumnHeader", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/group/groupHeader/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/group/groupHeader/band", "setGroupHeader", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/detail/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/detail/band", "setDetail", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/group/groupFooter/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/group/groupFooter/band", "setGroupFooter", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/columnFooter/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/columnFooter/band", "setColumnFooter", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/pageFooter/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/pageFooter/band", "setPageFooter", "dori.jasper.engine.JRBand");
-		digester.addFactoryCreate("jasperReport/summary/band", "dori.jasper.engine.xml.JRBandFactory");
-		digester.addSetNext("jasperReport/summary/band", "setSummary", "dori.jasper.engine.JRBand");
+		digester.addFactoryCreate("jasperReport/background/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/background/band", "setBackground", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/title/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/title/band", "setTitle", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/pageHeader/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/pageHeader/band", "setPageHeader", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/columnHeader/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/columnHeader/band", "setColumnHeader", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/group/groupHeader/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/group/groupHeader/band", "setGroupHeader", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/detail/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/detail/band", "setDetail", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/group/groupFooter/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/group/groupFooter/band", "setGroupFooter", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/columnFooter/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/columnFooter/band", "setColumnFooter", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/pageFooter/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/pageFooter/band", "setPageFooter", JRBand.class.getName());
+		digester.addFactoryCreate("jasperReport/summary/band", JRBandFactory.class.getName());
+		digester.addSetNext("jasperReport/summary/band", "setSummary", JRBand.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/band/printWhenExpression", "dori.jasper.engine.xml.JRPrintWhenExpressionFactory");
-		digester.addSetNext("*/band/printWhenExpression", "setPrintWhenExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/band/printWhenExpression", JRPrintWhenExpressionFactory.class.getName());
+		digester.addSetNext("*/band/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/band/printWhenExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/line", "dori.jasper.engine.xml.JRLineFactory");
-		digester.addSetNext("*/line", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/line", JRLineFactory.class.getName());
+		digester.addSetNext("*/line", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/reportElement", "dori.jasper.engine.xml.JRElementFactory");
+		digester.addFactoryCreate("*/reportElement", JRElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/reportElement/printWhenExpression", "dori.jasper.engine.xml.JRPrintWhenExpressionFactory");
-		digester.addSetNext("*/reportElement/printWhenExpression", "setPrintWhenExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/reportElement/printWhenExpression", JRPrintWhenExpressionFactory.class.getName());
+		digester.addSetNext("*/reportElement/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/reportElement/printWhenExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/graphicElement", "dori.jasper.engine.xml.JRGraphicElementFactory");
+		digester.addFactoryCreate("*/graphicElement", JRGraphicElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/rectangle", "dori.jasper.engine.xml.JRRectangleFactory");
-		digester.addSetNext("*/rectangle", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/rectangle", JRRectangleFactory.class.getName());
+		digester.addSetNext("*/rectangle", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/ellipse", "dori.jasper.engine.xml.JREllipseFactory");
-		digester.addSetNext("*/ellipse", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/ellipse", JREllipseFactory.class.getName());
+		digester.addSetNext("*/ellipse", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image", "dori.jasper.engine.xml.JRImageFactory");
-		digester.addSetNext("*/image", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/image", JRImageFactory.class.getName());
+		digester.addSetNext("*/image", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image/imageExpression", "dori.jasper.engine.xml.JRImageExpressionFactory");
-		digester.addSetNext("*/image/imageExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/image/imageExpression", JRImageExpressionFactory.class.getName());
+		digester.addSetNext("*/image/imageExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/image/imageExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/staticText", "dori.jasper.engine.xml.JRStaticTextFactory");
-		digester.addSetNext("*/staticText", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/staticText", JRStaticTextFactory.class.getName());
+		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
 		digester.addCallMethod("*/staticText/text", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/textElement", "dori.jasper.engine.xml.JRTextElementFactory");
+		digester.addFactoryCreate("*/textElement", JRTextElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textElement/font", "dori.jasper.engine.xml.JRFontFactory");
-		digester.addSetNext("*/textElement/font", "setFont", "dori.jasper.engine.JRFont");
+		digester.addFactoryCreate("*/textElement/font", JRFontFactory.class.getName());
+		digester.addSetNext("*/textElement/font", "setFont", JRFont.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textField", "dori.jasper.engine.xml.JRTextFieldFactory");
-		digester.addSetNext("*/textField", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/textField", JRTextFieldFactory.class.getName());
+		digester.addSetNext("*/textField", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textField/textFieldExpression", "dori.jasper.engine.xml.JRTextFieldExpressionFactory");
-		digester.addSetNext("*/textField/textFieldExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/textField/textFieldExpression", JRTextFieldExpressionFactory.class.getName());
+		digester.addSetNext("*/textField/textFieldExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/textField/textFieldExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/anchorNameExpression", "dori.jasper.engine.xml.JRAnchorNameExpressionFactory");
-		digester.addSetNext("*/anchorNameExpression", "setAnchorNameExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/anchorNameExpression", JRAnchorNameExpressionFactory.class.getName());
+		digester.addSetNext("*/anchorNameExpression", "setAnchorNameExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/anchorNameExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkReferenceExpression", "dori.jasper.engine.xml.JRHyperlinkReferenceExpressionFactory");
-		digester.addSetNext("*/hyperlinkReferenceExpression", "setHyperlinkReferenceExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/hyperlinkReferenceExpression", JRHyperlinkReferenceExpressionFactory.class.getName());
+		digester.addSetNext("*/hyperlinkReferenceExpression", "setHyperlinkReferenceExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkReferenceExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkAnchorExpression", "dori.jasper.engine.xml.JRHyperlinkAnchorExpressionFactory");
-		digester.addSetNext("*/hyperlinkAnchorExpression", "setHyperlinkAnchorExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/hyperlinkAnchorExpression", JRHyperlinkAnchorExpressionFactory.class.getName());
+		digester.addSetNext("*/hyperlinkAnchorExpression", "setHyperlinkAnchorExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkAnchorExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkPageExpression", "dori.jasper.engine.xml.JRHyperlinkPageExpressionFactory");
-		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/hyperlinkPageExpression", JRHyperlinkPageExpressionFactory.class.getName());
+		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport", "dori.jasper.engine.xml.JRSubreportFactory");
-		digester.addSetNext("*/subreport", "addElement", "dori.jasper.engine.design.JRDesignElement");
+		digester.addFactoryCreate("*/subreport", JRSubreportFactory.class.getName());
+		digester.addSetNext("*/subreport", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportParameter", "dori.jasper.engine.xml.JRSubreportParameterFactory");
-		digester.addSetNext("*/subreport/subreportParameter", "addParameter", "dori.jasper.engine.JRSubreportParameter");
+		digester.addFactoryCreate("*/subreport/subreportParameter", JRSubreportParameterFactory.class.getName());
+		digester.addSetNext("*/subreport/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/parametersMapExpression", "dori.jasper.engine.xml.JRParametersMapExpressionFactory");
-		digester.addSetNext("*/subreport/parametersMapExpression", "setParametersMapExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/subreport/parametersMapExpression", JRParametersMapExpressionFactory.class.getName());
+		digester.addSetNext("*/subreport/parametersMapExpression", "setParametersMapExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/parametersMapExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", "dori.jasper.engine.xml.JRSubreportParameterExpressionFactory");
-		digester.addSetNext("*/subreport/subreportParameter/subreportParameterExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", JRSubreportParameterExpressionFactory.class.getName());
+		digester.addSetNext("*/subreport/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportParameter/subreportParameterExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/connectionExpression", "dori.jasper.engine.xml.JRConnectionExpressionFactory");
-		digester.addSetNext("*/subreport/connectionExpression", "setConnectionExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/subreport/connectionExpression", JRConnectionExpressionFactory.class.getName());
+		digester.addSetNext("*/subreport/connectionExpression", "setConnectionExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/connectionExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/dataSourceExpression", "dori.jasper.engine.xml.JRDataSourceExpressionFactory");
-		digester.addSetNext("*/subreport/dataSourceExpression", "setDataSourceExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/subreport/dataSourceExpression", JRDataSourceExpressionFactory.class.getName());
+		digester.addSetNext("*/subreport/dataSourceExpression", "setDataSourceExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/dataSourceExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportExpression", "dori.jasper.engine.xml.JRSubreportExpressionFactory");
-		digester.addSetNext("*/subreport/subreportExpression", "setExpression", "dori.jasper.engine.JRExpression");
+		digester.addFactoryCreate("*/subreport/subreportExpression", JRSubreportExpressionFactory.class.getName());
+		digester.addSetNext("*/subreport/subreportExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/elementGroup", "dori.jasper.engine.xml.JRElementGroupFactory");
-		digester.addSetNext("*/elementGroup", "addElementGroup", "dori.jasper.engine.design.JRDesignElementGroup");
+		digester.addFactoryCreate("*/elementGroup", JRElementGroupFactory.class.getName());
+		digester.addSetNext("*/elementGroup", "addElementGroup", JRDesignElementGroup.class.getName());
 	}
 
 

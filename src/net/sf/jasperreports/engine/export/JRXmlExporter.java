@@ -782,6 +782,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
+		if (text.isStyledText())
+		{
+			sbuffer.append(" isStyledText=\"");
+			sbuffer.append(text.isStyledText());
+			sbuffer.append("\"");
+		}
+
 		sbuffer.append(" absoluteLineSpacing=\"");
 		sbuffer.append(text.getAbsoluteLineSpacing());
 		sbuffer.append("\"");

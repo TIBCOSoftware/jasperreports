@@ -345,6 +345,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Styled Text Sample"/>
+		<echo message="==================================="/>
+		<ant dir="styledtext" target="clean" />
+		<ant dir="styledtext" target="javac" />
+		<ant dir="styledtext" target="compile" />
+		<ant dir="styledtext" target="fill" />
+		<ant dir="styledtext" target="compileBsh" />
+		<ant dir="styledtext" target="fill" />
+		<ant dir="styledtext" target="pdf" />
+		<ant dir="styledtext" target="xmlEmbed" />
+		<ant dir="styledtext" target="xml" />
+		<ant dir="styledtext" target="html" />
+		<ant dir="styledtext" target="xls" />
+		<ant dir="styledtext" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Subreport Sample"/>
 		<echo message="==================================="/>
 		<ant dir="subreport" target="clean" />
@@ -428,6 +445,7 @@
 		<ant dir="scriptlet" target="clean" />
 		<ant dir="shapes" target="clean" />
 		<ant dir="stretch" target="clean" />
+		<ant dir="styledtext" target="clean" />
 		<ant dir="subreport" target="clean" />
 		<ant dir="tableofcontents" target="clean" />
 		<ant dir="unicode" target="clean" />

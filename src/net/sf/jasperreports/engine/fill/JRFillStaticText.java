@@ -89,12 +89,6 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	private String text = null;
-
-
-	/**
-	 *
-	 */
 	protected JRFillStaticText(
 		JRBaseFiller filler,
 		JRStaticText staticText, 
@@ -103,17 +97,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		super(filler, staticText, factory);
 		
-		this.text = JRStringUtil.treatNewLineChars(staticText.getText());
-	}
-
-
-	/**
-	 *
-	 */
-	public String getText()
-	{
-		//return ((JRStaticText)this.parent).getText();
-		return this.text;
+		setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
 	}
 
 
@@ -150,7 +134,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		if (template == null)
 		{
-			template = new JRTemplateText((JRStaticText)this.parent, getFont());
+			template = new JRTemplateText((JRStaticText)parent, getFont());
 		}
 		
 		return (JRTemplateText)template;
@@ -164,9 +148,9 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		byte evaluation
 		) throws JRException
 	{
-		this.reset();
+		reset();
 		
-		this.evaluatePrintWhenExpression(evaluation);
+		evaluatePrintWhenExpression(evaluation);
 	}
 
 
@@ -182,7 +166,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 		super.prepare(availableStretchHeight, isOverflow);
 		
-		if (!this.isToPrint())
+		if (!isToPrint())
 		{
 			return willOverflow;
 		}
@@ -190,21 +174,21 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (isOverflow && this.isAlreadyPrinted() && !this.isPrintWhenDetailOverflows())
+		if (isOverflow && isAlreadyPrinted() && !isPrintWhenDetailOverflows())
 		{
 			isToPrint = false;
 		}
 
 		if (
 			isToPrint && 
-			this.isPrintWhenExpressionNull() &&
-			!this.isPrintRepeatedValues()
+			isPrintWhenExpressionNull() &&
+			!isPrintRepeatedValues()
 			)
 		{
 			if (
-				( !this.isPrintInFirstWholeBand() || !this.getBand().isNewPageColumn() ) &&
-				( this.getPrintWhenGroupChanges() == null || !this.getBand().isNewGroup(this.getPrintWhenGroupChanges()) ) &&
-				( !isOverflow || !this.isPrintWhenDetailOverflows() )
+				( !isPrintInFirstWholeBand() || !getBand().isNewPageColumn() ) &&
+				( getPrintWhenGroupChanges() == null || !getBand().isNewGroup(getPrintWhenGroupChanges()) ) &&
+				( !isOverflow || !isPrintWhenDetailOverflows() )
 				)
 			{
 				isToPrint = false;
@@ -213,7 +197,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 		if (
 			isToPrint && 
-			availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+			availableStretchHeight < getRelativeY() - getY() - getBandBottomY()
 			)
 		{
 			isToPrint = false;
@@ -223,8 +207,8 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		if (
 			isToPrint && 
 			isOverflow && 
-			//(this.isAlreadyPrinted() || !this.isPrintRepeatedValues())
-			(this.isPrintWhenDetailOverflows() && (this.isAlreadyPrinted() || (!this.isAlreadyPrinted() && !this.isPrintRepeatedValues())))
+			//(isAlreadyPrinted() || !isPrintRepeatedValues())
+			(isPrintWhenDetailOverflows() && (isAlreadyPrinted() || (!isAlreadyPrinted() && !isPrintRepeatedValues())))
 			)
 		{
 			isReprinted = true;
@@ -232,11 +216,11 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 		if (isToPrint)
 		{
-			this.chopTextElement(0);
+			chopTextElement(0);
 		}
 		
-		this.setToPrint(isToPrint);
-		this.setReprinted(isReprinted);
+		setToPrint(isToPrint);
+		setReprinted(isReprinted);
 		
 		return willOverflow;
 	}
@@ -249,21 +233,21 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		JRPrintText text = null;
 
-		text = new JRTemplatePrintText(this.getJRTemplateText());
-		text.setX(this.getX());
-		text.setY(this.getRelativeY());
-		if (this.getRotation() == ROTATION_NONE)
+		text = new JRTemplatePrintText(getJRTemplateText());
+		text.setX(getX());
+		text.setY(getRelativeY());
+		if (getRotation() == ROTATION_NONE)
 		{
-			text.setHeight(this.getStretchHeight());
+			text.setHeight(getStretchHeight());
 		}
 		else
 		{
-			text.setHeight(this.getHeight());
+			text.setHeight(getHeight());
 		}
-		text.setAbsoluteLineSpacing(this.getAbsoluteLineSpacing());
-		text.setAbsoluteLeading(this.getAbsoluteLeading());
-		text.setTextHeight(this.getTextHeight());
-		text.setText(this.getText());
+		text.setAbsoluteLineSpacing(getAbsoluteLineSpacing());
+		text.setAbsoluteLeading(getAbsoluteLeading());
+		text.setTextHeight(getTextHeight());
+		text.setText(getRawText());
 		
 		return text;
 	}
