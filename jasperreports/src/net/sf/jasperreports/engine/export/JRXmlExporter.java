@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -90,7 +91,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	protected StringBuffer sbuffer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImageNameMap = null;
+	protected Map rendererToImagePathMap = null;
+	protected Map imageNameToImageDataMap = null;
 	protected Map fontsMap = new HashMap();
 
 	/**
@@ -186,9 +188,10 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportReportToFile() throws JRException
 	{
-		if (!isEmbeddingImages)
+		//if (!isEmbeddingImages)
 		{
-			rendererToImageNameMap = new HashMap();
+			rendererToImagePathMap = new HashMap();
+			imageNameToImageDataMap = new HashMap();
 		}
 		
 		String xmlString = exportReportToBuffer().toString();
@@ -202,7 +205,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			fos.write(bytes, 0, bytes.length);
 			fos.flush();
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			throw new JRException("Error writing to file : " + destFile, e);
 		}
@@ -222,26 +225,27 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		if (!isEmbeddingImages)
 		{
-			Collection imageKeys = rendererToImageNameMap.keySet();
-			if (imageKeys != null && imageKeys.size() > 0)
+			Collection imageNames = imageNameToImageDataMap.keySet();
+			if (imageNames != null && imageNames.size() > 0)
 			{
 				if (!imagesDir.exists())
 				{
 					imagesDir.mkdir();
 				}
 	
-				for(Iterator it = imageKeys.iterator(); it.hasNext();)
+				for(Iterator it = imageNames.iterator(); it.hasNext();)
 				{
-					JRRenderable renderer = (JRRenderable)it.next();
-					File imageFile = new File(imagesDir, (String)rendererToImageNameMap.get(renderer));
-					byte[] imageData = renderer.getImageData();
+					String imageName = (String)it.next();
+					byte[] imageData = (byte[])imageNameToImageDataMap.get(imageName);
+
+					File imageFile = new File(imagesDir, imageName);
 
 					try
 					{
 						fos = new FileOutputStream(imageFile);
 						fos.write(imageData, 0, imageData.length);
 					}
-					catch (Exception e)
+					catch (IOException e)
 					{
 						throw new JRException("Error writing to image file : " + imageFile, e);
 					}
@@ -606,6 +610,20 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 		
+		if (!image.isLazy())
+		{
+			sbuffer.append(" isLazy=\"");
+			sbuffer.append(image.isLazy());
+			sbuffer.append("\"");
+		}
+
+		if (image.getWhenNotAvailableType() != JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE)
+		{
+			sbuffer.append(" whenNotAvailableType=\"");
+			sbuffer.append((String)JRXmlConstants.getWhenNotAvailableTypeMap().get(new Byte(image.getWhenNotAvailableType())));
+			sbuffer.append("\"");
+		}
+		
 		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
 			sbuffer.append(" hyperlinkType=\"");
@@ -661,10 +679,10 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			sbuffer.append("\t\t\t<imageSource");
 	
-			if (isEmbeddingImages)
+			if (isEmbeddingImages && image.isLazy())
 			{
 				sbuffer.append(" isEmbedded=\"");
-				sbuffer.append(isEmbeddingImages);
+				sbuffer.append(isEmbeddingImages && image.isLazy());
 				sbuffer.append("\"");
 			}
 	
@@ -682,7 +700,7 @@ public class JRXmlExporter extends JRAbstractExporter
 						);
 			}
 				
-			if (isEmbeddingImages)
+			if (isEmbeddingImages && image.isLazy())
 			{
 				try
 				{
@@ -694,35 +712,32 @@ public class JRXmlExporter extends JRAbstractExporter
 					
 					imageSource = new String(baos.toByteArray(), "UTF-8");
 				}
-				catch (Exception e)
+				catch (IOException e)
 				{
 					throw new JRException("Error embedding image into XML.", e);
 				}
 			}
 			else
 			{
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImageNameMap.containsKey(renderer))
+				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer))
 				{
-					imageSource = 
-						(
-						new File(
-							new File(imagesDir.getName()), 
-							(String)rendererToImageNameMap.get(renderer)
-							)
-						).getPath();
+					imageSource = (String)rendererToImagePathMap.get(renderer);
 				}
 				else
 				{
-					imageSource = "img_" + String.valueOf(rendererToImageNameMap.size());
-					rendererToImageNameMap.put(renderer, imageSource);
-	
-					imageSource = 
-						(
-						new File(
-							new File(imagesDir.getName()), 
-							imageSource
-							)
-						).getPath();
+					if (image.isLazy())
+					{
+						imageSource = "img_" + String.valueOf(imageNameToImageDataMap.size());
+						imageNameToImageDataMap.put(imageSource, renderer.getImageData());
+						
+						imageSource = new File(imagesDir, imageSource).getPath();
+					}
+					else
+					{
+						imageSource = ((JRImageRenderer)renderer).getImageLocation();
+					}
+
+					rendererToImagePathMap.put(renderer, imageSource);
 				}
 			}
 			

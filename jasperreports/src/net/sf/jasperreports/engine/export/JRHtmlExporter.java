@@ -57,8 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.xml.sax.SAXException;
-
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
@@ -81,10 +79,11 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+
+import org.xml.sax.SAXException;
 
 
 /**
@@ -120,7 +119,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected Writer writer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImageNameMap = null;
+	protected Map rendererToImagePathMap = null;
 	protected Map imageNameToImageDataMap = null;
 
 	protected int reportIndex = 0;
@@ -249,7 +248,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			encoding = "UTF-8";
 		}
 		
-		rendererToImageNameMap = new HashMap();
+		rendererToImagePathMap = new HashMap();
 
 		imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
 		if (imageNameToImageDataMap == null)
@@ -447,7 +446,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						fos = new FileOutputStream(imageFile);
 						fos.write(imageData, 0, imageData.length);
 					}
-					catch (Exception e)
+					catch (IOException e)
 					{
 						throw new JRException("Error writing to image file : " + imageFile, e);
 					}
@@ -1354,10 +1353,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImageNameMap.containsKey(renderer))
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer))
 			{
-				//imagePath = imagesDir.getName() + "/" + (String)rendererToImageNameMap(imageData);
-				imagePath = imagesURI + (String)rendererToImageNameMap.get(renderer);
+				imagePath = (String)rendererToImagePathMap.get(renderer);
 			}
 			else
 			{
@@ -1371,12 +1369,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 							);
 				}
 				
-				String imageName = "img_" + String.valueOf(rendererToImageNameMap.size());
-				rendererToImageNameMap.put(renderer, imageName);
-				imageNameToImageDataMap.put(imageName, renderer.getImageData());
-	
-				//imageSource = imagesDir.getName() + "/" + imageSource;
-				imagePath = imagesURI + imageName;
+				if (image.isLazy())
+				{
+					String imageName = "img_" + String.valueOf(imageNameToImageDataMap.size());
+					imageNameToImageDataMap.put(imageName, renderer.getImageData());
+		
+					imagePath = imagesURI + imageName;
+				}
+				else
+				{
+					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+				}
+
+				rendererToImagePathMap.put(renderer, imagePath);
 			}
 		}
 		else
@@ -1448,11 +1453,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 				double normalWidth = image.getWidth();
 				double normalHeight = image.getHeight();
 				
-				Dimension2D dimension = renderer.getDimension();
-				if (dimension != null)
+				if (image.isLazy())
 				{
-					normalWidth = dimension.getWidth();
-					normalHeight = dimension.getHeight();
+					Dimension2D dimension = renderer.getDimension();
+					if (dimension != null)
+					{
+						normalWidth = dimension.getWidth();
+						normalHeight = dimension.getHeight();
+					}
 				}
 		
 				if (image.getHeight() > 0)
@@ -1692,9 +1700,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			JRRenderable pxRenderer = 
 				JRImageRenderer.getInstance(
-					JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF")
+					"net/sf/jasperreports/engine/images/pixel.GIF",
+					JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE
 					);
-			rendererToImageNameMap.put(pxRenderer, "px");
+			rendererToImagePathMap.put(pxRenderer, imagesURI + "px");
 			imageNameToImageDataMap.put("px", pxRenderer.getImageData());
 		}
 	}

@@ -1100,6 +1100,20 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if (!image.isLazy())
+		{
+			sb.append(" isLazy=\"");
+			sb.append(image.isLazy());
+			sb.append("\"");
+		}
+
+		if (image.getWhenNotAvailableType() != JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE)
+		{
+			sb.append(" whenNotAvailableType=\"");
+			sb.append((String)JRXmlConstants.getWhenNotAvailableTypeMap().get(new Byte(image.getWhenNotAvailableType())));
+			sb.append("\"");
+		}
+
 		if (image.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 		{
 			sb.append(" evaluationTime=\"");

@@ -64,19 +64,19 @@ public interface JRRenderable extends Serializable
 	/**
 	 *
 	 */
-	public Dimension2D getDimension();
+	public Dimension2D getDimension() throws JRException;
 
 
 	/**
 	 *
 	 */
-	public byte[] getImageData();
+	public byte[] getImageData() throws JRException;
 
 
 	/**
 	 *
 	 */
-	public void render(Graphics2D grx, Rectangle2D rectanle);
+	public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException;
 
 
 }

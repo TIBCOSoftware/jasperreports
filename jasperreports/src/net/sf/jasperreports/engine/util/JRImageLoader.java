@@ -278,7 +278,7 @@ public class JRImageLoader
 	/**
 	 *
 	 */
-	public static Image loadImage(byte[] bytes)
+	public static Image loadImage(byte[] bytes) throws JRException
 	{
 		Image image = Toolkit.getDefaultToolkit().createImage( bytes );
 
@@ -290,8 +290,9 @@ public class JRImageLoader
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
-			image = null;
+			//e.printStackTrace();
+			//image = null;
+			throw new JRException(e);
 		}
 		
 		return image;

@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 //import java.awt.image.*;
 
 
@@ -146,6 +145,36 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 	}
 		
+	/**
+	 *
+	 */
+	public boolean isLazy()
+	{
+		return ((JRImage)this.parent).isLazy();
+	}
+		
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType()
+	{
+		return ((JRImage)this.parent).getWhenNotAvailableType();
+	}
+		
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	{
+	}
+
 	/**
 	 *
 	 */
@@ -326,22 +355,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			if (Image.class.getName().equals(expressionClass.getName()))
 			{
 				Image img = (Image)source;
-				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromAWTImage(img));
+				newRenderer = JRImageRenderer.getInstance(img, getWhenNotAvailableType());
 			}
 			else if (InputStream.class.getName().equals(expressionClass.getName()))
 			{
 				InputStream is = (InputStream)source;
-				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromInputStream(is));
+				newRenderer = JRImageRenderer.getInstance(is, getWhenNotAvailableType());
 			}
 			else if (URL.class.getName().equals(expressionClass.getName()))
 			{
 				URL url = (URL)source;
-				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromURL(url));
+				newRenderer = JRImageRenderer.getInstance(url, getWhenNotAvailableType());
 			}
 			else if (File.class.getName().equals(expressionClass.getName()))
 			{
 				File file = (File)source;
-				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromFile(file));
+				newRenderer = JRImageRenderer.getInstance(file, getWhenNotAvailableType());
 			}
 			else if (String.class.getName().equals(expressionClass.getName()))
 			{
@@ -354,18 +383,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					}
 					else
 					{
-						newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromLocation(location));
+						newRenderer = JRImageRenderer.getInstance(location, getWhenNotAvailableType(), isLazy());
 						JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
-						img.setRenderer(
-							newRenderer
-							//this.getImageData()
-							);
+						img.setRenderer(newRenderer);
 						this.filler.loadedImages.put(location, img);
 					}
 				}
 				else
 				{
-					newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromLocation(location));
+					newRenderer = JRImageRenderer.getInstance(location, getWhenNotAvailableType(), isLazy());
 				}
 			}
 			else if (JRRenderable.class.getName().equals(expressionClass.getName()))

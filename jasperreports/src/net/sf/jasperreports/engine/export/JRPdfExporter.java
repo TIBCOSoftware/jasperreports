@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -834,7 +835,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException
+	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
 	{
 		pdfContentByte.setRGBColorFill(
 			printImage.getBackcolor().getRed(),
@@ -1059,7 +1060,11 @@ public class JRPdfExporter extends JRAbstractExporter
 							}
 							catch(Exception e)
 							{
-								java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+								java.awt.Image awtImage = 
+									JRImageRenderer.getInstance(
+										renderer.getImageData(),
+										printImage.getWhenNotAvailableType()
+										).getImage();
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 

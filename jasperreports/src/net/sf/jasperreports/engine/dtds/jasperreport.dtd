@@ -135,6 +135,8 @@
 	hAlign (Left | Center | Right) "Left"
 	vAlign (Top | Middle | Bottom) "Top"
 	isUsingCache (true | false) "true"
+	isLazy (true | false) "true"
+	whenNotAvailableType (None | Blank | Icon) "None"
 	evaluationTime (Now | Report | Page | Column | Group) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
