@@ -1519,7 +1519,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			{
 				try
 				{
-					styledText = styledTextParser.parse(font.getAttributes(), "<st>" + text + "</st>");
+					styledText = styledTextParser.parse(font.getAttributes(), text);
 				}
 				catch (SAXException e)
 				{

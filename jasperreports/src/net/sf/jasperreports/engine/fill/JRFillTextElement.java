@@ -396,7 +396,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					try
 					{
-						styledText = styledTextParser.parse(getFont().getAttributes(), "<st>" + text + "</st>");
+						styledText = styledTextParser.parse(getFont().getAttributes(), text);
 					}
 					catch (SAXException e)
 					{
