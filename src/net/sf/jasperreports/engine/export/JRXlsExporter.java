@@ -409,7 +409,12 @@ public class JRXlsExporter extends JRAbstractExporter
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
-				row = sheet.createRow((short)y);
+				row = sheet.getRow((short)y);
+				
+				if (row == null)
+				{
+					row = sheet.createRow((short)y);
+				}
 	
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
@@ -420,8 +425,12 @@ public class JRXlsExporter extends JRAbstractExporter
 				int x = 0;
 				for(x = 0; x < grid[y].length; x++)
 				{
-					emptyCell = row.createCell((short)x);
-					emptyCell.setCellStyle(emptyCellStyle);
+					emptyCell = row.getCell((short)x);
+					if (emptyCell == null)
+					{
+						emptyCell = row.createCell((short)x);
+						emptyCell.setCellStyle(emptyCellStyle);
+					}
 	
 					if(grid[y][x].element != null)
 					{
@@ -479,13 +488,21 @@ public class JRXlsExporter extends JRAbstractExporter
 			}
 			else
 			{
-				row = sheet.createRow((short)y);
+				row = sheet.getRow((short)y);
+				if (row == null)
+				{
+					row = sheet.createRow((short)y);
+				}
 				row.setHeight((short)0);
 	
 				for(int x = 0; x < grid[y].length; x++)
 				{
-					emptyCell = row.createCell((short)x);
-					emptyCell.setCellStyle(emptyCellStyle);
+					emptyCell = row.getCell((short)x);
+					if (emptyCell == null)
+					{
+						emptyCell = row.createCell((short)x);
+						emptyCell.setCellStyle(emptyCellStyle);
+					}
 				}
 			}
 		}
@@ -622,11 +639,6 @@ public class JRXlsExporter extends JRAbstractExporter
 	 */
 	protected void exportText(JRPrintText textElement, JRExporterGridCell gridCell, int x, int y)
 	{
-		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
-		{
-			sheet.addMergedRegion(new Region(y, (short)x, (y + gridCell.rowSpan - 1), (short)(x + gridCell.colSpan - 1)));
-		}
-
 		JRStyledText styledText = getStyledText(textElement);
 
 		if (styledText == null)
@@ -880,6 +892,29 @@ public class JRXlsExporter extends JRAbstractExporter
 				rightBorder,
 				rightBorderColor
 				);
+
+		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
+		{
+			sheet.addMergedRegion(new Region(y, (short)x, (y + gridCell.rowSpan - 1), (short)(x + gridCell.colSpan - 1)));
+
+			for(int i = 0; i < gridCell.rowSpan; i++)
+			{
+				HSSFRow spanRow = sheet.getRow(y + i); 
+				if (spanRow == null)
+				{
+					spanRow = sheet.createRow(y + i);
+				}
+				for(int j = 0; j < gridCell.colSpan; j++)
+				{
+					HSSFCell spanCell = spanRow.getCell((short)(x + j));
+					if (spanCell == null)
+					{
+						spanCell = spanRow.createCell((short)(x + j));
+					}
+					spanCell.setCellStyle(cellStyle);
+				}
+			}
+		}
 
 		cell = row.createCell((short)x);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
