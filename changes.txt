@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.3
+-----------------------------------
+- new <box> tag available for putting border around text and image elements
+with independent properties such as color, style and padding on all four sides;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.2
 -----------------------------------
 - added support for import statements in order to eliminate 

@@ -88,7 +88,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 	/**
 	 *

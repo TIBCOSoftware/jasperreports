@@ -87,7 +87,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 	/**
 	 *

@@ -32,7 +32,7 @@
 	-->
 	<target name="jar" depends="compile, applet">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-0.6.2.jar">
+		<jar jarfile="./dist/jasperreports-0.6.3.jar">
 			<fileset dir="./classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
@@ -45,7 +45,7 @@
 		Builds the jasperreports-applet.jar file.
 	-->
 	<target name="applet" depends="compile">
-		<jar jarfile="./dist/jasperreports-0.6.2-applet.jar">
+		<jar jarfile="./dist/jasperreports-0.6.3-applet.jar">
 			<fileset dir="./classes">
 				<include name="**/net/sf/jasperreports/engine/JasperPrint.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrintManager.class"/>
@@ -131,9 +131,9 @@
 				author="true"
 				version="true"
 				use="true"
-				windowtitle="JasperReports API version 0.6.2"
+				windowtitle="JasperReports API version 0.6.3"
 				excludepackagenames="org.w3c.tools.codec">
-			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version 0.6.2</span>]]></doctitle>
+			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version 0.6.3</span>]]></doctitle>
 			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b> &copy; 2001-2004 Teodor Danciu <a href="mailto:teodord@users.sourceforge.net" style="color:#000000;">teodord@users.sourceforge.net</a></span>]]></bottom>
 			<classpath>
 				<fileset dir="./lib">

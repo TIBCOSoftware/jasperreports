@@ -89,7 +89,7 @@ public class JRBaseField implements JRField, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 	/**
 	 *
