@@ -210,19 +210,8 @@ public class JRImageLoader
 	/**
 	 *
 	 */
-	public static byte[] loadImageDataFromAWTImage(Image img) throws JRException
+	public static byte[] loadImageDataFromAWTImage(BufferedImage bi) throws JRException
 	{
-		BufferedImage bi =
-			new BufferedImage(
-				img.getWidth(null),
-				img.getHeight(null),
-				BufferedImage.TYPE_INT_RGB
-				);
-
-		Graphics g = bi.createGraphics();
-		g.drawImage(img, 0, 0, null);
-		g.dispose();
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	
 		try
@@ -238,6 +227,26 @@ public class JRImageLoader
 		}
 		
 		return baos.toByteArray();
+	}
+
+
+	/**
+	 *
+	 */
+	public static byte[] loadImageDataFromAWTImage(Image img) throws JRException
+	{
+		BufferedImage bi =
+			new BufferedImage(
+				img.getWidth(null),
+				img.getHeight(null),
+				BufferedImage.TYPE_INT_RGB
+				);
+
+		Graphics g = bi.createGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+
+		return loadImageDataFromAWTImage(bi);
 	}
 
 

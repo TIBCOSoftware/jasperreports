@@ -69,6 +69,13 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+
+/*
+ * Contributors:
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
+ */
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -991,6 +998,7 @@ public class JRPdfExporter extends JRAbstractExporter
 								normalHeight
 								) 
 							);
+						g.dispose();
 
 						xoffset = (xoffset < 0 ? 0 : xoffset);
 						yoffset = (yoffset < 0 ? 0 : yoffset);
@@ -1054,8 +1062,9 @@ public class JRPdfExporter extends JRAbstractExporter
 				Graphics2D g = template.createGraphics(availableImageWidth, availableImageHeight, mapper);
 				Rectangle2D rectangle = new Rectangle2D.Float(0, 0, availableImageWidth, availableImageHeight);
 				renderer.render(g, rectangle);
-				pdfContentByte.saveState();
 				g.dispose();
+
+				pdfContentByte.saveState();
 				pdfContentByte.addTemplate(
 					template,
 					printImage.getX() + xoffset + borderOffset,

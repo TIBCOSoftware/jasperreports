@@ -71,7 +71,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
+import java.awt.image.BufferedImage;
+
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
@@ -85,12 +90,6 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	 *
 	 */
 	private static final long serialVersionUID = 503;
-
-	/**
-	 *
-	 *
-	private byte[] imageData = null;
-	private Image awtImage = null;
 
 	
 	/**
@@ -116,7 +115,33 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	 */
 	public byte[] getImageData()
 	{
-		return null;//TODO
+		Dimension2D dimension = getDimension();
+		if (dimension != null)
+		{
+			BufferedImage bi =
+				new BufferedImage(
+					(int)dimension.getWidth(),
+					(int)dimension.getHeight(),
+					BufferedImage.TYPE_INT_RGB
+					);
+
+			Graphics2D g = bi.createGraphics();
+			render(g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
+			g.dispose();
+			
+			try
+			{
+				return JRImageLoader.loadImageDataFromAWTImage(bi);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 

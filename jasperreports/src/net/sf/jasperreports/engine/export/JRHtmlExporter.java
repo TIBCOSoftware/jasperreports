@@ -73,10 +73,14 @@
 /*
  * Contributors:
  * Alex Parfenov - aparfeno@users.sourceforge.net
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.File;
@@ -117,6 +121,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -1231,13 +1236,22 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
-			if (loadedImagesMap.containsKey(renderer))
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && loadedImagesMap.containsKey(renderer))
 			{
 				//imageSource = imagesDir.getName() + "/" + (String)loadedImagesMap.get(imageData);
 				imageSource = imagesURI + (String)loadedImagesMap.get(renderer);
 			}
 			else
 			{
+				if (renderer.getType() == JRRenderable.TYPE_SVG)
+				{
+					renderer = 
+						new JRWrappingSvgRenderer(
+							renderer, 
+							new Dimension(image.getWidth(), image.getHeight())
+							);
+				}
+				
 				imageSource = "img_" + String.valueOf(loadedImagesMap.size());
 				loadedImagesMap.put(renderer, imageSource);
 				imagesMap.put(imageSource, renderer);
