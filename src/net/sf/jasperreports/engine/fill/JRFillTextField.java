@@ -629,20 +629,20 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			getRawText()
 			);
 		*/
+		/*
 		text.setText(
 			getRawText().substring(
 				getTextStart(),
 				getTextEnd()
 				)
 			);
-		/*
+		*/
 		text.setText(
 			getText().substring(
 				getTextStart(),
 				getTextEnd()
 				)
 			);
-		*/
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());
