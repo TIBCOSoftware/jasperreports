@@ -208,6 +208,9 @@ public class JRXlsExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -363,7 +366,7 @@ public class JRXlsExporter extends JRAbstractExporter
 									allPages.addElement(element);
 								
 									alterYElement = new JRBasePrintElement();
-									alterYElement.setY(element.getY() + jasperPrint.getPageHeight() * pageIndex);
+									alterYElement.setY(element.getY() + globalOffsetY + jasperPrint.getPageHeight() * pageIndex);
 									alterYAllPages.addElement(alterYElement);
 								}
 							}
@@ -927,12 +930,12 @@ public class JRXlsExporter extends JRAbstractExporter
 
 			if (!(element instanceof JRPrintImage))
 			{
-				x = new Integer(element.getX());
+				x = new Integer(element.getX() + globalOffsetX);
 				if (!xCuts.contains(x))
 				{
 					xCuts.add(x);
 				}
-				x = new Integer(element.getX() + element.getWidth());
+				x = new Integer(element.getX() + globalOffsetX + element.getWidth());
 				if (!xCuts.contains(x))
 				{
 					xCuts.add(x);
@@ -989,9 +992,9 @@ public class JRXlsExporter extends JRAbstractExporter
 			
 			if (!(element instanceof JRPrintImage))
 			{
-				x1 = xCuts.indexOf(new Integer(element.getX()));
+				x1 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX));
 				y1 = yCuts.indexOf(new Integer(alterYElement.getY()));
-				x2 = xCuts.indexOf(new Integer(element.getX() + element.getWidth()));
+				x2 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX + element.getWidth()));
 				y2 = yCuts.indexOf(new Integer(alterYElement.getY() + element.getHeight()));
 
 				isOverlap = false;

@@ -131,6 +131,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		exporter = new JRGraphics2DExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, progressMonitor);
+		exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
+		exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
 
 		printRequestAttributeSet = 
 			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);

@@ -158,6 +158,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -518,11 +521,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 
 		sbuffer.append(" x=\"");
-		sbuffer.append(element.getX());
+		sbuffer.append(element.getX() + globalOffsetX);
 		sbuffer.append("\"");
 
 		sbuffer.append(" y=\"");
-		sbuffer.append(element.getY());
+		sbuffer.append(element.getY() + globalOffsetY);
 		sbuffer.append("\"");
 
 		sbuffer.append(" width=\"");
@@ -536,18 +539,14 @@ public class JRXmlExporter extends JRAbstractExporter
 		if (element.getForecolor().getRGB() != Color.black.getRGB())
 		{
 			sbuffer.append(" forecolor=\"#");
-			String hexa = Integer.toHexString(element.getForecolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			sbuffer.append(hexa);
+			sbuffer.append(getHexaColor(element.getForecolor()));
 			sbuffer.append("\"");
 		}
 
 		if (element.getBackcolor().getRGB() != Color.white.getRGB())
 		{
 			sbuffer.append(" backcolor=\"#");
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			sbuffer.append(hexa);
+			sbuffer.append(getHexaColor(element.getBackcolor()));
 			sbuffer.append("\"");
 		}
 
@@ -921,8 +920,8 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			if (box.getBorderColor() != null)
 			{
-				tmpBuffer.append(" borderColor=\"");
-				tmpBuffer.append(Integer.toHexString(box.getBorderColor().getRGB() & colorMask));
+				tmpBuffer.append(" borderColor=\"#");
+				tmpBuffer.append(getHexaColor(box.getBorderColor()));
 				tmpBuffer.append("\"");
 			}
 			if (box.getPadding() > 0)
@@ -942,7 +941,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			if (box.getOwnTopBorderColor() != null)
 			{
 				tmpBuffer.append(" topBorderColor=\"");
-				tmpBuffer.append(Integer.toHexString(box.getOwnTopBorderColor().getRGB() & colorMask));
+				tmpBuffer.append(getHexaColor(box.getOwnTopBorderColor()));
 				tmpBuffer.append("\"");
 			}
 			if (box.getOwnTopPadding() != null)
@@ -962,7 +961,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			if (box.getOwnLeftBorderColor() != null)
 			{
 				tmpBuffer.append(" leftBorderColor=\"");
-				tmpBuffer.append(Integer.toHexString(box.getOwnLeftBorderColor().getRGB() & colorMask));
+				tmpBuffer.append(getHexaColor(box.getOwnLeftBorderColor()));
 				tmpBuffer.append("\"");
 			}
 			if (box.getOwnLeftPadding() != null)
@@ -982,7 +981,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			if (box.getOwnBottomBorderColor() != null)
 			{
 				tmpBuffer.append(" bottomBorderColor=\"");
-				tmpBuffer.append(Integer.toHexString(box.getOwnBottomBorderColor().getRGB() & colorMask));
+				tmpBuffer.append(getHexaColor(box.getOwnBottomBorderColor()));
 				tmpBuffer.append("\"");
 			}
 			if (box.getOwnBottomPadding() != null)
@@ -1002,7 +1001,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			if (box.getOwnRightBorderColor() != null)
 			{
 				tmpBuffer.append(" rightBorderColor=\"");
-				tmpBuffer.append(Integer.toHexString(box.getOwnRightBorderColor().getRGB() & colorMask));
+				tmpBuffer.append(getHexaColor(box.getOwnRightBorderColor()));
 				tmpBuffer.append("\"");
 			}
 			if (box.getOwnRightPadding() != null)
@@ -1128,5 +1127,14 @@ public class JRXmlExporter extends JRAbstractExporter
 		return fontChunk;
 	}
 
+
+	/**
+	 * 
+	 */
+	private String getHexaColor(Color color)
+	{
+		String hexa = Integer.toHexString(color.getRGB() & colorMask).toUpperCase();
+		return ("000000" + hexa).substring(hexa.length());
+	}
 
 }
