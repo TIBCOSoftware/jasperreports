@@ -104,6 +104,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
@@ -133,6 +134,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -192,6 +194,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected Map loadedImagesMap = null;
+	protected Image pxImage = null;
 
 
 	/**
@@ -209,6 +212,30 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 
 		return defaultFont;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Image getPxImage()
+	{
+		if (pxImage == null)
+		{
+			try
+			{
+				pxImage = 
+					Image.getInstance(
+						JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF")
+						);
+			}
+			catch(Exception e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		return pxImage;
 	}
 
 
@@ -1136,7 +1163,9 @@ public class JRPdfExporter extends JRAbstractExporter
 						- borderOffset);
 				pdfContentByte.restoreState();
 
-				chunk = new Chunk("");//FIXME hyperlinks do not work for SVG images
+				Image image = getPxImage();
+				image.scaleAbsolute(availableImageWidth, availableImageHeight);
+				chunk = new Chunk(image, 0, 0);
 			}
 
 			/*
