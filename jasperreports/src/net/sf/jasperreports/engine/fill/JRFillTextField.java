@@ -71,6 +71,7 @@
  */
 package dori.jasper.engine.fill;
 
+import java.text.AttributedString;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -102,6 +103,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	private TextChopper textChopper = null; 
 	private Format format = null;
 	private boolean isValueRepeating = false;
 	private String oldRawText = null;
@@ -142,6 +144,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				format = new DecimalFormat(pattern);
 			}
 		}
+		
+		textChopper = textField.isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
 
@@ -624,31 +628,58 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
 
-		/*
-		text.setText(
-			getRawText()
-			);
-		*/
-		/*
-		text.setText(
-			getRawText().substring(
-				getTextStart(),
-				getTextEnd()
-				)
-			);
-		*/
-		text.setText(
-			getText().substring(
-				getTextStart(),
-				getTextEnd()
-				)
-			);
+		text.setText(textChopper.chop(this, getTextStart(), getTextEnd()));
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
 	}
+	
+	
+	/**
+	 *
+	 */
+	protected static interface TextChopper
+	{
+		/**
+		 *
+		 */
+		public String chop(JRFillTextField textField, int startIndex, int endIndex);
+	}
 
+
+	/**
+	 *
+	 */
+	private static TextChopper simpleTextChopper = 
+		new TextChopper()
+		{
+			public String chop(JRFillTextField textField, int startIndex, int endIndex)
+			{
+				return textField.getStyledText().getText().substring(startIndex, endIndex);
+			}
+		};
+
+	/**
+	 *
+	 */
+	private static TextChopper styledTextChopper = 
+		new TextChopper()
+		{
+			public String chop(JRFillTextField textField, int startIndex, int endIndex)
+			{
+				return 
+					textField.filler.getStyledTextParser().write(
+						textField.initialStyledTextAttributes,
+						new AttributedString(
+							textField.getStyledText().getAttributedString().getIterator(), 
+							startIndex, 
+							endIndex
+							).getIterator(),
+						textField.getText().substring(startIndex, endIndex)
+						);
+			}
+		};
 
 }
