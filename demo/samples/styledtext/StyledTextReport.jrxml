@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+
+
+<jasperReport name="StyledTextReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+
+	<reportFont name="Arial" fontName="Arial" isDefault="true"/>
+
+	<title>
+
+		<band height="565">
+
+			<staticText>
+
+				<reportElement x="0" y="0" width="555" height="140" forecolor="black" backcolor="#CCCCCC" mode="Opaque"/>
+
+				<textElement isStyledText="true">
+
+					<font size="16"/>
+
+				</textElement>
+
+				<text><![CDATA[
+
+This is a <style isBold="true" isItalic="true" isUnderline="true" pdfFontName="Helvetica-BoldOblique">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true" pdfFontName="Helvetica-BoldOblique">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true" pdfFontName="Helvetica-Oblique">isStyledText</style> boolean attribute available for the <style isBold="true" forecolor="magenta" pdfFontName="Helvetica-Bold">textElement</style> tag to <style forecolor="red" isItalic="true" pdfFontName="Helvetica-Oblique">true</style> and by formatting the text content using nested <style isBold="true" forecolor="green" pdfFontName="Helvetica-Bold">style</style> tags.
+
+]]></text>
+
+			</staticText>
+
+			<textField>
+
+				<reportElement x="0" y="150" width="555" height="60"/>
+
+				<textElement isStyledText="true" textAlignment="Center">
+
+					<font size="16"/>
+
+				</textElement>
+
+				<textFieldExpression><![CDATA[
+
+"This is a text field element that contains styled text displaying the text-only version of the <style size=\"12\" isBold=\"true\" forecolor=\"black\" pdfFontName=\"Helvetica-Bold\">^<style forecolor=\"#808080\">Jasper</style><style forecolor=\"#990000\">Reports</style></style> logo."
+
+]]></textFieldExpression>
+
+			</textField>
+
+			<staticText>
+
+				<reportElement x="0" y="220" width="555" height="310" backcolor="#CCFF99" mode="Opaque"/>
+
+				<textElement isStyledText="true">
+
+					<font size="16"/>
+
+				</textElement>
+
+				<text><![CDATA[
+
+Here is the list with the attributes supported by the <style isBold="true" pdfFontName="Helvetica-Bold">style</style> tag used to format the text content inside a styled text element:
+
+
+
+fontName
+
+<style size="32">size</style>
+
+<style isBold="true" pdfFontName="Helvetica-Bold">isBold</style>
+
+<style isItalic="true" pdfFontName="Helvetica-Oblique">isItalic</style>
+
+<style isUnderline="true">isUnderline</style>
+
+<style isStrikeThrough="true">isStrikeThrough</style>
+
+pdfFontName
+
+pdfEncoding
+
+isPdfEmbedded
+
+<style forecolor="red">forecolor</style>
+
+<style backcolor="blue" forecolor="white" isBold="true" pdfFontName="Helvetica-Bold">backcolor</style>
+
+]]></text>
+
+			</staticText>
+
+			<textField isStretchWithOverflow="true">
+
+				<reportElement x="0" y="540" width="555" height="20" forecolor="blue" backcolor="yellow" mode="Opaque"/>
+
+				<textElement isStyledText="true" textAlignment="Center"/>
+
+				<textFieldExpression><![CDATA["<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n"]]></textFieldExpression>
+
+			</textField>
+
+		</band>
+
+	</title>
+
+</jasperReport>
+

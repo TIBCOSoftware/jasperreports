@@ -221,7 +221,7 @@ public class JasperCompileManager
 		/* We need the report name. */
 		JRReport report = (JRReport)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), report.getName() + ".jasper.xml");
+		File destFile = new File(sourceFile.getParent(), report.getName() + ".jasper.jrxml");
 		String destFileName = destFile.toString();
 		
 		writeReportToXmlFile(

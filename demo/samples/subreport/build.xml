@@ -30,22 +30,22 @@
 		and produces the .jasper files.
 	-->
 	<target name="compile">
-		<echo message="Compiling the ${file.name}.xml file..."/>
+		<echo message="Compiling the ${file.name}.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the AddressReport.xml file..."/>
+		<echo message="Compiling the AddressReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-FAddressReport.xml"/>
+			<arg value="-FAddressReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the ProductReport.xml file..."/>
+		<echo message="Compiling the ProductReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-FProductReport.xml"/>
+			<arg value="-FProductReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -55,25 +55,25 @@
 		and produces the .jasper files.
 	-->
 	<target name="compileBsh">
-		<echo message="Compiling the ${file.name}.xml file..."/>
+		<echo message="Compiling the ${file.name}.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the AddressReport.xml file..."/>
+		<echo message="Compiling the AddressReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-FAddressReport.xml"/>
+			<arg value="-FAddressReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the ProductReport.xml file..."/>
+		<echo message="Compiling the ProductReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-FProductReport.xml"/>
+			<arg value="-FProductReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -212,10 +212,10 @@
 		Launches the design viewer to preview the XML report design.
 	-->
 	<target name="viewDesignXML1">
-		<echo message="Viewing the ${file.name}.xml file"/>
+		<echo message="Viewing the ${file.name}.jrxml file"/>
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -224,10 +224,10 @@
 		Launches the design viewer to preview the XML report design.
 	-->
 	<target name="viewDesignXML2">
-		<echo message="Viewing the AddressReport.xml file"/>
+		<echo message="Viewing the AddressReport.jrxml file"/>
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FAddressReport.xml"/>
+			<arg value="-FAddressReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -236,10 +236,10 @@
 		Launches the design viewer to preview the XML report design.
 	-->
 	<target name="viewDesignXML3">
-		<echo message="Viewing the ProductReport.xml file"/>
+		<echo message="Viewing the ProductReport.jrxml file"/>
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FProductReport.xml"/>
+			<arg value="-FProductReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

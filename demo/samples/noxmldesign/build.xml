@@ -215,7 +215,7 @@
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.jasper.xml" />
+			<fileset dir="." includes="**/*.jasper.jrxml" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
 		<delete dir="${file.name}.html_files" />

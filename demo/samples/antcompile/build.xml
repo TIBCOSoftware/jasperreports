@@ -59,7 +59,7 @@
 				xmlvalidation="true">
 			<src>
 				<fileset dir="./reports">
-					<include name="**/*.xml"/>
+					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
 			<classpath>

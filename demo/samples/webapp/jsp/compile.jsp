@@ -88,7 +88,7 @@
 		application.getRealPath("/reports/")
 		);
 
-	JasperCompileManager.compileReportToFile(application.getRealPath("/reports/WebappReport.xml"));
+	JasperCompileManager.compileReportToFile(application.getRealPath("/reports/WebappReport.jrxml"));
 %>
 
 <html>

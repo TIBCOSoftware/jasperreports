@@ -30,16 +30,16 @@
 		and produces the .jasper file.
 	-->
 	<target name="compile">
-		<echo message="Compiling the ${file.name}.xml file..."/>
+		<echo message="Compiling the ${file.name}.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the HeadingsReport.xml file..."/>
+		<echo message="Compiling the HeadingsReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-FHeadingsReport.xml"/>
+			<arg value="-FHeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -49,18 +49,18 @@
 		and produces the .jasper file.
 	-->
 	<target name="compileBsh">
-		<echo message="Compiling the ${file.name}.xml file..."/>
+		<echo message="Compiling the ${file.name}.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
-		<echo message="Compiling the HeadingsReport.xml file..."/>
+		<echo message="Compiling the HeadingsReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-FHeadingsReport.xml"/>
+			<arg value="-FHeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -201,7 +201,7 @@
 	<target name="viewDesignXML1">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F${file.name}.xml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -222,7 +222,7 @@
 	<target name="viewDesignXML2">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FHeadingsReport.xml"/>
+			<arg value="-FHeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
