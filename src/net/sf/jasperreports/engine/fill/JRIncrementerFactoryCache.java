@@ -69,227 +69,60 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.base;
+package dori.jasper.engine.fill;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRRuntimeException;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseVariable implements JRVariable, Serializable
+public class JRIncrementerFactoryCache
 {
 
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
-
-	/**
-	 *
-	 */
-	protected String name = null;
-	protected String valueClassName = java.lang.String.class.getName();
-	protected String incrementerClassName = null;
-	protected byte resetType = RESET_TYPE_REPORT;
-	protected byte calculation = CALCULATION_NOTHING;
-	protected boolean isSystemDefined = false;
-
-	protected transient Class valueClass = null;
-	protected transient Class incrementerClass = null;
-
-	/**
-	 *
-	 */
-	protected JRExpression expression = null;
-	protected JRExpression initialValueExpression = null;
-	protected JRGroup resetGroup = null;
-	protected JRVariable countVariable = null;
-	protected JRVariable sumVariable = null;
-	protected JRVariable varianceVariable = null;
+	private static Map factoriesMap = null;
 
 
 	/**
 	 *
 	 */
-	protected JRBaseVariable()
+	public static synchronized JRIncrementerFactory getInstance(Class factoryClass)
 	{
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected JRBaseVariable(JRVariable variable, JRBaseObjectFactory factory)
-	{
-		factory.put(variable, this);
-		
-		name = variable.getName();
-		valueClassName = variable.getValueClassName();
-		incrementerClassName = variable.getIncrementerFactoryClassName();
-		resetType = variable.getResetType();
-		calculation = variable.getCalculation();
-		isSystemDefined = variable.isSystemDefined();
-		
-		expression = factory.getExpression(variable.getExpression());
-		initialValueExpression = factory.getExpression(variable.getInitialValueExpression());
-
-		resetGroup = factory.getGroup(variable.getResetGroup());
-		countVariable = factory.getVariable(variable.getCountVariable());
-		sumVariable = factory.getVariable(variable.getSumVariable());
-		varianceVariable = factory.getVariable(variable.getVarianceVariable());
-	}
-		
-
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
-		
-	/**
-	 *
-	 */
-	public Class getValueClass()
-	{
-		if (valueClass == null)
+		if (factoriesMap == null)
 		{
-			if (valueClassName != null)
-			{
-				try
-				{
-					valueClass = JRClassLoader.loadClassForName(valueClassName);
-				}
-				catch(ClassNotFoundException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-			}
+			factoriesMap = new HashMap();
 		}
 		
-		return valueClass;
-	}
-		
-	/**
-	 *
-	 */
-	public String getValueClassName()
-	{
-		return valueClassName;
-	}
-		
-	/**
-	 *
-	 */
-	public Class getIncrementerFactoryClass()
-	{
-		if (incrementerClass == null)
+		JRIncrementerFactory incrementerFactory = (JRIncrementerFactory)factoriesMap.get(factoryClass.getName());
+
+		if (incrementerFactory == null)
 		{
-			if (incrementerClassName != null)
+			try
 			{
-				try
-				{
-					incrementerClass = JRClassLoader.loadClassForName(incrementerClassName);
-				}
-				catch(ClassNotFoundException e)
-				{
-					throw new JRRuntimeException(e);
-				}
+				incrementerFactory = (JRIncrementerFactory)factoryClass.newInstance();
 			}
+			catch (InstantiationException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+
+			factoriesMap.put(factoryClass.getName(), incrementerFactory);
 		}
 		
-		return incrementerClass;
-	}
-		
-	/**
-	 *
-	 */
-	public String getIncrementerFactoryClassName()
-	{
-		return incrementerClassName;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getResetType()
-	{
-		return this.resetType;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getCalculation()
-	{
-		return this.calculation;
+		return incrementerFactory;
 	}
 
-	/**
-	 *
-	 */
-	public boolean isSystemDefined()
-	{
-		return this.isSystemDefined;
-	}
 
-	/**
-	 *
-	 */
-	public JRExpression getExpression()
-	{
-		return this.expression;
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getInitialValueExpression()
-	{
-		return this.initialValueExpression;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup()
-	{
-		return this.resetGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRVariable getCountVariable()
-	{
-		return this.countVariable;
-	}
-
-	/**
-	 *
-	 */
-	public JRVariable getSumVariable()
-	{
-		return this.sumVariable;
-	}
-
-	/**
-	 *
-	 */
-	public JRVariable getVarianceVariable()
-	{
-		return this.varianceVariable;
-	}
-
-		
 }

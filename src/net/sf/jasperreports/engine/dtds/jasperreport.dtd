@@ -59,6 +59,7 @@
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
 	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System) "Nothing"
+	incrementerFactoryClass NMTOKEN #IMPLIED
 >
 <!ELEMENT variableExpression (#PCDATA)>
 <!ELEMENT initialValueExpression (#PCDATA)>

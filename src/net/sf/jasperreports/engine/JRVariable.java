@@ -130,12 +130,12 @@ public interface JRVariable
 	/**
 	 *
 	 */
-	public Class getIncrementerClass();
+	public Class getIncrementerFactoryClass();
 		
 	/**
 	 *
 	 */
-	public String getIncrementerClassName();
+	public String getIncrementerFactoryClassName();
 		
 	/**
 	 *
