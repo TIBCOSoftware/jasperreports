@@ -271,7 +271,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	 */
 	protected void setNewGroup(JRGroup group, boolean isNew)
 	{
-		this.isNewGroupMap.put(group, Boolean.valueOf(isNew));
+		this.isNewGroupMap.put(group, isNew ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 

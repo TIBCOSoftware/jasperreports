@@ -251,7 +251,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setBold(boolean isBold)
 	{
-		setBold(Boolean.valueOf(isBold));
+		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setItalic(boolean isItalic)
 	{
-		setItalic(Boolean.valueOf(isItalic));
+		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
 	}
 	
 	/**
@@ -334,7 +334,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setUnderline(boolean isUnderline)
 	{
-		setUnderline(Boolean.valueOf(isUnderline));
+		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
 	}
 	
 	/**
@@ -375,7 +375,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		setStrikeThrough(Boolean.valueOf(isStrikeThrough));
+		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**
@@ -521,7 +521,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		setPdfEmbedded(Boolean.valueOf(isPdfEmbedded));
+		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
 	}
 	
 	/**

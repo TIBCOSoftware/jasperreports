@@ -140,7 +140,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Boolean.class))
 				{
-					objValue = Boolean.valueOf( resultSet.getBoolean(field.getName()) );
+					objValue = resultSet.getBoolean(field.getName()) ? Boolean.TRUE : Boolean.FALSE;
 				}
 				else if (clazz.equals(java.lang.Byte.class))
 				{
