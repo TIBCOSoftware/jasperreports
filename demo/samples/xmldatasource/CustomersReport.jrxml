@@ -68,7 +68,7 @@
 			</line>
 			<subreport>
 				<reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
-				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXMLDataSource) $P{REPORT_DATA_SOURCE}).dataSource("/Northwind/Orders[CustomerID='" + $F{CustomerID} + "']")]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource) $P{REPORT_DATA_SOURCE}).dataSource("/Northwind/Orders[CustomerID='" + $F{CustomerID} + "']")]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["OrdersReport.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
