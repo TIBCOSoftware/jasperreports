@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
 
@@ -268,6 +269,21 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
+	public JRBox getBox()
+	{
+		return ((JRTemplateText)template).getBox();
+	}
+		
+	/**
+	 *
+	 */
+	public void setBox(JRBox box)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
 		return ((JRTemplateText)template).getFont();
@@ -374,5 +390,4 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.hyperlinkPage = hyperlinkPage;
 	}
 		
-
 }

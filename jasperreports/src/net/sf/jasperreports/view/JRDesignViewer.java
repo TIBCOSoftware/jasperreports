@@ -1005,47 +1005,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		grx.setColor(line.getForecolor());
 
-		Stroke stroke = null;
-		switch (line.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f * zoom,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f * zoom, 3f * zoom},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(line.getPen());
 
 		if (stroke != null)
 		{
@@ -1094,47 +1054,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		grx.setColor(rectangle.getForecolor());
 
-		Stroke stroke = null;
-		switch (rectangle.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(rectangle.getPen());
 
 		if (stroke != null)
 		{
@@ -1171,47 +1091,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		grx.setColor(ellipse.getForecolor());
 
-		Stroke stroke = null;
-		switch (ellipse.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(ellipse.getPen());
 
 		if (stroke != null)
 		{
@@ -1245,61 +1125,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 
 		
-		int borderOffset = 0;
-		Stroke stroke = null;
-		switch (jrImage.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderOffset = 2;
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderOffset = 1;
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(jrImage.getPen());
 
-
-		int availableImageWidth = jrImage.getWidth() - 2 * borderOffset;
+		int availableImageWidth = jrImage.getWidth();
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = jrImage.getHeight() - 2 * borderOffset;
+		int availableImageHeight = jrImage.getHeight();
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
 		if (availableImageWidth > 0 && availableImageHeight > 0)
@@ -1385,15 +1216,15 @@ public class JRDesignViewer extends javax.swing.JPanel
 						int yoffset = (int)(yalignFactor * (availableImageHeight - awtHeight));
 
 						grx.setClip(
-							jrImage.getX() + borderOffset, 
-							jrImage.getY() + borderOffset, 
+							jrImage.getX(), 
+							jrImage.getY(), 
 							availableImageWidth, 
 							availableImageHeight
 							);
 						grx.drawImage(
 							awtImage, 
-							jrImage.getX() + xoffset + borderOffset, 
-							jrImage.getY() + yoffset + borderOffset, 
+							jrImage.getX() + xoffset, 
+							jrImage.getY() + yoffset, 
 							awtWidth, 
 							awtHeight, 
 							this
@@ -1411,8 +1242,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 					{
 						grx.drawImage(
 							awtImage, 
-							jrImage.getX() + borderOffset, 
-							jrImage.getY() + borderOffset, 
+							jrImage.getX(), 
+							jrImage.getY(), 
 							availableImageWidth, 
 							availableImageHeight,
 							this
@@ -1443,8 +1274,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 							grx.drawImage(
 								awtImage, 
-								jrImage.getX() + xoffset + borderOffset, 
-								jrImage.getY() + yoffset + borderOffset, 
+								jrImage.getX() + xoffset, 
+								jrImage.getY() + yoffset, 
 								awtWidth, 
 								awtHeight, 
 								this
@@ -1467,15 +1298,15 @@ public class JRDesignViewer extends javax.swing.JPanel
 				}
 	
 				grx.setClip(
-					jrImage.getX() + borderOffset, 
-					jrImage.getY() + borderOffset, 
+					jrImage.getX(), 
+					jrImage.getY(), 
 					availableImageWidth, 
 					availableImageHeight
 					);
 				grx.drawImage(
 					awtImage, 
-					jrImage.getX() + borderOffset + 2, 
-					jrImage.getY() + borderOffset + 2, 
+					jrImage.getX() + 2, 
+					jrImage.getY() + 2, 
 					awtImage.getWidth(null), 
 					awtImage.getHeight(null), 
 					this
@@ -1628,14 +1459,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		grx.setColor(text.getForecolor());
 
-		grx.setStroke(new BasicStroke(1f / zoom));
-
-		//grx.drawRect(x, y, width - 1, height - 1);
-
-		//grx.setStroke(new BasicStroke(1f));
-		/*
-		*/
-
 		/*   */
 		simluationTextRenderer.render(
 			grx, 
@@ -1666,7 +1489,74 @@ public class JRDesignViewer extends javax.swing.JPanel
 			allText
 			);
 
-		grx.drawRect(x, y, width - 1, height - 1);
+		Stroke topStroke = null;
+		Stroke leftStroke = null;
+		Stroke bottomStroke = null;
+		Stroke rightStroke = null;
+		if (text.getBox() != null)
+		{
+			topStroke = getStroke(text.getBox().getTopBorder());
+			leftStroke = getStroke(text.getBox().getLeftBorder());
+			bottomStroke = getStroke(text.getBox().getBottomBorder());
+			rightStroke = getStroke(text.getBox().getRightBorder());
+		}
+
+		if (topStroke != null)
+		{
+			grx.setStroke(topStroke);
+			grx.setColor(text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y, 
+				x + width - 1,
+				y
+				);
+		}
+
+		if (leftStroke != null)
+		{
+			grx.setStroke(leftStroke);
+			grx.setColor(text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y, 
+				x,
+				y + height - 1
+				);
+		}
+
+		if (bottomStroke != null)
+		{
+			grx.setStroke(bottomStroke);
+			grx.setColor(text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y + height - 1,
+				x + width - 1,
+				y + height - 1
+				);
+		}
+
+		if (rightStroke != null)
+		{
+			grx.setStroke(rightStroke);
+			grx.setColor(text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor());
+	
+			grx.drawLine(
+				x + width - 1,
+				y,
+				x + width - 1,
+				y + height - 1
+				);
+		}
+
+		grx.setColor(text.getForecolor());
+		grx.setStroke(new BasicStroke(1f / zoom));
+
+		//grx.drawRect(x, y, width - 1, height - 1);
 
 		grx.rotate(-angle, x, y);
 	}
@@ -1749,7 +1639,60 @@ public class JRDesignViewer extends javax.swing.JPanel
 	}
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+	/**
+	 * 
+	 */
+	private static final Stroke STROKE_DOTTED = 
+		new BasicStroke(
+			1f,
+			BasicStroke.CAP_BUTT,
+			BasicStroke.JOIN_BEVEL,
+			0f,
+			new float[]{5f, 3f},
+			0f
+			);
+	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
+	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
+	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
+	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
+
+	/**
+	 * 
+	 */
+	private static Stroke getStroke(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return STROKE_DOTTED;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				return STROKE_4_POINT;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				return STROKE_2_POINT;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				return null;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				return STROKE_THIN;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				return STROKE_1_POINT;
+			}
+		}
+	}
+
+	
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JPanel tlbToolBar;
     private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel jPanel4;

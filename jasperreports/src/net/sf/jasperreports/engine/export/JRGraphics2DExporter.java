@@ -290,47 +290,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	{
 		grx.setColor(line.getForecolor());
 		
-		Stroke stroke = null;
-		switch (line.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(line.getPen());
 
 		if (stroke != null)
 		{
@@ -378,47 +338,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		grx.setColor(rectangle.getForecolor());
 
-		Stroke stroke = null;
-		switch (rectangle.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(rectangle.getPen());
 
 		if (stroke != null)
 		{
@@ -454,47 +374,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		grx.setColor(ellipse.getForecolor());
 
-		Stroke stroke = null;
-		switch (ellipse.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(ellipse.getPen());
 
 		if (stroke != null)
 		{
@@ -528,59 +408,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 
 		
-		int borderOffset = 0;
-		Stroke stroke = null;
-		switch (printImage.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(
-					1f,
-					BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL,
-					0f,
-					new float[]{5f, 3f},
-					0f
-					);
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderOffset = 2;
-				stroke = new BasicStroke(4f);
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderOffset = 1;
-				stroke = new BasicStroke(2f);
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(0.5f);
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				borderOffset = 0;
-				stroke = new BasicStroke(1f);
-				break;
-			}
-		}
+		Stroke stroke = getStroke(printImage.getPen());
 
-
-		int availableImageWidth = printImage.getWidth() - 2 * borderOffset;
+		int availableImageWidth = printImage.getWidth();
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = printImage.getHeight() - 2 * borderOffset;
+		int availableImageHeight = printImage.getHeight();
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
 		JRRenderable renderer = printImage.getRenderer();
@@ -651,16 +484,16 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
 					grx.setClip(
-						printImage.getX() + borderOffset, 
-						printImage.getY() + borderOffset, 
+						printImage.getX(), 
+						printImage.getY(), 
 						availableImageWidth, 
 						availableImageHeight
 						);
 					renderer.render(
 						grx, 
 						new Rectangle(
-							printImage.getX() + xoffset + borderOffset, 
-							printImage.getY() + yoffset + borderOffset, 
+							printImage.getX() + xoffset, 
+							printImage.getY() + yoffset, 
 							normalWidth, 
 							normalHeight
 							) 
@@ -679,8 +512,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					renderer.render(
 						grx,
 						new Rectangle(
-							printImage.getX() + borderOffset, 
-							printImage.getY() + borderOffset, 
+							printImage.getX(), 
+							printImage.getY(), 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -712,8 +545,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 						renderer.render(
 							grx,
 							new Rectangle(
-								printImage.getX() + xoffset + borderOffset, 
-								printImage.getY() + yoffset + borderOffset, 
+								printImage.getX() + xoffset, 
+								printImage.getY() + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
@@ -857,6 +690,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			return;
 		}
 		
+		grx.setColor(text.getForecolor());
+
 		/*   */
 		textRenderer.render(
 			grx, 
@@ -872,8 +707,125 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			allText
 			);
 		
+		Stroke topStroke = null;
+		Stroke leftStroke = null;
+		Stroke bottomStroke = null;
+		Stroke rightStroke = null;
+		if (text.getBox() != null)
+		{
+			topStroke = getStroke(text.getBox().getTopBorder());
+			leftStroke = getStroke(text.getBox().getLeftBorder());
+			bottomStroke = getStroke(text.getBox().getBottomBorder());
+			rightStroke = getStroke(text.getBox().getRightBorder());
+		}
+
+		if (topStroke != null)
+		{
+			grx.setStroke(topStroke);
+			grx.setColor(text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y, 
+				x + width - 1,
+				y
+				);
+		}
+
+		if (leftStroke != null)
+		{
+			grx.setStroke(leftStroke);
+			grx.setColor(text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y, 
+				x,
+				y + height - 1
+				);
+		}
+
+		if (bottomStroke != null)
+		{
+			grx.setStroke(bottomStroke);
+			grx.setColor(text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor());
+	
+			grx.drawLine(
+				x, 
+				y + height - 1,
+				x + width - 1,
+				y + height - 1
+				);
+		}
+
+		if (rightStroke != null)
+		{
+			grx.setStroke(rightStroke);
+			grx.setColor(text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor());
+	
+			grx.drawLine(
+				x + width - 1,
+				y,
+				x + width - 1,
+				y + height - 1
+				);
+		}
+
 		grx.rotate(-angle, x, y);
 	}
 
 
+	/**
+	 * 
+	 */
+	private static final Stroke STROKE_DOTTED = 
+		new BasicStroke(
+			1f,
+			BasicStroke.CAP_BUTT,
+			BasicStroke.JOIN_BEVEL,
+			0f,
+			new float[]{5f, 3f},
+			0f
+			);
+	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
+	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
+	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
+	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
+
+	/**
+	 * 
+	 */
+	private static Stroke getStroke(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return STROKE_DOTTED;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				return STROKE_4_POINT;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				return STROKE_2_POINT;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				return null;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				return STROKE_THIN;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				return STROKE_1_POINT;
+			}
+		}
+	}
+
+	
 }

@@ -86,7 +86,6 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**

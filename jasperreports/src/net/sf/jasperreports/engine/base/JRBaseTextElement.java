@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -101,9 +102,10 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 *
 	 */
+	protected JRBox box = null;
 	protected JRFont font = null;
 
-
+	
 	/**
 	 *
 	 */
@@ -122,6 +124,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	{
 		super((JRElement)textElement, factory);
 		
+		box = textElement.getBox();
 		horizontalAlignment = textElement.getTextAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
@@ -212,6 +215,14 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		this.isStyledText = isStyledText;
 	}
 		
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return box;
+	}
+
 	/**
 	 *
 	 */

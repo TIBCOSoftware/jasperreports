@@ -75,6 +75,7 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -214,12 +215,20 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	public JRBox getBox()
+	{
+		return ((JRTextElement)parent).getBox();
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
 		return font;
 	}
-		
 
+	
 	/**
 	 *
 	 */

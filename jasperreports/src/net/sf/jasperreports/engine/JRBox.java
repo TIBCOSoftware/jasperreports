@@ -71,141 +71,267 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Color;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyperlink
+public interface JRBox
 {
 
 
 	/**
 	 *
 	 */
-	public static final byte RUN_DIRECTION_LTR = 0;
-	public static final byte RUN_DIRECTION_RTL = 1;
+	public byte getBorder();
+
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border);
+
+
+	/**
+	 *
+	 */
+	public Color getBorderColor();
+
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color color);
+
+
+	/**
+	 *
+	 */
+	public int getPadding();
+
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding);
 
 	
 	/**
 	 *
 	 */
-	public String getText();
-		
-	/**
-	 *
-	 */
-	public void setText(String text);
+	public byte getTopBorder();
+
 
 	/**
 	 *
 	 */
-	public float getLineSpacingFactor();
-		
-	/**
-	 *
-	 */
-	public void setLineSpacingFactor(float lineSpacingFactor);
+	public Byte getOwnTopBorder();
+	
 
 	/**
 	 *
 	 */
-	public float getLeadingOffset();
-		
-	/**
-	 *
-	 */
-	public void setLeadingOffset(float leadingOffset);
+	public void setTopBorder(byte border);
+
 
 	/**
 	 *
 	 */
-	public byte getTextAlignment();
-		
-	/**
-	 *
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getRotation();
-		
-	/**
-	 *
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 *
-	 */
-	public byte getRunDirection();
-		
-	/**
-	 *
-	 */
-	public void setRunDirection(byte rotation);
-		
-	/**
-	 *
-	 */
-	public float getTextHeight();
-		
-	/**
-	 *
-	 */
-	public void setTextHeight(float textHeight);
-		
-	/**
-	 *
-	 */
-	public byte getLineSpacing();
-		
-	/**
-	 *
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 *
-	 */
-	public boolean isStyledText();
-		
-	/**
-	 *
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 *
-	 */
-	public JRBox getBox();
+	public Color getTopBorderColor();
+
 
 	/**
 	 *
 	 */
-	public void setBox(JRBox box);
+	public Color getOwnTopBorderColor();
+
 
 	/**
 	 *
 	 */
-	public JRFont getFont();
+	public void setTopBorderColor(Color color);
+
 
 	/**
 	 *
 	 */
-	public void setFont(JRFont font);
-		
+	public int getTopPadding();
+
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding();
+
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int padding);
+
+	
+	/**
+	 *
+	 */
+	public byte getLeftBorder();
+
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder();
+
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte border);
+
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor();
+
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor();
+
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color color);
+
+
+	/**
+	 *
+	 */
+	public int getLeftPadding();
+
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding();
+
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int padding);
+
+	
+	/**
+	 *
+	 */
+	public byte getBottomBorder();
+
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder();
+
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte border);
+
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor();
+
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor();
+
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color color);
+
+
+	/**
+	 *
+	 */
+	public int getBottomPadding();
+
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding();
+
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int padding);
+
+	
+	/**
+	 *
+	 */
+	public byte getRightBorder();
+
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder();
+
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte border);
+
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor();
+
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor();
+
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color color);
+
+
+	/**
+	 *
+	 */
+	public int getRightPadding();
+
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding();
+
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int padding);
+
 	
 }

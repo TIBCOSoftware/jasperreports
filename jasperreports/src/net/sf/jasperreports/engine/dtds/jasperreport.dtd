@@ -128,7 +128,7 @@
 	radius NMTOKEN "0"
 >
 <!ELEMENT ellipse (reportElement, graphicElement?)>
-<!ELEMENT image (reportElement, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
 	hAlign (Left | Center | Right) "Left"
@@ -147,7 +147,25 @@
 <!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
 <!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
 <!ELEMENT hyperlinkPageExpression (#PCDATA)>
-<!ELEMENT staticText (reportElement, textElement?, text?)>
+<!ELEMENT staticText (reportElement, box?, textElement?, text?)>
+<!ELEMENT box EMPTY>
+<!ATTLIST box
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
 <!ELEMENT textElement (font?)>
 <!ATTLIST textElement
 	textAlignment (Left | Center | Right | Justified) "Left"
@@ -170,7 +188,7 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 <!ELEMENT text (#PCDATA)>
-<!ELEMENT textField (reportElement, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
 	evaluationTime (Now | Report | Page | Column | Group) "Now"

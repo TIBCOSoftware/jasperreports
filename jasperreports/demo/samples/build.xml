@@ -424,6 +424,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Table Sample"/>
+		<echo message="==================================="/>
+		<ant dir="table" target="clean" />
+		<ant dir="table" target="javac" />
+		<ant dir="table" target="compile" />
+		<ant dir="table" target="fill" />
+		<ant dir="table" target="compileBsh" />
+		<ant dir="table" target="fill" />
+		<ant dir="table" target="pdf" />
+		<ant dir="table" target="xmlEmbed" />
+		<ant dir="table" target="xml" />
+		<ant dir="table" target="html" />
+		<ant dir="table" target="xls" />
+		<ant dir="table" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Table of Contents Sample"/>
 		<echo message="==================================="/>
 		<ant dir="tableofcontents" target="clean" />
@@ -512,6 +529,7 @@
 		<ant dir="stretch" target="clean" />
 		<ant dir="styledtext" target="clean" />
 		<ant dir="subreport" target="clean" />
+		<ant dir="table" target="clean" />
 		<ant dir="tableofcontents" target="clean" />
 		<ant dir="unicode" target="clean" />
 		<ant dir="webapp" target="clean" />

@@ -72,6 +72,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRStaticText;
@@ -102,6 +103,7 @@ public class JRTemplateText extends JRTemplateElement
 	private boolean isStyledText = false;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private JRBox box = null;
 	private JRFont font = null;
 
 
@@ -152,6 +154,7 @@ public class JRTemplateText extends JRTemplateElement
 	{
 		super.setElement(textElement);
 
+		box = textElement.getBox();
 		horizontalAlignment = textElement.getTextAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
@@ -202,6 +205,14 @@ public class JRTemplateText extends JRTemplateElement
 	/**
 	 *
 	 */
+	public JRBox getBox()
+	{
+		return box;
+	}
+		
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
 		return font;
@@ -223,4 +234,5 @@ public class JRTemplateText extends JRTemplateElement
 		return hyperlinkTarget;
 	}
 
+	
 }
