@@ -78,7 +78,7 @@
 <%
 	System.setProperty(
 		"jasper.reports.compile.class.path", 
-		application.getRealPath("/WEB-INF/lib/jasperreports-0.5.1.jar") +
+		application.getRealPath("/WEB-INF/lib/jasperreports-0.5.2.jar") +
 		System.getProperty("path.separator") + 
 		application.getRealPath("/WEB-INF/classes/")
 		);
