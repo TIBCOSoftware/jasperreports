@@ -51,7 +51,7 @@ isPdfEmbedded
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
-				<text><![CDATA[ampersand &amp; less &lt; greater &gt; quote &quot;]]></text>
+				<text><![CDATA[ampersand &amp;amp; less &amp;lt; greater &amp;gt; quote &amp;quot;]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
 				<reportElement mode="Opaque" x="0" y="570" width="555" height="20" forecolor="#ff" backcolor="#ffff00"/>

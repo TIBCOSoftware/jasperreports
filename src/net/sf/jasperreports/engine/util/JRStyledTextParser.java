@@ -518,8 +518,7 @@ public class JRStyledTextParser
 			sbuffer.append(ATTRIBUTE_forecolor);
 			sbuffer.append(EQUAL_QUOTE);
 			sbuffer.append(SHARP);
-			String hexa = Integer.toHexString(((Color)value).getRGB() & colorMask).toUpperCase();
-			sbuffer.append(SIX_ZEROS + hexa).substring(hexa.length());
+			sbuffer.append(getHexaColor((Color)value));
 			sbuffer.append(QUOTE);
 		}
 
@@ -532,12 +531,20 @@ public class JRStyledTextParser
 			sbuffer.append(ATTRIBUTE_backcolor);
 			sbuffer.append(EQUAL_QUOTE);
 			sbuffer.append(SHARP);
-			String hexa = Integer.toHexString(((Color)value).getRGB() & colorMask).toUpperCase();
-			sbuffer.append(SIX_ZEROS + hexa).substring(hexa.length());
+			sbuffer.append(getHexaColor((Color)value));
 			sbuffer.append(QUOTE);
 		}
 		
 		return sbuffer;
+	}
+
+	/**
+	 * 
+	 */
+	private String getHexaColor(Color color)
+	{
+		String hexa = Integer.toHexString(color.getRGB() & colorMask).toUpperCase();
+		return (SIX_ZEROS + hexa).substring(hexa.length());
 	}
 
 }
