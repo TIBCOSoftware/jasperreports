@@ -559,7 +559,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		synchronized (subreportFiller)
 		{
 			subreportFiller.notifyAll();
+
+			try
+			{
+				//waits until the master filler notifies it that can continue with the next page
+				subreportFiller.wait();
+			}
+			catch(InterruptedException e)
+			{
+				throw new JRException("Error encountered while waiting on the subreport filling thread.", e);
+			}
 		}
+
 		// forcing the creation of a new thread and a new subreport filler
 		fillThread = null;
 
