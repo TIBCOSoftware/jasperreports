@@ -72,6 +72,7 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -109,6 +110,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
@@ -125,7 +127,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	protected StringBuffer sbuffer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map loadedImagesMap = null;
+	protected Map rendererToImageNameMap = null;
 	protected Map fontsMap = new HashMap();
 
 	/**
@@ -213,7 +215,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		if (!isEmbeddingImages)
 		{
-			loadedImagesMap = new HashMap();
+			rendererToImageNameMap = new HashMap();
 		}
 		
 		String xmlString = exportReportToBuffer().toString();
@@ -247,7 +249,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		if (!isEmbeddingImages)
 		{
-			Collection imageKeys = loadedImagesMap.keySet();
+			Collection imageKeys = rendererToImageNameMap.keySet();
 			if (imageKeys != null && imageKeys.size() > 0)
 			{
 				if (!imagesDir.exists())
@@ -255,13 +257,12 @@ public class JRXmlExporter extends JRAbstractExporter
 					imagesDir.mkdir();
 				}
 	
-				JRRenderable renderer = null;
-				File imageFile = null;
 				for(Iterator it = imageKeys.iterator(); it.hasNext();)
 				{
-					renderer = (JRRenderable)it.next();
-					imageFile = new File(imagesDir, (String)loadedImagesMap.get(renderer));
+					JRRenderable renderer = (JRRenderable)it.next();
+					File imageFile = new File(imagesDir, (String)rendererToImageNameMap.get(renderer));
 					byte[] imageData = renderer.getImageData();
+
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -692,6 +693,15 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 			String imageSource = "";
 			
+			if (renderer.getType() == JRRenderable.TYPE_SVG)
+			{
+				renderer = 
+					new JRWrappingSvgRenderer(
+						renderer, 
+						new Dimension(image.getWidth(), image.getHeight())
+						);
+			}
+				
 			if (isEmbeddingImages)
 			{
 				try
@@ -711,20 +721,20 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				if (loadedImagesMap.containsKey(renderer))
+				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImageNameMap.containsKey(renderer))
 				{
 					imageSource = 
 						(
 						new File(
 							new File(imagesDir.getName()), 
-							(String)loadedImagesMap.get(renderer)
+							(String)rendererToImageNameMap.get(renderer)
 							)
 						).getPath();
 				}
 				else
 				{
-					imageSource = "img_" + String.valueOf(loadedImagesMap.size());
-					loadedImagesMap.put(renderer, imageSource);
+					imageSource = "img_" + String.valueOf(rendererToImageNameMap.size());
+					rendererToImageNameMap.put(renderer, imageSource);
 	
 					imageSource = 
 						(
