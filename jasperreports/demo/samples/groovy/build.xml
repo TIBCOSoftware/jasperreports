@@ -7,8 +7,8 @@
 	<property name="fonts.dir" value="../../fonts" />
 	
 	<path id="classpath">
-		<pathelement location="./"/>
-		<fileset dir="./">
+		<pathelement location="./build/classes"/>
+		<fileset dir="./lib">
 			<include name="**/*.jar"/>
 		</fileset>
 		<pathelement location="${classes.dir}" />
@@ -23,7 +23,8 @@
 		of the test application.
 	-->
 	<target name="javac">
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
@@ -33,12 +34,13 @@
 		and produces the .jasper files.
 	-->
 	<target name="compile">
+		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="./" compiler="net.sf.jasperreports.compilers.JRGroovyCompiler">
+		<jrc destdir="./build/reports" compiler="net.sf.jasperreports.compilers.JRGroovyCompiler">
 			<src>
-				<fileset dir="./">
+				<fileset dir="./reports">
 					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
@@ -53,7 +55,7 @@
 	<target name="fill">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="-F./build/reports/${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -64,7 +66,7 @@
 	-->
 	<target name="view">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -76,7 +78,7 @@
 	<target name="viewXML">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
+			<arg value="-F./build/reports/${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -87,7 +89,7 @@
 	<target name="print">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -99,7 +101,7 @@
 	<target name="pdf">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -111,7 +113,7 @@
 	<target name="xml">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txml"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -123,7 +125,7 @@
 	<target name="xmlEmbed">
 		<java classname="${class.name}" fork="true">
 			<arg value="-TxmlEmbed"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -135,7 +137,7 @@
 	<target name="html">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -147,7 +149,7 @@
 	<target name="xls">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -159,7 +161,7 @@
 	<target name="csv">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -171,7 +173,7 @@
 	<target name="run">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Trun"/>
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="-F./build/reports/${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -182,7 +184,7 @@
 	<target name="viewDesignXML">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="-F./reports/${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -192,7 +194,7 @@
 	-->
 	<target name="viewDesign">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="-F./build/reports/${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -201,18 +203,7 @@
 		Deletes all the generated files.
 	-->
 	<target name="clean">
-		<delete>
-			<fileset dir="." includes="**/*.class" />
-			<fileset dir="." includes="**/*.jasper" />
-			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.xls" />
-			<fileset dir="." includes="**/*.csv" />
-			<fileset dir="." includes="**/*.pdf" />
-		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
+		<delete dir="./build" />
 	</target>
 
 </project>
