@@ -606,6 +606,9 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			attributes = new HashMap();
 
+			attributes.put(TextAttribute.FAMILY, getFontName());
+			attributes.put(TextAttribute.SIZE, new Float(getSize()));
+
 			if (isBold())
 			{
 				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -623,8 +626,13 @@ public class JRBaseFont implements JRFont, Serializable
 				attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 			}
 		
-			attributes.put(TextAttribute.SIZE, new Float(getSize()));
-			attributes.put(TextAttribute.FAMILY, getFontName());
+			attributes.put(JRTextAttribute.PDF_FONT_NAME, getPdfFontName());
+			attributes.put(JRTextAttribute.PDF_ENCODING, getPdfEncoding());
+
+			if (isPdfEmbedded())
+			{
+				attributes.put(JRTextAttribute.IS_PDF_EMBEDDED, Boolean.TRUE);
+			}
 		}
 		
 		return attributes;
