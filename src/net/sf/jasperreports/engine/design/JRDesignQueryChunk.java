@@ -85,7 +85,7 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 600;
+	private static final long serialVersionUID = 601;
 
 	/**
 	 *

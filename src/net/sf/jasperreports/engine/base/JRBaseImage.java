@@ -88,7 +88,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 600;
+	private static final long serialVersionUID = 601;
 
 	/**
 	 *

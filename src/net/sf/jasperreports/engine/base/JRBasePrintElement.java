@@ -89,7 +89,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 600;
+	private static final long serialVersionUID = 601;
 
 	/**
 	 *
