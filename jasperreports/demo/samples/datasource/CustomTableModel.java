@@ -27,7 +27,7 @@
  * Email: teodord@users.sourceforge.net
  */
 
-import javax.swing.table.*;
+import javax.swing.table.AbstractTableModel;
 
 
 /**

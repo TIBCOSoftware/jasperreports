@@ -26,13 +26,20 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.view.*;
 import java.awt.Color;
-import java.util.*;
-import java.io.*;
+import java.io.File;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
@@ -46,7 +53,6 @@ public class AlterDesignApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
@@ -80,13 +86,7 @@ public class AlterDesignApp
 		try
 		{
 			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL.equals(taskName))
+			if (TASK_FILL.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
 				JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
@@ -153,7 +153,7 @@ public class AlterDesignApp
 	{
 		System.out.println( "AlterDesignApp usage:" );
 		System.out.println( "\tjava AlterDesignApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | print | pdf" );
+		System.out.println( "\tTasks : fill | print | pdf" );
 	}
 
 

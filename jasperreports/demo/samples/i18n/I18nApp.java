@@ -26,14 +26,25 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.view.*;
-import java.util.*;
-import java.io.*;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -47,7 +58,6 @@ public class I18nApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_FILL_DEFAULT = "fillDefault";
 	private static final String TASK_VIEW = "view";
@@ -75,14 +85,7 @@ public class I18nApp
 
 		try
 		{
-			if (TASK_COMPILE.equals(taskName))
-			{
-				long start = System.currentTimeMillis();
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL.equals(taskName))
+			if (TASK_FILL.equals(taskName))
 			{
 				Locale locale = chooseLocale();
 				if (locale != null)
@@ -241,7 +244,7 @@ public class I18nApp
 	{
 		System.out.println( "I18nApp usage:" );
 		System.out.println( "\tjava I18nApp task file" );
-		System.out.println( "\tTasks : compile | fill | fillDefault | view | pdf | xml | xmlEmbed | html | xls | csv" );
+		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | xls | csv" );
 	}
 
 

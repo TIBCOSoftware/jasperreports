@@ -26,14 +26,28 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.view.*;
-import java.util.*;
-import java.sql.*;
-import java.io.*;
-import java.awt.*;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Panel;
+import java.awt.Toolkit;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -47,7 +61,6 @@ public class JasperApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
@@ -87,13 +100,7 @@ public class JasperApp
 		try
 		{
 			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL.equals(taskName))
+			if (TASK_FILL.equals(taskName))
 			{
 				//Preparing parameters
 				Image image = Toolkit.getDefaultToolkit().createImage("dukesign.jpg");
@@ -234,7 +241,7 @@ public class JasperApp
 	{
 		System.out.println( "JasperApp usage:" );
 		System.out.println( "\tjava JasperApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
 	}
 
 

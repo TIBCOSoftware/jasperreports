@@ -32,7 +32,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -58,7 +57,6 @@ public class DataSourceApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL_1 = "fill1";
 	private static final String TASK_FILL_2 = "fill2";
 	private static final String TASK_FILL_3 = "fill3";
@@ -101,13 +99,7 @@ public class DataSourceApp
 		try
 		{
 			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL_1.equals(taskName))
+			if (TASK_FILL_1.equals(taskName))
 			{
 				//Preparing parameters
 				Map parameters = new HashMap();
@@ -254,7 +246,7 @@ public class DataSourceApp
 	{
 		System.out.println( "DataSourceApp usage:" );
 		System.out.println( "\tjava DataSourceApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
 	}
 
 

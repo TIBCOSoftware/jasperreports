@@ -31,7 +31,6 @@ import java.io.File;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -54,7 +53,6 @@ public class TableApp
 	/**
 	 *
 	 */
-	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
@@ -94,13 +92,7 @@ public class TableApp
 		try
 		{
 			long start = System.currentTimeMillis();
-			if (TASK_COMPILE.equals(taskName))
-			{
-				JasperCompileManager.compileReportToFile(fileName);
-				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL.equals(taskName))
+			if (TASK_FILL.equals(taskName))
 			{
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource(50));
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
@@ -205,7 +197,7 @@ public class TableApp
 	{
 		System.out.println( "TableApp usage:" );
 		System.out.println( "\tjava TableApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
 	}
 
 
