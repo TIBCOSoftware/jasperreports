@@ -101,14 +101,18 @@ public class JRClassLoader extends ClassLoader
 	{
 		Class clazz = null;
 
-		try
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader != null)
 		{
-			clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
-		}
-		catch (ClassNotFoundException e)
-		{
-			//if (log.isWarnEnabled())
-			//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			try
+			{
+				clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
+			}
+			catch (ClassNotFoundException e)
+			{
+				//if (log.isWarnEnabled())
+				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			}
 		}
 
 		if (clazz == null)

@@ -150,12 +150,15 @@ public class JRDefaultCompiler implements JRCompiler
 		Class compilerClass = null;
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		try
+		if (classLoader != null)
 		{
-			compilerClass = classLoader.loadClass(compilerClassName);
-		}
-		catch(ClassNotFoundException e)
-		{
+			try
+			{
+				compilerClass = classLoader.loadClass(compilerClassName);
+			}
+			catch(ClassNotFoundException e)
+			{
+			}
 		}
 		
 		if (compilerClass == null)
