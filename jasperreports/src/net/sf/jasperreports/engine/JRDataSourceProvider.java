@@ -89,14 +89,14 @@ package net.sf.jasperreports.engine;
  * 		super(PersonBean.class);
  * 	}
  * 
- * 	public JRDataSource create() throws JRException {
+ * 	public JRDataSource create(JasperReport report) throws JRException {
  * 		ArrayList list = new ArrayList();
  * 		list.add(new PersonBean("Teodor"));
  * 		list.add(new PersonBean("Peter"));
  * 		return new JRBeanCollectionDataSource(list);
  * 	}
  *	
- * 	public void dispose() throws JRException {
+ * 	public void dispose(JRDataSource dataSource) throws JRException {
  *		// nothing to dispose
  * 	}
  * }
@@ -129,9 +129,10 @@ public interface JRDataSourceProvider
 	/**
 	 * Creates and returns a new instance of the provided data source.
 	 *  
+	 * @param report the report that will be filled using the created data source.
 	 * @throws JRException if the data source creation has failed
 	 */
-	public JRDataSource create() throws JRException;
+	public JRDataSource create(JasperReport report) throws JRException;
 
 	/**
 	 * Disposes the data source previously obtained using the 

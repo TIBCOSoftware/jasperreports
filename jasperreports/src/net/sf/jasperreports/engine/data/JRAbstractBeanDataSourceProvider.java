@@ -137,7 +137,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 				
 				if (!(descriptor instanceof IndexedPropertyDescriptor) && descriptor.getReadMethod() != null) {
 					JRDesignField field = new JRDesignField();
-					String valueClassName = descriptor.getPropertyType().getName();
+					String valueClassName = normalizeClass(descriptor.getPropertyType()).getName();
 					if (!isValidFieldClass(valueClassName))
 						valueClassName = Object.class.getName();
 					field.setValueClassName(valueClassName);
@@ -151,6 +151,32 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		} else {
 			return new JRField[0];
 		}
+	}
+
+	/**
+	 * Converts a primitiv class to its object counterpart
+	 */
+	private static Class normalizeClass(Class clazz) {
+		if(clazz.isPrimitive()) {
+			if(clazz == boolean.class)
+				return Boolean.class;
+			if(clazz == byte.class)
+				return Byte.class;
+			if(clazz == char.class)
+				return Character.class;
+			if(clazz == short.class)
+				return Short.class;
+			if(clazz == int.class)
+				return Integer.class;
+			if(clazz == long.class)
+				return Long.class;
+			if(clazz == float.class)
+				return Float.class;
+			if(clazz == double.class)
+				return Double.class;
+		}
+		
+		return clazz;
 	}
 
 	private static boolean isValidFieldClass(String className) {
