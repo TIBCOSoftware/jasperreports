@@ -125,7 +125,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText = null;
 	private JRStyledText styledText = null;
 	private MaxFontSizeFinder maxFontSizeFinder = null;
-	protected Map initialStyledTextAttributes = null;
+	private Map styledTextAttributes = null;
 
 
 	/**
@@ -146,7 +146,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		initializeDimension();
 		initilizeFloatLineSpacing();
 		initilizeMaxFontFinder();
-		initilizeStyledTextAttributes();
 	}
 
 
@@ -311,12 +310,17 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	private void initilizeStyledTextAttributes()
+	protected Map getStyledTextAttributes()
 	{
-		initialStyledTextAttributes = new HashMap(); 
-		initialStyledTextAttributes.putAll(font.getAttributes());
-		initialStyledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-		initialStyledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+		if (styledTextAttributes == null)
+		{
+			styledTextAttributes = new HashMap(); 
+			styledTextAttributes.putAll(getFont().getAttributes());
+			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
+			styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+		}
+		
+		return styledTextAttributes;
 	}
 
 	/**
@@ -454,7 +458,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					try
 					{
-						styledText = filler.getStyledTextParser().parse(initialStyledTextAttributes, text);
+						styledText = filler.getStyledTextParser().parse(getStyledTextAttributes(), text);
 					}
 					catch (SAXException e)
 					{
@@ -467,7 +471,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					styledText = new JRStyledText();
 					styledText.append(text);
-					styledText.addRun(new JRStyledText.Run(initialStyledTextAttributes, 0, text.length()));
+					styledText.addRun(new JRStyledText.Run(getStyledTextAttributes(), 0, text.length()));
 				}
 			}
 		}
