@@ -114,7 +114,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getText()
 	{
-		return this.text;
+		return text;
 	}
 		
 	/**
@@ -130,7 +130,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public float getAbsoluteLineSpacing()
 	{
-		return this.absoluteLineSpacing;
+		return absoluteLineSpacing;
 	}
 		
 	/**
@@ -146,7 +146,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public float getAbsoluteLeading()
 	{
-		return this.absoluteLeading;
+		return absoluteLeading;
 	}
 		
 	/**
@@ -162,7 +162,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTemplateText)this.template).getTextAlignment();
+		return ((JRTemplateText)template).getTextAlignment();
 	}
 		
 	/**
@@ -177,7 +177,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getVerticalAlignment()
 	{
-		return ((JRTemplateText)this.template).getVerticalAlignment();
+		return ((JRTemplateText)template).getVerticalAlignment();
 	}
 		
 	/**
@@ -192,7 +192,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getRotation()
 	{
-		return ((JRTemplateText)this.template).getRotation();
+		return ((JRTemplateText)template).getRotation();
 	}
 		
 	/**
@@ -207,7 +207,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public float getTextHeight()
 	{
-		return this.textHeight;
+		return textHeight;
 	}
 		
 	/**
@@ -223,7 +223,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getLineSpacing()
 	{
-		return ((JRTemplateText)this.template).getLineSpacing();
+		return ((JRTemplateText)template).getLineSpacing();
 	}
 		
 	/**
@@ -236,9 +236,24 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
+	public boolean isStyledText()
+	{
+		return ((JRTemplateText)template).isStyledText();
+	}
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText)
+	{
+	}
+		
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
-		return ((JRTemplateText)this.template).getFont();
+		return ((JRTemplateText)template).getFont();
 	}
 		
 	/**
@@ -253,7 +268,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getAnchorName()
 	{
-		return this.anchorName;
+		return anchorName;
 	}
 		
 	/**
@@ -269,7 +284,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getHyperlinkType()
 	{
-		return ((JRTemplateText)this.template).getHyperlinkType();
+		return ((JRTemplateText)template).getHyperlinkType();
 	}
 		
 	/**
@@ -284,7 +299,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getHyperlinkReference()
 	{
-		return this.hyperlinkReference;
+		return hyperlinkReference;
 	}
 		
 	/**
@@ -300,7 +315,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getHyperlinkAnchor()
 	{
-		return this.hyperlinkAnchor;
+		return hyperlinkAnchor;
 	}
 		
 	/**
@@ -316,7 +331,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getHyperlinkPage()
 	{
-		return this.hyperlinkPage;
+		return hyperlinkPage;
 	}
 		
 	/**

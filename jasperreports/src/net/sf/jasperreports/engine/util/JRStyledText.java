@@ -69,94 +69,112 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package dori.jasper.engine.util;
+
+import java.text.AttributedString;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextElement extends JRElement, JRAlignment
+public class JRStyledText
 {
 
-
 	/**
 	 *
 	 */
-	public static final byte TEXT_ALIGN_LEFT = HORIZONTAL_ALIGN_LEFT;
-	public static final byte TEXT_ALIGN_CENTER = HORIZONTAL_ALIGN_CENTER;
-	public static final byte TEXT_ALIGN_RIGHT = HORIZONTAL_ALIGN_RIGHT;
-	public static final byte TEXT_ALIGN_JUSTIFIED = HORIZONTAL_ALIGN_JUSTIFIED;
+	private StringBuffer sbuffer = new StringBuffer();
+	private List runs = new ArrayList();
+	private AttributedString attributedString = null;
 
+	
 	/**
 	 *
 	 */
-	public static final byte ROTATION_NONE = 0;
-	public static final byte ROTATION_LEFT = 1;
-	public static final byte ROTATION_RIGHT = 2;
-
-	/**
-	 *
-	 */
-	public static final byte LINE_SPACING_SINGLE = 0;
-	public static final byte LINE_SPACING_1_1_2 = 1;
-	public static final byte LINE_SPACING_DOUBLE = 2;
+	public JRStyledText()
+	{
+	}
 
 
 	/**
 	 *
 	 */
-	public byte getTextAlignment();
-		
-	/**
-	 *
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getRotation();
-		
-	/**
-	 *
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 *
-	 */
-	public byte getLineSpacing();
+	public void append(String text)
+	{
+		sbuffer.append(text);
+		attributedString = null;
+	}
 
 	/**
 	 *
 	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 *
-	 */
-	public boolean isStyledText();
-		
-	/**
-	 *
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 *
-	 */
-	public JRFont getFont();
-		
+	public void addRun(Run run)
+	{
+		runs.add(run);
+		attributedString = null;
+	}
 
+	/**
+	 *
+	 */
+	public int length()
+	{
+		return sbuffer.length();
+	}
+
+	/**
+	 *
+	 */
+	public String getText()
+	{
+		return sbuffer.toString();
+	}
+
+	/**
+	 *
+	 */
+	public AttributedString getAttributedString()
+	{
+		if (attributedString == null)
+		{
+			attributedString = new AttributedString(sbuffer.toString());
+
+			for(int i = runs.size() - 1; i >= 0; i--)
+			{
+				Run run = (Run)runs.get(i);
+				attributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
+			}
+		}
+		
+		return attributedString;
+	}
+
+
+	/**
+	 * 
+	 */
+	public static class Run 
+	{
+		/**
+		 *
+		 */
+		public Map attributes = null;
+		public int startIndex = 0;
+		public int endIndex = 0;
+
+		/**
+		 *
+		 */
+		public Run(Map attributes, int startIndex, int endIndex) 
+		{
+			this.attributes = attributes;
+			this.startIndex = startIndex;
+			this.endIndex = endIndex;
+		}
+	}
+	
 }

@@ -1233,6 +1233,13 @@ public class JRXmlWriter
 			sbuffer.append("\"");
 		}
 
+		if (textElement.isStyledText())
+		{
+			sbuffer.append(" isStyledText=\"");
+			sbuffer.append(textElement.isStyledText());
+			sbuffer.append("\"");
+		}
+
 		String font = writeFont(textElement.getFont());
 		if (font != null)
 		{

@@ -87,6 +87,10 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRFont;
+import dori.jasper.engine.JRPrintElement;
+import dori.jasper.engine.JRPrintPage;
+import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JasperPrint;
 
 
@@ -242,51 +246,51 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.setValidating(true);
 		
 		/*   */
-		digester.addFactoryCreate("jasperPrint", "dori.jasper.engine.xml.JasperPrintFactory");
-		digester.addSetNext("jasperPrint", "setJasperPrint", "dori.jasper.engine.JasperPrint");
+		digester.addFactoryCreate("jasperPrint", JasperPrintFactory.class.getName());
+		digester.addSetNext("jasperPrint", "setJasperPrint", JasperPrint.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperPrint/reportFont", "dori.jasper.engine.xml.JRReportFontFactory");
-		digester.addSetNext("jasperPrint/reportFont", "addFont", "dori.jasper.engine.JRReportFont");
+		digester.addFactoryCreate("jasperPrint/reportFont", JRReportFontFactory.class.getName());
+		digester.addSetNext("jasperPrint/reportFont", "addFont", JRReportFont.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperPrint/page", "dori.jasper.engine.xml.JRPrintPageFactory");
-		digester.addSetNext("jasperPrint/page", "addPage", "dori.jasper.engine.JRPrintPage");
+		digester.addFactoryCreate("jasperPrint/page", JRPrintPageFactory.class.getName());
+		digester.addSetNext("jasperPrint/page", "addPage", JRPrintPage.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/line", "dori.jasper.engine.xml.JRPrintLineFactory");
-		digester.addSetNext("*/line", "addElement", "dori.jasper.engine.JRPrintElement");
+		digester.addFactoryCreate("*/line", JRPrintLineFactory.class.getName());
+		digester.addSetNext("*/line", "addElement", JRPrintElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/reportElement", "dori.jasper.engine.xml.JRPrintElementFactory");
+		digester.addFactoryCreate("*/reportElement", JRPrintElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/graphicElement", "dori.jasper.engine.xml.JRPrintGraphicElementFactory");
+		digester.addFactoryCreate("*/graphicElement", JRPrintGraphicElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/rectangle", "dori.jasper.engine.xml.JRPrintRectangleFactory");
-		digester.addSetNext("*/rectangle", "addElement", "dori.jasper.engine.JRPrintElement");
+		digester.addFactoryCreate("*/rectangle", JRPrintRectangleFactory.class.getName());
+		digester.addSetNext("*/rectangle", "addElement", JRPrintElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/ellipse", "dori.jasper.engine.xml.JRPrintEllipseFactory");
-		digester.addSetNext("*/ellipse", "addElement", "dori.jasper.engine.JRPrintElement");
+		digester.addFactoryCreate("*/ellipse", JRPrintEllipseFactory.class.getName());
+		digester.addSetNext("*/ellipse", "addElement", JRPrintElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image", "dori.jasper.engine.xml.JRPrintImageFactory");
-		digester.addSetNext("*/image", "addElement", "dori.jasper.engine.JRPrintElement");
+		digester.addFactoryCreate("*/image", JRPrintImageFactory.class.getName());
+		digester.addSetNext("*/image", "addElement", JRPrintElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image/imageSource", "dori.jasper.engine.xml.JRPrintImageSourceFactory");
+		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());
 		digester.addCallMethod("*/image/imageSource", "setImageSource", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/text", "dori.jasper.engine.xml.JRPrintTextFactory");
-		digester.addSetNext("*/text", "addElement", "dori.jasper.engine.JRPrintElement");
+		digester.addFactoryCreate("*/text", JRPrintTextFactory.class.getName());
+		digester.addSetNext("*/text", "addElement", JRPrintElement.class.getName());
 		digester.addCallMethod("*/text/textContent", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/text/font", "dori.jasper.engine.xml.JRPrintFontFactory");
-		digester.addSetNext("*/text/font", "setFont", "dori.jasper.engine.JRFont");
+		digester.addFactoryCreate("*/text/font", JRPrintFontFactory.class.getName());
+		digester.addSetNext("*/text/font", "setFont", JRFont.class.getName());
 
 		return digester;
 	}

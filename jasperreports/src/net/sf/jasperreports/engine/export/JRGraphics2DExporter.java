@@ -90,8 +90,9 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.xml.sax.SAXException;
 
 import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRAlignment;
@@ -114,6 +115,8 @@ import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRGraphEnvInitializer;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRStringUtil;
+import dori.jasper.engine.util.JRStyledText;
+import dori.jasper.engine.util.JRStyledTextParser;
 
 
 /**
@@ -135,6 +138,11 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 *
 	 */
 	protected JRFont defaultFont = null;
+
+	/**
+	 *
+	 */
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 
 	/**
@@ -729,14 +737,50 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		JRStyledText styledText = null;
+
+		String text = textElement.getText();
+		if (text != null && text.length() > 0)
+		{
+			if (textElement.isStyledText())
+			{
+				try
+				{
+					styledText = styledTextParser.parse(textElement.getFont().getAttributes(), "<st>" + text + "</st>");
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(textElement.getFont().getAttributes(), 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
+
+	/**
+	 *
+	 */
 	protected void exportText(JRPrintText text)
 	{
-		String allText = text.getText();
-
-		if (allText == null)
+		JRStyledText styledText = getStyledText(text);
+		
+		if (styledText == null)
 		{
 			return;
 		}
+
+		String allText = styledText.getText();
 		
 		int x = text.getX();
 		int y = text.getY();
@@ -847,32 +891,35 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		int maxHeight = height;
 		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
 		FontRenderContext fontRenderContext = grx.getFontRenderContext();
-		JRFont font = text.getFont();
-		if (font == null)
-		{
-			font = getDefaultFont();
-		}
-		Map fontAttributes = font.getAttributes();
 
 		float drawPosY = 0;
 	    float drawPosX = 0;
 	
 		boolean isMaxHeightReached = false;
 		
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n");
+		int paragraphStart = 0;
+		int paragraphEnd = 0;
+
+		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+
+		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 		
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			String paragr_text = tkzer.nextToken();
-			
-			AttributedString atext = new AttributedString(paragr_text, fontAttributes);
-			AttributedCharacterIterator paragraph = atext.getIterator();
-			int paragraphStart = paragraph.getBeginIndex();
-			int paragraphEnd = paragraph.getEndIndex();
+			String paragraphText = tkzer.nextToken();
+
+			paragraphStart = paragraphEnd;
+			paragraphEnd = paragraphStart + paragraphText.length();
+
+			if ("\n".equals(paragraphText))
+			{
+				continue;
+			}
+
+			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
 			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-			lineMeasurer.setPosition(paragraphStart);
 	
-			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
+			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
 			{
 				//eugene fix - start
 				int startIndex = lineMeasurer.getPosition();

@@ -115,6 +115,12 @@ public class JRTextElementFactory extends JRBaseFactory
 			textElement.setLineSpacing(lineSpacing.byteValue());
 		}
 
+		String isStyledText = atts.getValue("isStyledText");
+		if (isStyledText != null && isStyledText.length() > 0)
+		{
+			textElement.setStyledText(Boolean.valueOf(isStyledText).booleanValue());
+		}
+
 		return textElement;
 	}
 	

@@ -99,6 +99,7 @@ public class JRTemplateText extends JRTemplateElement
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	private byte rotation = JRTextElement.ROTATION_NONE;
 	private byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
+	private boolean isStyledText = false;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private JRFont font = null;
 
@@ -153,6 +154,7 @@ public class JRTemplateText extends JRTemplateElement
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
+		isStyledText = textElement.isStyledText();
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public byte getTextAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -168,7 +170,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -176,7 +178,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public byte getRotation()
 	{
-		return this.rotation;
+		return rotation;
 	}
 		
 	/**
@@ -184,7 +186,15 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public byte getLineSpacing()
 	{
-		return this.lineSpacing;
+		return lineSpacing;
+	}
+		
+	/**
+	 *
+	 */
+	public boolean isStyledText()
+	{
+		return isStyledText;
 	}
 		
 	/**
@@ -192,7 +202,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public JRFont getFont()
 	{
-		return this.font;
+		return font;
 	}
 		
 	/**
@@ -200,7 +210,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return hyperlinkType;
 	}
 
 }

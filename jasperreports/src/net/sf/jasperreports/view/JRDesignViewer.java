@@ -91,7 +91,6 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
@@ -99,6 +98,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JViewport;
+
+import org.xml.sax.SAXException;
 
 import dori.jasper.engine.JRAlignment;
 import dori.jasper.engine.JRBand;
@@ -125,6 +126,8 @@ import dori.jasper.engine.util.JRGraphEnvInitializer;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRLoader;
 import dori.jasper.engine.util.JRStringUtil;
+import dori.jasper.engine.util.JRStyledText;
+import dori.jasper.engine.util.JRStyledTextParser;
 import dori.jasper.engine.xml.JRXmlLoader;
 
 
@@ -162,6 +165,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private JScrollBar vBar = null;
 
 	private JRFont defaultFont = null;
+
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	
 	/** Creates new form JRDesignViewer */
@@ -1480,28 +1485,74 @@ public class JRDesignViewer extends javax.swing.JPanel
 	/**
 	 *
 	 */
-	private void printText(JRTextElement text, Graphics2D grx)
+	private JRStyledText getStyledText(JRTextElement textElement)
 	{
-		String allText = null;
-		if (text instanceof JRStaticText)
+		JRStyledText styledText = null;
+
+		String text = null;
+		if (textElement instanceof JRStaticText)
 		{
-			allText = ((JRStaticText)text).getText();
+			text = ((JRStaticText)textElement).getText();
 		}
-		else if (text instanceof JRTextField)
+		else if (textElement instanceof JRTextField)
 		{
-			if (((JRTextField)text).getExpression() != null)
+			if (((JRTextField)textElement).getExpression() != null)
 			{
-				allText = ((JRTextField)text).getExpression().getText();
+				text = ((JRTextField)textElement).getExpression().getText();
 			}
 		}
 		
-		if (allText == null || allText.length() == 0)
+		if (text != null && text.length() > 0)
+		{
+			text = JRStringUtil.treatNewLineChars(text);
+
+			JRFont font = textElement.getFont();
+			if (font == null)
+			{
+				font = getDefaultFont();
+			}
+
+			if (
+				textElement instanceof JRStaticText
+				&& textElement.isStyledText()
+				)
+			{
+				try
+				{
+					styledText = styledTextParser.parse(font.getAttributes(), "<st>" + text + "</st>");
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(font.getAttributes(), 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
+
+	/**
+	 *
+	 */
+	private void printText(JRTextElement text, Graphics2D grx)
+	{
+		JRStyledText styledText = getStyledText(text);
+		
+		if (styledText == null)
 		{
 			return;
 		}
 
-		allText = JRStringUtil.treatNewLineChars(allText);
-
+		String allText = styledText.getText();
+		
 		int x = text.getX();
 		int y = text.getY();
 		int width = text.getWidth();
@@ -1581,43 +1632,37 @@ public class JRDesignViewer extends javax.swing.JPanel
 		int maxHeight = height;
 		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
 		FontRenderContext fontRenderContext = grx.getFontRenderContext();
-		JRFont font = text.getFont();
-		if (font == null)
-		{
-			font = getDefaultFont();
-		}
-		Map fontAttributes = font.getAttributes();
 
-		AttributedString atext;
-		AttributedCharacterIterator paragraph;
-		int paragraphStart;
-		int paragraphEnd;
-		LineBreakMeasurer lineMeasurer;
-		TextLayout layout = null;
+		int paragraphStart = 0;
+		int paragraphEnd = 0;
 	
 		float drawPosY = 0;
 	    float drawPosX = 0;
 	
-		String paragr_text = "";
 		boolean isMaxHeightReached = false;
 		
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n");
+		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+
+		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 		
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			paragr_text = tkzer.nextToken();
+			String paragraphText = tkzer.nextToken();
 			
-			atext = new AttributedString(paragr_text, fontAttributes);
-			paragraph = atext.getIterator();
-			paragraphStart = paragraph.getBeginIndex();
-			paragraphEnd = paragraph.getEndIndex();
-			lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-			lineMeasurer.setPosition(paragraphStart);
-	
-			layout = null;
-			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
+			paragraphStart = paragraphEnd;
+			paragraphEnd = paragraphStart + paragraphText.length();
+
+			if ("\n".equals(paragraphText))
 			{
-				layout = lineMeasurer.nextLayout(formatWidth);
+				continue;
+			}
+
+			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
+	
+			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
+			{
+				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 	
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
 	
@@ -1658,29 +1703,34 @@ public class JRDesignViewer extends javax.swing.JPanel
 			}
 		}
 
+		paragraphStart = 0;
+		paragraphEnd = 0;
+
 		drawPosY = 0;
 	    drawPosX = 0;
 	
-		paragr_text = "";
 		isMaxHeightReached = false;
 		
-		tkzer = new StringTokenizer(allText, "\n");
+		tkzer = new StringTokenizer(allText, "\n", true);
 		
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			paragr_text = tkzer.nextToken();
+			String paragraphText = tkzer.nextToken();
 			
-			atext = new AttributedString(paragr_text, fontAttributes);
-			paragraph = atext.getIterator();
-			paragraphStart = paragraph.getBeginIndex();
-			paragraphEnd = paragraph.getEndIndex();
-			lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-			lineMeasurer.setPosition(paragraphStart);
-	
-			layout = null;
-			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
+			paragraphStart = paragraphEnd;
+			paragraphEnd = paragraphStart + paragraphText.length();
+
+			if ("\n".equals(paragraphText))
 			{
-				layout = lineMeasurer.nextLayout(formatWidth);
+				continue;
+			}
+
+			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
+	
+			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
+			{
+				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 	
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
 	

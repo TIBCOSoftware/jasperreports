@@ -76,12 +76,16 @@ import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
-import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.SAXException;
 
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRTextElement;
+import dori.jasper.engine.util.*;
 
 
 /**
@@ -91,6 +95,11 @@ import dori.jasper.engine.JRTextElement;
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
 
+
+	/**
+	 *
+	 */
+	private static final Log log = LogFactory.getLog(JRFillTextElement.class);
 
 	/**
 	 *
@@ -108,6 +117,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float textHeight = 0;
 	private int textStart = 0;
 	private int textEnd = 0;
+	private String rawText = null;
+	private JRStyledTextParser styledTextParser = null;
+	private JRStyledText styledText = null;
 
 
 	/**
@@ -121,6 +133,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super(filler, textElement, factory);
 
+		if (isStyledText())
+		{
+			styledTextParser = new JRStyledTextParser();//FIXME put this in the filler?
+		}
+		
 		/*   */
 		font = factory.getFont(textElement.getFont());
 	}
@@ -189,22 +206,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	public boolean isStyledText()
+	{
+		return ((JRTextElement)parent).isStyledText();
+	}
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText)
+	{
+	}
+		
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
-		/*
-		if (font == null)
-		{
-			font = ((JRTextElement)parent).getFont();
-			if (font == null)
-			{
-				font = filler.defaultFont;
-				if (font == null)
-				{
-					font = new JRDesignFont();
-				}
-			}
-		}
-		*/
 		return font;
 	}
 		
@@ -326,9 +344,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected String getText()
+	protected String getRawText()
 	{
-		return null;
+		return rawText;
+	}
+
+	/**
+	 *
+	 */
+	protected void setRawText(String rawText)
+	{
+		this.rawText = rawText;
+		styledText = null;
 	}
 
 
@@ -358,11 +385,66 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	protected JRStyledText getStyledText()
+	{
+		if (styledText == null)
+		{
+			String text = getRawText();
+			if (text != null && text.length() > 0)
+			{
+				if (isStyledText())
+				{
+					try
+					{
+						styledText = styledTextParser.parse(getFont().getAttributes(), "<st>" + text + "</st>");
+					}
+					catch (SAXException e)
+					{
+						if (log.isWarnEnabled())
+							log.warn("Invalid styled text.", e);
+					}
+				}
+		
+				if (styledText == null)
+				{
+					styledText = new JRStyledText();
+					styledText.append(text);
+					styledText.addRun(new JRStyledText.Run(getFont().getAttributes(), 0, text.length()));
+				}
+			}
+		}
+		
+		return styledText;
+	}
+
+	/**
+	 *
+	 */
+	public String getText()
+	{
+		JRStyledText styledText = getStyledText();
+
+		if (styledText == null)
+		{
+			return "";
+		}
+		else
+		{
+			return styledText.getText();
+		}
+	}
+	
+
+	/**
+	 *
+	 */
 	protected void chopTextElement(
 		int availableStretchHeight
 		)
 	{
-		if (getText() == null || getText().length() == 0)
+		JRStyledText styledText = getStyledText();
+
+		if (styledText == null)
 		{
 			return;
 		}
@@ -405,7 +487,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		float formatWidth = (float)width;
 		float lineSpacing = getFloatLineSpacing();
 		int maxHeight = height + availableStretchHeight;
-		Map fontAttributes = getFont().getAttributes();
 
 		float drawPosY = 0;
 		//float lastDrawPosY = 0;
@@ -416,27 +497,32 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		boolean isMaxHeightReached = false;
 		boolean wasDelim = false;
 
+		int paragraphStart = 0;
+		int paragraphEnd = 0;
+
+		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+
 		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 	
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			String paragr_text = tkzer.nextToken();
-			if ("\n".equals(paragr_text))
+			String paragraphText = tkzer.nextToken();
+
+			paragraphStart = paragraphEnd;
+			paragraphEnd = paragraphStart + paragraphText.length();
+
+			if ("\n".equals(paragraphText))
 			{
 				wasDelim = true;
 				continue;
 			}
-	
-			AttributedString atext = new AttributedString(paragr_text, fontAttributes);
-			AttributedCharacterIterator paragraph = atext.getIterator();
-			int paragraphStart = paragraph.getBeginIndex();
-			int paragraphEnd = paragraph.getEndIndex();
+
+			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
 			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-			lineMeasurer.setPosition(paragraphStart);
 	
 			lastPosition = lineMeasurer.getPosition();
 	
-			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
+			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
 			{
 				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 	
@@ -482,7 +568,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 			else
 			{
-				strpos += paragr_text.length();
+				strpos += paragraphText.length();
 				if (wasDelim)
 				{
 					// we take into account the newline character only

@@ -95,6 +95,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
 	protected byte rotation = ROTATION_NONE;
 	protected byte lineSpacing = LINE_SPACING_SINGLE;
+	protected boolean isStyledText = false;
 
 	/**
 	 *
@@ -109,7 +110,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	{
 		super();
 		
-		this.mode = MODE_TRANSPARENT;
+		mode = MODE_TRANSPARENT;
 	}
 		
 
@@ -118,7 +119,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public byte getTextAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -126,7 +127,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -134,7 +135,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public byte getRotation()
 	{
-		return this.rotation;
+		return rotation;
 	}
 		
 	/**
@@ -142,7 +143,15 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public byte getLineSpacing()
 	{
-		return this.lineSpacing;
+		return lineSpacing;
+	}
+		
+	/**
+	 *
+	 */
+	public boolean isStyledText()
+	{
+		return isStyledText;
 	}
 		
 	/**
@@ -150,7 +159,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public JRFont getFont()
 	{
-		return this.font;
+		return font;
 	}
 
 	/**
@@ -183,6 +192,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public void setLineSpacing(byte lineSpacing)
 	{
 		this.lineSpacing = lineSpacing;
+	}
+		
+	/**
+	 *
+	 */
+	public void setStyledText(boolean isStyledText)
+	{
+		this.isStyledText = isStyledText;
 	}
 		
 	/**
