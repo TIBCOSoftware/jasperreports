@@ -37,7 +37,7 @@
 			<classpath refid="classpath"/>
 		</taskdef>
 
-		<jrc destdir="./" compiler="net.sf.jasperreports.engine.design.JRGroovyCompiler">
+		<jrc destdir="./" compiler="net.sf.jasperreports.compilers.JRGroovyCompiler">
 			<src>
 				<fileset dir="./">
 					<include name="**/*.jrxml"/>
