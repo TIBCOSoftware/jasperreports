@@ -475,6 +475,7 @@ public class JRXlsExporter extends JRAbstractExporter
 				forecolor, 
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP, 
+				(short)0,
 				cellFont
 				);
 
@@ -512,7 +513,8 @@ public class JRXlsExporter extends JRAbstractExporter
 				mode,
 				backcolor, 
 				HSSFCellStyle.ALIGN_LEFT, 
-				HSSFCellStyle.VERTICAL_TOP, 
+				HSSFCellStyle.VERTICAL_TOP,
+				(short)0, 
 				cellFont
 				);
 
@@ -546,57 +548,180 @@ public class JRXlsExporter extends JRAbstractExporter
 			HSSFFont cellFont = getLoadedFont(font, forecolor);
 
 			short horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-
-			switch (text.getTextAlignment())
-			{
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-				{
-					horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-					break;
-				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-				{
-					horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
-					break;
-				}
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-				{
-					horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
-					break;
-				}
-				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-				{
-					horizontalAlignment = HSSFCellStyle.ALIGN_JUSTIFY;
-					break;
-				}
-				default :
-				{
-					horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-				}
-			}
-
 			short verticalAlignment = HSSFCellStyle.ALIGN_LEFT;
+			short rotation = 0;
 
-			switch (text.getVerticalAlignment())
+			switch (text.getRotation())
 			{
-				case JRTextElement.VERTICAL_ALIGN_TOP :
+				case JRTextElement.ROTATION_LEFT :
 				{
-					verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+					rotation = 90;
+
+					switch (text.getTextAlignment())
+					{
+						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_JUSTIFY;
+							break;
+						}
+						default :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
+						}
+					}
+
+					switch (text.getVerticalAlignment())
+					{
+						case JRTextElement.VERTICAL_ALIGN_TOP :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
+							break;
+						}
+						default :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
+						}
+					}
+
 					break;
 				}
-				case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+				case JRTextElement.ROTATION_RIGHT :
 				{
-					verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
+					rotation = 180;
+
+					switch (text.getTextAlignment())
+					{
+						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_JUSTIFY;
+							break;
+						}
+						default :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+						}
+					}
+
+					switch (text.getVerticalAlignment())
+					{
+						case JRTextElement.VERTICAL_ALIGN_TOP :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
+							break;
+						}
+						default :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
+						}
+					}
+
 					break;
 				}
-				case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-				{
-					verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
-					break;
-				}
+				case JRTextElement.ROTATION_NONE :
 				default :
 				{
-					verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+					rotation = 0;
+
+					switch (text.getTextAlignment())
+					{
+						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
+							break;
+						}
+						case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_JUSTIFY;
+							break;
+						}
+						default :
+						{
+							horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
+						}
+					}
+
+					switch (text.getVerticalAlignment())
+					{
+						case JRTextElement.VERTICAL_ALIGN_TOP :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
+							break;
+						}
+						case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
+							break;
+						}
+						default :
+						{
+							verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
+						}
+					}
 				}
 			}
 
@@ -613,7 +738,8 @@ public class JRXlsExporter extends JRAbstractExporter
 					mode,
 					backcolor, 
 					horizontalAlignment, 
-					verticalAlignment, 
+					verticalAlignment,
+					rotation, 
 					cellFont
 					);
 
@@ -889,7 +1015,8 @@ public class JRXlsExporter extends JRAbstractExporter
 		short mode, 
 		short backcolor, 
 		short horizontalAlignment, 
-		short verticalAlignment, 
+		short verticalAlignment,
+		short rotation, 
 		HSSFFont font
 		)
 	{
@@ -907,6 +1034,7 @@ public class JRXlsExporter extends JRAbstractExporter
 					cs.getFillForegroundColor() == backcolor &&
 					cs.getAlignment() == horizontalAlignment &&
 					cs.getVerticalAlignment() == verticalAlignment &&
+					cs.getRotation() == rotation &&
 					cs.getFontIndex() == font.getIndex()
 					)
 				{
@@ -923,6 +1051,7 @@ public class JRXlsExporter extends JRAbstractExporter
 			cellStyle.setFillPattern(mode);
 			cellStyle.setAlignment(horizontalAlignment);
 			cellStyle.setVerticalAlignment(verticalAlignment);
+			cellStyle.setRotation(rotation);
 			cellStyle.setFont(font);
 			cellStyle.setWrapText(true);
 			

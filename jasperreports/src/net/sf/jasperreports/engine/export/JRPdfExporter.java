@@ -72,6 +72,7 @@
 package dori.jasper.engine.export;
 
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1132,6 +1133,41 @@ public class JRPdfExporter extends JRAbstractExporter
 			return;
 		}
 
+		int x = text.getX();
+		int y = text.getY();
+		int width = text.getWidth();
+		int height = text.getHeight();
+		
+		double angle = 0;
+		
+		switch (text.getRotation())
+		{
+			case JRTextElement.ROTATION_LEFT :
+			{
+				y = text.getY() + text.getHeight();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_RIGHT :
+			{
+				x = text.getX() + text.getWidth();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = - Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_NONE :
+			default :
+			{
+			}
+		}
+		
+		AffineTransform atrans = new AffineTransform();
+		atrans.rotate(angle, x, jasperPrint.getPageHeight() - y);
+		pdfContentByte.transform(atrans);
+		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.setRGBColorStroke(
@@ -1147,10 +1183,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.setLineWidth(1f);
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
-				text.getX(),
-				jasperPrint.getPageHeight() - text.getY(),
-				text.getWidth() - 1,
-				- text.getHeight() + 1
+				x,
+				jasperPrint.getPageHeight() - y,
+				width - 1,
+				- height + 1
 				);
 			pdfContentByte.fillStroke();
 		}
@@ -1286,12 +1322,12 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalOffset = ((float)text.getHeight() - text.getTextHeight()) / 2f;
+				verticalOffset = ((float)height - text.getTextHeight()) / 2f;
 				break;
 			}
 			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalOffset = text.getHeight() - text.getTextHeight();
+				verticalOffset = height - text.getTextHeight();
 				break;
 			}
 			default :
@@ -1371,21 +1407,25 @@ public class JRPdfExporter extends JRAbstractExporter
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
 			new Phrase(chunk),
-			text.getX(), 
+			x, 
 			jasperPrint.getPageHeight() 
-				- text.getY() 
+				- y 
 				- verticalOffset 
 				- text.getAbsoluteLeading() 
 				+ text.getAbsoluteLineSpacing(), 
-			text.getX() + text.getWidth(), 
+			x + width, 
 			jasperPrint.getPageHeight() 
-				- text.getY() 
-				- text.getHeight(),
+				- y 
+				- height,
 			text.getAbsoluteLineSpacing(),
 			horizontalAlignment
 			);
 		
 		colText.go();
+
+		atrans = new AffineTransform();
+		atrans.rotate(-angle, x, jasperPrint.getPageHeight() - y);
+		pdfContentByte.transform(atrans);
 	}
 
 		

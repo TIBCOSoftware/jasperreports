@@ -759,6 +759,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
+		if (text.getRotation() != JRTextElement.ROTATION_NONE)
+		{
+			sbuffer.append(" rotation=\"");
+			sbuffer.append((String)JRXmlConstants.getRotationMap().get(new Byte(text.getRotation())));
+			sbuffer.append("\"");
+		}
+
 		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
 			sbuffer.append(" lineSpacing=\"");

@@ -579,7 +579,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 						this.isFirstYFound = true;
 					}
 
-					bandStretch = element.getRelativeY() + element.getStretchHeight() - this.getHeight();
+					bandStretch = element.getRelativeY() + element.getStretchHeight() - this.getHeight() + element.getBandBottomY();
 					if (bandStretch > maxBandStretch)
 					{
 						maxBandStretch = bandStretch;

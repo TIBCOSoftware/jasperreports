@@ -251,7 +251,14 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text = new JRTemplatePrintText(this.getJRTemplateText());
 		text.setX(this.getX());
 		text.setY(this.getRelativeY());
-		text.setHeight(this.getStretchHeight());
+		if (this.getRotation() == ROTATION_NONE)
+		{
+			text.setHeight(this.getStretchHeight());
+		}
+		else
+		{
+			text.setHeight(this.getHeight());
+		}
 		text.setAbsoluteLineSpacing(this.getAbsoluteLineSpacing());
 		text.setAbsoluteLeading(this.getAbsoluteLeading());
 		text.setTextHeight(this.getTextHeight());

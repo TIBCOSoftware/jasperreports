@@ -728,27 +728,50 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			return;
 		}
 		
+		int x = text.getX();
+		int y = text.getY();
+		int width = text.getWidth();
+		int height = text.getHeight();
+		
+		double angle = 0;
+		
+		switch (text.getRotation())
+		{
+			case JRTextElement.ROTATION_LEFT :
+			{
+				y = text.getY() + text.getHeight();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = - Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_RIGHT :
+			{
+				x = text.getX() + text.getWidth();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_NONE :
+			default :
+			{
+			}
+		}
+		
+		grx.rotate(angle, x, y);
+
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(text.getBackcolor());
-			grx.fillRect(
-				text.getX(), 
-				text.getY(), 
-				text.getWidth(),
-				text.getHeight()
-				);
+			grx.fillRect(x, y, width, height); 
 		}
 		else
 		{
 			/*
 			grx.setColor(text.getForecolor());
 			grx.setStroke(new BasicStroke(1));
-			grx.drawRect(
-				text.getX(), 
-				text.getY(), 
-				text.getWidth(),
-				text.getHeight()
-				);
+			grx.drawRect(x, y, width, height);
 			*/
 		}
 
@@ -761,7 +784,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		allText = JRStringUtil.treatNewLineChars(allText);
 
-		float formatWidth = (float) text.getWidth();
+		float formatWidth = (float)width;
 
 		float verticalOffset = 0f;
 		switch (text.getVerticalAlignment())
@@ -773,12 +796,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalOffset = ((float)text.getHeight() - text.getTextHeight()) / 2f;
+				verticalOffset = ((float)height - text.getTextHeight()) / 2f;
 				break;
 			}
 			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalOffset = (float)text.getHeight() - text.getTextHeight();
+				verticalOffset = (float)height - text.getTextHeight();
 				break;
 			}
 			default :
@@ -811,7 +834,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 		}
 
-		int maxHeight = text.getHeight();
+		int maxHeight = height;
 		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
 		FontRenderContext fontRenderContext = grx.getFontRenderContext();
 		JRFont font = text.getFont();
@@ -921,8 +944,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 				    layout.draw(
 						grx,
-						drawPosX + text.getX(),
-						drawPosY + text.getY() + verticalOffset
+						drawPosX + x,
+						drawPosY + y + verticalOffset
 						);
 				    drawPosY += layout.getDescent();
 				}
@@ -933,6 +956,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		grx.rotate(-angle, x, y);
 	}
 
 

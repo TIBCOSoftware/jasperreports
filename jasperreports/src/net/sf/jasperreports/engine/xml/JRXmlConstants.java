@@ -261,6 +261,31 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
+	private static final String ROTATION_NONE = "None";
+	private static final String ROTATION_LEFT = "Left";
+	private static final String ROTATION_RIGHT = "Right";
+
+	private static Map rotationMap = null;
+
+	public static Map getRotationMap()
+	{
+		if (rotationMap == null)
+		{
+			rotationMap = new HashMap(6);
+			rotationMap.put(ROTATION_NONE,  new Byte(JRTextElement.ROTATION_NONE));
+			rotationMap.put(ROTATION_LEFT,  new Byte(JRTextElement.ROTATION_LEFT));
+			rotationMap.put(ROTATION_RIGHT, new Byte(JRTextElement.ROTATION_RIGHT));
+			rotationMap.put(new Byte(JRTextElement.ROTATION_NONE),  ROTATION_NONE);
+			rotationMap.put(new Byte(JRTextElement.ROTATION_LEFT),  ROTATION_LEFT);
+			rotationMap.put(new Byte(JRTextElement.ROTATION_RIGHT), ROTATION_RIGHT);
+		}
+		
+		return rotationMap;
+	}
+
+	/**
+	 *
+	 */
 	private static final String LINE_SPACING_SINGLE = "Single";
 	private static final String LINE_SPACING_1_1_2 = "1_1_2";
 	private static final String LINE_SPACING_DOUBLE = "Double";

@@ -1497,33 +1497,56 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		allText = JRStringUtil.treatNewLineChars(allText);
 
+		int x = text.getX();
+		int y = text.getY();
+		int width = text.getWidth();
+		int height = text.getHeight();
+		
+		double angle = 0;
+		
+		switch (text.getRotation())
+		{
+			case JRTextElement.ROTATION_LEFT :
+			{
+				y = text.getY() + text.getHeight();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = - Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_RIGHT :
+			{
+				x = text.getX() + text.getWidth();
+				width = text.getHeight();
+				height = text.getWidth();
+				angle = Math.PI / 2;
+				break;
+			}
+			case JRTextElement.ROTATION_NONE :
+			default :
+			{
+			}
+		}
+		
+		grx.rotate(angle, x, y);
+
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(text.getBackcolor());
-			grx.fillRect(
-				text.getX(), 
-				text.getY(), 
-				text.getWidth(),
-				text.getHeight()
-				);
+			grx.fillRect(x, y, width, height); 
 		}
 
 		grx.setColor(text.getForecolor());
 
 		grx.setStroke(new BasicStroke(1f / zoom));
 
-		grx.drawRect(
-			text.getX(), 
-			text.getY(), 
-			text.getWidth() - 1,
-			text.getHeight() - 1
-			);
+		grx.drawRect(x, y, width - 1, height - 1);
 
 		//grx.setStroke(new BasicStroke(1f));
 		/*
 		*/
 
-		float formatWidth = (float) text.getWidth();
+		float formatWidth = (float)width;
 
 		float lineSpacing = 1f;
 		switch (text.getLineSpacing())
@@ -1550,7 +1573,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 
 
-		int maxHeight = text.getHeight();
+		int maxHeight = height;
 		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
 		FontRenderContext fontRenderContext = grx.getFontRenderContext();
 		JRFont font = text.getFont();
@@ -1616,12 +1639,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 			}
 			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalOffset = ((float)text.getHeight() - textHeight) / 2f;
+				verticalOffset = ((float)height - textHeight) / 2f;
 				break;
 			}
 			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalOffset = (float)text.getHeight() - textHeight;
+				verticalOffset = (float)height - textHeight;
 				break;
 			}
 			default :
@@ -1710,8 +1733,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	
 					layout.draw(
 						grx,
-						drawPosX + text.getX(),
-						drawPosY + text.getY() + verticalOffset
+						drawPosX + x,
+						drawPosY + y + verticalOffset
 						);
 				    drawPosY += layout.getDescent();
 				}
@@ -1722,6 +1745,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 				}
 			}
 		}
+
+		grx.rotate(-angle, x, y);
 	}
 
     

@@ -90,6 +90,13 @@ public interface JRTextElement extends JRElement, JRAlignment
 	/**
 	 *
 	 */
+	public static final byte ROTATION_NONE = 0;
+	public static final byte ROTATION_LEFT = 1;
+	public static final byte ROTATION_RIGHT = 2;
+
+	/**
+	 *
+	 */
 	public static final byte LINE_SPACING_SINGLE = 0;
 	public static final byte LINE_SPACING_1_1_2 = 1;
 	public static final byte LINE_SPACING_DOUBLE = 2;
@@ -114,6 +121,16 @@ public interface JRTextElement extends JRElement, JRAlignment
 	 *
 	 */
 	public void setVerticalAlignment(byte verticalAlignment);
+		
+	/**
+	 *
+	 */
+	public byte getRotation();
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation);
 		
 	/**
 	 *

@@ -428,6 +428,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				if (
 					this.getTextEnd() >= this.getText().length()
 					|| !this.isStretchWithOverflow()
+					|| this.getRotation() != ROTATION_NONE
 					)
 				{
 					// there is no more text left in the text field to overflow
@@ -505,7 +506,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 						// there is still some text left in the text field or
 						// the text field is empty
 
-						if (this.isStretchWithOverflow())
+						if (
+							this.isStretchWithOverflow()
+							&& this.getRotation() == ROTATION_NONE
+							)
 						{
 							// the text field is allowed to stretch downwards in order to
 							// display all its content
@@ -580,7 +584,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text = new JRTemplatePrintText(this.getJRTemplateText());
 		text.setX(this.getX());
 		text.setY(this.getRelativeY());
-		text.setHeight(this.getStretchHeight());
+		if (this.getRotation() == ROTATION_NONE)
+		{
+			text.setHeight(this.getStretchHeight());
+		}
+		else
+		{
+			text.setHeight(this.getHeight());
+		}
 
 		switch (this.getEvaluationTime())
 		{
