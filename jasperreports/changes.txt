@@ -12,9 +12,9 @@ nested <style> tags;
 report variable calculation engine to correct problems and allow performing custom 
 calculations on custom type variables;
 
-- new file naming convention; the XML report design files now use the .jrxml file
-extension instead of the former, more generic .xml extension to allow better integration 
-with build tools such as Ant and IDEs like Eclipse;
+- new file naming convention; the XML report design files now use the *.jrxml file
+extension instead of the former, more generic *.xml extension to allow better integration 
+with build tools and IDEs;
 
 - minor bug fixes and improvements;
 
