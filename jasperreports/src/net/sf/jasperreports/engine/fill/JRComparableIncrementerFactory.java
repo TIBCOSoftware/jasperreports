@@ -72,20 +72,186 @@
 package dori.jasper.engine.fill;
 
 import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRVariable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRIncrementer
+public class JRComparableIncrementerFactory implements JRIncrementerFactory
 {
 
 
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException;
+	private static JRComparableIncrementerFactory mainInstance = null;
 
 
+	/**
+	 *
+	 */
+	private JRComparableIncrementerFactory()
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	protected static JRComparableIncrementerFactory getInstance()
+	{
+		if (mainInstance == null)
+		{
+			mainInstance = new JRComparableIncrementerFactory();
+		}
+		
+		return mainInstance;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRIncrementer getIncrementer(byte calculation)
+	{
+		JRIncrementer incrementer = null;
+
+		switch (calculation)
+		{
+			case JRVariable.CALCULATION_LOWEST :
+			{
+				incrementer = JRComparableLowestIncrementer.getInstance();
+				break;
+			}
+			case JRVariable.CALCULATION_HIGHEST :
+			{
+				incrementer = JRComparableHighestIncrementer.getInstance();
+				break;
+			}
+			case JRVariable.CALCULATION_SYSTEM :
+			{
+				incrementer = JRDefaultSystemIncrementer.getInstance();
+				break;
+			}
+			case JRVariable.CALCULATION_NOTHING :
+			case JRVariable.CALCULATION_COUNT :
+			case JRVariable.CALCULATION_SUM :
+			case JRVariable.CALCULATION_AVERAGE :
+			case JRVariable.CALCULATION_STANDARD_DEVIATION :
+			case JRVariable.CALCULATION_VARIANCE :
+			default :
+			{
+				incrementer = JRDefaultNothingIncrementer.getInstance();
+				break;
+			}
+		}
+		
+		return incrementer;
+	}
+
+
+}
+
+
+/**
+ *
+ */
+class JRComparableLowestIncrementer implements JRIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRComparableLowestIncrementer mainInstance = null;
+
+	/**
+	 *
+	 */
+	private JRComparableLowestIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected static JRComparableLowestIncrementer getInstance()
+	{
+		if (mainInstance == null)
+		{
+			mainInstance = new JRComparableLowestIncrementer();
+		}
+		
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	{
+		Comparable value = (Comparable)variable.getValue();
+		Comparable newValue = (Comparable)expressionValue;
+
+		if (
+			value != null && !variable.isInitialized() &&
+			(newValue == null || value.compareTo(newValue) < 0)
+			)
+		{
+			newValue = value;
+		}
+				
+		return newValue;
+	}
+}
+
+
+/**
+ *
+ */
+class JRComparableHighestIncrementer implements JRIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRComparableHighestIncrementer mainInstance = null;
+
+	/**
+	 *
+	 */
+	private JRComparableHighestIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected static JRComparableHighestIncrementer getInstance()
+	{
+		if (mainInstance == null)
+		{
+			mainInstance = new JRComparableHighestIncrementer();
+		}
+		
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	{
+		Comparable value = (Comparable)variable.getValue();
+		Comparable newValue = (Comparable)expressionValue;
+
+		if (
+			value != null && !variable.isInitialized() &&
+			(newValue == null || value.compareTo(newValue) > 0)
+			)
+		{
+			newValue = value;
+		}
+				
+		return newValue;
+	}
 }

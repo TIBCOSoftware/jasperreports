@@ -302,42 +302,42 @@ public class JRFillVariable implements JRVariable
 			
 			if (java.math.BigDecimal.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRBigDecimalIncrementer(this);
+				incrementer = JRBigDecimalIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (
 				java.lang.Number.class.getName().equals(valueClassName)
 				|| java.lang.Double.class.getName().equals(valueClassName)
 				)
 			{
-				incrementer = new JRDoubleIncrementer(this);
+				incrementer = JRDoubleIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Float.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRFloatIncrementer(this);
+				incrementer = JRFloatIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Long.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRLongIncrementer(this);
+				incrementer = JRLongIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Integer.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRIntegerIncrementer(this);
+				incrementer = JRIntegerIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Short.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRShortIncrementer(this);
+				incrementer = JRShortIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Byte.class.getName().equals(valueClassName))
 			{
-				incrementer = new JRByteIncrementer(this);
+				incrementer = JRByteIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else if (java.lang.Comparable.class.isAssignableFrom(getValueClass()))
 			{
-				incrementer = new JRComparableIncrementer(this);
+				incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(getCalculation());
 			}
 			else
 			{
-				incrementer = new JRDefaultIncrementer(this);
+				incrementer = JRDefaultNothingIncrementer.getInstance();
 			}
 		}
 		

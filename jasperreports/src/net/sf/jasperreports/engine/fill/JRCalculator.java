@@ -178,7 +178,7 @@ public abstract class JRCalculator
 			{
 				variable = variables[i];
 				expressionValue = this.evaluate(variable.getExpression());
-				newValue = calculateVariable(variable, expressionValue);
+				newValue = variable.getIncrementer().increment(variable, expressionValue);
 				variable.setValue(newValue);
 				variable.setInitialized(false);
 			}
@@ -201,7 +201,7 @@ public abstract class JRCalculator
 			{
 				variable = variables[i];
 				expressionValue = this.evaluateEstimated(variable.getExpression());
-				newValue = calculateVariable(variable, expressionValue);
+				newValue = variable.getIncrementer().increment(variable, expressionValue);
 				variable.setEstimatedValue(newValue);
 				variable.setInitialized(false);
 			}
@@ -248,69 +248,6 @@ public abstract class JRCalculator
 				group.setTopLevelChange(isTopLevelChange);
 			}
 		}
-	}
-
-
-	/**
-	 *
-	 */
-	private Object calculateVariable(JRFillVariable variable, Object expressionValue) throws JRException
-	{
-		Object retValue = null;
-		
-		JRIncrementer incrementer = variable.getIncrementer();
-
-		switch (variable.getCalculation())
-		{
-			case JRVariable.CALCULATION_COUNT :
-			{
-				retValue = incrementer.incrementCount(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_SUM :
-			{
-				retValue = incrementer.incrementSum(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_AVERAGE :
-			{
-				retValue = incrementer.incrementAverage(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_LOWEST :
-			{
-				retValue = incrementer.incrementLowest(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_HIGHEST :
-			{
-				retValue = incrementer.incrementHighest(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_STANDARD_DEVIATION :
-			{
-				retValue = incrementer.incrementStandardDeviation(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_VARIANCE :
-			{
-				retValue = incrementer.incrementVariance(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_SYSTEM :
-			{
-				retValue = incrementer.incrementSystem(expressionValue);
-				break;
-			}
-			case JRVariable.CALCULATION_NOTHING :
-			default :
-			{
-				retValue = expressionValue;
-				break;
-			}
-		}
-
-		return retValue;
 	}
 
 
