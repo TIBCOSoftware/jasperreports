@@ -140,7 +140,7 @@ public class JasperDesign extends JRBaseReport
 		parameter.setSystemDefined(true);
 		try 
 		{
-			this.addParameter(parameter);
+			addParameter(parameter);
 		}
 		catch (JRException e)
 		{
@@ -155,7 +155,7 @@ public class JasperDesign extends JRBaseReport
 		parameter.setSystemDefined(true);
 		try 
 		{
-			this.addParameter(parameter);
+			addParameter(parameter);
 		}
 		catch (JRException e)
 		{
@@ -170,7 +170,7 @@ public class JasperDesign extends JRBaseReport
 		parameter.setSystemDefined(true);
 		try 
 		{
-			this.addParameter(parameter);
+			addParameter(parameter);
 		}
 		catch (JRException e)
 		{
@@ -185,7 +185,7 @@ public class JasperDesign extends JRBaseReport
 		parameter.setSystemDefined(true);
 		try 
 		{
-			this.addParameter(parameter);
+			addParameter(parameter);
 		}
 		catch (JRException e)
 		{
@@ -209,7 +209,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
 		{
-			this.addVariable(variable);
+			addVariable(variable);
 		}
 		catch (JRException e)
 		{
@@ -233,7 +233,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
 		{
-			this.addVariable(variable);
+			addVariable(variable);
 		}
 		catch (JRException e)
 		{
@@ -260,7 +260,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
 		{
-			this.addVariable(variable);
+			addVariable(variable);
 		}
 		catch (JRException e)
 		{
@@ -287,7 +287,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
 		{
-			this.addVariable(variable);
+			addVariable(variable);
 		}
 		catch (JRException e)
 		{
@@ -314,7 +314,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setInitialValueExpression((JRExpression)expression);
 		try 
 		{
-			this.addVariable(variable);
+			addVariable(variable);
 		}
 		catch (JRException e)
 		{
@@ -542,6 +542,31 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	public void addImport(String value)
+	{
+		if (importsSet == null)
+		{
+			importsSet = new HashSet();
+		}
+		importsSet.add(value);
+	}
+
+
+	/**
+	 *
+	 */
+	public void removeImport(String value)
+	{
+		if (importsSet != null)
+		{
+			importsSet.remove(value);
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	public void setDefaultFont(JRReportFont font)
 	{
 		this.defaultFont = font;
@@ -566,7 +591,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public List getFontsList()
 	{
-		return this.fontsList;
+		return fontsList;
 	}
 	
 
@@ -575,7 +600,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Map getFontsMap()
 	{
-		return this.fontsMap;
+		return fontsMap;
 	}
 	
 
@@ -584,17 +609,17 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addFont(JRReportFont reportFont) throws JRException
 	{
-		if (this.fontsMap.containsKey(reportFont.getName()))
+		if (fontsMap.containsKey(reportFont.getName()))
 		{
 			throw new JRException("Duplicate declaration of report font : " + reportFont.getName());
 		}
 
-		this.fontsList.add(reportFont);
-		this.fontsMap.put(reportFont.getName(), reportFont);
+		fontsList.add(reportFont);
+		fontsMap.put(reportFont.getName(), reportFont);
 		
 		if (reportFont.isDefault())
 		{
-			this.setDefaultFont(reportFont);
+			setDefaultFont(reportFont);
 		}
 	}
 	
@@ -604,8 +629,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRReportFont removeFont(String name)
 	{
-		return this.removeFont(
-			(JRReportFont)this.fontsMap.get(name)
+		return removeFont(
+			(JRReportFont)fontsMap.get(name)
 			);
 	}
 
@@ -619,11 +644,11 @@ public class JasperDesign extends JRBaseReport
 		{
 			if (reportFont.isDefault())
 			{
-				this.setDefaultFont(null);
+				setDefaultFont(null);
 			}
 
-			this.fontsList.remove(reportFont);
-			this.fontsMap.remove(reportFont.getName());
+			fontsList.remove(reportFont);
+			fontsMap.remove(reportFont.getName());
 		}
 
 		return reportFont;
@@ -648,7 +673,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public List getParametersList()
 	{
-		return this.parametersList;
+		return parametersList;
 	}
 	
 
@@ -657,7 +682,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Map getParametersMap()
 	{
-		return this.parametersMap;
+		return parametersMap;
 	}
 	
 
@@ -666,13 +691,13 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addParameter(JRParameter parameter) throws JRException
 	{
-		if (this.parametersMap.containsKey(parameter.getName()))
+		if (parametersMap.containsKey(parameter.getName()))
 		{
 			throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
 		}
 
-		this.parametersList.add(parameter);
-		this.parametersMap.put(parameter.getName(), parameter);
+		parametersList.add(parameter);
+		parametersMap.put(parameter.getName(), parameter);
 	}
 	
 
@@ -681,8 +706,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRParameter removeParameter(String parameterName)
 	{
-		return this.removeParameter(
-			(JRParameter)this.parametersMap.get(parameterName)
+		return removeParameter(
+			(JRParameter)parametersMap.get(parameterName)
 			);
 	}
 
@@ -694,8 +719,8 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (parameter != null)
 		{
-			this.parametersList.remove(parameter);
-			this.parametersMap.remove(parameter.getName());
+			parametersList.remove(parameter);
+			parametersMap.remove(parameter.getName());
 		}
 		
 		return parameter;
@@ -729,7 +754,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public List getFieldsList()
 	{
-		return this.fieldsList;
+		return fieldsList;
 	}
 	
 
@@ -738,7 +763,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Map getFieldsMap()
 	{
-		return this.fieldsMap;
+		return fieldsMap;
 	}
 	
 
@@ -747,13 +772,13 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addField(JRField field) throws JRException
 	{
-		if (this.fieldsMap.containsKey(field.getName()))
+		if (fieldsMap.containsKey(field.getName()))
 		{
 			throw new JRException("Duplicate declaration of field : " + field.getName());
 		}
 
-		this.fieldsList.add(field);
-		this.fieldsMap.put(field.getName(), field);
+		fieldsList.add(field);
+		fieldsMap.put(field.getName(), field);
 	}
 	
 
@@ -762,8 +787,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRField removeField(String fieldName)
 	{
-		return this.removeField(
-			(JRField)this.fieldsMap.get(fieldName)
+		return removeField(
+			(JRField)fieldsMap.get(fieldName)
 			);
 	}
 
@@ -775,8 +800,8 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (field != null)
 		{
-			this.fieldsList.remove(field);
-			this.fieldsMap.remove(field.getName());
+			fieldsList.remove(field);
+			fieldsMap.remove(field.getName());
 		}
 		
 		return field;
@@ -801,7 +826,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public List getVariablesList()
 	{
-		return this.variablesList;
+		return variablesList;
 	}
 	
 
@@ -810,7 +835,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Map getVariablesMap()
 	{
-		return this.variablesMap;
+		return variablesMap;
 	}
 	
 
@@ -819,7 +844,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addVariable(JRDesignVariable variable) throws JRException
 	{
-		if (this.variablesMap.containsKey(variable.getName()))
+		if (variablesMap.containsKey(variable.getName()))
 		{
 			throw new JRException("Duplicate declaration of variable : " + variable.getName());
 		}
@@ -839,7 +864,7 @@ public class JasperDesign extends JRBaseReport
 			countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
 			countVariable.setSystemDefined(true);
 			countVariable.setExpression(variable.getExpression());
-			this.addVariable(countVariable);
+			addVariable(countVariable);
 			variable.setCountVariable(countVariable);
 
 			JRDesignVariable sumVariable = new JRDesignVariable();
@@ -850,7 +875,7 @@ public class JasperDesign extends JRBaseReport
 			sumVariable.setCalculation(JRVariable.CALCULATION_SUM);
 			sumVariable.setSystemDefined(true);
 			sumVariable.setExpression(variable.getExpression());
-			this.addVariable(sumVariable);
+			addVariable(sumVariable);
 			variable.setSumVariable(sumVariable);
 		}
 
@@ -864,12 +889,12 @@ public class JasperDesign extends JRBaseReport
 			varianceVariable.setCalculation(JRVariable.CALCULATION_VARIANCE);
 			varianceVariable.setSystemDefined(true);
 			varianceVariable.setExpression(variable.getExpression());
-			this.addVariable(varianceVariable);
+			addVariable(varianceVariable);
 			variable.setVarianceVariable(varianceVariable);
 		}
 
-		this.variablesList.add(variable);
-		this.variablesMap.put(variable.getName(), variable);
+		variablesList.add(variable);
+		variablesMap.put(variable.getName(), variable);
 	}
 	
 
@@ -878,8 +903,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRVariable removeVariable(String variableName)
 	{
-		return this.removeVariable(
-			(JRVariable)this.variablesMap.get(variableName)
+		return removeVariable(
+			(JRVariable)variablesMap.get(variableName)
 			);
 	}
 
@@ -891,8 +916,8 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (variable != null)
 		{
-			this.removeVariable(variable.getSumVariable());
-			this.removeVariable(variable.getVarianceVariable());
+			removeVariable(variable.getSumVariable());
+			removeVariable(variable.getVarianceVariable());
 
 			byte calculation = variable.getCalculation();
 
@@ -901,17 +926,17 @@ public class JasperDesign extends JRBaseReport
 				calculation == JRVariable.CALCULATION_VARIANCE
 				)
 			{
-				this.removeVariable(variable.getCountVariable());
-				this.removeVariable(variable.getSumVariable());
+				removeVariable(variable.getCountVariable());
+				removeVariable(variable.getSumVariable());
 			}
 
 			if (calculation == JRVariable.CALCULATION_STANDARD_DEVIATION)
 			{
-				this.removeVariable(variable.getVarianceVariable());
+				removeVariable(variable.getVarianceVariable());
 			}
 
-			this.variablesList.remove(variable);
-			this.variablesMap.remove(variable.getName());
+			variablesList.remove(variable);
+			variablesMap.remove(variable.getName());
 		}
 		
 		return variable;
@@ -936,7 +961,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public List getGroupsList()
 	{
-		return this.groupsList;
+		return groupsList;
 	}
 	
 
@@ -945,7 +970,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Map getGroupsMap()
 	{
-		return this.groupsMap;
+		return groupsMap;
 	}
 	
 
@@ -954,7 +979,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addGroup(JRDesignGroup group) throws JRException
 	{
-		if (this.groupsMap.containsKey(group.getName()))
+		if (groupsMap.containsKey(group.getName()))
 		{
 			throw new JRException("Duplicate declaration of group : " + group.getName());
 		}
@@ -977,12 +1002,12 @@ public class JasperDesign extends JRBaseReport
 		expression.setText("new Integer(0)");
 		countVariable.setInitialValueExpression((JRExpression)expression);
 
-		this.addVariable(countVariable);
+		addVariable(countVariable);
 
 		group.setCountVariable(countVariable);
 
-		this.groupsList.add(group);
-		this.groupsMap.put(group.getName(), group);
+		groupsList.add(group);
+		groupsMap.put(group.getName(), group);
 	}
 	
 
@@ -991,8 +1016,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRGroup removeGroup(String groupName)
 	{
-		return this.removeGroup(
-			(JRGroup)this.groupsMap.get(groupName)
+		return removeGroup(
+			(JRGroup)groupsMap.get(groupName)
 			);
 	}
 
@@ -1004,9 +1029,9 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (group != null)
 		{
-			this.removeVariable(group.getCountVariable());
-			this.groupsList.remove(group);
-			this.groupsMap.remove(group.getName());
+			removeVariable(group.getCountVariable());
+			groupsList.remove(group);
+			groupsMap.remove(group.getName());
 		}
 		
 		return group;
@@ -1020,19 +1045,19 @@ public class JasperDesign extends JRBaseReport
 	{
 		Collection expressions = new HashSet();
 		
-		expressions.addAll(this.getParameterExpressions());
-		expressions.addAll(this.getVariableExpressions());
-		expressions.addAll(this.getGroupExpressions());
+		expressions.addAll(getParameterExpressions());
+		expressions.addAll(getVariableExpressions());
+		expressions.addAll(getGroupExpressions());
 
-		expressions.addAll(this.getBandExpressions(this.background));
-		expressions.addAll(this.getBandExpressions(this.title));
-		expressions.addAll(this.getBandExpressions(this.pageHeader));
-		expressions.addAll(this.getBandExpressions(this.columnHeader));
-		expressions.addAll(this.getBandExpressions(this.detail));
-		expressions.addAll(this.getBandExpressions(this.columnFooter));
-		expressions.addAll(this.getBandExpressions(this.pageFooter));
-		expressions.addAll(this.getBandExpressions(this.lastPageFooter));
-		expressions.addAll(this.getBandExpressions(this.summary));
+		expressions.addAll(getBandExpressions(background));
+		expressions.addAll(getBandExpressions(title));
+		expressions.addAll(getBandExpressions(pageHeader));
+		expressions.addAll(getBandExpressions(columnHeader));
+		expressions.addAll(getBandExpressions(detail));
+		expressions.addAll(getBandExpressions(columnFooter));
+		expressions.addAll(getBandExpressions(pageFooter));
+		expressions.addAll(getBandExpressions(lastPageFooter));
+		expressions.addAll(getBandExpressions(summary));
 		
 		return expressions;
 	}
@@ -1045,13 +1070,13 @@ public class JasperDesign extends JRBaseReport
 	{
 		Collection expressions = new HashSet();
 		
-		if (this.parametersList != null && this.parametersList.size() > 0)
+		if (parametersList != null && parametersList.size() > 0)
 		{
 			JRParameter parameter = null;
 			JRExpression expression = null;
-			for(int i = 0; i < this.parametersList.size(); i++)
+			for(int i = 0; i < parametersList.size(); i++)
 			{
-				parameter = (JRParameter)this.parametersList.get(i);
+				parameter = (JRParameter)parametersList.get(i);
 				expression = parameter.getDefaultValueExpression();
 				if (expression != null)
 				{
@@ -1071,13 +1096,13 @@ public class JasperDesign extends JRBaseReport
 	{
 		Collection expressions = new HashSet();
 		
-		if (this.variablesList != null && this.variablesList.size() > 0)
+		if (variablesList != null && variablesList.size() > 0)
 		{
 			JRVariable variable = null;
 			JRExpression expression = null;
-			for(int i = 0; i < this.variablesList.size(); i++)
+			for(int i = 0; i < variablesList.size(); i++)
 			{
-				variable = (JRVariable)this.variablesList.get(i);
+				variable = (JRVariable)variablesList.get(i);
 				expression = variable.getExpression();
 				if (expression != null)
 				{
@@ -1103,21 +1128,21 @@ public class JasperDesign extends JRBaseReport
 	{
 		Collection expressions = new HashSet();
 		
-		if (this.groupsList != null && this.groupsList.size() > 0)
+		if (groupsList != null && groupsList.size() > 0)
 		{
 			JRGroup group = null;
 			JRExpression expression = null;
-			for(int i = 0; i < this.groupsList.size(); i++)
+			for(int i = 0; i < groupsList.size(); i++)
 			{
-				group = (JRGroup)this.groupsList.get(i);
+				group = (JRGroup)groupsList.get(i);
 				expression = group.getExpression();
 				if (expression != null)
 				{
 					expressions.add(expression);
 				}
 
-				expressions.addAll(this.getBandExpressions(group.getGroupHeader()));
-				expressions.addAll(this.getBandExpressions(group.getGroupFooter()));
+				expressions.addAll(getBandExpressions(group.getGroupHeader()));
+				expressions.addAll(getBandExpressions(group.getGroupFooter()));
 			}
 		}
 		

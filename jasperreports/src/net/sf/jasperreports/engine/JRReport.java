@@ -208,6 +208,11 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public String[] getImports();
+
+	/**
+	 *
+	 */
 	public JRReportFont[] getFonts();
 
 	/**
