@@ -854,39 +854,31 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 		Map fontAttributes = font.getAttributes();
 
-		AttributedString atext;
-		AttributedCharacterIterator paragraph;
-		int paragraphStart;
-		int paragraphEnd;
-		LineBreakMeasurer lineMeasurer;
-	
 		float drawPosY = 0;
 	    float drawPosX = 0;
 	
-		String paragr_text = "";
 		boolean isMaxHeightReached = false;
 		
 		StringTokenizer tkzer = new StringTokenizer(allText, "\n");
 		
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			paragr_text = tkzer.nextToken();
+			String paragr_text = tkzer.nextToken();
 			
-			atext = new AttributedString(paragr_text, fontAttributes);
-			paragraph = atext.getIterator();
-			paragraphStart = paragraph.getBeginIndex();
-			paragraphEnd = paragraph.getEndIndex();
-			lineMeasurer = new LineBreakMeasurer(paragraph,fontRenderContext);
+			AttributedString atext = new AttributedString(paragr_text, fontAttributes);
+			AttributedCharacterIterator paragraph = atext.getIterator();
+			int paragraphStart = paragraph.getBeginIndex();
+			int paragraphEnd = paragraph.getEndIndex();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
 			lineMeasurer.setPosition(paragraphStart);
 	
-			TextLayout layout = null;
 			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
 			{
 				//eugene fix - start
 				int startIndex = lineMeasurer.getPosition();
 				//eugene fix - end
 
-				layout = lineMeasurer.nextLayout(formatWidth);
+				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 
 				//eugene fix - start
 				AttributedString tmpText = 

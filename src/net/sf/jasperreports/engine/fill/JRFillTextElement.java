@@ -427,17 +427,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		FontRenderContext fontRenderContext = getFontRenderContext();
 		Map fontAttributes = this.getFont().getAttributes();
 
-		AttributedString atext = null;
-		AttributedCharacterIterator paragraph = null;
-		LineBreakMeasurer lineMeasurer = null;
-		TextLayout layout = null;
-		int paragraphStart = 0;
-		int paragraphEnd = 0;
-
 		float drawPosY = 0;
 		//float lastDrawPosY = 0;
 		
-		String paragr_text = null;
 		int strpos = 0;
 		int lastPosition = 0;
 		int lines = 0;
@@ -448,25 +440,25 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
-			paragr_text = tkzer.nextToken();
+			String paragr_text = tkzer.nextToken();
 			if ("\n".equals(paragr_text))
 			{
 				wasDelim = true;
 				continue;
 			}
 	
-			atext = new AttributedString(paragr_text, fontAttributes);
-			paragraph = atext.getIterator();
-			paragraphStart = paragraph.getBeginIndex();
-			paragraphEnd = paragraph.getEndIndex();
-			lineMeasurer = new LineBreakMeasurer(paragraph,fontRenderContext);
+			AttributedString atext = new AttributedString(paragr_text, fontAttributes);
+			AttributedCharacterIterator paragraph = atext.getIterator();
+			int paragraphStart = paragraph.getBeginIndex();
+			int paragraphEnd = paragraph.getEndIndex();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
 			lineMeasurer.setPosition(paragraphStart);
 	
 			lastPosition = lineMeasurer.getPosition();
 	
 			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
 			{
-				layout = lineMeasurer.nextLayout(formatWidth);
+				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 	
 				if (lines == 0)
 				{
