@@ -134,7 +134,7 @@
 >
 <!ELEMENT imageExpression (#PCDATA)>
 <!ATTLIST imageExpression
-	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image) "java.lang.String"
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | dori.jasper.engine.JRRenderable) "java.lang.String"
 >
 <!ELEMENT anchorNameExpression (#PCDATA)>
 <!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
