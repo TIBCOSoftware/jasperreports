@@ -473,7 +473,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public String getText(Node node) {
 		if (!node.hasChildNodes())
-			return "";
+			return node.getNodeValue();
 
 		StringBuffer result = new StringBuffer();
 
