@@ -100,7 +100,7 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRByteIncrementerFactory getInstance()
+	public static JRByteIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -191,7 +191,7 @@ class JRByteCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRByteCountIncrementer getInstance()
+	public static JRByteCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -247,7 +247,7 @@ class JRByteSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRByteSumIncrementer getInstance()
+	public static JRByteSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -299,7 +299,7 @@ class JRByteAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRByteAverageIncrementer getInstance()
+	public static JRByteAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -348,7 +348,7 @@ class JRByteStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRByteStandardDeviationIncrementer getInstance()
+	public static JRByteStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -391,7 +391,7 @@ class JRByteVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRByteVarianceIncrementer getInstance()
+	public static JRByteVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

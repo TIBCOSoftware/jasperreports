@@ -100,7 +100,7 @@ public class JRShortIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRShortIncrementerFactory getInstance()
+	public static JRShortIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -191,7 +191,7 @@ class JRShortCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRShortCountIncrementer getInstance()
+	public static JRShortCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -247,7 +247,7 @@ class JRShortSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRShortSumIncrementer getInstance()
+	public static JRShortSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -299,7 +299,7 @@ class JRShortAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRShortAverageIncrementer getInstance()
+	public static JRShortAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -348,7 +348,7 @@ class JRShortStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRShortStandardDeviationIncrementer getInstance()
+	public static JRShortStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -391,7 +391,7 @@ class JRShortVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRShortVarianceIncrementer getInstance()
+	public static JRShortVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

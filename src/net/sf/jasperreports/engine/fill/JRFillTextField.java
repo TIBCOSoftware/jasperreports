@@ -134,15 +134,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			)
 		{
 			Class expressionClass = expression.getValueClass();
-			if (
-				expressionClass.equals(java.util.Date.class) || 
-				expressionClass.equals(java.sql.Timestamp.class) ||
-				expressionClass.equals(java.sql.Time.class)
-				)
+			if (java.util.Date.class.isAssignableFrom(expressionClass))
 			{
 				this.format = new SimpleDateFormat(pattern);
 			}
-			else if (expressionClass.getSuperclass().equals(java.lang.Number.class))
+			else if (java.lang.Number.class.isAssignableFrom(expressionClass))
 			{
 				this.format = new DecimalFormat(pattern);
 			}

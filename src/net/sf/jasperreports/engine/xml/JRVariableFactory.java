@@ -121,7 +121,7 @@ public class JRVariableFactory extends JRBaseFactory
 
 		if (atts.getValue("incrementerFactoryClass") != null)
 		{
-			variable.setIncrementerClassName(atts.getValue("incrementerFactoryClass"));
+			variable.setIncrementerFactoryClassName(atts.getValue("incrementerFactoryClass"));
 		}
 
 		return variable;
