@@ -78,23 +78,32 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+
 /**
  * JRXmlDigesterFactory encapsulates the code necessary to construct and configure
  * a digester in order to prepare it for parsing JasperReports xml definition files.
  * 
- * @author Peter Severin (petru_severin@yahoo.com)
+ * @author Peter Severin (peter_p_s@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlDigesterFactory {
+public class JRXmlDigesterFactory 
+{
 
-	private JRXmlDigesterFactory() {
+
+	/**
+	 * 
+	 */
+	private JRXmlDigesterFactory() 
+	{
 		super();
 	}
+
 
 	/**
 	 * Configures the given digester for parsing jasperreport xml report definition files.
 	 */
-	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException {
+	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException 
+	{
 		String validation = System.getProperty("jasper.reports.compile.xml.validation");
 		if (validation == null || validation.length() == 0)
 		{
@@ -294,6 +303,7 @@ public class JRXmlDigesterFactory {
 		digester.addSetNext("*/elementGroup", "addElementGroup", "dori.jasper.engine.design.JRDesignElementGroup");
 	}
 
+
 	/**
 	 * Creates a new instance of digester. The created digester is ready for 
 	 * parsing report definition files.
@@ -305,27 +315,35 @@ public class JRXmlDigesterFactory {
 		return digester;
 	}
 	
-	private static class ErrorHandlerImpl implements ErrorHandler {
 
+	/**
+	 * 
+	 */
+	private static class ErrorHandlerImpl implements ErrorHandler 
+	{
 		/**
 		 * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
 		 */
-		public void error(SAXParseException exception) throws SAXException {
+		public void error(SAXParseException exception) throws SAXException 
+		{
 			throw exception;
 		}
 
 		/**
 		 * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
 		 */
-		public void fatalError(SAXParseException exception) throws SAXException {
+		public void fatalError(SAXParseException exception) throws SAXException 
+		{
 			throw exception;
 		}
 
 		/**
 		 * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
 		 */
-		public void warning(SAXParseException exception) throws SAXException {
+		public void warning(SAXParseException exception) throws SAXException 
+		{
 			throw exception;
 		}
 	}
+	
 }

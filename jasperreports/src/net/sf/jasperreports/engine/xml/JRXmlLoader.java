@@ -102,7 +102,8 @@ import dori.jasper.engine.design.JasperDesign;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRXmlLoader
 {
@@ -125,8 +126,12 @@ public class JRXmlLoader
 	private int subreportsCount = 0;
 	private int subreportParametersCount = 0;
 
-	private Digester digester;
+	private Digester digester = null;
+
 	
+	/**
+	 *
+	 */
 	public JRXmlLoader(Digester digester)
 	{
 		this.digester = digester;
@@ -362,11 +367,17 @@ public class JRXmlLoader
 		JasperDesign jasperDesign = null;
 
 		JRXmlLoader xmlLoader = null;
-		try {
+
+		try 
+		{
 			xmlLoader = new JRXmlLoader(JRXmlDigesterFactory.createDigester());
-		} catch (ParserConfigurationException e) {
+		}
+		catch (ParserConfigurationException e) 
+		{
 			throw new JRException(e);
-		} catch (SAXException e) {
+		}
+		catch (SAXException e) 
+		{
 			throw new JRException(e);
 		}
 		
@@ -384,6 +395,7 @@ public class JRXmlLoader
 		try
 		{
 			digester.push(this);	
+
 			/*   */
 			digester.parse(is);
 		}
@@ -394,7 +406,9 @@ public class JRXmlLoader
 		catch(IOException e)
 		{
 			throw new JRException(e);
-		} finally {
+		}
+		finally 
+		{
 			digester.clear();
 		}
 		
@@ -447,7 +461,11 @@ public class JRXmlLoader
 
 					if (group == null)
 					{
-						throw new JRException("Unknown reset group '" + groupName + "' for variable : " + variable.getName());
+						throw 
+							new JRException(
+								"Unknown reset group '" + groupName 
+								+ "' for variable : " + variable.getName()
+								);
 					}
 					else
 					{
