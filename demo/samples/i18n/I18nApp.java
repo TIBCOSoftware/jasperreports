@@ -131,6 +131,7 @@ public class I18nApp
 				{
 					Map parameters = new HashMap();
 					parameters.put(JRParameter.REPORT_LOCALE, locale);
+					parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.getBundle("i18n", locale));
 
 					long start = System.currentTimeMillis();
 					JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
@@ -247,8 +248,11 @@ public class I18nApp
 		Locale[] locales = 
 			new Locale[]
 		   {
+				Locale.GERMANY,
 				Locale.US,
-				Locale.FRANCE
+				Locale.FRANCE,
+				new Locale("pt", "PT"),
+				new Locale("ro", "RO")
 		   };
 									  
 		return 

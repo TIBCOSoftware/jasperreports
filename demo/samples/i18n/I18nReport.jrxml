@@ -2,18 +2,46 @@
 <!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="I18nReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" resourceBundle="i18n">
+<jasperReport name="I18nReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 	<title>
-		<band height="782">
+		<band height="552">
+			<image scaleImage="Clip">
+				<reportElement positionType="Float" x="20" y="20" width="100" height="50"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA[$R{image.flag}]]></imageExpression>
+			</image>
 			<textField>
-				<reportElement positionType="Float" x="16" y="14" width="245" height="50"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$R{my.text}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement positionType="Float" x="16" y="100" width="245" height="50"/>
+				<reportElement positionType="Float" x="150" y="20" width="400" height="50"/>
 				<textElement>
-					<font fontName="Arial" pdfFontName="c:/winnt/fonts/arial.ttf" isPdfEmbedded="true" pdfEncoding="Identity-H"/>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_LOCALE}.getDisplayName($P{REPORT_LOCALE})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="100" width="530" height="20"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{text.paragraph1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="125" width="530" height="20"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{text.paragraph2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="150" width="530" height="20"/>
+				<textElement textAlignment="Justified">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{text.paragraph3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="18" y="299" width="245" height="50"/>
+				<textElement>
+					<font size="14"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[msg($R{my.message}, new Date())]]></textFieldExpression>
 			</textField>
