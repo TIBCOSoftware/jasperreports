@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -147,7 +148,10 @@ public class JRCsvExporter extends JRAbstractExporter
 		setInput();
 
 		/*   */
-		setPageRange();
+		if (!isModeBatch)
+		{
+			setPageRange();
+		}
 
 		String encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
 		if (encoding == null)
@@ -267,25 +271,34 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected void exportReportToWriter() throws JRException, IOException
 	{
-		List pages = jasperPrint.getPages();
-		if (pages != null && pages.size() > 0)
+		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			JRPrintPage page = null;
-			
-			for(int i = startPageIndex; i <= endPageIndex; i++)
-			{
-				if (Thread.currentThread().isInterrupted())
-				{
-					throw new JRException("Current thread interrupted.");
-				}
-				
-				page = (JRPrintPage)pages.get(i);
+			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 
-				/*   */
-				exportPage(page);
+			List pages = jasperPrint.getPages();
+			if (pages != null && pages.size() > 0)
+			{
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
+
+				for(int i = startPageIndex; i <= endPageIndex; i++)
+				{
+					if (Thread.currentThread().isInterrupted())
+					{
+						throw new JRException("Current thread interrupted.");
+					}
+				
+					JRPrintPage page = (JRPrintPage)pages.get(i);
+
+					/*   */
+					exportPage(page);
+				}
 			}
 		}
-		
+				
 		writer.flush();
 	}
 

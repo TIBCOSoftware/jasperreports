@@ -212,55 +212,52 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void setPageRange() throws JRException
 	{
-		if (!isModeBatch)
+		int lastPageIndex = -1;
+		if (jasperPrint.getPages() != null)
 		{
-			int lastPageIndex = -1;
-			if (jasperPrint.getPages() != null)
-			{
-				lastPageIndex = jasperPrint.getPages().size() - 1;
-			}
+			lastPageIndex = jasperPrint.getPages().size() - 1;
+		}
 
-			Integer start = (Integer)parameters.get(JRExporterParameter.START_PAGE_INDEX);
-			if (start == null)
+		Integer start = (Integer)parameters.get(JRExporterParameter.START_PAGE_INDEX);
+		if (start == null)
+		{
+			startPageIndex = 0;
+		}
+		else
+		{
+			startPageIndex = start.intValue();
+			if (startPageIndex < 0 || startPageIndex > lastPageIndex)
 			{
-				startPageIndex = 0;
+				throw new JRException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
+			}
+		}
+
+		Integer end = (Integer)parameters.get(JRExporterParameter.END_PAGE_INDEX);
+		if (end == null)
+		{
+			endPageIndex = lastPageIndex;
+		}
+		else
+		{
+			endPageIndex = end.intValue();
+			if (endPageIndex < 0 || endPageIndex > lastPageIndex)
+			{
+				throw new JRException("End page index out of range : " + endPageIndex + " of " + lastPageIndex);
+			}
+		}
+
+		Integer index = (Integer)parameters.get(JRExporterParameter.PAGE_INDEX);
+		if (index != null)
+		{
+			int pageIndex = index.intValue();
+			if (pageIndex < 0 || pageIndex > lastPageIndex)
+			{
+				throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
 			}
 			else
 			{
-				startPageIndex = start.intValue();
-				if (startPageIndex < 0 || startPageIndex > lastPageIndex)
-				{
-					throw new JRException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
-				}
-			}
-
-			Integer end = (Integer)parameters.get(JRExporterParameter.END_PAGE_INDEX);
-			if (end == null)
-			{
-				endPageIndex = lastPageIndex;
-			}
-			else
-			{
-				endPageIndex = end.intValue();
-				if (endPageIndex < 0 || endPageIndex > lastPageIndex)
-				{
-					throw new JRException("End page index out of range : " + endPageIndex + " of " + lastPageIndex);
-				}
-			}
-
-			Integer index = (Integer)parameters.get(JRExporterParameter.PAGE_INDEX);
-			if (index != null)
-			{
-				int pageIndex = index.intValue();
-				if (pageIndex < 0 || pageIndex > lastPageIndex)
-				{
-					throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
-				}
-				else
-				{
-					startPageIndex = pageIndex;
-					endPageIndex = pageIndex;
-				}
+				startPageIndex = pageIndex;
+				endPageIndex = pageIndex;
 			}
 		}
 	}
