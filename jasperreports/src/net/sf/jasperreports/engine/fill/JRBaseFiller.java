@@ -440,6 +440,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		
 		try
 		{
+			JRDataSource ds = null;
+
 			pstmt = 
 				JRQueryExecuter.getStatement(
 					query, 
@@ -447,10 +449,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 					parameterValues, 
 					conn
 					);
+	
+			if (pstmt != null)
+			{
+				ResultSet rs = pstmt.executeQuery();
 		
-			ResultSet rs = pstmt.executeQuery();
-			
-			JRDataSource ds = new JRResultSetDataSource(rs);
+				ds = new JRResultSetDataSource(rs);
+			}
 		
 			this.fill(parameterValues, ds);
 		}
