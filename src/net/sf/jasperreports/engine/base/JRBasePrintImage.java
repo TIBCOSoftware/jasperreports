@@ -77,6 +77,7 @@ import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRHyperlink;
 import dori.jasper.engine.JRImage;
 import dori.jasper.engine.JRPrintImage;
+import dori.jasper.engine.JRRenderable;
 
 
 /**
@@ -95,7 +96,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	protected byte[] imageData = null;
+	protected JRRenderable renderer = null;
 	protected byte scaleImage = JRImage.SCALE_IMAGE_RETAIN_SHAPE;
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
@@ -121,17 +122,17 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	public byte[] getImageData()
+	public JRRenderable getRenderer()
 	{
-		return this.imageData;
+		return this.renderer;
 	}
 		
 	/**
 	 *
 	 */
-	public void setImageData(byte[] imageData)
+	public void setRenderer(JRRenderable renderer)
 	{
-		this.imageData = imageData;
+		this.renderer = renderer;
 	}
 		
 	/**
