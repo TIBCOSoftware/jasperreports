@@ -873,6 +873,13 @@ public class JRXmlWriter
 			this.sbuffer.append("\"");
 		}
 
+		if (element.getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
+		{
+			this.sbuffer.append(" stretchType=\"");
+			this.sbuffer.append((String)JRXmlConstants.getStretchTypeMap().get(new Byte(element.getStretchType())));
+			this.sbuffer.append("\"");
+		}
+
 		if (!element.isPrintRepeatedValues())
 		{
 			this.sbuffer.append(" isPrintRepeatedValues=\"");
@@ -975,13 +982,6 @@ public class JRXmlWriter
 	private void writeGraphicElement(JRGraphicElement element)
 	{
 		this.sbuffer.append("\t\t\t\t<graphicElement");
-
-		if (element.getStretchType() != JRGraphicElement.STRETCH_TYPE_NO_STRETCH)
-		{
-			this.sbuffer.append(" stretchType=\"");
-			this.sbuffer.append((String)JRXmlConstants.getStretchTypeMap().get(new Byte(element.getStretchType())));
-			this.sbuffer.append("\"");
-		}
 
 		if (
 			(element instanceof JRLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||

@@ -412,7 +412,6 @@ public class NoXmlDesignApp
 		rectangle.setHeight(15);
 		rectangle.setForecolor(new Color(0xC0, 0xC0, 0xC0));
 		rectangle.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
-		rectangle.setStretchType(JRGraphicElement.STRETCH_TYPE_NO_STRETCH);
 		band.addElement(rectangle);
 		JRDesignTextField textField = new JRDesignTextField();
 		textField.setX(0);

@@ -71,7 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRGraphicElement;
 
@@ -86,13 +85,6 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	/**
 	 *
 	 */
-	private JRElement topElementInGroup = null;
-	private JRElement bottomElementInGroup = null;
-
-
-	/**
-	 *
-	 */
 	protected JRFillGraphicElement(
 		JRBaseFiller filler,
 		JRGraphicElement graphicElement, 
@@ -102,21 +94,6 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 		super(filler, graphicElement, factory);
 	}
 	
-
-	/**
-	 *
-	 */
-	public byte getStretchType()
-	{
-		return ((JRGraphicElement)this.parent).getStretchType();
-	}
-
-	/**
-	 *
-	 */
-	public void setStretchType(byte stretchType)
-	{
-	}
 
 	/**
 	 *
@@ -224,159 +201,4 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 	
 	
-	/**
-	 *
-	 */
-	protected void stretchElement(int bandStretch) throws JRException
-	{
-		switch (this.getStretchType())
-		{
-			case JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT :
-			{
-				this.setStretchHeight(this.getHeight() + bandStretch);
-				break;
-			}
-			case JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT :
-			{
-				if (this.elementGroup != null)
-				{
-					this.setStretchHeight(this.getHeight() + this.getStretchHeightDiff());
-				}
-				
-				break;
-			}
-			case JRGraphicElement.STRETCH_TYPE_NO_STRETCH :
-			default :
-			{
-				break;
-			}
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	private void setTopBottomElements()
-	{
-		if (this.elementGroup != null)
-		{
-			JRElement[] elements = this.elementGroup.getElements();
-	
-			if (elements != null && elements.length > 0)
-			{
-				for(int i = 0; i < elements.length; i++)
-				{
-					if (elements[i] != this)
-					{
-						if (
-							this.topElementInGroup == null ||
-							(this.topElementInGroup != null &&
-							elements[i].getY() + elements[i].getHeight() <
-							this.topElementInGroup.getY() + this.topElementInGroup.getHeight())
-							)
-						{
-							this.topElementInGroup = elements[i];
-						}
-	
-						if (
-							this.bottomElementInGroup == null ||
-							(this.bottomElementInGroup != null &&
-							elements[i].getY() + elements[i].getHeight() >
-							this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight())
-							)
-						{
-							this.bottomElementInGroup = elements[i];
-						}
-					}
-				}
-			}
-		}
-		
-		if (this.topElementInGroup == null)
-		{
-			this.topElementInGroup = this;
-		}
-
-		if (this.bottomElementInGroup == null)
-		{
-			this.bottomElementInGroup = this;
-		}
-		
-	}
-
-
-	/**
-	 *
-	 */
-	private int getStretchHeightDiff()
-	{
-		if (this.topElementInGroup == null)
-		{
-			this.setTopBottomElements();
-		}
-		
-		JRFillElement topElem = null;
-		JRFillElement bottomElem = null;
-
-		if (this.elementGroup != null)
-		{
-			JRElement[] elements = this.elementGroup.getElements();
-	
-			if (elements != null && elements.length > 0)
-			{
-				JRFillElement element = null;
-				
-				for(int i = 0; i < elements.length; i++)
-				{
-					element = (JRFillElement)elements[i];
-					if (element != this && element.isToPrint())
-					{
-						if (
-							topElem == null ||
-							(topElem != null &&
-							element.getRelativeY() + element.getStretchHeight() <
-							topElem.getRelativeY() + topElem.getStretchHeight())
-							)
-						{
-							topElem = element;
-						}
-	
-						if (
-							bottomElem == null ||
-							(bottomElem != null &&
-							element.getRelativeY() + element.getStretchHeight() >
-							bottomElem.getRelativeY() + bottomElem.getStretchHeight())
-							)
-						{
-							bottomElem = element;
-						}
-					}
-				}
-			}
-		}
-
-		if (topElem == null)
-		{
-			topElem = this;
-		}
-
-		if (bottomElem == null)
-		{
-			bottomElem = this;
-		}
-
-		int diff = 
-			bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
-			(this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight() - this.topElementInGroup.getY());
-
-		if (diff < 0)
-		{
-			diff = 0;
-		}
-		
-		return diff;
-	}
-
-
 }

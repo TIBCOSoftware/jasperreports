@@ -83,7 +83,6 @@ import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRReportFont;
@@ -161,19 +160,16 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 				
 				sortedElemsList.add(this.elements[i]);
 				
-				if (
-					this.elements[i] instanceof JRFillGraphicElement &&
-					((JRFillGraphicElement)this.elements[i]).getStretchType() != JRGraphicElement.STRETCH_TYPE_NO_STRETCH
-					)
-				{
-					stretchElemsList.add(elements[i]);
-				}
-				
 				if (this.elements[i].getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
 				{
 					bandBottomElemsList.add(elements[i]);
 				}
 
+				if (this.elements[i].getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
+				{
+					stretchElemsList.add(elements[i]);
+				}
+				
 				if (this.elements[i].isRemoveLineWhenBlank())
 				{
 					removableElemsList.add(elements[i]);

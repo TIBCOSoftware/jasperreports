@@ -369,12 +369,12 @@ public class JRXmlConstants
 		if (stretchTypeMap == null)
 		{
 			stretchTypeMap = new HashMap(6);
-			stretchTypeMap.put(STRETCH_TYPE_NO_STRETCH,                 new Byte(JRGraphicElement.STRETCH_TYPE_NO_STRETCH));
-			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT, new Byte(JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT));
-			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT,    new Byte(JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT));
-			stretchTypeMap.put(new Byte(JRGraphicElement.STRETCH_TYPE_NO_STRETCH),                 STRETCH_TYPE_NO_STRETCH);
-			stretchTypeMap.put(new Byte(JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
-			stretchTypeMap.put(new Byte(JRGraphicElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
+			stretchTypeMap.put(STRETCH_TYPE_NO_STRETCH,                 new Byte(JRElement.STRETCH_TYPE_NO_STRETCH));
+			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT, new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT));
+			stretchTypeMap.put(STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT,    new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT));
+			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_NO_STRETCH),                 STRETCH_TYPE_NO_STRETCH);
+			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
+			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
 		}
 		
 		return stretchTypeMap;

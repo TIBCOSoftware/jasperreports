@@ -90,6 +90,7 @@
 <!ATTLIST reportElement
 	key NMTOKEN #IMPLIED
 	positionType (Float | FixRelativeToTop | FixRelativeToBottom) "FixRelativeToTop"
+	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) "NoStretch"
 	isPrintRepeatedValues (true | false) "true"
 	mode (Opaque | Transparent) #IMPLIED
 	x NMTOKEN #REQUIRED

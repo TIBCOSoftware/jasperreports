@@ -126,6 +126,12 @@ public abstract class JRFillElement implements JRElement
 	private int stretchHeight = 0;
 	private int bandBottomY = 0;
 
+	/**
+	 *
+	 */
+	private JRElement topElementInGroup = null;
+	private JRElement bottomElementInGroup = null;
+
 
 	/**
 	 *
@@ -170,6 +176,21 @@ public abstract class JRFillElement implements JRElement
 	{
 	}
 		
+	/**
+	 *
+	 */
+	public byte getStretchType()
+	{
+		return this.parent.getStretchType();
+	}
+
+	/**
+	 *
+	 */
+	public void setStretchType(byte stretchType)
+	{
+	}
+
 	/**
 	 *
 	 */
@@ -637,6 +658,28 @@ public abstract class JRFillElement implements JRElement
 	 */
 	protected void stretchElement(int bandStretch) throws JRException
 	{
+		switch (this.getStretchType())
+		{
+			case JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT :
+			{
+				this.setStretchHeight(this.getHeight() + bandStretch);
+				break;
+			}
+			case JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT :
+			{
+				if (this.elementGroup != null)
+				{
+					this.setStretchHeight(this.getHeight() + this.getStretchHeightDiff());
+				}
+				
+				break;
+			}
+			case JRElement.STRETCH_TYPE_NO_STRETCH :
+			default :
+			{
+				break;
+			}
+		}
 	}
 	
 	
@@ -667,5 +710,130 @@ public abstract class JRFillElement implements JRElement
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	private int getStretchHeightDiff()
+	{
+		if (this.topElementInGroup == null)
+		{
+			this.setTopBottomElements();
+		}
+		
+		JRFillElement topElem = null;
+		JRFillElement bottomElem = null;
+
+		if (this.elementGroup != null)
+		{
+			JRElement[] elements = this.elementGroup.getElements();
+	
+			if (elements != null && elements.length > 0)
+			{
+				JRFillElement element = null;
+				
+				for(int i = 0; i < elements.length; i++)
+				{
+					element = (JRFillElement)elements[i];
+					if (element != this && element.isToPrint())
+					{
+						if (
+							topElem == null ||
+							(topElem != null &&
+							element.getRelativeY() + element.getStretchHeight() <
+							topElem.getRelativeY() + topElem.getStretchHeight())
+							)
+						{
+							topElem = element;
+						}
+	
+						if (
+							bottomElem == null ||
+							(bottomElem != null &&
+							element.getRelativeY() + element.getStretchHeight() >
+							bottomElem.getRelativeY() + bottomElem.getStretchHeight())
+							)
+						{
+							bottomElem = element;
+						}
+					}
+				}
+			}
+		}
+
+		if (topElem == null)
+		{
+			topElem = this;
+		}
+
+		if (bottomElem == null)
+		{
+			bottomElem = this;
+		}
+
+		int diff = 
+			bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
+			(this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight() - this.topElementInGroup.getY());
+
+		if (diff < 0)
+		{
+			diff = 0;
+		}
+		
+		return diff;
+	}
+
+
+	/**
+	 *
+	 */
+	private void setTopBottomElements()
+	{
+		if (this.elementGroup != null)
+		{
+			JRElement[] elements = this.elementGroup.getElements();
+	
+			if (elements != null && elements.length > 0)
+			{
+				for(int i = 0; i < elements.length; i++)
+				{
+					if (elements[i] != this)
+					{
+						if (
+							this.topElementInGroup == null ||
+							(this.topElementInGroup != null &&
+							elements[i].getY() + elements[i].getHeight() <
+							this.topElementInGroup.getY() + this.topElementInGroup.getHeight())
+							)
+						{
+							this.topElementInGroup = elements[i];
+						}
+	
+						if (
+							this.bottomElementInGroup == null ||
+							(this.bottomElementInGroup != null &&
+							elements[i].getY() + elements[i].getHeight() >
+							this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight())
+							)
+						{
+							this.bottomElementInGroup = elements[i];
+						}
+					}
+				}
+			}
+		}
+		
+		if (this.topElementInGroup == null)
+		{
+			this.topElementInGroup = this;
+		}
+
+		if (this.bottomElementInGroup == null)
+		{
+			this.bottomElementInGroup = this;
+		}
+		
+	}
+
 
 }
