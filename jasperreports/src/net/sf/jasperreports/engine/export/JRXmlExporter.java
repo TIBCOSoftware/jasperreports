@@ -940,7 +940,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			if (box.getOwnTopBorderColor() != null)
 			{
-				tmpBuffer.append(" topBorderColor=\"");
+				tmpBuffer.append(" topBorderColor=\"#");
 				tmpBuffer.append(getHexaColor(box.getOwnTopBorderColor()));
 				tmpBuffer.append("\"");
 			}
@@ -960,7 +960,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			if (box.getOwnLeftBorderColor() != null)
 			{
-				tmpBuffer.append(" leftBorderColor=\"");
+				tmpBuffer.append(" leftBorderColor=\"#");
 				tmpBuffer.append(getHexaColor(box.getOwnLeftBorderColor()));
 				tmpBuffer.append("\"");
 			}
@@ -980,7 +980,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			if (box.getOwnBottomBorderColor() != null)
 			{
-				tmpBuffer.append(" bottomBorderColor=\"");
+				tmpBuffer.append(" bottomBorderColor=\"#");
 				tmpBuffer.append(getHexaColor(box.getOwnBottomBorderColor()));
 				tmpBuffer.append("\"");
 			}
@@ -1000,7 +1000,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			if (box.getOwnRightBorderColor() != null)
 			{
-				tmpBuffer.append(" rightBorderColor=\"");
+				tmpBuffer.append(" rightBorderColor=\"#");
 				tmpBuffer.append(getHexaColor(box.getOwnRightBorderColor()));
 				tmpBuffer.append("\"");
 			}

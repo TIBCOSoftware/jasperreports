@@ -1125,11 +1125,23 @@ public class JRDesignViewer extends javax.swing.JPanel
 				);
 		}
 
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
 		
-		int availableImageWidth = jrImage.getWidth();
+		if (jrImage.getBox() != null)
+		{
+			topPadding = jrImage.getBox().getTopPadding();
+			leftPadding = jrImage.getBox().getLeftPadding();
+			bottomPadding = jrImage.getBox().getBottomPadding();
+			rightPadding = jrImage.getBox().getRightPadding();
+		}
+		
+		int availableImageWidth = jrImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = jrImage.getHeight();
+		int availableImageHeight = jrImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
 		if (availableImageWidth > 0 && availableImageHeight > 0)
@@ -1215,15 +1227,15 @@ public class JRDesignViewer extends javax.swing.JPanel
 						int yoffset = (int)(yalignFactor * (availableImageHeight - awtHeight));
 
 						grx.setClip(
-							jrImage.getX(), 
-							jrImage.getY(), 
+							jrImage.getX() + leftPadding, 
+							jrImage.getY() + topPadding, 
 							availableImageWidth, 
 							availableImageHeight
 							);
 						grx.drawImage(
 							awtImage, 
-							jrImage.getX() + xoffset, 
-							jrImage.getY() + yoffset, 
+							jrImage.getX() + leftPadding + xoffset, 
+							jrImage.getY() + topPadding + yoffset, 
 							awtWidth, 
 							awtHeight, 
 							this
@@ -1241,8 +1253,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 					{
 						grx.drawImage(
 							awtImage, 
-							jrImage.getX(), 
-							jrImage.getY(), 
+							jrImage.getX() + leftPadding, 
+							jrImage.getY() + topPadding, 
 							availableImageWidth, 
 							availableImageHeight,
 							this
@@ -1273,8 +1285,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 							grx.drawImage(
 								awtImage, 
-								jrImage.getX() + xoffset, 
-								jrImage.getY() + yoffset, 
+								jrImage.getX() + leftPadding + xoffset, 
+								jrImage.getY() + topPadding + yoffset, 
 								awtWidth, 
 								awtHeight, 
 								this
@@ -1297,15 +1309,15 @@ public class JRDesignViewer extends javax.swing.JPanel
 				}
 	
 				grx.setClip(
-					jrImage.getX(), 
-					jrImage.getY(), 
+					jrImage.getX() + leftPadding, 
+					jrImage.getY() + topPadding, 
 					availableImageWidth, 
 					availableImageHeight
 					);
 				grx.drawImage(
 					awtImage, 
-					jrImage.getX() + 2, 
-					jrImage.getY() + 2, 
+					jrImage.getX() + leftPadding + 2, 
+					jrImage.getY() + topPadding + 2, 
 					awtImage.getWidth(null), 
 					awtImage.getHeight(null), 
 					this
