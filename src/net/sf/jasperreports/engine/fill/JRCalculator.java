@@ -339,6 +339,10 @@ public abstract class JRCalculator
 		catch (NullPointerException e)
 		{
 		}
+		catch (OutOfMemoryError e)
+		{
+			throw e;
+		}
 		catch (Throwable e)
 		{
 			throw new JRExpressionEvalException(expression, e); 
@@ -362,6 +366,10 @@ public abstract class JRCalculator
 		catch (NullPointerException e)
 		{
 		}
+		catch (OutOfMemoryError e)
+		{
+			throw e;
+		}
 		catch (Throwable e)
 		{
 			throw new JRExpressionEvalException(expression, e); 
@@ -384,6 +392,10 @@ public abstract class JRCalculator
 		}
 		catch (NullPointerException e)
 		{
+		}
+		catch (OutOfMemoryError e)
+		{
+			throw e;
 		}
 		catch (Throwable e)
 		{
