@@ -28,120 +28,20 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractJavaCompiler implements JRCompiler, JRClassCompiler
+public abstract class JRAbstractJavaCompiler implements JRCompiler
 {
 
 
-	/**
-	 *
-	 */
-	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
-	{
-		JasperReport jasperReport = null;
-		
-		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report design not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			throw new JRException(sbuffer.toString());
-		}
-		else
-		{
-			//Report design OK
-
-			String tempDirStr = System.getProperty("jasper.reports.compile.temp");
-			if (tempDirStr == null || tempDirStr.length() == 0)
-			{
-				tempDirStr = System.getProperty("user.dir");
-			}
-
-			File tempDirFile = new File(tempDirStr);
-			if (!tempDirFile.exists() || !tempDirFile.isDirectory())
-			{
-				throw new JRException("Temporary directory not found : " + tempDirStr);
-			}
-		
-			boolean isKeepJavaFile = 
-				Boolean.valueOf(
-					System.getProperty("jasper.reports.compile.keep.java.file")
-					).booleanValue();
-
-			File javaFile = new File(tempDirFile, jasperDesign.getName() + ".java");
-			File classFile = new File(tempDirFile, jasperDesign.getName() + ".class");
-
-			//Generating expressions class source code
-			String sourceCode = JRClassGenerator.generateClass(jasperDesign);
-
-			//Creating expression class source file
-			JRSaver.saveClassSource(sourceCode, javaFile);
-	
-			String classpath = System.getProperty("jasper.reports.compile.class.path");
-			if (classpath == null || classpath.length() == 0)
-			{
-				classpath = System.getProperty("java.class.path");
-			}
-	
-			try
-			{
-				//Compiling expression class source file
-				String compileErrors = compileClass(javaFile, classpath);
-				if (compileErrors != null)
-				{
-					throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
-				}
-	
-				//Reading class byte codes from compiled class file
-				jasperReport = 
-					new JasperReport(
-						jasperDesign,
-						getClass().getName(),
-						JRLoader.loadBytes(classFile)
-						);
-			}
-			catch (JRException e)
-			{
-				throw e;
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error compiling report design.", e);
-			}
-			finally
-			{
-				if (!isKeepJavaFile)
-				{
-					javaFile.delete();
-				}
-				classFile.delete();
-			}
-		}
-
-		return jasperReport;
-	}
-
-	
 	// @JVM Crash workaround
 	// Reference to the loaded class class in a per thread map
 	private static ThreadLocal classFromBytesRef = new ThreadLocal();
