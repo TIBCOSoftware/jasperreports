@@ -31,6 +31,19 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Batch Export Sample"/>
+		<echo message="==================================="/>
+		<ant dir="batchexport" target="clean" />
+		<ant dir="batchexport" target="javac" />
+		<ant dir="batchexport" target="compile" />
+		<ant dir="batchexport" target="fill" />
+		<ant dir="batchexport" target="pdf" />
+		<ant dir="batchexport" target="html" />
+		<ant dir="batchexport" target="xls" />
+		<ant dir="batchexport" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Data Source Sample"/>
 		<echo message="==================================="/>
 		<ant dir="datasource" target="clean" />
@@ -426,6 +439,7 @@
 	<target name="clean">
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
+		<ant dir="batchexport" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="horizontal" target="clean" />
