@@ -447,6 +447,10 @@ public class JRXlsExporter extends JRAbstractExporter
 						{
 							exportRectangle(element, grid[y][x], x, y);
 						}
+//						else if (element instanceof JRPrintImage)//FIXME at least the border should appear
+//						{
+//							exportImage(element, grid[y][x], x, y);
+//						}
 						else if (element instanceof JRPrintText)
 						{
 							exportText((JRPrintText)element, grid[y][x], x, y);

@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 
@@ -167,6 +168,21 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 	}
 		
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return ((JRTemplateImage)template).getBox();
+	}
+		
+	/**
+	 *
+	 */
+	public void setBox(JRBox box)
+	{
+	}
+
 	/**
 	 *
 	 */

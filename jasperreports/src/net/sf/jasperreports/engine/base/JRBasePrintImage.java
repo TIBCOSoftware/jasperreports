@@ -72,6 +72,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -100,6 +101,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte scaleImage = JRImage.SCALE_IMAGE_RETAIN_SHAPE;
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+	protected JRBox box = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -182,6 +184,22 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
+	}
+
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return box;
+	}
+
+	/**
+	 *
+	 */
+	public void setBox(JRBox box)
+	{
+		this.box = box;
 	}
 
 	/**

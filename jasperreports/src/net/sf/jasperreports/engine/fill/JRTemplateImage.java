@@ -72,6 +72,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 
@@ -97,6 +98,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private JRBox box = null;
 
 
 	/**
@@ -120,6 +122,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 		setVerticalAlignment(image.getVerticalAlignment());
 		setHyperlinkType(image.getHyperlinkType());
 		setHyperlinkTarget(image.getHyperlinkTarget());
+
+		box = image.getBox();
 	}
 
 	/**
@@ -168,6 +172,14 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	protected void setVerticalAlignment(byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return box;
 	}
 		
 	/**

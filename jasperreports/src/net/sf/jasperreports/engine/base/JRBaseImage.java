@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -100,6 +101,11 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+
+	/**
+	 *
+	 */
+	protected JRBox box = null;
 
 	/**
 	 *
@@ -138,6 +144,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		evaluationTime = image.getEvaluationTime();
 		hyperlinkType = image.getHyperlinkType();
 		hyperlinkTarget = image.getHyperlinkTarget();
+
+		box = image.getBox();
 
 		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 		expression = factory.getExpression(image.getExpression());
@@ -220,6 +228,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		return this.evaluationTime;
 	}
 		
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return box;
+	}
+
 	/**
 	 *
 	 */
