@@ -128,7 +128,7 @@ public abstract class JRFillElement implements JRElement
 
 	/**
 	 *
-	 */
+	 *
 	private JRElement topElementInGroup = null;
 	private JRElement bottomElementInGroup = null;
 
@@ -572,6 +572,11 @@ public abstract class JRFillElement implements JRElement
 	{
 		relativeY = parent.getY();
 		stretchHeight = parent.getHeight();
+
+		if (elementGroup != null)
+		{
+			elementGroup.reset();
+		}
 	}
 
 
@@ -669,7 +674,8 @@ public abstract class JRFillElement implements JRElement
 			{
 				if (this.elementGroup != null)
 				{
-					this.setStretchHeight(this.getHeight() + this.getStretchHeightDiff());
+					//this.setStretchHeight(this.getHeight() + this.getStretchHeightDiff());
+					this.setStretchHeight(this.getHeight() + elementGroup.getStretchHeightDiff());
 				}
 				
 				break;
@@ -713,7 +719,7 @@ public abstract class JRFillElement implements JRElement
 
 	/**
 	 *
-	 */
+	 *
 	private int getStretchHeightDiff()
 	{
 		if (this.topElementInGroup == null)
@@ -736,6 +742,7 @@ public abstract class JRFillElement implements JRElement
 				{
 					element = (JRFillElement)elements[i];
 					if (element != this && element.isToPrint())
+					//if (element.isToPrint())
 					{
 						if (
 							topElem == null ||
@@ -786,7 +793,7 @@ public abstract class JRFillElement implements JRElement
 
 	/**
 	 *
-	 */
+	 *
 	private void setTopBottomElements()
 	{
 		if (this.elementGroup != null)
@@ -834,6 +841,7 @@ public abstract class JRFillElement implements JRElement
 		}
 		
 	}
+	*/
 
 
 }

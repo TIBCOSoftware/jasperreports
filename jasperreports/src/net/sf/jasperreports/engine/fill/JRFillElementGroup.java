@@ -97,6 +97,13 @@ public class JRFillElementGroup implements JRElementGroup
 	 */
 	protected JRFillElement[] elements = null;
 
+	/**
+	 *
+	 */
+	private JRElement topElementInGroup = null;
+	private JRElement bottomElementInGroup = null;
+	private int stretchHeightDiff = 0;
+
 
 	/**
 	 *
@@ -147,6 +154,7 @@ public class JRFillElementGroup implements JRElementGroup
 		return this.children;
 	}
 
+
 	/**
 	 *
 	 */
@@ -154,6 +162,7 @@ public class JRFillElementGroup implements JRElementGroup
 	{
 		return this.elementGroup;
 	}
+
 
 	/**
 	 *
@@ -199,6 +208,111 @@ public class JRFillElementGroup implements JRElementGroup
 	public JRElement getElementByKey(String key)
 	{
 		return null;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void reset()
+	{
+		topElementInGroup = null;
+	}
+
+
+	/**
+	 *
+	 */
+	protected int getStretchHeightDiff()
+	{
+		if (topElementInGroup == null)
+		{
+			stretchHeightDiff = 0;
+			
+			setTopBottomElements();
+
+			JRElement[] elements = getElements();
+
+			if (elements != null && elements.length > 0)
+			{
+				JRFillElement topElem = null;
+				JRFillElement bottomElem = null;
+
+				for(int i = 0; i < elements.length; i++)
+				{
+					JRFillElement element = (JRFillElement)elements[i];
+					//if (element != this && element.isToPrint())
+					if (element.isToPrint())
+					{
+						if (
+							topElem == null ||
+							(topElem != null &&
+							element.getRelativeY() + element.getStretchHeight() <
+							topElem.getRelativeY() + topElem.getStretchHeight())
+							)
+						{
+							topElem = element;
+						}
+
+						if (
+							bottomElem == null ||
+							(bottomElem != null &&
+							element.getRelativeY() + element.getStretchHeight() >
+							bottomElem.getRelativeY() + bottomElem.getStretchHeight())
+							)
+						{
+							bottomElem = element;
+						}
+					}
+				}
+
+				stretchHeightDiff = 
+					bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
+					(bottomElementInGroup.getY() + bottomElementInGroup.getHeight() - topElementInGroup.getY());
+
+				if (stretchHeightDiff < 0)
+				{
+					stretchHeightDiff = 0;
+				}
+			}
+		}
+		
+		return stretchHeightDiff;
+	}
+
+
+	/**
+	 *
+	 */
+	private void setTopBottomElements()
+	{
+		JRElement[] elements = getElements();
+	
+		if (elements != null && elements.length > 0)
+		{
+			for(int i = 0; i < elements.length; i++)
+			{
+				if (
+					topElementInGroup == null ||
+					(topElementInGroup != null &&
+					elements[i].getY() + elements[i].getHeight() <
+					topElementInGroup.getY() + topElementInGroup.getHeight())
+					)
+				{
+					topElementInGroup = elements[i];
+				}
+
+				if (
+					bottomElementInGroup == null ||
+					(bottomElementInGroup != null &&
+					elements[i].getY() + elements[i].getHeight() >
+					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
+					)
+				{
+					bottomElementInGroup = elements[i];
+				}
+			}
+		}
 	}
 
 
