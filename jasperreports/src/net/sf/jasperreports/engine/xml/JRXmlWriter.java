@@ -624,6 +624,20 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		{
+			sb.append(" incrementType=\"");
+			sb.append((String)JRXmlConstants.getResetTypeMap().get(new Byte(variable.getIncrementType())));
+			sb.append("\"");
+		}
+
+		if (variable.getIncrementGroup() != null)
+		{
+			sb.append(" incrementGroup=\"");
+			sb.append(variable.getIncrementGroup().getName());
+			sb.append("\"");
+		}
+
 		if (variable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 		{
 			sb.append(" calculation=\"");

@@ -49,6 +49,8 @@ public class JRVariableFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_class = "class";
 	private static final String ATTRIBUTE_resetType = "resetType";
 	private static final String ATTRIBUTE_resetGroup = "resetGroup";
+	private static final String ATTRIBUTE_incrementType = "incrementType";
+	private static final String ATTRIBUTE_incrementGroup = "incrementGroup";
 	private static final String ATTRIBUTE_calculation = "calculation";
 	private static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
 
@@ -79,6 +81,20 @@ public class JRVariableFactory extends JRBaseFactory
 			JRDesignGroup group = new JRDesignGroup();
 			group.setName(groupName);
 			variable.setResetGroup(group);
+		}
+
+		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_incrementType));
+		if (incrementType != null)
+		{
+			variable.setIncrementType(incrementType.byteValue());
+		}
+		
+		groupName = atts.getValue(ATTRIBUTE_incrementGroup);
+		if (groupName != null)
+		{
+			JRDesignGroup group = new JRDesignGroup();
+			group.setName(groupName);
+			variable.setIncrementGroup(group);
 		}
 
 		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(ATTRIBUTE_calculation));

@@ -433,6 +433,34 @@ public class JRXmlLoader
 				{
 					variable.setResetGroup(null);
 				}
+
+				if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+				{
+					groupName = null;
+					group = variable.getIncrementGroup();
+					if (group != null)
+					{
+						groupName = group.getName();
+						group = (JRGroup)groupsMap.get(groupName);
+					}
+
+					if (group == null)
+					{
+						throw 
+							new JRException(
+								"Unknown increment group '" + groupName 
+								+ "' for variable : " + variable.getName()
+								);
+					}
+					else
+					{
+						variable.setIncrementGroup(group);
+					}
+				}
+				else
+				{
+					variable.setIncrementGroup(null);
+				}
 			}
 		}
 	}

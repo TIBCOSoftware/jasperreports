@@ -149,6 +149,11 @@ public abstract class JRCalculator
 				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
+
+				if (variable.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				{
+					variable.setIncrementedValue(variable.getValue());
+				}
 			}
 		}
 	}
@@ -228,8 +233,72 @@ public abstract class JRCalculator
 		{
 			for(int i = 0; i < variables.length; i++)
 			{
+				incrementVariable(variables[i], resetType);
 				initializeVariable(variables[i], resetType);
 			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	private void incrementVariable(JRFillVariable variable, byte incrementType) throws JRException
+	{
+		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		{
+			boolean toIncrement = false;
+			switch (incrementType)
+			{
+				case JRVariable.RESET_TYPE_REPORT :
+				{
+					toIncrement = true;
+					break;
+				}
+				case JRVariable.RESET_TYPE_PAGE :
+				{
+					toIncrement = 
+						(
+						variable.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
+						variable.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						);
+					break;
+				}
+				case JRVariable.RESET_TYPE_COLUMN :
+				{
+					toIncrement = (variable.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					break;
+				}
+				case JRVariable.RESET_TYPE_GROUP :
+				{
+					if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					{
+						JRFillGroup group = (JRFillGroup)variable.getIncrementGroup();
+						toIncrement = group.hasChanged();
+					}
+					break;
+				}
+				case JRVariable.RESET_TYPE_NONE :
+				default :
+				{
+				}
+			}
+
+			if (toIncrement)
+			{
+				variable.setIncrementedValue(variable.getValue());
+//				variable.setValue(
+//					evaluate(variable.getInitialValueExpression())
+//					);
+//				variable.setInitialized(true);
+			}
+		}
+		else
+		{
+			variable.setIncrementedValue(variable.getValue());
+//			variable.setValue(
+//				evaluate(variable.getExpression())
+//				);
 		}
 	}
 

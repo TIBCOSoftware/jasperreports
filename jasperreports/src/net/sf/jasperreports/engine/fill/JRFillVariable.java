@@ -50,6 +50,7 @@ public class JRFillVariable implements JRVariable
 	 *
 	 */
 	private JRGroup resetGroup = null;
+	private JRGroup incrementGroup = null;
 	private JRVariable countVariable = null;
 	private JRVariable sumVariable = null;
 	private JRVariable varianceVariable = null;
@@ -59,6 +60,7 @@ public class JRFillVariable implements JRVariable
 	 */
 	private Object oldValue = null;
 	private Object estimatedValue = null;
+	private Object incrementedValue = null;
 	private Object value = null;
 	private boolean isInitialized = false;
 
@@ -81,6 +83,7 @@ public class JRFillVariable implements JRVariable
 		parent = variable;
 		
 		resetGroup = (JRGroup)factory.getGroup(variable.getResetGroup());
+		incrementGroup = (JRGroup)factory.getGroup(variable.getIncrementGroup());
 		countVariable = (JRVariable)factory.getVariable(variable.getCountVariable());
 		sumVariable = (JRVariable)factory.getVariable(variable.getSumVariable());
 		varianceVariable = (JRVariable)factory.getVariable(variable.getVarianceVariable());
@@ -154,6 +157,14 @@ public class JRFillVariable implements JRVariable
 	/**
 	 *
 	 */
+	public byte getIncrementType()
+	{
+		return this.parent.getIncrementType();
+	}
+		
+	/**
+	 *
+	 */
 	public byte getCalculation()
 	{
 		return this.parent.getCalculation();
@@ -173,6 +184,14 @@ public class JRFillVariable implements JRVariable
 	public JRGroup getResetGroup()
 	{
 		return this.resetGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup()
+	{
+		return this.incrementGroup;
 	}
 		
 	/**
@@ -229,6 +248,22 @@ public class JRFillVariable implements JRVariable
 	public void setEstimatedValue(Object estimatedValue)
 	{
 		this.estimatedValue = estimatedValue;
+	}
+
+	/**
+	 *
+	 */
+	public Object getIncrementedValue()
+	{
+		return this.incrementedValue;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementedValue(Object incrementedValue)
+	{
+		this.incrementedValue = incrementedValue;
 	}
 
 	/**

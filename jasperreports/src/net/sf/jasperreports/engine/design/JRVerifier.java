@@ -583,6 +583,23 @@ public class JRVerifier
 						}
 					}
 				}
+
+				if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+				{
+					if (variable.getIncrementGroup() == null)
+					{
+						brokenRules.add("Increment group missing for variable : " + variable.getName());
+					}
+					else
+					{
+						Map groupsMap = jasperDesign.getGroupsMap();
+		
+						if (!groupsMap.containsKey(variable.getIncrementGroup().getName()))
+						{
+							brokenRules.add("Increment group \"" + variable.getIncrementGroup().getName() + "\" not found for variable : " + variable.getName());
+						}
+					}
+				}
 			}
 		}
 	}
