@@ -209,7 +209,7 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Adds a path to the classpath.
 	 */
 	public Path createClasspath()
 	{
@@ -223,7 +223,7 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Instructs the XML parser to validate the XML report design file during compilation. 
 	 */
 	public void setXmlvalidation(boolean xmlvalidation)
 	{
@@ -232,7 +232,7 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Executes the task.
 	 */
 	public void execute() throws BuildException
 	{
@@ -283,7 +283,7 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Checks that all required attributes have been set and that the supplied values are valid. 
 	 */
 	protected void checkParameters() throws BuildException 
 	{
@@ -323,7 +323,7 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Scans the source directories looking for source files to be compiled. 
 	 */
 	protected void scanSrc() throws BuildException
 	{
@@ -362,7 +362,8 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Scans the directory looking for source files to be compiled. 
+	 * The results are returned in the instance variable reportFilesMap.
 	 */
 	protected void scanDir(File srcdir, File destdir, String[] files) 
 	{
@@ -377,7 +378,7 @@ public class JRAntCompileTask extends MatchingTask
 		{
 			for (int i = 0; i < newFiles.length; i++)
 			{
-				this.reportFilesMap.put(
+				reportFilesMap.put(
 					(new File(srcdir, newFiles[i])).getAbsolutePath(), 
 					(new File(destdir, mapper.mapFileName(newFiles[i])[0])).getAbsolutePath()
 					);
@@ -387,11 +388,11 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Performs the compilation of the selected report design files.
 	 */
 	protected void compile() throws BuildException
 	{
-		Collection files = this.reportFilesMap.keySet();
+		Collection files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
