@@ -73,6 +73,7 @@
 /*
  * Contributors:
  * Wolfgang - javabreak@users.sourceforge.net
+ * Mario Daepp - mdaepp@users.sourceforge.net
  */
 package dori.jasper.engine.export;
 
@@ -149,14 +150,13 @@ public class JRXlsExporter extends JRAbstractExporter
 	 */
 	private boolean isOnePagePerSheet = false;
 	private boolean isRemoveEmptySpace = false;
-	private boolean isWhitePageBackground = true;
 	private boolean isAutoDetectCellType = true;
 
 	/**
 	 *
 	 */
 	private short whiteIndex = (new HSSFColor.WHITE()).getIndex();
-	private short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+	private short backgroundMode = HSSFCellStyle.NO_FILL;
 
 	/**
 	 *
@@ -211,8 +211,10 @@ public class JRXlsExporter extends JRAbstractExporter
 		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
-			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
-			backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+			if (isWhitePageBackgroundParameter.booleanValue())
+			{
+				backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+			}
 		}
 		
 		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
@@ -380,7 +382,7 @@ public class JRXlsExporter extends JRAbstractExporter
 				int emptyCellWidth = 0;
 				int lastRowHeight = grid[y][0].height;
 	
-				row.setHeight((short)(lastRowHeight * 19));
+				row.setHeightInPoints((short)lastRowHeight);
 	
 				int x = 0;
 				for(x = 0; x < grid[y].length; x++)
@@ -836,7 +838,7 @@ public class JRXlsExporter extends JRAbstractExporter
 				if (
 					cf.getFontName().equals(font.getFontName()) &&
 					(cf.getColor() == forecolor) &&
-					(cf.getFontHeight() == (short)(font.getSize() * 19)) &&
+					(cf.getFontHeightInPoints() == (short)font.getSize()) &&
 					((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
 					(cf.getStrikeout() == font.isStrikeThrough()) &&
 					((cf.getBoldweight() == HSSFFont.BOLDWEIGHT_BOLD)?(font.isBold()):(!font.isBold())) &&
@@ -854,7 +856,7 @@ public class JRXlsExporter extends JRAbstractExporter
 			cellFont = workbook.createFont();
 			cellFont.setFontName(font.getFontName());
 			cellFont.setColor(forecolor);
-			cellFont.setFontHeight((short)(font.getSize() * 19));
+			cellFont.setFontHeightInPoints((short)font.getSize());
 
 			if (font.isUnderline())
 			{
