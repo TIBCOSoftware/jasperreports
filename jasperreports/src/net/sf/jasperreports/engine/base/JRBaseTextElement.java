@@ -93,6 +93,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	protected byte horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
+	protected byte rotation = ROTATION_NONE;
 	protected byte lineSpacing = LINE_SPACING_SINGLE;
 
 	/**
@@ -121,6 +122,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		
 		horizontalAlignment = textElement.getTextAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
+		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
 
 		font = factory.getFont(textElement.getFont());
@@ -157,6 +159,22 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getRotation()
+	{
+		return this.rotation;
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation)
+	{
+		this.rotation = rotation;
 	}
 		
 	/**

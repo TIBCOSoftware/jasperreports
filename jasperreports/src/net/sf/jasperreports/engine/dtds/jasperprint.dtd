@@ -64,6 +64,7 @@
 <!ATTLIST text
 	textAlignment (Left | Center | Right | Justified) "Left"
 	verticalAlignment (Top | Middle | Bottom) "Top"
+	rotation (None | Left | Right) "None"
 	textHeight NMTOKEN "0"
 	lineSpacing (Single | 1_1_2 | Double) "Single"
 	absoluteLineSpacing NMTOKEN "0"
