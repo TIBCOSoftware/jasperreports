@@ -4,17 +4,21 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JToolBar" name="tlbToolBar">
-      <Properties>
-        <Property name="floatable" type="boolean" value="false"/>
-      </Properties>
+    <Container class="javax.swing.JPanel" name="pnlToolBar">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="North"/>
         </Constraint>
       </Constraints>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+        <Property name="alignment" type="int" value="0"/>
+        <Property name="horizontalGap" type="int" value="0"/>
+        <Property name="verticalGap" type="int" value="2"/>
+      </Layout>
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnReload">
           <Properties>
@@ -23,6 +27,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Reload"/>
             <Property name="toolTipText" type="java.lang.String" value="Reload Document"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[2, 2, 2, 2]"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[80, 23]"/>
             </Property>
@@ -61,6 +68,9 @@
               <Image iconType="3" name="/dori/jasper/view/images/zoomin.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom In"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[2, 2, 2, 2]"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[23, 23]"/>
             </Property>
@@ -81,6 +91,9 @@
               <Image iconType="3" name="/dori/jasper/view/images/zoomout.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom Out"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[2, 2, 2, 2]"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[23, 23]"/>
             </Property>
