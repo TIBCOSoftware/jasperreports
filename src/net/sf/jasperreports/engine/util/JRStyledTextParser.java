@@ -103,20 +103,20 @@ public class JRStyledTextParser
 	/**
 	 *
 	 */
-	private static final String ROOT_NODE_START = "<st>";
-	private static final String ROOT_NODE_END = "</st>";
-	private static final String NODE_STYLE = "style";
-	private static final String ATTRIBUTE_FONT_NAME = "fontName";
-	private static final String ATTRIBUTE_SIZE = "size";
-	private static final String ATTRIBUTE_IS_BOLD = "isBold";
-	private static final String ATTRIBUTE_IS_ITALIC = "isItalic";
-	private static final String ATTRIBUTE_IS_UNDERLINE = "isUnderline";
-	private static final String ATTRIBUTE_IS_STRIKETHROUGH = "isStrikeThrough";
-	private static final String ATTRIBUTE_FORECOLOR = "forecolor";
-	private static final String ATTRIBUTE_BACKCOLOR = "backcolor";
-	private static final String ATTRIBUTE_PDF_FONT_NAME = "pdfFontName";
-	private static final String ATTRIBUTE_PDF_ENCODING = "pdfEncoding";
-	private static final String ATTRIBUTE_IS_PDF_EMBEDDED = "isPdfEmbedded";
+	private static final String ROOT_START = "<st>";
+	private static final String ROOT_END = "</st>";
+	private static final String NODE_style = "style";
+	private static final String ATTRIBUTE_fontName = "fontName";
+	private static final String ATTRIBUTE_size = "size";
+	private static final String ATTRIBUTE_isBold = "isBold";
+	private static final String ATTRIBUTE_isItalic = "isItalic";
+	private static final String ATTRIBUTE_isUnderline = "isUnderline";
+	private static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
+	private static final String ATTRIBUTE_forecolor = "forecolor";
+	private static final String ATTRIBUTE_backcolor = "backcolor";
+	private static final String ATTRIBUTE_pdfFontName = "pdfFontName";
+	private static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
+	private static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
 
 	/**
 	 *
@@ -152,7 +152,7 @@ public class JRStyledTextParser
 
 		try
 		{
-			document = documentBuilder.parse(new InputSource(new StringReader(ROOT_NODE_START + text + ROOT_NODE_END)));
+			document = documentBuilder.parse(new InputSource(new StringReader(ROOT_START + text + ROOT_END)));
 		}
 		catch (IOException e)
 		{
@@ -181,93 +181,93 @@ public class JRStyledTextParser
 			}
 			else if (
 				node.getNodeType() == Node.ELEMENT_NODE
-				&& NODE_STYLE.equals(node.getNodeName())
+				&& NODE_style.equals(node.getNodeName())
 				)
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
 				Map styleAttrs = new HashMap();
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_FONT_NAME) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.FAMILY, 
-						nodeAttrs.getNamedItem(ATTRIBUTE_FONT_NAME).getNodeValue()
+						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_IS_BOLD) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_isBold) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.WEIGHT, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_IS_BOLD).getNodeValue()).booleanValue() 
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isBold).getNodeValue()).booleanValue() 
 							? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_IS_ITALIC) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_isItalic) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.POSTURE, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_IS_ITALIC).getNodeValue()).booleanValue() 
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isItalic).getNodeValue()).booleanValue() 
 							? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_IS_UNDERLINE) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.UNDERLINE, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_IS_UNDERLINE).getNodeValue()).booleanValue() 
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline).getNodeValue()).booleanValue() 
 							? TextAttribute.UNDERLINE_ON : null
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_IS_STRIKETHROUGH) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.STRIKETHROUGH, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_IS_STRIKETHROUGH).getNodeValue()).booleanValue() 
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough).getNodeValue()).booleanValue() 
 							? TextAttribute.STRIKETHROUGH_ON : null
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_SIZE) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
 					styleAttrs.put(
 						TextAttribute.SIZE, 
-						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_SIZE).getNodeValue()) 
+						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue()) 
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_PDF_FONT_NAME) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_pdfFontName) != null)
 				{
 					styleAttrs.put(
 						JRTextAttribute.PDF_FONT_NAME, 
-						nodeAttrs.getNamedItem(ATTRIBUTE_PDF_FONT_NAME).getNodeValue()
+						nodeAttrs.getNamedItem(ATTRIBUTE_pdfFontName).getNodeValue()
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_PDF_ENCODING) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_pdfEncoding) != null)
 				{
 					styleAttrs.put(
 						JRTextAttribute.PDF_ENCODING, 
-						nodeAttrs.getNamedItem(ATTRIBUTE_PDF_ENCODING).getNodeValue()
+						nodeAttrs.getNamedItem(ATTRIBUTE_pdfEncoding).getNodeValue()
 						);
 				}
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_IS_PDF_EMBEDDED) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_isPdfEmbedded) != null)
 				{
 					styleAttrs.put(
 						JRTextAttribute.IS_PDF_EMBEDDED, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_IS_PDF_EMBEDDED).getNodeValue()) 
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isPdfEmbedded).getNodeValue()) 
 						);
 				}
 				
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_FORECOLOR) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_forecolor) != null)
 				{
 					Color color = null;
-					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_FORECOLOR).getNodeValue();
+					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_forecolor).getNodeValue();
 					if (colorStr != null && colorStr.length() > 0)
 					{
 						char firstChar = colorStr.charAt(0);
@@ -297,10 +297,10 @@ public class JRStyledTextParser
 						);
 				}
 				
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_BACKCOLOR) != null)
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_backcolor) != null)
 				{
 					Color color = null;
-					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_BACKCOLOR).getNodeValue();
+					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_backcolor).getNodeValue();
 					if (colorStr != null && colorStr.length() > 0)
 					{
 						char firstChar = colorStr.charAt(0);
