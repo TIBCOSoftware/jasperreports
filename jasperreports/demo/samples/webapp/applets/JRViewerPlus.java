@@ -95,6 +95,9 @@ public class JRViewerPlus extends JRViewer
 	public JRViewerPlus(JasperPrint jrPrint) throws JRException
 	{
 		super(jrPrint);
+		
+		tlbToolBar.remove(btnSave);
+		tlbToolBar.remove(btnReload);
 
 		btnPlus = new javax.swing.JButton();
         btnPlus.setToolTipText("Plus...");
