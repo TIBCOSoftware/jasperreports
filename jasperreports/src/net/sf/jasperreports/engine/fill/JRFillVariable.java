@@ -356,7 +356,7 @@ public class JRFillVariable implements JRVariable
 				}
 				else
 				{
-					incrementer = JRDefaultNothingIncrementer.getInstance();
+					incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(getCalculation());
 				}
 			}
 			else
