@@ -96,6 +96,7 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	public static final JRXlsExporterParameter IS_ONE_PAGE_PER_SHEET = new JRXlsExporterParameter("Is One Page per Sheet");
 	public static final JRXlsExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRXlsExporterParameter("Is Remove Empty Space Between Rows");
 	public static final JRXlsExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRXlsExporterParameter("Is White Page Background");
+	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
 
 
 }
