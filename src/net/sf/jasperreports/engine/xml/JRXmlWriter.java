@@ -237,6 +237,13 @@ public class JRXmlWriter
 			this.sbuffer.append("\"");
 		}
 
+		if(report.getPrintOrder() != JRReport.PRINT_ORDER_VERTICAL)
+		{
+			this.sbuffer.append(" printOrder=\"");
+			this.sbuffer.append((String)JRXmlConstants.getPrintOrderMap().get(new Byte(report.getPrintOrder())));
+			this.sbuffer.append("\"");
+		}
+
 		this.sbuffer.append(" pageWidth=\"");
 		this.sbuffer.append(report.getPageWidth());
 		this.sbuffer.append("\"");
