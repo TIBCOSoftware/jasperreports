@@ -71,7 +71,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sf.jasperreports.engine.JRException;
