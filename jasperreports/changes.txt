@@ -2,6 +2,21 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.5.2
+-----------------------------------
+- new "rotation" attribute for text elements to allow vertically heading text;
+
+- "stretchType" attribute now available for all types of elements;
+
+- support for custom name-value pair properties inside the report design;
+
+- enhanced exporters (progress monitor, etc);
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.5.1
 -----------------------------------
 - new data source implementations based on java.util.Map objects;
