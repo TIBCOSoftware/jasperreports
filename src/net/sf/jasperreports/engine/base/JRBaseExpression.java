@@ -200,6 +200,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	{
 		String text = "";
 		
+		chunks = getChunks();
 		if (chunks != null && chunks.length > 0)
 		{
 			StringBuffer sbuffer = new StringBuffer();
