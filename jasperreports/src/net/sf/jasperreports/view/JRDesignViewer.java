@@ -1607,7 +1607,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		grx.setStroke(new BasicStroke(1f / zoom));
 
-		grx.drawRect(x, y, width - 1, height - 1);
+		//grx.drawRect(x, y, width - 1, height - 1);
 
 		//grx.setStroke(new BasicStroke(1f));
 		/*
@@ -1811,6 +1811,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 				}
 			}
 		}
+
+		grx.drawRect(x, y, width - 1, height - 1);
 
 		grx.rotate(-angle, x, y);
 	}
