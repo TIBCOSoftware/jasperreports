@@ -140,52 +140,52 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private Writer writer = null;
-	private Map loadedImagesMap = null;
-	private Map imagesMap = null;
+	protected Writer writer = null;
+	protected Map loadedImagesMap = null;
+	protected Map imagesMap = null;
 
 	/**
 	 *
 	 */
-	private JRFont defaultFont = null;
+	protected JRFont defaultFont = null;
 
 	/**
 	 *
 	 */
-	private File imagesDir = null;
-	private String imagesURI = null;
-	private boolean isOutputImagesToDir = false;
-	private boolean isRemoveEmptySpace = false;
-	private boolean isWhitePageBackground = true;
-	private String encoding = null;
+	protected File imagesDir = null;
+	protected String imagesURI = null;
+	protected boolean isOutputImagesToDir = false;
+	protected boolean isRemoveEmptySpace = false;
+	protected boolean isWhitePageBackground = true;
+	protected String encoding = null;
 
 	/**
 	 *
 	 */
-	private String htmlHeader = null;
-	private String betweenPagesHtml = null;
-	private String htmlFooter = null;
+	protected String htmlHeader = null;
+	protected String betweenPagesHtml = null;
+	protected String htmlFooter = null;
 
-	private StringProvider emptyCellStringProvider = null;
-
-	/**
-	 *
-	 */
-	private static final int colorMask = Integer.parseInt("FFFFFF", 16);
+	protected StringProvider emptyCellStringProvider = null;
 
 	/**
 	 *
 	 */
-	private JRExporterGridCell grid[][] = null;
-	private boolean isRowNotEmpty[] = null;
-	private List xCuts = null;
-	private List yCuts = null;
+	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
+
+	/**
+	 *
+	 */
+	protected JRExporterGridCell grid[][] = null;
+	protected boolean isRowNotEmpty[] = null;
+	protected List xCuts = null;
+	protected List yCuts = null;
 
 
 	/**
 	 *
 	 */
-	private JRFont getDefaultFont()
+	protected JRFont getDefaultFont()
 	{
 		if (defaultFont == null)
 		{
@@ -478,7 +478,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportToWriter() throws JRException, IOException
+	protected void exportReportToWriter() throws JRException, IOException
 	{
 		if (htmlHeader == null)
 		{
@@ -550,7 +550,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page) throws JRException, IOException
+	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		writer.write("<table width=" + jasperPrint.getPageWidth() + " cellpadding=0 cellspacing=0 border=0\n");
 		if (isWhitePageBackground)
@@ -650,7 +650,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportLine(JRPrintLine line, JRExporterGridCell gridCell) throws IOException
+	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
@@ -683,7 +683,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
+	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
@@ -717,7 +717,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportText(JRPrintText text, JRExporterGridCell gridCell) throws IOException
+	protected void exportText(JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
@@ -970,7 +970,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportImage(JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
@@ -1240,7 +1240,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void layoutGrid(JRPrintPage page)
+	protected void layoutGrid(JRPrintPage page)
 	{
 		xCuts = new ArrayList();
 		yCuts = new ArrayList();
@@ -1407,7 +1407,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static String replaceNewLineWithBR(String source)
+	protected static String replaceNewLineWithBR(String source)
 	{
 		String str = null;
 		
@@ -1439,7 +1439,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void loadPxImage() throws JRException
+	protected void loadPxImage() throws JRException
 	{
 		if (!imagesMap.containsKey("px"))
 		{

@@ -121,21 +121,21 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private StringBuffer sbuffer = null;
-	private Map loadedImagesMap = null;
-	private Map fontsMap = new HashMap();
+	protected StringBuffer sbuffer = null;
+	protected Map loadedImagesMap = null;
+	protected Map fontsMap = new HashMap();
 
 	/**
 	 *
 	 */
-	private boolean isEmbeddingImages = true;
-	private File destFile = null;
-	private File imagesDir = null;
+	protected boolean isEmbeddingImages = true;
+	protected File destFile = null;
+	protected File imagesDir = null;
 
 	/**
 	 *
 	 */
-	private static final int colorMask = Integer.parseInt("FFFFFF", 16);
+	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
 
 
 	/**
@@ -204,7 +204,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportToFile() throws JRException
+	protected void exportReportToFile() throws JRException
 	{
 		if (!isEmbeddingImages)
 		{
@@ -287,7 +287,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private StringBuffer exportReportToBuffer() throws JRException
+	protected StringBuffer exportReportToBuffer() throws JRException
 	{
 		sbuffer = new StringBuffer();
 		
@@ -353,7 +353,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportFont(JRReportFont font)
+	protected void exportReportFont(JRReportFont font)
 	{
 		sbuffer.append("\t<reportFont");
 
@@ -408,7 +408,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page) throws JRException
+	protected void exportPage(JRPrintPage page) throws JRException
 	{
 		sbuffer.append("\t<page>\n");
 
@@ -450,7 +450,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportLine(JRPrintLine line)
+	protected void exportLine(JRPrintLine line)
 	{
 		sbuffer.append("\t\t<line");
 
@@ -473,7 +473,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportElement(JRPrintElement element)
+	protected void exportReportElement(JRPrintElement element)
 	{
 		sbuffer.append("\t\t\t<reportElement");
 
@@ -531,7 +531,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportGraphicElement(JRPrintGraphicElement element)
+	protected void exportGraphicElement(JRPrintGraphicElement element)
 	{
 		sbuffer.append("\t\t\t<graphicElement");
 
@@ -561,7 +561,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportRectangle(JRPrintRectangle rectangle)
+	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
 		sbuffer.append("\t\t<rectangle");
 
@@ -584,7 +584,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportEllipse(JRPrintEllipse ellipse)
+	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
 		sbuffer.append("\t\t\t<ellipse>\n");
 
@@ -598,7 +598,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportImage(JRPrintImage image) throws JRException
+	protected void exportImage(JRPrintImage image) throws JRException
 	{
 		sbuffer.append("\t\t<image");
 
@@ -737,7 +737,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportText(JRPrintText text)
+	protected void exportText(JRPrintText text)
 	{
 		sbuffer.append("\t\t<text");
 
@@ -840,7 +840,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private String exportFont(JRFont font)
+	protected String exportFont(JRFont font)
 	{
 		String fontChunk = null;
 		

@@ -128,31 +128,31 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private Document document = null;
-	private PdfContentByte pdfContentByte = null;
+	protected Document document = null;
+	protected PdfContentByte pdfContentByte = null;
 
-	private Document imageTesterDocument = null;
-	private PdfContentByte imageTesterPdfContentByte = null;
-
-	/**
-	 *
-	 */
-	private boolean isEncrypted = false;
-	private boolean is128BitKey = false;
-	private String userPassword = null;
-	private String ownerPassword = null;
-	private int permissions = 0;
+	protected Document imageTesterDocument = null;
+	protected PdfContentByte imageTesterPdfContentByte = null;
 
 	/**
 	 *
 	 */
-	private JRFont defaultFont = null;
+	protected boolean isEncrypted = false;
+	protected boolean is128BitKey = false;
+	protected String userPassword = null;
+	protected String ownerPassword = null;
+	protected int permissions = 0;
+
+	/**
+	 *
+	 */
+	protected JRFont defaultFont = null;
 
 
 	/**
 	 *
 	 */
-	private JRFont getDefaultFont()
+	protected JRFont getDefaultFont()
 	{
 		if (defaultFont == null)
 		{
@@ -250,7 +250,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportToStream(OutputStream os) throws JRException
+	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -366,7 +366,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page) throws JRException, DocumentException, IOException
+	protected void exportPage(JRPrintPage page) throws JRException, DocumentException, IOException
 	{
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
@@ -404,7 +404,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportLine(JRPrintLine line)
+	protected void exportLine(JRPrintLine line)
 	{
 		if (line.getPen() != JRGraphicElement.PEN_NONE)
 		{
@@ -567,7 +567,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportRectangle(JRPrintRectangle rectangle)
+	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
 		pdfContentByte.setRGBColorStroke(
 			rectangle.getForecolor().getRed(),
@@ -669,7 +669,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportEllipse(JRPrintEllipse ellipse)
+	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
 		pdfContentByte.setRGBColorStroke(
 			ellipse.getForecolor().getRed(),
@@ -769,7 +769,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportImage(JRPrintImage printImage) throws DocumentException, IOException
+	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException
 	{
 		pdfContentByte.setRGBColorFill(
 			printImage.getBackcolor().getRed(),
@@ -1124,7 +1124,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportText(JRPrintText text) throws JRException, DocumentException, IOException
+	protected void exportText(JRPrintText text) throws JRException, DocumentException, IOException
 	{
 		String strText = text.getText();
 
