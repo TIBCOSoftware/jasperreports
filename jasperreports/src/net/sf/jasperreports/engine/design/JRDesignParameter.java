@@ -31,6 +31,8 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
 
+import java.beans.PropertyChangeSupport;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -38,6 +40,24 @@ import net.sf.jasperreports.engine.base.JRBaseParameter;
  */
 public class JRDesignParameter extends JRBaseParameter
 {
+    /** Mechanism for firing property change events. */
+    private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);
+
+    /** Bean property name for the parameter's name. */
+    public static final String NAME_PROPERTY = "name";
+
+    /** Bean property name for the value class name. */
+    public static final String VALUE_CLASS_PROPERTY = "valueClassName";
+
+    /** Bean property name for system defined parameter. */
+    public static final String SYSTEM_DEFINED_PROPERTY = "systemDefined";
+
+    /** Bean property name for prompting. */
+    public static final String PROMPTING_PROPERTY = "forPrompting";
+
+    /** Bean property name for default value expression. */
+    public static final String DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
+
 
 
 	/**
@@ -50,7 +70,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setName(String name)
 	{
+        Object oldValue = this.name;
 		this.name = name;
+        propSupport.firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 	
 	/**
@@ -66,8 +88,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setValueClassName(String className)
 	{
+        Object oldValue = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+        propSupport.firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
 	}
 
 	/**
@@ -75,7 +99,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setSystemDefined(boolean isSystemDefined)
 	{
+        boolean oldValue = this.isSystemDefined;
 		this.isSystemDefined = isSystemDefined;
+        propSupport.firePropertyChange(SYSTEM_DEFINED_PROPERTY, oldValue,
+                this.isSystemDefined);
 	}
 
 	/**
@@ -83,7 +110,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setForPrompting(boolean isForPrompting)
 	{
+        boolean oldValue = this.isForPrompting;
 		this.isForPrompting = isForPrompting;
+        propSupport.firePropertyChange(PROMPTING_PROPERTY, oldValue, this.isForPrompting);
 	}
 
 	/**
@@ -91,7 +120,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setDefaultValueExpression(JRExpression expression)
 	{
+        Object oldValue = this.defaultValueExpression;
 		this.defaultValueExpression = expression;
+        propSupport.firePropertyChange(DEFAULT_VALUE_EXPRESSION, oldValue,
+                this.defaultValueExpression);
 	}
 
 
