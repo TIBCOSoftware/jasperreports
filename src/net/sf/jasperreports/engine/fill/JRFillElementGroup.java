@@ -114,10 +114,10 @@ public class JRFillElementGroup implements JRElementGroup
 		JRFillObjectFactory factory
 		)
 	{
+		factory.put(elementGroup, this);
+
 		if (elementGroup != null)
 		{
-			factory.put(elementGroup, this);
-	
 			/*   */
 			List list = elementGroup.getChildren();
 			if (list != null && list.size() > 0)

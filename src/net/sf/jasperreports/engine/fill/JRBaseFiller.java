@@ -164,6 +164,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected Map variablesMap = null;
 	protected JRFillGroup[] groups = null;
 
+	protected JRFillBand missingFillBand = null;
 	protected JRFillBand background = null;
 	protected JRFillBand title = null;
 	protected JRFillBand pageHeader = null;
@@ -305,6 +306,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		/*   */
+		missingFillBand = factory.getBand(null);
 		background = factory.getBand(jasperReport.getBackground());
 		title = factory.getBand(jasperReport.getTitle());
 		pageHeader = factory.getBand(jasperReport.getPageHeader());
