@@ -1192,6 +1192,13 @@ public class JRXmlWriter
 			this.sbuffer.append("\"");
 		}
 
+		if (textElement.getRotation() != JRTextElement.ROTATION_NONE)
+		{
+			this.sbuffer.append(" rotation=\"");
+			this.sbuffer.append((String)JRXmlConstants.getRotationMap().get(new Byte(textElement.getRotation())));
+			this.sbuffer.append("\"");
+		}
+
 		if (textElement.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
 			this.sbuffer.append(" lineSpacing=\"");

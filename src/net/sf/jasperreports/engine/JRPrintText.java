@@ -132,6 +132,16 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	/**
 	 *
 	 */
+	public byte getRotation();
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation);
+		
+	/**
+	 *
+	 */
 	public float getTextHeight();
 		
 	/**

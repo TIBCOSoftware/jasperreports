@@ -102,6 +102,12 @@ public class JRTextElementFactory extends JRBaseFactory
 			textElement.setVerticalAlignment(verticalAlignment.byteValue());
 		}
 
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue("rotation"));
+		if (rotation != null)
+		{
+			textElement.setRotation(rotation.byteValue());
+		}
+
 		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue("lineSpacing"));
 		if (lineSpacing != null)
 		{

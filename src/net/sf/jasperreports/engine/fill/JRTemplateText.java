@@ -96,6 +96,7 @@ public class JRTemplateText extends JRTemplateElement
 	 */
 	private byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+	private byte rotation = JRTextElement.ROTATION_NONE;
 	private byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private JRFont font = null;
@@ -149,6 +150,7 @@ public class JRTemplateText extends JRTemplateElement
 
 		horizontalAlignment = textElement.getTextAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
+		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
 	}
 
@@ -166,6 +168,14 @@ public class JRTemplateText extends JRTemplateElement
 	public byte getVerticalAlignment()
 	{
 		return this.verticalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getRotation()
+	{
+		return this.rotation;
 	}
 		
 	/**

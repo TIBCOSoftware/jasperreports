@@ -156,6 +156,21 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	public byte getRotation()
+	{
+		return ((JRTextElement)this.parent).getRotation();
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation)
+	{
+	}
+		
+	/**
+	 *
+	 */
 	public byte getLineSpacing()
 	{
 		return ((JRTextElement)this.parent).getLineSpacing();
@@ -382,9 +397,32 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		//allText = JRStringUtil.treatNewLineChars(allText);
 
-		float formatWidth = (float) this.getWidth();
+		int width = this.getWidth();
+		int height = this.getHeight();
+		
+		switch (this.getRotation())
+		{
+			case JRTextElement.ROTATION_LEFT :
+			{
+				width = this.getHeight();
+				height = this.getWidth();
+				break;
+			}
+			case JRTextElement.ROTATION_RIGHT :
+			{
+				width = this.getHeight();
+				height = this.getWidth();
+				break;
+			}
+			case JRTextElement.ROTATION_NONE :
+			default :
+			{
+			}
+		}
+		
+		float formatWidth = (float)width;
 		float lineSpacing = this.getFloatLineSpacing();
-		int maxHeight = this.getHeight() + availableStretchHeight;
+		int maxHeight = height + availableStretchHeight;
 		FontRenderContext fontRenderContext = getFontRenderContext();
 		Map fontAttributes = this.getFont().getAttributes();
 
@@ -483,7 +521,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 
 		this.setTextHeight(drawPosY + 1);
-		this.setStretchHeight((int)this.getTextHeight());
+		if (this.getRotation() == ROTATION_NONE)
+		{
+			this.setStretchHeight((int)this.getTextHeight());
+		}
+		else
+		{
+			this.setStretchHeight(this.getHeight());
+		}
 		this.setTextStart(this.getTextEnd());
 		this.setTextEnd(this.getTextStart() + strpos);
 		//this.setTextEnd(strpos);

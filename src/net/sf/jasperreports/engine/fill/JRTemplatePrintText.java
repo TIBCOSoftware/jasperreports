@@ -189,6 +189,21 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
+	public byte getRotation()
+	{
+		return ((JRTemplateText)this.template).getRotation();
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(byte rotation)
+	{
+	}
+		
+	/**
+	 *
+	 */
 	public float getTextHeight()
 	{
 		return this.textHeight;

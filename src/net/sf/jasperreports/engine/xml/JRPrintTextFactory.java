@@ -102,6 +102,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setVerticalAlignment(verticalAlignment.byteValue());
 		}
 
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue("rotation"));
+		if (rotation != null)
+		{
+			text.setRotation(rotation.byteValue());
+		}
+
 		String textHeight = atts.getValue("textHeight");
 		if (textHeight != null && textHeight.length() > 0)
 		{
