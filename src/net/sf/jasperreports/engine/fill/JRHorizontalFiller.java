@@ -795,7 +795,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary.isToPrint())
+			if (summary != missingFillBand && summary.isToPrint())
 			{
 				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 		
@@ -869,7 +869,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 	
-			if (summary.isToPrint())
+			if (summary != missingFillBand && summary.isToPrint())
 			{
 				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
 				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);

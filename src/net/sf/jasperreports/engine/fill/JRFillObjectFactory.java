@@ -273,8 +273,9 @@ public class JRFillObjectFactory
 	{
 		JRFillBand fillBand = null;
 		
-		//if (band != null)//FIXME let the bands be null in the fill structure
+		//if (band != null)
 		//{
+		// for null bands, the filler's missingFillBand will be returned
 			fillBand = (JRFillBand)fillObjectsMap.get(band);
 			if (fillBand == null)
 			{
