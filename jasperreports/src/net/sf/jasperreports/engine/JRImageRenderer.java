@@ -96,7 +96,11 @@ public class JRImageRenderer implements JRRenderable
 	 *
 	 */
 	private byte[] imageData = null;
-	private Image awtImage = null;
+
+	/**
+	 *
+	 */
+	private transient Image awtImage = null;
 
 	
 	/**
