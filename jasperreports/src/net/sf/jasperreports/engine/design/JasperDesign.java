@@ -822,39 +822,15 @@ public class JasperDesign extends JRBaseReport
 			calculation == JRVariable.CALCULATION_VARIANCE
 			)
 		{
-			JRDesignVariable countVariable = null;
-			switch (variable.getResetType())
-			{
-				case JRVariable.RESET_TYPE_REPORT : 
-				{
-					countVariable = (JRDesignVariable)variablesMap.get(JRVariable.REPORT_COUNT);
-					break;
-				}
-				case JRVariable.RESET_TYPE_PAGE : 
-				{
-					countVariable = (JRDesignVariable)variablesMap.get(JRVariable.PAGE_COUNT);
-					break;
-				}
-				case JRVariable.RESET_TYPE_COLUMN : 
-				{
-					countVariable = (JRDesignVariable)variablesMap.get(JRVariable.COLUMN_COUNT);
-					break;
-				}
-				case JRVariable.RESET_TYPE_GROUP : 
-				{
-					countVariable = new JRDesignVariable();
-					countVariable.setName(variable.getName() + "_COUNT");
-					countVariable.setValueClassName(variable.getValueClassName());
-					countVariable.setResetType(variable.getResetType());
-					countVariable.setResetGroup(variable.getResetGroup());
-					countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
-					countVariable.setSystemDefined(true);
-					countVariable.setExpression(variable.getExpression());
-					this.addVariable(countVariable);
-
-					break;
-				}
-			}
+			JRDesignVariable countVariable = new JRDesignVariable();
+			countVariable.setName(variable.getName() + "_COUNT");
+			countVariable.setValueClassName(variable.getValueClassName());
+			countVariable.setResetType(variable.getResetType());
+			countVariable.setResetGroup(variable.getResetGroup());
+			countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
+			countVariable.setSystemDefined(true);
+			countVariable.setExpression(variable.getExpression());
+			this.addVariable(countVariable);
 			variable.setCountVariable(countVariable);
 
 			JRDesignVariable sumVariable = new JRDesignVariable();
