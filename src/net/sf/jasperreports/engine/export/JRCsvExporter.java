@@ -90,12 +90,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.xml.sax.SAXException;
+
 import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRExporterParameter;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintText;
+import dori.jasper.engine.util.JRStyledText;
+import dori.jasper.engine.util.JRStyledTextParser;
 
 
 /**
@@ -105,6 +109,11 @@ import dori.jasper.engine.JRPrintText;
 public class JRCsvExporter extends JRAbstractExporter
 {
 
+
+	/**
+	 *
+	 */
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -308,10 +317,14 @@ public class JRCsvExporter extends JRAbstractExporter
 	
 						if (element instanceof JRPrintText)
 						{
-							text = ((JRPrintText)element).getText();
-							if (text == null)
+							JRStyledText styledText = getStyledText((JRPrintText)element);
+							if (styledText == null)
 							{
 								text = "";
+							}
+							else
+							{
+								text = styledText.getText();
 							}
 							
 							if (!isFirstColumn)
@@ -451,6 +464,40 @@ public class JRCsvExporter extends JRAbstractExporter
 	}
 	
 	
+	/**
+	 *
+	 */
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		JRStyledText styledText = null;
+
+		String text = textElement.getText();
+		if (text != null)
+		{
+			if (textElement.isStyledText())
+			{
+				try
+				{
+					styledText = styledTextParser.parse(null, text);
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(null, 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
+
 	/**
 	 *
 	 */
