@@ -26,7 +26,7 @@
 	<target name="compile">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-FjChartsReport.xml"/>
+			<arg value="-FJChartsReport.xml"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -83,7 +83,7 @@
 	-->
 	<target name="view">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -101,7 +101,7 @@
 	<target name="viewXML">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FjChartsReport.jrpxml"/>
+			<arg value="-FJChartsReport.jrpxml"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -118,7 +118,7 @@
 	<target name="print">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Tprint"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -136,7 +136,7 @@
 	<target name="pdf">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Tpdf"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -154,7 +154,7 @@
 	<target name="xml">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Txml"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -172,7 +172,7 @@
 	<target name="xmlEmbed">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-TxmlEmbed"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -190,7 +190,7 @@
 	<target name="html">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Thtml"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -208,7 +208,7 @@
 	<target name="xls">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Txls"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -226,7 +226,7 @@
 	<target name="csv">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Tcsv"/>
-			<arg value="-FjChartsReport.jrprint"/>
+			<arg value="-FJChartsReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -244,7 +244,7 @@
 	<target name="run">
 		<java classname="JChartsApp" fork="true">
 			<arg value="-Trun"/>
-			<arg value="-FjChartsReport.jasper"/>
+			<arg value="-FJChartsReport.jasper"/>
 			<classpath>
 				<pathelement location="./"/>
 				<fileset dir="./">
@@ -264,7 +264,7 @@
 	<target name="viewDesignXML">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FjChartsReport.xml"/>
+			<arg value="-FJChartsReport.xml"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -280,7 +280,7 @@
 	-->
 	<target name="viewDesign">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
-			<arg value="-FjChartsReport.jasper"/>
+			<arg value="-FJChartsReport.jasper"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -305,8 +305,8 @@
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
-		<delete dir="jChartsReport.jrpxml_files" />
-		<delete dir="jChartsReport.html_files" />
+		<delete dir="JChartsReport.jrpxml_files" />
+		<delete dir="JChartsReport.html_files" />
 	</target>
 
 
