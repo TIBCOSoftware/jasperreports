@@ -2,7 +2,7 @@
 
 	<property name="class.name" value="NoXmlDesignApp" />
 	<property name="file.name" value="NoXmlDesignReport" />
-	<property name="classes.dir" value="../../../classes" />
+	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
 	
@@ -31,19 +31,6 @@
 	-->
 	<target name="compile">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Compiles the XML report design using the BeanShell compiler
-		and produces the .jasper file.
-	-->
-	<target name="compileBsh">
-		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>

@@ -2,7 +2,7 @@
 
 	<property name="class.name" value="StyledTextApp" />
 	<property name="file.name" value="StyledTextReport" />
-	<property name="classes.dir" value="../../../classes" />
+	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
 	

@@ -2,7 +2,7 @@
 
 	<property name="class.name" value="BarbecueApp" />
 	<property name="file.name" value="BarbecueReport" />
-	<property name="classes.dir" value="../../../classes" />
+	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
 	
