@@ -155,7 +155,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	}
 
 	/**
-	 * Converts a primitiv class to its object counterpart
+	 * Converts a primitive class to its object counterpart
 	 */
 	private static Class normalizeClass(Class clazz) {
 		if(clazz.isPrimitive()) {
