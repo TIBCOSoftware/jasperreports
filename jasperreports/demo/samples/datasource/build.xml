@@ -4,10 +4,12 @@
 	<property name="file.name" value="DataSourceReport" />
 	<property name="classes.dir" value="../../../classes" />
 	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
 	
 	<path id="classpath">
 		<pathelement location="./"/>
 		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar"/>
 		</fileset>
@@ -19,7 +21,7 @@
 	-->
 	<target name="javac">
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
@@ -31,7 +33,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
 			<arg value="-F${file.name}.xml"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -44,7 +46,7 @@
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
 			<arg value="-F${file.name}.xml"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -56,7 +58,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill1"/>
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -68,7 +70,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill2"/>
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -80,7 +82,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill3"/>
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -92,7 +94,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill4"/>
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -103,7 +105,7 @@
 	<target name="view">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -115,7 +117,7 @@
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F${file.name}.jrpxml"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -126,7 +128,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -138,7 +140,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -150,7 +152,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txml"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -162,7 +164,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-TxmlEmbed"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -174,7 +176,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Thtml"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -186,7 +188,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -198,7 +200,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -210,7 +212,7 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Trun"/>
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -221,7 +223,7 @@
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F${file.name}.xml"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -231,7 +233,7 @@
 	<target name="viewDesign">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath" />
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 

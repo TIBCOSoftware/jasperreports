@@ -1,5 +1,20 @@
 <project name="JasperReports" default="javac" basedir=".">
 
+	<property name="class.name" value="PrintServiceApp" />
+	<property name="file.name" value="PrintServiceReport" />
+	<property name="classes.dir" value="../../../classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
 	<!--
 		Compiles the java source files 
 		of the test application.
@@ -14,13 +29,7 @@
 		</condition>
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
 			<exclude name="**/*.java" unless="using.jdk.1.4"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
@@ -29,16 +38,10 @@
 		and produces the .jrprint file.
 	-->
 	<target name="fill">
-		<java classname="PrintServiceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
-			<arg value="-FPrintServiceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -48,14 +51,8 @@
 	-->
 	<target name="view">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
-			<arg value="-FPrintServiceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -67,16 +64,10 @@
 		<echo message="* You need JDK 1.4 or higher to run this sample. *"/>
 		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
 		<echo message="**************************************************"/>
-		<java classname="PrintServiceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
-			<arg value="-FPrintServiceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
