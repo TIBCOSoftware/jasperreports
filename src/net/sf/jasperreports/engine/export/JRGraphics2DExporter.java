@@ -84,6 +84,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
@@ -206,7 +207,23 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 		}
 
-		exportReportToGraphics2D();
+		Shape oldClipShape = grx.getClip();
+
+		grx.setClip(
+			0, 
+			0, 
+			jasperPrint.getPageWidth(), 
+			jasperPrint.getPageHeight()
+			);
+
+		try
+		{
+			exportReportToGraphics2D();
+		}
+		finally
+		{
+			grx.setClip(oldClipShape);
+		}
 	}
 		
 
