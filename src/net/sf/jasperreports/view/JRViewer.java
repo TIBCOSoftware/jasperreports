@@ -228,7 +228,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 *
 	 */
-	public void addHyperlinkListener(JRHyperlinkListener listener) throws JRException
+	public void addHyperlinkListener(JRHyperlinkListener listener)
 	{
 		hyperlinkListeners.add(listener);
 	}
@@ -237,9 +237,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 *
 	 */
-	public void removeHyperlinkListener(JRHyperlinkListener listener) throws JRException
+	public void removeHyperlinkListener(JRHyperlinkListener listener)
 	{
 		hyperlinkListeners.remove(listener);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRHyperlinkListener[] getHyperlinkListeners()
+	{
+		return (JRHyperlinkListener[])hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
 	}
 
 
