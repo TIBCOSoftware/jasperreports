@@ -586,8 +586,9 @@ public class JRVerifier
 					if (expression != null)
 					{
 						if (
-							variable.getCalculation() != JRVariable.CALCULATION_COUNT &&
-							!valueClass.isAssignableFrom(
+							variable.getCalculation() != JRVariable.CALCULATION_COUNT 
+							&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM
+							&& !valueClass.isAssignableFrom(
 								expression.getValueClass()
 								)
 							)
