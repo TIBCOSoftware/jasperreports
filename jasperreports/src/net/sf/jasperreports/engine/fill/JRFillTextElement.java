@@ -86,6 +86,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
+import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRTextElement;
@@ -317,7 +318,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			styledTextAttributes = new HashMap(); 
 			styledTextAttributes.putAll(getFont().getAttributes());
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-			styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+			if (getMode() == JRElement.MODE_OPAQUE)
+			{
+				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+			}
 		}
 		
 		return styledTextAttributes;
