@@ -240,6 +240,18 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" PDF Encrypt Sample"/>
+		<echo message="==================================="/>
+		<ant dir="pdfencrypt" target="clean" />
+		<ant dir="pdfencrypt" target="javac" />
+		<ant dir="pdfencrypt" target="compile" />
+		<ant dir="pdfencrypt" target="fill" />
+		<ant dir="pdfencrypt" target="compileBsh" />
+		<ant dir="pdfencrypt" target="fill" />
+		<ant dir="pdfencrypt" target="pdf" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Print Service Sample"/>
 		<echo message="==================================="/>
 		<ant dir="printservice" target="clean" />
@@ -392,6 +404,7 @@
 		<ant dir="nopagebreak" target="clean" />
 		<ant dir="noreport" target="clean" />
 		<ant dir="noxmldesign" target="clean" />
+		<ant dir="pdfencrypt" target="clean" />
 		<ant dir="printservice" target="clean" />
 		<ant dir="query" target="clean" />
 		<ant dir="scriptlet" target="clean" />

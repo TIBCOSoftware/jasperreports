@@ -80,6 +80,7 @@
 			<arg value="-FHorizontalReport.jrprint"/>
 			<classpath>
 				<pathelement location="./"/>
+				<pathelement location="../../fonts"/>
 				<pathelement location="../../../classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
@@ -98,6 +99,7 @@
 			<arg value="-FHorizontalReport.jrpxml"/>
 			<classpath>
 				<pathelement location="./"/>
+				<pathelement location="../../fonts"/>
 				<pathelement location="../../../classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>

@@ -241,6 +241,7 @@ public class JRLoader
 		}
 		finally
 		{
+			//FIXME should not close the stream
 			if (ois != null)
 			{
 				try
