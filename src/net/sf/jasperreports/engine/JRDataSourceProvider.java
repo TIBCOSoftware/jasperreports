@@ -72,12 +72,11 @@
 package net.sf.jasperreports.engine;
 
 /**
- * This interface abstracts the means of creating and disposing
- * a data source. This interface is meant to be the standard way to
- * plug custom data sources into GUI designers. Typically the report
- * developer will implement this interface to create and return a configured
- * data source of the desired type and then configure the designer to use
- * this implementation. 
+ * Abstracts the means of creating and disposing a data source. 
+ * This interface is meant to be the standard way to plug custom 
+ * data sources into GUI designers. Typically the report developer will 
+ * implement this interface to create and return a configured data source 
+ * of the desired type and then configure the designer to use this implementation. 
  * <br>
  * The following example demonstrates a provider for a 
  * {@link net.sf.jasperreports.engine.data.JRBeanCollectionDataSource JRBeanCollectionDataSource}.
