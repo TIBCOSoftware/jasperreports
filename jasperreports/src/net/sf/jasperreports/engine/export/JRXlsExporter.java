@@ -127,50 +127,50 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private int pageHeight = 0;
+	protected int pageHeight = 0;
 
 	/**
 	 *
 	 */
-	private HSSFWorkbook workbook = null;
-	private HSSFSheet sheet = null;
-	private HSSFRow row = null;
-	private HSSFCell cell = null;
-	private HSSFCellStyle emptyCellStyle = null;
+	protected HSSFWorkbook workbook = null;
+	protected HSSFSheet sheet = null;
+	protected HSSFRow row = null;
+	protected HSSFCell cell = null;
+	protected HSSFCellStyle emptyCellStyle = null;
 
 	/**
 	 *
 	 */
-	private JRFont defaultFont = null;
-	private List loadedFonts = new ArrayList();
-	private List loadedCellStyles = new ArrayList();
+	protected JRFont defaultFont = null;
+	protected List loadedFonts = new ArrayList();
+	protected List loadedCellStyles = new ArrayList();
 
 	/**
 	 *
 	 */
-	private boolean isOnePagePerSheet = false;
-	private boolean isRemoveEmptySpace = false;
-	private boolean isAutoDetectCellType = true;
+	protected boolean isOnePagePerSheet = false;
+	protected boolean isRemoveEmptySpace = false;
+	protected boolean isAutoDetectCellType = true;
 
 	/**
 	 *
 	 */
-	private short whiteIndex = (new HSSFColor.WHITE()).getIndex();
-	private short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+	protected short whiteIndex = (new HSSFColor.WHITE()).getIndex();
+	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
 	/**
 	 *
 	 */
-	private JRExporterGridCell grid[][] = null;
-	private boolean isRowNotEmpty[] = null;
-	private List xCuts = null;
-	private List yCuts = null;
+	protected JRExporterGridCell grid[][] = null;
+	protected boolean isRowNotEmpty[] = null;
+	protected List xCuts = null;
+	protected List yCuts = null;
 
 
 	/**
 	 *
 	 */
-	private JRFont getDefaultFont()
+	protected JRFont getDefaultFont()
 	{
 		if (defaultFont == null)
 		{
@@ -274,7 +274,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportToStream(OutputStream os) throws JRException
+	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		workbook = new HSSFWorkbook();
 		emptyCellStyle = workbook.createCellStyle();
@@ -359,7 +359,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage alterYPage, JRPrintPage page) throws JRException
+	protected void exportPage(JRPrintPage alterYPage, JRPrintPage page) throws JRException
 	{
 		layoutGrid(alterYPage, page);
 
@@ -458,7 +458,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int x, int y)
+	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int x, int y)
 	{
 		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
 		{
@@ -489,7 +489,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int x, int y)
+	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int x, int y)
 	{
 		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
 		{
@@ -528,7 +528,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportText(JRPrintText text, JRExporterGridCell gridCell, int x, int y)
+	protected void exportText(JRPrintText text, JRExporterGridCell gridCell, int x, int y)
 	{
 		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
 		{
@@ -768,7 +768,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void layoutGrid(JRPrintPage alterYPage, JRPrintPage page)
+	protected void layoutGrid(JRPrintPage alterYPage, JRPrintPage page)
 	{
 		xCuts = new ArrayList();
 		yCuts = new ArrayList();
@@ -911,7 +911,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static HSSFColor getNearestColor(Color awtColor)
+	protected static HSSFColor getNearestColor(Color awtColor)
 	{
 		HSSFColor color = null;
 
@@ -953,7 +953,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private HSSFFont getLoadedFont(JRFont font, short forecolor)
+	protected HSSFFont getLoadedFont(JRFont font, short forecolor)
 	{
 		HSSFFont cellFont = null;
 
@@ -1014,7 +1014,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private HSSFCellStyle getLoadedCellStyle(
+	protected HSSFCellStyle getLoadedCellStyle(
 		short mode, 
 		short backcolor, 
 		short horizontalAlignment, 

@@ -102,12 +102,12 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	/**
 	 *
 	 */
-	private JRGraphics2DExporter exporter = null;
-	private PrintRequestAttributeSet printRequestAttributeSet = null;
-	private PrintServiceAttributeSet printServiceAttributeSet = null;
-	//private DocFlavor docFlavor = null;
-	private boolean displayPageDialog = false;
-	private boolean displayPrintDialog = false;
+	protected JRGraphics2DExporter exporter = null;
+	protected PrintRequestAttributeSet printRequestAttributeSet = null;
+	protected PrintServiceAttributeSet printServiceAttributeSet = null;
+	//protected DocFlavor docFlavor = null;
+	protected boolean displayPageDialog = false;
+	protected boolean displayPrintDialog = false;
 
 
 	/**

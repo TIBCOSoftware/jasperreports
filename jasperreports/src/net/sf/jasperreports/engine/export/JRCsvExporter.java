@@ -108,21 +108,21 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private String delimiter = null;
+	protected String delimiter = null;
 
 	/**
 	 *
 	 */
-	private Writer writer = null;
+	protected Writer writer = null;
 
 	/**
 	 *
 	 */
-	private JRExporterGridCell grid[][] = null;
-	private boolean isRowUsed[] = null;
-	private boolean isColUsed[] = null;
-	private List xCuts = null;
-	private List yCuts = null;
+	protected JRExporterGridCell grid[][] = null;
+	protected boolean isRowUsed[] = null;
+	protected boolean isColUsed[] = null;
+	protected List xCuts = null;
+	protected List yCuts = null;
 
 	
 	/**
@@ -252,7 +252,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportReportToWriter() throws JRException, IOException
+	protected void exportReportToWriter() throws JRException, IOException
 	{
 		List pages = jasperPrint.getPages();
 		if (pages != null && pages.size() > 0)
@@ -280,7 +280,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page) throws JRException, IOException
+	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		layoutGrid(page);
 
@@ -346,7 +346,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void layoutGrid(JRPrintPage page)
+	protected void layoutGrid(JRPrintPage page)
 	{
 		xCuts = new ArrayList();
 		yCuts = new ArrayList();
@@ -445,7 +445,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private String prepareText(String source)
+	protected String prepareText(String source)
 	{
 		String str = null;
 		

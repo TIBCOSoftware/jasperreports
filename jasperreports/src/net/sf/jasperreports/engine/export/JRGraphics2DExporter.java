@@ -125,13 +125,13 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private Graphics2D grx = null;
-	private float zoom = 1f;
+	protected Graphics2D grx = null;
+	protected float zoom = 1f;
 
 	/**
 	 *
 	 */
-	private JRFont defaultFont = null;
+	protected JRFont defaultFont = null;
 
 
 	/**
@@ -146,7 +146,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JRFont getDefaultFont()
+	protected JRFont getDefaultFont()
 	{
 		if (defaultFont == null)
 		{
@@ -217,7 +217,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page)
+	protected void exportPage(JRPrintPage page)
 	{
 		grx.setColor(Color.white);
 		grx.fillRect(
@@ -267,7 +267,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportLine(JRPrintLine line)
+	protected void exportLine(JRPrintLine line)
 	{
 		grx.setColor(line.getForecolor());
 		
@@ -342,7 +342,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportRectangle(JRPrintRectangle rectangle)
+	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -420,7 +420,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportEllipse(JRPrintEllipse ellipse)
+	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
 		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -494,7 +494,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportImage(JRPrintImage printImage)
+	protected void exportImage(JRPrintImage printImage)
 	{
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -719,7 +719,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportText(JRPrintText text)
+	protected void exportText(JRPrintText text)
 	{
 		String allText = text.getText();
 
