@@ -977,28 +977,32 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (text.getBox() != null)
 		{
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				text.getBox().getTopBorder(),
 				text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor(),
+				text.getBox().getTopPadding(),
 				"top"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				text.getBox().getLeftBorder(),
 				text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor(),
+				text.getBox().getLeftPadding(),
 				"left"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				text.getBox().getBottomBorder(),
 				text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor(),
+				text.getBox().getBottomPadding(),
 				"bottom"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				text.getBox().getRightBorder(),
 				text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor(),
+				text.getBox().getRightPadding(),
 				"right"
 				);
 		}
@@ -1249,28 +1253,32 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (image.getBox() != null)
 		{
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				image.getBox().getTopBorder(),
 				image.getBox().getTopBorderColor() == null ? image.getForecolor() : image.getBox().getTopBorderColor(),
+				image.getBox().getTopPadding(),
 				"top"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				image.getBox().getLeftBorder(),
 				image.getBox().getLeftBorderColor() == null ? image.getForecolor() : image.getBox().getLeftBorderColor(),
+				image.getBox().getLeftPadding(),
 				"left"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				image.getBox().getBottomBorder(),
 				image.getBox().getBottomBorderColor() == null ? image.getForecolor() : image.getBox().getBottomBorderColor(),
+				image.getBox().getBottomPadding(),
 				"bottom"
 				);
-			appendBorderStyle(
+			appendBorder(
 				styleBuffer, 
 				image.getBox().getRightBorder(),
 				image.getBox().getRightBorderColor() == null ? image.getForecolor() : image.getBox().getRightBorderColor(),
+				image.getBox().getRightPadding(),
 				"right"
 				);
 		}
@@ -1752,7 +1760,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static void appendBorderStyle(StringBuffer sb, byte pen, Color borderColor, String side)
+	private static void appendBorder(StringBuffer sb, byte pen, Color borderColor, int padding, String side)
 	{
 		String borderStyle = null; 
 		String borderWidth = null; 
@@ -1817,6 +1825,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 			hexa = ("000000" + hexa).substring(hexa.length());
 			sb.append(hexa);
 			sb.append("; ");
+		}
+		
+		if (padding > 0)
+		{
+			sb.append("padding-");
+			sb.append(side);
+			sb.append(": ");
+			sb.append(padding);
+			sb.append("px; ");
 		}
 	}
 
