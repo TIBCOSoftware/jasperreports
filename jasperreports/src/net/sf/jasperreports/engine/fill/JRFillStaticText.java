@@ -111,24 +111,6 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 	/**
 	 *
-	 *
-	protected int getTextStart()
-	{
-		return 0;
-	}
-		
-
-	/**
-	 *
-	 *
-	protected int getTextEnd()
-	{
-		return 0;
-	}
-		
-
-	/**
-	 *
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
