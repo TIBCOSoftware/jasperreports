@@ -139,6 +139,8 @@ public class UnicodeApp
 				Map parameters = new HashMap();
 				parameters.put("GreekText", "\u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9");
 				parameters.put("CyrillicText", "\u0402 \u040B \u040F \u0414 \u0416 \u0418 \u041B \u0426 \u0429 \u042E");
+				parameters.put("ArabicText", "\u0647\u0630\u0627 \u0639\u0631\u0636 \u0644\u0645\u062C\u0645\u0648\u0639\u0629 TextLayout");
+				parameters.put("HebrewText", "\u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA");
 
 				JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
