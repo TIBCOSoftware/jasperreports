@@ -83,7 +83,8 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
- * Façade class for the JasperReports engine. 
+ * Façade class for filling compiled report designs with data from relational databases 
+ * or from other custom datasources, in order to produce ready-to-print, page-oriented documents.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
