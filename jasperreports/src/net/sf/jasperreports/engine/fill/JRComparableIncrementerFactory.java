@@ -174,7 +174,11 @@ class JRComparableLowestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Comparable value = (Comparable)variable.getValue();
 		Comparable newValue = (Comparable)expressionValue;
@@ -220,7 +224,11 @@ class JRComparableHighestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Comparable value = (Comparable)variable.getValue();
 		Comparable newValue = (Comparable)expressionValue;
