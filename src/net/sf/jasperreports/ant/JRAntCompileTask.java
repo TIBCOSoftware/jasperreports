@@ -247,20 +247,31 @@ public class JRAntCompileTask extends MatchingTask
 		/*   */
 		compile();
 
-		if (oldTempdir != null)
+		if (oldTempdir == null)
+			System.setProperty("jasper.reports.compile.temp", "");
+		else
 			System.setProperty("jasper.reports.compile.temp", oldTempdir);
 
-		if (oldKeepjava != null)
+		if (oldKeepjava == null)
+			System.setProperty("jasper.reports.compile.keep.java.file", "");
+		else
 			System.setProperty("jasper.reports.compile.keep.java.file", oldKeepjava);
-
-		if (oldCompiler != null)
+	
+		if (oldCompiler == null)
+			System.setProperty("jasper.reports.compiler.class", "");
+		else
 			System.setProperty("jasper.reports.compiler.class", oldCompiler);
-
-		if (oldClasspath != null)
+			
+		if (oldClasspath == null)
+			System.setProperty("jasper.reports.compile.class.path", "");
+		else
 			System.setProperty("jasper.reports.compile.class.path", oldClasspath);
-
-		if (oldXmlvalidation != null)
+			
+		if (oldXmlvalidation == null)
+			System.setProperty("jasper.reports.compile.xml.validation", "");
+		else
 			System.setProperty("jasper.reports.compile.xml.validation", oldXmlvalidation);
+			
 	}
 	
 	
