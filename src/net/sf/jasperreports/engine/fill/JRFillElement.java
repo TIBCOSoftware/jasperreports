@@ -69,19 +69,19 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRElementGroup;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPrintElement;
 
 
 /**

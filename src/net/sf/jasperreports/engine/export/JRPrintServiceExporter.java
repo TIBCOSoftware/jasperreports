@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.export;
+package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -87,9 +87,9 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 
-import dori.jasper.engine.JRAbstractExporter;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**

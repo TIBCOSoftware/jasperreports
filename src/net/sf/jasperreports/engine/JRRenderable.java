@@ -76,7 +76,7 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;

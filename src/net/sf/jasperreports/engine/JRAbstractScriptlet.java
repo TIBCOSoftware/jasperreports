@@ -69,14 +69,14 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.util.Map;
 
-import dori.jasper.engine.fill.JRFillField;
-import dori.jasper.engine.fill.JRFillGroup;
-import dori.jasper.engine.fill.JRFillParameter;
-import dori.jasper.engine.fill.JRFillVariable;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillGroup;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 
 
 /**

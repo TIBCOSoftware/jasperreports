@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 import java.io.FileOutputStream;
@@ -79,33 +79,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRElementGroup;
-import dori.jasper.engine.JREllipse;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRGraphicElement;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRLine;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRRectangle;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRRuntimeException;
-import dori.jasper.engine.JRStaticText;
-import dori.jasper.engine.JRSubreport;
-import dori.jasper.engine.JRSubreportParameter;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRTextField;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**

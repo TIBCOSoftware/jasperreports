@@ -75,7 +75,7 @@
  * Henri Chen - henrichen@users.sourceforge.net
  * Kees Kuip  - keeskuip@users.sourceforge.net
  */
-package dori.jasper.ant;
+package net.sf.jasperreports.ant;
 
 import java.io.File;
 import java.util.Collection;
@@ -90,8 +90,8 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.util.RegexpPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 
 
 /**

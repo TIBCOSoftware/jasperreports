@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.awt.Image;
 import java.io.File;
@@ -77,15 +77,15 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRImageRenderer;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.JRRenderable;
-import dori.jasper.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 //import java.awt.image.*;
 
 

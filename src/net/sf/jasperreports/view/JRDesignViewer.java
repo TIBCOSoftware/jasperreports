@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.view;
+package net.sf.jasperreports.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -104,34 +104,34 @@ import javax.swing.JViewport;
 
 import org.xml.sax.SAXException;
 
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JREllipse;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRExpressionChunk;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRGraphicElement;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRLine;
-import dori.jasper.engine.JRRectangle;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRStaticText;
-import dori.jasper.engine.JRSubreport;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRTextField;
-import dori.jasper.engine.JasperCompileManager;
-import dori.jasper.engine.design.JRDesignFont;
-import dori.jasper.engine.design.JasperDesign;
-import dori.jasper.engine.util.JRGraphEnvInitializer;
-import dori.jasper.engine.util.JRImageLoader;
-import dori.jasper.engine.util.JRLoader;
-import dori.jasper.engine.util.JRStringUtil;
-import dori.jasper.engine.util.JRStyledText;
-import dori.jasper.engine.util.JRStyledTextParser;
-import dori.jasper.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.design.JRDesignFont;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 
 /**
@@ -259,7 +259,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
         tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/reload.GIF")));
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
         btnReload.setText("Reload");
         btnReload.setToolTipText("Reload Document");
         btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
@@ -280,7 +280,7 @@ public class JRDesignViewer extends javax.swing.JPanel
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep02);
 
-        btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomin.GIF")));
+        btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomin.GIF")));
         btnZoomIn.setToolTipText("Zoom In");
         btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -294,7 +294,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
         tlbToolBar.add(btnZoomIn);
 
-        btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomout.GIF")));
+        btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
         btnZoomOut.setToolTipText("Zoom Out");
         btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));

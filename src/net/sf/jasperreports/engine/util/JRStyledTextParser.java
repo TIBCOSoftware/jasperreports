@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.util;
+package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
@@ -90,8 +90,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import dori.jasper.engine.JRRuntimeException;
-import dori.jasper.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**

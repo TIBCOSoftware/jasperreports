@@ -74,7 +74,7 @@
  * Contributors:
  * Mirko Wawrowsky - mawawrosky@users.sourceforge.net
  */
-package dori.jasper.engine.export;
+package net.sf.jasperreports.engine.export;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,14 +92,14 @@ import java.util.StringTokenizer;
 
 import org.xml.sax.SAXException;
 
-import dori.jasper.engine.JRAbstractExporter;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.util.JRStyledText;
-import dori.jasper.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**

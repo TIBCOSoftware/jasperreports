@@ -69,12 +69,12 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dori.jasper.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**

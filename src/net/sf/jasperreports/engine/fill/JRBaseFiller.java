@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -83,30 +83,30 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import dori.jasper.engine.JRAbstractScriptlet;
-import dori.jasper.engine.JRDataSource;
-import dori.jasper.engine.JRDefaultFontProvider;
-import dori.jasper.engine.JRDefaultScriptlet;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRResultSetDataSource;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.JasperReport;
-import dori.jasper.engine.design.JRDefaultCompiler;
-import dori.jasper.engine.util.JRClassLoader;
-import dori.jasper.engine.util.JRGraphEnvInitializer;
-import dori.jasper.engine.util.JRQueryExecuter;
-import dori.jasper.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRDefaultFontProvider;
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDefaultCompiler;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRQueryExecuter;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**

@@ -69,15 +69,15 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.view.save;
+package net.sf.jasperreports.view.save;
 
 import java.io.File;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.export.JRCsvExporter;
-import dori.jasper.view.JRSaveContributor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

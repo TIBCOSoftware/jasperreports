@@ -74,7 +74,7 @@
  * Contributors:
  * Artur Biesiadowski - abies@users.sourceforge.net 
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -136,14 +136,14 @@ public class JRXmlDigester extends Digester
 				systemId.equals("http://www.jasperreports.com/dtds/jasperreport.dtd")
 				)
 			{
-				dtd = "dori/jasper/engine/dtds/jasperreport.dtd";
+				dtd = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
 			}
 			else if (
 				systemId.equals("http://jasperreports.sourceforge.net/dtds/jasperprint.dtd") ||
 				systemId.equals("http://www.jasperreports.com/dtds/jasperprint.dtd")
 				)
 			{
-				dtd = "dori/jasper/engine/dtds/jasperprint.dtd";
+				dtd = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
 			}
 			else
 			{

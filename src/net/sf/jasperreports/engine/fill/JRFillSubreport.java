@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.io.File;
 import java.io.InputStream;
@@ -82,20 +82,20 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import dori.jasper.engine.JRDataSource;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGraphicElement;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRPrintRectangle;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRRewindableDataSource;
-import dori.jasper.engine.JRSubreport;
-import dori.jasper.engine.JRSubreportParameter;
-import dori.jasper.engine.JasperReport;
-import dori.jasper.engine.design.JRDesignRectangle;
-import dori.jasper.engine.util.JRLoader;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -301,7 +301,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			{
 				Class expressionClass = expression.getValueClass();
 				
-				if (expressionClass.equals(dori.jasper.engine.JasperReport.class))
+				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
 				{
 					JasperReport jrReport = (JasperReport)source;
 					this.setJasperReport(jrReport);

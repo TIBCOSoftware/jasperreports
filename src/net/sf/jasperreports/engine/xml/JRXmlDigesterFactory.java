@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -78,19 +78,19 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRSubreportParameter;
-import dori.jasper.engine.design.JRDesignElement;
-import dori.jasper.engine.design.JRDesignElementGroup;
-import dori.jasper.engine.design.JRDesignGroup;
-import dori.jasper.engine.design.JRDesignVariable;
-import dori.jasper.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.util;
+package net.sf.jasperreports.engine.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,7 +78,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import dori.jasper.engine.JRException;
+import net.sf.jasperreports.engine.JRException;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.util;
+package net.sf.jasperreports.engine.util;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -88,7 +88,7 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-import dori.jasper.engine.JRException;
+import net.sf.jasperreports.engine.JRException;
 
 
 /**
@@ -105,8 +105,8 @@ public class JRImageLoader
 	public static final byte NO_IMAGE = 1;
 	public static final byte SUBREPORT_IMAGE = 2;
 
-	private static final String str_NO_IMAGE = "dori/jasper/engine/images/noimage.GIF";
-	private static final String str_SUBREPORT_IMAGE = "dori/jasper/engine/images/subreport.GIF";
+	private static final String str_NO_IMAGE = "net/sf/jasperreports/engine/images/noimage.GIF";
+	private static final String str_SUBREPORT_IMAGE = "net/sf/jasperreports/engine/images/subreport.GIF";
 	private static Image img_NO_IMAGE = null;
 	private static Image img_SUBREPORT_IMAGE = null;
 

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.io.File;
 import java.io.InputStream;
@@ -77,7 +77,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import dori.jasper.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.print;
+package net.sf.jasperreports.engine.print;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -82,13 +82,13 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.export.JRGraphics2DExporter;
-import dori.jasper.engine.export.JRGraphics2DExporterParameter;
-import dori.jasper.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
+import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 
 
 /**

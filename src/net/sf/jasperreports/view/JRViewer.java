@@ -75,7 +75,7 @@
  * Ryan Johnson - delscovich@users.sourceforge.net
  * Carlton Moore - cmoore79@users.sourceforge.net
  */
-package dori.jasper.view;
+package net.sf.jasperreports.view;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -104,18 +104,18 @@ import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.filechooser.FileFilter;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRPrintAnchorIndex;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintHyperlink;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.JasperPrintManager;
-import dori.jasper.engine.util.JRClassLoader;
-import dori.jasper.engine.util.JRLoader;
-import dori.jasper.engine.util.JRSaver;
-import dori.jasper.engine.xml.JRPrintXmlLoader;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintAnchorIndex;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 
 
 /**
@@ -416,7 +416,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         setPreferredSize(new java.awt.Dimension(450, 150));
         tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/save.GIF")));
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
         btnSave.setToolTipText("Save");
         btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -430,7 +430,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnSave);
 
-        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/print.GIF")));
+        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/print.GIF")));
         btnPrint.setToolTipText("Print");
         btnPrint.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -444,7 +444,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnPrint);
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/reload.GIF")));
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
         btnReload.setToolTipText("Reload");
         btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -461,7 +461,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep01);
 
-        btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/first.GIF")));
+        btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/first.GIF")));
         btnFirst.setToolTipText("First Page");
         btnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFirst.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -475,7 +475,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnFirst);
 
-        btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/previous.GIF")));
+        btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/previous.GIF")));
         btnPrevious.setToolTipText("Previous Page");
         btnPrevious.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrevious.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -489,7 +489,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnPrevious);
 
-        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/next.GIF")));
+        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/next.GIF")));
         btnNext.setToolTipText("Next Page");
         btnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnNext.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -503,7 +503,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnNext);
 
-        btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/last.GIF")));
+        btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/last.GIF")));
         btnLast.setToolTipText("Last Page");
         btnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnLast.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -520,7 +520,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep02);
 
-        btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/actualsize.GIF")));
+        btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/actualsize.GIF")));
         btnActualSize.setToolTipText("Actual Size");
         btnActualSize.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -534,7 +534,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnActualSize);
 
-        btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitpage.GIF")));
+        btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitpage.GIF")));
         btnFitPage.setToolTipText("Fit Page");
         btnFitPage.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -548,7 +548,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnFitPage);
 
-        btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitwidth.GIF")));
+        btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitwidth.GIF")));
         btnFitWidth.setToolTipText("Fit Width");
         btnFitWidth.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -565,7 +565,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep03);
 
-        btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomin.GIF")));
+        btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomin.GIF")));
         btnZoomIn.setToolTipText("Zoom In");
         btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -579,7 +579,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnZoomIn);
 
-        btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomout.GIF")));
+        btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
         btnZoomOut.setToolTipText("Zoom Out");
         btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -816,7 +816,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor pdfSaveContrib = null;
 		try 
 		{
-			Class pdfSaveContribClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRPdfSaveContributor");
+			Class pdfSaveContribClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRPdfSaveContributor");
 			pdfSaveContrib = (JRSaveContributor)pdfSaveContribClass.newInstance();
 			fileChooser.addChoosableFileFilter(pdfSaveContrib);
 		}
@@ -827,7 +827,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor htmlSaver = null;
 		try 
 		{
-			Class htmlSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRHtmlSaveContributor");
+			Class htmlSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRHtmlSaveContributor");
 			htmlSaver = (JRSaveContributor)htmlSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(htmlSaver);
 		}
@@ -838,7 +838,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor xlsSingleSheetSaver = null;
 		try 
 		{
-			Class xlsSingleSheetSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRSingleSheetXlsSaveContributor");
+			Class xlsSingleSheetSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor");
 			xlsSingleSheetSaver = (JRSaveContributor)xlsSingleSheetSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(xlsSingleSheetSaver);
 		}
@@ -849,7 +849,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor xlsMultipleSheetsSaver = null;
 		try 
 		{
-			Class xlsMultipleSheetsSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRMultipleSheetsXlsSaveContributor");
+			Class xlsMultipleSheetsSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor");
 			xlsMultipleSheetsSaver = (JRSaveContributor)xlsMultipleSheetsSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(xlsMultipleSheetsSaver);
 		}
@@ -860,7 +860,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor csvSaver = null;
 		try 
 		{
-			Class csvSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRCsvSaveContributor");
+			Class csvSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRCsvSaveContributor");
 			csvSaver = (JRSaveContributor)csvSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(csvSaver);
 		}
@@ -871,7 +871,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor xmlSaver = null;
 		try 
 		{
-			Class xmlSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRXmlSaveContributor");
+			Class xmlSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRXmlSaveContributor");
 			xmlSaver = (JRSaveContributor)xmlSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(xmlSaver);
 		}
@@ -882,7 +882,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor xmlEmbeddedImagesSaver = null;
 		try 
 		{
-			Class xmlEmbeddedImagesSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JREmbeddedImagesXmlSaveContributor");
+			Class xmlEmbeddedImagesSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor");
 			xmlEmbeddedImagesSaver = (JRSaveContributor)xmlEmbeddedImagesSaverClass.newInstance();
 			fileChooser.addChoosableFileFilter(xmlEmbeddedImagesSaver);
 		}

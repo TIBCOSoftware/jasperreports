@@ -75,7 +75,7 @@
  * Wolfgang - javabreak@users.sourceforge.net
  * Mario Daepp - mdaepp@users.sourceforge.net
  */
-package dori.jasper.engine.export;
+package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.io.File;
@@ -99,25 +99,25 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.xml.sax.SAXException;
 
-import dori.jasper.engine.JRAbstractExporter;
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintEllipse;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.JRPrintLine;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRPrintRectangle;
-import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.base.JRBaseFont;
-import dori.jasper.engine.base.JRBasePrintElement;
-import dori.jasper.engine.base.JRBasePrintPage;
-import dori.jasper.engine.util.JRStyledText;
-import dori.jasper.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBasePrintElement;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
