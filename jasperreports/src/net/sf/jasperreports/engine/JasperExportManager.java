@@ -86,7 +86,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 /**
  * Façade class for exporting generated reports into more popular
  * formats such as PDF, HTML and XML.
- * This class contains convenience methods for exporting to only these 3 formats. 
+ * This class contains convenience methods for exporting to only these 3 formats.
+ * <p> 
  * For exporting to XLS and CSV format or for using special exporter parameters, 
  * the specific exporter class should be used directly.  
  * 
@@ -96,7 +97,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @see net.sf.jasperreports.engine.export.JRXmlExporter
  * @see net.sf.jasperreports.engine.export.JRXlsExporter
  * @see net.sf.jasperreports.engine.export.JRCsvExporter
- *  
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -107,8 +107,10 @@ public class JasperExportManager
 	/**
 	 * Exports the generated report file specified by the parameter into PDF format.
 	 * The resulting PDF file has the same name as the report object inside the source file,
-	 * plus the *.pdf extension and it is located in the same directory as the source file.
+	 * plus the <code>*.pdf</code> extension and it is located in the same directory as the source file.
 	 *  
+	 * @param sourceFileName source file containing the generated report
+	 * @return resulting PDF file name
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static String exportReportToPdfFile(String sourceFileName) throws JRException
@@ -131,6 +133,8 @@ public class JasperExportManager
 	 * Exports the generated report file specified by the first parameter into PDF format,
 	 * the result being placed in the second file parameter.
 	 *  
+	 * @param sourceFileName source file containing the generated report
+	 * @param destFileName   file name to place the PDF content into
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToPdfFile(
@@ -147,7 +151,9 @@ public class JasperExportManager
 	/**
 	 * Exports the generated report file specified by the first parameter into PDF format,
 	 * the result being placed in the second file parameter.
-	 * 
+	 *
+	 * @param jasperPrint  report object to export 
+	 * @param destFileName file name to place the PDF content into
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToPdfFile(
@@ -168,7 +174,9 @@ public class JasperExportManager
 	/**
 	 * Exports the generated report read from the supplied input stream into PDF format and
 	 * writes the results to the output stream specified by the second parameter.
-	 * 
+	 *
+	 * @param inputStream  input stream to read the generated report object from
+	 * @param outputStream output stream to write the resulting PDF content to
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToPdfStream(
@@ -186,6 +194,8 @@ public class JasperExportManager
 	 * Exports the generated report object received as first parameter into PDF format and
 	 * writes the results to the output stream specified by the second parameter.
 	 * 
+	 * @param jasperPrint  report object to export 
+	 * @param outputStream output stream to write the resulting PDF content to
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToPdfStream(
@@ -206,6 +216,8 @@ public class JasperExportManager
 	 * Exports the generated report object received as parameter into PDF format and
 	 * returns the binary content as a byte array.
 	 * 
+	 * @param jasperPrint report object to export 
+	 * @return byte array representing the resulting PDF content 
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static byte[] exportReportToPdf(JasperPrint jasperPrint) throws JRException
@@ -226,16 +238,17 @@ public class JasperExportManager
 	/**
 	 * Exports the generated report file specified by the parameter into XML format.
 	 * The resulting XML file has the same name as the report object inside the source file,
-	 * plus the *.jrpxml extension and it is located in the same directory as the source file.
+	 * plus the <code>*.jrpxml</code> extension and it is located in the same directory as the source file.
 	 * <p>
 	 * When exporting to XML format, the images can be either embedded in the XML content
 	 * itself using the Base64 encoder or be referenced as external resources.
 	 * If not embedded, the images are placed as distinct files inside a directory
 	 * having the same name as the XML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param sourceFileName    source file containing the generated report
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
-	 * XML content itself using the Base64 encoder or be referenced as external resources
-	 *  
+	 *                          XML content itself using the Base64 encoder or be referenced as external resources
+	 * @return XML representation of the generated report
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static String exportReportToXmlFile(
@@ -269,9 +282,10 @@ public class JasperExportManager
 	 * the images are placed as distinct files inside a directory having the same name 
 	 * as the XML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param sourceFileName    source file containing the generated report
+	 * @param destFileName      file name to place the XML representation into
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
-	 * XML content itself using the Base64 encoder or be referenced as external resources
-	 *  
+	 *                          XML content itself using the Base64 encoder or be referenced as external resources
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToXmlFile(
@@ -298,8 +312,10 @@ public class JasperExportManager
 	 * the images are placed as distinct files inside a directory having the same name 
 	 * as the XML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param jasperPrint       report object to export
+	 * @param destFileName      file name to place the XML representation into
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
-	 * XML content itself using the Base64 encoder or be referenced as external resources
+	 *                          XML content itself using the Base64 encoder or be referenced as external resources
 	 *  
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
@@ -325,6 +341,8 @@ public class JasperExportManager
 	 * and writes the result to the output stream specified by the second parameter.
 	 * The images are embedded into the XML content itself using the Base64 encoder. 
 	 * 
+	 * @param inputStream  input stream to read the generated report object from
+	 * @param outputStream output stream to write the resulting XML representation to
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToXmlStream(
@@ -343,6 +361,8 @@ public class JasperExportManager
 	 * and writes the result to the output stream specified by the second parameter.
 	 * The images are embedded into the XML content itself using the Base64 encoder. 
 	 * 
+	 * @param jasperPrint  report object to export
+	 * @param outputStream output stream to write the resulting XML representation to
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToXmlStream(
@@ -364,6 +384,8 @@ public class JasperExportManager
 	 * and returs the result as String.
 	 * The images are embedded into the XML content itself using the Base64 encoder. 
 	 * 
+	 * @param jasperPrint report object to export
+	 * @return XML representation of the generated report
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static String exportReportToXml(JasperPrint jasperPrint) throws JRException
@@ -384,10 +406,12 @@ public class JasperExportManager
 	/**
 	 * Exports the generated report file specified by the parameter into HTML format.
 	 * The resulting HTML file has the same name as the report object inside the source file,
-	 * plus the *.html extension and it is located in the same directory as the source file.
+	 * plus the <code>*.html</code> extension and it is located in the same directory as the source file.
 	 * The images are placed as distinct files inside a directory having the same name 
 	 * as the HTML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param sourceFileName source file containing the generated report
+	 * @return resulting HTML file name
 	 * @see net.sf.jasperreports.engine.export.JRHtmlExporter
 	 */
 	public static String exportReportToHtmlFile(
@@ -418,6 +442,8 @@ public class JasperExportManager
 	 * The images are placed as distinct files inside a directory having the same name 
 	 * as the HTML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param sourceFileName source file containing the generated report
+	 * @param destFileName   file name to place the HTML content into
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToHtmlFile(
@@ -441,6 +467,8 @@ public class JasperExportManager
 	 * The images are placed as distinct files inside a directory having the same name 
 	 * as the HTML destination file, plus the "_files" suffix. 
 	 * 
+	 * @param jasperPrint  report object to export
+	 * @param destFileName file name to place the HTML content into
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
 	 */
 	public static void exportReportToHtmlFile(

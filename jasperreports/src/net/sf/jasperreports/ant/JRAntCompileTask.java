@@ -96,7 +96,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 
 /**
  * Ant task for batch-compiling XML report design files.
- * Works like the built-in "javac" Ant task.
+ * Works like the built-in <code>javac</code> Ant task.
  * <p>
  * This task can take the following arguments:
  * <ul>
@@ -137,37 +137,43 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 * Set the source directories to find the XML report design files.
+	 * Sets the source directories to find the XML report design files.
+	 * 
+	 * @param srcdir source path
 	 */
 	public void setSrcdir(Path srcdir)
 	{
-		if (this.src == null) 
+		if (src == null) 
 		{
-			this.src = srcdir;
+			src = srcdir;
 		}
 		else
 		{
-			this.src.append(srcdir);
+			src.append(srcdir);
 		}
 	}
 
 
 	/**
 	 * Adds a path for source compilation.
+	 * 
+	 * @return source path
 	 */
 	public Path createSrc()
 	{
-		if (this.src == null)
+		if (src == null)
 		{
-			this.src = new Path(this.getProject());
+			src = new Path(getProject());
 		}
 		
-		return this.src.createPath();
+		return src.createPath();
 	}
 	
 	
 	/**
 	 * Sets the destination directory into which the XML report design files should be compiled.
+	 * 
+	 * @param destdir destination directory
 	 */
 	public void setDestdir(File destdir)
 	{
@@ -180,6 +186,11 @@ public class JRAntCompileTask extends MatchingTask
 	 * generated during XML report design file compilation. This is only used by the
 	 * Java bytecode report compilers that need to have the Java source files stored 
 	 * on disk in order to compile them.
+	 * <p>
+	 * If not set, the temporary working directory will be the current working directory,
+	 * as specified by the <code>user.dir</code> system property.
+	 * 
+	 * @param tempdir temporary working directory
 	 */
 	public void setTempdir(File tempdir)
 	{
@@ -191,6 +202,8 @@ public class JRAntCompileTask extends MatchingTask
 	 * Sets a boolean flag that will instruct the Java bytecode report compilers
 	 * to avoid deletion of the Java source files generated in the temporary working 
 	 * directory during report generation. This is useful when debugging.
+	 * 
+	 * @param keepjava flag for preventing the deletion of generated Java source files
 	 */
 	public void setKeepjava(boolean keepjava)
 	{
@@ -201,6 +214,14 @@ public class JRAntCompileTask extends MatchingTask
 	/**
 	 * Sets the name of the report compiler class to use when compiling the XML
 	 * report design files.
+	 * <p>
+	 * The specified class should be an implementation of the 
+	 * {@link net.sf.jasperreports.engine.design.JRCompiler} interface.
+	 * When specified, this value will temporarily override the value of the
+	 * <code>jasper.reports.compiler.class</code> system property which in turn 
+	 * is used by the {@link net.sf.jasperreports.engine.design.JRDefaultCompiler}.
+	 * 
+	 * @param compiler report compiler class name
 	 */
 	public void setCompiler(String compiler)
 	{
@@ -210,20 +231,24 @@ public class JRAntCompileTask extends MatchingTask
 
 	/**
 	 * Adds a path to the classpath.
+	 * 
+	 * @return classpath to use when compiling the report associated Java expressions class
 	 */
 	public Path createClasspath()
 	{
-		if (this.classpath == null)
+		if (classpath == null)
 		{
-			this.classpath = new Path(this.getProject());
+			classpath = new Path(getProject());
 		}
 		
-		return this.classpath.createPath();
+		return classpath.createPath();
 	}
 	
 	
 	/**
 	 * Instructs the XML parser to validate the XML report design file during compilation. 
+	 * 
+	 * @param xmlvalidation flag for enabling/disabling the validation feature of the XML parser 
 	 */
 	public void setXmlvalidation(boolean xmlvalidation)
 	{
@@ -236,9 +261,9 @@ public class JRAntCompileTask extends MatchingTask
 	 */
 	public void execute() throws BuildException
 	{
-		this.checkParameters();
+		checkParameters();
 
-		this.reportFilesMap = new HashMap();
+		reportFilesMap = new HashMap();
 		
 		String oldTempdir = System.getProperty("jasper.reports.compile.temp");
 		String oldKeepjava = System.getProperty("jasper.reports.compile.keep.java.file");
@@ -246,24 +271,24 @@ public class JRAntCompileTask extends MatchingTask
 		String oldClasspath = System.getProperty("jasper.reports.compile.class.path");
 		String oldXmlvalidation = System.getProperty("jasper.reports.compile.xml.validation");
 		
-		if (this.tempdir != null)
-			System.setProperty("jasper.reports.compile.temp", String.valueOf(this.tempdir));
+		if (tempdir != null)
+			System.setProperty("jasper.reports.compile.temp", String.valueOf(tempdir));
 
-		System.setProperty("jasper.reports.compile.keep.java.file", String.valueOf(this.keepjava));
+		System.setProperty("jasper.reports.compile.keep.java.file", String.valueOf(keepjava));
 
-		if (this.compiler != null)
-			System.setProperty("jasper.reports.compiler.class", this.compiler);
+		if (compiler != null)
+			System.setProperty("jasper.reports.compiler.class", compiler);
 
-		if (this.classpath != null)
-			System.setProperty("jasper.reports.compile.class.path", String.valueOf(this.classpath));
+		if (classpath != null)
+			System.setProperty("jasper.reports.compile.class.path", String.valueOf(classpath));
 
-		System.setProperty("jasper.reports.compile.xml.validation", String.valueOf(this.xmlvalidation));
+		System.setProperty("jasper.reports.compile.xml.validation", String.valueOf(xmlvalidation));
 
 		/*   */
-		this.scanSrc();
+		scanSrc();
 		
 		/*   */
-		this.compile();
+		compile();
 
 		if (oldTempdir != null)
 			System.setProperty("jasper.reports.compile.temp", oldTempdir);
@@ -287,36 +312,36 @@ public class JRAntCompileTask extends MatchingTask
 	 */
 	protected void checkParameters() throws BuildException 
 	{
-		if (this.src == null || this.src.size() == 0)
+		if (src == null || src.size() == 0)
 		{
 			throw 
 				new BuildException(
 					"The srcdir attribute must be set.", 
-					this.location
+					location
 					);
 		}
 		
-		if (this.destdir != null && !this.destdir.isDirectory()) 
+		if (destdir != null && !destdir.isDirectory()) 
 		{
 			throw 
 				new BuildException(
 					"The destination directory \"" 
-						+ this.destdir 
+						+ destdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					this.location
+					location
 					);
 		}
 
-		if (this.tempdir != null && !this.tempdir.isDirectory()) 
+		if (tempdir != null && !tempdir.isDirectory()) 
 		{
 			throw 
 				new BuildException(
 					"The temporary directory \"" 
-						+ this.tempdir 
+						+ tempdir 
 						+ "\" does not exist "
 						+ "or is not a directory.", 
-					this.location
+					location
 					);
 		}
 	}
@@ -327,7 +352,7 @@ public class JRAntCompileTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		String[] list = this.src.list();
+		String[] list = src.list();
 		for (int i = 0; i < list.length; i++) 
 		{
 			File srcdir = project.resolveFile(list[i]);
@@ -345,16 +370,16 @@ public class JRAntCompileTask extends MatchingTask
 			{
 				if (srcdir.isDirectory())
 				{
-					DirectoryScanner ds = this.getDirectoryScanner(srcdir);
+					DirectoryScanner ds = getDirectoryScanner(srcdir);
 					String[] files = ds.getIncludedFiles();
 					
-					this.scanDir(srcdir, destdir != null ? destdir : srcdir, files);
+					scanDir(srcdir, destdir != null ? destdir : srcdir, files);
 				}
 				else
 				{
 					String[] files = new String[]{srcdir.getName()};
 					
-					this.scanDir(srcdir.getParentFile(), destdir != null ? destdir : srcdir.getParentFile(), files);
+					scanDir(srcdir.getParentFile(), destdir != null ? destdir : srcdir.getParentFile(), files);
 				}
 			}
 		}
@@ -363,7 +388,11 @@ public class JRAntCompileTask extends MatchingTask
 	
 	/**
 	 * Scans the directory looking for source files to be compiled. 
-	 * The results are returned in the instance variable reportFilesMap.
+	 * The results are returned in the instance variable <code>reportFilesMap</code>.
+	 * 
+	 * @param srcdir source directory
+	 * @param destdir destination directory
+	 * @param files included file names
 	 */
 	protected void scanDir(File srcdir, File destdir, String[] files) 
 	{
@@ -407,7 +436,7 @@ public class JRAntCompileTask extends MatchingTask
 			for (Iterator it = files.iterator(); it.hasNext();)
 			{
 				srcFileName = (String)it.next();
-				destFileName = (String)this.reportFilesMap.get(srcFileName);
+				destFileName = (String)reportFilesMap.get(srcFileName);
 				destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{

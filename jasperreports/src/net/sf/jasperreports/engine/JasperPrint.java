@@ -81,6 +81,14 @@ import java.util.Map;
 
 
 /**
+ * An instance of this class represents a page-oriented document
+ * that can be viewed, printed or exported to other formats.
+ * <p>
+ * When filling report designs with data, the engine produces instances
+ * of this class and these can be transferred over the network,
+ * stored in a serialized form on disk or exported to various
+ * other formats like PDF, HTML, XLS, CSV or XML.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -111,14 +119,14 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 
 
 	/**
-	 *
+	 * Creates a new empty document. 
 	 */
 	public JasperPrint()
 	{
 	}
 
 	/**
-	 *
+	 * @return Returns the name of the document
 	 */
 	public String getName()
 	{
@@ -126,7 +134,9 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	}
 		
 	/**
-	 *
+	 * Sets the name of the document.
+	 * 
+	 * @param name name of the document
 	 */
 	public void setName(String name)
 	{
@@ -134,7 +144,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	}
 
 	/**
-	 *
+	 * @return Returns the page width
 	 */
 	public int getPageWidth()
 	{
@@ -142,7 +152,9 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	}
 		
 	/**
-	 *
+	 * Sets the page width.
+	 * 
+	 * @param pageWidth page width
 	 */
 	public void setPageWidth(int pageWidth)
 	{
@@ -150,7 +162,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	}
 
 	/**
-	 *
+	 * @return Returns the page height.
 	 */
 	public int getPageHeight()
 	{

@@ -84,11 +84,18 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 
 /**
- * Façade class for the JasperReports engine.
- * It has various static methods that simplify the access to the API functionality
- * and can be used to compile an XML report design, to fill a report, to print it,
- * or to generate PDF files.
+ * General purpose façade class for the JasperReports engine.
+ * It delegates almost all its functionality to the other specialized 
+ * façade classes for compiling, filling, printing or exporting reports.
  * 
+ * @see net.sf.jasperreports.engine.JasperCompileManager
+ * @see net.sf.jasperreports.engine.JasperFillManager
+ * @see net.sf.jasperreports.engine.JasperPrintManager
+ * @see net.sf.jasperreports.engine.JasperExportManager
+ * @see net.sf.jasperreports.engine.JasperRunManager
+ * @see net.sf.jasperreports.engine.util.JRLoader
+ * @see net.sf.jasperreports.engine.xml.JRXmlLoader
+ * @deprecated Use the specialized façade classes for specific operations
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -97,8 +104,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and saves it directly into a PDF file.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfFile(String, Map, Connection)}.
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName,
@@ -115,8 +121,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and saves it directly into a PDF file.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfFile(String, String, Map, Connection)}.
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName,
@@ -135,8 +140,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and sends it directly to an OutputStream in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfStream(InputStream, OutputStream, Map, Connection)}.
 	 */
 	public static void runReportToPdfStream(
 		InputStream inputStream,
@@ -155,8 +159,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and returns byte array object containing the report in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(String, Map, Connection)}.
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName,
@@ -173,8 +176,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and returns byte array object containing the report in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(InputStream, Map, Connection)}.
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream,
@@ -191,8 +193,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and returns byte array object containing the report in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(JasperReport, Map, Connection)}.
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport,
@@ -209,8 +210,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and saves it directly into a PDF file.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfFile(String, Map, JRDataSource)}.
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName,
@@ -227,8 +227,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and saves it directly into a PDF file.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfFile(String, String, Map, JRDataSource)}.
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName,
@@ -247,8 +246,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and sends it directly to an OutputStream in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdfStream(InputStream, OutputStream, Map, JRDataSource)}.
 	 */
 	public static void runReportToPdfStream(
 		InputStream inputStream,
@@ -267,8 +265,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and sends it to an output stream in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(String, Map, JRDataSource)}.
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName,
@@ -285,8 +282,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and returns byte array object containing the report in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(InputStream, Map, JRDataSource)}.
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream,
@@ -303,8 +299,7 @@ public class JasperManager
 
 
 	/**
-	 * Fills a report and returns byte array object containing the report in PDF format.
-	 * The intermediate JasperPrint object is not saved on disk.
+	 * @deprecated Replaced by {@link JasperRunManager#runReportToPdf(JasperReport, Map, JRDataSource)}.
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport,
@@ -321,23 +316,23 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(String)}.
 	 */
 	public static String printReportToPdfFile(String sourceFileName) throws JRException
 	{
-		return JasperPrintManager.printReportToPdfFile(sourceFileName);
+		return JasperExportManager.exportReportToPdfFile(sourceFileName);
 	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(String, String)}.
 	 */
 	public static void printReportToPdfFile(
 		String sourceFileName,
 		String destFileName
 		) throws JRException
 	{
-		JasperPrintManager.printReportToPdfFile(
+		JasperExportManager.exportReportToPdfFile(
 			sourceFileName,
 			destFileName
 			);
@@ -345,14 +340,14 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(JasperPrint, String)}.
 	 */
 	public static void printReportToPdfFile(
 		JasperPrint jasperPrint,
 		String destFileName
 		) throws JRException
 	{
-		JasperPrintManager.printReportToPdfFile(
+		JasperExportManager.exportReportToPdfFile(
 			jasperPrint,
 			destFileName
 			);
@@ -360,14 +355,14 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfStream(InputStream, OutputStream)}.
 	 */
 	public static void printReportToPdfStream(
 		InputStream inputStream,
 		OutputStream outputStream
 		) throws JRException
 	{
-		JasperPrintManager.printReportToPdfStream(
+		JasperExportManager.exportReportToPdfStream(
 			inputStream,
 			outputStream
 			);
@@ -375,14 +370,14 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfStream(JasperPrint, OutputStream)}.
 	 */
 	public static void printReportToPdfStream(
 		JasperPrint jasperPrint,
 		OutputStream outputStream
 		) throws JRException
 	{
-		JasperPrintManager.printReportToPdfStream(
+		JasperExportManager.exportReportToPdfStream(
 			jasperPrint,
 			outputStream
 			);
@@ -390,16 +385,16 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdf(JasperPrint)}.
 	 */
 	public static byte[] printReportToPdf(JasperPrint jasperPrint) throws JRException
 	{
-		return JasperPrintManager.printReportToPdf(jasperPrint);
+		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printReport(String, boolean)}.
 	 */
 	public static boolean printReport(
 		String sourceFileName,
@@ -414,7 +409,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printReport(InputStream, boolean)}.
 	 */
 	public static boolean printReport(
 		InputStream inputStream,
@@ -429,7 +424,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printReport(JasperPrint, boolean)}.
 	 */
 	public static boolean printReport(
 		JasperPrint jasperPrint,
@@ -444,7 +439,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPage(String, int, boolean)}.
 	 */
 	public static boolean printPage(
 		String sourceFileName,
@@ -461,7 +456,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPage(InputStream, int, boolean)}.
 	 */
 	public static boolean printPage(
 		InputStream inputStream,
@@ -478,7 +473,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPage(JasperPrint, int, boolean)}.
 	 */
 	public static boolean printPage(
 		JasperPrint jasperPrint,
@@ -495,7 +490,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPages(String, int, int, boolean)}.
 	 */
 	public static boolean printPages(
 		String sourceFileName,
@@ -514,7 +509,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPages(InputStream, int, int, boolean)}.
 	 */
 	public static boolean printPages(
 		InputStream inputStream,
@@ -533,7 +528,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPages(JasperPrint, int, int, boolean)}.
 	 */
 	public static boolean printPages(
 		JasperPrint jasperPrint,
@@ -552,7 +547,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPageToImage(String, int, float)}.
 	 */
 	public static Image printPageToImage(
 		String sourceFileName,
@@ -569,7 +564,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPageToImage(InputStream, int, float)}.
 	 */
 	public static Image printPageToImage(
 		InputStream inputStream,
@@ -586,7 +581,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperPrintManager#printPageToImage(JasperPrint, int, float)}.
 	 */
 	public static Image printPageToImage(
 		JasperPrint jasperPrint,
@@ -603,7 +598,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(String, Map, Connection)}.
 	 */
 	public static String fillReportToFile(
 		String sourceFileName,
@@ -620,7 +615,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(String, String, Map, Connection)}.
 	 */
 	public static void fillReportToFile(
 		String sourceFileName,
@@ -639,7 +634,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(JasperReport, String, Map, Connection)}.
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport,
@@ -658,7 +653,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(String, Map, Connection)}.
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName,
@@ -675,7 +670,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToStream(InputStream, OutputStream, Map, Connection)}.
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream,
@@ -694,7 +689,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToStream(JasperReport, OutputStream, Map, Connection)}.
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport,
@@ -713,7 +708,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(InputStream, Map, Connection)}.
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream,
@@ -730,7 +725,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(JasperReport, Map, Connection)}.
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
@@ -747,7 +742,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(String, Map, JRDataSource)}.
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
@@ -764,7 +759,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(String, String, Map, JRDataSource)}.
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
@@ -783,7 +778,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToFile(JasperReport, String, Map, JRDataSource)}.
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
@@ -802,7 +797,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(String, Map, JRDataSource)}.
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
@@ -819,7 +814,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToStream(InputStream, OutputStream, Map, JRDataSource)}.
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
@@ -838,7 +833,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReportToStream(JasperReport, OutputStream, Map, JRDataSource)}.
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
@@ -857,7 +852,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(InputStream, Map, JRDataSource)}.
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
@@ -874,7 +869,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperFillManager#fillReport(JasperReport, Map, JRDataSource)}.
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
@@ -891,7 +886,7 @@ public class JasperManager
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReportToFile(String)}.
 	 */
 	public static String compileReportToFile(String sourceFileName) throws JRException
 	{
@@ -900,7 +895,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReportToFile(String, String)}.
 	 */
 	public static void compileReportToFile(
 		String sourceFileName,
@@ -915,7 +910,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReportToFile(JasperDesign, String)}.
 	 */
 	public static void compileReportToFile(
 		JasperDesign jasperDesign,
@@ -930,7 +925,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReport(String)}.
 	 */
 	public static JasperReport compileReport(String sourceFileName) throws JRException
 	{
@@ -939,7 +934,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReportToStream(InputStream, OutputStream)}.
 	 */
 	public static void compileReportToStream(
 		InputStream inputStream,
@@ -954,7 +949,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReportToStream(JasperDesign, OutputStream)}.
 	 */
 	public static void compileReportToStream(
 		JasperDesign jasperDesign,
@@ -969,7 +964,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReport(InputStream)}.
 	 */
 	public static JasperReport compileReport(InputStream inputStream) throws JRException
 	{
@@ -978,7 +973,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReport(JasperDesign)}.
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
@@ -986,7 +981,7 @@ public class JasperManager
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#verifyDesign(JasperDesign)}.
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign) throws JRException
 	{
@@ -995,7 +990,7 @@ public class JasperManager
 		
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(String)} with the appropriate cast.
 	 */
 	public static JasperDesign loadDesign(String fileName) throws JRException
 	{
@@ -1004,7 +999,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(InputStream)} with the appropriate cast.
 	 */
 	public static JasperDesign loadDesign(InputStream inputStream) throws JRException
 	{
@@ -1013,7 +1008,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRXmlLoader#load(String)} instead.
 	 */
 	public static JasperDesign loadXmlDesign(String fileName) throws JRException
 	{
@@ -1022,7 +1017,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRXmlLoader#load(InputStream)} instead.
 	 */
 	public static JasperDesign loadXmlDesign(InputStream inputStream) throws JRException
 	{
@@ -1031,7 +1026,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(String)} with the appropriate cast.
 	 */
 	public static JasperReport loadReport(String fileName) throws JRException
 	{
@@ -1040,7 +1035,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(InputStream)} with the appropriate cast.
 	 */
 	public static JasperReport loadReport(InputStream inputStream) throws JRException
 	{
@@ -1049,7 +1044,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(String)} with the appropriate cast.
 	 */
 	public static JasperPrint loadPrint(String fileName) throws JRException
 	{
@@ -1058,7 +1053,7 @@ public class JasperManager
 
 
 	/**
-	 *
+	 * @deprecated Use {@link JRLoader#loadObject(InputStream)} with the appropriate cast.
 	 */
 	public static JasperPrint loadPrint(InputStream inputStream) throws JRException
 	{
