@@ -236,8 +236,8 @@ public class JRFillElementGroup implements JRElementGroup
 
 			if (elements != null && elements.length > 0)
 			{
-				JRFillElement topElem = (JRFillElement)topElementInGroup;
-				JRFillElement bottomElem = (JRFillElement)bottomElementInGroup;
+				JRFillElement topElem = null;
+				JRFillElement bottomElem = null;
 
 				for(int i = 0; i < elements.length; i++)
 				{
@@ -267,9 +267,12 @@ public class JRFillElementGroup implements JRElementGroup
 					}
 				}
 
-				stretchHeightDiff = 
-					bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
-					(bottomElementInGroup.getY() + bottomElementInGroup.getHeight() - topElementInGroup.getY());
+				if (topElem != null)
+				{
+					stretchHeightDiff = 
+						bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
+						(bottomElementInGroup.getY() + bottomElementInGroup.getHeight() - topElementInGroup.getY());
+				}
 
 				if (stretchHeightDiff < 0)
 				{
