@@ -2,6 +2,23 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.5.1
+-----------------------------------
+- new data source implementations based on java.util.Map objects;
+
+- enhanced JasperViewer with customizable zoom ratio and "Save" button;
+
+- enhanced exporters (support for PDF encryption, page range exporting, etc);
+
+- improved query execution support;
+
+- improved font management;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.5.0
 -----------------------------------
 - improved and customizable report compilation process;
