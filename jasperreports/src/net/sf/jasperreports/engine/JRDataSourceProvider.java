@@ -109,7 +109,17 @@ public interface JRDataSourceProvider
 {
 
 	/**
+	 * Returns true if the provider supports the {@link #getFields() getFields} 
+	 * operation. By returning true in this method the data source provider indicates
+	 * that it is able to introspect the data source and discover the available fields.
+	 * 
+	 * @return true if the {@link #getFields() getFields} operation is supported.
+	 */
+	public boolean supportsGetFieldsOperation();
+	
+	/**
 	 * Returns the fields that are available from the data source.
+	 * 
 	 * @throws UnsupportedOperationException is the method is not supported
 	 * @throws JRException if an error occurs. 
 	 * @return a non null fields array. If there are no fields then an empty array must be returned.
