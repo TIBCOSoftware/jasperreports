@@ -88,6 +88,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1231,7 +1232,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
 			txtGoTo.setEnabled(btnFirst.isEnabled() || btnLast.isEnabled());
 			txtGoTo.setText("" + (pageIndex + 1));
-			lblStatus.setText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("page") + " " + (pageIndex + 1) + " " + java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("of") + " " + jasperPrint.getPages().size());
+			lblStatus.setText(
+				MessageFormat.format(
+					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("page"),
+					new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
+					)
+				);
 		}
 		else
 		{
