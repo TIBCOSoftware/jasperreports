@@ -8,100 +8,128 @@
 		<band height="15">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box border="Thin" borderColor="black"/>
+				<box topBorder="Thin" leftBorder="Thin" bottomBorder="Thin" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="50" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="Thin" bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
+				<box topBorder="Thin" leftBorder="Thin" bottomBorder="Thin" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="Thin" bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
+				<box border="Thin" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 
 			<staticText>
 				<reportElement mode="Opaque" x="200" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box border="1Point" borderColor="black"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="250" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="1Point" bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="300" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="1Point" bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
+				<box border="1Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 
 			<staticText>
 				<reportElement mode="Opaque" x="400" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box border="4Point" borderColor="black"/>
+				<box topBorder="4Point" leftBorder="4Point" bottomBorder="4Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="450" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="4Point" bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
+				<box topBorder="4Point" leftBorder="4Point" bottomBorder="4Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="500" y="0" width="50" height="15" backcolor="lightGray"/>
-				<box topBorder="4Point" bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
+				<box border="4Point" borderColor="black"/>
 				<text><![CDATA[Header]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="15">
+			<!--
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="0" width="50" height="15"/>
+				<graphicElement pen="Thin"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="50" y="0" width="50" height="15"/>
+				<graphicElement pen="Thin"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="15"/>
+				<graphicElement pen="Thin"/>
+			</rectangle>
+
+			<rectangle>
+				<reportElement mode="Opaque" x="200" y="0" width="50" height="15"/>
+				<graphicElement pen="1Point"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="250" y="0" width="50" height="15"/>
+				<graphicElement pen="1Point"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="300" y="0" width="50" height="15"/>
+				<graphicElement pen="1Point"/>
+			</rectangle>
+			-->
+
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="50" height="15"/>
-				<box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
+				<box leftBorder="Thin" bottomBorder="Thin" borderColor="black"/>
 				<text><![CDATA[Thin]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="50" y="0" width="50" height="15"/>
-				<box bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
+				<box leftBorder="Thin" bottomBorder="Thin" borderColor="black"/>
 				<text><![CDATA[Thin]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="0" width="50" height="15"/>
-				<box bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
+				<box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" borderColor="black"/>
 				<text><![CDATA[Thin]]></text>
 			</staticText>
 
 			<staticText>
 				<reportElement mode="Opaque" x="200" y="0" width="50" height="15"/>
-				<box leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
+				<box leftBorder="Dotted" bottomBorder="1Point" borderColor="black"/>
 				<text><![CDATA[1Point]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="250" y="0" width="50" height="15"/>
-				<box bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
+				<box leftBorder="1Point" bottomBorder="1Point" borderColor="black"/>
 				<text><![CDATA[1Point]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="300" y="0" width="50" height="15"/>
-				<box bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
+				<box leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point" borderColor="black"/>
 				<text><![CDATA[1Point]]></text>
 			</staticText>
 
 			<staticText>
 				<reportElement mode="Opaque" x="400" y="0" width="50" height="15"/>
-				<box leftBorder="4Point" bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
+				<box leftBorder="4Point" bottomBorder="4Point" borderColor="black"/>
 				<text><![CDATA[4Point]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="450" y="0" width="50" height="15"/>
-				<box bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
+				<box leftBorder="4Point" bottomBorder="4Point" borderColor="black"/>
 				<text><![CDATA[4Point]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="500" y="0" width="50" height="15"/>
-				<box bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
+				<box leftBorder="4Point" bottomBorder="4Point" rightBorder="4Point" borderColor="black"/>
 				<text><![CDATA[4Point]]></text>
 			</staticText>
 		</band>

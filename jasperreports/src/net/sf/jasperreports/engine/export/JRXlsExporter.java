@@ -105,6 +105,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -510,7 +511,15 @@ public class JRXlsExporter extends JRAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP, 
 				(short)0,
-				cellFont
+				cellFont,
+				HSSFCellStyle.BORDER_NONE,
+				forecolor,
+				HSSFCellStyle.BORDER_NONE,
+				forecolor,
+				HSSFCellStyle.BORDER_NONE,
+				forecolor,
+				HSSFCellStyle.BORDER_NONE,
+				forecolor
 				);
 
 		cell = row.createCell((short)x);
@@ -549,7 +558,15 @@ public class JRXlsExporter extends JRAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0, 
-				cellFont
+				cellFont,
+				HSSFCellStyle.BORDER_NONE,
+				backcolor,
+				HSSFCellStyle.BORDER_NONE,
+				backcolor,
+				HSSFCellStyle.BORDER_NONE,
+				backcolor,
+				HSSFCellStyle.BORDER_NONE,
+				backcolor
 				);
 
 		cell = row.createCell((short)x);
@@ -806,6 +823,39 @@ public class JRXlsExporter extends JRAbstractExporter
 			backcolor = getNearestColor(textElement.getBackcolor()).getIndex();
 		}
 
+		short topBorder = HSSFCellStyle.BORDER_NONE;
+		short topBorderColor = backcolor;
+		short leftBorder = HSSFCellStyle.BORDER_NONE;
+		short leftBorderColor = backcolor;
+		short bottomBorder = HSSFCellStyle.BORDER_NONE;
+		short bottomBorderColor = backcolor;
+		short rightBorder = HSSFCellStyle.BORDER_NONE;
+		short rightBorderColor = backcolor;
+		
+		if (textElement.getBox() != null)
+		{
+			topBorder = getBorder(textElement.getBox().getTopBorder()); 
+			topBorderColor = 
+				getNearestColor(
+					textElement.getBox().getTopBorderColor() == null ? textElement.getForecolor() : textElement.getBox().getTopBorderColor()
+					).getIndex();
+			leftBorder = getBorder(textElement.getBox().getLeftBorder()); 
+			leftBorderColor = 
+				getNearestColor(
+					textElement.getBox().getLeftBorderColor() == null ? textElement.getForecolor() : textElement.getBox().getLeftBorderColor()
+					).getIndex();
+			bottomBorder = getBorder(textElement.getBox().getBottomBorder()); 
+			bottomBorderColor = 
+				getNearestColor(
+					textElement.getBox().getBottomBorderColor() == null ? textElement.getForecolor() : textElement.getBox().getBottomBorderColor()
+					).getIndex();
+			rightBorder = getBorder(textElement.getBox().getRightBorder()); 
+			rightBorderColor = 
+				getNearestColor(
+					textElement.getBox().getRightBorderColor() == null ? textElement.getForecolor() : textElement.getBox().getRightBorderColor()
+					).getIndex();
+		}
+		
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
 				mode,
@@ -813,7 +863,15 @@ public class JRXlsExporter extends JRAbstractExporter
 				horizontalAlignment, 
 				verticalAlignment,
 				rotation, 
-				cellFont
+				cellFont,
+				topBorder,
+				topBorderColor,
+				leftBorder,
+				leftBorderColor,
+				bottomBorder,
+				bottomBorderColor,
+				rightBorder,
+				rightBorderColor
 				);
 
 		cell = row.createCell((short)x);
@@ -1091,8 +1149,16 @@ public class JRXlsExporter extends JRAbstractExporter
 		short backcolor, 
 		short horizontalAlignment, 
 		short verticalAlignment,
-		short rotation, 
-		HSSFFont font
+		short rotation,
+		HSSFFont font,
+		short topBorder,
+		short topBorderColor,
+		short leftBorder,
+		short leftBorderColor,
+		short bottomBorder,
+		short bottomBorderColor,
+		short rightBorder,
+		short rightBorderColor
 		)
 	{
 		HSSFCellStyle cellStyle = null;
@@ -1105,12 +1171,20 @@ public class JRXlsExporter extends JRAbstractExporter
 				cs = (HSSFCellStyle)loadedCellStyles.get(i);
 				
 				if (
-					cs.getFillPattern() == mode &&
-					cs.getFillForegroundColor() == backcolor &&
-					cs.getAlignment() == horizontalAlignment &&
-					cs.getVerticalAlignment() == verticalAlignment &&
-					cs.getRotation() == rotation &&
-					cs.getFontIndex() == font.getIndex()
+					cs.getFillPattern() == mode 
+					&& cs.getFillForegroundColor() == backcolor 
+					&& cs.getAlignment() == horizontalAlignment 
+					&& cs.getVerticalAlignment() == verticalAlignment 
+					&& cs.getRotation() == rotation 
+					&& cs.getFontIndex() == font.getIndex()
+					&& cs.getBorderTop() == topBorder 
+					&& cs.getTopBorderColor() == topBorderColor 
+					&& cs.getBorderLeft() == leftBorder 
+					&& cs.getLeftBorderColor() == leftBorderColor 
+					&& cs.getBorderBottom() == bottomBorder 
+					&& cs.getBottomBorderColor() == bottomBorderColor 
+					&& cs.getBorderRight() == rightBorder 
+					&& cs.getRightBorderColor() == rightBorderColor 
 					)
 				{
 					cellStyle = cs;
@@ -1130,10 +1204,65 @@ public class JRXlsExporter extends JRAbstractExporter
 			cellStyle.setFont(font);
 			cellStyle.setWrapText(true);
 			
+			cellStyle.setBorderTop(topBorder);
+			cellStyle.setTopBorderColor(topBorderColor);
+			cellStyle.setBorderLeft(leftBorder);
+			cellStyle.setLeftBorderColor(leftBorderColor);
+			cellStyle.setBorderBottom(bottomBorder);
+			cellStyle.setBottomBorderColor(bottomBorderColor);
+			cellStyle.setBorderRight(rightBorder);
+			cellStyle.setRightBorderColor(rightBorderColor);
+			
 			loadedCellStyles.add(cellStyle);
 		}
 			
 		return cellStyle;
+	}
+
+
+	/**
+	 *
+	 */
+	private static short getBorder(byte pen)
+	{
+		short border = HSSFCellStyle.BORDER_NONE;
+		
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				border = HSSFCellStyle.BORDER_DASHED;
+				break;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				border = HSSFCellStyle.BORDER_THICK;
+				break;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				border = HSSFCellStyle.BORDER_THICK;
+				break;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				border = HSSFCellStyle.BORDER_THIN;
+				break;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				border = HSSFCellStyle.BORDER_NONE;
+				break;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				border = HSSFCellStyle.BORDER_MEDIUM;
+				break;
+			}
+		}
+		
+		return border;
 	}
 
 
