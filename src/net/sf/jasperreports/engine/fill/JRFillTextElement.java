@@ -74,7 +74,6 @@ package dori.jasper.engine.fill;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Map;
@@ -96,6 +95,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	private static FontRenderContext fontRenderContext = new FontRenderContext(null, true, true);
+
+	/**
+	 *
+	 */
 	private JRFont font = null;
 
 	private float floatLineSpacing = 0;
@@ -104,8 +108,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float textHeight = 0;
 	private int textStart = 0;
 	private int textEnd = 0;
-
-	private static FontRenderContext fontRenderContext = null;
 
 
 	/**
@@ -129,7 +131,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTextElement)this.parent).getTextAlignment();
+		return ((JRTextElement)parent).getTextAlignment();
 	}
 		
 	/**
@@ -144,7 +146,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getVerticalAlignment()
 	{
-		return ((JRTextElement)this.parent).getVerticalAlignment();
+		return ((JRTextElement)parent).getVerticalAlignment();
 	}
 		
 	/**
@@ -159,7 +161,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getRotation()
 	{
-		return ((JRTextElement)this.parent).getRotation();
+		return ((JRTextElement)parent).getRotation();
 	}
 		
 	/**
@@ -174,7 +176,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getLineSpacing()
 	{
-		return ((JRTextElement)this.parent).getLineSpacing();
+		return ((JRTextElement)parent).getLineSpacing();
 	}
 		
 	/**
@@ -190,20 +192,20 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public JRFont getFont()
 	{
 		/*
-		if (this.font == null)
+		if (font == null)
 		{
-			this.font = ((JRTextElement)this.parent).getFont();
-			if (this.font == null)
+			font = ((JRTextElement)parent).getFont();
+			if (font == null)
 			{
-				this.font = this.filler.defaultFont;
-				if (this.font == null)
+				font = filler.defaultFont;
+				if (font == null)
 				{
-					this.font = new JRDesignFont();
+					font = new JRDesignFont();
 				}
 			}
 		}
 		*/
-		return this.font;
+		return font;
 	}
 		
 	/**
@@ -214,7 +216,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		if (floatLineSpacing == 0)
 		{
 			floatLineSpacing = 1f;
-			switch (this.getLineSpacing())
+			switch (getLineSpacing())
 			{
 				case JRTextElement.LINE_SPACING_SINGLE : 
 				{
@@ -244,30 +246,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected static FontRenderContext getFontRenderContext()
-	{
-		if (fontRenderContext == null)
-		{
-			AffineTransform atrans = new AffineTransform();
-			//atrans.scale(1f, 1f);
-			
-			fontRenderContext = 
-				new FontRenderContext(
-					atrans,
-					true, 
-					true
-					);
-		}
-		
-		return fontRenderContext;
-	}
-
-	/**
-	 *
-	 */
 	protected float getAbsoluteLineSpacing()
 	{
-		return this.absoluteLineSpacing;
+		return absoluteLineSpacing;
 	}
 		
 	/**
@@ -283,7 +264,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected float getAbsoluteLeading()
 	{
-		return this.absoluteLeading;
+		return absoluteLeading;
 	}
 		
 	/**
@@ -299,7 +280,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected float getTextHeight()
 	{
-		return this.textHeight;
+		return textHeight;
 	}
 		
 	/**
@@ -315,7 +296,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected int getTextStart()
 	{
-		return this.textStart;
+		return textStart;
 	}
 		
 	/**
@@ -331,7 +312,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected int getTextEnd()
 	{
-		return this.textEnd;
+		return textEnd;
 	}
 		
 	/**
@@ -358,9 +339,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super.reset();
 		
-		this.absoluteLineSpacing = 0;
-		this.absoluteLeading = 0;
-		this.textHeight = 0;
+		absoluteLineSpacing = 0;
+		absoluteLeading = 0;
+		textHeight = 0;
 	}
 
 
@@ -369,8 +350,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected void rewind() throws JRException
 	{
-		this.textStart = 0;
-		this.textEnd = 0;
+		textStart = 0;
+		textEnd = 0;
 	}
 
 
@@ -381,14 +362,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		int availableStretchHeight
 		)
 	{
-		if (this.getText() == null || this.getText().length() == 0)
+		if (getText() == null || getText().length() == 0)
 		{
 			return;
 		}
 
 		String allText = 
-			this.getText().substring(
-				this.getTextEnd()
+			getText().substring(
+				getTextEnd()
 				);
 
 		if (allText.length() == 0)
@@ -398,21 +379,21 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		//allText = JRStringUtil.treatNewLineChars(allText);
 
-		int width = this.getWidth();
-		int height = this.getHeight();
+		int width = getWidth();
+		int height = getHeight();
 		
-		switch (this.getRotation())
+		switch (getRotation())
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				width = this.getHeight();
-				height = this.getWidth();
+				width = getHeight();
+				height = getWidth();
 				break;
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				width = this.getHeight();
-				height = this.getWidth();
+				width = getHeight();
+				height = getWidth();
 				break;
 			}
 			case JRTextElement.ROTATION_NONE :
@@ -422,10 +403,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		
 		float formatWidth = (float)width;
-		float lineSpacing = this.getFloatLineSpacing();
+		float lineSpacing = getFloatLineSpacing();
 		int maxHeight = height + availableStretchHeight;
-		FontRenderContext fontRenderContext = getFontRenderContext();
-		Map fontAttributes = this.getFont().getAttributes();
+		Map fontAttributes = getFont().getAttributes();
 
 		float drawPosY = 0;
 		//float lastDrawPosY = 0;
@@ -462,7 +442,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 				if (lines == 0)
 				{
-					this.absoluteLeading = layout.getLeading() + lineSpacing * layout.getAscent();
+					absoluteLeading = layout.getLeading() + lineSpacing * layout.getAscent();
 				}
 				
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
@@ -513,29 +493,29 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 		}
 
-		this.setTextHeight(drawPosY + 1);
-		if (this.getRotation() == ROTATION_NONE)
+		setTextHeight(drawPosY + 1);
+		if (getRotation() == ROTATION_NONE)
 		{
-			this.setStretchHeight((int)this.getTextHeight());
+			setStretchHeight((int)getTextHeight());
 		}
 		else
 		{
-			this.setStretchHeight(this.getHeight());
+			setStretchHeight(getHeight());
 		}
-		this.setTextStart(this.getTextEnd());
-		this.setTextEnd(this.getTextStart() + strpos);
-		//this.setTextEnd(strpos);
+		setTextStart(getTextEnd());
+		setTextEnd(getTextStart() + strpos);
+		//setTextEnd(strpos);
 		if (lines != 0)
 		{
-			//this.setAbsoluteLineSpacing((lastDrawPosY - 1) / lines);
-			//this.setAbsoluteLineSpacing(drawPosY / lines);
-			this.setAbsoluteLineSpacing(this.getTextHeight() / lines);
+			//setAbsoluteLineSpacing((lastDrawPosY - 1) / lines);
+			//setAbsoluteLineSpacing(drawPosY / lines);
+			setAbsoluteLineSpacing(getTextHeight() / lines);
 		}
 		else
 		{
-			this.setAbsoluteLineSpacing(0);
+			setAbsoluteLineSpacing(0);
 		}
-		//this.setAbsoluteLineSpacing(drawPosY / lines);
+		//setAbsoluteLineSpacing(drawPosY / lines);
 	}
 	
 
