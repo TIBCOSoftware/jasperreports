@@ -69,6 +69,11 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+
+/*
+ * Contributors:
+ * Eugene D - eugenedruy@users.sourceforge.net 
+ */
 package dori.jasper.engine.export;
 
 import java.awt.BasicStroke;
@@ -901,8 +906,22 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			TextLayout layout = null;
 			while (lineMeasurer.getPosition() < paragraphEnd && !isMaxHeightReached)
 			{
+				//eugene fix - start
+				int startIndex = lineMeasurer.getPosition();
+				//eugene fix - end
+
 				layout = lineMeasurer.nextLayout(formatWidth);
-	
+
+				//eugene fix - start
+				AttributedString tmpText = 
+					new AttributedString(
+						paragraph, 
+						startIndex, 
+						startIndex + layout.getCharacterCount()
+						);
+				layout = new TextLayout(tmpText.getIterator(), fontRenderContext);
+				//eugene fix - end
+
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
 	
 				if (drawPosY + layout.getDescent() <= maxHeight)
