@@ -86,7 +86,7 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	private static JRLongIncrementerFactory mainInstance = null;
+	private static JRLongIncrementerFactory mainInstance = new JRLongIncrementerFactory();
 
 
 	/**
@@ -102,11 +102,6 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 	 */
 	public static JRLongIncrementerFactory getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongIncrementerFactory();
-		}
-		
 		return mainInstance;
 	}
 
@@ -179,7 +174,7 @@ class JRLongCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRLongCountIncrementer mainInstance = null;
+	private static JRLongCountIncrementer mainInstance = new JRLongCountIncrementer();
 
 	/**
 	 *
@@ -193,11 +188,6 @@ class JRLongCountIncrementer implements JRIncrementer
 	 */
 	public static JRLongCountIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongCountIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -235,7 +225,7 @@ class JRLongSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRLongSumIncrementer mainInstance = null;
+	private static JRLongSumIncrementer mainInstance = new JRLongSumIncrementer();
 
 	/**
 	 *
@@ -249,11 +239,6 @@ class JRLongSumIncrementer implements JRIncrementer
 	 */
 	public static JRLongSumIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongSumIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -287,7 +272,7 @@ class JRLongAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRLongAverageIncrementer mainInstance = null;
+	private static JRLongAverageIncrementer mainInstance = new JRLongAverageIncrementer();
 
 	/**
 	 *
@@ -301,11 +286,6 @@ class JRLongAverageIncrementer implements JRIncrementer
 	 */
 	public static JRLongAverageIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongAverageIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -336,7 +316,7 @@ class JRLongStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRLongStandardDeviationIncrementer mainInstance = null;
+	private static JRLongStandardDeviationIncrementer mainInstance = new JRLongStandardDeviationIncrementer();
 
 	/**
 	 *
@@ -350,11 +330,6 @@ class JRLongStandardDeviationIncrementer implements JRIncrementer
 	 */
 	public static JRLongStandardDeviationIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongStandardDeviationIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -379,7 +354,7 @@ class JRLongVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRLongVarianceIncrementer mainInstance = null;
+	private static JRLongVarianceIncrementer mainInstance = new JRLongVarianceIncrementer();
 
 	/**
 	 *
@@ -393,11 +368,6 @@ class JRLongVarianceIncrementer implements JRIncrementer
 	 */
 	public static JRLongVarianceIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRLongVarianceIncrementer();
-		}
-		
 		return mainInstance;
 	}
 

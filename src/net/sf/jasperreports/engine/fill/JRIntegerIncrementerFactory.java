@@ -86,7 +86,7 @@ public class JRIntegerIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	private static JRIntegerIncrementerFactory mainInstance = null;
+	private static JRIntegerIncrementerFactory mainInstance = new JRIntegerIncrementerFactory();
 
 
 	/**
@@ -102,11 +102,6 @@ public class JRIntegerIncrementerFactory implements JRIncrementerFactory
 	 */
 	public static JRIntegerIncrementerFactory getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerIncrementerFactory();
-		}
-		
 		return mainInstance;
 	}
 
@@ -179,7 +174,7 @@ class JRIntegerCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRIntegerCountIncrementer mainInstance = null;
+	private static JRIntegerCountIncrementer mainInstance = new JRIntegerCountIncrementer();
 
 	/**
 	 *
@@ -193,11 +188,6 @@ class JRIntegerCountIncrementer implements JRIncrementer
 	 */
 	public static JRIntegerCountIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerCountIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -235,7 +225,7 @@ class JRIntegerSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRIntegerSumIncrementer mainInstance = null;
+	private static JRIntegerSumIncrementer mainInstance = new JRIntegerSumIncrementer();
 
 	/**
 	 *
@@ -249,11 +239,6 @@ class JRIntegerSumIncrementer implements JRIncrementer
 	 */
 	public static JRIntegerSumIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerSumIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -287,7 +272,7 @@ class JRIntegerAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRIntegerAverageIncrementer mainInstance = null;
+	private static JRIntegerAverageIncrementer mainInstance = new JRIntegerAverageIncrementer();
 
 	/**
 	 *
@@ -301,11 +286,6 @@ class JRIntegerAverageIncrementer implements JRIncrementer
 	 */
 	public static JRIntegerAverageIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerAverageIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -336,7 +316,7 @@ class JRIntegerStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRIntegerStandardDeviationIncrementer mainInstance = null;
+	private static JRIntegerStandardDeviationIncrementer mainInstance = new JRIntegerStandardDeviationIncrementer();
 
 	/**
 	 *
@@ -350,11 +330,6 @@ class JRIntegerStandardDeviationIncrementer implements JRIncrementer
 	 */
 	public static JRIntegerStandardDeviationIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerStandardDeviationIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -379,7 +354,7 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRIntegerVarianceIncrementer mainInstance = null;
+	private static JRIntegerVarianceIncrementer mainInstance = new JRIntegerVarianceIncrementer();
 
 	/**
 	 *
@@ -393,11 +368,6 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 	 */
 	public static JRIntegerVarianceIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRIntegerVarianceIncrementer();
-		}
-		
 		return mainInstance;
 	}
 

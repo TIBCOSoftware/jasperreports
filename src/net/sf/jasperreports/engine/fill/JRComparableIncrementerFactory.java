@@ -86,7 +86,7 @@ public class JRComparableIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	private static JRComparableIncrementerFactory mainInstance = null;
+	private static JRComparableIncrementerFactory mainInstance = new JRComparableIncrementerFactory();
 
 
 	/**
@@ -102,11 +102,6 @@ public class JRComparableIncrementerFactory implements JRIncrementerFactory
 	 */
 	public static JRComparableIncrementerFactory getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRComparableIncrementerFactory();
-		}
-		
 		return mainInstance;
 	}
 
@@ -163,7 +158,7 @@ class JRComparableLowestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRComparableLowestIncrementer mainInstance = null;
+	private static JRComparableLowestIncrementer mainInstance = new JRComparableLowestIncrementer();
 
 	/**
 	 *
@@ -177,11 +172,6 @@ class JRComparableLowestIncrementer implements JRIncrementer
 	 */
 	public static JRComparableLowestIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRComparableLowestIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -214,7 +204,7 @@ class JRComparableHighestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRComparableHighestIncrementer mainInstance = null;
+	private static JRComparableHighestIncrementer mainInstance = new JRComparableHighestIncrementer();
 
 	/**
 	 *
@@ -228,11 +218,6 @@ class JRComparableHighestIncrementer implements JRIncrementer
 	 */
 	public static JRComparableHighestIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRComparableHighestIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
