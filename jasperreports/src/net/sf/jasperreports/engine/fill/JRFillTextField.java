@@ -358,10 +358,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
+/*
 		String newRawText = 
 			JRStringUtil.treatNewLineChars(
 				String.valueOf(textFieldValue)
 				);
+*/		
+		String newRawText = String.valueOf(textFieldValue);
 		String oldRawText = getRawText();
 
 		setRawText(newRawText);
@@ -550,8 +553,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 			if (
 				isToPrint &&
-				isRemoveLineWhenBlank() && //FIXME if the line won't be removed, the background does not appear
-				getText().substring(
+				isRemoveLineWhenBlank() &&	//FIXME if the line won't be removed due to other elements 
+				getText().substring(		// present on that line, the background does not appear
 					getTextStart(),
 					getTextEnd()
 					).trim().length() == 0

@@ -85,19 +85,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.xml.sax.SAXException;
 
@@ -121,7 +115,6 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -150,6 +143,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 *
 	 */
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
+	protected TextRenderer textRenderer = new TextRenderer();
 
 
 	/**
@@ -757,7 +751,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		String text = textElement.getText();
 		if (text != null)
 		{
-			text = JRStringUtil.treatNewLineChars(text);
+			//text = JRStringUtil.treatNewLineChars(text);
 
 			JRFont font = textElement.getFont();
 			if (font == null)
@@ -863,176 +857,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			return;
 		}
 		
-		//grx.setColor(text.getForecolor());
-
-		float formatWidth = (float)width;
-
-		float verticalOffset = 0f;
-		switch (text.getVerticalAlignment())
-		{
-			case JRTextElement.VERTICAL_ALIGN_TOP :
-			{
-				verticalOffset = 0f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalOffset = ((float)height - text.getTextHeight()) / 2f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalOffset = (float)height - text.getTextHeight();
-				break;
-			}
-			default :
-			{
-				verticalOffset = 0f;
-			}
-		}
-
-		float lineSpacing = 1f;
-		switch (text.getLineSpacing())
-		{
-			case JRTextElement.LINE_SPACING_SINGLE :
-			{
-				lineSpacing = 1f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_1_1_2 :
-			{
-				lineSpacing = 1.5f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_DOUBLE :
-			{
-				lineSpacing = 2f;
-				break;
-			}
-			default :
-			{
-				lineSpacing = 1f;
-			}
-		}
-
-		int maxHeight = height;
-		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
-		FontRenderContext fontRenderContext = grx.getFontRenderContext();
-
-		float drawPosY = 0;
-	    float drawPosX = 0;
-	
-		boolean isMaxHeightReached = false;
+		/*   */
+		textRenderer.render(
+			grx, 
+			x, 
+			y, 
+			width, 
+			height, 
+			text.getTextHeight(), 
+			text.getTextAlignment(), 
+			text.getVerticalAlignment(), 
+			text.getLineSpacing(), 
+			styledText, 
+			allText
+			);
 		
-		int paragraphStart = 0;
-		int paragraphEnd = 0;
-
-		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
-
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
-		
-		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
-		{
-			String paragraphText = tkzer.nextToken();
-
-			paragraphStart = paragraphEnd;
-			paragraphEnd = paragraphStart + paragraphText.length();
-
-			if ("\n".equals(paragraphText))
-			{
-				continue;
-			}
-
-			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
-			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-	
-			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
-			{
-				//eugene fix - start
-				int startIndex = lineMeasurer.getPosition();
-				//eugene fix - end
-
-				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-
-				//eugene fix - start
-				AttributedString tmpText = 
-					new AttributedString(
-						paragraph, 
-						startIndex, 
-						startIndex + layout.getCharacterCount()
-						);
-				layout = new TextLayout(tmpText.getIterator(), fontRenderContext);
-				//eugene fix - end
-
-				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
-	
-				if (drawPosY + layout.getDescent() <= maxHeight)
-				{
-				    switch (text.getTextAlignment())
-				    {
-						case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = 0;
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-						    if (lineMeasurer.getPosition() < paragraphEnd)
-						    {
-							    layout = layout.getJustifiedLayout(formatWidth);
-							}
-	
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth;
-						    }
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					    {
-						    drawPosX = (formatWidth - layout.getAdvance()) / 2;
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					    default :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = 0;
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-					    }
-				    }
-	
-				    layout.draw(
-						grx,
-						drawPosX + x,
-						drawPosY + y + verticalOffset
-						);
-				    drawPosY += layout.getDescent();
-				}
-				else
-				{
-				    drawPosY -= layout.getLeading() + lineSpacing * layout.getAscent();
-		    	    isMaxHeightReached = true;
-				}
-			}
-		}
-
 		grx.rotate(-angle, x, y);
 	}
 

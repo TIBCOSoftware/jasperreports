@@ -81,56 +81,6 @@ public class JRStringUtil
 
 
 	/**
-	 * This method inserts a blank character between to consecutive
-	 * newline characters if encoutered. Also appends a blank character at
-	 * the beginning of the text, if the first character is a newline character
-	 * and at the end of the text, if the last character is also a newline.
-	 * This is useful when trying to layout the paragraphs.
-	 */
-	public static String treatNewLineChars(String source)
-	{
-		String result = source;
-
-		if (source != null && source.length() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer(source);
-			
-			// insert a blank character between every two consecutives
-			// newline characters
-			int offset = source.length() - 1;
-			int pos = source.lastIndexOf("\n\n", offset);
-			while (pos >= 0 && offset > 0)
-			{
-				sbuffer = sbuffer.insert(pos + 1, " ");
-				offset = pos - 1;
-				pos = source.lastIndexOf("\n\n", offset);
-			}
-			
-			// append a blank character at the and of the text
-			// if the last character is a newline character
-			if (sbuffer.charAt(sbuffer.length() - 1) == '\n')
-			{
-				sbuffer.append(' ');
-			}
-
-			// append a blank character at the begining of the text
-			// if the first character is a newline character
-			if (sbuffer.charAt(0) == '\n')
-			{
-				sbuffer.insert(0, ' ');
-			}
-			
-			result = sbuffer.toString();
-		}
-		
-		// remove this if you want to treat the tab characters in a special way
-		result = replaceTabWithBlank(result);
-		
-		return result;
-	}
-		
-
-	/**
 	 *
 	 */
 	public static String replaceTabWithBlank(String source)

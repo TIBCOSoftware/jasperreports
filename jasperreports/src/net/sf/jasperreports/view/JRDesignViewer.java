@@ -81,28 +81,21 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JViewport;
-
-import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
@@ -125,13 +118,15 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.design.JRDesignFont;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
+import org.xml.sax.SAXException;
 
 
 /**
@@ -170,6 +165,14 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private JRFont defaultFont = null;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
+	protected TextRenderer simluationTextRenderer = 
+		new TextRenderer()
+		{
+			public void draw(TextLayout layout) 
+			{
+			}
+		};
+	protected TextRenderer textRenderer = new TextRenderer();
 
 	
 	/** Creates new form JRDesignViewer */
@@ -1527,7 +1530,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		
 		if (text != null && text.length() > 0)
 		{
-			text = JRStringUtil.treatNewLineChars(text);
+			//text = JRStringUtil.treatNewLineChars(text);
 
 			JRFont font = textElement.getFont();
 			if (font == null)
@@ -1633,204 +1636,35 @@ public class JRDesignViewer extends javax.swing.JPanel
 		/*
 		*/
 
-		float formatWidth = (float)width;
-
-		float lineSpacing = 1f;
-		switch (text.getLineSpacing())
-		{
-			case JRTextElement.LINE_SPACING_SINGLE :
-			{
-				lineSpacing = 1f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_1_1_2 :
-			{
-				lineSpacing = 1.5f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_DOUBLE :
-			{
-				lineSpacing = 2f;
-				break;
-			}
-			default :
-			{
-				lineSpacing = 1f;
-			}
-		}
-
-
-		int maxHeight = height;
-		//FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
-		FontRenderContext fontRenderContext = grx.getFontRenderContext();
-
-		int paragraphStart = 0;
-		int paragraphEnd = 0;
-	
-		float drawPosY = 0;
-	    float drawPosX = 0;
-	
-		boolean isMaxHeightReached = false;
+		/*   */
+		simluationTextRenderer.render(
+			grx, 
+			x, 
+			y, 
+			width, 
+			height, 
+			0f, 
+			text.getTextAlignment(), 
+			text.getVerticalAlignment(), 
+			text.getLineSpacing(), 
+			styledText, 
+			allText
+			);
 		
-		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
-
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
-		
-		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
-		{
-			String paragraphText = tkzer.nextToken();
-			
-			paragraphStart = paragraphEnd;
-			paragraphEnd = paragraphStart + paragraphText.length();
-
-			if ("\n".equals(paragraphText))
-			{
-				continue;
-			}
-
-			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
-			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-	
-			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
-			{
-				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-	
-				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
-	
-				if (drawPosY + layout.getDescent() <= maxHeight)
-				{
-				    drawPosY += layout.getDescent();
-				}
-				else
-				{
-				    drawPosY -= layout.getLeading() + lineSpacing * layout.getAscent();
-		    	    isMaxHeightReached = true;
-				}
-			}
-		}
-		
-		float textHeight = drawPosY + 1;
-		float verticalOffset = 0f;
-		switch (text.getVerticalAlignment())
-		{
-			case JRTextElement.VERTICAL_ALIGN_TOP :
-			{
-				verticalOffset = 0f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalOffset = ((float)height - textHeight) / 2f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalOffset = (float)height - textHeight;
-				break;
-			}
-			default :
-			{
-				verticalOffset = 0f;
-			}
-		}
-
-		paragraphStart = 0;
-		paragraphEnd = 0;
-
-		drawPosY = 0;
-	    drawPosX = 0;
-	
-		isMaxHeightReached = false;
-		
-		tkzer = new StringTokenizer(allText, "\n", true);
-		
-		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
-		{
-			String paragraphText = tkzer.nextToken();
-			
-			paragraphStart = paragraphEnd;
-			paragraphEnd = paragraphStart + paragraphText.length();
-
-			if ("\n".equals(paragraphText))
-			{
-				continue;
-			}
-
-			AttributedCharacterIterator paragraph = new AttributedString(allParagraphs, paragraphStart, paragraphEnd).getIterator();
-			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, fontRenderContext);
-	
-			while (lineMeasurer.getPosition() < paragraphText.length() && !isMaxHeightReached)
-			{
-				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-	
-				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
-	
-				if (drawPosY + layout.getDescent() <= maxHeight)
-				{
-				    switch (text.getTextAlignment())
-				    {
-						case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = 0;
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-						    if (lineMeasurer.getPosition() < paragraphEnd)
-						    {
-							    layout = layout.getJustifiedLayout(formatWidth);
-							}
-	
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth;
-						    }
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					    {
-						    drawPosX = (formatWidth - layout.getAdvance()) / 2;
-						    break;
-					    }
-						case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					    default :
-					    {
-						    if (layout.isLeftToRight())
-						    {
-							    drawPosX = 0;
-						    }
-						    else
-						    {
-							    drawPosX = formatWidth - layout.getAdvance();
-						    }
-					    }
-				    }
-	
-					layout.draw(
-						grx,
-						drawPosX + x,
-						drawPosY + y + verticalOffset
-						);
-				    drawPosY += layout.getDescent();
-				}
-				else
-				{
-				    drawPosY -= layout.getLeading() + lineSpacing * layout.getAscent();
-		    	    isMaxHeightReached = true;
-				}
-			}
-		}
+		/*   */
+		textRenderer.render(
+			grx, 
+			x, 
+			y, 
+			width, 
+			height, 
+			simluationTextRenderer.getTextHeight(), 
+			text.getTextAlignment(), 
+			text.getVerticalAlignment(), 
+			text.getLineSpacing(), 
+			styledText, 
+			allText
+			);
 
 		grx.drawRect(x, y, width - 1, height - 1);
 
