@@ -115,7 +115,7 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public static JRRenderable getInstance(String imageLocation) throws JRException
 	{
-		return getInstance(imageLocation, JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE, false);
+		return getInstance(imageLocation, JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE, true);
 	}
 
 
@@ -124,7 +124,7 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public static JRRenderable getInstance(String imageLocation, byte whenNotAvailableType) throws JRException
 	{
-		return getInstance(imageLocation, whenNotAvailableType, false);
+		return getInstance(imageLocation, whenNotAvailableType, true);
 	}
 
 

@@ -1371,14 +1371,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 				
 				if (image.isLazy())
 				{
+					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+				}
+				else
+				{
 					String imageName = "img_" + String.valueOf(imageNameToImageDataMap.size());
 					imageNameToImageDataMap.put(imageName, renderer.getImageData());
 		
 					imagePath = imagesURI + imageName;
-				}
-				else
-				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
 				}
 
 				rendererToImagePathMap.put(renderer, imagePath);
@@ -1453,7 +1453,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				double normalWidth = image.getWidth();
 				double normalHeight = image.getHeight();
 				
-				if (image.isLazy())
+				if (!image.isLazy())
 				{
 					Dimension2D dimension = renderer.getDimension();
 					if (dimension != null)

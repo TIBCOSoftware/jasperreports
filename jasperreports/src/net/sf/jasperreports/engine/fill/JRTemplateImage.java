@@ -53,7 +53,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	private byte scaleImage = JRImage.SCALE_IMAGE_CLIP;
 	private byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
-	protected boolean isLazy = true;
+	protected boolean isLazy = false;
 	private byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;

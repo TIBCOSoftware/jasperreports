@@ -610,7 +610,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 		
-		if (!image.isLazy())
+		if (image.isLazy())
 		{
 			sbuffer.append(" isLazy=\"");
 			sbuffer.append(image.isLazy());
@@ -679,10 +679,10 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			sbuffer.append("\t\t\t<imageSource");
 	
-			if (isEmbeddingImages && image.isLazy())
+			if (isEmbeddingImages && !image.isLazy())
 			{
 				sbuffer.append(" isEmbedded=\"");
-				sbuffer.append(isEmbeddingImages && image.isLazy());
+				sbuffer.append(isEmbeddingImages && !image.isLazy());
 				sbuffer.append("\"");
 			}
 	
@@ -700,7 +700,7 @@ public class JRXmlExporter extends JRAbstractExporter
 						);
 			}
 				
-			if (isEmbeddingImages && image.isLazy())
+			if (isEmbeddingImages && !image.isLazy())
 			{
 				try
 				{
@@ -727,14 +727,14 @@ public class JRXmlExporter extends JRAbstractExporter
 				{
 					if (image.isLazy())
 					{
+						imageSource = ((JRImageRenderer)renderer).getImageLocation();
+					}
+					else
+					{
 						imageSource = "img_" + String.valueOf(imageNameToImageDataMap.size());
 						imageNameToImageDataMap.put(imageSource, renderer.getImageData());
 						
 						imageSource = new File(imagesDir, imageSource).getPath();
-					}
-					else
-					{
-						imageSource = ((JRImageRenderer)renderer).getImageLocation();
 					}
 
 					rendererToImagePathMap.put(renderer, imageSource);

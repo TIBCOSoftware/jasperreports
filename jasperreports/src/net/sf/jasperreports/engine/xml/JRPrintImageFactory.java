@@ -47,6 +47,7 @@ public class JRPrintImageFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_scaleImage = "scaleImage";
 	private static final String ATTRIBUTE_hAlign = "hAlign";
 	private static final String ATTRIBUTE_vAlign = "vAlign";
+	private static final String ATTRIBUTE_isLazy = "isLazy";
 	private static final String ATTRIBUTE_whenNotAvailableType = "whenNotAvailableType";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
@@ -79,6 +80,12 @@ public class JRPrintImageFactory extends JRBaseFactory
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment.byteValue());
+		}
+
+		String isLazy = atts.getValue(ATTRIBUTE_isLazy);
+		if (isLazy != null && isLazy.length() > 0)
+		{
+			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
 		}
 
 		Byte whenNotAvailableType = (Byte)JRXmlConstants.getWhenNotAvailableTypeMap().get(atts.getValue(ATTRIBUTE_whenNotAvailableType));

@@ -1100,7 +1100,7 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (!image.isLazy())
+		if (image.isLazy())
 		{
 			sb.append(" isLazy=\"");
 			sb.append(image.isLazy());

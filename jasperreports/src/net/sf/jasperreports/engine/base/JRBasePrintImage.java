@@ -58,7 +58,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte scaleImage = JRImage.SCALE_IMAGE_RETAIN_SHAPE;
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
-	protected boolean isLazy = true;
+	protected boolean isLazy = false;
 	protected byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
 	protected JRBox box = null;
 	protected String anchorName = null;

@@ -50,7 +50,7 @@
 	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
 	hAlign (Left | Center | Right) "Left"
 	vAlign (Top | Middle | Bottom) "Top"
-	isLazy (true | false) "true"
+	isLazy (true | false) "false"
 	whenNotAvailableType (None | Blank | Icon) "None"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"

@@ -55,7 +55,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected byte horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
 	protected boolean isUsingCache = true;
-	protected boolean isLazy = true;
+	protected boolean isLazy = false;
 	protected byte whenNotAvailableType = WHEN_NOT_AVAILABLE_TYPE_NONE;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
