@@ -1376,7 +1376,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				//((jrFont.isBold())?Font.BOLD:0) +
 				//((jrFont.isItalic())?Font.ITALIC:0) +
 				(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
-					+ (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+					| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
 				forecolor
 				);
 
