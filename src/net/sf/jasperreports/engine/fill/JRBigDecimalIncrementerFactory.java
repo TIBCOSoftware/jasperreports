@@ -192,24 +192,34 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new BigDecimal("0");
-		}
-		BigDecimal newValue = null;
+
 		if (expressionValue == null)
 		{
-			newValue = value;
+			if (variable.isInitialized())
+			{
+				return ZERO_BIG_DECIMAL;
+			}
+			else
+			{
+				return value;
+			}
 		}
 		else
 		{
-			newValue = value.add(new BigDecimal("1"));
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_BIG_DECIMAL;
+			}
+
+			return value.add(ONE_BIG_DECIMAL);
 		}
-					
-		return newValue;
 	}
 }
 
@@ -242,21 +252,35 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new BigDecimal("0");
-		}
 		BigDecimal newValue = (BigDecimal)expressionValue;
+
 		if (newValue == null)
 		{
-			newValue = new BigDecimal("0");
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
 		}
-		newValue = value.add(newValue);
-					
-		return newValue;
+		else
+		{
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_BIG_DECIMAL;
+			}
+
+			return value.add(newValue);
+		}
 	}
 }
 
@@ -289,19 +313,29 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		BigDecimal newValue = null;
-
-		long count = ((java.lang.Number)((JRFillVariable)variable.getCountVariable()).getValue()).longValue();
-		if (count > 0)
+		if (expressionValue == null)
 		{
-			BigDecimal countValue = BigDecimal.valueOf(count);
-			BigDecimal sumValue = (BigDecimal)((JRFillVariable)variable.getSumVariable()).getValue();
-			newValue = sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue();
+			}
 		}
-					
-		return newValue;
+		else
+		{
+			BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
+		}
 	}
 }
 
@@ -334,12 +368,28 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		BigDecimal varianceValue = (BigDecimal)((JRFillVariable)variable.getVarianceVariable()).getValue();
-		BigDecimal newValue = new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
-					
-		return newValue;
+		if (expressionValue == null)
+		{
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue(); 
+			}
+		}
+		else
+		{
+			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+			return new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
+		}
 	}
 }
 
@@ -372,31 +422,40 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		BigDecimal value = (BigDecimal)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new BigDecimal("0");
-		}
-		BigDecimal countValue = BigDecimal.valueOf( ((java.lang.Number)((JRFillVariable)variable.getCountVariable()).getValue()).longValue() );
-		BigDecimal sumValue = (BigDecimal)((JRFillVariable)variable.getSumVariable()).getValue();
 		BigDecimal newValue = (BigDecimal)expressionValue;
-	
-		if (countValue.intValue() == 1)
+		
+		if (newValue == null)
 		{
-			newValue = new BigDecimal("0");
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
+		}
+		else if (value == null || variable.isInitialized())
+		{
+			return ZERO_BIG_DECIMAL;
 		}
 		else
 		{
-			newValue = 
-				countValue.subtract(new BigDecimal("1")).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
+			BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return
+				countValue.subtract(ONE_BIG_DECIMAL).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
 					sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(
 						sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue)
-						).divide(countValue.subtract(new BigDecimal("1")), BigDecimal.ROUND_HALF_UP)
+						).divide(countValue.subtract(ONE_BIG_DECIMAL), BigDecimal.ROUND_HALF_UP)
 					);
 		}
-					
-		return newValue;
 	}
 }

@@ -190,25 +190,34 @@ class JRByteCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Byte((byte)0);
-		}
 
-		Number newValue = null;
 		if (expressionValue == null)
 		{
-			newValue = value;
+			if (variable.isInitialized())
+			{
+				return ZERO_BYTE;
+			}
+			else
+			{
+				return value;
+			}
 		}
 		else
 		{
-			newValue = new Byte((byte)(value.byteValue() + 1));
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_BYTE;
+			}
+
+			return new Byte((byte)(value.byteValue() + 1));
 		}
-		
-		return newValue;
 	}
 }
 
@@ -241,21 +250,35 @@ class JRByteSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Byte((byte)0);
-		}
 		Number newValue = (Number)expressionValue;
+
 		if (newValue == null)
 		{
-			newValue = new Byte((byte)0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
 		}
-		newValue = new Byte((byte)(value.byteValue() + newValue.byteValue()));
-					
-		return newValue;
+		else
+		{
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_BYTE;
+			}
+
+			return new Byte((byte)(value.byteValue() + newValue.byteValue()));
+		}
 	}
 }
 
@@ -288,18 +311,29 @@ class JRByteAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number newValue = null;
-
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		if (countValue.longValue() > 0)
+		if (expressionValue == null)
 		{
-			Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-			newValue = new Byte((byte)(sumValue.byteValue() / countValue.byteValue()));
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue();
+			}
 		}
-					
-		return newValue;
+		else
+		{
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return new Byte((byte)(sumValue.byteValue() / countValue.byteValue()));
+		}
 	}
 }
 
@@ -332,12 +366,28 @@ class JRByteStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number varianceValue = (Number)((JRFillVariable)variable.getVarianceVariable()).getValue();
-		Number newValue = new Byte( (byte)Math.sqrt(varianceValue.doubleValue()) );
-					
-		return newValue;
+		if (expressionValue == null)
+		{
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue(); 
+			}
+		}
+		else
+		{
+			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+			return new Byte( (byte)Math.sqrt(varianceValue.doubleValue()) );
+		}
 	}
 }
 
@@ -370,31 +420,41 @@ class JRByteVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Byte((byte)0);
-		}
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
 		Number newValue = (Number)expressionValue;
-	
-		if (countValue.intValue() == 1)
+		
+		if (newValue == null)
 		{
-			newValue = new Byte((byte)0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
+		}
+		else if (value == null || variable.isInitialized())
+		{
+			return ZERO_BYTE;
 		}
 		else
 		{
-			newValue = new Byte((byte)(
-				(countValue.byteValue() - 1) * value.byteValue() / countValue.byteValue() +
-				( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) *
-				( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) /
-				(countValue.byteValue() - 1)
-				));
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return
+				new Byte((byte)(
+					(countValue.byteValue() - 1) * value.byteValue() / countValue.byteValue() +
+					( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) *
+					( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) /
+					(countValue.byteValue() - 1)
+					));
 		}
-					
-		return newValue;
 	}
 }

@@ -190,25 +190,34 @@ class JRIntegerCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Integer(0);
-		}
 
-		Number newValue = null;
 		if (expressionValue == null)
 		{
-			newValue = value;
+			if (variable.isInitialized())
+			{
+				return ZERO_INTEGER;
+			}
+			else
+			{
+				return value;
+			}
 		}
 		else
 		{
-			newValue = new Integer(value.intValue() + 1);
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_INTEGER;
+			}
+
+			return new Integer(value.intValue() + 1);
 		}
-		
-		return newValue;
 	}
 }
 
@@ -241,21 +250,35 @@ class JRIntegerSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Integer(0);
-		}
 		Number newValue = (Number)expressionValue;
+
 		if (newValue == null)
 		{
-			newValue = new Integer(0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
 		}
-		newValue = new Integer(value.intValue() + newValue.intValue());
-					
-		return newValue;
+		else
+		{
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_INTEGER;
+			}
+
+			return new Integer(value.intValue() + newValue.intValue());
+		}
 	}
 }
 
@@ -288,18 +311,29 @@ class JRIntegerAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number newValue = null;
-
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		if (countValue.longValue() > 0)
+		if (expressionValue == null)
 		{
-			Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-			newValue = new Integer(sumValue.intValue() / countValue.intValue());
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue();
+			}
 		}
-					
-		return newValue;
+		else
+		{
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return new Integer(sumValue.intValue() / countValue.intValue());
+		}
 	}
 }
 
@@ -332,12 +366,28 @@ class JRIntegerStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number varianceValue = (Number)((JRFillVariable)variable.getVarianceVariable()).getValue();
-		Number newValue = new Integer( (int)Math.sqrt(varianceValue.doubleValue()) );
-					
-		return newValue;
+		if (expressionValue == null)
+		{
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue(); 
+			}
+		}
+		else
+		{
+			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+			return new Integer( (int)Math.sqrt(varianceValue.doubleValue()) );
+		}
 	}
 }
 
@@ -370,31 +420,41 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Integer(0);
-		}
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
 		Number newValue = (Number)expressionValue;
-	
-		if (countValue.intValue() == 1)
+		
+		if (newValue == null)
 		{
-			newValue = new Integer(0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
+		}
+		else if (value == null || variable.isInitialized())
+		{
+			return ZERO_INTEGER;
 		}
 		else
 		{
-			newValue = new Integer(
-				(countValue.intValue() - 1) * value.intValue() / countValue.intValue() +
-				( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) *
-				( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) /
-				(countValue.intValue() - 1)
-				);
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return
+				new Integer(
+					(countValue.intValue() - 1) * value.intValue() / countValue.intValue() +
+					( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) *
+					( sumValue.intValue() / countValue.intValue() - newValue.intValue() ) /
+					(countValue.intValue() - 1)
+					);
 		}
-					
-		return newValue;
 	}
 }

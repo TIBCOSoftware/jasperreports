@@ -71,6 +71,8 @@
  */
 package dori.jasper.engine.fill;
 
+import java.math.BigDecimal;
+
 import dori.jasper.engine.JRException;
 
 
@@ -85,7 +87,24 @@ public interface JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException;
+	public static final Byte ZERO_BYTE = new Byte((byte)0);
+	public static final Short ZERO_SHORT = new Short((short)0);
+	public static final Integer ZERO_INTEGER = new Integer(0);
+	public static final Long ZERO_LONG = new Long(0);
+	public static final Float ZERO_FLOAT = new Float(0);
+	public static final Double ZERO_DOUBLE = new Double(0);
+	public static final BigDecimal ZERO_BIG_DECIMAL = new BigDecimal(0);
+	public static final BigDecimal ONE_BIG_DECIMAL = new BigDecimal(1);
+
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue, 
+		JRVariableValueProvider valueProvider
+		) throws JRException;
 
 
 }

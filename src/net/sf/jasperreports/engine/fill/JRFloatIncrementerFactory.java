@@ -190,25 +190,34 @@ class JRFloatCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Float(0);
-		}
 
-		Number newValue = null;
 		if (expressionValue == null)
 		{
-			newValue = value;
+			if (variable.isInitialized())
+			{
+				return ZERO_FLOAT;
+			}
+			else
+			{
+				return value;
+			}
 		}
 		else
 		{
-			newValue = new Float(value.floatValue() + 1);
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_FLOAT;
+			}
+
+			return new Float(value.floatValue() + 1);
 		}
-		
-		return newValue;
 	}
 }
 
@@ -241,21 +250,35 @@ class JRFloatSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Float(0);
-		}
 		Number newValue = (Number)expressionValue;
+
 		if (newValue == null)
 		{
-			newValue = new Float(0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
 		}
-		newValue = new Float(value.floatValue() + newValue.floatValue());
-					
-		return newValue;
+		else
+		{
+			if (value == null || variable.isInitialized())
+			{
+				value = ZERO_FLOAT;
+			}
+
+			return new Float(value.floatValue() + newValue.floatValue());
+		}
 	}
 }
 
@@ -288,18 +311,29 @@ class JRFloatAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number newValue = null;
-
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		if (countValue.longValue() > 0)
+		if (expressionValue == null)
 		{
-			Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-			newValue = new Float(sumValue.floatValue() / countValue.floatValue());
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue();
+			}
 		}
-					
-		return newValue;
+		else
+		{
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return new Float(sumValue.floatValue() / countValue.floatValue());
+		}
 	}
 }
 
@@ -332,12 +366,28 @@ class JRFloatStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
-		Number varianceValue = (Number)((JRFillVariable)variable.getVarianceVariable()).getValue();
-		Number newValue = new Float( Math.sqrt(varianceValue.floatValue()) );
-					
-		return newValue;
+		if (expressionValue == null)
+		{
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return variable.getValue(); 
+			}
+		}
+		else
+		{
+			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+			return new Float( Math.sqrt(varianceValue.doubleValue()) );
+		}
 	}
 }
 
@@ -370,31 +420,41 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
+	public Object increment(
+		JRFillVariable variable, 
+		Object expressionValue,
+		JRVariableValueProvider valueProvider
+		) throws JRException
 	{
 		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Float(0);
-		}
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
 		Number newValue = (Number)expressionValue;
-	
-		if (countValue.intValue() == 1)
+		
+		if (newValue == null)
 		{
-			newValue = new Float(0);
+			if (variable.isInitialized())
+			{
+				return null;
+			}
+			else
+			{
+				return value;
+			}
+		}
+		else if (value == null || variable.isInitialized())
+		{
+			return ZERO_FLOAT;
 		}
 		else
 		{
-			newValue = new Float(
-				(countValue.floatValue() - 1) * value.floatValue() / countValue.floatValue() +
-				( sumValue.floatValue() / countValue.floatValue() - newValue.floatValue() ) *
-				( sumValue.floatValue() / countValue.floatValue() - newValue.floatValue() ) /
-				(countValue.floatValue() - 1)
-				);
+			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			return
+				new Float(
+					(countValue.floatValue() - 1) * value.floatValue() / countValue.floatValue() +
+					( sumValue.floatValue() / countValue.floatValue() - newValue.floatValue() ) *
+					( sumValue.floatValue() / countValue.floatValue() - newValue.floatValue() ) /
+					(countValue.floatValue() - 1)
+					);
 		}
-					
-		return newValue;
 	}
 }
