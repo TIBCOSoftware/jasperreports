@@ -36,7 +36,6 @@
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-
 		<jrc destdir="./" compiler="net.sf.jasperreports.compilers.JRGroovyCompiler">
 			<src>
 				<fileset dir="./">
