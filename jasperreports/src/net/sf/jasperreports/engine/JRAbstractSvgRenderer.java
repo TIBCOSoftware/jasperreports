@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
@@ -113,6 +114,15 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	/**
 	 *
 	 */
+	public Color getBackcolor()
+	{
+		return null;
+	}
+
+
+	/**
+	 *
+	 */
 	public byte[] getImageData()
 	{
 		Dimension2D dimension = getDimension();
@@ -126,6 +136,12 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 					);
 
 			Graphics2D g = bi.createGraphics();
+			Color backcolor = getBackcolor();
+			if (backcolor != null)
+			{
+				g.setColor(backcolor);
+				g.fillRect(0, 0, (int)dimension.getWidth(), (int)dimension.getHeight());
+			}
 			render(g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
 			g.dispose();
 			
