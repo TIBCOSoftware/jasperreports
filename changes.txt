@@ -4,9 +4,14 @@ JasperReports Change Log
 
 JasperReports 0.6.5
 -----------------------------------
-- LGPL only;
+- JasperReports licensing model has been simplified and the library 
+will be shipped only under the "GNU Lesser Public License" (LGPL);
 
-- new "onErrorType" and "isLazy" attributes;
+- new "onErrorType" and "isLazy" attributes for image elements 
+to allow customizing the engine's behavior for loading and displaying images;
+
+- new sample showing how to use the JasperReports library inside a J2EE application
+running on the JBoss Application Server;
 
 - minor bug fixes and improvements;
 
