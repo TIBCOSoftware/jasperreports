@@ -79,7 +79,8 @@ import dori.jasper.engine.JRReport;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperDesignViewer extends javax.swing.JFrame 
 {

@@ -76,7 +76,8 @@ import dori.jasper.engine.base.JRBaseElementGroup;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignElementGroup extends JRBaseElementGroup
 {

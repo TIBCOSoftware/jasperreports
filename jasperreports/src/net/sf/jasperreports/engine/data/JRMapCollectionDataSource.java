@@ -80,7 +80,8 @@ import dori.jasper.engine.JRField;
 import dori.jasper.engine.JRRewindableDataSource;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRMapCollectionDataSource implements JRRewindableDataSource
 {

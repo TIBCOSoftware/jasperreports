@@ -79,7 +79,8 @@ import dori.jasper.engine.JRException;
 import dori.jasper.engine.JasperPrint;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRSaveContributor extends FileFilter
 {

@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignGroup;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRGroupFactory extends JRBaseFactory
 {

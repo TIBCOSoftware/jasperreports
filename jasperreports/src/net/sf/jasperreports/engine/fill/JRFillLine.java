@@ -78,7 +78,8 @@ import dori.jasper.engine.JRPrintLine;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillLine extends JRFillGraphicElement implements JRLine
 {

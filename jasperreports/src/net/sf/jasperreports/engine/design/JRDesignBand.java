@@ -76,7 +76,8 @@ import dori.jasper.engine.JRExpression;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignBand extends JRDesignElementGroup implements JRBand
 {

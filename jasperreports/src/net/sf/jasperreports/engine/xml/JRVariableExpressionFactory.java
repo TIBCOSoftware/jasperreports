@@ -79,7 +79,8 @@ import dori.jasper.engine.design.JRDesignVariable;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRVariableExpressionFactory extends JRBaseFactory
 {

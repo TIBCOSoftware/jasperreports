@@ -117,7 +117,8 @@ import dori.jasper.engine.util.JRStringUtil;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRGraphics2DExporter extends JRAbstractExporter
 {

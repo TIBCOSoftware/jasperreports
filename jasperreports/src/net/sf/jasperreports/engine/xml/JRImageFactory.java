@@ -81,7 +81,8 @@ import dori.jasper.engine.design.JRDesignImage;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRImageFactory extends JRBaseFactory
 {

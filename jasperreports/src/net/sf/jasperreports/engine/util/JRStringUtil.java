@@ -73,7 +73,8 @@ package dori.jasper.engine.util;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRStringUtil
 {

@@ -80,7 +80,8 @@ import dori.jasper.engine.export.JRHtmlExporter;
 import dori.jasper.view.JRSaveContributor;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRHtmlSaveContributor extends JRSaveContributor
 {

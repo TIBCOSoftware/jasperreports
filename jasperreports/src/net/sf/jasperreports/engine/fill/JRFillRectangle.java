@@ -78,7 +78,8 @@ import dori.jasper.engine.JRRectangle;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 {

@@ -73,7 +73,8 @@ package dori.jasper.engine.fill;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillInterruptedException extends RuntimeException
 {

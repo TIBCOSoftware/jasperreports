@@ -78,7 +78,8 @@ import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDefaultCompiler implements JRCompiler
 {

@@ -75,7 +75,8 @@ import dori.jasper.engine.JREllipse;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 {

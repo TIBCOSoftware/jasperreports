@@ -84,7 +84,8 @@ import dori.jasper.engine.util.JRSaver;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRAbstractJavaCompiler implements JRCompiler, JRClassCompiler
 {

@@ -80,7 +80,8 @@ import dori.jasper.engine.export.JRPdfExporter;
 import dori.jasper.view.JRSaveContributor;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRPdfSaveContributor extends JRSaveContributor
 {

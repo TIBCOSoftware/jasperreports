@@ -77,7 +77,8 @@ import dori.jasper.engine.fill.JRCalculator;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public interface JRCompiler
 {

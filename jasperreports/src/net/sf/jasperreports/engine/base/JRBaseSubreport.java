@@ -77,7 +77,8 @@ import dori.jasper.engine.JRSubreportParameter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 {

@@ -109,7 +109,8 @@ import dori.jasper.engine.util.JRQueryExecuter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRBaseFiller implements JRDefaultFontProvider
 {

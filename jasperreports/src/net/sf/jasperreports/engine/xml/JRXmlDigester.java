@@ -86,7 +86,8 @@ import org.xml.sax.XMLReader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRXmlDigester extends Digester
 {

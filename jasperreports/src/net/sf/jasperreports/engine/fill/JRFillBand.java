@@ -89,7 +89,8 @@ import dori.jasper.engine.JRReportFont;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillBand extends JRFillElementGroup implements JRBand
 {

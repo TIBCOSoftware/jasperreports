@@ -75,7 +75,8 @@ import dori.jasper.engine.JRRectangle;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignRectangle extends JRDesignGraphicElement implements JRRectangle
 {

@@ -81,7 +81,8 @@ import dori.jasper.engine.util.JRLoader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRAbstractExporter implements JRExporter
 {

@@ -75,7 +75,8 @@ import dori.jasper.engine.JRField;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillField implements JRField
 {

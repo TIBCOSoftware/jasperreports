@@ -76,7 +76,8 @@ import dori.jasper.engine.JRPrintText;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPrintText
 {

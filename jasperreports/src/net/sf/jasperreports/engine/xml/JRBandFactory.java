@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignBand;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBandFactory extends JRBaseFactory
 {

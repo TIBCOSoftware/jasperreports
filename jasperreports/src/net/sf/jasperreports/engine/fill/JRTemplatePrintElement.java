@@ -78,7 +78,8 @@ import dori.jasper.engine.JRPrintElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplatePrintElement implements JRPrintElement, Serializable
 {

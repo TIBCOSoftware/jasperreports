@@ -77,7 +77,8 @@ import dori.jasper.engine.JRQueryChunk;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 {

@@ -75,7 +75,8 @@ import dori.jasper.engine.JRPrintGraphicElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implements JRPrintGraphicElement
 {

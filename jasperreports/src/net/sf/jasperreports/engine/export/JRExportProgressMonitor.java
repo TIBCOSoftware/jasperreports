@@ -70,10 +70,11 @@
  * Email: teodord@users.sourceforge.net
  */
 package dori.jasper.engine.export;
-	
-	
+
+
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public interface JRExportProgressMonitor
 {

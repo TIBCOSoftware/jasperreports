@@ -76,7 +76,8 @@ import java.io.PrintWriter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRRuntimeException extends RuntimeException
 {

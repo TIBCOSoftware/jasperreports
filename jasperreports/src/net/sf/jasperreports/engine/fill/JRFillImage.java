@@ -88,7 +88,8 @@ import dori.jasper.engine.util.JRImageLoader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillImage extends JRFillGraphicElement implements JRImage
 {
