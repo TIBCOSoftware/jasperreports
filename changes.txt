@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.6
+-----------------------------------
+- new "incrementType" and "incrementGroup" attributes for variables;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.5
 -----------------------------------
 - JasperReports licensing model has been simplified and the library 

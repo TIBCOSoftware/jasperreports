@@ -100,6 +100,14 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
+	public void setIncrementType(byte incrementType)
+	{
+		this.incrementType = incrementType;
+	}
+		
+	/**
+	 *
+	 */
 	public void setCalculation(byte calculation)
 	{
 		this.calculation = calculation;
@@ -135,6 +143,14 @@ public class JRDesignVariable extends JRBaseVariable
 	public void setResetGroup(JRGroup group)
 	{
 		this.resetGroup = group;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementGroup(JRGroup group)
+	{
+		this.incrementGroup = group;
 	}
 		
 	/**

@@ -162,7 +162,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		BigDecimal value = (BigDecimal)variable.getValue();
+		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 
 		if (expressionValue == null)
 		{
@@ -222,7 +222,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		BigDecimal value = (BigDecimal)variable.getValue();
+		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 		BigDecimal newValue = (BigDecimal)expressionValue;
 
 		if (newValue == null)
@@ -392,7 +392,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		BigDecimal value = (BigDecimal)variable.getValue();
+		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 		BigDecimal newValue = (BigDecimal)expressionValue;
 		
 		if (newValue == null)

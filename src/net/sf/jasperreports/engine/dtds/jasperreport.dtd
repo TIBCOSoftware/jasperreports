@@ -64,6 +64,8 @@
 	class NMTOKEN "java.lang.String"
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
+	incrementType (None | Report | Page | Column | Group) "None"
+	incrementGroup CDATA #IMPLIED
 	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >

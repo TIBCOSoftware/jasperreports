@@ -19,14 +19,14 @@
 	<field name="the_city" class="java.lang.String">
 		<fieldDescription>me.me.city</fieldDescription>
 	</field>
-	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
 		<groupExpression><![CDATA[$F{the_city}]]></groupExpression>
 		<groupHeader>
 		<band height="20">
-			<textField>
+			<textField evaluationTime="Group" evaluationGroup="CityGroup">
 				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#c0c0c0"/>
 				<box leftPadding="10" bottomBorder="1Point"/>
 				<textElement>

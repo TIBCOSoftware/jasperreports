@@ -159,7 +159,7 @@ class JRDoubleCountIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		Number value = (Number)variable.getValue();
+		Number value = (Number)variable.getIncrementedValue();
 
 		if (expressionValue == null)
 		{
@@ -219,7 +219,7 @@ class JRDoubleSumIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		Number value = (Number)variable.getValue();
+		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
 
 		if (newValue == null)
@@ -389,7 +389,7 @@ class JRDoubleVarianceIncrementer implements JRIncrementer
 		AbstractValueProvider valueProvider
 		) throws JRException
 	{
-		Number value = (Number)variable.getValue();
+		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
 		
 		if (newValue == null)

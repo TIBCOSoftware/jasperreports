@@ -57,6 +57,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected String valueClassName = java.lang.String.class.getName();
 	protected String incrementerFactoryClassName = null;
 	protected byte resetType = RESET_TYPE_REPORT;
+	protected byte incrementType = RESET_TYPE_NONE;
 	protected byte calculation = CALCULATION_NOTHING;
 	protected boolean isSystemDefined = false;
 
@@ -69,6 +70,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected JRExpression expression = null;
 	protected JRExpression initialValueExpression = null;
 	protected JRGroup resetGroup = null;
+	protected JRGroup incrementGroup = null;
 	protected JRVariable countVariable = null;
 	protected JRVariable sumVariable = null;
 	protected JRVariable varianceVariable = null;
@@ -93,6 +95,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		valueClassName = variable.getValueClassName();
 		incrementerFactoryClassName = variable.getIncrementerFactoryClassName();
 		resetType = variable.getResetType();
+		incrementType = variable.getIncrementType();
 		calculation = variable.getCalculation();
 		isSystemDefined = variable.isSystemDefined();
 		
@@ -100,6 +103,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		initialValueExpression = factory.getExpression(variable.getInitialValueExpression());
 
 		resetGroup = factory.getGroup(variable.getResetGroup());
+		incrementGroup = factory.getGroup(variable.getIncrementGroup());
 		countVariable = factory.getVariable(variable.getCountVariable());
 		sumVariable = factory.getVariable(variable.getSumVariable());
 		varianceVariable = factory.getVariable(variable.getVarianceVariable());
@@ -187,6 +191,14 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
+	public byte getIncrementType()
+	{
+		return this.incrementType;
+	}
+		
+	/**
+	 *
+	 */
 	public byte getCalculation()
 	{
 		return this.calculation;
@@ -222,6 +234,14 @@ public class JRBaseVariable implements JRVariable, Serializable
 	public JRGroup getResetGroup()
 	{
 		return this.resetGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup()
+	{
+		return this.incrementGroup;
 	}
 		
 	/**

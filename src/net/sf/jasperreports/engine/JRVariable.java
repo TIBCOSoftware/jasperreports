@@ -102,6 +102,11 @@ public interface JRVariable
 	/**
 	 *
 	 */
+	public byte getIncrementType();
+		
+	/**
+	 *
+	 */
 	public byte getCalculation();
 
 	/**
@@ -123,6 +128,11 @@ public interface JRVariable
 	 *
 	 */
 	public JRGroup getResetGroup();
+		
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup();
 		
 	/**
 	 *
