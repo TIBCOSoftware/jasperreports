@@ -430,6 +430,23 @@
 		<echo message="==================================="/>
 		<ant dir="webapp" target="clean" />
 		<ant dir="webapp" target="javac" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" XmlDataSource Sample"/>
+		<echo message="==================================="/>
+		<ant dir="xmldatasource" target="clean" />
+		<ant dir="xmldatasource" target="javac" />
+		<ant dir="xmldatasource" target="compile" />
+		<ant dir="xmldatasource" target="fill" />
+		<ant dir="xmldatasource" target="compileBsh" />
+		<ant dir="xmldatasource" target="fill" />
+		<ant dir="xmldatasource" target="pdf" />
+		<ant dir="xmldatasource" target="xmlEmbed" />
+		<ant dir="xmldatasource" target="xml" />
+		<ant dir="xmldatasource" target="html" />
+		<ant dir="xmldatasource" target="xls" />
+		<ant dir="xmldatasource" target="csv" />
 	</target>
 
 

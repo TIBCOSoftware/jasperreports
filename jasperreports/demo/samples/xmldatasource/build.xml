@@ -1,6 +1,6 @@
 <project name="JasperReports" default="javac" basedir=".">
 
-	<property name="class.name" value="XMLDataSourceApp" />
+	<property name="class.name" value="XmlDataSourceApp" />
 	<property name="file.name" value="CustomersReport" />
 	<property name="classes.dir" value="../../../classes" />
 	<property name="lib.dir" value="../../../lib" />
