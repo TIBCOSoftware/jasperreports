@@ -172,7 +172,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected JRFillVariable getPageNumber()
+	public JRFillVariable getPageNumber()
 	{
 		return this.pageNumber;
 	}
@@ -181,7 +181,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected JRFillVariable getColumnNumber()
+	public JRFillVariable getColumnNumber()
 	{
 		return this.columnNumber;
 	}
@@ -190,7 +190,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void calculateVariables() throws JRException
+	public void calculateVariables() throws JRException
 	{
 		if (variables != null && variables.length > 0)
 		{
@@ -213,7 +213,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void estimateVariables() throws JRException
+	public void estimateVariables() throws JRException
 	{
 		if (variables != null && variables.length > 0)
 		{
@@ -236,7 +236,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void estimateGroupRuptures() throws JRException
+	public void estimateGroupRuptures() throws JRException
 	{
 		this.estimateVariables();
 
@@ -278,7 +278,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void initializeVariables(byte resetType) throws JRException
+	public void initializeVariables(byte resetType) throws JRException
 	{
 		if (variables != null && variables.length > 0)
 		{
