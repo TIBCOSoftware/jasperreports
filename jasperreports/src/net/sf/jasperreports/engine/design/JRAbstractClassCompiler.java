@@ -69,6 +69,14 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 		{
 			//Report design OK
 
+			//Generating expressions class source code
+			String sourceCode = JRClassGenerator.generateClass(jasperDesign);
+
+			boolean isKeepJavaFile = 
+				Boolean.valueOf(
+					System.getProperty("jasper.reports.compile.keep.java.file")
+					).booleanValue();
+
 			String tempDirStr = System.getProperty("jasper.reports.compile.temp");
 			if (tempDirStr == null || tempDirStr.length() == 0)
 			{
@@ -81,16 +89,8 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 				throw new JRException("Temporary directory not found : " + tempDirStr);
 			}
 		
-			boolean isKeepJavaFile = 
-				Boolean.valueOf(
-					System.getProperty("jasper.reports.compile.keep.java.file")
-					).booleanValue();
-
 			File javaFile = new File(tempDirFile, jasperDesign.getName() + ".java");
 			File classFile = new File(tempDirFile, jasperDesign.getName() + ".class");
-
-			//Generating expressions class source code
-			String sourceCode = JRClassGenerator.generateClass(jasperDesign);
 
 			//Creating expression class source file
 			JRSaver.saveClassSource(sourceCode, javaFile);
