@@ -142,7 +142,7 @@ public class JRBeanArrayDataSource implements JRRewindableDataSource
 			
 			try
 			{
-				method = beanClass.getMethod(methodName, null);
+				method = beanClass.getMethod(methodName, (Class[])null);
 			}
 			catch (NoSuchMethodException e)
 			{
@@ -158,7 +158,7 @@ public class JRBeanArrayDataSource implements JRRewindableDataSource
 				try
 				{
 					methodName = "is" + fieldName;
-					method = beanClass.getMethod(methodName, null);
+					method = beanClass.getMethod(methodName, (Class[])null);
 				}
 				catch (NoSuchMethodException e)
 				{
@@ -173,7 +173,7 @@ public class JRBeanArrayDataSource implements JRRewindableDataSource
 			{
 				try
 				{
-					value = method.invoke(bean, null);
+					value = method.invoke(bean, (Object[])null);
 				}
 				catch (Exception e)
 				{
