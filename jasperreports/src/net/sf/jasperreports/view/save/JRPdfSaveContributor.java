@@ -89,6 +89,12 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	/**
 	 * 
 	 */
+	private static final String EXTENSION_PDF = ".pdf"; 
+
+	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -97,7 +103,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 		}
 		else
 		{
-			return file.getName().toLowerCase().endsWith(".pdf");
+			return file.getName().toLowerCase().endsWith(EXTENSION_PDF);
 		}
 	}
 
@@ -114,6 +120,11 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
+		if (!file.getName().endsWith(EXTENSION_PDF))
+		{
+			file = new File(file.getAbsolutePath() + EXTENSION_PDF);
+		}
+		
 		JRPdfExporter exporter = new JRPdfExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);

@@ -90,6 +90,13 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 	/**
 	 * 
 	 */
+	private static final String EXTENSION_XML = ".xml"; 
+	private static final String EXTENSION_JRPXML = ".jrpxml"; 
+
+	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -99,7 +106,7 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 		else
 		{
 			String name = file.getName().toLowerCase();
-			return (name.endsWith(".xml") || name.endsWith(".jrpxml"));
+			return (name.endsWith(EXTENSION_XML) || name.endsWith(EXTENSION_JRPXML));
 		}
 	}
 
@@ -116,6 +123,14 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
+		if (
+			!file.getName().endsWith(EXTENSION_XML)
+			&& !file.getName().endsWith(EXTENSION_JRPXML)
+			)
+		{
+			file = new File(file.getAbsolutePath() + EXTENSION_JRPXML);
+		}
+		
 		JRXmlExporter exporter = new JRXmlExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);

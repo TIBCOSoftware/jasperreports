@@ -89,6 +89,12 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	/**
 	 * 
 	 */
+	private static final String EXTENSION_CSV = ".csv"; 
+
+	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -97,7 +103,7 @@ public class JRCsvSaveContributor extends JRSaveContributor
 		}
 		else
 		{
-			return file.getName().toLowerCase().endsWith(".csv");
+			return file.getName().toLowerCase().endsWith(EXTENSION_CSV);
 		}
 	}
 
@@ -114,6 +120,11 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
+		if (!file.getName().endsWith(EXTENSION_CSV))
+		{
+			file = new File(file.getAbsolutePath() + EXTENSION_CSV);
+		}
+		
 		JRCsvExporter exporter = new JRCsvExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
