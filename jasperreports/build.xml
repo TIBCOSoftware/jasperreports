@@ -84,9 +84,11 @@
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
 				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRClassLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
@@ -94,6 +96,7 @@
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
 				<include name="**/net/sf/jasperreports/view/JRHyperlinkListener.class"/>
 				<include name="**/net/sf/jasperreports/view/JRViewer*.class"/>
+				<include name="**/net/sf/jasperreports/view/viewer.properties"/>
 				<include name="**/net/sf/jasperreports/view/images/*.GIF"/>
 			</fileset>
 		</jar>
