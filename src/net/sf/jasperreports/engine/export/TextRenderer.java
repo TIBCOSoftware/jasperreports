@@ -202,7 +202,7 @@ public class TextRenderer
 			tokenPosition += token.length();
 		}
 
-		if (!isMaxHeightReached)
+		if (!isMaxHeightReached && lastParagraphStart < allText.length())
 		{
 			renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
 		}
