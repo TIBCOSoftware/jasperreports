@@ -612,7 +612,7 @@ public class JRXlsExporter extends JRAbstractExporter
 				}
 				case JRTextElement.ROTATION_RIGHT :
 				{
-					rotation = 180;
+					rotation = -90;
 
 					switch (text.getTextAlignment())
 					{

@@ -277,6 +277,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Rotation Sample"/>
+		<echo message="==================================="/>
+		<ant dir="rotation" target="clean" />
+		<ant dir="rotation" target="javac" />
+		<ant dir="rotation" target="compile" />
+		<ant dir="rotation" target="fill" />
+		<ant dir="rotation" target="compileBsh" />
+		<ant dir="rotation" target="fill" />
+		<ant dir="rotation" target="pdf" />
+		<ant dir="rotation" target="xmlEmbed" />
+		<ant dir="rotation" target="xml" />
+		<ant dir="rotation" target="html" />
+		<ant dir="rotation" target="xls" />
+		<ant dir="rotation" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Scriptlet Sample"/>
 		<echo message="==================================="/>
 		<ant dir="scriptlet" target="clean" />
@@ -407,6 +424,7 @@
 		<ant dir="pdfencrypt" target="clean" />
 		<ant dir="printservice" target="clean" />
 		<ant dir="query" target="clean" />
+		<ant dir="rotation" target="clean" />
 		<ant dir="scriptlet" target="clean" />
 		<ant dir="shapes" target="clean" />
 		<ant dir="stretch" target="clean" />
