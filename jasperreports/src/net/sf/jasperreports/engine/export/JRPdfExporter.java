@@ -76,6 +76,7 @@ import java.awt.Graphics2D;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -100,7 +101,9 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -898,138 +901,172 @@ public class JRPdfExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			//java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
+			Chunk chunk = null;
 
-			//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-			//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, null);
-			com.lowagie.text.Image image = null;
+			float scaledWidth = availableImageWidth;
+			float scaledHeight = availableImageHeight;
 
-			float xalignFactor = 0f;
-			switch (printImage.getHorizontalAlignment())
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				//java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
+
+				//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
+				//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, null);
+				com.lowagie.text.Image image = null;
+
+				float xalignFactor = 0f;
+				switch (printImage.getHorizontalAlignment())
 				{
-					xalignFactor = 1f;
-					break;
+					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+					{
+						xalignFactor = 1f;
+						break;
+					}
+					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+					{
+						xalignFactor = 0.5f;
+						break;
+					}
+					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+					default :
+					{
+						xalignFactor = 0f;
+						break;
+					}
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+
+				float yalignFactor = 0f;
+				switch (printImage.getVerticalAlignment())
 				{
-					xalignFactor = 0.5f;
-					break;
+					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+					{
+						yalignFactor = 1f;
+						break;
+					}
+					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+					{
+						yalignFactor = 0.5f;
+						break;
+					}
+					case JRAlignment.VERTICAL_ALIGN_TOP :
+					default :
+					{
+						yalignFactor = 0f;
+						break;
+					}
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-				default :
+
+				switch(printImage.getScaleImage())
 				{
-					xalignFactor = 0f;
-					break;
+					case JRImage.SCALE_IMAGE_CLIP :
+					{
+						int normalWidth = availableImageWidth;
+						int normalHeight = availableImageHeight;
+					
+						Dimension2D dimension = renderer.getDimension();
+						if (dimension != null)
+						{
+							normalWidth = (int)dimension.getWidth();
+							normalHeight = (int)dimension.getHeight();
+						}
+
+						xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
+						yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+
+						int minWidth = Math.min(normalWidth, availableImageWidth);
+						int minHeight = Math.min(normalHeight, availableImageHeight);
+					
+						BufferedImage bi = 
+							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_RGB);
+
+						Graphics2D g = bi.createGraphics();
+						g.setColor(printImage.getBackcolor());
+						g.fillRect(0, 0, minWidth, minHeight);
+						renderer.render(
+							g,
+							new java.awt.Rectangle(
+								(xoffset > 0 ? 0 : xoffset), 
+								(yoffset > 0 ? 0 : yoffset),
+								normalWidth,
+								normalHeight
+								) 
+							);
+
+						xoffset = (xoffset < 0 ? 0 : xoffset);
+						yoffset = (yoffset < 0 ? 0 : yoffset);
+
+						//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
+
+						//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
+						image = com.lowagie.text.Image.getInstance(bi, null);
+
+						break;
+					}
+					case JRImage.SCALE_IMAGE_FILL_FRAME :
+					{
+						try
+						{
+							image = com.lowagie.text.Image.getInstance(renderer.getImageData());
+							imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+						}
+						catch(Exception e)
+						{
+							java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+							image = com.lowagie.text.Image.getInstance(awtImage, null);
+						}
+						image.scaleAbsolute(availableImageWidth, availableImageHeight);
+						break;
+					}
+					case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+					default :
+					{
+						try
+						{
+							image = com.lowagie.text.Image.getInstance(renderer.getImageData());
+							imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+						}
+						catch(Exception e)
+						{
+							java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+							image = com.lowagie.text.Image.getInstance(awtImage, null);
+						}
+						image.scaleToFit(availableImageWidth, availableImageHeight);
+					
+						xoffset = (int)(xalignFactor * (availableImageWidth - image.plainWidth()));
+						yoffset = (int)(yalignFactor * (availableImageHeight - image.plainHeight()));
+
+						xoffset = (xoffset < 0 ? 0 : xoffset);
+						yoffset = (yoffset < 0 ? 0 : yoffset);
+
+						break;
+					}
 				}
+				
+				chunk = new Chunk(image, -0.5f, 0.5f);
+				
+				scaledWidth = image.scaledWidth();
+				scaledHeight = image.scaledHeight();
 			}
-
-			float yalignFactor = 0f;
-			switch (printImage.getVerticalAlignment())
+			else
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-				{
-					yalignFactor = 1f;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-				{
-					yalignFactor = 0.5f;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
-				default :
-				{
-					yalignFactor = 0f;
-					break;
-				}
-			}
+				PdfTemplate template = pdfContentByte.createTemplate(availableImageWidth, availableImageHeight);
+				DefaultFontMapper mapper = new DefaultFontMapper();
+				Graphics2D g = template.createGraphics(availableImageWidth, availableImageHeight, mapper);
+				Rectangle2D rectangle = new Rectangle2D.Float(0, 0, availableImageWidth, availableImageHeight);
+				renderer.render(g, rectangle);
+				pdfContentByte.saveState();
+				g.dispose();
+				pdfContentByte.addTemplate(
+					template,
+					printImage.getX() + xoffset + borderOffset,
+					jasperPrint.getPageHeight()
+						- printImage.getY()
+						- availableImageHeight
+						- yoffset
+						- borderOffset);
+				pdfContentByte.restoreState();
 
-			switch(printImage.getScaleImage())
-			{
-				case JRImage.SCALE_IMAGE_CLIP :
-				{
-					int normalWidth = availableImageWidth;
-					int normalHeight = availableImageHeight;
-					
-					Dimension2D dimension = renderer.getDimension();
-					if (dimension != null)
-					{
-						normalWidth = (int)dimension.getWidth();
-						normalHeight = (int)dimension.getHeight();
-					}
-
-					xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-					yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
-
-					int minWidth = Math.min(normalWidth, availableImageWidth);
-					int minHeight = Math.min(normalHeight, availableImageHeight);
-					
-					BufferedImage bi = 
-						new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_RGB);
-
-					Graphics2D g = bi.createGraphics();
-					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, minWidth, minHeight);
-					renderer.render(
-						g,
-						new java.awt.Rectangle(
-							(xoffset > 0 ? 0 : xoffset), 
-							(yoffset > 0 ? 0 : yoffset),
-							normalWidth,
-							normalHeight
-							) 
-						);
-
-					xoffset = (xoffset < 0 ? 0 : xoffset);
-					yoffset = (yoffset < 0 ? 0 : yoffset);
-
-					//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
-
-					//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-					image = com.lowagie.text.Image.getInstance(bi, null);
-
-					break;
-				}
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
-				{
-					try
-					{
-						image = com.lowagie.text.Image.getInstance(renderer.getImageData());
-						imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
-					}
-					catch(Exception e)
-					{
-						java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
-						image = com.lowagie.text.Image.getInstance(awtImage, null);
-					}
-					image.scaleAbsolute(availableImageWidth, availableImageHeight);
-					break;
-				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-				default :
-				{
-					try
-					{
-						image = com.lowagie.text.Image.getInstance(renderer.getImageData());
-						imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
-					}
-					catch(Exception e)
-					{
-						java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
-						image = com.lowagie.text.Image.getInstance(awtImage, null);
-					}
-					image.scaleToFit(availableImageWidth, availableImageHeight);
-					
-					xoffset = (int)(xalignFactor * (availableImageWidth - image.plainWidth()));
-					yoffset = (int)(yalignFactor * (availableImageHeight - image.plainHeight()));
-
-					xoffset = (xoffset < 0 ? 0 : xoffset);
-					yoffset = (yoffset < 0 ? 0 : yoffset);
-
-					break;
-				}
+				chunk = new Chunk("");
 			}
 
 			/*
@@ -1040,8 +1077,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			pdfContentByte.addImage(image);
 			*/
-
-			Chunk chunk = new Chunk(image, -0.5f, 0.5f);
 
 			if (printImage.getAnchorName() != null)
 			{
@@ -1113,10 +1148,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			colText.setSimpleColumn(
 				new Phrase(chunk),
 				printImage.getX() + xoffset + borderOffset,
-				jasperPrint.getPageHeight() - printImage.getY() - image.scaledHeight() - yoffset - borderOffset,
-				printImage.getX() + xoffset + borderOffset + image.scaledWidth(),
+				jasperPrint.getPageHeight() - printImage.getY() - scaledHeight - yoffset - borderOffset,
+				printImage.getX() + xoffset + borderOffset + scaledWidth,
 				jasperPrint.getPageHeight() - printImage.getY() - yoffset - borderOffset,
-				image.scaledHeight(),
+				scaledHeight,
 				Element.ALIGN_LEFT
 				);
 

@@ -95,6 +95,18 @@ public interface JRRenderable extends Serializable
 	/**
 	 *
 	 */
+	public static final byte TYPE_IMAGE = 0;
+	public static final byte TYPE_SVG = 1;
+
+
+	/**
+	 *
+	 */
+	public byte getType();
+
+	/**
+	 *
+	 */
 	public Dimension2D getDimension();
 
 
