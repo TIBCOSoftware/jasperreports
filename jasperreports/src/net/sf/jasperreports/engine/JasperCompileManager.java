@@ -102,7 +102,7 @@ public class JasperCompileManager
 	/**
 	 * Compiles the XML report design file represented by the filename received as parameter.
 	 * The result of this operation is a file that contains a serialized instance of a 
-	 * net.sf.jasperreports.engine.JasperReport object representing the compiled report design,
+	 * {@link net.sf.jasperreports.engine.JasperReport} object representing the compiled report design,
 	 * having the same name as the report design as declared in the XML plus the *.jasper extension,
 	 * located in the same directory as the XML source file. 
 	 */
@@ -125,7 +125,8 @@ public class JasperCompileManager
 	 * Compiles the XML report design file represented by the first parameter, placing the result 
 	 * in a file specified by the second parameter.
 	 * The resulting file will contain a serialized instance of a 
-	 * net.sf.jasperreports.engine.JasperReport object representing the compiled report design. 
+	 * {@link net.sf.jasperreports.engine.JasperReport} object representing 
+	 * the compiled report design. 
 	 */
 	public static void compileReportToFile(
 		String sourceFileName,
@@ -142,7 +143,7 @@ public class JasperCompileManager
 	 * Compiles the report design object represented by the first parameter, placing the result 
 	 * in a file specified by the second parameter.
 	 * The resulting file will contain a serialized instance of a 
-	 * net.sf.jasperreports.engine.JasperReport object representing the compiled report design. 
+	 * {@link net.sf.jasperreports.engine.JasperReport} object representing the compiled report design. 
 	 */
 	public static void compileReportToFile(
 		JasperDesign jasperDesign,
