@@ -215,22 +215,22 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		this.parentFiller = parentFiller;
 
 		/*   */
-		this.name = jasperReport.getName();
-		this.columnCount = jasperReport.getColumnCount();
-		this.printOrder = jasperReport.getPrintOrder();
-		this.pageWidth = jasperReport.getPageWidth();
-		this.pageHeight = jasperReport.getPageHeight();
-		this.orientation = jasperReport.getOrientation();
-		this.whenNoDataType = jasperReport.getWhenNoDataType();
-		this.columnWidth = jasperReport.getColumnWidth();
-		this.columnSpacing = jasperReport.getColumnSpacing();
-		this.leftMargin = jasperReport.getLeftMargin();
-		this.rightMargin = jasperReport.getRightMargin();
-		this.topMargin = jasperReport.getTopMargin();
-		this.bottomMargin = jasperReport.getBottomMargin();
-		this.isTitleNewPage = jasperReport.isTitleNewPage();
-		this.isSummaryNewPage = jasperReport.isSummaryNewPage();
-		this.scriptletClass = jasperReport.getScriptletClass();
+		name = jasperReport.getName();
+		columnCount = jasperReport.getColumnCount();
+		printOrder = jasperReport.getPrintOrder();
+		pageWidth = jasperReport.getPageWidth();
+		pageHeight = jasperReport.getPageHeight();
+		orientation = jasperReport.getOrientation();
+		whenNoDataType = jasperReport.getWhenNoDataType();
+		columnWidth = jasperReport.getColumnWidth();
+		columnSpacing = jasperReport.getColumnSpacing();
+		leftMargin = jasperReport.getLeftMargin();
+		rightMargin = jasperReport.getRightMargin();
+		topMargin = jasperReport.getTopMargin();
+		bottomMargin = jasperReport.getBottomMargin();
+		isTitleNewPage = jasperReport.isTitleNewPage();
+		isSummaryNewPage = jasperReport.isSummaryNewPage();
+		scriptletClass = jasperReport.getScriptletClass();
 
 		jasperPrint = new JasperPrint();
 
@@ -265,7 +265,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		/*   */
-		this.query = jasperReport.getQuery();
+		query = jasperReport.getQuery();
 		
 		/*   */
 		JRField[] jrFields = jasperReport.getFields();
@@ -305,18 +305,18 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		/*   */
-		this.background = factory.getBand(jasperReport.getBackground());
-		this.title = factory.getBand(jasperReport.getTitle());
-		this.pageHeader = factory.getBand(jasperReport.getPageHeader());
-		this.columnHeader = factory.getBand(jasperReport.getColumnHeader());
-		this.detail = factory.getBand(jasperReport.getDetail());
-		this.columnFooter = factory.getBand(jasperReport.getColumnFooter());
-		this.pageFooter = factory.getBand(jasperReport.getPageFooter());
-		this.lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
-		this.summary = factory.getBand(jasperReport.getSummary());
+		background = factory.getBand(jasperReport.getBackground());
+		title = factory.getBand(jasperReport.getTitle());
+		pageHeader = factory.getBand(jasperReport.getPageHeader());
+		columnHeader = factory.getBand(jasperReport.getColumnHeader());
+		detail = factory.getBand(jasperReport.getDetail());
+		columnFooter = factory.getBand(jasperReport.getColumnFooter());
+		pageFooter = factory.getBand(jasperReport.getPageFooter());
+		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
+		summary = factory.getBand(jasperReport.getSummary());
 
 		/*   */
-		this.scriptlet = 
+		scriptlet = 
 			loadScriptlet(
 				scriptletClass,
 				parametersMap,
@@ -326,7 +326,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				);
 
 		/*   */
-		this.calculator = 
+		calculator = 
 			loadCalculator(
 				jasperReport,
 				parametersMap,
@@ -370,7 +370,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected boolean isSubreport()
 	{
-		return (this.parentFiller != null);
+		return (parentFiller != null);
 	}
 
 	/**
@@ -378,7 +378,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected boolean isInterrupted()
 	{
-		return (this.isInterrupted || (this.parentFiller != null && this.parentFiller.isInterrupted()));
+		return (isInterrupted || (parentFiller != null && parentFiller.isInterrupted()));
 	}
 
 	/**
@@ -410,7 +410,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected int getCurrentPageStretchHeight()
 	{
-		return this.printPageStretchHeight;
+		return printPageStretchHeight;
 	}
 
 	/**
@@ -432,8 +432,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			parameterValues = new HashMap();
 		}
 
-		this.setParameters(parameterValues);
-		this.isParametersAlreadySet = true;
+		setParameters(parameterValues);
+		isParametersAlreadySet = true;
 
 		if (conn == null)
 		{
@@ -443,10 +443,10 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		JRFillParameter parameter = null;
 		parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
-		parameter = (JRFillParameter)this.parametersMap.get(JRParameter.REPORT_CONNECTION);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_CONNECTION);
 		if (parameter != null)
 		{
-			this.setParameter(parameter, conn);
+			setParameter(parameter, conn);
 		}
 
 		PreparedStatement pstmt = null; 
@@ -470,7 +470,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				ds = new JRResultSetDataSource(rs);
 			}
 		
-			this.fill(parameterValues, ds);
+			fill(parameterValues, ds);
 		}
 		catch (SQLException e)
 		{
@@ -502,7 +502,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		JRDataSource ds
 		) throws JRException
 	{
-		this.dataSource = ds;
+		dataSource = ds;
 		
 		if (parameterValues == null)
 		{
@@ -511,30 +511,30 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		JRFillParameter parameter = null;
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
-		parameter = (JRFillParameter)this.parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
 		if (parameter != null)
 		{
-			this.setParameter(parameter, parameterValues);
+			setParameter(parameter, parameterValues);
 		}
 
 		parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
-		parameter = (JRFillParameter)this.parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
 		if (parameter != null)
 		{
-			this.setParameter(parameter, dataSource);
+			setParameter(parameter, dataSource);
 		}
 
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
-		parameter = (JRFillParameter)this.parametersMap.get(JRParameter.REPORT_SCRIPTLET);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET);
 		if (parameter != null)
 		{
-			this.setParameter(parameter, scriptlet);
+			setParameter(parameter, scriptlet);
 		}
 
-		if (!this.isParametersAlreadySet)
+		if (!isParametersAlreadySet)
 		{
-			this.setParameters(parameterValues);
-			this.isParametersAlreadySet = true;
+			setParameters(parameterValues);
+			isParametersAlreadySet = true;
 		}
 
 		jasperPrint.setName(name);
@@ -553,7 +553,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 
-		this.fillReport();
+		fillReport();
 		
 		return jasperPrint;
 	}
@@ -648,14 +648,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
-		if (this.parameters != null && this.parameters.length > 0)
+		if (parameters != null && parameters.length > 0)
 		{
 			Object value = null;
-			for(int i = 0; i < this.parameters.length; i++)
+			for(int i = 0; i < parameters.length; i++)
 			{
 				if (parameterValues.containsKey(parameters[i].getName()))
 				{
-					this.setParameter(
+					setParameter(
 						parameters[i], 
 						parameterValues.get(parameters[i].getName())
 						);
@@ -663,7 +663,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				else if (!parameters[i].isSystemDefined())
 				{
 					value = 
-						this.calculator.evaluate(
+						calculator.evaluate(
 							parameters[i].getDefaultValueExpression(), 
 							JRExpression.EVALUATION_DEFAULT
 							);
@@ -671,7 +671,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 					{
 						parameterValues.put(parameters[i].getName(), value);
 					}
-					this.setParameter(parameters[i], value);
+					setParameter(parameters[i], value);
 				}
 			}
 		}
@@ -691,7 +691,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 			else
 			{
-				throw new JRException("Incompatible value assigned to parameter " + parameter.getName() + " : " + this.name);
+				throw new JRException("Incompatible value assigned to parameter " + parameter.getName() + " : " + name);
 			}
 		}
 		else

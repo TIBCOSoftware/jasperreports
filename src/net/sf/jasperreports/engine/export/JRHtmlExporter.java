@@ -1270,7 +1270,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 					renderer = 
 						new JRWrappingSvgRenderer(
 							renderer, 
-							new Dimension(image.getWidth(), image.getHeight())
+							new Dimension(image.getWidth(), image.getHeight()),
+							image.getBackcolor()
 							);
 				}
 				

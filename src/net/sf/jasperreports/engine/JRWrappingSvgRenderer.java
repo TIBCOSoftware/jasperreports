@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -93,15 +94,21 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	 */
 	private JRRenderable renderer = null;
 	private Dimension2D dimension = null;
+	private Color backcolor = null;
 
 	
 	/**
 	 *
 	 */
-	public JRWrappingSvgRenderer(JRRenderable renderer, Dimension2D dimension)
+	public JRWrappingSvgRenderer(
+		JRRenderable renderer, 
+		Dimension2D dimension,
+		Color backcolor
+		)
 	{
 		this.renderer = renderer;
 		this.dimension = dimension;
+		this.backcolor = backcolor;
 	}
 
 
@@ -111,6 +118,15 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	public Dimension2D getDimension()
 	{
 		return dimension;
+	}
+
+
+	/**
+	 *
+	 */
+	public Color getBackcolor()
+	{
+		return backcolor;
 	}
 
 
