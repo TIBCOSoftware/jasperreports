@@ -686,13 +686,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else if (java.lang.Number.class.isAssignableFrom(expressionClass))
 		{
-			format = NumberFormat.getNumberInstance(filler.locale);
-			if (
-				pattern != null && pattern.trim().length() > 0
-				&& format instanceof DecimalFormat
-				)
+			if (pattern != null && pattern.trim().length() > 0)
 			{
-				((DecimalFormat)format).applyPattern(pattern);
+				format = NumberFormat.getNumberInstance(filler.locale);
+				if (format instanceof DecimalFormat)
+				{
+					((DecimalFormat)format).applyPattern(pattern);
+				}
 			}
 		}
 	}
