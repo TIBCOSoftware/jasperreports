@@ -145,7 +145,7 @@ public class TableApp
 			}
 			else if (TASK_FILL.equals(taskName))
 			{
-				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource(100));
+				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource(50));
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
@@ -218,7 +218,7 @@ public class TableApp
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
-				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource());
+				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource(50));
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
