@@ -103,6 +103,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected boolean isModeBatch = true;
 	protected int startPageIndex = 0;
 	protected int endPageIndex = 0;
+	protected int globalOffsetX = 0;
+	protected int globalOffsetY = 0;
 
 
 	/**
@@ -146,6 +148,25 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public abstract void exportReport() throws JRException;
 
+
+	/**
+	 *
+	 */
+	protected void setOffset()
+	{
+		Integer offsetX = (Integer)parameters.get(JRExporterParameter.OFFSET_X);
+		if (offsetX != null)
+		{
+			globalOffsetX = offsetX.intValue();
+		}
+
+		Integer offsetY = (Integer)parameters.get(JRExporterParameter.OFFSET_Y);
+		if (offsetY != null)
+		{
+			globalOffsetY = offsetY.intValue();
+		}
+	}
+	
 
 	/**
 	 *

@@ -182,6 +182,9 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -300,19 +303,19 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 			{
 				grx.drawLine(
-					line.getX(), 
-					line.getY(),
-					line.getX() + line.getWidth() - 1,  
-					line.getY() + line.getHeight() - 1
+					line.getX() + globalOffsetX, 
+					line.getY() + globalOffsetY,
+					line.getX() + globalOffsetX + line.getWidth() - 1,  
+					line.getY() + globalOffsetY + line.getHeight() - 1
 					);
 			}
 			else
 			{
 				grx.drawLine(
-					line.getX(), 
-					line.getY() + line.getHeight() - 1,
-					line.getX() + line.getWidth() - 1,  
-					line.getY()
+					line.getX() + globalOffsetX, 
+					line.getY() + globalOffsetY + line.getHeight() - 1,
+					line.getX() + globalOffsetX + line.getWidth() - 1,  
+					line.getY() + globalOffsetY
 					);
 			}
 		}
@@ -328,8 +331,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		{
 			grx.setColor(rectangle.getBackcolor());
 			grx.fillRoundRect(
-				rectangle.getX(), 
-				rectangle.getY(), 
+				rectangle.getX() + globalOffsetX, 
+				rectangle.getY() + globalOffsetY, 
 				rectangle.getWidth(),
 				rectangle.getHeight(),
 				2 * rectangle.getRadius(),
@@ -346,8 +349,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			grx.setStroke(stroke);
 			
 			grx.drawRoundRect(
-				rectangle.getX(), 
-				rectangle.getY(), 
+				rectangle.getX() + globalOffsetX, 
+				rectangle.getY() + globalOffsetY, 
 				rectangle.getWidth() - 1,
 				rectangle.getHeight() - 1,
 				2 * rectangle.getRadius(),
@@ -366,8 +369,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		{
 			grx.setColor(ellipse.getBackcolor());
 			grx.fillOval(
-				ellipse.getX(), 
-				ellipse.getY(), 
+				ellipse.getX() + globalOffsetX, 
+				ellipse.getY() + globalOffsetY, 
 				ellipse.getWidth(),
 				ellipse.getHeight()
 				);
@@ -382,8 +385,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			grx.setStroke(stroke);
 			
 			grx.drawOval(
-				ellipse.getX(), 
-				ellipse.getY(), 
+				ellipse.getX() + globalOffsetX, 
+				ellipse.getY() + globalOffsetY, 
 				ellipse.getWidth() - 1,
 				ellipse.getHeight() - 1
 				);
@@ -401,8 +404,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			grx.setColor(printImage.getBackcolor());
 
 			grx.fillRect(
-				printImage.getX(), 
-				printImage.getY(), 
+				printImage.getX() + globalOffsetX, 
+				printImage.getY() + globalOffsetY, 
 				printImage.getWidth(),
 				printImage.getHeight()
 				);
@@ -482,16 +485,16 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
 					grx.setClip(
-						printImage.getX(), 
-						printImage.getY(), 
+						printImage.getX() + globalOffsetX, 
+						printImage.getY() + globalOffsetY, 
 						availableImageWidth, 
 						availableImageHeight
 						);
 					renderer.render(
 						grx, 
 						new Rectangle(
-							printImage.getX() + xoffset, 
-							printImage.getY() + yoffset, 
+							printImage.getX() + globalOffsetX + xoffset, 
+							printImage.getY() + globalOffsetY + yoffset, 
 							normalWidth, 
 							normalHeight
 							) 
@@ -510,8 +513,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					renderer.render(
 						grx,
 						new Rectangle(
-							printImage.getX(), 
-							printImage.getY(), 
+							printImage.getX() + globalOffsetX, 
+							printImage.getY() + globalOffsetY, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -543,8 +546,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 						renderer.render(
 							grx,
 							new Rectangle(
-								printImage.getX() + xoffset, 
-								printImage.getY() + yoffset, 
+								printImage.getX() + globalOffsetX + xoffset, 
+								printImage.getY() + globalOffsetY + yoffset, 
 								normalWidth, 
 								normalHeight
 								) 
@@ -566,8 +569,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				grx.setStroke(stroke);
 		
 				grx.drawRect(
-					printImage.getX(), 
-					printImage.getY(), 
+					printImage.getX() + globalOffsetX, 
+					printImage.getY() + globalOffsetY, 
 					printImage.getWidth() - 1,
 					printImage.getHeight() - 1
 					);
@@ -648,8 +651,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		String allText = styledText.getText();
 		
-		int x = text.getX();
-		int y = text.getY();
+		int x = text.getX() + globalOffsetX;
+		int y = text.getY() + globalOffsetY;
 		int width = text.getWidth();
 		int height = text.getHeight();
 		int topPadding = 0;
@@ -671,7 +674,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				y = text.getY() + text.getHeight();
+				y = text.getY() + globalOffsetY + text.getHeight();
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
@@ -684,7 +687,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				x = text.getX() + text.getWidth();
+				x = text.getX() + globalOffsetX + text.getWidth();
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
@@ -779,20 +782,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					element.getX(), 
-					element.getY(), 
-					element.getX() + element.getWidth(),
-					element.getY()
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY, 
+					element.getX() + globalOffsetX + element.getWidth(),
+					element.getY() + globalOffsetY
 					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					element.getX(), 
-					element.getY(), 
-					element.getX() + element.getWidth() - 1,
-					element.getY()
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY, 
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY
 					);
 			}
 		}
@@ -806,20 +809,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					element.getX(), 
-					element.getY(), 
-					element.getX(),
-					element.getY() + element.getHeight()
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY, 
+					element.getX() + globalOffsetX,
+					element.getY() + globalOffsetY + element.getHeight()
 					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					element.getX(), 
-					element.getY(), 
-					element.getX(),
-					element.getY() + element.getHeight() - 1
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY, 
+					element.getX() + globalOffsetX,
+					element.getY() + globalOffsetY + element.getHeight() - 1
 					);
 			}
 		}
@@ -833,20 +836,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 				grx.drawLine(
-					element.getX(), 
-					element.getY() + element.getHeight() - 1,
-					element.getX() + element.getWidth(),
-					element.getY() + element.getHeight() - 1
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY + element.getHeight() - 1,
+					element.getX() + globalOffsetX + element.getWidth(),
+					element.getY() + globalOffsetY + element.getHeight() - 1
 					);
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					element.getX(), 
-					element.getY() + element.getHeight() - 1,
-					element.getX() + element.getWidth() - 1,
-					element.getY() + element.getHeight() - 1
+					element.getX() + globalOffsetX, 
+					element.getY() + globalOffsetY + element.getHeight() - 1,
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY + element.getHeight() - 1
 					);
 			}
 		}
@@ -860,20 +863,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					element.getX() + element.getWidth() - 1,
-					element.getY(),
-					element.getX() + element.getWidth() - 1,
-					element.getY() + element.getHeight()
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY,
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY + element.getHeight()
 					);
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					element.getX() + element.getWidth() - 1,
-					element.getY(),
-					element.getX() + element.getWidth() - 1,
-					element.getY() + element.getHeight() - 1
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY,
+					element.getX() + globalOffsetX + element.getWidth() - 1,
+					element.getY() + globalOffsetY + element.getHeight() - 1
 					);
 			}
 		}

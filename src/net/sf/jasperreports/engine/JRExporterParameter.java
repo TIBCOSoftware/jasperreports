@@ -123,6 +123,8 @@ public class JRExporterParameter
 	public static final JRExporterParameter END_PAGE_INDEX = new JRExporterParameter("End Page Index");
 	public static final JRExporterParameter CHARACTER_ENCODING = new JRExporterParameter("Character Encoding");
 	public static final JRExporterParameter PROGRESS_MONITOR = new JRExporterParameter("Progress Monitor");
+	public static final JRExporterParameter OFFSET_X = new JRExporterParameter("Offset X");
+	public static final JRExporterParameter OFFSET_Y = new JRExporterParameter("Offset Y");
 
 
 }

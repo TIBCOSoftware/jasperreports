@@ -145,6 +145,9 @@ public class JRCsvExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -401,22 +404,22 @@ public class JRCsvExporter extends JRAbstractExporter
 			
 			if (element instanceof JRPrintText)
 			{
-				x = new Integer(element.getX());
+				x = new Integer(element.getX() + globalOffsetX);
 				if (!xCuts.contains(x))
 				{
 					xCuts.add(x);
 				}
-				x = new Integer(element.getX() + element.getWidth());
+				x = new Integer(element.getX() + globalOffsetX + element.getWidth());
 				if (!xCuts.contains(x))
 				{
 					xCuts.add(x);
 				}
-				y = new Integer(element.getY());
+				y = new Integer(element.getY() + globalOffsetY);
 				if (!yCuts.contains(y))
 				{
 					yCuts.add(y);
 				}
-				y = new Integer(element.getY() + element.getHeight());
+				y = new Integer(element.getY() + globalOffsetY + element.getHeight());
 				if (!yCuts.contains(y))
 				{
 					yCuts.add(y);
@@ -459,10 +462,10 @@ public class JRCsvExporter extends JRAbstractExporter
 			
 			if (element instanceof JRPrintText)
 			{
-				x1 = xCuts.indexOf(new Integer(element.getX()));
-				y1 = yCuts.indexOf(new Integer(element.getY()));
-				x2 = xCuts.indexOf(new Integer(element.getX() + element.getWidth()));
-				y2 = yCuts.indexOf(new Integer(element.getY() + element.getHeight()));
+				x1 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX));
+				y1 = yCuts.indexOf(new Integer(element.getY() + globalOffsetY));
+				x2 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX + element.getWidth()));
+				y2 = yCuts.indexOf(new Integer(element.getY() + globalOffsetY + element.getHeight()));
 				
 				grid[y1][x1].element = element;
 				grid[y1][x1].width = element.getWidth();
