@@ -139,7 +139,10 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the report design object represented by the first parameter, placing the result 
+	 * in a file specified by the second parameter.
+	 * The resulting file will contain a serialized instance of a 
+	 * net.sf.jasperreports.engine.JasperReport object representing the compiled report design. 
 	 */
 	public static void compileReportToFile(
 		JasperDesign jasperDesign,
@@ -153,7 +156,8 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the XML report design file represented by the first parameter, and returns 
+	 * an object representing the compiled report design. 
 	 */
 	public static JasperReport compileReport(String sourceFileName) throws JRException
 	{
@@ -164,7 +168,9 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the serialized report design object read from the supplied input stream and
+	 * writes the generated compiled report design object to the output stream specified 
+	 * by the second parameter.
 	 */
 	public static void compileReportToStream(
 		InputStream inputStream,
@@ -178,7 +184,9 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the report design object represented by the first parameter and
+	 * writes the generated compiled report design object to the output stream specified 
+	 * by the second parameter.
 	 */
 	public static void compileReportToStream(
 		JasperDesign jasperDesign,
@@ -192,7 +200,8 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the serialized report design object read from the supplied input stream and
+	 * returns the generated compiled report design object.
 	 */
 	public static JasperReport compileReport(InputStream inputStream) throws JRException
 	{
@@ -203,7 +212,8 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * Compiles the report design object represented by the first parameter and
+	 * returns the generated compiled report design object.
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
