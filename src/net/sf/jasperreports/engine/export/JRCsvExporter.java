@@ -395,7 +395,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		xCuts.add(new Integer(0));
 		xCuts.add(new Integer(jasperPrint.getPageWidth()));
 		yCuts.add(new Integer(0));
-		yCuts.add(new Integer(jasperPrint.getPageWidth()));
+		yCuts.add(new Integer(jasperPrint.getPageHeight()));
 
 		Integer x = null;
 		Integer y = null;
