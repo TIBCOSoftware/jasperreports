@@ -123,7 +123,7 @@
 		<copy todir="./docs/dtds">
 			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
 		</copy>
-		<javadoc packagenames="net.sf.jasperreports.engine.*, net.sf.jasperreports.view.*, net.sf.jasperreports.xml.*"
+		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
 				destdir="./docs/api"
 				author="true"
