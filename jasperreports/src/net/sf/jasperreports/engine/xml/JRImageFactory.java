@@ -129,14 +129,14 @@ public class JRImageFactory extends JRBaseFactory
 		if (image.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
 		{
 			groupEvaluatedImages.add(image);
-		}
 
-		String groupName = atts.getValue("evaluationGroup");
-		if (groupName != null)
-		{
-			JRDesignGroup group = new JRDesignGroup();
-			group.setName(groupName);
-			image.setEvaluationGroup(group);
+			String groupName = atts.getValue("evaluationGroup");
+			if (groupName != null)
+			{
+				JRDesignGroup group = new JRDesignGroup();
+				group.setName(groupName);
+				image.setEvaluationGroup(group);
+			}
 		}
 
 		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue("hyperlinkType"));
