@@ -1539,23 +1539,23 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 	
 	
-}
-
-
-/**
- * 
- */
-interface StringProvider
-{
-	
 	/**
 	 * 
 	 */
-	public String getStringForCollapsedTD(Object value);
+	protected static interface StringProvider
+	{
 	
-	/**
-	 * 
-	 */
-	public String getStringForEmptyTD(Object value);
+		/**
+		 * 
+		 */
+		public String getStringForCollapsedTD(Object value);
+	
+		/**
+		 * 
+		 */
+		public String getStringForEmptyTD(Object value);
+
+	}
+
 
 }

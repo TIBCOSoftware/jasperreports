@@ -78,6 +78,8 @@ import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
@@ -123,6 +125,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText = null;
 	private JRStyledText styledText = null;
 	private MaxFontSizeFinder maxFontSizeFinder = null;
+	protected Map initialStyledTextAttributes = null;
 
 
 	/**
@@ -143,6 +146,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		initializeDimension();
 		initilizeFloatLineSpacing();
 		initilizeMaxFontFinder();
+		initilizeStyledTextAttributes();
 	}
 
 
@@ -307,6 +311,17 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	private void initilizeStyledTextAttributes()
+	{
+		initialStyledTextAttributes = new HashMap(); 
+		initialStyledTextAttributes.putAll(font.getAttributes());
+		initialStyledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
+		initialStyledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+	}
+
+	/**
+	 *
+	 */
 	protected float getLineSpacingFactor()
 	{
 		return lineSpacingFactor;
@@ -439,7 +454,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					try
 					{
-						styledText = filler.getStyledTextParser().parse(getFont().getAttributes(), text);
+						styledText = filler.getStyledTextParser().parse(initialStyledTextAttributes, text);
 					}
 					catch (SAXException e)
 					{
@@ -452,7 +467,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				{
 					styledText = new JRStyledText();
 					styledText.append(text);
-					styledText.addRun(new JRStyledText.Run(getFont().getAttributes(), 0, text.length()));
+					styledText.addRun(new JRStyledText.Run(initialStyledTextAttributes, 0, text.length()));
 				}
 			}
 		}

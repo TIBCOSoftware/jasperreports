@@ -75,6 +75,7 @@ import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,6 +118,16 @@ public class JRStyledTextParser
 	private static final String ATTRIBUTE_pdfFontName = "pdfFontName";
 	private static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
 	private static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
+
+	private static final String SPACE = " ";
+	private static final String EQUAL_QUOTE = "=\"";
+	private static final String QUOTE = "\"";
+	private static final String SHARP = "#";
+	private static final String LESS = "<";
+	private static final String LESS_SLASH = "</";
+	private static final String GREATER = ">";
+	private static final String SIX_ZEROS = "000000";
+	private static final int colorMask = Integer.parseInt("FFFFFF", 16);
 
 	/**
 	 *
@@ -169,7 +180,44 @@ public class JRStyledTextParser
 	/**
 	 *
 	 */
-	public void parseStyle(JRStyledText styledText, Node parentNode)
+	public String write(Map parentAttrs, AttributedCharacterIterator iterator, String text)
+	{
+		StringBuffer sbuffer = new StringBuffer();
+		
+		int runLimit = 0;
+
+		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
+		{
+			String chunk = text.substring(iterator.getIndex(), runLimit);
+			Map attrs = iterator.getAttributes();
+			
+			StringBuffer styleBuffer = writeStyleAttributes(parentAttrs, attrs);
+			if (styleBuffer.length() > 0)
+			{
+				sbuffer.append(LESS);
+				sbuffer.append(NODE_style);
+				sbuffer.append(styleBuffer);
+				sbuffer.append(GREATER);
+				sbuffer.append(chunk);
+				sbuffer.append(LESS_SLASH);
+				sbuffer.append(NODE_style);
+				sbuffer.append(GREATER);
+			}
+			else
+			{
+				sbuffer.append(chunk);
+			}
+
+			iterator.setIndex(runLimit);
+		}
+		
+		return sbuffer.toString();
+	}
+
+	/**
+	 *
+	 */
+	private void parseStyle(JRStyledText styledText, Node parentNode)
 	{
 		NodeList nodeList = parentNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -337,6 +385,159 @@ public class JRStyledTextParser
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	private StringBuffer writeStyleAttributes(Map parentAttrs,  Map attrs)
+	{
+		StringBuffer sbuffer = new StringBuffer();
+		
+		Object value = attrs.get(TextAttribute.FAMILY);
+		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
+		
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_fontName);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.WEIGHT);
+		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_isBold);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value.equals(TextAttribute.WEIGHT_BOLD));
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.POSTURE);
+		oldValue = parentAttrs.get(TextAttribute.POSTURE);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_isItalic);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value.equals(TextAttribute.POSTURE_OBLIQUE));
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.UNDERLINE);
+		oldValue = parentAttrs.get(TextAttribute.UNDERLINE);
+
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_isUnderline);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value != null);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.STRIKETHROUGH);
+		oldValue = parentAttrs.get(TextAttribute.STRIKETHROUGH);
+
+		if (
+			(value == null && oldValue != null)
+			|| (value != null && !value.equals(oldValue))
+			)
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_isStrikeThrough);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value != null);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.SIZE);
+		oldValue = parentAttrs.get(TextAttribute.SIZE);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_size);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(((Float)value).intValue());
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(JRTextAttribute.PDF_FONT_NAME);
+		oldValue = parentAttrs.get(JRTextAttribute.PDF_FONT_NAME);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_pdfFontName);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(JRTextAttribute.PDF_ENCODING);
+		oldValue = parentAttrs.get(JRTextAttribute.PDF_ENCODING);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_pdfEncoding);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(JRTextAttribute.IS_PDF_EMBEDDED);
+		oldValue = parentAttrs.get(JRTextAttribute.IS_PDF_EMBEDDED);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_isPdfEmbedded);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(value);
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.FOREGROUND);
+		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_forecolor);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(SHARP);
+			String hexa = Integer.toHexString(((Color)value).getRGB() & colorMask).toUpperCase();
+			sbuffer.append(SIX_ZEROS + hexa).substring(hexa.length());
+			sbuffer.append(QUOTE);
+		}
+
+		value = attrs.get(TextAttribute.BACKGROUND);
+		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
+
+		if (value != null && !value.equals(oldValue))
+		{
+			sbuffer.append(SPACE);
+			sbuffer.append(ATTRIBUTE_backcolor);
+			sbuffer.append(EQUAL_QUOTE);
+			sbuffer.append(SHARP);
+			String hexa = Integer.toHexString(((Color)value).getRGB() & colorMask).toUpperCase();
+			sbuffer.append(SIX_ZEROS + hexa).substring(hexa.length());
+			sbuffer.append(QUOTE);
+		}
+		
+		return sbuffer;
 	}
 
 }
