@@ -457,7 +457,7 @@ public class JRClassGenerator
 					}
 					case JRExpressionChunk.TYPE_RESOURCE :
 					{
-						sb.append("getString(\"");
+						sb.append("str(\"");
 						sb.append(chunkText);
 						sb.append("\")");
 	
