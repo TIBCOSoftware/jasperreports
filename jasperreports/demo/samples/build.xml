@@ -31,6 +31,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Barbecue Sample"/>
+		<echo message="==================================="/>
+		<ant dir="barbecue" target="clean" />
+		<ant dir="barbecue" target="javac" />
+		<ant dir="barbecue" target="compile" />
+		<ant dir="barbecue" target="fill" />
+		<ant dir="barbecue" target="compileBsh" />
+		<ant dir="barbecue" target="fill" />
+		<ant dir="barbecue" target="pdf" />
+		<ant dir="barbecue" target="xmlEmbed" />
+		<ant dir="barbecue" target="xml" />
+		<ant dir="barbecue" target="html" />
+		<ant dir="barbecue" target="xls" />
+		<ant dir="barbecue" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Batch Export Sample"/>
 		<echo message="==================================="/>
 		<ant dir="batchexport" target="clean" />
@@ -456,6 +473,7 @@
 	<target name="clean">
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
+		<ant dir="barbecue" target="clean" />
 		<ant dir="batchexport" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
