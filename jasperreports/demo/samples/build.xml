@@ -481,6 +481,7 @@
 		<ant dir="tableofcontents" target="clean" />
 		<ant dir="unicode" target="clean" />
 		<ant dir="webapp" target="clean" />
+		<ant dir="xmldatasource" target="clean" />
 	</target>
 
 </project>
