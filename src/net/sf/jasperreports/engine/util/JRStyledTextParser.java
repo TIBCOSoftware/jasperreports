@@ -198,7 +198,7 @@ public class JRStyledTextParser
 					styleAttrs.put(
 						TextAttribute.UNDERLINE, 
 						Boolean.valueOf(nodeAttrs.getNamedItem("isUnderline").getNodeValue()).booleanValue() 
-							? TextAttribute.UNDERLINE_ON : TextAttribute.UNDERLINE_ON//FIXME
+							? TextAttribute.UNDERLINE_ON : null
 						);
 				}
 
@@ -207,7 +207,7 @@ public class JRStyledTextParser
 					styleAttrs.put(
 						TextAttribute.STRIKETHROUGH, 
 						Boolean.valueOf(nodeAttrs.getNamedItem("isStrikeThrough").getNodeValue()).booleanValue() 
-							? TextAttribute.STRIKETHROUGH_ON : TextAttribute.STRIKETHROUGH_ON//FIXME
+							? TextAttribute.STRIKETHROUGH_ON : null
 						);
 				}
 
