@@ -102,7 +102,7 @@
 		Builds the Web application .war file.
 	-->
 	<target name="war" depends="javac">
-		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.jrxml">
+		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
 			<fileset dir="." includes="**/*.css" />
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.jsp" />

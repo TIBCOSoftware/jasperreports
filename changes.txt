@@ -2,6 +2,25 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.5.3
+-----------------------------------
+- new boolean "isStyledText" attribute available for text elements to allow 
+introducing style information inside the text content using XML syntax based on
+nested <style> tags;
+
+- new dori.jasper.engine.fill.JRIncrementer interface and refactoring of the 
+report variable calculation engine to correct problems and allow performing custom 
+calculations on custom type variables;
+
+- new file naming convention; the XML report design files now use the .jrxml file
+extension instead of the former, more generic .xml extension to allow better integration 
+with build tools such as Ant and IDEs like Eclipse;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.5.2
 -----------------------------------
 - new "rotation" attribute for text elements to allow vertically heading text;
