@@ -931,6 +931,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				if (fileFilter == jrprintFileFilter)
 				{
+					if (!file.getName().endsWith(".jrprint"))
+					{
+						file = new File(file.getAbsolutePath() + ".jrprint");
+					}
+					
 					JRSaver.saveObject(jasperPrint, file);
 				}
 				else if (fileFilter instanceof JRSaveContributor)
@@ -982,7 +987,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 					else
 					{
-						JRSaver.saveObject(jasperPrint, fileChooser.getSelectedFile());
+						if (!file.getName().endsWith(".jrprint"))
+						{
+							file = new File(file.getAbsolutePath() + ".jrprint");
+						}
+						
+						JRSaver.saveObject(jasperPrint, file);
 					}
 				}
 			}
