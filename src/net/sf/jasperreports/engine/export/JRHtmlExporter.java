@@ -972,6 +972,34 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("; ");
 		}
 
+		if (text.getBox() != null)
+		{
+			appendBorderStyle(
+				styleBuffer, 
+				text.getBox().getTopBorder(),
+				text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor(),
+				"top"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				text.getBox().getLeftBorder(),
+				text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor(),
+				"left"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				text.getBox().getBottomBorder(),
+				text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor(),
+				"bottom"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				text.getBox().getRightBorder(),
+				text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor(),
+				"right"
+				);
+		}
+
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
 		if (textLength > 0)
@@ -1669,6 +1697,78 @@ public class JRHtmlExporter extends JRAbstractExporter
 		 */
 		public String getStringForEmptyTD(Object value);
 
+	}
+
+
+	/**
+	 *
+	 */
+	private static void appendBorderStyle(StringBuffer sb, byte pen, Color borderColor, String side)
+	{
+		String borderStyle = null; 
+		String borderWidth = null; 
+
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				borderStyle = "dashed"; 
+				borderWidth = "medium"; 
+				break;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				borderStyle = "solid"; 
+				borderWidth = "thick"; 
+				break;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				borderStyle = "solid"; 
+				borderWidth = "2pt"; 
+				break;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				borderStyle = "solid"; 
+				borderWidth = "1px"; 
+				break;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				break;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				borderStyle = "solid"; 
+				borderWidth = "2px"; 
+				break;
+			}
+		}
+		
+		if (borderWidth != null)
+		{
+			sb.append("border-");
+			sb.append(side);
+			sb.append("-style: ");
+			sb.append(borderStyle);
+			sb.append("; ");
+			
+			sb.append("border-");
+			sb.append(side);
+			sb.append("-width: ");
+			sb.append(borderWidth);
+			sb.append("; ");
+			
+			sb.append("border-");
+			sb.append(side);
+			sb.append("-color: #");
+			String hexa = Integer.toHexString(borderColor.getRGB() & colorMask).toUpperCase();
+			hexa = ("000000" + hexa).substring(hexa.length());
+			sb.append(hexa);
+			sb.append("; ");
+		}
 	}
 
 
