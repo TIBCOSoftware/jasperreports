@@ -86,6 +86,12 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Long ZERO = new Long(0);
+
+
+	/**
+	 *
+	 */
 	private static JRLongIncrementerFactory mainInstance = new JRLongIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRLongCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_LONG;
+				return JRLongIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRLongCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_LONG;
+				value = JRLongIncrementerFactory.ZERO;
 			}
 
 			return new Long(value.longValue() + 1);
@@ -274,7 +280,7 @@ class JRLongSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_LONG;
+				value = JRLongIncrementerFactory.ZERO;
 			}
 
 			return new Long(value.longValue() + newValue.longValue());
@@ -442,7 +448,7 @@ class JRLongVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_LONG;
+			return JRLongIncrementerFactory.ZERO;
 		}
 		else
 		{

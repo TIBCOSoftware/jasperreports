@@ -86,6 +86,12 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Byte ZERO = new Byte((byte)0);
+
+
+	/**
+	 *
+	 */
 	private static JRByteIncrementerFactory mainInstance = new JRByteIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRByteCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_BYTE;
+				return JRByteIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRByteCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_BYTE;
+				value = JRByteIncrementerFactory.ZERO;
 			}
 
 			return new Byte((byte)(value.byteValue() + 1));
@@ -274,7 +280,7 @@ class JRByteSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_BYTE;
+				value = JRByteIncrementerFactory.ZERO;
 			}
 
 			return new Byte((byte)(value.byteValue() + newValue.byteValue()));
@@ -442,7 +448,7 @@ class JRByteVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_BYTE;
+			return JRByteIncrementerFactory.ZERO;
 		}
 		else
 		{

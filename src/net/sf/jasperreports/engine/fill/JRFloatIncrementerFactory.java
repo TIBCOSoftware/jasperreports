@@ -86,6 +86,12 @@ public class JRFloatIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
+	protected static final Float ZERO = new Float(0);
+
+
+	/**
+	 *
+	 */
 	private static JRFloatIncrementerFactory mainInstance = new JRFloatIncrementerFactory();
 
 
@@ -202,7 +208,7 @@ class JRFloatCountIncrementer implements JRIncrementer
 		{
 			if (variable.isInitialized())
 			{
-				return ZERO_FLOAT;
+				return JRFloatIncrementerFactory.ZERO;
 			}
 			else
 			{
@@ -213,7 +219,7 @@ class JRFloatCountIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_FLOAT;
+				value = JRFloatIncrementerFactory.ZERO;
 			}
 
 			return new Float(value.floatValue() + 1);
@@ -274,7 +280,7 @@ class JRFloatSumIncrementer implements JRIncrementer
 		{
 			if (value == null || variable.isInitialized())
 			{
-				value = ZERO_FLOAT;
+				value = JRFloatIncrementerFactory.ZERO;
 			}
 
 			return new Float(value.floatValue() + newValue.floatValue());
@@ -442,7 +448,7 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 		}
 		else if (value == null || variable.isInitialized())
 		{
-			return ZERO_FLOAT;
+			return JRFloatIncrementerFactory.ZERO;
 		}
 		else
 		{
