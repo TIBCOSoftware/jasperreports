@@ -216,7 +216,7 @@ public class JRDesignViewer extends javax.swing.JPanel
     private void initComponents() {//GEN-BEGIN:initComponents
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlToolBar = new javax.swing.JPanel();
+        tlbToolBar = new javax.swing.JPanel();
         btnReload = new javax.swing.JButton();
         pnlSep01 = new javax.swing.JPanel();
         pnlSep02 = new javax.swing.JPanel();
@@ -248,7 +248,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
         setLayout(new java.awt.BorderLayout());
 
-        pnlToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
+        tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
         btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/reload.GIF")));
         btnReload.setText("Reload");
@@ -263,13 +263,13 @@ public class JRDesignViewer extends javax.swing.JPanel
             }
         });
 
-        pnlToolBar.add(btnReload);
+        tlbToolBar.add(btnReload);
 
         pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
-        pnlToolBar.add(pnlSep01);
+        tlbToolBar.add(pnlSep01);
 
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
-        pnlToolBar.add(pnlSep02);
+        tlbToolBar.add(pnlSep02);
 
         btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomin.GIF")));
         btnZoomIn.setToolTipText("Zoom In");
@@ -283,7 +283,7 @@ public class JRDesignViewer extends javax.swing.JPanel
             }
         });
 
-        pnlToolBar.add(btnZoomIn);
+        tlbToolBar.add(btnZoomIn);
 
         btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomout.GIF")));
         btnZoomOut.setToolTipText("Zoom Out");
@@ -297,7 +297,7 @@ public class JRDesignViewer extends javax.swing.JPanel
             }
         });
 
-        pnlToolBar.add(btnZoomOut);
+        tlbToolBar.add(btnZoomOut);
 
         cmbZoom.setToolTipText("Zoom Ratio");
         cmbZoom.setMaximumSize(new java.awt.Dimension(80, 23));
@@ -309,9 +309,9 @@ public class JRDesignViewer extends javax.swing.JPanel
             }
         });
 
-        pnlToolBar.add(cmbZoom);
+        tlbToolBar.add(cmbZoom);
 
-        add(pnlToolBar, java.awt.BorderLayout.NORTH);
+        add(tlbToolBar, java.awt.BorderLayout.NORTH);
 
         pnlMain.setLayout(new java.awt.BorderLayout());
 
@@ -1832,6 +1832,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    protected javax.swing.JPanel tlbToolBar;
     private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel pnlPage;
@@ -1846,7 +1847,6 @@ public class JRDesignViewer extends javax.swing.JPanel
     private javax.swing.JPanel jPanel8;
     private javax.swing.JButton btnZoomIn;
     private javax.swing.JPanel jPanel7;
-    protected javax.swing.JPanel pnlToolBar;
     private javax.swing.JPanel pnlSep01;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JComboBox cmbZoom;
