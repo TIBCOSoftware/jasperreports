@@ -120,6 +120,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
