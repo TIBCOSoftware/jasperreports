@@ -69,8 +69,17 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+
+/*
+ * Contributors:
+ * S. Brett Sutton - bsutton@idatam.com.au
+ */
 package dori.jasper.engine;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -221,6 +230,40 @@ public class JRResultSetDataSource implements JRDataSource
 					{
 						objValue = null;
 					}
+					else
+					{
+						InputStream is = (InputStream)objValue;
+						if (is.available() > 0)
+						{
+							ByteArrayOutputStream baos = 
+								new ByteArrayOutputStream(is.available());
+							byte[] bytes = new byte[4096];
+							int ln = 0;
+							try
+							{
+								while ((ln = is.read(bytes)) > 0)
+								{
+									baos.write(bytes, 0, ln);
+								}
+								baos.flush();
+							}
+							finally
+							{
+								try
+								{
+									baos.close();
+								}
+								catch(IOException e)
+								{
+								}
+							}
+							objValue = new ByteArrayInputStream(baos.toByteArray());
+						}
+						else
+						{
+							objValue = new ByteArrayInputStream(new byte[0]);
+						}
+					}					
 				}
 				else if (clazz.equals(java.lang.Long.class))
 				{
