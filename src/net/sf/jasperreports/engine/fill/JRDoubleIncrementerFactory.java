@@ -147,14 +147,10 @@ public class JRDoubleIncrementerFactory implements JRIncrementerFactory
 				break;
 			}
 			case JRVariable.CALCULATION_SYSTEM :
-			{
-				incrementer = JRDefaultSystemIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_NOTHING :
 			default :
 			{
-				incrementer = JRDefaultNothingIncrementer.getInstance();
+				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
 				break;
 			}
 		}

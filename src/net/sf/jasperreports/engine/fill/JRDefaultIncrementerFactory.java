@@ -79,20 +79,20 @@ import dori.jasper.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRLongIncrementerFactory implements JRIncrementerFactory
+public class JRDefaultIncrementerFactory implements JRIncrementerFactory
 {
 
 
 	/**
 	 *
 	 */
-	private static JRLongIncrementerFactory mainInstance = new JRLongIncrementerFactory();
+	private static JRDefaultIncrementerFactory mainInstance = new JRDefaultIncrementerFactory();
 
 
 	/**
 	 *
 	 */
-	private JRLongIncrementerFactory()
+	private JRDefaultIncrementerFactory()
 	{
 	}
 
@@ -100,7 +100,7 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	public static JRLongIncrementerFactory getInstance()
+	public static JRDefaultIncrementerFactory getInstance()
 	{
 		return mainInstance;
 	}
@@ -115,42 +115,22 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 
 		switch (calculation)
 		{
+			case JRVariable.CALCULATION_SYSTEM :
+			{
+				incrementer = JRDefaultSystemIncrementer.getInstance();
+				break;
+			}
+			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_COUNT :
-			{
-				incrementer = JRLongCountIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_SUM :
-			{
-				incrementer = JRLongSumIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_AVERAGE :
-			{
-				incrementer = JRLongAverageIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_LOWEST :
 			case JRVariable.CALCULATION_HIGHEST :
-			{
-				incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(calculation);
-				break;
-			}
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
-			{
-				incrementer = JRLongStandardDeviationIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_VARIANCE :
-			{
-				incrementer = JRLongVarianceIncrementer.getInstance();
-				break;
-			}
-			case JRVariable.CALCULATION_SYSTEM :
-			case JRVariable.CALCULATION_NOTHING :
 			default :
 			{
-				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRDefaultNothingIncrementer.getInstance();
 				break;
 			}
 		}
@@ -165,75 +145,66 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 /**
  *
  */
-class JRLongCountIncrementer implements JRIncrementer
+class JRDefaultNothingIncrementer implements JRIncrementer
 {
-	/**
-	 *
-	 */
-	private static JRLongCountIncrementer mainInstance = new JRLongCountIncrementer();
+
 
 	/**
 	 *
 	 */
-	private JRLongCountIncrementer()
+	private static JRDefaultNothingIncrementer mainInstance = new JRDefaultNothingIncrementer();
+
+
+	/**
+	 *
+	 */
+	private JRDefaultNothingIncrementer()
 	{
 	}
 
+
 	/**
 	 *
 	 */
-	public static JRLongCountIncrementer getInstance()
+	public static JRDefaultNothingIncrementer getInstance()
 	{
 		return mainInstance;
 	}
+
 
 	/**
 	 *
 	 */
 	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
 	{
-		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Long(0);
-		}
-
-		Number newValue = null;
-		if (expressionValue == null)
-		{
-			newValue = value;
-		}
-		else
-		{
-			newValue = new Long(value.longValue() + 1);
-		}
-		
-		return newValue;
+		return expressionValue;
 	}
+
+
 }
 
 
 /**
  *
  */
-class JRLongSumIncrementer implements JRIncrementer
+class JRDefaultSystemIncrementer implements JRIncrementer
 {
 	/**
 	 *
 	 */
-	private static JRLongSumIncrementer mainInstance = new JRLongSumIncrementer();
+	private static JRDefaultSystemIncrementer mainInstance = new JRDefaultSystemIncrementer();
 
 	/**
 	 *
 	 */
-	private JRLongSumIncrementer()
+	private JRDefaultSystemIncrementer()
 	{
 	}
 
 	/**
 	 *
 	 */
-	public static JRLongSumIncrementer getInstance()
+	public static JRDefaultSystemIncrementer getInstance()
 	{
 		return mainInstance;
 	}
@@ -243,158 +214,6 @@ class JRLongSumIncrementer implements JRIncrementer
 	 */
 	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
 	{
-		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Long(0);
-		}
-		Number newValue = (Number)expressionValue;
-		if (newValue == null)
-		{
-			newValue = new Long(0);
-		}
-		newValue = new Long(value.longValue() + newValue.longValue());
-					
-		return newValue;
-	}
-}
-
-
-/**
- *
- */
-class JRLongAverageIncrementer implements JRIncrementer
-{
-	/**
-	 *
-	 */
-	private static JRLongAverageIncrementer mainInstance = new JRLongAverageIncrementer();
-
-	/**
-	 *
-	 */
-	private JRLongAverageIncrementer()
-	{
-	}
-
-	/**
-	 *
-	 */
-	public static JRLongAverageIncrementer getInstance()
-	{
-		return mainInstance;
-	}
-
-	/**
-	 *
-	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
-	{
-		Number newValue = null;
-
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		if (countValue.longValue() > 0)
-		{
-			Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-			newValue = new Long(sumValue.longValue() / countValue.longValue());
-		}
-					
-		return newValue;
-	}
-}
-
-
-/**
- *
- */
-class JRLongStandardDeviationIncrementer implements JRIncrementer
-{
-	/**
-	 *
-	 */
-	private static JRLongStandardDeviationIncrementer mainInstance = new JRLongStandardDeviationIncrementer();
-
-	/**
-	 *
-	 */
-	private JRLongStandardDeviationIncrementer()
-	{
-	}
-
-	/**
-	 *
-	 */
-	public static JRLongStandardDeviationIncrementer getInstance()
-	{
-		return mainInstance;
-	}
-
-	/**
-	 *
-	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
-	{
-		Number varianceValue = (Number)((JRFillVariable)variable.getVarianceVariable()).getValue();
-		Number newValue = new Long( (long)Math.sqrt(varianceValue.doubleValue()) );
-					
-		return newValue;
-	}
-}
-
-
-/**
- *
- */
-class JRLongVarianceIncrementer implements JRIncrementer
-{
-	/**
-	 *
-	 */
-	private static JRLongVarianceIncrementer mainInstance = new JRLongVarianceIncrementer();
-
-	/**
-	 *
-	 */
-	private JRLongVarianceIncrementer()
-	{
-	}
-
-	/**
-	 *
-	 */
-	public static JRLongVarianceIncrementer getInstance()
-	{
-		return mainInstance;
-	}
-
-	/**
-	 *
-	 */
-	public Object increment(JRFillVariable variable, Object expressionValue) throws JRException
-	{
-		Number value = (Number)variable.getValue();
-		if (value == null || variable.isInitialized())
-		{
-			value = new Long(0);
-		}
-		Number countValue = (Number)((JRFillVariable)variable.getCountVariable()).getValue();
-		Number sumValue = (Number)((JRFillVariable)variable.getSumVariable()).getValue();
-		Number newValue = (Number)expressionValue;
-	
-		if (countValue.intValue() == 1)
-		{
-			newValue = new Long(0);
-		}
-		else
-		{
-			newValue = new Long(
-				(countValue.longValue() - 1) * value.longValue() / countValue.longValue() +
-				( sumValue.longValue() / countValue.longValue() - newValue.longValue() ) *
-				( sumValue.longValue() / countValue.longValue() - newValue.longValue() ) /
-				(countValue.longValue() - 1)
-				);
-		}
-					
-		return newValue;
+		return variable.getValue();
 	}
 }

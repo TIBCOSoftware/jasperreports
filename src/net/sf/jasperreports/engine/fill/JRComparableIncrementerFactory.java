@@ -126,10 +126,6 @@ public class JRComparableIncrementerFactory implements JRIncrementerFactory
 				break;
 			}
 			case JRVariable.CALCULATION_SYSTEM :
-			{
-				incrementer = JRDefaultSystemIncrementer.getInstance();
-				break;
-			}
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_COUNT :
 			case JRVariable.CALCULATION_SUM :
@@ -138,7 +134,7 @@ public class JRComparableIncrementerFactory implements JRIncrementerFactory
 			case JRVariable.CALCULATION_VARIANCE :
 			default :
 			{
-				incrementer = JRDefaultNothingIncrementer.getInstance();
+				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
 				break;
 			}
 		}
