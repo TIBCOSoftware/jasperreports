@@ -155,6 +155,14 @@ public class JRStyledText
 
 
 	/**
+	 *
+	 */
+	public List getRuns()
+	{
+		return runs;
+	}
+
+	/**
 	 * 
 	 */
 	public static class Run 

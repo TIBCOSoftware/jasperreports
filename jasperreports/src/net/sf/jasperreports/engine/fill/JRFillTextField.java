@@ -620,16 +620,27 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected void copy(JRPrintText text) throws JRException
 	{
-		text.setAbsoluteLineSpacing(getAbsoluteLineSpacing());
-		text.setAbsoluteLeading(getAbsoluteLeading());
+		text.setLineSpacingFactor(getLineSpacingFactor());
+		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
 
+		text.setText(
+			getRawText()
+			);
+		/*
 		text.setText(
 			getRawText().substring(
 				getTextStart(),
 				getTextEnd()
 				)
-			);//FIXME
+			);
+		text.setText(
+			getText().substring(
+				getTextStart(),
+				getTextEnd()
+				)
+			);
+		*/
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());

@@ -789,12 +789,12 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
-		sbuffer.append(" absoluteLineSpacing=\"");
-		sbuffer.append(text.getAbsoluteLineSpacing());
+		sbuffer.append(" lineSpacingFactor=\"");
+		sbuffer.append(text.getLineSpacingFactor());
 		sbuffer.append("\"");
 
-		sbuffer.append(" absoluteLeading=\"");
-		sbuffer.append(text.getAbsoluteLeading());
+		sbuffer.append(" leadingOffset=\"");
+		sbuffer.append(text.getLeadingOffset());
 		sbuffer.append("\"");
 
 		if (text.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)

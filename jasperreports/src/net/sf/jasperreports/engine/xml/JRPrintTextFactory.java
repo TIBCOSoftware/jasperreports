@@ -93,8 +93,8 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_textHeight = "textHeight";
 	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	private static final String ATTRIBUTE_isStyledText = "isStyledText";
-	private static final String ATTRIBUTE_absoluteLineSpacing = "absoluteLineSpacing";
-	private static final String ATTRIBUTE_absoluteLeading = "absoluteLeading";
+	private static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
+	private static final String ATTRIBUTE_leadingOffset = "leadingOffset";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	private static final String ATTRIBUTE_anchorName = "anchorName";
 	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
@@ -145,16 +145,16 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setStyledText(Boolean.valueOf(isStyledText).booleanValue());
 		}
 
-		String absoluteLineSpacing = atts.getValue(ATTRIBUTE_absoluteLineSpacing);
-		if (absoluteLineSpacing != null && absoluteLineSpacing.length() > 0)
+		String lineSpacingFactor = atts.getValue(ATTRIBUTE_lineSpacingFactor);
+		if (lineSpacingFactor != null && lineSpacingFactor.length() > 0)
 		{
-			text.setAbsoluteLineSpacing(Float.parseFloat(absoluteLineSpacing));
+			text.setLineSpacingFactor(Float.parseFloat(lineSpacingFactor));
 		}
 
-		String absoluteLeading = atts.getValue(ATTRIBUTE_absoluteLeading);
-		if (absoluteLeading != null && absoluteLeading.length() > 0)
+		String leadingOffset = atts.getValue(ATTRIBUTE_leadingOffset);
+		if (leadingOffset != null && leadingOffset.length() > 0)
 		{
-			text.setAbsoluteLeading(Float.parseFloat(absoluteLeading));
+			text.setLeadingOffset(Float.parseFloat(leadingOffset));
 		}
 
 		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));

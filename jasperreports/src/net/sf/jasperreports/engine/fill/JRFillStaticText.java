@@ -244,8 +244,8 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		{
 			text.setHeight(getHeight());
 		}
-		text.setAbsoluteLineSpacing(getAbsoluteLineSpacing());
-		text.setAbsoluteLeading(getAbsoluteLeading());
+		text.setLineSpacingFactor(getLineSpacingFactor());
+		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
 		text.setText(getRawText());
 		
