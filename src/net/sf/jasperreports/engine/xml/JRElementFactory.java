@@ -105,6 +105,12 @@ public class JRElementFactory extends JRBaseFactory
 			element.setPositionType(positionType.byteValue());
 		}
 
+		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue("stretchType"));
+		if (stretchType != null)
+		{
+			element.setStretchType(stretchType.byteValue());
+		}
+
 		String isPrintRepeatedValues = atts.getValue("isPrintRepeatedValues");
 		if (isPrintRepeatedValues != null && isPrintRepeatedValues.length() > 0)
 		{

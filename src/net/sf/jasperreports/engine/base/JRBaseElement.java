@@ -97,6 +97,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	protected String key = null;
 	protected byte positionType = POSITION_TYPE_FLOAT;
+	protected byte stretchType = STRETCH_TYPE_NO_STRETCH;
 	protected boolean isPrintRepeatedValues = true;
 	protected byte mode = MODE_OPAQUE;
 	protected int x = 0;
@@ -134,6 +135,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 		
 		key = element.getKey();
 		positionType = element.getPositionType();
+		stretchType = element.getStretchType();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
 		mode = element.getMode();
 		x = element.getX();
@@ -174,6 +176,22 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	public void setPositionType(byte positionType)
 	{
 		this.positionType = positionType;
+	}
+
+	/**
+	 *
+	 */
+	public byte getStretchType()
+	{
+		return this.stretchType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setStretchType(byte stretchType)
+	{
+		this.stretchType = stretchType;
 	}
 		
 	/**

@@ -94,6 +94,13 @@ public interface JRElement
 	public static final byte MODE_OPAQUE = 1;
 	public static final byte MODE_TRANSPARENT = 2;
 
+	/**
+	 *
+	 */
+	public static final byte STRETCH_TYPE_NO_STRETCH = 0;
+	public static final byte STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = 1;
+	public static final byte STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = 2;
+
 
 	/**
 	 *
@@ -110,6 +117,16 @@ public interface JRElement
 	 */
 	public void setPositionType(byte positionType);
 
+	/**
+	 *
+	 */
+	public byte getStretchType();
+		
+	/**
+	 *
+	 */
+	public void setStretchType(byte stretchType);
+		
 	/**
 	 *
 	 */

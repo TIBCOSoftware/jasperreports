@@ -89,7 +89,6 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	/**
 	 *
 	 */
-	protected byte stretchType = STRETCH_TYPE_NO_STRETCH;
 	protected byte pen = PEN_1_POINT;
 	protected byte fill = FILL_SOLID;
 
@@ -112,28 +111,11 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	{
 		super(graphicElement, factory);
 		
-		stretchType = graphicElement.getStretchType();
 		pen = graphicElement.getPen();
 		fill = graphicElement.getFill();
 	}
 		
 
-	/**
-	 *
-	 */
-	public byte getStretchType()
-	{
-		return this.stretchType;
-	}
-		
-	/**
-	 *
-	 */
-	public void setStretchType(byte stretchType)
-	{
-		this.stretchType = stretchType;
-	}
-		
 	/**
 	 *
 	 */

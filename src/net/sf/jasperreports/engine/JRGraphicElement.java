@@ -82,13 +82,6 @@ public interface JRGraphicElement extends JRElement
 	/**
 	 *
 	 */
-	public static final byte STRETCH_TYPE_NO_STRETCH = 0;
-	public static final byte STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = 1;
-	public static final byte STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = 2;
-
-	/**
-	 *
-	 */
 	public static final byte PEN_NONE = 0;
 	public static final byte PEN_1_POINT = 1;
 	public static final byte PEN_2_POINT = 2;
@@ -102,16 +95,6 @@ public interface JRGraphicElement extends JRElement
 	public static final byte FILL_SOLID = 1;
 
 
-	/**
-	 *
-	 */
-	public byte getStretchType();
-		
-	/**
-	 *
-	 */
-	public void setStretchType(byte stretchType);
-		
 	/**
 	 *
 	 */

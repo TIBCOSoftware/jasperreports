@@ -89,7 +89,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 *
 	 */
-	protected byte stretchType = STRETCH_TYPE_NO_STRETCH;
 	protected byte pen = PEN_1_POINT;
 	protected byte fill = FILL_SOLID;
 
@@ -108,14 +107,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 *
 	 */
-	public byte getStretchType()
-	{
-		return this.stretchType;
-	}
-		
-	/**
-	 *
-	 */
 	public byte getPen()
 	{
 		return this.pen;
@@ -129,14 +120,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 		return this.fill;
 	}
 
-	/**
-	 *
-	 */
-	public void setStretchType(byte stretchType)
-	{
-		this.stretchType = stretchType;
-	}
-		
 	/**
 	 *
 	 */
