@@ -669,6 +669,10 @@ public class JRXmlLoader implements ErrorHandler
 						variable.setResetGroup(group);
 					}
 				}
+				else
+				{
+					variable.setResetGroup(null);
+				}
 			}
 		}
 	}
