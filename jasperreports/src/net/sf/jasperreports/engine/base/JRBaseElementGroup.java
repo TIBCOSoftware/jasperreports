@@ -111,12 +111,12 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseElementGroup(JRElementGroup elementGroup, JRBaseObjectFactory factory)
+	protected JRBaseElementGroup(JRElementGroup elementGrp, JRBaseObjectFactory factory)
 	{
-		factory.put(elementGroup, this);
+		factory.put(elementGrp, this);
 		
 		/*   */
-		List list = elementGroup.getChildren();
+		List list = elementGrp.getChildren();
 		if (list != null && list.size() > 0)
 		{
 			Object child = null;
@@ -136,7 +136,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 			}
 		}
 
-		elementGroup = factory.getElementGroup(elementGroup.getElementGroup());
+		this.elementGroup = factory.getElementGroup(elementGrp.getElementGroup());
 	}
 		
 
