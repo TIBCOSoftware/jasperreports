@@ -366,7 +366,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
     private void initComponents() {//GEN-BEGIN:initComponents
         java.awt.GridBagConstraints gridBagConstraints;
 
-        tlbToolBar = new javax.swing.JToolBar();
+        pnlToolBar = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnPrint = new javax.swing.JButton();
         btnReload = new javax.swing.JButton();
@@ -413,9 +413,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         setMinimumSize(new java.awt.Dimension(450, 150));
         setPreferredSize(new java.awt.Dimension(450, 150));
-        tlbToolBar.setFloatable(false);
+        pnlToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
+
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/save.GIF")));
         btnSave.setToolTipText("Save");
+        btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
         btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
         btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -425,10 +427,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnSave);
+        pnlToolBar.add(btnSave);
 
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/print.GIF")));
         btnPrint.setToolTipText("Print");
+        btnPrint.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
         btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
         btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -438,10 +441,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnPrint);
+        pnlToolBar.add(btnPrint);
 
         btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/reload.GIF")));
         btnReload.setToolTipText("Reload");
+        btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
         btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
         btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -451,13 +455,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnReload);
+        pnlToolBar.add(btnReload);
 
         pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep01);
+        pnlToolBar.add(pnlSep01);
 
         btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/first.GIF")));
         btnFirst.setToolTipText("First Page");
+        btnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFirst.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
         btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -467,10 +472,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnFirst);
+        pnlToolBar.add(btnFirst);
 
         btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/previous.GIF")));
         btnPrevious.setToolTipText("Previous Page");
+        btnPrevious.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrevious.setMaximumSize(new java.awt.Dimension(23, 23));
         btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
         btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -480,10 +486,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnPrevious);
+        pnlToolBar.add(btnPrevious);
 
         btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/next.GIF")));
         btnNext.setToolTipText("Next Page");
+        btnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnNext.setMaximumSize(new java.awt.Dimension(23, 23));
         btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -493,10 +500,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnNext);
+        pnlToolBar.add(btnNext);
 
         btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/last.GIF")));
         btnLast.setToolTipText("Last Page");
+        btnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnLast.setMaximumSize(new java.awt.Dimension(23, 23));
         btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
         btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -506,13 +514,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnLast);
+        pnlToolBar.add(btnLast);
 
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep02);
+        pnlToolBar.add(pnlSep02);
 
         btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/actualsize.GIF")));
         btnActualSize.setToolTipText("Actual Size");
+        btnActualSize.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
         btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
         btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -522,10 +531,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnActualSize);
+        pnlToolBar.add(btnActualSize);
 
         btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitpage.GIF")));
         btnFitPage.setToolTipText("Fit Page");
+        btnFitPage.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
         btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -535,10 +545,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnFitPage);
+        pnlToolBar.add(btnFitPage);
 
         btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitwidth.GIF")));
         btnFitWidth.setToolTipText("Fit Width");
+        btnFitWidth.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
         btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -548,13 +559,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnFitWidth);
+        pnlToolBar.add(btnFitWidth);
 
         pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep03);
+        pnlToolBar.add(pnlSep03);
 
         btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomin.GIF")));
         btnZoomIn.setToolTipText("Zoom In");
+        btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
         btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
         btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -564,10 +576,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnZoomIn);
+        pnlToolBar.add(btnZoomIn);
 
         btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomout.GIF")));
         btnZoomOut.setToolTipText("Zoom Out");
+        btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));
         btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
         btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -577,7 +590,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(btnZoomOut);
+        pnlToolBar.add(btnZoomOut);
 
         cmbZoom.setEditable(true);
         cmbZoom.setToolTipText("Zoom Ratio");
@@ -596,9 +609,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
-        tlbToolBar.add(cmbZoom);
+        pnlToolBar.add(cmbZoom);
 
-        add(tlbToolBar, java.awt.BorderLayout.NORTH);
+        add(pnlToolBar, java.awt.BorderLayout.NORTH);
 
         pnlMain.setLayout(new java.awt.BorderLayout());
 
@@ -1467,7 +1480,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JToolBar tlbToolBar;
     private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel pnlPage;
@@ -1491,6 +1503,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
     protected javax.swing.JButton btnZoomIn;
     protected javax.swing.JToggleButton btnFitPage;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel pnlToolBar;
     protected javax.swing.JButton btnNext;
     protected javax.swing.JPanel pnlSep01;
     protected javax.swing.JButton btnFirst;
