@@ -90,6 +90,21 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Groovy Sample"/>
+		<echo message="==================================="/>
+		<ant dir="groovy" target="clean" />
+		<ant dir="groovy" target="javac" />
+		<ant dir="groovy" target="compile" />
+		<ant dir="groovy" target="fill" />
+		<ant dir="groovy" target="pdf" />
+		<ant dir="groovy" target="xmlEmbed" />
+		<ant dir="groovy" target="xml" />
+		<ant dir="groovy" target="html" />
+		<ant dir="groovy" target="xls" />
+		<ant dir="groovy" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Horizontal Sample"/>
 		<echo message="==================================="/>
 		<ant dir="horizontal" target="clean" />
@@ -456,6 +471,7 @@
 		<ant dir="batchexport" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
+		<ant dir="groovy" target="clean" />
 		<ant dir="horizontal" target="clean" />
 		<ant dir="hyperlink" target="clean" />
 		<ant dir="i18n" target="clean" />
