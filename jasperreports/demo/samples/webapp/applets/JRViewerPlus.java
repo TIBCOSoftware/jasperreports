@@ -121,6 +121,7 @@ public class JRViewerPlus extends JRViewer
 	protected void setZooms()
 	{
 		this.zooms = new int[]{33, 66, 100, 133, 166, 200, 233};
+		this.defaultZoomIndex = 2;
 	}
 
 
