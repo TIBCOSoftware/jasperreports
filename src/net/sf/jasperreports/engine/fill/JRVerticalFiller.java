@@ -331,7 +331,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			JRPrintBand printBand = title.fill(pageHeight - bottomMargin - offsetY - title.getHeight());
 			
-			if (title.willOverflow() && !title.isSplitAllowed())
+			if (title.willOverflow() && !title.isSplitAllowed() && isSubreport())
 			{
 				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, false);
 				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
@@ -1061,7 +1061,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - summary.getHeight());
 				
-			if (summary.willOverflow() && !summary.isSplitAllowed())
+			if (summary.willOverflow() && !summary.isSplitAllowed() && isSubreport())
 			{
 				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
 				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
