@@ -69,6 +69,11 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+
+/*
+ * Contributors:
+ * Joakim Sandström - sanjoa@users.sourceforge.net
+ */
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -133,6 +138,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected String dtdLocation = null;
 	protected boolean isEmbeddingImages = true;
 	protected File destFile = null;
 	protected File imagesDir = null;
@@ -156,6 +162,12 @@ public class JRXmlExporter extends JRAbstractExporter
 		/*   */
 		setPageRange();
 
+		dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
+		if (dtdLocation == null)
+		{
+			dtdLocation = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
+		}
+		
 		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
@@ -299,7 +311,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		sbuffer = new StringBuffer();
 		
 		sbuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		sbuffer.append("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperprint.dtd\">\n");
+		sbuffer.append("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"");
+		sbuffer.append(dtdLocation);
+		sbuffer.append("\">\n");
 		sbuffer.append("\n");
 
 		sbuffer.append("<jasperPrint name=\"");

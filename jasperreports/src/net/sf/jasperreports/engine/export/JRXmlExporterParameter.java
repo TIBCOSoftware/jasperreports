@@ -95,6 +95,7 @@ public class JRXmlExporterParameter extends JRExporterParameter
 	 *
 	 */
 	public static final JRXmlExporterParameter IS_EMBEDDING_IMAGES = new JRXmlExporterParameter("Is Embedding Images Flag");
+	public static final JRXmlExporterParameter DTD_LOCATION = new JRXmlExporterParameter("DTD Location");
 
 
 }
