@@ -85,6 +85,9 @@ import dori.jasper.engine.util.JRLoader;
 
 /**
  * Façade class for the JasperReports engine. 
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperExportManager
 {

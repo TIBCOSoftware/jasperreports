@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JasperDesign;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperDesignFactory extends JRBaseFactory
 {

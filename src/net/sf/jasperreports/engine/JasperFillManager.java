@@ -84,6 +84,9 @@ import dori.jasper.engine.util.JRSaver;
 
 /**
  * Façade class for the JasperReports engine. 
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperFillManager
 {

@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignStaticText;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRStaticTextFactory extends JRBaseFactory
 {

@@ -78,7 +78,8 @@ import java.io.IOException;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRClassLoader extends ClassLoader
 {

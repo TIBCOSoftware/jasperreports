@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignSubreportParameter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRSubreportParameterFactory extends JRBaseFactory
 {

@@ -95,7 +95,8 @@ import dori.jasper.engine.JasperCompileManager;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRAntCompileTask extends MatchingTask
 {

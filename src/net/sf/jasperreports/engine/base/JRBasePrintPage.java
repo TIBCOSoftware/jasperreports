@@ -80,7 +80,8 @@ import dori.jasper.engine.JRPrintPage;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBasePrintPage implements JRPrintPage, Serializable
 {

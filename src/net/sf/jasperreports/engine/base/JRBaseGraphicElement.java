@@ -75,7 +75,8 @@ import dori.jasper.engine.JRGraphicElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGraphicElement
 {

@@ -77,7 +77,8 @@ import dori.jasper.engine.base.JRBasePrintText;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRPrintTextFactory extends JRBaseFactory
 {

@@ -85,7 +85,8 @@ import dori.jasper.engine.JRPrintElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRFillElement implements JRElement
 {

@@ -86,7 +86,8 @@ import dori.jasper.engine.JRVariable;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRClassGenerator
 {

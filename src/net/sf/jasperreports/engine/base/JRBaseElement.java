@@ -81,7 +81,8 @@ import dori.jasper.engine.JRGroup;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRBaseElement implements JRElement, Serializable
 {

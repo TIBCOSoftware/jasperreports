@@ -75,7 +75,8 @@ import dori.jasper.engine.JRPrintImage;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implements JRPrintImage
 {

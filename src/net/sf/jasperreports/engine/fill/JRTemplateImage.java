@@ -77,7 +77,8 @@ import dori.jasper.engine.JRImage;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplateImage extends JRTemplateGraphicElement
 {

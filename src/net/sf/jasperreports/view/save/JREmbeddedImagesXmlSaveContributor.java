@@ -81,7 +81,8 @@ import dori.jasper.engine.export.JRXmlExporterParameter;
 import dori.jasper.view.JRSaveContributor;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 {

@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignRectangle;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRRectangleFactory extends JRBaseFactory
 {

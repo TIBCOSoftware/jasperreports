@@ -88,6 +88,9 @@ import dori.jasper.engine.xml.JRXmlLoader;
  * It has various static methods that simplify the access to the API functionality
  * and can be used to compile an XML report design, to fill a report, to print it,
  * or to generate PDF files.
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperManager
 {

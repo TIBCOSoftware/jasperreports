@@ -78,7 +78,8 @@ import dori.jasper.engine.base.JRBaseVariable;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignVariable extends JRBaseVariable
 {

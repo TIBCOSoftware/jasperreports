@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignReportFont;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRReportFontFactory extends JRBaseFactory
 {

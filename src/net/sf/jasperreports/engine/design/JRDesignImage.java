@@ -78,7 +78,8 @@ import dori.jasper.engine.JRImage;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 {

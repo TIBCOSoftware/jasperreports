@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignTextElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTextElementFactory extends JRBaseFactory
 {

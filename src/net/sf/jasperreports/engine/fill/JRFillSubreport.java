@@ -99,7 +99,8 @@ import dori.jasper.engine.util.JRLoader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillSubreport extends JRFillElement implements JRSubreport, Runnable
 {

@@ -78,7 +78,8 @@ import dori.jasper.engine.design.JRDesignParameter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDefaultValueExpressionFactory extends JRBaseFactory
 {

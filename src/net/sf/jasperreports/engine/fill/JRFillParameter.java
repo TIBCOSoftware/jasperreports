@@ -76,7 +76,8 @@ import dori.jasper.engine.JRParameter;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillParameter implements JRParameter
 {

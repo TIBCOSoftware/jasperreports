@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignGraphicElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRGraphicElementFactory extends JRBaseFactory
 {

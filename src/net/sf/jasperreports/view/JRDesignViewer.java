@@ -129,7 +129,8 @@ import dori.jasper.engine.xml.JRXmlLoader;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignViewer extends javax.swing.JPanel
 {

@@ -77,7 +77,8 @@ import dori.jasper.engine.JRTextElement;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRBaseTextElement extends JRBaseElement implements JRTextElement
 {

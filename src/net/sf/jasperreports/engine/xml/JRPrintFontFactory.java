@@ -81,7 +81,8 @@ import dori.jasper.engine.design.JRDesignFont;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRPrintFontFactory extends JRBaseFactory
 {

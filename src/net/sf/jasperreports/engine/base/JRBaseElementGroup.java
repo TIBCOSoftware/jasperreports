@@ -81,7 +81,8 @@ import dori.jasper.engine.JRElementGroup;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBaseElementGroup implements JRElementGroup, Serializable
 {

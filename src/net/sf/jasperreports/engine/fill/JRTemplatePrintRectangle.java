@@ -75,7 +75,8 @@ import dori.jasper.engine.JRPrintRectangle;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement implements JRPrintRectangle
 {

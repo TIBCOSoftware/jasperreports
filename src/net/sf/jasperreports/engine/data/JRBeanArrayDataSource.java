@@ -79,7 +79,8 @@ import dori.jasper.engine.JRRewindableDataSource;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBeanArrayDataSource implements JRRewindableDataSource
 {

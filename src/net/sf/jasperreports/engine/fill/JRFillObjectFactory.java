@@ -95,7 +95,8 @@ import dori.jasper.engine.base.JRBaseReportFont;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillObjectFactory
 {

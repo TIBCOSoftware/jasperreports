@@ -77,7 +77,8 @@ import dori.jasper.engine.design.JRDesignExpression;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTextFieldExpressionFactory extends JRBaseFactory
 {

@@ -86,7 +86,8 @@ import java.sql.SQLException;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRResultSetDataSource implements JRDataSource
 {

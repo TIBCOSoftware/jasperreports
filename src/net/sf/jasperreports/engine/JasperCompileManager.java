@@ -86,7 +86,10 @@ import dori.jasper.engine.xml.JRXmlWriter;
 
 
 /**
- * Façade class for the JasperReports engine. 
+ * Façade class for the JasperReports engine.
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JasperCompileManager
 {

@@ -80,7 +80,8 @@ import dori.jasper.engine.fill.JRFillVariable;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public abstract class JRAbstractScriptlet
 {
