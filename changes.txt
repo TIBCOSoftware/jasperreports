@@ -7,7 +7,13 @@ JasperReports 0.6.2
 - added support for import statements in order to eliminate 
 the need to use complete class names inside report expressions;
 
+- new REPORT_LOCALE, REPORT_RESOURCE_BUNDLE;
+
 - new syntax $R{};
+
+- new built-in functions msg() and str();
+
+- arabic and hebrew;
 
 - minor bug fixes and improvements;
 

@@ -159,29 +159,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	protected synchronized void fillReport() throws JRException
 	{
-		loadedImages = new HashMap();
-		loadedSubreports = new HashMap();
-
-		reportBoundImages = new HashMap();
-		pageBoundImages = new HashMap();
-		columnBoundImages = new HashMap();
-
-		reportBoundTexts = new HashMap();
-		pageBoundTexts = new HashMap();
-		columnBoundTexts = new HashMap();
-
-		groupBoundImages = new HashMap();
-		groupBoundTexts = new HashMap();
-
-		if (groups != null && groups.length > 0)
-		{
-			for(int i = 0; i < groups.length; i++)
-			{
-				groupBoundImages.put( groups[i].getName(), new HashMap() );
-				groupBoundTexts.put( groups[i].getName(), new HashMap() );
-			}
-		}
-		
 		setLastPageFooter(false);
 
 		if (next())

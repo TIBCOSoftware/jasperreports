@@ -92,6 +92,7 @@ public class I18nApp
 	 */
 	private static final String TASK_COMPILE = "compile";
 	private static final String TASK_FILL = "fill";
+	private static final String TASK_FILL_DEFAULT = "fillDefault";
 	private static final String TASK_VIEW = "view";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_XML = "xml";
@@ -130,13 +131,21 @@ public class I18nApp
 				if (locale != null)
 				{
 					Map parameters = new HashMap();
+					parameters.put("number", new Integer((int)(1000 * Math.random())));
 					parameters.put(JRParameter.REPORT_LOCALE, locale);
-					parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.getBundle("i18n", locale));
-
 					long start = System.currentTimeMillis();
 					JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 					System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				}
+				System.exit(0);
+			}
+			else if (TASK_FILL_DEFAULT.equals(taskName))
+			{
+				Map parameters = new HashMap();
+				parameters.put("number", new Integer((int)(1000 * Math.random())));
+				long start = System.currentTimeMillis();
+				JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
+				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_VIEW.equals(taskName))
@@ -275,7 +284,7 @@ public class I18nApp
 	{
 		System.out.println( "I18nApp usage:" );
 		System.out.println( "\tjava I18nApp task file" );
-		System.out.println( "\tTasks : compile | fill | view | pdf | xml | xmlEmbed | html | xls | csv" );
+		System.out.println( "\tTasks : compile | fill | fillDefault | view | pdf | xml | xmlEmbed | html | xls | csv" );
 	}
 
 

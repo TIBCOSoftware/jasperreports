@@ -75,9 +75,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -185,6 +187,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected JRAbstractScriptlet scriptlet = null;
 	protected JRDataSource dataSource = null;
 
+	protected List formattedTextFields = new ArrayList();
+	
 	protected Map loadedImages = null;
 	protected Map loadedSubreports = null;
 
@@ -623,6 +627,35 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 
+		for(int i = 0; i < formattedTextFields.size(); i++)
+		{
+			((JRFillTextField)formattedTextFields.get(i)).setFormat();
+		}
+
+		loadedImages = new HashMap();
+		loadedSubreports = new HashMap();
+
+		reportBoundImages = new HashMap();
+		pageBoundImages = new HashMap();
+		columnBoundImages = new HashMap();
+
+		reportBoundTexts = new HashMap();
+		pageBoundTexts = new HashMap();
+		columnBoundTexts = new HashMap();
+
+		groupBoundImages = new HashMap();
+		groupBoundTexts = new HashMap();
+
+		if (groups != null && groups.length > 0)
+		{
+			for(int i = 0; i < groups.length; i++)
+			{
+				groupBoundImages.put( groups[i].getName(), new HashMap() );
+				groupBoundTexts.put( groups[i].getName(), new HashMap() );
+			}
+		}
+		
+		/*   */
 		fillReport();
 		
 		return jasperPrint;
