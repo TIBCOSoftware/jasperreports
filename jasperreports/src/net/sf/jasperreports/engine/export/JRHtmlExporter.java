@@ -240,7 +240,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 		setInput();
 
 		/*   */
-		setPageRange();
+		if (!isModeBatch)
+		{
+			setPageRange();
+		}
 
 		htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
 		betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);

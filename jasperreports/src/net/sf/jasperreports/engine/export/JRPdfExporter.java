@@ -223,7 +223,10 @@ public class JRPdfExporter extends JRAbstractExporter
 		setInput();
 
 		/*   */
-		setPageRange();
+		if (!isModeBatch)
+		{
+			setPageRange();
+		}
 
 		Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
 		if (isEncryptedParameter != null)

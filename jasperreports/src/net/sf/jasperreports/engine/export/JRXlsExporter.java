@@ -210,7 +210,10 @@ public class JRXlsExporter extends JRAbstractExporter
 		setInput();
 
 		/*   */
-		setPageRange();
+		if (!isModeBatch)
+		{
+			setPageRange();
+		}
 
 		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET);
 		if (isOnePagePerSheetParameter != null)
