@@ -120,6 +120,7 @@ public class JRBaseReport implements JRReport, Serializable
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
 	protected String scriptletClass = null;
+	protected String resourceBundle = null;
 
 	/**
 	 *
@@ -173,6 +174,7 @@ public class JRBaseReport implements JRReport, Serializable
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
 		scriptletClass = report.getScriptletClass();
+		resourceBundle = report.getResourceBundle();
 
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -403,6 +405,14 @@ public class JRBaseReport implements JRReport, Serializable
 	public String getScriptletClass()
 	{
 		return scriptletClass;
+	}
+
+	/**
+	 *
+	 */
+	public String getResourceBundle()
+	{
+		return resourceBundle;
 	}
 
 	/**

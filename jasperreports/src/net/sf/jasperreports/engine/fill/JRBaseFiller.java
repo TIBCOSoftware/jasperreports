@@ -78,7 +78,10 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -151,7 +154,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected int bottomMargin = 0;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
-	protected String scriptletClass = null;
+	//protected String scriptletClass = null;
+	//protected String resourceBundle = null;
 
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
@@ -176,6 +180,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected JRFillBand summary = null;
 
 	protected JRCalculator calculator = null;
+	protected ResourceBundle resourceBundle = null;
 	protected JRAbstractScriptlet scriptlet = null;
 	protected JRDataSource dataSource = null;
 
@@ -231,7 +236,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		bottomMargin = jasperReport.getBottomMargin();
 		isTitleNewPage = jasperReport.isTitleNewPage();
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
-		scriptletClass = jasperReport.getScriptletClass();
+		String scriptletClass = jasperReport.getScriptletClass();
+		String resourceBundleBaseName = jasperReport.getResourceBundle();
 
 		jasperPrint = new JasperPrint();
 
@@ -316,6 +322,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
+
+		/*   */
+		resourceBundle = loadResourceBundle(resourceBundleBaseName);
 
 		/*   */
 		scriptlet = 
@@ -533,6 +542,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			setParameter(parameter, scriptlet);
 		}
 
+		parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (parameter != null)
+		{
+			setParameter(parameter, resourceBundle);
+		}
+
 		if (!isParametersAlreadySet)
 		{
 			setParameters(parameterValues);
@@ -565,6 +581,45 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 *
 	 */
 	protected abstract void fillReport() throws JRException;
+
+
+	/**
+	 *
+	 */
+	protected static ResourceBundle loadResourceBundle(String resourceBundleBaseName) throws JRException
+	{
+		ResourceBundle resourceBundle = null;
+
+		if (resourceBundleBaseName != null)
+		{
+			try
+			{
+				resourceBundle = 
+					ResourceBundle.getBundle(
+						resourceBundleBaseName,
+						Locale.getDefault(),
+						Thread.currentThread().getContextClassLoader()
+						); 
+			}
+			catch(MissingResourceException e)
+			{
+				//if (log.isWarnEnabled())
+				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			}
+		
+			if (resourceBundle == null)
+			{
+				resourceBundle = 
+					ResourceBundle.getBundle(
+						resourceBundleBaseName,
+						Locale.getDefault(),
+						JRClassLoader.class.getClassLoader()
+						); 
+			}
+		}
+		
+		return resourceBundle;
+	}
 
 
 	/**

@@ -17,6 +17,7 @@
 	isTitleNewPage (true | false) "false"
 	isSummaryNewPage (true | false) "false"
 	scriptletClass NMTOKEN #IMPLIED
+	resourceBundle NMTOKEN #IMPLIED
 >
 <!ELEMENT property EMPTY>
 <!ATTLIST property

@@ -445,6 +445,7 @@ public class JRVerifier
 								}
 								break;
 							}
+							case JRExpressionChunk.TYPE_RESOURCE :
 							case JRExpressionChunk.TYPE_TEXT :
 							default :
 							{

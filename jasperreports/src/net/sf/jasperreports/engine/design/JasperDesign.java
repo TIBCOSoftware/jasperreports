@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -182,6 +183,21 @@ public class JasperDesign extends JRBaseReport
 		parameter = new JRDesignParameter();
 		parameter.setName(JRParameter.REPORT_SCRIPTLET);
 		parameter.setValueClass(JRAbstractScriptlet.class);
+		parameter.setSystemDefined(true);
+		try 
+		{
+			addParameter(parameter);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		/*   */
+		parameter = new JRDesignParameter();
+		parameter.setName(JRParameter.REPORT_RESOURCE_BUNDLE);
+		parameter.setValueClass(ResourceBundle.class);
 		parameter.setSystemDefined(true);
 		try 
 		{
@@ -536,6 +552,15 @@ public class JasperDesign extends JRBaseReport
 	public void setScriptletClass(String scriptletClass)
 	{
 		this.scriptletClass = scriptletClass;
+	}
+		
+
+	/**
+	 *
+	 */
+	public void setResourceBundle(String resourceBundle)
+	{
+		this.resourceBundle = resourceBundle;
 	}
 		
 

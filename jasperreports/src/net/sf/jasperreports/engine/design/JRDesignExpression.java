@@ -244,6 +244,18 @@ public class JRDesignExpression extends JRBaseExpression
 	/**
 	 *
 	 */
+	public void addResourceChunk(String text)
+	{
+		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
+		chunk.setType(JRDesignExpressionChunk.TYPE_RESOURCE);
+		chunk.setText(text);
+		
+		this.chunks.add(chunk);
+	}
+
+	/**
+	 *
+	 */
 	public void setText(String text)
 	{
 		chunks = new ArrayList();
@@ -252,9 +264,6 @@ public class JRDesignExpression extends JRBaseExpression
 		{
 			int end = 0;
 			StringBuffer textChunk = new StringBuffer();
-			String parameterChunk = null;
-			String fieldChunk = null;
-			String variableChunk = null;
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "$", true);
 			String token = null;
@@ -281,10 +290,9 @@ public class JRDesignExpression extends JRBaseExpression
 						{
 							if (textChunk.length() > 0)
 							{
-								this.addTextChunk(textChunk.toString());					
+								addTextChunk(textChunk.toString());					
 							}
-							parameterChunk = token.substring(2, end);
-							this.addParameterChunk(parameterChunk);					
+							addParameterChunk(token.substring(2, end));					
 							textChunk = new StringBuffer(token.substring(end + 1));
 						}
 						else
@@ -303,10 +311,9 @@ public class JRDesignExpression extends JRBaseExpression
 						{
 							if (textChunk.length() > 0)
 							{
-								this.addTextChunk(textChunk.toString());					
+								addTextChunk(textChunk.toString());					
 							}
-							fieldChunk = token.substring(2, end);
-							this.addFieldChunk(fieldChunk);					
+							addFieldChunk(token.substring(2, end));					
 							textChunk = new StringBuffer(token.substring(end + 1));
 						}
 						else
@@ -325,10 +332,30 @@ public class JRDesignExpression extends JRBaseExpression
 						{
 							if (textChunk.length() > 0)
 							{
-								this.addTextChunk(textChunk.toString());					
+								addTextChunk(textChunk.toString());					
 							}
-							variableChunk = token.substring(2, end);
-							this.addVariableChunk(variableChunk);					
+							addVariableChunk(token.substring(2, end));					
+							textChunk = new StringBuffer(token.substring(end + 1));
+						}
+						else
+						{
+							if (wasDelim)
+							{
+								textChunk.append("$");
+							}
+							textChunk.append(token);
+						}
+					}
+					else if ( token.startsWith("R{") && wasDelim )
+					{
+						end = token.indexOf('}');
+						if (end > 0)
+						{
+							if (textChunk.length() > 0)
+							{
+								addTextChunk(textChunk.toString());					
+							}
+							addResourceChunk(token.substring(2, end));					
 							textChunk = new StringBuffer(token.substring(end + 1));
 						}
 						else

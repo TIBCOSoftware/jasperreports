@@ -103,6 +103,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
 	private static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
 	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
+	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
 
 
 	/**
@@ -199,6 +200,7 @@ public class JasperDesignFactory extends JRBaseFactory
 		}
 
 		jasperDesign.setScriptletClass(atts.getValue(ATTRIBUTE_scriptletClass));
+		jasperDesign.setResourceBundle(atts.getValue(ATTRIBUTE_resourceBundle));
 
 		return jasperDesign;
 	}
