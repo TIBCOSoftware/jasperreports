@@ -196,7 +196,7 @@ public class JRStyledTextParser
 			{
 				sbuffer.append(LESS);
 				sbuffer.append(NODE_style);
-				sbuffer.append(styleBuffer);
+				sbuffer.append(styleBuffer.toString());
 				sbuffer.append(GREATER);
 				sbuffer.append(chunk);
 				sbuffer.append(LESS_SLASH);
