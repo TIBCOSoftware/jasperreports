@@ -9,8 +9,12 @@ The now obsolete root package called "dori.jasper" was replaced by "net.sf.jaspe
 for standardization reasons;
 
 - new net.sf.jasperreports.engine.JRRenderable interface supported in the image expression
-to improve the quality of charts and other SVG images. The patch initially proposed by
-Adrian Jackson, David Taylor and Lars Kristensen was incorporated in the main version;
+to improve the quality of charts and other SVG images. The patch, initially proposed by
+Adrian Jackson, David Taylor and Lars Kristensen, was incorporated in the main version;
+
+- added support for batch export through the use of the new exporter parameter
+JRExporterParameter.JASPER_PRINT_LIST, which accepts a list containing JasperPrint objects 
+(contribution by Jason Essington);
 
 - minor bug fixes and improvements;
 
