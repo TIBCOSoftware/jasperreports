@@ -74,7 +74,6 @@ package dori.jasper.engine.xml;
 import org.xml.sax.Attributes;
 
 import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -93,20 +92,13 @@ public class JRImageExpressionFactory extends JRBaseFactory
 
 		JRDesignExpression expression = new JRDesignExpression();
 
-		try
+		if (atts.getValue("class") != null)
 		{
-			if (atts.getValue("class") != null)
-			{
-				expression.setValueClass(JRClassLoader.loadClassForName(atts.getValue("class")));
-			}
-			else
-			{
-				expression.setValueClass(java.lang.String.class);
-			}
+			expression.setValueClassName(atts.getValue("class"));
 		}
-		catch (ClassNotFoundException e)
+		else
 		{
-			xmlLoader.addError(e);
+			expression.setValueClass(java.lang.String.class);
 		}
 
 		int count = xmlLoader.getImagesCount() + 1;
