@@ -42,7 +42,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 604;
+	private static final long serialVersionUID = 605;
 
 	/**
 	 *

@@ -2,6 +2,14 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.5
+-----------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.4
 -----------------------------------
 - new report compiler that uses the Eclipse JDT Java compiler for faster compilation 

@@ -45,7 +45,7 @@ public class JRDesignGroup extends JRBaseGroup
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 604;
+	private static final long serialVersionUID = 605;
 
 	/**
 	 *

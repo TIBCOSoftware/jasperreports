@@ -49,7 +49,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 604;
+	private static final long serialVersionUID = 605;
 
 	/**
 	 *
