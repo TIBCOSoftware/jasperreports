@@ -1,0 +1,297 @@
+
+JasperReports Change Log
+===================================
+
+JasperReports 0.5.0
+-----------------------------------
+- improved and customizable report compilation process;
+
+- support for report expression evaluation using BeanShell introduced
+(bytecode Java compilation is mandatory no more);
+
+- new "isSplitAllowed" flag introduced at band level to customize
+page break behavior;
+
+- new experimental horizontal report filler introduced;
+
+- enhanced HTML, XLS and CSV exporters;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.6
+-----------------------------------
+- enhanced HTML and XLS exporters to include lines and rectangles
+and allow suppressing empty space between rows in order to obtain
+reports without page breaks (overlapped elements are still not displayed);
+
+- improved and customizable report compilation process;
+
+- 13 color names allowed in "forecolor" and "backcolor" attributes 
+of a report element (black, blue, cyan, darkGray, gray, green, lightGray, 
+magenta, orange, pink, red, yellow, white);
+
+- "hAlign" and "vAlign" attributes added to the <image> element 
+to allow image alignment when scaleImage="Clip";
+
+- new <background> report section introduced, to allow creating
+watermark and other similar effects;
+
+- Ant task for compiling XML report designs included. Special thanks 
+to Henri Chen and Kees Kuip who provided such Ant tasks as patches 
+on the project site;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.5
+-----------------------------------
+- images in PDF directly from file and not from java.awt.Image;
+
+- support for round rectangles and ellipses added;
+
+- support for vertical alignment of text elements added;
+
+- interruptable fill, export and print processes;
+
+- system property added to customize the report compilation process and 
+avoid deletion of the report expression java source file for debug purposes;
+
+- enriched interfaces to allow runtime alterations of report element settings 
+without requiring report recompilation;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.4
+-----------------------------------
+- support for java.sql.Time values added;
+
+- support for the Jikes Java compiler introduced;
+
+- enhanced HTML exporter to allow in-memory content storage
+(no need for files on disk), and other customizations;
+
+- enhanced "webapp" sample provided to make use of the HTML exporter
+new features;
+
+- support for XML entities in report designs added;
+
+- support for TTF files placed in classpath when exporting to PDF;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.3
+-----------------------------------
+- The JasperReports Ultimate Guide was released 
+(http://jasperreports.sourceforge.net/more.docs.html);
+
+- enhanced JRHtmlExporter to support exporting documents page by page;
+
+- new XLS and CSV exporters provided;
+
+- new Graphics2D exporter and Java Print Service exporter provided;
+
+- possibility to turn off XML validation added;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.2
+-----------------------------------
+- calculation "Count" implemented for non numeric expressions;
+
+- enhanced JRVerifier and minimal JasperDesign objects;
+
+- new samples provided : "tableofcontents" and "noreport";
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.4.1
+-----------------------------------
+- optional system properties introduced to customize the report compilation 
+(classpath and temporary working directory);
+
+- new HTML exporter implemented;
+
+- complete Web application sample provided, including applets for viewing 
+and printing the reports;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.4.0
+-----------------------------------
+- new "Apache style" license published;
+
+- last remaining initial requirements implemented:
+"positionType", "stretchType", "isPrintRepeatedValues", "isRemoveLineWhenBlank", 
+"isPrintInFirstWholeBand", "isPrintWhenDetailOverflows" and "printWhenGroupChanges";
+
+- "printWhenExpression" available also at band level;
+
+- report field description added to support creating complex data source
+implementations;
+
+- new "whenNoDataType" attribute at report level to allow customizing the behavior 
+of the reporting engine when there are no rows in the data source;
+
+- new JRExporter interface added to simplify the introduction of new output formats;
+
+- new default "REPORT_SCRIPTLET" parameter added;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.3.3
+-----------------------------------
+- new JRDataSource implementations for wrapping TableModel objects, 
+bean arrays and bean collections;
+
+- enhanced parameter declaration with description for prompting 
+and default value expression;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.3.2
+-----------------------------------
+- support for hyperlinks added;
+
+- XML report design generation implemented (JRXmlWriter);
+
+- serialVersionUID specified for all serializable classes;
+
+- support for precise calculations using BigDecimal;
+
+- "evaluationTime" attribute added for image elements;
+
+- minor bug fixes and improvements.
+
+
+
+JasperReports 0.3.1
+-----------------------------------
+- support for XML output added;
+
+- improved architecture for creating documents on the fly (JasperPrint);
+
+- bug fixes;
+
+
+
+JasperReports 0.3.0
+-----------------------------------
+- improved design and architecture of the library;
+
+- support for subreports added;
+
+- support for concurrency and reusability of report definition objects;
+
+- attribute "orientation" added to the "jasperReport" element to support 
+landscape document printing;
+
+- value "Thin" added to the attribute "pen" of the "graphicElement" element;
+
+- problem with the types of the PreparedStatement parameters 
+solved in JRQueryExecuter;
+
+- zoom problem in JDK1.4 solved.
+
+- more samples provided;
+
+- problem with the assignment of null values to variables 
+from scriptlets solved;
+
+- displaying column header and footer on single column reports;
+
+- problem with "average" variables solved in calculations;
+
+- <DOCTYPE> reference in XML files changed to 
+"http://www.jasperreports.com/dtds/jasperreport.dtd" or 
+"http://jasperreports.sourceforge.net/dtds/jasperreport.dtd" 
+(both are accepted);
+
+- problem with "new line" characters in text elements solved;
+
+- text elements background problem solved;
+
+
+
+JasperReports 0.2.5
+-----------------------------------
+- license changed from GPL to LGPL;
+
+- support for scriptlets added;
+
+- new "scriptletClass" attribute added to the "jasperReport" element;
+
+- variables can hold any type of objects just like parameters do;
+
+- JRAbstractScriptlet and JRDefaultScriptlet classes added as base 
+for scriptlets functionality;
+
+- scriptlet sample provided;
+
+- minor bug fixes;
+
+
+
+JasperReports 0.2.4
+-----------------------------------
+- "reportElement" attribute "mode" implemented (Transparent/Opaque);
+
+- "graphicElement" attribute pen="None" implemented;
+
+- "isPdfEmbeded" attribute in "reportFont" and "font" elements renamed to "isPdfEmbedded";
+
+- new "direction" attribute in "line" element;
+
+- attribute scaleImage="Clip" implemented in PDF format for the "image" element;
+
+- more report samples provided;
+
+- minor bug fixes;
+
+
+
+JasperReports 0.2.3
+-----------------------------------
+- JasperReports project tree published. 
+With the use of ANT tool, the project can be quickly build 
+and samples can be tested on the spot;
+
+- sample application that uses a HypersonicSQL database;
+
+- sample Web application supplied;
+
+- empty text field bug fixed;
+
+- default font bug fixed;
+
+- Graphic and PdfContentByte problem fixed ("are you mixing two documents" problem);
+
+- support for java.sql.Timestamp in expressions and report query;
+
+- support for InputStream and OutputStream objects in JasperManager;
+
+- support for File, URL and CLASSPATH images;
+
+- JREmptyDataSource modified. 
+It simulates a data source with one record in which all fields are null;

@@ -1,0 +1,124 @@
+<project name="JasperReports" default="javac" basedir=".">
+
+	<!--
+		Copies the required JAR files from the project's /lib directory
+	-->
+	<target name="prepare">
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../dist" includes="**/jasperreports-*.jar" excludes="**/jasperreports-*-applet.jar"/>
+		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/commons-*.jar" />
+		</copy>
+		<!--
+		<copy file="../../../lib/xerces.jar" todir="./WEB-INF/lib"/>
+		-->
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/i*ext*.jar" />
+		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/*bsh*.jar" />
+		</copy>
+		<copy todir="./applets">
+			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
+		</copy>
+	</target>
+
+	<!--
+		Compiles the java source files 
+		of the web application.
+	-->
+	<target name="javac" depends="prepare">
+		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="false">
+			<classpath>
+				<pathelement location="./WEB-INF/classes/"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="false">
+			<classpath>
+				<pathelement location="./applets/"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML">
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-Freports/WebappReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the compiled report design.
+	-->
+	<target name="viewDesign">
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-Freports/WebappReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="./reports" includes="**/*.jasper" />
+			<fileset dir="./reports" includes="**/*.html" />
+			<fileset dir="./jsp" includes="**/*.html" />
+			<fileset dir="." includes="**/*.war" />
+			<fileset dir="." includes="**/*.jar" />
+		</delete>
+		<delete dir="./reports/WebappReport.html_files" />
+		<delete dir="./jsp/html/reportPage.html_files" />
+	</target>
+
+	<!--
+		Builds the Web application .war file.
+	-->
+	<target name="war" depends="javac">
+		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
+			<fileset dir="." includes="**/*.css" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.jsp" />
+			<fileset dir="." includes="**/*.class" excludes="**/WEB-INF/classes/**/*.class"/>
+			<fileset dir="." includes="**/*.jar" excludes="**/WEB-INF/lib/**/*.jar"/>
+			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
+			<fileset dir="." includes="**/*.gif" />
+			<fileset dir="." includes="**/*.GIF" />
+			<fileset dir="." includes="**/*.xml" />
+			<classes dir="./WEB-INF/classes/">
+				<include name="**/*.class" />
+			</classes>
+			<lib dir="./WEB-INF/lib/">
+				<include name="*.jar" />
+			</lib>
+		</war>
+	</target>
+
+</project>

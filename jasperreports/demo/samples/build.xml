@@ -1,0 +1,406 @@
+<project name="JasperReports" default="testAll" basedir=".">
+
+	<!--
+		Tests all the samples.
+	-->
+	<target name="testAll">
+		<echo message=""/>
+		<echo message="***********************************"/>
+		<echo message="* TESTING ALL THE SAMPLES         *"/>
+		<echo message="***********************************"/>
+		<echo message=""/>
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Alter Design Sample"/>
+		<echo message="==================================="/>
+		<ant dir="alterdesign" target="clean" />
+		<ant dir="alterdesign" target="javac" />
+		<ant dir="alterdesign" target="compile" />
+		<ant dir="alterdesign" target="fill" />
+		<ant dir="alterdesign" target="compileBsh" />
+		<ant dir="alterdesign" target="fill" />
+		<ant dir="alterdesign" target="pdf" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Ant Compile Sample"/>
+		<echo message="==================================="/>
+		<ant dir="antcompile" target="clean" />
+		<ant dir="antcompile" target="compile1" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Chart Sample"/>
+		<echo message="==================================="/>
+		<ant dir="chart" target="clean" />
+		<ant dir="chart" target="javac" />
+		<ant dir="chart" target="compile" />
+		<ant dir="chart" target="fill" />
+		<ant dir="chart" target="compileBsh" />
+		<ant dir="chart" target="fill" />
+		<ant dir="chart" target="pdf" />
+		<ant dir="chart" target="xmlEmbed" />
+		<ant dir="chart" target="xml" />
+		<ant dir="chart" target="html" />
+		<ant dir="chart" target="xls" />
+		<ant dir="chart" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Data Source Sample"/>
+		<echo message="==================================="/>
+		<ant dir="datasource" target="clean" />
+		<ant dir="datasource" target="javac" />
+		<ant dir="datasource" target="compile" />
+		<ant dir="datasource" target="fill1" />
+		<ant dir="datasource" target="fill2" />
+		<ant dir="datasource" target="fill3" />
+		<ant dir="datasource" target="fill4" />
+		<ant dir="datasource" target="compileBsh" />
+		<ant dir="datasource" target="fill1" />
+		<ant dir="datasource" target="fill2" />
+		<ant dir="datasource" target="fill3" />
+		<ant dir="datasource" target="fill4" />
+		<ant dir="datasource" target="pdf" />
+		<ant dir="datasource" target="xmlEmbed" />
+		<ant dir="datasource" target="xml" />
+		<ant dir="datasource" target="html" />
+		<ant dir="datasource" target="xls" />
+		<ant dir="datasource" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Fonts Sample"/>
+		<echo message="==================================="/>
+		<ant dir="fonts" target="clean" />
+		<ant dir="fonts" target="javac" />
+		<ant dir="fonts" target="compile" />
+		<ant dir="fonts" target="fill" />
+		<ant dir="fonts" target="compileBsh" />
+		<ant dir="fonts" target="fill" />
+		<ant dir="fonts" target="pdf" />
+		<ant dir="fonts" target="xmlEmbed" />
+		<ant dir="fonts" target="xml" />
+		<ant dir="fonts" target="html" />
+		<ant dir="fonts" target="xls" />
+		<ant dir="fonts" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Horizontal Sample"/>
+		<echo message="==================================="/>
+		<ant dir="horizontal" target="clean" />
+		<ant dir="horizontal" target="javac" />
+		<ant dir="horizontal" target="compile" />
+		<ant dir="horizontal" target="fill" />
+		<ant dir="horizontal" target="compileBsh" />
+		<ant dir="horizontal" target="fill" />
+		<ant dir="horizontal" target="pdf" />
+		<ant dir="horizontal" target="xmlEmbed" />
+		<ant dir="horizontal" target="xml" />
+		<ant dir="horizontal" target="html" />
+		<ant dir="horizontal" target="xls" />
+		<ant dir="horizontal" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Hyperlink Sample"/>
+		<echo message="==================================="/>
+		<ant dir="hyperlink" target="clean" />
+		<ant dir="hyperlink" target="javac" />
+		<ant dir="hyperlink" target="compile" />
+		<ant dir="hyperlink" target="writeXml" />
+		<ant dir="hyperlink" target="fill" />
+		<ant dir="hyperlink" target="compileBsh" />
+		<ant dir="hyperlink" target="fill" />
+		<ant dir="hyperlink" target="pdf" />
+		<ant dir="hyperlink" target="xmlEmbed" />
+		<ant dir="hyperlink" target="xml" />
+		<ant dir="hyperlink" target="html" />
+		<ant dir="hyperlink" target="xls" />
+		<ant dir="hyperlink" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Images Sample"/>
+		<echo message="==================================="/>
+		<ant dir="images" target="clean" />
+		<ant dir="images" target="javac" />
+		<ant dir="images" target="compile" />
+		<ant dir="images" target="fill" />
+		<ant dir="images" target="compileBsh" />
+		<ant dir="images" target="fill" />
+		<ant dir="images" target="pdf" />
+		<ant dir="images" target="xmlEmbed" />
+		<ant dir="images" target="xml" />
+		<ant dir="images" target="html" />
+		<ant dir="images" target="xls" />
+		<ant dir="images" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Jasper Sample"/>
+		<echo message="==================================="/>
+		<ant dir="jasper" target="clean" />
+		<ant dir="jasper" target="javac" />
+		<ant dir="jasper" target="compile" />
+		<ant dir="jasper" target="fill" />
+		<ant dir="jasper" target="compileBsh" />
+		<ant dir="jasper" target="fill" />
+		<ant dir="jasper" target="pdf" />
+		<ant dir="jasper" target="xmlEmbed" />
+		<ant dir="jasper" target="xml" />
+		<ant dir="jasper" target="html" />
+		<ant dir="jasper" target="xls" />
+		<ant dir="jasper" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" jCharts Sample"/>
+		<echo message="==================================="/>
+		<ant dir="jcharts" target="clean" />
+		<ant dir="jcharts" target="javac" />
+		<ant dir="jcharts" target="compile" />
+		<ant dir="jcharts" target="fill" />
+		<ant dir="jcharts" target="compileBsh" />
+		<ant dir="jcharts" target="fill" />
+		<ant dir="jcharts" target="pdf" />
+		<ant dir="jcharts" target="xmlEmbed" />
+		<ant dir="jcharts" target="xml" />
+		<ant dir="jcharts" target="html" />
+		<ant dir="jcharts" target="xls" />
+		<ant dir="jcharts" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Landscape Sample"/>
+		<echo message="==================================="/>
+		<ant dir="landscape" target="clean" />
+		<ant dir="landscape" target="javac" />
+		<ant dir="landscape" target="compile" />
+		<ant dir="landscape" target="fill" />
+		<ant dir="landscape" target="compileBsh" />
+		<ant dir="landscape" target="fill" />
+		<ant dir="landscape" target="pdf" />
+		<ant dir="landscape" target="xmlEmbed" />
+		<ant dir="landscape" target="xml" />
+		<ant dir="landscape" target="html" />
+		<ant dir="landscape" target="xls" />
+		<ant dir="landscape" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" No Page Break Sample"/>
+		<echo message="==================================="/>
+		<ant dir="nopagebreak" target="clean" />
+		<ant dir="nopagebreak" target="javac" />
+		<ant dir="nopagebreak" target="compile" />
+		<ant dir="nopagebreak" target="fill" />
+		<ant dir="nopagebreak" target="compileBsh" />
+		<ant dir="nopagebreak" target="fill" />
+		<ant dir="nopagebreak" target="pdf" />
+		<ant dir="nopagebreak" target="xmlEmbed" />
+		<ant dir="nopagebreak" target="xml" />
+		<ant dir="nopagebreak" target="html" />
+		<ant dir="nopagebreak" target="xls" />
+		<ant dir="nopagebreak" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" No Report Sample"/>
+		<echo message="==================================="/>
+		<ant dir="noreport" target="clean" />
+		<ant dir="noreport" target="javac" />
+		<ant dir="noreport" target="fill" />
+		<ant dir="noreport" target="pdf" />
+		<ant dir="noreport" target="xmlEmbed" />
+		<ant dir="noreport" target="xml" />
+		<ant dir="noreport" target="html" />
+		<ant dir="noreport" target="xls" />
+		<ant dir="noreport" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" No XML Design Sample"/>
+		<echo message="==================================="/>
+		<ant dir="noxmldesign" target="clean" />
+		<ant dir="noxmldesign" target="javac" />
+		<ant dir="noxmldesign" target="compile" />
+		<ant dir="noxmldesign" target="writeXml" />
+		<ant dir="noxmldesign" target="fill" />
+		<ant dir="noxmldesign" target="compileBsh" />
+		<ant dir="noxmldesign" target="fill" />
+		<ant dir="noxmldesign" target="pdf" />
+		<ant dir="noxmldesign" target="xmlEmbed" />
+		<ant dir="noxmldesign" target="xml" />
+		<ant dir="noxmldesign" target="html" />
+		<ant dir="noxmldesign" target="xls" />
+		<ant dir="noxmldesign" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Print Service Sample"/>
+		<echo message="==================================="/>
+		<ant dir="printservice" target="clean" />
+		<ant dir="printservice" target="javac" />
+		<ant dir="printservice" target="fill" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Query Sample"/>
+		<echo message="==================================="/>
+		<ant dir="query" target="clean" />
+		<ant dir="query" target="javac" />
+		<ant dir="query" target="compile" />
+		<ant dir="query" target="fill" />
+		<ant dir="query" target="compileBsh" />
+		<ant dir="query" target="fill" />
+		<ant dir="query" target="pdf" />
+		<ant dir="query" target="xmlEmbed" />
+		<ant dir="query" target="xml" />
+		<ant dir="query" target="html" />
+		<ant dir="query" target="xls" />
+		<ant dir="query" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Scriptlet Sample"/>
+		<echo message="==================================="/>
+		<ant dir="scriptlet" target="clean" />
+		<ant dir="scriptlet" target="javac" />
+		<ant dir="scriptlet" target="compile" />
+		<ant dir="scriptlet" target="fill" />
+		<ant dir="scriptlet" target="compileBsh" />
+		<ant dir="scriptlet" target="fill" />
+		<ant dir="scriptlet" target="pdf" />
+		<ant dir="scriptlet" target="xmlEmbed" />
+		<ant dir="scriptlet" target="xml" />
+		<ant dir="scriptlet" target="html" />
+		<ant dir="scriptlet" target="xls" />
+		<ant dir="scriptlet" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Shapes Sample"/>
+		<echo message="==================================="/>
+		<ant dir="shapes" target="clean" />
+		<ant dir="shapes" target="javac" />
+		<ant dir="shapes" target="compile" />
+		<ant dir="shapes" target="fill" />
+		<ant dir="shapes" target="compileBsh" />
+		<ant dir="shapes" target="fill" />
+		<ant dir="shapes" target="pdf" />
+		<ant dir="shapes" target="xmlEmbed" />
+		<ant dir="shapes" target="xml" />
+		<ant dir="shapes" target="html" />
+		<ant dir="shapes" target="xls" />
+		<ant dir="shapes" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Stretch Sample"/>
+		<echo message="==================================="/>
+		<ant dir="stretch" target="clean" />
+		<ant dir="stretch" target="javac" />
+		<ant dir="stretch" target="compile" />
+		<ant dir="stretch" target="fill" />
+		<ant dir="stretch" target="compileBsh" />
+		<ant dir="stretch" target="fill" />
+		<ant dir="stretch" target="pdf" />
+		<ant dir="stretch" target="xmlEmbed" />
+		<ant dir="stretch" target="xml" />
+		<ant dir="stretch" target="html" />
+		<ant dir="stretch" target="xls" />
+		<ant dir="stretch" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Subreport Sample"/>
+		<echo message="==================================="/>
+		<ant dir="subreport" target="clean" />
+		<ant dir="subreport" target="javac" />
+		<ant dir="subreport" target="compile" />
+		<ant dir="subreport" target="fill" />
+		<ant dir="subreport" target="compileBsh" />
+		<ant dir="subreport" target="fill" />
+		<ant dir="subreport" target="pdf" />
+		<ant dir="subreport" target="xmlEmbed" />
+		<ant dir="subreport" target="xml" />
+		<ant dir="subreport" target="html" />
+		<ant dir="subreport" target="xls" />
+		<ant dir="subreport" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Table of Contents Sample"/>
+		<echo message="==================================="/>
+		<ant dir="tableofcontents" target="clean" />
+		<ant dir="tableofcontents" target="javac" />
+		<ant dir="tableofcontents" target="compile" />
+		<ant dir="tableofcontents" target="fill" />
+		<ant dir="tableofcontents" target="compileBsh" />
+		<ant dir="tableofcontents" target="fill" />
+		<ant dir="tableofcontents" target="pdf" />
+		<ant dir="tableofcontents" target="xmlEmbed" />
+		<ant dir="tableofcontents" target="xml" />
+		<ant dir="tableofcontents" target="html" />
+		<ant dir="tableofcontents" target="xls" />
+		<ant dir="tableofcontents" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Unicode Sample"/>
+		<echo message="==================================="/>
+		<ant dir="unicode" target="clean" />
+		<ant dir="unicode" target="javac" />
+		<ant dir="unicode" target="compile" />
+		<ant dir="unicode" target="fill" />
+		<ant dir="unicode" target="compileBsh" />
+		<ant dir="unicode" target="fill" />
+		<ant dir="unicode" target="pdf" />
+		<ant dir="unicode" target="xmlEmbed" />
+		<ant dir="unicode" target="xml" />
+		<ant dir="unicode" target="html" />
+		<ant dir="unicode" target="xls" />
+		<ant dir="unicode" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Webapp Sample"/>
+		<echo message="==================================="/>
+		<ant dir="webapp" target="clean" />
+		<ant dir="webapp" target="javac" />
+	</target>
+
+
+	<!--
+		Clean all the samples.
+	-->
+	<target name="clean">
+		<ant dir="alterdesign" target="clean" />
+		<ant dir="antcompile" target="clean" />
+		<ant dir="chart" target="clean" />
+		<ant dir="datasource" target="clean" />
+		<ant dir="fonts" target="clean" />
+		<ant dir="horizontal" target="clean" />
+		<ant dir="hyperlink" target="clean" />
+		<ant dir="images" target="clean" />
+		<ant dir="jasper" target="clean" />
+		<ant dir="jcharts" target="clean" />
+		<ant dir="landscape" target="clean" />
+		<ant dir="nopagebreak" target="clean" />
+		<ant dir="noreport" target="clean" />
+		<ant dir="noxmldesign" target="clean" />
+		<ant dir="printservice" target="clean" />
+		<ant dir="query" target="clean" />
+		<ant dir="scriptlet" target="clean" />
+		<ant dir="shapes" target="clean" />
+		<ant dir="stretch" target="clean" />
+		<ant dir="subreport" target="clean" />
+		<ant dir="tableofcontents" target="clean" />
+		<ant dir="unicode" target="clean" />
+		<ant dir="webapp" target="clean" />
+	</target>
+
+</project>

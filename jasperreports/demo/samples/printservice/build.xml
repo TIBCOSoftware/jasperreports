@@ -1,0 +1,93 @@
+<project name="JasperReports" default="javac" basedir=".">
+
+	<!--
+		Compiles the java source files 
+		of the test application.
+	-->
+	<target name="javac">
+		<echo message="**************************************************"/>
+		<echo message="* You need JDK 1.4 or higher to run this sample. *"/>
+		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
+		<echo message="**************************************************"/>
+		<condition property="using.jdk.1.4">
+			<equals arg1="${ant.java.version}" arg2="1.4"/>
+		</condition>
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<exclude name="**/*.java" unless="using.jdk.1.4"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fill">
+		<java classname="PrintServiceApp" fork="true">
+			<arg value="-Tfill"/>
+			<arg value="-FPrintServiceReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the report viewer to preview the report 
+		stored in the .jrprint file.
+	-->
+	<target name="view">
+		<java classname="dori.jasper.view.JasperViewer" fork="true">
+			<arg value="-FPrintServiceReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Sends the report in the .jrprint file to the printer.
+	-->
+	<target name="print">
+		<echo message="**************************************************"/>
+		<echo message="* You need JDK 1.4 or higher to run this sample. *"/>
+		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
+		<echo message="**************************************************"/>
+		<java classname="PrintServiceApp" fork="true">
+			<arg value="-Tprint"/>
+			<arg value="-FPrintServiceReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jrprint" />
+		</delete>
+	</target>
+
+</project>

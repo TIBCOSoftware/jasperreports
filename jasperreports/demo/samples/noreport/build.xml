@@ -1,0 +1,214 @@
+<project name="JasperReports" default="javac" basedir=".">
+
+	<!--
+		Compiles the java source files 
+		of the test application.
+	-->
+	<target name="javac">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fill">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Tfill"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the report viewer to preview the report 
+		stored in the .jrprint file.
+	-->
+	<target name="view">
+		<java classname="dori.jasper.view.JasperViewer" fork="true">
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the report viewer to preview the generated report 
+		stored in an XML file.
+	-->
+	<target name="viewXML">
+		<java classname="dori.jasper.view.JasperViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FNoReport.jrpxml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Sends the report in the .jrprint file to the printer.
+	-->
+	<target name="print">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Tprint"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates a PDF version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="pdf">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Tpdf"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xml">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Txml"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xmlEmbed">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-TxmlEmbed"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an HTML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="html">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Thtml"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XLS version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xls">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Txls"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates a CSV version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="csv">
+		<java classname="NoReportApp" fork="true">
+			<arg value="-Tcsv"/>
+			<arg value="-FNoReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.pdf" />
+		</delete>
+		<delete dir="NoReport.jrpxml_files" />
+		<delete dir="NoReport.html_files" />
+	</target>
+
+</project>
