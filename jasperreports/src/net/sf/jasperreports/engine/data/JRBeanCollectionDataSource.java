@@ -78,14 +78,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBeanCollectionDataSource implements JRRewindableDataSource
+public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 {
 	
 
@@ -102,6 +101,17 @@ public class JRBeanCollectionDataSource implements JRRewindableDataSource
 	 */
 	public JRBeanCollectionDataSource(Collection beanCollection)
 	{
+		this(beanCollection, true);
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRBeanCollectionDataSource(Collection beanCollection, boolean isUseFieldDescription)
+	{
+		super(isUseFieldDescription);
+		
 		this.data = beanCollection;
 
 		if (this.data != null)
@@ -135,27 +145,29 @@ public class JRBeanCollectionDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public Object getFieldValue(JRField jrField) throws JRException
+	public Object getFieldValue(JRField field) throws JRException
 	{
 		Object value = null;
 		
 		if (currentBean != null)
 		{
+			String propertyName = propertyNameProvider.getPropertyName(field);
+			
 			try
 			{
-				value = PropertyUtils.getProperty(currentBean, jrField.getName());
+				value = PropertyUtils.getProperty(currentBean, propertyName);
 			}
 			catch (java.lang.IllegalAccessException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + jrField.getName(), e);
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
 			}
 			catch (java.lang.reflect.InvocationTargetException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + jrField.getName(), e);
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
 			}
 			catch (java.lang.NoSuchMethodException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + jrField.getName(), e);
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
 			}
 		}
 
