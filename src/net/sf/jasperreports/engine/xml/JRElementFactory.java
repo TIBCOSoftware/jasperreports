@@ -91,6 +91,26 @@ public class JRElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_key = "key";
+	private static final String ATTRIBUTE_positionType = "positionType";
+	private static final String ATTRIBUTE_stretchType = "stretchType";
+	private static final String ATTRIBUTE_isPrintRepeatedValues = "isPrintRepeatedValues";
+	private static final String ATTRIBUTE_mode = "mode";
+	private static final String ATTRIBUTE_x = "x";
+	private static final String ATTRIBUTE_y = "y";
+	private static final String ATTRIBUTE_width = "width";
+	private static final String ATTRIBUTE_height = "height";
+	private static final String ATTRIBUTE_isRemoveLineWhenBlank = "isRemoveLineWhenBlank";
+	private static final String ATTRIBUTE_isPrintInFirstWholeBand = "isPrintInFirstWholeBand";
+	private static final String ATTRIBUTE_isPrintWhenDetailOverflows = "isPrintWhenDetailOverflows";
+	private static final String ATTRIBUTE_printWhenGroupChanges = "printWhenGroupChanges";
+	private static final String ATTRIBUTE_forecolor = "forecolor";
+	private static final String ATTRIBUTE_backcolor = "backcolor";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
@@ -98,75 +118,75 @@ public class JRElementFactory extends JRBaseFactory
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
 
-		element.setKey(atts.getValue("key"));
+		element.setKey(atts.getValue(ATTRIBUTE_key));
 
-		Byte positionType = (Byte)JRXmlConstants.getPositionTypeMap().get(atts.getValue("positionType"));
+		Byte positionType = (Byte)JRXmlConstants.getPositionTypeMap().get(atts.getValue(ATTRIBUTE_positionType));
 		if (positionType != null)
 		{
 			element.setPositionType(positionType.byteValue());
 		}
 
-		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue("stretchType"));
+		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
 			element.setStretchType(stretchType.byteValue());
 		}
 
-		String isPrintRepeatedValues = atts.getValue("isPrintRepeatedValues");
+		String isPrintRepeatedValues = atts.getValue(ATTRIBUTE_isPrintRepeatedValues);
 		if (isPrintRepeatedValues != null && isPrintRepeatedValues.length() > 0)
 		{
 			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues).booleanValue());
 		}
 		
-		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue("mode"));
+		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode.byteValue());
 		}
 		
-		String x = atts.getValue("x");
+		String x = atts.getValue(ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{
 			element.setX(Integer.parseInt(x));
 		}
 
-		String y = atts.getValue("y");
+		String y = atts.getValue(ATTRIBUTE_y);
 		if (y != null && y.length() > 0)
 		{
 			element.setY(Integer.parseInt(y));
 		}
 
-		String width = atts.getValue("width");
+		String width = atts.getValue(ATTRIBUTE_width);
 		if (width != null && width.length() > 0)
 		{
 			element.setWidth(Integer.parseInt(width));
 		}
 
-		String height = atts.getValue("height");
+		String height = atts.getValue(ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			element.setHeight(Integer.parseInt(height));
 		}
 
-		String isRemoveLineWhenBlank = atts.getValue("isRemoveLineWhenBlank");
+		String isRemoveLineWhenBlank = atts.getValue(ATTRIBUTE_isRemoveLineWhenBlank);
 		if (isRemoveLineWhenBlank != null && isRemoveLineWhenBlank.length() > 0)
 		{
 			element.setRemoveLineWhenBlank(Boolean.valueOf(isRemoveLineWhenBlank).booleanValue());
 		}
 
-		String isPrintInFirstWholeBand = atts.getValue("isPrintInFirstWholeBand");
+		String isPrintInFirstWholeBand = atts.getValue(ATTRIBUTE_isPrintInFirstWholeBand);
 		if (isPrintInFirstWholeBand != null && isPrintInFirstWholeBand.length() > 0)
 		{
 			element.setPrintInFirstWholeBand(Boolean.valueOf(isPrintInFirstWholeBand).booleanValue());
 		}
 
-		String isPrintWhenDetailOverflows = atts.getValue("isPrintWhenDetailOverflows");
+		String isPrintWhenDetailOverflows = atts.getValue(ATTRIBUTE_isPrintWhenDetailOverflows);
 		if (isPrintWhenDetailOverflows != null && isPrintWhenDetailOverflows.length() > 0)
 		{
 			element.setPrintWhenDetailOverflows(Boolean.valueOf(isPrintWhenDetailOverflows).booleanValue());
 		}
 
-		String groupName = atts.getValue("printWhenGroupChanges");
+		String groupName = atts.getValue(ATTRIBUTE_printWhenGroupChanges);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -175,7 +195,7 @@ public class JRElementFactory extends JRBaseFactory
 			groupReprintedElements.add(element);
 		}
 
-		String forecolor = atts.getValue("forecolor");
+		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
 			char firstChar = forecolor.charAt(0);
@@ -200,7 +220,7 @@ public class JRElementFactory extends JRBaseFactory
 			}
 		}
 
-		String backcolor = atts.getValue("backcolor");
+		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
 			char firstChar = backcolor.charAt(0);

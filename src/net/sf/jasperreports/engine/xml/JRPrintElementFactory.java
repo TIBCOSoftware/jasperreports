@@ -89,41 +89,53 @@ public class JRPrintElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_mode = "mode";
+	private static final String ATTRIBUTE_x = "x";
+	private static final String ATTRIBUTE_y = "y";
+	private static final String ATTRIBUTE_width = "width";
+	private static final String ATTRIBUTE_height = "height";
+	private static final String ATTRIBUTE_forecolor = "forecolor";
+	private static final String ATTRIBUTE_backcolor = "backcolor";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRBasePrintElement element = (JRBasePrintElement)digester.peek();
 
-		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue("mode"));
+		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode.byteValue());
 		}
 		
-		String x = atts.getValue("x");
+		String x = atts.getValue(ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{
 			element.setX(Integer.parseInt(x));
 		}
 
-		String y = atts.getValue("y");
+		String y = atts.getValue(ATTRIBUTE_y);
 		if (y != null && y.length() > 0)
 		{
 			element.setY(Integer.parseInt(y));
 		}
 
-		String width = atts.getValue("width");
+		String width = atts.getValue(ATTRIBUTE_width);
 		if (width != null && width.length() > 0)
 		{
 			element.setWidth(Integer.parseInt(width));
 		}
 
-		String height = atts.getValue("height");
+		String height = atts.getValue(ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			element.setHeight(Integer.parseInt(height));
 		}
 
-		String forecolor = atts.getValue("forecolor");
+		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
 		if (forecolor != null)
 		{
 			if (forecolor.startsWith("#"))
@@ -136,7 +148,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 			}
 		}
 
-		String backcolor = atts.getValue("backcolor");
+		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null)
 		{
 			if (backcolor.startsWith("#"))

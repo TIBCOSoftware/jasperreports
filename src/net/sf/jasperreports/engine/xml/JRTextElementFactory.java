@@ -87,35 +87,45 @@ public class JRTextElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_textAlignment = "textAlignment";
+	private static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
+	private static final String ATTRIBUTE_rotation = "rotation";
+	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
+	private static final String ATTRIBUTE_isStyledText = "isStyledText";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue("textAlignment"));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
 			textElement.setTextAlignment(horizontalAlignment.byteValue());
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue("verticalAlignment"));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
 			textElement.setVerticalAlignment(verticalAlignment.byteValue());
 		}
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue("rotation"));
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			textElement.setRotation(rotation.byteValue());
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue("lineSpacing"));
+		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			textElement.setLineSpacing(lineSpacing.byteValue());
 		}
 
-		String isStyledText = atts.getValue("isStyledText");
+		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			textElement.setStyledText(Boolean.valueOf(isStyledText).booleanValue());

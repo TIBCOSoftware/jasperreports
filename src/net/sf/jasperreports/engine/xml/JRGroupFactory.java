@@ -87,37 +87,48 @@ public class JRGroupFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_isStartNewColumn = "isStartNewColumn";
+	private static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
+	private static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
+	private static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
+	private static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignGroup group = new JRDesignGroup();
 		
-		group.setName(atts.getValue("name"));
+		group.setName(atts.getValue(ATTRIBUTE_name));
 		
-		String isStartNewColumn = atts.getValue("isStartNewColumn");
+		String isStartNewColumn = atts.getValue(ATTRIBUTE_isStartNewColumn);
 		if (isStartNewColumn != null && isStartNewColumn.length() > 0)
 		{
 			group.setStartNewColumn(Boolean.valueOf(isStartNewColumn).booleanValue());
 		}
 
-		String isStartNewPage = atts.getValue("isStartNewPage");
+		String isStartNewPage = atts.getValue(ATTRIBUTE_isStartNewPage);
 		if (isStartNewPage != null && isStartNewPage.length() > 0)
 		{
 			group.setStartNewPage(Boolean.valueOf(isStartNewPage).booleanValue());
 		}
 
-		String isResetPageNumber = atts.getValue("isResetPageNumber");
+		String isResetPageNumber = atts.getValue(ATTRIBUTE_isResetPageNumber);
 		if (isResetPageNumber != null && isResetPageNumber.length() > 0)
 		{
 			group.setResetPageNumber(Boolean.valueOf(isResetPageNumber).booleanValue());
 		}
 
-		String isReprintHeaderOnEachPage = atts.getValue("isReprintHeaderOnEachPage");
+		String isReprintHeaderOnEachPage = atts.getValue(ATTRIBUTE_isReprintHeaderOnEachPage);
 		if (isReprintHeaderOnEachPage != null && isReprintHeaderOnEachPage.length() > 0)
 		{
 			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
 		}
 
-		String minHeightToStartNewPage = atts.getValue("minHeightToStartNewPage");
+		String minHeightToStartNewPage = atts.getValue(ATTRIBUTE_minHeightToStartNewPage);
 		if (minHeightToStartNewPage != null && minHeightToStartNewPage.length() > 0)
 		{
 			group.setMinHeightToStartNewPage(Integer.parseInt(minHeightToStartNewPage));

@@ -87,17 +87,24 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_pen = "pen";
+	private static final String ATTRIBUTE_fill = "fill";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRBasePrintGraphicElement graphicElement = (JRBasePrintGraphicElement)digester.peek();
 		
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue("pen"));
+		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			graphicElement.setPen(pen.byteValue());
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue("fill"));
+		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill.byteValue());

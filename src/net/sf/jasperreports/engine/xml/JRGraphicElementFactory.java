@@ -87,23 +87,31 @@ public class JRGraphicElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_stretchType = "stretchType";
+	private static final String ATTRIBUTE_pen = "pen";
+	private static final String ATTRIBUTE_fill = "fill";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignGraphicElement graphicElement = (JRDesignGraphicElement)digester.peek();
 		
-		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue("stretchType"));
+		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
 			graphicElement.setStretchType(stretchType.byteValue());
 		}
 
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue("pen"));
+		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			graphicElement.setPen(pen.byteValue());
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue("fill"));
+		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill.byteValue());

@@ -73,6 +73,7 @@ package dori.jasper.engine.xml;
 
 import org.xml.sax.Attributes;
 
+import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.design.JRDesignExpression;
 
 
@@ -87,15 +88,21 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_class = "class";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 
 		JRDesignExpression expression = new JRDesignExpression();
 
-		if (atts.getValue("class") != null)
+		if (atts.getValue(ATTRIBUTE_class) != null)
 		{
-			expression.setValueClassName(atts.getValue("class"));
+			expression.setValueClassName(atts.getValue(ATTRIBUTE_class));
 		}
 		else
 		{
@@ -103,7 +110,7 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 		}
 
 		int count = xmlLoader.getSubreportsCount();
-		expression.setName("subreport_" + count);
+		expression.setName(JRExpression.PREFIX_subreport + count);
 
 		return expression;
 	}

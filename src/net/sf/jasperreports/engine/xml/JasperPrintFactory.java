@@ -87,25 +87,34 @@ public class JasperPrintFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_pageWidth = "pageWidth";
+	private static final String ATTRIBUTE_pageHeight = "pageHeight";
+	private static final String ATTRIBUTE_orientation = "orientation";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JasperPrint jasperPrint = new JasperPrint();
 		
-		jasperPrint.setName(atts.getValue("name"));
+		jasperPrint.setName(atts.getValue(ATTRIBUTE_name));
 
-		String pageWidth = atts.getValue("pageWidth");
+		String pageWidth = atts.getValue(ATTRIBUTE_pageWidth);
 		if (pageWidth != null && pageWidth.length() > 0)
 		{
 			jasperPrint.setPageWidth(Integer.parseInt(pageWidth));
 		}
 
-		String pageHeight = atts.getValue("pageHeight");
+		String pageHeight = atts.getValue(ATTRIBUTE_pageHeight);
 		if (pageHeight != null && pageHeight.length() > 0)
 		{
 			jasperPrint.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue("orientation"));
+		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
 			jasperPrint.setOrientation(orientation.byteValue());

@@ -87,15 +87,22 @@ public class JRFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_class = "class";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignField field = new JRDesignField();
 		
-		field.setName(atts.getValue("name"));
+		field.setName(atts.getValue(ATTRIBUTE_name));
 
-		if (atts.getValue("class") != null)
+		if (atts.getValue(ATTRIBUTE_class) != null)
 		{
-			field.setValueClassName(atts.getValue("class"));
+			field.setValueClassName(atts.getValue(ATTRIBUTE_class));
 		}
 
 		return field;

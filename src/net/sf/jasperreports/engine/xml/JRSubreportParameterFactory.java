@@ -87,11 +87,17 @@ public class JRSubreportParameterFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_name = "name";
+
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignSubreportParameter subreportParameter = new JRDesignSubreportParameter();
 		
-		subreportParameter.setName(atts.getValue("name"));
+		subreportParameter.setName(atts.getValue(ATTRIBUTE_name));
 
 		return subreportParameter;
 	}
