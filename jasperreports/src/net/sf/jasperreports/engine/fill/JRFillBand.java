@@ -589,7 +589,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 
 		if (maxBandStretch > availableStretchHeight)
 		{
-			willOverflow = true;
+			//willOverflow = true;
 		}
 		
 		if (willOverflow)
