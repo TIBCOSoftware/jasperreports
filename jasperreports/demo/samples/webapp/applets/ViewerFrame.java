@@ -4,7 +4,7 @@
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
- * Copyright (C) 2001-2004 Teodor Danciu teodord@users.sourceforge.net
+ * Copyright (C) 2001-2005 Teodor Danciu teodord@users.sourceforge.net
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
