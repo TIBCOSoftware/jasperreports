@@ -18,14 +18,14 @@
 				</fileset>
 			</classpath>
 		</javac>
-		<copy todir="./classes/dori/jasper/engine/dtds">
-			<fileset dir="./src/dori/jasper/engine/dtds"/>
+		<copy todir="./classes/net/sf/jasperreports/engine/dtds">
+			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
 		</copy>
-		<copy todir="./classes/dori/jasper/engine/images">
-			<fileset dir="./src/dori/jasper/engine/images"/>
+		<copy todir="./classes/net/sf/jasperreports/engine/images">
+			<fileset dir="./src/net/sf/jasperreports/engine/images"/>
 		</copy>
-		<copy todir="./classes/dori/jasper/view/images">
-			<fileset dir="./src/dori/jasper/view/images"/>
+		<copy todir="./classes/net/sf/jasperreports/view/images">
+			<fileset dir="./src/net/sf/jasperreports/view/images"/>
 		</copy>
 	</target>
 
@@ -49,52 +49,52 @@
 	<target name="applet" depends="compile">
 		<jar jarfile="./dist/jasperreports-0.5.3-applet.jar">
 			<fileset dir="./classes">
-				<include name="**/dori/jasper/engine/JasperPrint.class"/>
-				<include name="**/dori/jasper/engine/JasperPrintManager.class"/>
-				<include name="**/dori/jasper/engine/JRAbstractExporter.class"/>
-				<include name="**/dori/jasper/engine/JRAlignment.class"/>
-				<include name="**/dori/jasper/engine/JRAnchor.class"/>
-				<include name="**/dori/jasper/engine/JRDefaultFontProvider.class"/>
-				<include name="**/dori/jasper/engine/JRElement.class"/>
-				<include name="**/dori/jasper/engine/JREllipse.class"/>
-				<include name="**/dori/jasper/engine/JRException.class"/>
-				<include name="**/dori/jasper/engine/JRExporter.class"/>
-				<include name="**/dori/jasper/engine/JRExporterParameter.class"/>
-				<include name="**/dori/jasper/engine/JRExpression.class"/>
-				<include name="**/dori/jasper/engine/JRExpressionChunk.class"/>
-				<include name="**/dori/jasper/engine/JRFont.class"/>
-				<include name="**/dori/jasper/engine/JRGraphicElement.class"/>
-				<include name="**/dori/jasper/engine/JRHyperlink.class"/>
-				<include name="**/dori/jasper/engine/JRImage.class"/>
-				<include name="**/dori/jasper/engine/JRLine.class"/>
-				<include name="**/dori/jasper/engine/JRPrint*.class"/>
-				<include name="**/dori/jasper/engine/JRRectangle.class"/>
-				<include name="**/dori/jasper/engine/JRReportFont.class"/>
-				<include name="**/dori/jasper/engine/JRRuntimeException.class"/>
-				<include name="**/dori/jasper/engine/JRStaticText.class"/>
-				<include name="**/dori/jasper/engine/JRTextElement.class"/>
-				<include name="**/dori/jasper/engine/JRTextField.class"/>
-				<include name="**/dori/jasper/engine/base/JRBaseFont.class"/>
-				<include name="**/dori/jasper/engine/base/JRBasePrintPage.class"/>
-				<include name="**/dori/jasper/engine/base/JRBaseReportFont.class"/>
-				<include name="**/dori/jasper/engine/design/JRDesignFont.class"/>
-				<include name="**/dori/jasper/engine/design/JRDesignReportFont.class"/>
-				<include name="**/dori/jasper/engine/export/JRExportProgressMonitor.class"/>
-				<include name="**/dori/jasper/engine/export/JRGraphics2DExporter.class"/>
-				<include name="**/dori/jasper/engine/export/JRGraphics2DExporterParameter.class"/>
-				<include name="**/dori/jasper/engine/fill/JRTemplate*.class"/>
-				<include name="**/dori/jasper/engine/print/JRPrinterAWT.class"/>
-				<include name="**/dori/jasper/engine/util/JRGraphEnvInitializer.class"/>
-				<include name="**/dori/jasper/engine/util/JRImageLoader.class"/>
-				<include name="**/dori/jasper/engine/util/JRLoader.class"/>
-				<include name="**/dori/jasper/engine/util/JRStringUtil.class"/>
-				<include name="**/dori/jasper/engine/util/JRStyledText*.class"/>
-				<include name="**/dori/jasper/engine/util/JRTextAttribute.class"/>
-				<include name="**/dori/jasper/view/JasperViewer*.class"/>
-				<include name="**/dori/jasper/view/JRSaveContributor.class"/>
-				<include name="**/dori/jasper/view/JRHyperlinkListener.class"/>
-				<include name="**/dori/jasper/view/JRViewer*.class"/>
-				<include name="**/dori/jasper/view/images/*.GIF"/>
+				<include name="**/net/sf/jasperreports/engine/JasperPrint.class"/>
+				<include name="**/net/sf/jasperreports/engine/JasperPrintManager.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
+				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRException.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRExporterParameter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRExpression.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRExpressionChunk.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRGraphicElement.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRImage.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRReportFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRRuntimeException.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRTextElement.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRTextField.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRExportProgressMonitor.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
+				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
+				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
+				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
+				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
+				<include name="**/net/sf/jasperreports/view/JRHyperlinkListener.class"/>
+				<include name="**/net/sf/jasperreports/view/JRViewer*.class"/>
+				<include name="**/net/sf/jasperreports/view/images/*.GIF"/>
 			</fileset>
 		</jar>
 	</target>
@@ -119,9 +119,9 @@
 			<fileset dir="./docs/api" includes="**/*.*" />
 		</delete>
 		<copy todir="./docs/dtds">
-			<fileset dir="./src/dori/jasper/engine/dtds"/>
+			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
 		</copy>
-		<javadoc packagenames="dori.jasper.engine.*, dori.jasper.view.*, dori.jasper.xml.*"
+		<javadoc packagenames="net.sf.jasperreports.engine.*, net.sf.jasperreports.view.*, net.sf.jasperreports.xml.*"
 				sourcepath="./src"
 				destdir="./docs/api"
 				author="true"

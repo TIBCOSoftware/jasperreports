@@ -50,7 +50,7 @@
 		stored in the .jrprint file.
 	-->
 	<target name="view">
-		<java classname="dori.jasper.view.JasperViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>

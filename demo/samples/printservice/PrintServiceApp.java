@@ -69,18 +69,36 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import dori.jasper.engine.*;
-import dori.jasper.engine.base.*;
-import dori.jasper.engine.design.*;
-import dori.jasper.engine.export.*;
-import dori.jasper.engine.util.*;
-import dori.jasper.view.*;
-import java.awt.*;
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.MediaSizeName;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.base.JRBasePrintLine;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.design.JRDesignFont;
+import net.sf.jasperreports.engine.design.JRDesignReportFont;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
+import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
@@ -244,7 +262,11 @@ public class PrintServiceApp
 		image.setWidth(165);
 		image.setHeight(40);
 		image.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-		image.setImageData(JRImageLoader.loadImageDataFromLocation("jasperreports.gif"));
+		image.setRenderer(
+			JRImageRenderer.getInstance(
+				JRImageLoader.loadImageDataFromLocation("jasperreports.gif")
+				)
+			);
 		page.addElement(image);
 
 		JRPrintText text = new JRBasePrintText();

@@ -74,9 +74,9 @@
 
 <%@ page errorPage="error.jsp" %>
 <%@ page import="datasource.*" %>
-<%@ page import="dori.jasper.engine.*" %>
-<%@ page import="dori.jasper.engine.util.*" %>
-<%@ page import="dori.jasper.engine.export.*" %>
+<%@ page import="net.sf.jasperreports.engine.*" %>
+<%@ page import="net.sf.jasperreports.engine.util.*" %>
+<%@ page import="net.sf.jasperreports.engine.export.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 

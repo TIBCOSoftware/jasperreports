@@ -193,7 +193,7 @@
 				<subreportParameter name="ReportTitle">
 					<subreportParameterExpression><![CDATA[$P{ReportTitle}]]></subreportParameterExpression>
 				</subreportParameter>
-				<dataSourceExpression><![CDATA[new dori.jasper.engine.data.JRBeanCollectionDataSource($V{HeadingsCollection})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($V{HeadingsCollection})]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["HeadingsReport.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

@@ -53,7 +53,7 @@
 		Launches the design viewer to preview the XML report design.
 	-->
 	<target name="viewDesignXML">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-Freports/WebappReport.jrxml"/>
 			<classpath>
@@ -70,7 +70,7 @@
 		Launches the design viewer to preview the compiled report design.
 	-->
 	<target name="viewDesign">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-Freports/WebappReport.jasper"/>
 			<classpath>
 				<pathelement location="./"/>

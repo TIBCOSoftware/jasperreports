@@ -6,7 +6,7 @@
 	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<parameter name="ProductsSubreport" class="dori.jasper.engine.JasperReport">
+	<parameter name="ProductsSubreport" class="net.sf.jasperreports.engine.JasperReport">
 	</parameter>
 	<queryString><![CDATA[SELECT City FROM Address GROUP BY City ORDER BY City]]></queryString>
 	<field name="City" class="java.lang.String">
@@ -71,7 +71,7 @@
 					<subreportParameterExpression><![CDATA[$F{City}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="dori.jasper.engine.JasperReport"><![CDATA[$P{ProductsSubreport}]]></subreportExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{ProductsSubreport}]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="335" y="25" width="175" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>

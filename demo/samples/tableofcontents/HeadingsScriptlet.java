@@ -70,8 +70,8 @@
  * Email: teodord@users.sourceforge.net
  */
 
-import dori.jasper.engine.*;
-import dori.jasper.engine.fill.*;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.fill.*;
 
 import java.util.*;
 

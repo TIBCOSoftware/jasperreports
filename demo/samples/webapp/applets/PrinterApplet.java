@@ -69,8 +69,8 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import dori.jasper.engine.*;
-import dori.jasper.engine.util.*;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.*;
 
 import java.io.*;
 import java.net.*;

@@ -71,7 +71,7 @@
  */
 package servlets;
 
-import dori.jasper.engine.*;
+import net.sf.jasperreports.engine.*;
 
 import java.io.*;
 import javax.servlet.*;
