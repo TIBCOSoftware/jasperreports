@@ -8,7 +8,7 @@
 		<condition property="using.jdk.1.4">
 			<equals arg1="${ant.java.version}" arg2="1.4"/>
 		</condition>
-		<javac srcdir="./src" destdir="./classes" debug="true" optimize="false" deprecation="false">
+		<javac srcdir="./src" destdir="./classes" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<classpath>
