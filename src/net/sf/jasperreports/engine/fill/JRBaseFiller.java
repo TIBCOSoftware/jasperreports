@@ -154,8 +154,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected int bottomMargin = 0;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
-	//protected String scriptletClass = null;
-	//protected String resourceBundle = null;
 
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;

@@ -137,18 +137,21 @@ public class I18nApp
 			}
 			else if (TASK_FILL_EN.equals(taskName))
 			{
+				Locale.setDefault(Locale.US);
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_FILL_FR.equals(taskName))
 			{
+				Locale.setDefault(Locale.FRANCE);
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_FILL_DE.equals(taskName))
 			{
+				Locale.setDefault(Locale.GERMANY);
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
