@@ -81,9 +81,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -144,11 +142,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	private JRReportFont defaultFont = null;
-
-   	/**
-	 *
-	 */
-	private Map loadedFontsMap = null;
 
 
 	/**
@@ -211,8 +204,6 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 			}
 		}
-
-		this.loadedFontsMap = new HashMap();
 
 		OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
@@ -1191,21 +1182,24 @@ public class JRPdfExporter extends JRAbstractExporter
 			jrFont = this.getDefaultFont();
 		}
 
-		BaseFont baseFont = (BaseFont)this.loadedFontsMap.get(jrFont.getPdfFontName());
-		if (baseFont == null)
+		BaseFont baseFont = null;
+		Exception initialException = null;
+
+		try
 		{
-			try
-			{
-				baseFont =
-					BaseFont.createFont(
-						jrFont.getPdfFontName(),
-						jrFont.getPdfEncoding(),
-						jrFont.isPdfEmbedded()
-						);
-			}
-			catch(Exception e)
-			{
-			}
+			baseFont =
+				BaseFont.createFont(
+					jrFont.getPdfFontName(),
+					jrFont.getPdfEncoding(),
+					jrFont.isPdfEmbedded(),
+					true,
+					null,
+					null
+					);
+		}
+		catch(Exception e)
+		{
+			initialException = e;
 		}
 
 		if (baseFont == null)
@@ -1218,7 +1212,11 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			catch(JRException e)
 			{
-				throw new JRException("Could not load font from location : " + jrFont.getPdfFontName());
+				throw 
+					new JRException(
+						"Could not load font from location : " + jrFont.getPdfFontName(), 
+						initialException
+						);
 			}
 
 			baseFont =
@@ -1231,8 +1229,6 @@ public class JRPdfExporter extends JRAbstractExporter
 					null
 					);
 		}
-
-		this.loadedFontsMap.put(jrFont.getPdfFontName(), baseFont);
 
 		Font font =
 			new Font(
