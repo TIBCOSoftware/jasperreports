@@ -163,8 +163,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected Writer writer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map loadedImagesMap = null;
-	protected Map imagesMap = null;
+	protected Map rendererToImageNameMap = null;
+	protected Map imageNameToImageDataMap = null;
 
 	protected int reportIndex = 0;
 
@@ -283,19 +283,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 			imagesURI = uri;
 		}
 
-		imagesMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-		if(imagesMap == null)
-		{
-			imagesMap = new HashMap();
-		}
-
 		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
 		if (encoding == null)
 		{
 			encoding = "UTF-8";
 		}
 		
-		loadedImagesMap = new HashMap();
+		rendererToImageNameMap = new HashMap();
+
+		imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+		if (imageNameToImageDataMap == null)
+		{
+			imageNameToImageDataMap = new HashMap();
+		}
 		
 		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
 		if (isUsingImagesToAlignParameter == null)
@@ -466,22 +466,22 @@ public class JRHtmlExporter extends JRAbstractExporter
 				throw new JRException("The images directory was not specified for the exporter.");
 			}
 
-			Collection imageKeys = loadedImagesMap.keySet();
-			if (imageKeys != null && imageKeys.size() > 0)
+			Collection imageNames = imageNameToImageDataMap.keySet();
+			if (imageNames != null && imageNames.size() > 0)
 			{
 				if (!imagesDir.exists())
 				{
 					imagesDir.mkdir();
 				}
 	
-				JRRenderable renderer = null;
-				File imageFile = null;
-				FileOutputStream fos = null;
-				for(Iterator it = imageKeys.iterator(); it.hasNext();)
+				for(Iterator it = imageNames.iterator(); it.hasNext();)
 				{
-					renderer = (JRRenderable)it.next();
-					imageFile = new File(imagesDir, (String)loadedImagesMap.get(renderer));
-					byte[] imageData = renderer.getImageData();
+					String imageName = (String)it.next();
+					byte[] imageData = (byte[])imageNameToImageDataMap.get(imageName);
+
+					File imageFile = new File(imagesDir, imageName);
+					FileOutputStream fos = null;
+
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -518,8 +518,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (htmlHeader == null)
 		{
 			writer.write("<html>\n");
-			writer.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\">\n");
 			writer.write("<head>\n");
+			writer.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\">\n");
 			writer.write("  <style type=\"text/css\">\n");
 			writer.write("    a {text-decoration: none}\n");
 			writer.write("  </style>\n");
@@ -1252,16 +1252,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write("<img");
 
-		String imageSource = "";
+		String imagePath = "";
 		
 		byte scaleImage = image.getScaleImage();
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && loadedImagesMap.containsKey(renderer))
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImageNameMap.containsKey(renderer))
 			{
-				//imageSource = imagesDir.getName() + "/" + (String)loadedImagesMap.get(imageData);
-				imageSource = imagesURI + (String)loadedImagesMap.get(renderer);
+				//imagePath = imagesDir.getName() + "/" + (String)rendererToImageNameMap(imageData);
+				imagePath = imagesURI + (String)rendererToImageNameMap.get(renderer);
 			}
 			else
 			{
@@ -1274,23 +1274,23 @@ public class JRHtmlExporter extends JRAbstractExporter
 							);
 				}
 				
-				imageSource = "img_" + String.valueOf(loadedImagesMap.size());
-				loadedImagesMap.put(renderer, imageSource);
-				imagesMap.put(imageSource, renderer);
+				String imageName = "img_" + String.valueOf(rendererToImageNameMap.size());
+				rendererToImageNameMap.put(renderer, imageName);
+				imageNameToImageDataMap.put(imageName, renderer.getImageData());
 	
 				//imageSource = imagesDir.getName() + "/" + imageSource;
-				imageSource = imagesURI + imageSource;
+				imagePath = imagesURI + imageName;
 			}
 		}
 		else
 		{
 			loadPxImage();
-			imageSource = imagesURI + "px";
+			imagePath = imagesURI + "px";
 			scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
 		}
 		
 		writer.write(" src=\"");
-		writer.write(imageSource);
+		writer.write(imagePath);
 		writer.write("\"");
 
 		int borderWidth = 0;
@@ -1591,14 +1591,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void loadPxImage() throws JRException
 	{
-		if (!imagesMap.containsKey("px"))
+		if (!imageNameToImageDataMap.containsKey("px"))
 		{
 			JRRenderable pxRenderer = 
 				JRImageRenderer.getInstance(
 					JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF")
 					);
-			loadedImagesMap.put(pxRenderer, "px");
-			imagesMap.put("px", pxRenderer);
+			rendererToImageNameMap.put(pxRenderer, "px");
+			imageNameToImageDataMap.put("px", pxRenderer.getImageData());
 		}
 	}
 	
