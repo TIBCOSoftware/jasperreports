@@ -10,19 +10,19 @@
 	</parameter>
 	<parameter name="DataFile" class="java.lang.String">
 	</parameter>
-	<field name="Id" class="java.lang.Integer">
+	<field name="id" class="java.lang.Integer">
 	</field>
-	<field name="Name" class="java.lang.String">
+	<field name="name" class="java.lang.String">
 	</field>
-	<field name="Street" class="java.lang.String">
+	<field name="street" class="java.lang.String">
 	</field>
-	<field name="City" class="java.lang.String">
+	<field name="city" class="java.lang.String">
 	</field>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
 		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
-		<groupExpression><![CDATA[$F{City}]]></groupExpression>
+		<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		<groupHeader>
 		<band height="20">
 			<rectangle>
@@ -34,7 +34,7 @@
 				<textElement>
 					<font reportFont="Arial_Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{City})]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="19" width="515" height="1"/>
@@ -121,17 +121,17 @@
 			<textField>
 				<reportElement x="0" y="4" width="50" height="15"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="55" y="4" width="200" height="15"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Name}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="260" y="4" width="255" height="15"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{street}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement positionType="Float" x="0" y="19" width="515" height="1" forecolor="#808080"/>
