@@ -97,7 +97,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	private boolean isCreatingNewPage = false;
 	private boolean isNewPage = false;
 	private boolean isNewColumn = false;
-	private boolean isNewGroup = false;
+	private boolean isNewGroup = true;
 
 	private int columnIndex = 0;
 
