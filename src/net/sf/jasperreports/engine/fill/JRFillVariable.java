@@ -157,6 +157,22 @@ public class JRFillVariable implements JRVariable
 	/**
 	 *
 	 */
+	public Class getIncrementerClass()
+	{
+		return this.parent.getIncrementerClass();
+	}
+		
+	/**
+	 *
+	 */
+	public String getIncrementerClassName()
+	{
+		return this.parent.getIncrementerClassName();
+	}
+		
+	/**
+	 *
+	 */
 	public JRExpression getExpression()
 	{
 		return this.parent.getExpression();
