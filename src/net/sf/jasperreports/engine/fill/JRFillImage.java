@@ -494,6 +494,32 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				isToPrint = false;
 			}
 		}
+		else
+		{
+			if (isOverflow && this.isAlreadyPrinted() && !this.isPrintWhenDetailOverflows())
+			{
+				isToPrint = false;
+			}
+	
+			if (
+				isToPrint && 
+				availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+				)
+			{
+				isToPrint = false;
+				willOverflow = true;
+			}
+			
+			if (
+				isToPrint && 
+				isOverflow && 
+				//(this.isAlreadyPrinted() || !this.isPrintRepeatedValues())
+				(this.isPrintWhenDetailOverflows() && (this.isAlreadyPrinted() || (!this.isAlreadyPrinted() && !this.isPrintRepeatedValues())))
+				)
+			{
+				isReprinted = true;
+			}
+		}
 
 		this.setToPrint(isToPrint);
 		this.setReprinted(isReprinted);
