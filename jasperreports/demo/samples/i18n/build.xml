@@ -63,6 +63,18 @@
 	</target>
 
 	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fillDefault">
+		<java classname="${class.name}" fork="true">
+			<arg value="fillDefault"/>
+			<arg value="${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
 		Launches the report viewer to preview the report 
 		stored in the .jrprint file.
 	-->

@@ -2,7 +2,9 @@
 <!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="I18nReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport name="I18nReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" resourceBundle="i18n">
+	<parameter name="number" class="java.lang.Integer">
+	</parameter>
 	<title>
 		<band height="552">
 			<image scaleImage="Clip">
@@ -39,11 +41,25 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{text.paragraph3}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="18" y="299" width="245" height="50"/>
+				<reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="#ff0000"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[msg($R{my.message}, new Date())]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[msg($R{text.message}, $P{number})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="175" width="530" height="28" forecolor="#ff"/>
+				<textElement>
+					<font size="18" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="235" width="530" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{text.contributors}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

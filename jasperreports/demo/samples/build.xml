@@ -141,9 +141,9 @@
 		<ant dir="i18n" target="clean" />
 		<ant dir="i18n" target="javac" />
 		<ant dir="i18n" target="compile" />
-		<ant dir="i18n" target="fillEN" />
+		<ant dir="i18n" target="fillDefault" />
 		<ant dir="i18n" target="compileBsh" />
-		<ant dir="i18n" target="fillEN" />
+		<ant dir="i18n" target="fillDefault" />
 		<ant dir="i18n" target="pdf" />
 		<ant dir="i18n" target="html" />
 		<ant dir="i18n" target="xls" />

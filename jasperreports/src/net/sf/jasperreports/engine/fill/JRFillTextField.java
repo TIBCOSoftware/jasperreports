@@ -72,8 +72,10 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.text.AttributedString;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
@@ -103,10 +105,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private TextChopper textChopper = null; 
+	private TextChopper textChopper = null;
 	private Format format = null;
 	private boolean isValueRepeating = false;
-	private String oldRawText = null;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -124,27 +125,21 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(filler, textField, factory);
 		
-		evaluationGroup = (JRGroup)factory.getGroup(textField.getEvaluationGroup());
-
-		JRExpression expression = textField.getExpression();
-		String pattern = textField.getPattern();
-		if (
-			expression != null &&
-			pattern != null && 
-			pattern.length() > 0
-			)
+		JRExpression expression = getExpression();
+		if (expression != null)
 		{
 			Class expressionClass = expression.getValueClass();
-			if (java.util.Date.class.isAssignableFrom(expressionClass))
+			if (
+				java.util.Date.class.isAssignableFrom(expressionClass)
+				|| java.lang.Number.class.isAssignableFrom(expressionClass)
+				)
 			{
-				format = new SimpleDateFormat(pattern);
-			}
-			else if (java.lang.Number.class.isAssignableFrom(expressionClass))
-			{
-				format = new DecimalFormat(pattern);
+				filler.formattedTextFields.add(this);
 			}
 		}
 		
+		evaluationGroup = (JRGroup)factory.getGroup(textField.getEvaluationGroup());
+
 		textChopper = textField.isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
@@ -361,7 +356,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				);
 		String oldRawText = getRawText();
 
-		this.oldRawText = oldRawText;
 		setRawText(newRawText);
 		setTextStart(0);
 		setTextEnd(0);
@@ -659,6 +653,38 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkReference(getHyperlinkReference());
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected void setFormat()
+	{
+		String pattern = getPattern();
+		Class expressionClass = getExpression().getValueClass();
+		if (java.util.Date.class.isAssignableFrom(expressionClass))
+		{
+			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.locale);
+			if (
+				pattern != null && pattern.trim().length() > 0
+				&& format instanceof SimpleDateFormat
+				)
+			{
+				((SimpleDateFormat)format).applyPattern(pattern);
+			}
+		}
+		else if (java.lang.Number.class.isAssignableFrom(expressionClass))
+		{
+			format = NumberFormat.getNumberInstance(filler.locale);
+			if (
+				pattern != null && pattern.trim().length() > 0
+				&& format instanceof DecimalFormat
+				)
+			{
+				((DecimalFormat)format).applyPattern(pattern);
+			}
+		}
 	}
 	
 	
