@@ -88,7 +88,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 502;
+	private static final long serialVersionUID = 503;
 
 	/**
 	 *

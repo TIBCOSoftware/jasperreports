@@ -85,7 +85,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 502;
+	private static final long serialVersionUID = 503;
 
 	/**
 	 *

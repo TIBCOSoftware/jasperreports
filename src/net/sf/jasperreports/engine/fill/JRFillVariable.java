@@ -105,6 +105,11 @@ public class JRFillVariable implements JRVariable
 	private Object value = null;
 	private boolean isInitialized = false;
 
+	/**
+	 *
+	 */
+	private JRIncrementer incrementer = null;
+
 
 	/**
 	 *
@@ -283,6 +288,60 @@ public class JRFillVariable implements JRVariable
 	public void setInitialized(boolean isInitialized)
 	{
 		this.isInitialized = isInitialized;
+	}
+
+		
+	/**
+	 *
+	 */
+	public JRIncrementer getIncrementer()
+	{
+		if (incrementer == null)
+		{
+			String valueClassName = getValueClassName();
+			
+			if (java.math.BigDecimal.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRBigDecimalIncrementer(this);
+			}
+			else if (
+				java.lang.Number.class.getName().equals(valueClassName)
+				|| java.lang.Double.class.getName().equals(valueClassName)
+				)
+			{
+				incrementer = new JRDoubleIncrementer(this);
+			}
+			else if (java.lang.Float.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRFloatIncrementer(this);
+			}
+			else if (java.lang.Long.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRLongIncrementer(this);
+			}
+			else if (java.lang.Integer.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRIntegerIncrementer(this);
+			}
+			else if (java.lang.Short.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRShortIncrementer(this);
+			}
+			else if (java.lang.Byte.class.getName().equals(valueClassName))
+			{
+				incrementer = new JRByteIncrementer(this);
+			}
+			else if (java.lang.Comparable.class.isAssignableFrom(getValueClass()))
+			{
+				incrementer = new JRComparableIncrementer(this);
+			}
+			else
+			{
+				incrementer = new JRDefaultIncrementer(this);
+			}
+		}
+		
+		return incrementer;
 	}
 
 

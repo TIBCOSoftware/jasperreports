@@ -69,224 +69,58 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.design;
+package dori.jasper.engine.fill;
 
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRTextField;
-
-//import java.text.Format;
+import dori.jasper.engine.JRException;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignTextField extends JRDesignTextElement implements JRTextField
+public interface JRIncrementer
 {
 
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	public Object incrementCount(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	protected boolean isStretchWithOverflow = false;
-	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected String pattern = null;
-	protected boolean isBlankWhenNull = false;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	public Object incrementSum(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
-	protected JRExpression expression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
-
+	public Object incrementAverage(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	public boolean isStretchWithOverflow()
-	{
-		return this.isStretchWithOverflow;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getEvaluationTime()
-	{
-		return this.evaluationTime;
-	}
-		
-	/**
-	 *
-	 */
-	public String getPattern()
-	{
-		return this.pattern;
-	}
-		
-	/**
-	 *
-	 */
-	public boolean isBlankWhenNull()
-	{
-		return this.isBlankWhenNull;
-	}
+	public Object incrementLowest(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	public byte getHyperlinkType()
-	{
-		return this.hyperlinkType;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getEvaluationGroup()
-	{
-		return this.evaluationGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getExpression()
-	{
-		return this.expression;
-	}
+	public Object incrementHighest(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	public JRExpression getAnchorNameExpression()
-	{
-		return this.anchorNameExpression;
-	}
+	public Object incrementStandardDeviation(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	public JRExpression getHyperlinkReferenceExpression()
-	{
-		return this.hyperlinkReferenceExpression;
-	}
+	public Object incrementVariance(Object expressionValue) throws JRException;
 
 	/**
 	 *
 	 */
-	public JRExpression getHyperlinkAnchorExpression()
-	{
-		return this.hyperlinkAnchorExpression;
-	}
-
-	/**
-	 *
-	 */
-	public JRExpression getHyperlinkPageExpression()
-	{
-		return this.hyperlinkPageExpression;
-	}
-
-	/**
-	 *
-	 */
-	public void setStretchWithOverflow(boolean isStretch)
-	{
-		this.isStretchWithOverflow = isStretch;
-	}
-		
-	/**
-	 *
-	 */
-	public void setEvaluationTime(byte evaluationTime)
-	{
-		this.evaluationTime = evaluationTime;
-	}
-		
-	/**
-	 *
-	 */
-	public void setPattern(String pattern)
-	{
-		this.pattern = pattern;
-	}
-
-	/**
-	 *
-	 */
-	public void setBlankWhenNull(boolean isBlank)
-	{
-		this.isBlankWhenNull = isBlank;
-	}
-
-	/**
-	 *
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		this.hyperlinkType = hyperlinkType;
-	}
-		
-	/**
-	 *
-	 */
-	public void setEvaluationGroup(JRGroup evaluationGroup)
-	{
-		this.evaluationGroup = evaluationGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public void setExpression(JRExpression expression)
-	{
-		this.expression = expression;
-	}
-
-	/**
-	 *
-	 */
-	public void setAnchorNameExpression(JRExpression anchorNameExpression)
-	{
-		this.anchorNameExpression = anchorNameExpression;
-	}
-
-	/**
-	 *
-	 */
-	public void setHyperlinkReferenceExpression(JRExpression hyperlinkReferenceExpression)
-	{
-		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
-	}
-
-	/**
-	 *
-	 */
-	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression)
-	{
-		this.hyperlinkAnchorExpression = hyperlinkAnchorExpression;
-	}
-
-	/**
-	 *
-	 */
-	public void setHyperlinkPageExpression(JRExpression hyperlinkPageExpression)
-	{
-		this.hyperlinkPageExpression = hyperlinkPageExpression;
-	}
+	public Object incrementSystem(Object expressionValue) throws JRException;
 
 
 }

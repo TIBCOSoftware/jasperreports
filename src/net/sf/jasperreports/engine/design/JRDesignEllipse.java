@@ -84,6 +84,6 @@ public class JRDesignEllipse extends JRDesignGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 502;
+	private static final long serialVersionUID = 503;
 
 }
