@@ -384,10 +384,12 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 			if (node != null) {
 				String text = getText(node);
 				
-				if(String.class == valueClass)
-					value = text;
-				else
-					value = ConvertUtils.convert(text.trim(), jrField.getValueClass());
+				if(text != null) {
+					if(String.class == valueClass)
+						value = text;
+					else
+						value = ConvertUtils.convert(text.trim(), valueClass);
+				}
 			}
 		}
 		
@@ -469,7 +471,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 * </ul>
 	 * 
 	 * @param node a DOM node
-	 * @return a String representing node contents
+	 * @return a String representing node contents or null
 	 */
 	public String getText(Node node) {
 		if (!node.hasChildNodes())
@@ -481,13 +483,19 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		for (int i = 0; i < list.getLength(); i++) {
 			Node subnode = list.item(i);
 			if (subnode.getNodeType() == Node.TEXT_NODE) {
-				result.append(subnode.getNodeValue());
+				String value = subnode.getNodeValue();
+				if(value != null)
+					result.append(value);
 			} else if (subnode.getNodeType() == Node.CDATA_SECTION_NODE) {
-				result.append(subnode.getNodeValue());
+				String value = subnode.getNodeValue();
+				if(value != null)
+					result.append(value);
 			} else if (subnode.getNodeType() == Node.ENTITY_REFERENCE_NODE) {
 				// Recurse into the subtree for text
 				// (and ignore comments)
-				result.append(getText(subnode));
+				String value = getText(subnode);
+				if(value != null)
+					result.append(value);
 			}
 		}
 
