@@ -95,6 +95,26 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 
 
 /**
+ * Ant task for batch-compiling XML report design files.
+ * Works like the built-in "javac" Ant task.
+ * <p>
+ * This task can take the following arguments:
+ * <ul>
+ * <li>src
+ * <li>destdir
+ * <li>compiler
+ * <li>classpath
+ * <li>tempdir
+ * <li>keepjava
+ * <li>xmlvalidation
+ * </ul>
+ * Of these arguments, the <code>src</code> and <code>destdir</code> are required.
+ * When this task executes, it will recursively scan the <code>src</code> and 
+ * <code>destdir</code> looking for XML report design files to compile. 
+ * This task makes its compile decision based on timestamp and only XML files 
+ * that have no corresponding .jasper file or where the compiled report design file 
+ * is older than the XML file will be compiled.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -117,7 +137,7 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Set the source directories to find the XML report design files.
 	 */
 	public void setSrcdir(Path srcdir)
 	{
@@ -133,7 +153,7 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Adds a path for source compilation.
 	 */
 	public Path createSrc()
 	{
@@ -147,7 +167,7 @@ public class JRAntCompileTask extends MatchingTask
 	
 	
 	/**
-	 *
+	 * Sets the destination directory into which the XML report design files should be compiled.
 	 */
 	public void setDestdir(File destdir)
 	{
@@ -156,7 +176,10 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Sets the temporary working directory into which to store the temporary files 
+	 * generated during XML report design file compilation. This is only used by the
+	 * Java bytecode report compilers that need to have the Java source files stored 
+	 * on disk in order to compile them.
 	 */
 	public void setTempdir(File tempdir)
 	{
@@ -165,7 +188,9 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Sets a boolean flag that will instruct the Java bytecode report compilers
+	 * to avoid deletion of the Java source files generated in the temporary working 
+	 * directory during report generation. This is useful when debugging.
 	 */
 	public void setKeepjava(boolean keepjava)
 	{
@@ -174,7 +199,8 @@ public class JRAntCompileTask extends MatchingTask
 
 
 	/**
-	 *
+	 * Sets the name of the report compiler class to use when compiling the XML
+	 * report design files.
 	 */
 	public void setCompiler(String compiler)
 	{
