@@ -154,6 +154,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected int bottomMargin = 0;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
+	protected String scriptletClassName = null;
+	protected String resourceBundleBaseName = null;
 
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
@@ -178,6 +180,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected JRFillBand summary = null;
 
 	protected JRCalculator calculator = null;
+	protected Locale locale = null;
 	protected ResourceBundle resourceBundle = null;
 	protected JRAbstractScriptlet scriptlet = null;
 	protected JRDataSource dataSource = null;
@@ -234,8 +237,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		bottomMargin = jasperReport.getBottomMargin();
 		isTitleNewPage = jasperReport.isTitleNewPage();
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
-		String scriptletClass = jasperReport.getScriptletClass();
-		String resourceBundleBaseName = jasperReport.getResourceBundle();
+		scriptletClassName = jasperReport.getScriptletClass();
+		resourceBundleBaseName = jasperReport.getResourceBundle();
 
 		jasperPrint = new JasperPrint();
 
@@ -321,10 +324,10 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
 
-		/*   */
+		/*   *
 		resourceBundle = loadResourceBundle(resourceBundleBaseName);
 
-		/*   */
+		/*   *
 		scriptlet = 
 			loadScriptlet(
 				scriptletClass,
@@ -334,7 +337,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				groups
 				);
 
-		/*   */
+		/*   *
 		calculator = 
 			loadCalculator(
 				jasperReport,
@@ -344,6 +347,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				variables,
 				groups
 				);
+		*/
+		
+		calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
 	}
 
 
@@ -444,18 +450,22 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		setParameters(parameterValues);
 		isParametersAlreadySet = true;
 
+		/*   */
+		if (conn == null)
+		{
+			conn = (Connection)parameterValues.get(JRParameter.REPORT_CONNECTION);
+		}
+		parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
+		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_CONNECTION);
+		if (parameter != null)
+		{
+			setParameter(parameter, conn);
+		}
+
 		if (conn == null)
 		{
 			if (log.isWarnEnabled())
 				log.warn("The supplied java.sql.Connection object is null.");
-		}
-
-		JRFillParameter parameter = null;
-		parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_CONNECTION);
-		if (parameter != null)
-		{
-			setParameter(parameter, conn);
 		}
 
 		PreparedStatement pstmt = null; 
@@ -518,20 +528,68 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			parameterValues = new HashMap();
 		}
 
-		JRFillParameter parameter = null;
+		if (!isParametersAlreadySet)
+		{
+			setParameters(parameterValues);
+			isParametersAlreadySet = true;
+		}
+
+		/*   */
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
+		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
 		if (parameter != null)
 		{
 			setParameter(parameter, parameterValues);
 		}
 
+		/*   */
+		if (dataSource == null)
+		{
+			dataSource = (JRDataSource)parameterValues.get(JRParameter.REPORT_DATA_SOURCE);
+		}
 		parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
 		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
 		if (parameter != null)
 		{
 			setParameter(parameter, dataSource);
 		}
+
+		/*   */
+		locale = (Locale)parameterValues.get(JRParameter.REPORT_LOCALE);
+		if (locale == null)
+		{
+			locale = Locale.getDefault();
+		}
+		parameterValues.put(JRParameter.REPORT_LOCALE, locale);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
+		if (parameter != null)
+		{
+			setParameter(parameter, locale);
+		}
+
+		/*   */
+		resourceBundle = (ResourceBundle)parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (resourceBundle == null)
+		{
+			resourceBundle = loadResourceBundle();
+		}
+		parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (parameter != null)
+		{
+			setParameter(parameter, resourceBundle);
+		}
+
+		/*   */
+		scriptlet = createScriptlet();
+		
+		/*   */
+		scriptlet.setData(
+			parametersMap,
+			fieldsMap,
+			variablesMap,
+			groups
+			);
 
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET);
@@ -540,18 +598,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			setParameter(parameter, scriptlet);
 		}
 
-		parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		if (parameter != null)
-		{
-			setParameter(parameter, resourceBundle);
-		}
-
-		if (!isParametersAlreadySet)
-		{
-			setParameters(parameterValues);
-			isParametersAlreadySet = true;
-		}
+		/*   */
+		calculator.init(
+			parametersMap,
+			fieldsMap,
+			variablesMap,
+			variables,
+			groups
+			);
 
 		jasperPrint.setName(name);
 		jasperPrint.setPageWidth(pageWidth);
@@ -584,7 +638,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 *
 	 */
-	protected static ResourceBundle loadResourceBundle(String resourceBundleBaseName) throws JRException
+	protected ResourceBundle loadResourceBundle() throws JRException
 	{
 		ResourceBundle resourceBundle = null;
 
@@ -595,7 +649,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				resourceBundle = 
 					ResourceBundle.getBundle(
 						resourceBundleBaseName,
-						Locale.getDefault(),
+						locale,
 						Thread.currentThread().getContextClassLoader()
 						); 
 			}
@@ -610,7 +664,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				resourceBundle = 
 					ResourceBundle.getBundle(
 						resourceBundleBaseName,
-						Locale.getDefault(),
+						locale,
 						JRClassLoader.class.getClassLoader()
 						); 
 			}
@@ -623,27 +677,21 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 *
 	 */
-	protected static JRAbstractScriptlet loadScriptlet(
-		String className,
-		Map parametersMap,
-		Map fieldsMap,
-		Map variablesMap,
-		JRFillGroup[] groups
-		) throws JRException
+	protected JRAbstractScriptlet createScriptlet() throws JRException
 	{
 		JRAbstractScriptlet scriptlet = null;
 
-		if (className != null)
+		if (scriptletClassName != null)
 		{
 			Class clazz = null;
 
 			try
 			{
-				clazz = JRClassLoader.loadClassForName(className);
+				clazz = JRClassLoader.loadClassForName(scriptletClassName);
 			}
 			catch (ClassNotFoundException e)
 			{
-				throw new JRException("Error loading scriptlet class : " + className, e);
+				throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
 			}
 
 			try
@@ -652,7 +700,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Error creating scriptlet class instance : " + className, e);
+				throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
 			}
 		}
 
@@ -661,20 +709,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			scriptlet = new JRDefaultScriptlet();
 		}
 
-		scriptlet.setData(
-				parametersMap,
-				fieldsMap,
-				variablesMap,
-				groups
-				);
-		
 		return scriptlet;
 	}
 
 
 	/**
 	 *
-	 */
+	 *
 	protected static JRCalculator loadCalculator(
 		JasperReport jasperReport,
 		Map parametersMap,

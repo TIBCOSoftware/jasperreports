@@ -77,6 +77,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -183,6 +184,21 @@ public class JasperDesign extends JRBaseReport
 		parameter = new JRDesignParameter();
 		parameter.setName(JRParameter.REPORT_SCRIPTLET);
 		parameter.setValueClass(JRAbstractScriptlet.class);
+		parameter.setSystemDefined(true);
+		try 
+		{
+			addParameter(parameter);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		/*   */
+		parameter = new JRDesignParameter();
+		parameter.setName(JRParameter.REPORT_LOCALE);
+		parameter.setValueClass(Locale.class);
 		parameter.setSystemDefined(true);
 		try 
 		{

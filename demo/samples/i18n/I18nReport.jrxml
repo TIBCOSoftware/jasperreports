@@ -10,6 +10,13 @@
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{my.text}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement positionType="Float" x="16" y="100" width="245" height="50"/>
+				<textElement>
+					<font fontName="Arial" pdfFontName="c:/winnt/fonts/arial.ttf" isPdfEmbedded="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[msg($R{my.message}, new Date())]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>
