@@ -75,7 +75,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**

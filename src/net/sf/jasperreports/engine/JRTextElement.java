@@ -156,7 +156,12 @@ public interface JRTextElement extends JRElement, JRAlignment
 	/**
 	 *
 	 */
-	public JRFont getFont();
-		
+	public JRBox getBox();
 
+	/**
+	 *
+	 */
+	public JRFont getFont();
+
+	
 }

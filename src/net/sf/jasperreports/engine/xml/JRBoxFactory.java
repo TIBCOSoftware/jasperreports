@@ -69,143 +69,142 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.xml;
+
+import java.awt.Color;
+
+import org.xml.sax.Attributes;
+
+import net.sf.jasperreports.engine.base.JRBaseBox;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyperlink
+public class JRBoxFactory extends JRBaseFactory
 {
 
 
 	/**
 	 *
 	 */
-	public static final byte RUN_DIRECTION_LTR = 0;
-	public static final byte RUN_DIRECTION_RTL = 1;
+	private static final String ATTRIBUTE_border = "border";
+	private static final String ATTRIBUTE_borderColor = "borderColor";
+	private static final String ATTRIBUTE_padding = "padding";
+	private static final String ATTRIBUTE_topBorder = "topBorder";
+	private static final String ATTRIBUTE_topBorderColor = "topBorderColor";
+	private static final String ATTRIBUTE_topPadding = "topPadding";
+	private static final String ATTRIBUTE_leftBorder = "leftBorder";
+	private static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
+	private static final String ATTRIBUTE_leftPadding = "leftPadding";
+	private static final String ATTRIBUTE_bottomBorder = "bottomBorder";
+	private static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
+	private static final String ATTRIBUTE_bottomPadding = "bottomPadding";
+	private static final String ATTRIBUTE_rightBorder = "rightBorder";
+	private static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
+	private static final String ATTRIBUTE_rightPadding = "rightPadding";
 
+
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		JRBaseBox box = new JRBaseBox();//FIXME design box?
+
+		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_border));
+		if (border != null)
+		{
+			box.setBorder(border.byteValue());
+		}
+
+		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), Color.black);
+		if (borderColor != null)
+		{
+			box.setBorderColor(borderColor);
+		}
+
+		String padding = atts.getValue(ATTRIBUTE_padding);
+		if (padding != null && padding.length() > 0)
+		{
+			box.setPadding(Integer.parseInt(padding));
+		}
+
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_topBorder));
+		if (border != null)
+		{
+			box.setTopBorder(border.byteValue());
+		}
+
+		borderColor = getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
+		if (borderColor != null)
+		{
+			box.setTopBorderColor(borderColor);
+		}
+
+		padding = atts.getValue(ATTRIBUTE_topPadding);
+		if (padding != null && padding.length() > 0)
+		{
+			box.setTopPadding(Integer.parseInt(padding));
+		}
+
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_leftBorder));
+		if (border != null)
+		{
+			box.setLeftBorder(border.byteValue());
+		}
+
+		borderColor = getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
+		if (borderColor != null)
+		{
+			box.setLeftBorderColor(borderColor);
+		}
+
+		padding = atts.getValue(ATTRIBUTE_leftPadding);
+		if (padding != null && padding.length() > 0)
+		{
+			box.setLeftPadding(Integer.parseInt(padding));
+		}
+
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_bottomBorder));
+		if (border != null)
+		{
+			box.setBottomBorder(border.byteValue());
+		}
+
+		borderColor = getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
+		if (borderColor != null)
+		{
+			box.setBottomBorderColor(borderColor);
+		}
+
+		padding = atts.getValue(ATTRIBUTE_bottomPadding);
+		if (padding != null && padding.length() > 0)
+		{
+			box.setBottomPadding(Integer.parseInt(padding));
+		}
+
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_rightBorder));
+		if (border != null)
+		{
+			box.setRightBorder(border.byteValue());
+		}
+
+		borderColor = getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
+		if (borderColor != null)
+		{
+			box.setRightBorderColor(borderColor);
+		}
+
+		padding = atts.getValue(ATTRIBUTE_rightPadding);
+		if (padding != null && padding.length() > 0)
+		{
+			box.setRightPadding(Integer.parseInt(padding));
+		}
+
+		return box;
+	}
 	
-	/**
-	 *
-	 */
-	public String getText();
-		
-	/**
-	 *
-	 */
-	public void setText(String text);
 
-	/**
-	 *
-	 */
-	public float getLineSpacingFactor();
-		
-	/**
-	 *
-	 */
-	public void setLineSpacingFactor(float lineSpacingFactor);
-
-	/**
-	 *
-	 */
-	public float getLeadingOffset();
-		
-	/**
-	 *
-	 */
-	public void setLeadingOffset(float leadingOffset);
-
-	/**
-	 *
-	 */
-	public byte getTextAlignment();
-		
-	/**
-	 *
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
-	public byte getRotation();
-		
-	/**
-	 *
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 *
-	 */
-	public byte getRunDirection();
-		
-	/**
-	 *
-	 */
-	public void setRunDirection(byte rotation);
-		
-	/**
-	 *
-	 */
-	public float getTextHeight();
-		
-	/**
-	 *
-	 */
-	public void setTextHeight(float textHeight);
-		
-	/**
-	 *
-	 */
-	public byte getLineSpacing();
-		
-	/**
-	 *
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 *
-	 */
-	public boolean isStyledText();
-		
-	/**
-	 *
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 *
-	 */
-	public JRBox getBox();
-
-	/**
-	 *
-	 */
-	public void setBox(JRBox box);
-
-	/**
-	 *
-	 */
-	public JRFont getFont();
-
-	/**
-	 *
-	 */
-	public void setFont(JRFont font);
-		
-	
 }

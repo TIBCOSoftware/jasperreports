@@ -71,20 +71,18 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import net.sf.jasperreports.engine.JRAlignment;
+import java.awt.Color;
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRGraphicElement;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
+public class JRBaseBox implements JRBox, Serializable
 {
 
 
@@ -96,332 +94,451 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 *
 	 */
-	protected String text = "";
-	protected float lineSpacingFactor = 0;
-	protected float leadingOffset = 0;
-	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
-	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
-	protected byte rotation = JRTextElement.ROTATION_NONE;
-	protected byte runDirection = RUN_DIRECTION_LTR;
-	protected float textHeight = 0;
-	protected byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
-	protected boolean isStyledText = false;
-	protected JRBox box = null;
-	protected JRFont font = null;
-	protected String anchorName = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
-	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	protected String hyperlinkReference = null;
-	protected String hyperlinkAnchor = null;
-	protected Integer hyperlinkPage = null;
+	protected byte border = JRGraphicElement.PEN_NONE;
+	protected Byte topBorder = null;
+	protected Byte leftBorder = null;
+	protected Byte bottomBorder = null;
+	protected Byte rightBorder = null;
+	protected Color borderColor = null;
+	protected Color topBorderColor = null;
+	protected Color leftBorderColor = null;
+	protected Color bottomBorderColor = null;
+	protected Color rightBorderColor = null;
+	protected int padding = 0;
+	protected Integer topPadding = null;
+	protected Integer leftPadding = null;
+	protected Integer bottomPadding = null;
+	protected Integer rightPadding = null;
 
 	
 	/**
 	 *
 	 */
-	public JRBasePrintText()
+	public JRBaseBox()
 	{
 		super();
-		
-		mode = JRElement.MODE_TRANSPARENT;
 	}
-
+		
 
 	/**
 	 *
 	 */
-	public String getText()
+	public byte getBorder()
 	{
-		return text;
-	}
-		
-	/**
-	 *
-	 */
-	public void setText(String text)
-	{
-		this.text = text;
+		return border;
 	}
 
 	/**
 	 *
 	 */
-	public float getLineSpacingFactor()
+	public void setBorder(byte border)
 	{
-		return lineSpacingFactor;
-	}
-		
-	/**
-	 *
-	 */
-	public void setLineSpacingFactor(float lineSpacingFactor)
-	{
-		this.lineSpacingFactor = lineSpacingFactor;
+		this.border = border;
 	}
 
 	/**
 	 *
 	 */
-	public float getLeadingOffset()
+	public Color getBorderColor()
 	{
-		return leadingOffset;
-	}
-		
-	/**
-	 *
-	 */
-	public void setLeadingOffset(float leadingOffset)
-	{
-		this.leadingOffset = leadingOffset;
+		return borderColor;
 	}
 
 	/**
 	 *
 	 */
-	public byte getTextAlignment()
+	public void setBorderColor(Color borderColor)
 	{
-		return horizontalAlignment;
-	}
-		
-	/**
-	 *
-	 */
-	public void setTextAlignment(byte horizontalAlignment)
-	{
-		this.horizontalAlignment = horizontalAlignment;
+		this.borderColor = borderColor;
 	}
 
 	/**
 	 *
 	 */
-	public byte getVerticalAlignment()
+	public int getPadding()
 	{
-		return verticalAlignment;
-	}
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		this.verticalAlignment = verticalAlignment;
+		return padding;
 	}
 
 	/**
 	 *
 	 */
-	public byte getRotation()
+	public void setPadding(int padding)
 	{
-		return rotation;
-	}
-		
-	/**
-	 *
-	 */
-	public void setRotation(byte rotation)
-	{
-		this.rotation = rotation;
+		this.padding = padding;
 	}
 
 	/**
 	 *
 	 */
-	public byte getRunDirection()
+	public byte getTopBorder()
 	{
-		return runDirection;
-	}
-		
-	/**
-	 *
-	 */
-	public void setRunDirection(byte runDirection)
-	{
-		this.runDirection = runDirection;
-	}
-
-	/**
-	 *
-	 */
-	public float getTextHeight()
-	{
-		return textHeight;
-	}
-		
-	/**
-	 *
-	 */
-	public void setTextHeight(float textHeight)
-	{
-		this.textHeight = textHeight;
+		if (topBorder == null)
+		{
+			return border;
+		}
+		else
+		{
+			return topBorder.byteValue();
+		}
 	}
 
 	/**
 	 *
 	 */
-	public byte getLineSpacing()
+	public Byte getOwnTopBorder()
 	{
-		return lineSpacing;
-	}
-		
-	/**
-	 *
-	 */
-	public void setLineSpacing(byte lineSpacing)
-	{
-		this.lineSpacing = lineSpacing;
+		return topBorder;
 	}
 
 	/**
 	 *
 	 */
-	public boolean isStyledText()
+	public void setTopBorder(byte topBorder)
 	{
-		return isStyledText;
-	}
-		
-	/**
-	 *
-	 */
-	public void setStyledText(boolean isStyledText)
-	{
-		this.isStyledText = isStyledText;
+		this.topBorder = new Byte(topBorder);
 	}
 
 	/**
 	 *
 	 */
-	public JRBox getBox()
+	public Color getTopBorderColor()
 	{
-		return box;
+		if (topBorderColor == null)
+		{
+			return borderColor;
+		}
+		else
+		{
+			return topBorderColor;
+		}
 	}
 
 	/**
 	 *
 	 */
-	public void setBox(JRBox box)
+	public Color getOwnTopBorderColor()
 	{
-		this.box = box;
+		return topBorderColor;
 	}
 
 	/**
 	 *
 	 */
-	public JRFont getFont()
+	public void setTopBorderColor(Color topBorderColor)
 	{
-		return font;
+		this.topBorderColor = topBorderColor;
 	}
 
 	/**
 	 *
 	 */
-	public void setFont(JRFont font)
+	public int getTopPadding()
 	{
-		this.font = font;
+		if (topPadding == null)
+		{
+			return padding;
+		}
+		else
+		{
+			return topPadding.intValue();
+		}
 	}
 
 	/**
 	 *
 	 */
-	public String getAnchorName()
+	public Integer getOwnTopPadding()
 	{
-		return anchorName;
-	}
-		
-	/**
-	 *
-	 */
-	public void setAnchorName(String anchorName)
-	{
-		this.anchorName = anchorName;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getHyperlinkType()
-	{
-		return hyperlinkType;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		this.hyperlinkType = hyperlinkType;
+		return topPadding;
 	}
 
 	/**
 	 *
 	 */
-	public byte getHyperlinkTarget()
+	public void setTopPadding(int topPadding)
 	{
-		return hyperlinkTarget;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		this.hyperlinkTarget = hyperlinkTarget;
+		this.topPadding = new Integer(topPadding);
 	}
 
 	/**
 	 *
 	 */
-	public String getHyperlinkReference()
+	public byte getLeftBorder()
 	{
-		return hyperlinkReference;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkReference(String hyperlinkReference)
-	{
-		this.hyperlinkReference = hyperlinkReference;
-	}
-		
-	/**
-	 *
-	 */
-	public String getHyperlinkAnchor()
-	{
-		return hyperlinkAnchor;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkAnchor(String hyperlinkAnchor)
-	{
-		this.hyperlinkAnchor = hyperlinkAnchor;
-	}
-		
-	/**
-	 *
-	 */
-	public Integer getHyperlinkPage()
-	{
-		return hyperlinkPage;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkPage(Integer hyperlinkPage)
-	{
-		this.hyperlinkPage = hyperlinkPage;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHyperlinkPage(String hyperlinkPage)
-	{
-		this.hyperlinkPage = new Integer(hyperlinkPage);
+		if (leftBorder == null)
+		{
+			return border;
+		}
+		else
+		{
+			return leftBorder.byteValue();
+		}
 	}
 
-	
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return leftBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+		this.leftBorder = new Byte(leftBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		if (leftBorderColor == null)
+		{
+			return borderColor;
+		}
+		else
+		{
+			return leftBorderColor;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return leftBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+		this.leftBorderColor = leftBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		if (leftPadding == null)
+		{
+			return padding;
+		}
+		else
+		{
+			return leftPadding.intValue();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return leftPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+		this.leftPadding = new Integer(leftPadding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		if (bottomBorder == null)
+		{
+			return border;
+		}
+		else
+		{
+			return bottomBorder.byteValue();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return bottomBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+		this.bottomBorder = new Byte(bottomBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		if (bottomBorderColor == null)
+		{
+			return borderColor;
+		}
+		else
+		{
+			return bottomBorderColor;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return bottomBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+		this.bottomBorderColor = bottomBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		if (bottomPadding == null)
+		{
+			return padding;
+		}
+		else
+		{
+			return bottomPadding.intValue();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return bottomPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+		this.bottomPadding = new Integer(bottomPadding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		if (rightBorder == null)
+		{
+			return border;
+		}
+		else
+		{
+			return rightBorder.byteValue();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return rightBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+		this.rightBorder = new Byte(rightBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		if (rightBorderColor == null)
+		{
+			return borderColor;
+		}
+		else
+		{
+			return rightBorderColor;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return rightBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+		this.rightBorderColor = rightBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		if (rightPadding == null)
+		{
+			return padding;
+		}
+		else
+		{
+			return rightPadding.intValue();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return rightPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+		this.rightPadding = new Integer(rightPadding);
+	}
+
+
 }

@@ -79,6 +79,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
@@ -254,6 +255,10 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/staticText", JRStaticTextFactory.class.getName());
 		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
 		digester.addCallMethod("*/staticText/text", "setText", 0);
+
+		/*   */
+		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
+		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/textElement", JRTextElementFactory.class.getName());

@@ -71,6 +71,7 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRTextElement;
 
@@ -100,9 +101,10 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
+	protected JRBox box = null;
 	protected JRFont font = null;
 
-
+	
 	/**
 	 *
 	 */
@@ -157,6 +159,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
+	public JRBox getBox()
+	{
+		return box;
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getFont()
 	{
 		return font;
@@ -201,6 +211,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	{
 		this.isStyledText = isStyledText;
 	}
+	
+	/**
+	 *
+	 */
+	public void setBox(JRBox box)
+	{
+		this.box = box;
+	}
 		
 	/**
 	 *
@@ -210,5 +228,4 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		this.font = font;
 	}
 	
-
 }
