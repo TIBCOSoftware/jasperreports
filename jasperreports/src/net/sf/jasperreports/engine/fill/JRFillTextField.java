@@ -624,15 +624,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setAbsoluteLeading(getAbsoluteLeading());
 		text.setTextHeight(getTextHeight());
 
-		text.setText(getRawText());
-		/*
 		text.setText(
 			getRawText().substring(
 				getTextStart(),
 				getTextEnd()
 				)
-			);
-		*/
+			);//FIXME
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());

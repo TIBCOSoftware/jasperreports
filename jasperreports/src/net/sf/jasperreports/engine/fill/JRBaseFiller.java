@@ -106,6 +106,7 @@ import dori.jasper.engine.design.JRDefaultCompiler;
 import dori.jasper.engine.util.JRClassLoader;
 import dori.jasper.engine.util.JRGraphEnvInitializer;
 import dori.jasper.engine.util.JRQueryExecuter;
+import dori.jasper.engine.util.JRStyledTextParser;
 
 
 /**
@@ -125,6 +126,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 *
 	 */
 	private JRBaseFiller parentFiller = null;
+	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -331,6 +333,15 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				variables,
 				groups
 				);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRStyledTextParser getStyledTextParser()
+	{
+		return styledTextParser;
 	}
 
 
