@@ -58,6 +58,7 @@
 		Builds the jasperreports-applet.jar file.
 	-->
 	<target name="applet" depends="compile">
+		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
 			<fileset dir="./build/classes">
 				<include name="**/net/sf/jasperreports/engine/JasperPrint.class"/>
@@ -122,11 +123,8 @@
 		Deletes all the .class files.
 	-->
 	<target name="clean">
-		<delete dir="./build/classes/net"/>
-		<delete dir="./build/classes/org"/>
-		<delete>
-			<fileset dir="./dist" includes="**/*.jar"/>
-		</delete>
+		<delete dir="./build"/>
+		<delete dir="./dist"/>
 	</target>
 
 	<!--
