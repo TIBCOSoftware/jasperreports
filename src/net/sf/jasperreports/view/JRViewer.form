@@ -36,7 +36,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/save.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Save"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="save" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -62,7 +64,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/print.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Print"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="print" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -88,7 +92,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/reload.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Reload"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="reload" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -126,7 +132,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/first.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="First Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="first.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -152,7 +160,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/previous.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Previous Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="previous.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -178,7 +188,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/next.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Next Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="next.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -204,7 +216,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/last.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Last Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="last.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -227,7 +241,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtGoTo">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Go To Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="go.to.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[40, 23]"/>
             </Property>
@@ -262,7 +278,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/actualsize.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Actual Size"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="actual.size" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -288,7 +306,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/fitpage.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Fit Page"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="fit.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -314,7 +334,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/fitwidth.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Fit Width"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="fit.width" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -352,7 +374,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomin.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Zoom In"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.in" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -378,7 +402,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomout.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Zoom Out"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.out" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
             </Property>
@@ -402,7 +428,9 @@
         <Component class="javax.swing.JComboBox" name="cmbZoom">
           <Properties>
             <Property name="editable" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Zoom Ratio"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.ratio" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[80, 23]"/>
             </Property>
