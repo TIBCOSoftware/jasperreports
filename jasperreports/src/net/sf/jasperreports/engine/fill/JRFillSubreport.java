@@ -552,6 +552,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public void rewind() throws JRException
 	{
+		if (subreportFiller == null)
+		{
+			return;
+		}
+		
 		// marking the subreport filler for interruption
 		subreportFiller.setInterrupted(true);
 		// notifying the subreport filling thread that it can continue.
