@@ -102,7 +102,7 @@ public class JRFillGroup implements JRGroup
 	 *
 	 */
 	private boolean hasChanged = true;
-	private boolean isTopLevelChange = true;
+	private boolean isTopLevelChange = false;
 	private boolean isFooterPrinted = false;
 	
 
