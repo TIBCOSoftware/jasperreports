@@ -149,19 +149,19 @@ public class CustomDataSource implements JRDataSource
 		
 		String fieldName = field.getName();
 		
-		if ("City".equals(fieldName))
+		if ("city".equals(fieldName))
 		{
 			value = data[index][0];
 		}
-		else if ("Id".equals(fieldName))
+		else if ("id".equals(fieldName))
 		{
 			value = data[index][1];
 		}
-		else if ("Name".equals(fieldName))
+		else if ("name".equals(fieldName))
 		{
 			value = data[index][2];
 		}
-		else if ("Street".equals(fieldName))
+		else if ("street".equals(fieldName))
 		{
 			value = data[index][3];
 		}

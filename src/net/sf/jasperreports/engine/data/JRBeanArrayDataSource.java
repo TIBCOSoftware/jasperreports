@@ -131,12 +131,9 @@ public class JRBeanArrayDataSource implements JRRewindableDataSource
 
 		if (bean != null)
 		{
-			String fieldName = jrField.getName();
-			fieldName = fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
-
 			try
 			{
-				value = PropertyUtils.getProperty(bean, fieldName);
+				value = PropertyUtils.getProperty(bean, jrField.getName());
 			}
 			catch (java.lang.IllegalAccessException e)
 			{
