@@ -664,5 +664,27 @@ public class JRXmlConstants
 		return hyperlinkTypeMap;
 	}
 
+	/**
+	 *
+	 */
+	private static final String HYPERLINK_TARGET_SELF = "Self";
+	private static final String HYPERLINK_TARGET_BLANK = "Blank";
+
+	private static Map hyperlinkTargetMap = null;
+
+	public static Map getHyperlinkTargetMap()
+	{
+		if (hyperlinkTargetMap == null)
+		{
+			hyperlinkTargetMap = new HashMap(4);
+			hyperlinkTargetMap.put(HYPERLINK_TARGET_SELF,  new Byte(JRHyperlink.HYPERLINK_TARGET_SELF));
+			hyperlinkTargetMap.put(HYPERLINK_TARGET_BLANK, new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK));
+			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_SELF),  HYPERLINK_TARGET_SELF);
+			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
+		}
+		
+		return hyperlinkTargetMap;
+	}
+
 
 }

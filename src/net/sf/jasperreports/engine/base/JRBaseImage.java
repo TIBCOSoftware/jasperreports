@@ -99,6 +99,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected boolean isUsingCache = true;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 	/**
 	 *
@@ -136,6 +137,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		isUsingCache = image.isUsingCache();
 		evaluationTime = image.getEvaluationTime();
 		hyperlinkType = image.getHyperlinkType();
+		hyperlinkTarget = image.getHyperlinkTarget();
 
 		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 		expression = factory.getExpression(image.getExpression());
@@ -224,6 +226,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	public byte getHyperlinkType()
 	{
 		return this.hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return this.hyperlinkTarget;
 	}
 		
 	/**

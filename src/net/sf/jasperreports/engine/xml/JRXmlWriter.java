@@ -1156,6 +1156,13 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if (image.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
+		{
+			sb.append(" hyperlinkTarget=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
+			sb.append("\"");
+		}
+
 		sb.append(">\n");
 
 		writeReportElement(image);
@@ -1438,6 +1445,13 @@ public class JRXmlWriter
 		{
 			sb.append(" hyperlinkType=\"");
 			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(textField.getHyperlinkType())));
+			sb.append("\"");
+		}
+
+		if (textField.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
+		{
+			sb.append(" hyperlinkTarget=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(textField.getHyperlinkTarget())));
 			sb.append("\"");
 		}
 

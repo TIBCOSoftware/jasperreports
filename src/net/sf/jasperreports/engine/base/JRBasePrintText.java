@@ -108,6 +108,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected JRFont font = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
 	protected Integer hyperlinkPage = null;
@@ -330,6 +331,22 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setHyperlinkType(byte hyperlinkType)
 	{
 		this.hyperlinkType = hyperlinkType;
+	}
+
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return hyperlinkTarget;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 
 	/**

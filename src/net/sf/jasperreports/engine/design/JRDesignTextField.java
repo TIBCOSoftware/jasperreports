@@ -100,6 +100,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected String pattern = null;
 	protected boolean isBlankWhenNull = false;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 	/**
 	 *
@@ -150,6 +151,14 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public byte getHyperlinkType()
 	{
 		return this.hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return this.hyperlinkTarget;
 	}
 		
 	/**
@@ -238,6 +247,14 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public void setHyperlinkType(byte hyperlinkType)
 	{
 		this.hyperlinkType = hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 		
 	/**

@@ -51,6 +51,7 @@
 	hAlign (Left | Center | Right) "Left"
 	vAlign (Top | Middle | Bottom) "Top"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkTarget (Self | Blank) "Self"
 	anchorName NMTOKEN #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor NMTOKEN #IMPLIED
@@ -72,6 +73,7 @@
 	lineSpacingFactor NMTOKEN "0"
 	leadingOffset NMTOKEN "0"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkTarget (Self | Blank) "Self"
 	anchorName NMTOKEN #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor NMTOKEN #IMPLIED

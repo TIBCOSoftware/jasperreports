@@ -101,6 +101,7 @@ public class JRTemplateText extends JRTemplateElement
 	private byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
 	private boolean isStyledText = false;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private JRFont font = null;
 
 
@@ -141,6 +142,7 @@ public class JRTemplateText extends JRTemplateElement
 		setTextElement(textField);
 
 		hyperlinkType = textField.getHyperlinkType();
+		hyperlinkTarget = textField.getHyperlinkTarget();
 	}
 
 	/**
@@ -211,6 +213,14 @@ public class JRTemplateText extends JRTemplateElement
 	public byte getHyperlinkType()
 	{
 		return hyperlinkType;
+	}
+
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return hyperlinkTarget;
 	}
 
 }

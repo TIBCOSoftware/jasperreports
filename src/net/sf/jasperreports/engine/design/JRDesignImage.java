@@ -99,6 +99,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected boolean isUsingCache = true;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 	/**
 	 *
@@ -169,6 +170,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public byte getHyperlinkType()
 	{
 		return this.hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return this.hyperlinkTarget;
 	}
 		
 	/**
@@ -265,6 +274,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public void setHyperlinkType(byte hyperlinkType)
 	{
 		this.hyperlinkType = hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 		
 	/**

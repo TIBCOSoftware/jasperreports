@@ -201,6 +201,21 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public byte getHyperlinkTarget()
+	{
+		return ((JRTemplateImage)this.template).getHyperlinkTarget();
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public String getHyperlinkReference()
 	{
 		return this.hyperlinkReference;

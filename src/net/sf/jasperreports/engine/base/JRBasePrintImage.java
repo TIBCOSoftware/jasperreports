@@ -102,6 +102,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
 	protected Integer hyperlinkPage = null;
@@ -213,6 +214,22 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setHyperlinkType(byte hyperlinkType)
 	{
 		this.hyperlinkType = hyperlinkType;
+	}
+
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return this.hyperlinkTarget;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 
 	/**

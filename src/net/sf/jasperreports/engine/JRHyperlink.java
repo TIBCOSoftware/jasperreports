@@ -90,11 +90,23 @@ public interface JRHyperlink
 	public static final byte HYPERLINK_TYPE_REMOTE_ANCHOR = 5;
 	public static final byte HYPERLINK_TYPE_REMOTE_PAGE = 6;
 
+	/**
+	 *
+	 */
+	public static final byte HYPERLINK_TARGET_SELF = 1;
+	public static final byte HYPERLINK_TARGET_BLANK = 2;
+
 
 	/**
 	 *
 	 */
 	public byte getHyperlinkType();
+
+
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget();
 
 
 	/**

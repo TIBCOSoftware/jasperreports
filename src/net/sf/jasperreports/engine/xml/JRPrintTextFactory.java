@@ -97,6 +97,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
 	private static final String ATTRIBUTE_leadingOffset = "leadingOffset";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 	private static final String ATTRIBUTE_anchorName = "anchorName";
 	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
 	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
@@ -168,6 +169,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (hyperlinkType != null)
 		{
 			text.setHyperlinkType(hyperlinkType.byteValue());
+		}
+
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		if (hyperlinkTarget != null)
+		{
+			text.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
 		text.setAnchorName(atts.getValue(ATTRIBUTE_anchorName));

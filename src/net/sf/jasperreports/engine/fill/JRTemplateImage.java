@@ -96,6 +96,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	private byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	private byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 
 	/**
@@ -118,6 +119,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 		setHorizontalAlignment(image.getHorizontalAlignment());
 		setVerticalAlignment(image.getVerticalAlignment());
 		setHyperlinkType(image.getHyperlinkType());
+		setHyperlinkTarget(image.getHyperlinkTarget());
 	}
 
 	/**
@@ -182,6 +184,22 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	protected void setHyperlinkType(byte hyperlinkType)
 	{
 		this.hyperlinkType = hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return this.hyperlinkTarget;
+	}
+		
+	/**
+	 *
+	 */
+	protected void setHyperlinkTarget(byte hyperlinkTarget)
+	{
+		this.hyperlinkTarget = hyperlinkTarget;
 	}
 	
 

@@ -208,6 +208,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	public byte getHyperlinkTarget()
+	{
+		return ((JRTextField)parent).getHyperlinkTarget();
+	}
+		
+	/**
+	 *
+	 */
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
