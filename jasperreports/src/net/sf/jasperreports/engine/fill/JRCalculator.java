@@ -72,9 +72,12 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -95,6 +98,7 @@ public abstract class JRCalculator
 	protected JRFillVariable[] variables = null;
 	protected JRFillGroup[] groups = null;
 
+	private JRFillParameter resourceBundle = null;
 	private JRFillVariable pageNumber = null;
 	private JRFillVariable columnNumber = null;
 
@@ -124,6 +128,7 @@ public abstract class JRCalculator
 		variables = vars;
 		groups = grps;
 
+		resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		pageNumber = (JRFillVariable)variablesMap.get(JRVariable.PAGE_NUMBER);
 		columnNumber = (JRFillVariable)variablesMap.get(JRVariable.COLUMN_NUMBER);
 		
@@ -150,7 +155,7 @@ public abstract class JRCalculator
 	 */
 	public JRFillVariable getPageNumber()
 	{
-		return this.pageNumber;
+		return pageNumber;
 	}
 	
 
@@ -159,7 +164,7 @@ public abstract class JRCalculator
 	 */
 	public JRFillVariable getColumnNumber()
 	{
-		return this.columnNumber;
+		return columnNumber;
 	}
 	
 
@@ -177,7 +182,7 @@ public abstract class JRCalculator
 			for(int i = 0; i < variables.length; i++)
 			{
 				variable = variables[i];
-				expressionValue = this.evaluate(variable.getExpression());
+				expressionValue = evaluate(variable.getExpression());
 				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
@@ -200,7 +205,7 @@ public abstract class JRCalculator
 			for(int i = 0; i < variables.length; i++)
 			{
 				variable = variables[i];
-				expressionValue = this.evaluateEstimated(variable.getExpression());
+				expressionValue = evaluateEstimated(variable.getExpression());
 				newValue = variable.getIncrementer().increment(variable, expressionValue,  AbstractValueProvider.getEstimatedValueProvider());
 				variable.setEstimatedValue(newValue);
 				variable.setInitialized(false);
@@ -214,7 +219,7 @@ public abstract class JRCalculator
 	 */
 	public void estimateGroupRuptures() throws JRException
 	{
-		this.estimateVariables();
+		estimateVariables();
 
 		JRFillGroup group = null;
 		Object oldValue = null;
@@ -231,8 +236,8 @@ public abstract class JRCalculator
 
 				if (!groupHasChanged)
 				{
-					oldValue = this.evaluateOld(group.getExpression());
-					estimatedValue = this.evaluateEstimated(group.getExpression());
+					oldValue = evaluateOld(group.getExpression());
+					estimatedValue = evaluateEstimated(group.getExpression());
 
 					if ( 
 						(oldValue == null && estimatedValue != null) ||
@@ -314,7 +319,7 @@ public abstract class JRCalculator
 			if (toInitialize)
 			{
 				variable.setValue(
-					this.evaluate(variable.getInitialValueExpression())
+					evaluate(variable.getInitialValueExpression())
 					);
 				variable.setInitialized(true);
 			}
@@ -322,7 +327,7 @@ public abstract class JRCalculator
 		else
 		{
 			variable.setValue(
-				this.evaluate(variable.getExpression())
+				evaluate(variable.getExpression())
 				);
 		}
 	}
@@ -342,18 +347,18 @@ public abstract class JRCalculator
 		{
 			case JRExpression.EVALUATION_OLD :
 			{
-				value = this.evaluateOld(expression);
+				value = evaluateOld(expression);
 				break;
 			}
 			case JRExpression.EVALUATION_ESTIMATED :
 			{
-				value = this.evaluateEstimated(expression);
+				value = evaluateEstimated(expression);
 				break;
 			}
 			case JRExpression.EVALUATION_DEFAULT :
 			default :
 			{
-				value = this.evaluate(expression);
+				value = evaluate(expression);
 				break;
 			}
 		}
@@ -371,7 +376,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			value = this.evaluateOld(expression.getId());
+			value = evaluateOld(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
@@ -394,7 +399,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			value = this.evaluateEstimated(expression.getId());
+			value = evaluateEstimated(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
@@ -417,7 +422,7 @@ public abstract class JRCalculator
 		
 		try
 		{
-			value = this.evaluate(expression.getId());
+			value = evaluate(expression.getId());
 		}
 		catch (NullPointerException e)
 		{
@@ -448,5 +453,27 @@ public abstract class JRCalculator
 	 */
 	protected abstract Object evaluate(int id) throws Throwable;
 
-	
+
+	/**
+	 *
+	 */
+	public String getString(String key)
+	{
+		String str = null;
+		
+		try
+		{
+			str = ((ResourceBundle)resourceBundle.getValue()).getString(key);
+		}
+		catch (NullPointerException e)
+		{
+		}
+		catch (MissingResourceException e)
+		{
+		}
+
+		return str;
+	}
+
+
 }

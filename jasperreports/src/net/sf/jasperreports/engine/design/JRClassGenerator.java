@@ -76,7 +76,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -458,11 +457,7 @@ public class JRClassGenerator
 					}
 					case JRExpressionChunk.TYPE_RESOURCE :
 					{
-						sb.append("((");
-						sb.append(ResourceBundle.class.getName());
-						sb.append(")parameter_");
-						sb.append(JRParameter.REPORT_RESOURCE_BUNDLE);
-						sb.append(".getValue()).getString(\"");
+						sb.append("getString(\"");
 						sb.append(chunkText);
 						sb.append("\")");
 	
