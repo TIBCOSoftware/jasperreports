@@ -109,6 +109,16 @@ public class JRDesignFont extends JRBaseFont
 	/**
 	 *
 	 */
+	public void setDefaultFontProvider(JRDefaultFontProvider defaultFontProvider)
+	{
+		this.defaultFontProvider = defaultFontProvider;
+		attributes = null;
+	}
+
+
+	/**
+	 *
+	 */
 	public void setReportFont(JRReportFont reportFont)
 	{
 		this.reportFont = reportFont;

@@ -175,6 +175,15 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
+	public JRDefaultFontProvider getDefaultFontProvider()
+	{
+		return defaultFontProvider;
+	}
+	
+
+	/**
+	 *
+	 */
 	public JRReportFont getReportFont()
 	{
 		return reportFont;
