@@ -107,7 +107,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 
 	private List pages = new ArrayList();
 
-	private Map anchorIndexes = null;
+	private transient Map anchorIndexes = null;
 
 
 	/**
