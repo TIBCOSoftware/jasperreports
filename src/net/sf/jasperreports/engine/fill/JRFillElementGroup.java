@@ -110,16 +110,16 @@ public class JRFillElementGroup implements JRElementGroup
 	 *
 	 */
 	protected JRFillElementGroup(
-		JRElementGroup elementGroup, 
+		JRElementGroup elementGrp, 
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(elementGroup, this);
+		factory.put(elementGrp, this);
 
-		if (elementGroup != null)
+		if (elementGrp != null)
 		{
 			/*   */
-			List list = elementGroup.getChildren();
+			List list = elementGrp.getChildren();
 			if (list != null && list.size() > 0)
 			{
 				Object child = null;
@@ -142,7 +142,7 @@ public class JRFillElementGroup implements JRElementGroup
 			/*   */
 			this.getElements();
 	
-			elementGroup = factory.getElementGroup(elementGroup.getElementGroup());
+			this.elementGroup = factory.getElementGroup(elementGrp.getElementGroup());
 		}
 	}
 
