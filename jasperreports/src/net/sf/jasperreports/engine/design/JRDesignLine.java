@@ -84,7 +84,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
+	private static final long serialVersionUID = 502;
 
 	/**
 	 *

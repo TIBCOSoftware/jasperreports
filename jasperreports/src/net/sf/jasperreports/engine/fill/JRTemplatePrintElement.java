@@ -87,7 +87,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
+	private static final long serialVersionUID = 502;
 
 	/**
 	 *
