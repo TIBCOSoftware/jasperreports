@@ -177,6 +177,11 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
+	/**
+	 *
+	 */
+	protected Map loadedImagesMap = null;
+
 
 	/**
 	 *
@@ -229,6 +234,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			permissions = permissionsParameter.intValue();
 		}
+
+		loadedImagesMap = new HashMap();
 
 		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
@@ -1012,32 +1019,52 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					case JRImage.SCALE_IMAGE_FILL_FRAME :
 					{
-						try
+						if (loadedImagesMap.containsKey(renderer))
 						{
-							image = com.lowagie.text.Image.getInstance(renderer.getImageData());
-							imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+							image = (com.lowagie.text.Image)loadedImagesMap.get(renderer);
 						}
-						catch(Exception e)
+						else
 						{
-							java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
-							image = com.lowagie.text.Image.getInstance(awtImage, null);
+							try
+							{
+								image = com.lowagie.text.Image.getInstance(renderer.getImageData());
+								imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+							}
+							catch(Exception e)
+							{
+								java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+								image = com.lowagie.text.Image.getInstance(awtImage, null);
+							}
+
+							loadedImagesMap.put(renderer, image);
 						}
+
 						image.scaleAbsolute(availableImageWidth, availableImageHeight);
 						break;
 					}
 					case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 					default :
 					{
-						try
+						if (loadedImagesMap.containsKey(renderer))
 						{
-							image = com.lowagie.text.Image.getInstance(renderer.getImageData());
-							imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+							image = (com.lowagie.text.Image)loadedImagesMap.get(renderer);
 						}
-						catch(Exception e)
+						else
 						{
-							java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
-							image = com.lowagie.text.Image.getInstance(awtImage, null);
+							try
+							{
+								image = com.lowagie.text.Image.getInstance(renderer.getImageData());
+								imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+							}
+							catch(Exception e)
+							{
+								java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+								image = com.lowagie.text.Image.getInstance(awtImage, null);
+							}
+
+							loadedImagesMap.put(renderer, image);
 						}
+
 						image.scaleToFit(availableImageWidth, availableImageHeight);
 					
 						xoffset = (int)(xalignFactor * (availableImageWidth - image.plainWidth()));
