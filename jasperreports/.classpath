@@ -11,7 +11,6 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/itext-1.01.jar"/>
-	<classpathentry kind="lib" path="lib/bsh-1.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry kind="lib" path="lib/xalan.jar"/>
 	<classpathentry kind="lib" path="lib/jdt-compiler.jar"/>
