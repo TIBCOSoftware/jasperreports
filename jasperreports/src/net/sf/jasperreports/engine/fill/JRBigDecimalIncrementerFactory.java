@@ -88,7 +88,7 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	private static JRBigDecimalIncrementerFactory mainInstance = null;
+	private static JRBigDecimalIncrementerFactory mainInstance = new JRBigDecimalIncrementerFactory();
 
 
 	/**
@@ -104,11 +104,6 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 	 */
 	public static JRBigDecimalIncrementerFactory getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalIncrementerFactory();
-		}
-		
 		return mainInstance;
 	}
 
@@ -181,7 +176,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRBigDecimalCountIncrementer mainInstance = null;
+	private static JRBigDecimalCountIncrementer mainInstance = new JRBigDecimalCountIncrementer();
 
 	/**
 	 *
@@ -195,11 +190,6 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	 */
 	public static JRBigDecimalCountIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalCountIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -236,7 +226,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRBigDecimalSumIncrementer mainInstance = null;
+	private static JRBigDecimalSumIncrementer mainInstance = new JRBigDecimalSumIncrementer();
 
 	/**
 	 *
@@ -250,11 +240,6 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	 */
 	public static JRBigDecimalSumIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalSumIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -288,7 +273,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRBigDecimalAverageIncrementer mainInstance = null;
+	private static JRBigDecimalAverageIncrementer mainInstance = new JRBigDecimalAverageIncrementer();
 
 	/**
 	 *
@@ -302,11 +287,6 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	 */
 	public static JRBigDecimalAverageIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalAverageIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -338,7 +318,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRBigDecimalStandardDeviationIncrementer mainInstance = null;
+	private static JRBigDecimalStandardDeviationIncrementer mainInstance = new JRBigDecimalStandardDeviationIncrementer();
 
 	/**
 	 *
@@ -352,11 +332,6 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	 */
 	public static JRBigDecimalStandardDeviationIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalStandardDeviationIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
@@ -381,7 +356,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	private static JRBigDecimalVarianceIncrementer mainInstance = null;
+	private static JRBigDecimalVarianceIncrementer mainInstance = new JRBigDecimalVarianceIncrementer();
 
 	/**
 	 *
@@ -395,11 +370,6 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	 */
 	public static JRBigDecimalVarianceIncrementer getInstance()
 	{
-		if (mainInstance == null)
-		{
-			mainInstance = new JRBigDecimalVarianceIncrementer();
-		}
-		
 		return mainInstance;
 	}
 
