@@ -4,13 +4,19 @@ JasperReports Change Log
 
 JasperReports 0.6.6
 -----------------------------------
-- new "incrementType" and "incrementGroup" attributes for variables;
+- new "incrementType" and "incrementGroup" attributes added to allow 
+incrementing variable values on page, column or group breaks and not
+with every detail row;
 
-- new Groovy report compiler;
+- new "language" attribute added to allow writing report expressions 
+in other languages, provided that a report compiler that knows how to 
+interpret the specified language is used;
 
-- moved the BSH compiler;
+- new Groovy report compiler added as a sample to allow using the
+Groovy language and its simplified syntax inside report expressions;
 
-- new "language" attribute;
+- the JRBshCompiler has been removed from the core library and provided
+as a separate sample;
 
 - minor bug fixes and improvements;
 
