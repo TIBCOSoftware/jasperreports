@@ -76,7 +76,12 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String delimiter = null;
+	protected String delimiter = null;	
+
+	/**
+	 *
+	 */
+	protected String recordDelimiter = null;	
 
 	/**
 	 *
@@ -124,6 +129,12 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			delimiter = ",";
 		}
+		
+		recordDelimiter = (String)parameters.get(JRCsvExporterParameter.RECORD_DELIMITER);
+		if (recordDelimiter == null)
+		{
+		    recordDelimiter = "\n";
+		}		
 		
 		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
@@ -326,7 +337,7 @@ public class JRCsvExporter extends JRAbstractExporter
 				if (rowbuffer.length() > 0)
 				{
 					writer.write(rowbuffer.toString());
-					writer.write("\n");
+					writer.write(recordDelimiter);
 				}
 			}
 		}
