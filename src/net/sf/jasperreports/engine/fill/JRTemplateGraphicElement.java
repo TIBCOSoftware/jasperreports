@@ -85,7 +85,7 @@ public class JRTemplateGraphicElement extends JRTemplateElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *

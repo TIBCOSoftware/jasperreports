@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 0.x.x
+JasperReports 0.6.0
 -----------------------------------
 - the package name hierarchy has changed throughout the entire library.
 The now obsolete root package called "dori.jasper" was replaced by "net.sf.jasperreports"

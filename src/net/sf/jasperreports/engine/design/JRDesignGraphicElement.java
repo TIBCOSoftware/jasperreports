@@ -85,7 +85,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *

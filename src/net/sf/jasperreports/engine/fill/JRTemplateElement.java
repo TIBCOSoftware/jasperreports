@@ -88,7 +88,7 @@ public class JRTemplateElement implements Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 503;
+	private static final long serialVersionUID = 600;
 
 	/**
 	 *
