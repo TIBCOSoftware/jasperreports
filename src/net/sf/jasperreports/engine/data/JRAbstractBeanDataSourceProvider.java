@@ -110,10 +110,16 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	}
 
 	/**
+	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#supportsGetFieldsOperation()
+	 */
+	public boolean supportsGetFieldsOperation() {
+		return true;
+	}
+	
+	/**
 	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#getFields()
 	 */
-	public JRField[] getFields() throws JRException,
-			UnsupportedOperationException {
+	public JRField[] getFields() throws JRException {
 		BeanInfo beanInfo = null;
 
 		try {
