@@ -156,38 +156,39 @@ public class JRVerifier
 	protected Collection verifyDesign() throws JRException
 	{
 		/*   */
-		this.verifyDesignAttributes();
+		verifyDesignAttributes();
 
 		/*   */
-		this.verifyExpressions();
+		verifyExpressions();
 
 		/*   */
-		this.verifyReportFonts();
+		verifyReportFonts();
 
 		/*   */
-		this.verifyParameters();
+		verifyParameters();
 
 		/*   */
-		this.verifyQuery();
+		verifyQuery();
 
 		/*   */
-		this.verifyFields();
+		verifyFields();
 
 		/*   */
-		this.verifyVariables();
+		verifyVariables();
 
 		/*   */
-		this.verifyGroups();
+		verifyGroups();
 
 		/*   */
-		this.verifyBand(jasperDesign.getBackground());
-		this.verifyBand(jasperDesign.getTitle());
-		this.verifyBand(jasperDesign.getPageHeader());
-		this.verifyBand(jasperDesign.getColumnHeader());
-		this.verifyBand(jasperDesign.getDetail());
-		this.verifyBand(jasperDesign.getColumnFooter());
-		this.verifyBand(jasperDesign.getPageFooter());
-		this.verifyBand(jasperDesign.getSummary());
+		verifyBand(jasperDesign.getBackground());
+		verifyBand(jasperDesign.getTitle());
+		verifyBand(jasperDesign.getPageHeader());
+		verifyBand(jasperDesign.getColumnHeader());
+		verifyBand(jasperDesign.getDetail());
+		verifyBand(jasperDesign.getColumnFooter());
+		verifyBand(jasperDesign.getPageFooter());
+		verifyBand(jasperDesign.getLastPageFooter());
+		verifyBand(jasperDesign.getSummary());
 
 		return brokenRules;
 	}
@@ -309,6 +310,19 @@ public class JRVerifier
 			)
 		{
 			brokenRules.add("The page and column headers and footers and the margins do not fit the page height.");
+		}
+
+		if (
+			jasperDesign.getTopMargin() +
+			(jasperDesign.getPageHeader() != null ? jasperDesign.getPageHeader().getHeight() : 0) +
+			(jasperDesign.getColumnHeader() != null ? jasperDesign.getColumnHeader().getHeight() : 0) +
+			(jasperDesign.getColumnFooter() != null ? jasperDesign.getColumnFooter().getHeight() : 0) +
+			(jasperDesign.getLastPageFooter() != null ? jasperDesign.getLastPageFooter().getHeight() : 0) +
+			jasperDesign.getBottomMargin() >
+			jasperDesign.getPageHeight()
+			)
+		{
+			brokenRules.add("The page and column headers and footers and the margins do not fit the last page height.");
 		}
 
 		if (
@@ -728,8 +742,8 @@ public class JRVerifier
 					}
 				}
 
-				this.verifyBand(group.getGroupHeader());
-				this.verifyBand(group.getGroupFooter());
+				verifyBand(group.getGroupHeader());
+				verifyBand(group.getGroupFooter());
 			}
 		}
 	}
@@ -806,15 +820,15 @@ public class JRVerifier
 
 					if (element instanceof JRTextField)
 					{
-						this.verifyTextField((JRTextField)element);
+						verifyTextField((JRTextField)element);
 					}
 					else if (element instanceof JRImage)
 					{
-						this.verifyImage((JRImage)element);
+						verifyImage((JRImage)element);
 					}
 					else if (element instanceof JRSubreport)
 					{
-						this.verifySubreport((JRSubreport)element);
+						verifySubreport((JRSubreport)element);
 					}
 				}
 			}
@@ -827,9 +841,9 @@ public class JRVerifier
 	 */
 	private void verifyTextField(JRTextField textField) throws JRException
 	{
-		this.verifyTextElement(textField);
-		this.verifyAnchor(textField);
-		this.verifyHyperlink(textField);
+		verifyTextElement(textField);
+		verifyAnchor(textField);
+		verifyHyperlink(textField);
 
 		if (textField != null)
 		{
@@ -970,8 +984,8 @@ public class JRVerifier
 	 */
 	private void verifyImage(JRImage image) throws JRException
 	{
-		this.verifyAnchor(image);
-		this.verifyHyperlink(image);
+		verifyAnchor(image);
+		verifyHyperlink(image);
 
 		if (image != null)
 		{

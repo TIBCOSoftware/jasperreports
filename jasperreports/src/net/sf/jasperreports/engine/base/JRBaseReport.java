@@ -137,6 +137,7 @@ public class JRBaseReport implements JRReport, Serializable
 	protected JRBand detail = null;
 	protected JRBand columnFooter = null;
 	protected JRBand pageFooter = null;
+	protected JRBand lastPageFooter = null;
 	protected JRBand summary = null;
 
 	
@@ -252,6 +253,7 @@ public class JRBaseReport implements JRReport, Serializable
 		detail = factory.getBand(report.getDetail());
 		columnFooter = factory.getBand(report.getColumnFooter());
 		pageFooter = factory.getBand(report.getPageFooter());
+		lastPageFooter = factory.getBand(report.getLastPageFooter());
 		summary = factory.getBand(report.getSummary());
 	}
 
@@ -557,6 +559,14 @@ public class JRBaseReport implements JRReport, Serializable
 	public JRBand getPageFooter()
 	{
 		return pageFooter;
+	}
+
+	/**
+	 *
+	 */
+	public JRBand getLastPageFooter()
+	{
+		return lastPageFooter;
 	}
 
 	/**

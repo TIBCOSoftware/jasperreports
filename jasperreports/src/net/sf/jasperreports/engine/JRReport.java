@@ -273,6 +273,11 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public JRBand getLastPageFooter();
+
+	/**
+	 *
+	 */
 	public JRBand getSummary();
 
 

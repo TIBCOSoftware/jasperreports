@@ -633,6 +633,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		offsetY += (report.getColumnFooter() != null ? report.getColumnFooter().getHeight() : 0);
 		downColumns = offsetY;
 		offsetY += (report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0);
+		offsetY += (report.getLastPageFooter() != null ? report.getLastPageFooter().getHeight() : 0);
 		offsetY += (report.getSummary() != null ? report.getSummary().getHeight() : 0);
 		offsetY += report.getBottomMargin();
 	}
@@ -897,6 +898,23 @@ public class JRDesignViewer extends javax.swing.JPanel
 		grx.translate(
 			0, 
 			(report.getPageFooter() != null ? report.getPageFooter().getHeight() : 0)
+			);
+
+
+		grx.setStroke(dashedStroke);
+		grx.setColor(dashedColor);
+		grx.drawLine(
+			- report.getLeftMargin(), 
+			0,
+			report.getPageWidth() + 1, 
+			0
+			);
+		grx.setColor(Color.black);
+		grx.setStroke(new BasicStroke(1f));
+		printBand(report.getLastPageFooter(), grx);
+		grx.translate(
+			0, 
+			(report.getLastPageFooter() != null ? report.getLastPageFooter().getHeight() : 0)
 			);
 
 
