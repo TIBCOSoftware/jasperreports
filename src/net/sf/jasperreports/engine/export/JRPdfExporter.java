@@ -1240,8 +1240,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			new Font(
 				baseFont,
 				jrFont.getSize(),
-				((jrFont.isBold())?Font.BOLD:0) +
-				((jrFont.isItalic())?Font.ITALIC:0) +
+				//((jrFont.isBold())?Font.BOLD:0) +
+				//((jrFont.isItalic())?Font.ITALIC:0) +
 				((jrFont.isUnderline())?Font.UNDERLINE:0) +
 				((jrFont.isStrikeThrough())?Font.STRIKETHRU:0),
 				text.getForecolor()
