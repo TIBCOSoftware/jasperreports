@@ -88,6 +88,8 @@
 				<include name="**/dori/jasper/engine/util/JRImageLoader.class"/>
 				<include name="**/dori/jasper/engine/util/JRLoader.class"/>
 				<include name="**/dori/jasper/engine/util/JRStringUtil.class"/>
+				<include name="**/dori/jasper/engine/util/JRStyledText*.class"/>
+				<include name="**/dori/jasper/engine/util/JRTextAttribute.class"/>
 				<include name="**/dori/jasper/view/JasperViewer*.class"/>
 				<include name="**/dori/jasper/view/JRSaveContributor.class"/>
 				<include name="**/dori/jasper/view/JRHyperlinkListener.class"/>
