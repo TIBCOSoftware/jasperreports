@@ -955,11 +955,23 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.fillStroke();
 		}
 
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
+		
+		if (printImage.getBox() != null)
+		{
+			topPadding = printImage.getBox().getTopPadding();
+			leftPadding = printImage.getBox().getLeftPadding();
+			bottomPadding = printImage.getBox().getBottomPadding();
+			rightPadding = printImage.getBox().getRightPadding();
+		}
 
-		int availableImageWidth = printImage.getWidth();
+		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
-		int availableImageHeight = printImage.getHeight();
+		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 
 		int xoffset = 0;
@@ -1243,10 +1255,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			ColumnText colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
 				new Phrase(chunk),
-				printImage.getX() + globalOffsetX + xoffset,
-				jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY - scaledHeight - yoffset,
-				printImage.getX() + globalOffsetX + xoffset + scaledWidth,
-				jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY - yoffset,
+				printImage.getX() + leftPadding + globalOffsetX + xoffset,
+				jasperPrint.getPageHeight() - printImage.getY() - topPadding - globalOffsetY - scaledHeight - yoffset,
+				printImage.getX() + leftPadding + globalOffsetX + xoffset + scaledWidth,
+				jasperPrint.getPageHeight() - printImage.getY() - topPadding - globalOffsetY - yoffset,
 				scaledHeight,
 				Element.ALIGN_LEFT
 				);
