@@ -71,8 +71,13 @@
  */
 package dori.jasper.engine;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import dori.jasper.engine.util.JRLoader;
 
 
 /**
@@ -87,13 +92,20 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected Map parameters = new HashMap();
 
+	/**
+	 *
+	 */
+	protected JasperPrint jasperPrint = null;
+	protected int startPageIndex = 0;
+	protected int endPageIndex = 0;
+
 
 	/**
 	 *
 	 */
 	public void setParameter(JRExporterParameter parameter, Object value)
 	{
-		this.parameters.put(parameter, value);
+		parameters.put(parameter, value);
 	}
 
 
@@ -102,7 +114,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public Object getParameter(JRExporterParameter parameter)
 	{
-		return this.parameters.get(parameter);
+		return parameters.get(parameter);
 	}
 
 
@@ -120,7 +132,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public Map getParameters()
 	{
-		return this.parameters;
+		return parameters;
 	}
 	
 
@@ -128,6 +140,115 @@ public abstract class JRAbstractExporter implements JRExporter
 	 *
 	 */
 	public abstract void exportReport() throws JRException;
+
+
+	/**
+	 *
+	 */
+	protected void setInput() throws JRException
+	{
+		jasperPrint = (JasperPrint)parameters.get(JRExporterParameter.JASPER_PRINT);
+		if (jasperPrint == null)
+		{
+			InputStream is = (InputStream)parameters.get(JRExporterParameter.INPUT_STREAM);
+			if (is != null)
+			{
+				jasperPrint = (JasperPrint)JRLoader.loadObject(is);
+			}
+			else
+			{
+				URL url = (URL)parameters.get(JRExporterParameter.INPUT_URL);
+				if (url != null)
+				{
+					jasperPrint = (JasperPrint)JRLoader.loadObject(url);
+				}
+				else
+				{
+					File file = (File)parameters.get(JRExporterParameter.INPUT_FILE);
+					if (file != null)
+					{
+						jasperPrint = (JasperPrint)JRLoader.loadObject(file);
+					}
+					else
+					{
+						String fileName = (String)parameters.get(JRExporterParameter.INPUT_FILE_NAME);
+						if (fileName != null)
+						{
+							jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+						}
+						else
+						{
+							throw new JRException("No input source supplied to the exporter.");
+						}
+					}
+				}
+			}
+		}
+	}
+	
+
+	/**
+	 *
+	 */
+	protected void setPageRange() throws JRException
+	{
+		int lastPageIndex = -1;
+		if (jasperPrint.getPages() != null)
+		{
+			lastPageIndex = jasperPrint.getPages().size() - 1;
+		}
+
+		Integer start = (Integer)parameters.get(JRExporterParameter.START_PAGE_INDEX);
+		if (start == null)
+		{
+			startPageIndex = 0;
+		}
+		else
+		{
+			startPageIndex = start.intValue();
+			if (startPageIndex < 0 || startPageIndex > lastPageIndex)
+			{
+				throw new JRException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
+			}
+		}
+
+		Integer end = (Integer)parameters.get(JRExporterParameter.END_PAGE_INDEX);
+		if (end == null)
+		{
+			endPageIndex = lastPageIndex;
+		}
+		else
+		{
+			endPageIndex = end.intValue();
+			if (endPageIndex < 0 || endPageIndex > lastPageIndex)
+			{
+				throw new JRException("End page index out of range : " + endPageIndex + " of " + lastPageIndex);
+			}
+		}
+
+		Integer index = (Integer)parameters.get(JRExporterParameter.PAGE_INDEX);
+		if (index != null)
+		{
+			int pageIndex = index.intValue();
+			if (pageIndex < 0 || pageIndex > lastPageIndex)
+			{
+				throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
+			}
+			else
+			{
+				startPageIndex = pageIndex;
+				endPageIndex = pageIndex;
+			}
+		}
+	}
+	
+
+	/**
+	 *
+	 */
+	protected void setOutput()
+	{
+	}
 	
 
 }

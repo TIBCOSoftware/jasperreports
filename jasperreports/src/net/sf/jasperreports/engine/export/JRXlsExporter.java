@@ -80,9 +80,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -113,10 +111,8 @@ import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.base.JRBasePrintPage;
-import dori.jasper.engine.util.JRLoader;
 
 
 /**
@@ -125,11 +121,6 @@ import dori.jasper.engine.util.JRLoader;
 public class JRXlsExporter extends JRAbstractExporter
 {
 
-
-	/**
-	 *
-	 */
-	private JasperPrint jasperPrint = null;
 
 	/**
 	 *
@@ -197,74 +188,42 @@ public class JRXlsExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
-		Boolean isOnePagePerSheetParameter = (Boolean)this.parameters.get(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET);
+		/*   */
+		setPageRange();
+
+		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET);
 		if (isOnePagePerSheetParameter != null)
 		{
-			this.isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
+			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
 		}
 
-		Boolean isRemoveEmptySpaceParameter = (Boolean)this.parameters.get(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
+		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
 		if (isRemoveEmptySpaceParameter != null)
 		{
-			this.isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
+			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
 		}
 		
-		Boolean isWhitePageBackgroundParameter = (Boolean)this.parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
+		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
-			this.isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
-			this.backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
+			backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 		}
 		
-		OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
+		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
 		{
-			this.exportReportToStream(os);
+			exportReportToStream(os);
 		}
 		else
 		{
-			File destFile = (File)this.parameters.get(JRExporterParameter.OUTPUT_FILE);
+			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
 			if (destFile == null)
 			{
-				String fileName = (String)this.parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 				if (fileName != null)
 				{
 					destFile = new File(fileName);
@@ -278,7 +237,7 @@ public class JRXlsExporter extends JRAbstractExporter
 			try
 			{
 				os = new FileOutputStream(destFile);
-				this.exportReportToStream(os);
+				exportReportToStream(os);
 				os.flush();
 			}
 			catch (IOException e)
@@ -319,11 +278,11 @@ public class JRXlsExporter extends JRAbstractExporter
 			{
 				JRPrintPage page = null;
 				
-				if (this.isOnePagePerSheet)
+				if (isOnePagePerSheet)
 				{
-					this.pageHeight = jasperPrint.getPageHeight();
+					pageHeight = jasperPrint.getPageHeight();
 					
-					for(int i = 0; i < pages.size(); i++)
+					for(int i = startPageIndex; i <= endPageIndex; i++)
 					{
 						if (Thread.currentThread().isInterrupted())
 						{
@@ -335,17 +294,17 @@ public class JRXlsExporter extends JRAbstractExporter
 						sheet = workbook.createSheet("Page " + (i + 1));
 	
 						/*   */
-						this.exportPage(page);
+						exportPage(page);
 					}
 				}
 				else
 				{
-					this.pageHeight = jasperPrint.getPageHeight() * pages.size();
+					pageHeight = jasperPrint.getPageHeight() * pages.size();
 
 					JRPrintPage allPages = new JRBasePrintPage();
 					Collection elements = null;
 					JRPrintElement element = null;
-					for(int i = 0; i < pages.size(); i++)
+					for(int i = startPageIndex; i <= endPageIndex; i++)
 					{
 						if (Thread.currentThread().isInterrupted())
 						{
@@ -369,7 +328,7 @@ public class JRXlsExporter extends JRAbstractExporter
 					sheet = workbook.createSheet("Sheet1");
 
 					/*   */
-					this.exportPage(allPages);
+					exportPage(allPages);
 				}
 			}
 
@@ -387,7 +346,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	 */
 	private void exportPage(JRPrintPage page) throws JRException
 	{
-		this.layoutGrid(page);
+		layoutGrid(page);
 
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
@@ -402,7 +361,7 @@ public class JRXlsExporter extends JRAbstractExporter
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
-				row = this.sheet.createRow((short)y);
+				row = sheet.createRow((short)y);
 	
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
@@ -422,7 +381,7 @@ public class JRXlsExporter extends JRAbstractExporter
 						{
 							if (emptyCellColSpan > 1)
 							{
-								//this.sbuffer.append(" colspan=" + emptyCellColSpan);
+								//sbuffer.append(" colspan=" + emptyCellColSpan);
 								//sheet.addMergedRegion(new Region(y, (short)(x - emptyCellColSpan - 1), y, (short)(x - 1)));
 							}
 							emptyCellColSpan = 0;
@@ -433,19 +392,19 @@ public class JRXlsExporter extends JRAbstractExporter
 	
 						if (element instanceof JRPrintLine)
 						{
-							this.exportLine((JRPrintLine)element, grid[y][x], x, y);
+							exportLine((JRPrintLine)element, grid[y][x], x, y);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							this.exportRectangle(element, grid[y][x], x, y);
+							exportRectangle(element, grid[y][x], x, y);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							this.exportRectangle(element, grid[y][x], x, y);
+							exportRectangle(element, grid[y][x], x, y);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							this.exportText((JRPrintText)element, grid[y][x], x, y);
+							exportText((JRPrintText)element, grid[y][x], x, y);
 						}
 	
 						x += grid[y][x].colSpan - 1;
@@ -461,14 +420,14 @@ public class JRXlsExporter extends JRAbstractExporter
 				{
 					if (emptyCellColSpan > 1)
 					{
-						//this.sbuffer.append(" colspan=" + emptyCellColSpan);
+						//sbuffer.append(" colspan=" + emptyCellColSpan);
 						//sheet.addMergedRegion(new Region(y, (short)x, y, (short)(x + emptyCellColSpan - 1)));
 					}
 				}
 			}
 			else
 			{
-				row = this.sheet.createRow((short)y);
+				row = sheet.createRow((short)y);
 				row.setHeight((short)0);
 	
 				for(int x = 0; x < grid[y].length; x++)
@@ -493,10 +452,10 @@ public class JRXlsExporter extends JRAbstractExporter
 
 		short forecolor = getNearestColor(line.getForecolor()).getIndex();
 
-		HSSFFont cellFont = this.getLoadedFont(getDefaultFont(), forecolor);
+		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
 
 		HSSFCellStyle cellStyle = 
-			this.getLoadedCellStyle(
+			getLoadedCellStyle(
 				HSSFCellStyle.SOLID_FOREGROUND,
 				forecolor, 
 				HSSFCellStyle.ALIGN_LEFT, 
@@ -523,18 +482,18 @@ public class JRXlsExporter extends JRAbstractExporter
 
 		short forecolor = getNearestColor(element.getForecolor()).getIndex();
 
-		short mode = this.backgroundMode;
-		short backcolor = this.whiteIndex;
+		short mode = backgroundMode;
+		short backcolor = whiteIndex;
 		if (element.getMode() == JRElement.MODE_OPAQUE)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(element.getBackcolor()).getIndex();
 		}
 
-		HSSFFont cellFont = this.getLoadedFont(getDefaultFont(), forecolor);
+		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
 
 		HSSFCellStyle cellStyle = 
-			this.getLoadedCellStyle(
+			getLoadedCellStyle(
 				mode,
 				backcolor, 
 				HSSFCellStyle.ALIGN_LEFT, 
@@ -564,12 +523,12 @@ public class JRXlsExporter extends JRAbstractExporter
 			JRFont font = text.getFont();
 			if (font == null)
 			{
-				font = this.getDefaultFont();
+				font = getDefaultFont();
 			}
 
 			short forecolor = getNearestColor(text.getForecolor()).getIndex();
 
-			HSSFFont cellFont = this.getLoadedFont(font, forecolor);
+			HSSFFont cellFont = getLoadedFont(font, forecolor);
 
 			short horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
 
@@ -626,8 +585,8 @@ public class JRXlsExporter extends JRAbstractExporter
 				}
 			}
 
-			short mode = this.backgroundMode;
-			short backcolor = this.whiteIndex;
+			short mode = backgroundMode;
+			short backcolor = whiteIndex;
 			if (text.getMode() == JRElement.MODE_OPAQUE)
 			{
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
@@ -635,7 +594,7 @@ public class JRXlsExporter extends JRAbstractExporter
 			}
 
 			HSSFCellStyle cellStyle = 
-				this.getLoadedCellStyle(
+				getLoadedCellStyle(
 					mode,
 					backcolor, 
 					horizontalAlignment, 
@@ -669,7 +628,7 @@ public class JRXlsExporter extends JRAbstractExporter
 		xCuts.add(new Integer(0));
 		xCuts.add(new Integer(jasperPrint.getPageWidth()));
 		yCuts.add(new Integer(0));
-		yCuts.add(new Integer(this.pageHeight));
+		yCuts.add(new Integer(pageHeight));
 
 		Integer x = null;
 		Integer y = null;
@@ -843,12 +802,12 @@ public class JRXlsExporter extends JRAbstractExporter
 	{
 		HSSFFont cellFont = null;
 
-		if (this.loadedFonts != null && this.loadedFonts.size() > 0)
+		if (loadedFonts != null && loadedFonts.size() > 0)
 		{
 			HSSFFont cf = null;
-			for (int i = 0; i < this.loadedFonts.size(); i++)
+			for (int i = 0; i < loadedFonts.size(); i++)
 			{
-				cf = (HSSFFont)this.loadedFonts.get(i);
+				cf = (HSSFFont)loadedFonts.get(i);
 				
 				if (
 					cf.getFontName().equals(font.getFontName()) &&
@@ -890,7 +849,7 @@ public class JRXlsExporter extends JRAbstractExporter
 				cellFont.setItalic(true);
 			}
 			
-			this.loadedFonts.add(cellFont);
+			loadedFonts.add(cellFont);
 		}
 			
 		return cellFont;
@@ -910,12 +869,12 @@ public class JRXlsExporter extends JRAbstractExporter
 	{
 		HSSFCellStyle cellStyle = null;
 
-		if (this.loadedCellStyles != null && this.loadedCellStyles.size() > 0)
+		if (loadedCellStyles != null && loadedCellStyles.size() > 0)
 		{
 			HSSFCellStyle cs = null;
-			for (int i = 0; i < this.loadedCellStyles.size(); i++)
+			for (int i = 0; i < loadedCellStyles.size(); i++)
 			{
-				cs = (HSSFCellStyle)this.loadedCellStyles.get(i);
+				cs = (HSSFCellStyle)loadedCellStyles.get(i);
 				
 				if (
 					cs.getFillPattern() == mode &&
@@ -941,7 +900,7 @@ public class JRXlsExporter extends JRAbstractExporter
 			cellStyle.setFont(font);
 			cellStyle.setWrapText(true);
 			
-			this.loadedCellStyles.add(cellStyle);
+			loadedCellStyles.add(cellStyle);
 		}
 			
 		return cellStyle;

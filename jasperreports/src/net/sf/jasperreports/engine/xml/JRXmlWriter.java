@@ -502,7 +502,7 @@ public class JRXmlWriter
 		this.sbuffer.append("\"");
 
 		this.sbuffer.append(" class=\"");
-		this.sbuffer.append(parameter.getValueClass().getName());
+		this.sbuffer.append(parameter.getValueClassName());
 		this.sbuffer.append("\"");
 
 		if (!parameter.isForPrompting())
@@ -557,7 +557,7 @@ public class JRXmlWriter
 		this.sbuffer.append("\"");
 
 		this.sbuffer.append(" class=\"");
-		this.sbuffer.append(field.getValueClass().getName());
+		this.sbuffer.append(field.getValueClassName());
 		this.sbuffer.append("\"");
 
 		this.sbuffer.append(">\n");
@@ -585,7 +585,7 @@ public class JRXmlWriter
 		this.sbuffer.append("\"");
 
 		this.sbuffer.append(" class=\"");
-		this.sbuffer.append(variable.getValueClass().getName());
+		this.sbuffer.append(variable.getValueClassName());
 		this.sbuffer.append("\"");
 
 		if (variable.getResetType() != JRVariable.RESET_TYPE_REPORT)
@@ -1102,7 +1102,7 @@ public class JRXmlWriter
 			this.sbuffer.append("\t\t\t\t<imageExpression");
 	
 			this.sbuffer.append(" class=\"");
-			this.sbuffer.append(image.getExpression().getValueClass().getName());//FIXME class is mandatory in verifier
+			this.sbuffer.append(image.getExpression().getValueClassName());//FIXME class is mandatory in verifier
 			this.sbuffer.append("\"");
 	
 			this.sbuffer.append("><![CDATA[");
@@ -1373,7 +1373,7 @@ public class JRXmlWriter
 			this.sbuffer.append("\t\t\t\t<textFieldExpression");
 	
 			this.sbuffer.append(" class=\"");
-			this.sbuffer.append(textField.getExpression().getValueClass().getName());
+			this.sbuffer.append(textField.getExpression().getValueClassName());
 			this.sbuffer.append("\"");
 	
 			this.sbuffer.append("><![CDATA[");
@@ -1468,7 +1468,7 @@ public class JRXmlWriter
 			this.sbuffer.append("\t\t\t\t<subreportExpression");
 	
 			this.sbuffer.append(" class=\"");
-			this.sbuffer.append(subreport.getExpression().getValueClass().getName());
+			this.sbuffer.append(subreport.getExpression().getValueClassName());
 			this.sbuffer.append("\"");
 	
 			this.sbuffer.append("><![CDATA[");

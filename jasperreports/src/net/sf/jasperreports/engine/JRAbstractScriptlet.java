@@ -175,7 +175,7 @@ public abstract class JRAbstractScriptlet
 		
 		if (value != null && !variable.getValueClass().isInstance(value) )
 		{
-			throw new JRScriptletException("Incompatible value assigned to variable " + variableName + ". Expected " + variable.getValueClass().getName() + ".");
+			throw new JRScriptletException("Incompatible value assigned to variable " + variableName + ". Expected " + variable.getValueClassName() + ".");
 		}
 		
 		variable.setValue(value);

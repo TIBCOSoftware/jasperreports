@@ -88,8 +88,9 @@
 				<include name="**/dori/jasper/engine/util/JRLoader.class"/>
 				<include name="**/dori/jasper/engine/util/JRStringUtil.class"/>
 				<include name="**/dori/jasper/view/JasperViewer*.class"/>
-				<include name="**/dori/jasper/view/JRViewer*.class"/>
+				<include name="**/dori/jasper/view/JRSaveContributor.class"/>
 				<include name="**/dori/jasper/view/JRHyperlinkListener.class"/>
+				<include name="**/dori/jasper/view/JRViewer*.class"/>
 				<include name="**/dori/jasper/view/images/*.GIF"/>
 			</fileset>
 		</jar>

@@ -79,12 +79,10 @@ package dori.jasper.engine.export;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -98,8 +96,6 @@ import dori.jasper.engine.JRExporterParameter;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.util.JRLoader;
 
 
 /**
@@ -108,11 +104,6 @@ import dori.jasper.engine.util.JRLoader;
 public class JRCsvExporter extends JRAbstractExporter
 {
 
-
-	/**
-	 *
-	 */
-	private JasperPrint jasperPrint = null;
 
 	/**
 	 *
@@ -139,64 +130,32 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
-		String encoding = (String)this.parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+		/*   */
+		setPageRange();
+
+		String encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
 		if (encoding == null)
 		{
 			encoding = "ISO-8859-1";
 		}
 		
-		this.delimiter = (String)this.parameters.get(JRCsvExporterParameter.FIELD_DELIMITER);
-		if (this.delimiter == null)
+		delimiter = (String)parameters.get(JRCsvExporterParameter.FIELD_DELIMITER);
+		if (delimiter == null)
 		{
-			this.delimiter = ",";
+			delimiter = ",";
 		}
 		
-		StringBuffer sb = (StringBuffer)this.parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			try
 			{
-				this.writer = new StringWriter();
-				this.exportReportToWriter();
-				sb.append(this.writer.toString());
+				writer = new StringWriter();
+				exportReportToWriter();
+				sb.append(writer.toString());
 			}
 			catch (IOException e)
 			{
@@ -204,11 +163,11 @@ public class JRCsvExporter extends JRAbstractExporter
 			}
 			finally
 			{
-				if (this.writer != null)
+				if (writer != null)
 				{
 					try
 					{
-						this.writer.close();
+						writer.close();
 					}
 					catch(IOException e)
 					{
@@ -218,12 +177,12 @@ public class JRCsvExporter extends JRAbstractExporter
 		}
 		else
 		{
-			this.writer = (Writer)this.parameters.get(JRExporterParameter.OUTPUT_WRITER);
-			if (this.writer != null)
+			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (writer != null)
 			{
 				try
 				{
-					this.exportReportToWriter();
+					exportReportToWriter();
 				}
 				catch (IOException e)
 				{
@@ -232,13 +191,13 @@ public class JRCsvExporter extends JRAbstractExporter
 			}
 			else
 			{
-				OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 				if (os != null)
 				{
 					try
 					{
-						this.writer = new OutputStreamWriter(os, encoding); 
-						this.exportReportToWriter();
+						writer = new OutputStreamWriter(os, encoding); 
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
@@ -247,10 +206,10 @@ public class JRCsvExporter extends JRAbstractExporter
 				}
 				else
 				{
-					File destFile = (File)this.parameters.get(JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
 					if (destFile == null)
 					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 						if (fileName != null)
 						{
 							destFile = new File(fileName);
@@ -264,8 +223,8 @@ public class JRCsvExporter extends JRAbstractExporter
 					try
 					{
 						os = new FileOutputStream(destFile);
-						this.writer = new OutputStreamWriter(os, encoding);
-						this.exportReportToWriter();
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
@@ -273,11 +232,11 @@ public class JRCsvExporter extends JRAbstractExporter
 					}
 					finally
 					{
-						if (this.writer != null)
+						if (writer != null)
 						{
 							try
 							{
-								this.writer.close();
+								writer.close();
 							}
 							catch(IOException e)
 							{
@@ -300,7 +259,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			JRPrintPage page = null;
 			
-			for(int i = 0; i < pages.size(); i++)
+			for(int i = startPageIndex; i <= endPageIndex; i++)
 			{
 				if (Thread.currentThread().isInterrupted())
 				{
@@ -310,11 +269,11 @@ public class JRCsvExporter extends JRAbstractExporter
 				page = (JRPrintPage)pages.get(i);
 
 				/*   */
-				this.exportPage(page);
+				exportPage(page);
 			}
 		}
 		
-		this.writer.flush();
+		writer.flush();
 	}
 
 
@@ -323,7 +282,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	private void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		this.layoutGrid(page);
+		layoutGrid(page);
 
 		StringBuffer rowbuffer = null;
 		
@@ -353,7 +312,7 @@ public class JRCsvExporter extends JRAbstractExporter
 							
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(this.delimiter);
+								rowbuffer.append(delimiter);
 							}
 							rowbuffer.append(
 								prepareText(text)
@@ -367,7 +326,7 @@ public class JRCsvExporter extends JRAbstractExporter
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(this.delimiter);
+								rowbuffer.append(delimiter);
 							}
 							isFirstColumn = false;
 						}
@@ -376,8 +335,8 @@ public class JRCsvExporter extends JRAbstractExporter
 				
 				if (rowbuffer.length() > 0)
 				{
-					this.writer.write(rowbuffer.toString());
-					this.writer.write("\n");
+					writer.write(rowbuffer.toString());
+					writer.write("\n");
 				}
 			}
 		}
@@ -494,7 +453,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			boolean putQuotes = false;
 			
-			if (source.indexOf(this.delimiter) >= 0)
+			if (source.indexOf(delimiter) >= 0)
 			{
 				putQuotes = true;
 			}

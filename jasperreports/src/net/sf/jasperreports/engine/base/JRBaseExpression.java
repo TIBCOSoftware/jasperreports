@@ -75,6 +75,8 @@ import java.io.Serializable;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRExpressionChunk;
+import dori.jasper.engine.JRRuntimeException;
+import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -92,9 +94,11 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 *
 	 */
-	protected Class valueClass = null;
+	protected String valueClassName = null;
 	protected String name = null;
 	protected int id = 0;
+
+	protected transient Class valueClass = null;
 
 	/**
 	 *
@@ -117,7 +121,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	{
 		factory.put(expression, this);
 		
-		valueClass = expression.getValueClass();
+		valueClassName = expression.getValueClassName();
 		name = expression.getName();
 		id = expression.getId();
 		
@@ -139,7 +143,30 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	public Class getValueClass()
 	{
-		return this.valueClass;
+		if (valueClass == null)
+		{
+			if (valueClassName != null)
+			{
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(valueClassName);
+				}
+				catch(ClassNotFoundException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		
+		return valueClass;
+	}
+	
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return valueClassName;
 	}
 	
 	/**
@@ -147,7 +174,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	public String getName()
 	{
-		return this.name;
+		return name;
 	}
 	
 	/**
@@ -155,7 +182,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	public int getId()
 	{
-		return this.id;
+		return id;
 	}
 
 	/**
@@ -163,7 +190,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	public JRExpressionChunk[] getChunks()
 	{
-		return this.chunks;
+		return chunks;
 	}
 			
 	/**
@@ -173,7 +200,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 	{
 		String text = "";
 		
-		JRExpressionChunk[] chunks = this.getChunks();
 		if (chunks != null && chunks.length > 0)
 		{
 			StringBuffer sbuffer = new StringBuffer();

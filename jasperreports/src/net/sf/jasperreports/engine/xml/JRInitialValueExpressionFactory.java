@@ -92,7 +92,7 @@ public class JRInitialValueExpressionFactory extends JRBaseFactory
 		JRDesignVariable variable = (JRDesignVariable)digester.peek();
 
 		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClass(variable.getValueClass());
+		expression.setValueClassName(variable.getValueClassName());
 		expression.setName("variableInitialValue_" + variable.getName());
 
 		return expression;

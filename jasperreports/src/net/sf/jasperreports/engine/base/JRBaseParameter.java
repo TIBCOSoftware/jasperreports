@@ -75,6 +75,8 @@ import java.io.Serializable;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRParameter;
+import dori.jasper.engine.JRRuntimeException;
+import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -94,9 +96,11 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 */
 	protected String name = null;
 	protected String description = null;
-	protected Class valueClass = java.lang.String.class;
+	protected String valueClassName = java.lang.String.class.getName();
 	protected boolean isSystemDefined = false;
 	protected boolean isForPrompting = true;
+
+	protected transient Class valueClass = null;
 
 	/**
 	 *
@@ -121,7 +125,7 @@ public class JRBaseParameter implements JRParameter, Serializable
 		
 		name = parameter.getName();
 		description = parameter.getDescription();
-		valueClass = parameter.getValueClass();
+		valueClassName = parameter.getValueClassName();
 		isSystemDefined = parameter.isSystemDefined();
 		isForPrompting = parameter.isForPrompting();
 
@@ -158,7 +162,30 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 */
 	public Class getValueClass()
 	{
-		return this.valueClass;
+		if (valueClass == null)
+		{
+			if (valueClassName != null)
+			{
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(valueClassName);
+				}
+				catch(ClassNotFoundException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		
+		return valueClass;
+	}
+
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return valueClassName;
 	}
 
 	/**

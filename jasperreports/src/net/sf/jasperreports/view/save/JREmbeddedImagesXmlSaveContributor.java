@@ -69,42 +69,49 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.view.save;
 
-import org.xml.sax.Attributes;
+import java.io.File;
 
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.design.JRDesignVariable;
-
+import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRExporterParameter;
+import dori.jasper.engine.JasperPrint;
+import dori.jasper.engine.export.JRXmlExporter;
+import dori.jasper.engine.export.JRXmlExporterParameter;
+import dori.jasper.view.JRSaveContributor;
 
 /**
- *
+ * 
  */
-public class JRVariableExpressionFactory extends JRBaseFactory
+public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 {
 
+	/**
+	 * 
+	 */
+	public boolean accept(File file)
+	{
+		return true;
+	}
 
 	/**
-	 *
+	 * 
 	 */
-	public Object createObject(Attributes atts)
+	public String getDescription()
 	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
-
-		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
-		{
-			expression.setValueClassName(java.lang.Object.class.getName());
-		}
-		else
-		{
-			expression.setValueClassName(variable.getValueClassName());
-		}
-		expression.setName("variable_" + variable.getName());
-
-		return expression;
+		return "Embedded images XML (*.jrpxml, *.xml)";
 	}
-			
+
+	/**
+	 * 
+	 */
+	public void save(JasperPrint jasperPrint, File file) throws JRException
+	{
+		JRXmlExporter exporter = new JRXmlExporter();
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
+		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, Boolean.TRUE);
+		exporter.exportReport(); 
+	}
 
 }

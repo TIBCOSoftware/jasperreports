@@ -111,6 +111,11 @@ public interface JRParameter
 	/**
 	 *
 	 */
+	public String getValueClassName();
+
+	/**
+	 *
+	 */
 	public boolean isSystemDefined();
 
 	/**

@@ -135,7 +135,15 @@ public class JRFillParameter implements JRParameter
 	 */
 	public Class getValueClass()
 	{
-		return this.parent.getValueClass();
+		return parent.getValueClass();
+	}
+	
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return parent.getValueClassName();
 	}
 	
 	/**

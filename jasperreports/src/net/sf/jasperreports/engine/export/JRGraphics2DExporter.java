@@ -86,9 +86,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Collection;
@@ -100,7 +97,6 @@ import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRAlignment;
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRImage;
@@ -113,11 +109,9 @@ import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRGraphEnvInitializer;
 import dori.jasper.engine.util.JRImageLoader;
-import dori.jasper.engine.util.JRLoader;
 import dori.jasper.engine.util.JRStringUtil;
 
 
@@ -131,9 +125,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
 	private Graphics2D grx = null;
-	private int pageIndex = 0;
 	private float zoom = 1f;
 
 	/**
@@ -174,77 +166,29 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
-		grx = (Graphics2D)this.parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
+		/*   */
+		setPageRange();
+
+		grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
 		if (grx == null)
 		{
 			throw new JRException("No output specified for the exporter. java.awt.Graphics2D object expected.");
 		}
 		
-		int lastPageIndex = -1;
-		if (this.jasperPrint.getPages() != null)
-		{
-			lastPageIndex = this.jasperPrint.getPages().size() - 1;
-		}
-
-		Integer index = (Integer)this.parameters.get(JRExporterParameter.PAGE_INDEX);
-		if (index != null)
-		{
-			this.pageIndex = index.intValue();
-			if (this.pageIndex < 0 || this.pageIndex > lastPageIndex)
-			{
-				throw new JRException("Page index out of range : " + this.pageIndex + " of " + lastPageIndex);
-			}
-		}
-
-		Float zoomRatio = (Float)this.parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO);
+		Float zoomRatio = (Float)parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO);
 		if (zoomRatio != null)
 		{
-			this.zoom = zoomRatio.floatValue();
-			if (this.zoom <= 0)
+			zoom = zoomRatio.floatValue();
+			if (zoom <= 0)
 			{
-				throw new JRException("Invalid zoom ratio : " + this.zoom);
+				throw new JRException("Invalid zoom ratio : " + zoom);
 			}
 		}
 
-		this.exportReportToGraphics2D();
+		exportReportToGraphics2D();
 	}
 		
 
@@ -264,8 +208,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		java.util.List pages = jasperPrint.getPages();
 		if (pages != null)
 		{
-			JRPrintPage page = (JRPrintPage)pages.get(this.pageIndex);
-			this.exportPage(page);
+			JRPrintPage page = (JRPrintPage)pages.get(startPageIndex);
+			exportPage(page);
 		}
 	}
 	
@@ -873,7 +817,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		JRFont font = text.getFont();
 		if (font == null)
 		{
-			font = this.getDefaultFont();
+			font = getDefaultFont();
 		}
 		Map fontAttributes = font.getAttributes();
 

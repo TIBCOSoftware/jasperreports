@@ -69,42 +69,81 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.engine.data;
 
-import org.xml.sax.Attributes;
+import java.util.Map;
 
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.design.JRDesignVariable;
+import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRField;
+import dori.jasper.engine.JRRewindableDataSource;
 
 
 /**
  *
  */
-public class JRVariableExpressionFactory extends JRBaseFactory
+public class JRMapArrayDataSource implements JRRewindableDataSource
 {
-
+	
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
+	private Object[] records = null;
+	private int index = -1;
+	
 
-		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
+	/**
+	 *
+	 */
+	public JRMapArrayDataSource(Object[] array)
+	{
+		records = array;
+	}
+	
+
+	/**
+	 *
+	 */
+	public boolean next() throws JRException
+	{
+		index++;
+
+		if (records != null)
 		{
-			expression.setValueClassName(java.lang.Object.class.getName());
+			return (index < records.length);
 		}
 		else
 		{
-			expression.setValueClassName(variable.getValueClassName());
+			return false;
 		}
-		expression.setName("variable_" + variable.getName());
-
-		return expression;
 	}
-			
+	
+	
+	/**
+	 *
+	 */
+	public Object getFieldValue(JRField field) throws JRException
+	{
+		Object value = null;
+		
+		Map currentRecord = (Map)records[index];
+
+		if (currentRecord != null)
+		{
+			value = currentRecord.get(field.getName());
+		}
+
+		return value;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void moveFirst() throws JRException
+	{
+		this.index = -1;
+	}
+
 
 }

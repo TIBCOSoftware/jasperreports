@@ -72,6 +72,7 @@
 package dori.jasper.engine.design;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -105,6 +106,15 @@ public class JRVerifier
 {
 	
 	
+	/**
+	 *
+	 */
+	private static String[] queryParameterClassNames = null;
+	private static String[] fieldClassNames = null;
+	private static String[] textFieldClassNames = null;
+	private static String[] imageClassNames = null;
+	private static String[] subreportClassNames = null;
+
 	/**
 	 *
 	 */
@@ -349,24 +359,7 @@ public class JRVerifier
 							}
 							else 
 							{
-								clazz = parameter.getValueClass();
-								if ( 
-									!(
-									clazz.equals(java.lang.Object.class) ||
-									clazz.equals(java.lang.Boolean.class) ||
-									clazz.equals(java.lang.Byte.class) ||
-									clazz.equals(java.lang.Double.class) ||
-									clazz.equals(java.lang.Float.class) ||
-									clazz.equals(java.lang.Integer.class) ||
-									clazz.equals(java.lang.Long.class) ||
-									clazz.equals(java.lang.Short.class) ||
-									clazz.equals(java.math.BigDecimal.class) ||
-									clazz.equals(java.lang.String.class) ||
-									clazz.equals(java.util.Date.class) ||
-									clazz.equals(java.sql.Timestamp.class) ||
-									clazz.equals(java.sql.Time.class) 
-									)
-									)
+								if (Arrays.binarySearch(getQueryParameterClassNames(), parameter.getValueClassName()) < 0)
 								{
 									brokenRules.add("Parameter type not supported in query : " + queryChunk.getText() + " class " + clazz.getName());
 								}
@@ -526,44 +519,27 @@ public class JRVerifier
 		JRField[] fields = jasperDesign.getFields();
 		if (fields != null && fields.length > 0)
 		{
-			JRField field = null;
-			Class clazz = null;
-
 			for(int index = 0; index < fields.length; index++)
 			{
-				field = fields[index];
+				JRField field = fields[index];
 				
 				if (field.getName() == null || field.getName().trim().length() == 0)
 				{
 					brokenRules.add("Field name missing.");
 				}
 
-				clazz = field.getValueClass();
+				String className = field.getValueClassName();
 
-				if (clazz == null)
+				if (className == null)
 				{
 					brokenRules.add("Class not set for field : " + field.getName());
 				}
-				else if ( 
-					!(
-					clazz.equals(java.lang.Object.class) ||
-					clazz.equals(java.lang.Boolean.class) ||
-					clazz.equals(java.lang.Byte.class) ||
-					clazz.equals(java.util.Date.class) ||
-					clazz.equals(java.sql.Timestamp.class) ||
-					clazz.equals(java.sql.Time.class) ||
-					clazz.equals(java.lang.Double.class) ||
-					clazz.equals(java.lang.Float.class) ||
-					clazz.equals(java.lang.Integer.class) ||
-					clazz.equals(java.io.InputStream.class) ||
-					clazz.equals(java.lang.Long.class) ||
-					clazz.equals(java.lang.Short.class) ||
-					clazz.equals(java.math.BigDecimal.class) ||
-					clazz.equals(java.lang.String.class)
-					)
-					)
+				else if (Arrays.binarySearch(getFieldClassNames(), className) < 0) 
 				{
-					brokenRules.add("Class " + clazz + " not supported for field : " + field.getName() + ". Use java.lang.Object instead.");
+					brokenRules.add(
+						"Class \"" + className + "\" not supported for field : " 
+						+ field.getName() + ". Use java.lang.Object instead."
+						);
 				}
 			}
 		}
@@ -881,30 +857,15 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
+				String className = expression.getValueClassName();
 
-				if (clazz == null)
+				if (className == null)
 				{
 					brokenRules.add("Class not set for text field expression.");
 				}
-				else if ( 
-					!(
-					clazz.equals(java.lang.Boolean.class) ||
-					clazz.equals(java.lang.Byte.class) ||
-					clazz.equals(java.util.Date.class) ||
-					clazz.equals(java.sql.Timestamp.class) ||
-					clazz.equals(java.sql.Time.class) ||
-					clazz.equals(java.lang.Double.class) ||
-					clazz.equals(java.lang.Float.class) ||
-					clazz.equals(java.lang.Integer.class) ||
-					clazz.equals(java.lang.Long.class) ||
-					clazz.equals(java.lang.Short.class) ||
-					clazz.equals(java.math.BigDecimal.class) ||
-					clazz.equals(java.lang.String.class)
-					)
-					)
+				else if (Arrays.binarySearch(getTextFieldClassNames(), className) < 0) 
 				{
-					brokenRules.add("Class " + clazz + " not supported for text field expression.");
+					brokenRules.add("Class \"" + className + "\" not supported for text field expression.");
 				}
 			}
 		}
@@ -1038,23 +999,15 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
+				String className = expression.getValueClassName();
 
-				if (clazz == null)
+				if (className == null)
 				{
 					brokenRules.add("Class not set for image expression.");
 				}
-				else if ( 
-					!(
-					clazz.equals(java.lang.String.class) ||
-					clazz.equals(java.io.File.class) ||
-					clazz.equals(java.net.URL.class) ||
-					clazz.equals(java.io.InputStream.class) ||
-					clazz.equals(java.awt.Image.class)
-					)
-					)
+				else if (Arrays.binarySearch(getImageClassNames(), className) < 0)
 				{
-					brokenRules.add("Class " + clazz + " not supported for image expression.");
+					brokenRules.add("Class \"" + className + "\" not supported for image expression.");
 				}
 			}
 		}
@@ -1073,23 +1026,15 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				String className = expression.getValueClassName();
 
-				if (clazz == null)
+				if (className == null)
 				{
 					brokenRules.add("Class not set for subreport expression.");
 				}
-				else if ( 
-					!(
-					clazz.equals(java.lang.String.class) ||
-					clazz.equals(java.io.File.class) ||
-					clazz.equals(java.net.URL.class) ||
-					clazz.equals(java.io.InputStream.class) ||
-					clazz.equals(dori.jasper.engine.JasperReport.class)
-					)
-					)
+				else if (Arrays.binarySearch(getSubreportClassNames(), className) < 0) 
 				{
-					brokenRules.add("Class " + clazz + " not supported for subreport expression.");
+					brokenRules.add("Class \"" + className + "\" not supported for subreport expression.");
 				}
 			}
 
@@ -1112,10 +1057,9 @@ public class JRVerifier
 			JRSubreportParameter[] parameters = subreport.getParameters();
 			if (parameters != null && parameters.length > 0)
 			{
-				JRSubreportParameter parameter = null;
 				for(int index = 0; index < parameters.length; index++)
 				{
-					parameter = parameters[index];
+					JRSubreportParameter parameter = parameters[index];
 	
 					if (parameter.getName() == null || parameter.getName().trim().length() == 0)
 					{
@@ -1178,5 +1122,144 @@ public class JRVerifier
 		}
 	}
 		
+
+	/**
+	 *
+	 */
+	private static synchronized String[] getQueryParameterClassNames()
+	{
+		if (queryParameterClassNames == null)
+		{
+			queryParameterClassNames = new String[]
+			{
+				java.lang.Object.class.getName(),
+				java.lang.Boolean.class.getName(),
+				java.lang.Byte.class.getName(),
+				java.lang.Double.class.getName(),
+				java.lang.Float.class.getName(),
+				java.lang.Integer.class.getName(),
+				java.lang.Long.class.getName(),
+				java.lang.Short.class.getName(),
+				java.math.BigDecimal.class.getName(),
+				java.lang.String.class.getName(),
+				java.util.Date.class.getName(),
+				java.sql.Timestamp.class.getName(),
+				java.sql.Time.class.getName()
+			};
+
+			Arrays.sort(queryParameterClassNames);
+		}
+		
+		return queryParameterClassNames;
+	}
+
+
+	/**
+	 *
+	 */
+	private static synchronized String[] getFieldClassNames()
+	{
+		if (fieldClassNames == null)
+		{
+			fieldClassNames = new String[]
+			{
+				java.lang.Object.class.getName(),
+				java.lang.Boolean.class.getName(),
+				java.lang.Byte.class.getName(),
+				java.util.Date.class.getName(),
+				java.sql.Timestamp.class.getName(),
+				java.sql.Time.class.getName(),
+				java.lang.Double.class.getName(),
+				java.lang.Float.class.getName(),
+				java.lang.Integer.class.getName(),
+				java.io.InputStream.class.getName(),
+				java.lang.Long.class.getName(),
+				java.lang.Short.class.getName(),
+				java.math.BigDecimal.class.getName(),
+				java.lang.String.class.getName()
+			};
+
+			Arrays.sort(fieldClassNames);
+		}
+		
+		return fieldClassNames;
+	}
+
+
+	/**
+	 *
+	 */
+	private static synchronized String[] getTextFieldClassNames()
+	{
+		if (textFieldClassNames == null)
+		{
+			textFieldClassNames = new String[]
+			{
+				java.lang.Boolean.class.getName(),
+				java.lang.Byte.class.getName(),
+				java.util.Date.class.getName(),
+				java.sql.Timestamp.class.getName(),
+				java.sql.Time.class.getName(),
+				java.lang.Double.class.getName(),
+				java.lang.Float.class.getName(),
+				java.lang.Integer.class.getName(),
+				java.lang.Long.class.getName(),
+				java.lang.Short.class.getName(),
+				java.math.BigDecimal.class.getName(),
+				java.lang.String.class.getName()
+			};
+
+			Arrays.sort(textFieldClassNames);
+		}
+		
+		return textFieldClassNames;
+	}
+
+
+	/**
+	 *
+	 */
+	private static synchronized String[] getImageClassNames()
+	{
+		if (imageClassNames == null)
+		{
+			imageClassNames = new String[]
+			{
+				java.lang.String.class.getName(),
+				java.io.File.class.getName(),
+				java.net.URL.class.getName(),
+				java.io.InputStream.class.getName(),
+				java.awt.Image.class.getName()
+			};
+
+			Arrays.sort(imageClassNames);
+		}
+		
+		return imageClassNames;
+	}
+
+
+	/**
+	 *
+	 */
+	private static synchronized String[] getSubreportClassNames()
+	{
+		if (subreportClassNames == null)
+		{
+			subreportClassNames = new String[]
+			{
+				java.lang.String.class.getName(),
+				java.io.File.class.getName(),
+				java.net.URL.class.getName(),
+				java.io.InputStream.class.getName(),
+				dori.jasper.engine.JasperReport.class.getName()
+			};
+
+			Arrays.sort(subreportClassNames);
+		}
+		
+		return subreportClassNames;
+	}
+
 
 }

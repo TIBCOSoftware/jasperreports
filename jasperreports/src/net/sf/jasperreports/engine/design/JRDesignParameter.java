@@ -100,7 +100,16 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setValueClass(Class clazz)
 	{
-		this.valueClass = clazz;
+		setValueClassName(clazz.getName());
+	}
+
+	/**
+	 *
+	 */
+	public void setValueClassName(String className)
+	{
+		valueClassName = className;
+		valueClass = null;
 	}
 
 	/**

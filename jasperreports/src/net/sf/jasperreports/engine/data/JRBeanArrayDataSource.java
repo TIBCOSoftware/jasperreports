@@ -147,7 +147,12 @@ public class JRBeanArrayDataSource implements JRRewindableDataSource
 			{
 			}
 			
-			if (method == null && jrField.getValueClass() == Boolean.class)
+			if (
+				method == null 
+				&& Boolean.class.getName().equals(
+					jrField.getValueClassName()
+					)
+				)
 			{
 				try
 				{

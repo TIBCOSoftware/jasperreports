@@ -75,7 +75,9 @@ import java.io.Serializable;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
+import dori.jasper.engine.JRRuntimeException;
 import dori.jasper.engine.JRVariable;
+import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -94,10 +96,12 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 *
 	 */
 	protected String name = null;
-	protected Class valueClass = java.lang.String.class;
+	protected String valueClassName = java.lang.String.class.getName();
 	protected byte resetType = RESET_TYPE_REPORT;
 	protected byte calculation = CALCULATION_NOTHING;
 	protected boolean isSystemDefined = false;
+
+	protected transient Class valueClass = null;
 
 	/**
 	 *
@@ -126,7 +130,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		factory.put(variable, this);
 		
 		name = variable.getName();
-		valueClass = variable.getValueClass();
+		valueClassName = variable.getValueClassName();
 		resetType = variable.getResetType();
 		calculation = variable.getCalculation();
 		isSystemDefined = variable.isSystemDefined();
@@ -154,7 +158,30 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	public Class getValueClass()
 	{
-		return this.valueClass;
+		if (valueClass == null)
+		{
+			if (valueClassName != null)
+			{
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(valueClassName);
+				}
+				catch(ClassNotFoundException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		
+		return valueClass;
+	}
+		
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return valueClassName;
 	}
 		
 	/**

@@ -92,7 +92,7 @@ public class JRDefaultValueExpressionFactory extends JRBaseFactory
 		JRDesignParameter parameter = (JRDesignParameter)digester.peek();
 
 		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClass(parameter.getValueClass());
+		expression.setValueClassName(parameter.getValueClassName());
 		expression.setName("parameterDefaultValue_" + parameter.getName());
 
 		return expression;
