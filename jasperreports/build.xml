@@ -149,7 +149,7 @@
 				windowtitle="JasperReports API version ${version}"
 				excludepackagenames="org.w3c.tools.codec">
 			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version 0.6.4</span>]]></doctitle>
-			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b> &copy; 2001-2004 Teodor Danciu <a href="mailto:teodord@users.sourceforge.net" style="color:#000000;">teodord@users.sourceforge.net</a></span>]]></bottom>
+			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;"><b>^<font color="#808080">Jasper</font><font color="#990000">Reports</font></b> &copy; 2001-2005 Teodor Danciu <a href="mailto:teodord@users.sourceforge.net" style="color:#000000;">teodord@users.sourceforge.net</a></span>]]></bottom>
 			<classpath>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
