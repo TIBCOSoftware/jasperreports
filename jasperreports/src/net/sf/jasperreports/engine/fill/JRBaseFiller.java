@@ -431,15 +431,22 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			parameterValues = new HashMap();
 		}
 
+		/*   */
 		setParameters(parameterValues);
-		isParametersAlreadySet = true;
 
 		/*   */
 		if (conn == null)
 		{
 			conn = (Connection)parameterValues.get(JRParameter.REPORT_CONNECTION);
 		}
-		parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
+		if (conn == null)
+		{
+			parameterValues.remove(JRParameter.REPORT_CONNECTION);
+		}
+		else
+		{
+			parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
+		}
 		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_CONNECTION);
 		if (parameter != null)
 		{
@@ -512,70 +519,29 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			parameterValues = new HashMap();
 		}
 
-		if (!isParametersAlreadySet)
-		{
-			setParameters(parameterValues);
-			isParametersAlreadySet = true;
-		}
-
 		/*   */
-		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
-		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
-		if (parameter != null)
-		{
-			setParameter(parameter, parameterValues);
-		}
+		setParameters(parameterValues);
 
 		/*   */
 		if (dataSource == null)
 		{
 			dataSource = (JRDataSource)parameterValues.get(JRParameter.REPORT_DATA_SOURCE);
 		}
-		parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
+		if (dataSource == null)
+		{
+			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
+		}
+		else
+		{
+			parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
+		}
+		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
 		if (parameter != null)
 		{
 			setParameter(parameter, dataSource);
 		}
 
 		/*   */
-		locale = (Locale)parameterValues.get(JRParameter.REPORT_LOCALE);
-		if (locale == null)
-		{
-			locale = Locale.getDefault();
-		}
-		parameterValues.put(JRParameter.REPORT_LOCALE, locale);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
-		if (parameter != null)
-		{
-			setParameter(parameter, locale);
-		}
-
-		/*   */
-		resourceBundle = (ResourceBundle)parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		if (resourceBundle == null)
-		{
-			resourceBundle = loadResourceBundle();
-		}
-		parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		if (parameter != null)
-		{
-			setParameter(parameter, resourceBundle);
-		}
-
-		/*   *
-		scriptlet = createScriptlet();
-		
-		/*   *
-		scriptlet.setData(
-			parametersMap,
-			fieldsMap,
-			variablesMap,
-			groups
-			);
-		*/
-
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET);
 		if (parameter != null)
@@ -583,16 +549,15 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			setParameter(parameter, scriptlet);
 		}
 
-		/*   *
-		calculator.init(
-			parametersMap,
-			fieldsMap,
-			variablesMap,
-			variables,
-			groups
-			);
-		*/
+		/*   */
+		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
+		if (parameter != null)
+		{
+			setParameter(parameter, parameterValues);
+		}
 
+		
 		jasperPrint.setName(name);
 		jasperPrint.setPageWidth(pageWidth);
 		jasperPrint.setPageHeight(pageHeight);
@@ -770,6 +735,52 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
+		if (isParametersAlreadySet)
+		{
+			return;
+		}
+		
+		/*   */
+		locale = (Locale)parameterValues.get(JRParameter.REPORT_LOCALE);
+		if (locale == null)
+		{
+			locale = Locale.getDefault();
+		}
+		if (locale == null)
+		{
+			parameterValues.remove(JRParameter.REPORT_LOCALE);
+		}
+		else
+		{
+			parameterValues.put(JRParameter.REPORT_LOCALE, locale);
+		}
+		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
+		if (parameter != null)
+		{
+			setParameter(parameter, locale);
+		}
+
+		/*   */
+		resourceBundle = (ResourceBundle)parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (resourceBundle == null)
+		{
+			resourceBundle = loadResourceBundle();
+		}
+		if (resourceBundle == null)
+		{
+			parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+		}
+		else
+		{
+			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+		}
+		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (parameter != null)
+		{
+			setParameter(parameter, resourceBundle);
+		}
+
+		/*   */
 		if (parameters != null && parameters.length > 0)
 		{
 			Object value = null;
@@ -797,6 +808,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				}
 			}
 		}
+
+		isParametersAlreadySet = true;
 	}
 
 

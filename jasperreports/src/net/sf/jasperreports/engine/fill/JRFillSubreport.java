@@ -311,12 +311,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					
 					if (parameterValues != null)
 					{
-						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
+						parameterValues.remove(JRParameter.REPORT_LOCALE);
+						parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
 						parameterValues.remove(JRParameter.REPORT_CONNECTION);
 						parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
 						parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
-						parameterValues.remove(JRParameter.REPORT_LOCALE);
-						parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
 					}
 
 					/*   */
@@ -340,7 +340,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 						{
 							expression = subreportParameters[i].getExpression();
 							parameterValue = filler.calculator.evaluate(expression, evaluation);
-							parameterValues.put(subreportParameters[i].getName(), parameterValue);
+							if (parameterValue == null)
+							{
+								parameterValues.remove(subreportParameters[i].getName());
+							}
+							else
+							{
+								parameterValues.put(subreportParameters[i].getName(), parameterValue);
+							}
 						}
 					}
 		
