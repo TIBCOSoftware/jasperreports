@@ -74,7 +74,6 @@ package dori.jasper.engine.xml;
 import org.xml.sax.Attributes;
 
 import dori.jasper.engine.design.JRDesignField;
-import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -89,22 +88,13 @@ public class JRFieldFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-
 		JRDesignField field = new JRDesignField();
 		
 		field.setName(atts.getValue("name"));
 
-		try
+		if (atts.getValue("class") != null)
 		{
-			if (atts.getValue("class") != null)
-			{
-				field.setValueClass(JRClassLoader.loadClassForName(atts.getValue("class")));
-			}
-		}
-		catch (ClassNotFoundException e)
-		{
-			xmlLoader.addError(e);
+			field.setValueClassName(atts.getValue("class"));
 		}
 
 		return field;
