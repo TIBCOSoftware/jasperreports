@@ -48,7 +48,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 605;
+	private static final long serialVersionUID = 606;
 
 	/**
 	 *

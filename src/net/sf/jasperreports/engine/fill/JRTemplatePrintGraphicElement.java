@@ -42,7 +42,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 605;
+	private static final long serialVersionUID = 606;
 
 
 	/**
