@@ -121,8 +121,7 @@ public class JRBshCompiler implements JRCompiler
 	{
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		
-		// trick for detecting the Ant class loader and replace it with
-		// an URLClassLoader for using with the BeanShell interpreter
+		// trick for detecting the Ant class loader
 		try
 		{
 			classLoader.loadClass(JRCalculator.class.getName());
