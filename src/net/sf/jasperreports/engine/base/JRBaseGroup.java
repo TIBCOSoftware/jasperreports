@@ -90,7 +90,7 @@ public class JRBaseGroup implements JRGroup, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 500;
+	private static final long serialVersionUID = 501;
 
 	/**
 	 *

@@ -86,7 +86,7 @@ public class JRBaseReportFont extends JRBaseFont implements JRReportFont
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 500;
+	private static final long serialVersionUID = 501;
 
 	/**
 	 *
