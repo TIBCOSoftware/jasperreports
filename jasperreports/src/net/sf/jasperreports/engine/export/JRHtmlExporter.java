@@ -558,7 +558,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				
 					page = (JRPrintPage)pages.get(pageIndex);
 
-					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\">\n");
+					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"/>\n");
 
 					/*   */
 					exportPage(page);
@@ -1021,7 +1021,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			writer.write("<a name=\"");
 			writer.write(text.getAnchorName());
-			writer.write("\">");
+			writer.write("\"/>");
 		}
 
 		String href = null;
@@ -1211,7 +1211,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			writer.write("<a name=\"");
 			writer.write(image.getAnchorName());
-			writer.write("\">");
+			writer.write("\"/>");
 		}
 
 		String href = null;
