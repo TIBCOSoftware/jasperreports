@@ -8,6 +8,8 @@ JasperReports 0.6.6
 
 - new Groovy report compiler;
 
+- moved the BSH compiler;
+
 - minor bug fixes and improvements;
 
 
