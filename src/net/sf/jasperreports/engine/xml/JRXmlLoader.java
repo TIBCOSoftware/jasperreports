@@ -379,7 +379,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	private JasperDesign loadXML(InputStream is) throws JRException
+	public JasperDesign loadXML(InputStream is) throws JRException
 	{
 		try
 		{
