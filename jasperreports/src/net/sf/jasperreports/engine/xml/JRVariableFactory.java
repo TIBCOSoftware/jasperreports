@@ -119,6 +119,11 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setCalculation(calculation.byteValue());
 		}
 
+		if (atts.getValue("incrementerFactoryClass") != null)
+		{
+			variable.setIncrementerClassName(atts.getValue("incrementerFactoryClass"));
+		}
+
 		return variable;
 	}
 	
