@@ -16,6 +16,7 @@
 	bottomMargin NMTOKEN "30"
 	isTitleNewPage (true | false) "false"
 	isSummaryNewPage (true | false) "false"
+	isFloatColumnFooter (true | false) "false"
 	scriptletClass NMTOKEN #IMPLIED
 	resourceBundle NMTOKEN #IMPLIED
 >

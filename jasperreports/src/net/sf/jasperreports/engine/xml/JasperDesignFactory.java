@@ -102,6 +102,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_bottomMargin = "bottomMargin";
 	private static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
 	private static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
+	private static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
 	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
 	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
 
@@ -197,6 +198,12 @@ public class JasperDesignFactory extends JRBaseFactory
 		if (isSummaryNewPage != null && isSummaryNewPage.length() > 0)
 		{
 			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage).booleanValue());
+		}
+
+		String isFloatColumnFooter = atts.getValue(ATTRIBUTE_isFloatColumnFooter);
+		if (isFloatColumnFooter != null && isFloatColumnFooter.length() > 0)
+		{
+			jasperDesign.setFloatColumnFooter(Boolean.valueOf(isFloatColumnFooter).booleanValue());
 		}
 
 		jasperDesign.setScriptletClass(atts.getValue(ATTRIBUTE_scriptletClass));
