@@ -280,7 +280,12 @@ public class JRLoader
 		}
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		URL url = classLoader.getResource(location);
+
+		URL url = null;
+		if (classLoader != null)
+		{
+			url = classLoader.getResource(location);
+		}
 		if (url == null)
 		{
 			//if (!wasWarning)

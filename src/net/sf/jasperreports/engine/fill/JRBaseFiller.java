@@ -709,19 +709,23 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		if (resourceBundleBaseName != null)
 		{
-			try
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			if (classLoader != null)
 			{
-				resourceBundle = 
-					ResourceBundle.getBundle(
-						resourceBundleBaseName,
-						locale,
-						Thread.currentThread().getContextClassLoader()
-						); 
-			}
-			catch(MissingResourceException e)
-			{
-				//if (log.isWarnEnabled())
-				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+				try
+				{
+					resourceBundle = 
+						ResourceBundle.getBundle(
+							resourceBundleBaseName,
+							locale,
+							classLoader
+							); 
+				}
+				catch(MissingResourceException e)
+				{
+					//if (log.isWarnEnabled())
+					//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+				}
 			}
 		
 			if (resourceBundle == null)
