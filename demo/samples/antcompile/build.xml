@@ -22,6 +22,7 @@
 		Compiles the Java source files used in the report designs.
 	-->
 	<target name="javac"> 
+		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
 	</target> 
 
@@ -30,13 +31,12 @@
 		Generated .jasper files keep their relative location and are placed
 		in directory structure similar to the source files structure.
 	-->
-	<target name="compile1" depends="javac"> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
-
+	<target name="compile1"> 
+		<mkdir dir="./build/reports"/> 
 		<jrc 
 				srcdir="./reports"
 				destdir="./build/reports"
-				tempdir="./build/temp"
+				tempdir="./build/reports"
 				keepjava="true"
 				xmlvalidation="true">
 			<classpath refid="classpath"/>
@@ -48,12 +48,11 @@
 		Generated .jasper files lose their relative location and are placed
 		in the same output directory.
 	-->
-	<target name="compile2" depends="javac"> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
-
+	<target name="compile2"> 
+		<mkdir dir="./build/reports"/> 
 		<jrc 
 				destdir="./build/reports"
-				tempdir="./build/temp"
+				tempdir="./build/reports"
 				keepjava="true"
 				xmlvalidation="true">
 			<src>
@@ -69,13 +68,7 @@
 		Deletes all the generated files.
 	-->
 	<target name="clean">
-		<delete>
-			<fileset dir="./build" includes="**/*.class" />
-			<fileset dir="./build" includes="**/*.jasper" />
-			<fileset dir="./build" includes="**/*.java" />
-		</delete>
-		<delete dir="./build/reports/com" />
-		<delete dir="./build/classes/com" />
+		<delete dir="./build" />
 	</target>
 
 </project>
