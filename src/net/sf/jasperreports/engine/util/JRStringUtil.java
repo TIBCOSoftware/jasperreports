@@ -162,28 +162,30 @@ public class JRStringUtil
 	 */
 	public static String xmlEncode(String text)
 	{
-		String ret = null;
-
 		if (text != null)
 		{
-			ret = "";
+			StringBuffer ret = new StringBuffer();
 
 			for (int i = 0; i < text.length(); i ++)
 			{
 				switch (text.charAt(i))
 				{
-		//			case ' ' : ret += "&nbsp;"; break;
-					case '&' : ret += "&amp;"; break;
-					case '>' : ret += "&gt;"; break;
-					case '<' : ret += "&lt;"; break;
-					case '\"' : ret += "&quot;"; break;
+		//			case ' ' : ret.append("&nbsp;"); break;
+					case '&' : ret.append("&amp;"); break;
+					case '>' : ret.append("&gt;"); break;
+					case '<' : ret.append("&lt;"); break;
+					case '\"' : ret.append("&quot;"); break;
 
-					default : ret += text.substring(i, i + 1); break;
+					default : ret.append(text.substring(i, i + 1)); break;
 				}
 			}
-		}
 
-		return ret;
+			return ret.toString();
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 
