@@ -164,23 +164,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 		}
 
-		Shape oldClipShape = grx.getClip();
-
-		grx.setClip(
-			0, 
-			0, 
-			jasperPrint.getPageWidth(), 
-			jasperPrint.getPageHeight()
-			);
-
-		try
-		{
-			exportReportToGraphics2D();
-		}
-		finally
-		{
-			grx.setClip(oldClipShape);
-		}
+		exportReportToGraphics2D();
 	}
 		
 
@@ -200,8 +184,24 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		java.util.List pages = jasperPrint.getPages();
 		if (pages != null)
 		{
-			JRPrintPage page = (JRPrintPage)pages.get(startPageIndex);
-			exportPage(page);
+			Shape oldClipShape = grx.getClip();
+	
+			grx.setClip(
+				0, 
+				0, 
+				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageHeight()
+				);
+	
+			try
+			{
+				JRPrintPage page = (JRPrintPage)pages.get(startPageIndex);
+				exportPage(page);
+			}
+			finally
+			{
+				grx.setClip(oldClipShape);
+			}
 		}
 	}
 	
