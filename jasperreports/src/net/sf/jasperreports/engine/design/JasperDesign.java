@@ -907,6 +907,20 @@ public class JasperDesign extends JRBaseReport
 		{
 			this.removeVariable(variable.getSumVariable());
 			this.removeVariable(variable.getVarianceVariable());
+
+			byte calculation = variable.getCalculation();
+
+			if (
+				calculation == JRVariable.CALCULATION_AVERAGE ||
+				calculation == JRVariable.CALCULATION_VARIANCE
+				)
+			{
+				if(variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
+				{
+					this.removeVariable(variable.getCountVariable());
+				}
+			}
+
 			this.variablesList.remove(variable);
 			this.variablesMap.remove(variable.getName());
 		}
