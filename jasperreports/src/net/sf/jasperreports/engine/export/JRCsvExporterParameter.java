@@ -59,4 +59,10 @@ public class JRCsvExporterParameter extends JRExporterParameter
 	public static final JRCsvExporterParameter FIELD_DELIMITER = new JRCsvExporterParameter("Field Delimiter");
 
 
+	/**
+	 *
+	 */
+	public static final JRCsvExporterParameter RECORD_DELIMITER = new JRCsvExporterParameter("Record Delimiter");
+	
+	
 }
