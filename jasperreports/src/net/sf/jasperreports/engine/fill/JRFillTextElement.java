@@ -72,6 +72,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,6 +118,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private JRStyledText styledText = null;
 	private Map styledTextAttributes = null;
 
+	protected TextChopper textChopper = null;
+	
 
 	/**
 	 *
@@ -134,6 +137,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		/*   */
 		textMeasurer = new TextMeasurer(this);
+
+		/*   */
+		textChopper = isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
 
@@ -486,4 +492,49 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 	
 	
+	/**
+	 *
+	 */
+	protected static interface TextChopper
+	{
+		/**
+		 *
+		 */
+		public String chop(JRFillTextElement textElement, int startIndex, int endIndex);
+	}
+
+
+	/**
+	 *
+	 */
+	private static TextChopper simpleTextChopper = 
+		new TextChopper()
+		{
+			public String chop(JRFillTextElement textElement, int startIndex, int endIndex)
+			{
+				return textElement.getStyledText().getText().substring(startIndex, endIndex);
+			}
+		};
+
+	/**
+	 *
+	 */
+	private static TextChopper styledTextChopper = 
+		new TextChopper()
+		{
+			public String chop(JRFillTextElement textElement, int startIndex, int endIndex)
+			{
+				return 
+					textElement.filler.getStyledTextParser().write(
+						textElement.getStyledTextAttributes(),
+						new AttributedString(
+							textElement.getStyledText().getAttributedString().getIterator(), 
+							startIndex, 
+							endIndex
+							).getIterator(),
+						textElement.getText().substring(startIndex, endIndex)
+						);
+			}
+		};
+
 }

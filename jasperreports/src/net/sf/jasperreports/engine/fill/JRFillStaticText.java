@@ -111,7 +111,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 	/**
 	 *
-	 */
+	 *
 	protected int getTextStart()
 	{
 		return 0;
@@ -120,7 +120,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 	/**
 	 *
-	 */
+	 *
 	protected int getTextEnd()
 	{
 		return 0;
@@ -151,6 +151,9 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		reset();
 		
 		evaluatePrintWhenExpression(evaluation);
+		
+		setTextStart(0);
+		setTextEnd(0);
 	}
 
 
@@ -214,6 +217,9 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 			isReprinted = true;
 		}
 
+		setTextStart(0);
+		setTextEnd(0);
+
 		if (isToPrint)
 		{
 			chopTextElement(0);
@@ -248,7 +254,9 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
-		text.setText(getRawText());
+
+		//text.setText(getRawText());
+		text.setText(textChopper.chop(this, getTextStart(), getTextEnd()));
 		
 		return text;
 	}
