@@ -111,16 +111,16 @@ public class JRTextFieldFactory extends JRBaseFactory
 		if (textField.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
 		{
 			groupEvaluatedTextFields.add(textField);
+			
+			String groupName = atts.getValue("evaluationGroup");
+			if (groupName != null)
+			{
+				JRDesignGroup group = new JRDesignGroup();
+				group.setName(groupName);
+				textField.setEvaluationGroup(group);
+			}
 		}
 		
-		String groupName = atts.getValue("evaluationGroup");
-		if (groupName != null)
-		{
-			JRDesignGroup group = new JRDesignGroup();
-			group.setName(groupName);
-			textField.setEvaluationGroup(group);
-		}
-
 		textField.setPattern(atts.getValue("pattern"));
 
 		String isBlankWhenNull = atts.getValue("isBlankWhenNull");
