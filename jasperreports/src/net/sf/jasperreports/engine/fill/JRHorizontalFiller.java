@@ -605,7 +605,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		if (detail.isToPrint())
 		{
 			while (
-				columnIndex == columnCount - 1 
+				(columnIndex == columnCount - 1 || isNewGroup)
 				&& detail.getHeight() > columnFooterOffsetY - offsetY
 				)
 			{
