@@ -956,6 +956,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 
+		if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL)
+		{
+			writer.write(" dir=\"rtl\"");
+		}
+
 		StringBuffer styleBuffer = new StringBuffer();
 
 		if (text.getBackcolor().getRGB() != Color.white.getRGB() && text.getMode() == JRElement.MODE_OPAQUE)

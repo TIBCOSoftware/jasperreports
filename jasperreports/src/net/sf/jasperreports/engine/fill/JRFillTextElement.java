@@ -90,6 +90,7 @@ import org.xml.sax.SAXException;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.*;
 
@@ -117,6 +118,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private JRFont font = null;
 
+	private boolean isLeftToRight = true;
 	private Dimension2D dimension = null;
 	private float floatLineSpacing = 0;
 	private float lineSpacingFactor = 0;
@@ -363,6 +365,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	protected byte getRunDirection()
+	{
+		return isLeftToRight ? JRPrintText.RUN_DIRECTION_LTR : JRPrintText.RUN_DIRECTION_RTL;
+	}
+		
+	/**
+	 *
+	 */
 	protected float getTextHeight()
 	{
 		return textHeight;
@@ -433,6 +443,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super.reset();
 		
+		isLeftToRight = true;
 		lineSpacingFactor = 0;
 		leadingOffset = 0;
 		textHeight = 0;
@@ -569,6 +580,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 				TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 
+				isLeftToRight = isLeftToRight && layout.isLeftToRight();
+				
 				drawPosY += layout.getLeading() + lineSpacing * layout.getAscent();
 
 				if (drawPosY + layout.getDescent() <= maxHeight)

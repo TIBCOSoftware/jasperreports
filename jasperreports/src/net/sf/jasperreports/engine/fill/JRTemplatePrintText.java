@@ -94,6 +94,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String text = "";
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
+	private byte runDirection = RUN_DIRECTION_LTR;
 	private float textHeight = 0;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
@@ -200,6 +201,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public void setRotation(byte rotation)
 	{
+	}
+		
+	/**
+	 *
+	 */
+	public byte getRunDirection()
+	{
+		return runDirection;
+	}
+		
+	/**
+	 *
+	 */
+	public void setRunDirection(byte runDirection)
+	{
+		this.runDirection = runDirection;
 	}
 		
 	/**

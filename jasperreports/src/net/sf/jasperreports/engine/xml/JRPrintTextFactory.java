@@ -90,6 +90,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_textAlignment = "textAlignment";
 	private static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
 	private static final String ATTRIBUTE_rotation = "rotation";
+	private static final String ATTRIBUTE_runDirection = "runDirection";
 	private static final String ATTRIBUTE_textHeight = "textHeight";
 	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	private static final String ATTRIBUTE_isStyledText = "isStyledText";
@@ -125,6 +126,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (rotation != null)
 		{
 			text.setRotation(rotation.byteValue());
+		}
+
+		Byte runDirection = (Byte)JRXmlConstants.getRunDirectionMap().get(atts.getValue(ATTRIBUTE_runDirection));
+		if (runDirection != null)
+		{
+			text.setRunDirection(runDirection.byteValue());
 		}
 
 		String textHeight = atts.getValue(ATTRIBUTE_textHeight);
