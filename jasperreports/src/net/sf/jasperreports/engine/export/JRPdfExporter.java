@@ -114,7 +114,7 @@ import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.design.JRDesignFont;
+import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRLoader;
 
@@ -153,7 +153,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			defaultFont = jasperPrint.getDefaultFont();
 			if (defaultFont == null)
 			{
-				defaultFont = new JRDesignFont();
+				defaultFont = new JRBaseFont();
 			}
 		}
 

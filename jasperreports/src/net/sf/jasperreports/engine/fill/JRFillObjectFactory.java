@@ -92,7 +92,6 @@ import dori.jasper.engine.JRTextField;
 import dori.jasper.engine.JRVariable;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.base.JRBaseReportFont;
-import dori.jasper.engine.design.JRDesignFont;
 
 
 /**
@@ -177,7 +176,7 @@ public class JRFillObjectFactory
 		{
 			if (defaultFont == null)
 			{
-				defaultFont = new JRDesignFont();
+				defaultFont = new JRBaseFont();
 			}
 			fillFont = getFont(defaultFont);
 		}

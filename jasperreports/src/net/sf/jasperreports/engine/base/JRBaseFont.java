@@ -131,7 +131,7 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseFont()
+	public JRBaseFont()
 	{
 	}
 		
@@ -210,6 +210,7 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setFontName(String fontName)
 	{
 		this.fontName = fontName;
+		attributes = null;
 	}
 	
 
@@ -242,6 +243,16 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setBold(boolean isBold)
 	{
 		this.isBold = new Boolean(isBold);
+		attributes = null;
+	}
+	
+	/**
+	 *
+	 */
+	public void resetBold()
+	{
+		isBold = null;
+		attributes = null;
 	}
 
 	
@@ -274,6 +285,16 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setItalic(boolean isItalic)
 	{
 		this.isItalic = new Boolean(isItalic);
+		attributes = null;
+	}
+	
+	/**
+	 *
+	 */
+	public void resetItalic()
+	{
+		isItalic = null;
+		attributes = null;
 	}
 	
 
@@ -306,6 +327,16 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setUnderline(boolean isUnderline)
 	{
 		this.isUnderline = new Boolean(isUnderline);
+		attributes = null;
+	}
+	
+	/**
+	 *
+	 */
+	public void resetUnderline()
+	{
+		isUnderline = null;
+		attributes = null;
 	}
 	
 
@@ -338,6 +369,16 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		this.isStrikeThrough = new Boolean(isStrikeThrough);
+		attributes = null;
+	}
+	
+	/**
+	 *
+	 */
+	public void resetStrikeThrough()
+	{
+		isStrikeThrough = null;
+		attributes = null;
 	}
 
 
@@ -370,6 +411,16 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setSize(int size)
 	{
 		this.size = new Integer(size);
+		attributes = null;
+	}
+	
+	/**
+	 *
+	 */
+	public void resetSize()
+	{
+		size = null;
+		attributes = null;
 	}
 
 
@@ -468,6 +519,14 @@ public class JRBaseFont implements JRFont, Serializable
 		this.isPdfEmbedded = new Boolean(isPdfEmbedded);
 	}
 	
+	/**
+	 *
+	 */
+	public void resetPdfEmbedded()
+	{
+		isPdfEmbedded = null;
+	}
+	
 
 	/**
 	 *
@@ -483,6 +542,7 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setCachingAttributes(boolean isCachingAttributes)
 	{
 		this.isCachingAttributes = isCachingAttributes;
+		attributes = null;
 	}
 	
 
@@ -495,25 +555,25 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			attributes = new HashMap();
 
-			if (this.isBold())
+			if (isBold())
 			{
 				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 			}
-			if (this.isItalic())
+			if (isItalic())
 			{
 				attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 			}
-			if (this.isUnderline())
+			if (isUnderline())
 			{
 				attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 			}
-			if (this.isStrikeThrough())
+			if (isStrikeThrough())
 			{
 				attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 			}
 		
-			attributes.put(TextAttribute.SIZE, new Float(this.getSize()));
-			attributes.put(TextAttribute.FAMILY, this.getFontName());
+			attributes.put(TextAttribute.SIZE, new Float(getSize()));
+			attributes.put(TextAttribute.FAMILY, getFontName());
 		}
 		
 		return attributes;
@@ -527,9 +587,9 @@ public class JRBaseFont implements JRFont, Serializable
 	{
 		JRFont baseFont = null;
 
-		if (this.reportFont != null)
+		if (reportFont != null)
 		{
-			baseFont = this.reportFont;
+			baseFont = reportFont;
 		}
 		else if (
 			defaultFontProvider != null 

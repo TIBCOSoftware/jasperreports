@@ -95,7 +95,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 
-		JRDesignFont font = new JRDesignFont();
+		JRDesignFont font = null;
 
 		if (atts.getValue("reportFont") != null)
 		{
