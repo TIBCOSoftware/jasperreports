@@ -136,6 +136,21 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" I18n Sample"/>
+		<echo message="==================================="/>
+		<ant dir="images" target="clean" />
+		<ant dir="images" target="javac" />
+		<ant dir="images" target="compile" />
+		<ant dir="images" target="fillEN" />
+		<ant dir="images" target="compileBsh" />
+		<ant dir="images" target="fillEN" />
+		<ant dir="images" target="pdf" />
+		<ant dir="images" target="html" />
+		<ant dir="images" target="xls" />
+		<ant dir="images" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Images Sample"/>
 		<echo message="==================================="/>
 		<ant dir="images" target="clean" />
@@ -479,6 +494,7 @@
 		<ant dir="fonts" target="clean" />
 		<ant dir="horizontal" target="clean" />
 		<ant dir="hyperlink" target="clean" />
+		<ant dir="i18n" target="clean" />
 		<ant dir="images" target="clean" />
 		<ant dir="jasper" target="clean" />
 		<ant dir="jcharts" target="clean" />
