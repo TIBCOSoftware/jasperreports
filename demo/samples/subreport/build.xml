@@ -1,0 +1,427 @@
+<project name="JasperReports" default="javac" basedir=".">
+
+	<!--
+		Compiles the java source files 
+		of the test application.
+	-->
+	<target name="javac">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!--
+		Compiles all the XML report designs
+		and produces the .jasper files.
+	-->
+	<target name="compile">
+		<echo message="Compiling the MasterReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tcompile"/>
+			<arg value="-FMasterReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+		<echo message="Compiling the AddressReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tcompile"/>
+			<arg value="-FAddressReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+		<echo message="Compiling the ProductReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tcompile"/>
+			<arg value="-FProductReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Compiles all the XML report designs using the BeanShell compiler
+		and produces the .jasper files.
+	-->
+	<target name="compileBsh">
+		<echo message="Compiling the MasterReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
+			<arg value="-Tcompile"/>
+			<arg value="-FMasterReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+		<echo message="Compiling the AddressReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
+			<arg value="-Tcompile"/>
+			<arg value="-FAddressReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+		<echo message="Compiling the ProductReport.xml file..."/>
+		<java classname="SubreportApp" fork="true">
+			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
+			<arg value="-Tcompile"/>
+			<arg value="-FProductReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Fills the compiled report design with data 
+		and produces the .jrprint file.
+	-->
+	<target name="fill">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tfill"/>
+			<arg value="-FMasterReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the report viewer to preview the report 
+		stored in the .jrprint file.
+	-->
+	<target name="view">
+		<java classname="dori.jasper.view.JasperViewer" fork="true">
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the report viewer to preview the generated report 
+		stored in an XML file.
+	-->
+	<target name="viewXML">
+		<java classname="dori.jasper.view.JasperViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FMasterReport.jrpxml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Sends the report in the .jrprint file to the printer.
+	-->
+	<target name="print">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tprint"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates a PDF version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="pdf">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tpdf"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xml">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Txml"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xmlEmbed">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-TxmlEmbed"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an HTML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="html">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Thtml"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates an XLS version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xls">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Txls"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates a CSV version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="csv">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Tcsv"/>
+			<arg value="-FMasterReport.jrprint"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Generates a PDF file by filling the .jasper report design.
+		No intermediate .jrprint file is produced.
+	-->
+	<target name="run">
+		<java classname="SubreportApp" fork="true">
+			<arg value="-Trun"/>
+			<arg value="-FMasterReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML1">
+		<echo message="Viewing the MasterReport.xml file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FMasterReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML2">
+		<echo message="Viewing the AddressReport.xml file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FAddressReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML3">
+		<echo message="Viewing the ProductReport.xml file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FProductReport.xml"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the compiled report design.
+	-->
+	<target name="viewDesign1">
+		<echo message="Viewing the MasterReport.jasper file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-FMasterReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the compiled report design.
+	-->
+	<target name="viewDesign2">
+		<echo message="Viewing the AddressReport.jasper file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-FAddressReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the compiled report design.
+	-->
+	<target name="viewDesign3">
+		<echo message="Viewing the ProductReport.jasper file"/>
+		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+			<arg value="-FProductReport.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.pdf" />
+		</delete>
+		<delete dir="MasterReport.jrpxml_files" />
+		<delete dir="MasterReport.html_files" />
+	</target>
+
+</project>

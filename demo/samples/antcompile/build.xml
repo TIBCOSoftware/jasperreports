@@ -1,0 +1,87 @@
+<project name="JasperReports" default="compile1" basedir=".">
+
+	<!--
+		Defines the report design compilation Ant task.
+	-->
+	<taskdef name="jrc" classname="dori.jasper.ant.JRAntCompileTask"> 
+		<classpath>
+			<pathelement location="../../../classes"/>
+			<fileset dir="../../../lib">
+				<include name="**/*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<!--
+		Compiles the Java source files used in the report designs.
+	-->
+	<target name="javac"> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+	</target> 
+
+	<!--
+		Compiles report designs specified using the "srcdir" in the <jrc> tag.
+		Generated .jasper files keep their relative location and are placed
+		in directory structure similar to the source files structure.
+	-->
+	<target name="compile1" depends="javac"> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+
+		<jrc 
+				srcdir="./reports"
+				destdir="./build/reports"
+				tempdir="./build/temp"
+				keepjava="true"
+				xmlvalidation="true">
+			<classpath>
+				<pathelement location="./build/classes"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</jrc> 
+	</target> 
+
+	<!--
+		Compiles report designs specified using a <fileset> in the <src> tag.
+		Generated .jasper files lose their relative location and are placed
+		in the same output directory.
+	-->
+	<target name="compile2" depends="javac"> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+
+		<jrc 
+				destdir="./build/reports"
+				tempdir="./build/temp"
+				keepjava="true"
+				xmlvalidation="true">
+			<src>
+				<fileset dir="./reports">
+					<include name="**/*.xml"/>
+				</fileset>
+			</src>
+			<classpath>
+				<pathelement location="./build/classes"/>
+				<pathelement location="../../../classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</jrc> 
+	</target> 
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="./build" includes="**/*.class" />
+			<fileset dir="./build" includes="**/*.jasper" />
+			<fileset dir="./build" includes="**/*.java" />
+		</delete>
+		<delete dir="./build/reports/com" />
+		<delete dir="./build/classes/com" />
+	</target>
+
+</project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="lib" path="lib/jakarta-poi-1.5.1-final-20020615.jar"/>
+    <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+    <classpathentry kind="lib" path="lib/xmlParserAPIs.jar"/>
+    <classpathentry kind="lib" path="lib/bsh-1.2b6.jar"/>
+    <classpathentry kind="lib" path="lib/ant-1.5.1.jar"/>
+    <classpathentry kind="lib" path="lib/commons-beanutils-1.5.jar"/>
+    <classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
+    <classpathentry kind="lib" path="lib/commons-digester-1.3.jar"/>
+    <classpathentry kind="lib" path="lib/commons-logging-1.0.2.jar"/>
+    <classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
+    <classpathentry kind="lib" path="lib/itext-1.01.jar"/>
+    <classpathentry kind="output" path="classes"/>
+</classpath>
