@@ -753,7 +753,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			Map attributes = new HashMap(); 
 			attributes.putAll(font.getAttributes());
 			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+			if (textElement.getMode() == JRElement.MODE_OPAQUE)
+			{
+				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+			}
 
 			if (textElement.isStyledText())
 			{
