@@ -118,18 +118,18 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	public void setIncrementerClass(Class clazz)
+	public void setIncrementerFactoryClass(Class clazz)
 	{
-		setIncrementerClassName(clazz.getName());
+		setIncrementerFactoryClassName(clazz.getName());
 	}
 		
 	/**
 	 *
 	 */
-	public void setIncrementerClassName(String className)
+	public void setIncrementerFactoryClassName(String className)
 	{
-		incrementerClassName = className;
-		incrementerClass = null;
+		incrementerFactoryClassName = className;
+		incrementerFactoryClass = null;
 	}
 		
 	/**

@@ -100,7 +100,7 @@ public class JRComparableIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRComparableIncrementerFactory getInstance()
+	public static JRComparableIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -175,7 +175,7 @@ class JRComparableLowestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRComparableLowestIncrementer getInstance()
+	public static JRComparableLowestIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -226,7 +226,7 @@ class JRComparableHighestIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRComparableHighestIncrementer getInstance()
+	public static JRComparableHighestIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

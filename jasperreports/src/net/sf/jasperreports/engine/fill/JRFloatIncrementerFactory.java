@@ -100,7 +100,7 @@ public class JRFloatIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRFloatIncrementerFactory getInstance()
+	public static JRFloatIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -191,7 +191,7 @@ class JRFloatCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRFloatCountIncrementer getInstance()
+	public static JRFloatCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -247,7 +247,7 @@ class JRFloatSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRFloatSumIncrementer getInstance()
+	public static JRFloatSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -299,7 +299,7 @@ class JRFloatAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRFloatAverageIncrementer getInstance()
+	public static JRFloatAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -348,7 +348,7 @@ class JRFloatStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRFloatStandardDeviationIncrementer getInstance()
+	public static JRFloatStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -391,7 +391,7 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRFloatVarianceIncrementer getInstance()
+	public static JRFloatVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

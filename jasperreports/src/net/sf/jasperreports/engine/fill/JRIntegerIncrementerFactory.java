@@ -100,7 +100,7 @@ public class JRIntegerIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRIntegerIncrementerFactory getInstance()
+	public static JRIntegerIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -191,7 +191,7 @@ class JRIntegerCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRIntegerCountIncrementer getInstance()
+	public static JRIntegerCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -247,7 +247,7 @@ class JRIntegerSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRIntegerSumIncrementer getInstance()
+	public static JRIntegerSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -299,7 +299,7 @@ class JRIntegerAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRIntegerAverageIncrementer getInstance()
+	public static JRIntegerAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -348,7 +348,7 @@ class JRIntegerStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRIntegerStandardDeviationIncrementer getInstance()
+	public static JRIntegerStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -391,7 +391,7 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRIntegerVarianceIncrementer getInstance()
+	public static JRIntegerVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

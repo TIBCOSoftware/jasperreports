@@ -102,7 +102,7 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRBigDecimalIncrementerFactory getInstance()
+	public static JRBigDecimalIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -193,7 +193,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRBigDecimalCountIncrementer getInstance()
+	public static JRBigDecimalCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -248,7 +248,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRBigDecimalSumIncrementer getInstance()
+	public static JRBigDecimalSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -300,7 +300,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRBigDecimalAverageIncrementer getInstance()
+	public static JRBigDecimalAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -350,7 +350,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRBigDecimalStandardDeviationIncrementer getInstance()
+	public static JRBigDecimalStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -393,7 +393,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRBigDecimalVarianceIncrementer getInstance()
+	public static JRBigDecimalVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{

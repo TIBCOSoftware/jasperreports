@@ -1207,6 +1207,7 @@ public class JRVerifier
 				java.lang.Long.class.getName(),
 				java.lang.Short.class.getName(),
 				java.math.BigDecimal.class.getName(),
+				java.lang.Number.class.getName(),
 				java.lang.String.class.getName()
 			};
 

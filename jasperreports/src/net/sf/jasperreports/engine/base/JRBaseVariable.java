@@ -98,13 +98,13 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	protected String name = null;
 	protected String valueClassName = java.lang.String.class.getName();
-	protected String incrementerClassName = null;
+	protected String incrementerFactoryClassName = null;
 	protected byte resetType = RESET_TYPE_REPORT;
 	protected byte calculation = CALCULATION_NOTHING;
 	protected boolean isSystemDefined = false;
 
 	protected transient Class valueClass = null;
-	protected transient Class incrementerClass = null;
+	protected transient Class incrementerFactoryClass = null;
 
 	/**
 	 *
@@ -134,7 +134,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		
 		name = variable.getName();
 		valueClassName = variable.getValueClassName();
-		incrementerClassName = variable.getIncrementerFactoryClassName();
+		incrementerFactoryClassName = variable.getIncrementerFactoryClassName();
 		resetType = variable.getResetType();
 		calculation = variable.getCalculation();
 		isSystemDefined = variable.isSystemDefined();
@@ -193,13 +193,13 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	public Class getIncrementerFactoryClass()
 	{
-		if (incrementerClass == null)
+		if (incrementerFactoryClass == null)
 		{
-			if (incrementerClassName != null)
+			if (incrementerFactoryClassName != null)
 			{
 				try
 				{
-					incrementerClass = JRClassLoader.loadClassForName(incrementerClassName);
+					incrementerFactoryClass = JRClassLoader.loadClassForName(incrementerFactoryClassName);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -208,7 +208,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 			}
 		}
 		
-		return incrementerClass;
+		return incrementerFactoryClass;
 	}
 		
 	/**
@@ -216,7 +216,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	public String getIncrementerFactoryClassName()
 	{
-		return incrementerClassName;
+		return incrementerFactoryClassName;
 	}
 		
 	/**

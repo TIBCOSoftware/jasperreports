@@ -100,7 +100,7 @@ public class JRDoubleIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	protected static JRDoubleIncrementerFactory getInstance()
+	public static JRDoubleIncrementerFactory getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -191,7 +191,7 @@ class JRDoubleCountIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRDoubleCountIncrementer getInstance()
+	public static JRDoubleCountIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -247,7 +247,7 @@ class JRDoubleSumIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRDoubleSumIncrementer getInstance()
+	public static JRDoubleSumIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -299,7 +299,7 @@ class JRDoubleAverageIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRDoubleAverageIncrementer getInstance()
+	public static JRDoubleAverageIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -348,7 +348,7 @@ class JRDoubleStandardDeviationIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRDoubleStandardDeviationIncrementer getInstance()
+	public static JRDoubleStandardDeviationIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
@@ -391,7 +391,7 @@ class JRDoubleVarianceIncrementer implements JRIncrementer
 	/**
 	 *
 	 */
-	protected static JRDoubleVarianceIncrementer getInstance()
+	public static JRDoubleVarianceIncrementer getInstance()
 	{
 		if (mainInstance == null)
 		{
