@@ -80,7 +80,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -154,14 +153,10 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Byte.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Byte(resultSet.getByte(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Byte((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.util.Date.class))
@@ -190,38 +185,26 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Double.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Double(resultSet.getDouble(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Double((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.lang.Float.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Float(resultSet.getFloat(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Float((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.lang.Integer.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Integer(resultSet.getInt(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Integer((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.io.InputStream.class))
@@ -268,38 +251,26 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Long.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Long(resultSet.getLong(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Long((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.lang.Short.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = new Short(resultSet.getShort(field.getName()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new Short((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.math.BigDecimal.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = resultSet.getBigDecimal(field.getName());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
-					}
-					else
-					{
-						objValue = new BigDecimal((String)objValue);
 					}
 				}
 				else if (clazz.equals(java.lang.String.class))
