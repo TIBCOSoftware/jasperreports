@@ -69,42 +69,35 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.engine.export;
 
-import org.xml.sax.Attributes;
-
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.design.JRDesignVariable;
+import dori.jasper.engine.JRExporterParameter;
 
 
 /**
  *
  */
-public class JRVariableExpressionFactory extends JRBaseFactory
+public class JRPdfExporterParameter extends JRExporterParameter
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	protected JRPdfExporterParameter(String name)
 	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
-
-		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
-		{
-			expression.setValueClassName(java.lang.Object.class.getName());
-		}
-		else
-		{
-			expression.setValueClassName(variable.getValueClassName());
-		}
-		expression.setName("variable_" + variable.getName());
-
-		return expression;
+		super(name);
 	}
-			
+
+
+	/**
+	 *
+	 */
+	public static final JRPdfExporterParameter IS_ENCRYPTED = new JRPdfExporterParameter("Is Encrypted");
+	public static final JRPdfExporterParameter IS_128_BIT_KEY = new JRPdfExporterParameter("Is 128 Bit Key");
+	public static final JRPdfExporterParameter USER_PASSWORD = new JRPdfExporterParameter("User Password");
+	public static final JRPdfExporterParameter OWNER_PASSWORD = new JRPdfExporterParameter("Owner Password");
+	public static final JRPdfExporterParameter PERMISSIONS = new JRPdfExporterParameter("Permissions");
+
 
 }

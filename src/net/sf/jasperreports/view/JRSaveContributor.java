@@ -69,42 +69,25 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.view;
 
-import org.xml.sax.Attributes;
+import java.io.File;
 
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.design.JRDesignVariable;
+import javax.swing.filechooser.FileFilter;
 
+import dori.jasper.engine.JRException;
+import dori.jasper.engine.JasperPrint;
 
 /**
- *
+ * 
  */
-public class JRVariableExpressionFactory extends JRBaseFactory
+public abstract class JRSaveContributor extends FileFilter
 {
-
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
+	public abstract void save(JasperPrint jasperPrint, File file) throws JRException;
 
-		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
-		{
-			expression.setValueClassName(java.lang.Object.class.getName());
-		}
-		else
-		{
-			expression.setValueClassName(variable.getValueClassName());
-		}
-		expression.setName("variable_" + variable.getName());
-
-		return expression;
-	}
-			
 
 }

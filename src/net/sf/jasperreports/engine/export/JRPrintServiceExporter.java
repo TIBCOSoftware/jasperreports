@@ -77,9 +77,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -93,8 +90,6 @@ import javax.print.attribute.standard.MediaPrintableArea;
 import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.util.JRLoader;
 
 
 /**
@@ -107,7 +102,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
 	private JRGraphics2DExporter exporter = null;
 	private PrintRequestAttributeSet printRequestAttributeSet = null;
 	private PrintServiceAttributeSet printServiceAttributeSet = null;
@@ -121,86 +115,54 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
-		this.exporter = new JRGraphics2DExporter();
-		this.exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
+		/*   */
+		setPageRange();
 
-		this.printRequestAttributeSet = 
-			(PrintRequestAttributeSet)this.parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
-		if (this.printRequestAttributeSet == null)
+		exporter = new JRGraphics2DExporter();
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+
+		printRequestAttributeSet = 
+			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
+		if (printRequestAttributeSet == null)
 		{
-			this.printRequestAttributeSet = new HashPrintRequestAttributeSet();
+			printRequestAttributeSet = new HashPrintRequestAttributeSet();
 		}
 
 		AttributeSet attributeSet = new HashAttributeSet();
-		attributeSet.addAll(this.printRequestAttributeSet);
+		attributeSet.addAll(printRequestAttributeSet);
 
-		this.printServiceAttributeSet = 
-			(PrintServiceAttributeSet)this.parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
-		if (this.printRequestAttributeSet != null)
+		printServiceAttributeSet = 
+			(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
+		if (printRequestAttributeSet != null)
 		{
-			attributeSet.addAll(this.printServiceAttributeSet);
+			attributeSet.addAll(printServiceAttributeSet);
 		}
 
-		//this.docFlavor = (DocFlavor)this.parameters.get(JRPrintServiceExporterParameter.DOC_FLAVOR);
-		//if (this.docFlavor == null)
+		//docFlavor = (DocFlavor)parameters.get(JRPrintServiceExporterParameter.DOC_FLAVOR);
+		//if (docFlavor == null)
 		//{
 		//
 		//}
 		
-		Boolean pageDialog = (Boolean)this.parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
+		Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
 		if (pageDialog != null)
 		{
-			this.displayPageDialog = pageDialog.booleanValue();
+			displayPageDialog = pageDialog.booleanValue();
 		}
 
-		Boolean printDialog = (Boolean)this.parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
+		Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
 		if (printDialog != null)
 		{
-			this.displayPrintDialog = printDialog.booleanValue();
+			displayPrintDialog = printDialog.booleanValue();
 		}
 
 		PrinterJob printerJob = PrinterJob.getPrinterJob();       
 		printerJob.setPrintable(this);
 		
-		//PrintService[] services = PrintServiceLookup.lookupPrintServices(this.docFlavor, attributeSet);
+		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
 		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, attributeSet);
 
 		if (services.length > 0) 
@@ -209,34 +171,34 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			{
 				printerJob.setPrintService(services[0]);
 
-				if (!this.printRequestAttributeSet.containsKey(MediaPrintableArea.class))
+				if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
 				{
-					this.printRequestAttributeSet.add(
+					printRequestAttributeSet.add(
 						new MediaPrintableArea(
 							0f, 
 							0f, 
-							(float)this.jasperPrint.getPageWidth() / 72f,
-							(float)this.jasperPrint.getPageHeight() / 72f,
+							(float)jasperPrint.getPageWidth() / 72f,
+							(float)jasperPrint.getPageHeight() / 72f,
 							MediaPrintableArea.INCH
 							)
 						);
 				}
 
-				if (this.displayPageDialog)
+				if (displayPageDialog)
 				{
-					printerJob.pageDialog(this.printRequestAttributeSet);
+					printerJob.pageDialog(printRequestAttributeSet);
 				}
 				
-				if (this.displayPrintDialog)
+				if (displayPrintDialog)
 				{
-					if (printerJob.printDialog(this.printRequestAttributeSet))
+					if (printerJob.printDialog(printRequestAttributeSet))
 					{
-						printerJob.print(this.printRequestAttributeSet);
+						printerJob.print(printRequestAttributeSet);
 					}
 				}
 				else
 				{
-					printerJob.print(this.printRequestAttributeSet);
+					printerJob.print(printRequestAttributeSet);
 				}
 			}
 			catch (PrinterException e) 
@@ -266,8 +228,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			return Printable.NO_SUCH_PAGE;
 		}
 		
-		this.exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, (Graphics2D)graphics);
-		this.exporter.setParameter(JRGraphics2DExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, (Graphics2D)graphics);
+		exporter.setParameter(JRGraphics2DExporterParameter.PAGE_INDEX, new Integer(pageIndex));
 		
 		try
 		{

@@ -80,12 +80,10 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -112,10 +110,8 @@ import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
-import dori.jasper.engine.util.JRLoader;
 import dori.jasper.engine.util.JRStringUtil;
 
 
@@ -144,11 +140,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
-
-	/**
-	 *
-	 */
 	private Writer writer = null;
 	private Map loadedImagesMap = null;
 	private Map imagesMap = null;
@@ -171,8 +162,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private int startPageIndex = 0;
-	private int endPageIndex = 0;
 	private String htmlHeader = null;
 	private String betweenPagesHtml = null;
 	private String htmlFooter = null;
@@ -205,7 +194,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		return this.defaultFont;
+		return defaultFont;
 	}
 
 
@@ -214,158 +203,76 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
+		/*   */
+		setPageRange();
 
-		int lastPageIndex = -1;
-		if (this.jasperPrint.getPages() != null)
-		{
-			lastPageIndex = this.jasperPrint.getPages().size() - 1;
-		}
+		htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
+		betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
+		htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
 
-		Integer start = (Integer)this.parameters.get(JRExporterParameter.START_PAGE_INDEX);
-		if (start == null)
-		{
-			this.startPageIndex = 0;
-		}
-		else
-		{
-			this.startPageIndex = start.intValue();
-			if (this.startPageIndex < 0 || this.startPageIndex > lastPageIndex)
-			{
-				throw new JRException("Start page index out of range : " + this.startPageIndex + " of " + lastPageIndex);
-			}
-		}
-
-		Integer end = (Integer)this.parameters.get(JRExporterParameter.END_PAGE_INDEX);
-		if (end == null)
-		{
-			this.endPageIndex = lastPageIndex;
-		}
-		else
-		{
-			this.endPageIndex = end.intValue();
-			if (this.endPageIndex < 0 || this.endPageIndex > lastPageIndex)
-			{
-				throw new JRException("End page index out of range : " + this.endPageIndex + " of " + lastPageIndex);
-			}
-		}
-
-		Integer index = (Integer)this.parameters.get(JRExporterParameter.PAGE_INDEX);
-		if (index != null)
-		{
-			int pageIndex = index.intValue();
-			if (pageIndex < 0 || pageIndex > lastPageIndex)
-			{
-				throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
-			}
-			else
-			{
-				this.startPageIndex = pageIndex;
-				this.endPageIndex = pageIndex;
-			}
-		}
-
-		this.htmlHeader = (String)this.parameters.get(JRHtmlExporterParameter.HTML_HEADER);
-		this.betweenPagesHtml = (String)this.parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
-		this.htmlFooter = (String)this.parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
-
-		this.imagesDir = (File)this.parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
+		imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
 		if (imagesDir == null)
 		{
-			String dir = (String)this.parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
+			String dir = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
 			if (dir != null)
 			{
-				this.imagesDir = new File(dir);
+				imagesDir = new File(dir);
 			}
 		}
 
-		Boolean isRemoveEmptySpaceParameter = (Boolean)this.parameters.get(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
+		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
 		if (isRemoveEmptySpaceParameter != null)
 		{
-			this.isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
+			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
 		}
 		
-		Boolean isWhitePageBackgroundParameter = (Boolean)this.parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
+		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
-			this.isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
+			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
 		}
 
-		Boolean isOutputImagesToDirParameter = (Boolean)this.parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
+		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
 		if (isOutputImagesToDirParameter != null)
 		{
-			this.isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
+			isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
 		}
 				
-		String uri = (String)this.parameters.get(JRHtmlExporterParameter.IMAGES_URI);
+		String uri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
 		if (uri != null)
 		{
-			this.imagesURI = uri;
+			imagesURI = uri;
 		}
 
-		this.imagesMap = (Map)this.parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-		if(this.imagesMap == null)
+		imagesMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+		if(imagesMap == null)
 		{
-			this.imagesMap = new HashMap();
+			imagesMap = new HashMap();
 		}
 
-		this.encoding = (String)this.parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-		if (this.encoding == null)
+		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+		if (encoding == null)
 		{
-			this.encoding = "UTF-8";
+			encoding = "UTF-8";
 		}
 		
-		this.loadedImagesMap = new HashMap();
+		loadedImagesMap = new HashMap();
 		byte[] pxBytes = JRImageLoader.loadImageDataFromLocation("dori/jasper/engine/images/pixel.GIF");
-		this.loadedImagesMap.put(pxBytes, "px");
-		this.imagesMap.put("px", pxBytes);
+		loadedImagesMap.put(pxBytes, "px");
+		imagesMap.put("px", pxBytes);
 
 
-		StringBuffer sb = (StringBuffer)this.parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			try
 			{
-				this.writer = new StringWriter();
-				this.exportReportToWriter();
-				sb.append(this.writer.toString());
+				writer = new StringWriter();
+				exportReportToWriter();
+				sb.append(writer.toString());
 			}
 			catch (IOException e)
 			{
@@ -373,11 +280,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			finally
 			{
-				if (this.writer != null)
+				if (writer != null)
 				{
 					try
 					{
-						this.writer.close();
+						writer.close();
 					}
 					catch(IOException e)
 					{
@@ -387,12 +294,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			this.writer = (Writer)this.parameters.get(JRExporterParameter.OUTPUT_WRITER);
-			if (this.writer != null)
+			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (writer != null)
 			{
 				try
 				{
-					this.exportReportToWriter();
+					exportReportToWriter();
 				}
 				catch (IOException e)
 				{
@@ -401,13 +308,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 				if (os != null)
 				{
 					try
 					{
-						this.writer = new OutputStreamWriter(os, this.encoding); 
-						this.exportReportToWriter();
+						writer = new OutputStreamWriter(os, encoding); 
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
@@ -416,10 +323,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					File destFile = (File)this.parameters.get(JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
 					if (destFile == null)
 					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 						if (fileName != null)
 						{
 							destFile = new File(fileName);
@@ -433,31 +340,31 @@ public class JRHtmlExporter extends JRAbstractExporter
 					try
 					{
 						os = new FileOutputStream(destFile);
-						this.writer = new OutputStreamWriter(os, this.encoding);
+						writer = new OutputStreamWriter(os, encoding);
 					}
 					catch (IOException e)
 					{
 						throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
 					}
 					
-					if (this.imagesDir == null)
+					if (imagesDir == null)
 					{
-						this.imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
 					}
 	
 					if (isOutputImagesToDirParameter == null)
 					{
-						this.isOutputImagesToDir = true;
+						isOutputImagesToDir = true;
 					}
 	
-					if (this.imagesURI == null)
+					if (imagesURI == null)
 					{
-						this.imagesURI = this.imagesDir.getName() + "/";
+						imagesURI = imagesDir.getName() + "/";
 					}
 					
 					try
 					{
-						this.exportReportToWriter();
+						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
@@ -465,11 +372,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					finally
 					{
-						if (this.writer != null)
+						if (writer != null)
 						{
 							try
 							{
-								this.writer.close();
+								writer.close();
 							}
 							catch(IOException e)
 							{
@@ -480,14 +387,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		if (this.isOutputImagesToDir)
+		if (isOutputImagesToDir)
 		{
-			if (this.imagesDir == null)
+			if (imagesDir == null)
 			{
 				throw new JRException("The images directory was not specified for the exporter.");
 			}
 
-			Collection imageKeys = this.loadedImagesMap.keySet();
+			Collection imageKeys = loadedImagesMap.keySet();
 			if (imageKeys != null && imageKeys.size() > 0)
 			{
 				if (!imagesDir.exists())
@@ -501,7 +408,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(Iterator it = imageKeys.iterator(); it.hasNext();)
 				{
 					imageData = (byte[])it.next();
-					imageFile = new File(imagesDir, (String)this.loadedImagesMap.get(imageData));
+					imageFile = new File(imagesDir, (String)loadedImagesMap.get(imageData));
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -535,30 +442,31 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportReportToWriter() throws JRException, IOException
 	{
-		if (this.htmlHeader == null)
+		if (htmlHeader == null)
 		{
-			this.writer.write("<html>\n");
-			this.writer.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + this.encoding + "\">\n");
-			this.writer.write("<head>\n");
-			this.writer.write("  <style type=\"text/css\">\n");
-			this.writer.write("    a {text-decoration: none}\n");
-			this.writer.write("  </style>\n");
-			this.writer.write("</head>\n");
-			this.writer.write("<body text=\"#000000\" link=\"#000000\" alink=\"#000000\" vlink=\"#000000\">\n");
-			this.writer.write("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
-			this.writer.write("<tr><td width=\"50%\">&nbsp;</td><td align=\"center\">\n");
-			this.writer.write("\n");
+			writer.write("<html>\n");
+			writer.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\">\n");
+			writer.write("<head>\n");
+			writer.write("  <style type=\"text/css\">\n");
+			writer.write("    a {text-decoration: none}\n");
+			writer.write("  </style>\n");
+			writer.write("</head>\n");
+			writer.write("<body text=\"#000000\" link=\"#000000\" alink=\"#000000\" vlink=\"#000000\">\n");
+			writer.write("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
+			writer.write("<tr><td width=\"50%\">&nbsp;</td><td align=\"center\">\n");
+			writer.write("\n");
 		}
 		else
 		{
-			this.writer.write(this.htmlHeader);
+			writer.write(htmlHeader);
 		}
 
 		List pages = jasperPrint.getPages();
 		if (pages != null && pages.size() > 0)
 		{
 			JRPrintPage page = null;
-			for(int i = this.startPageIndex; i <= this.endPageIndex; i++)
+			
+			for(int i = startPageIndex; i <= endPageIndex; i++)
 			{
 				if (Thread.currentThread().isInterrupted())
 				{
@@ -567,37 +475,37 @@ public class JRHtmlExporter extends JRAbstractExporter
 				
 				page = (JRPrintPage)pages.get(i);
 
-				this.writer.write("<a name=\"JR_PAGE_ANCHOR_" + (i + 1) + "\">\n");
+				writer.write("<a name=\"JR_PAGE_ANCHOR_" + (i + 1) + "\">\n");
 
 				/*   */
-				this.exportPage(page);
+				exportPage(page);
 				
-				if (this.betweenPagesHtml == null)
+				if (betweenPagesHtml == null)
 				{
-					this.writer.write("<br>\n<br>\n");
+					writer.write("<br>\n<br>\n");
 				}
 				else
 				{
-					this.writer.write(this.betweenPagesHtml);
+					writer.write(betweenPagesHtml);
 				}
 
-				this.writer.write("\n");
+				writer.write("\n");
 			}
 		}
 
-		if (this.htmlFooter == null)
+		if (htmlFooter == null)
 		{
-			this.writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");
-			this.writer.write("</table>\n");
-			this.writer.write("</body>\n");
-			this.writer.write("</html>\n");
+			writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");
+			writer.write("</table>\n");
+			writer.write("</body>\n");
+			writer.write("</html>\n");
 		}
 		else
 		{
-			this.writer.write(this.htmlFooter);
+			writer.write(htmlFooter);
 		}
 
-		this.writer.flush();
+		writer.flush();
 	}
 
 
@@ -606,30 +514,30 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		this.writer.write("<table width=" + jasperPrint.getPageWidth() + " cellpadding=0 cellspacing=0 border=0\n");
-		if (this.isWhitePageBackground)
+		writer.write("<table width=" + jasperPrint.getPageWidth() + " cellpadding=0 cellspacing=0 border=0\n");
+		if (isWhitePageBackground)
 		{
-			this.writer.write(" bgcolor=white");
+			writer.write(" bgcolor=white");
 		}
-		this.writer.write(">\n");
+		writer.write(">\n");
 
-		this.layoutGrid(page);
+		layoutGrid(page);
 
-		this.writer.write("<tr>\n");
+		writer.write("<tr>\n");
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			this.writer.write("  <td><img src=\"" + this.imagesURI + "px\" width=" + width + " height=1></td>\n");
+			writer.write("  <td><img src=\"" + imagesURI + "px\" width=" + width + " height=1></td>\n");
 		}
-		this.writer.write("</tr>\n");
+		writer.write("</tr>\n");
 
 		JRPrintElement element = null;
 		for(int y = 0; y < grid.length; y++)
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
-				this.writer.write("<tr valign=top>\n");
+				writer.write("<tr valign=top>\n");
 	
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
@@ -641,12 +549,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						if (emptyCellColSpan > 0)
 						{
-							this.writer.write("  <td");
+							writer.write("  <td");
 							if (emptyCellColSpan > 1)
 							{
-								this.writer.write(" colspan=" + emptyCellColSpan);
+								writer.write(" colspan=" + emptyCellColSpan);
 							}
-							this.writer.write("><img src=\"" + this.imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+							writer.write("><img src=\"" + imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
 							emptyCellColSpan = 0;
 							emptyCellWidth = 0;
 						}
@@ -655,23 +563,23 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 						if (element instanceof JRPrintLine)
 						{
-							this.exportLine((JRPrintLine)element, grid[y][x]);
+							exportLine((JRPrintLine)element, grid[y][x]);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							this.exportRectangle(element, grid[y][x]);
+							exportRectangle(element, grid[y][x]);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							this.exportRectangle(element, grid[y][x]);
+							exportRectangle(element, grid[y][x]);
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							this.exportImage((JRPrintImage)element, grid[y][x]);
+							exportImage((JRPrintImage)element, grid[y][x]);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							this.exportText((JRPrintText)element, grid[y][x]);
+							exportText((JRPrintText)element, grid[y][x]);
 						}
 	
 						x += grid[y][x].colSpan - 1;
@@ -685,19 +593,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 				if (emptyCellColSpan > 0)
 				{
-					this.writer.write("  <td");
+					writer.write("  <td");
 					if (emptyCellColSpan > 1)
 					{
-						this.writer.write(" colspan=" + emptyCellColSpan);
+						writer.write(" colspan=" + emptyCellColSpan);
 					}
-					this.writer.write("><img src=\"" + this.imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+					writer.write("><img src=\"" + imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
 				}
 	
-				this.writer.write("</tr>\n");
+				writer.write("</tr>\n");
 			}
 		}
 
-		this.writer.write("</table>\n");
+		writer.write("</table>\n");
 	}
 
 
@@ -706,14 +614,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportLine(JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		this.writer.write("  <td");
+		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
-			this.writer.write(" colspan=" + gridCell.colSpan);
+			writer.write(" colspan=" + gridCell.colSpan);
 		}
 		if (gridCell.rowSpan > 1)
 		{
-			this.writer.write(" rowspan=" + gridCell.rowSpan);
+			writer.write(" rowspan=" + gridCell.rowSpan);
 		}
 		
 		if (
@@ -726,11 +634,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(hexa);
 		}
 
-		this.writer.write(">");
+		writer.write(">");
 
-		this.writer.write("<img src=\"" + this.imagesURI + "px\" border=0>");
+		writer.write("<img src=\"" + imagesURI + "px\" border=0>");
 
-		this.writer.write("</td>\n");
+		writer.write("</td>\n");
 	}
 
 
@@ -739,14 +647,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
-		this.writer.write("  <td");
+		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
-			this.writer.write(" colspan=" + gridCell.colSpan);
+			writer.write(" colspan=" + gridCell.colSpan);
 		}
 		if (gridCell.rowSpan > 1)
 		{
-			this.writer.write(" rowspan=" + gridCell.rowSpan);
+			writer.write(" rowspan=" + gridCell.rowSpan);
 		}
 		
 		if (
@@ -760,11 +668,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(hexa);
 		}
 
-		this.writer.write(">");
+		writer.write(">");
 
-		this.writer.write("<img src=\"" + this.imagesURI + "px\" border=0>");
+		writer.write("<img src=\"" + imagesURI + "px\" border=0>");
 
-		this.writer.write("</td>\n");
+		writer.write("</td>\n");
 	}
 
 
@@ -773,14 +681,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportText(JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
-		this.writer.write("  <td");
+		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
-			this.writer.write(" colspan=" + gridCell.colSpan);
+			writer.write(" colspan=" + gridCell.colSpan);
 		}
 		if (gridCell.rowSpan > 1)
 		{
-			this.writer.write(" rowspan=" + gridCell.rowSpan);
+			writer.write(" rowspan=" + gridCell.rowSpan);
 		}
 		
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -806,9 +714,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			this.writer.write(" valign=\"");
-			this.writer.write(verticalAlignment);
-			this.writer.write("\"");
+			writer.write(" valign=\"");
+			writer.write(verticalAlignment);
+			writer.write("\"");
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
@@ -860,18 +768,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (styleBuffer.length() > 0)
 		{
-			this.writer.write(" style=\"");
-			this.writer.write(styleBuffer.toString());
-			this.writer.write("\"");
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
+			writer.write("\"");
 		}
 		
-		this.writer.write(">");
+		writer.write(">");
 
 		if (text.getAnchorName() != null)
 		{
-			this.writer.write("<a name=\"");
-			this.writer.write(text.getAnchorName());
-			this.writer.write("\">");
+			writer.write("<a name=\"");
+			writer.write(text.getAnchorName());
+			writer.write("\">");
 		}
 
 		String href = null;
@@ -932,65 +840,65 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (href != null)
 		{
-			this.writer.write("<a href=\"");
-			this.writer.write(href);
-			this.writer.write("\">");
+			writer.write("<a href=\"");
+			writer.write(href);
+			writer.write("\">");
 		}
 
 		JRFont font = text.getFont();
 		if (font == null)
 		{
-			font = this.getDefaultFont();
+			font = getDefaultFont();
 		}
 
 		if (text.getText() != null && text.getText().length() > 0)
 		{
-			this.writer.write("<font face=\"");
-			this.writer.write(font.getFontName());
+			writer.write("<font face=\"");
+			writer.write(font.getFontName());
 
-			this.writer.write("\" style=\"");
+			writer.write("\" style=\"");
 
 			if (text.getForecolor().getRGB() != Color.black.getRGB())
 			{
-				this.writer.write("color: #");
+				writer.write("color: #");
 				String hexa = Integer.toHexString(text.getForecolor().getRGB() & colorMask).toUpperCase();
 				hexa = ("000000" + hexa).substring(hexa.length());
-				this.writer.write(hexa);
-				this.writer.write("; ");
+				writer.write(hexa);
+				writer.write("; ");
 			}
 
-			this.writer.write("font-size: ");
-			this.writer.write(String.valueOf(font.getSize()));
-			this.writer.write("px;");
+			writer.write("font-size: ");
+			writer.write(String.valueOf(font.getSize()));
+			writer.write("px;");
 
 			if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 			{
-				this.writer.write(" text-align: ");
-				this.writer.write(horizontalAlignment);
-				this.writer.write(";");
+				writer.write(" text-align: ");
+				writer.write(horizontalAlignment);
+				writer.write(";");
 			}
 
 			if (font.isUnderline())
 			{
-				this.writer.write(" text-decoration: underline;");
+				writer.write(" text-decoration: underline;");
 			}
 			if (font.isStrikeThrough())
 			{
-				this.writer.write(" text-decoration: line-through;");
+				writer.write(" text-decoration: line-through;");
 			}
 
-			this.writer.write("\">");
+			writer.write("\">");
 
 			if (font.isBold())
 			{
-				this.writer.write("<b>");
+				writer.write("<b>");
 			}
 			if (font.isItalic())
 			{
-				this.writer.write("<i>");
+				writer.write("<i>");
 			}
 			
-			this.writer.write(
+			writer.write(
 				replaceNewLineWithBR(
 					JRStringUtil.xmlEncode(text.getText())
 					)
@@ -998,26 +906,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 			
 			if (font.isItalic())
 			{
-				this.writer.write("</i>");
+				writer.write("</i>");
 			}
 			if (font.isBold())
 			{
-				this.writer.write("</b>");
+				writer.write("</b>");
 			}
 	
-			this.writer.write("</font>");
+			writer.write("</font>");
 		}
 		else
 		{
-			this.writer.write("<img src=\"" + this.imagesURI + "px\" border=0>");
+			writer.write("<img src=\"" + imagesURI + "px\" border=0>");
 		}
 
 		if (href != null)
 		{
-			this.writer.write("</a>");
+			writer.write("</a>");
 		}
 
-		this.writer.write("</td>\n");
+		writer.write("</td>\n");
 	}
 
 
@@ -1026,21 +934,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void exportImage(JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		this.writer.write("  <td");
+		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
-			this.writer.write(" colspan=" + gridCell.colSpan);
+			writer.write(" colspan=" + gridCell.colSpan);
 		}
 		if (gridCell.rowSpan > 1)
 		{
-			this.writer.write(" rowspan=" + gridCell.rowSpan);
+			writer.write(" rowspan=" + gridCell.rowSpan);
 		}
 		if (image.getBackcolor().getRGB() != Color.white.getRGB() && image.getMode() == JRElement.MODE_OPAQUE)
 		{
-			this.writer.write(" bgcolor=#");
+			writer.write(" bgcolor=#");
 			String hexa = Integer.toHexString(image.getBackcolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
-			this.writer.write(hexa);
+			writer.write(hexa);
 		}
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
@@ -1066,9 +974,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 		{
-			this.writer.write(" align=\"");
-			this.writer.write(horizontalAlignment);
-			this.writer.write("\"");
+			writer.write(" align=\"");
+			writer.write(horizontalAlignment);
+			writer.write("\"");
 		}
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1094,18 +1002,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			this.writer.write(" valign=\"");
-			this.writer.write(verticalAlignment);
-			this.writer.write("\"");
+			writer.write(" valign=\"");
+			writer.write(verticalAlignment);
+			writer.write("\"");
 		}
 
-		this.writer.write(">");
+		writer.write(">");
 
 		if (image.getAnchorName() != null)
 		{
-			this.writer.write("<a name=\"");
-			this.writer.write(image.getAnchorName());
-			this.writer.write("\">");
+			writer.write("<a name=\"");
+			writer.write(image.getAnchorName());
+			writer.write("\">");
 		}
 
 		String href = null;
@@ -1166,12 +1074,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (href != null)
 		{
-			this.writer.write("<a href=\"");
-			this.writer.write(href);
-			this.writer.write("\">");
+			writer.write("<a href=\"");
+			writer.write(href);
+			writer.write("\">");
 		}
 
-		this.writer.write("<img");
+		writer.write("<img");
 
 		String imageSource = "";
 		
@@ -1179,30 +1087,30 @@ public class JRHtmlExporter extends JRAbstractExporter
 		byte[] imageData = image.getImageData();
 		if (imageData != null)
 		{
-			if (this.loadedImagesMap.containsKey(imageData))
+			if (loadedImagesMap.containsKey(imageData))
 			{
-				//imageSource = imagesDir.getName() + "/" + (String)this.loadedImagesMap.get(imageData);
-				imageSource = this.imagesURI + (String)this.loadedImagesMap.get(imageData);
+				//imageSource = imagesDir.getName() + "/" + (String)loadedImagesMap.get(imageData);
+				imageSource = imagesURI + (String)loadedImagesMap.get(imageData);
 			}
 			else
 			{
-				imageSource = "img_" + String.valueOf(this.loadedImagesMap.size());
-				this.loadedImagesMap.put(imageData, imageSource);
-				this.imagesMap.put(imageSource, imageData);
+				imageSource = "img_" + String.valueOf(loadedImagesMap.size());
+				loadedImagesMap.put(imageData, imageSource);
+				imagesMap.put(imageSource, imageData);
 	
 				//imageSource = imagesDir.getName() + "/" + imageSource;
-				imageSource = this.imagesURI + imageSource;
+				imageSource = imagesURI + imageSource;
 			}
 		}
 		else
 		{
-			imageSource = this.imagesURI + "px";
+			imageSource = imagesURI + "px";
 			scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
 		}
 		
-		this.writer.write(" src=\"");
-		this.writer.write(imageSource);
-		this.writer.write("\"");
+		writer.write(" src=\"");
+		writer.write(imageSource);
+		writer.write("\"");
 
 		int borderWidth = 0;
 		switch (image.getPen())
@@ -1240,18 +1148,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		this.writer.write(" border=");
-		this.writer.write(String.valueOf(borderWidth));
+		writer.write(" border=");
+		writer.write(String.valueOf(borderWidth));
 
 		switch (scaleImage)
 		{
 			case JRImage.SCALE_IMAGE_FILL_FRAME :
 			{
-				this.writer.write(" width=");
-				this.writer.write(String.valueOf(image.getWidth()));
+				writer.write(" width=");
+				writer.write(String.valueOf(image.getWidth()));
 
-				this.writer.write(" height=");
-				this.writer.write(String.valueOf(image.getHeight()));
+				writer.write(" height=");
+				writer.write(String.valueOf(image.getHeight()));
 
 				break;
 			}
@@ -1267,26 +1175,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 					
 					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
 					{
-						this.writer.write(" width=");
-						this.writer.write(String.valueOf(image.getWidth()));
+						writer.write(" width=");
+						writer.write(String.valueOf(image.getWidth()));
 					}
 					else
 					{
-						this.writer.write(" height=");
-						this.writer.write(String.valueOf(image.getHeight()));
+						writer.write(" height=");
+						writer.write(String.valueOf(image.getHeight()));
 					}
 				}
 			}
 		}
 				
-		this.writer.write(">");
+		writer.write(">");
 
 		if (href != null)
 		{
-			this.writer.write("</a>");
+			writer.write("</a>");
 		}
 
-		this.writer.write("</td>\n");
+		writer.write("</td>\n");
 	}
 
 

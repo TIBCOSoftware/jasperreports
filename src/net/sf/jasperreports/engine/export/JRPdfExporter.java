@@ -77,11 +77,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -113,7 +112,6 @@ import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRLoader;
@@ -129,13 +127,20 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
-
 	private Document document = null;
 	private PdfContentByte pdfContentByte = null;
 
 	private Document imageTesterDocument = null;
 	private PdfContentByte imageTesterPdfContentByte = null;
+
+	/**
+	 *
+	 */
+	private boolean isEncrypted = false;
+	private boolean is128BitKey = false;
+	private String userPassword = null;
+	private String ownerPassword = null;
+	private int permissions = 0;
 
 	/**
 	 *
@@ -166,55 +171,44 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
+		/*   */
+		setInput();
+
+		/*   */
+		setPageRange();
+
+		Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
+		if (isEncryptedParameter != null)
 		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
+			isEncrypted = isEncryptedParameter.booleanValue();
+		}
+		
+		Boolean is128BitKeyParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_128_BIT_KEY);
+		if (is128BitKeyParameter != null)
+		{
+			is128BitKey = is128BitKeyParameter.booleanValue();
+		}
+		
+		userPassword = (String)parameters.get(JRPdfExporterParameter.USER_PASSWORD);
+		ownerPassword = (String)parameters.get(JRPdfExporterParameter.OWNER_PASSWORD);
+
+		Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
+		if (permissionsParameter != null)
+		{
+			permissions = permissionsParameter.intValue();
 		}
 
-		OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
+		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
 		{
-			this.exportReportToStream(os);
+			exportReportToStream(os);
 		}
 		else
 		{
-			File destFile = (File)this.parameters.get(JRExporterParameter.OUTPUT_FILE);
+			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
 			if (destFile == null)
 			{
-				String fileName = (String)this.parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 				if (fileName != null)
 				{
 					destFile = new File(fileName);
@@ -228,7 +222,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			try
 			{
 				os = new FileOutputStream(destFile);
-				this.exportReportToStream(os);
+				exportReportToStream(os);
 				os.flush();
 			}
 			catch (IOException e)
@@ -279,6 +273,17 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, os);
 			pdfWriter.setCloseStream(false);
+
+			if (isEncrypted)
+			{
+				pdfWriter.setEncryption(
+					is128BitKey, 
+					userPassword, 
+					ownerPassword, 
+					permissions
+					);
+			}
+
 			document.open();
 
 			PdfWriter imageTesterPdfWriter = 
@@ -291,21 +296,20 @@ public class JRPdfExporter extends JRAbstractExporter
 		 	imageTesterPdfContentByte = imageTesterPdfWriter.getDirectContent();
 		 	imageTesterPdfContentByte.setLiteral("\n");
 
-			Collection pages = jasperPrint.getPages();
+			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				Chunk chunk = null;
 				ColumnText colText = null;
 				JRPrintPage page = null;
-				int i = 1;
-				for(Iterator it = pages.iterator(); it.hasNext(); i++)
+				for(int i = startPageIndex; i <= endPageIndex; i++)
 				{
 					if (Thread.currentThread().isInterrupted())
 					{
 						throw new JRException("Current thread interrupted.");
 					}
 				
-					page = (JRPrintPage)it.next();
+					page = (JRPrintPage)pages.get(i);
 
 					document.newPage();
 
@@ -314,7 +318,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					pdfContentByte.setLineCap(2);
 
 					chunk = new Chunk(" ");
-					chunk.setLocalDestination("JR_PAGE_ANCHOR_" + i);
+					chunk.setLocalDestination("JR_PAGE_ANCHOR_" + (i + 1));
 
 					colText = new ColumnText(pdfContentByte);
 					colText.setSimpleColumn(
@@ -330,7 +334,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					colText.go();
 
 					/*   */
-					this.exportPage(page);
+					exportPage(page);
 				}
 			}
 			else
@@ -373,23 +377,23 @@ public class JRPdfExporter extends JRAbstractExporter
 
 				if (element instanceof JRPrintLine)
 				{
-					this.exportLine((JRPrintLine)element);
+					exportLine((JRPrintLine)element);
 				}
 				else if (element instanceof JRPrintRectangle)
 				{
-					this.exportRectangle((JRPrintRectangle)element);
+					exportRectangle((JRPrintRectangle)element);
 				}
 				else if (element instanceof JRPrintEllipse)
 				{
-					this.exportEllipse((JRPrintEllipse)element);
+					exportEllipse((JRPrintEllipse)element);
 				}
 				else if (element instanceof JRPrintImage)
 				{
-					this.exportImage((JRPrintImage)element);
+					exportImage((JRPrintImage)element);
 				}
 				else if (element instanceof JRPrintText)
 				{
-					this.exportText((JRPrintText)element);
+					exportText((JRPrintText)element);
 				}
 			}
 		}
@@ -1178,7 +1182,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		JRFont jrFont = text.getFont();
 		if (jrFont == null)
 		{
-			jrFont = this.getDefaultFont();
+			jrFont = getDefaultFont();
 		}
 
 		BaseFont baseFont = null;

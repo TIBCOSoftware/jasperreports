@@ -105,6 +105,11 @@ public interface JRExpression
 	/**
 	 *
 	 */
+	public String getValueClassName();
+	
+	/**
+	 *
+	 */
 	public String getName();
 	
 	/**

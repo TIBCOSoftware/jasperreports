@@ -85,8 +85,12 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -94,9 +98,11 @@ import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
+import javax.swing.filechooser.FileFilter;
 
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRHyperlink;
@@ -106,7 +112,9 @@ import dori.jasper.engine.JRPrintHyperlink;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JasperPrint;
 import dori.jasper.engine.JasperPrintManager;
+import dori.jasper.engine.util.JRClassLoader;
 import dori.jasper.engine.util.JRLoader;
+import dori.jasper.engine.util.JRSaver;
 import dori.jasper.engine.xml.JRPrintXmlLoader;
 
 
@@ -123,6 +131,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private static final int TYPE_INPUT_STREAM = 2;
 	private static final int TYPE_JASPER_PRINT = 3;
 
+	protected float MIN_ZOOM = 0.5f;
+	protected float MAX_ZOOM = 2.5f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250};
 
 	private int type = TYPE_FILE_NAME;
@@ -132,11 +142,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private int pageIndex = 0;
 	private float zoom = 1f;
 
+	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
+
 	private int downX = 0;
 	private int downY = 0;
-
-	//private JScrollBar hBar = null;
-	//private JScrollBar vBar = null;
 
 	private java.util.List hyperlinkListeners = new ArrayList();
 	private Map linksMap = new HashMap();
@@ -153,57 +162,51 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
-		this.setZooms();
+		setZooms();
 		
-		this.initComponents();
-		this.cmbZoom.setSelectedIndex(2);//100%
-
-		//hBar = scrollPane.getHorizontalScrollBar();
-		//vBar = scrollPane.getVerticalScrollBar();
-
-		this.loadReport(fileName, isXML);
-		this.setPageIndex(0);
-		this.refreshPage();
+		initComponents();
 		
-		this.addHyperlinkListener(this);
+		setZoomRatio(1);
+
+		loadReport(fileName, isXML);
+		setPageIndex(0);
+		refreshPage();
+		
+		addHyperlinkListener(this);
 	}
 
 	
 	/** Creates new form JRViewer */
 	public JRViewer(InputStream is, boolean isXML) throws JRException
 	{
-		this.setZooms();
+		setZooms();
 		
-		this.initComponents();
-		this.cmbZoom.setSelectedIndex(2);//100%
+		initComponents();
+		
+		setZoomRatio(1);
 
-		//hBar = scrollPane.getHorizontalScrollBar();
-		//vBar = scrollPane.getVerticalScrollBar();
+		loadReport(is, isXML);
+		setPageIndex(0);
+		refreshPage();
 
-		this.loadReport(is, isXML);
-		this.setPageIndex(0);
-		this.refreshPage();
-
-		this.addHyperlinkListener(this);
+		addHyperlinkListener(this);
 	}
 
 	
 	/** Creates new form JRViewer */
 	public JRViewer(JasperPrint jrPrint) throws JRException
 	{
-		this.setZooms();
+		setZooms();
 		
-		this.initComponents();
-		this.cmbZoom.setSelectedIndex(2);//100%
+		initComponents();
+		
+		setZoomRatio(1);
 
-		//hBar = scrollPane.getHorizontalScrollBar();
-		//vBar = scrollPane.getVerticalScrollBar();
+		loadReport(jrPrint);
+		setPageIndex(0);
+		refreshPage();
 
-		this.loadReport(jrPrint);
-		this.setPageIndex(0);
-		this.refreshPage();
-
-		this.addHyperlinkListener(this);
+		addHyperlinkListener(this);
 	}
 
 	
@@ -212,8 +215,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public void clear()
 	{
-		this.emptyContainer(this);
-		this.jasperPrint = null;
+		emptyContainer(this);
+		jasperPrint = null;
 	}
 
 
@@ -230,7 +233,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public void addHyperlinkListener(JRHyperlinkListener listener) throws JRException
 	{
-		this.hyperlinkListeners.add(listener);
+		hyperlinkListeners.add(listener);
 	}
 
 
@@ -239,7 +242,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public void removeHyperlinkListener(JRHyperlinkListener listener) throws JRException
 	{
-		this.hyperlinkListeners.remove(listener);
+		hyperlinkListeners.remove(listener);
 	}
 
 
@@ -252,7 +255,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
 			{
-				if (this.hyperlinkListeners != null && this.hyperlinkListeners.size() > 1)
+				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Implement your own JRHyperlinkListener to manage this type of event.");
@@ -267,8 +270,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					JRPrintAnchorIndex anchorIndex = (JRPrintAnchorIndex)anchorIndexes.get(hyperlink.getHyperlinkAnchor());
 					if (anchorIndex.getPageIndex() != pageIndex)
 					{
-						this.setPageIndex(anchorIndex.getPageIndex());
-						this.refreshPage();
+						setPageIndex(anchorIndex.getPageIndex());
+						refreshPage();
 					}
 					Container container = pnlInScroll.getParent();
 					if (container instanceof JViewport)
@@ -314,8 +317,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				
 				if (page >= 1 && page <= jasperPrint.getPages().size() && page != pageIndex + 1)
 				{
-					this.setPageIndex(page - 1);
-					this.refreshPage();
+					setPageIndex(page - 1);
+					refreshPage();
 					Container container = pnlInScroll.getParent();
 					if (container instanceof JViewport)
 					{
@@ -328,7 +331,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
 			{
-				if (this.hyperlinkListeners != null && this.hyperlinkListeners.size() > 1)
+				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Hyperlink anchor    : " + hyperlink.getHyperlinkAnchor());
@@ -338,7 +341,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
 			{
-				if (this.hyperlinkListeners != null && this.hyperlinkListeners.size() > 1)
+				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Hyperlink page      : " + hyperlink.getHyperlinkPage());
@@ -364,6 +367,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         java.awt.GridBagConstraints gridBagConstraints;
 
         tlbToolBar = new javax.swing.JToolBar();
+        btnSave = new javax.swing.JButton();
         btnPrint = new javax.swing.JButton();
         btnReload = new javax.swing.JButton();
         pnlSep01 = new javax.swing.JPanel();
@@ -372,6 +376,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         pnlSep02 = new javax.swing.JPanel();
+        btnActualSize = new javax.swing.JToggleButton();
+        btnFitPage = new javax.swing.JToggleButton();
+        btnFitWidth = new javax.swing.JToggleButton();
+        pnlSep03 = new javax.swing.JPanel();
         btnZoomIn = new javax.swing.JButton();
         btnZoomOut = new javax.swing.JButton();
         cmbZoom = new javax.swing.JComboBox();
@@ -398,16 +406,32 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         lblPage = new javax.swing.JLabel();
+        pnlStatus = new javax.swing.JPanel();
+        lblStatus = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
+        setMinimumSize(new java.awt.Dimension(450, 150));
+        setPreferredSize(new java.awt.Dimension(450, 150));
         tlbToolBar.setFloatable(false);
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/save.GIF")));
+        btnSave.setToolTipText("Save");
+        btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        tlbToolBar.add(btnSave);
+
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/print.GIF")));
-        btnPrint.setText("Print");
         btnPrint.setToolTipText("Print");
-        btnPrint.setMaximumSize(new java.awt.Dimension(80, 23));
-        btnPrint.setMinimumSize(new java.awt.Dimension(80, 23));
-        btnPrint.setPreferredSize(new java.awt.Dimension(80, 23));
+        btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
         btnPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrintActionPerformed(evt);
@@ -417,11 +441,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnPrint);
 
         btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/reload.GIF")));
-        btnReload.setText("Reload");
-        btnReload.setToolTipText("Reload Document");
-        btnReload.setMaximumSize(new java.awt.Dimension(80, 23));
-        btnReload.setMinimumSize(new java.awt.Dimension(80, 23));
-        btnReload.setPreferredSize(new java.awt.Dimension(80, 23));
+        btnReload.setToolTipText("Reload");
+        btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
@@ -488,6 +511,48 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
         tlbToolBar.add(pnlSep02);
 
+        btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/actualsize.GIF")));
+        btnActualSize.setToolTipText("Actual Size");
+        btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnActualSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualSizeActionPerformed(evt);
+            }
+        });
+
+        tlbToolBar.add(btnActualSize);
+
+        btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitpage.GIF")));
+        btnFitPage.setToolTipText("Fit Page");
+        btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnFitPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFitPageActionPerformed(evt);
+            }
+        });
+
+        tlbToolBar.add(btnFitPage);
+
+        btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/fitwidth.GIF")));
+        btnFitWidth.setToolTipText("Fit Width");
+        btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFitWidthActionPerformed(evt);
+            }
+        });
+
+        tlbToolBar.add(btnFitWidth);
+
+        pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
+        tlbToolBar.add(pnlSep03);
+
         btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/zoomin.GIF")));
         btnZoomIn.setToolTipText("Zoom In");
         btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
@@ -514,6 +579,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnZoomOut);
 
+        cmbZoom.setEditable(true);
         cmbZoom.setToolTipText("Zoom Ratio");
         cmbZoom.setMaximumSize(new java.awt.Dimension(80, 23));
         cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
@@ -524,12 +590,26 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
             }
         });
 
+        cmbZoom.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbZoomItemStateChanged(evt);
+            }
+        });
+
         tlbToolBar.add(cmbZoom);
 
         add(tlbToolBar, java.awt.BorderLayout.NORTH);
 
         pnlMain.setLayout(new java.awt.BorderLayout());
 
+        pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                pnlMainComponentResized(evt);
+            }
+        });
+
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         pnlInScroll.setLayout(new java.awt.GridBagLayout());
 
         pnlPage.setLayout(new java.awt.BorderLayout());
@@ -636,25 +716,237 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         add(pnlMain, java.awt.BorderLayout.CENTER);
 
+        pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+
+        lblStatus.setFont(new java.awt.Font("Dialog", 1, 10));
+        lblStatus.setText("Page i of n");
+        pnlStatus.add(lblStatus);
+
+        add(pnlStatus, java.awt.BorderLayout.SOUTH);
+
     }//GEN-END:initComponents
+
+    private void cmbZoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbZoomItemStateChanged
+		// Add your handling code here:
+		btnActualSize.setSelected(false);
+		btnFitPage.setSelected(false);
+		btnFitWidth.setSelected(false);
+    }//GEN-LAST:event_cmbZoomItemStateChanged
+
+    private void pnlMainComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlMainComponentResized
+        // Add your handling code here:
+		if (btnFitPage.isSelected())
+		{
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / (float)jasperPrint.getPageHeight());
+		}
+		else if (btnFitWidth.isSelected())
+		{
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / (float)jasperPrint.getPageWidth());
+		}
+		
+    }//GEN-LAST:event_pnlMainComponentResized
+
+    private void btnActualSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualSizeActionPerformed
+		// Add your handling code here:
+		if (btnActualSize.isSelected())
+		{
+			btnFitPage.setSelected(false);
+			btnFitWidth.setSelected(false);
+
+			setZoomRatio(1);
+		}
+    }//GEN-LAST:event_btnActualSizeActionPerformed
+
+    private void btnFitWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitWidthActionPerformed
+        // Add your handling code here:
+		if (btnFitWidth.isSelected())
+		{
+			btnActualSize.setSelected(false);
+			btnFitPage.setSelected(false);
+
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / (float)jasperPrint.getPageWidth());
+		}
+    }//GEN-LAST:event_btnFitWidthActionPerformed
+
+    private void btnFitPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitPageActionPerformed
+        // Add your handling code here:
+		if (btnFitPage.isSelected())
+		{
+			btnActualSize.setSelected(false);
+			btnFitWidth.setSelected(false);
+
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / (float)jasperPrint.getPageHeight());
+		}
+    }//GEN-LAST:event_btnFitPageActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+		// Add your handling code here:
+		
+		JFileChooser fileChooser = new JFileChooser();
+
+		FileFilter jrprintFileFilter = 
+			new FileFilter()
+			{
+				public boolean accept(File f){ return true; }
+				public String getDescription(){ return "JasperReports (*.jrprint)"; }
+			};
+		fileChooser.addChoosableFileFilter(jrprintFileFilter);
+
+		JRSaveContributor pdfSaveContrib = null;
+		try 
+		{
+			Class pdfSaveContribClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRPdfSaveContributor");
+			pdfSaveContrib = (JRSaveContributor)pdfSaveContribClass.newInstance();
+			fileChooser.addChoosableFileFilter(pdfSaveContrib);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor htmlSaver = null;
+		try 
+		{
+			Class htmlSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRHtmlSaveContributor");
+			htmlSaver = (JRSaveContributor)htmlSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(htmlSaver);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor xlsSingleSheetSaver = null;
+		try 
+		{
+			Class xlsSingleSheetSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRSingleSheetXlsSaveContributor");
+			xlsSingleSheetSaver = (JRSaveContributor)xlsSingleSheetSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(xlsSingleSheetSaver);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor xlsMultipleSheetsSaver = null;
+		try 
+		{
+			Class xlsMultipleSheetsSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRMultipleSheetsXlsSaveContributor");
+			xlsMultipleSheetsSaver = (JRSaveContributor)xlsMultipleSheetsSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(xlsMultipleSheetsSaver);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor csvSaver = null;
+		try 
+		{
+			Class csvSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRCsvSaveContributor");
+			csvSaver = (JRSaveContributor)csvSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(csvSaver);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor xmlSaver = null;
+		try 
+		{
+			Class xmlSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JRXmlSaveContributor");
+			xmlSaver = (JRSaveContributor)xmlSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(xmlSaver);
+		}
+		catch (Exception e)
+		{
+		}
+	
+		JRSaveContributor xmlEmbeddedImagesSaver = null;
+		try 
+		{
+			Class xmlEmbeddedImagesSaverClass = JRClassLoader.loadClassForName("dori.jasper.view.save.JREmbeddedImagesXmlSaveContributor");
+			xmlEmbeddedImagesSaver = (JRSaveContributor)xmlEmbeddedImagesSaverClass.newInstance();
+			fileChooser.addChoosableFileFilter(xmlEmbeddedImagesSaver);
+		}
+		catch (Exception e)
+		{
+		}
+
+		fileChooser.setFileFilter(jrprintFileFilter);
+	
+		int retValue = fileChooser.showSaveDialog(this);
+		if (retValue == JFileChooser.APPROVE_OPTION)
+		{
+			FileFilter fileFilter = fileChooser.getFileFilter();
+			File file = fileChooser.getSelectedFile();
+			String lowerCaseFileName = file.getName().toLowerCase();
+			
+			try
+			{
+				if (fileFilter == jrprintFileFilter)
+				{
+					JRSaver.saveObject(jasperPrint, file);
+				}
+				else if (fileFilter instanceof JRSaveContributor)
+				{
+					((JRSaveContributor)fileFilter).save(jasperPrint, file);
+				}
+				else
+				{
+					if (lowerCaseFileName.endsWith(".jrprint"))
+					{
+						JRSaver.saveObject(jasperPrint, file);
+					}
+					else if (
+						lowerCaseFileName.endsWith(".pdf") 
+						&& pdfSaveContrib != null
+						)
+					{
+						pdfSaveContrib.save(jasperPrint, file);
+					}
+					else if (
+						(lowerCaseFileName.endsWith(".html") 
+						|| lowerCaseFileName.endsWith(".htm"))
+						&& htmlSaver != null
+						)
+					{
+						htmlSaver.save(jasperPrint, file);
+					}
+					else if (
+						lowerCaseFileName.endsWith(".xls")
+						&& xlsSingleSheetSaver != null
+						)
+					{
+						xlsSingleSheetSaver.save(jasperPrint, file);
+					}
+					else if (
+						lowerCaseFileName.endsWith(".csv")
+						&& csvSaver != null
+						)
+					{
+						csvSaver.save(jasperPrint, file);
+					}
+					else if (
+						lowerCaseFileName.endsWith(".xml") 
+						|| lowerCaseFileName.endsWith(".jrpxml")
+						&& xmlSaver != null
+						)
+					{
+						xmlSaver.save(jasperPrint, file);
+					}
+					else
+					{
+						JRSaver.saveObject(jasperPrint, fileChooser.getSelectedFile());
+					}
+				}
+			}
+			catch (JRException e)
+			{
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error saving document. See the console for details.");
+			}
+		}
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     private void pnlLinksMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseDragged
 		// Add your handling code here:
-		/*
-		hBar.setValue(
-			(int)
-			( hBar.getValue() + 
-			( ( downX - evt.getX() ) * ( hBar.getMaximum() - hBar.getVisibleAmount() ) ) / 
-			jasperPrint.getPageWidth() )
-			);
-
-		vBar.setValue(
-			(int)
-			( vBar.getValue() + 
-			( ( downY - evt.getY() ) * ( vBar.getMaximum() - vBar.getVisibleAmount() ) ) / 
-			jasperPrint.getPageHeight() )
-			);
-		*/
 
 		Container container = pnlInScroll.getParent();
 		if (container instanceof JViewport)
@@ -690,15 +982,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
     private void pnlLinksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseReleased
 		// Add your handling code here:
-		this.pnlLinks.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		pnlLinks.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_pnlLinksMouseReleased
 
     private void pnlLinksMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMousePressed
 		// Add your handling code here:
-		this.pnlLinks.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+		pnlLinks.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 		
-		this.downX = evt.getX();
-		this.downY = evt.getY();
+		downX = evt.getX();
+		downY = evt.getY();
     }//GEN-LAST:event_pnlLinksMousePressed
 
 	private void btnPrintActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPrintActionPerformed
@@ -731,83 +1023,111 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLastActionPerformed
     {//GEN-HEADEREND:event_btnLastActionPerformed
 		// Add your handling code here:
-		this.setPageIndex(jasperPrint.getPages().size() - 1);
-		this.refreshPage();
+		setPageIndex(jasperPrint.getPages().size() - 1);
+		refreshPage();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnNextActionPerformed
     {//GEN-HEADEREND:event_btnNextActionPerformed
 		// Add your handling code here:
-		this.setPageIndex(pageIndex + 1);
-		this.refreshPage();
+		setPageIndex(pageIndex + 1);
+		refreshPage();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPreviousActionPerformed
     {//GEN-HEADEREND:event_btnPreviousActionPerformed
 		// Add your handling code here:
-		this.setPageIndex(pageIndex - 1);
-		this.refreshPage();
+		setPageIndex(pageIndex - 1);
+		refreshPage();
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFirstActionPerformed
     {//GEN-HEADEREND:event_btnFirstActionPerformed
 		// Add your handling code here:
-		this.setPageIndex(0);
-		this.refreshPage();
+		setPageIndex(0);
+		refreshPage();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
     {//GEN-HEADEREND:event_btnReloadActionPerformed
 		// Add your handling code here:
-		if (this.type == TYPE_FILE_NAME)
+		if (type == TYPE_FILE_NAME)
 		{
 			try
 			{
-				this.loadReport(this.reportFileName, this.isXML);
+				loadReport(reportFileName, isXML);
 			}
 			catch (JRException e)
 			{
 				e.printStackTrace();
 
-				this.jasperPrint = null;
-				this.setPageIndex(0);
-				this.refreshPage();
+				jasperPrint = null;
+				setPageIndex(0);
+				refreshPage();
 
 				JOptionPane.showMessageDialog(this, "Error loading report. See the console for details.");
 			}
-			this.setPageIndex(0);
-			this.cmbZoom.setSelectedIndex(2);//100%
+
+			setPageIndex(0);
+			zoom = 0;//force pageRefresh()
+			setZoomRatio(1);
 		}
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
     {//GEN-HEADEREND:event_btnZoomInActionPerformed
-	// Add your handling code here:
-		int index = this.cmbZoom.getSelectedIndex();
-		if (index < this.cmbZoom.getModel().getSize() - 1)
+		// Add your handling code here:
+		btnActualSize.setSelected(false);
+		btnFitPage.setSelected(false);
+		btnFitWidth.setSelected(false);
+
+		int newZoomInt = (int)(100 * getZoomRatio());
+		int index = Arrays.binarySearch(zooms, newZoomInt);
+		if (index < 0)
 		{
-			this.cmbZoom.setSelectedIndex(index + 1);
+			setZoomRatio((float)zooms[- index - 1] / 100f);
+		}
+		else if (index < cmbZoom.getModel().getSize() - 1)
+		{
+			setZoomRatio((float)zooms[index + 1] / 100f);
 		}
     }//GEN-LAST:event_btnZoomInActionPerformed
 
     private void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
     {//GEN-HEADEREND:event_btnZoomOutActionPerformed
 		// Add your handling code here:
-		int index = this.cmbZoom.getSelectedIndex();
+		btnActualSize.setSelected(false);
+		btnFitPage.setSelected(false);
+		btnFitWidth.setSelected(false);
+
+		int newZoomInt = (int)(100 * getZoomRatio());
+		int index = Arrays.binarySearch(zooms, newZoomInt);
 		if (index > 0)
 		{
-			this.cmbZoom.setSelectedIndex(index - 1);
+			setZoomRatio((float)zooms[index - 1] / 100f);
+		}
+		else if (index < -1)
+		{
+			setZoomRatio((float)zooms[- index - 2] / 100f);
 		}
     }//GEN-LAST:event_btnZoomOutActionPerformed
 
     private void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
     {//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
-		int index = this.cmbZoom.getSelectedIndex();
-		this.zoom = zooms[index] / 100f;
-		this.btnZoomIn.setEnabled( (index < this.cmbZoom.getModel().getSize() - 1) );
-		this.btnZoomOut.setEnabled( (index > 0) );
-		this.refreshPage();
+		float newZoom = getZoomRatio();
+		
+		if (newZoom < MIN_ZOOM)
+		{
+			newZoom = MIN_ZOOM;
+		}
+		
+		if (newZoom > MAX_ZOOM)
+		{
+			newZoom = MAX_ZOOM;
+		}
+
+		setZoomRatio(newZoom);
     }//GEN-LAST:event_cmbZoomActionPerformed
 
 
@@ -816,14 +1136,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
-		JRPrintHyperlink element = (JRPrintHyperlink)this.linksMap.get(link);
+		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);
 		
 		try
 		{
 			JRHyperlinkListener listener = null;
-			for(int i = 0; i < this.hyperlinkListeners.size(); i++)
+			for(int i = 0; i < hyperlinkListeners.size(); i++)
 			{
-				listener = (JRHyperlinkListener)this.hyperlinkListeners.get(i);
+				listener = (JRHyperlinkListener)hyperlinkListeners.get(i);
 				listener.gotoHyperlink(element);
 			}
 		}
@@ -839,24 +1159,26 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	private void setPageIndex(int index)
 	{
-		this.pageIndex = index;
+		pageIndex = index;
 		if (
-			this.jasperPrint != null && 
-			this.jasperPrint.getPages() != null &&
-			this.jasperPrint.getPages().size() > 0
+			jasperPrint != null && 
+			jasperPrint.getPages() != null &&
+			jasperPrint.getPages().size() > 0
 			)
 		{
-			this.btnFirst.setEnabled( (pageIndex > 0) );
-			this.btnPrevious.setEnabled( (pageIndex > 0) );
-			this.btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
-			this.btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+			btnFirst.setEnabled( (pageIndex > 0) );
+			btnPrevious.setEnabled( (pageIndex > 0) );
+			btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+			btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+			lblStatus.setText("Page " + (pageIndex + 1) + " of " + jasperPrint.getPages().size());
 		}
 		else
 		{
-			this.btnFirst.setEnabled(false);
-			this.btnPrevious.setEnabled(false);
-			this.btnNext.setEnabled(false);
-			this.btnLast.setEnabled(false);
+			btnFirst.setEnabled(false);
+			btnPrevious.setEnabled(false);
+			btnNext.setEnabled(false);
+			btnLast.setEnabled(false);
+			lblStatus.setText("");
 		}
 	}
 
@@ -867,17 +1189,17 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		if (isXML)
 		{
-			this.jasperPrint = JRPrintXmlLoader.load(fileName);
+			jasperPrint = JRPrintXmlLoader.load(fileName);
 		}
 		else
 		{
-			this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+			jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
 		}
 
-		this.type = TYPE_FILE_NAME;
+		type = TYPE_FILE_NAME;
 		this.isXML = isXML;
-		this.reportFileName = fileName;
-		this.btnReload.setEnabled(true);
+		reportFileName = fileName;
+		btnReload.setEnabled(true);
 	}
 
 
@@ -887,16 +1209,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		if (isXML)
 		{
-			this.jasperPrint = JRPrintXmlLoader.load(is);
+			jasperPrint = JRPrintXmlLoader.load(is);
 		}
 		else
 		{
-			this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
+			jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 		}
 
-		this.type = TYPE_INPUT_STREAM;
+		type = TYPE_INPUT_STREAM;
 		this.isXML = isXML;
-		this.btnReload.setEnabled(false);
+		btnReload.setEnabled(false);
 	}
 
 
@@ -904,10 +1226,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	protected void loadReport(JasperPrint jrPrint) throws JRException
 	{
-		this.jasperPrint = jrPrint;
-		this.type = TYPE_JASPER_PRINT;
-		this.isXML = false;
-		this.btnReload.setEnabled(false);
+		jasperPrint = jrPrint;
+		type = TYPE_JASPER_PRINT;
+		isXML = false;
+		btnReload.setEnabled(false);
 	}
 
 
@@ -921,11 +1243,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			jasperPrint.getPages().size() == 0
 			)
 		{
-			this.pnlPage.setVisible(false);
-			this.btnPrint.setEnabled(false);
-			this.btnZoomIn.setEnabled(false);
-			this.btnZoomOut.setEnabled(false);
-			this.cmbZoom.setEnabled(false);
+			pnlPage.setVisible(false);
+			btnSave.setEnabled(false);
+			btnPrint.setEnabled(false);
+			btnActualSize.setEnabled(false);
+			btnFitPage.setEnabled(false);
+			btnFitWidth.setEnabled(false);
+			btnZoomIn.setEnabled(false);
+			btnZoomOut.setEnabled(false);
+			cmbZoom.setEnabled(false);
 			
 			if (jasperPrint != null)
 			{
@@ -935,11 +1261,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			return;
 		}
 
-		this.pnlPage.setVisible(true);
-		this.btnPrint.setEnabled(true);
-		this.btnZoomIn.setEnabled(true);
-		this.btnZoomOut.setEnabled(true);
-		this.cmbZoom.setEnabled(true);
+		pnlPage.setVisible(true);
+		btnSave.setEnabled(true);
+		btnPrint.setEnabled(true);
+		btnActualSize.setEnabled(true);
+		btnFitPage.setEnabled(true);
+		btnFitWidth.setEnabled(true);
+		btnZoomIn.setEnabled(zoom < MAX_ZOOM);
+		btnZoomOut.setEnabled(zoom > MIN_ZOOM);
+		cmbZoom.setEnabled(true);
 		
 		Image image = null;
 		ImageIcon imageIcon = null;
@@ -948,9 +1278,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			(int)(jasperPrint.getPageWidth() * zoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
 			(int)(jasperPrint.getPageHeight() * zoom) + 8
 			);
-		this.pnlPage.setMaximumSize(dim);
-		this.pnlPage.setMinimumSize(dim);
-		this.pnlPage.setPreferredSize(dim);
+		pnlPage.setMaximumSize(dim);
+		pnlPage.setMinimumSize(dim);
+		pnlPage.setPreferredSize(dim);
 
 		try
 		{
@@ -964,7 +1294,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 
 		pnlLinks.removeAll();
-		this.linksMap = new HashMap();
+		linksMap = new HashMap();
 
 		java.util.List pages = jasperPrint.getPages();
 		JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
@@ -996,8 +1326,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						(int)(element.getHeight() * zoom)
 						);
 					link.setOpaque(false);
-					//link.setOpaque(true);
-					//link.setBackground(Color.yellow);
 					
 					toolTip = null;
 					switch(hyperlink.getHyperlinkType())
@@ -1056,14 +1384,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 					
 					link.setToolTipText(toolTip);
-					link.addMouseListener(this.mouseListener);
+					link.addMouseListener(mouseListener);
 					pnlLinks.add(link);
-					this.linksMap.put(link, element);
+					linksMap.put(link, element);
 				}
 			}
 		}
 		
-		this.lblPage.setIcon(imageIcon);
+		lblPage.setIcon(imageIcon);
 	}
 
 
@@ -1090,24 +1418,71 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	} 
 
 
+	/**
+	*/
+	private float getZoomRatio()
+	{
+		float newZoom = zoom;
+		
+		try
+		{
+			newZoom = 
+				zoomDecimalFormat.parse(
+					String.valueOf(cmbZoom.getEditor().getItem())
+					).floatValue() / 100f;
+		}
+		catch(ParseException e)
+		{
+		}
+
+		return newZoom;
+	} 
+
+
+	/**
+	*/
+	private void setZoomRatio(float newZoom)
+	{
+		if (newZoom > 0)
+		{
+			cmbZoom.getEditor().setItem(
+				zoomDecimalFormat.format(newZoom * 100) + "%"
+				);
+
+			if (zoom != newZoom)
+			{
+				zoom = newZoom;
+
+				refreshPage();
+			}
+		}
+	} 
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JToolBar tlbToolBar;
     private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel pnlPage;
     private javax.swing.JLabel jLabel1;
+    protected javax.swing.JPanel pnlStatus;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JPanel pnlLinks;
     private javax.swing.JPanel pnlMain;
+    protected javax.swing.JButton btnSave;
+    protected javax.swing.JToggleButton btnActualSize;
     protected javax.swing.JPanel pnlSep02;
+    protected javax.swing.JLabel lblStatus;
     protected javax.swing.JButton btnLast;
     protected javax.swing.JButton btnReload;
     private javax.swing.JPanel jPanel5;
     protected javax.swing.JButton btnPrevious;
     protected javax.swing.JButton btnZoomOut;
+    protected javax.swing.JPanel pnlSep03;
     private javax.swing.JLabel lblPage;
     private javax.swing.JPanel jPanel8;
     protected javax.swing.JButton btnZoomIn;
+    protected javax.swing.JToggleButton btnFitPage;
     private javax.swing.JPanel jPanel7;
     protected javax.swing.JButton btnNext;
     protected javax.swing.JPanel pnlSep01;
@@ -1115,6 +1490,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
     private javax.swing.JPanel jPanel6;
     protected javax.swing.JComboBox cmbZoom;
     private javax.swing.JPanel jPanel9;
+    protected javax.swing.JToggleButton btnFitWidth;
     protected javax.swing.JButton btnPrint;
     // End of variables declaration//GEN-END:variables
 

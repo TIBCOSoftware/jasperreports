@@ -135,7 +135,15 @@ public class JRFillField implements JRField
 	 */
 	public Class getValueClass()
 	{
-		return this.parent.getValueClass();
+		return parent.getValueClass();
+	}
+	
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return parent.getValueClassName();
 	}
 	
 	/**

@@ -124,6 +124,11 @@ public interface JRVariable
 	/**
 	 *
 	 */
+	public String getValueClassName();
+		
+	/**
+	 *
+	 */
 	public byte getResetType();
 		
 	/**

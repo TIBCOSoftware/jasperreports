@@ -69,42 +69,91 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.engine.data;
 
-import org.xml.sax.Attributes;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignExpression;
-import dori.jasper.engine.design.JRDesignVariable;
-
+import dori.jasper.engine.JRException;
+import dori.jasper.engine.JRField;
+import dori.jasper.engine.JRRewindableDataSource;
 
 /**
- *
+ * 
  */
-public class JRVariableExpressionFactory extends JRBaseFactory
+public class JRMapCollectionDataSource implements JRRewindableDataSource
 {
-
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	private Collection records = null;
+	private Iterator iterator = null;
+	private Map currentRecord = null;
+	
+
+	/**
+	 *
+	 */
+	public JRMapCollectionDataSource(Collection col)
 	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
+		records = col;
 
-		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
+		if (records != null)
 		{
-			expression.setValueClassName(java.lang.Object.class.getName());
+			iterator = records.iterator();
 		}
-		else
-		{
-			expression.setValueClassName(variable.getValueClassName());
-		}
-		expression.setName("variable_" + variable.getName());
-
-		return expression;
 	}
+	
+
+	/**
+	 *
+	 */
+	public boolean next() throws JRException
+	{
+		boolean hasNext = false;
+		
+		if (iterator != null)
+		{
+			hasNext = iterator.hasNext();
 			
+			if (hasNext)
+			{
+				currentRecord = (Map)iterator.next();
+			}
+		}
+		
+		return hasNext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public Object getFieldValue(JRField field) throws JRException
+	{
+		Object value = null;
+		
+		if (currentRecord != null)
+		{
+			value = currentRecord.get(field.getName());
+		}
+
+		return value;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void moveFirst() throws JRException
+	{
+		if (records != null)
+		{
+			iterator = records.iterator();
+		}
+	}
+
 
 }

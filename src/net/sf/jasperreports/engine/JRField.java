@@ -99,5 +99,10 @@ public interface JRField
 	 */
 	public Class getValueClass();
 		
+	/**
+	 *
+	 */
+	public String getValueClassName();
+		
 
 }

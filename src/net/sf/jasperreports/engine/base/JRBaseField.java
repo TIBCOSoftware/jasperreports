@@ -74,6 +74,8 @@ package dori.jasper.engine.base;
 import java.io.Serializable;
 
 import dori.jasper.engine.JRField;
+import dori.jasper.engine.JRRuntimeException;
+import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -93,7 +95,9 @@ public class JRBaseField implements JRField, Serializable
 	 */
 	protected String name = null;
 	protected String description = null;
-	protected Class valueClass = java.lang.String.class;
+	protected String valueClassName = java.lang.String.class.getName();
+
+	protected transient Class valueClass = null;
 
 
 	/**
@@ -113,7 +117,7 @@ public class JRBaseField implements JRField, Serializable
 		
 		name = field.getName();
 		description = field.getDescription();
-		valueClass = field.getValueClass();
+		valueClassName = field.getValueClassName();
 	}
 		
 
@@ -146,7 +150,30 @@ public class JRBaseField implements JRField, Serializable
 	 */
 	public Class getValueClass()
 	{
-		return this.valueClass;
+		if (valueClass == null)
+		{
+			if (valueClassName != null)
+			{
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(valueClassName);
+				}
+				catch(ClassNotFoundException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		
+		return valueClass;
+	}
+	
+	/**
+	 *
+	 */
+	public String getValueClassName()
+	{
+		return this.valueClassName;
 	}
 		
 

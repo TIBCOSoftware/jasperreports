@@ -336,7 +336,7 @@ public class JRClassGenerator
 				sbuffer.append(
 					"            case " + expression.getId() + " : // " + expression.getName() + "\n" +
 					"            {\n" +
-					"                value = (" + expression.getValueClass().getName() + ")("
+					"                value = (" + expression.getValueClassName() + ")("
 					);
 					
 				sbuffer.append(
@@ -415,7 +415,7 @@ public class JRClassGenerator
 						sbuffer.append(
 							"(" +
 								"(" +
-									jrParameter.getValueClass().getName() +
+									jrParameter.getValueClassName() +
 								")" +
 								"parameter_" + chunkText + ".getValue()" +
 							")"
@@ -430,7 +430,7 @@ public class JRClassGenerator
 						sbuffer.append(
 							"(" +
 								"(" +
-									jrField.getValueClass().getName() +
+									jrField.getValueClassName() +
 								")" +
 								"field_" + chunkText + ".get" + (String)fieldPrefixMap.get(new Byte(evaluationType)) + "Value()" +
 							")"
@@ -445,7 +445,7 @@ public class JRClassGenerator
 						sbuffer.append(
 							"(" +
 								"(" +
-									jrVariable.getValueClass().getName() +
+									jrVariable.getValueClassName() +
 								")" +
 								"variable_" + chunkText + ".get" + (String)variablePrefixMap.get(new Byte(evaluationType)) + "Value()" +
 							")"

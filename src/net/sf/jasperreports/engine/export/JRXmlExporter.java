@@ -77,12 +77,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.tools.codec.Base64Encoder;
@@ -109,8 +108,6 @@ import dori.jasper.engine.JRReport;
 import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JRRuntimeException;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JasperPrint;
-import dori.jasper.engine.util.JRLoader;
 import dori.jasper.engine.xml.JRXmlConstants;
 
 
@@ -120,11 +117,6 @@ import dori.jasper.engine.xml.JRXmlConstants;
 public class JRXmlExporter extends JRAbstractExporter
 {
 
-
-	/**
-	 *
-	 */
-	private JasperPrint jasperPrint = null;
 
 	/**
 	 *
@@ -151,55 +143,23 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		this.jasperPrint = (JasperPrint)this.parameters.get(JRExporterParameter.JASPER_PRINT);
-		if (jasperPrint == null)
-		{
-			InputStream is = (InputStream)this.parameters.get(JRExporterParameter.INPUT_STREAM);
-			if (is != null)
-			{
-				this.jasperPrint = (JasperPrint)JRLoader.loadObject(is);
-			}
-			else
-			{
-				URL url = (URL)this.parameters.get(JRExporterParameter.INPUT_URL);
-				if (url != null)
-				{
-					this.jasperPrint = (JasperPrint)JRLoader.loadObject(url);
-				}
-				else
-				{
-					File file = (File)this.parameters.get(JRExporterParameter.INPUT_FILE);
-					if (file != null)
-					{
-						this.jasperPrint = (JasperPrint)JRLoader.loadObject(file);
-					}
-					else
-					{
-						String fileName = (String)this.parameters.get(JRExporterParameter.INPUT_FILE_NAME);
-						if (fileName != null)
-						{
-							this.jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
-						}
-						else
-						{
-							throw new JRException("No input source supplied to the exporter.");
-						}
-					}
-				}
-			}
-		}
+		/*   */
+		setInput();
 
-		StringBuffer sb = (StringBuffer)this.parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		/*   */
+		setPageRange();
+
+		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
-			sb.append(this.exportReportToBuffer().toString());
+			sb.append(exportReportToBuffer().toString());
 		}
 		else
 		{
-			OutputStream os = (OutputStream)this.parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
 			{
-				String xmlString = this.exportReportToBuffer().toString();
+				String xmlString = exportReportToBuffer().toString();
 				try
 				{
 					byte[] bytes = xmlString.getBytes("UTF-8");
@@ -212,13 +172,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				this.destFile = (File)this.parameters.get(JRExporterParameter.OUTPUT_FILE);
-				if (this.destFile == null)
+				destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
 				{
-					String fileName = (String)this.parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 					if (fileName != null)
 					{
-						this.destFile = new File(fileName);
+						destFile = new File(fileName);
 					}
 					else
 					{
@@ -226,16 +186,16 @@ public class JRXmlExporter extends JRAbstractExporter
 					}
 				}
 				
-				this.imagesDir = new File(this.destFile.getParent(), this.destFile.getPath() + "_files");
+				imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
 				
-				Boolean isEmbeddingImagesParameter = (Boolean)this.parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
+				Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
 				if (isEmbeddingImagesParameter == null)
 				{
 					isEmbeddingImagesParameter = Boolean.TRUE;
 				}
-				this.isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
+				isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
 				
-				this.exportReportToFile();
+				exportReportToFile();
 			}
 		}
 	}
@@ -248,23 +208,23 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		if (!isEmbeddingImages)
 		{
-			this.loadedImagesMap = new HashMap();
+			loadedImagesMap = new HashMap();
 		}
 		
-		String xmlString = this.exportReportToBuffer().toString();
+		String xmlString = exportReportToBuffer().toString();
 		
 		FileOutputStream fos = null;
 
 		try
 		{
 			byte[] bytes = xmlString.getBytes("UTF-8");
-			fos = new FileOutputStream(this.destFile);
+			fos = new FileOutputStream(destFile);
 			fos.write(bytes, 0, bytes.length);
 			fos.flush();
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error writing to file : " + this.destFile, e);
+			throw new JRException("Error writing to file : " + destFile, e);
 		}
 		finally
 		{
@@ -282,7 +242,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		if (!isEmbeddingImages)
 		{
-			Collection imageKeys = this.loadedImagesMap.keySet();
+			Collection imageKeys = loadedImagesMap.keySet();
 			if (imageKeys != null && imageKeys.size() > 0)
 			{
 				if (!imagesDir.exists())
@@ -295,7 +255,7 @@ public class JRXmlExporter extends JRAbstractExporter
 				for(Iterator it = imageKeys.iterator(); it.hasNext();)
 				{
 					imageData = (byte[])it.next();
-					imageFile = new File(imagesDir, (String)this.loadedImagesMap.get(imageData));
+					imageFile = new File(imagesDir, (String)loadedImagesMap.get(imageData));
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -329,62 +289,62 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private StringBuffer exportReportToBuffer() throws JRException
 	{
-		this.sbuffer = new StringBuffer();
+		sbuffer = new StringBuffer();
 		
-		this.sbuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		this.sbuffer.append("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperprint.dtd\">\n");
-		this.sbuffer.append("\n");
+		sbuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		sbuffer.append("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperprint.dtd\">\n");
+		sbuffer.append("\n");
 
-		this.sbuffer.append("<jasperPrint name=\"");
-		this.sbuffer.append(jasperPrint.getName());
-		this.sbuffer.append("\"");
+		sbuffer.append("<jasperPrint name=\"");
+		sbuffer.append(jasperPrint.getName());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" pageWidth=\"");
-		this.sbuffer.append(jasperPrint.getPageWidth());
-		this.sbuffer.append("\"");
+		sbuffer.append(" pageWidth=\"");
+		sbuffer.append(jasperPrint.getPageWidth());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" pageHeight=\"");
-		this.sbuffer.append(jasperPrint.getPageHeight());
-		this.sbuffer.append("\"");
+		sbuffer.append(" pageHeight=\"");
+		sbuffer.append(jasperPrint.getPageHeight());
+		sbuffer.append("\"");
 
 		if (jasperPrint.getOrientation() != JRReport.ORIENTATION_PORTRAIT)
 		{
-			this.sbuffer.append(" orientation=\"");
-			this.sbuffer.append((String)JRXmlConstants.getOrientationMap().get(new Byte(jasperPrint.getOrientation())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" orientation=\"");
+			sbuffer.append((String)JRXmlConstants.getOrientationMap().get(new Byte(jasperPrint.getOrientation())));
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(">\n");
+		sbuffer.append(">\n");
 		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{
 			for(int i = 0; i < fonts.length; i++)
 			{
-				this.fontsMap.put(fonts[i].getName(), fonts[i]);
-				this.exportReportFont(fonts[i]);
+				fontsMap.put(fonts[i].getName(), fonts[i]);
+				exportReportFont(fonts[i]);
 			}
 		}
 
-		Collection pages = jasperPrint.getPages();
+		List pages = jasperPrint.getPages();
 		if (pages != null && pages.size() > 0)
 		{
 			JRPrintPage page = null;
-			for(Iterator it = pages.iterator(); it.hasNext();)
+			for(int i = startPageIndex; i <= endPageIndex; i++)
 			{
 				if (Thread.currentThread().isInterrupted())
 				{
 					throw new JRException("Current thread interrupted.");
 				}
 				
-				page = (JRPrintPage)it.next();
+				page = (JRPrintPage)pages.get(i);
 	
 				/*   */
-				this.exportPage(page);
+				exportPage(page);
 			}
 		}
 
-		this.sbuffer.append("</jasperPrint>\n");
+		sbuffer.append("</jasperPrint>\n");
 
 		return sbuffer;
 	}
@@ -395,53 +355,53 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportReportFont(JRReportFont font)
 	{
-		this.sbuffer.append("\t<reportFont");
+		sbuffer.append("\t<reportFont");
 
-		this.sbuffer.append(" name=\"");
-		this.sbuffer.append(font.getName());
-		this.sbuffer.append("\"");
+		sbuffer.append(" name=\"");
+		sbuffer.append(font.getName());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isDefault=\"");
-		this.sbuffer.append(font.isDefault());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isDefault=\"");
+		sbuffer.append(font.isDefault());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" fontName=\"");
-		this.sbuffer.append(font.getFontName());
-		this.sbuffer.append("\"");
+		sbuffer.append(" fontName=\"");
+		sbuffer.append(font.getFontName());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" size=\"");
-		this.sbuffer.append(font.getSize());
-		this.sbuffer.append("\"");
+		sbuffer.append(" size=\"");
+		sbuffer.append(font.getSize());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isBold=\"");
-		this.sbuffer.append(font.isBold());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isBold=\"");
+		sbuffer.append(font.isBold());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isItalic=\"");
-		this.sbuffer.append(font.isItalic());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isItalic=\"");
+		sbuffer.append(font.isItalic());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isUnderline=\"");
-		this.sbuffer.append(font.isUnderline());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isUnderline=\"");
+		sbuffer.append(font.isUnderline());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isStrikeThrough=\"");
-		this.sbuffer.append(font.isStrikeThrough());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isStrikeThrough=\"");
+		sbuffer.append(font.isStrikeThrough());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" pdfFontName=\"");
-		this.sbuffer.append(font.getPdfFontName());
-		this.sbuffer.append("\"");
+		sbuffer.append(" pdfFontName=\"");
+		sbuffer.append(font.getPdfFontName());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" pdfEncoding=\"");
-		this.sbuffer.append(font.getPdfEncoding());
-		this.sbuffer.append("\"");
+		sbuffer.append(" pdfEncoding=\"");
+		sbuffer.append(font.getPdfEncoding());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" isPdfEmbedded=\"");
-		this.sbuffer.append(font.isPdfEmbedded());
-		this.sbuffer.append("\"");
+		sbuffer.append(" isPdfEmbedded=\"");
+		sbuffer.append(font.isPdfEmbedded());
+		sbuffer.append("\"");
 
-		this.sbuffer.append("/>\n");
+		sbuffer.append("/>\n");
 	}
 
 
@@ -450,7 +410,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportPage(JRPrintPage page) throws JRException
 	{
-		this.sbuffer.append("\t<page>\n");
+		sbuffer.append("\t<page>\n");
 
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
@@ -462,28 +422,28 @@ public class JRXmlExporter extends JRAbstractExporter
 				
 				if (element instanceof JRPrintLine)
 				{
-					this.exportLine((JRPrintLine)element);
+					exportLine((JRPrintLine)element);
 				}
 				else if (element instanceof JRPrintRectangle)
 				{
-					this.exportRectangle((JRPrintRectangle)element);
+					exportRectangle((JRPrintRectangle)element);
 				}
 				else if (element instanceof JRPrintEllipse)
 				{
-					this.exportEllipse((JRPrintEllipse)element);
+					exportEllipse((JRPrintEllipse)element);
 				}
 				else if (element instanceof JRPrintImage)
 				{
-					this.exportImage((JRPrintImage)element);
+					exportImage((JRPrintImage)element);
 				}
 				else if (element instanceof JRPrintText)
 				{
-					this.exportText((JRPrintText)element);
+					exportText((JRPrintText)element);
 				}
 			}
 		}
 
-		this.sbuffer.append("\t</page>\n");
+		sbuffer.append("\t</page>\n");
 	}
 	
 	
@@ -492,21 +452,21 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportLine(JRPrintLine line)
 	{
-		this.sbuffer.append("\t\t<line");
+		sbuffer.append("\t\t<line");
 
 		if (line.getDirection() != JRLine.DIRECTION_TOP_DOWN)
 		{
-			this.sbuffer.append(" direction=\"");
-			this.sbuffer.append((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" direction=\"");
+			sbuffer.append((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(">\n");
+		sbuffer.append(">\n");
 
-		this.exportReportElement(line);
-		this.exportGraphicElement(line);
+		exportReportElement(line);
+		exportGraphicElement(line);
 		
-		this.sbuffer.append("\t\t</line>\n");
+		sbuffer.append("\t\t</line>\n");
 	}
 
 
@@ -515,7 +475,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportReportElement(JRPrintElement element)
 	{
-		this.sbuffer.append("\t\t\t<reportElement");
+		sbuffer.append("\t\t\t<reportElement");
 
 		if (
 			(element instanceof JRPrintLine && element.getMode() != JRElement.MODE_OPAQUE) ||
@@ -525,46 +485,46 @@ public class JRXmlExporter extends JRAbstractExporter
 			(element instanceof JRPrintText && element.getMode() != JRElement.MODE_TRANSPARENT)
 			)
 		{
-			this.sbuffer.append(" mode=\"");
-			this.sbuffer.append((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" mode=\"");
+			sbuffer.append((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(" x=\"");
-		this.sbuffer.append(element.getX());
-		this.sbuffer.append("\"");
+		sbuffer.append(" x=\"");
+		sbuffer.append(element.getX());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" y=\"");
-		this.sbuffer.append(element.getY());
-		this.sbuffer.append("\"");
+		sbuffer.append(" y=\"");
+		sbuffer.append(element.getY());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" width=\"");
-		this.sbuffer.append(element.getWidth());
-		this.sbuffer.append("\"");
+		sbuffer.append(" width=\"");
+		sbuffer.append(element.getWidth());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" height=\"");
-		this.sbuffer.append(element.getHeight());
-		this.sbuffer.append("\"");
+		sbuffer.append(" height=\"");
+		sbuffer.append(element.getHeight());
+		sbuffer.append("\"");
 
 		if (element.getForecolor().getRGB() != Color.black.getRGB())
 		{
-			this.sbuffer.append(" forecolor=\"#");
+			sbuffer.append(" forecolor=\"#");
 			String hexa = Integer.toHexString(element.getForecolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
-			this.sbuffer.append(hexa);
-			this.sbuffer.append("\"");
+			sbuffer.append(hexa);
+			sbuffer.append("\"");
 		}
 
 		if (element.getBackcolor().getRGB() != Color.white.getRGB())
 		{
-			this.sbuffer.append(" backcolor=\"#");
+			sbuffer.append(" backcolor=\"#");
 			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
-			this.sbuffer.append(hexa);
-			this.sbuffer.append("\"");
+			sbuffer.append(hexa);
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append("/>\n");
+		sbuffer.append("/>\n");
 	}
 
 
@@ -573,7 +533,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportGraphicElement(JRPrintGraphicElement element)
 	{
-		this.sbuffer.append("\t\t\t<graphicElement");
+		sbuffer.append("\t\t\t<graphicElement");
 
 		if (
 			(element instanceof JRPrintLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
@@ -582,19 +542,19 @@ public class JRXmlExporter extends JRAbstractExporter
 			(element instanceof JRPrintImage && element.getPen() != JRGraphicElement.PEN_NONE)
 			)
 		{
-			this.sbuffer.append(" pen=\"");
-			this.sbuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" pen=\"");
+			sbuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
+			sbuffer.append("\"");
 		}
 
 		if (element.getFill() != JRGraphicElement.FILL_SOLID)
 		{
-			this.sbuffer.append(" fill=\"");
-			this.sbuffer.append((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" fill=\"");
+			sbuffer.append((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append("/>\n");
+		sbuffer.append("/>\n");
 	}
 
 
@@ -603,21 +563,21 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportRectangle(JRPrintRectangle rectangle)
 	{
-		this.sbuffer.append("\t\t<rectangle");
+		sbuffer.append("\t\t<rectangle");
 
 		if (rectangle.getRadius() != 0)
 		{
-			this.sbuffer.append(" radius=\"");
-			this.sbuffer.append(rectangle.getRadius());
-			this.sbuffer.append("\"");
+			sbuffer.append(" radius=\"");
+			sbuffer.append(rectangle.getRadius());
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(">\n");
+		sbuffer.append(">\n");
 
-		this.exportReportElement(rectangle);
-		this.exportGraphicElement(rectangle);
+		exportReportElement(rectangle);
+		exportGraphicElement(rectangle);
 		
-		this.sbuffer.append("\t\t</rectangle>\n");
+		sbuffer.append("\t\t</rectangle>\n");
 	}
 
 
@@ -626,12 +586,12 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportEllipse(JRPrintEllipse ellipse)
 	{
-		this.sbuffer.append("\t\t\t<ellipse>\n");
+		sbuffer.append("\t\t\t<ellipse>\n");
 
-		this.exportReportElement(ellipse);
-		this.exportGraphicElement(ellipse);
+		exportReportElement(ellipse);
+		exportGraphicElement(ellipse);
 		
-		this.sbuffer.append("\t\t</ellipse>\n");
+		sbuffer.append("\t\t</ellipse>\n");
 	}
 
 
@@ -640,83 +600,83 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportImage(JRPrintImage image) throws JRException
 	{
-		this.sbuffer.append("\t\t<image");
+		sbuffer.append("\t\t<image");
 
 		if (image.getScaleImage() != JRImage.SCALE_IMAGE_RETAIN_SHAPE)
 		{
-			this.sbuffer.append(" scaleImage=\"");
-			this.sbuffer.append((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" scaleImage=\"");
+			sbuffer.append((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
+			sbuffer.append("\"");
 		}
 		
 		if (image.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			this.sbuffer.append(" hAlign=\"");
-			this.sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" hAlign=\"");
+			sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
+			sbuffer.append("\"");
 		}
 		
 		if (image.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
-			this.sbuffer.append(" vAlign=\"");
-			this.sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" vAlign=\"");
+			sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
+			sbuffer.append("\"");
 		}
 		
 		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			this.sbuffer.append(" hyperlinkType=\"");
-			this.sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkType=\"");
+			sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
+			sbuffer.append("\"");
 		}
 
 		if (image.getAnchorName() != null)
 		{
-			this.sbuffer.append(" anchorName=\"");
-			this.sbuffer.append(image.getAnchorName());
-			this.sbuffer.append("\"");
+			sbuffer.append(" anchorName=\"");
+			sbuffer.append(image.getAnchorName());
+			sbuffer.append("\"");
 		}
 				
 		if (image.getHyperlinkReference() != null)
 		{
-			this.sbuffer.append(" hyperlinkReference=\"");
-			this.sbuffer.append(image.getHyperlinkReference());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkReference=\"");
+			sbuffer.append(image.getHyperlinkReference());
+			sbuffer.append("\"");
 		}
 
 		if (image.getHyperlinkAnchor() != null)
 		{
-			this.sbuffer.append(" hyperlinkAnchor=\"");
-			this.sbuffer.append(image.getHyperlinkAnchor());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkAnchor=\"");
+			sbuffer.append(image.getHyperlinkAnchor());
+			sbuffer.append("\"");
 		}
 
 		if (image.getHyperlinkPage() != null)
 		{
-			this.sbuffer.append(" hyperlinkPage=\"");
-			this.sbuffer.append(image.getHyperlinkPage());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkPage=\"");
+			sbuffer.append(image.getHyperlinkPage());
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(">\n");
+		sbuffer.append(">\n");
 
 
-		this.exportReportElement(image);
-		this.exportGraphicElement(image);
+		exportReportElement(image);
+		exportGraphicElement(image);
 		
 
 		if (image.getImageData() != null)
 		{
-			this.sbuffer.append("\t\t\t<imageSource");
+			sbuffer.append("\t\t\t<imageSource");
 	
 			if (isEmbeddingImages)
 			{
-				this.sbuffer.append(" isEmbedded=\"");
-				this.sbuffer.append(isEmbeddingImages);
-				this.sbuffer.append("\"");
+				sbuffer.append(" isEmbedded=\"");
+				sbuffer.append(isEmbeddingImages);
+				sbuffer.append("\"");
 			}
 	
-			this.sbuffer.append("><![CDATA[");
+			sbuffer.append("><![CDATA[");
 	
 			String imageSource = "";
 			
@@ -740,20 +700,20 @@ public class JRXmlExporter extends JRAbstractExporter
 			else
 			{
 				byte[] imageData = image.getImageData();
-				if (this.loadedImagesMap.containsKey(imageData))
+				if (loadedImagesMap.containsKey(imageData))
 				{
 					imageSource = 
 						(
 						new File(
 							new File(imagesDir.getName()), 
-							(String)this.loadedImagesMap.get(imageData)
+							(String)loadedImagesMap.get(imageData)
 							)
 						).getPath();
 				}
 				else
 				{
-					imageSource = "img_" + String.valueOf(this.loadedImagesMap.size());
-					this.loadedImagesMap.put(imageData, imageSource);
+					imageSource = "img_" + String.valueOf(loadedImagesMap.size());
+					loadedImagesMap.put(imageData, imageSource);
 	
 					imageSource = 
 						(
@@ -765,12 +725,12 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 			}
 			
-			this.sbuffer.append(imageSource);
+			sbuffer.append(imageSource);
 	
-			this.sbuffer.append("]]></imageSource>\n");
+			sbuffer.append("]]></imageSource>\n");
 		}
 		
-		this.sbuffer.append("\t\t</image>\n");
+		sbuffer.append("\t\t</image>\n");
 	}
 
 
@@ -779,94 +739,94 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private void exportText(JRPrintText text)
 	{
-		this.sbuffer.append("\t\t<text");
+		sbuffer.append("\t\t<text");
 
 		if (text.getTextAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			this.sbuffer.append(" textAlignment=\"");
-			this.sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getTextAlignment())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" textAlignment=\"");
+			sbuffer.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getTextAlignment())));
+			sbuffer.append("\"");
 		}
 
 		if (text.getVerticalAlignment() != JRTextElement.VERTICAL_ALIGN_TOP)
 		{
-			this.sbuffer.append(" verticalAlignment=\"");
-			this.sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(text.getVerticalAlignment())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" verticalAlignment=\"");
+			sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(text.getVerticalAlignment())));
+			sbuffer.append("\"");
 
-			this.sbuffer.append(" textHeight=\"");
-			this.sbuffer.append(text.getTextHeight());
-			this.sbuffer.append("\"");
+			sbuffer.append(" textHeight=\"");
+			sbuffer.append(text.getTextHeight());
+			sbuffer.append("\"");
 		}
 
 		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
-			this.sbuffer.append(" lineSpacing=\"");
-			this.sbuffer.append((String)JRXmlConstants.getLineSpacingMap().get(new Byte(text.getLineSpacing())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" lineSpacing=\"");
+			sbuffer.append((String)JRXmlConstants.getLineSpacingMap().get(new Byte(text.getLineSpacing())));
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(" absoluteLineSpacing=\"");
-		this.sbuffer.append(text.getAbsoluteLineSpacing());
-		this.sbuffer.append("\"");
+		sbuffer.append(" absoluteLineSpacing=\"");
+		sbuffer.append(text.getAbsoluteLineSpacing());
+		sbuffer.append("\"");
 
-		this.sbuffer.append(" absoluteLeading=\"");
-		this.sbuffer.append(text.getAbsoluteLeading());
-		this.sbuffer.append("\"");
+		sbuffer.append(" absoluteLeading=\"");
+		sbuffer.append(text.getAbsoluteLeading());
+		sbuffer.append("\"");
 
 		if (text.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			this.sbuffer.append(" hyperlinkType=\"");
-			this.sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(text.getHyperlinkType())));
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkType=\"");
+			sbuffer.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(text.getHyperlinkType())));
+			sbuffer.append("\"");
 		}
 
 		if (text.getAnchorName() != null)
 		{
-			this.sbuffer.append(" anchorName=\"");
-			this.sbuffer.append(text.getAnchorName());
-			this.sbuffer.append("\"");
+			sbuffer.append(" anchorName=\"");
+			sbuffer.append(text.getAnchorName());
+			sbuffer.append("\"");
 		}
 				
 		if (text.getHyperlinkReference() != null)
 		{
-			this.sbuffer.append(" hyperlinkReference=\"");
-			this.sbuffer.append(text.getHyperlinkReference());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkReference=\"");
+			sbuffer.append(text.getHyperlinkReference());
+			sbuffer.append("\"");
 		}
 
 		if (text.getHyperlinkAnchor() != null)
 		{
-			this.sbuffer.append(" hyperlinkAnchor=\"");
-			this.sbuffer.append(text.getHyperlinkAnchor());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkAnchor=\"");
+			sbuffer.append(text.getHyperlinkAnchor());
+			sbuffer.append("\"");
 		}
 
 		if (text.getHyperlinkPage() != null)
 		{
-			this.sbuffer.append(" hyperlinkPage=\"");
-			this.sbuffer.append(text.getHyperlinkPage());
-			this.sbuffer.append("\"");
+			sbuffer.append(" hyperlinkPage=\"");
+			sbuffer.append(text.getHyperlinkPage());
+			sbuffer.append("\"");
 		}
 
-		this.sbuffer.append(">\n");
+		sbuffer.append(">\n");
 
-		this.exportReportElement(text);
+		exportReportElement(text);
 
-		String font = this.exportFont(text.getFont());
+		String font = exportFont(text.getFont());
 		if (font != null)
 		{
-			this.sbuffer.append("\t\t\t" + font + "\n");
+			sbuffer.append("\t\t\t" + font + "\n");
 		}
 
 		if (text.getText() != null)
 		{
-			this.sbuffer.append("\t\t\t<textContent><![CDATA[");
-			this.sbuffer.append(text.getText());
-			this.sbuffer.append("]]></textContent>\n");
+			sbuffer.append("\t\t\t<textContent><![CDATA[");
+			sbuffer.append(text.getText());
+			sbuffer.append("]]></textContent>\n");
 		}
 
-		this.sbuffer.append("\t\t</text>\n");
+		sbuffer.append("\t\t</text>\n");
 	}
 
 
@@ -884,7 +844,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			if(font.getReportFont() != null)
 			{
 				JRFont baseFont = 
-					(JRFont)this.fontsMap.get(
+					(JRFont)fontsMap.get(
 						font.getReportFont().getName()
 						);
 				if(baseFont != null)

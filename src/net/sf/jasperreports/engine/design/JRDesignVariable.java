@@ -100,9 +100,18 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	public void setValueClass(Class valueClass)
+	public void setValueClass(Class clazz)
 	{
-		this.valueClass = valueClass;
+		setValueClassName(clazz.getName());
+	}
+		
+	/**
+	 *
+	 */
+	public void setValueClassName(String className)
+	{
+		valueClassName = className;
+		valueClass = null;
 	}
 		
 	/**

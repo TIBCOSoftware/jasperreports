@@ -143,6 +143,14 @@ public class JRFillVariable implements JRVariable
 	/**
 	 *
 	 */
+	public String getValueClassName()
+	{
+		return this.parent.getValueClassName();
+	}
+		
+	/**
+	 *
+	 */
 	public JRExpression getExpression()
 	{
 		return this.parent.getExpression();

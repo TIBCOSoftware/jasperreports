@@ -75,7 +75,6 @@ import org.xml.sax.Attributes;
 
 import dori.jasper.engine.design.JRDesignGroup;
 import dori.jasper.engine.design.JRDesignVariable;
-import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -90,21 +89,13 @@ public class JRVariableFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		JRDesignVariable variable = new JRDesignVariable();
 		
 		variable.setName(atts.getValue("name"));
 
-		try
+		if (atts.getValue("class") != null)
 		{
-			if (atts.getValue("class") != null)
-			{
-				variable.setValueClass(JRClassLoader.loadClassForName(atts.getValue("class")));
-			}
-		}
-		catch (ClassNotFoundException e)
-		{
-			xmlLoader.addError(e);
+			variable.setValueClassName(atts.getValue("class"));
 		}
 
 		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue("resetType"));
