@@ -25,6 +25,7 @@
 		<echo message=" Ant Compile Sample"/>
 		<echo message="==================================="/>
 		<ant dir="antcompile" target="clean" />
+		<ant dir="antcompile" target="javac" />
 		<ant dir="antcompile" target="compile1" />
 
 		<echo message=""/>
