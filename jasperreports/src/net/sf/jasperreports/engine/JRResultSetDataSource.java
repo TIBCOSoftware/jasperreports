@@ -217,36 +217,28 @@ public class JRResultSetDataSource implements JRDataSource
 					else
 					{
 						InputStream is = (InputStream)objValue;
-						if (is.available() > 0)
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						byte[] bytes = new byte[1000];
+						int ln = 0;
+						try
 						{
-							ByteArrayOutputStream baos = 
-								new ByteArrayOutputStream(is.available());
-							byte[] bytes = new byte[4096];
-							int ln = 0;
+							while ((ln = is.read(bytes)) > 0)
+							{
+								baos.write(bytes, 0, ln);
+							}
+							baos.flush();
+						}
+						finally
+						{
 							try
 							{
-								while ((ln = is.read(bytes)) > 0)
-								{
-									baos.write(bytes, 0, ln);
-								}
-								baos.flush();
+								baos.close();
 							}
-							finally
+							catch(IOException e)
 							{
-								try
-								{
-									baos.close();
-								}
-								catch(IOException e)
-								{
-								}
 							}
-							objValue = new ByteArrayInputStream(baos.toByteArray());
 						}
-						else
-						{
-							objValue = new ByteArrayInputStream(new byte[0]);
-						}
+						objValue = new ByteArrayInputStream(baos.toByteArray());
 					}					
 				}
 				else if (clazz.equals(java.lang.Long.class))
