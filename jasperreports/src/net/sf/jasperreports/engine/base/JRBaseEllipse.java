@@ -85,7 +85,7 @@ public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 
 	/**

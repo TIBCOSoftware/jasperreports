@@ -90,7 +90,7 @@ public class JRBaseParameter implements JRParameter, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 	/**
 	 *

@@ -87,7 +87,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 602;
+	private static final long serialVersionUID = 603;
 
 	/**
 	 *
