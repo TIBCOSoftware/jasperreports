@@ -69,17 +69,17 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.base;
+package net.sf.jasperreports.engine.base;
 
 import java.awt.font.TextAttribute;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import dori.jasper.engine.JRDefaultFontProvider;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.JRDefaultFontProvider;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 
 
 /**

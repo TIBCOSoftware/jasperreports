@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.design;
+package net.sf.jasperreports.engine.design;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,26 +80,26 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import dori.jasper.engine.JRAnchor;
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRExpressionChunk;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRQueryChunk;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRSubreport;
-import dori.jasper.engine.JRSubreportParameter;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRTextField;
-import dori.jasper.engine.JRVariable;
+import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRQueryChunk;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
@@ -1094,9 +1094,9 @@ public class JRVerifier
 				{
 					brokenRules.add("Class not set for subreport data source expression.");
 				}
-				else if (!dori.jasper.engine.JRDataSource.class.isAssignableFrom(clazz))
+				else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
 				{
-					brokenRules.add("Class " + clazz + " not supported for subreport data source expression. Use dori.jasper.engine.JRDataSource instead.");
+					brokenRules.add("Class " + clazz + " not supported for subreport data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.");
 				}
 			}
 		}
@@ -1211,7 +1211,7 @@ public class JRVerifier
 				java.net.URL.class.getName(),
 				java.io.InputStream.class.getName(),
 				java.awt.Image.class.getName(),
-				dori.jasper.engine.JRRenderable.class.getName()
+				net.sf.jasperreports.engine.JRRenderable.class.getName()
 			};
 
 			Arrays.sort(imageClassNames);
@@ -1234,7 +1234,7 @@ public class JRVerifier
 				java.io.File.class.getName(),
 				java.net.URL.class.getName(),
 				java.io.InputStream.class.getName(),
-				dori.jasper.engine.JasperReport.class.getName()
+				net.sf.jasperreports.engine.JasperReport.class.getName()
 			};
 
 			Arrays.sort(subreportClassNames);

@@ -69,21 +69,21 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.base;
+package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRVariable;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**

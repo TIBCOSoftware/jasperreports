@@ -74,9 +74,9 @@
  * Contributors:
  * Mirko Wawrowsky - mawawrosky@users.sourceforge.net
  */
-package dori.jasper.engine.export;
+package net.sf.jasperreports.engine.export;
 
-import dori.jasper.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**

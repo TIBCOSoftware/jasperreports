@@ -69,11 +69,11 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.design;
+package net.sf.jasperreports.engine.design;
 
-import dori.jasper.engine.JRDefaultFontProvider;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.JRDefaultFontProvider;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
 /**

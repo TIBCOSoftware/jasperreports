@@ -69,12 +69,12 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.base;
+package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRSubreportParameter;
 
 
 /**

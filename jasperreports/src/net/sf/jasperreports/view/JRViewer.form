@@ -34,7 +34,7 @@
         <Component class="javax.swing.JButton" name="btnSave">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/save.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/save.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Save"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -60,7 +60,7 @@
         <Component class="javax.swing.JButton" name="btnPrint">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/print.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/print.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Print"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -86,7 +86,7 @@
         <Component class="javax.swing.JButton" name="btnReload">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/reload.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/reload.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Reload"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -124,7 +124,7 @@
         <Component class="javax.swing.JButton" name="btnFirst">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/first.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/first.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="First Page"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -150,7 +150,7 @@
         <Component class="javax.swing.JButton" name="btnPrevious">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/previous.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/previous.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Previous Page"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -176,7 +176,7 @@
         <Component class="javax.swing.JButton" name="btnNext">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/next.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/next.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Next Page"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -202,7 +202,7 @@
         <Component class="javax.swing.JButton" name="btnLast">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/last.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/last.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Last Page"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -240,7 +240,7 @@
         <Component class="javax.swing.JToggleButton" name="btnActualSize">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/actualsize.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/actualsize.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Actual Size"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -266,7 +266,7 @@
         <Component class="javax.swing.JToggleButton" name="btnFitPage">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/fitpage.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/fitpage.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Fit Page"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -292,7 +292,7 @@
         <Component class="javax.swing.JToggleButton" name="btnFitWidth">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/fitwidth.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/fitwidth.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Fit Width"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -330,7 +330,7 @@
         <Component class="javax.swing.JButton" name="btnZoomIn">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/zoomin.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomin.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom In"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -356,7 +356,7 @@
         <Component class="javax.swing.JButton" name="btnZoomOut">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/zoomout.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomout.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom Out"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">

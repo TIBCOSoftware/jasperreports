@@ -74,7 +74,7 @@
  * Contributors:
  * S. Brett Sutton - bsutton@idatam.com.au
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

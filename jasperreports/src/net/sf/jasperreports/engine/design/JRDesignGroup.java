@@ -69,12 +69,12 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.design;
+package net.sf.jasperreports.engine.design;
 
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.base.JRBaseGroup;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.base.JRBaseGroup;
 
 
 /**

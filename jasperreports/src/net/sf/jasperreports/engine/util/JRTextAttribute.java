@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.util;
+package net.sf.jasperreports.engine.util;
 
 import java.text.AttributedCharacterIterator;
 

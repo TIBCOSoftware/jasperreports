@@ -69,18 +69,18 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import dori.jasper.engine.export.JRHtmlExporter;
-import dori.jasper.engine.export.JRPdfExporter;
-import dori.jasper.engine.export.JRXmlExporter;
-import dori.jasper.engine.export.JRXmlExporterParameter;
-import dori.jasper.engine.util.JRLoader;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**

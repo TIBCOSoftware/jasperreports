@@ -23,7 +23,7 @@
         <Component class="javax.swing.JButton" name="btnReload">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/reload.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/reload.GIF"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Reload"/>
             <Property name="toolTipText" type="java.lang.String" value="Reload Document"/>
@@ -65,7 +65,7 @@
         <Component class="javax.swing.JButton" name="btnZoomIn">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/zoomin.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomin.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom In"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -88,7 +88,7 @@
         <Component class="javax.swing.JButton" name="btnZoomOut">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
-              <Image iconType="3" name="/dori/jasper/view/images/zoomout.GIF"/>
+              <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomout.GIF"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Zoom Out"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">

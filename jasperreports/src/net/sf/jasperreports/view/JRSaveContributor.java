@@ -69,14 +69,14 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.view;
+package net.sf.jasperreports.view;
 
 import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JasperPrint;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

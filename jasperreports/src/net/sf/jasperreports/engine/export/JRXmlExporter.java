@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.export;
+package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
@@ -86,30 +86,30 @@ import java.util.Map;
 
 import org.w3c.tools.codec.Base64Encoder;
 
-import dori.jasper.engine.JRAbstractExporter;
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExporterParameter;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRGraphicElement;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRLine;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintEllipse;
-import dori.jasper.engine.JRPrintGraphicElement;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.JRPrintLine;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRPrintRectangle;
-import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JRRenderable;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRRuntimeException;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**

@@ -74,7 +74,7 @@
  * Contributors:
  * Artur Biesiadowski - abies@users.sourceforge.net 
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -91,14 +91,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.design.JRDesignElement;
-import dori.jasper.engine.design.JRDesignImage;
-import dori.jasper.engine.design.JRDesignTextField;
-import dori.jasper.engine.design.JRDesignVariable;
-import dori.jasper.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignImage;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.design;
+package net.sf.jasperreports.engine.design;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -79,25 +79,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import dori.jasper.engine.JRAbstractScriptlet;
-import dori.jasper.engine.JRAnchor;
-import dori.jasper.engine.JRBand;
-import dori.jasper.engine.JRDataSource;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRField;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRParameter;
-import dori.jasper.engine.JRQuery;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JRSubreport;
-import dori.jasper.engine.JRSubreportParameter;
-import dori.jasper.engine.JRTextField;
-import dori.jasper.engine.JRVariable;
-import dori.jasper.engine.base.JRBaseReport;
+import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.base.JRBaseReport;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.text.AttributedString;
 import java.text.DecimalFormat;
@@ -77,14 +77,14 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRGroup;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintText;
-import dori.jasper.engine.JRTextField;
-import dori.jasper.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**

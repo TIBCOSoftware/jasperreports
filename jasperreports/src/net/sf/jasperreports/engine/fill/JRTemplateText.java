@@ -69,14 +69,14 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRStaticText;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRTextField;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
 
 
 /**

@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -86,12 +86,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRFont;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintPage;
-import dori.jasper.engine.JRReportFont;
-import dori.jasper.engine.JasperPrint;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JasperPrint;
 
 
 /**

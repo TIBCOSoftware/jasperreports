@@ -69,7 +69,7 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -77,7 +77,7 @@ import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import dori.jasper.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**

@@ -69,20 +69,20 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 
-import dori.jasper.engine.design.JRDefaultCompiler;
-import dori.jasper.engine.design.JRVerifier;
-import dori.jasper.engine.design.JasperDesign;
-import dori.jasper.engine.util.JRLoader;
-import dori.jasper.engine.util.JRSaver;
-import dori.jasper.engine.xml.JRXmlLoader;
-import dori.jasper.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.design.JRDefaultCompiler;
+import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**

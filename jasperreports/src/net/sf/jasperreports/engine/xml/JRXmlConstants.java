@@ -69,23 +69,23 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import dori.jasper.engine.JRAlignment;
-import dori.jasper.engine.JRElement;
-import dori.jasper.engine.JRExpression;
-import dori.jasper.engine.JRExpressionChunk;
-import dori.jasper.engine.JRGraphicElement;
-import dori.jasper.engine.JRHyperlink;
-import dori.jasper.engine.JRImage;
-import dori.jasper.engine.JRLine;
-import dori.jasper.engine.JRReport;
-import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.JRVariable;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**

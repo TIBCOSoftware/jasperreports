@@ -75,13 +75,13 @@
  * Ryan Johnson - delscovich@users.sourceforge.net
  * Carlton Moore - cmoore79@users.sourceforge.net
  */
-package dori.jasper.view;
+package net.sf.jasperreports.view;
 
 import java.awt.BorderLayout;
 import java.io.InputStream;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JasperPrint;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 
 
 /**
@@ -203,7 +203,7 @@ public class JasperViewer extends javax.swing.JFrame
         pnlMain = new javax.swing.JPanel();
 
         setTitle("JasperViewer");
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/dori/jasper/view/images/jricon.GIF")).getImage());
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/jricon.GIF")).getImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);

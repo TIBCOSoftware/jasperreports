@@ -69,14 +69,14 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine;
+package net.sf.jasperreports.engine;
 
 import java.awt.Image;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import dori.jasper.engine.print.JRPrinterAWT;
-import dori.jasper.engine.util.JRLoader;
+import net.sf.jasperreports.engine.print.JRPrinterAWT;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**

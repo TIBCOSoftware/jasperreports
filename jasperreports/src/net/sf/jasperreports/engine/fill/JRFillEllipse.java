@@ -69,12 +69,12 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
-import dori.jasper.engine.JREllipse;
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRPrintElement;
-import dori.jasper.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 
 
 /**

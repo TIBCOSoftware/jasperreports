@@ -69,9 +69,9 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
-import dori.jasper.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 
 
 /**

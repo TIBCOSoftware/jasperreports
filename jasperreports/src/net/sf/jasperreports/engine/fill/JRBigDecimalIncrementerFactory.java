@@ -69,12 +69,12 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.math.BigDecimal;
 
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRVariable;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
