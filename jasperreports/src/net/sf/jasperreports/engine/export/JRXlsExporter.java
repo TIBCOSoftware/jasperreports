@@ -112,6 +112,7 @@ import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
+import dori.jasper.engine.base.JRBasePrintElement;
 import dori.jasper.engine.base.JRBasePrintPage;
 
 
@@ -294,15 +295,17 @@ public class JRXlsExporter extends JRAbstractExporter
 						sheet = workbook.createSheet("Page " + (i + 1));
 	
 						/*   */
-						exportPage(page);
+						exportPage(page, page);
 					}
 				}
 				else
 				{
 					pageHeight = jasperPrint.getPageHeight() * pages.size();
 
+					JRPrintPage alterYAllPages = new JRBasePrintPage();
 					JRPrintPage allPages = new JRBasePrintPage();
 					Collection elements = null;
+					JRPrintElement alterYElement = null;
 					JRPrintElement element = null;
 					for(int i = startPageIndex; i <= endPageIndex; i++)
 					{
@@ -319,8 +322,11 @@ public class JRXlsExporter extends JRAbstractExporter
 							for(Iterator it = elements.iterator(); it.hasNext();)
 							{
 								element = (JRPrintElement)it.next();
-								element.setY(element.getY() + jasperPrint.getPageHeight() * i);
 								allPages.addElement(element);
+								
+								alterYElement = new JRBasePrintElement();
+								alterYElement.setY(element.getY() + jasperPrint.getPageHeight() * i);
+								alterYAllPages.addElement(alterYElement);
 							}
 						}
 					}
@@ -328,7 +334,7 @@ public class JRXlsExporter extends JRAbstractExporter
 					sheet = workbook.createSheet("Sheet1");
 
 					/*   */
-					exportPage(allPages);
+					exportPage(alterYAllPages, allPages);
 				}
 			}
 
@@ -344,9 +350,9 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void exportPage(JRPrintPage page) throws JRException
+	private void exportPage(JRPrintPage alterYPage, JRPrintPage page) throws JRException
 	{
-		layoutGrid(page);
+		layoutGrid(alterYPage, page);
 
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
@@ -620,7 +626,7 @@ public class JRXlsExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void layoutGrid(JRPrintPage page)
+	private void layoutGrid(JRPrintPage alterYPage, JRPrintPage page)
 	{
 		xCuts = new ArrayList();
 		yCuts = new ArrayList();
@@ -633,12 +639,15 @@ public class JRXlsExporter extends JRAbstractExporter
 		Integer x = null;
 		Integer y = null;
 
+		JRPrintElement alterYElement = null;
 		JRPrintElement element = null;
 
+		List alterYElems = alterYPage.getElements();
 		List elems = page.getElements();
-		for(Iterator it = elems.iterator(); it.hasNext();)
+		for(int i = 0; i < elems.size(); i++)
 		{
-			element = ((JRPrintElement)it.next());
+			alterYElement = (JRPrintElement)alterYElems.get(i);
+			element = (JRPrintElement)elems.get(i);
 
 			if (!(element instanceof JRPrintImage))
 			{
@@ -652,12 +661,12 @@ public class JRXlsExporter extends JRAbstractExporter
 				{
 					xCuts.add(x);
 				}
-				y = new Integer(element.getY());
+				y = new Integer(alterYElement.getY());
 				if (!yCuts.contains(y))
 				{
 					yCuts.add(y);
 				}
-				y = new Integer(element.getY() + element.getHeight());
+				y = new Integer(alterYElement.getY() + element.getHeight());
 				if (!yCuts.contains(y))
 				{
 					yCuts.add(y);
@@ -699,14 +708,15 @@ public class JRXlsExporter extends JRAbstractExporter
 
 		for(int i = elems.size() - 1; i >= 0; i--)
 		{
-			element = ((JRPrintElement)elems.get(i));
+			alterYElement = (JRPrintElement)alterYElems.get(i);
+			element = (JRPrintElement)elems.get(i);
 			
 			if (!(element instanceof JRPrintImage))
 			{
 				x1 = xCuts.indexOf(new Integer(element.getX()));
-				y1 = yCuts.indexOf(new Integer(element.getY()));
+				y1 = yCuts.indexOf(new Integer(alterYElement.getY()));
 				x2 = xCuts.indexOf(new Integer(element.getX() + element.getWidth()));
-				y2 = yCuts.indexOf(new Integer(element.getY() + element.getHeight()));
+				y2 = yCuts.indexOf(new Integer(alterYElement.getY() + element.getHeight()));
 
 				isOverlap = false;
 				yi = y1;
