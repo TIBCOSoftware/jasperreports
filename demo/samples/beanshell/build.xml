@@ -84,17 +84,6 @@
 	</target>
 
 	<!--
-		Sends the report in the .jrprint file to the printer.
-	-->
-	<target name="print">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tprint"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
 		Generates a PDF version of the report 
 		by converting the .jrprint file.
 	-->
@@ -102,78 +91,6 @@
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
 			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xml">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Txml"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xmlEmbed">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TxmlEmbed"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an HTML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="html">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Thtml"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates an XLS version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xls">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Txls"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates a CSV version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="csv">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcsv"/>
-			<arg value="-F./build/reports/${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Generates a PDF file by filling the .jasper report design.
-		No intermediate .jrprint file is produced.
-	-->
-	<target name="run">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Trun"/>
-			<arg value="-F./build/reports/${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

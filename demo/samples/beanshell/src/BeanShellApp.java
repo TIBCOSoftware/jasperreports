@@ -31,16 +31,8 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -55,14 +47,7 @@ public class BeanShellApp
 	 *
 	 */
 	private static final String TASK_FILL = "fill";
-	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
-	private static final String TASK_XML = "xml";
-	private static final String TASK_XML_EMBED = "xmlEmbed";
-	private static final String TASK_HTML = "html";
-	private static final String TASK_XLS = "xls";
-	private static final String TASK_CSV = "csv";
-	private static final String TASK_RUN = "run";
 	
 	
 	/**
@@ -99,77 +84,10 @@ public class BeanShellApp
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
-			else if (TASK_PRINT.equals(taskName))
-			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_XML.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, false);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_XML_EMBED.equals(taskName))
-			{
-				JasperExportManager.exportReportToXmlFile(fileName, true);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_HTML.equals(taskName))
-			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_XLS.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
-				
-				JRXlsExporter exporter = new JRXlsExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-				
-				exporter.exportReport();
-
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_CSV.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
-				
-				JRCsvExporter exporter = new JRCsvExporter();
-				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-				exporter.exportReport();
-
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_RUN.equals(taskName))
-			{
-				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource());
-				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else
@@ -198,7 +116,7 @@ public class BeanShellApp
 	{
 		System.out.println( "BeanShellApp usage:" );
 		System.out.println( "\tjava BeanShellApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | pdf" );
 	}
 
 
