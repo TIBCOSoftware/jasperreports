@@ -82,6 +82,7 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
@@ -281,6 +282,28 @@ public class JRXmlConstants
 		}
 		
 		return rotationMap;
+	}
+
+	/**
+	 *
+	 */
+	private static final String RUN_DIRECTION_LTR = "LTR";
+	private static final String RUN_DIRECTION_RTL = "RTL";
+
+	private static Map runDirectionMap = null;
+
+	public static Map getRunDirectionMap()
+	{
+		if (runDirectionMap == null)
+		{
+			runDirectionMap = new HashMap(4);
+			runDirectionMap.put(RUN_DIRECTION_LTR, new Byte(JRPrintText.RUN_DIRECTION_LTR));
+			runDirectionMap.put(RUN_DIRECTION_RTL, new Byte(JRPrintText.RUN_DIRECTION_RTL));
+			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), RUN_DIRECTION_LTR);
+			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), RUN_DIRECTION_RTL);
+		}
+		
+		return runDirectionMap;
 	}
 
 	/**

@@ -607,6 +607,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			text.setHeight(getHeight());
 		}
+		text.setRunDirection(getRunDirection());
 
 		switch (getEvaluationTime())
 		{
@@ -650,6 +651,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
+		//FIXME rotation and run direction?
 
 		text.setText(textChopper.chop(this, getTextStart(), getTextEnd()));
 

@@ -31,8 +31,8 @@
 	-->
 	<target name="compile">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="compile"/>
+			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -44,8 +44,8 @@
 	<target name="compileBsh">
 		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jrxml"/>
+			<arg value="compile"/>
+			<arg value="${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -54,34 +54,10 @@
 		Fills the compiled report design with data 
 		and produces the .jrprint file.
 	-->
-	<target name="fillEN">
+	<target name="fill">
 		<java classname="${class.name}" fork="true">
-			<arg value="-TfillEN"/>
-			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fillFR">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TfillFR"/>
-			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fillDE">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TfillDE"/>
-			<arg value="-F${file.name}.jasper"/>
+			<arg value="fill"/>
+			<arg value="${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -90,34 +66,10 @@
 		Launches the report viewer to preview the report 
 		stored in the .jrprint file.
 	-->
-	<target name="viewEN">
+	<target name="view">
 		<java classname="${class.name}" fork="true">
-			<arg value="-TviewEN"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="viewFR">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TviewFR"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="viewDE">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TviewDE"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="view"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -128,8 +80,32 @@
 	-->
 	<target name="pdf">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="pdf"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xml">
+		<java classname="${class.name}" fork="true">
+			<arg value="xml"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Generates an XML version of the report 
+		by converting the .jrprint file.
+	-->
+	<target name="xmlEmbed">
+		<java classname="${class.name}" fork="true">
+			<arg value="xmlEmbed"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -140,8 +116,8 @@
 	-->
 	<target name="html">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="html"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -152,8 +128,8 @@
 	-->
 	<target name="xls">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Txls"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="xls"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -164,8 +140,8 @@
 	-->
 	<target name="csv">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="csv"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

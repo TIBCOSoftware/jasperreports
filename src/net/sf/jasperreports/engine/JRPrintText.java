@@ -83,6 +83,13 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	/**
 	 *
 	 */
+	public static final byte RUN_DIRECTION_LTR = 0;
+	public static final byte RUN_DIRECTION_RTL = 1;
+
+	
+	/**
+	 *
+	 */
 	public String getText();
 		
 	/**
@@ -139,6 +146,16 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	 *
 	 */
 	public void setRotation(byte rotation);
+		
+	/**
+	 *
+	 */
+	public byte getRunDirection();
+		
+	/**
+	 *
+	 */
+	public void setRunDirection(byte rotation);
 		
 	/**
 	 *

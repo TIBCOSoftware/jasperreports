@@ -170,7 +170,9 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	}
 		
 	/**
-	 *
+	 * Sets the page height.
+	 * 
+	 * @param pageHeight page height
 	 */
 	public void setPageHeight(int pageHeight)
 	{

@@ -101,6 +101,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
 	protected byte rotation = JRTextElement.ROTATION_NONE;
+	protected byte runDirection = RUN_DIRECTION_LTR;
 	protected float textHeight = 0;
 	protected byte lineSpacing = JRTextElement.LINE_SPACING_SINGLE;
 	protected boolean isStyledText = false;
@@ -217,6 +218,22 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setRotation(byte rotation)
 	{
 		this.rotation = rotation;
+	}
+
+	/**
+	 *
+	 */
+	public byte getRunDirection()
+	{
+		return runDirection;
+	}
+		
+	/**
+	 *
+	 */
+	public void setRunDirection(byte runDirection)
+	{
+		this.runDirection = runDirection;
 	}
 
 	/**

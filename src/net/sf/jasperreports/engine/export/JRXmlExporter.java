@@ -788,6 +788,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
+		if (text.getRunDirection() != JRPrintText.RUN_DIRECTION_LTR)
+		{
+			sbuffer.append(" runDirection=\"");
+			sbuffer.append((String)JRXmlConstants.getRunDirectionMap().get(new Byte(text.getRunDirection())));
+			sbuffer.append("\"");
+		}
+
 		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
 			sbuffer.append(" lineSpacing=\"");

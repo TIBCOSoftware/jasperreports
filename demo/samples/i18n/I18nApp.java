@@ -76,6 +76,8 @@ import net.sf.jasperreports.view.*;
 import java.util.*;
 import java.io.*;
 
+import javax.swing.JOptionPane;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -89,13 +91,11 @@ public class I18nApp
 	 *
 	 */
 	private static final String TASK_COMPILE = "compile";
-	private static final String TASK_FILL_EN = "fillEN";
-	private static final String TASK_FILL_FR = "fillFR";
-	private static final String TASK_FILL_DE = "fillDE";
-	private static final String TASK_VIEW_EN = "viewEN";
-	private static final String TASK_VIEW_FR = "viewFR";
-	private static final String TASK_VIEW_DE = "viewDE";
+	private static final String TASK_FILL = "fill";
+	private static final String TASK_VIEW = "view";
 	private static final String TASK_PDF = "pdf";
+	private static final String TASK_XML = "xml";
+	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
@@ -106,85 +106,81 @@ public class I18nApp
 	 */
 	public static void main(String[] args)
 	{
-		String fileName = null;
-		String taskName = null;
-
-		if(args.length == 0)
+		if(args.length != 2)
 		{
 			usage();
 			return;
 		}
-				
-		int k = 0;
-		while ( args.length > k )
-		{
-			if ( args[k].startsWith("-T") )
-				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
-			
-			k++;	
-		}
+
+		String taskName = args[0];
+		String fileName = args[1];
 
 		try
 		{
-			long start = System.currentTimeMillis();
 			if (TASK_COMPILE.equals(taskName))
 			{
+				long start = System.currentTimeMillis();
 				JasperCompileManager.compileReportToFile(fileName);
 				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
-			else if (TASK_FILL_EN.equals(taskName))
+			else if (TASK_FILL.equals(taskName))
 			{
-				Locale.setDefault(Locale.US);
-				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+				Locale locale = chooseLocale();
+				if (locale != null)
+				{
+					Locale.setDefault(locale);
+					long start = System.currentTimeMillis();
+					JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
+					System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
-			else if (TASK_FILL_FR.equals(taskName))
+			else if (TASK_VIEW.equals(taskName))
 			{
-				Locale.setDefault(Locale.FRANCE);
-				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_FILL_DE.equals(taskName))
-			{
-				Locale.setDefault(Locale.GERMANY);
-				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
-			}
-			else if (TASK_VIEW_EN.equals(taskName))
-			{
-				Locale.setDefault(Locale.US);
-				JasperViewer.viewReport(fileName, false, true);
-			}
-			else if (TASK_VIEW_FR.equals(taskName))
-			{
-				Locale.setDefault(Locale.FRANCE);
-				JasperViewer.viewReport(fileName, false, true);
-			}
-			else if (TASK_VIEW_DE.equals(taskName))
-			{
-				Locale.setDefault(Locale.GERMANY);
-				JasperViewer.viewReport(fileName, false, true);
+				Locale locale = chooseLocale();
+				if (locale != null)
+				{
+					Locale.setDefault(locale);
+					JasperViewer.viewReport(fileName, false, true);
+				}
+				else
+				{
+					System.exit(0);
+				}
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
+				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_XML.equals(taskName))
+			{
+				long start = System.currentTimeMillis();
+				JasperExportManager.exportReportToXmlFile(fileName, false);
+				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_XML_EMBED.equals(taskName))
+			{
+				long start = System.currentTimeMillis();
+				JasperExportManager.exportReportToXmlFile(fileName, true);
+				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else if (TASK_HTML.equals(taskName))
 			{
+				long start = System.currentTimeMillis();
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
+				long start = System.currentTimeMillis();
+
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -204,6 +200,8 @@ public class I18nApp
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
+				long start = System.currentTimeMillis();
+
 				File sourceFile = new File(fileName);
 		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
@@ -242,11 +240,36 @@ public class I18nApp
 	/**
 	 *
 	 */
+	private static Locale chooseLocale()
+	{
+		Locale[] locales = 
+			new Locale[]
+		   {
+				Locale.US,
+				Locale.FRANCE
+		   };
+									  
+		return 
+			(Locale)JOptionPane.showInputDialog(
+				null,
+				"Choose the locale",
+				"Locale",
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				locales,
+				null
+				);
+	}
+
+
+	/**
+	 *
+	 */
 	private static void usage()
 	{
 		System.out.println( "I18nApp usage:" );
-		System.out.println( "\tjava I18nApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fillEN | fillFR | fillDE | viewEN | viewFR | viewDE | pdf | html | xls | csv" );
+		System.out.println( "\tjava I18nApp task file" );
+		System.out.println( "\tTasks : compile | fill | view | pdf | xml | xmlEmbed | html | xls | csv" );
 	}
 
 

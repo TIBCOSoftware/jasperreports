@@ -65,6 +65,7 @@
 	textAlignment (Left | Center | Right | Justified) "Left"
 	verticalAlignment (Top | Middle | Bottom) "Top"
 	rotation (None | Left | Right) "None"
+	runDirection (LTR | RTL) "LTR"
 	textHeight NMTOKEN "0"
 	lineSpacing (Single | 1_1_2 | Double) "Single"
 	isStyledText (true | false) "false"

@@ -1692,6 +1692,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			);
 
 		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+		colText.setRunDirection(
+			text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
+			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+			);
 
 		colText.go();
 
