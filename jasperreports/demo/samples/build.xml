@@ -31,23 +31,6 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
-		<echo message=" Chart Sample"/>
-		<echo message="==================================="/>
-		<ant dir="chart" target="clean" />
-		<ant dir="chart" target="javac" />
-		<ant dir="chart" target="compile" />
-		<ant dir="chart" target="fill" />
-		<ant dir="chart" target="compileBsh" />
-		<ant dir="chart" target="fill" />
-		<ant dir="chart" target="pdf" />
-		<ant dir="chart" target="xmlEmbed" />
-		<ant dir="chart" target="xml" />
-		<ant dir="chart" target="html" />
-		<ant dir="chart" target="xls" />
-		<ant dir="chart" target="csv" />
-
-		<echo message=""/>
-		<echo message="==================================="/>
 		<echo message=" Data Source Sample"/>
 		<echo message="==================================="/>
 		<ant dir="datasource" target="clean" />
@@ -171,6 +154,23 @@
 		<ant dir="jcharts" target="html" />
 		<ant dir="jcharts" target="xls" />
 		<ant dir="jcharts" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" JFreeChart Sample"/>
+		<echo message="==================================="/>
+		<ant dir="jfreechart" target="clean" />
+		<ant dir="jfreechart" target="javac" />
+		<ant dir="jfreechart" target="compile" />
+		<ant dir="jfreechart" target="fill" />
+		<ant dir="jfreechart" target="compileBsh" />
+		<ant dir="jfreechart" target="fill" />
+		<ant dir="jfreechart" target="pdf" />
+		<ant dir="jfreechart" target="xmlEmbed" />
+		<ant dir="jfreechart" target="xml" />
+		<ant dir="jfreechart" target="html" />
+		<ant dir="jfreechart" target="xls" />
+		<ant dir="jfreechart" target="csv" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -426,7 +426,6 @@
 	<target name="clean">
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
-		<ant dir="chart" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="horizontal" target="clean" />
@@ -434,6 +433,7 @@
 		<ant dir="images" target="clean" />
 		<ant dir="jasper" target="clean" />
 		<ant dir="jcharts" target="clean" />
+		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
 		<ant dir="nopagebreak" target="clean" />
 		<ant dir="noreport" target="clean" />
