@@ -362,20 +362,16 @@ public class JRVerifier
 			JRQueryChunk[] chunks = query.getChunks();
 			if (chunks != null && chunks.length > 0)
 			{
-				JRQueryChunk queryChunk = null;
-	
 				Map parametersMap = jasperDesign.getParametersMap();
 	
-				JRParameter parameter = null;
-				Class clazz = null;
 				for(int j = 0; j < chunks.length; j++)
 				{
-					queryChunk = chunks[j];
+					JRQueryChunk queryChunk = chunks[j];
 					switch (queryChunk.getType())
 					{
 						case JRQueryChunk.TYPE_PARAMETER :
 						{
-							parameter = (JRParameter)parametersMap.get(queryChunk.getText());
+							JRParameter parameter = (JRParameter)parametersMap.get(queryChunk.getText());
 							if ( parameter == null )
 							{
 								brokenRules.add("Query parameter not found : " + queryChunk.getText());
@@ -384,7 +380,7 @@ public class JRVerifier
 							{
 								if (Arrays.binarySearch(getQueryParameterClassNames(), parameter.getValueClassName()) < 0)
 								{
-									brokenRules.add("Parameter type not supported in query : " + queryChunk.getText() + " class " + clazz.getName());
+									brokenRules.add("Parameter type not supported in query : " + queryChunk.getText() + " class " + parameter.getValueClassName());
 								}
 							}
 	
@@ -414,18 +410,15 @@ public class JRVerifier
 			Map fieldsMap = jasperDesign.getFieldsMap();
 			Map variablesMap = jasperDesign.getVariablesMap();
 
-			JRExpression expression = null;
-			JRExpressionChunk[] chunks = null;
-			JRExpressionChunk expressionChunk = null;
 			for(Iterator it = expressions.iterator(); it.hasNext();)
 			{
-				expression = (JRExpression)it.next();
-				chunks = expression.getChunks();
+				JRExpression expression = (JRExpression)it.next();
+				JRExpressionChunk[] chunks = expression.getChunks();
 				if (chunks != null && chunks.length > 0)
 				{
 					for(int j = 0; j < chunks.length; j++)
 					{
-						expressionChunk = chunks[j];
+						JRExpressionChunk expressionChunk = chunks[j];
 						switch (expressionChunk.getType())
 						{
 							case JRExpressionChunk.TYPE_VARIABLE :
@@ -472,11 +465,9 @@ public class JRVerifier
 		JRReportFont[] fonts = jasperDesign.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{
-			JRReportFont font = null;
-
 			for(int index = 0; index < fonts.length; index++)
 			{
-				font = fonts[index];
+				JRReportFont font = fonts[index];
 				
 				if (font.getName() == null || font.getName().trim().length() == 0)
 				{
@@ -495,20 +486,16 @@ public class JRVerifier
 		JRParameter[] parameters = jasperDesign.getParameters();
 		if (parameters != null && parameters.length > 0)
 		{
-			JRParameter parameter = null;
-			JRExpression expression = null;
-			Class valueClass = null;
-
 			for(int index = 0; index < parameters.length; index++)
 			{
-				parameter = parameters[index];
+				JRParameter parameter = parameters[index];
 				
 				if (parameter.getName() == null || parameter.getName().trim().length() == 0)
 				{
 					brokenRules.add("Parameter name missing.");
 				}
 
-				valueClass = parameter.getValueClass();
+				Class valueClass = parameter.getValueClass();
 
 				if (valueClass == null)
 				{
@@ -516,7 +503,7 @@ public class JRVerifier
 				}
 				else
 				{
-					expression = parameter.getDefaultValueExpression();
+					JRExpression expression = parameter.getDefaultValueExpression();
 					if (expression != null)
 					{
 						if (
@@ -577,20 +564,16 @@ public class JRVerifier
 		JRVariable[] variables = jasperDesign.getVariables();
 		if (variables != null && variables.length > 0)
 		{
-			JRVariable variable = null;
-			JRExpression expression = null;
-			Class valueClass = null;
-
 			for(int index = 0; index < variables.length; index++)
 			{
-				variable = variables[index];
+				JRVariable variable = variables[index];
 				
 				if (variable.getName() == null || variable.getName().trim().length() == 0)
 				{
 					brokenRules.add("Variable name missing.");
 				}
 
-				valueClass = variable.getValueClass();
+				Class valueClass = variable.getValueClass();
 
 				if (valueClass == null)
 				{
@@ -598,7 +581,7 @@ public class JRVerifier
 				}
 				else
 				{
-					expression = variable.getExpression();
+					JRExpression expression = variable.getExpression();
 					if (expression != null)
 					{
 						if (
@@ -654,13 +637,9 @@ public class JRVerifier
 		JRGroup[] groups = jasperDesign.getGroups();
 		if (groups != null && groups.length > 0)
 		{
-			JRGroup group = null;
-			JRExpression expression = null;
-			Class clazz = null;
-
 			for(int index = 0; index < groups.length; index++)
 			{
-				group = groups[index];
+				JRGroup group = groups[index];
 
 				if (group.getName() == null || group.getName().trim().length() == 0)
 				{
@@ -730,11 +709,11 @@ public class JRVerifier
 					}
 				}
 				
-				expression = group.getExpression();
+				JRExpression expression = group.getExpression();
 				
 				if (expression != null)
 				{
-					clazz = expression.getValueClass();
+					Class clazz = expression.getValueClass();
 	
 					if (clazz == null)
 					{
@@ -760,11 +739,10 @@ public class JRVerifier
 			if (elements != null && elements.length > 0)
 			{
 				JRExpression expression = band.getPrintWhenExpression();
-				Class clazz = null;
 				
 				if (expression != null)
 				{
-					clazz = expression.getValueClass();
+					Class clazz = expression.getValueClass();
 	
 					if (clazz == null)
 					{
@@ -776,16 +754,15 @@ public class JRVerifier
 					}
 				}
 
-				JRElement element = null;
 				for(int index = 0; index < elements.length; index++)
 				{
-					element = elements[index];
+					JRElement element = elements[index];
 	
 					expression = element.getPrintWhenExpression();
 					
 					if (expression != null)
 					{
-						clazz = expression.getValueClass();
+						Class clazz = expression.getValueClass();
 		
 						if (clazz == null)
 						{
@@ -901,11 +878,10 @@ public class JRVerifier
 		if (anchor != null)
 		{
 			JRExpression expression = anchor.getAnchorNameExpression();
-			Class clazz = null;
 			
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -928,11 +904,10 @@ public class JRVerifier
 		if (hyperlink != null)
 		{
 			JRExpression expression = hyperlink.getHyperlinkReferenceExpression();
-			Class clazz = null;
 			
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -948,7 +923,7 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -964,7 +939,7 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -1016,7 +991,6 @@ public class JRVerifier
 		if (subreport != null)
 		{
 			JRExpression expression = subreport.getExpression();
-			Class clazz = null;
 			
 			if (expression != null)
 			{
@@ -1036,7 +1010,7 @@ public class JRVerifier
 
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -1064,7 +1038,7 @@ public class JRVerifier
 					
 					if (expression != null)
 					{
-						clazz = expression.getValueClass();
+						Class clazz = expression.getValueClass();
 		
 						if (clazz == null)
 						{
@@ -1086,7 +1060,7 @@ public class JRVerifier
 
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
@@ -1102,7 +1076,7 @@ public class JRVerifier
 
 			if (expression != null)
 			{
-				clazz = expression.getValueClass();
+				Class clazz = expression.getValueClass();
 
 				if (clazz == null)
 				{
