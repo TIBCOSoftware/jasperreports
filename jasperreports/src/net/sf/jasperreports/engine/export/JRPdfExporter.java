@@ -1214,7 +1214,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				throw 
 					new JRException(
-						"Could not load font from location : " + jrFont.getPdfFontName(), 
+						"Could not load the following font : " 
+						+ "\npdfFontName   : " + jrFont.getPdfFontName() 
+						+ "\npdfEncoding   : " + jrFont.getPdfEncoding() 
+						+ "\nisPdfEmbedded : " + jrFont.isPdfEmbedded(), 
 						initialException
 						);
 			}
