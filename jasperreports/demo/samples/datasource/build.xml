@@ -1,18 +1,25 @@
 <project name="JasperReports" default="javac" basedir=".">
 
+	<property name="class.name" value="DataSourceApp" />
+	<property name="file.name" value="DataSourceReport" />
+	<property name="classes.dir" value="../../../classes" />
+	<property name="lib.dir" value="../../../lib" />
+	
+	<path id="classpath">
+		<pathelement location="./"/>
+		<pathelement location="${classes.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
 	<!--
 		Compiles the java source files 
 		of the test application.
 	-->
 	<target name="javac">
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath" />
 		</javac>
 	</target>
 
@@ -21,16 +28,10 @@
 		and produces the .jasper file.
 	-->
 	<target name="compile">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tcompile"/>
-			<arg value="-FDataSourceReport.xml"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.xml"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -39,17 +40,11 @@
 		and produces the .jasper file.
 	-->
 	<target name="compileBsh">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
-			<arg value="-FDataSourceReport.xml"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.xml"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -58,16 +53,10 @@
 		and produces the .jrprint file.
 	-->
 	<target name="fill1">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill1"/>
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -76,16 +65,10 @@
 		and produces the .jrprint file.
 	-->
 	<target name="fill2">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill2"/>
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -94,16 +77,10 @@
 		as bean array and produces the .jrprint file.
 	-->
 	<target name="fill3">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill3"/>
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -112,16 +89,10 @@
 		as bean collection and produces the .jrprint file.
 	-->
 	<target name="fill4">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill4"/>
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -131,14 +102,8 @@
 	-->
 	<target name="view">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -149,14 +114,8 @@
 	<target name="viewXML">
 		<java classname="dori.jasper.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FDataSourceReport.jrpxml"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrpxml"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -164,16 +123,10 @@
 		Sends the report in the .jrprint file to the printer.
 	-->
 	<target name="print">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -182,16 +135,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="pdf">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -200,16 +147,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="xml">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Txml"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -218,16 +159,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="xmlEmbed">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-TxmlEmbed"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -236,16 +171,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="html">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Thtml"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -254,16 +183,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="xls">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -272,16 +195,10 @@
 		by converting the .jrprint file.
 	-->
 	<target name="csv">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
-			<arg value="-FDataSourceReport.jrprint"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -290,16 +207,10 @@
 		No intermediate .jrprint file is produced.
 	-->
 	<target name="run">
-		<java classname="DataSourceApp" fork="true">
+		<java classname="${class.name}" fork="true">
 			<arg value="-Trun"/>
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -309,14 +220,8 @@
 	<target name="viewDesignXML">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-FDataSourceReport.xml"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.xml"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -325,14 +230,8 @@
 	-->
 	<target name="viewDesign">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
-			<arg value="-FDataSourceReport.jasper"/>
-			<classpath>
-				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath" />
 		</java>
 	</target>
 
@@ -350,8 +249,8 @@
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
-		<delete dir="DataSourceReport.jrpxml_files" />
-		<delete dir="DataSourceReport.html_files" />
+		<delete dir="${file.name}.jrpxml_files" />
+		<delete dir="${file.name}.html_files" />
 	</target>
 
 </project>
