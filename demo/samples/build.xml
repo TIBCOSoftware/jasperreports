@@ -275,8 +275,6 @@
 		<ant dir="noxmldesign" target="compile" />
 		<ant dir="noxmldesign" target="writeXml" />
 		<ant dir="noxmldesign" target="fill" />
-		<ant dir="noxmldesign" target="compileBsh" />
-		<ant dir="noxmldesign" target="fill" />
 		<ant dir="noxmldesign" target="pdf" />
 		<ant dir="noxmldesign" target="xmlEmbed" />
 		<ant dir="noxmldesign" target="xml" />

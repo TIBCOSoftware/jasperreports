@@ -12,10 +12,6 @@
 		<servlet-class>servlets.CompileServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CompileBshServlet</servlet-name>
-		<servlet-class>servlets.CompileBshServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>PdfServlet</servlet-name>
 		<servlet-class>servlets.PdfServlet</servlet-class>
 	</servlet>
@@ -35,10 +31,6 @@
 	<servlet-mapping>
 		<servlet-name>CompileServlet</servlet-name>
 		<url-pattern>/servlets/compile</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CompileBshServlet</servlet-name>
-		<url-pattern>/servlets/compile_bsh</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>PdfServlet</servlet-name>

@@ -6,21 +6,21 @@
 		Compiles the java source files of the library.
 	-->
 	<target name="compile">
-		<mkdir dir="./classes"/> 
+		<mkdir dir="./build/classes"/> 
 		<condition property="using.jdk.1.4">
 			<equals arg1="${ant.java.version}" arg2="1.4"/>
 		</condition>
-		<javac srcdir="./src" destdir="./classes" debug="true" optimize="false" deprecation="true">
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<classpath>
-				<pathelement location="./classes"/>
+				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
 		</javac>
-		<copy todir="./classes">
+		<copy todir="./build/classes">
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>
 				<include name="**/*.properties"/>
@@ -46,7 +46,7 @@
 					<attribute name="Implementation-Vendor" value="JasperReports"/>
 				</section>
 			</manifest>		
-			<fileset dir="./classes"/>
+			<fileset dir="./build/classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
 				<include name="**/license.txt"/>
@@ -59,7 +59,7 @@
 	-->
 	<target name="applet" depends="compile">
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
-			<fileset dir="./classes">
+			<fileset dir="./build/classes">
 				<include name="**/net/sf/jasperreports/engine/JasperPrint.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrintManager.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
@@ -122,8 +122,8 @@
 		Deletes all the .class files.
 	-->
 	<target name="clean">
-		<delete dir="./classes/net"/>
-		<delete dir="./classes/org"/>
+		<delete dir="./build/classes/net"/>
+		<delete dir="./build/classes/org"/>
 		<delete>
 			<fileset dir="./dist" includes="**/*.jar"/>
 		</delete>
@@ -154,7 +154,7 @@
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
 				</fileset>
-				<pathelement location="./classes"/>
+				<pathelement location="./build/classes"/>
 			</classpath>
 		</javadoc>
 	</target>

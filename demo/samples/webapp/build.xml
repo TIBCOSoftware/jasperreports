@@ -19,9 +19,6 @@
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/*jdt*.jar" />
 		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/*bsh*.jar" />
-		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
 		</copy>
@@ -35,7 +32,7 @@
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="false">
 			<classpath>
 				<pathelement location="./WEB-INF/classes/"/>
-				<pathelement location="../../../classes"/>
+				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
 				</fileset>
@@ -44,7 +41,7 @@
 		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="false">
 			<classpath>
 				<pathelement location="./applets/"/>
-				<pathelement location="../../../classes"/>
+				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
 				</fileset>
@@ -61,7 +58,7 @@
 			<arg value="-Freports/WebappReport.jrxml"/>
 			<classpath>
 				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
+				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
 				</fileset>
@@ -77,7 +74,7 @@
 			<arg value="-Freports/WebappReport.jasper"/>
 			<classpath>
 				<pathelement location="./"/>
-				<pathelement location="../../../classes"/>
+				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
 				</fileset>
