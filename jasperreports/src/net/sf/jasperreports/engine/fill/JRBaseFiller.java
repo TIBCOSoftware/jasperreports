@@ -648,7 +648,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(int i = 0; i < fonts.length; i++)
 			{
-				jasperPrint.addFont(fonts[i]);
+				try
+				{
+					jasperPrint.addFont(fonts[i]);
+				}
+				catch(JRException e)
+				{
+					//ignore font duplication exception
+				}
 			}
 		}
 
