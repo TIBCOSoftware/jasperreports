@@ -1387,14 +1387,17 @@ public class JRHtmlExporter extends JRAbstractExporter
 						yi++;
 					}
 
-					grid[y1][x1] = 
-						new JRExporterGridCell(
-							element,
-							element.getWidth(),
-							element.getHeight(),
-							x2 - x1,
-							y2 - y1
-							);
+					if (x2 - x1 != 0 && y2 - y1 != 0)
+					{
+						grid[y1][x1] = 
+							new JRExporterGridCell(
+								element,
+								element.getWidth(),
+								element.getHeight(),
+								x2 - x1,
+								y2 - y1
+								);
+					}
 				}
 			}
 		}
