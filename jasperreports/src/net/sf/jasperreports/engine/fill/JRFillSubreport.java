@@ -347,6 +347,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				
 				if (jasperReport != null)
 				{
+					//TODO change order
 					/*   */
 					expression = this.getConnectionExpression();
 					this.connection = (Connection)this.filler.calculator.evaluate(expression, evaluation);
