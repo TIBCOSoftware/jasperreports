@@ -1567,6 +1567,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		int leftPadding = 0;
 		int bottomPadding = 0;
 		int rightPadding = 0;
+
+		int xFillCorrection = 0;
+		int yFillCorrection = 0;
 		
 		if (text.getBox() != null)
 		{
@@ -1583,6 +1586,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			case JRTextElement.ROTATION_LEFT :
 			{
 				y = text.getY() + globalOffsetY + text.getHeight();
+				xFillCorrection = 1;
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
@@ -1596,6 +1600,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			case JRTextElement.ROTATION_RIGHT :
 			{
 				x = text.getX() + globalOffsetX + text.getWidth();
+				yFillCorrection = -1;
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
@@ -1631,8 +1636,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.setLineWidth(1f);
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
-				x,
-				jasperPrint.getPageHeight() - y,
+				x + xFillCorrection,
+				jasperPrint.getPageHeight() - y + yFillCorrection,
 				width - 1,
 				- height + 1
 				);
@@ -1658,91 +1663,89 @@ public class JRPdfExporter extends JRAbstractExporter
 			*/
 		}
 
-		if (textLength == 0)
+		if (textLength > 0)
 		{
-			return;
+			int horizontalAlignment = Element.ALIGN_LEFT;
+			switch (text.getTextAlignment())
+			{
+				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				{
+					horizontalAlignment = Element.ALIGN_LEFT;
+					break;
+				}
+				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				{
+					horizontalAlignment = Element.ALIGN_CENTER;
+					break;
+				}
+				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				{
+					horizontalAlignment = Element.ALIGN_RIGHT; 
+					break;
+				}
+				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED : 
+				{
+					horizontalAlignment = Element.ALIGN_JUSTIFIED; 
+					break;
+				}
+				default : 
+				{
+					horizontalAlignment = Element.ALIGN_LEFT; 
+				}
+			}
+
+			float verticalOffset = 0f;
+			switch (text.getVerticalAlignment())
+			{
+				case JRTextElement.VERTICAL_ALIGN_TOP :
+				{
+					verticalOffset = 0f;
+					break;
+				}
+				case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+				{
+					verticalOffset = ((float)height - text.getTextHeight()) / 2f;
+					break;
+				}
+				case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+				{
+					verticalOffset = height - text.getTextHeight();
+					break;
+				}
+				default :
+				{
+					verticalOffset = 0f;
+				}
+			}
+
+			ColumnText colText = new ColumnText(pdfContentByte);
+			colText.setSimpleColumn(
+				getPhrase(styledText, text),
+				x + leftPadding, 
+				jasperPrint.getPageHeight() 
+					- y
+					- topPadding
+					- verticalOffset
+					- text.getLeadingOffset(), 
+					//+ text.getLineSpacingFactor() * text.getFont().getSize(), 
+				x + width - rightPadding, 
+				jasperPrint.getPageHeight() 
+					- y 
+					- height
+					+ bottomPadding,
+				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+				horizontalAlignment
+				);
+
+			colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+			colText.setRunDirection(
+				text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
+				? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+				);
+
+			colText.go();
 		}
 
-		int horizontalAlignment = Element.ALIGN_LEFT;
-		switch (text.getTextAlignment())
-		{
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-			{
-				horizontalAlignment = Element.ALIGN_LEFT;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-			{
-				horizontalAlignment = Element.ALIGN_CENTER;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-			{
-				horizontalAlignment = Element.ALIGN_RIGHT; 
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED : 
-			{
-				horizontalAlignment = Element.ALIGN_JUSTIFIED; 
-				break;
-			}
-			default : 
-			{
-				horizontalAlignment = Element.ALIGN_LEFT; 
-			}
-		}
-
-		float verticalOffset = 0f;
-		switch (text.getVerticalAlignment())
-		{
-			case JRTextElement.VERTICAL_ALIGN_TOP :
-			{
-				verticalOffset = 0f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalOffset = ((float)height - text.getTextHeight()) / 2f;
-				break;
-			}
-			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalOffset = height - text.getTextHeight();
-				break;
-			}
-			default :
-			{
-				verticalOffset = 0f;
-			}
-		}
-
-		ColumnText colText = new ColumnText(pdfContentByte);
-		colText.setSimpleColumn(
-			getPhrase(styledText, text),
-			x + leftPadding, 
-			jasperPrint.getPageHeight() 
-				- y
-				- topPadding
-				- verticalOffset
-				- text.getLeadingOffset(), 
-				//+ text.getLineSpacingFactor() * text.getFont().getSize(), 
-			x + width - rightPadding, 
-			jasperPrint.getPageHeight() 
-				- y 
-				- height
-				+ bottomPadding,
-			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
-			horizontalAlignment
-			);
-
-		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
-		colText.setRunDirection(
-			text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
-			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
-			);
-
-		colText.go();
-		
 		atrans = new AffineTransform();
 		atrans.rotate(-angle, x, jasperPrint.getPageHeight() - y);
 		pdfContentByte.transform(atrans);

@@ -733,35 +733,34 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			*/
 		}
 
-		if (allText.length() == 0)
+		if (allText.length() > 0)
 		{
-			return;
-		}
-		
-		grx.setColor(text.getForecolor());
+			grx.setColor(text.getForecolor());
 
-		/*   */
-		textRenderer.render(
-			grx, 
-			x, 
-			y, 
-			width, 
-			height, 
-			topPadding,
-			leftPadding,
-			bottomPadding,
-			rightPadding,
-			text.getTextHeight(), 
-			text.getTextAlignment(), 
-			text.getVerticalAlignment(), 
-			text.getLineSpacing(), 
-			styledText, 
-			allText
-			);
+			/*   */
+			textRenderer.render(
+				grx, 
+				x, 
+				y, 
+				width, 
+				height, 
+				topPadding,
+				leftPadding,
+				bottomPadding,
+				rightPadding,
+				text.getTextHeight(), 
+				text.getTextAlignment(), 
+				text.getVerticalAlignment(), 
+				text.getLineSpacing(), 
+				styledText, 
+				allText
+				);
+			
+		}
 		
 		grx.rotate(-angle, x, y);
 
-			/*   */
+		/*   */
 		exportBox(
 			text.getBox(),
 			text
