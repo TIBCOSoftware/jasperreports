@@ -742,7 +742,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		JRStyledText styledText = null;
 
 		String text = textElement.getText();
-		if (text != null && text.length() > 0)
+		if (text != null)
 		{
 			text = JRStringUtil.treatNewLineChars(text);
 
