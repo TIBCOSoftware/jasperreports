@@ -86,7 +86,11 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
- * Façade class for the JasperReports engine.
+ * Façade class for compiling report designs into the ready-to-fill form
+ * and for getting the XML representation of report design objects for
+ * storage or network transfer. 
+ * 
+ * @see net.sf.jasperreports.engine.xml.JRXmlWriter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -267,7 +271,7 @@ public class JasperCompileManager
 
 
 	/**
-	 *
+	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
 	public static void writeReportToXmlStream(
 		InputStream inputStream, 
