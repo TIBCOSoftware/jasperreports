@@ -81,6 +81,7 @@
 				<include name="**/dori/jasper/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/dori/jasper/engine/fill/JRTemplate*.class"/>
 				<include name="**/dori/jasper/engine/print/JRPrinterAWT.class"/>
+				<include name="**/dori/jasper/engine/util/JRGraphEnvInitializer.class"/>
 				<include name="**/dori/jasper/engine/util/JRImageLoader.class"/>
 				<include name="**/dori/jasper/engine/util/JRLoader.class"/>
 				<include name="**/dori/jasper/engine/util/JRStringUtil.class"/>
