@@ -548,6 +548,8 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 		int maxBandStretch = 0;
 		int bandStretch = 0;
 
+		firstY = isOverflow ? getHeight() : 0;
+
 		JRElement[] elements = this.ySortedElements;
 		if (elements != null && elements.length > 0)
 		{

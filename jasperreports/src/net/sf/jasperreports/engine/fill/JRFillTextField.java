@@ -558,6 +558,29 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				isToPrint = false;
 			}
 		}
+		else
+		{
+			if (isOverflow && isAlreadyPrinted())
+			{
+				if (isPrintWhenDetailOverflows())
+				{
+					isReprinted = true;
+				}
+				else
+				{
+					isToPrint = false;
+				}
+			}
+			
+			if (
+				isToPrint && 
+				availableStretchHeight < this.getRelativeY() - this.getY() - this.getBandBottomY()
+				)
+			{
+				isToPrint = false;
+				willOverflow = true;
+			}
+		}
 
 		setToPrint(isToPrint);
 		setReprinted(isReprinted);
