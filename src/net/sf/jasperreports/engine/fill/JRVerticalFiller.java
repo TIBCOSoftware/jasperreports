@@ -708,8 +708,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			columnFooterOffsetY = offsetY;
 		}
 
-		offsetY = columnFooterOffsetY;
-		
+		if (!isFloatColumnFooter)
+		{
+			offsetY = columnFooterOffsetY;
+		}
+
 		columnFooter.evaluatePrintWhenExpression(evaluation);
 
 		if (columnFooter.isToPrint())

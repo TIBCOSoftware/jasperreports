@@ -310,6 +310,13 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if(report.isFloatColumnFooter())
+		{
+			sb.append(" isFloatColumnFooter=\"");
+			sb.append(report.isFloatColumnFooter());
+			sb.append("\"");
+		}
+
 		if(report.getScriptletClass() != null)
 		{
 			sb.append(" scriptletClass=\"");

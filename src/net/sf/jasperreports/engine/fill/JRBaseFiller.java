@@ -156,6 +156,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected int bottomMargin = 0;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
+	protected boolean isFloatColumnFooter = false;
 	protected String scriptletClassName = null;
 	protected String resourceBundleBaseName = null;
 
@@ -241,6 +242,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		bottomMargin = jasperReport.getBottomMargin();
 		isTitleNewPage = jasperReport.isTitleNewPage();
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
+		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
 		scriptletClassName = jasperReport.getScriptletClass();
 		resourceBundleBaseName = jasperReport.getResourceBundle();
 

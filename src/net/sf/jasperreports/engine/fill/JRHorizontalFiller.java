@@ -736,10 +736,17 @@ public class JRHorizontalFiller extends JRBaseFiller
 			columnFooterOffsetY = offsetY;
 		}
 
+		int tmpColumnFooterOffsetY = columnFooterOffsetY;
+
+		if (isFloatColumnFooter)
+		{
+			tmpColumnFooterOffsetY = offsetY;
+		}
+
 		for(columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
 			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
-			offsetY = columnFooterOffsetY;
+			offsetY = tmpColumnFooterOffsetY;
 		
 			columnFooter.evaluatePrintWhenExpression(evaluation);
 

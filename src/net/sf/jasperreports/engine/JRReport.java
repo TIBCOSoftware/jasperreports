@@ -183,6 +183,11 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public boolean isFloatColumnFooter();
+		
+	/**
+	 *
+	 */
 	public String getScriptletClass();
 
 	/**

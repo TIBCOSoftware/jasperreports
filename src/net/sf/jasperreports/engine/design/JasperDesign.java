@@ -511,6 +511,15 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	public void setFloatColumnFooter(boolean isFloatColumnFooter)
+	{
+		this.isFloatColumnFooter = isFloatColumnFooter;
+	}
+		
+
+	/**
+	 *
+	 */
 	public void setPageHeader(JRBand pageHeader)
 	{
 		this.pageHeader = pageHeader;

@@ -119,6 +119,7 @@ public class JRBaseReport implements JRReport, Serializable
 	protected int bottomMargin = 30;
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
+	protected boolean isFloatColumnFooter = false;
 	protected String scriptletClass = null;
 	protected String resourceBundle = null;
 
@@ -173,6 +174,7 @@ public class JRBaseReport implements JRReport, Serializable
 		bottomMargin = report.getBottomMargin();
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
+		isFloatColumnFooter = report.isFloatColumnFooter();
 		scriptletClass = report.getScriptletClass();
 		resourceBundle = report.getResourceBundle();
 
@@ -397,6 +399,14 @@ public class JRBaseReport implements JRReport, Serializable
 	public boolean isSummaryNewPage()
 	{
 		return isSummaryNewPage;
+	}
+		
+	/**
+	 *
+	 */
+	public boolean isFloatColumnFooter()
+	{
+		return isFloatColumnFooter;
 	}
 		
 	/**
