@@ -166,6 +166,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	private String betweenPagesHtml = null;
 	private String htmlFooter = null;
 
+	private StringProvider emptyCellStringProvider = null;
+
 	/**
 	 *
 	 */
@@ -229,7 +231,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
 		}
 		
-		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
+		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
 			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
@@ -260,10 +262,46 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		
 		loadedImagesMap = new HashMap();
-		byte[] pxBytes = JRImageLoader.loadImageDataFromLocation("dori/jasper/engine/images/pixel.GIF");
-		loadedImagesMap.put(pxBytes, "px");
-		imagesMap.put("px", pxBytes);
+		
+		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
+		if (isUsingImagesToAlignParameter == null)
+		{
+			isUsingImagesToAlignParameter = Boolean.TRUE;
+		}
 
+		if (isUsingImagesToAlignParameter.booleanValue())
+		{
+			emptyCellStringProvider = 
+				new StringProvider()
+				{
+					public String getStringForCollapsedTD(Object value)
+					{
+						return "><img src=\"" + value + "px\"";
+					}
+					public String getStringForEmptyTD(Object value)
+					{
+						return "<img src=\"" + value + "px\" border=0>";
+					}
+				};
+
+			loadPxImage();
+		}
+		else
+		{
+			emptyCellStringProvider = 
+				new StringProvider()
+				{
+					public String getStringForCollapsedTD(Object value)
+					{
+						return "";
+					}
+					public String getStringForEmptyTD(Object value)
+					{
+						return "";
+					}
+				};
+		}
+		
 
 		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
@@ -528,7 +566,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			writer.write("  <td><img src=\"" + imagesURI + "px\" width=" + width + " height=1></td>\n");
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + width + " height=1></td>\n");
 		}
 		writer.write("</tr>\n");
 
@@ -554,7 +592,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 							{
 								writer.write(" colspan=" + emptyCellColSpan);
 							}
-							writer.write("><img src=\"" + imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
 							emptyCellColSpan = 0;
 							emptyCellWidth = 0;
 						}
@@ -598,7 +636,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						writer.write(" colspan=" + emptyCellColSpan);
 					}
-					writer.write("><img src=\"" + imagesURI + "px\" width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
 				}
 	
 				writer.write("</tr>\n");
@@ -636,7 +674,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(">");
 
-		writer.write("<img src=\"" + imagesURI + "px\" border=0>");
+		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
 		writer.write("</td>\n");
 	}
@@ -670,7 +708,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(">");
 
-		writer.write("<img src=\"" + imagesURI + "px\" border=0>");
+		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
 		writer.write("</td>\n");
 	}
@@ -917,7 +955,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			writer.write("<img src=\"" + imagesURI + "px\" border=0>");
+			writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 		}
 
 		if (href != null)
@@ -1104,6 +1142,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
+			loadPxImage();
 			imageSource = imagesURI + "px";
 			scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
 		}
@@ -1393,5 +1432,38 @@ public class JRHtmlExporter extends JRAbstractExporter
 		return str;
 	}
 
+
+	/**
+	 *
+	 */
+	private void loadPxImage() throws JRException
+	{
+		if (!imagesMap.containsKey("px"))
+		{
+			byte[] pxBytes = JRImageLoader.loadImageDataFromLocation("dori/jasper/engine/images/pixel.GIF");
+			loadedImagesMap.put(pxBytes, "px");
+			imagesMap.put("px", pxBytes);
+		}
+	}
+	
+	
+}
+
+
+/**
+ * 
+ */
+interface StringProvider
+{
+	
+	/**
+	 * 
+	 */
+	public String getStringForCollapsedTD(Object value);
+	
+	/**
+	 * 
+	 */
+	public String getStringForEmptyTD(Object value);
 
 }
