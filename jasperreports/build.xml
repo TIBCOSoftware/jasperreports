@@ -52,6 +52,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
@@ -74,6 +75,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextField.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
