@@ -20,7 +20,7 @@
 	<field name="Freight" class="java.lang.Float">
 		<fieldDescription><![CDATA[Freight]]></fieldDescription>
 	</field>
-	<variable name="TotalFreight" class="java.lang.Float" resetType="None" calculation="Sum">
+	<variable name="TotalFreight" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<pageHeader>
