@@ -77,6 +77,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import dori.jasper.engine.JRAnchor;
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRElement;
@@ -107,6 +110,11 @@ public class JRVerifier
 {
 	
 	
+	/**
+	 *
+	 */
+	private static final Log log = LogFactory.getLog(JRVerifier.class);
+
 	/**
 	 *
 	 */
@@ -601,36 +609,6 @@ public class JRVerifier
 							brokenRules.add("The initial value class is not compatible with the variable's class : " + variable.getName());
 						}
 					}
-
-					switch (variable.getCalculation())
-					{
-						case JRVariable.CALCULATION_COUNT :
-						case JRVariable.CALCULATION_SUM :
-						case JRVariable.CALCULATION_AVERAGE :
-						case JRVariable.CALCULATION_STANDARD_DEVIATION :
-						case JRVariable.CALCULATION_VARIANCE :
-						{
-							if ( !Number.class.isAssignableFrom(valueClass) )
-							{
-								brokenRules.add("Only variables that hold java.lang.Number compatible values can be used to calculate the Count, Sum, Average, Standard Deviation or Variance.");
-							}                                                                                                              
-							break;                                                                                                         
-						}                                                                                                                  
-						case JRVariable.CALCULATION_LOWEST :
-						case JRVariable.CALCULATION_HIGHEST :
-						{
-							if ( !Comparable.class.isAssignableFrom(valueClass) )
-							{
-								brokenRules.add("Only variables that hold java.lang.Comparable compatible values can be used to calculate the Highest or Lowest.");
-							}
-							break;
-						}
-						case JRVariable.CALCULATION_NOTHING :
-						case JRVariable.CALCULATION_SYSTEM :
-						default:
-						{
-						}
-					}
 				}
 				
 				if (variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
@@ -817,11 +795,12 @@ public class JRVerifier
 					*/
 					if (element.getY() + element.getHeight() > band.getHeight())
 					{
-						System.out.println(
-							"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
-							" height=" + element.getHeight() + 
-							" band-height=" + band.getHeight()
-							);
+						if (log.isWarnEnabled())
+							log.warn(
+								"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
+								" height=" + element.getHeight() + 
+								" band-height=" + band.getHeight()
+								);
 						//brokenRules.add("Element placed outside band area.");
 					}
 
