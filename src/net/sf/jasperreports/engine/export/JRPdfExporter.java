@@ -248,6 +248,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
+		setOffset();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -609,12 +612,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 
 				pdfContentByte.moveTo(
-					line.getX() + x1 * borderCorrection,
-					jasperPrint.getPageHeight() - line.getY() + y1 * borderCorrection
+					line.getX() + globalOffsetX + x1 * borderCorrection,
+					jasperPrint.getPageHeight() - line.getY() - globalOffsetY + y1 * borderCorrection
 					);
 				pdfContentByte.lineTo(
-					line.getX() + line.getWidth() + x2 * borderCorrection - 1,
-					jasperPrint.getPageHeight() - line.getY() - line.getHeight() + y2 * borderCorrection + 1
+					line.getX() + globalOffsetX + line.getWidth() + x2 * borderCorrection - 1,
+					jasperPrint.getPageHeight() - line.getY() - globalOffsetY - line.getHeight() + y2 * borderCorrection + 1
 					);
 			}
 			else
@@ -655,12 +658,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 
 				pdfContentByte.moveTo(
-					line.getX() + x1 * borderCorrection, 
-					jasperPrint.getPageHeight() - line.getY() - line.getHeight() + y1 * borderCorrection + 1
+					line.getX() + globalOffsetX + x1 * borderCorrection, 
+					jasperPrint.getPageHeight() - line.getY() - globalOffsetY - line.getHeight() + y1 * borderCorrection + 1
 					);
 				pdfContentByte.lineTo(
-					line.getX() + line.getWidth() + x2 * borderCorrection - 1,
-					jasperPrint.getPageHeight() - line.getY() + y2 * borderCorrection
+					line.getX() + globalOffsetX + line.getWidth() + x2 * borderCorrection - 1,
+					jasperPrint.getPageHeight() - line.getY() - globalOffsetY + y2 * borderCorrection
 					);
 			}
 		
@@ -744,8 +747,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.roundRectangle(
-				rectangle.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - rectangle.getY() - rectangle.getHeight() - borderCorrection + 1,
+				rectangle.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - rectangle.getY() - globalOffsetY - rectangle.getHeight() - borderCorrection + 1,
 				rectangle.getWidth() + 2 * borderCorrection - 1,
 				rectangle.getHeight() + 2 * borderCorrection - 1,
 				rectangle.getRadius()
@@ -758,8 +761,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			if (rectangle.getPen() != JRGraphicElement.PEN_NONE)
 			{
 				pdfContentByte.roundRectangle(
-					rectangle.getX() - borderCorrection,
-					jasperPrint.getPageHeight() - rectangle.getY() - rectangle.getHeight() - borderCorrection + 1,
+					rectangle.getX() + globalOffsetX - borderCorrection,
+					jasperPrint.getPageHeight() - rectangle.getY() - globalOffsetY - rectangle.getHeight() - borderCorrection + 1,
 					rectangle.getWidth() + 2 * borderCorrection - 1,
 					rectangle.getHeight() + 2 * borderCorrection - 1,
 					rectangle.getRadius()
@@ -846,10 +849,10 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (ellipse.getMode() == JRElement.MODE_OPAQUE)
 		{
 			pdfContentByte.ellipse(
-				ellipse.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - ellipse.getY() - ellipse.getHeight() - borderCorrection + 1,
-				ellipse.getX() + ellipse.getWidth() + borderCorrection - 1,
-				jasperPrint.getPageHeight() - ellipse.getY() + borderCorrection
+				ellipse.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - ellipse.getY() - globalOffsetY - ellipse.getHeight() - borderCorrection + 1,
+				ellipse.getX() + globalOffsetX + ellipse.getWidth() + borderCorrection - 1,
+				jasperPrint.getPageHeight() - ellipse.getY() - globalOffsetY + borderCorrection
 				);
 
 			pdfContentByte.fillStroke();
@@ -859,10 +862,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			if (ellipse.getPen() != JRGraphicElement.PEN_NONE)
 			{
 				pdfContentByte.ellipse(
-					ellipse.getX() - borderCorrection,
-					jasperPrint.getPageHeight() - ellipse.getY() - ellipse.getHeight() - borderCorrection + 1,
-					ellipse.getX() + ellipse.getWidth() + borderCorrection - 1,
-					jasperPrint.getPageHeight() - ellipse.getY() + borderCorrection
+					ellipse.getX() + globalOffsetX - borderCorrection,
+					jasperPrint.getPageHeight() - ellipse.getY() - globalOffsetY - ellipse.getHeight() - borderCorrection + 1,
+					ellipse.getX() + globalOffsetX + ellipse.getWidth() + borderCorrection - 1,
+					jasperPrint.getPageHeight() - ellipse.getY() - globalOffsetY + borderCorrection
 					);
 
 				pdfContentByte.stroke();
@@ -944,8 +947,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.setLineWidth(0.1f);
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
-				printImage.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - printImage.getY() + borderCorrection,
+				printImage.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY + borderCorrection,
 				printImage.getWidth() + 2 * borderCorrection - 1,
 				- printImage.getHeight() - 2 * borderCorrection + 1
 				);
@@ -1149,9 +1152,9 @@ public class JRPdfExporter extends JRAbstractExporter
 				pdfContentByte.saveState();
 				pdfContentByte.addTemplate(
 					template,
-					printImage.getX() + xoffset,
+					printImage.getX() + globalOffsetX + xoffset,
 					jasperPrint.getPageHeight()
-						- printImage.getY()
+						- printImage.getY() - globalOffsetY
 						- availableImageHeight
 						- yoffset
 					);
@@ -1164,8 +1167,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			/*
 			image.setAbsolutePosition(
-				printImage.getX() + borderOffset,
-				jasperPrint.getPageHeight() - printImage.getY() - image.scaledHeight() - borderOffset
+				printImage.getX() + offsetX + borderOffset,
+				jasperPrint.getPageHeight() - printImage.getY() - offsetY - image.scaledHeight() - borderOffset
 				);
 
 			pdfContentByte.addImage(image);
@@ -1240,10 +1243,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			ColumnText colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
 				new Phrase(chunk),
-				printImage.getX() + xoffset,
-				jasperPrint.getPageHeight() - printImage.getY() - scaledHeight - yoffset,
-				printImage.getX() + xoffset + scaledWidth,
-				jasperPrint.getPageHeight() - printImage.getY() - yoffset,
+				printImage.getX() + globalOffsetX + xoffset,
+				jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY - scaledHeight - yoffset,
+				printImage.getX() + globalOffsetX + xoffset + scaledWidth,
+				jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY - yoffset,
 				scaledHeight,
 				Element.ALIGN_LEFT
 				);
@@ -1274,8 +1277,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 	
 				pdfContentByte.rectangle(
-					printImage.getX() - borderCorrection,
-					jasperPrint.getPageHeight() - printImage.getY() + borderCorrection,
+					printImage.getX() + globalOffsetX - borderCorrection,
+					jasperPrint.getPageHeight() - printImage.getY() - globalOffsetY + borderCorrection,
 					printImage.getWidth() + 2 * borderCorrection - 1,
 					- printImage.getHeight() - 2 * borderCorrection + 1
 					);
@@ -1544,8 +1547,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		int textLength = styledText.length();
 		
-		int x = text.getX();
-		int y = text.getY();
+		int x = text.getX() + globalOffsetX;
+		int y = text.getY() + globalOffsetY;
 		int width = text.getWidth();
 		int height = text.getHeight();
 		
@@ -1555,7 +1558,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				y = text.getY() + text.getHeight();
+				y = text.getY() + globalOffsetY + text.getHeight();
 				width = text.getHeight();
 				height = text.getWidth();
 				angle = Math.PI / 2;
@@ -1563,7 +1566,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				x = text.getX() + text.getWidth();
+				x = text.getX() + globalOffsetX + text.getWidth();
 				width = text.getHeight();
 				height = text.getWidth();
 				angle = - Math.PI / 2;
@@ -1612,8 +1615,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.setLineWidth(0.1f);
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.rectangle(
-				text.getX(),
-				jasperPrint.getPageHeight() - text.getY(),
+				text.getX() + offsetX,
+				jasperPrint.getPageHeight() - text.getY() - offsetY,
 				text.getWidth(),
 				- text.getHeight()
 				);
@@ -1734,12 +1737,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					color.getBlue()
 					);
 			pdfContentByte.moveTo(
-				element.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() + borderCorrection
+				element.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY + borderCorrection
 				);
 			pdfContentByte.lineTo(
-				element.getX() + element.getWidth() - 1 + borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() + borderCorrection
+				element.getX() + globalOffsetX + element.getWidth() - 1 + borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY + borderCorrection
 				);
 			pdfContentByte.stroke();
 		}
@@ -1754,12 +1757,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					color.getBlue()
 					);
 			pdfContentByte.moveTo(
-				element.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() + borderCorrection
+				element.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY + borderCorrection
 				);
 			pdfContentByte.lineTo(
-				element.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() - element.getHeight() + 1 - borderCorrection
+				element.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY - element.getHeight() + 1 - borderCorrection
 				);
 			pdfContentByte.stroke();
 		}
@@ -1774,12 +1777,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					color.getBlue()
 					);
 			pdfContentByte.moveTo(
-				element.getX() - borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() - element.getHeight() + 1 - borderCorrection
+				element.getX() + globalOffsetX - borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY - element.getHeight() + 1 - borderCorrection
 				);
 			pdfContentByte.lineTo(
-				element.getX() + element.getWidth() - 1 + borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() - element.getHeight() + 1 - borderCorrection
+				element.getX() + globalOffsetX + element.getWidth() - 1 + borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY - element.getHeight() + 1 - borderCorrection
 				);
 			pdfContentByte.stroke();
 		}
@@ -1794,12 +1797,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					color.getBlue()
 					);
 			pdfContentByte.moveTo(
-				element.getX() + element.getWidth() - 1 + borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() + borderCorrection
+				element.getX() + globalOffsetX + element.getWidth() - 1 + borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY + borderCorrection
 				);
 			pdfContentByte.lineTo(
-				element.getX() + element.getWidth() - 1 + borderCorrection,
-				jasperPrint.getPageHeight() - element.getY() - element.getHeight() + 1 - borderCorrection
+				element.getX() + globalOffsetX + element.getWidth() - 1 + borderCorrection,
+				jasperPrint.getPageHeight() - element.getY() - globalOffsetY - element.getHeight() + 1 - borderCorrection
 				);
 			pdfContentByte.stroke();
 		}
