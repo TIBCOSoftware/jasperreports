@@ -16,13 +16,14 @@
 	</field>
 	<field name="street" class="java.lang.String">
 	</field>
-	<field name="city" class="java.lang.String">
+	<field name="the_city" class="java.lang.String">
+		<fieldDescription>me.me.city</fieldDescription>
 	</field>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
 		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
-		<groupExpression><![CDATA[$F{city}]]></groupExpression>
+		<groupExpression><![CDATA[$F{the_city}]]></groupExpression>
 		<groupHeader>
 		<band height="20">
 			<rectangle>
@@ -34,7 +35,7 @@
 				<textElement>
 					<font reportFont="Arial_Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{the_city})]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="19" width="515" height="1"/>

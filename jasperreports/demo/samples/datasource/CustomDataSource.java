@@ -149,7 +149,7 @@ public class CustomDataSource implements JRDataSource
 		
 		String fieldName = field.getName();
 		
-		if ("city".equals(fieldName))
+		if ("the_city".equals(fieldName))
 		{
 			value = data[index][0];
 		}

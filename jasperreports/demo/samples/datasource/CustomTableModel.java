@@ -84,7 +84,7 @@ public class CustomTableModel extends AbstractTableModel
 	/**
 	 *
 	 */
-	private String[] columnNames = {"city", "id", "name", "street"};
+	private String[] columnNames = {"the_city", "id", "name", "street"};
 
 	/**
 	 *
