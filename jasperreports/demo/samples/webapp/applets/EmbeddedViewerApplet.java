@@ -80,7 +80,8 @@ import javax.swing.JOptionPane;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class EmbeddedViewerApplet extends javax.swing.JApplet
 {

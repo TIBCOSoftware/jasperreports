@@ -74,7 +74,8 @@ import java.util.*;
 
 
 /**
- *
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class HeadingBean
 {
