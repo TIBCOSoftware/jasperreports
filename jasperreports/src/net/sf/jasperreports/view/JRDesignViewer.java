@@ -1506,12 +1506,26 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setStroke(topStroke);
 			grx.setColor(text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor());
 	
-			grx.drawLine(
-				x, 
-				y, 
-				x + width - 1,
-				y
-				);
+			if (topStroke == STROKE_THIN)
+			{
+				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
+				grx.drawLine(
+					x, 
+					y, 
+					x + width,
+					y
+					);
+				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
+			}
+			else
+			{
+				grx.drawLine(
+					x, 
+					y, 
+					x + width - 1,
+					y
+					);
+			}
 		}
 
 		if (leftStroke != null)
@@ -1519,12 +1533,26 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setStroke(leftStroke);
 			grx.setColor(text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor());
 	
-			grx.drawLine(
-				x, 
-				y, 
-				x,
-				y + height - 1
-				);
+			if (leftStroke == STROKE_THIN)
+			{
+				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
+				grx.drawLine(
+					x, 
+					y, 
+					x,
+					y + height
+					);
+				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
+			}
+			else
+			{
+				grx.drawLine(
+					x, 
+					y, 
+					x,
+					y + height - 1
+					);
+			}
 		}
 
 		if (bottomStroke != null)
@@ -1532,12 +1560,26 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setStroke(bottomStroke);
 			grx.setColor(text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor());
 	
-			grx.drawLine(
-				x, 
-				y + height - 1,
-				x + width - 1,
-				y + height - 1
-				);
+			if (bottomStroke == STROKE_THIN)
+			{
+				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
+				grx.drawLine(
+					x, 
+					y + height - 1,
+					x + width,
+					y + height - 1
+					);
+				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
+			}
+			else
+			{
+				grx.drawLine(
+					x, 
+					y + height - 1,
+					x + width - 1,
+					y + height - 1
+					);
+			}
 		}
 
 		if (rightStroke != null)
@@ -1545,18 +1587,35 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setStroke(rightStroke);
 			grx.setColor(text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor());
 	
-			grx.drawLine(
-				x + width - 1,
-				y,
-				x + width - 1,
-				y + height - 1
-				);
+			if (rightStroke == STROKE_THIN)
+			{
+				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
+				grx.drawLine(
+					x + width - 1,
+					y,
+					x + width - 1,
+					y + height
+					);
+				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
+			}
+			else
+			{
+				grx.drawLine(
+					x + width - 1,
+					y,
+					x + width - 1,
+					y + height - 1
+					);
+			}
 		}
 
-		grx.setColor(text.getForecolor());
-		grx.setStroke(new BasicStroke(1f / zoom));
-
-		//grx.drawRect(x, y, width - 1, height - 1);
+		if (text.getBox() == null)
+		{
+			grx.setColor(text.getForecolor());
+			grx.setStroke(new BasicStroke(1f / zoom));
+		
+			grx.drawRect(x, y, width - 1, height - 1);
+		}
 
 		grx.rotate(-angle, x, y);
 	}
@@ -1642,6 +1701,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 	/**
 	 * 
 	 */
+	private static final double THIN_CORNER_OFFSET = 0.25d;
+	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
+	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
+	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
+	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
 	private static final Stroke STROKE_DOTTED = 
 		new BasicStroke(
 			1f,
@@ -1651,10 +1715,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 			new float[]{5f, 3f},
 			0f
 			);
-	private static final Stroke STROKE_4_POINT = new BasicStroke(4f);
-	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
-	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
-	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
 
 	/**
 	 * 

@@ -728,21 +728,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-						x, 
-						y, 
-						x + width,
-						y
-						);
+					x, 
+					y, 
+					x + width,
+					y
+					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-						x, 
-						y, 
-						x + width - 1,
-						y
-						);
+					x, 
+					y, 
+					x + width - 1,
+					y
+					);
 			}
 		}
 
@@ -755,21 +755,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-						x, 
-						y, 
-						x,
-						y + height
-						);
+					x, 
+					y, 
+					x,
+					y + height
+					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-						x, 
-						y, 
-						x,
-						y + height - 1
-						);
+					x, 
+					y, 
+					x,
+					y + height - 1
+					);
 			}
 		}
 
@@ -782,21 +782,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 				grx.drawLine(
-						x, 
-						y + height - 1,
-						x + width,
-						y + height - 1
-						);
+					x, 
+					y + height - 1,
+					x + width,
+					y + height - 1
+					);
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-						x, 
-						y + height - 1,
-						x + width - 1,
-						y + height - 1
-						);
+					x, 
+					y + height - 1,
+					x + width - 1,
+					y + height - 1
+					);
 			}
 		}
 
@@ -809,21 +809,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-						x + width - 1,
-						y,
-						x + width - 1,
-						y + height
-						);
+					x + width - 1,
+					y,
+					x + width - 1,
+					y + height
+					);
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-						x + width - 1,
-						y,
-						x + width - 1,
-						y + height - 1
-						);
+					x + width - 1,
+					y,
+					x + width - 1,
+					y + height - 1
+					);
 			}
 		}
 
