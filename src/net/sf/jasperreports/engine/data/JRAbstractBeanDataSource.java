@@ -69,84 +69,69 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+package net.sf.jasperreports.engine.data;
+
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class CustomBean
+public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 {
-
-
-	/**
-	 *
-	 */
-	private String city = null;
-	private Integer id = null;
-	private String name = null;
-	private String street = null;
-
+	
 
 	/**
 	 *
 	 */
-	public CustomBean(
-		String pcity,
-		Integer pid,
-		String pname,
-		String pstreet
-		)
+	protected PropertyNameProvider propertyNameProvider = null;
+	
+
+	/**
+	 *
+	 */
+	public JRAbstractBeanDataSource(boolean isUseFieldDescription)
 	{
-		city = pcity;
-		id = pid;
-		name = pname;
-		street = pstreet;
+		if (isUseFieldDescription)
+		{
+			propertyNameProvider = 
+				new PropertyNameProvider()
+				{
+					public String getPropertyName(JRField field) 
+					{
+						if (field.getDescription() == null)
+						{
+							return field.getName();
+						}
+						else
+						{
+							return field.getDescription();
+						}
+					}
+				};
+		}
+		else
+		{
+			propertyNameProvider = 
+				new PropertyNameProvider()
+				{
+					public String getPropertyName(JRField field) 
+					{
+						return field.getName();
+					}
+				};
+		}
 	}
-
-
-	/**
-	 *
-	 */
-	public CustomBean getMe()
-	{
-		return this;
-	}
-
+	
 
 	/**
 	 *
 	 */
-	public String getCity()
+	interface PropertyNameProvider
 	{
-		return city;
-	}
-
-
-	/**
-	 *
-	 */
-	public Integer getId()
-	{
-		return id;
-	}
-
-
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-
-	/**
-	 *
-	 */
-	public String getStreet()
-	{
-		return street;
+		public String getPropertyName(JRField field);
 	}
 
 
