@@ -47,7 +47,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 605;
+	private static final long serialVersionUID = 606;
 
 	/**
 	 *
