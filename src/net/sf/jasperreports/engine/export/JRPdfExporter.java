@@ -72,9 +72,10 @@
 package dori.jasper.engine.export;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -119,6 +120,7 @@ import dori.jasper.engine.JRPrintLine;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
+import dori.jasper.engine.JRRenderable;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
@@ -888,8 +890,10 @@ public class JRPdfExporter extends JRAbstractExporter
 		int xoffset = 0;
 		int yoffset = 0;
 
+		JRRenderable renderer = printImage.getRenderer();
+		
 		if (
-			printImage.getImageData() != null &&
+			renderer != null &&
 			availableImageWidth > 0 && 
 			availableImageHeight > 0
 			)
@@ -946,39 +950,45 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				case JRImage.SCALE_IMAGE_CLIP :
 				{
-					java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
-					//image = com.lowagie.text.Image.getInstance(awtImage, null);
+					int normalWidth = availableImageWidth;
+					int normalHeight = availableImageHeight;
+					
+					Dimension2D dimension = renderer.getDimension();
+					if (dimension != null)
+					{
+						normalWidth = (int)dimension.getWidth();
+						normalHeight = (int)dimension.getHeight();
+					}
 
-					int awtWidth = awtImage.getWidth(null);
-					int awtHeight = awtImage.getHeight(null);
+					xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
+					yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
-					xoffset = (int)(xalignFactor * (availableImageWidth - awtWidth));
-					yoffset = (int)(yalignFactor * (availableImageHeight - awtHeight));
-
-					int minWidth = Math.min(awtWidth, availableImageWidth);
-					int minHeight = Math.min(awtHeight, availableImageHeight);
+					int minWidth = Math.min(normalWidth, availableImageWidth);
+					int minHeight = Math.min(normalHeight, availableImageHeight);
 					
 					BufferedImage bi = 
 						new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_RGB);
 
-					Graphics g = bi.getGraphics();
+					Graphics2D g = bi.createGraphics();
 					g.setColor(printImage.getBackcolor());
 					g.fillRect(0, 0, minWidth, minHeight);
-					g.drawImage(
-						awtImage, 
-						(xoffset > 0 ? 0 : xoffset), 
-						(yoffset > 0 ? 0 : yoffset), 
-						null
+					renderer.render(
+						g,
+						new java.awt.Rectangle(
+							(xoffset > 0 ? 0 : xoffset), 
+							(yoffset > 0 ? 0 : yoffset),
+							normalWidth,
+							normalHeight
+							) 
 						);
 
 					xoffset = (xoffset < 0 ? 0 : xoffset);
 					yoffset = (yoffset < 0 ? 0 : yoffset);
 
 					//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
-					awtImage = bi;
 
 					//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-					image = com.lowagie.text.Image.getInstance(awtImage, null);
+					image = com.lowagie.text.Image.getInstance(bi, null);
 
 					break;
 				}
@@ -986,12 +996,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					try
 					{
-						image = com.lowagie.text.Image.getInstance(printImage.getImageData());
+						image = com.lowagie.text.Image.getInstance(renderer.getImageData());
 						imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
 					}
 					catch(Exception e)
 					{
-						java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
+						java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
 						image = com.lowagie.text.Image.getInstance(awtImage, null);
 					}
 					image.scaleAbsolute(availableImageWidth, availableImageHeight);
@@ -1002,12 +1012,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					try
 					{
-						image = com.lowagie.text.Image.getInstance(printImage.getImageData());
+						image = com.lowagie.text.Image.getInstance(renderer.getImageData());
 						imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
 					}
 					catch(Exception e)
 					{
-						java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
+						java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
 						image = com.lowagie.text.Image.getInstance(awtImage, null);
 					}
 					image.scaleToFit(availableImageWidth, availableImageHeight);

@@ -69,87 +69,46 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.engine;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
-import org.w3c.tools.codec.Base64Decoder;
-
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRImageRenderer;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.util.JRImageLoader;
+import java.awt.geom.Dimension2D;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintImageSourceObject
+public abstract class JRAbstractSvgRenderer implements JRRenderable
 {
 
-
 	/**
 	 *
 	 */
-	private JRPrintImage printImage = null;
+	private static final long serialVersionUID = 503;
 
 	/**
 	 *
-	 */
-	private boolean isEmbedded = false;
-
-
-	/**
 	 *
-	 */
-	public void setPrintImage(JRPrintImage printImage)
-	{
-		this.printImage = printImage;
-	}
+	private byte[] imageData = null;
+	private Image awtImage = null;
+
 	
+	/**
+	 *
+	 */
+	public Dimension2D getDimension()
+	{
+		return null;
+	}
+
 
 	/**
 	 *
 	 */
-	public void setEmbedded(boolean isEmbedded)
+	public byte[] getImageData()
 	{
-		this.isEmbedded = isEmbedded;
+		return null;//TODO
 	}
-	
 
-	/**
-	 *
-	 */
-	public void setImageSource(String imageSource) throws JRException
-	{
-		if (this.isEmbedded)
-		{
-			try
-			{
-				ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXME other encodings ?
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				
-				Base64Decoder decoder = new Base64Decoder(bais, baos);
-				decoder.process();
-				
-				this.printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error decoding embedded image.", e);
-			}
-		}
-		else
-		{
-			printImage.setRenderer(
-				JRImageRenderer.getInstance(
-					JRImageLoader.loadImageDataFromLocation(imageSource)
-					)
-				);
-		}
-	}
-	
 
 }

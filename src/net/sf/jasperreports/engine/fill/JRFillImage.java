@@ -81,8 +81,10 @@ import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRImage;
+import dori.jasper.engine.JRImageRenderer;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintImage;
+import dori.jasper.engine.JRRenderable;
 import dori.jasper.engine.util.JRImageLoader;
 //import java.awt.image.*;
 
@@ -103,7 +105,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private byte[] imageData = null;
+	private JRRenderable renderer = null;
 	private boolean isValueRepeating = false;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
@@ -254,9 +256,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected byte[] getImageData()
+	protected JRRenderable getRenderer()
 	{
-		return this.imageData;
+		return this.renderer;
 	}
 		
 	/**
@@ -340,48 +342,48 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		JRExpression expression = this.getExpression();
 
-		byte[] newImageData = null;
+		JRRenderable newRenderer = null;
 		
 		Object source = this.filler.calculator.evaluate(expression, evaluation);
 		if (source != null)
 		{
 			Class expressionClass = expression.getValueClass();
 			
-			if (expressionClass.equals(java.awt.Image.class))
+			if (Image.class.getName().equals(expressionClass.getName()))
 			{
 				Image img = (Image)source;
-				newImageData = JRImageLoader.loadImageDataFromAWTImage(img);
+				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromAWTImage(img));
 			}
-			else if (expressionClass.equals(java.io.InputStream.class))
+			else if (InputStream.class.getName().equals(expressionClass.getName()))
 			{
 				InputStream is = (InputStream)source;
-				newImageData = JRImageLoader.loadImageDataFromInputStream(is);
+				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromInputStream(is));
 			}
-			else if (expressionClass.equals(java.net.URL.class))
+			else if (URL.class.getName().equals(expressionClass.getName()))
 			{
 				URL url = (URL)source;
-				newImageData = JRImageLoader.loadImageDataFromURL(url);
+				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromURL(url));
 			}
-			else if (expressionClass.equals(java.io.File.class))
+			else if (File.class.getName().equals(expressionClass.getName()))
 			{
 				File file = (File)source;
-				newImageData = JRImageLoader.loadImageDataFromFile(file);
+				newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromFile(file));
 			}
-			else if (expressionClass.equals(java.lang.String.class))
+			else if (String.class.getName().equals(expressionClass.getName()))
 			{
 				String location = (String)source;
 				if (this.isUsingCache())
 				{
 					if ( this.filler.loadedImages.containsKey(location) )
 					{
-						newImageData = ((JRPrintImage)this.filler.loadedImages.get(location)).getImageData();
+						newRenderer = ((JRPrintImage)this.filler.loadedImages.get(location)).getRenderer();
 					}
 					else
 					{
-						newImageData = JRImageLoader.loadImageDataFromLocation(location);
+						newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromLocation(location));
 						JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
-						img.setImageData(
-							newImageData
+						img.setRenderer(
+							newRenderer
 							//this.getImageData()
 							);
 						this.filler.loadedImages.put(location, img);
@@ -389,14 +391,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				else
 				{
-					newImageData = JRImageLoader.loadImageDataFromLocation(location);
+					newRenderer = JRImageRenderer.getInstance(JRImageLoader.loadImageDataFromLocation(location));
 				}
+			}
+			else if (JRRenderable.class.getName().equals(expressionClass.getName()))
+			{
+				newRenderer = (JRRenderable)source;
 			}
 		}
 
-		this.isValueRepeating = (this.imageData == newImageData);
+		this.isValueRepeating = (this.renderer == newRenderer);
 	
-		this.imageData = newImageData;
+		this.renderer = newRenderer;
 		
 		this.anchorName = (String)this.filler.calculator.evaluate(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String)this.filler.calculator.evaluate(this.getHyperlinkReferenceExpression(), evaluation);
@@ -482,7 +488,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			if (
 				isToPrint && 
 				this.isRemoveLineWhenBlank() &&
-				(this.getImageData() == null || this.getImageData().length == 0)
+				//(this.getImageData() == null || this.getImageData().length == 0)//FIXME deal better with nulls if using factory for renderable
+				this.getRenderer() == null
 				)
 			{
 				isToPrint = false;
@@ -548,8 +555,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected void copy(JRPrintImage printImage) throws JRException
 	{
-		printImage.setImageData(
-			this.getImageData()
+		printImage.setRenderer(
+			this.getRenderer()
 			);
 		printImage.setAnchorName(this.getAnchorName());
 		printImage.setHyperlinkReference(this.getHyperlinkReference());

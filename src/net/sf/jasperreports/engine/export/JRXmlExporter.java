@@ -104,6 +104,7 @@ import dori.jasper.engine.JRPrintLine;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
+import dori.jasper.engine.JRRenderable;
 import dori.jasper.engine.JRReport;
 import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JRRuntimeException;
@@ -254,12 +255,13 @@ public class JRXmlExporter extends JRAbstractExporter
 					imagesDir.mkdir();
 				}
 	
-				byte[] imageData = null;
+				JRRenderable renderer = null;
 				File imageFile = null;
 				for(Iterator it = imageKeys.iterator(); it.hasNext();)
 				{
-					imageData = (byte[])it.next();
-					imageFile = new File(imagesDir, (String)loadedImagesMap.get(imageData));
+					renderer = (JRRenderable)it.next();
+					imageFile = new File(imagesDir, (String)loadedImagesMap.get(renderer));
+					byte[] imageData = renderer.getImageData();
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -674,7 +676,8 @@ public class JRXmlExporter extends JRAbstractExporter
 		exportGraphicElement(image);
 		
 
-		if (image.getImageData() != null)
+		JRRenderable renderer = image.getRenderer();
+		if (renderer != null)
 		{
 			sbuffer.append("\t\t\t<imageSource");
 	
@@ -693,7 +696,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			{
 				try
 				{
-					ByteArrayInputStream bais = new ByteArrayInputStream(image.getImageData());
+					ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					
 					Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -708,21 +711,20 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				byte[] imageData = image.getImageData();
-				if (loadedImagesMap.containsKey(imageData))
+				if (loadedImagesMap.containsKey(renderer))
 				{
 					imageSource = 
 						(
 						new File(
 							new File(imagesDir.getName()), 
-							(String)loadedImagesMap.get(imageData)
+							(String)loadedImagesMap.get(renderer)
 							)
 						).getPath();
 				}
 				else
 				{
 					imageSource = "img_" + String.valueOf(loadedImagesMap.size());
-					loadedImagesMap.put(imageData, imageSource);
+					loadedImagesMap.put(renderer, imageSource);
 	
 					imageSource = 
 						(

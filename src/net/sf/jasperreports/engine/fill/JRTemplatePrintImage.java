@@ -72,6 +72,7 @@
 package dori.jasper.engine.fill;
 
 import dori.jasper.engine.JRPrintImage;
+import dori.jasper.engine.JRRenderable;
 
 
 /**
@@ -90,7 +91,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	private byte[] imageData = null;
+	private JRRenderable renderer = null;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -108,17 +109,17 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	public byte[] getImageData()
+	public JRRenderable getRenderer()
 	{
-		return this.imageData;
+		return this.renderer;
 	}
 		
 	/**
 	 *
 	 */
-	public void setImageData(byte[] imageData)
+	public void setRenderer(JRRenderable renderer)
 	{
-		this.imageData = imageData;
+		this.renderer = renderer;
 	}
 		
 	/**

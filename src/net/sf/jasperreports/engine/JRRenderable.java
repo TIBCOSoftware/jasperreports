@@ -69,87 +69,45 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+/*
+ * Contributors:
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
+ */
+package dori.jasper.engine;
 
-import org.w3c.tools.codec.Base64Decoder;
-
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRImageRenderer;
-import dori.jasper.engine.JRPrintImage;
-import dori.jasper.engine.util.JRImageLoader;
+import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintImageSourceObject
+public interface JRRenderable extends Serializable
 {
 
 
 	/**
 	 *
 	 */
-	private JRPrintImage printImage = null;
-
-	/**
-	 *
-	 */
-	private boolean isEmbedded = false;
+	public Dimension2D getDimension();
 
 
 	/**
 	 *
 	 */
-	public void setPrintImage(JRPrintImage printImage)
-	{
-		this.printImage = printImage;
-	}
-	
+	public byte[] getImageData();
+
 
 	/**
 	 *
 	 */
-	public void setEmbedded(boolean isEmbedded)
-	{
-		this.isEmbedded = isEmbedded;
-	}
-	
+	public void render(Graphics2D grx, Rectangle2D rectanle);
 
-	/**
-	 *
-	 */
-	public void setImageSource(String imageSource) throws JRException
-	{
-		if (this.isEmbedded)
-		{
-			try
-			{
-				ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXME other encodings ?
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				
-				Base64Decoder decoder = new Base64Decoder(bais, baos);
-				decoder.process();
-				
-				this.printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error decoding embedded image.", e);
-			}
-		}
-		else
-		{
-			printImage.setRenderer(
-				JRImageRenderer.getInstance(
-					JRImageLoader.loadImageDataFromLocation(imageSource)
-					)
-				);
-		}
-	}
-	
 
 }
