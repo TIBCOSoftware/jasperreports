@@ -90,7 +90,14 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	 */
 	public boolean accept(File file)
 	{
-		return true;
+		if (file.isDirectory())
+		{
+			return true;
+		}
+		else
+		{
+			return file.getName().toLowerCase().endsWith(".csv");
+		}
 	}
 
 	/**

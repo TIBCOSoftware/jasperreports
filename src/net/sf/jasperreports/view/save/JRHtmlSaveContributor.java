@@ -90,7 +90,15 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	public boolean accept(File file)
 	{
-		return true;
+		if (file.isDirectory())
+		{
+			return true;
+		}
+		else
+		{
+			String name = file.getName().toLowerCase();
+			return (name.endsWith(".htm") || name.endsWith(".html"));
+		}
 	}
 
 	/**

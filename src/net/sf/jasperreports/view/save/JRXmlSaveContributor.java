@@ -91,7 +91,15 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	 */
 	public boolean accept(File file)
 	{
-		return true;
+		if (file.isDirectory())
+		{
+			return true;
+		}
+		else
+		{
+			String name = file.getName().toLowerCase();
+			return (name.endsWith(".xml") || name.endsWith(".jrpxml"));
+		}
 	}
 
 	/**

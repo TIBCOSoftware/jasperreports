@@ -787,7 +787,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		FileFilter jrprintFileFilter = 
 			new FileFilter()
 			{
-				public boolean accept(File f){ return true; }
+				public boolean accept(File file)
+				{
+					if (file.isDirectory())
+						return true;
+					else
+						return file.getName().toLowerCase().endsWith(".jrprint");
+				}
+				
 				public String getDescription(){ return "JasperReports (*.jrprint)"; }
 			};
 		fileChooser.addChoosableFileFilter(jrprintFileFilter);
