@@ -909,6 +909,7 @@ public class JasperDesign extends JRBaseReport
 			JRDesignVariable countVariable = new JRDesignVariable();
 			countVariable.setName(variable.getName() + "_COUNT");
 			countVariable.setValueClassName(variable.getValueClassName());
+			countVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
 			countVariable.setResetType(variable.getResetType());
 			countVariable.setResetGroup(variable.getResetGroup());
 			countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
@@ -920,6 +921,7 @@ public class JasperDesign extends JRBaseReport
 			JRDesignVariable sumVariable = new JRDesignVariable();
 			sumVariable.setName(variable.getName() + "_SUM");
 			sumVariable.setValueClassName(variable.getValueClassName());
+			sumVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
 			sumVariable.setResetType(variable.getResetType());
 			sumVariable.setResetGroup(variable.getResetGroup());
 			sumVariable.setCalculation(JRVariable.CALCULATION_SUM);
@@ -934,6 +936,7 @@ public class JasperDesign extends JRBaseReport
 			JRDesignVariable varianceVariable = new JRDesignVariable();
 			varianceVariable.setName(variable.getName() + "_VARIANCE");
 			varianceVariable.setValueClassName(variable.getValueClassName());
+			varianceVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
 			varianceVariable.setResetType(variable.getResetType());
 			varianceVariable.setResetGroup(variable.getResetGroup());
 			varianceVariable.setCalculation(JRVariable.CALCULATION_VARIANCE);
