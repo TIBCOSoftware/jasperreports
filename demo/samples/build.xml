@@ -57,6 +57,21 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" BeanShell Sample"/>
+		<echo message="==================================="/>
+		<ant dir="beanshell" target="clean" />
+		<ant dir="beanshell" target="javac" />
+		<ant dir="beanshell" target="compile" />
+		<ant dir="beanshell" target="fill" />
+		<ant dir="beanshell" target="pdf" />
+		<ant dir="beanshell" target="xmlEmbed" />
+		<ant dir="beanshell" target="xml" />
+		<ant dir="beanshell" target="html" />
+		<ant dir="beanshell" target="xls" />
+		<ant dir="beanshell" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Data Source Sample"/>
 		<echo message="==================================="/>
 		<ant dir="datasource" target="clean" />
@@ -469,6 +484,7 @@
 		<ant dir="antcompile" target="clean" />
 		<ant dir="barbecue" target="clean" />
 		<ant dir="batchexport" target="clean" />
+		<ant dir="beanshell" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="groovy" target="clean" />
