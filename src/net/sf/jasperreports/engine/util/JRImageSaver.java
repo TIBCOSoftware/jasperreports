@@ -166,17 +166,6 @@ public class JRImageSaver
 		}
 		finally
 		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
 			if (bais != null)
 			{
 				try
