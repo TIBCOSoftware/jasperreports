@@ -90,7 +90,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(String)}.
 	 */
 	public static String printReportToPdfFile(String sourceFileName) throws JRException
 	{
@@ -99,7 +99,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(String, String)}.
 	 */
 	public static void printReportToPdfFile(
 		String sourceFileName,
@@ -111,7 +111,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfFile(JasperPrint, String)}.
 	 */
 	public static void printReportToPdfFile(
 		JasperPrint jasperPrint,
@@ -123,7 +123,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfStream(InputStream, OutputStream)}.
 	 */
 	public static void printReportToPdfStream(
 		InputStream inputStream,
@@ -135,7 +135,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdfStream(JasperPrint, OutputStream)}.
 	 */
 	public static void printReportToPdfStream(
 		JasperPrint jasperPrint,
@@ -147,7 +147,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToPdf(JasperPrint)}.
 	 */
 	public static byte[] printReportToPdf(JasperPrint jasperPrint) throws JRException
 	{
@@ -156,7 +156,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXmlFile(String, boolean)}.
 	 */
 	public static String printReportToXmlFile(
 		String sourceFileName,
@@ -172,7 +172,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXmlFile(String, String, boolean)}.
 	 */
 	public static void printReportToXmlFile(
 		String sourceFileName,
@@ -189,7 +189,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXmlFile(JasperPrint, String, boolean)}.
 	 */
 	public static void printReportToXmlFile(
 		JasperPrint jasperPrint,
@@ -206,7 +206,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXmlStream(InputStream, OutputStream)}.
 	 */
 	public static void printReportToXmlStream(
 		InputStream inputStream,
@@ -221,7 +221,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXmlStream(JasperPrint, OutputStream)}.
 	 */
 	public static void printReportToXmlStream(
 		JasperPrint jasperPrint,
@@ -236,7 +236,7 @@ public class JasperPrintManager
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperExportManager#exportReportToXml(JasperPrint)}.
 	 */
 	public static String printReportToXml(JasperPrint jasperPrint) throws JRException
 	{

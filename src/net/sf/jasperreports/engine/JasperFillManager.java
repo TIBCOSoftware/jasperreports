@@ -83,9 +83,27 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
- * Façade class for filling compiled report designs with data from relational databases 
- * or from other custom datasources, in order to produce ready-to-print, page-oriented documents.
+ * Façade class for filling compiled report designs with data from report data sources, 
+ * in order to produce page-oriented documents, ready-to-print.
+ * <p>
+ * All methods receive a Map object that should contain the values for the report parameters.
+ * These value are retrieved by the engine using the corresponding report parameter name as the key. 
+ * <p>
+ * There are two types of method signatures with regards to the data source
+ * provided for filling the report:
+ * <ul>
+ * <li>Methods that receive an instance of the {@link net.sf.jasperreports.engine.JRDataSource} interface
+ * and use it directly for retrieving report data;
+ * <li>Methods that receive an instance of the {@link java.sql.Connection} interface and retrieve
+ * the report data by executing the report internal SQL query through this JDBC connection and wrapping 
+ * the returned {@link java.sql.ResultSet} object inside a {@link net.sf.jasperreports.engine.JRResultSetDataSource}
+ * instance. 
+ * </ul>
  * 
+ * @see net.sf.jasperreports.engine.JasperReport
+ * @see net.sf.jasperreports.engine.JRDataSource
+ * @see net.sf.jasperreports.engine.fill.JRFiller
+ * @see net.sf.jasperreports.engine.JasperPrint
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -94,12 +112,20 @@ public class JasperFillManager
 
 
 	/**
-	 *
+	 * Fills the compiled report design loaded from the specified file.
+	 * The result of this operation is another file that will contain the serialized  
+	 * {@link JasperPrint} object representing the generated document,
+	 * having the same name as the report design as declared in the source file, 
+	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
 		Map parameters,
-		Connection conn
+		Connection connection
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -109,14 +135,20 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		fillReportToFile(jasperReport, destFileName, parameters, conn);
+		fillReportToFile(jasperReport, destFileName, parameters, connection);
 		
 		return destFileName;
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the file received as the first parameter
+	 * and places the result in the file specified by the second parameter.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param destFileName   file name to place the generated report into
+	 * @param parameters     report parameters map
+	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
@@ -132,7 +164,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design received as the first parameter
+	 * and places the result in the file specified by the second parameter.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param destFileName file name to place the generated report into
+	 * @param parameters   report parameters map
+	 * @param connection   JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
@@ -148,7 +186,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @param connection     JDBC connection object to use for executing the report internal SQL query
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
@@ -165,7 +209,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the supplied input stream and writes
+	 * the generated report object to the output stream specified by the second parameter.
+	 * 
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param outputStream output stream to write the generated report object to
+	 * @param parameters   report parameters map
+	 * @param connection   JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
@@ -181,7 +231,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design supplied as the first parameter and writes
+	 * the generated report object to the output stream specified by the second parameter.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param outputStream output stream to write the generated report object to
+	 * @param parameters   report parameters map
+	 * @param connection   JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
@@ -197,7 +253,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the supplied input stream and returns
+	 * the generated report object.
+	 * 
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param parameters   report parameters map
+	 * @param connection   JDBC connection object to use for executing the report internal SQL query
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
@@ -212,7 +274,13 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design supplied as the first parameter and returns
+	 * the generated report object.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param parameters   report parameters map
+	 * @param connection   JDBC connection object to use for executing the report internal SQL query
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
@@ -225,12 +293,20 @@ public class JasperFillManager
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the specified file.
+	 * The result of this operation is another file that will contain the serialized  
+	 * {@link JasperPrint} object representing the generated document,
+	 * having the same name as the report design as declared in the source file, 
+	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @param dataSource     data source object
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -240,118 +316,160 @@ public class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		fillReportToFile(jasperReport, destFileName, parameters, jrDataSource);
+		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 		
 		return destFileName;
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the file received as the first parameter
+	 * and places the result in the file specified by the second parameter.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param destFileName   file name to place the generated report into
+	 * @param parameters     report parameters map
+	 * @param dataSource     data source object
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFileName);
 
-		fillReportToFile(jasperReport, destFileName, parameters, jrDataSource);
+		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design received as the first parameter
+	 * and places the result in the file specified by the second parameter.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param destFileName file name to place the generated report into
+	 * @param parameters   report parameters map
+	 * @param dataSource   data source object
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
 		String destFileName, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
-		JasperPrint jasperPrint = fillReport(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = fillReport(jasperReport, parameters, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @param dataSource     data source object
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		return fillReport(jasperReport, parameters, jrDataSource);
+		return fillReport(jasperReport, parameters, dataSource);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the supplied input stream and writes
+	 * the generated report object to the output stream specified by the second parameter.
+	 * 
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param outputStream output stream to write the generated report object to
+	 * @param parameters   report parameters map
+	 * @param dataSource   data source object
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(inputStream);
 
-		fillReportToStream(jasperReport, outputStream, parameters, jrDataSource);
+		fillReportToStream(jasperReport, outputStream, parameters, dataSource);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design supplied as the first parameter and writes
+	 * the generated report object to the output stream specified by the second parameter.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param outputStream output stream to write the generated report object to
+	 * @param parameters   report parameters map
+	 * @param dataSource   data source object
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
 		OutputStream outputStream, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
-		JasperPrint jasperPrint = fillReport(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = fillReport(jasperReport, parameters, dataSource);
 
 		JRSaver.saveObject(jasperPrint, outputStream);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design loaded from the supplied input stream and returns
+	 * the generated report object.
+	 * 
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param parameters   report parameters map
+	 * @param dataSource   data source object
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
 		Map parameters,
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(inputStream);
 
-		return fillReport(jasperReport, parameters, jrDataSource);
+		return fillReport(jasperReport, parameters, dataSource);
 	}
 
 	
 	/**
-	 *
+	 * Fills the compiled report design supplied as the first parameter and returns
+	 * the generated report object.
+	 * 
+	 * @param jasperReport compiled report design object to use for filling
+	 * @param parameters   report parameters map
+	 * @param dataSource   data source object
+	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
 		Map parameters, 
-		JRDataSource jrDataSource
+		JRDataSource dataSource
 		) throws JRException
 	{
-		return JRFiller.fillReport(jasperReport, parameters, jrDataSource);
+		return JRFiller.fillReport(jasperReport, parameters, dataSource);
 	}
 
 
