@@ -652,7 +652,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluateOld(JRExpression expression) throws JRException
+	protected Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
@@ -668,7 +668,7 @@ public abstract class JRCalculator
 		}
 		catch (Throwable e)
 		{
-			throw new JRException("Error evaluating expression old value : " + expression.getName(), e);
+			throw new JRExpressionEvalException(expression, e); 
 		}
 		
 		return value;
@@ -678,7 +678,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluateEstimated(JRExpression expression) throws JRException
+	protected Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
@@ -694,7 +694,7 @@ public abstract class JRCalculator
 		}
 		catch (Throwable e)
 		{
-			throw new JRException("Error evaluating expression estimated value : " + expression.getName(), e);
+			throw new JRExpressionEvalException(expression, e); 
 		}
 		
 		return value;
@@ -704,7 +704,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluate(JRExpression expression) throws JRException
+	protected Object evaluate(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 		
@@ -720,7 +720,7 @@ public abstract class JRCalculator
 		}
 		catch (Throwable e)
 		{
-			throw new JRException("Error evaluating expression value : " + expression.getName(), e);
+			throw new JRExpressionEvalException(expression, e); 
 		}
 		
 		return value;
