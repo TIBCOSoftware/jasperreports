@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT jasperReport (reportFont*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, summary?)>
+<!ATTLIST jasperReport
+	name NMTOKEN #REQUIRED
+	columnCount NMTOKEN "1"
+	printOrder (Vertical | Horizontal) "Vertical"
+	pageWidth NMTOKEN "595"
+	pageHeight NMTOKEN "842"
+	orientation (Portrait | Landscape) "Portrait"
+	whenNoDataType (NoPages | BlankPage | AllSectionsNoDetail) "NoPages"
+	columnWidth NMTOKEN "555"
+	columnSpacing NMTOKEN "0"
+	leftMargin NMTOKEN "20"
+	rightMargin NMTOKEN "20"
+	topMargin NMTOKEN "30"
+	bottomMargin NMTOKEN "30"
+	isTitleNewPage (true | false) "false"
+	isSummaryNewPage (true | false) "false"
+	scriptletClass NMTOKEN #IMPLIED
+>
+<!ELEMENT reportFont EMPTY>
+<!ATTLIST reportFont
+	name NMTOKEN #REQUIRED
+	isDefault (true | false) "false"
+	fontName CDATA "sansserif"
+	size NMTOKEN "10"
+	isBold (true | false) "false"
+	isItalic (true | false) "false"
+	isUnderline (true | false) "false"
+	isStrikeThrough (true | false) "false"
+	pdfFontName CDATA "Helvetica"
+	pdfEncoding CDATA "CP1252"
+	isPdfEmbedded (true | false) "false"
+>
+<!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
+<!ATTLIST parameter
+	name NMTOKEN #REQUIRED
+	class NMTOKEN "java.lang.String"
+	isForPrompting (true | false) "true"
+>
+<!ELEMENT parameterDescription (#PCDATA)>
+<!ELEMENT defaultValueExpression (#PCDATA)>
+<!ELEMENT queryString (#PCDATA)>
+<!ELEMENT field (fieldDescription?)>
+<!ATTLIST field
+	name NMTOKEN #REQUIRED
+	class (java.lang.Object | java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.io.InputStream | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.String) "java.lang.String"
+>
+<!ELEMENT fieldDescription (#PCDATA)>
+<!ELEMENT variable (variableExpression?, initialValueExpression?)>
+<!ATTLIST variable
+	name NMTOKEN #REQUIRED
+	class NMTOKEN "java.lang.String"
+	resetType (None | Report | Page | Column | Group) "Report"
+	resetGroup CDATA #IMPLIED
+	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System) "Nothing"
+>
+<!ELEMENT variableExpression (#PCDATA)>
+<!ELEMENT initialValueExpression (#PCDATA)>
+<!ELEMENT group (groupExpression?, groupHeader?, groupFooter?)>
+<!ATTLIST group
+	name NMTOKEN #REQUIRED
+	isStartNewColumn (true | false) "false"
+	isStartNewPage (true | false) "false"
+	isResetPageNumber (true | false) "false"
+	isReprintHeaderOnEachPage (true | false) "false"
+	minHeightToStartNewPage NMTOKEN "0"
+>
+<!ELEMENT groupExpression (#PCDATA)>
+<!ELEMENT groupHeader (band?)>
+<!ELEMENT groupFooter (band?)>
+<!ELEMENT background (band?)>
+<!ELEMENT title (band?)>
+<!ELEMENT pageHeader (band?)>
+<!ELEMENT columnHeader (band?)>
+<!ELEMENT detail (band?)>
+<!ELEMENT columnFooter (band?)>
+<!ELEMENT pageFooter (band?)>
+<!ELEMENT summary (band?)>
+<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*)>
+<!ATTLIST band
+	height NMTOKEN "0"
+	isSplitAllowed (true | false) "true"
+>
+<!ELEMENT line (reportElement, graphicElement?)>
+<!ATTLIST line
+	direction (TopDown | BottomUp) "TopDown"
+>
+<!ELEMENT reportElement (printWhenExpression?)>
+<!ATTLIST reportElement
+	key NMTOKEN #IMPLIED
+	positionType (Float | FixRelativeToTop | FixRelativeToBottom) "FixRelativeToTop"
+	isPrintRepeatedValues (true | false) "true"
+	mode (Opaque | Transparent) #IMPLIED
+	x NMTOKEN #REQUIRED
+	y NMTOKEN #REQUIRED
+	width NMTOKEN #REQUIRED
+	height NMTOKEN #REQUIRED
+	isRemoveLineWhenBlank (true | false) "false"
+	isPrintInFirstWholeBand (true | false) "false"
+	isPrintWhenDetailOverflows (true | false) "false"
+	printWhenGroupChanges CDATA #IMPLIED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+>
+<!ELEMENT printWhenExpression (#PCDATA)>
+<!ELEMENT graphicElement EMPTY>
+<!ATTLIST graphicElement
+	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) "NoStretch"
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) "Solid"
+>
+<!ELEMENT rectangle (reportElement, graphicElement?)>
+<!ATTLIST rectangle
+	radius NMTOKEN "0"
+>
+<!ELEMENT ellipse (reportElement, graphicElement?)>
+<!ELEMENT image (reportElement, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ATTLIST image
+	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
+	hAlign (Left | Center | Right) "Left"
+	vAlign (Top | Middle | Bottom) "Top"
+	isUsingCache (true | false) "true"
+	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationGroup CDATA #IMPLIED
+	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+>
+<!ELEMENT imageExpression (#PCDATA)>
+<!ATTLIST imageExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image) "java.lang.String"
+>
+<!ELEMENT anchorNameExpression (#PCDATA)>
+<!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
+<!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
+<!ELEMENT hyperlinkPageExpression (#PCDATA)>
+<!ELEMENT staticText (reportElement, textElement?, text?)>
+<!ELEMENT textElement (font?)>
+<!ATTLIST textElement
+	textAlignment (Left | Center | Right | Justified) "Left"
+	verticalAlignment (Top | Middle | Bottom) "Top"
+	lineSpacing (Single | 1_1_2 | Double) "Single"
+>
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+	reportFont NMTOKEN #IMPLIED
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+<!ELEMENT text (#PCDATA)>
+<!ELEMENT textField (reportElement, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ATTLIST textField
+	isStretchWithOverflow (true | false) "false"
+	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationGroup CDATA #IMPLIED
+	pattern CDATA #IMPLIED
+	isBlankWhenNull (true | false) "false"
+	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+>
+<!ELEMENT textFieldExpression (#PCDATA)>
+<!ATTLIST textFieldExpression
+	class (java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.String) "java.lang.String"
+>
+<!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, subreportExpression?)>
+<!ATTLIST subreport
+	isUsingCache (true | false) "true"
+>
+<!ELEMENT parametersMapExpression (#PCDATA)>
+<!ELEMENT subreportParameter (subreportParameterExpression?)>
+<!ATTLIST subreportParameter
+	name NMTOKEN #REQUIRED
+>
+<!ELEMENT subreportParameterExpression (#PCDATA)>
+<!ELEMENT connectionExpression (#PCDATA)>
+<!ELEMENT dataSourceExpression (#PCDATA)>
+<!ELEMENT subreportExpression (#PCDATA)>
+<!ATTLIST subreportExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | dori.jasper.engine.JasperReport) "java.lang.String"
+>
+<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*>

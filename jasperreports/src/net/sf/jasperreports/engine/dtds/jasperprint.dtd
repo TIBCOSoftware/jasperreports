@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT jasperPrint (reportFont*, page*)>
+<!ATTLIST jasperPrint
+	name NMTOKEN #REQUIRED
+	pageWidth NMTOKEN "595"
+	pageHeight NMTOKEN "842"
+	orientation (Portrait | Landscape) "Portrait"
+>
+<!ELEMENT reportFont EMPTY>
+<!ATTLIST reportFont
+	name NMTOKEN #REQUIRED
+	isDefault (true | false) "false"
+	fontName CDATA "sansserif"
+	size NMTOKEN "10"
+	isBold (true | false) "false"
+	isItalic (true | false) "false"
+	isUnderline (true | false) "false"
+	isStrikeThrough (true | false) "false"
+	pdfFontName CDATA "Helvetica"
+	pdfEncoding CDATA "Cp1252"
+	isPdfEmbedded (true | false) "false"
+>
+<!ELEMENT page (line | rectangle | ellipse | image | text)*>
+<!ELEMENT line (reportElement?, graphicElement?)>
+<!ATTLIST line
+	direction (TopDown | BottomUp) "TopDown"
+>
+<!ELEMENT reportElement EMPTY>
+<!ATTLIST reportElement
+	mode (Opaque | Transparent) #IMPLIED
+	x NMTOKEN #REQUIRED
+	y NMTOKEN #REQUIRED
+	width NMTOKEN #REQUIRED
+	height NMTOKEN #REQUIRED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+>
+<!ELEMENT graphicElement EMPTY>
+<!ATTLIST graphicElement
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) "Solid"
+>
+<!ELEMENT rectangle (reportElement?, graphicElement?)>
+<!ATTLIST rectangle
+	radius NMTOKEN "0"
+>
+<!ELEMENT ellipse (reportElement?, graphicElement?)>
+<!ELEMENT image (reportElement?, graphicElement?, imageSource?)>
+<!ATTLIST image
+	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
+	hAlign (Left | Center | Right) "Left"
+	vAlign (Top | Middle | Bottom) "Top"
+	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	anchorName NMTOKEN #IMPLIED
+	hyperlinkReference CDATA #IMPLIED
+	hyperlinkAnchor NMTOKEN #IMPLIED
+	hyperlinkPage NMTOKEN #IMPLIED
+>
+<!ELEMENT imageSource (#PCDATA)>
+<!ATTLIST imageSource
+	isEmbedded (true | false) "false"
+>
+<!ELEMENT text (reportElement?, font?, textContent?)>
+<!ATTLIST text
+	textAlignment (Left | Center | Right | Justified) "Left"
+	verticalAlignment (Top | Middle | Bottom) "Top"
+	textHeight NMTOKEN "0"
+	lineSpacing (Single | 1_1_2 | Double) "Single"
+	absoluteLineSpacing NMTOKEN "0"
+	absoluteLeading NMTOKEN "0"
+	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	anchorName NMTOKEN #IMPLIED
+	hyperlinkReference CDATA #IMPLIED
+	hyperlinkAnchor NMTOKEN #IMPLIED
+	hyperlinkPage NMTOKEN #IMPLIED
+>
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+	reportFont NMTOKEN #IMPLIED
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+<!ELEMENT textContent (#PCDATA)>
