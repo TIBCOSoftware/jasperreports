@@ -7,7 +7,7 @@
 		<band height="782">
 			<image>
 				<reportElement x="0" y="50" width="150" height="40"/>
-				<graphicElement pen="Thin"/>
+				<box border="Thin"/>
 				<imageExpression class="java.lang.String"><![CDATA["dukesign.jpg"]]></imageExpression>
 			</image>
 			<staticText>

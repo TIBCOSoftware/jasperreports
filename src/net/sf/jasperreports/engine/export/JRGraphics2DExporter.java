@@ -97,6 +97,7 @@ import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -407,9 +408,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				);
 		}
 
-		
-		Stroke stroke = getStroke(printImage.getPen());
-
 		int availableImageWidth = printImage.getWidth();
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
 
@@ -558,17 +556,29 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 		}
 
-		if (stroke != null)
+		if (printImage.getBox() == null)
 		{
-			grx.setColor(printImage.getForecolor());
-			
-			grx.setStroke(stroke);
-	
-			grx.drawRect(
-				printImage.getX(), 
-				printImage.getY(), 
-				printImage.getWidth() - 1,
-				printImage.getHeight() - 1
+			Stroke stroke = getStroke(printImage.getPen());
+			if (stroke != null)
+			{
+				grx.setColor(printImage.getForecolor());
+				
+				grx.setStroke(stroke);
+		
+				grx.drawRect(
+					printImage.getX(), 
+					printImage.getY(), 
+					printImage.getWidth() - 1,
+					printImage.getHeight() - 1
+					);
+			}
+		}
+		else
+		{
+			/*   */
+			exportBox(
+				printImage.getBox(),
+				printImage
 				);
 		}
 	}
@@ -707,41 +717,56 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			allText
 			);
 		
+		/*   */
+		exportBox(
+			text.getBox(),
+			text
+			);
+		
+		grx.rotate(-angle, x, y);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportBox(JRBox box, JRPrintElement element)
+	{
 		Stroke topStroke = null;
 		Stroke leftStroke = null;
 		Stroke bottomStroke = null;
 		Stroke rightStroke = null;
-		if (text.getBox() != null)
+		if (box != null)
 		{
-			topStroke = getStroke(text.getBox().getTopBorder());
-			leftStroke = getStroke(text.getBox().getLeftBorder());
-			bottomStroke = getStroke(text.getBox().getBottomBorder());
-			rightStroke = getStroke(text.getBox().getRightBorder());
+			topStroke = getStroke(box.getTopBorder());
+			leftStroke = getStroke(box.getLeftBorder());
+			bottomStroke = getStroke(box.getBottomBorder());
+			rightStroke = getStroke(box.getRightBorder());
 		}
 
 		if (topStroke != null)
 		{
 			grx.setStroke(topStroke);
-			grx.setColor(text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor());
+			grx.setColor(box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor());
 	
 			if (topStroke == STROKE_THIN)
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					x, 
-					y, 
-					x + width,
-					y
+					element.getX(), 
+					element.getY(), 
+					element.getX() + element.getWidth(),
+					element.getY()
 					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					x, 
-					y, 
-					x + width - 1,
-					y
+					element.getX(), 
+					element.getY(), 
+					element.getX() + element.getWidth() - 1,
+					element.getY()
 					);
 			}
 		}
@@ -749,26 +774,26 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		if (leftStroke != null)
 		{
 			grx.setStroke(leftStroke);
-			grx.setColor(text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor());
+			grx.setColor(box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor());
 	
 			if (leftStroke == STROKE_THIN)
 			{
 				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					x, 
-					y, 
-					x,
-					y + height
+					element.getX(), 
+					element.getY(), 
+					element.getX(),
+					element.getY() + element.getHeight()
 					);
 				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					x, 
-					y, 
-					x,
-					y + height - 1
+					element.getX(), 
+					element.getY(), 
+					element.getX(),
+					element.getY() + element.getHeight() - 1
 					);
 			}
 		}
@@ -776,26 +801,26 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		if (bottomStroke != null)
 		{
 			grx.setStroke(bottomStroke);
-			grx.setColor(text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor());
+			grx.setColor(box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor());
 	
 			if (bottomStroke == STROKE_THIN)
 			{
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 				grx.drawLine(
-					x, 
-					y + height - 1,
-					x + width,
-					y + height - 1
+					element.getX(), 
+					element.getY() + element.getHeight() - 1,
+					element.getX() + element.getWidth(),
+					element.getY() + element.getHeight() - 1
 					);
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					x, 
-					y + height - 1,
-					x + width - 1,
-					y + height - 1
+					element.getX(), 
+					element.getY() + element.getHeight() - 1,
+					element.getX() + element.getWidth() - 1,
+					element.getY() + element.getHeight() - 1
 					);
 			}
 		}
@@ -803,31 +828,29 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		if (rightStroke != null)
 		{
 			grx.setStroke(rightStroke);
-			grx.setColor(text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor());
+			grx.setColor(box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor());
 	
 			if (rightStroke == STROKE_THIN)
 			{
 				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
 				grx.drawLine(
-					x + width - 1,
-					y,
-					x + width - 1,
-					y + height
+					element.getX() + element.getWidth() - 1,
+					element.getY(),
+					element.getX() + element.getWidth() - 1,
+					element.getY() + element.getHeight()
 					);
 				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
 			}
 			else
 			{
 				grx.drawLine(
-					x + width - 1,
-					y,
-					x + width - 1,
-					y + height - 1
+					element.getX() + element.getWidth() - 1,
+					element.getY(),
+					element.getX() + element.getWidth() - 1,
+					element.getY() + element.getHeight() - 1
 					);
 			}
 		}
-
-		grx.rotate(-angle, x, y);
 	}
 
 

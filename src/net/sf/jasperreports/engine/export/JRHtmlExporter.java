@@ -1169,13 +1169,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" rowspan=" + gridCell.rowSpan);
 		}
-		if (image.getBackcolor().getRGB() != Color.white.getRGB() && image.getMode() == JRElement.MODE_OPAQUE)
-		{
-			writer.write(" bgcolor=#");
-			String hexa = Integer.toHexString(image.getBackcolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			writer.write(hexa);
-		}
+//		if (image.getBackcolor().getRGB() != Color.white.getRGB() && image.getMode() == JRElement.MODE_OPAQUE)
+//		{
+//			writer.write(" bgcolor=#");
+//			String hexa = Integer.toHexString(image.getBackcolor().getRGB() & colorMask).toUpperCase();
+//			hexa = ("000000" + hexa).substring(hexa.length());
+//			writer.write(hexa);
+//		}
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1233,6 +1233,52 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 
+		StringBuffer styleBuffer = new StringBuffer();
+
+		if (image.getBackcolor().getRGB() != Color.white.getRGB() && image.getMode() == JRElement.MODE_OPAQUE)
+		{
+			styleBuffer.append("background-color: #");
+			String hexa = Integer.toHexString(image.getBackcolor().getRGB() & colorMask).toUpperCase();
+			hexa = ("000000" + hexa).substring(hexa.length());
+			styleBuffer.append(hexa);
+			styleBuffer.append("; ");
+		}
+
+		if (image.getBox() != null)
+		{
+			appendBorderStyle(
+				styleBuffer, 
+				image.getBox().getTopBorder(),
+				image.getBox().getTopBorderColor() == null ? image.getForecolor() : image.getBox().getTopBorderColor(),
+				"top"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				image.getBox().getLeftBorder(),
+				image.getBox().getLeftBorderColor() == null ? image.getForecolor() : image.getBox().getLeftBorderColor(),
+				"left"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				image.getBox().getBottomBorder(),
+				image.getBox().getBottomBorderColor() == null ? image.getForecolor() : image.getBox().getBottomBorderColor(),
+				"bottom"
+				);
+			appendBorderStyle(
+				styleBuffer, 
+				image.getBox().getRightBorder(),
+				image.getBox().getRightBorderColor() == null ? image.getForecolor() : image.getBox().getRightBorderColor(),
+				"right"
+				);
+		}
+
+		if (styleBuffer.length() > 0)
+		{
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
+			writer.write("\"");
+		}
+		
 		writer.write(">");
 
 		if (image.getAnchorName() != null)

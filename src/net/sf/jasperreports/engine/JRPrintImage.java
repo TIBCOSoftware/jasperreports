@@ -127,5 +127,15 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	 */
 	public void setVerticalAlignment(byte verticalAlignment);
 		
+	/**
+	 *
+	 */
+	public JRBox getBox();
+
+	/**
+	 *
+	 */
+	public void setBox(JRBox box);
+
 
 }

@@ -143,5 +143,10 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public JRExpression getExpression();
 	
+	/**
+	 *
+	 */
+	public JRBox getBox();
+
 
 }

@@ -77,6 +77,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -204,6 +205,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return this.evaluationGroup;
 	}
 		
+	/**
+	 *
+	 */
+	public JRBox getBox()
+	{
+		return ((JRImage)parent).getBox();
+	}
+
 	/**
 	 *
 	 */
