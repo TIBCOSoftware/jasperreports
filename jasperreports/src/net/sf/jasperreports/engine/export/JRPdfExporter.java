@@ -1670,7 +1670,14 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 				{
-					horizontalAlignment = Element.ALIGN_LEFT;
+					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
+					{
+						horizontalAlignment = Element.ALIGN_LEFT; 
+					}
+					else
+					{
+						horizontalAlignment = Element.ALIGN_RIGHT; 
+					}
 					break;
 				}
 				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
@@ -1680,7 +1687,14 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 				{
-					horizontalAlignment = Element.ALIGN_RIGHT; 
+					if (text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR)
+					{
+						horizontalAlignment = Element.ALIGN_RIGHT; 
+					}
+					else
+					{
+						horizontalAlignment = Element.ALIGN_LEFT; 
+					}
 					break;
 				}
 				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED : 

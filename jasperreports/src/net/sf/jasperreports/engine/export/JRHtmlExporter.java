@@ -1035,7 +1035,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 			}
 
-			if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+			if (
+				(text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
+				&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+				|| (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL
+				&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_RIGHT))
+				)
 			{
 				styleBuffer.append("text-align: ");
 				styleBuffer.append(horizontalAlignment);

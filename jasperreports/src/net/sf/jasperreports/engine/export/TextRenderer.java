@@ -290,7 +290,7 @@ public class TextRenderer
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 
 		drawPosY = 0;
-	    drawPosX = 0;
+		drawPosX = 0;
 	
 		isMaxHeightReached = false;
 	}
@@ -352,63 +352,49 @@ public class TextRenderer
 
 			if (drawPosY + layout.getDescent() <= maxHeight)
 			{
-			    switch (textAlignment)
-			    {
+				switch (textAlignment)
+				{
 					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-				    {
-					    if (layout.isLeftToRight())
-					    {
-						    drawPosX = 0;
-					    }
-					    else
-					    {
-						    drawPosX = formatWidth - layout.getAdvance();
-					    }
-					    if (lineMeasurer.getPosition() < paragraph.getEndIndex())
-					    {
-						    layout = layout.getJustifiedLayout(formatWidth);
+					{
+						if (layout.isLeftToRight())
+						{
+							drawPosX = 0;
+						}
+						else
+						{
+							drawPosX = formatWidth - layout.getAdvance();
+						}
+						if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+						{
+							layout = layout.getJustifiedLayout(formatWidth);
 						}
 
-					    break;
-				    }
+						break;
+					}
 					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-				    {
-					    if (layout.isLeftToRight())
-					    {
-						    drawPosX = formatWidth - layout.getAdvance();
-					    }
-					    else
-					    {
-						    drawPosX = formatWidth;
-					    }
-					    break;
-				    }
+					{
+						drawPosX = formatWidth - layout.getAdvance();
+						break;
+					}
 					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-				    {
-					    drawPosX = (formatWidth - layout.getAdvance()) / 2;
-					    break;
-				    }
+					{
+						drawPosX = (formatWidth - layout.getAdvance()) / 2;
+						break;
+					}
 					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-				    default :
-				    {
-					    if (layout.isLeftToRight())
-					    {
-						    drawPosX = 0;
-					    }
-					    else
-					    {
-						    drawPosX = formatWidth - layout.getAdvance();
-					    }
-				    }
-			    }
+					default :
+					{
+						drawPosX = 0;
+					}
+				}
 
-			    draw(layout);
-			    drawPosY += layout.getDescent();
+				draw(layout);
+				drawPosY += layout.getDescent();
 			}
 			else
 			{
-			    drawPosY -= layout.getLeading() + floatLineSpacing * layout.getAscent();
-	    	    isMaxHeightReached = true;
+				drawPosY -= layout.getLeading() + floatLineSpacing * layout.getAscent();
+				isMaxHeightReached = true;
 			}
 		}
 	}
@@ -426,7 +412,7 @@ public class TextRenderer
 	 */
 	public void draw(TextLayout layout)
 	{
-	    layout.draw(
+		layout.draw(
 			grx,
 			drawPosX + x + leftPadding,
 			drawPosY + y + topPadding + verticalOffset

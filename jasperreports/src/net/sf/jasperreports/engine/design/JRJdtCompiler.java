@@ -213,9 +213,9 @@ public class JRJdtCompiler implements JRCompiler
 	/**
 	 *
 	 */
-	protected String compileClass(final String sourceCode, final String targetClassName, final ClassFile[] classFiles)
+	private String compileClass(final String sourceCode, final String targetClassName, final ClassFile[] classFiles)
 	{
-		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		final ClassLoader classLoader = getClassLoader();
 		final StringBuffer problemBuffer = new StringBuffer();
 
 
@@ -476,4 +476,34 @@ public class JRJdtCompiler implements JRCompiler
 	}
 
 	
+	/**
+	 *
+	 */
+	private ClassLoader getClassLoader()
+	{
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		if (classLoader != null)
+		{
+			try
+			{
+				Class.forName(JRJdtCompiler.class.getName(), true, Thread.currentThread().getContextClassLoader());
+			}
+			catch (ClassNotFoundException e)
+			{
+				classLoader = null;
+				//if (log.isWarnEnabled())
+				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRJdtCompiler class. Using JRJdtCompiler.class.getClassLoader() instead.");
+			}
+		}
+	
+		if (classLoader == null)
+		{
+			classLoader = JRClassLoader.class.getClassLoader();
+		}
+
+		return classLoader;
+	}
+
+
 }
