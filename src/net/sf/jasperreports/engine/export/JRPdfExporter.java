@@ -138,12 +138,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static final String EMPTY_STRING = "";
-
-
-	/**
-	 *
-	 */
 	protected Document document = null;
 	protected PdfContentByte pdfContentByte = null;
 
@@ -1202,10 +1196,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	protected Chunk getHyperlinkInfoChunk(JRPrintText text)
+	protected void setHyperlinkInfo(Chunk chunk, JRPrintText text)
 	{
-		Chunk chunk = new Chunk(EMPTY_STRING);
-		
 		if (text.getAnchorName() != null)
 		{
 			chunk.setLocalDestination(text.getAnchorName());
@@ -1271,15 +1263,13 @@ public class JRPdfExporter extends JRAbstractExporter
 				break;
 			}
 		}
-		
-		return chunk;
 	}
 	
 
 	/**
 	 *
 	 */
-	protected Phrase getPhrase(JRStyledText styledText, Chunk hyperlinkInfoChunk) throws JRException, DocumentException, IOException
+	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement) throws JRException, DocumentException, IOException
 	{
 		Phrase phrase = new Phrase();
 
@@ -1292,7 +1282,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
-			chunk.setMarkupAttributes(hyperlinkInfoChunk.getMarkupAttributes());
+			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
 
 			iterator.setIndex(runLimit);
@@ -1542,7 +1532,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
-			getPhrase(styledText, getHyperlinkInfoChunk(text)),
+			getPhrase(styledText, text),
 			x, 
 			jasperPrint.getPageHeight() 
 				- y 
