@@ -26,6 +26,11 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
+
+/*
+ * Contributors:
+ * Peter Severin - peter_p_s@users.sourceforge.net 
+ */
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRException;
