@@ -671,7 +671,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			{
 				return 
 					textField.filler.getStyledTextParser().write(
-						textField.initialStyledTextAttributes,
+						textField.getStyledTextAttributes(),
 						new AttributedString(
 							textField.getStyledText().getAttributedString().getIterator(), 
 							startIndex, 

@@ -141,7 +141,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 
 		printServiceAttributeSet = 
 			(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
-		if (printRequestAttributeSet != null)
+		if (printServiceAttributeSet != null)
 		{
 			attributeSet.addAll(printServiceAttributeSet);
 		}
