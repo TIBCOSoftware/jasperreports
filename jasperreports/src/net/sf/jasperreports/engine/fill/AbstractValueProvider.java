@@ -71,25 +71,62 @@
  */
 package dori.jasper.engine.fill;
 
-import dori.jasper.engine.JRException;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRIncrementer
+public abstract class AbstractValueProvider
 {
 
 
 	/**
 	 *
 	 */
-	public Object increment(
-		JRFillVariable variable, 
-		Object expressionValue, 
-		AbstractValueProvider valueProvider
-		) throws JRException;
+	private static AbstractValueProvider currentValueProvider = 
+		new AbstractValueProvider()
+		{
+			public Object getValue(JRFillVariable variable)
+			{
+				return variable.getValue();
+			}
+		};
+
+	/**
+	 *
+	 */
+	private static AbstractValueProvider estimatedValueProvider = 
+		new AbstractValueProvider()
+		{
+			public Object getValue(JRFillVariable variable)
+			{
+				return variable.getEstimatedValue();
+			}
+		};
+
+
+	/**
+	 *
+	 */
+	public static AbstractValueProvider getCurrentValueProvider()
+	{
+		return currentValueProvider; 
+	}
+
+
+	/**
+	 *
+	 */
+	public static AbstractValueProvider getEstimatedValueProvider()
+	{
+		return estimatedValueProvider; 
+	}
+
+
+	/**
+	 *
+	 */
+	public abstract Object getValue(JRFillVariable variable);
 
 
 }

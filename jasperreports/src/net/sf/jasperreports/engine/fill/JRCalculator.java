@@ -98,30 +98,6 @@ public abstract class JRCalculator
 	private JRFillVariable pageNumber = null;
 	private JRFillVariable columnNumber = null;
 
-	/**
-	 *
-	 */
-	private JRVariableValueProvider valueProvider = 
-		new JRVariableValueProvider()
-		{
-			public Object getValue(JRFillVariable variable)
-			{
-				return variable.getValue();
-			}
-		};
-
-	/**
-	 *
-	 */
-	private JRVariableValueProvider estimatedValueProvider = 
-		new JRVariableValueProvider()
-		{
-			public Object getValue(JRFillVariable variable)
-			{
-				return variable.getEstimatedValue();
-			}
-		};
-
 
 	/**
 	 *
@@ -202,7 +178,7 @@ public abstract class JRCalculator
 			{
 				variable = variables[i];
 				expressionValue = this.evaluate(variable.getExpression());
-				newValue = variable.getIncrementer().increment(variable, expressionValue, valueProvider);
+				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
 			}
@@ -225,7 +201,7 @@ public abstract class JRCalculator
 			{
 				variable = variables[i];
 				expressionValue = this.evaluateEstimated(variable.getExpression());
-				newValue = variable.getIncrementer().increment(variable, expressionValue, estimatedValueProvider);
+				newValue = variable.getIncrementer().increment(variable, expressionValue,  AbstractValueProvider.getEstimatedValueProvider());
 				variable.setEstimatedValue(newValue);
 				variable.setInitialized(false);
 			}
