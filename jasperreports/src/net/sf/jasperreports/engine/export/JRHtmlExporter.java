@@ -77,6 +77,7 @@
 package dori.jasper.engine.export;
 
 import java.awt.Color;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -84,6 +85,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -92,6 +94,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.xml.sax.SAXException;
 
 import dori.jasper.engine.JRAbstractExporter;
 import dori.jasper.engine.JRAlignment;
@@ -113,6 +117,8 @@ import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRStringUtil;
+import dori.jasper.engine.util.JRStyledText;
+import dori.jasper.engine.util.JRStyledTextParser;
 
 
 /**
@@ -150,6 +156,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected JRFont defaultFont = null;
+
+	/**
+	 *
+	 */
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
 	 *
@@ -726,8 +737,143 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		JRStyledText styledText = null;
+
+		String text = textElement.getText();
+		if (text != null)
+		{
+			JRFont font = textElement.getFont();
+			if (font == null)
+			{
+				font = getDefaultFont();
+			}
+
+			Map attributes = new HashMap(); 
+			attributes.putAll(font.getAttributes());
+			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+
+			if (textElement.isStyledText())
+			{
+				try
+				{
+					styledText = styledTextParser.parse(attributes, text);
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportStyledText(JRStyledText styledText) throws IOException
+	{
+		String text = styledText.getText();
+		
+		int runLimit = 0;
+
+		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+		
+		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		{
+			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+
+			iterator.setIndex(runLimit);
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportStyledTextRun(Map attributes, String text) throws IOException
+	{
+		writer.write("<span style=\"font-family: ");
+		writer.write((String)attributes.get(TextAttribute.FAMILY));
+		writer.write("; ");
+
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		if (!Color.black.equals(forecolor))
+		{
+			writer.write("color: #");
+			String hexa = Integer.toHexString(forecolor.getRGB() & colorMask).toUpperCase();
+			hexa = ("000000" + hexa).substring(hexa.length());
+			writer.write(hexa);
+			writer.write("; ");
+		}
+
+		writer.write("font-size: ");
+		writer.write(String.valueOf(attributes.get(TextAttribute.SIZE)));
+		writer.write("px;");
+
+		/*
+		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+		{
+			writer.write(" text-align: ");
+			writer.write(horizontalAlignment);
+			writer.write(";");
+		}
+		*/
+
+		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT)))
+		{
+			writer.write(" font-weight: bold;");
+		}
+		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE)))
+		{
+			writer.write(" font-style: italic;");
+		}
+		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
+		{
+			writer.write(" text-decoration: underline;");
+		}
+		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
+		{
+			writer.write(" text-decoration: line-through;");
+		}
+
+		writer.write("\">");
+
+		writer.write(
+			replaceNewLineWithBR(
+				JRStringUtil.xmlEncode(text)
+				)
+			);
+			
+		writer.write("</span>");
+	}
+
+
+	/**
+	 *
+	 */
 	protected void exportText(JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
+		JRStyledText styledText = getStyledText(text);
+
+		int textLength = 0;
+
+		if (styledText != null)
+		{
+			textLength = styledText.length();
+		}
+
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
@@ -779,7 +925,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
-		if (text.getText() != null && text.getText().length() > 0)
+		if (textLength > 0)
 		{
 			switch (text.getTextAlignment())
 			{
@@ -892,75 +1038,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\">");
 		}
 
-		JRFont font = text.getFont();
-		if (font == null)
+		if (textLength > 0)
 		{
-			font = getDefaultFont();
-		}
-
-		if (text.getText() != null && text.getText().length() > 0)
-		{
-			writer.write("<font face=\"");
-			writer.write(font.getFontName());
-
-			writer.write("\" style=\"");
-
-			if (text.getForecolor().getRGB() != Color.black.getRGB())
-			{
-				writer.write("color: #");
-				String hexa = Integer.toHexString(text.getForecolor().getRGB() & colorMask).toUpperCase();
-				hexa = ("000000" + hexa).substring(hexa.length());
-				writer.write(hexa);
-				writer.write("; ");
-			}
-
-			writer.write("font-size: ");
-			writer.write(String.valueOf(font.getSize()));
-			writer.write("px;");
-
-			if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-			{
-				writer.write(" text-align: ");
-				writer.write(horizontalAlignment);
-				writer.write(";");
-			}
-
-			if (font.isUnderline())
-			{
-				writer.write(" text-decoration: underline;");
-			}
-			if (font.isStrikeThrough())
-			{
-				writer.write(" text-decoration: line-through;");
-			}
-
-			writer.write("\">");
-
-			if (font.isBold())
-			{
-				writer.write("<b>");
-			}
-			if (font.isItalic())
-			{
-				writer.write("<i>");
-			}
-			
-			writer.write(
-				replaceNewLineWithBR(
-					JRStringUtil.xmlEncode(text.getText())
-					)
-				);
-			
-			if (font.isItalic())
-			{
-				writer.write("</i>");
-			}
-			if (font.isBold())
-			{
-				writer.write("</b>");
-			}
-	
-			writer.write("</font>");
+			exportStyledText(styledText);
 		}
 		else
 		{
