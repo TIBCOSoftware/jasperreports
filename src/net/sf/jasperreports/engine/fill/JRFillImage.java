@@ -488,7 +488,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			if (
 				isToPrint && 
 				this.isRemoveLineWhenBlank() &&
-				//(this.getImageData() == null || this.getImageData().length == 0)//FIXME deal better with nulls if using factory for renderable
 				this.getRenderer() == null
 				)
 			{
