@@ -878,7 +878,8 @@ public class JRXmlWriter
 			(element instanceof JRRectangle && element.getMode() != JRElement.MODE_OPAQUE) ||
 			(element instanceof JREllipse && element.getMode() != JRElement.MODE_OPAQUE) ||
 			(element instanceof JRImage && element.getMode() != JRElement.MODE_TRANSPARENT) ||
-			(element instanceof JRTextElement && element.getMode() != JRElement.MODE_TRANSPARENT)
+			(element instanceof JRTextElement && element.getMode() != JRElement.MODE_TRANSPARENT) ||
+			(element instanceof JRSubreport && element.getMode() != JRElement.MODE_TRANSPARENT)
 			)
 		{
 			this.sbuffer.append(" mode=\"");
