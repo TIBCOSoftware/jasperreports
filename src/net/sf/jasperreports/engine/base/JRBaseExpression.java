@@ -231,6 +231,13 @@ public class JRBaseExpression implements JRExpression, Serializable
 						sbuffer.append("}");
 						break;
 					}
+					case JRExpressionChunk.TYPE_RESOURCE :
+					{
+						sbuffer.append("$R{");
+						sbuffer.append( chunks[i].getText() );
+						sbuffer.append("}");
+						break;
+					}
 					case JRExpressionChunk.TYPE_TEXT :
 					default :
 					{

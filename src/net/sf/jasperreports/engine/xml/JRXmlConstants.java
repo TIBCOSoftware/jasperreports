@@ -78,7 +78,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
@@ -432,31 +431,6 @@ public class JRXmlConstants
 		}
 		
 		return fillMap;
-	}
-
-	/**
-	 *
-	 */
-	private static final String TYPE_TEXT = "Text";
-	private static final String TYPE_FIELD = "Field";
-	private static final String TYPE_VARIABLE = "Variable";
-
-	private static Map chunkTypeMap = null;
-
-	public static Map getChunkTypeMap()
-	{
-		if (chunkTypeMap == null)
-		{
-			chunkTypeMap = new HashMap(6);
-			chunkTypeMap.put(TYPE_TEXT,     new Byte(JRExpressionChunk.TYPE_TEXT));
-			chunkTypeMap.put(TYPE_FIELD,    new Byte(JRExpressionChunk.TYPE_FIELD));
-			chunkTypeMap.put(TYPE_VARIABLE, new Byte(JRExpressionChunk.TYPE_VARIABLE));
-			chunkTypeMap.put(new Byte(JRExpressionChunk.TYPE_TEXT),     TYPE_TEXT);
-			chunkTypeMap.put(new Byte(JRExpressionChunk.TYPE_FIELD),    TYPE_FIELD);
-			chunkTypeMap.put(new Byte(JRExpressionChunk.TYPE_VARIABLE), TYPE_VARIABLE);
-		}
-		
-		return chunkTypeMap;
 	}
 
 	/**

@@ -87,6 +87,7 @@ public interface JRExpressionChunk
 	public static final byte TYPE_PARAMETER = 2;
 	public static final byte TYPE_FIELD = 3;
 	public static final byte TYPE_VARIABLE = 4;
+	public static final byte TYPE_RESOURCE = 5;
 
 
 	/**

@@ -316,6 +316,13 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if(report.getResourceBundle() != null)
+		{
+			sb.append(" resourceBundle=\"");
+			sb.append(report.getResourceBundle());
+			sb.append("\"");
+		}
+
 		sb.append(">\n");
 		
 		/*   */

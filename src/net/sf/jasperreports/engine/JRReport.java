@@ -188,6 +188,11 @@ public interface JRReport extends JRDefaultFontProvider
 	/**
 	 *
 	 */
+	public String getResourceBundle();
+
+	/**
+	 *
+	 */
 	public String[] getPropertyNames();
 
 	/**

@@ -76,6 +76,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -423,8 +424,7 @@ public class JRClassGenerator
 						sb.append(jrParameter.getValueClassName());
 						sb.append(")parameter_");
 						sb.append(chunkText);
-						sb.append(".getValue()");
-						sb.append(")");
+						sb.append(".getValue())");
 	
 						break;
 					}
@@ -453,6 +453,18 @@ public class JRClassGenerator
 						sb.append(".get");
 						sb.append((String)variablePrefixMap.get(new Byte(evaluationType))); 
 						sb.append("Value())");
+	
+						break;
+					}
+					case JRExpressionChunk.TYPE_RESOURCE :
+					{
+						sb.append("((");
+						sb.append(ResourceBundle.class.getName());
+						sb.append(")parameter_");
+						sb.append(JRParameter.REPORT_RESOURCE_BUNDLE);
+						sb.append(".getValue()).getString(\"");
+						sb.append(chunkText);
+						sb.append("\")");
 	
 						break;
 					}
