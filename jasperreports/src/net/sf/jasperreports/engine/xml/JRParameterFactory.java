@@ -74,7 +74,6 @@ package dori.jasper.engine.xml;
 import org.xml.sax.Attributes;
 
 import dori.jasper.engine.design.JRDesignParameter;
-import dori.jasper.engine.util.JRClassLoader;
 
 
 /**
@@ -89,22 +88,13 @@ public class JRParameterFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-
 		JRDesignParameter parameter = new JRDesignParameter();
 		
 		parameter.setName(atts.getValue("name"));
 		
-		try
+		if (atts.getValue("class") != null)
 		{
-			if (atts.getValue("class") != null)
-			{
-				parameter.setValueClass(JRClassLoader.loadClassForName(atts.getValue("class")));
-			}
-		}
-		catch (ClassNotFoundException e)
-		{
-			xmlLoader.addError(e);
+			parameter.setValueClassName(atts.getValue("class"));
 		}
 
 		String isForPrompting = atts.getValue("isForPrompting");
