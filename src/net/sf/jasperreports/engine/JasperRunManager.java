@@ -150,7 +150,7 @@ public class JasperRunManager
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, conn);
 
-		JasperPrintManager.printReportToPdfStream(jasperPrint, outputStream);
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 	}
 
 	
@@ -266,7 +266,7 @@ public class JasperRunManager
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, jrDataSource);
 
-		JasperPrintManager.printReportToPdfStream(jasperPrint, outputStream);
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 	}
 
 	
