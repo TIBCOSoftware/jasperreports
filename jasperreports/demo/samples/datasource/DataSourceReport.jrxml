@@ -157,17 +157,29 @@
 			</textField>
 		</band>
 	</pageFooter>
-	<summary>
+	<lastPageFooter>
 		<band height="60">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="175" y="20" width="165" height="15"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+			<textField>
+				<reportElement x="0" y="10" width="515" height="15"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
 					" address records on this report."]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="30" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<textField>
+				<reportElement x="200" y="40" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="40" width="75" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
 		</band>
-	</summary>
+	</lastPageFooter>
 </jasperReport>
