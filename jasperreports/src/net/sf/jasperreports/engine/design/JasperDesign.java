@@ -304,7 +304,7 @@ public class JasperDesign extends JRBaseReport
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
-		expression.setName(JRExpression.PREFIX_variableInitialValue + JRVariable.COLUMN_COUNT);
+		expression.setName(JRExpression.PREFIX_variable + JRVariable.COLUMN_COUNT);
 		expression.setText("new Integer(1)");
 		variable.setExpression((JRExpression)expression);
 		expression = new JRDesignExpression();
