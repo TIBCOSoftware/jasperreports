@@ -1770,19 +1770,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case JRGraphicElement.PEN_DOTTED :
 			{
 				borderStyle = "dashed"; 
-				borderWidth = "medium"; 
+				borderWidth = "1px"; 
 				break;
 			}
 			case JRGraphicElement.PEN_4_POINT :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "thick"; 
+				borderWidth = "4px"; 
 				break;
 			}
 			case JRGraphicElement.PEN_2_POINT :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "2pt"; 
+				borderWidth = "2px"; 
 				break;
 			}
 			case JRGraphicElement.PEN_THIN :
@@ -1799,7 +1799,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			default :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "2px"; 
+				borderWidth = "1px"; 
 				break;
 			}
 		}
