@@ -38,19 +38,6 @@
 	</target>
 
 	<!--
-		Compiles the XML report design using the BeanShell compiler
-		and produces the .jasper file.
-	-->
-	<target name="compileBsh">
-		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
-			<arg value="compile"/>
-			<arg value="${file.name}.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
 		Fills the compiled report design with data 
 		and produces the .jrprint file.
 	-->

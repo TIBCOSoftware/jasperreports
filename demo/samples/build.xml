@@ -18,8 +18,6 @@
 		<ant dir="alterdesign" target="javac" />
 		<ant dir="alterdesign" target="compile" />
 		<ant dir="alterdesign" target="fill" />
-		<ant dir="alterdesign" target="compileBsh" />
-		<ant dir="alterdesign" target="fill" />
 		<ant dir="alterdesign" target="pdf" />
 
 		<echo message=""/>
@@ -36,8 +34,6 @@
 		<ant dir="barbecue" target="clean" />
 		<ant dir="barbecue" target="javac" />
 		<ant dir="barbecue" target="compile" />
-		<ant dir="barbecue" target="fill" />
-		<ant dir="barbecue" target="compileBsh" />
 		<ant dir="barbecue" target="fill" />
 		<ant dir="barbecue" target="pdf" />
 		<ant dir="barbecue" target="xmlEmbed" />
@@ -70,11 +66,6 @@
 		<ant dir="datasource" target="fill2" />
 		<ant dir="datasource" target="fill3" />
 		<ant dir="datasource" target="fill4" />
-		<ant dir="datasource" target="compileBsh" />
-		<ant dir="datasource" target="fill1" />
-		<ant dir="datasource" target="fill2" />
-		<ant dir="datasource" target="fill3" />
-		<ant dir="datasource" target="fill4" />
 		<ant dir="datasource" target="pdf" />
 		<ant dir="datasource" target="xmlEmbed" />
 		<ant dir="datasource" target="xml" />
@@ -90,8 +81,6 @@
 		<ant dir="fonts" target="javac" />
 		<ant dir="fonts" target="compile" />
 		<ant dir="fonts" target="fill" />
-		<ant dir="fonts" target="compileBsh" />
-		<ant dir="fonts" target="fill" />
 		<ant dir="fonts" target="pdf" />
 		<ant dir="fonts" target="xmlEmbed" />
 		<ant dir="fonts" target="xml" />
@@ -106,8 +95,6 @@
 		<ant dir="horizontal" target="clean" />
 		<ant dir="horizontal" target="javac" />
 		<ant dir="horizontal" target="compile" />
-		<ant dir="horizontal" target="fill" />
-		<ant dir="horizontal" target="compileBsh" />
 		<ant dir="horizontal" target="fill" />
 		<ant dir="horizontal" target="pdf" />
 		<ant dir="horizontal" target="xmlEmbed" />
@@ -125,8 +112,6 @@
 		<ant dir="hyperlink" target="compile" />
 		<ant dir="hyperlink" target="writeXml" />
 		<ant dir="hyperlink" target="fill" />
-		<ant dir="hyperlink" target="compileBsh" />
-		<ant dir="hyperlink" target="fill" />
 		<ant dir="hyperlink" target="pdf" />
 		<ant dir="hyperlink" target="xmlEmbed" />
 		<ant dir="hyperlink" target="xml" />
@@ -142,8 +127,6 @@
 		<ant dir="i18n" target="javac" />
 		<ant dir="i18n" target="compile" />
 		<ant dir="i18n" target="fillDefault" />
-		<ant dir="i18n" target="compileBsh" />
-		<ant dir="i18n" target="fillDefault" />
 		<ant dir="i18n" target="pdf" />
 		<ant dir="i18n" target="html" />
 		<ant dir="i18n" target="xls" />
@@ -156,8 +139,6 @@
 		<ant dir="images" target="clean" />
 		<ant dir="images" target="javac" />
 		<ant dir="images" target="compile" />
-		<ant dir="images" target="fill" />
-		<ant dir="images" target="compileBsh" />
 		<ant dir="images" target="fill" />
 		<ant dir="images" target="pdf" />
 		<ant dir="images" target="xmlEmbed" />
@@ -174,8 +155,6 @@
 		<ant dir="jasper" target="javac" />
 		<ant dir="jasper" target="compile" />
 		<ant dir="jasper" target="fill" />
-		<ant dir="jasper" target="compileBsh" />
-		<ant dir="jasper" target="fill" />
 		<ant dir="jasper" target="pdf" />
 		<ant dir="jasper" target="xmlEmbed" />
 		<ant dir="jasper" target="xml" />
@@ -190,8 +169,6 @@
 		<ant dir="jcharts" target="clean" />
 		<ant dir="jcharts" target="javac" />
 		<ant dir="jcharts" target="compile" />
-		<ant dir="jcharts" target="fill" />
-		<ant dir="jcharts" target="compileBsh" />
 		<ant dir="jcharts" target="fill" />
 		<ant dir="jcharts" target="pdf" />
 		<ant dir="jcharts" target="xmlEmbed" />
@@ -208,8 +185,6 @@
 		<ant dir="jfreechart" target="javac" />
 		<ant dir="jfreechart" target="compile" />
 		<ant dir="jfreechart" target="fill" />
-		<ant dir="jfreechart" target="compileBsh" />
-		<ant dir="jfreechart" target="fill" />
 		<ant dir="jfreechart" target="pdf" />
 		<ant dir="jfreechart" target="xmlEmbed" />
 		<ant dir="jfreechart" target="xml" />
@@ -225,8 +200,6 @@
 		<ant dir="landscape" target="javac" />
 		<ant dir="landscape" target="compile" />
 		<ant dir="landscape" target="fill" />
-		<ant dir="landscape" target="compileBsh" />
-		<ant dir="landscape" target="fill" />
 		<ant dir="landscape" target="pdf" />
 		<ant dir="landscape" target="xmlEmbed" />
 		<ant dir="landscape" target="xml" />
@@ -241,8 +214,6 @@
 		<ant dir="nopagebreak" target="clean" />
 		<ant dir="nopagebreak" target="javac" />
 		<ant dir="nopagebreak" target="compile" />
-		<ant dir="nopagebreak" target="fill" />
-		<ant dir="nopagebreak" target="compileBsh" />
 		<ant dir="nopagebreak" target="fill" />
 		<ant dir="nopagebreak" target="pdf" />
 		<ant dir="nopagebreak" target="xmlEmbed" />
@@ -291,8 +262,6 @@
 		<ant dir="pdfencrypt" target="javac" />
 		<ant dir="pdfencrypt" target="compile" />
 		<ant dir="pdfencrypt" target="fill" />
-		<ant dir="pdfencrypt" target="compileBsh" />
-		<ant dir="pdfencrypt" target="fill" />
 		<ant dir="pdfencrypt" target="pdf" />
 
 		<echo message=""/>
@@ -311,8 +280,6 @@
 		<ant dir="query" target="javac" />
 		<ant dir="query" target="compile" />
 		<ant dir="query" target="fill" />
-		<ant dir="query" target="compileBsh" />
-		<ant dir="query" target="fill" />
 		<ant dir="query" target="pdf" />
 		<ant dir="query" target="xmlEmbed" />
 		<ant dir="query" target="xml" />
@@ -327,8 +294,6 @@
 		<ant dir="rotation" target="clean" />
 		<ant dir="rotation" target="javac" />
 		<ant dir="rotation" target="compile" />
-		<ant dir="rotation" target="fill" />
-		<ant dir="rotation" target="compileBsh" />
 		<ant dir="rotation" target="fill" />
 		<ant dir="rotation" target="pdf" />
 		<ant dir="rotation" target="xmlEmbed" />
@@ -345,8 +310,6 @@
 		<ant dir="scriptlet" target="javac" />
 		<ant dir="scriptlet" target="compile" />
 		<ant dir="scriptlet" target="fill" />
-		<ant dir="scriptlet" target="compileBsh" />
-		<ant dir="scriptlet" target="fill" />
 		<ant dir="scriptlet" target="pdf" />
 		<ant dir="scriptlet" target="xmlEmbed" />
 		<ant dir="scriptlet" target="xml" />
@@ -361,8 +324,6 @@
 		<ant dir="shapes" target="clean" />
 		<ant dir="shapes" target="javac" />
 		<ant dir="shapes" target="compile" />
-		<ant dir="shapes" target="fill" />
-		<ant dir="shapes" target="compileBsh" />
 		<ant dir="shapes" target="fill" />
 		<ant dir="shapes" target="pdf" />
 		<ant dir="shapes" target="xmlEmbed" />
@@ -379,8 +340,6 @@
 		<ant dir="stretch" target="javac" />
 		<ant dir="stretch" target="compile" />
 		<ant dir="stretch" target="fill" />
-		<ant dir="stretch" target="compileBsh" />
-		<ant dir="stretch" target="fill" />
 		<ant dir="stretch" target="pdf" />
 		<ant dir="stretch" target="xmlEmbed" />
 		<ant dir="stretch" target="xml" />
@@ -395,8 +354,6 @@
 		<ant dir="styledtext" target="clean" />
 		<ant dir="styledtext" target="javac" />
 		<ant dir="styledtext" target="compile" />
-		<ant dir="styledtext" target="fill" />
-		<ant dir="styledtext" target="compileBsh" />
 		<ant dir="styledtext" target="fill" />
 		<ant dir="styledtext" target="pdf" />
 		<ant dir="styledtext" target="xmlEmbed" />
@@ -413,8 +370,6 @@
 		<ant dir="subreport" target="javac" />
 		<ant dir="subreport" target="compile" />
 		<ant dir="subreport" target="fill" />
-		<ant dir="subreport" target="compileBsh" />
-		<ant dir="subreport" target="fill" />
 		<ant dir="subreport" target="pdf" />
 		<ant dir="subreport" target="xmlEmbed" />
 		<ant dir="subreport" target="xml" />
@@ -429,8 +384,6 @@
 		<ant dir="table" target="clean" />
 		<ant dir="table" target="javac" />
 		<ant dir="table" target="compile" />
-		<ant dir="table" target="fill" />
-		<ant dir="table" target="compileBsh" />
 		<ant dir="table" target="fill" />
 		<ant dir="table" target="pdf" />
 		<ant dir="table" target="xmlEmbed" />
@@ -447,8 +400,6 @@
 		<ant dir="tableofcontents" target="javac" />
 		<ant dir="tableofcontents" target="compile" />
 		<ant dir="tableofcontents" target="fill" />
-		<ant dir="tableofcontents" target="compileBsh" />
-		<ant dir="tableofcontents" target="fill" />
 		<ant dir="tableofcontents" target="pdf" />
 		<ant dir="tableofcontents" target="xmlEmbed" />
 		<ant dir="tableofcontents" target="xml" />
@@ -463,8 +414,6 @@
 		<ant dir="unicode" target="clean" />
 		<ant dir="unicode" target="javac" />
 		<ant dir="unicode" target="compile" />
-		<ant dir="unicode" target="fill" />
-		<ant dir="unicode" target="compileBsh" />
 		<ant dir="unicode" target="fill" />
 		<ant dir="unicode" target="pdf" />
 		<ant dir="unicode" target="xmlEmbed" />
@@ -487,8 +436,6 @@
 		<ant dir="xmldatasource" target="clean" />
 		<ant dir="xmldatasource" target="javac" />
 		<ant dir="xmldatasource" target="compile" />
-		<ant dir="xmldatasource" target="fill" />
-		<ant dir="xmldatasource" target="compileBsh" />
 		<ant dir="xmldatasource" target="fill" />
 		<ant dir="xmldatasource" target="pdf" />
 		<ant dir="xmldatasource" target="xmlEmbed" />

@@ -17,6 +17,9 @@
 			<fileset dir="../../../lib" includes="**/i*ext*.jar" />
 		</copy>
 		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/*jdt*.jar" />
+		</copy>
+		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/*bsh*.jar" />
 		</copy>
 		<copy todir="./applets">

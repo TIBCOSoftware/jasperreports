@@ -51,34 +51,6 @@
 	</target>
 
 	<!--
-		Compiles all the XML report designs using the BeanShell compiler
-		and produces the .jasper files.
-	-->
-	<target name="compileBsh">
-		<echo message="Compiling the ${file.name}.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
-			<arg value="-Tcompile"/>
-			<arg value="-F${file.name}.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
-		<echo message="Compiling the AddressReport.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
-			<arg value="-Tcompile"/>
-			<arg value="-FAddressReport.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
-		<echo message="Compiling the ProductReport.jrxml file..."/>
-		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
-			<arg value="-Tcompile"/>
-			<arg value="-FProductReport.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
 		Fills the compiled report design with data 
 		and produces the .jrprint file.
 	-->
