@@ -110,7 +110,7 @@ public class CompileServlet extends HttpServlet
 
 		try
 		{
-			JasperCompileManager.compileReportToFile(context.getRealPath("/reports/WebappReport.xml"));
+			JasperCompileManager.compileReportToFile(context.getRealPath("/reports/WebappReport.jrxml"));
 		}
 		catch (JRException e)
 		{

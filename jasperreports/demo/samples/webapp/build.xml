@@ -55,7 +55,7 @@
 	<target name="viewDesignXML">
 		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-Freports/WebappReport.xml"/>
+			<arg value="-Freports/WebappReport.jrxml"/>
 			<classpath>
 				<pathelement location="./"/>
 				<pathelement location="../../../classes"/>
@@ -102,7 +102,7 @@
 		Builds the Web application .war file.
 	-->
 	<target name="war" depends="javac">
-		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
+		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.jrxml">
 			<fileset dir="." includes="**/*.css" />
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.jsp" />
@@ -111,7 +111,7 @@
 			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
 			<fileset dir="." includes="**/*.gif" />
 			<fileset dir="." includes="**/*.GIF" />
-			<fileset dir="." includes="**/*.xml" />
+			<fileset dir="." includes="**/*.jrxml" />
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
 			</classes>
