@@ -107,7 +107,7 @@ public abstract class JRFillElement implements JRElement
 	 *
 	 */
 	protected JRGroup printWhenGroupChanges = null;
-	protected JRFillElementGroup elementGroup = null;//FIXME shouldn't we have all members protected ?
+	protected JRFillElementGroup elementGroup = null;
 
 	/**
 	 *
