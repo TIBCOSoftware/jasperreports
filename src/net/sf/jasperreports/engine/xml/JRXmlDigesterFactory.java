@@ -247,6 +247,10 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/image", "addElement", JRDesignElement.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
+		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/image/imageExpression", JRImageExpressionFactory.class.getName());
 		digester.addSetNext("*/image/imageExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/image/imageExpression", "setText", 0);
@@ -255,10 +259,6 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/staticText", JRStaticTextFactory.class.getName());
 		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
 		digester.addCallMethod("*/staticText/text", "setText", 0);
-
-		/*   */
-		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
-		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/textElement", JRTextElementFactory.class.getName());

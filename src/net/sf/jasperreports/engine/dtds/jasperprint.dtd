@@ -45,7 +45,7 @@
 	radius NMTOKEN "0"
 >
 <!ELEMENT ellipse (reportElement?, graphicElement?)>
-<!ELEMENT image (reportElement?, graphicElement?, imageSource?)>
+<!ELEMENT image (reportElement?, box?, graphicElement?, imageSource?)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
 	hAlign (Left | Center | Right) "Left"
@@ -57,11 +57,29 @@
 	hyperlinkAnchor NMTOKEN #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
 >
+<!ELEMENT box EMPTY>
+<!ATTLIST box
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
 <!ELEMENT imageSource (#PCDATA)>
 <!ATTLIST imageSource
 	isEmbedded (true | false) "false"
 >
-<!ELEMENT text (reportElement?, font?, textContent?)>
+<!ELEMENT text (reportElement?, box?, font?, textContent?)>
 <!ATTLIST text
 	textAlignment (Left | Center | Right | Justified) "Left"
 	verticalAlignment (Top | Middle | Bottom) "Top"
