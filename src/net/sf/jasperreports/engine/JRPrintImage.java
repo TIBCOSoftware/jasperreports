@@ -87,6 +87,26 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
+	public boolean isLazy();
+
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy);
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType();
+
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType);
+
+	/**
+	 *
+	 */
 	public JRBox getBox();
 
 	/**

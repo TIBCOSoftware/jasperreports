@@ -52,6 +52,8 @@ public class JRImageFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_hAlign = "hAlign";
 	private static final String ATTRIBUTE_vAlign = "vAlign";
 	private static final String ATTRIBUTE_isUsingCache = "isUsingCache";
+	private static final String ATTRIBUTE_isLazy = "isLazy";
+	private static final String ATTRIBUTE_whenNotAvailableType = "whenNotAvailableType";
 	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
 	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
@@ -90,6 +92,18 @@ public class JRImageFactory extends JRBaseFactory
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
 			image.setUsingCache(Boolean.valueOf(isUsingCache).booleanValue());
+		}
+
+		String isLazy = atts.getValue(ATTRIBUTE_isLazy);
+		if (isLazy != null && isLazy.length() > 0)
+		{
+			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
+		}
+
+		Byte whenNotAvailableType = (Byte)JRXmlConstants.getWhenNotAvailableTypeMap().get(atts.getValue(ATTRIBUTE_whenNotAvailableType));
+		if (whenNotAvailableType != null)
+		{
+			image.setWhenNotAvailableType(whenNotAvailableType.byteValue());
 		}
 
 		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(ATTRIBUTE_evaluationTime));

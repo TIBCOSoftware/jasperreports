@@ -90,7 +90,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle)
+	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		renderer.render(grx, rectangle);
 	}

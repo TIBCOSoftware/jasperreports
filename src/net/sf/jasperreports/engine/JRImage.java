@@ -44,6 +44,13 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	public static final byte SCALE_IMAGE_FILL_FRAME = 2;
 	public static final byte SCALE_IMAGE_RETAIN_SHAPE = 3;
 
+	/**
+	 *
+	 */
+	public static final byte WHEN_NOT_AVAILABLE_TYPE_NONE = 1;
+	public static final byte WHEN_NOT_AVAILABLE_TYPE_BLANK = 2;
+	public static final byte WHEN_NOT_AVAILABLE_TYPE_ICON = 3;
+
 
 	/**
 	 *
@@ -84,6 +91,26 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 *
 	 */
 	public void setUsingCache(boolean isUsingCache);
+
+	/**
+	 *
+	 */
+	public boolean isLazy();
+
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy);
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType();
+
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType);
 
 	/**
 	 *

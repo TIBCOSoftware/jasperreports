@@ -128,6 +128,36 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public boolean isLazy()
+	{
+		return ((JRTemplateImage)this.template).isLazy();
+	}
+
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType()
+	{
+		return ((JRTemplateImage)this.template).getWhenNotAvailableType();
+	}
+
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public JRBox getBox()
 	{
 		return ((JRTemplateImage)template).getBox();

@@ -171,7 +171,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public void exportReportToGraphics2D()
+	public void exportReportToGraphics2D() throws JRException
 	{
 		grx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//grx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -209,7 +209,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page)
+	protected void exportPage(JRPrintPage page) throws JRException
 	{
 		grx.setColor(Color.white);
 		grx.fillRect(
@@ -371,7 +371,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(JRPrintImage printImage)
+	protected void exportImage(JRPrintImage printImage) throws JRException
 	{
 		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{

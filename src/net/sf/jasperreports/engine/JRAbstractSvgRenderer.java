@@ -80,7 +80,7 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	public byte[] getImageData()
+	public byte[] getImageData() throws JRException
 	{
 		Dimension2D dimension = getDimension();
 		if (dimension != null)

@@ -338,6 +338,31 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
+	private static final String WHEN_NOT_AVAILABLE_TYPE_NONE = "None";
+	private static final String WHEN_NOT_AVAILABLE_TYPE_BLANK = "Blank";
+	private static final String WHEN_NOT_AVAILABLE_TYPE_ICON = "Icon";
+
+	private static Map whenNotAvailableTypeMap = null;
+
+	public static Map getWhenNotAvailableTypeMap()
+	{
+		if (whenNotAvailableTypeMap == null)
+		{
+			whenNotAvailableTypeMap = new HashMap(6);
+			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_NONE,  new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE));
+			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_BLANK, new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_BLANK));
+			whenNotAvailableTypeMap.put(WHEN_NOT_AVAILABLE_TYPE_ICON,  new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_ICON));
+			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE),  WHEN_NOT_AVAILABLE_TYPE_NONE);
+			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_BLANK), WHEN_NOT_AVAILABLE_TYPE_BLANK);
+			whenNotAvailableTypeMap.put(new Byte(JRImage.WHEN_NOT_AVAILABLE_TYPE_ICON),  WHEN_NOT_AVAILABLE_TYPE_ICON);
+		}
+		
+		return whenNotAvailableTypeMap;
+	}
+
+	/**
+	 *
+	 */
 	private static final String STRETCH_TYPE_NO_STRETCH = "NoStretch";
 	private static final String STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = "RelativeToTallestObject";
 	private static final String STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = "RelativeToBandHeight";

@@ -55,6 +55,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected byte horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
 	protected boolean isUsingCache = true;
+	protected boolean isLazy = true;
+	protected byte whenNotAvailableType = WHEN_NOT_AVAILABLE_TYPE_NONE;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -98,6 +100,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		horizontalAlignment = image.getHorizontalAlignment();
 		verticalAlignment = image.getVerticalAlignment();
 		isUsingCache = image.isUsingCache();
+		isLazy = image.isLazy();
+		whenNotAvailableType = image.getWhenNotAvailableType();
 		evaluationTime = image.getEvaluationTime();
 		hyperlinkType = image.getHyperlinkType();
 		hyperlinkTarget = image.getHyperlinkTarget();
@@ -118,7 +122,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getScaleImage()
 	{
-		return this.scaleImage;
+		return scaleImage;
 	}
 
 	/**
@@ -134,7 +138,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -150,7 +154,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -166,7 +170,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public boolean isUsingCache()
 	{
-		return this.isUsingCache;
+		return isUsingCache;
 	}
 
 	/**
@@ -180,9 +184,41 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public boolean isLazy()
+	{
+		return isLazy;
+	}
+
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy)
+	{
+		this.isLazy = isLazy;
+	}
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType()
+	{
+		return whenNotAvailableType;
+	}
+
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	{
+		this.whenNotAvailableType = whenNotAvailableType;
+	}
+
+	/**
+	 *
+	 */
 	public byte getEvaluationTime()
 	{
-		return this.evaluationTime;
+		return evaluationTime;
 	}
 		
 	/**
@@ -198,7 +234,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return hyperlinkType;
 	}
 		
 	/**
@@ -206,7 +242,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return this.hyperlinkTarget;
+		return hyperlinkTarget;
 	}
 		
 	/**
@@ -214,7 +250,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRGroup getEvaluationGroup()
 	{
-		return this.evaluationGroup;
+		return evaluationGroup;
 	}
 		
 	/**
@@ -222,7 +258,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRExpression getExpression()
 	{
-		return this.expression;
+		return expression;
 	}
 
 	/**
@@ -230,7 +266,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRExpression getAnchorNameExpression()
 	{
-		return this.anchorNameExpression;
+		return anchorNameExpression;
 	}
 
 	/**
@@ -238,7 +274,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRExpression getHyperlinkReferenceExpression()
 	{
-		return this.hyperlinkReferenceExpression;
+		return hyperlinkReferenceExpression;
 	}
 
 	/**
@@ -246,7 +282,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
-		return this.hyperlinkAnchorExpression;
+		return hyperlinkAnchorExpression;
 	}
 
 	/**
@@ -254,7 +290,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public JRExpression getHyperlinkPageExpression()
 	{
-		return this.hyperlinkPageExpression;
+		return hyperlinkPageExpression;
 	}
 	
 

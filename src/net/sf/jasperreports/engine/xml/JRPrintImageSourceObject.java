@@ -31,12 +31,12 @@ package net.sf.jasperreports.engine.xml;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import org.w3c.tools.codec.Base64Decoder;
-
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+
+import org.w3c.tools.codec.Base64Decoder;
 
 
 /**
@@ -81,7 +81,7 @@ public class JRPrintImageSourceObject
 	 */
 	public void setImageSource(String imageSource) throws JRException
 	{
-		if (this.isEmbedded)
+		if (isEmbedded)
 		{
 			try
 			{
@@ -91,7 +91,7 @@ public class JRPrintImageSourceObject
 				Base64Decoder decoder = new Base64Decoder(bais, baos);
 				decoder.process();
 				
-				this.printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));
+				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray(), JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE));
 			}
 			catch (Exception e)
 			{
@@ -102,7 +102,8 @@ public class JRPrintImageSourceObject
 		{
 			printImage.setRenderer(
 				JRImageRenderer.getInstance(
-					JRImageLoader.loadImageDataFromLocation(imageSource)
+					imageSource,
+					printImage.getWhenNotAvailableType()
 					)
 				);
 		}

@@ -58,6 +58,8 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte scaleImage = JRImage.SCALE_IMAGE_RETAIN_SHAPE;
 	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+	protected boolean isLazy = true;
+	protected byte whenNotAvailableType = JRImage.WHEN_NOT_AVAILABLE_TYPE_NONE;
 	protected JRBox box = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
@@ -84,7 +86,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public JRRenderable getRenderer()
 	{
-		return this.renderer;
+		return renderer;
 	}
 		
 	/**
@@ -100,7 +102,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getScaleImage()
 	{
-		return this.scaleImage;
+		return scaleImage;
 	}
 
 	/**
@@ -116,7 +118,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return this.horizontalAlignment;
+		return horizontalAlignment;
 	}
 		
 	/**
@@ -132,7 +134,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getVerticalAlignment()
 	{
-		return this.verticalAlignment;
+		return verticalAlignment;
 	}
 		
 	/**
@@ -141,6 +143,38 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setVerticalAlignment(byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isLazy()
+	{
+		return isLazy;
+	}
+
+	/**
+	 *
+	 */
+	public void setLazy(boolean isLazy)
+	{
+		this.isLazy = isLazy;
+	}
+
+	/**
+	 *
+	 */
+	public byte getWhenNotAvailableType()
+	{
+		return whenNotAvailableType;
+	}
+
+	/**
+	 *
+	 */
+	public void setWhenNotAvailableType(byte whenNotAvailableType)
+	{
+		this.whenNotAvailableType = whenNotAvailableType;
 	}
 
 	/**
@@ -164,7 +198,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public String getAnchorName()
 	{
-		return this.anchorName;
+		return anchorName;
 	}
 		
 	/**
@@ -180,7 +214,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return hyperlinkType;
 	}
 		
 	/**
@@ -196,7 +230,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return this.hyperlinkTarget;
+		return hyperlinkTarget;
 	}
 		
 	/**
@@ -212,7 +246,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public String getHyperlinkReference()
 	{
-		return this.hyperlinkReference;
+		return hyperlinkReference;
 	}
 		
 	/**
@@ -228,7 +262,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public String getHyperlinkAnchor()
 	{
-		return this.hyperlinkAnchor;
+		return hyperlinkAnchor;
 	}
 		
 	/**
@@ -244,7 +278,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public Integer getHyperlinkPage()
 	{
-		return this.hyperlinkPage;
+		return hyperlinkPage;
 	}
 		
 	/**
