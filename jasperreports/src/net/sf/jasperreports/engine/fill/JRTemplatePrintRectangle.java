@@ -83,7 +83,7 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 500;
+	private static final long serialVersionUID = 501;
 
 	/**
 	 *

@@ -84,7 +84,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 500;
+	private static final long serialVersionUID = 501;
 
 	/**
 	 *
