@@ -129,9 +129,11 @@ public class I18nApp
 				Locale locale = chooseLocale();
 				if (locale != null)
 				{
-					Locale.setDefault(locale);
+					Map parameters = new HashMap();
+					parameters.put(JRParameter.REPORT_LOCALE, locale);
+
 					long start = System.currentTimeMillis();
-					JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
+					JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 					System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);

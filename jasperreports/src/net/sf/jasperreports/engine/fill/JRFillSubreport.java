@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
@@ -146,7 +147,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	{
 		super(filler, subreport, factory);
 
-		this.parameters = subreport.getParameters();
+		parameters = subreport.getParameters();
 	}
 
 
@@ -155,7 +156,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public boolean isUsingCache()
 	{
-		return ((JRSubreport)this.parent).isUsingCache();
+		return ((JRSubreport)parent).isUsingCache();
 	}
 		
 	/**
@@ -170,7 +171,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public JRExpression getParametersMapExpression()
 	{
-		return ((JRSubreport)this.parent).getParametersMapExpression();
+		return ((JRSubreport)parent).getParametersMapExpression();
 	}
 
 	/**
@@ -178,7 +179,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public JRSubreportParameter[] getParameters()
 	{
-		return this.parameters;
+		return parameters;
 	}
 
 	/**
@@ -186,7 +187,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public JRExpression getConnectionExpression()
 	{
-		return ((JRSubreport)this.parent).getConnectionExpression();
+		return ((JRSubreport)parent).getConnectionExpression();
 	}
 
 	/**
@@ -194,7 +195,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public JRExpression getDataSourceExpression()
 	{
-		return ((JRSubreport)this.parent).getDataSourceExpression();
+		return ((JRSubreport)parent).getDataSourceExpression();
 	}
 
 	/**
@@ -202,7 +203,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public JRExpression getExpression()
 	{
-		return ((JRSubreport)this.parent).getExpression();
+		return ((JRSubreport)parent).getExpression();
 	}
 
 	/**
@@ -210,7 +211,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	protected JasperReport getJasperReport()
 	{
-		return this.jasperReport;
+		return jasperReport;
 	}
 		
 	/**
@@ -230,20 +231,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			JRDesignRectangle rectangle = new JRDesignRectangle();
 
-			rectangle.setKey(this.getKey());
-			rectangle.setPositionType(this.getPositionType());
-			//rectangle.setPrintRepeatedValues(this.isPrintRepeatedValues());
-			rectangle.setMode(this.getMode());
-			rectangle.setX(this.getX());
-			rectangle.setY(this.getY());
-			rectangle.setWidth(this.getWidth());
-			rectangle.setHeight(this.getHeight());
-			rectangle.setRemoveLineWhenBlank(this.isRemoveLineWhenBlank());
-			rectangle.setPrintInFirstWholeBand(this.isPrintInFirstWholeBand());
-			rectangle.setPrintWhenDetailOverflows(this.isPrintWhenDetailOverflows());
-			rectangle.setPrintWhenGroupChanges(this.getPrintWhenGroupChanges());
-			rectangle.setForecolor(this.getForecolor());
-			rectangle.setBackcolor(this.getBackcolor());
+			rectangle.setKey(getKey());
+			rectangle.setPositionType(getPositionType());
+			//rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
+			rectangle.setMode(getMode());
+			rectangle.setX(getX());
+			rectangle.setY(getY());
+			rectangle.setWidth(getWidth());
+			rectangle.setHeight(getHeight());
+			rectangle.setRemoveLineWhenBlank(isRemoveLineWhenBlank());
+			rectangle.setPrintInFirstWholeBand(isPrintInFirstWholeBand());
+			rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
+			rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
+			rectangle.setForecolor(getForecolor());
+			rectangle.setBackcolor(getBackcolor());
 			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
 			template = new JRTemplateRectangle(rectangle);
@@ -285,18 +286,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		byte evaluation
 		) throws JRException
 	{
-		this.reset();
+		reset();
 		
-		this.evaluatePrintWhenExpression(evaluation);
+		evaluatePrintWhenExpression(evaluation);
 
 		if (
-			(this.isPrintWhenExpressionNull() ||
-			(!this.isPrintWhenExpressionNull() && 
-			this.isPrintWhenTrue()))
+			(isPrintWhenExpressionNull() ||
+			(!isPrintWhenExpressionNull() && 
+			isPrintWhenTrue()))
 			)
 		{
-			JRExpression expression = this.getExpression();
-			Object source = this.filler.calculator.evaluate(expression, evaluation);
+			JRExpression expression = getExpression();
+			Object source = filler.calculator.evaluate(expression, evaluation);
 			if (source != null) // FIXME put some default broken image like in browsers
 			{
 				Class expressionClass = expression.getValueClass();
@@ -304,76 +305,85 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
 				{
 					JasperReport jrReport = (JasperReport)source;
-					this.setJasperReport(jrReport);
+					setJasperReport(jrReport);
 				}
 				else if (expressionClass.equals(java.io.InputStream.class))
 				{
 					InputStream is = (InputStream)source;
-					this.setJasperReport((JasperReport)JRLoader.loadObject(is));
+					setJasperReport((JasperReport)JRLoader.loadObject(is));
 				}
 				else if (expressionClass.equals(java.net.URL.class))
 				{
 					URL url = (URL)source;
-					this.setJasperReport((JasperReport)JRLoader.loadObject(url));
+					setJasperReport((JasperReport)JRLoader.loadObject(url));
 				}
 				else if (expressionClass.equals(java.io.File.class))
 				{
 					File file = (File)source;
-					this.setJasperReport((JasperReport)JRLoader.loadObject(file));
+					setJasperReport((JasperReport)JRLoader.loadObject(file));
 				}
 				else if (expressionClass.equals(java.lang.String.class))
 				{
 					String location = (String)source;
-					if (this.isUsingCache())
+					if (isUsingCache())
 					{
-						if ( this.filler.loadedSubreports.containsKey(location) )
+						if ( filler.loadedSubreports.containsKey(location) )
 						{
-							this.setJasperReport(
-								(JasperReport)this.filler.loadedSubreports.get(location)
+							setJasperReport(
+								(JasperReport)filler.loadedSubreports.get(location)
 								);
 						}
 						else
 						{
 							JasperReport jrReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
-							this.setJasperReport(jrReport);
-							this.filler.loadedSubreports.put(location, jrReport);
+							setJasperReport(jrReport);
+							filler.loadedSubreports.put(location, jrReport);
 						}
 					}
 					else
 					{
-						this.setJasperReport((JasperReport)JRLoader.loadObjectFromLocation(location));
+						setJasperReport((JasperReport)JRLoader.loadObjectFromLocation(location));
 					}
 				}
 				
 				if (jasperReport != null)
 				{
-					//TODO change order
 					/*   */
-					expression = this.getConnectionExpression();
-					this.connection = (Connection)this.filler.calculator.evaluate(expression, evaluation);
+					expression = getParametersMapExpression();
+					parameterValues = (Map)filler.calculator.evaluate(expression, evaluation);
+					
+					if (parameterValues != null)
+					{
+						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
+						parameterValues.remove(JRParameter.REPORT_CONNECTION);
+						parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
+						parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
+						parameterValues.remove(JRParameter.REPORT_LOCALE);
+						parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+					}
+
+					/*   */
+					expression = getConnectionExpression();
+					connection = (Connection)filler.calculator.evaluate(expression, evaluation);
 			
 					/*   */
-					expression = this.getDataSourceExpression();
-					this.dataSource = (JRDataSource)this.filler.calculator.evaluate(expression, evaluation);
+					expression = getDataSourceExpression();
+					dataSource = (JRDataSource)filler.calculator.evaluate(expression, evaluation);
 					
 					/*   */
-					expression = this.getParametersMapExpression();
-					this.parameterValues = (Map)this.filler.calculator.evaluate(expression, evaluation);
-					
-					/*   */
-					JRSubreportParameter[] subreportParameters = this.getParameters();
+					JRSubreportParameter[] subreportParameters = getParameters();
 					if (subreportParameters != null && subreportParameters.length > 0)
 					{
-						if (this.parameterValues == null)
+						if (parameterValues == null)
 						{
-							this.parameterValues = new HashMap();
+							parameterValues = new HashMap();
 						}
 						Object parameterValue = null;
 						for(int i = 0; i < subreportParameters.length; i++)
 						{
 							expression = subreportParameters[i].getExpression();
-							parameterValue = this.filler.calculator.evaluate(expression, evaluation);
-							this.parameterValues.put(subreportParameters[i].getName(), parameterValue);
+							parameterValue = filler.calculator.evaluate(expression, evaluation);
+							parameterValues.put(subreportParameters[i].getName(), parameterValue);
 						}
 					}
 		
@@ -382,12 +392,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					{
 						case JasperReport.PRINT_ORDER_HORIZONTAL :
 						{
-							subreportFiller = new JRHorizontalFiller(jasperReport, this.filler);
+							subreportFiller = new JRHorizontalFiller(jasperReport, filler);
 							break;
 						}
 						case JasperReport.PRINT_ORDER_VERTICAL :
 						{
-							subreportFiller = new JRVerticalFiller(jasperReport, this.filler);
+							subreportFiller = new JRVerticalFiller(jasperReport, filler);
 							break;
 						}
 					}
@@ -402,13 +412,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	public void run()
 	{
-		this.isRunning = true;
+		isRunning = true;
 		
-		this.error = null;
+		error = null;
 		
 		try
 		{
-			if (this.getConnectionExpression() != null)
+			if (getConnectionExpression() != null)
 			{
 				subreportFiller.fill(parameterValues, connection);
 			}
@@ -423,10 +433,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		}
 		catch(JRException e)
 		{
-			this.error = e;
+			error = e;
 		}
 		
-		this.isRunning = false;
+		isRunning = false;
 
 		synchronized (subreportFiller)
 		{
@@ -435,7 +445,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		}
 
 /*
-		if (this.error != null)
+		if (error != null)
 		{
 			synchronized (subreportFiller)
 			{
@@ -461,39 +471,39 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		
 		if (subreportFiller == null)
 		{
-			this.setToPrint(false);
+			setToPrint(false);
 		}
 
-		if (!this.isToPrint())
+		if (!isToPrint())
 		{
 			return willOverflow;
 		}
 
 		//willOverflow = prepareTextField((JRFillTextField)fillElement, availableStretchHeight);
 		
-		//subreportFiller.setPageHeight(this.getHeight() + availableStretchHeight);
-		subreportFiller.setPageHeight(this.getHeight() + availableStretchHeight - this.getRelativeY() + this.getY() + this.getBandBottomY());
+		//subreportFiller.setPageHeight(getHeight() + availableStretchHeight);
+		subreportFiller.setPageHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
 
 		synchronized (subreportFiller)
 		{
-			if (this.fillThread == null)
+			if (fillThread == null)
 			{
-				if (!isOverflow || (isOverflow && this.isPrintWhenDetailOverflows()))
+				if (!isOverflow || (isOverflow && isPrintWhenDetailOverflows()))
 				{
 					if (isOverflow)
 					{
-						this.setReprinted(true);
+						setReprinted(true);
 					}
 					
-					this.fillThread = new Thread(this);
-					this.fillThread.start();
+					fillThread = new Thread(this);
+					fillThread.start();
 				}
 				else
 				{
-					this.printPage = null;
-					this.subreportFonts = null;
-					this.setStretchHeight(this.getHeight());
-					this.setToPrint(false);
+					printPage = null;
+					subreportFonts = null;
+					setStretchHeight(getHeight());
+					setToPrint(false);
 					
 					return willOverflow;
 				}
@@ -516,14 +526,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				throw new JRException("Error encountered while waiting on the report filling thread.", e);
 			}
 			
-			if (this.error != null)
+			if (error != null)
 			{
-				throw this.error;
+				throw error;
 			}
 
-			this.printPage = subreportFiller.getCurrentPage();
-			this.subreportFonts = subreportFiller.getFonts();
-			this.setStretchHeight(subreportFiller.getCurrentPageStretchHeight());
+			printPage = subreportFiller.getCurrentPage();
+			subreportFonts = subreportFiller.getFonts();
+			setStretchHeight(subreportFiller.getCurrentPageStretchHeight());
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page
@@ -532,17 +542,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			if (!willOverflow)
 			{
 				//the subreport fill thread has finished and the next time we shall create a new one
-				this.fillThread = null;
+				fillThread = null;
 			}
 		}// synchronized
 		
-		Collection printElements = this.getPrintElements();
+		Collection printElements = getPrintElements();
 		if (
 			(printElements == null || printElements.size() == 0) &&
-			this.isRemoveLineWhenBlank() //FIXME if the line won't be removed, the background does not appear
+			isRemoveLineWhenBlank() //FIXME if the line won't be removed, the background does not appear
 			)
 		{
-			this.setToPrint(false);
+			setToPrint(false);
 		}
 
 		return willOverflow;
@@ -567,7 +577,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			subreportFiller.notifyAll();
 
-			if (this.isRunning)
+			if (isRunning)
 			{
 				try
 				{
@@ -589,17 +599,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			case JasperReport.PRINT_ORDER_HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(jasperReport, this.filler);
+				subreportFiller = new JRHorizontalFiller(jasperReport, filler);
 				break;
 			}
 			case JasperReport.PRINT_ORDER_VERTICAL :
 			{
-				subreportFiller = new JRVerticalFiller(jasperReport, this.filler);
+				subreportFiller = new JRVerticalFiller(jasperReport, filler);
 				break;
 			}
 		}
 
-		if (this.getConnectionExpression() == null)
+		if (getConnectionExpression() == null)
 		{
 			if(dataSource instanceof JRRewindableDataSource)
 			{
@@ -621,10 +631,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	{
 		JRPrintRectangle printRectangle = null;
 
-		printRectangle = new JRTemplatePrintRectangle(this.getJRTemplateRectangle());
-		printRectangle.setX(this.getX());
-		printRectangle.setY(this.getRelativeY());
-		printRectangle.setHeight(this.getStretchHeight());
+		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
+		printRectangle.setX(getX());
+		printRectangle.setY(getRelativeY());
+		printRectangle.setHeight(getStretchHeight());
 		
 		return printRectangle;
 	}
