@@ -69,16 +69,35 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-import dori.jasper.engine.*;
-import dori.jasper.engine.base.*;
-import dori.jasper.engine.design.*;
-import dori.jasper.engine.export.*;
-import dori.jasper.engine.util.*;
-import dori.jasper.view.*;
-import java.awt.*;
-import java.util.*;
-import java.text.*;
-import java.io.*;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.base.JRBasePrintImage;
+import net.sf.jasperreports.engine.base.JRBasePrintLine;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.design.JRDesignFont;
+import net.sf.jasperreports.engine.design.JRDesignReportFont;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
@@ -293,7 +312,11 @@ public class NoReportApp
 		image.setWidth(165);
 		image.setHeight(40);
 		image.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-		image.setImageData(JRImageLoader.loadImageDataFromLocation("jasperreports.gif"));
+		image.setRenderer(
+			JRImageRenderer.getInstance(
+				JRImageLoader.loadImageDataFromLocation("jasperreports.gif")
+				)
+			);
 		page.addElement(image);
 
 		JRPrintText text = new JRBasePrintText();

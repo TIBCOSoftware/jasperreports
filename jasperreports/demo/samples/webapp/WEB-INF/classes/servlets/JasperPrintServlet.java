@@ -72,8 +72,8 @@
 package servlets;
 
 import datasource.*;
-import dori.jasper.engine.*;
-import dori.jasper.engine.util.*;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.*;
 
 import java.io.*;
 import java.util.*;

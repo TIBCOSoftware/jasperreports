@@ -51,14 +51,14 @@
 	<target name="compileBsh">
 		<echo message="Compiling the ${file.name}.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
+			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
 			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 		<echo message="Compiling the HeadingsReport.jrxml file..."/>
 		<java classname="${class.name}" fork="true">
-			<sysproperty key="jasper.reports.compiler.class" value="dori.jasper.engine.design.JRBshCompiler"/>
+			<sysproperty key="jasper.reports.compiler.class" value="net.sf.jasperreports.engine.design.JRBshCompiler"/>
 			<arg value="-Tcompile"/>
 			<arg value="-FHeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
@@ -82,7 +82,7 @@
 		stored in the .jrprint file.
 	-->
 	<target name="view">
-		<java classname="dori.jasper.view.JasperViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -93,7 +93,7 @@
 		stored in an XML file.
 	-->
 	<target name="viewXML">
-		<java classname="dori.jasper.view.JasperViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
@@ -199,7 +199,7 @@
 		Launches the design viewer to preview the master XML report design.
 	-->
 	<target name="viewDesignXML1">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
@@ -210,7 +210,7 @@
 		Launches the design viewer to preview the compiled master report design.
 	-->
 	<target name="viewDesign1">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -220,7 +220,7 @@
 		Launches the design viewer to preview the headings XML report design.
 	-->
 	<target name="viewDesignXML2">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-FHeadingsReport.jrxml"/>
 			<classpath refid="classpath"/>
@@ -231,7 +231,7 @@
 		Launches the design viewer to preview the compiled headings report design.
 	-->
 	<target name="viewDesign2">
-		<java classname="dori.jasper.view.JasperDesignViewer" fork="true">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-FHeadingsReport.jasper"/>
 			<classpath refid="classpath"/>
 		</java>

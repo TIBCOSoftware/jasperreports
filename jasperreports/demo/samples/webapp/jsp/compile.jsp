@@ -73,7 +73,7 @@
 --%>
 
 <%@ page errorPage="error.jsp" %>
-<%@ page import="dori.jasper.engine.*" %>
+<%@ page import="net.sf.jasperreports.engine.*" %>
 
 <%
 	System.setProperty(

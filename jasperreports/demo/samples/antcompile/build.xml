@@ -3,7 +3,7 @@
 	<!--
 		Defines the report design compilation Ant task.
 	-->
-	<taskdef name="jrc" classname="dori.jasper.ant.JRAntCompileTask"> 
+	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 		<classpath>
 			<pathelement location="./build/classes"/>
 			<pathelement location="../../../classes"/>

@@ -2,6 +2,21 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.x.x
+-----------------------------------
+- the package name hierarchy has changed throughout the entire library.
+The now obsolete root package called "dori.jasper" was replaced by "net.sf.jasperreports"
+for standardization reasons;
+
+- new net.sf.jasperreports.engine.JRRenderable interface supported in the image expression
+to improve the quality of charts and other SVG images. The patch initially proposed by
+Adrian Jackson, David Taylor and Lars Kristensen was incorporated in the main version;
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.5.3
 -----------------------------------
 - new boolean "isStyledText" attribute available for text elements to allow 

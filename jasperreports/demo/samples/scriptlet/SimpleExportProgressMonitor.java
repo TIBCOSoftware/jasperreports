@@ -70,7 +70,7 @@
  * Email: teodord@users.sourceforge.net
  */
 
-import dori.jasper.engine.export.JRExportProgressMonitor;
+import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 
 
 /**
