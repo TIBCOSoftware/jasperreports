@@ -2,7 +2,6 @@
 <classpath>
     <classpathentry kind="src" path="src"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="lib/jakarta-poi-1.5.1-final-20020615.jar"/>
     <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
     <classpathentry kind="lib" path="lib/xmlParserAPIs.jar"/>
     <classpathentry kind="lib" path="lib/ant-1.5.1.jar"/>
@@ -13,5 +12,6 @@
     <classpathentry kind="lib" path="lib/commons-logging-api-1.0.2.jar"/>
     <classpathentry kind="lib" path="lib/itext-1.01.jar"/>
     <classpathentry kind="lib" path="lib/bsh-1.3.0.jar"/>
+    <classpathentry kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
     <classpathentry kind="output" path="classes"/>
 </classpath>
