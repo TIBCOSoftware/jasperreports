@@ -1574,10 +1574,10 @@ public class JRPdfExporter extends JRAbstractExporter
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = rightPadding;
-				rightPadding = bottomPadding;
-				bottomPadding = leftPadding;
-				leftPadding = tmpPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
 				angle = Math.PI / 2;
 				break;
 			}
@@ -1587,10 +1587,10 @@ public class JRPdfExporter extends JRAbstractExporter
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = leftPadding;
-				leftPadding = bottomPadding;
-				bottomPadding = rightPadding;
-				rightPadding = tmpPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
 				angle = - Math.PI / 2;
 				break;
 			}
@@ -1731,6 +1731,10 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		colText.go();
 		
+		atrans = new AffineTransform();
+		atrans.rotate(-angle, x, jasperPrint.getPageHeight() - y);
+		pdfContentByte.transform(atrans);
+
 		if (text.getBox() != null)
 		{
 			/*   */
@@ -1739,10 +1743,6 @@ public class JRPdfExporter extends JRAbstractExporter
 				text
 				);
 		}
-
-		atrans = new AffineTransform();
-		atrans.rotate(-angle, x, jasperPrint.getPageHeight() - y);
-		pdfContentByte.transform(atrans);
 	}
 
 		

@@ -151,10 +151,10 @@ public class TextMeasurer
 				width = fillTextElement.getHeight();
 				height = fillTextElement.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = rightPadding;
-				rightPadding = bottomPadding;
-				bottomPadding = leftPadding;
-				leftPadding = tmpPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
 				break;
 			}
 			case JRTextElement.ROTATION_RIGHT :
@@ -162,10 +162,10 @@ public class TextMeasurer
 				width = fillTextElement.getHeight();
 				height = fillTextElement.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = leftPadding;
-				leftPadding = bottomPadding;
-				bottomPadding = rightPadding;
-				rightPadding = tmpPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
 				break;
 			}
 			case JRTextElement.ROTATION_NONE :

@@ -1457,10 +1457,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = rightPadding;
-				rightPadding = bottomPadding;
-				bottomPadding = leftPadding;
-				leftPadding = tmpPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
 				angle = - Math.PI / 2;
 				break;
 			}
@@ -1470,10 +1470,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 				width = text.getHeight();
 				height = text.getWidth();
 				int tmpPadding = topPadding;
-				topPadding = leftPadding;
-				leftPadding = bottomPadding;
-				bottomPadding = rightPadding;
-				rightPadding = tmpPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
 				angle = Math.PI / 2;
 				break;
 			}
@@ -1531,14 +1531,14 @@ public class JRDesignViewer extends javax.swing.JPanel
 			allText
 			);
 
+		grx.rotate(-angle, x, y);
+
 		/*   */
 		printBox(
 			text.getBox(),
 			text,
 			grx
 			);
-
-		grx.rotate(-angle, x, y);
 	}
 
     
