@@ -74,6 +74,7 @@ package net.sf.jasperreports.engine.xml;
 import org.xml.sax.Attributes;
 
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 
 
@@ -100,9 +101,15 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 
 		JRDesignExpression expression = new JRDesignExpression();
 
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		String value = atts.getValue(ATTRIBUTE_class);
+		
+		if (value != null)
 		{
-			expression.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			// being backward compatible
+			if(value.equals("dori.jasper.engine.JasperReport"))
+				value = JasperReport.class.getName();
+			
+			expression.setValueClassName(value);
 		}
 		else
 		{

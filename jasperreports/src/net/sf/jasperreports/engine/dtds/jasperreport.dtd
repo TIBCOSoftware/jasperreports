@@ -190,6 +190,6 @@
 <!ELEMENT dataSourceExpression (#PCDATA)>
 <!ELEMENT subreportExpression (#PCDATA)>
 <!ATTLIST subreportExpression
-	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport) "java.lang.String"
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
 <!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*>
