@@ -89,6 +89,7 @@ import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
+import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.JRRewindableDataSource;
 import dori.jasper.engine.JRSubreport;
 import dori.jasper.engine.JRSubreportParameter;
@@ -123,6 +124,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	private JRBaseFiller subreportFiller = null;
 	private JRPrintPage printPage = null;
+	private JRReportFont[] subreportFonts = null;
 
 	/**
 	 *
@@ -138,10 +140,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected JRFillSubreport(
 		JRBaseFiller filler,
 		JRSubreport subreport, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, subreport, fillObjectsMap);
+		super(filler, subreport, factory);
 
 		this.parameters = subreport.getParameters();
 	}
@@ -247,6 +249,15 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		}
 		
 		return (JRTemplateRectangle)template;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRReportFont[] getFonts()
+	{
+		return subreportFonts;
 	}
 
 
@@ -478,6 +489,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				else
 				{
 					this.printPage = null;
+					this.subreportFonts = null;
 					this.setStretchHeight(this.getHeight());
 					this.setToPrint(false);
 					
@@ -508,6 +520,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			}
 
 			this.printPage = subreportFiller.getCurrentPage();
+			this.subreportFonts = subreportFiller.getFonts();
 			this.setStretchHeight(subreportFiller.getCurrentPageStretchHeight());
 
 			//if the subreport fill thread has not finished, 

@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRHyperlink;
@@ -115,9 +113,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRBaseTextField(JRTextField textField, Map baseObjectsMap)
+	protected JRBaseTextField(JRTextField textField, JRBaseObjectFactory factory)
 	{
-		super((JRTextElement)textField, baseObjectsMap);
+		super((JRTextElement)textField, factory);
 		
 		isStretchWithOverflow = textField.isStretchWithOverflow();
 		evaluationTime = textField.getEvaluationTime();
@@ -125,12 +123,12 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		isBlankWhenNull = textField.isBlankWhenNull();
 		hyperlinkType = textField.getHyperlinkType();
 
-		evaluationGroup = JRBaseObjectFactory.getGroup(textField.getEvaluationGroup(), baseObjectsMap);
-		expression = JRBaseObjectFactory.getExpression(textField.getExpression(), baseObjectsMap);
-		anchorNameExpression = JRBaseObjectFactory.getExpression(textField.getAnchorNameExpression(), baseObjectsMap);
-		hyperlinkReferenceExpression = JRBaseObjectFactory.getExpression(textField.getHyperlinkReferenceExpression(), baseObjectsMap);
-		hyperlinkAnchorExpression = JRBaseObjectFactory.getExpression(textField.getHyperlinkAnchorExpression(), baseObjectsMap);
-		hyperlinkPageExpression = JRBaseObjectFactory.getExpression(textField.getHyperlinkPageExpression(), baseObjectsMap);
+		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
+		expression = factory.getExpression(textField.getExpression());
+		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
+		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
+		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
+		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
 	}
 		
 

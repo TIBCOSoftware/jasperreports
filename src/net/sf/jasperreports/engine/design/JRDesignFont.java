@@ -71,6 +71,7 @@
  */
 package dori.jasper.engine.design;
 
+import dori.jasper.engine.JRDefaultFontProvider;
 import dori.jasper.engine.JRReportFont;
 import dori.jasper.engine.base.JRBaseFont;
 
@@ -91,10 +92,26 @@ public class JRDesignFont extends JRBaseFont
 	/**
 	 *
 	 */
+	public JRDesignFont()
+	{
+	}
+		
+
+	/**
+	 *
+	 */
+	public JRDesignFont(JRDefaultFontProvider defaultFontProvider)
+	{
+		super(defaultFontProvider);
+	}
+		
+
+	/**
+	 *
+	 */
 	public void setReportFont(JRReportFont reportFont)
 	{
 		this.reportFont = reportFont;
-		this.attributes = null;
 	}
 
 

@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRVariable;
@@ -111,19 +109,18 @@ public class JRFillVariable implements JRVariable
 	 *
 	 */
 	protected JRFillVariable(
-		JRBaseFiller filler,
 		JRVariable variable, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		fillObjectsMap.put(variable, this);
+		factory.put(variable, this);
 
 		parent = variable;
 		
-		resetGroup = (JRGroup)JRFillObjectFactory.getGroup(filler, variable.getResetGroup(), fillObjectsMap);
-		countVariable = (JRVariable)JRFillObjectFactory.getVariable(filler, variable.getCountVariable(), fillObjectsMap);
-		sumVariable = (JRVariable)JRFillObjectFactory.getVariable(filler, variable.getSumVariable(), fillObjectsMap);
-		varianceVariable = (JRVariable)JRFillObjectFactory.getVariable(filler, variable.getVarianceVariable(), fillObjectsMap);
+		resetGroup = (JRGroup)factory.getGroup(variable.getResetGroup());
+		countVariable = (JRVariable)factory.getVariable(variable.getCountVariable());
+		sumVariable = (JRVariable)factory.getVariable(variable.getSumVariable());
+		varianceVariable = (JRVariable)factory.getVariable(variable.getVarianceVariable());
 	}
 
 

@@ -71,6 +71,7 @@
  */
 package dori.jasper.engine.base;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import dori.jasper.engine.JRBand;
@@ -106,17 +107,42 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseReportFont getReportFont(JRReportFont font, Map baseObjectsMap)
+	private JRBaseReport report = null;
+	private Map baseObjectsMap = new HashMap();
+
+
+	/**
+	 *
+	 */
+	protected JRBaseObjectFactory(JRBaseReport baseReport)
+	{
+		this.report = baseReport;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void put(Object object, Object baseObject)
+	{
+		baseObjectsMap.put(object, baseObject);
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont baseFont = null;
 		
 		if (font != null)
 		{
 			baseFont = (JRBaseReportFont)baseObjectsMap.get(font);
-	
 			if (baseFont == null)
 			{
-				baseFont = new JRBaseReportFont(font, baseObjectsMap);
+				baseFont = new JRBaseReportFont(font);
+				baseObjectsMap.put(font, baseFont);
 			}
 		}
 		
@@ -127,17 +153,22 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseFont getFont(JRFont font, Map baseObjectsMap)
+	protected JRBaseFont getFont(JRFont font)
 	{
 		JRBaseFont baseFont = null;
 		
 		if (font != null)
 		{
 			baseFont = (JRBaseFont)baseObjectsMap.get(font);
-	
 			if (baseFont == null)
 			{
-				baseFont = new JRBaseFont(font, baseObjectsMap);
+				baseFont = 
+					new JRBaseFont(
+						report, 
+						getReportFont(font.getReportFont()), 
+						font
+						);
+				baseObjectsMap.put(font, baseFont);
 			}
 		}
 		
@@ -148,17 +179,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseParameter getParameter(JRParameter parameter, Map baseObjectsMap)
+	protected JRBaseParameter getParameter(JRParameter parameter)
 	{
 		JRBaseParameter baseParameter = null;
 		
 		if (parameter != null)
 		{
 			baseParameter = (JRBaseParameter)baseObjectsMap.get(parameter);
-	
 			if (baseParameter == null)
 			{
-				baseParameter = new JRBaseParameter(parameter, baseObjectsMap);
+				baseParameter = new JRBaseParameter(parameter, this);
 			}
 		}
 		
@@ -169,17 +199,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseQuery getQuery(JRQuery query, Map baseObjectsMap)
+	protected JRBaseQuery getQuery(JRQuery query)
 	{
 		JRBaseQuery baseQuery = null;
 		
 		if (query != null)
 		{
 			baseQuery = (JRBaseQuery)baseObjectsMap.get(query);
-	
 			if (baseQuery == null)
 			{
-				baseQuery = new JRBaseQuery(query, baseObjectsMap);
+				baseQuery = new JRBaseQuery(query, this);
 			}
 		}
 		
@@ -190,17 +219,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseQueryChunk getQueryChunk(JRQueryChunk queryChunk, Map baseObjectsMap)
+	protected JRBaseQueryChunk getQueryChunk(JRQueryChunk queryChunk)
 	{
 		JRBaseQueryChunk baseQueryChunk = null;
 		
 		if (queryChunk != null)
 		{
 			baseQueryChunk = (JRBaseQueryChunk)baseObjectsMap.get(queryChunk);
-	
 			if (baseQueryChunk == null)
 			{
-				baseQueryChunk = new JRBaseQueryChunk(queryChunk, baseObjectsMap);
+				baseQueryChunk = new JRBaseQueryChunk(queryChunk, this);
 			}
 		}
 		
@@ -211,17 +239,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseField getField(JRField field, Map baseObjectsMap)
+	protected JRBaseField getField(JRField field)
 	{
 		JRBaseField baseField = null;
 		
 		if (field != null)
 		{
 			baseField = (JRBaseField)baseObjectsMap.get(field);
-	
 			if (baseField == null)
 			{
-				baseField = new JRBaseField(field, baseObjectsMap);
+				baseField = new JRBaseField(field, this);
 			}
 		}
 		
@@ -232,17 +259,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseVariable getVariable(JRVariable variable, Map baseObjectsMap)
+	protected JRBaseVariable getVariable(JRVariable variable)
 	{
 		JRBaseVariable baseVariable = null;
 		
 		if (variable != null)
 		{
 			baseVariable = (JRBaseVariable)baseObjectsMap.get(variable);
-	
 			if (baseVariable == null)
 			{
-				baseVariable = new JRBaseVariable(variable, baseObjectsMap);
+				baseVariable = new JRBaseVariable(variable, this);
 			}
 		}
 		
@@ -253,17 +279,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseExpression getExpression(JRExpression expression, Map baseObjectsMap)
+	protected JRBaseExpression getExpression(JRExpression expression)
 	{
 		JRBaseExpression baseExpression = null;
 		
 		if (expression != null)
 		{
 			baseExpression = (JRBaseExpression)baseObjectsMap.get(expression);
-	
 			if (baseExpression == null)
 			{
-				baseExpression = new JRBaseExpression(expression, baseObjectsMap);
+				baseExpression = new JRBaseExpression(expression, this);
 			}
 		}
 		
@@ -274,17 +299,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseExpressionChunk getExpressionChunk(JRExpressionChunk expressionChunk, Map baseObjectsMap)
+	protected JRBaseExpressionChunk getExpressionChunk(JRExpressionChunk expressionChunk)
 	{
 		JRBaseExpressionChunk baseExpressionChunk = null;
 		
 		if (expressionChunk != null)
 		{
 			baseExpressionChunk = (JRBaseExpressionChunk)baseObjectsMap.get(expressionChunk);
-	
 			if (baseExpressionChunk == null)
 			{
-				baseExpressionChunk = new JRBaseExpressionChunk(expressionChunk, baseObjectsMap);
+				baseExpressionChunk = new JRBaseExpressionChunk(expressionChunk, this);
 			}
 		}
 		
@@ -295,17 +319,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseGroup getGroup(JRGroup group, Map baseObjectsMap)
+	protected JRBaseGroup getGroup(JRGroup group)
 	{
 		JRBaseGroup baseGroup = null;
 		
 		if (group != null)
 		{
 			baseGroup = (JRBaseGroup)baseObjectsMap.get(group);
-	
 			if (baseGroup == null)
 			{
-				baseGroup = new JRBaseGroup(group, baseObjectsMap);
+				baseGroup = new JRBaseGroup(group, this);
 			}
 		}
 		
@@ -316,17 +339,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseBand getBand(JRBand band, Map baseObjectsMap)
+	protected JRBaseBand getBand(JRBand band)
 	{
 		JRBaseBand baseBand = null;
 		
 		if (band != null)
 		{
 			baseBand = (JRBaseBand)baseObjectsMap.get(band);
-	
 			if (baseBand == null)
 			{
-				baseBand = new JRBaseBand(band, baseObjectsMap);
+				baseBand = new JRBaseBand(band, this);
 			}
 		}
 		
@@ -337,17 +359,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseElementGroup getElementGroup(JRElementGroup elementGroup, Map baseObjectsMap)
+	protected JRBaseElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRBaseElementGroup baseElementGroup = null;
 		
 		if (elementGroup != null)
 		{
 			baseElementGroup = (JRBaseElementGroup)baseObjectsMap.get(elementGroup);
-	
 			if (baseElementGroup == null)
 			{
-				baseElementGroup = new JRBaseElementGroup(elementGroup, baseObjectsMap);
+				baseElementGroup = new JRBaseElementGroup(elementGroup, this);
 			}
 		}
 		
@@ -358,37 +379,37 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseElement getElement(JRElement element, Map baseObjectsMap)
+	protected JRBaseElement getElement(JRElement element)
 	{
 		JRBaseElement baseElement = null;
 		
 		if (element instanceof JRLine)
 		{
-			baseElement = getLine((JRLine)element, baseObjectsMap);
+			baseElement = getLine((JRLine)element);
 		}
 		else if (element instanceof JRRectangle)
 		{
-			baseElement = getRectangle((JRRectangle)element, baseObjectsMap);
+			baseElement = getRectangle((JRRectangle)element);
 		}
 		else if (element instanceof JREllipse)
 		{
-			baseElement = getEllipse((JREllipse)element, baseObjectsMap);
+			baseElement = getEllipse((JREllipse)element);
 		}
 		else if (element instanceof JRImage)
 		{
-			baseElement = getImage((JRImage)element, baseObjectsMap);
+			baseElement = getImage((JRImage)element);
 		}
 		else if (element instanceof JRStaticText)
 		{
-			baseElement = getStaticText((JRStaticText)element, baseObjectsMap);
+			baseElement = getStaticText((JRStaticText)element);
 		}
 		else if (element instanceof JRTextField)
 		{
-			baseElement = getTextField((JRTextField)element, baseObjectsMap);
+			baseElement = getTextField((JRTextField)element);
 		}
 		else if (element instanceof JRSubreport)
 		{
-			baseElement = getSubreport((JRSubreport)element, baseObjectsMap);
+			baseElement = getSubreport((JRSubreport)element);
 		}
 		
 		return baseElement;
@@ -398,17 +419,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseLine getLine(JRLine line, Map baseObjectsMap)
+	protected JRBaseLine getLine(JRLine line)
 	{
 		JRBaseLine baseLine = null;
 		
 		if (line != null)
 		{
 			baseLine = (JRBaseLine)baseObjectsMap.get(line);
-	
 			if (baseLine == null)
 			{
-				baseLine = new JRBaseLine(line, baseObjectsMap);
+				baseLine = new JRBaseLine(line, this);
 			}
 		}
 		
@@ -419,17 +439,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseRectangle getRectangle(JRRectangle rectangle, Map baseObjectsMap)
+	protected JRBaseRectangle getRectangle(JRRectangle rectangle)
 	{
 		JRBaseRectangle baseRectangle = null;
 		
 		if (rectangle != null)
 		{
 			baseRectangle = (JRBaseRectangle)baseObjectsMap.get(rectangle);
-	
 			if (baseRectangle == null)
 			{
-				baseRectangle = new JRBaseRectangle(rectangle, baseObjectsMap);
+				baseRectangle = new JRBaseRectangle(rectangle, this);
 			}
 		}
 		
@@ -440,17 +459,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseEllipse getEllipse(JREllipse ellipse, Map baseObjectsMap)
+	protected JRBaseEllipse getEllipse(JREllipse ellipse)
 	{
 		JRBaseEllipse baseEllipse = null;
 		
 		if (ellipse != null)
 		{
 			baseEllipse = (JRBaseEllipse)baseObjectsMap.get(ellipse);
-	
 			if (baseEllipse == null)
 			{
-				baseEllipse = new JRBaseEllipse(ellipse, baseObjectsMap);
+				baseEllipse = new JRBaseEllipse(ellipse, this);
 			}
 		}
 		
@@ -461,17 +479,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseImage getImage(JRImage image, Map baseObjectsMap)
+	protected JRBaseImage getImage(JRImage image)
 	{
 		JRBaseImage baseImage = null;
 		
 		if (image != null)
 		{
 			baseImage = (JRBaseImage)baseObjectsMap.get(image);
-	
 			if (baseImage == null)
 			{
-				baseImage = new JRBaseImage(image, baseObjectsMap);
+				baseImage = new JRBaseImage(image, this);
 			}
 		}
 		
@@ -482,17 +499,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseStaticText getStaticText(JRStaticText staticText, Map baseObjectsMap)
+	protected JRBaseStaticText getStaticText(JRStaticText staticText)
 	{
 		JRBaseStaticText baseStaticText = null;
 		
 		if (staticText != null)
 		{
 			baseStaticText = (JRBaseStaticText)baseObjectsMap.get(staticText);
-	
 			if (baseStaticText == null)
 			{
-				baseStaticText = new JRBaseStaticText(staticText, baseObjectsMap);
+				baseStaticText = new JRBaseStaticText(staticText, this);
 			}
 		}
 		
@@ -503,17 +519,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseTextField getTextField(JRTextField textField, Map baseObjectsMap)
+	protected JRBaseTextField getTextField(JRTextField textField)
 	{
 		JRBaseTextField baseTextField = null;
 		
 		if (textField != null)
 		{
 			baseTextField = (JRBaseTextField)baseObjectsMap.get(textField);
-	
 			if (baseTextField == null)
 			{
-				baseTextField = new JRBaseTextField(textField, baseObjectsMap);
+				baseTextField = new JRBaseTextField(textField, this);
 			}
 		}
 		
@@ -524,17 +539,16 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseSubreport getSubreport(JRSubreport subreport, Map baseObjectsMap)
+	protected JRBaseSubreport getSubreport(JRSubreport subreport)
 	{
 		JRBaseSubreport baseSubreport = null;
 		
 		if (subreport != null)
 		{
 			baseSubreport = (JRBaseSubreport)baseObjectsMap.get(subreport);
-	
 			if (baseSubreport == null)
 			{
-				baseSubreport = new JRBaseSubreport(subreport, baseObjectsMap);
+				baseSubreport = new JRBaseSubreport(subreport, this);
 			}
 		}
 		
@@ -545,17 +559,17 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	public static JRBaseSubreportParameter getSubreportParameter(JRSubreportParameter subreportParameter, Map baseObjectsMap)
+	protected JRBaseSubreportParameter getSubreportParameter(JRSubreportParameter subreportParameter)
 	{
 		JRBaseSubreportParameter baseSubreportParameter = null;
 		
 		if (subreportParameter != null)
 		{
 			baseSubreportParameter = (JRBaseSubreportParameter)baseObjectsMap.get(subreportParameter);
-	
 			if (baseSubreportParameter == null)
 			{
-				baseSubreportParameter = new JRBaseSubreportParameter(subreportParameter, baseObjectsMap);
+				baseSubreportParameter = new JRBaseSubreportParameter(subreportParameter, this);
+				baseObjectsMap.put(subreportParameter, baseSubreportParameter);
 			}
 		}
 		

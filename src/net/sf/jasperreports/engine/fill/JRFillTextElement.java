@@ -83,7 +83,6 @@ import java.util.StringTokenizer;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRTextElement;
-import dori.jasper.engine.design.JRDesignFont;
 
 
 /**
@@ -114,10 +113,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	protected JRFillTextElement(
 		JRBaseFiller filler,
 		JRTextElement textElement, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, textElement, fillObjectsMap);
+		super(filler, textElement, factory);
+
+		/*   */
+		font = factory.getFont(textElement.getFont());
 	}
 
 
@@ -171,6 +173,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public JRFont getFont()
 	{
+		/*
 		if (this.font == null)
 		{
 			this.font = ((JRTextElement)this.parent).getFont();
@@ -183,7 +186,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				}
 			}
 		}
-		
+		*/
 		return this.font;
 	}
 		

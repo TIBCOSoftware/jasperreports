@@ -75,7 +75,7 @@ package dori.jasper.engine;
 /**
  *
  */
-public interface JRReport
+public interface JRReport extends JRDefaultFontProvider
 {
 
 	
@@ -183,11 +183,6 @@ public interface JRReport
 	 *
 	 */
 	public String getScriptletClass();
-
-	/**
-	 *
-	 */
-	public JRReportFont getDefaultFont();
 
 	/**
 	 *

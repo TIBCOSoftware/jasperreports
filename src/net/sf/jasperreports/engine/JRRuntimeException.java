@@ -71,278 +71,104 @@
  */
 package dori.jasper.engine;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 
 /**
  *
  */
-public class JasperPrint implements JRDefaultFontProvider, Serializable
+public class JRRuntimeException extends RuntimeException
 {
 	
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 501;
-
-	/**
-	 *
-	 */
-	private String name = null;
-	private int pageWidth = 0;
-	private int pageHeight = 0;
-	private byte orientation = JRReport.ORIENTATION_PORTRAIT;
-
-	private JRReportFont defaultFont = null;
-	private Map fontsMap = new HashMap();
-	private List fontsList = new ArrayList();
-
-	private List pages = new ArrayList();
-
-	private Map anchorIndexes = null;
+	private Throwable nestedThrowable = null;
 
 
 	/**
 	 *
 	 */
-	public JasperPrint()
+	public JRRuntimeException(String message)
 	{
-	}
-
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
-		
-	/**
-	 *
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public int getPageWidth()
-	{
-		return this.pageWidth;
-	}
-		
-	/**
-	 *
-	 */
-	public void setPageWidth(int pageWidth)
-	{
-		this.pageWidth = pageWidth;
-	}
-
-	/**
-	 *
-	 */
-	public int getPageHeight()
-	{
-		return this.pageHeight;
-	}
-		
-	/**
-	 *
-	 */
-	public void setPageHeight(int pageHeight)
-	{
-		this.pageHeight = pageHeight;
+		super(message);
 	}
 
 
 	/**
 	 *
 	 */
-	public byte getOrientation()
+	public JRRuntimeException(Throwable e)
 	{
-		return this.orientation;
+		super(e.getMessage());
+		nestedThrowable = e;
 	}
-		
-	/**
-	 *
-	 */
-	public void setOrientation(byte orientation)
-	{
-		this.orientation = orientation;
-	}
+
 
 	/**
 	 *
 	 */
-	public JRReportFont getDefaultFont()
+	public JRRuntimeException(String message, Throwable e)
 	{
-		return this.defaultFont;
+		super(message);
+		nestedThrowable = e;
 	}
+
 
 	/**
 	 *
 	 */
-	public void setDefaultFont(JRReportFont font)
+	public Throwable getCause()
 	{
-		this.defaultFont = font;
+		return this.nestedThrowable;
 	}
-		
-	/**
-	 *
-	 */
-	public JRReportFont[] getFonts()
-	{
-		JRReportFont[] fontsArray = new JRReportFont[fontsList.size()];
-		
-		fontsList.toArray(fontsArray);
 
-		return fontsArray;
-	}
 
 	/**
 	 *
 	 */
-	public List getFontsList()
+	public void printStackTrace()
 	{
-		return this.fontsList;
-	}
-
-	/**
-	 *
-	 */
-	public Map getFontsMap()
-	{
-		return this.fontsMap;
-	}
-
-	/**
-	 *
-	 */
-	public void addFont(JRReportFont reportFont) throws JRException
-	{
-		if (this.fontsMap.containsKey(reportFont.getName()))
+		if (nestedThrowable != null)
 		{
-			throw new JRException("Duplicate declaration of report font : " + reportFont.getName());
+			nestedThrowable.printStackTrace();
+			System.err.println("\nNESTED BY :");
 		}
 
-		this.fontsList.add(reportFont);
-		this.fontsMap.put(reportFont.getName(), reportFont);
-		
-		if (reportFont.isDefault())
+		super.printStackTrace();
+	}
+	
+
+	/**
+	 *
+	 */
+	public void printStackTrace(PrintStream s)
+	{
+		if (nestedThrowable != null)
 		{
-			this.setDefaultFont(reportFont);
+			nestedThrowable.printStackTrace(s);
+			s.println("\nNESTED BY :");
 		}
+
+		super.printStackTrace(s);
 	}
+	
 
 	/**
 	 *
 	 */
-	public JRReportFont removeFont(String name)
+	public void printStackTrace(PrintWriter s)
 	{
-		return this.removeFont(
-			(JRReportFont)this.fontsMap.get(name)
-			);
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont removeFont(JRReportFont reportFont)
-	{
-		if (reportFont != null)
+		if (nestedThrowable != null)
 		{
-			if (reportFont.isDefault())
-			{
-				this.setDefaultFont(null);
-			}
-
-			this.fontsList.remove(reportFont);
-			this.fontsMap.remove(reportFont.getName());
+			nestedThrowable.printStackTrace(s);
+			s.println("\nNESTED BY :");
 		}
-		
-		return reportFont;
-	}
 
-	/**
-	 *
-	 */
-	public List getPages()
-	{
-		return this.pages;
+		super.printStackTrace(s);
 	}
-		
-	/**
-	 *
-	 */
-	public void addPage(JRPrintPage page)
-	{
-		this.anchorIndexes = null;
-		this.pages.add(page);
-	}
-
-	/**
-	 *
-	 */
-	public void addPage(int index, JRPrintPage page)
-	{
-		this.anchorIndexes = null;
-		this.pages.add(index, page);
-	}
-
-	/**
-	 *
-	 */
-	public JRPrintPage removePage(int index)
-	{
-		this.anchorIndexes = null;
-		return (JRPrintPage)this.pages.remove(index);
-	}
-
-	/**
-	 *
-	 */
-	public Map getAnchorIndexes()
-	{
-		if (this.anchorIndexes == null)
-		{
-			this.anchorIndexes = new HashMap();
-			
-			JRPrintPage page = null;
-			int i = 0;
-			for(Iterator itp = pages.iterator(); itp.hasNext(); i++)
-			{
-				page = (JRPrintPage)itp.next();
-				Collection elements = page.getElements();
-				if (elements != null && elements.size() > 0)
-				{
-					JRPrintElement element = null;
-					for(Iterator it = elements.iterator(); it.hasNext();)
-					{
-						element = (JRPrintElement)it.next();
-						if (element instanceof JRPrintAnchor)
-						{
-							this.anchorIndexes.put(
-								((JRPrintAnchor)element).getAnchorName(), 
-								new JRPrintAnchorIndex(i, element)
-								);
-						}
-					}
-				}
-			}
-		}
-		
-		return this.anchorIndexes;
-	}
-		
-
+	
+	
 }

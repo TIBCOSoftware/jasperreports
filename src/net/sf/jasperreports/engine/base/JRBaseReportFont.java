@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRReportFont;
 
 
@@ -98,9 +96,9 @@ public class JRBaseReportFont extends JRBaseFont implements JRReportFont
 	/**
 	 *
 	 */
-	protected JRBaseReportFont(JRReportFont reportFont, Map baseObjectsMap)
+	public JRBaseReportFont(JRReportFont reportFont)
 	{
-		super(reportFont, baseObjectsMap);
+		super(null, null, reportFont);
 
 		name = reportFont.getName();
 		isDefault = reportFont.isDefault();

@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JREllipse;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRPrintElement;
@@ -92,10 +90,10 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	protected JRFillEllipse(
 		JRBaseFiller filler,
 		JREllipse ellipse, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, ellipse, fillObjectsMap);
+		super(filler, ellipse, factory);
 	}
 
 

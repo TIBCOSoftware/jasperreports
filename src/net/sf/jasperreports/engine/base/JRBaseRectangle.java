@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRRectangle;
 
 
@@ -97,9 +95,9 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	protected JRBaseRectangle(JRRectangle rectangle, Map baseObjectsMap)
+	protected JRBaseRectangle(JRRectangle rectangle, JRBaseObjectFactory factory)
 	{
-		super(rectangle, baseObjectsMap);
+		super(rectangle, factory);
 
 		radius = rectangle.getRadius();
 	}

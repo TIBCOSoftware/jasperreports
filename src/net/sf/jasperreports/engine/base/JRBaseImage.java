@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
 import dori.jasper.engine.JRHyperlink;
@@ -127,9 +125,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRBaseImage(JRImage image, Map baseObjectsMap)
+	protected JRBaseImage(JRImage image, JRBaseObjectFactory factory)
 	{
-		super(image, baseObjectsMap);
+		super(image, factory);
 		
 		scaleImage = image.getScaleImage();
 		horizontalAlignment = image.getHorizontalAlignment();
@@ -138,12 +136,12 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		evaluationTime = image.getEvaluationTime();
 		hyperlinkType = image.getHyperlinkType();
 
-		evaluationGroup = JRBaseObjectFactory.getGroup(image.getEvaluationGroup(), baseObjectsMap);
-		expression = JRBaseObjectFactory.getExpression(image.getExpression(), baseObjectsMap);
-		anchorNameExpression = JRBaseObjectFactory.getExpression(image.getAnchorNameExpression(), baseObjectsMap);
-		hyperlinkReferenceExpression = JRBaseObjectFactory.getExpression(image.getHyperlinkReferenceExpression(), baseObjectsMap);
-		hyperlinkAnchorExpression = JRBaseObjectFactory.getExpression(image.getHyperlinkAnchorExpression(), baseObjectsMap);
-		hyperlinkPageExpression = JRBaseObjectFactory.getExpression(image.getHyperlinkPageExpression(), baseObjectsMap);
+		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
+		expression = factory.getExpression(image.getExpression());
+		anchorNameExpression = factory.getExpression(image.getAnchorNameExpression());
+		hyperlinkReferenceExpression = factory.getExpression(image.getHyperlinkReferenceExpression());
+		hyperlinkAnchorExpression = factory.getExpression(image.getHyperlinkAnchorExpression());
+		hyperlinkPageExpression = factory.getExpression(image.getHyperlinkPageExpression());
 	}
 		
 

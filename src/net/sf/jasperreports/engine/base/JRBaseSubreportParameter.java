@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRSubreportParameter;
@@ -108,9 +107,9 @@ public class JRBaseSubreportParameter implements JRSubreportParameter, Serializa
 	/**
 	 *
 	 */
-	protected JRBaseSubreportParameter(JRSubreportParameter subreportParameter, Map baseObjectsMap)
+	protected JRBaseSubreportParameter(JRSubreportParameter subreportParameter, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(subreportParameter, this);
+		factory.put(subreportParameter, this);
 
 		name = subreportParameter.getName();
 		expression = subreportParameter.getExpression();

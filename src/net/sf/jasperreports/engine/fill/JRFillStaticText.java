@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintText;
@@ -99,10 +97,10 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	protected JRFillStaticText(
 		JRBaseFiller filler,
 		JRStaticText staticText, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, staticText, fillObjectsMap);
+		super(filler, staticText, factory);
 		
 		this.text = JRStringUtil.treatNewLineChars(staticText.getText());
 	}
@@ -151,7 +149,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		if (template == null)
 		{
-			template = new JRTemplateText((JRStaticText)this.parent);
+			template = new JRTemplateText((JRStaticText)this.parent, getFont());
 		}
 		
 		return (JRTemplateText)template;

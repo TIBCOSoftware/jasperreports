@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRGraphicElement;
 
 
@@ -110,9 +108,9 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	/**
 	 *
 	 */
-	protected JRBaseGraphicElement(JRGraphicElement graphicElement, Map baseObjectsMap)
+	protected JRBaseGraphicElement(JRGraphicElement graphicElement, JRBaseObjectFactory factory)
 	{
-		super(graphicElement, baseObjectsMap);
+		super(graphicElement, factory);
 		
 		stretchType = graphicElement.getStretchType();
 		pen = graphicElement.getPen();

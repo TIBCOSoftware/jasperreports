@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRExpression;
 
@@ -104,14 +102,14 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand
 	/**
 	 *
 	 */
-	protected JRBaseBand(JRBand band, Map baseObjectsMap)
+	protected JRBaseBand(JRBand band, JRBaseObjectFactory factory)
 	{
-		super(band, baseObjectsMap);
+		super(band, factory);
 		
 		height = band.getHeight();
 		isSplitAllowed = band.isSplitAllowed();
 
-		printWhenExpression = JRBaseObjectFactory.getExpression(band.getPrintWhenExpression(), baseObjectsMap);
+		printWhenExpression = factory.getExpression(band.getPrintWhenExpression());
 	}
 		
 

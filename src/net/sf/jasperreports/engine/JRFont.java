@@ -224,6 +224,11 @@ public interface JRFont
 	/**
 	 *
 	 */
+	public boolean isCachingAttributes();
+
+	/**
+	 *
+	 */
 	public Map getAttributes();
 	
 

@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRBand;
 import dori.jasper.engine.JRExpression;
 import dori.jasper.engine.JRGroup;
@@ -110,18 +108,17 @@ public class JRFillGroup implements JRGroup
 	 *
 	 */
 	public JRFillGroup(
-		JRBaseFiller filler,
 		JRGroup group, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		fillObjectsMap.put(group, this);
+		factory.put(group, this);
 
 		parent = group;
 
-		groupHeader = JRFillObjectFactory.getBand(filler, group.getGroupHeader(), fillObjectsMap);
-		groupFooter = JRFillObjectFactory.getBand(filler, group.getGroupFooter(), fillObjectsMap);
-		countVariable = JRFillObjectFactory.getVariable(filler, group.getCountVariable(), fillObjectsMap);
+		groupHeader = factory.getBand(group.getGroupHeader());
+		groupFooter = factory.getBand(group.getGroupFooter());
+		countVariable = factory.getVariable(group.getCountVariable());
 	}
 
 

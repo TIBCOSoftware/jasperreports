@@ -75,7 +75,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRElementGroup;
@@ -111,10 +110,10 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseElementGroup(JRElementGroup elementGroup, Map baseObjectsMap)
+	protected JRBaseElementGroup(JRElementGroup elementGroup, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(elementGroup, this);
-
+		factory.put(elementGroup, this);
+		
 		/*   */
 		List list = elementGroup.getChildren();
 		if (list != null && list.size() > 0)
@@ -125,18 +124,18 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 				child = list.get(i);
 				if (child instanceof JRElement)
 				{
-					child = JRBaseObjectFactory.getElement((JRElement)child, baseObjectsMap);
+					child = factory.getElement((JRElement)child);
 					this.children.add(child);
 				}
 				else if (child instanceof JRElementGroup)
 				{
-					child = JRBaseObjectFactory.getElementGroup((JRElementGroup)child, baseObjectsMap);
+					child = factory.getElementGroup((JRElementGroup)child);
 					this.children.add(child);
 				}
 			}
 		}
 
-		elementGroup = JRBaseObjectFactory.getElementGroup(elementGroup.getElementGroup(), baseObjectsMap);
+		elementGroup = factory.getElementGroup(elementGroup.getElementGroup());
 	}
 		
 

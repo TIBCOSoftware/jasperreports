@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRExpressionChunk;
 
@@ -107,9 +106,9 @@ public class JRBaseExpressionChunk implements JRExpressionChunk, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseExpressionChunk(JRExpressionChunk queryChunk, Map baseObjectsMap)
+	protected JRBaseExpressionChunk(JRExpressionChunk queryChunk, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(queryChunk, this);
+		factory.put(queryChunk, this);
 
 		type = queryChunk.getType();
 		text = queryChunk.getText();

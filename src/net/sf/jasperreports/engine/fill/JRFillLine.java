@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRLine;
 import dori.jasper.engine.JRPrintElement;
@@ -92,10 +90,10 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	protected JRFillLine(
 		JRBaseFiller filler,
 		JRLine line, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, line, fillObjectsMap);
+		super(filler, line, factory);
 	}
 
 

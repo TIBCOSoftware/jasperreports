@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.fill;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintRectangle;
@@ -92,10 +90,10 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	protected JRFillRectangle(
 		JRBaseFiller filler,
 		JRRectangle rectangle, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, rectangle, fillObjectsMap);
+		super(filler, rectangle, factory);
 	}
 
 

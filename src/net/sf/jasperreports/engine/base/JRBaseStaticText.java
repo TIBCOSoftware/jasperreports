@@ -71,8 +71,6 @@
  */
 package dori.jasper.engine.base;
 
-import java.util.Map;
-
 import dori.jasper.engine.JRStaticText;
 import dori.jasper.engine.JRTextElement;
 
@@ -98,9 +96,9 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	protected JRBaseStaticText(JRStaticText staticText, Map baseObjectsMap)
+	protected JRBaseStaticText(JRStaticText staticText, JRBaseObjectFactory factory)
 	{
-		super((JRTextElement)staticText, baseObjectsMap);
+		super((JRTextElement)staticText, factory);
 		
 		text = staticText.getText();
 	}

@@ -74,7 +74,6 @@ package dori.jasper.engine.fill;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import dori.jasper.engine.JRElement;
 import dori.jasper.engine.JRElementGroup;
@@ -103,14 +102,13 @@ public class JRFillElementGroup implements JRElementGroup
 	 *
 	 */
 	protected JRFillElementGroup(
-		JRBaseFiller filler,
 		JRElementGroup elementGroup, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
 		if (elementGroup != null)
 		{
-			fillObjectsMap.put(elementGroup, this);
+			factory.put(elementGroup, this);
 	
 			/*   */
 			List list = elementGroup.getChildren();
@@ -122,12 +120,12 @@ public class JRFillElementGroup implements JRElementGroup
 					child = list.get(i);
 					if (child instanceof JRElement)
 					{
-						child = JRFillObjectFactory.getElement(filler, (JRElement)child, fillObjectsMap);
+						child = factory.getElement((JRElement)child);
 						this.children.add(child);
 					}
 					else if (child instanceof JRElementGroup)
 					{
-						child = JRFillObjectFactory.getElementGroup(filler, (JRElementGroup)child, fillObjectsMap);
+						child = factory.getElementGroup((JRElementGroup)child);
 						this.children.add(child);
 					}
 				}
@@ -136,7 +134,7 @@ public class JRFillElementGroup implements JRElementGroup
 			/*   */
 			this.getElements();
 	
-			elementGroup = JRFillObjectFactory.getElementGroup(filler, elementGroup.getElementGroup(), fillObjectsMap);
+			elementGroup = factory.getElementGroup(elementGroup.getElementGroup());
 		}
 	}
 

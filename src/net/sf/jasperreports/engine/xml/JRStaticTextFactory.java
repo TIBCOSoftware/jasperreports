@@ -74,7 +74,6 @@ package dori.jasper.engine.xml;
 import org.xml.sax.Attributes;
 
 import dori.jasper.engine.design.JRDesignStaticText;
-import dori.jasper.engine.design.JasperDesign;
 
 
 /**
@@ -90,9 +89,6 @@ public class JRStaticTextFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRDesignStaticText staticText = new JRDesignStaticText();
-
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-		staticText.setFont(jasperDesign.getDefaultFont());
 
 		return staticText;
 	}

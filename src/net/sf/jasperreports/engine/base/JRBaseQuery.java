@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRQuery;
 import dori.jasper.engine.JRQueryChunk;
@@ -107,10 +106,10 @@ public class JRBaseQuery implements JRQuery, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseQuery(JRQuery query, Map baseObjectsMap)
+	protected JRBaseQuery(JRQuery query, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(query, this);
-
+		factory.put(query, this);
+		
 		/*   */
 		JRQueryChunk[] jrChunks = query.getChunks();
 		if (jrChunks != null && jrChunks.length > 0)
@@ -118,7 +117,7 @@ public class JRBaseQuery implements JRQuery, Serializable
 			chunks = new JRQueryChunk[jrChunks.length];
 			for(int i = 0; i < chunks.length; i++)
 			{
-				chunks[i] = JRBaseObjectFactory.getQueryChunk(jrChunks[i], baseObjectsMap);
+				chunks[i] = factory.getQueryChunk(jrChunks[i]);
 			}
 		}
 	}

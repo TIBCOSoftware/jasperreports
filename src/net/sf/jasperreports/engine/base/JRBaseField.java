@@ -72,7 +72,6 @@
 package dori.jasper.engine.base;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import dori.jasper.engine.JRField;
 
@@ -108,10 +107,10 @@ public class JRBaseField implements JRField, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseField(JRField field, Map baseObjectsMap)
+	protected JRBaseField(JRField field, JRBaseObjectFactory factory)
 	{
-		baseObjectsMap.put(field, this);
-
+		factory.put(field, this);
+		
 		name = field.getName();
 		description = field.getDescription();
 		valueClass = field.getValueClass();

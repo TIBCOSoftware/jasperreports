@@ -85,6 +85,7 @@ import org.apache.commons.logging.LogFactory;
 
 import dori.jasper.engine.JRAbstractScriptlet;
 import dori.jasper.engine.JRDataSource;
+import dori.jasper.engine.JRDefaultFontProvider;
 import dori.jasper.engine.JRDefaultScriptlet;
 import dori.jasper.engine.JRException;
 import dori.jasper.engine.JRExpression;
@@ -110,7 +111,7 @@ import dori.jasper.engine.util.JRQueryExecuter;
 /**
  *
  */
-public abstract class JRBaseFiller
+public abstract class JRBaseFiller implements JRDefaultFontProvider
 {
 
 	
@@ -151,7 +152,6 @@ public abstract class JRBaseFiller
 
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
-	protected Map fontsMap = null;
 	protected JRFillParameter[] parameters = null;
 	protected Map parametersMap = null;
 	protected JRQuery query = null;
@@ -160,7 +160,6 @@ public abstract class JRBaseFiller
 	protected JRFillVariable[] variables = null;
 	protected Map variablesMap = null;
 	protected JRFillGroup[] groups = null;
-	protected Map groupsMap = null;
 
 	protected JRFillBand background = null;
 	protected JRFillBand title = null;
@@ -229,21 +228,22 @@ public abstract class JRBaseFiller
 		this.isSummaryNewPage = jasperReport.isSummaryNewPage();
 		this.scriptletClass = jasperReport.getScriptletClass();
 
-		/*   */
-		Map fillObjectsMap = new HashMap();
+		jasperPrint = new JasperPrint();
 
 		/*   */
-		defaultFont = jasperReport.getDefaultFont();
+		JRFillObjectFactory factory = new JRFillObjectFactory(this);
+
+		/*   */
+		defaultFont = factory.getReportFont(jasperReport.getDefaultFont());
 
 		/*   */
 		JRReportFont[] jrFonts = jasperReport.getFonts();
 		if (jrFonts != null && jrFonts.length > 0)
 		{
-			fonts = jrFonts;
-			fontsMap = new HashMap();
+			fonts = new JRReportFont[jrFonts.length];
 			for(int i = 0; i < fonts.length; i++)
 			{
-				fontsMap.put(fonts[i].getName(), fonts[i]);
+				fonts[i] = factory.getReportFont(jrFonts[i]);
 			}
 		}
 
@@ -255,7 +255,7 @@ public abstract class JRBaseFiller
 			parametersMap = new HashMap();
 			for(int i = 0; i < parameters.length; i++)
 			{
-				parameters[i] = JRFillObjectFactory.getParameter(this, jrParameters[i], fillObjectsMap);
+				parameters[i] = factory.getParameter(jrParameters[i]);
 				parametersMap.put(parameters[i].getName(), parameters[i]);
 			}
 		}
@@ -271,7 +271,7 @@ public abstract class JRBaseFiller
 			fieldsMap = new HashMap();
 			for(int i = 0; i < fields.length; i++)
 			{
-				fields[i] = JRFillObjectFactory.getField(this, jrFields[i], fillObjectsMap);
+				fields[i] = factory.getField(jrFields[i]);
 				fieldsMap.put(fields[i].getName(), fields[i]);
 			}
 		}
@@ -284,7 +284,7 @@ public abstract class JRBaseFiller
 			variablesMap = new HashMap();
 			for(int i = 0; i < variables.length; i++)
 			{
-				variables[i] = JRFillObjectFactory.getVariable(this, jrVariables[i], fillObjectsMap);
+				variables[i] = factory.getVariable(jrVariables[i]);
 				variablesMap.put(variables[i].getName(), variables[i]);
 			}
 		}
@@ -294,23 +294,21 @@ public abstract class JRBaseFiller
 		if (jrGroups != null && jrGroups.length > 0)
 		{
 			groups = new JRFillGroup[jrGroups.length];
-			groupsMap = new HashMap();
 			for(int i = 0; i < groups.length; i++)
 			{
-				groups[i] = JRFillObjectFactory.getGroup(this, jrGroups[i], fillObjectsMap);
-				groupsMap.put(groups[i].getName(), groups[i]);
+				groups[i] = factory.getGroup(jrGroups[i]);
 			}
 		}
 
 		/*   */
-		this.background = JRFillObjectFactory.getBand(this, jasperReport.getBackground(), fillObjectsMap);
-		this.title = JRFillObjectFactory.getBand(this, jasperReport.getTitle(), fillObjectsMap);
-		this.pageHeader = JRFillObjectFactory.getBand(this, jasperReport.getPageHeader(), fillObjectsMap);
-		this.columnHeader = JRFillObjectFactory.getBand(this, jasperReport.getColumnHeader(), fillObjectsMap);
-		this.detail = JRFillObjectFactory.getBand(this, jasperReport.getDetail(), fillObjectsMap);
-		this.columnFooter = JRFillObjectFactory.getBand(this, jasperReport.getColumnFooter(), fillObjectsMap);
-		this.pageFooter = JRFillObjectFactory.getBand(this, jasperReport.getPageFooter(), fillObjectsMap);
-		this.summary = JRFillObjectFactory.getBand(this, jasperReport.getSummary(), fillObjectsMap);
+		this.background = factory.getBand(jasperReport.getBackground());
+		this.title = factory.getBand(jasperReport.getTitle());
+		this.pageHeader = factory.getBand(jasperReport.getPageHeader());
+		this.columnHeader = factory.getBand(jasperReport.getColumnHeader());
+		this.detail = factory.getBand(jasperReport.getDetail());
+		this.columnFooter = factory.getBand(jasperReport.getColumnFooter());
+		this.pageFooter = factory.getBand(jasperReport.getPageFooter());
+		this.summary = factory.getBand(jasperReport.getSummary());
 
 		/*   */
 		this.scriptlet = 
@@ -332,6 +330,24 @@ public abstract class JRBaseFiller
 				variables,
 				groups
 				);
+	}
+
+
+	/**
+	 *
+	 */
+	public JasperPrint getJasperPrint()
+	{
+		return jasperPrint;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRReportFont getDefaultFont()
+	{
+		return defaultFont;
 	}
 
 
@@ -363,15 +379,23 @@ public abstract class JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRPrintPage getCurrentPage() throws JRException
+	protected JRPrintPage getCurrentPage()
 	{
-		return this.printPage;
+		return printPage;
 	}
 
 	/**
 	 *
 	 */
-	protected int getCurrentPageStretchHeight() throws JRException
+	protected JRReportFont[] getFonts()
+	{
+		return fonts;
+	}
+
+	/**
+	 *
+	 */
+	protected int getCurrentPageStretchHeight()
 	{
 		return this.printPageStretchHeight;
 	}
@@ -412,8 +436,6 @@ public abstract class JRBaseFiller
 			this.setParameter(parameter, conn);
 		}
 
-		JasperPrint jrPrint = null;
-		
 		PreparedStatement pstmt = null; 
 		
 		try
@@ -430,7 +452,7 @@ public abstract class JRBaseFiller
 			
 			JRDataSource ds = new JRResultSetDataSource(rs);
 		
-			jrPrint = this.fill(parameterValues, ds);
+			this.fill(parameterValues, ds);
 		}
 		catch (SQLException e)
 		{
@@ -450,7 +472,7 @@ public abstract class JRBaseFiller
 			}
 		}
 		
-		return jrPrint;
+		return jasperPrint;
 	}
 
 	
@@ -462,12 +484,6 @@ public abstract class JRBaseFiller
 		JRDataSource ds
 		) throws JRException
 	{
-		/*
-		if (ds == null)
-		{
-			throw new JRException("JRDataSource object is null : " + name);
-		}
-		*/
 		this.dataSource = ds;
 		
 		if (parameterValues == null)
@@ -503,7 +519,6 @@ public abstract class JRBaseFiller
 			this.isParametersAlreadySet = true;
 		}
 
-		jasperPrint = new JasperPrint();
 		jasperPrint.setName(name);
 		jasperPrint.setPageWidth(pageWidth);
 		jasperPrint.setPageHeight(pageHeight);
@@ -615,8 +630,6 @@ public abstract class JRBaseFiller
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
-		//StringBuffer missingParameters = new StringBuffer();
-
 		if (this.parameters != null && this.parameters.length > 0)
 		{
 			Object value = null;
@@ -631,7 +644,6 @@ public abstract class JRBaseFiller
 				}
 				else if (!parameters[i].isSystemDefined())
 				{
-					//missingParameters.append("\n" + parameters[i].getName());
 					value = 
 						this.calculator.evaluate(
 							parameters[i].getDefaultValueExpression(), 
@@ -645,12 +657,6 @@ public abstract class JRBaseFiller
 				}
 			}
 		}
-		
-		//if (missingParameters.length() > 0)
-		//{
-		//	System.out.println("The following parameters haven't received a value :" + missingParameters.toString());
-		//	System.out.println("Using null as default value.");
-		//}
 	}
 
 
@@ -675,63 +681,6 @@ public abstract class JRBaseFiller
 			parameter.setValue(value);
 		}
 	}
-
-
-	/**
-	 *
-	 */
-	/*
-	protected void setParameters(Map parameters) throws JRException
-	{
-		if (parameters != null && parameters.size() > 0)
-		{
-			JRFillParameter parameter = null;
-			String parameterName = null;
-			Object parameterValue = null;
-			Collection parameterNames = parameters.keySet();
-			for(Iterator it = parameterNames.iterator(); it.hasNext();)
-			{
-				parameterName = (String)it.next();
-				parameterValue = parameters.get(parameterName);
-				
-				setParameter(parameterName, parameterValue);
-			}
-		}
-	}
-	*/
-
-
-	/**
-	 *
-	 */
-	/*
-	protected void setParameter(String parameterName, Object parameterValue) throws JRException
-	{
-		if (parametersMap.containsKey(parameterName))
-		{
-			JRFillParameter parameter = (JRFillParameter)parametersMap.get(parameterName);
-			if (parameterValue != null)
-			{
-				if (parameter.getValueClass().isInstance(parameterValue))
-				{
-					parameter.setValue(parameterValue);
-				}
-				else
-				{
-					throw new JRException("Incompatible value assigned to parameter " + parameterName + " : " + this.name);
-				}
-			}
-			else
-			{
-				parameter.setValue(parameterValue);
-			}
-		}
-		else
-		{
-			throw new JRException("No such parameter '" + parameterName + "' in report : " + this.name);
-		}
-	}
-	*/
 
 
 	/**

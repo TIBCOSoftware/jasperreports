@@ -116,12 +116,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	protected JRFillImage(
 		JRBaseFiller filler,
 		JRImage image, 
-		Map fillObjectsMap
+		JRFillObjectFactory factory
 		)
 	{
-		super(filler, image, fillObjectsMap);
+		super(filler, image, factory);
 
-		evaluationGroup = (JRGroup)JRFillObjectFactory.getGroup(filler, image.getEvaluationGroup(), fillObjectsMap);
+		evaluationGroup = (JRGroup)factory.getGroup(image.getEvaluationGroup());
 	}
 
 

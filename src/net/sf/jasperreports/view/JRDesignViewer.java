@@ -119,7 +119,6 @@ import dori.jasper.engine.JRSubreport;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.JRTextField;
 import dori.jasper.engine.JasperCompileManager;
-import dori.jasper.engine.JasperReport;
 import dori.jasper.engine.design.JRDesignFont;
 import dori.jasper.engine.design.JasperDesign;
 import dori.jasper.engine.util.JRGraphEnvInitializer;
@@ -160,6 +159,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	private JScrollBar hBar = null;
 	private JScrollBar vBar = null;
+
+	private JRFont defaultFont = null;
 
 	
 	/** Creates new form JRDesignViewer */
@@ -538,7 +539,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 		else
 		{
-			this.report = (JasperReport)JRLoader.loadObject(fileName);
+			this.report = (JRReport)JRLoader.loadObject(fileName);
 		}
 		this.type = TYPE_FILE_NAME;
 		this.isXML = isXML;
@@ -560,7 +561,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 		else
 		{
-			this.report = (JasperReport)JRLoader.loadObject(is);
+			this.report = (JRReport)JRLoader.loadObject(is);
 		}
 		this.type = TYPE_INPUT_STREAM;
 		this.isXML = isXML;
@@ -1555,11 +1556,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		JRFont font = text.getFont();
 		if (font == null)
 		{
-			font = report.getDefaultFont();
-			if (font == null)
-			{
-				font = new JRDesignFont();
-			}
+			font = getDefaultFont();
 		}
 		Map fontAttributes = font.getAttributes();
 
@@ -1784,6 +1781,24 @@ public class JRDesignViewer extends javax.swing.JPanel
 			subreport.getWidth() - 1,
 			subreport.getHeight() - 1
 			);
+	}
+
+
+	/**
+	 *
+	 */
+	private JRFont getDefaultFont()
+	{
+		if (defaultFont == null)
+		{
+			defaultFont = report.getDefaultFont();
+			if (defaultFont == null)
+			{
+				defaultFont = new JRDesignFont();
+			}
+		}
+		
+		return defaultFont;
 	}
 
 
