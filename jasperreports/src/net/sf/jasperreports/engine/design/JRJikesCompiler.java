@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRJikesCompiler extends JRAbstractJavaCompiler
+public class JRJikesCompiler extends JRAbstractClassCompiler
 {
 
 

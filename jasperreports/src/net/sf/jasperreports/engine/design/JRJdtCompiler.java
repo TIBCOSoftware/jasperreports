@@ -39,7 +39,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 import org.apache.commons.logging.Log;
@@ -62,7 +61,7 @@ import org.eclipse.jdt.internal.compiler.problem.DefaultProblemFactory;
 /**
  * 
  */
-public class JRJdtCompiler implements JRCompiler
+public class JRJdtCompiler extends JRAbstractJavaCompiler
 {
 
 	/**
@@ -117,7 +116,7 @@ public class JRJdtCompiler implements JRCompiler
 				jasperReport = 
 					new JasperReport(
 						jasperDesign,
-						getClass().getName(),
+						JRJavacCompiler.class.getName(),
 						classFiles[0].getBytes()
 						);
 			}
@@ -135,38 +134,6 @@ public class JRJdtCompiler implements JRCompiler
 	}
 
 	
-	// @JVM Crash workaround
-	// Reference to the loaded class class in a per thread map
-	private static ThreadLocal classFromBytesRef = new ThreadLocal();
-
-	/**
-	 *
-	 */
-	public JRCalculator loadCalculator(JasperReport jasperReport) throws JRException
-	{
-		JRCalculator calculator = null;
-
-		try
-		{
-			Class clazz = 
-				JRClassLoader.loadClassFromBytes(
-					jasperReport.getName(), 
-					(byte[])jasperReport.getCompileData()
-					);
-					
-			classFromBytesRef.set(clazz);
-		
-			calculator = (JRCalculator)clazz.newInstance();
-		}
-		catch (Exception e)
-		{
-			throw new JRException("Error loading expression class : " + jasperReport.getName(), e);
-		}
-		
-		return calculator;
-	}
-
-
 	/**
 	 *
 	 */

@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRJdk13Compiler extends JRAbstractJavaCompiler
+public class JRJdk13Compiler extends JRAbstractClassCompiler
 {
 
 
