@@ -7,9 +7,11 @@ JasperReports 0.6.3
 - new <box> tag available for putting border around text and image elements
 with independent properties such as color, style and padding on all four sides;
 
-- new "isFloatColumnFooter" attribute;
+- new "isFloatColumnFooter" attribute to allow printing the column footer section
+right after the detail lines and not only at the bottom of the page;
 
-- new global offset exporter parameters;
+- new global OFFSET_X and OFFSET_Y exporter parameters that can be used to move 
+all the elements on a page when exporting the generated document;
 
 - minor bug fixes and improvements;
 
