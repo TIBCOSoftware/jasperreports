@@ -78,6 +78,7 @@ package dori.jasper.engine.export;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
+import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -106,6 +107,7 @@ import dori.jasper.engine.JRFont;
 import dori.jasper.engine.JRGraphicElement;
 import dori.jasper.engine.JRHyperlink;
 import dori.jasper.engine.JRImage;
+import dori.jasper.engine.JRImageRenderer;
 import dori.jasper.engine.JRPrintElement;
 import dori.jasper.engine.JRPrintEllipse;
 import dori.jasper.engine.JRPrintImage;
@@ -113,6 +115,7 @@ import dori.jasper.engine.JRPrintLine;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
+import dori.jasper.engine.JRRenderable;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRImageLoader;
@@ -455,13 +458,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 					imagesDir.mkdir();
 				}
 	
-				byte[] imageData = null;
+				JRRenderable renderer = null;
 				File imageFile = null;
 				FileOutputStream fos = null;
 				for(Iterator it = imageKeys.iterator(); it.hasNext();)
 				{
-					imageData = (byte[])it.next();
-					imageFile = new File(imagesDir, (String)loadedImagesMap.get(imageData));
+					renderer = (JRRenderable)it.next();
+					imageFile = new File(imagesDir, (String)loadedImagesMap.get(renderer));
+					byte[] imageData = renderer.getImageData();
 					try
 					{
 						fos = new FileOutputStream(imageFile);
@@ -1224,19 +1228,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 		String imageSource = "";
 		
 		byte scaleImage = image.getScaleImage();
-		byte[] imageData = image.getImageData();
-		if (imageData != null)
+		JRRenderable renderer = image.getRenderer();
+		if (renderer != null)
 		{
-			if (loadedImagesMap.containsKey(imageData))
+			if (loadedImagesMap.containsKey(renderer))
 			{
 				//imageSource = imagesDir.getName() + "/" + (String)loadedImagesMap.get(imageData);
-				imageSource = imagesURI + (String)loadedImagesMap.get(imageData);
+				imageSource = imagesURI + (String)loadedImagesMap.get(renderer);
 			}
 			else
 			{
 				imageSource = "img_" + String.valueOf(loadedImagesMap.size());
-				loadedImagesMap.put(imageData, imageSource);
-				imagesMap.put(imageSource, imageData);
+				loadedImagesMap.put(renderer, imageSource);
+				imagesMap.put(imageSource, renderer);
 	
 				//imageSource = imagesDir.getName() + "/" + imageSource;
 				imageSource = imagesURI + imageSource;
@@ -1308,11 +1312,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 			default :
 			{
-				java.awt.Image awtImage = JRImageLoader.loadImage(imageData);
+				double normalWidth = image.getWidth();
+				double normalHeight = image.getHeight();
+				
+				Dimension2D dimension = renderer.getDimension();
+				if (dimension != null)
+				{
+					normalWidth = dimension.getWidth();
+					normalHeight = dimension.getHeight();
+				}
 		
 				if (image.getHeight() > 0)
 				{
-					double ratio = (double)awtImage.getWidth(null) / (double)awtImage.getHeight(null);
+					double ratio = (double)normalWidth / (double)normalHeight;
 					
 					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
 					{
@@ -1545,9 +1557,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		if (!imagesMap.containsKey("px"))
 		{
-			byte[] pxBytes = JRImageLoader.loadImageDataFromLocation("dori/jasper/engine/images/pixel.GIF");
-			loadedImagesMap.put(pxBytes, "px");
-			imagesMap.put("px", pxBytes);
+			JRRenderable pxRenderer = 
+				JRImageRenderer.getInstance(
+					JRImageLoader.loadImageDataFromLocation("dori/jasper/engine/images/pixel.GIF")
+					);
+			loadedImagesMap.put(pxRenderer, "px");
+			imagesMap.put("px", pxRenderer);
 		}
 	}
 	

@@ -76,6 +76,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
+import java.awt.geom.Dimension2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private JRFont font = null;
 
-	private Dimension dimension = null;
+	private Dimension2D dimension = null;
 	private float floatLineSpacing = 0;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
@@ -525,11 +526,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		float formatWidth = (float)dimension.width;
+		float formatWidth = (float)dimension.getWidth();
 		float lineSpacing = floatLineSpacing;
 		float drawPosY = 0;
 		float firstLineLeading = 0;
-		int maxHeight = dimension.height + availableStretchHeight;
+		int maxHeight = (int)dimension.getHeight() + availableStretchHeight;
 		int strpos = 0;
 		int lastPosition = 0;
 		int lines = 0;

@@ -79,7 +79,7 @@ package dori.jasper.engine.export;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
@@ -87,6 +87,7 @@ import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Collection;
@@ -113,10 +114,10 @@ import dori.jasper.engine.JRPrintLine;
 import dori.jasper.engine.JRPrintPage;
 import dori.jasper.engine.JRPrintRectangle;
 import dori.jasper.engine.JRPrintText;
+import dori.jasper.engine.JRRenderable;
 import dori.jasper.engine.JRTextElement;
 import dori.jasper.engine.base.JRBaseFont;
 import dori.jasper.engine.util.JRGraphEnvInitializer;
-import dori.jasper.engine.util.JRImageLoader;
 import dori.jasper.engine.util.JRStringUtil;
 import dori.jasper.engine.util.JRStyledText;
 import dori.jasper.engine.util.JRStyledTextParser;
@@ -585,18 +586,24 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		int availableImageHeight = printImage.getHeight() - 2 * borderOffset;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
-		byte[] imageData = printImage.getImageData();
+		JRRenderable renderer = printImage.getRenderer();
 		
 		if (
-			availableImageWidth > 0 && availableImageHeight > 0 &&
-			imageData != null && imageData.length > 0
+			availableImageWidth > 0 
+			&& availableImageHeight > 0 
+			&& renderer != null
 			)
 		{
-			Image awtImage = JRImageLoader.loadImage( imageData );
-	
-			int awtWidth = awtImage.getWidth(null);
-			int awtHeight = awtImage.getHeight(null);
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
 
+			Dimension2D dimension = renderer.getDimension();
+			if (dimension != null)
+			{
+				normalWidth = (int)dimension.getWidth();
+				normalHeight = (int)dimension.getHeight();
+			}
+	
 			float xalignFactor = 0f;
 			switch (printImage.getHorizontalAlignment())
 			{
@@ -643,8 +650,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				case JRImage.SCALE_IMAGE_CLIP :
 				{
-					int xoffset = (int)(xalignFactor * (availableImageWidth - awtWidth));
-					int yoffset = (int)(yalignFactor * (availableImageHeight - awtHeight));
+					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
+					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
 					grx.setClip(
 						printImage.getX() + borderOffset, 
@@ -652,14 +659,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 						availableImageWidth, 
 						availableImageHeight
 						);
-					grx.drawImage(
-						awtImage, 
-						printImage.getX() + xoffset + borderOffset, 
-						printImage.getY() + yoffset + borderOffset, 
-						awtWidth, 
-						awtHeight, 
-						//Color.red,
-						null
+					renderer.render(
+						grx, 
+						new Rectangle(
+							printImage.getX() + xoffset + borderOffset, 
+							printImage.getY() + yoffset + borderOffset, 
+							normalWidth, 
+							normalHeight
+							) 
 						);
 					grx.setClip(
 						0, 
@@ -672,14 +679,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				}
 				case JRImage.SCALE_IMAGE_FILL_FRAME :
 				{
-					grx.drawImage(
-						awtImage, 
-						printImage.getX() + borderOffset, 
-						printImage.getY() + borderOffset, 
-						availableImageWidth, 
-						availableImageHeight,
-						//Color.red,
-						null
+					renderer.render(
+						grx,
+						new Rectangle(
+							printImage.getX() + borderOffset, 
+							printImage.getY() + borderOffset, 
+							availableImageWidth, 
+							availableImageHeight
+							)
 						);
 	
 					break;
@@ -689,30 +696,30 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				{
 					if (printImage.getHeight() > 0)
 					{
-						double ratio = (double)awtWidth / (double)awtHeight;
+						double ratio = (double)normalWidth / (double)normalHeight;
 						
 						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
 						{
-							awtWidth = availableImageWidth; 
-							awtHeight = (int)(availableImageWidth / ratio); 
+							normalWidth = availableImageWidth; 
+							normalHeight = (int)(availableImageWidth / ratio); 
 						}
 						else
 						{
-							awtWidth = (int)(availableImageHeight * ratio); 
-							awtHeight = availableImageHeight; 
+							normalWidth = (int)(availableImageHeight * ratio); 
+							normalHeight = availableImageHeight; 
 						}
 
-						int xoffset = (int)(xalignFactor * (availableImageWidth - awtWidth));
-						int yoffset = (int)(yalignFactor * (availableImageHeight - awtHeight));
+						int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
+						int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
-						grx.drawImage(
-							awtImage, 
-							printImage.getX() + xoffset + borderOffset, 
-							printImage.getY() + yoffset + borderOffset, 
-							awtWidth, 
-							awtHeight, 
-							//Color.red,
-							null
+						renderer.render(
+							grx,
+							new Rectangle(
+								printImage.getX() + xoffset + borderOffset, 
+								printImage.getY() + yoffset + borderOffset, 
+								normalWidth, 
+								normalHeight
+								) 
 							);
 					}
 					

@@ -83,12 +83,12 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
-	public byte[] getImageData();
+	public JRRenderable getRenderer();
 		
 	/**
 	 *
 	 */
-	public void setImageData(byte[] imageData);
+	public void setRenderer(JRRenderable renderer);
 		
 	/**
 	 *

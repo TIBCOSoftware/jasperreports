@@ -69,16 +69,14 @@
  * Bucharest, ROMANIA
  * Email: teodord@users.sourceforge.net
  */
-package dori.jasper.engine.xml;
+package dori.jasper.engine;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
-import org.w3c.tools.codec.Base64Decoder;
-
-import dori.jasper.engine.JRException;
-import dori.jasper.engine.JRImageRenderer;
-import dori.jasper.engine.JRPrintImage;
 import dori.jasper.engine.util.JRImageLoader;
 
 
@@ -86,70 +84,94 @@ import dori.jasper.engine.util.JRImageLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintImageSourceObject
+public class JRImageRenderer implements JRRenderable
 {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 503;
 
 	/**
 	 *
 	 */
-	private JRPrintImage printImage = null;
+	private byte[] imageData = null;
+	private Image awtImage = null;
 
-	/**
-	 *
-	 */
-	private boolean isEmbedded = false;
-
-
-	/**
-	 *
-	 */
-	public void setPrintImage(JRPrintImage printImage)
-	{
-		this.printImage = printImage;
-	}
 	
-
 	/**
 	 *
 	 */
-	public void setEmbedded(boolean isEmbedded)
+	protected JRImageRenderer(byte[] imageData)
 	{
-		this.isEmbedded = isEmbedded;
+		this.imageData = imageData;
 	}
-	
+
 
 	/**
 	 *
 	 */
-	public void setImageSource(String imageSource) throws JRException
+	public static JRImageRenderer getInstance(byte[] imageData)
 	{
-		if (this.isEmbedded)
+		if (imageData == null || imageData.length == 0)
 		{
-			try
-			{
-				ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXME other encodings ?
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				
-				Base64Decoder decoder = new Base64Decoder(bais, baos);
-				decoder.process();
-				
-				this.printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error decoding embedded image.", e);
-			}
+			return null;
 		}
 		else
 		{
-			printImage.setRenderer(
-				JRImageRenderer.getInstance(
-					JRImageLoader.loadImageDataFromLocation(imageSource)
-					)
-				);
+			return new JRImageRenderer(imageData);
 		}
 	}
-	
+
+
+	/**
+	 *
+	 */
+	private Image getImage()
+	{
+		if (awtImage == null)
+		{
+			awtImage = JRImageLoader.loadImage(imageData);
+		}
+		return awtImage;
+	}
+
+
+	/**
+	 *
+	 */
+	public Dimension2D getDimension()
+	{
+		Image img = getImage();
+		return new Dimension(img.getWidth(null), img.getHeight(null));
+	}
+
+
+	/**
+	 *
+	 */
+	public byte[] getImageData()
+	{
+		return imageData;
+	}
+
+
+	/**
+	 *
+	 */
+	public void render(Graphics2D grx, Rectangle2D rectanle)
+	{
+		Image img = getImage();
+		
+		grx.drawImage(
+			img, 
+			(int)rectanle.getX(), 
+			(int)rectanle.getY(), 
+			(int)rectanle.getWidth(), 
+			(int)rectanle.getHeight(), 
+			null
+			);
+	}
+
 
 }
