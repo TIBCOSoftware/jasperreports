@@ -6,11 +6,11 @@
 	<pageHeader>
 		<band height="40">
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="545" height="30" forecolor="#8000" backcolor="#80ff80"/>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="545" height="30" forecolor="#8000" backcolor="#ccffcc"/>
 				<textElement textAlignment="Center">
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Report Three (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Report Three (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

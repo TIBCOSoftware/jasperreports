@@ -6,11 +6,11 @@
 	<pageHeader>
 		<band height="40">
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="545" height="30" forecolor="#8000ff" backcolor="#80ffff"/>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="545" height="30" forecolor="#3366ff" backcolor="#ffff"/>
 				<textElement textAlignment="Center">
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Report One (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Report One (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -25,14 +25,14 @@
 	<pageFooter>
 		<band height="40">
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="270" height="30" forecolor="#a0"/>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="270" height="30" forecolor="#333399"/>
 				<textElement textAlignment="Right">
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement positionType="Float" mode="Opaque" x="280" y="5" width="272" height="30" forecolor="#a0"/>
+				<reportElement positionType="Float" mode="Opaque" x="280" y="5" width="272" height="30" forecolor="#333399"/>
 				<textElement>
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
