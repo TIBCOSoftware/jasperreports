@@ -107,7 +107,7 @@
 <!ELEMENT printWhenExpression (#PCDATA)>
 <!ELEMENT graphicElement EMPTY>
 <!ATTLIST graphicElement
-	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) "NoStretch"
+	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) #IMPLIED
 	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	fill (Solid) "Solid"
 >
