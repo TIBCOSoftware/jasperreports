@@ -102,7 +102,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JasperCompileManager
+public class JasperCompileManager
 {
 
 
