@@ -103,6 +103,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 *
 	 */
 	protected JRGraphics2DExporter exporter = null;
+	protected JRExportProgressMonitor progressMonitor = null;
 	protected PrintRequestAttributeSet printRequestAttributeSet = null;
 	protected PrintServiceAttributeSet printServiceAttributeSet = null;
 	//protected DocFlavor docFlavor = null;
@@ -115,6 +116,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -123,6 +126,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 
 		exporter = new JRGraphics2DExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, progressMonitor);
 
 		printRequestAttributeSet = 
 			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);

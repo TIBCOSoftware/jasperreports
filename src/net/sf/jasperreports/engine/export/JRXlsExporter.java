@@ -138,6 +138,8 @@ public class JRXlsExporter extends JRAbstractExporter
 	protected HSSFCell cell = null;
 	protected HSSFCellStyle emptyCellStyle = null;
 
+	protected JRExportProgressMonitor progressMonitor = null;
+
 	/**
 	 *
 	 */
@@ -190,6 +192,8 @@ public class JRXlsExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
 		setInput();
 
@@ -451,6 +455,11 @@ public class JRXlsExporter extends JRAbstractExporter
 					emptyCell.setCellStyle(emptyCellStyle);
 				}
 			}
+		}
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
 		}
 	}
 

@@ -79,6 +79,7 @@
 				<include name="**/dori/jasper/engine/base/JRBaseReportFont.class"/>
 				<include name="**/dori/jasper/engine/design/JRDesignFont.class"/>
 				<include name="**/dori/jasper/engine/design/JRDesignReportFont.class"/>
+				<include name="**/dori/jasper/engine/export/JRExportProgressMonitor.class"/>
 				<include name="**/dori/jasper/engine/export/JRGraphics2DExporter.class"/>
 				<include name="**/dori/jasper/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/dori/jasper/engine/fill/JRTemplate*.class"/>
