@@ -36,6 +36,7 @@ package net.sf.jasperreports.engine.design;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.beans.PropertyChangeSupport;
 
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
@@ -47,7 +48,17 @@ import net.sf.jasperreports.engine.base.JRBaseExpression;
  */
 public class JRDesignExpression extends JRBaseExpression
 {
+    /** Mechanism for firing property change events. */
+    private PropertyChangeSupport propSupport;
 
+    /** Bean property name for name. */
+    public static final String NAME_PROPERTY = "name";
+
+    /** Bean property name for id. */
+    public static final String ID_PROPERTY = "id";
+
+    /** Bean property name for value class name. */
+    public static final String VALUE_CLASS_PROPERTY = "valueClassName";
 
 	/**
 	 *
@@ -71,8 +82,9 @@ public class JRDesignExpression extends JRBaseExpression
 	public JRDesignExpression()
 	{
 		super();
-		
-		this.id = getNextId();
+
+        this.id = getNextId();
+        propSupport = new PropertyChangeSupport(this);
 	}
 
 
@@ -98,8 +110,10 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setValueClassName(String className)
 	{
+        Object oldValue = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+        propSupport.firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
 	}
 
 	/**
@@ -107,7 +121,9 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setName(String name)
 	{
+        Object oldValue = this.name;
 		this.name = name;
+        propSupport.firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 
 	/**
@@ -115,7 +131,9 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setId(int id)
 	{
+        int oldValue = this.id;
 		this.id = id;
+        propSupport.firePropertyChange(ID_PROPERTY, oldValue, this.id);
 	}
 
 	/**
@@ -135,13 +153,15 @@ public class JRDesignExpression extends JRBaseExpression
 	}
 		
 	/**
-	 *
+	 * Clears the current list of chunks and adds the passed list of chunks.  The reference
+     * to the list passed is not kept.
 	 */
 	public void setChunks(List chunks)
 	{
-		this.chunks = chunks;
+        this.chunks.clear();
+        this.chunks.addAll(chunks);
 	}
-		
+
 	/**
 	 *
 	 */
@@ -215,7 +235,7 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setText(String text)
 	{
-		chunks = new ArrayList();
+		chunks.clear();
 		
 		if (text != null)
 		{
