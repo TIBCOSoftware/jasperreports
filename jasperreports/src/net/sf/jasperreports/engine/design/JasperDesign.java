@@ -68,7 +68,7 @@ import net.sf.jasperreports.engine.base.JRBaseReport;
 public class JasperDesign extends JRBaseReport
 {
     /** Property change support mechanism. */
-    private PropertyChangeSupport propSupport;
+    private transient PropertyChangeSupport propSupport;
 
     /** Bean property name for the report's name. */
     public static final String NAME_PROPERTY = "name";
@@ -182,8 +182,6 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JasperDesign()
 	{
-        propSupport = new PropertyChangeSupport(this);
-
 		/*   */
 		JRDesignParameter parameter = new JRDesignParameter();
 		parameter.setName(JRParameter.REPORT_PARAMETERS_MAP);
@@ -411,7 +409,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.name;
 		this.name = name;
-        propSupport.firePropertyChange(NAME_PROPERTY, oldValue, this.name);
+        getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 
 
@@ -422,7 +420,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.language;
 		this.language = language;
-        propSupport.firePropertyChange(LANGUAGE_PROPERTY, oldValue, this.language);
+        getPropertyChangeSupport().firePropertyChange(LANGUAGE_PROPERTY, oldValue, this.language);
 	}
 		
 
@@ -433,7 +431,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.columnCount;
 		this.columnCount = columnCount;
-        propSupport.firePropertyChange(COLUMN_COUNT_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(COLUMN_COUNT_PROPERTY, oldValue,
                 this.columnCount);
 	}
 		
@@ -445,7 +443,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = new Byte(this.printOrder);
 		this.printOrder = printOrder;
-        propSupport.firePropertyChange(PRINT_ORDER_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(PRINT_ORDER_PROPERTY, oldValue,
                 new Byte(this.printOrder));
 	}
 		
@@ -457,7 +455,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.pageWidth;
 		this.pageWidth = pageWidth;
-        propSupport.firePropertyChange(PAGE_WIDTH_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(PAGE_WIDTH_PROPERTY, oldValue,
                 this.pageWidth);
 	}
 		
@@ -469,7 +467,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.pageHeight;
 		this.pageHeight = pageHeight;
-        propSupport.firePropertyChange(PAGE_HEIGHT_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(PAGE_HEIGHT_PROPERTY, oldValue,
                 this.pageHeight);
 	}
 		
@@ -481,7 +479,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = new Byte(this.orientation);
 		this.orientation = orientation;
-        propSupport.firePropertyChange(ORIENTATION_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(ORIENTATION_PROPERTY, oldValue,
                 new Byte(this.orientation));
 	}
 		
@@ -493,7 +491,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.columnWidth;
 		this.columnWidth = columnWidth;
-        propSupport.firePropertyChange(COLUMN_WIDTH_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(COLUMN_WIDTH_PROPERTY, oldValue,
                 this.columnWidth);
 	}
 		
@@ -505,7 +503,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.columnSpacing;
 		this.columnSpacing = columnSpacing;
-        propSupport.firePropertyChange(COLUMN_SPACING_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(COLUMN_SPACING_PROPERTY, oldValue,
                 this.columnSpacing);
 	}
 		
@@ -517,7 +515,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.leftMargin;
 		this.leftMargin = leftMargin;
-        propSupport.firePropertyChange(LEFT_MARGIN_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(LEFT_MARGIN_PROPERTY, oldValue,
                 this.leftMargin);
 	}
 		
@@ -529,7 +527,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.rightMargin;
 		this.rightMargin = rightMargin;
-        propSupport.firePropertyChange(RIGHT_MARGIN_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(RIGHT_MARGIN_PROPERTY, oldValue,
                 this.rightMargin);
 	}
 		
@@ -541,7 +539,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.topMargin;
 		this.topMargin = topMargin;
-        propSupport.firePropertyChange(TOP_MARGIN_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(TOP_MARGIN_PROPERTY, oldValue,
                 this.topMargin);
 	}
 		
@@ -553,7 +551,7 @@ public class JasperDesign extends JRBaseReport
 	{
         int oldValue = this.bottomMargin;
 		this.bottomMargin = bottomMargin;
-        propSupport.firePropertyChange(BOTTOM_MARGIN_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(BOTTOM_MARGIN_PROPERTY, oldValue,
                 this.bottomMargin);
 	}
 		
@@ -565,7 +563,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.background;
 		this.background = background;
-        propSupport.firePropertyChange(BACKGROUND_PROPERTY, oldValue, this.background);
+        getPropertyChangeSupport().firePropertyChange(BACKGROUND_PROPERTY, oldValue, this.background);
 	}
 		
 
@@ -576,7 +574,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.title;
 		this.title = title;
-        propSupport.firePropertyChange(TITLE_PROPERTY, oldValue, this.title);
+        getPropertyChangeSupport().firePropertyChange(TITLE_PROPERTY, oldValue, this.title);
 	}
 		
 
@@ -587,7 +585,7 @@ public class JasperDesign extends JRBaseReport
 	{
         boolean oldValue = this.isTitleNewPage;
 		this.isTitleNewPage = isTitleNewPage;
-        propSupport.firePropertyChange(TITLE_NEW_PAGE_PROPERTY, oldValue, this.isTitleNewPage);
+        getPropertyChangeSupport().firePropertyChange(TITLE_NEW_PAGE_PROPERTY, oldValue, this.isTitleNewPage);
 	}
 		
 
@@ -598,7 +596,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.summary;
 		this.summary = summary;
-        propSupport.firePropertyChange(SUMMARY_PROPERTY, oldValue, this.summary);
+        getPropertyChangeSupport().firePropertyChange(SUMMARY_PROPERTY, oldValue, this.summary);
 	}
 		
 
@@ -609,7 +607,7 @@ public class JasperDesign extends JRBaseReport
 	{
         boolean oldValue = this.isSummaryNewPage;
 		this.isSummaryNewPage = isSummaryNewPage;
-        propSupport.firePropertyChange(SUMMARY_NEW_PAGE_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(SUMMARY_NEW_PAGE_PROPERTY, oldValue,
                 this.isSummaryNewPage);
 	}
 		
@@ -621,7 +619,7 @@ public class JasperDesign extends JRBaseReport
 	{
         boolean oldValue = this.isFloatColumnFooter;
 		this.isFloatColumnFooter = isFloatColumnFooter;
-        propSupport.firePropertyChange(FLOAT_COLUMN_FOOTER_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(FLOAT_COLUMN_FOOTER_PROPERTY, oldValue,
                 this.isFloatColumnFooter);
 	}
 		
@@ -633,7 +631,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.pageHeader;
 		this.pageHeader = pageHeader;
-        propSupport.firePropertyChange(PAGE_HEADER_PROPERTY, oldValue, this.pageHeader);
+        getPropertyChangeSupport().firePropertyChange(PAGE_HEADER_PROPERTY, oldValue, this.pageHeader);
 	}
 		
 
@@ -644,7 +642,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.pageFooter;
 		this.pageFooter = pageFooter;
-        propSupport.firePropertyChange(PAGE_FOOTER_PROPERTY, oldValue, this.pageFooter);
+        getPropertyChangeSupport().firePropertyChange(PAGE_FOOTER_PROPERTY, oldValue, this.pageFooter);
 	}
 		
 
@@ -655,7 +653,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.lastPageFooter;
 		this.lastPageFooter = lastPageFooter;
-        propSupport.firePropertyChange(LAST_PAGE_FOOTER_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(LAST_PAGE_FOOTER_PROPERTY, oldValue,
                 this.lastPageFooter);
 	}
 		
@@ -667,7 +665,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.columnHeader;
 		this.columnHeader = columnHeader;
-        propSupport.firePropertyChange(COLUMN_HEADER_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(COLUMN_HEADER_PROPERTY, oldValue,
                 this.columnHeader);
 	}
 		
@@ -679,7 +677,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.columnFooter;
 		this.columnFooter = columnFooter;
-        propSupport.firePropertyChange(COLUMN_FOOTER_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(COLUMN_FOOTER_PROPERTY, oldValue,
                 this.columnFooter);
 	}
 		
@@ -691,7 +689,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.detail;
 		this.detail = detail;
-        propSupport.firePropertyChange(DETAIL_PROPERTY, oldValue, this.detail);
+        getPropertyChangeSupport().firePropertyChange(DETAIL_PROPERTY, oldValue, this.detail);
 	}
 		
 
@@ -702,7 +700,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.scriptletClass;
 		this.scriptletClass = scriptletClass;
-        propSupport.firePropertyChange(SCRIPTLET_CLASS_PROPERTY, oldValue, this.scriptletClass);
+        getPropertyChangeSupport().firePropertyChange(SCRIPTLET_CLASS_PROPERTY, oldValue, this.scriptletClass);
 	}
 		
 
@@ -713,7 +711,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.resourceBundle;
 		this.resourceBundle = resourceBundle;
-        propSupport.firePropertyChange(RESOURCE_BUNDLE_PROPERTY, oldValue, this.resourceBundle);
+        getPropertyChangeSupport().firePropertyChange(RESOURCE_BUNDLE_PROPERTY, oldValue, this.resourceBundle);
 	}
 		
 
@@ -749,7 +747,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.defaultFont;
 		this.defaultFont = font;
-        propSupport.firePropertyChange(DEFAULT_FONT_PROPERTY, oldValue, this.defaultFont);
+        getPropertyChangeSupport().firePropertyChange(DEFAULT_FONT_PROPERTY, oldValue, this.defaultFont);
 	}
 		
 
@@ -914,7 +912,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.query;
 		this.query = query;
-        propSupport.firePropertyChange(QUERY_PROPERTY, oldValue, this.query);
+        getPropertyChangeSupport().firePropertyChange(QUERY_PROPERTY, oldValue, this.query);
 	}
 
     /**
@@ -922,7 +920,7 @@ public class JasperDesign extends JRBaseReport
      * @param l The property listener to add.
      */
     public void addPropertyChangeListener(PropertyChangeListener l) {
-        propSupport.addPropertyChangeListener(l);
+        getPropertyChangeSupport().addPropertyChangeListener(l);
     }
 
     /**
@@ -932,7 +930,7 @@ public class JasperDesign extends JRBaseReport
      * @param l The property listener to add.
      */
     public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-        propSupport.addPropertyChangeListener(name, l);
+        getPropertyChangeSupport().addPropertyChangeListener(name, l);
     }
 
     /**
@@ -940,8 +938,21 @@ public class JasperDesign extends JRBaseReport
      * through either of the addPropertyListener methods.
      * @param l The listener to remove.
      */
-    public void removePRopertyChangeListener(PropertyChangeListener l) {
-        propSupport.removePropertyChangeListener(l);
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        getPropertyChangeSupport().removePropertyChangeListener(l);
+    }
+
+    /**
+     * Get the property change support object for this class.  Because the
+     * property change support object has to be transient, it may need to be
+     * created.
+     * @return The property change support object.
+     */
+    protected PropertyChangeSupport getPropertyChangeSupport() {
+        if (propSupport == null) {
+            propSupport = new PropertyChangeSupport(this);
+        }
+        return propSupport;
     }
 
 	/**
