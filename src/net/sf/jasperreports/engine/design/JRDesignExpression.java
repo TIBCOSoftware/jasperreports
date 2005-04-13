@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
@@ -49,7 +50,7 @@ import net.sf.jasperreports.engine.base.JRBaseExpression;
 public class JRDesignExpression extends JRBaseExpression
 {
     /** Mechanism for firing property change events. */
-    private PropertyChangeSupport propSupport;
+    private transient PropertyChangeSupport propSupport;
 
     /** Bean property name for name. */
     public static final String NAME_PROPERTY = "name";
@@ -84,7 +85,6 @@ public class JRDesignExpression extends JRBaseExpression
 		super();
 
         this.id = getNextId();
-        propSupport = new PropertyChangeSupport(this);
 	}
 
 
@@ -113,7 +113,7 @@ public class JRDesignExpression extends JRBaseExpression
         Object oldValue = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
-        propSupport.firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
+        getPropertyChangeSupport().firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class JRDesignExpression extends JRBaseExpression
 	{
         Object oldValue = this.name;
 		this.name = name;
-        propSupport.firePropertyChange(NAME_PROPERTY, oldValue, this.name);
+        getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class JRDesignExpression extends JRBaseExpression
 	{
         int oldValue = this.id;
 		this.id = id;
-        propSupport.firePropertyChange(ID_PROPERTY, oldValue, this.id);
+        getPropertyChangeSupport().firePropertyChange(ID_PROPERTY, oldValue, this.id);
 	}
 
 	/**
@@ -366,6 +366,45 @@ public class JRDesignExpression extends JRBaseExpression
 			}
 		}
 	}
-			
 
+
+    /**
+     * Add a property listener to listen to all properties of this class.
+     * @param l The property listener to add.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        getPropertyChangeSupport().addPropertyChangeListener(l);
+    }
+
+    /**
+     * Add a property listener to receive property change events for only one specific
+     * property.
+     * @param propName The property to listen to.
+     * @param l The property listener to add.
+     */
+    public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
+        getPropertyChangeSupport().addPropertyChangeListener(name, l);
+    }
+
+    /**
+     * Remove a property change listener.  This will remove any listener that was added
+     * through either of the addPropertyListener methods.
+     * @param l The listener to remove.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        getPropertyChangeSupport().removePropertyChangeListener(l);
+    }
+
+    /**
+     * Get the property change support object for this class.  Because the
+     * property change support object has to be transient, it may need to be
+     * created.
+     * @return The property change support object.
+     */
+    protected PropertyChangeSupport getPropertyChangeSupport() {
+        if (propSupport == null) {
+            propSupport = new PropertyChangeSupport(this);
+        }
+        return propSupport;
+    }
 }
