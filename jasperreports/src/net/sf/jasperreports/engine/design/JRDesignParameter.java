@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
 
 import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 
 /**
@@ -72,7 +73,7 @@ public class JRDesignParameter extends JRBaseParameter
 	{
         Object oldValue = this.name;
 		this.name = name;
-        propSupport.firePropertyChange(NAME_PROPERTY, oldValue, this.name);
+        getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 	
 	/**
@@ -91,7 +92,7 @@ public class JRDesignParameter extends JRBaseParameter
         Object oldValue = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
-        propSupport.firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
+        getPropertyChangeSupport().firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
 	}
 
 	/**
@@ -101,7 +102,7 @@ public class JRDesignParameter extends JRBaseParameter
 	{
         boolean oldValue = this.isSystemDefined;
 		this.isSystemDefined = isSystemDefined;
-        propSupport.firePropertyChange(SYSTEM_DEFINED_PROPERTY, oldValue,
+        getPropertyChangeSupport().firePropertyChange(SYSTEM_DEFINED_PROPERTY, oldValue,
                 this.isSystemDefined);
 	}
 
@@ -112,7 +113,7 @@ public class JRDesignParameter extends JRBaseParameter
 	{
         boolean oldValue = this.isForPrompting;
 		this.isForPrompting = isForPrompting;
-        propSupport.firePropertyChange(PROMPTING_PROPERTY, oldValue, this.isForPrompting);
+        getPropertyChangeSupport().firePropertyChange(PROMPTING_PROPERTY, oldValue, this.isForPrompting);
 	}
 
 	/**
@@ -122,9 +123,49 @@ public class JRDesignParameter extends JRBaseParameter
 	{
         Object oldValue = this.defaultValueExpression;
 		this.defaultValueExpression = expression;
-        propSupport.firePropertyChange(DEFAULT_VALUE_EXPRESSION, oldValue,
+        getPropertyChangeSupport().firePropertyChange(DEFAULT_VALUE_EXPRESSION, oldValue,
                 this.defaultValueExpression);
 	}
+
+    /**
+     * Get the property change support object for this class.  Because the
+     * property change support object has to be transient, it may need to be
+     * created.
+     * @return The property change support object.
+     */
+    protected PropertyChangeSupport getPropertyChangeSupport() {
+        if (propSupport == null) {
+            propSupport = new PropertyChangeSupport(this);
+        }
+        return propSupport;
+    }
+
+    /**
+     * Add a property listener to listen to all properties of this class.
+     * @param l The property listener to add.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        getPropertyChangeSupport().addPropertyChangeListener(l);
+    }
+
+    /**
+     * Add a property listener to receive property change events for only one specific
+     * property.
+     * @param propName The property to listen to.
+     * @param l The property listener to add.
+     */
+    public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
+        getPropertyChangeSupport().addPropertyChangeListener(name, l);
+    }
+
+    /**
+     * Remove a property change listener.  This will remove any listener that was added
+     * through either of the addPropertyListener methods.
+     * @param l The listener to remove.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        getPropertyChangeSupport().removePropertyChangeListener(l);
+    }
 
 
 }
