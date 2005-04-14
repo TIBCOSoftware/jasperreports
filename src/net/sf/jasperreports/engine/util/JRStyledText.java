@@ -103,7 +103,10 @@ public class JRStyledText
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
 				Run run = (Run)runs.get(i);
-				attributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
+				if (run.startIndex != run.endIndex)
+				{
+					attributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
+				}
 			}
 		}
 		
