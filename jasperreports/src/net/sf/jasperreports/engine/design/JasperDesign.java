@@ -930,7 +930,7 @@ public class JasperDesign extends JRBaseReport
      * @param l The property listener to add.
      */
     public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(name, l);
+        getPropertyChangeSupport().addPropertyChangeListener(propName, l);
     }
 
     /**
