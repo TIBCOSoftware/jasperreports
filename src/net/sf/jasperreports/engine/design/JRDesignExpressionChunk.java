@@ -104,7 +104,7 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
      * @param l The property listener to add.
      */
     public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(name, l);
+        getPropertyChangeSupport().addPropertyChangeListener(propName, l);
     }
 
     /**
