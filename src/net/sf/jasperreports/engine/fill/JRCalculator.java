@@ -149,11 +149,6 @@ public abstract class JRCalculator
 				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
-
-				if (variable.getIncrementType() == JRVariable.RESET_TYPE_NONE)
-				{
-					variable.setIncrementedValue(variable.getValue());
-				}
 			}
 		}
 	}
@@ -354,6 +349,7 @@ public abstract class JRCalculator
 					evaluate(variable.getInitialValueExpression())
 					);
 				variable.setInitialized(true);
+				variable.setIncrementedValue(null);
 			}
 		}
 		else
@@ -361,6 +357,7 @@ public abstract class JRCalculator
 			variable.setValue(
 				evaluate(variable.getExpression())
 				);
+			variable.setIncrementedValue(variable.getValue());
 		}
 	}
 
