@@ -38,7 +38,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -53,6 +56,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 *
 	 */
 	private ResultSet resultSet = null;
+	private Map columnIndexMap = new HashMap();
 	
 
 	/**
@@ -96,21 +100,22 @@ public class JRResultSetDataSource implements JRDataSource
 
 		if (field != null && resultSet != null)
 		{
+			Integer columnIndex = getColumnIndex(field.getName());
 			Class clazz = field.getValueClass();
 
 			try
 			{
 				if (clazz.equals(java.lang.Object.class))
 				{
-					objValue = resultSet.getObject(field.getName());
+					objValue = resultSet.getObject(columnIndex.intValue());
 				}
 				else if (clazz.equals(java.lang.Boolean.class))
 				{
-					objValue = resultSet.getBoolean(field.getName()) ? Boolean.TRUE : Boolean.FALSE;
+					objValue = resultSet.getBoolean(columnIndex.intValue()) ? Boolean.TRUE : Boolean.FALSE;
 				}
 				else if (clazz.equals(java.lang.Byte.class))
 				{
-					objValue = new Byte(resultSet.getByte(field.getName()));
+					objValue = new Byte(resultSet.getByte(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -118,7 +123,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.util.Date.class))
 				{
-					objValue = resultSet.getDate(field.getName());
+					objValue = resultSet.getDate(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -126,7 +131,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.sql.Timestamp.class))
 				{
-					objValue = resultSet.getTimestamp(field.getName());
+					objValue = resultSet.getTimestamp(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -134,7 +139,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.sql.Time.class))
 				{
-					objValue = resultSet.getTime(field.getName());
+					objValue = resultSet.getTime(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -142,7 +147,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Double.class))
 				{
-					objValue = new Double(resultSet.getDouble(field.getName()));
+					objValue = new Double(resultSet.getDouble(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -150,7 +155,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Float.class))
 				{
-					objValue = new Float(resultSet.getFloat(field.getName()));
+					objValue = new Float(resultSet.getFloat(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -158,7 +163,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Integer.class))
 				{
-					objValue = new Integer(resultSet.getInt(field.getName()));
+					objValue = new Integer(resultSet.getInt(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -166,7 +171,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.io.InputStream.class))
 				{
-					objValue = resultSet.getBinaryStream(field.getName());
+					objValue = resultSet.getBinaryStream(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -200,7 +205,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Long.class))
 				{
-					objValue = new Long(resultSet.getLong(field.getName()));
+					objValue = new Long(resultSet.getLong(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -208,7 +213,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Short.class))
 				{
-					objValue = new Short(resultSet.getShort(field.getName()));
+					objValue = new Short(resultSet.getShort(columnIndex.intValue()));
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -216,7 +221,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.math.BigDecimal.class))
 				{
-					objValue = resultSet.getBigDecimal(field.getName());
+					objValue = resultSet.getBigDecimal(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -224,7 +229,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.String.class))
 				{
-					objValue = resultSet.getString(field.getName());
+					objValue = resultSet.getString(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -238,6 +243,57 @@ public class JRResultSetDataSource implements JRDataSource
 		}
 		
 		return objValue;
+	}
+
+
+	/**
+	 *
+	 */
+	private Integer getColumnIndex(String fieldName) throws JRException
+	{
+		Integer columnIndex = (Integer)columnIndexMap.get(fieldName);
+		if (columnIndex == null)
+		{
+			try
+			{
+				ResultSetMetaData metadata = resultSet.getMetaData();
+				for(int i = 1; i <= metadata.getColumnCount(); i++)
+				{
+					if (fieldName.equalsIgnoreCase(metadata.getColumnName(i)))
+					{
+						columnIndex = new Integer(i);
+						break;
+					}
+				}
+				
+				if (columnIndex == null)
+				{
+					if (fieldName.startsWith("COLUMN_"))
+					{
+						columnIndex = new Integer(fieldName.substring(7));
+						if (
+							columnIndex.intValue() <= 0
+							|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
+							)
+						{
+							throw new JRException("Column index out of range : " + columnIndex);
+						}
+					}
+					else
+					{
+						throw new JRException("Unknown column name : " + fieldName);
+					}
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new JRException("Unable to retrieve result set metadata.", e);
+			}
+
+			columnIndexMap.put(fieldName, columnIndex);
+		}
+		
+		return columnIndex;
 	}
 
 
