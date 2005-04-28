@@ -60,8 +60,6 @@
 		session.setAttribute("JASPER_PRINT", jasperPrint);
 	}
 	
-	File htmlFile = new File(application.getRealPath("/jsp/html/reportPage.html"));
-
 	JRHtmlExporter exporter = new JRHtmlExporter();
 	
 	int pageIndex = 0;
