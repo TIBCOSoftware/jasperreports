@@ -25,6 +25,11 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Gaganis Giorgos - gaganis@users.sourceforge.net
+ */
 package net.sf.jasperreports.compilers;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +45,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -147,7 +153,7 @@ public class JRBshGenerator
 			for (Iterator it = parameterNames.iterator(); it.hasNext();)
 			{
 				sb.append("    JRFillParameter parameter_");
-				sb.append(it.next());
+				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -163,7 +169,7 @@ public class JRBshGenerator
 			for (Iterator it = fieldNames.iterator(); it.hasNext();)
 			{
 				sb.append("    JRFillField field_");
-				sb.append(it.next());
+				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -178,7 +184,7 @@ public class JRBshGenerator
 			for (int i = 0; i < variables.length; i++)
 			{
 				sb.append("    JRFillVariable variable_");
-				sb.append(variables[i].getName());
+				sb.append(JRStringUtil.getLiteral((String)variables[i].getName()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -206,7 +212,7 @@ public class JRBshGenerator
 			{
 				parameterName = (String)it.next();
 				sb.append("        super.parameter_");
-				sb.append(parameterName);
+				sb.append(JRStringUtil.getLiteral(parameterName));
 				sb.append(" = (JRFillParameter)parsm.get(\"");
 				sb.append(parameterName);
 				sb.append("\");\n");
@@ -226,7 +232,7 @@ public class JRBshGenerator
 			{
 				fieldName = (String)it.next();
 				sb.append("        super.field_");
-				sb.append(fieldName);
+				sb.append(JRStringUtil.getLiteral(fieldName));
 				sb.append(" = (JRFillField)fldsm.get(\"");
 				sb.append(fieldName);
 				sb.append("\");\n");
@@ -245,7 +251,7 @@ public class JRBshGenerator
 			{
 				variableName = variables[i].getName();
 				sb.append("        super.variable_");
-				sb.append(variableName);
+				sb.append(JRStringUtil.getLiteral(variableName));
 				sb.append(" = (JRFillVariable)varsm.get(\"");
 				sb.append(variableName);
 				sb.append("\");\n");
@@ -392,7 +398,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrParameter.getValueClassName());
 						sbuffer.append(")super.parameter_");
-						sbuffer.append(chunkText);
+						sbuffer.append(JRStringUtil.getLiteral(chunkText));
 						sbuffer.append(".getValue())");
 	
 						break;
@@ -404,7 +410,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrField.getValueClassName());
 						sbuffer.append(")super.field_");
-						sbuffer.append(chunkText);
+						sbuffer.append(JRStringUtil.getLiteral(chunkText));
 						sbuffer.append(".get");
 						sbuffer.append((String)fieldPrefixMap.get(new Byte(evaluationType)));
 						sbuffer.append("Value())");
@@ -418,7 +424,7 @@ public class JRBshGenerator
 						sbuffer.append("((");
 						sbuffer.append(jrVariable.getValueClassName());
 						sbuffer.append(")super.variable_");
-						sbuffer.append(chunkText);
+						sbuffer.append(JRStringUtil.getLiteral(chunkText));
 						sbuffer.append(".get");
 						sbuffer.append((String)variablePrefixMap.get(new Byte(evaluationType)));
 						sbuffer.append("Value())");
