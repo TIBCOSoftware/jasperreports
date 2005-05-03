@@ -25,6 +25,11 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Gaganis Giorgos - gaganis@users.sourceforge.net
+ */
 package net.sf.jasperreports.engine.design;
 
 import java.text.SimpleDateFormat;
@@ -39,6 +44,7 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -152,7 +158,7 @@ public class JRClassGenerator
 			for (Iterator it = parameterNames.iterator(); it.hasNext();)
 			{
 				sb.append("    private JRFillParameter parameter_");
-				sb.append(it.next());
+				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -168,7 +174,7 @@ public class JRClassGenerator
 			for (Iterator it = fieldNames.iterator(); it.hasNext();)
 			{
 				sb.append("    private JRFillField field_");
-				sb.append(it.next());
+				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -183,7 +189,7 @@ public class JRClassGenerator
 			for (int i = 0; i < variables.length; i++)
 			{
 				sb.append("    private JRFillVariable variable_");
-				sb.append(variables[i].getName());
+				sb.append(JRStringUtil.getLiteral((String)variables[i].getName()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -211,7 +217,7 @@ public class JRClassGenerator
 			{
 				parameterName = (String)it.next();
 				sb.append("        parameter_");
-				sb.append(parameterName);
+				sb.append(JRStringUtil.getLiteral(parameterName));
 				sb.append(" = (JRFillParameter)parsm.get(\"");
 				sb.append(parameterName);
 				sb.append("\");\n");
@@ -231,7 +237,7 @@ public class JRClassGenerator
 			{
 				fieldName = (String)it.next();
 				sb.append("        field_");
-				sb.append(fieldName);
+				sb.append(JRStringUtil.getLiteral(fieldName));
 				sb.append(" = (JRFillField)fldsm.get(\"");
 				sb.append(fieldName);
 				sb.append("\");\n");
@@ -250,7 +256,7 @@ public class JRClassGenerator
 			{
 				variableName = variables[i].getName();
 				sb.append("        variable_");
-				sb.append(variableName);
+				sb.append(JRStringUtil.getLiteral(variableName));
 				sb.append(" = (JRFillVariable)varsm.get(\"");
 				sb.append(variableName);
 				sb.append("\");\n");
@@ -378,7 +384,7 @@ public class JRClassGenerator
 						sb.append("((");
 						sb.append(jrParameter.getValueClassName());
 						sb.append(")parameter_");
-						sb.append(chunkText);
+						sb.append(JRStringUtil.getLiteral(chunkText));
 						sb.append(".getValue())");
 	
 						break;
@@ -390,7 +396,7 @@ public class JRClassGenerator
 						sb.append("((");
 						sb.append(jrField.getValueClassName());
 						sb.append(")field_");
-						sb.append(chunkText); 
+						sb.append(JRStringUtil.getLiteral(chunkText)); 
 						sb.append(".get");
 						sb.append((String)fieldPrefixMap.get(new Byte(evaluationType))); 
 						sb.append("Value())");
@@ -404,7 +410,7 @@ public class JRClassGenerator
 						sb.append("((");
 						sb.append(jrVariable.getValueClassName());
 						sb.append(")variable_"); 
-						sb.append(chunkText); 
+						sb.append(JRStringUtil.getLiteral(chunkText)); 
 						sb.append(".get");
 						sb.append((String)variablePrefixMap.get(new Byte(evaluationType))); 
 						sb.append("Value())");

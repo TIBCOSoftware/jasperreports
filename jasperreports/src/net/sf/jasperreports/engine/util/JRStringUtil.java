@@ -25,6 +25,11 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Gaganis Giorgos - gaganis@users.sourceforge.net
+ */
 package net.sf.jasperreports.engine.util;
 
 
@@ -95,4 +100,76 @@ public class JRStringUtil
 	}
 
 
+	/**
+	 * Takes a name and returns the same if it is a Java identifier;
+	 * else it substitutes the illegal characters so that it can be an identifier
+	 *
+	 * @param name
+	 * @return
+	 * @author Gaganis Giorgos (gaganis@users.sourceforge.net) 
+	 */
+	public static String getLiteral(String name)
+	{
+		if (isValidLiteral(name))
+		{
+			return name;
+		}
+		else
+		{
+			StringBuffer buffer = new StringBuffer(name.length() + 5);
+			
+			char[] literalChars = new char[name.length()];
+			name.getChars(0, literalChars.length, literalChars, 0);
+			
+			for (int i = 0; i < literalChars.length; i++)
+			{
+				if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
+				{
+					buffer.append((int)literalChars[i]);
+				}
+				else if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
+				{
+					buffer.append((int)literalChars[i]);
+				}
+				else
+				{
+					buffer.append(literalChars[i]);
+				}
+			}
+			
+			return buffer.toString();
+		}
+	}
+	
+	
+	/**
+	 * Checks if the input is a valid Java literal
+	 * @param literal
+	 * @return
+	 * @author Gaganis Giorgos (gaganis@users.sourceforge.net) 
+	 */
+	private static boolean isValidLiteral(String literal)
+	{
+		boolean result = true;
+		
+		char[] literalChars = new char[literal.length()];
+		literal.getChars(0, literalChars.length, literalChars, 0);
+		
+		for (int i = 0; i < literalChars.length; i++)
+		{
+			if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
+			{
+				result = false;
+			}
+			
+			if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
+			{
+				result = false;
+			}
+		}
+		
+		return result;
+	}
+
+	
 }

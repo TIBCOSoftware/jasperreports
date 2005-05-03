@@ -46,7 +46,7 @@
 >
 <!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
 <!ATTLIST parameter
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	class NMTOKEN "java.lang.String"
 	isForPrompting (true | false) "true"
 >
@@ -55,13 +55,13 @@
 <!ELEMENT queryString (#PCDATA)>
 <!ELEMENT field (fieldDescription?)>
 <!ATTLIST field
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	class (java.lang.Object | java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.io.InputStream | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.String) "java.lang.String"
 >
 <!ELEMENT fieldDescription (#PCDATA)>
 <!ELEMENT variable (variableExpression?, initialValueExpression?)>
 <!ATTLIST variable
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	class NMTOKEN "java.lang.String"
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
