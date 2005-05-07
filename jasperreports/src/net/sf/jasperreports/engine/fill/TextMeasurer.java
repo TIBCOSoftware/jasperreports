@@ -271,7 +271,7 @@ public class TextMeasurer
 		{
 			int lineStartPosition = lineMeasurer.getPosition();
 
-			TextLayout layout = lineMeasurer.nextLayout(width);
+			TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 
 			isLeftToRight = isLeftToRight && layout.isLeftToRight();
 			
