@@ -35,9 +35,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -53,6 +50,9 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.util.JRLoader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -87,7 +87,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	/**
 	 *
 	 */
-	private JRException error = null;
+	private Throwable error = null;
 	private Thread fillThread = null;
 	private boolean isRunning = false;
 
@@ -394,9 +394,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			//If the subreport filler was interrupted, we should remain silent
 		}
-		catch(JRException e)
+		catch(Throwable t)
 		{
-			error = e;
+			error = t;
 		}
 		
 		isRunning = false;
@@ -491,7 +491,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			
 			if (error != null)
 			{
-				throw error;
+				if (error instanceof JRException)
+				{
+					throw (JRException)error;
+				}
+				else if (error instanceof RuntimeException)
+				{
+					throw (RuntimeException)error;
+				}
+				else
+				{
+					throw new JRException(error);
+				}
 			}
 
 			printPage = subreportFiller.getCurrentPage();
