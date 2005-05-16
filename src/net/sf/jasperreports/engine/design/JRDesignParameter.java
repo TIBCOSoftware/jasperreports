@@ -63,7 +63,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *

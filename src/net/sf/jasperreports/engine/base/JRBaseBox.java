@@ -45,7 +45,7 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *

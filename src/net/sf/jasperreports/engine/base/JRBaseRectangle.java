@@ -41,7 +41,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *

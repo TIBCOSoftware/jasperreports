@@ -43,7 +43,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *
