@@ -105,8 +105,6 @@ public class JRStringUtil
 	 * else it substitutes the illegal characters so that it can be an identifier
 	 *
 	 * @param name
-	 * @return
-	 * @author Gaganis Giorgos (gaganis@users.sourceforge.net) 
 	 */
 	public static String getLiteral(String name)
 	{
