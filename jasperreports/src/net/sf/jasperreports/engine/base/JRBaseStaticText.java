@@ -42,7 +42,7 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *

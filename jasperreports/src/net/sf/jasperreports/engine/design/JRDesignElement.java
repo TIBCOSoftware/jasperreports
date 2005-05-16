@@ -44,7 +44,7 @@ public class JRDesignElement extends JRBaseElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 606;
+	private static final long serialVersionUID = 607;
 
 	/**
 	 *
