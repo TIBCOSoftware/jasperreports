@@ -143,6 +143,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected ResourceBundle resourceBundle = null;
 	protected JRAbstractScriptlet scriptlet = null;
 	protected JRDataSource dataSource = null;
+	protected Integer reportMaxCount = null;
+	protected int reportCount = 0;
 
 	protected List formattedTextFields = new ArrayList();
 	
@@ -474,6 +476,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	
 			if (pstmt != null)
 			{
+				if (reportMaxCount != null)
+				{
+					pstmt.setMaxRows(reportMaxCount.intValue());
+				}
+				
 				ResultSet rs = pstmt.executeQuery();
 		
 				ds = new JRResultSetDataSource(rs);
@@ -609,6 +616,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 		
 		/*   */
+		reportCount = 0;
+
+		/*   */
 		fillReport();
 		
 		return jasperPrint;
@@ -740,6 +750,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 		
 		/*   */
+		reportMaxCount = (Integer)parameterValues.get(JRParameter.REPORT_MAX_COUNT);
+
+		/*   */
 		locale = (Locale)parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)
 		{
@@ -844,7 +857,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		
 		if (dataSource != null)
 		{
-			hasNext = dataSource.next();
+			hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount++)	&& dataSource.next();
 
 			if (hasNext)
 			{

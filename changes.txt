@@ -4,6 +4,9 @@ JasperReports Change Log
 
 JasperReports 0.6.7
 -----------------------------------
+- new REPORT_MAX_COUNT built-in parameter for limiting 
+the number of rows in the data source;
+
 - dots, spaces and other special characters allowed
 in parameter, field and variable names;
 
