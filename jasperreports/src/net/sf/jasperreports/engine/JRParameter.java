@@ -41,6 +41,7 @@ public interface JRParameter
 	 */
 	public static final String REPORT_PARAMETERS_MAP = "REPORT_PARAMETERS_MAP";
 	public static final String REPORT_CONNECTION = "REPORT_CONNECTION";
+	public static final String REPORT_MAX_COUNT = "REPORT_MAX_COUNT";
 	public static final String REPORT_DATA_SOURCE = "REPORT_DATA_SOURCE";
 	public static final String REPORT_SCRIPTLET = "REPORT_SCRIPTLET";
 	public static final String REPORT_LOCALE = "REPORT_LOCALE";

@@ -213,6 +213,21 @@ public class JasperDesign extends JRBaseReport
 
 		/*   */
 		parameter = new JRDesignParameter();
+		parameter.setName(JRParameter.REPORT_MAX_COUNT);
+		parameter.setValueClass(Integer.class);
+		parameter.setSystemDefined(true);
+		try 
+		{
+			addParameter(parameter);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		/*   */
+		parameter = new JRDesignParameter();
 		parameter.setName(JRParameter.REPORT_DATA_SOURCE);
 		parameter.setValueClass(JRDataSource.class);
 		parameter.setSystemDefined(true);
