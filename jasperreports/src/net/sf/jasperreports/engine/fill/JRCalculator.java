@@ -148,6 +148,11 @@ public abstract class JRCalculator
 				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
+
+				if (variable.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				{
+					variable.setIncrementedValue(variable.getValue());
+				}
 			}
 		}
 	}
