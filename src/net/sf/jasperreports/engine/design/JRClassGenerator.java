@@ -58,6 +58,11 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
+	private static final int EXPR_MAX_COUNT_PER_METHOD = 100;
+	
+	/**
+	 *
+	 */
 	private JasperDesign jasperDesign = null;
 
 	private static Map fieldPrefixMap = null;
@@ -285,12 +290,48 @@ public class JRClassGenerator
 	{
 		StringBuffer sb = new StringBuffer();
 
+		Collection expressions = jasperDesign.getExpressions();
+		if (expressions != null && expressions.size() > 0)
+		{
+			sb.append(generateMethod(expressions.iterator(), 0, evaluationType));
+		}
+		else
+		{
+			/*   */
+			sb.append("    /**\n");
+			sb.append("     *\n");
+			sb.append("     */\n");
+			sb.append("    public Object evaluate");
+			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append("(int id) throws Throwable\n");
+			sb.append("    {\n");
+			sb.append("        return null;\n");
+			sb.append("    }\n");
+			sb.append("\n");
+			sb.append("\n");
+		}
+		
+		return sb.toString();
+	}
+
+
+	/**
+	 *
+	 */
+	private String generateMethod(Iterator it, int index, byte evaluationType) throws JRException
+	{
+		StringBuffer sb = new StringBuffer();
+
 		/*   */
 		sb.append("    /**\n");
 		sb.append("     *\n");
 		sb.append("     */\n");
 		sb.append("    public Object evaluate");
 		sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
+		if (index > 0)
+		{
+			sb.append(index);
+		}
 		sb.append("(int id) throws Throwable\n");
 		sb.append("    {\n");
 		sb.append("        Object value = null;\n");
@@ -298,33 +339,36 @@ public class JRClassGenerator
 		sb.append("        switch (id)\n");
 		sb.append("        {\n");
 
-		Collection expressions = jasperDesign.getExpressions();
-		if (expressions != null && expressions.size() > 0)
+		JRExpression expression = null;
+		for (int i = 0; it.hasNext() && i < EXPR_MAX_COUNT_PER_METHOD; i++)
 		{
-			JRExpression expression = null;
-			for (Iterator it = expressions.iterator(); it.hasNext();)
-			{
-				expression = (JRExpression)it.next();
-				
-				sb.append("            case "); 
-				sb.append(expression.getId()); 
-				sb.append(" : // ");
-				sb.append(expression.getName()); 
-				sb.append("\n");
-				sb.append("            {\n");
-				sb.append("                value = (");
-				sb.append(expression.getValueClassName());
-				sb.append(")(");
-				sb.append(this.generateExpression(expression, evaluationType));
-				sb.append(");\n");
-				sb.append("                break;\n");
-				sb.append("            }\n");
-			}
+			expression = (JRExpression)it.next();
+			
+			sb.append("            case "); 
+			sb.append(expression.getId()); 
+			sb.append(" : // ");
+			sb.append(expression.getName()); 
+			sb.append("\n");
+			sb.append("            {\n");
+			sb.append("                value = (");
+			sb.append(expression.getValueClassName());
+			sb.append(")(");
+			sb.append(this.generateExpression(expression, evaluationType));
+			sb.append(");\n");
+			sb.append("                break;\n");
+			sb.append("            }\n");
 		}
 
 		/*   */
 		sb.append("           default :\n");
 		sb.append("           {\n");
+		if (it.hasNext())
+		{
+			sb.append("               value = evaluate");
+			sb.append((String) methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(index + 1);
+			sb.append("(id);\n");
+		}
 		sb.append("           }\n");
 		sb.append("        }\n");
 		sb.append("        \n");
@@ -332,6 +376,11 @@ public class JRClassGenerator
 		sb.append("    }\n");
 		sb.append("\n");
 		sb.append("\n");
+		
+		if (it.hasNext())
+		{
+			sb.append(generateMethod(it, index + 1, evaluationType));
+		}
 		
 		return sb.toString();
 	}
