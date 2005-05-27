@@ -188,7 +188,7 @@ public class QueryApp
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
 				parameters.put("FilterClause", "'Boston', 'Chicago'");
-				parameters.put("OrderClause", "City,");
+				parameters.put("OrderClause", "City");
 				
 				JasperRunManager.runReportToPdfFile(fileName, parameters, getConnection());
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
