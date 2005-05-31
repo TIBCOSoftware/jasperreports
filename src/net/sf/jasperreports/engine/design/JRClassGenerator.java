@@ -29,11 +29,14 @@
 /*
  * Contributors:
  * Gaganis Giorgos - gaganis@users.sourceforge.net
+ * Peter Severin - peter_p_s@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.design;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -200,6 +203,24 @@ public class JRClassGenerator
 		}
 
 		/*   */
+		this.generateInitMethod(sb);
+
+		sb.append(this.generateMethod(JRExpression.EVALUATION_DEFAULT));
+		sb.append(this.generateMethod(JRExpression.EVALUATION_OLD));
+		sb.append(this.generateMethod(JRExpression.EVALUATION_ESTIMATED));
+
+		sb.append("}\n");
+
+		return sb.toString();
+	}		
+
+
+	/**
+	 *
+	 */
+	protected void generateInitMethod(StringBuffer sb) throws JRException
+	{
+		/*   */
 		sb.append("\n");
 		sb.append("\n");
 		sb.append("    /**\n");
@@ -209,77 +230,176 @@ public class JRClassGenerator
 		sb.append("        Map pm,\n");
 		sb.append("        Map fm,\n"); 
 		sb.append("        Map vm\n");
-		sb.append("        ) throws JRException\n");
+		sb.append("        )\n");
 		sb.append("    {\n");
-
-		/*   */
-		parametersMap = jasperDesign.getParametersMap();
-		if (parametersMap != null && parametersMap.size() > 0)
-		{
-			Collection parameterNames = parametersMap.keySet();
-			String parameterName = null;
-			for (Iterator it = parameterNames.iterator(); it.hasNext();)
-			{
-				parameterName = (String)it.next();
-				sb.append("        parameter_");
-				sb.append(JRStringUtil.getLiteral(parameterName));
-				sb.append(" = (JRFillParameter)parsm.get(\"");
-				sb.append(parameterName);
-				sb.append("\");\n");
-			}
-		}
-		
-		/*   */
-		sb.append("\n");
-
-		/*   */
-		fieldsMap = jasperDesign.getFieldsMap();
-		if (fieldsMap != null && fieldsMap.size() > 0)
-		{
-			Collection fieldNames = fieldsMap.keySet();
-			String fieldName = null;
-			for (Iterator it = fieldNames.iterator(); it.hasNext();)
-			{
-				fieldName = (String)it.next();
-				sb.append("        field_");
-				sb.append(JRStringUtil.getLiteral(fieldName));
-				sb.append(" = (JRFillField)fldsm.get(\"");
-				sb.append(fieldName);
-				sb.append("\");\n");
-			}
-		}
-		
-		/*   */
-		sb.append("\n");
-
-		/*   */
-		variables = jasperDesign.getVariables();
-		if (variables != null && variables.length > 0)
-		{
-			String variableName = null;
-			for (int i = 0; i < variables.length; i++)
-			{
-				variableName = variables[i].getName();
-				sb.append("        variable_");
-				sb.append(JRStringUtil.getLiteral(variableName));
-				sb.append(" = (JRFillVariable)varsm.get(\"");
-				sb.append(variableName);
-				sb.append("\");\n");
-			}
-		}
-
-		/*   */
+		sb.append("        initParams(pm);\n");
+		sb.append("        initFields(fm);\n");
+		sb.append("        initVars(vm);\n");
 		sb.append("    }\n");
 		sb.append("\n");
 		sb.append("\n");
 
-		sb.append(this.generateMethod(JRExpression.EVALUATION_DEFAULT));
-		sb.append(this.generateMethod(JRExpression.EVALUATION_OLD));
-		sb.append(this.generateMethod(JRExpression.EVALUATION_ESTIMATED));
+		/*   */
+		Map parametersMap = jasperDesign.getParametersMap();
+		Iterator parIt = null;
+		if (parametersMap != null && parametersMap.size() > 0) 
+		{
+			parIt = parametersMap.keySet().iterator();
+		}
+		else
+		{
+			parIt = Collections.EMPTY_SET.iterator();
+		}
+		generateInitParamsMethod(sb, parIt, 0);
 
-		sb.append("}\n");
+		/*   */
+		Map fieldsMap = jasperDesign.getFieldsMap();
+		Iterator fieldIt = null;
+		if (fieldsMap != null && fieldsMap.size() > 0) 
+		{
+			fieldIt = fieldsMap.keySet().iterator();
+		}
+		else
+		{
+			fieldIt = Collections.EMPTY_SET.iterator();
+		}
+		generateInitFieldsMethod(sb, fieldIt, 0);
 
-		return sb.toString();
+		/*   */
+		JRVariable[] variables = jasperDesign.getVariables();
+		Iterator varIt = null;
+		if (variables != null && variables.length > 0) 
+		{
+			varIt = Arrays.asList(variables).iterator();
+		}
+		else
+		{
+			varIt = Collections.EMPTY_LIST.iterator();
+		}
+		generateInitVarsMethod(sb, varIt, 0);
+	}		
+
+
+	/**
+	 *
+	 */
+	private void generateInitParamsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	{
+		sb.append("    /**\n");
+		sb.append("     *\n");
+		sb.append("     */\n");
+		sb.append("    private void initParams");
+		if(index > 0)
+		{
+			sb.append(index);
+		}
+		sb.append("(Map pm)\n");
+		sb.append("    {\n");
+		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
+		{
+			String parameterName = (String)it.next();
+			sb.append("        parameter_");
+			sb.append(JRStringUtil.getLiteral(parameterName));
+			sb.append(" = (JRFillParameter)pm.get(\"");
+			sb.append(parameterName);
+			sb.append("\");\n");
+		}
+		if(it.hasNext())
+		{
+			sb.append("        initParams");
+			sb.append(index + 1);
+			sb.append("(pm);\n");
+		}
+		sb.append("    }\n");
+		sb.append("\n");
+		sb.append("\n");
+
+		if(it.hasNext())
+		{
+			generateInitParamsMethod(sb, it, index + 1);
+		}
+	}		
+
+
+	/**
+	 *
+	 */
+	private void generateInitFieldsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	{
+		sb.append("    /**\n");
+		sb.append("     *\n");
+		sb.append("     */\n");
+		sb.append("    private void initFields");
+		if(index > 0)
+		{
+			sb.append(index);
+		}
+		sb.append("(Map fm)\n");
+		sb.append("    {\n");
+		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
+		{
+			String fieldName = (String)it.next();
+			sb.append("        field_");
+			sb.append(JRStringUtil.getLiteral(fieldName));
+			sb.append(" = (JRFillField)fm.get(\"");
+			sb.append(fieldName);
+			sb.append("\");\n");
+		}
+		if(it.hasNext())
+		{
+			sb.append("        initFields");
+			sb.append(index + 1);
+			sb.append("(fm);\n");
+		}
+		sb.append("    }\n");
+		sb.append("\n");
+		sb.append("\n");
+
+		if(it.hasNext())
+		{
+			generateInitFieldsMethod(sb, it, index + 1);
+		}
+	}		
+
+
+	/**
+	 *
+	 */
+	private void generateInitVarsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	{
+		sb.append("    /**\n");
+		sb.append("     *\n");
+		sb.append("     */\n");
+		sb.append("    private void initVars");
+		if(index > 0)
+		{
+			sb.append(index);
+		}
+		sb.append("(Map vm)\n");
+		sb.append("    {\n");
+		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
+		{
+			String variableName = ((JRVariable) it.next()).getName();
+			sb.append("        variable_");
+			sb.append(JRStringUtil.getLiteral(variableName));
+			sb.append(" = (JRFillVariable)vm.get(\"");
+			sb.append(variableName);
+			sb.append("\");\n");
+		}
+		if(it.hasNext())
+		{
+			sb.append("        initVars");
+			sb.append(index + 1);
+			sb.append("(vm);\n");
+		}
+		sb.append("    }\n");
+		sb.append("\n");
+		sb.append("\n");
+
+		if(it.hasNext())
+		{
+			generateInitVarsMethod(sb, it, index + 1);
+		}
 	}		
 
 
@@ -326,11 +446,16 @@ public class JRClassGenerator
 		sb.append("    /**\n");
 		sb.append("     *\n");
 		sb.append("     */\n");
-		sb.append("    public Object evaluate");
-		sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
 		if (index > 0)
 		{
+			sb.append("    private Object evaluate");
+			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
 			sb.append(index);
+		}
+		else
+		{
+			sb.append("    public Object evaluate");
+			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
 		}
 		sb.append("(int id) throws Throwable\n");
 		sb.append("    {\n");
