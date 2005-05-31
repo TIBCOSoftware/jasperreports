@@ -2,6 +2,17 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.6.8
+-----------------------------------
+- fixes the bug introduced in the 0.6.7 version related to the way
+variables are incremented and group breaks estimated
+(see http://sourceforge.net/tracker/index.php?func=detail&aid=1207897&group_id=36382&atid=416703);
+
+- minor bug fixes and improvements;
+
+
+
+
 JasperReports 0.6.7
 -----------------------------------
 - new REPORT_MAX_COUNT built-in parameter for limiting 

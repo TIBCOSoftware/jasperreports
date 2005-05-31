@@ -41,7 +41,7 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 607;
+	private static final long serialVersionUID = 608;
 
 
 	/**

@@ -40,6 +40,6 @@ public class JRBasePrintEllipse extends JRBasePrintGraphicElement implements JRP
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 607;
+	private static final long serialVersionUID = 608;
 
 }
