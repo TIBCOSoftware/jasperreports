@@ -46,7 +46,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 607;
+	private static final long serialVersionUID = 608;
 
 	/**
 	 *

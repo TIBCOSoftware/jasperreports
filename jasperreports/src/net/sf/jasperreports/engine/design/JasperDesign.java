@@ -159,7 +159,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 607;
+	private static final long serialVersionUID = 608;
 
 	/**
 	 *

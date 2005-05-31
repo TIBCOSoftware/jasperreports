@@ -40,7 +40,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 607;
+	private static final long serialVersionUID = 608;
 
 	/**
 	 *
