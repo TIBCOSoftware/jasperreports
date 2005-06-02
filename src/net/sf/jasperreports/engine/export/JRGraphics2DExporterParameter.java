@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**
+ * Contains parameters useful for export to an AWT <tt>Graphics2D</tt> object.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -48,9 +50,13 @@ public class JRGraphics2DExporterParameter extends JRExporterParameter
 
 
 	/**
-	 *
+	 * The <tt>java.awt.Graphics2D</tt> instance used for export.
 	 */
 	public static final JRGraphics2DExporterParameter GRAPHICS_2D = new JRGraphics2DExporterParameter("Graphics2D");
+
+    /**
+     * The zoom ratio used for the export. The default value is 1.
+     */
 	public static final JRGraphics2DExporterParameter ZOOM_RATIO = new JRGraphics2DExporterParameter("Zoom Ratio");
 
 
