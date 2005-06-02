@@ -31,6 +31,13 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**
+ * Contains parameters useful for export in PDF format.
+ * <p>
+ * The HTML exporter can send data to an output stream or a file on disk. The engine looks among the export parameters in
+ * order to find the selected output type in this order: OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
+ * <p>
+ * TODO: encryption
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -48,12 +55,35 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
-	 *
+	 * A boolean value specifying whether the final PDF document should be encrypted.
 	 */
 	public static final JRPdfExporterParameter IS_ENCRYPTED = new JRPdfExporterParameter("Is Encrypted");
+
+
+    /**
+     * A boolean value specifying whether the encryption key is 128 bits.
+     */
 	public static final JRPdfExporterParameter IS_128_BIT_KEY = new JRPdfExporterParameter("Is 128 Bit Key");
+
+
+    /**
+     * The user password needed to open the document, if it is encrypted.
+     */
 	public static final JRPdfExporterParameter USER_PASSWORD = new JRPdfExporterParameter("User Password");
+
+
+    /**
+     * The password belonging to the owner of the document, if it is encrypted. If the password is null, it will be replaced
+     * by a random string.
+     */
 	public static final JRPdfExporterParameter OWNER_PASSWORD = new JRPdfExporterParameter("Owner Password");
+
+
+    /**
+     * An integer value representing the PDF permissions for the generated document. The open permissions for the document
+     * can be AllowPrinting, AllowModifyContents, AllowCopy, AllowModifyAnnotations, AllowFillIn, AllowScreenReaders,
+     * AllowAssembly and AllowDegradedPrinting. The permissions can be combined by applying bitwise OR to them.
+     */
 	public static final JRPdfExporterParameter PERMISSIONS = new JRPdfExporterParameter("Permissions");
 
 
