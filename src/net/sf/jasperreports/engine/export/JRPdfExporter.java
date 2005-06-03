@@ -135,6 +135,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected String userPassword = null;
 	protected String ownerPassword = null;
 	protected int permissions = 0;
+    protected Character pdfVersion = null;
 
 	/**
 	 *
@@ -235,6 +236,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			permissions = permissionsParameter.intValue();
 		}
 
+        pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
+
 		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
 		{
@@ -310,6 +313,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, os);
 			pdfWriter.setCloseStream(false);
+
+            if (pdfVersion != null)
+                pdfWriter.setPdfVersion(pdfVersion.charValue());
 
 			if (isEncrypted)
 			{
