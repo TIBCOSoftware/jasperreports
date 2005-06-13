@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An interface providing anchor functionality. It must be implemented by elements that can contain anchors for
+ * hyperlinks.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,7 +40,7 @@ public interface JRAnchor
 
 
 	/**
-	 *
+	 * Returns an expression whose value represents the anchor name.
 	 */
 	public JRExpression getAnchorNameExpression();
 

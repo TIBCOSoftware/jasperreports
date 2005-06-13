@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRImage;
 
 
 /**
+ * The actual implementation of a graphic element representing an image.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -89,7 +90,12 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		
 
 	/**
-	 *
+     * Initializes properties that are specific to images. Common properties are initialized by its
+     * parent constructors.
+     * @param image an element whose properties are copied to this element. Usually it is a
+     * {@link net.sf.jasperreports.engine.design.JRDesignImage} that must be transformed into an
+     * <tt>JRBaseImage</tt> at compile time.
+     * @param factory a factory used in the compile process
 	 */
 	protected JRBaseImage(JRImage image, JRBaseObjectFactory factory)
 	{

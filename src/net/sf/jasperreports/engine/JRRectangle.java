@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a graphic element representing a rectangle.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,12 +39,12 @@ public interface JRRectangle extends JRGraphicElement
 
 	
 	/**
-	 *
+	 * Indicates the corner radius for rectangles with round corners. The default is 0.
 	 */
 	public int getRadius();
 
 	/**
-	 *
+     * Sets the corner radius for rectangles with round corners.
 	 */
 	public void setRadius(int radius);
 

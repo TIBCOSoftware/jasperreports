@@ -37,6 +37,9 @@ import net.sf.jasperreports.engine.JRGroup;
 
 
 /**
+ * This class provides a skeleton implementation for a report element. It mostly provides internal variables, representing
+ * the most common element properties, and their getter/setter methods. It also has a constructor for initializing
+ * these properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -76,7 +79,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 
 
 	/**
-	 *
+	 * Empty constructor.
 	 */
 	protected JRBaseElement()
 	{
@@ -84,7 +87,11 @@ public abstract class JRBaseElement implements JRElement, Serializable
 		
 
 	/**
-	 *
+	 * Initializes basic properties of the element.
+     * @param element an element whose properties are copied to this element. Usually it is a
+     * {@link net.sf.jasperreports.engine.design.JRDesignElement} that must be transformed into an
+     * <tt>JRBaseElement</tt> at compile time.
+     * @param factory a factory used in the compile process
 	 */
 	protected JRBaseElement(JRElement element, JRBaseObjectFactory factory)
 	{

@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a report graphic element. It provides basic functionality for images, lines, rectangles
+ * and ellipses.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,39 +39,65 @@ public interface JRGraphicElement extends JRElement
 
 
 	/**
-	 *
+	 * Contant useful for specifying that the element border will not be drawn.
 	 */
 	public static final byte PEN_NONE = 0;
+
+    /**
+     * Contant useful for specifying that an element border of 1 pixel.
+     */
 	public static final byte PEN_1_POINT = 1;
+
+    /**
+     * Contant useful for specifying that an element border of 2 pixels.
+     */
 	public static final byte PEN_2_POINT = 2;
+
+    /**
+     * Contant useful for specifying that an element border of 4 pixels.
+     */
 	public static final byte PEN_4_POINT = 3;
+
+    /**
+     * Contant useful for specifying that an element has a dashed border.
+     */
 	public static final byte PEN_DOTTED = 4;
+
+    /**
+     * Contant useful for specifying that an element has a thin border (0.5 pixels)
+     */
 	public static final byte PEN_THIN = 5;
 
+
 	/**
-	 *
+	 * Constant useful for specifying that the inside of an element should be drawn using the background color. It
+     * is ignored if the element draw mode is transparent.
 	 */
 	public static final byte FILL_SOLID = 1;
 
 
 	/**
-	 *
+	 * Indicates the pen type used for this element.
+     * @return one of the pen constants in this class
 	 */
 	public byte getPen();
 		
 	/**
-	 *
+     * Sets the pen type that will used for this element.
+     * @param pen one of the pen constants in this class
 	 */
 	public void setPen(byte pen);
-		
-	/**
-	 *
-	 */
+
+    /**
+     * Indicates the fill type used for this element.
+     * @return one of the pen constants in this class
+     */
 	public byte getFill();
 
-	/**
-	 *
-	 */
+    /**
+     * Sets the fill type used for this element.
+     * @param fill one of the pen constants in this class
+     */
 	public void setFill(byte fill);
 	
 

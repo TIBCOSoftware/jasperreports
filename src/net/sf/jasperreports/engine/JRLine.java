@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a graphic element representing a straight line.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,19 +38,25 @@ public interface JRLine extends JRGraphicElement
 
 
 	/**
-	 *
+	 * Constant used for specifying that the line starts from the top and goes towards the bottom.
 	 */
 	public static final byte DIRECTION_TOP_DOWN = 1;
+
+    /**
+     * Constant used for specifying that the line starts from the top and goes towards the bottom.
+     */
 	public static final byte DIRECTION_BOTTOM_UP = 2;
 
 
 	/**
-	 *
+	 * Gets the line direction.
+     * @return one of the direction constants
 	 */
 	public byte getDirection();
 
 	/**
-	 *
+     * Sets the line direction.
+     * @param direction one of the direction constants
 	 */
 	public void setDirection(byte direction);
 

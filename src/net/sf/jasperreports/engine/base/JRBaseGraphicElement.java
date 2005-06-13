@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 
 
 /**
+ * This class provides functionality common to graphic elements. It provides implementation for the methods described
+ * in <tt>JRTextElement</tt>.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -51,7 +53,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 
 
 	/**
-	 *
+	 * Constructs an empty graphic element. By default graphic elements are opaque.
 	 */
 	protected JRBaseGraphicElement()
 	{
@@ -62,7 +64,12 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		
 
 	/**
-	 *
+     * Initializes properties that are specific to graphic elements. Common properties are initialized by its
+     * parent constructor.
+     * @param graphicElement an element whose properties are copied to this element. Usually it is a
+     * {@link net.sf.jasperreports.engine.design.JRDesignGraphicElement} that must be transformed into an
+     * <tt>JRBaseGraphicElement</tt> at compile time.
+     * @param factory a factory used in the compile process
 	 */
 	protected JRBaseGraphicElement(JRGraphicElement graphicElement, JRBaseObjectFactory factory)
 	{

@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRTextElement;
 
 
 /**
+ * This class provides functionality common to text elements. It provides implementation for the methods described
+ * in <tt>JRTextElement</tt>.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -63,7 +65,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 
 	
 	/**
-	 *
+	 * Constructs an empty text element. By default a text element is transparent.
 	 */
 	protected JRBaseTextElement()
 	{
@@ -74,7 +76,12 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		
 
 	/**
-	 *
+	 * Initializes properties that are specific to text elements. Common properties are initialized by its
+     * parent constructor.
+     * @param textElement an element whose properties are copied to this element. Usually it is a
+     * {@link net.sf.jasperreports.engine.design.JRDesignTextElement} that must be transformed into an
+     * <tt>JRBaseTextElement</tt> at compile time.
+     * @param factory a factory used in the compile process
 	 */
 	protected JRBaseTextElement(JRTextElement textElement, JRBaseObjectFactory factory)
 	{
