@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRTextElement;
 
 
 /**
+ * This class is used for representing a static text element. Together with its parents, it contains the full
+ * functionality needed for handling a static text.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -51,7 +53,7 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 
 
 	/**
-	 *
+	 * Initializes the element properties. 
 	 */
 	protected JRBaseStaticText(JRStaticText staticText, JRBaseObjectFactory factory)
 	{

@@ -28,24 +28,24 @@
 package net.sf.jasperreports.engine;
 
 /**
+ * An interface that defines constants useful for alignment. All report elements that can be aligned in some way
+ * implement this interface.
+ *
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRAlignment 
+public interface JRAlignment
 {
+    //TODO: alignment getters and setters from JRTextElement and JRImage should be moved here.
 
 
-	/**
-	 *
-	 */
 	public static final byte HORIZONTAL_ALIGN_LEFT = 1;
 	public static final byte HORIZONTAL_ALIGN_CENTER = 2;
 	public static final byte HORIZONTAL_ALIGN_RIGHT = 3;
 	public static final byte HORIZONTAL_ALIGN_JUSTIFIED = 4;
 
-	/**
-	 *
-	 */
+
 	public static final byte VERTICAL_ALIGN_TOP = 1;
 	public static final byte VERTICAL_ALIGN_MIDDLE = 2;
 	public static final byte VERTICAL_ALIGN_BOTTOM = 3;

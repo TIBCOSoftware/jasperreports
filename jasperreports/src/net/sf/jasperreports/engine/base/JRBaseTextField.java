@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRTextField;
 
 
 /**
+ * This class is used for representing a text field.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -69,7 +71,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 
 
 	/**
-	 *
+	 * Initializes the text field properties.
 	 */
 	protected JRBaseTextField(JRTextField textField, JRBaseObjectFactory factory)
 	{

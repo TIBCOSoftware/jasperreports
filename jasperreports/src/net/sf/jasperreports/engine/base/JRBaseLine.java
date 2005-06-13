@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRLine;
 
 
 /**
+ * The actual implementation of a graphic element representing a straight line.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -50,7 +51,12 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 
 
 	/**
-	 *
+     * Initializes properties that are specific to lines. Common properties are initialized by its
+     * parent constructors.
+     * @param line an element whose properties are copied to this element. Usually it is a
+     * {@link net.sf.jasperreports.engine.design.JRDesignLine} that must be transformed into an
+     * <tt>JRBaseLine</tt> at compile time.
+     * @param factory a factory used in the compile process
 	 */
 	protected JRBaseLine(JRLine line, JRBaseObjectFactory factory)
 	{

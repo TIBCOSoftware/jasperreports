@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a report static text. It provides functionality for static texts.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

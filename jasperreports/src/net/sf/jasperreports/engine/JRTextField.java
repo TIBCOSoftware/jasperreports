@@ -31,6 +31,7 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a report static text. It provides functionality for static texts.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -39,47 +40,59 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 
 
 	/**
-	 *
+	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
+     * @return true if the text field will stretch vertically, false otherwise
 	 */
 	public boolean isStretchWithOverflow();
-		
+
 	/**
-	 *
+	 * Set to true if the text field should stretch vertically if its text does not fit in one line.
 	 */
 	public void setStretchWithOverflow(boolean isStretchWithOverflow);
 		
 	/**
-	 *
+	 * Gets the evaluation time for this text field.
+     * @return one of the evaluation time constants in {@link JRExpression}
 	 */
 	public byte getEvaluationTime();
 		
 	/**
-	 *
+	 * Gets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates
+     * and a <tt>DecimalFormat</tt> for numeric text fields. The pattern format must follow one of these two classes
+     * formatting rules, as specified in the JDK API docs.
+     * @return a string containing the pattern.
 	 */
 	public String getPattern();
 		
 	/**
-	 *
+     * Sets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates
+     * and a <tt>DecimalFormat</tt> for numeric text fields. The pattern format must follow one of these two classes
+     * formatting rules, as specified in the JDK API docs. If the pattern is incorrect, the exception thrown by formatter
+     * classes will be rethrown by the JasperReports fill engine.
 	 */
 	public void setPattern(String pattern);
 		
 	/**
-	 *
+	 * Indicates whether an empty string will be displayed if the field's expression evaluates to <code>null</code>.
+     * @return true if an empty string will be displayed instead of null values, false otherwise
 	 */
 	public boolean isBlankWhenNull();
 
-	/**
-	 *
-	 */
+    /**
+     * Specifies whether an empty string sholuld be displayed if the field's expression evaluates to <code>null</code>.
+     * @param isBlank true if an empty string will be displayed instead of null values, false otherwise
+     */
 	public void setBlankWhenNull(boolean isBlank);
 
 	/**
-	 *
+	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
+     * @see JRExpression#EVALUATION_TIME_GROUP
 	 */
 	public JRGroup getEvaluationGroup();
 		
 	/**
-	 *
+	 * Gets the expression for this field. The result obtained after evaluating this expression will be dispayed as
+     * the field text.
 	 */
 	public JRExpression getExpression();
 		
