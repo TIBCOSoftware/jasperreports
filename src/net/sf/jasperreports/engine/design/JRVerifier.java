@@ -501,13 +501,6 @@ public class JRVerifier
 				{
 					brokenRules.add("Class not set for field : " + field.getName());
 				}
-				else if (Arrays.binarySearch(getFieldClassNames(), className) < 0) 
-				{
-					brokenRules.add(
-						"Class \"" + className + "\" not supported for field : " 
-						+ field.getName() + ". Use java.lang.Object instead."
-						);
-				}
 			}
 		}
 	}
@@ -1094,38 +1087,6 @@ public class JRVerifier
 		}
 		
 		return queryParameterClassNames;
-	}
-
-
-	/**
-	 *
-	 */
-	private static synchronized String[] getFieldClassNames()
-	{
-		if (fieldClassNames == null)
-		{
-			fieldClassNames = new String[]
-			{
-				java.lang.Object.class.getName(),
-				java.lang.Boolean.class.getName(),
-				java.lang.Byte.class.getName(),
-				java.util.Date.class.getName(),
-				java.sql.Timestamp.class.getName(),
-				java.sql.Time.class.getName(),
-				java.lang.Double.class.getName(),
-				java.lang.Float.class.getName(),
-				java.lang.Integer.class.getName(),
-				java.io.InputStream.class.getName(),
-				java.lang.Long.class.getName(),
-				java.lang.Short.class.getName(),
-				java.math.BigDecimal.class.getName(),
-				java.lang.String.class.getName()
-			};
-
-			Arrays.sort(fieldClassNames);
-		}
-		
-		return fieldClassNames;
 	}
 
 
