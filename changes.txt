@@ -2,6 +2,18 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 0.x.x
+-----------------------------------
+- report fields can be of any type, just like report parameters and report variables. 
+This simplifies working with JavaBean data sources where casting from java.lang.Object 
+to the actual report field class is no longer required in the expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 0.6.8
 -----------------------------------
 - fixes the bug introduced in the 0.6.7 version related to the way
