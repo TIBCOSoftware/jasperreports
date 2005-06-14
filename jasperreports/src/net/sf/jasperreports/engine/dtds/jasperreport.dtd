@@ -56,7 +56,7 @@
 <!ELEMENT field (fieldDescription?)>
 <!ATTLIST field
 	name CDATA #REQUIRED
-	class (java.lang.Object | java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.io.InputStream | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.String) "java.lang.String"
+	class NMTOKEN "java.lang.String"
 >
 <!ELEMENT fieldDescription (#PCDATA)>
 <!ELEMENT variable (variableExpression?, initialValueExpression?)>

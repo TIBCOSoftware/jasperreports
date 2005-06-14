@@ -104,11 +104,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 			try
 			{
-				if (clazz.equals(java.lang.Object.class))
-				{
-					objValue = resultSet.getObject(columnIndex.intValue());
-				}
-				else if (clazz.equals(java.lang.Boolean.class))
+				if (clazz.equals(java.lang.Boolean.class))
 				{
 					objValue = resultSet.getBoolean(columnIndex.intValue()) ? Boolean.TRUE : Boolean.FALSE;
 				}
@@ -234,6 +230,10 @@ public class JRResultSetDataSource implements JRDataSource
 						objValue = null;
 					}
 				}
+                else
+                {
+                    objValue = resultSet.getObject(columnIndex.intValue());
+                }
 			}
 			catch (Exception e)
 			{
