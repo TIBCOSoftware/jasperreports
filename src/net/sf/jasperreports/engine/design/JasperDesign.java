@@ -714,6 +714,7 @@ public class JasperDesign extends JRBaseReport
 	{
         Object oldValue = this.scriptletClass;
 		this.scriptletClass = scriptletClass;
+        ((JRDesignParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET)).setValueClassName(scriptletClass);
         getPropertyChangeSupport().firePropertyChange(SCRIPTLET_CLASS_PROPERTY, oldValue, this.scriptletClass);
 	}
 		
