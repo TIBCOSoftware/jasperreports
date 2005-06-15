@@ -35,6 +35,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.lang.ref.*;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
@@ -61,9 +62,9 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private transient Image awtImage = null;
+    private transient SoftReference awtImageRef = null;
 
-	
+
 	/**
 	 *
 	 */
@@ -257,19 +258,20 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public Image getImage() throws JRException
 	{
-		if (awtImage == null)
-		{
-			try
-			{
-				awtImage = JRImageLoader.loadImage(getImageData());
-			}
-			catch (JRException e)
-			{
-				awtImage = getOnErrorRenderer(onErrorType, e).getImage();
-			}
-		}
-		return awtImage;
-	}
+        Image awtImage = null;
+        if (awtImageRef == null || awtImageRef.get() == null) {
+            try
+            {
+                awtImage = JRImageLoader.loadImage(getImageData());
+                awtImageRef = new SoftReference(awtImage);
+            }
+            catch (JRException e)
+            {
+                return getOnErrorRenderer(onErrorType, e).getImage();
+            }
+        }
+        return (Image) awtImageRef.get();
+    }
 
 
 	/**
@@ -327,7 +329,7 @@ public class JRImageRenderer implements JRRenderable
 	public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
 	{
 		Image img = getImage();
-		
+
 		grx.drawImage(
 			img, 
 			(int)rectanle.getX(), 
