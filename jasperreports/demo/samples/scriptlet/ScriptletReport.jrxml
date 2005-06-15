@@ -197,7 +197,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Arial_Bold" size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[((Scriptlet)$P{REPORT_SCRIPTLET}).hello()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_SCRIPTLET}.hello()]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

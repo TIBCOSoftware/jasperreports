@@ -257,7 +257,7 @@ public interface JRElement
 	public JRGroup getPrintWhenGroupChanges();
 	
 	/**
-	 * Specifies the logical group that the element belongs to. More elements can be grouped in order to get the height
+	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to get the height
      * of the tallest one.
      * @see JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
 	 */
