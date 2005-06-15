@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JREllipse;
 
 
 /**
+ * The actual implementation of a graphic element representing an ellipse, used at design time.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
