@@ -33,6 +33,9 @@ import net.sf.jasperreports.engine.JRTextElement;
 
 
 /**
+ * This class provides functionality common to design text elements. It provides implementation for the methods described
+ * in <tt>JRTextElement</tt> and setters for text element attributes that can only be modified at design time.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -62,7 +65,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 
 	
 	/**
-	 *
+	 * Creates a new text element.
 	 */
 	protected JRDesignTextElement()
 	{
@@ -169,7 +172,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 	
 	/**
-	 *
+	 * Sets the element box, containing all border and padding properties for this text element
 	 */
 	public void setBox(JRBox box)
 	{
@@ -177,7 +180,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 		
 	/**
-	 *
+	 * Sets a <tt>JRFont</tt> object containing all font properties for this text element
 	 */
 	public void setFont(JRFont font)
 	{

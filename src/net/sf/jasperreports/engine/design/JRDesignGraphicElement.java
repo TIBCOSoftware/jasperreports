@@ -31,6 +31,9 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 
 
 /**
+ * This class contains functionality common to graphic elements at design time. It provides implementation for the methods described
+ * in <tt>JRTextElement</tt>.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -31,6 +31,9 @@ import net.sf.jasperreports.engine.JRStaticText;
 
 
 /**
+ * This class is used for representing a design static text element. It contains the full functionality needed
+ * to use static texts at design time.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
