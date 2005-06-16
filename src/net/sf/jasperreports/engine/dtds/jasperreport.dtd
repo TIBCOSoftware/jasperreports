@@ -225,3 +225,160 @@
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
 <!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*>
+
+
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
+<!ATTLIST chart
+	name NMTOKEN #REQUIRED
+	isShowLegend (true | false) "true"
+	resetType (None | Report | Page | Column | Group) "Report"
+	resetGroup CDATA #IMPLIED
+	incrementType (None | Report | Page | Column | Group) "None"
+	incrementGroup CDATA #IMPLIED
+	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationGroup CDATA #IMPLIED
+>
+<!ELEMENT chartTitle (font?, titleExpression?)>
+<!ATTLIST chartTitle
+	position (top | bottom | left | right) "top"
+	color CDATA #IMPLIED
+>
+<!ELEMENT titleExpression (#PCDATA)>
+<!ELEMENT chartSubtitle (font?, subtitleExpression?)>
+<!ATTLIST chartSubtitle
+	color CDATA #IMPLIED
+>
+<!ELEMENT subtitleExpression (#PCDATA)>
+
+
+<!ELEMENT pieChart (chart, pieDataset, piePlot)>
+<!ELEMENT pieDataset (keyExpression, valueExpression, labelExpression?)>
+<!ELEMENT keyExpression (#PCDATA)>
+<!ELEMENT valueExpression (#PCDATA)>
+<!ELEMENT labelExpression (#PCDATA)>
+<!ELEMENT piePlot EMPTY>
+<!ATTLIST piePlot
+	backcolor CDATA #IMPLIED
+>
+
+
+<!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
+<!ELEMENT pie3DPlot EMPTY>
+<!ATTLIST pie3DPlot
+	backcolor CDATA #IMPLIED
+	depthFactor CDATA #IMPLIED
+>
+
+
+<!ELEMENT barChart (chart, categoryDataset, barPlot)>
+<!ELEMENT categoryDataset (categoryExpression, valueExpression, labelExpression?)>
+<!ELEMENT categoryExpression (#PCDATA)>
+<!ELEMENT barPlot (categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST barPlot
+	backcolor CDATA #IMPLIED
+	orientation (horizontal | vertical) "vertical"
+	isShowTickMarks (true | false) "true"
+	isShowTickLabels (true | false) "true"
+>
+<!ELEMENT categoryAxisLabelExpression (#PCDATA)>
+<!ELEMENT valueAxisLabelExpression (#PCDATA)>
+
+
+<!ELEMENT bar3DChart (chart, categoryDataset, barPlot)>
+
+<!ELEMENT xyBarChart (chart, (timePeriodValues* | timeSeries* | xySeries*), barPlot)>
+<!ELEMENT timePeriodValues (seriesNameExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT seriesNameExpression (#PCDATA)>
+<!ELEMENT endDateExpression (#PCDATA)>
+<!ELEMENT timeSeries (seriesNameExpression, timePeriodExpression, valueExpression)>
+<!ELEMENT timePeriodExpression (#PCDATA)>
+<!ELEMENT xySeries (seriesNameExpression, xValueExpression, yValueExpression)>
+<!ELEMENT xValueExpression (#PCDATA)>
+<!ELEMENT yValueExpression (#PCDATA)>
+
+
+<!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
+
+
+<!ELEMENT stackedBar3DChart (chart, categoryDataset, barPlot)>
+
+
+<!ELEMENT lineChart (chart, categoryDataset, linePlot)>
+<!ELEMENT linePlot (categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST linePlot
+	backcolor CDATA #IMPLIED
+	orientation (horizontal | vertical) "vertical"
+	isShowLines (true | false) "true"
+	isShowShapes (true | false) "true"
+>
+
+
+<!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
+<!ELEMENT xyDataset (categoryExpression, valueExpression, labelExpression?)>
+
+
+<!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
+<!ELEMENT areaPlot (categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST areaPlot
+	backcolor CDATA #IMPLIED
+	orientation (horizontal | vertical) "vertical"
+>
+
+
+<!ELEMENT xyAreaChart (chart, xyDataset, areaPlot)>
+
+
+<!ELEMENT scatterChart (chart, xyDataset, scatterPlot)>
+<!ELEMENT scatterPlot (xAxisLabelExpression?, yAxisLabelExpression?)>
+<!ATTLIST scatterPlot
+	backcolor CDATA #IMPLIED
+	orientation (horizontal | vertical) "vertical"
+	isShowLines (true | false) "true"
+	isShowShapes (true | false) "true"
+>
+<!ELEMENT xAxisLabelExpression (#PCDATA)>
+<!ELEMENT yAxisLabelExpression (#PCDATA)>
+
+
+<!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
+<!ELEMENT xyzDataset (xValueExpression, yValueExpression, zValueExpression?)>
+<!ELEMENT bubblePlot (xAxisLabelExpression?, yAxisLabelExpression?)>
+<!ATTLIST bubblePlot
+	backcolor CDATA #IMPLIED
+	orientation (horizontal | vertical) "vertical"
+	scaleType (bothAxes | domainAxis | rangeAxis) "rangeAxis"
+>
+<!ELEMENT zValueExpression (#PCDATA)>
+
+
+<!ELEMENT timeSeriesChart (chart, timeSeries*, timeSeriesPlot)>
+<!ELEMENT timeSeriesPlot (timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST timeSeriesPlot
+	backcolor CDATA #IMPLIED
+	isShowLines (true | false) "true"
+	isShowShapes (true | false) "true"
+>
+<!ELEMENT timeAxisLabelExpression (#PCDATA)>
+
+
+<!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
+<!ELEMENT highLowDataset (dateExpression, highExpression, lowExpression, openExpression, closeExpression)>
+<!ELEMENT highLowPlot (timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST highLowPlot
+	backcolor CDATA #IMPLIED
+	isShowCloseTicks (true | false) "true"
+	isShowOpenTicks (true | false) "true"
+>
+<!ELEMENT dateExpression (#PCDATA)>
+<!ELEMENT highExpression (#PCDATA)>
+<!ELEMENT lowExpression (#PCDATA)>
+<!ELEMENT openExpression (#PCDATA)>
+<!ELEMENT closeExpression (#PCDATA)>
+
+
+<!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
+<!ELEMENT candlestickPlot (timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ATTLIST candlestickPlot
+	backcolor CDATA #IMPLIED
+	isShowVolume (true | false) "true"
+>
