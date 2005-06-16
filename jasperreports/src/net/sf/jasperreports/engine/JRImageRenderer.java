@@ -34,8 +34,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.net.URL;
-import java.lang.ref.*;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
