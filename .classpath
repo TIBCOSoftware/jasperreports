@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry kind="lib" path="lib/xalan.jar"/>
 	<classpathentry kind="lib" path="lib/jdt-compiler.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.0-pre2.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.0-pre2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
