@@ -40,11 +40,11 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import net.sf.jasperreports.engine.JRException;
+
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
-import net.sf.jasperreports.engine.JRException;
 
 
 /**
@@ -60,11 +60,14 @@ public class JRImageLoader
 	 */
 	public static final byte NO_IMAGE = 1;
 	public static final byte SUBREPORT_IMAGE = 2;
+	public static final byte CHART_IMAGE = 3;
 
 	private static final String str_NO_IMAGE = "net/sf/jasperreports/engine/images/noimage.GIF";
 	private static final String str_SUBREPORT_IMAGE = "net/sf/jasperreports/engine/images/subreport.GIF";
+	private static final String str_CHART_IMAGE = "net/sf/jasperreports/engine/images/chart.GIF";
 	private static Image img_NO_IMAGE = null;
 	private static Image img_SUBREPORT_IMAGE = null;
+	private static Image img_CHART_IMAGE = null;
 
 	/**
 	 *
@@ -266,6 +269,30 @@ public class JRImageLoader
 						);
 				}
 				image = img_SUBREPORT_IMAGE;
+				break;
+			}
+			case CHART_IMAGE:
+			{
+				if (img_CHART_IMAGE == null)
+				{
+					ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+					URL url = classLoader.getResource(str_CHART_IMAGE);
+					if (url == null)
+					{
+						//if (!wasWarning)
+						//{
+						//	if (log.isWarnEnabled())
+						//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
+						//	wasWarning = true;
+						//}
+						classLoader = JRImageLoader.class.getClassLoader();
+					}
+					InputStream is = classLoader.getResourceAsStream(str_CHART_IMAGE);
+					img_CHART_IMAGE = loadImage(
+						loadImageDataFromInputStream(is)
+						);
+				}
+				image = img_CHART_IMAGE;
 				break;
 			}
 		}

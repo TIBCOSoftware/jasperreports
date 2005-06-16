@@ -27,10 +27,10 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
-
-import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
 
 
 /**

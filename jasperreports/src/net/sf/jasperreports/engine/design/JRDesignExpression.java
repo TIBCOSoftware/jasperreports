@@ -32,11 +32,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
