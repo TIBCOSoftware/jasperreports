@@ -93,7 +93,7 @@
 <!ELEMENT pageFooter (band?)>
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
-<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*)>
+<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*)>
 <!ATTLIST band
 	height NMTOKEN "0"
 	isSplitAllowed (true | false) "true"
@@ -224,7 +224,7 @@
 <!ATTLIST subreportExpression
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
-<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | elementGroup)*>
+<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*>
 
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
