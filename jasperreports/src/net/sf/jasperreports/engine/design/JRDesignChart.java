@@ -53,7 +53,6 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	protected String name = null;
 	protected boolean isShowLegend = false;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
@@ -81,14 +80,6 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRChartPlot plot = null;
 
 	
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
 	/**
 	 *
 	 */
