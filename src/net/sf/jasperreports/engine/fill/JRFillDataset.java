@@ -25,30 +25,99 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRGroup;
 
-import org.xml.sax.Attributes;
+import org.jfree.data.general.Dataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public abstract class JRFillDataset implements JRChartDataset
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+	protected JRChartDataset parent = null;
 
-		return staticText;
+	protected JRGroup resetGroup = null;
+	protected JRGroup incrementGroup = null;
+
+	
+	/**
+	 *
+	 */
+	protected JRFillDataset(
+		JRChartDataset dataset, 
+		JRFillObjectFactory factory
+		)
+	{
+		factory.put(dataset, this);
+
+		parent = dataset;
+
+		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
+		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
+
+
+	/**
+	 *
+	 */
+	public byte getResetType()
+	{
+		return ((JRChartDataset)parent).getResetType();
+	}
+		
+	/**
+	 *
+	 */
+	public byte getIncrementType()
+	{
+		return ((JRChartDataset)parent).getIncrementType();
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getResetGroup()
+	{
+		return resetGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup()
+	{
+		return incrementGroup;
+	}
+		
+	/**
+	 *
+	 */
+	protected abstract void initialize();
+
+	/**
+	 *
+	 */
+	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
+
+	/**
+	 *
+	 */
+	protected abstract void increment();
+
+	/**
+	 *
+	 */
+	protected abstract Dataset getDataset();
 
 
 }

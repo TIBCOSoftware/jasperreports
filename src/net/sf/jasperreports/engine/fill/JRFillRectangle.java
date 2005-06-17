@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -109,6 +112,23 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		printRectangle.setHeight(this.getStretchHeight());
 		
 		return printRectangle;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getRectangle(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 

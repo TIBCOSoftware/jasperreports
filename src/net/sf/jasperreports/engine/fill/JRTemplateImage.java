@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 
@@ -71,6 +73,15 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
+	protected JRTemplateImage(JRChart chart)
+	{
+		setChart(chart);
+	}
+
+
+	/**
+	 *
+	 */
 	protected void setImage(JRImage image)
 	{
 		super.setGraphicElement(image);
@@ -84,6 +95,19 @@ public class JRTemplateImage extends JRTemplateGraphicElement
 		setHyperlinkTarget(image.getHyperlinkTarget());
 
 		box = image.getBox();
+	}
+
+	/**
+	 *
+	 */
+	protected void setChart(JRChart chart)
+	{
+		super.setElement(chart);
+		
+		setPen(JRGraphicElement.PEN_NONE);
+		setFill(JRGraphicElement.FILL_SOLID);
+		
+		box = chart.getBox();
 	}
 
 	/**

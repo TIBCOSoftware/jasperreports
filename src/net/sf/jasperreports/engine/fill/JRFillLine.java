@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -109,6 +112,23 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		printLine.setHeight(this.getStretchHeight());
 		
 		return printLine;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getLine(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 

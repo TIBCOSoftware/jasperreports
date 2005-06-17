@@ -30,10 +30,10 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 import java.util.Collection;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+
+import org.xml.sax.Attributes;
 
 
 /**

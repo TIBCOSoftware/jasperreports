@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 
 
@@ -90,6 +93,22 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	public void setDirection(byte direction)
 	{
 		this.direction = direction;
+	}
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getLine(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 

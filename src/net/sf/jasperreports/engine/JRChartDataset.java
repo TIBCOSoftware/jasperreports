@@ -25,30 +25,34 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
-
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
-
-import org.xml.sax.Attributes;
+package net.sf.jasperreports.engine;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public interface JRChartDataset
 {
-
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+	public byte getResetType();
 
-		return staticText;
-	}
+	/**
+	 *
+	 */
+	public JRGroup getResetGroup();
+		
+	/**
+	 *
+	 */
+	public byte getIncrementType();
 
-
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup();
+		
 }

@@ -84,7 +84,7 @@ public class JRFillElementGroup implements JRElementGroup
 					child = list.get(i);
 					if (child instanceof JRElement)
 					{
-						child = factory.getElement((JRElement)child);
+						child = ((JRElement)child).getCopy(factory);//FIXME NOW do the same for element group?
 						this.children.add(child);
 					}
 					else if (child instanceof JRElementGroup)

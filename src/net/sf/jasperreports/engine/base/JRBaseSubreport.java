@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 
@@ -161,5 +164,21 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		return this.expression;
 	}
 	
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getSubreport(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 
 }

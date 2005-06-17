@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
 
 
@@ -63,6 +66,22 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	public void setRadius(int radius)
 	{
 		this.radius = radius;
+	}
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getRectangle(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 

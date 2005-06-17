@@ -27,9 +27,9 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.design.JRDesignField;
+
+import org.xml.sax.Attributes;
 
 
 /**

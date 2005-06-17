@@ -29,11 +29,11 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Collection;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
+
+import org.xml.sax.Attributes;
 
 
 /**

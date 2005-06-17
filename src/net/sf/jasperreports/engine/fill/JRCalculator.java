@@ -59,6 +59,7 @@ public abstract class JRCalculator
 	protected Map varsm = null;
 	protected JRFillVariable[] variables = null;
 	protected JRFillGroup[] groups = null;
+	protected JRFillDataset[] datasets = null;
 
 	private JRFillParameter resourceBundle = null;
 	private JRFillVariable pageNumber = null;
@@ -81,7 +82,8 @@ public abstract class JRCalculator
 		Map fieldsMap,
 		Map variablesMap,
 		JRFillVariable[] vars,
-		JRFillGroup[] grps
+		JRFillGroup[] grps,
+		JRFillDataset[] dts
 		) throws JRException
 	{
 		parsm = parametersMap;
@@ -89,6 +91,7 @@ public abstract class JRCalculator
 		varsm = variablesMap;
 		variables = vars;
 		groups = grps;
+		datasets = dts;
 
 		resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		pageNumber = (JRFillVariable)variablesMap.get(JRVariable.PAGE_NUMBER);
@@ -152,6 +155,22 @@ public abstract class JRCalculator
 				if (variable.getIncrementType() == JRVariable.RESET_TYPE_NONE)
 				{
 					variable.setIncrementedValue(variable.getValue());
+				}
+			}
+		}
+
+		if (datasets != null && datasets.length > 0)
+		{
+			JRFillDataset dataset = null;
+			
+			for(int i = 0; i < datasets.length; i++)
+			{
+				dataset = datasets[i];
+				dataset.evaluate(this);
+
+				if (dataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				{
+					dataset.increment();
 				}
 			}
 		}
@@ -236,6 +255,15 @@ public abstract class JRCalculator
 				initializeVariable(variables[i], resetType);
 			}
 		}
+
+		if (datasets != null && datasets.length > 0)
+		{
+			for(int i = 0; i < datasets.length; i++)
+			{
+				incrementDataset(datasets[i], resetType);
+				initializeDataset(datasets[i], resetType);
+			}
+		}
 	}
 
 
@@ -305,6 +333,62 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
+	private void incrementDataset(JRFillDataset dataset, byte incrementType) throws JRException
+	{
+		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		{
+			boolean toIncrement = false;
+			switch (incrementType)
+			{
+				case JRVariable.RESET_TYPE_REPORT :
+				{
+					toIncrement = true;
+					break;
+				}
+				case JRVariable.RESET_TYPE_PAGE :
+				{
+					toIncrement = 
+						(
+						dataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
+						dataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						);
+					break;
+				}
+				case JRVariable.RESET_TYPE_COLUMN :
+				{
+					toIncrement = (dataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					break;
+				}
+				case JRVariable.RESET_TYPE_GROUP :
+				{
+					if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					{
+						JRFillGroup group = (JRFillGroup)dataset.getIncrementGroup();
+						toIncrement = group.hasChanged();
+					}
+					break;
+				}
+				case JRVariable.RESET_TYPE_NONE :
+				default :
+				{
+				}
+			}
+
+			if (toIncrement)
+			{
+				dataset.increment();
+			}
+		}
+		else
+		{
+			//FIXME NOW dataset.increment();
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	private void initializeVariable(JRFillVariable variable, byte resetType) throws JRException
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
@@ -363,6 +447,71 @@ public abstract class JRCalculator
 				);
 			variable.setIncrementedValue(variable.getValue());
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	private void initializeDataset(JRFillDataset dataset, byte resetType) throws JRException
+	{
+		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
+//		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)
+//		{
+			boolean toInitialize = false;
+			switch (resetType)
+			{
+				case JRVariable.RESET_TYPE_REPORT :
+				{
+					toInitialize = true;
+					break;
+				}
+				case JRVariable.RESET_TYPE_PAGE :
+				{
+					toInitialize = 
+						(
+						dataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
+						dataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
+						);
+					break;
+				}
+				case JRVariable.RESET_TYPE_COLUMN :
+				{
+					toInitialize = (dataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+					break;
+				}
+				case JRVariable.RESET_TYPE_GROUP :
+				{
+					if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+					{
+						JRFillGroup group = (JRFillGroup)dataset.getResetGroup();
+						toInitialize = group.hasChanged();
+					}
+					break;
+				}
+				case JRVariable.RESET_TYPE_NONE :
+				default :
+				{
+				}
+			}
+
+			if (toInitialize)
+			{
+//				dataset.setValue(
+//					evaluate(dataset.getInitialValueExpression())
+//					);
+//				dataset.setInitialized(true);
+//				dataset.setIncrementedValue(null);
+				dataset.initialize();
+			}
+//		}FIXME NOW verify that reset type none does not make any sense
+//		else
+//		{
+//			dataset.setValue(
+//				evaluate(dataset.getExpression())
+//				);
+//			dataset.setIncrementedValue(dataset.getValue());
+//		}
 	}
 
 

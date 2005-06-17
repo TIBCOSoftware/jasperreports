@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
-
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 
 
 /**

@@ -27,7 +27,10 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 
 
 /**
@@ -57,6 +60,24 @@ public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 	protected JRBaseEllipse(JREllipse ellipse, JRBaseObjectFactory factory)
 	{
 		super(ellipse, factory);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getEllipse(this);
+	}
+
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 

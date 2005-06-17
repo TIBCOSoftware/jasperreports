@@ -25,30 +25,86 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.base;
 
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
+import java.io.Serializable;
 
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public abstract class JRBaseDataset implements JRChartDataset, Serializable
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+	private static final long serialVersionUID = 608;
 
-		return staticText;
+	protected byte resetType = JRVariable.RESET_TYPE_NONE;
+	protected byte incrementType = JRVariable.RESET_TYPE_NONE;
+	protected JRGroup resetGroup = null;
+	protected JRGroup incrementGroup = null;
+
+	
+	/**
+	 *
+	 */
+	protected JRBaseDataset()
+	{
 	}
 
+	
+	/**
+	 *
+	 */
+	protected JRBaseDataset(JRChartDataset dataset, JRBaseObjectFactory factory)
+	{
+		factory.put(dataset, this);
 
+		resetType = dataset.getResetType();
+		incrementType = dataset.getIncrementType();
+		resetGroup = factory.getGroup(dataset.getResetGroup());
+		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+	}
+
+	
+	/**
+	 *
+	 */
+	public byte getResetType()
+	{
+		return this.resetType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getIncrementType()
+	{
+		return this.incrementType;
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getResetGroup()
+	{
+		return resetGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public JRGroup getIncrementGroup()
+	{
+		return incrementGroup;
+	}
+		
 }
