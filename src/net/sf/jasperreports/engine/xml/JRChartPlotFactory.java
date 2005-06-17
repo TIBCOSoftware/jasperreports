@@ -34,8 +34,10 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.xml.sax.Attributes;
 
+
 /**
- * @author Ionut Nedelcu
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRChartPlotFactory extends JRBaseFactory
 {
@@ -49,8 +51,8 @@ public class JRChartPlotFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-    public Object createObject(Attributes atts)
-    {
+	public Object createObject(Attributes atts)
+	{
         JRChartPlot plot = (JRChartPlot) digester.peek();
 
 		String color = atts.getValue(ATTRIBUTE_backcolor);
