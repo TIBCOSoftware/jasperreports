@@ -257,6 +257,10 @@ public class JRExpressionCollector
 	 */
 	private void collectChart(JRChart chart)
 	{
+		collectElement(chart);
+		collectAnchor(chart);
+		collectHyperlink(chart);
+		
 		addExpression(chart.getTitleExpression());
 		addExpression(chart.getSubtitleExpression());
 	}
@@ -266,9 +270,6 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRPieChart pieChart)
 	{
-		collectElement(pieChart);
-		collectAnchor(pieChart);
-		collectHyperlink(pieChart);
 		collectChart(pieChart);
 		collect((JRPieDataset)pieChart.getDataset());
 	}
@@ -302,5 +303,30 @@ public class JRExpressionCollector
 		collect((JRPieDataset)pie3DChart.getDataset());
 	}
 
-	
+	/**
+	 *
+	 */
+	public void collect(JRBarChart barChart)
+	{
+		collectChart(barChart);
+		collect((JRCategoryDataset)barChart.getDataset());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRCategoryDataset categoryDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(categoryDataset.getCategoryExpression());
+		addExpression(categoryDataset.getValueExpression());
+		addExpression(categoryDataset.getLabelExpression());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRBarPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+	}
+
 }

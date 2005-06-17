@@ -127,5 +127,19 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot);
 
-	
+	/**
+	 *
+	 */
+	public abstract JRBarChart getBarChart(JRBarChart barChart);
+
+	/**
+	 *
+	 */
+	public abstract JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset);
+
+	/**
+	 *
+	 */
+	public abstract JRBarPlot getBarPlot(JRBarPlot barPlot);
+
 }

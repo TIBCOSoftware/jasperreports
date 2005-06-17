@@ -32,6 +32,9 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBarChart;
+import net.sf.jasperreports.engine.JRBarPlot;
+import net.sf.jasperreports.engine.JRCategoryDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRField;
@@ -507,6 +510,67 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillPie3DPlot;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRBarChart getBarChart(JRBarChart barChart)
+	{
+		JRFillBarChart fillBarChart = null;
+		
+		if (barChart != null)
+		{
+			fillBarChart = (JRFillBarChart)get(barChart);
+			if (fillBarChart == null)
+			{
+				fillBarChart = new JRFillBarChart(filler, barChart, this);
+			}
+		}
+		
+		return fillBarChart;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
+	{
+		JRFillCategoryDataset fillCategoryDataset = null;
+		
+		if (categoryDataset != null)
+		{
+			fillCategoryDataset = (JRFillCategoryDataset)get(categoryDataset);
+			if (fillCategoryDataset == null)
+			{
+				fillCategoryDataset = new JRFillCategoryDataset(categoryDataset, this);
+				datasets.add(fillCategoryDataset);
+			}
+		}
+		
+		return fillCategoryDataset;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRBarPlot getBarPlot(JRBarPlot barPlot)
+	{
+		JRFillBarPlot fillBarPlot = null;
+		
+		if (barPlot != null)
+		{
+			fillBarPlot = (JRFillBarPlot)get(barPlot);
+			if (fillBarPlot == null)
+			{
+				fillBarPlot = new JRFillBarPlot(barPlot, this);
+			}
+		}
+		
+		return fillBarPlot;
 	}
 
 

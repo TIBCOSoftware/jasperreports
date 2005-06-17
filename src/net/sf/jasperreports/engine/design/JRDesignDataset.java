@@ -53,7 +53,7 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		super();
 		
-		//FIXME NOW dataset = new JRDesignPieDataset();
+		//FIXME NOW dataset = ;
 	}
 		
 

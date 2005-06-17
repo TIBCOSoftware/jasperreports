@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBarChart;
+import net.sf.jasperreports.engine.JRBarPlot;
+import net.sf.jasperreports.engine.JRCategoryDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
@@ -588,6 +591,69 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return basePie3DPlot;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRBarChart getBarChart(JRBarChart barChart)
+	{
+		JRBaseBarChart baseBarChart = null;
+		
+		if (barChart != null)
+		{
+			baseBarChart = (JRBaseBarChart)get(barChart);
+			if (baseBarChart == null)
+			{
+				baseBarChart = new JRBaseBarChart(barChart, this);
+				put(barChart, baseBarChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBarChart;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
+	{
+		JRBaseCategoryDataset baseCategoryDataset = null;
+		
+		if (categoryDataset != null)
+		{
+			baseCategoryDataset = (JRBaseCategoryDataset)get(categoryDataset);
+			if (baseCategoryDataset == null)
+			{
+				baseCategoryDataset = new JRBaseCategoryDataset(categoryDataset, this);
+				put(categoryDataset, baseCategoryDataset);//FIXME NOW need this?
+			}
+		}
+		
+		return baseCategoryDataset;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRBarPlot getBarPlot(JRBarPlot barPlot)
+	{
+		JRBaseBarPlot baseBarPlot = null;
+		
+		if (barPlot != null)
+		{
+			baseBarPlot = (JRBaseBarPlot)get(barPlot);
+			if (baseBarPlot == null)
+			{
+				baseBarPlot = new JRBaseBarPlot(barPlot, this);
+				put(barPlot, baseBarPlot);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBarPlot;
 	}
 	
 
