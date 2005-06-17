@@ -27,22 +27,24 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRChart;
-
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRVariable;
+
+import org.jfree.chart.plot.PlotOrientation;
 
 
 
@@ -698,5 +700,26 @@ public class JRXmlConstants
 		return chartTitlePositionMap;
 	}
 	
-	
+	/**
+	 *
+	 */
+	private static final String ORIENTATION_HORIZONTAL = "Horizontal";
+	private static final String ORIENTATION_VERTICAL = "Vertical";
+
+	private static Map plotOrientationMap = null;
+
+	public static Map getPlotOrientationMap()
+	{
+		if (plotOrientationMap == null)
+		{
+			plotOrientationMap = new HashMap(4);
+			plotOrientationMap.put(ORIENTATION_HORIZONTAL, PlotOrientation.HORIZONTAL);
+			plotOrientationMap.put(ORIENTATION_VERTICAL,   PlotOrientation.VERTICAL);
+			plotOrientationMap.put(PlotOrientation.HORIZONTAL, ORIENTATION_HORIZONTAL);
+			plotOrientationMap.put(PlotOrientation.VERTICAL,   ORIENTATION_VERTICAL);
+		}
+		
+		return plotOrientationMap;
+	}
+
 }
