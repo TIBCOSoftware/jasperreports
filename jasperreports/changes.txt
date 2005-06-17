@@ -8,6 +8,9 @@ JasperReports 0.x.x
 This simplifies working with JavaBean data sources where casting from java.lang.Object 
 to the actual report field class is no longer required in the expressions;
 
+- when using $P{REPORT_SCRIPTLET} in expressions, specific cast to the actual scriptlet
+class is no longer needed;
+
 - minor bug fixes and improvements;
 
 
