@@ -39,11 +39,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	/**
 	 *
 	 */
-	public String getName();
-
-	/**
-	 *
-	 */
 	public boolean isShowLegend();
 
 	/**

@@ -229,7 +229,6 @@
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
 <!ATTLIST chart
-	name NMTOKEN #REQUIRED
 	isShowLegend (true | false) "true"
 	evaluationTime (Now | Report | Page | Column | Group) "Now"
 	evaluationGroup CDATA #IMPLIED
@@ -268,8 +267,8 @@
 <!ATTLIST plot
 	backcolor CDATA #IMPLIED
 	orientation (horizontal | vertical) "vertical"
-	backgroundAlpha NMTOKEN "0"
-	foregroundAlpha NMTOKEN "0"
+	backgroundAlpha NMTOKEN "1"
+	foregroundAlpha NMTOKEN "1"
 >
 
 

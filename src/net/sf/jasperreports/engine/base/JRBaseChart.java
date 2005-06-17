@@ -53,7 +53,6 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected String name = null;
 	protected boolean isShowLegend = false;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
@@ -88,7 +87,6 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	{
 		super(chart, factory);
 		
-		name = chart.getName();
 		isShowLegend = chart.isShowLegend();
 		evaluationTime = chart.getEvaluationTime();
 		hyperlinkType = chart.getHyperlinkType();
@@ -107,14 +105,6 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 	}
 		
-
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
 
 	/**
 	 *

@@ -101,14 +101,6 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	public String getName()
-	{
-		return ((JRChart)parent).getName();
-	}
-		
-	/**
-	 *
-	 */
 	public boolean isShowLegend()
 	{
 		return ((JRChart)parent).isShowLegend();
