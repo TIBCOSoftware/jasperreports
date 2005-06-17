@@ -31,17 +31,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.*;
 
 
 /**
@@ -668,4 +658,31 @@ public class JRXmlConstants
 	}
 
 
+    /**
+     *
+     */
+    public static final String TITLE_POSITION_TOP = "top";
+    public static final String TITLE_POSITION_BOTTOM = "bottom";
+    public static final String TITLE_POSITION_LEFT = "left";
+    public static final String TITLE_POSITION_RIGHT = "right";
+
+    public static Map chartTitlePositionMap = null;
+
+    public static Map getChartTitlePositionMap()
+    {
+        if (chartTitlePositionMap == null)
+        {
+            chartTitlePositionMap = new HashMap(4);
+            chartTitlePositionMap.put(TITLE_POSITION_TOP, new Byte(JRChart.TITLE_POSITION_TOP));
+            chartTitlePositionMap.put(TITLE_POSITION_BOTTOM, new Byte(JRChart.TITLE_POSITION_BOTTOM));
+            chartTitlePositionMap.put(TITLE_POSITION_LEFT, new Byte(JRChart.TITLE_POSITION_LEFT));
+            chartTitlePositionMap.put(TITLE_POSITION_RIGHT, new Byte(JRChart.TITLE_POSITION_RIGHT));
+            chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_TOP), TITLE_POSITION_TOP);
+            chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_BOTTOM), TITLE_POSITION_BOTTOM);
+            chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_LEFT), TITLE_POSITION_LEFT);
+            chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_RIGHT), TITLE_POSITION_RIGHT);
+        }
+
+        return chartTitlePositionMap;
+    }
 }
