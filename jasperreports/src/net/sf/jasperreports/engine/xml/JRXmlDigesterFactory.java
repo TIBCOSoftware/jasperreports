@@ -38,7 +38,12 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.design.*;
+import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.ErrorHandler;
@@ -284,6 +289,9 @@ public class JRXmlDigesterFactory
 	}
 
 
+	/**
+	 * 
+	 */
 	private static void addChartRules(Digester digester)
 	{
 		digester.addFactoryCreate("*/dataset", JRDatasetFactory.class.getName());
@@ -320,10 +328,9 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pieChart/pieDataset/valueExpression", JRPieDatasetFactory.JRValueExpressionFactory.class);
 		digester.addSetNext("*/pieChart/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieChart/pieDataset/valueExpression", "setText", 0);
-
-
-
 	}
+	
+	
 	/**
 	 * Creates a new instance of digester. The created digester is ready for 
 	 * parsing report definition files.

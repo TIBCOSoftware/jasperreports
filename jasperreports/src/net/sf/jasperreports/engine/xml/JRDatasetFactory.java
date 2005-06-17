@@ -1,7 +1,9 @@
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.*;
-import net.sf.jasperreports.engine.design.*;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu
