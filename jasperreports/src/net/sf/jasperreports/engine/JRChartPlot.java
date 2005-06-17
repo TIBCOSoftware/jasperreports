@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -36,13 +38,6 @@ import java.awt.Color;
  */
 public interface JRChartPlot
 {
-
-
-	/**
-	 *
-	 */
-	public static final byte ORIENTATION_HORIZONTAL = 1;
-	public static final byte ORIENTATION_VERTICAL = 2;
 
 
 	/**
@@ -59,12 +54,12 @@ public interface JRChartPlot
 	/**
 	 *
 	 */
-	public byte getOrientation();
+	public PlotOrientation getOrientation();
 	
 	/**
 	 *
 	 */
-	public void setOrientation(byte orientation);
+	public void setOrientation(PlotOrientation orientation);
 
 	/**
 	 *
