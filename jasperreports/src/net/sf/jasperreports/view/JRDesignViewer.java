@@ -56,6 +56,7 @@ import javax.swing.JViewport;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
@@ -949,6 +950,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 				    {
 					    printSubreport((JRSubreport)element, grx);
 				    }
+				    else if (element instanceof JRChart)
+				    {
+					    printChart((JRChart)element, grx);
+				    }
 			    }
 		    }
 		}
@@ -1705,6 +1710,65 @@ public class JRDesignViewer extends javax.swing.JPanel
 			subreport.getY(), 
 			subreport.getWidth() - 1,
 			subreport.getHeight() - 1
+			);
+	}
+
+
+	/**
+	 *
+	 */
+	private void printChart(JRChart chart, Graphics2D grx)
+	{
+		if (chart.getMode() == JRElement.MODE_OPAQUE)
+		{
+			grx.setColor(chart.getBackcolor());
+
+			grx.fillRect(
+				chart.getX(), 
+				chart.getY(), 
+				chart.getWidth(),
+				chart.getHeight()
+				);
+		}
+
+		Image image = null;
+		try
+		{
+			image = JRImageLoader.getImage(JRImageLoader.CHART_IMAGE);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+		grx.setClip(
+			chart.getX(), 
+			chart.getY(), 
+			chart.getWidth(), 
+			chart.getHeight()
+			);
+		grx.drawImage(
+			image, 
+			chart.getX() + 2, 
+			chart.getY() + 2, 
+			image.getWidth(null), 
+			image.getHeight(null), 
+			this
+			);
+		grx.setClip(
+			- report.getLeftMargin(), 
+			0, 
+			report.getPageWidth(), 
+			report.getPageHeight()
+			);
+
+		grx.setColor(chart.getForecolor());
+		grx.setStroke(new BasicStroke(1f / zoom));
+		grx.drawRect(
+			chart.getX(), 
+			chart.getY(), 
+			chart.getWidth() - 1,
+			chart.getHeight() - 1
 			);
 	}
 
