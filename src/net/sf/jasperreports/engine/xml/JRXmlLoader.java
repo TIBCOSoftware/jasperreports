@@ -38,15 +38,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -72,6 +76,7 @@ public class JRXmlLoader
 	private Collection groupEvaluatedImages = new ArrayList();
 	private Collection groupEvaluatedTextFields = new ArrayList();
     private Collection groupEvaluatedCharts = new ArrayList();
+    private Set groupBoundDatasets = new HashSet();
 	private List errors = new ArrayList();
 	private int printWhenExpressionsCount = 0;
 	private int anchorNameExpressionsCount = 0;
@@ -131,8 +136,16 @@ public class JRXmlLoader
      */
     public Collection getGroupEvaluatedCharts()
     {
-        return this.groupEvaluatedTextFields;
+        return groupEvaluatedCharts;
     }
+
+    /**
+    *
+    */
+   public Set getGroupBoundDatasets()
+   {
+       return groupBoundDatasets;
+   }
 
 	/**
 	 *
@@ -573,6 +586,82 @@ public class JRXmlLoader
 	}
 
 
+	/**
+	 *
+	 */
+	private void assignGroupsToCharts() throws JRException
+	{
+		Map groupsMap = jasperDesign.getGroupsMap();
+		for(Iterator it = groupEvaluatedCharts.iterator(); it.hasNext();)
+		{
+			JRDesignChart chart = (JRDesignChart)it.next();
+
+			String groupName = null;
+			JRGroup group = chart.getEvaluationGroup();
+			if (group != null)
+			{
+				groupName = group.getName();
+				group = (JRGroup)groupsMap.get(group.getName());
+			}
+
+			if (group == null)
+			{
+				throw new JRException("Unknown evaluation group '" + groupName + "' for chart.");
+			}
+			else
+			{
+				chart.setEvaluationGroup(group);
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	private void assignGroupsToDatasets() throws JRException
+	{
+		Map groupsMap = jasperDesign.getGroupsMap();
+		for(Iterator it = groupBoundDatasets.iterator(); it.hasNext();)
+		{
+			JRDesignDataset dataset = (JRDesignDataset)it.next();
+
+			String groupName = null;
+			JRGroup group = dataset.getIncrementGroup();
+			if (group != null)
+			{
+				groupName = group.getName();
+				group = (JRGroup)groupsMap.get(group.getName());
+			}
+
+			if (group == null)
+			{
+				throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
+			}
+			else
+			{
+				dataset.setIncrementGroup(group);
+			}
+
+			group = dataset.getResetGroup();
+			if (group != null)
+			{
+				groupName = group.getName();
+				group = (JRGroup)groupsMap.get(group.getName());
+			}
+
+			if (group == null)
+			{
+				throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
+			}
+			else
+			{
+				dataset.setResetGroup(group);
+			}
+		}
+	}
+
+	
 	/**
 	 *
 	 */
