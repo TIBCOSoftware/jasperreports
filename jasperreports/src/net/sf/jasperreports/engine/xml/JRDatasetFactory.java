@@ -37,7 +37,8 @@ import org.xml.sax.Attributes;
 
 
 /**
- * @author Ionut Nedelcu
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDatasetFactory extends JRBaseFactory
 {
