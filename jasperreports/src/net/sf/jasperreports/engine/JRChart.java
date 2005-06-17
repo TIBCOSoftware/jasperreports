@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Color;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -36,6 +38,15 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 {
 
 
+	/**
+	 *
+	 */
+	public static final byte TITLE_POSITION_TOP = 1;
+	public static final byte TITLE_POSITION_BOTTOM = 2;
+	public static final byte TITLE_POSITION_LEFT = 3;
+	public static final byte TITLE_POSITION_RIGHT = 4;
+
+	
 	/**
 	 *
 	 */
@@ -72,6 +83,18 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	 *
 	 */
 	public JRFont getTitleFont();
+
+
+	/**
+	 *
+	 */
+	public byte getTitlePosition();
+
+
+	/**
+	 *
+	 */
+	public Color getTitleColor();
 
 
 	/**
