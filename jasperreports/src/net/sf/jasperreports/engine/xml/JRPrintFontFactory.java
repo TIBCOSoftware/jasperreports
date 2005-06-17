@@ -29,11 +29,11 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.design.JRDesignFont;
+
+import org.xml.sax.Attributes;
 
 
 /**

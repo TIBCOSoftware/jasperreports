@@ -41,9 +41,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDefaultFontProvider;
@@ -68,6 +65,9 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -333,7 +333,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			fieldsMap,
 			variablesMap,
 			variables,
-			groups
+			groups,
+			factory.getDatasets()
 			);
 	}
 

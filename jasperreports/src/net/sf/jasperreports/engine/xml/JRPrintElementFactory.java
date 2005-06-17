@@ -29,9 +29,9 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
+
+import org.xml.sax.Attributes;
 
 
 /**

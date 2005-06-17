@@ -25,44 +25,107 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.design;
+package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JREllipse;
-import net.sf.jasperreports.engine.JRExpressionCollector;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
- * The actual implementation of a graphic element representing an ellipse, used at design time.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignEllipse extends JRDesignGraphicElement implements JREllipse
+public abstract class JRAbstractObjectFactory
 {
 
+	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private Map objectsMap = new HashMap();
 
 
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	protected Object get(Object object)
 	{
-		return factory.getEllipse(this);
+		return objectsMap.get(object);
+	}
+
+	/**
+	 *
+	 */
+	public void put(Object object, Object copy)
+	{
+		objectsMap.put(object, copy);
 	}
 
 
 	/**
 	 *
 	 */
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-		collector.collect(this);
-	}
+	public abstract JRReportFont getReportFont(JRReportFont font);
 
+	/**
+	 *
+	 */
+	public abstract JRLine getLine(JRLine line);
 
+	/**
+	 *
+	 */
+	public abstract JRRectangle getRectangle(JRRectangle rectangle);
+
+	/**
+	 *
+	 */
+	public abstract JREllipse getEllipse(JREllipse ellipse);
+
+	/**
+	 *
+	 */
+	public abstract JRImage getImage(JRImage image);
+
+	/**
+	 *
+	 */
+	public abstract JRStaticText getStaticText(JRStaticText staticText);
+
+	/**
+	 *
+	 */
+	public abstract JRTextField getTextField(JRTextField textField);
+
+	/**
+	 *
+	 */
+	public abstract JRSubreport getSubreport(JRSubreport subreport);
+
+	/**
+	 *
+	 */
+	public abstract JRPieChart getPieChart(JRPieChart pieChart);
+
+	/**
+	 *
+	 */
+	public abstract JRPieDataset getPieDataset(JRPieDataset pieDataset);
+
+	/**
+	 *
+	 */
+	public abstract JRPiePlot getPiePlot(JRPiePlot piePlot);
+
+	/**
+	 *
+	 */
+	public abstract JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart);
+
+	/**
+	 *
+	 */
+	public abstract JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot);
+
+	
 }

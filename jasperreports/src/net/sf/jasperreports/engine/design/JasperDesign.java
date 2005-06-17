@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,26 +38,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
-import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 
@@ -1291,228 +1285,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Collection getExpressions()
 	{
-		Collection expressions = new HashSet();
-		
-		expressions.addAll(getParameterExpressions());
-		expressions.addAll(getVariableExpressions());
-		expressions.addAll(getGroupExpressions());
-
-		expressions.addAll(getBandExpressions(background));
-		expressions.addAll(getBandExpressions(title));
-		expressions.addAll(getBandExpressions(pageHeader));
-		expressions.addAll(getBandExpressions(columnHeader));
-		expressions.addAll(getBandExpressions(detail));
-		expressions.addAll(getBandExpressions(columnFooter));
-		expressions.addAll(getBandExpressions(pageFooter));
-		expressions.addAll(getBandExpressions(lastPageFooter));
-		expressions.addAll(getBandExpressions(summary));
-		
-		return expressions;
-	}
-		
-
-	/**
-	 *
-	 */
-	private Collection getParameterExpressions()
-	{
-		Collection expressions = new HashSet();
-		
-		if (parametersList != null && parametersList.size() > 0)
-		{
-			JRParameter parameter = null;
-			JRExpression expression = null;
-			for(int i = 0; i < parametersList.size(); i++)
-			{
-				parameter = (JRParameter)parametersList.get(i);
-				expression = parameter.getDefaultValueExpression();
-				if (expression != null)
-				{
-					expressions.add(expression);
-				}
-			}
-		}
-		
-		return expressions;
-	}
-
-
-	/**
-	 *
-	 */
-	private Collection getVariableExpressions()
-	{
-		Collection expressions = new HashSet();
-		
-		if (variablesList != null && variablesList.size() > 0)
-		{
-			JRVariable variable = null;
-			JRExpression expression = null;
-			for(int i = 0; i < variablesList.size(); i++)
-			{
-				variable = (JRVariable)variablesList.get(i);
-				expression = variable.getExpression();
-				if (expression != null)
-				{
-					expressions.add(expression);
-				}
-
-				expression = variable.getInitialValueExpression();
-				if (expression != null)
-				{
-					expressions.add(expression);
-				}
-			}
-		}
-		
-		return expressions;
-	}
-
-
-	/**
-	 *
-	 */
-	private Collection getGroupExpressions()
-	{
-		Collection expressions = new HashSet();
-		
-		if (groupsList != null && groupsList.size() > 0)
-		{
-			JRGroup group = null;
-			JRExpression expression = null;
-			for(int i = 0; i < groupsList.size(); i++)
-			{
-				group = (JRGroup)groupsList.get(i);
-				expression = group.getExpression();
-				if (expression != null)
-				{
-					expressions.add(expression);
-				}
-
-				expressions.addAll(getBandExpressions(group.getGroupHeader()));
-				expressions.addAll(getBandExpressions(group.getGroupFooter()));
-			}
-		}
-		
-		return expressions;
-	}
-
-
-	/**
-	 *
-	 */
-	private Collection getBandExpressions(JRBand band)
-	{
-		Collection expressions = new HashSet();
-		
-		if (band != null)
-		{
-			JRExpression expression = null;
-			expression = band.getPrintWhenExpression();
-			if (expression != null)
-			{
-				expressions.add(expression);
-			}
-	
-			JRElement[] elements = band.getElements();
-			if (elements != null && elements.length > 0)
-			{
-				JRElement element = null;
-				for(int i = 0; i < elements.length; i++)
-				{
-					element = elements[i];
-					expression = element.getPrintWhenExpression();
-					if (expression != null)
-					{
-						expressions.add(expression);
-					}
-	
-					if (element instanceof JRImage)
-					{
-						expression = ((JRImage)element).getExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-					}
-					else if (element instanceof JRTextField)
-					{
-						expression = ((JRTextField)element).getExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-					}
-					else if (element instanceof JRSubreport)
-					{
-						expression = ((JRSubreport)element).getParametersMapExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-	
-						JRSubreportParameter[] parameters = ((JRSubreport)element).getParameters();
-						if (parameters != null && parameters.length > 0)
-						{
-							for(int j = 0; j < parameters.length; j++)
-							{
-								expression = parameters[j].getExpression();
-								if (expression != null)
-								{
-									expressions.add(expression);
-								}
-							}
-						}
-	
-						expression = ((JRSubreport)element).getConnectionExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-						expression = ((JRSubreport)element).getDataSourceExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-						expression = ((JRSubreport)element).getExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-					}
-	
-					if (element instanceof JRAnchor)
-					{
-						expression = ((JRAnchor)element).getAnchorNameExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-					}
-	
-					if (element instanceof JRHyperlink)
-					{
-						expression = ((JRHyperlink)element).getHyperlinkReferenceExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-						expression = ((JRHyperlink)element).getHyperlinkAnchorExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-						expression = ((JRHyperlink)element).getHyperlinkPageExpression();
-						if (expression != null)
-						{
-							expressions.add(expression);
-						}
-					}
-				}
-			}
-		}
-		
-		return expressions;
+		return new JRExpressionCollector().collect(this);
 	}
 	
 

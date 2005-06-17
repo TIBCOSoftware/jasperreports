@@ -25,30 +25,82 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
-
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
-
-import org.xml.sax.Attributes;
+package net.sf.jasperreports.engine;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+	public String getName();
 
-		return staticText;
-	}
+	/**
+	 *
+	 */
+	public boolean isShowLegend();
+
+	/**
+	 *
+	 */
+	public void setShowLegend(boolean isShowLegend);
+
+	/**
+	 *
+	 */
+	public byte getEvaluationTime();
+		
+	/**
+	 *
+	 */
+	public JRGroup getEvaluationGroup();
+		
+	/**
+	 *
+	 */
+	public JRBox getBox();
+
+
+	/**
+	 *
+	 */
+	public JRExpression getTitleExpression();
+
+
+	/**
+	 *
+	 */
+	public JRFont getTitleFont();
+
+
+	/**
+	 *
+	 */
+	public JRExpression getSubtitleExpression();
+
+
+	/**
+	 *
+	 */
+	public JRFont getSubtitleFont();
+
+
+	/**
+	 *
+	 */
+	public JRChartDataset getDataset();
+
+
+	/**
+	 *
+	 */
+	public JRChartPlot getPlot();
 
 
 }

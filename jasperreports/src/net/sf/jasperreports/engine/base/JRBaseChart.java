@@ -27,23 +27,21 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JRTextField;
 
 
 /**
- * This class is used for representing a text field.
- *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseTextField extends JRBaseTextElement implements JRTextField
+public abstract class JRBaseChart extends JRBaseElement implements JRChart
 {
 
 
@@ -55,117 +53,91 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected boolean isStretchWithOverflow = false;
+	protected String name = null;
+	protected boolean isShowLegend = false;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected String pattern = null;
-	protected boolean isBlankWhenNull = false;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 	/**
 	 *
 	 */
+	protected JRBox box = null;
+	protected JRFont titleFont = null;
+	protected JRFont subtitleFont = null;
+
+	/**
+	 *
+	 */
 	protected JRGroup evaluationGroup = null;
-	protected JRExpression expression = null;
+	protected JRExpression titleExpression = null;
+	protected JRExpression subtitleExpression = null;
 	protected JRExpression anchorNameExpression = null;
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
 
+	protected JRChartDataset dataset = null;
+	protected JRChartPlot plot = null;
+	
 
 	/**
-	 * Initializes the text field properties.
+	 *
 	 */
-	protected JRBaseTextField(JRTextField textField, JRBaseObjectFactory factory)
+	protected JRBaseChart(JRChart chart, JRBaseObjectFactory factory)
 	{
-		super((JRTextElement)textField, factory);
+		super(chart, factory);
 		
-		isStretchWithOverflow = textField.isStretchWithOverflow();
-		evaluationTime = textField.getEvaluationTime();
-		pattern = textField.getPattern();
-		isBlankWhenNull = textField.isBlankWhenNull();
-		hyperlinkType = textField.getHyperlinkType();
-		hyperlinkTarget = textField.getHyperlinkTarget();
+		name = chart.getName();
+		isShowLegend = chart.isShowLegend();
+		evaluationTime = chart.getEvaluationTime();
+		hyperlinkType = chart.getHyperlinkType();
+		hyperlinkTarget = chart.getHyperlinkTarget();
 
-		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
-		expression = factory.getExpression(textField.getExpression());
-		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
-		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
-		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
-		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
+		box = chart.getBox();
+		titleFont = factory.getFont(chart.getTitleFont());
+		subtitleFont = factory.getFont(chart.getSubtitleFont());
+
+		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
+		titleExpression = factory.getExpression(chart.getTitleExpression());
+		subtitleExpression = factory.getExpression(chart.getSubtitleExpression());
+		anchorNameExpression = factory.getExpression(chart.getAnchorNameExpression());
+		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
+		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
+		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 	}
 		
 
 	/**
 	 *
 	 */
-	public boolean isStretchWithOverflow()
+	public String getName()
 	{
-		return this.isStretchWithOverflow;
+		return this.name;
 	}
-		
+
 	/**
 	 *
 	 */
-	public void setStretchWithOverflow(boolean isStretchWithOverflow)
+	public boolean isShowLegend()
 	{
-		this.isStretchWithOverflow = isStretchWithOverflow;
+		return this.isShowLegend;
 	}
-		
+
+	/**
+	 *
+	 */
+	public void setShowLegend(boolean isShowLegend)
+	{
+		this.isShowLegend = isShowLegend;
+	}
+
 	/**
 	 *
 	 */
 	public byte getEvaluationTime()
 	{
-		return this.evaluationTime;
-	}
-		
-	/**
-	 *
-	 */
-	public String getPattern()
-	{
-		return this.pattern;
-	}
-		
-	/**
-	 *
-	 */
-	public void setPattern(String pattern)
-	{
-		this.pattern = pattern;
-	}
-		
-	/**
-	 *
-	 */
-	public boolean isBlankWhenNull()
-	{
-		return this.isBlankWhenNull;
-	}
-
-	/**
-	 *
-	 */
-	public void setBlankWhenNull(boolean isBlank)
-	{
-		this.isBlankWhenNull = isBlank;
-	}
-
-	/**
-	 *
-	 */
-	public byte getHyperlinkType()
-	{
-		return this.hyperlinkType;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return this.hyperlinkTarget;
+		return evaluationTime;
 	}
 		
 	/**
@@ -173,15 +145,63 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public JRGroup getEvaluationGroup()
 	{
-		return this.evaluationGroup;
+		return evaluationGroup;
 	}
 		
 	/**
 	 *
 	 */
-	public JRExpression getExpression()
+	public JRBox getBox()
 	{
-		return this.expression;
+		return box;
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getTitleFont()
+	{
+		return titleFont;
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getSubtitleFont()
+	{
+		return subtitleFont;
+	}
+
+	/**
+	 *
+	 */
+	public byte getHyperlinkType()
+	{
+		return hyperlinkType;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHyperlinkTarget()
+	{
+		return hyperlinkTarget;
+	}
+		
+	/**
+	 *
+	 */
+	public JRExpression getTitleExpression()
+	{
+		return titleExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getSubtitleExpression()
+	{
+		return subtitleExpression;
 	}
 
 	/**
@@ -189,7 +209,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public JRExpression getAnchorNameExpression()
 	{
-		return this.anchorNameExpression;
+		return anchorNameExpression;
 	}
 
 	/**
@@ -197,7 +217,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkReferenceExpression()
 	{
-		return this.hyperlinkReferenceExpression;
+		return hyperlinkReferenceExpression;
 	}
 
 	/**
@@ -205,7 +225,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
-		return this.hyperlinkAnchorExpression;
+		return hyperlinkAnchorExpression;
 	}
 
 	/**
@@ -213,23 +233,23 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public JRExpression getHyperlinkPageExpression()
 	{
-		return this.hyperlinkPageExpression;
+		return hyperlinkPageExpression;
+	}
+	
+	/**
+	 *
+	 */
+	public JRChartDataset getDataset()
+	{
+		return dataset;
 	}
 
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChartPlot getPlot()
 	{
-		return factory.getTextField(this);
-	}
-
-	/**
-	 *
-	 */
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-		collector.collect(this);
+		return plot;
 	}
 
 

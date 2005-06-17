@@ -33,9 +33,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -587,6 +590,23 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
 		printImage.setHyperlinkPage(this.getHyperlinkPage());
 	}
-		
+
+
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getImage(this);
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 
 }

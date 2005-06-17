@@ -27,11 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
@@ -42,6 +39,11 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPie3DChart;
+import net.sf.jasperreports.engine.JRPie3DPlot;
+import net.sf.jasperreports.engine.JRPieChart;
+import net.sf.jasperreports.engine.JRPieDataset;
+import net.sf.jasperreports.engine.JRPiePlot;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -57,7 +59,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseObjectFactory
+public class JRBaseObjectFactory extends JRAbstractObjectFactory
 {
 
 	
@@ -65,7 +67,6 @@ public class JRBaseObjectFactory
 	 *
 	 */
 	private JRBaseReport report = null;
-	private Map baseObjectsMap = new HashMap();
 
 
 	/**
@@ -80,26 +81,17 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected void put(Object object, Object baseObject)
-	{
-		baseObjectsMap.put(object, baseObject);
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRBaseReportFont getReportFont(JRReportFont font)
+	public JRReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont baseFont = null;
 		
 		if (font != null)
 		{
-			baseFont = (JRBaseReportFont)baseObjectsMap.get(font);
+			baseFont = (JRBaseReportFont)get(font);
 			if (baseFont == null)
 			{
 				baseFont = new JRBaseReportFont(font);
-				baseObjectsMap.put(font, baseFont);
+				put(font, baseFont);
 			}
 		}
 		
@@ -110,13 +102,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseFont getFont(JRFont font)
+	public JRFont getFont(JRFont font)
 	{
 		JRBaseFont baseFont = null;
 		
 		if (font != null)
 		{
-			baseFont = (JRBaseFont)baseObjectsMap.get(font);
+			baseFont = (JRBaseFont)get(font);
 			if (baseFont == null)
 			{
 				baseFont = 
@@ -125,7 +117,7 @@ public class JRBaseObjectFactory
 						getReportFont(font.getReportFont()), 
 						font
 						);
-				baseObjectsMap.put(font, baseFont);
+				put(font, baseFont);
 			}
 		}
 		
@@ -142,7 +134,7 @@ public class JRBaseObjectFactory
 		
 		if (parameter != null)
 		{
-			baseParameter = (JRBaseParameter)baseObjectsMap.get(parameter);
+			baseParameter = (JRBaseParameter)get(parameter);
 			if (baseParameter == null)
 			{
 				baseParameter = new JRBaseParameter(parameter, this);
@@ -162,7 +154,7 @@ public class JRBaseObjectFactory
 		
 		if (query != null)
 		{
-			baseQuery = (JRBaseQuery)baseObjectsMap.get(query);
+			baseQuery = (JRBaseQuery)get(query);
 			if (baseQuery == null)
 			{
 				baseQuery = new JRBaseQuery(query, this);
@@ -182,7 +174,7 @@ public class JRBaseObjectFactory
 		
 		if (queryChunk != null)
 		{
-			baseQueryChunk = (JRBaseQueryChunk)baseObjectsMap.get(queryChunk);
+			baseQueryChunk = (JRBaseQueryChunk)get(queryChunk);
 			if (baseQueryChunk == null)
 			{
 				baseQueryChunk = new JRBaseQueryChunk(queryChunk, this);
@@ -202,7 +194,7 @@ public class JRBaseObjectFactory
 		
 		if (field != null)
 		{
-			baseField = (JRBaseField)baseObjectsMap.get(field);
+			baseField = (JRBaseField)get(field);
 			if (baseField == null)
 			{
 				baseField = new JRBaseField(field, this);
@@ -222,7 +214,7 @@ public class JRBaseObjectFactory
 		
 		if (variable != null)
 		{
-			baseVariable = (JRBaseVariable)baseObjectsMap.get(variable);
+			baseVariable = (JRBaseVariable)get(variable);
 			if (baseVariable == null)
 			{
 				baseVariable = new JRBaseVariable(variable, this);
@@ -242,7 +234,7 @@ public class JRBaseObjectFactory
 		
 		if (expression != null)
 		{
-			baseExpression = (JRBaseExpression)baseObjectsMap.get(expression);
+			baseExpression = (JRBaseExpression)get(expression);
 			if (baseExpression == null)
 			{
 				baseExpression = new JRBaseExpression(expression, this);
@@ -262,7 +254,7 @@ public class JRBaseObjectFactory
 		
 		if (expressionChunk != null)
 		{
-			baseExpressionChunk = (JRBaseExpressionChunk)baseObjectsMap.get(expressionChunk);
+			baseExpressionChunk = (JRBaseExpressionChunk)get(expressionChunk);
 			if (baseExpressionChunk == null)
 			{
 				baseExpressionChunk = new JRBaseExpressionChunk(expressionChunk, this);
@@ -282,7 +274,7 @@ public class JRBaseObjectFactory
 		
 		if (group != null)
 		{
-			baseGroup = (JRBaseGroup)baseObjectsMap.get(group);
+			baseGroup = (JRBaseGroup)get(group);
 			if (baseGroup == null)
 			{
 				baseGroup = new JRBaseGroup(group, this);
@@ -302,7 +294,7 @@ public class JRBaseObjectFactory
 		
 		if (band != null)
 		{
-			baseBand = (JRBaseBand)baseObjectsMap.get(band);
+			baseBand = (JRBaseBand)get(band);
 			if (baseBand == null)
 			{
 				baseBand = new JRBaseBand(band, this);
@@ -322,7 +314,7 @@ public class JRBaseObjectFactory
 		
 		if (elementGroup != null)
 		{
-			baseElementGroup = (JRBaseElementGroup)baseObjectsMap.get(elementGroup);
+			baseElementGroup = (JRBaseElementGroup)get(elementGroup);
 			if (baseElementGroup == null)
 			{
 				baseElementGroup = new JRBaseElementGroup(elementGroup, this);
@@ -336,53 +328,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseElement getElement(JRElement element)
-	{
-		JRBaseElement baseElement = null;
-		
-		if (element instanceof JRLine)
-		{
-			baseElement = getLine((JRLine)element);
-		}
-		else if (element instanceof JRRectangle)
-		{
-			baseElement = getRectangle((JRRectangle)element);
-		}
-		else if (element instanceof JREllipse)
-		{
-			baseElement = getEllipse((JREllipse)element);
-		}
-		else if (element instanceof JRImage)
-		{
-			baseElement = getImage((JRImage)element);
-		}
-		else if (element instanceof JRStaticText)
-		{
-			baseElement = getStaticText((JRStaticText)element);
-		}
-		else if (element instanceof JRTextField)
-		{
-			baseElement = getTextField((JRTextField)element);
-		}
-		else if (element instanceof JRSubreport)
-		{
-			baseElement = getSubreport((JRSubreport)element);
-		}
-		
-		return baseElement;
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRBaseLine getLine(JRLine line)
+	public JRLine getLine(JRLine line)
 	{
 		JRBaseLine baseLine = null;
 		
 		if (line != null)
 		{
-			baseLine = (JRBaseLine)baseObjectsMap.get(line);
+			baseLine = (JRBaseLine)get(line);
 			if (baseLine == null)
 			{
 				baseLine = new JRBaseLine(line, this);
@@ -396,13 +348,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseRectangle getRectangle(JRRectangle rectangle)
+	public JRRectangle getRectangle(JRRectangle rectangle)
 	{
 		JRBaseRectangle baseRectangle = null;
 		
 		if (rectangle != null)
 		{
-			baseRectangle = (JRBaseRectangle)baseObjectsMap.get(rectangle);
+			baseRectangle = (JRBaseRectangle)get(rectangle);
 			if (baseRectangle == null)
 			{
 				baseRectangle = new JRBaseRectangle(rectangle, this);
@@ -416,13 +368,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseEllipse getEllipse(JREllipse ellipse)
+	public JREllipse getEllipse(JREllipse ellipse)
 	{
 		JRBaseEllipse baseEllipse = null;
 		
 		if (ellipse != null)
 		{
-			baseEllipse = (JRBaseEllipse)baseObjectsMap.get(ellipse);
+			baseEllipse = (JRBaseEllipse)get(ellipse);
 			if (baseEllipse == null)
 			{
 				baseEllipse = new JRBaseEllipse(ellipse, this);
@@ -436,13 +388,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseImage getImage(JRImage image)
+	public JRImage getImage(JRImage image)
 	{
 		JRBaseImage baseImage = null;
 		
 		if (image != null)
 		{
-			baseImage = (JRBaseImage)baseObjectsMap.get(image);
+			baseImage = (JRBaseImage)get(image);
 			if (baseImage == null)
 			{
 				baseImage = new JRBaseImage(image, this);
@@ -456,13 +408,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseStaticText getStaticText(JRStaticText staticText)
+	public JRStaticText getStaticText(JRStaticText staticText)
 	{
 		JRBaseStaticText baseStaticText = null;
 		
 		if (staticText != null)
 		{
-			baseStaticText = (JRBaseStaticText)baseObjectsMap.get(staticText);
+			baseStaticText = (JRBaseStaticText)get(staticText);
 			if (baseStaticText == null)
 			{
 				baseStaticText = new JRBaseStaticText(staticText, this);
@@ -476,13 +428,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseTextField getTextField(JRTextField textField)
+	public JRTextField getTextField(JRTextField textField)
 	{
 		JRBaseTextField baseTextField = null;
 		
 		if (textField != null)
 		{
-			baseTextField = (JRBaseTextField)baseObjectsMap.get(textField);
+			baseTextField = (JRBaseTextField)get(textField);
 			if (baseTextField == null)
 			{
 				baseTextField = new JRBaseTextField(textField, this);
@@ -496,13 +448,13 @@ public class JRBaseObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseSubreport getSubreport(JRSubreport subreport)
+	public JRSubreport getSubreport(JRSubreport subreport)
 	{
 		JRBaseSubreport baseSubreport = null;
 		
 		if (subreport != null)
 		{
-			baseSubreport = (JRBaseSubreport)baseObjectsMap.get(subreport);
+			baseSubreport = (JRBaseSubreport)get(subreport);
 			if (baseSubreport == null)
 			{
 				baseSubreport = new JRBaseSubreport(subreport, this);
@@ -522,15 +474,120 @@ public class JRBaseObjectFactory
 		
 		if (subreportParameter != null)
 		{
-			baseSubreportParameter = (JRBaseSubreportParameter)baseObjectsMap.get(subreportParameter);
+			baseSubreportParameter = (JRBaseSubreportParameter)get(subreportParameter);
 			if (baseSubreportParameter == null)
 			{
 				baseSubreportParameter = new JRBaseSubreportParameter(subreportParameter, this);
-				baseObjectsMap.put(subreportParameter, baseSubreportParameter);
+				put(subreportParameter, baseSubreportParameter);
 			}
 		}
 		
 		return baseSubreportParameter;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPieChart getPieChart(JRPieChart pieChart)
+	{
+		JRBasePieChart basePieChart = null;
+		
+		if (pieChart != null)
+		{
+			basePieChart = (JRBasePieChart)get(pieChart);
+			if (basePieChart == null)
+			{
+				basePieChart = new JRBasePieChart(pieChart, this);
+				put(pieChart, basePieChart);//FIXME NOW need this?
+			}
+		}
+		
+		return basePieChart;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
+	{
+		JRBasePieDataset basePieDataset = null;
+		
+		if (pieDataset != null)
+		{
+			basePieDataset = (JRBasePieDataset)get(pieDataset);
+			if (basePieDataset == null)
+			{
+				basePieDataset = new JRBasePieDataset(pieDataset, this);
+				put(pieDataset, basePieDataset);//FIXME NOW need this?
+			}
+		}
+		
+		return basePieDataset;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPiePlot getPiePlot(JRPiePlot piePlot)
+	{
+		JRBasePiePlot basePiePlot = null;
+		
+		if (piePlot != null)
+		{
+			basePiePlot = (JRBasePiePlot)get(piePlot);
+			if (basePiePlot == null)
+			{
+				basePiePlot = new JRBasePiePlot(piePlot, this);
+				put(piePlot, basePiePlot);//FIXME NOW need this?
+			}
+		}
+		
+		return basePiePlot;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
+	{
+		JRBasePie3DChart basePie3DChart = null;
+		
+		if (pie3DChart != null)
+		{
+			basePie3DChart = (JRBasePie3DChart)get(pie3DChart);
+			if (basePie3DChart == null)
+			{
+				basePie3DChart = new JRBasePie3DChart(pie3DChart, this);
+				put(pie3DChart, basePie3DChart);//FIXME NOW need this?
+			}
+		}
+		
+		return basePie3DChart;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
+	{
+		JRBasePie3DPlot basePie3DPlot = null;
+		
+		if (pie3DPlot != null)
+		{
+			basePie3DPlot = (JRBasePie3DPlot)get(pie3DPlot);
+			if (basePie3DPlot == null)
+			{
+				basePie3DPlot = new JRBasePie3DPlot(pie3DPlot, this);
+				put(pie3DPlot, basePie3DPlot);//FIXME NOW need this?
+			}
+		}
+		
+		return basePie3DPlot;
 	}
 	
 

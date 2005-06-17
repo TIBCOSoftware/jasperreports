@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseElement;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignElement extends JRBaseElement
+public abstract class JRDesignElement extends JRBaseElement
 {
 
 

@@ -81,7 +81,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 				child = list.get(i);
 				if (child instanceof JRElement)
 				{
-					child = factory.getElement((JRElement)child);
+					child = ((JRElement)child).getCopy(factory);
 					this.children.add(child);
 				}
 				else if (child instanceof JRElementGroup)

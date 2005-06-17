@@ -27,10 +27,10 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+
+import org.apache.commons.beanutils.PropertyUtils;
 
 
 /**

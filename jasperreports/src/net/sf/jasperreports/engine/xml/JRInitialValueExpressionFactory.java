@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+
+import org.xml.sax.Attributes;
 
 
 /**

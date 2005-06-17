@@ -25,30 +25,101 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.base.JRBaseDataset;
 
-import org.xml.sax.Attributes;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public class JRDesignDataset extends JRBaseDataset
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	private static final long serialVersionUID = 608;
+
+	
+	/**
+	 *
+	 */
+	public JRDesignDataset()
 	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
-
-		return staticText;
+		super();
+		
+		//FIXME NOW dataset = new JRDesignPieDataset();
 	}
+		
 
+	/**
+	 *
+	 *
+	public byte getResetType()
+	{
+		return resetType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setResetType(byte resetType)
+	{
+		this.resetType = resetType;
+	}
+		
+	/**
+	 *
+	 *
+	public byte getIncrementType()
+	{
+		return incrementType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementType(byte incrementType)
+	{
+		this.incrementType = incrementType;
+	}
+		
+	/**
+	 *
+	 *
+	public JRGroup getResetGroup()
+	{
+		return resetGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public void setResetGroup(JRGroup group)
+	{
+		this.resetGroup = group;
+	}
+		
+	/**
+	 *
+	 *
+	public JRGroup getIncrementGroup()
+	{
+		return incrementGroup;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementGroup(JRGroup group)
+	{
+		this.incrementGroup = group;
+	}
+		
 
 }

@@ -263,5 +263,15 @@ public interface JRElement
 	 */
 	public JRElementGroup getElementGroup();
 
+	/**
+	 *
+	 */
+	public JRElement getCopy(JRAbstractObjectFactory factory);
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector);
+
 
 }

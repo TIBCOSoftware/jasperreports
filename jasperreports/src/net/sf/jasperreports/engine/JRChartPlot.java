@@ -25,30 +25,46 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.design.JRDesignStaticText;
-
-import org.xml.sax.Attributes;
+import java.awt.Color;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStaticTextFactory extends JRBaseFactory
+public interface JRChartPlot
 {
 
 
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+	public static final byte ORIENTATION_HORIZONTAL = 1;
+	public static final byte ORIENTATION_VERTICAL = 2;
 
-		return staticText;
-	}
+
+	/**
+	 *
+	 */
+	public Color getBackcolor();
+	
+	/**
+	 *
+	 */
+	public void setBackcolor(Color backcolor);
+
+
+	/**
+	 *
+	 */
+	public byte getOrientation();
+	
+	/**
+	 *
+	 */
+	public void setOrientation(byte orientation);
 
 
 }
