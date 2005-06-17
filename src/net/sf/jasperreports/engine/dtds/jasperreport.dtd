@@ -21,15 +21,18 @@
 	scriptletClass NMTOKEN #IMPLIED
 	resourceBundle NMTOKEN #IMPLIED
 >
+
 <!ELEMENT property EMPTY>
 <!ATTLIST property
 	name CDATA #REQUIRED
 	value CDATA #IMPLIED
 >
+
 <!ELEMENT import EMPTY>
 <!ATTLIST import
 	value CDATA #REQUIRED
 >
+
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
 	name NMTOKEN #REQUIRED
@@ -44,6 +47,7 @@
 	pdfEncoding CDATA "CP1252"
 	isPdfEmbedded (true | false) "false"
 >
+
 <!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
 <!ATTLIST parameter
 	name CDATA #REQUIRED
@@ -52,13 +56,16 @@
 >
 <!ELEMENT parameterDescription (#PCDATA)>
 <!ELEMENT defaultValueExpression (#PCDATA)>
+
 <!ELEMENT queryString (#PCDATA)>
+
 <!ELEMENT field (fieldDescription?)>
 <!ATTLIST field
 	name CDATA #REQUIRED
 	class NMTOKEN "java.lang.String"
 >
 <!ELEMENT fieldDescription (#PCDATA)>
+
 <!ELEMENT variable (variableExpression?, initialValueExpression?)>
 <!ATTLIST variable
 	name CDATA #REQUIRED
@@ -72,6 +79,7 @@
 >
 <!ELEMENT variableExpression (#PCDATA)>
 <!ELEMENT initialValueExpression (#PCDATA)>
+
 <!ELEMENT group (groupExpression?, groupHeader?, groupFooter?)>
 <!ATTLIST group
 	name NMTOKEN #REQUIRED
@@ -84,6 +92,7 @@
 <!ELEMENT groupExpression (#PCDATA)>
 <!ELEMENT groupHeader (band?)>
 <!ELEMENT groupFooter (band?)>
+
 <!ELEMENT background (band?)>
 <!ELEMENT title (band?)>
 <!ELEMENT pageHeader (band?)>
@@ -93,15 +102,18 @@
 <!ELEMENT pageFooter (band?)>
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
+
 <!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*)>
 <!ATTLIST band
 	height NMTOKEN "0"
 	isSplitAllowed (true | false) "true"
 >
+
 <!ELEMENT line (reportElement, graphicElement?)>
 <!ATTLIST line
 	direction (TopDown | BottomUp) "TopDown"
 >
+
 <!ELEMENT reportElement (printWhenExpression?)>
 <!ATTLIST reportElement
 	key NMTOKEN #IMPLIED
@@ -121,17 +133,21 @@
 	backcolor CDATA #IMPLIED
 >
 <!ELEMENT printWhenExpression (#PCDATA)>
+
 <!ELEMENT graphicElement EMPTY>
 <!ATTLIST graphicElement
 	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) #IMPLIED
 	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	fill (Solid) "Solid"
 >
+
 <!ELEMENT rectangle (reportElement, graphicElement?)>
 <!ATTLIST rectangle
 	radius NMTOKEN "0"
 >
+
 <!ELEMENT ellipse (reportElement, graphicElement?)>
+
 <!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
@@ -145,6 +161,11 @@
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
 >
+<!ELEMENT imageExpression (#PCDATA)>
+<!ATTLIST imageExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
+>
+
 <!ELEMENT box EMPTY>
 <!ATTLIST box
 	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
@@ -163,15 +184,15 @@
 	rightBorderColor CDATA #IMPLIED
 	rightPadding NMTOKEN #IMPLIED
 >
-<!ELEMENT imageExpression (#PCDATA)>
-<!ATTLIST imageExpression
-	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
->
+
 <!ELEMENT anchorNameExpression (#PCDATA)>
 <!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
 <!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
 <!ELEMENT hyperlinkPageExpression (#PCDATA)>
+
 <!ELEMENT staticText (reportElement, box?, textElement?, text?)>
+<!ELEMENT text (#PCDATA)>
+
 <!ELEMENT textElement (font?)>
 <!ATTLIST textElement
 	textAlignment (Left | Center | Right | Justified) "Left"
@@ -180,6 +201,7 @@
 	lineSpacing (Single | 1_1_2 | Double) "Single"
 	isStyledText (true | false) "false"
 >
+
 <!ELEMENT font EMPTY>
 <!ATTLIST font
 	reportFont NMTOKEN #IMPLIED
@@ -193,7 +215,7 @@
 	pdfEncoding CDATA #IMPLIED
 	isPdfEmbedded (true | false) #IMPLIED
 >
-<!ELEMENT text (#PCDATA)>
+
 <!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
@@ -208,6 +230,7 @@
 <!ATTLIST textFieldExpression
 	class (java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.Number | java.lang.String) "java.lang.String"
 >
+
 <!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, subreportExpression?)>
 <!ATTLIST subreport
 	isUsingCache (true | false) "true"
@@ -224,8 +247,8 @@
 <!ATTLIST subreportExpression
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
-<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*>
 
+<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*>
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
 <!ATTLIST chart
@@ -245,14 +268,12 @@
 >
 <!ELEMENT subtitleExpression (#PCDATA)>
 
-
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
 <!ELEMENT pieDataset (dataset, keyExpression, valueExpression, labelExpression?)>
 <!ELEMENT keyExpression (#PCDATA)>
 <!ELEMENT valueExpression (#PCDATA)>
 <!ELEMENT labelExpression (#PCDATA)>
 <!ELEMENT piePlot (plot)>
-
 
 <!ELEMENT dataset EMPTY>
 <!ATTLIST dataset
@@ -262,7 +283,6 @@
 	incrementGroup CDATA #IMPLIED
 >
 
-
 <!ELEMENT plot EMPTY>
 <!ATTLIST plot
 	backcolor CDATA #IMPLIED
@@ -271,13 +291,11 @@
 	foregroundAlpha NMTOKEN "1"
 >
 
-
 <!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
 <!ELEMENT pie3DPlot (plot)>
 <!ATTLIST pie3DPlot
 	depthFactor CDATA #IMPLIED
 >
-
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
 <!ELEMENT categoryDataset (dataset, categoryExpression, valueExpression, labelExpression?)>
@@ -290,9 +308,7 @@
 <!ELEMENT categoryAxisLabelExpression (#PCDATA)>
 <!ELEMENT valueAxisLabelExpression (#PCDATA)>
 
-
 <!ELEMENT bar3DChart (chart, categoryDataset, barPlot)>
-
 
 <!ELEMENT xyBarChart (chart, (timePeriodValues* | timeSeries* | xySeries*), barPlot)>
 <!ELEMENT timePeriodValues (dataset, seriesNameExpression, startDateExpression, endDateExpression, valueExpression)>
@@ -304,12 +320,9 @@
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 
-
 <!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
 
-
 <!ELEMENT stackedBar3DChart (chart, categoryDataset, barPlot)>
-
 
 <!ELEMENT lineChart (chart, categoryDataset, linePlot)>
 <!ELEMENT linePlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
@@ -318,17 +331,13 @@
 	isShowShapes (true | false) "true"
 >
 
-
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
 <!ELEMENT xyDataset (dataset, categoryExpression, valueExpression, labelExpression?)>
-
 
 <!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
 <!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
 
-
 <!ELEMENT xyAreaChart (chart, xyDataset, areaPlot)>
-
 
 <!ELEMENT scatterChart (chart, xyDataset, scatterPlot)>
 <!ELEMENT scatterPlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
@@ -339,7 +348,6 @@
 <!ELEMENT xAxisLabelExpression (#PCDATA)>
 <!ELEMENT yAxisLabelExpression (#PCDATA)>
 
-
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
 <!ELEMENT xyzDataset (dataset, xValueExpression, yValueExpression, zValueExpression?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
@@ -348,7 +356,6 @@
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
-
 <!ELEMENT timeSeriesChart (chart, timeSeries*, timeSeriesPlot)>
 <!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST timeSeriesPlot
@@ -356,7 +363,6 @@
 	isShowShapes (true | false) "true"
 >
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
-
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
 <!ELEMENT highLowDataset (dataset, dateExpression, highExpression, lowExpression, openExpression, closeExpression)>
@@ -370,7 +376,6 @@
 <!ELEMENT lowExpression (#PCDATA)>
 <!ELEMENT openExpression (#PCDATA)>
 <!ELEMENT closeExpression (#PCDATA)>
-
 
 <!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
 <!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>

@@ -310,6 +310,7 @@ public class JRExpressionCollector
 	{
 		collectChart(barChart);
 		collect((JRCategoryDataset)barChart.getDataset());
+		collect((JRBarPlot)barChart.getPlot());
 	}
 
 	/**
@@ -327,6 +328,8 @@ public class JRExpressionCollector
 	 */
 	private void collect(JRBarPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
+		addExpression(barPlot.getCategoryAxisLabelExpression());
+		addExpression(barPlot.getValueAxisLabelExpression());
 	}
 
 }
