@@ -187,6 +187,21 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
+	public Color getSubtitleColor()
+	{
+		return ((JRChart)parent).getSubtitleColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setSubtitleColor(Color subtitleColor)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getTitleExpression()
 	{
 		return ((JRChart)parent).getTitleExpression();

@@ -61,6 +61,7 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
 	protected Color titleColor = Color.black;
+	protected Color subtitleColor = Color.black;
 
 	/**
 	 *
@@ -204,6 +205,22 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 		this.subtitleFont = font;
 	}
 	
+	/**
+	 *
+	 */
+	public Color getSubtitleColor()
+	{
+		return subtitleColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setSubtitleColor(Color subtitleColor)
+	{
+		this.subtitleColor = subtitleColor;
+	}
+
 	/**
 	 *
 	 */
