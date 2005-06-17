@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBox;
@@ -143,6 +144,36 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	public JRFont getTitleFont()
 	{
 		return titleFont;
+	}
+
+	/**
+	 *
+	 */
+	public byte getTitlePosition()
+	{
+		return ((JRChart)parent).getTitlePosition();
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(byte titlePosition)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTitleColor()
+	{
+		return ((JRChart)parent).getTitleColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTitleColor(Color titleColor)
+	{
 	}
 
 	/**

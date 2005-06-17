@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -57,6 +59,8 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
+	protected Color titleColor = Color.black;
 
 	/**
 	 *
@@ -152,6 +156,38 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 		this.titleFont = font;
 	}
 	
+	/**
+	 *
+	 */
+	public byte getTitlePosition()
+	{
+		return titlePosition;
+	}
+
+	/**
+	 *
+	 */
+	public void setTitlePosition(byte titlePosition)
+	{
+		this.titlePosition = titlePosition;
+	}
+
+	/**
+	 *
+	 */
+	public Color getTitleColor()
+	{
+		return titleColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setTitleColor(Color titleColor)
+	{
+		this.titleColor = titleColor;
+	}
+
 	/**
 	 *
 	 */
