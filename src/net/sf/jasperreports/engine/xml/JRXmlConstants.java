@@ -703,8 +703,8 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	private static final String ORIENTATION_HORIZONTAL = "Horizontal";
-	private static final String ORIENTATION_VERTICAL = "Vertical";
+	private static final String ORIENTATION_HORIZONTAL = "horizontal";
+	private static final String ORIENTATION_VERTICAL = "vertical";
 
 	private static Map plotOrientationMap = null;
 
