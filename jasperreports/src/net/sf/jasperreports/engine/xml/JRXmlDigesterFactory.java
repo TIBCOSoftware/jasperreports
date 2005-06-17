@@ -38,11 +38,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.design.JRDesignElement;
-import net.sf.jasperreports.engine.design.JRDesignElementGroup;
-import net.sf.jasperreports.engine.design.JRDesignGroup;
-import net.sf.jasperreports.engine.design.JRDesignVariable;
-import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.*;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.ErrorHandler;
@@ -216,6 +212,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
 		digester.addCallMethod("*/staticText/text", "setText", 0);
 
+
 		/*   */
 		digester.addFactoryCreate("*/textElement", JRTextElementFactory.class.getName());
 
@@ -282,9 +279,51 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("*/elementGroup", JRElementGroupFactory.class.getName());
 		digester.addSetNext("*/elementGroup", "addElementGroup", JRDesignElementGroup.class.getName());
+
+		addChartRules(digester);
 	}
 
 
+	private static void addChartRules(Digester digester)
+	{
+		digester.addFactoryCreate("*/dataset", JRDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartTitle", JRChartFactory.JRChartTitleFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartTitle/font", JRFontFactory.class.getName());
+		digester.addSetNext("*/chart/chartTitle/font", "setTitleFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/chart/chartTitle/titleExpression", JRChartFactory.JRTitleExpressionFactory.class);
+		digester.addSetNext("*/chart/chartTitle/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/chart/chartTitle/titleExpression", "setText", 0);
+		digester.addFactoryCreate("*/chart/chartSubtitle", JRChartFactory.JRChartTitleFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartSubtitle/font", JRFontFactory.class.getName());
+		digester.addSetNext("*/chart/chartSubtitle/font", "setSubtitleFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", JRChartFactory.JRTitleExpressionFactory.class);
+		digester.addSetNext("*/chart/chartSubtitle/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/chart/chartSubtitle/subtitleExpression", "setText", 0);
+
+		// pie charts
+		digester.addFactoryCreate("*/pieChart", JRPieChartFactory.class.getName());
+		digester.addSetNext("*/pieChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/pieChart/pieDataset", JRPieDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/pieChart/piePlot", JRPiePlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/pieChart/pieDataset/keyExpression", JRPieDatasetFactory.JRKeyExpressionFactory.class);
+		digester.addSetNext("*/pieChart/pieDataset/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieChart/pieDataset/keyExpression", "setText", 0);
+
+		digester.addFactoryCreate("*/pieChart/pieDataset/labelExpression", JRPieDatasetFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/pieChart/pieDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieChart/pieDataset/labelExpression", "setText", 0);
+
+		digester.addFactoryCreate("*/pieChart/pieDataset/valueExpression", JRPieDatasetFactory.JRValueExpressionFactory.class);
+		digester.addSetNext("*/pieChart/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieChart/pieDataset/valueExpression", "setText", 0);
+
+
+
+	}
 	/**
 	 * Creates a new instance of digester. The created digester is ready for 
 	 * parsing report definition files.

@@ -71,6 +71,7 @@ public class JRXmlLoader
 	private Collection groupReprintedElements = new ArrayList();
 	private Collection groupEvaluatedImages = new ArrayList();
 	private Collection groupEvaluatedTextFields = new ArrayList();
+    private Collection groupEvaluatedCharts = new ArrayList();
 	private List errors = new ArrayList();
 	private int printWhenExpressionsCount = 0;
 	private int anchorNameExpressionsCount = 0;
@@ -124,6 +125,14 @@ public class JRXmlLoader
 	{
 		return this.groupEvaluatedTextFields;
 	}
+
+    /**
+     *
+     */
+    public Collection getGroupEvaluatedCharts()
+    {
+        return this.groupEvaluatedTextFields;
+    }
 
 	/**
 	 *

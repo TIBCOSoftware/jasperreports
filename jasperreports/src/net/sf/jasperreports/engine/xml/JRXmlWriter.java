@@ -35,34 +35,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRElementGroup;
-import net.sf.jasperreports.engine.JREllipse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRQuery;
-import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
@@ -86,9 +61,9 @@ public class JRXmlWriter
 	private Map fontsMap = new HashMap();
 
 	/**
-	 *
+	 * This color mask is used to delete the alpha byte from a 32-bit RGB component
 	 */
-	private static final int colorMask = Integer.parseInt("FFFFFF", 16);
+	private static final int colorMask = Integer.parseInt("00FFFFFF", 16);
 
 
 	/**
@@ -868,6 +843,10 @@ public class JRXmlWriter
 		{
 			writeSubreport((JRSubreport)element);
 		}
+        else if (element instanceof JRPieChart)
+        {
+            writePieChart((JRPieChart)element);
+        }
 	}
 
 
@@ -1716,6 +1695,142 @@ public class JRXmlWriter
 
 		sb.append("\t\t\t\t</subreportParameter>\n");
 	}
-	
 
+
+	/**
+	 *
+	 * @param chart
+	 */
+    private void writeChart(JRChart chart)
+    {
+        sb.append("\t\t\t<chart");
+
+		if (!chart.isShowLegend())
+			sb.append(" isShowLegend=\"false\"");
+
+		if (chart.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
+			sb.append(" evaluationTime=\"" + JRXmlConstants.getEvaluationTimeMap().get(new Byte(chart.getEvaluationTime())) + "\"");
+
+		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
+			sb.append(" evaluationGroup=\"" + chart.getEvaluationGroup().getName() + "\"");
+
+		sb.append(">\n");
+
+        writeReportElement(chart);
+        writeBox(chart.getBox());
+
+        // write title
+        sb.append("\t\t\t\t<chartTitle>\n");
+		String titleFont = writeFont(chart.getTitleFont());
+		if (titleFont != null)
+			sb.append("\t\t\t\t\t" + titleFont +"\n");
+        sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
+        sb.append(chart.getTitleExpression().getText());
+        sb.append("]]></titleExpression>\n");
+        sb.append("\t\t\t\t</chartTitle>\n");
+
+        // write subtitle
+        sb.append("\t\t\t\t<chartSubitle>\n");
+		String subtitleFont = writeFont(chart.getSubtitleFont());
+		if (subtitleFont != null)
+			sb.append("\t\t\t\t\t" + subtitleFont +"\n");
+        sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
+        sb.append(chart.getSubtitleExpression().getText());
+        sb.append("]]></subtitleExpression>\n");
+        sb.append("\t\t\t\t</chartSubtitle>\n");
+
+        sb.append("\t\t\t</chart>\n");
+
+    }
+
+
+	/**
+	 *
+	 * @param dataset
+	 */
+	private void writeDataset(JRChartDataset dataset)
+	{
+		sb.append("\t\t\t\t\t<dataset");
+
+		if (dataset.getResetType() != JRVariable.RESET_TYPE_REPORT)
+			sb.append(" resetType=\"" + JRXmlConstants.getResetTypeMap().get(new Byte(dataset.getResetType())) + "\"");
+
+		if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+			sb.append(" resetGroup=\"" + dataset.getResetGroup().getName() + "\"");
+
+		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+			sb.append(" incrementType=\"" + JRXmlConstants.getResetTypeMap().get(new Byte(dataset.getIncrementType())) + "\"");
+
+		if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+			sb.append(" incrementGroup=\"" + dataset.getIncrementGroup().getName() + "\"");
+
+		sb.append("/>\n");
+	}
+
+
+	/**
+	 *
+	 * @param plot
+	 */
+	private void writePlot(JRChartPlot plot)
+	{
+        sb.append("\t\t\t\t\t<plot");
+
+		if (plot.getBackcolor() != null)
+		{
+			sb.append(" backcolor=\"#");
+			sb.append(Integer.toHexString(plot.getBackcolor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+
+		if (!plot.getOrientation().equals(PlotOrientation.VERTICAL))
+			sb.append(" orientation=\"" + JRXmlConstants.getPlotOrientationMap().get(PlotOrientation.HORIZONTAL)+ "\"");
+
+		if (plot.getBackgroundAlpha() != 1.0f)
+			sb.append(" backgroundAlpha=\"" + plot.getBackgroundAlpha() + "\"");
+
+		if (plot.getForegroundAlpha() != 1.0f)
+			sb.append(" foregroundAlpha=\"" + plot.getForegroundAlpha() + "\"");
+
+		sb.append("/>\n");
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+    private void writePieChart(JRPieChart chart)
+    {
+        sb.append("\t\t\t<pieChart>\n");
+        writeChart(chart);
+
+        // write dataset
+        JRPieDataset dataset = (JRPieDataset) chart.getDataset();
+        sb.append("\t\t\t\t<pieDataset>\n");
+
+		writeDataset(dataset);
+
+        sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
+        sb.append(dataset.getKeyExpression().getText());
+        sb.append("]]></keyExpression>\n");
+
+        sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+        sb.append(dataset.getLabelExpression().getText());
+        sb.append("]]></labelExpression>\n");
+
+        sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+        sb.append(dataset.getValueExpression().getText());
+        sb.append("]]></valueExpression>\n");
+
+        sb.append("\t\t\t\t</pieDataset>\n");
+
+        // write plot
+        sb.append("\t\t\t\t<piePlot>\n");
+        writePlot(chart.getPlot());
+        sb.append("\t\t\t\t</piePlot>\n");
+
+        sb.append("\t\t\t</pieChart>\n");
+
+    }
 }

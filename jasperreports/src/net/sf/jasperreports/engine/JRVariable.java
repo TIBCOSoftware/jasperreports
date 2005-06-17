@@ -228,7 +228,7 @@ public interface JRVariable
 	public byte getResetType();
 		
 	/**
-	 * Returns the variable reset type. This value must be one of the reset type constants declared in this class, since the
+	 * Returns the variable increment type. This value must be one of the reset type constants declared in this class, since the
      * increment type uses the same constants as the reset type.
 	 */
 	public byte getIncrementType();
