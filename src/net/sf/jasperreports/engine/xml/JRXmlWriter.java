@@ -35,8 +35,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPieChart;
+import net.sf.jasperreports.engine.JRPieDataset;
+import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+
 import org.jfree.chart.plot.PlotOrientation;
 
 

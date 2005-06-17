@@ -1,10 +1,11 @@
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.*;
-import org.jfree.chart.plot.PlotOrientation;
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRChartPlot;
 
-import java.awt.*;
+import org.jfree.chart.plot.PlotOrientation;
+import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu

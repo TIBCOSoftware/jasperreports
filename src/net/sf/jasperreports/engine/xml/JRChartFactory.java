@@ -1,12 +1,14 @@
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.*;
-import org.apache.commons.logging.*;
-import net.sf.jasperreports.engine.design.*;
-import net.sf.jasperreports.engine.*;
+import java.awt.Color;
+import java.util.Collection;
 
-import java.util.*;
-import java.awt.*;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu
