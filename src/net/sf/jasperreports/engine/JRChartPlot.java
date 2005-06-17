@@ -66,5 +66,24 @@ public interface JRChartPlot
 	 */
 	public void setOrientation(byte orientation);
 
+	/**
+	 *
+	 */
+	public float getBackgroundAlpha();
+	
+	/**
+	 *
+	 */
+	public void setBackgroundAlpha(float backgroundAlpha);
+
+	/**
+	 *
+	 */
+	public float getForegroundAlpha();
+	
+	/**
+	 *
+	 */
+	public void setForegroundAlpha(float foregroundAlpha);
 
 }
