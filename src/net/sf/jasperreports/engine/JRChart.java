@@ -112,6 +112,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	/**
 	 *
 	 */
+	public Color getSubtitleColor();
+
+
+	/**
+	 *
+	 */
 	public JRChartDataset getDataset();
 
 

@@ -61,6 +61,7 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
 	protected Color titleColor = Color.black;
+	protected Color subtitleColor = Color.black;
 
 	/**
 	 *
@@ -97,6 +98,7 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkTarget = chart.getHyperlinkTarget();
 		titlePosition = chart.getTitlePosition();
 		titleColor = chart.getTitleColor();
+		subtitleColor = chart.getSubtitleColor();
 
 		box = chart.getBox();
 		titleFont = factory.getFont(chart.getTitleFont());
@@ -198,6 +200,22 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	public JRFont getSubtitleFont()
 	{
 		return subtitleFont;
+	}
+
+	/**
+	 *
+	 */
+	public Color getSubtitleColor()
+	{
+		return subtitleColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setSubtitleColor(Color subtitleColor)
+	{
+		this.subtitleColor = subtitleColor;
 	}
 
 	/**
