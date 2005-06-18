@@ -42,9 +42,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -53,11 +50,6 @@ import org.apache.commons.logging.LogFactory;
 public abstract class JRFillChart extends JRFillElement implements JRChart
 {
 
-
-	/**
-	 *
-	 */
-	private static final Log log = LogFactory.getLog(JRFillChart.class);
 
 	/**
 	 *
@@ -483,9 +475,7 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRPrintElement fill() throws JRException
 	{
-		JRPrintImage printImage = null;
-		
-		printImage = new JRTemplatePrintImage(getJRTemplateImage());
+		JRPrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage());
 		
 		printImage.setX(getX());
 		printImage.setY(getRelativeY());
@@ -495,23 +485,23 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 		{
 			case JRExpression.EVALUATION_TIME_REPORT :
 			{
-				filler.reportBoundImages.put(printImage, this);
+				filler.reportBoundCharts.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_PAGE :
 			{
-				filler.pageBoundImages.put(printImage, this);
+				filler.pageBoundCharts.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_COLUMN :
 			{
-				filler.columnBoundImages.put(printImage, this);
+				filler.columnBoundCharts.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_GROUP :
 			{
-				Map specificGroupBoundImages = (Map)filler.groupBoundImages.get(getEvaluationGroup().getName());
-				specificGroupBoundImages.put(printImage, this);
+				Map specificGroupBoundCharts = (Map)filler.groupBoundCharts.get(getEvaluationGroup().getName());
+				specificGroupBoundCharts.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_NOW :

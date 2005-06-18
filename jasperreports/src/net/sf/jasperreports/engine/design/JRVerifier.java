@@ -75,7 +75,6 @@ public class JRVerifier
 	 *
 	 */
 	private static String[] queryParameterClassNames = null;
-	private static String[] fieldClassNames = null;
 	private static String[] textFieldClassNames = null;
 	private static String[] imageClassNames = null;
 	private static String[] subreportClassNames = null;
@@ -754,13 +753,17 @@ public class JRVerifier
 					*/
 					if (element.getY() + element.getHeight() > band.getHeight())
 					{
-						if (log.isWarnEnabled())
-							log.warn(
-								"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
-								" height=" + element.getHeight() + 
-								" band-height=" + band.getHeight()
-								);
-						//brokenRules.add("Element placed outside band area.");
+//						if (log.isWarnEnabled())
+//							log.warn(
+//								"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
+//								" height=" + element.getHeight() + 
+//								" band-height=" + band.getHeight()
+//								);
+						brokenRules.add(
+							"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
+							" height=" + element.getHeight() + 
+							" band-height=" + band.getHeight()
+							);
 					}
 
 					if (element instanceof JRTextField)

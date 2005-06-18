@@ -408,6 +408,8 @@ public class JRXmlLoader
 		this.assignGroupsToElements();
 		this.assignGroupsToImages();
 		this.assignGroupsToTextFields();
+		this.assignGroupsToCharts();
+		this.assignGroupsToDatasets();
 		
 		return this.jasperDesign;
 	}

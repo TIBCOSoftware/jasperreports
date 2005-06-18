@@ -95,7 +95,6 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -356,7 +355,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					{
 						document.newPage();
 						// add a new level to our outline for this report
-						PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
+						//PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
 						//new PdfOutline(root, newReport, jasperPrint.getName(), false);
 
 						startPageIndex = 0;
