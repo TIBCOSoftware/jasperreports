@@ -156,6 +156,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected Map columnBoundImages = null;
 	protected Map groupBoundImages = null;
 
+	protected Map reportBoundCharts = null;
+	protected Map pageBoundCharts = null;
+	protected Map columnBoundCharts = null;
+	protected Map groupBoundCharts = null;
+
 	protected Map reportBoundTexts = null;
 	protected Map pageBoundTexts = null;
 	protected Map columnBoundTexts = null;
@@ -606,6 +611,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		groupBoundImages = new HashMap();
 		groupBoundTexts = new HashMap();
+		groupBoundCharts = new HashMap();
 
 		if (groups != null && groups.length > 0)
 		{
@@ -613,6 +619,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			{
 				groupBoundImages.put( groups[i].getName(), new HashMap() );
 				groupBoundTexts.put( groups[i].getName(), new HashMap() );
+				groupBoundCharts.put( groups[i].getName(), new HashMap() );
 			}
 		}
 		
@@ -899,21 +906,18 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected void resolveReportBoundImages() throws JRException
 	{
 		Collection images = reportBoundImages.keySet();
-		JRPrintImage printImage = null;
-		JRFillImage image = null;
 		if (images != null && images.size() > 0)
 		{
 			for(Iterator it = images.iterator(); it.hasNext();)
 			{
-				printImage = (JRPrintImage)it.next();
-				image = (JRFillImage)reportBoundImages.get(printImage);
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillImage image = (JRFillImage)reportBoundImages.get(printImage);
 				
 				image.evaluateImage(JRExpression.EVALUATION_DEFAULT);
 
 				image.copy(printImage);
 			}
 		}
-		
 		reportBoundImages = new HashMap();
 	}
 
@@ -924,21 +928,18 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected void resolvePageBoundImages(byte evaluation) throws JRException
 	{
 		Collection images = pageBoundImages.keySet();
-		JRPrintImage printImage = null;
-		JRFillImage image = null;
 		if (images != null && images.size() > 0)
 		{
 			for(Iterator it = images.iterator(); it.hasNext();)
 			{
-				printImage = (JRPrintImage)it.next();
-				image = (JRFillImage)pageBoundImages.get(printImage);
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillImage image = (JRFillImage)pageBoundImages.get(printImage);
 
 				image.evaluateImage(evaluation);
 
 				image.copy(printImage);
 			}
 		}
-		
 		pageBoundImages = new HashMap();
 	}
 
@@ -949,21 +950,18 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected void resolveColumnBoundImages(byte evaluation) throws JRException
 	{
 		Collection images = columnBoundImages.keySet();
-		JRPrintImage printImage = null;
-		JRFillImage image = null;
 		if (images != null && images.size() > 0)
 		{
 			for(Iterator it = images.iterator(); it.hasNext();)
 			{
-				printImage = (JRPrintImage)it.next();
-				image = (JRFillImage)columnBoundImages.get(printImage);
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillImage image = (JRFillImage)columnBoundImages.get(printImage);
 
 				image.evaluateImage(evaluation);
 
 				image.copy(printImage);
 			}
 		}
-		
 		columnBoundImages = new HashMap();
 	}
 
@@ -975,35 +973,43 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	{
 		if (groups != null && groups.length > 0)
 		{
-			JRFillGroup group = null;
-			Collection images = null;
-			JRPrintImage printImage = null;
-			JRFillImage image = null;
-			Map specificGroupBoundImages = null;
-
 			for(int i = 0; i < groups.length; i++)
 			{
-				group = (JRFillGroup)groups[i];
+				JRFillGroup group = (JRFillGroup)groups[i];
 
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
-					specificGroupBoundImages = (Map)groupBoundImages.get(group.getName());
-	
-					images = specificGroupBoundImages.keySet();
+					Map specificGroupBoundImages = (Map)groupBoundImages.get(group.getName());
+					Collection images = specificGroupBoundImages.keySet();
 					if (images != null && images.size() > 0)
 					{
 						for(Iterator it = images.iterator(); it.hasNext();)
 						{
-							printImage = (JRPrintImage)it.next();
-							image = (JRFillImage)specificGroupBoundImages.get(printImage);
+							JRPrintImage printImage = (JRPrintImage)it.next();
+							JRFillImage image = (JRFillImage)specificGroupBoundImages.get(printImage);
 
 							image.evaluateImage(evaluation);
 
 							image.copy(printImage);
 						}
 					}
-					
 					groupBoundImages.put(group.getName(), new HashMap());
+
+					Map specificGroupBoundCharts = (Map)groupBoundCharts.get(group.getName());
+					Collection charts = specificGroupBoundCharts.keySet();
+					if (charts != null && charts.size() > 0)
+					{
+						for(Iterator it = charts.iterator(); it.hasNext();)
+						{
+							JRPrintImage printImage = (JRPrintImage)it.next();
+							JRFillChart chart = (JRFillChart)specificGroupBoundCharts.get(printImage);
+
+							chart.evaluateImage(evaluation);
+
+							chart.copy(printImage);
+						}
+					}
+					groupBoundCharts.put(group.getName(), new HashMap());
 				}
 			}
 		}
