@@ -132,7 +132,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		recordDelimiter = (String)parameters.get(JRCsvExporterParameter.RECORD_DELIMITER);
 		if (recordDelimiter == null)
 		{
-		    recordDelimiter = "\n";
+			recordDelimiter = "\n";
 		}		
 		
 		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);

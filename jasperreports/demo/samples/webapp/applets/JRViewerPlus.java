@@ -57,17 +57,17 @@ public class JRViewerPlus extends JRViewer
 		tlbToolBar.remove(btnReload);
 
 		btnPlus = new javax.swing.JButton();
-        btnPlus.setToolTipText("Plus...");
-        btnPlus.setText("Plus...");
-        btnPlus.setPreferredSize(new java.awt.Dimension(80, 23));
-        btnPlus.setMaximumSize(new java.awt.Dimension(80, 23));
-        btnPlus.setMinimumSize(new java.awt.Dimension(80, 23));
-        btnPlus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlusActionPerformed(evt);
-            }
-        });
-        tlbToolBar.add(btnPlus, 0);
+		btnPlus.setToolTipText("Plus...");
+		btnPlus.setText("Plus...");
+		btnPlus.setPreferredSize(new java.awt.Dimension(80, 23));
+		btnPlus.setMaximumSize(new java.awt.Dimension(80, 23));
+		btnPlus.setMinimumSize(new java.awt.Dimension(80, 23));
+		btnPlus.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnPlusActionPerformed(evt);
+			}
+		});
+		tlbToolBar.add(btnPlus, 0);
 	}
 
 

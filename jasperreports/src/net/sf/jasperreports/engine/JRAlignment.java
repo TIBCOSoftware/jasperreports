@@ -37,7 +37,7 @@ package net.sf.jasperreports.engine;
  */
 public interface JRAlignment
 {
-    //TODO: alignment getters and setters from JRTextElement and JRImage should be moved here.
+	//TODO: alignment getters and setters from JRTextElement and JRImage should be moved here.
 
 
 	public static final byte HORIZONTAL_ALIGN_LEFT = 1;

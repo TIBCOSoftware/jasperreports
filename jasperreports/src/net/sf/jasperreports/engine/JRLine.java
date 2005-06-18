@@ -42,21 +42,21 @@ public interface JRLine extends JRGraphicElement
 	 */
 	public static final byte DIRECTION_TOP_DOWN = 1;
 
-    /**
-     * Constant used for specifying that the line starts from the top and goes towards the bottom.
-     */
+	/**
+	 * Constant used for specifying that the line starts from the top and goes towards the bottom.
+	 */
 	public static final byte DIRECTION_BOTTOM_UP = 2;
 
 
 	/**
 	 * Gets the line direction.
-     * @return one of the direction constants
+	 * @return one of the direction constants
 	 */
 	public byte getDirection();
 
 	/**
-     * Sets the line direction.
-     * @param direction one of the direction constants
+	 * Sets the line direction.
+	 * @param direction one of the direction constants
 	 */
 	public void setDirection(byte direction);
 

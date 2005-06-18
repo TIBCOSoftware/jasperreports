@@ -875,10 +875,10 @@ public class JRXmlWriter
 		{
 			writeSubreport((JRSubreport)element);
 		}
-        else if (element instanceof JRPieChart)
-        {
-            writePieChart((JRPieChart)element);
-        }
+		else if (element instanceof JRPieChart)
+		{
+			writePieChart((JRPieChart)element);
+		}
 	}
 
 
@@ -1733,9 +1733,9 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-    private void writeChart(JRChart chart)
-    {
-        sb.append("\t\t\t<chart");
+	private void writeChart(JRChart chart)
+	{
+		sb.append("\t\t\t<chart");
 
 		if (!chart.isShowLegend())
 			sb.append(" isShowLegend=\"false\"");
@@ -1748,32 +1748,32 @@ public class JRXmlWriter
 
 		sb.append(">\n");
 
-        writeReportElement(chart);
-        writeBox(chart.getBox());
+		writeReportElement(chart);
+		writeBox(chart.getBox());
 
-        // write title
-        sb.append("\t\t\t\t<chartTitle>\n");
+		// write title
+		sb.append("\t\t\t\t<chartTitle>\n");
 		String titleFont = writeFont(chart.getTitleFont());
 		if (titleFont != null)
 			sb.append("\t\t\t\t\t" + titleFont +"\n");
-        sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
-        sb.append(chart.getTitleExpression().getText());
-        sb.append("]]></titleExpression>\n");
-        sb.append("\t\t\t\t</chartTitle>\n");
+		sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
+		sb.append(chart.getTitleExpression().getText());
+		sb.append("]]></titleExpression>\n");
+		sb.append("\t\t\t\t</chartTitle>\n");
 
-        // write subtitle
-        sb.append("\t\t\t\t<chartSubitle>\n");
+		// write subtitle
+		sb.append("\t\t\t\t<chartSubitle>\n");
 		String subtitleFont = writeFont(chart.getSubtitleFont());
 		if (subtitleFont != null)
 			sb.append("\t\t\t\t\t" + subtitleFont +"\n");
-        sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
-        sb.append(chart.getSubtitleExpression().getText());
-        sb.append("]]></subtitleExpression>\n");
-        sb.append("\t\t\t\t</chartSubtitle>\n");
+		sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
+		sb.append(chart.getSubtitleExpression().getText());
+		sb.append("]]></subtitleExpression>\n");
+		sb.append("\t\t\t\t</chartSubtitle>\n");
 
-        sb.append("\t\t\t</chart>\n");
+		sb.append("\t\t\t</chart>\n");
 
-    }
+	}
 
 
 	/**
@@ -1806,7 +1806,7 @@ public class JRXmlWriter
 	 */
 	private void writePlot(JRChartPlot plot)
 	{
-        sb.append("\t\t\t\t\t<plot");
+		sb.append("\t\t\t\t\t<plot");
 
 		if (plot.getBackcolor() != null)
 		{
@@ -1832,37 +1832,37 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-    private void writePieChart(JRPieChart chart)
-    {
-        sb.append("\t\t\t<pieChart>\n");
-        writeChart(chart);
+	private void writePieChart(JRPieChart chart)
+	{
+		sb.append("\t\t\t<pieChart>\n");
+		writeChart(chart);
 
-        // write dataset
-        JRPieDataset dataset = (JRPieDataset) chart.getDataset();
-        sb.append("\t\t\t\t<pieDataset>\n");
+		// write dataset
+		JRPieDataset dataset = (JRPieDataset) chart.getDataset();
+		sb.append("\t\t\t\t<pieDataset>\n");
 
 		writeDataset(dataset);
 
-        sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
-        sb.append(dataset.getKeyExpression().getText());
-        sb.append("]]></keyExpression>\n");
+		sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
+		sb.append(dataset.getKeyExpression().getText());
+		sb.append("]]></keyExpression>\n");
 
-        sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-        sb.append(dataset.getLabelExpression().getText());
-        sb.append("]]></labelExpression>\n");
+		sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+		sb.append(dataset.getLabelExpression().getText());
+		sb.append("]]></labelExpression>\n");
 
-        sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-        sb.append(dataset.getValueExpression().getText());
-        sb.append("]]></valueExpression>\n");
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
 
-        sb.append("\t\t\t\t</pieDataset>\n");
+		sb.append("\t\t\t\t</pieDataset>\n");
 
-        // write plot
-        sb.append("\t\t\t\t<piePlot>\n");
-        writePlot(chart.getPlot());
-        sb.append("\t\t\t\t</piePlot>\n");
+		// write plot
+		sb.append("\t\t\t\t<piePlot>\n");
+		writePlot(chart.getPlot());
+		sb.append("\t\t\t\t</piePlot>\n");
 
-        sb.append("\t\t\t</pieChart>\n");
+		sb.append("\t\t\t</pieChart>\n");
 
-    }
+	}
 }

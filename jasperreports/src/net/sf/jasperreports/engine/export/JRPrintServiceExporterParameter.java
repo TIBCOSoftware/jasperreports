@@ -53,21 +53,21 @@ public class JRPrintServiceExporterParameter extends JRExporterParameter
 	public static final JRPrintServiceExporterParameter PRINT_REQUEST_ATTRIBUTE_SET = new JRPrintServiceExporterParameter("PrintRequestAttributeSet Object");
 
 
-    /**
-     * An instance of <tt>javax.print.attribute.PrintServiceAttributeSet</tt>.
-     */
+	/**
+	 * An instance of <tt>javax.print.attribute.PrintServiceAttributeSet</tt>.
+	 */
 	public static final JRPrintServiceExporterParameter PRINT_SERVICE_ATTRIBUTE_SET = new JRPrintServiceExporterParameter("PrintServiceAttributeSet Object");
 
 
-    /**
-     * A boolean value specifying whether a page setup dialog should be opened before printing.
-     */
+	/**
+	 * A boolean value specifying whether a page setup dialog should be opened before printing.
+	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PAGE_DIALOG = new JRPrintServiceExporterParameter("Display Page Dialog");
 
 
-    /**
-     * A boolean value specifying whether a print setup dialog should be opened before printing.
-     */
+	/**
+	 * A boolean value specifying whether a print setup dialog should be opened before printing.
+	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PRINT_DIALOG = new JRPrintServiceExporterParameter("Display Print Dialog");
 
 

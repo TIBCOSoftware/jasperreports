@@ -134,7 +134,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected String userPassword = null;
 	protected String ownerPassword = null;
 	protected int permissions = 0;
-    protected Character pdfVersion = null;
+	protected Character pdfVersion = null;
 
 	/**
 	 *
@@ -235,7 +235,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			permissions = permissionsParameter.intValue();
 		}
 
-        pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
+		pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
 
 		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
@@ -313,8 +313,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, os);
 			pdfWriter.setCloseStream(false);
 
-            if (pdfVersion != null)
-                pdfWriter.setPdfVersion(pdfVersion.charValue());
+			if (pdfVersion != null)
+				pdfWriter.setPdfVersion(pdfVersion.charValue());
 
 			if (isEncrypted)
 			{
@@ -338,8 +338,8 @@ public class JRPdfExporter extends JRAbstractExporter
 					);
 			imageTesterDocument.open();
 			imageTesterDocument.newPage();
-		 	imageTesterPdfContentByte = imageTesterPdfWriter.getDirectContent();
-		 	imageTesterPdfContentByte.setLiteral("\n");
+			imageTesterPdfContentByte = imageTesterPdfWriter.getDirectContent();
+			imageTesterPdfContentByte.setLiteral("\n");
 
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{

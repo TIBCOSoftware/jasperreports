@@ -50,12 +50,12 @@ public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 
 
 	/**
-     * Initializes properties that are specific to ellipses. Common properties are initialized by its
-     * parent constructors.
-     * @param ellipse an element whose properties are copied to this element. Usually it is a
-     * {@link net.sf.jasperreports.engine.design.JRDesignEllipse} that must be transformed into an
-     * <tt>JRBaseEllipse</tt> at compile time.
-     * @param factory a factory used in the compile process
+	 * Initializes properties that are specific to ellipses. Common properties are initialized by its
+	 * parent constructors.
+	 * @param ellipse an element whose properties are copied to this element. Usually it is a
+	 * {@link net.sf.jasperreports.engine.design.JRDesignEllipse} that must be transformed into an
+	 * <tt>JRBaseEllipse</tt> at compile time.
+	 * @param factory a factory used in the compile process
 	 */
 	protected JRBaseEllipse(JREllipse ellipse, JRBaseObjectFactory factory)
 	{

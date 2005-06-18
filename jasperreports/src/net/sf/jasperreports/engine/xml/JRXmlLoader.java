@@ -75,8 +75,8 @@ public class JRXmlLoader
 	private Collection groupReprintedElements = new ArrayList();
 	private Collection groupEvaluatedImages = new ArrayList();
 	private Collection groupEvaluatedTextFields = new ArrayList();
-    private Collection groupEvaluatedCharts = new ArrayList();
-    private Set groupBoundDatasets = new HashSet();
+	private Collection groupEvaluatedCharts = new ArrayList();
+	private Set groupBoundDatasets = new HashSet();
 	private List errors = new ArrayList();
 	private int printWhenExpressionsCount = 0;
 	private int anchorNameExpressionsCount = 0;
@@ -131,20 +131,20 @@ public class JRXmlLoader
 		return this.groupEvaluatedTextFields;
 	}
 
-    /**
-     *
-     */
-    public Collection getGroupEvaluatedCharts()
-    {
-        return groupEvaluatedCharts;
-    }
+	/**
+	 *
+	 */
+	public Collection getGroupEvaluatedCharts()
+	{
+		return groupEvaluatedCharts;
+	}
 
-    /**
-    *
-    */
+	/**
+	*
+	*/
    public Set getGroupBoundDatasets()
    {
-       return groupBoundDatasets;
+	   return groupBoundDatasets;
    }
 
 	/**

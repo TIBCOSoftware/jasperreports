@@ -54,9 +54,9 @@ public class JRGraphics2DExporterParameter extends JRExporterParameter
 	 */
 	public static final JRGraphics2DExporterParameter GRAPHICS_2D = new JRGraphics2DExporterParameter("Graphics2D");
 
-    /**
-     * The zoom ratio used for the export. The default value is 1.
-     */
+	/**
+	 * The zoom ratio used for the export. The default value is 1.
+	 */
 	public static final JRGraphics2DExporterParameter ZOOM_RATIO = new JRGraphics2DExporterParameter("Zoom Ratio");
 
 

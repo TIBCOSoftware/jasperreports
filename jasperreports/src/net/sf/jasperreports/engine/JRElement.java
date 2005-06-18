@@ -43,22 +43,22 @@ public interface JRElement
 
 	/**
 	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
-     * It will try to conserve the distance between it and the neighboring elements placed immediately above.
+	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
 	 */
 	public static final byte POSITION_TYPE_FLOAT = 1;
 
 
-    /**
-     * The element will simply ignore what happens to the other section elements and tries to
-     * conserve the y offset measured from the top of its parent report section.
-     */
+	/**
+	 * The element will simply ignore what happens to the other section elements and tries to
+	 * conserve the y offset measured from the top of its parent report section.
+	 */
 	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_TOP = 2;
 
 
-    /**
-     * If the height of the parent report section is affected by elements that stretch, the current element will try to
-     * conserve the original distance between its bottom margin and the bottom of the band.
-     */
+	/**
+	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
+	 * conserve the original distance between its bottom margin and the bottom of the band.
+	 */
 	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = 3;
 
 	/**
@@ -67,9 +67,9 @@ public interface JRElement
 	public static final byte MODE_OPAQUE = 1;
 
 
-    /**
-     * Specifies that the element is transparent.
-     */
+	/**
+	 * Specifies that the element is transparent.
+	 */
 	public static final byte MODE_TRANSPARENT = 2;
 
 	/**
@@ -77,16 +77,16 @@ public interface JRElement
 	 */
 	public static final byte STRETCH_TYPE_NO_STRETCH = 0;
 
-    /**
-     * Users have the possibility to group the elements of a report section in multiple imbricate groups. The only
-     * reason one might have for grouping your report elements is to be able to stretch them to fit the tallest object.
-     */
+	/**
+	 * Users have the possibility to group the elements of a report section in multiple imbricate groups. The only
+	 * reason one might have for grouping your report elements is to be able to stretch them to fit the tallest object.
+	 */
 	public static final byte STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = 1;
 
-    /**
-     * The graphic element will adapt its height to match the new height of the report section it placed on, which
-     * has been affected by stretch.
-     */
+	/**
+	 * The graphic element will adapt its height to match the new height of the report section it placed on, which
+	 * has been affected by stretch.
+	 */
 	public static final byte STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = 2;
 
 
@@ -97,32 +97,32 @@ public interface JRElement
 
 	/**
 	 * Returns the position type for the element
-     * @return a byte value representing one of the position type constants in this class
+	 * @return a byte value representing one of the position type constants in this class
 	 */
 	public byte getPositionType();
 
-    /**
-     * Sets the position type for the element.
-     * @param positionType a byte value that must be one of the position type constants in this class
-     */
+	/**
+	 * Sets the position type for the element.
+	 * @param positionType a byte value that must be one of the position type constants in this class
+	 */
 	public void setPositionType(byte positionType);
 
-    /**
-     * Returns the stretch type for the element
-     * @return a byte value representing one of the strech type constants in this class
-     */
+	/**
+	 * Returns the stretch type for the element
+	 * @return a byte value representing one of the strech type constants in this class
+	 */
 	public byte getStretchType();
 		
-    /**
-     * Sets the stretch type for the element.
-     * @param stretchType a byte value that must be one of the stretch type constants in this class
-     */
+	/**
+	 * Sets the stretch type for the element.
+	 * @param stretchType a byte value that must be one of the stretch type constants in this class
+	 */
 	public void setStretchType(byte stretchType);
 		
 	/**
 	 * Specifies if the element value will be printed for every iteration, even if its value has not changed.
-     * @see JRElement#isRemoveLineWhenBlank()
-     * @see JRElement#isPrintInFirstWholeBand()
+	 * @see JRElement#isRemoveLineWhenBlank()
+	 * @see JRElement#isPrintInFirstWholeBand()
 	 */
 	public boolean isPrintRepeatedValues();
 	
@@ -133,19 +133,19 @@ public interface JRElement
 
 
 	/**
-     * Returns the element transparency mode.
+	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
-     * opaque by default, but the images are transparent. Both static texts and text fields are transparent
-     * by default, and so are the subreport elements.
-     * @return MODE_OPAQUE or MODE_TRANSPARENT
+	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
+	 * by default, and so are the subreport elements.
+	 * @return MODE_OPAQUE or MODE_TRANSPARENT
 	 */
 	public byte getMode();
 	
 	/**
 	 * Returns the element transparency mode.
-     * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
-     * opaque by default, but the images are transparent. Both static texts and text fields are transparent
-     * by default, and so are the subreport elements.
+	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
+	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
+	 * by default, and so are the subreport elements.
 	 */
 	public void setMode(byte mode);
 	
@@ -155,12 +155,12 @@ public interface JRElement
 	public int getX();
 	
 	/**
-     * Sets the the section relative horizontal offset of the element top left corner.
+	 * Sets the the section relative horizontal offset of the element top left corner.
 	 */
 	public void setX(int x);
 	
 	/**
-     * Gets the the section relative vertical offset of the element top left corner.
+	 * Gets the the section relative vertical offset of the element top left corner.
 	 */
 	public int getY();
 	
@@ -181,45 +181,45 @@ public interface JRElement
 	
 	/**
 	 * Returns true if the remaining blank space appearing when the value is not printed will be removed. Under certain
-     * circumstances (the element has an empty string as its value or contains a repeated value that is supressed) the
-     * space reserved for the current element remains empty. If this method returns true, it means the engine will try
-     * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
+	 * circumstances (the element has an empty string as its value or contains a repeated value that is supressed) the
+	 * space reserved for the current element remains empty. If this method returns true, it means the engine will try
+	 * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
 	 */
 	public boolean isRemoveLineWhenBlank();
 	
 	/**
-     * Specifies whether the remaining blank space appearing when the value is not printed will be removed. Under certain
-     * circumstances (the element has an empty string as its value or contains a repeated value that is supressed) the
-     * space reserved for the current element remains empty. If the parameter is set to true, it means the engine will try
-     * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
+	 * Specifies whether the remaining blank space appearing when the value is not printed will be removed. Under certain
+	 * circumstances (the element has an empty string as its value or contains a repeated value that is supressed) the
+	 * space reserved for the current element remains empty. If the parameter is set to true, it means the engine will try
+	 * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
 	 */
 	public void setRemoveLineWhenBlank(boolean isRemoveLineWhenBlank);
 	
 	/**
 	 * Returns true if an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed for every
-     * new page or column that is not an overflow from a previous page or column.
-     * @see JRElement#isPrintRepeatedValues()
+	 * new page or column that is not an overflow from a previous page or column.
+	 * @see JRElement#isPrintRepeatedValues()
 	 */
 	public boolean isPrintInFirstWholeBand();
 	
 	/**
-     * Specifies whether an element with a <i>printRepeatedValues</i> attribute set to true should be redisplayed for every
-     * new page or column that is not an overflow from a previous page or column.
-     * @see JRElement#isPrintRepeatedValues()
+	 * Specifies whether an element with a <i>printRepeatedValues</i> attribute set to true should be redisplayed for every
+	 * new page or column that is not an overflow from a previous page or column.
+	 * @see JRElement#isPrintRepeatedValues()
 	 */
 	public void setPrintInFirstWholeBand(boolean isPrintInFirstWholeBand);
 	
 	/**
 	 * If this is set to true, the element will be reprinted on the next page if the band does not fit in the current page.
-     * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
-     * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
+	 * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
+	 * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
 	 */
 	public boolean isPrintWhenDetailOverflows();
 	
 	/**
-     * If this is set to true, the element will be reprinted on the next page if the band does not fit in the current page.
-     * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
-     * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
+	 * If this is set to true, the element will be reprinted on the next page if the band does not fit in the current page.
+	 * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
+	 * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
 	 */
 	public void setPrintWhenDetailOverflows(boolean isPrintWhenDetailOverflows);
 	
@@ -245,21 +245,21 @@ public interface JRElement
 	
 	/**
 	 * Gets the the expression that is evaluated in order to decide if the element should be displayed. The print
-     * expression always returns a boolean value.
+	 * expression always returns a boolean value.
 	 */
 	public JRExpression getPrintWhenExpression();
 	
 	/**
-     * Returns the group for which an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed
-     * even if the value has not changed.
-     * @see JRElement#isPrintRepeatedValues()
+	 * Returns the group for which an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed
+	 * even if the value has not changed.
+	 * @see JRElement#isPrintRepeatedValues()
 	 */
 	public JRGroup getPrintWhenGroupChanges();
 	
 	/**
 	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to get the height
-     * of the tallest one.
-     * @see JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
+	 * of the tallest one.
+	 * @see JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
 	 */
 	public JRElementGroup getElementGroup();
 

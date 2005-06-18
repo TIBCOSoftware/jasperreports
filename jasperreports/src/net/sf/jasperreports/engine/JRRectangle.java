@@ -44,7 +44,7 @@ public interface JRRectangle extends JRGraphicElement
 	public int getRadius();
 
 	/**
-     * Sets the corner radius for rectangles with round corners.
+	 * Sets the corner radius for rectangles with round corners.
 	 */
 	public void setRadius(int radius);
 

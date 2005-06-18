@@ -53,7 +53,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-        JRChartPlot plot = (JRChartPlot) digester.peek();
+		JRChartPlot plot = (JRChartPlot) digester.peek();
 
 		String color = atts.getValue(ATTRIBUTE_backcolor);
 		if (color != null && color.length() > 0)
@@ -93,5 +93,5 @@ public class JRChartPlotFactory extends JRBaseFactory
 			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha).floatValue());
 
 		return plot;
-    }
+	}
 }

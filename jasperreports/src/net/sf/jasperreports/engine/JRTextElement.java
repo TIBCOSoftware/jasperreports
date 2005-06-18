@@ -38,21 +38,21 @@ public interface JRTextElement extends JRElement, JRAlignment
 {
 
 
-    /**
-     * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
-     */
+	/**
+	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
+	 */
 	public static final byte TEXT_ALIGN_LEFT = HORIZONTAL_ALIGN_LEFT;
-    /**
-     * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_CENTER}.
-     */
+	/**
+	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_CENTER}.
+	 */
 	public static final byte TEXT_ALIGN_CENTER = HORIZONTAL_ALIGN_CENTER;
-    /**
-     * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_RIGHT}.
-     */
+	/**
+	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_RIGHT}.
+	 */
 	public static final byte TEXT_ALIGN_RIGHT = HORIZONTAL_ALIGN_RIGHT;
-    /**
-     * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_JUSTIFIED}.
-     */
+	/**
+	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_JUSTIFIED}.
+	 */
 	public static final byte TEXT_ALIGN_JUSTIFIED = HORIZONTAL_ALIGN_JUSTIFIED;
 
 	/**
@@ -60,14 +60,14 @@ public interface JRTextElement extends JRElement, JRAlignment
 	 */
 	public static final byte ROTATION_NONE = 0;
 
-    /**
-     * Constant useful for rotating the text 90 degrees counter clockwise.
-     */
+	/**
+	 * Constant useful for rotating the text 90 degrees counter clockwise.
+	 */
 	public static final byte ROTATION_LEFT = 1;
 
-    /**
-     * Constant useful for rotating the text 90 degrees clockwise.
-     */
+	/**
+	 * Constant useful for rotating the text 90 degrees clockwise.
+	 */
 	public static final byte ROTATION_RIGHT = 2;
 
 
@@ -76,63 +76,63 @@ public interface JRTextElement extends JRElement, JRAlignment
 	 */
 	public static final byte LINE_SPACING_SINGLE = 0;
 
-    /**
-     * Constant for setting spacing between lines to 50% more than normal.
-     */
+	/**
+	 * Constant for setting spacing between lines to 50% more than normal.
+	 */
 	public static final byte LINE_SPACING_1_1_2 = 1;
 
-    /**
-     * Constant for setting spacing between lines to double size.
-     */
+	/**
+	 * Constant for setting spacing between lines to double size.
+	 */
 	public static final byte LINE_SPACING_DOUBLE = 2;
 
 
 	/**
 	 * Gets the text horizontal alignment.
-     * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
 	 */
 	public byte getTextAlignment();
 
-    /**
-     * Sets the text horizontal alignment.
-     * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
-     */
+	/**
+	 * Sets the text horizontal alignment.
+	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 */
 	public void setTextAlignment(byte horizontalAlignment);
 
-    /**
-     * Gets the text vertical alignment.
-     * @return a value representing one of the vertical alignment constants in {@link JRAlignment}
-     */
+	/**
+	 * Gets the text vertical alignment.
+	 * @return a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 */
 	public byte getVerticalAlignment();
 		
-    /**
-     * Gets the text vertical alignment.
-     * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
-     */
+	/**
+	 * Gets the text vertical alignment.
+	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 */
 	public void setVerticalAlignment(byte verticalAlignment);
 		
-    /**
-     * Gets the text rotation.
-     * @return a value representing one of the rotation constants in this class
-     */
+	/**
+	 * Gets the text rotation.
+	 * @return a value representing one of the rotation constants in this class
+	 */
 	public byte getRotation();
 		
-    /**
-     * Sets the text rotation.
-     * @param rotation a value representing one of the rotation constants in this class
-     */
+	/**
+	 * Sets the text rotation.
+	 * @param rotation a value representing one of the rotation constants in this class
+	 */
 	public void setRotation(byte rotation);
 		
-    /**
-     * Gets the line spacing.
-     * @return a value representing one of the line spacing constants in this class
-     */
+	/**
+	 * Gets the line spacing.
+	 * @return a value representing one of the line spacing constants in this class
+	 */
 	public byte getLineSpacing();
 
-    /**
-     * Sets the line spacing.
-     * @param lineSpacing a value representing one of the line spacing constants in this class
-     */
+	/**
+	 * Sets the line spacing.
+	 * @param lineSpacing a value representing one of the line spacing constants in this class
+	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
@@ -140,9 +140,9 @@ public interface JRTextElement extends JRElement, JRAlignment
 	 */
 	public boolean isStyledText();
 
-    /**
-     * Specifies whether the text can contain style tags.
-     */
+	/**
+	 * Specifies whether the text can contain style tags.
+	 */
 	public void setStyledText(boolean isStyledText);
 		
 	/**
