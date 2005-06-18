@@ -60,10 +60,10 @@ public class JRXmlExporterParameter extends JRExporterParameter
 	public static final JRXmlExporterParameter IS_EMBEDDING_IMAGES = new JRXmlExporterParameter("Is Embedding Images Flag");
 
 
-    /**
-     * A utility parameter that allows users to specify an alternate location for the DTD file. This is useful for users
-     * who want to open the generated XML files in various editors that try to actually load the DTD for error checking.
-     */
+	/**
+	 * A utility parameter that allows users to specify an alternate location for the DTD file. This is useful for users
+	 * who want to open the generated XML files in various editors that try to actually load the DTD for error checking.
+	 */
 	public static final JRXmlExporterParameter DTD_LOCATION = new JRXmlExporterParameter("DTD Location");
 
 

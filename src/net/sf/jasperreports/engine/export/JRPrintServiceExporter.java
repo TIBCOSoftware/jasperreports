@@ -125,7 +125,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			displayPrintDialog = printDialog.booleanValue();
 		}
 
-		PrinterJob printerJob = PrinterJob.getPrinterJob();       
+		PrinterJob printerJob = PrinterJob.getPrinterJob();
 		printerJob.setPrintable(this);
 		
 		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);

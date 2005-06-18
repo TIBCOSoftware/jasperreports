@@ -60,14 +60,14 @@ public class JRCsvExporterParameter extends JRExporterParameter
 
 	/**
 	 * A string representing the character or sequence of characters used to delimit two fields on the same line. The
-     * default value is a comma.
+	 * default value is a comma.
 	 */
 	public static final JRCsvExporterParameter FIELD_DELIMITER = new JRCsvExporterParameter("Field Delimiter");
 
 
 	/**
 	 * A string representing the character or sequence of characters used to delimit two lines. The default value is a
-     * character return (\n).
+	 * character return (\n).
 	 */
 	public static final JRCsvExporterParameter RECORD_DELIMITER = new JRCsvExporterParameter("Record Delimiter");
 	

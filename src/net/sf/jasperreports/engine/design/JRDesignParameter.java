@@ -40,23 +40,23 @@ import net.sf.jasperreports.engine.base.JRBaseParameter;
  */
 public class JRDesignParameter extends JRBaseParameter
 {
-    /** Mechanism for firing property change events. */
-    private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);
+	/** Mechanism for firing property change events. */
+	private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);
 
-    /** Bean property name for the parameter's name. */
-    public static final String NAME_PROPERTY = "name";
+	/** Bean property name for the parameter's name. */
+	public static final String NAME_PROPERTY = "name";
 
-    /** Bean property name for the value class name. */
-    public static final String VALUE_CLASS_PROPERTY = "valueClassName";
+	/** Bean property name for the value class name. */
+	public static final String VALUE_CLASS_PROPERTY = "valueClassName";
 
-    /** Bean property name for system defined parameter. */
-    public static final String SYSTEM_DEFINED_PROPERTY = "systemDefined";
+	/** Bean property name for system defined parameter. */
+	public static final String SYSTEM_DEFINED_PROPERTY = "systemDefined";
 
-    /** Bean property name for prompting. */
-    public static final String PROMPTING_PROPERTY = "forPrompting";
+	/** Bean property name for prompting. */
+	public static final String PROMPTING_PROPERTY = "forPrompting";
 
-    /** Bean property name for default value expression. */
-    public static final String DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
+	/** Bean property name for default value expression. */
+	public static final String DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
 
 
 
@@ -70,9 +70,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setName(String name)
 	{
-        Object oldValue = this.name;
+		Object oldValue = this.name;
 		this.name = name;
-        getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
+		getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
 	}
 	
 	/**
@@ -88,10 +88,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setValueClassName(String className)
 	{
-        Object oldValue = this.valueClassName;
+		Object oldValue = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
-        getPropertyChangeSupport().firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
+		getPropertyChangeSupport().firePropertyChange(VALUE_CLASS_PROPERTY, oldValue, this.valueClassName);
 	}
 
 	/**
@@ -99,10 +99,10 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setSystemDefined(boolean isSystemDefined)
 	{
-        boolean oldValue = this.isSystemDefined;
+		boolean oldValue = this.isSystemDefined;
 		this.isSystemDefined = isSystemDefined;
-        getPropertyChangeSupport().firePropertyChange(SYSTEM_DEFINED_PROPERTY, oldValue,
-                this.isSystemDefined);
+		getPropertyChangeSupport().firePropertyChange(SYSTEM_DEFINED_PROPERTY, oldValue,
+				this.isSystemDefined);
 	}
 
 	/**
@@ -110,9 +110,9 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setForPrompting(boolean isForPrompting)
 	{
-        boolean oldValue = this.isForPrompting;
+		boolean oldValue = this.isForPrompting;
 		this.isForPrompting = isForPrompting;
-        getPropertyChangeSupport().firePropertyChange(PROMPTING_PROPERTY, oldValue, this.isForPrompting);
+		getPropertyChangeSupport().firePropertyChange(PROMPTING_PROPERTY, oldValue, this.isForPrompting);
 	}
 
 	/**
@@ -120,51 +120,51 @@ public class JRDesignParameter extends JRBaseParameter
 	 */
 	public void setDefaultValueExpression(JRExpression expression)
 	{
-        Object oldValue = this.defaultValueExpression;
+		Object oldValue = this.defaultValueExpression;
 		this.defaultValueExpression = expression;
-        getPropertyChangeSupport().firePropertyChange(DEFAULT_VALUE_EXPRESSION, oldValue,
-                this.defaultValueExpression);
+		getPropertyChangeSupport().firePropertyChange(DEFAULT_VALUE_EXPRESSION, oldValue,
+				this.defaultValueExpression);
 	}
 
-    /**
-     * Get the property change support object for this class.  Because the
-     * property change support object has to be transient, it may need to be
-     * created.
-     * @return The property change support object.
-     */
-    protected PropertyChangeSupport getPropertyChangeSupport() {
-        if (propSupport == null) {
-            propSupport = new PropertyChangeSupport(this);
-        }
-        return propSupport;
-    }
+	/**
+	 * Get the property change support object for this class.  Because the
+	 * property change support object has to be transient, it may need to be
+	 * created.
+	 * @return The property change support object.
+	 */
+	protected PropertyChangeSupport getPropertyChangeSupport() {
+		if (propSupport == null) {
+			propSupport = new PropertyChangeSupport(this);
+		}
+		return propSupport;
+	}
 
-    /**
-     * Add a property listener to listen to all properties of this class.
-     * @param l The property listener to add.
-     */
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(l);
-    }
+	/**
+	 * Add a property listener to listen to all properties of this class.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener l) {
+		getPropertyChangeSupport().addPropertyChangeListener(l);
+	}
 
-    /**
-     * Add a property listener to receive property change events for only one specific
-     * property.
-     * @param propName The property to listen to.
-     * @param l The property listener to add.
-     */
-    public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(name, l);
-    }
+	/**
+	 * Add a property listener to receive property change events for only one specific
+	 * property.
+	 * @param propName The property to listen to.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
+		getPropertyChangeSupport().addPropertyChangeListener(name, l);
+	}
 
-    /**
-     * Remove a property change listener.  This will remove any listener that was added
-     * through either of the addPropertyListener methods.
-     * @param l The listener to remove.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        getPropertyChangeSupport().removePropertyChangeListener(l);
-    }
+	/**
+	 * Remove a property change listener.  This will remove any listener that was added
+	 * through either of the addPropertyListener methods.
+	 * @param l The listener to remove.
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener l) {
+		getPropertyChangeSupport().removePropertyChangeListener(l);
+	}
 
 
 }

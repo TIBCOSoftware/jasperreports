@@ -62,7 +62,7 @@ public class JRImageRenderer implements JRRenderable
 	/**
 	 *
 	 */
-    private transient SoftReference awtImageRef = null;
+	private transient SoftReference awtImageRef = null;
 
 
 	/**
@@ -258,20 +258,20 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public Image getImage() throws JRException
 	{
-        Image awtImage = null;
-        if (awtImageRef == null || awtImageRef.get() == null) {
-            try
-            {
-                awtImage = JRImageLoader.loadImage(getImageData());
-                awtImageRef = new SoftReference(awtImage);
-            }
-            catch (JRException e)
-            {
-                return getOnErrorRenderer(onErrorType, e).getImage();
-            }
-        }
-        return (Image) awtImageRef.get();
-    }
+		Image awtImage = null;
+		if (awtImageRef == null || awtImageRef.get() == null) {
+			try
+			{
+				awtImage = JRImageLoader.loadImage(getImageData());
+				awtImageRef = new SoftReference(awtImage);
+			}
+			catch (JRException e)
+			{
+				return getOnErrorRenderer(onErrorType, e).getImage();
+			}
+		}
+		return (Image) awtImageRef.get();
+	}
 
 
 	/**

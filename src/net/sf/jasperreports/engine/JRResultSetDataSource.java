@@ -230,10 +230,10 @@ public class JRResultSetDataSource implements JRDataSource
 						objValue = null;
 					}
 				}
-                else
-                {
-                    objValue = resultSet.getObject(columnIndex.intValue());
-                }
+				else
+				{
+					objValue = resultSet.getObject(columnIndex.intValue());
+				}
 			}
 			catch (Exception e)
 			{

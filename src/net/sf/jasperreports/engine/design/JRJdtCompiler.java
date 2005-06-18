@@ -307,16 +307,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
-//        if (ctxt.getOptions().getJavaEncoding() != null) 
-//        {
-//            settings.put(CompilerOptions.OPTION_Encoding,
-//                    ctxt.getOptions().getJavaEncoding());
-//        }
-//        if (ctxt.getOptions().getClassDebugInfo()) 
-//        {
-//            settings.put(CompilerOptions.OPTION_LocalVariableAttribute,
-//                         CompilerOptions.GENERATE);
-//        }
+//		if (ctxt.getOptions().getJavaEncoding() != null) 
+//		{
+//			settings.put(CompilerOptions.OPTION_Encoding, ctxt.getOptions().getJavaEncoding());
+//		}
+//		if (ctxt.getOptions().getClassDebugInfo()) 
+//		{
+//			settings.put(CompilerOptions.OPTION_LocalVariableAttribute, CompilerOptions.GENERATE);
+//		}
 
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
@@ -401,10 +399,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			new Compiler(env, policy, settings, requestor, problemFactory);
 		compiler.compile(compilationUnits);
 
-        if (problemBuffer.length() > 0) 
-        {
-        	return problemBuffer.toString();
-        }
+		if (problemBuffer.length() > 0) 
+		{
+			return problemBuffer.toString();
+		}
 
 		return null;  
 	}

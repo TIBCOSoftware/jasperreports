@@ -104,7 +104,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		if (columnIndex != null)
 		{
 			return this.tableModel.getValueAt(index, columnIndex.intValue());
-		}                
+		}
 		else if (fieldName.startsWith("COLUMN_"))
 		{
 			return this.tableModel.getValueAt(index, Integer.parseInt(fieldName.substring(7)));
@@ -112,7 +112,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		else
 		{
 			throw new JRException("Unknown column name : " + fieldName);
-		}                        
+		}
 	}
 
 	

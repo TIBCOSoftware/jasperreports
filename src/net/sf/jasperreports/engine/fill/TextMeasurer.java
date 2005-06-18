@@ -279,7 +279,7 @@ public class TextMeasurer
 
 			if (textHeight + layout.getDescent() <= maxHeight)
 			{
-			    lines++;
+				lines++;
 
 				fontSizeSum += 
 					maxFontSizeFinder.findMaxFontSize(
@@ -297,7 +297,7 @@ public class TextMeasurer
 					firstLineMaxFontSize = fontSizeSum;
 				}
 
-			    positionWithinParagraph = lineMeasurer.getPosition();
+				positionWithinParagraph = lineMeasurer.getPosition();
 				// here is the Y offset where we would draw the line
 				//lastDrawPosY = drawPosY;
 				//
@@ -305,8 +305,8 @@ public class TextMeasurer
 			}
 			else
 			{
-			    textHeight -= layout.getLeading() + lineSpacing * layout.getAscent();
-	    	    isMaxHeightReached = true;
+				textHeight -= layout.getLeading() + lineSpacing * layout.getAscent();
+				isMaxHeightReached = true;
 			}
 		}
 		

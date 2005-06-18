@@ -90,8 +90,8 @@ public class JRBshCompiler implements JRCompiler
 					System.getProperty("jasper.reports.compile.keep.java.file")
 					).booleanValue();
 	
-		    if (isKeepJavaFile) 
-		    {
+			if (isKeepJavaFile) 
+			{
 				String tempDirStr = System.getProperty("jasper.reports.compile.temp");
 				if (tempDirStr == null || tempDirStr.length() == 0)
 				{
@@ -107,8 +107,8 @@ public class JRBshCompiler implements JRCompiler
 				File javaFile = new File(tempDirFile, jasperDesign.getName() + ".bsh");
 				
 				JRSaver.saveClassSource(bshScript, javaFile);
-		    }
-		    
+			}
+			
 			jasperReport = 
 				new JasperReport(
 					jasperDesign,

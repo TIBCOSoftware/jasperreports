@@ -75,7 +75,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	
 	/**
 	 * Sets the print when expression. This expression must always return an instance of <tt>Boolean</tt> and its value
-     * will decide if the element will be displayed.
+	 * will decide if the element will be displayed.
 	 */
 	public void setPrintWhenExpression(JRExpression expression)
 	{
@@ -83,8 +83,8 @@ public abstract class JRDesignElement extends JRBaseElement
 	}
 	
 	/**
-     * Specifies the group for which an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed
-     * even if the value has not changed.
+	 * Specifies the group for which an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed
+	 * even if the value has not changed.
 	 */
 	public void setPrintWhenGroupChanges(JRGroup group)
 	{
@@ -92,9 +92,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	}
 	
 	/**
-     * Specifies the logical group that the element belongs to. More elements can be grouped in order to get the height
-     * of the tallest one.
-     * @see net.sf.jasperreports.engine.JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
+	 * Specifies the logical group that the element belongs to. More elements can be grouped in order to get the height
+	 * of the tallest one.
+	 * @see net.sf.jasperreports.engine.JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
 	 */
 	public void setElementGroup(JRElementGroup elementGroup)
 	{

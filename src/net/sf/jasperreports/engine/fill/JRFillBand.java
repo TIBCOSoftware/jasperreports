@@ -133,25 +133,25 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 				}
 			}
 
-			/*    */
+			/*   */
 			Collections.sort(sortedElemsList, new JRYComparator());
 			this.ySortedElements = new JRFillElement[this.elements.length];
 			sortedElemsList.toArray(this.ySortedElements);
 
-			/*    */
+			/*   */
 			this.stretchElements = new JRFillElement[stretchElemsList.size()];
 			stretchElemsList.toArray(this.stretchElements);
 
-			/*    */
+			/*   */
 			this.bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
 			bandBottomElemsList.toArray(this.bandBottomElements);
 
-			/*    */
+			/*   */
 			this.removableElements = new JRFillElement[removableElemsList.size()];
 			removableElemsList.toArray(this.removableElements);
 		}
 		
-		/*    */
+		/*   */
 		this.setDependentElements();
 	}
 

@@ -39,14 +39,14 @@ import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
  */
 public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 {
-    /** Mechanism for firing property change events. */
-    private transient PropertyChangeSupport propSupport;
+	/** Mechanism for firing property change events. */
+	private transient PropertyChangeSupport propSupport;
 
-    /** Bean property name for text. */
-    public static final String TEXT_PROPERTY = "text";
+	/** Bean property name for text. */
+	public static final String TEXT_PROPERTY = "text";
 
-    /** Bean property name for type. */
-    public static final String TYPE_PROPERTY = "type";
+	/** Bean property name for type. */
+	public static final String TYPE_PROPERTY = "type";
 
 	/**
 	 *
@@ -58,10 +58,10 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 	 */
 	public void setType(byte type)
 	{
-        Byte oldValue = new Byte(this.type);
+		Byte oldValue = new Byte(this.type);
 		this.type = type;
-        getPropertyChangeSupport().firePropertyChange(TYPE_PROPERTY,
-                oldValue, new Byte(this.type));
+		getPropertyChangeSupport().firePropertyChange(TYPE_PROPERTY,
+				oldValue, new Byte(this.type));
 	}
 		
 	/**
@@ -69,50 +69,50 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 	 */
 	public void setText(String text)
 	{
-        Object oldValue = this.text;
+		Object oldValue = this.text;
 		this.text = text;
-        getPropertyChangeSupport().firePropertyChange(TEXT_PROPERTY,
-                oldValue, this.text);
+		getPropertyChangeSupport().firePropertyChange(TEXT_PROPERTY,
+				oldValue, this.text);
 	}
 
-    /**
-     * Get the property change support object for this class.  Because the
-     * property change support object has to be transient, it may need to be
-     * created.
-     * @return The property change support object.
-     */
-    protected PropertyChangeSupport getPropertyChangeSupport() {
-        if (propSupport == null) {
-            propSupport = new PropertyChangeSupport(this);
-        }
-        return propSupport;
-    }
+	/**
+	 * Get the property change support object for this class.  Because the
+	 * property change support object has to be transient, it may need to be
+	 * created.
+	 * @return The property change support object.
+	 */
+	protected PropertyChangeSupport getPropertyChangeSupport() {
+		if (propSupport == null) {
+			propSupport = new PropertyChangeSupport(this);
+		}
+		return propSupport;
+	}
 
-    /**
-     * Add a property listener to listen to all properties of this class.
-     * @param l The property listener to add.
-     */
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(l);
-    }
+	/**
+	 * Add a property listener to listen to all properties of this class.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener l) {
+		getPropertyChangeSupport().addPropertyChangeListener(l);
+	}
 
-    /**
-     * Add a property listener to receive property change events for only one specific
-     * property.
-     * @param propName The property to listen to.
-     * @param l The property listener to add.
-     */
-    public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-        getPropertyChangeSupport().addPropertyChangeListener(propName, l);
-    }
+	/**
+	 * Add a property listener to receive property change events for only one specific
+	 * property.
+	 * @param propName The property to listen to.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
+		getPropertyChangeSupport().addPropertyChangeListener(propName, l);
+	}
 
-    /**
-     * Remove a property change listener.  This will remove any listener that was added
-     * through either of the addPropertyListener methods.
-     * @param l The listener to remove.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        getPropertyChangeSupport().removePropertyChangeListener(l);
-    }
+	/**
+	 * Remove a property change listener.  This will remove any listener that was added
+	 * through either of the addPropertyListener methods.
+	 * @param l The listener to remove.
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener l) {
+		getPropertyChangeSupport().removePropertyChangeListener(l);
+	}
 
 }

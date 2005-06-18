@@ -53,16 +53,16 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	public static final JRXlsExporterParameter IS_ONE_PAGE_PER_SHEET = new JRXlsExporterParameter("Is One Page per Sheet");
 
 
-    /**
-     * A boolean value specifying whether the empty spaces that could appear between rows should be removed or not.
-     */
+	/**
+	 * A boolean value specifying whether the empty spaces that could appear between rows should be removed or not.
+	 */
 	public static final JRXlsExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRXlsExporterParameter("Is Remove Empty Space Between Rows");
 
 
-    /**
-     * A boolean value specifying whether the page background should be white or the default XLS background color. This background
-     * may vary depending on the XLS viewer properties or the operating system color scheme.
-     */
+	/**
+	 * A boolean value specifying whether the page background should be white or the default XLS background color. This background
+	 * may vary depending on the XLS viewer properties or the operating system color scheme.
+	 */
 	public static final JRXlsExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRXlsExporterParameter("Is White Page Background");
 	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
 

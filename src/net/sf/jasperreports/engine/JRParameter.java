@@ -42,42 +42,42 @@ public interface JRParameter
 	public static final String REPORT_PARAMETERS_MAP = "REPORT_PARAMETERS_MAP";
 
 
-    /**
-     * A <tt>java.sql.Connection</tt> needed to run the default report query.
-     */
+	/**
+	 * A <tt>java.sql.Connection</tt> needed to run the default report query.
+	 */
 	public static final String REPORT_CONNECTION = "REPORT_CONNECTION";
 
 
-    /**
-     * An integer allowing users to limit the datasource size.
-     */
+	/**
+	 * An integer allowing users to limit the datasource size.
+	 */
 	public static final String REPORT_MAX_COUNT = "REPORT_MAX_COUNT";
 
 
-    /**
-     * A {@link JRDataSource} instance representing the report data source. JasperReports defines some convenience implementations
-     * of <tt>JRDataSource</tt>, but users may create their own data sources for specific needs.
-     */
+	/**
+	 * A {@link JRDataSource} instance representing the report data source. JasperReports defines some convenience implementations
+	 * of <tt>JRDataSource</tt>, but users may create their own data sources for specific needs.
+	 */
 	public static final String REPORT_DATA_SOURCE = "REPORT_DATA_SOURCE";
 
 
-    /**
-     * A {@link JRAbstractScriptlet} containing an instance of the report scriptlet provided by the user.
-     */
+	/**
+	 * A {@link JRAbstractScriptlet} containing an instance of the report scriptlet provided by the user.
+	 */
 	public static final String REPORT_SCRIPTLET = "REPORT_SCRIPTLET";
 
 
-    /**
-     * A <tt>java.util.Locale</tt> instance containing the resource bundle desired locale. This parameter should be used in
-     * conjunction with REPORT_RESOURCE_BUNDLE.
-     */
+	/**
+	 * A <tt>java.util.Locale</tt> instance containing the resource bundle desired locale. This parameter should be used in
+	 * conjunction with REPORT_RESOURCE_BUNDLE.
+	 */
 	public static final String REPORT_LOCALE = "REPORT_LOCALE";
 
 
-    /**
-     * The <tt>java.util.ResourceBundle</tt> containing localized messages. If the resource bundle base name is specified at
-     * design time, the engine will try to load the resource bundle using specified name and locale.
-     */
+	/**
+	 * The <tt>java.util.ResourceBundle</tt> containing localized messages. If the resource bundle base name is specified at
+	 * design time, the engine will try to load the resource bundle using specified name and locale.
+	 */
 	public static final String REPORT_RESOURCE_BUNDLE = "REPORT_RESOURCE_BUNDLE";
 
 

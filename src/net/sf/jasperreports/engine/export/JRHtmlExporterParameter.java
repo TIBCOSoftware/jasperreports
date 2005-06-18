@@ -60,80 +60,80 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	/**
 	 * A map containing all the images that were used for generating the report. The JasperReports engine stores all the
-     * images in this map, and uses the map keys for referencing images throughout the export process.
+	 * images in this map, and uses the map keys for referencing images throughout the export process.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_MAP = new JRHtmlExporterParameter("Images Map Object");
 
 
-    /**
-     * A <tt>java.io.File</tt> instance representing an absolute path to a folder on a local disk, where all the images are stored.
-     */
+	/**
+	 * A <tt>java.io.File</tt> instance representing an absolute path to a folder on a local disk, where all the images are stored.
+	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR = new JRHtmlExporterParameter("Images Directory");
 
 
-    /**
-     * An absolute path to a folder on a local disk, where all the images are stored. This is an alternative to IMAGES_DIR
-     */
+	/**
+	 * An absolute path to a folder on a local disk, where all the images are stored. This is an alternative to IMAGES_DIR
+	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR_NAME = new JRHtmlExporterParameter("Images Directory Name");
 
 
-    /**
-     * A boolean value specifying whether the images should be stored on disk. The default value is true. If this parameter is
-     * specified, IMAGES_DIR or IMAGES_DIR_FILE must also be specified and point to a valid directory.
-     */
+	/**
+	 * A boolean value specifying whether the images should be stored on disk. The default value is true. If this parameter is
+	 * specified, IMAGES_DIR or IMAGES_DIR_FILE must also be specified and point to a valid directory.
+	 */
 	public static final JRHtmlExporterParameter IS_OUTPUT_IMAGES_TO_DIR = new JRHtmlExporterParameter("Is Output Images to Directory Flag");
 
 
-    /**
-     * An URI to the folder where all the images are stored. It could also point to a different resource, such as an image servlet.
-     * It is used in the generated HTML to point to the actual location of the image in the <img> tag (as a file on disk or a
-     * web resource).
-     */
+	/**
+	 * An URI to the folder where all the images are stored. It could also point to a different resource, such as an image servlet.
+	 * It is used in the generated HTML to point to the actual location of the image in the <img> tag (as a file on disk or a
+	 * web resource).
+	 */
 	public static final JRHtmlExporterParameter IMAGES_URI = new JRHtmlExporterParameter("Images URI");
 
 
-    /**
-     * A string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
-     * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.
-     */
+	/**
+	 * A string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
+	 * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.
+	 */
 	public static final JRHtmlExporterParameter HTML_HEADER = new JRHtmlExporterParameter("HTML Header");
 
 
-    /**
-     * A string representing HTML code that will be inserted between pages of the generated report. By default, JasperReports
-     * separates pages by two empty lines, but this behaviour can be overriden by this parameter.
-     */
+	/**
+	 * A string representing HTML code that will be inserted between pages of the generated report. By default, JasperReports
+	 * separates pages by two empty lines, but this behaviour can be overriden by this parameter.
+	 */
 	public static final JRHtmlExporterParameter BETWEEN_PAGES_HTML = new JRHtmlExporterParameter("Between Pages HTML");
 
 
-    /**
-     * A string representing HTML code that will be inserted after the generated report. By default, JasperReports closes
-     * the usual HTML tags that were opened in HTML_HEADER. If the default HTML_HEADER was overriden, it is recommended that
-     * this parameter is overriden too, in order to ensure proper construction of HTML page.
-     */
+	/**
+	 * A string representing HTML code that will be inserted after the generated report. By default, JasperReports closes
+	 * the usual HTML tags that were opened in HTML_HEADER. If the default HTML_HEADER was overriden, it is recommended that
+	 * this parameter is overriden too, in order to ensure proper construction of HTML page.
+	 */
 	public static final JRHtmlExporterParameter HTML_FOOTER = new JRHtmlExporterParameter("HTML Footer");
 
 
 
-    /**
-     * A boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
-     * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
-     * All the remaining empty space could be removed by setting this parameter to true.
-     */
+	/**
+	 * A boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
+	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
+	 * All the remaining empty space could be removed by setting this parameter to true.
+	 */
 	public static final JRHtmlExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRHtmlExporterParameter("Is Remove Empty Space Between Rows");
 
 
-    /**
-     * A boolean value specifying whether the report background should be white. If this parameter is not set, the default
-     * background will appear, depending on the selected CSS styles.
-     */
+	/**
+	 * A boolean value specifying whether the report background should be white. If this parameter is not set, the default
+	 * background will appear, depending on the selected CSS styles.
+	 */
 	public static final JRHtmlExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRHtmlExporterParameter("Is White Page Background");
 
 
-    /**
-     * A boolean value specifying whether the export engine should use small images for aligning. This is useful when you don't have
-     * images in your report anyway and you don't want to have to handle images at all.
-     */
+	/**
+	 * A boolean value specifying whether the export engine should use small images for aligning. This is useful when you don't have
+	 * images in your report anyway and you don't want to have to handle images at all.
+	 */
 	public static final JRHtmlExporterParameter IS_USING_IMAGES_TO_ALIGN = new JRHtmlExporterParameter("Is Using Images To Align");
 
 

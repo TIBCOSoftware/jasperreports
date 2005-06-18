@@ -33,7 +33,7 @@ public class Base64Encoder
 			(byte) 'o', (byte) 'p', (byte) 'q', (byte) 'r', (byte) 's', (byte) 't', (byte) 'u', (byte) 'v', // 40-47
 			(byte) 'w', (byte) 'x', (byte) 'y', (byte) 'z', (byte) '0', (byte) '1', (byte) '2', (byte) '3', // 48-55
 			(byte) '4', (byte) '5', (byte) '6', (byte) '7', (byte) '8', (byte) '9', (byte) '+', (byte) '/', // 56-63
-		 	(byte) '=' // 64
+			(byte) '=' // 64
 	};
 
 	InputStream in = null;

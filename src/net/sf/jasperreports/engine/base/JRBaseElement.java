@@ -88,10 +88,10 @@ public abstract class JRBaseElement implements JRElement, Serializable
 
 	/**
 	 * Initializes basic properties of the element.
-     * @param element an element whose properties are copied to this element. Usually it is a
-     * {@link net.sf.jasperreports.engine.design.JRDesignElement} that must be transformed into an
-     * <tt>JRBaseElement</tt> at compile time.
-     * @param factory a factory used in the compile process
+	 * @param element an element whose properties are copied to this element. Usually it is a
+	 * {@link net.sf.jasperreports.engine.design.JRDesignElement} that must be transformed into an
+	 * <tt>JRBaseElement</tt> at compile time.
+	 * @param factory a factory used in the compile process
 	 */
 	protected JRBaseElement(JRElement element, JRBaseObjectFactory factory)
 	{

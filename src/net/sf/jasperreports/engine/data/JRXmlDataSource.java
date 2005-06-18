@@ -198,8 +198,8 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 
 	/**
 	 * Creates the data source by parsing the xml document from the given system identifier (URI).
-     * <p>If the system identifier is a URL, it must be full resolved.</p>
-     * 
+	 * <p>If the system identifier is a URL, it must be full resolved.</p>
+	 * 
 	 * @param uri the system identifier
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */

@@ -55,12 +55,12 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 
 
 	/**
-     * Initializes properties that are specific to rectangles. Common properties are initialized by its
-     * parent constructors.
-     * @param rectangle an element whose properties are copied to this element. Usually it is a
-     * {@link net.sf.jasperreports.engine.design.JRDesignRectangle} that must be transformed into an
-     * <tt>JRBaseRectangle</tt> at compile time.
-     * @param factory a factory used in the compile process
+	 * Initializes properties that are specific to rectangles. Common properties are initialized by its
+	 * parent constructors.
+	 * @param rectangle an element whose properties are copied to this element. Usually it is a
+	 * {@link net.sf.jasperreports.engine.design.JRDesignRectangle} that must be transformed into an
+	 * <tt>JRBaseRectangle</tt> at compile time.
+	 * @param factory a factory used in the compile process
 	 */
 	protected JRBaseRectangle(JRRectangle rectangle, JRBaseObjectFactory factory)
 	{
