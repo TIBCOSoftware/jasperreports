@@ -294,7 +294,7 @@ public class JRXmlDigesterFactory
 	 */
 	private static void addChartRules(Digester digester)
 	{
-		digester.addFactoryCreate("*/dataset", JRDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/dataset", JRChartDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());
@@ -331,6 +331,26 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pie3DChart", JRPie3DChartFactory.class.getName());
 		digester.addSetNext("*/pie3DChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/pie3DPlot", JRPie3DPlotFactory.class.getName());
+
+		// bar charts
+		digester.addFactoryCreate("*/barChart", JRBarChartFactory.class.getName());
+		digester.addSetNext("*/barChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/barChart/barPlot", JRBarPlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/categoryDataset/serieExpression", JRCategoryDatasetFactory.JRSerieExpressionFactory.class);
+		digester.addSetNext("*/categoryDataset/serieExpression", "setSerieExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categoryDataset/serieExpression", "setText", 0);
+		digester.addFactoryCreate("*/categoryDataset/categoryExpression", JRCategoryDatasetFactory.JRCategoryExpressionFactory.class);
+		digester.addSetNext("*/categoryDataset/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categoryDataset/categoryExpression", "setText", 0);
+		digester.addFactoryCreate("*/categoryDataset/labelExpression", JRCategoryDatasetFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/categoryDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categoryDataset/labelExpression", "setText", 0);
+		digester.addFactoryCreate("*/categoryDataset/valueExpression", JRCategoryDatasetFactory.JRValueExpressionFactory.class);
+		digester.addSetNext("*/categoryDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categoryDataset/valueExpression", "setText", 0);
+
 	}
 	
 	

@@ -81,24 +81,22 @@ public class ChartsApp
 			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
-				JasperCompileManager.compileReport("PieChartReport.jrxml");
-				
 				Map parameters = new HashMap();
-				parameters.put("MaxOrderID", new Integer(10500));
+				parameters.put("MaxOrderID", new Integer(12500));
 				
-				JasperFillManager.fillReportToFile("PieChartReport.jasper", parameters, getConnection());
+				JasperFillManager.fillReportToFile("BarChartReport.jasper", parameters, getConnection());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile("PieChartReport.jrprint");
+				JasperExportManager.exportReportToPdfFile("BarChartReport.jrprint");
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile("PieChartReport.jrprint");
+				JasperExportManager.exportReportToHtmlFile("BarChartReport.jrprint");
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
