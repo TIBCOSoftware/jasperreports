@@ -314,20 +314,23 @@ public class JRXmlDigesterFactory
 		// pie charts
 		digester.addFactoryCreate("*/pieChart", JRPieChartFactory.class.getName());
 		digester.addSetNext("*/pieChart", "addElement", JRDesignElement.class.getName());
-		digester.addFactoryCreate("*/pieChart/pieDataset", JRPieDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/pieChart/piePlot", JRPiePlotFactory.class.getName());
 
-		digester.addFactoryCreate("*/pieChart/pieDataset/keyExpression", JRPieDatasetFactory.JRKeyExpressionFactory.class);
-		digester.addSetNext("*/pieChart/pieDataset/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/pieChart/pieDataset/keyExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieDataset", JRPieDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/pieDataset/keyExpression", JRPieDatasetFactory.JRKeyExpressionFactory.class);
+		digester.addSetNext("*/pieDataset/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieDataset/keyExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieDataset/labelExpression", JRPieDatasetFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/pieDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieDataset/labelExpression", "setText", 0);
+		digester.addFactoryCreate("*/pieDataset/valueExpression", JRPieDatasetFactory.JRValueExpressionFactory.class);
+		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
 
-		digester.addFactoryCreate("*/pieChart/pieDataset/labelExpression", JRPieDatasetFactory.JRLabelExpressionFactory.class);
-		digester.addSetNext("*/pieChart/pieDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/pieChart/pieDataset/labelExpression", "setText", 0);
-
-		digester.addFactoryCreate("*/pieChart/pieDataset/valueExpression", JRPieDatasetFactory.JRValueExpressionFactory.class);
-		digester.addSetNext("*/pieChart/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/pieChart/pieDataset/valueExpression", "setText", 0);
+		// pie 3D charts
+		digester.addFactoryCreate("*/pie3DChart", JRPie3DChartFactory.class.getName());
+		digester.addSetNext("*/pie3DChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/pie3DPlot", JRPie3DPlotFactory.class.getName());
 	}
 	
 	

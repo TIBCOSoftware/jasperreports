@@ -294,7 +294,7 @@
 <!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
 <!ELEMENT pie3DPlot (plot)>
 <!ATTLIST pie3DPlot
-	depthFactor CDATA #IMPLIED
+	depthFactor CDATA "0.2"
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>

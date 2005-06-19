@@ -27,97 +27,100 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
+import java.awt.Color;
 
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.engine.JRChartPlot;
+
+import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillDataset implements JRChartDataset
+public class JRFillChartPlot implements JRChartPlot
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
+	protected JRChartPlot parent = null;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
 
+	/**
+	 *
+	 */
+	protected JRFillChartPlot(
+		JRChartPlot plot, 
+		JRFillObjectFactory factory
+		)
+	{
+		factory.put(plot, this);
+
+		parent = plot;
+	}
+
+
+	/**
+	 *
+	 */
+	public Color getBackcolor()
+	{
+		return parent.getBackcolor();
+	}
 	
 	/**
 	 *
 	 */
-	protected JRFillDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	public void setBackcolor(Color backcolor)
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
-
 
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public PlotOrientation getOrientation()
 	{
-		return ((JRChartDataset)parent).getResetType();
+		return parent.getOrientation();
+	}
+	
+	/**
+	 *
+	 */
+	public void setOrientation(PlotOrientation orientation)
+	{
 	}
 		
 	/**
 	 *
 	 */
-	public byte getIncrementType()
+	public float getBackgroundAlpha()
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		return parent.getBackgroundAlpha();
+	}
+	
+	/**
+	 *
+	 */
+	public void setBackgroundAlpha(float BackgroundAlpha)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public float getForegroundAlpha()
+	{
+		return parent.getForegroundAlpha();
+	}
+	
+	/**
+	 *
+	 */
+	public void setForegroundAlpha(float foregroundAlpha)
+	{
 	}
 		
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	protected abstract Dataset getDataset();
-
 
 }

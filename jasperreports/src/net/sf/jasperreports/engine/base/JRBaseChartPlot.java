@@ -25,18 +25,21 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.design;
+package net.sf.jasperreports.engine.base;
 
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.base.JRBaseDataset;
+import java.awt.Color;
+import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRChartPlot;
+
+import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignDataset extends JRBaseDataset
+public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 {
 
 
@@ -44,82 +47,97 @@ public class JRDesignDataset extends JRBaseDataset
 	 *
 	 */
 	private static final long serialVersionUID = 608;
+	
+	protected Color backcolor = null;
+	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
+	protected float backgroundAlpha = 1;
+	protected float foregroundAlpha = 1;
+
+
+	/**
+	 *
+	 */
+	protected JRBaseChartPlot()
+	{
+	}
 
 	
 	/**
 	 *
 	 */
-	public JRDesignDataset()
+	protected JRBaseChartPlot(JRChartPlot plot, JRBaseObjectFactory factory)
 	{
-		super();
+		factory.put(plot, this);
 		
-		//FIXME NOW dataset = ;
+		backcolor = plot.getBackcolor();
+		orientation = plot.getOrientation();
+		backgroundAlpha = plot.getBackgroundAlpha();
+		foregroundAlpha = plot.getForegroundAlpha();
 	}
-		
+
+	
+	/**
+	 *
+	 */
+	public Color getBackcolor()
+	{
+		return this.backcolor;
+	}
 
 	/**
 	 *
-	 *
-	public byte getResetType()
+	 */
+	public void setBackcolor(Color backcolor)
 	{
-		return resetType;
+		this.backcolor = backcolor;
 	}
-		
+
 	/**
 	 *
 	 */
-	public void setResetType(byte resetType)
+	public PlotOrientation getOrientation()
 	{
-		this.resetType = resetType;
+		return orientation;
 	}
-		
-	/**
-	 *
-	 *
-	public byte getIncrementType()
-	{
-		return incrementType;
-	}
-		
+
 	/**
 	 *
 	 */
-	public void setIncrementType(byte incrementType)
+	public void setOrientation(PlotOrientation orientation)
 	{
-		this.incrementType = incrementType;
+		this.orientation = orientation;
 	}
-		
-	/**
-	 *
-	 *
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
+
 	/**
 	 *
 	 */
-	public void setResetGroup(JRGroup group)
+	public float getBackgroundAlpha()
 	{
-		this.resetGroup = group;
+		return backgroundAlpha;
 	}
-		
-	/**
-	 *
-	 *
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
+
 	/**
 	 *
 	 */
-	public void setIncrementGroup(JRGroup group)
+	public void setBackgroundAlpha(float backgroundAlpha)
 	{
-		this.incrementGroup = group;
+		this.backgroundAlpha = backgroundAlpha;
 	}
-		
+
+	/**
+	 *
+	 */
+	public float getForegroundAlpha()
+	{
+		return foregroundAlpha;
+	}
+
+	/**
+	 *
+	 */
+	public void setForegroundAlpha(float foregroundAlpha)
+	{
+		this.foregroundAlpha = foregroundAlpha;
+	}
 
 }

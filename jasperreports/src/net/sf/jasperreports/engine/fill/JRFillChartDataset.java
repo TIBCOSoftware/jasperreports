@@ -25,30 +25,27 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.base;
-
-import java.io.Serializable;
+package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRVariable;
+
+import org.jfree.data.general.Dataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseDataset implements JRChartDataset, Serializable
+public abstract class JRFillChartDataset implements JRChartDataset
 {
 
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	protected JRChartDataset parent = null;
 
-	protected byte resetType = JRVariable.RESET_TYPE_NONE;
-	protected byte incrementType = JRVariable.RESET_TYPE_NONE;
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;
 
@@ -56,31 +53,26 @@ public abstract class JRBaseDataset implements JRChartDataset, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseDataset()
-	{
-	}
-
-	
-	/**
-	 *
-	 */
-	protected JRBaseDataset(JRChartDataset dataset, JRBaseObjectFactory factory)
+	protected JRFillChartDataset(
+		JRChartDataset dataset, 
+		JRFillObjectFactory factory
+		)
 	{
 		factory.put(dataset, this);
 
-		resetType = dataset.getResetType();
-		incrementType = dataset.getIncrementType();
-		resetGroup = factory.getGroup(dataset.getResetGroup());
-		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+		parent = dataset;
+
+		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
+		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
 
-	
+
 	/**
 	 *
 	 */
 	public byte getResetType()
 	{
-		return this.resetType;
+		return ((JRChartDataset)parent).getResetType();
 	}
 		
 	/**
@@ -88,7 +80,7 @@ public abstract class JRBaseDataset implements JRChartDataset, Serializable
 	 */
 	public byte getIncrementType()
 	{
-		return this.incrementType;
+		return ((JRChartDataset)parent).getIncrementType();
 	}
 		
 	/**
@@ -107,4 +99,25 @@ public abstract class JRBaseDataset implements JRChartDataset, Serializable
 		return incrementGroup;
 	}
 		
+	/**
+	 *
+	 */
+	protected abstract void initialize();
+
+	/**
+	 *
+	 */
+	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
+
+	/**
+	 *
+	 */
+	protected abstract void increment();
+
+	/**
+	 *
+	 */
+	protected abstract Dataset getDataset();
+
+
 }

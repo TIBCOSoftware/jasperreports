@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignChart;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -626,7 +626,7 @@ public class JRXmlLoader
 		Map groupsMap = jasperDesign.getGroupsMap();
 		for(Iterator it = groupBoundDatasets.iterator(); it.hasNext();)
 		{
-			JRDesignDataset dataset = (JRDesignDataset)it.next();
+			JRDesignChartDataset dataset = (JRDesignChartDataset)it.next();
 
 			String groupName = null;
 			JRGroup group = dataset.getIncrementGroup();

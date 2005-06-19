@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 
 import org.xml.sax.Attributes;
@@ -57,7 +57,7 @@ public class JRDatasetFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Set groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 
-		JRDesignDataset dataset = (JRDesignDataset) digester.peek();
+		JRDesignChartDataset dataset = (JRDesignChartDataset) digester.peek();
 
 		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_resetType));
 		if (resetType != null)
