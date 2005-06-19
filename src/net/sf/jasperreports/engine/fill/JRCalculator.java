@@ -59,7 +59,7 @@ public abstract class JRCalculator
 	protected Map varsm = null;
 	protected JRFillVariable[] variables = null;
 	protected JRFillGroup[] groups = null;
-	protected JRFillDataset[] datasets = null;
+	protected JRFillChartDataset[] datasets = null;
 
 	private JRFillParameter resourceBundle = null;
 	private JRFillVariable pageNumber = null;
@@ -83,7 +83,7 @@ public abstract class JRCalculator
 		Map variablesMap,
 		JRFillVariable[] vars,
 		JRFillGroup[] grps,
-		JRFillDataset[] dts
+		JRFillChartDataset[] dts
 		) throws JRException
 	{
 		parsm = parametersMap;
@@ -161,7 +161,7 @@ public abstract class JRCalculator
 
 		if (datasets != null && datasets.length > 0)
 		{
-			JRFillDataset dataset = null;
+			JRFillChartDataset dataset = null;
 			
 			for(int i = 0; i < datasets.length; i++)
 			{
@@ -333,7 +333,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void incrementDataset(JRFillDataset dataset, byte incrementType) throws JRException
+	private void incrementDataset(JRFillChartDataset dataset, byte incrementType) throws JRException
 	{
 		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
 		{
@@ -453,7 +453,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void initializeDataset(JRFillDataset dataset, byte resetType) throws JRException
+	private void initializeDataset(JRFillChartDataset dataset, byte resetType) throws JRException
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 //		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)
