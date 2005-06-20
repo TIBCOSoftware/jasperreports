@@ -69,5 +69,35 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 		return ((JRBarPlot)parent).getValueAxisLabelExpression();
 	}
 
+	/**
+	 *
+	 */
+	public boolean isShowTickMarks()
+	{
+		return ((JRBarPlot)parent).isShowTickMarks();
+	}
+		
+	/**
+	 *
+	 */
+	public void setShowTickMarks(boolean isShowTickMarks)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public boolean isShowTickLabels()
+	{
+		return ((JRBarPlot)parent).isShowTickLabels();
+	}
+		
+	/**
+	 *
+	 */
+	public void setShowTickLabels(boolean isShowTickLabels)
+	{
+	}
+
 	
 }
