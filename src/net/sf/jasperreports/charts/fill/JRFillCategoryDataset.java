@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.engine.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
