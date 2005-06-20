@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBarChart;
 
 
 /**
@@ -319,6 +320,16 @@ public class JRExpressionCollector
 		collectChart(barChart);
 		collect((JRCategoryDataset)barChart.getDataset());
 		collect((JRBarPlot)barChart.getPlot());
+	}
+
+	/**
+	 *
+	 */
+	public void collect(JRStackedBarChart stackedBarChart)
+	{
+		collectChart(stackedBarChart);
+		collect((JRCategoryDataset)stackedBarChart.getDataset());
+		collect((JRBarPlot)stackedBarChart.getPlot());
 	}
 
 	/**

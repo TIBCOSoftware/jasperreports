@@ -359,6 +359,9 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/categoryDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categoryDataset/valueExpression", "setText", 0);
 
+		digester.addFactoryCreate("*/stackedBarChart", JRBarChartFactory.class.getName());
+		digester.addSetNext("*/stackedBarChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/stackedBarChart/barPlot", JRBarPlotFactory.class.getName());
 	}
 	
 	
