@@ -48,4 +48,14 @@ public interface JRBarPlot extends JRChartPlot
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
+	/**
+	 * 
+	 */
+	public boolean isShowTickMarks();
+
+	/**
+	 * 
+	 */
+	public boolean isShowTickLabels();
+	
 }
