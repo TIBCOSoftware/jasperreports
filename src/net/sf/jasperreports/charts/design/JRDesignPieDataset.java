@@ -25,99 +25,90 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
-import org.jfree.data.general.Dataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDataset
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
+	private static final long serialVersionUID = 608;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRExpression keyExpression = null;
+	protected JRExpression valueExpression = null;
+	protected JRExpression labelExpression = null;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	public JRDesignPieDataset()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
+		super();
+		
+		//FIXME NOW dataset = new JRDesignPieDataset();
 	}
-
+		
 
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public JRExpression getKeyExpression()
 	{
-		return ((JRChartDataset)parent).getResetType();
+		return keyExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public byte getIncrementType()
+	public void setKeyExpression(JRExpression keyExpression)
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		this.keyExpression = keyExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueExpression()
+	{
+		return valueExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public void setValueExpression(JRExpression valueExpression)
 	{
-		return resetGroup;
+		this.valueExpression = valueExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getIncrementGroup()
+	public void setLabelExpression(JRExpression labelExpression)
 	{
-		return incrementGroup;
+		this.labelExpression = labelExpression;
 	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
 
 
 }

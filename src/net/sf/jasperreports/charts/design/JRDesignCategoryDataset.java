@@ -25,99 +25,107 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRCategoryDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
-import org.jfree.data.general.Dataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRCategoryDataset
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
+	private static final long serialVersionUID = 608;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRExpression serieExpression = null;
+	protected JRExpression categoryExpression = null;
+	protected JRExpression valueExpression = null;
+	protected JRExpression labelExpression = null;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	public JRDesignCategoryDataset()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
+		super();
+		
+		//FIXME NOW dataset = ;
 	}
-
+		
 
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public JRExpression getSerieExpression()
 	{
-		return ((JRChartDataset)parent).getResetType();
+		return serieExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public byte getIncrementType()
+	public void setSerieExpression(JRExpression serieExpression)
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		this.serieExpression = serieExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getCategoryExpression()
+	{
+		return categoryExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public void setCategoryExpression(JRExpression categoryExpression)
 	{
-		return resetGroup;
+		this.categoryExpression = categoryExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueExpression()
+	{
+		return valueExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getIncrementGroup()
+	public void setValueExpression(JRExpression valueExpression)
 	{
-		return incrementGroup;
+		this.valueExpression = valueExpression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
 	}
 		
 	/**
 	 *
 	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
+	public void setLabelExpression(JRExpression labelExpression)
+	{
+		this.labelExpression = labelExpression;
+	}
 
 
 }

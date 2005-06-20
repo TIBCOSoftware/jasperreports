@@ -25,99 +25,49 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
-
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
-
-	
-	/**
-	 *
-	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
+	public JRFillBarPlot(
+		JRBarPlot barPlot, 
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
-	}
-
-
-	/**
-	 *
-	 */
-	public byte getResetType()
-	{
-		return ((JRChartDataset)parent).getResetType();
+		super(barPlot, factory);
 	}
 		
+
 	/**
 	 *
 	 */
-	public byte getIncrementType()
+	public JRExpression getCategoryAxisLabelExpression()
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		return ((JRBarPlot)parent).getCategoryAxisLabelExpression();
 	}
-		
+
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public JRExpression getValueAxisLabelExpression()
 	{
-		return resetGroup;
+		return ((JRBarPlot)parent).getValueAxisLabelExpression();
 	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
 
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
-
-
+	
 }

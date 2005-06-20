@@ -27,10 +27,23 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.charts.JRBarChart;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRPie3DChart;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPieChart;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.base.JRBaseBarChart;
+import net.sf.jasperreports.charts.base.JRBaseBarPlot;
+import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
+import net.sf.jasperreports.charts.base.JRBasePie3DChart;
+import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
+import net.sf.jasperreports.charts.base.JRBasePieChart;
+import net.sf.jasperreports.charts.base.JRBasePieDataset;
+import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBarChart;
-import net.sf.jasperreports.engine.JRBarPlot;
 import net.sf.jasperreports.engine.JRCategoryDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
@@ -42,11 +55,6 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPie3DChart;
-import net.sf.jasperreports.engine.JRPie3DPlot;
-import net.sf.jasperreports.engine.JRPieChart;
-import net.sf.jasperreports.engine.JRPieDataset;
-import net.sf.jasperreports.engine.JRPiePlot;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -231,7 +239,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseExpression getExpression(JRExpression expression)
+	public JRBaseExpression getExpression(JRExpression expression)
 	{
 		JRBaseExpression baseExpression = null;
 		

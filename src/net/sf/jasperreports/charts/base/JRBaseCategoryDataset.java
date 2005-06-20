@@ -25,99 +25,85 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.engine.JRCategoryDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.base.JRBaseChartDataset;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCategoryDataset
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
+	private static final long serialVersionUID = 608;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRExpression serieExpression = null;
+	protected JRExpression categoryExpression = null;
+	protected JRExpression valueExpression = null;
+	protected JRExpression labelExpression = null;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	protected JRBaseCategoryDataset()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
-
-
+	
+	
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public JRBaseCategoryDataset(JRCategoryDataset dataset, JRBaseObjectFactory factory)
 	{
-		return ((JRChartDataset)parent).getResetType();
+		super(dataset, factory);
+
+		serieExpression = factory.getExpression(dataset.getSerieExpression());
+		categoryExpression = factory.getExpression(dataset.getCategoryExpression());
+		valueExpression = factory.getExpression(dataset.getValueExpression());
+		labelExpression = factory.getExpression(dataset.getLabelExpression());
 	}
-		
+
+	
 	/**
 	 *
 	 */
-	public byte getIncrementType()
+	public JRExpression getSerieExpression()
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		return serieExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public JRExpression getCategoryExpression()
 	{
-		return resetGroup;
+		return categoryExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getIncrementGroup()
+	public JRExpression getValueExpression()
 	{
-		return incrementGroup;
+		return valueExpression;
 	}
 		
 	/**
 	 *
 	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
-
-
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
+	}
+		
 }

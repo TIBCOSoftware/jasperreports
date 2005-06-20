@@ -25,99 +25,63 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
-
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	private static final long serialVersionUID = 608;
+	
+	protected double depthFactor = 0.2;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	protected JRBasePie3DPlot()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
 
-
+	
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public JRBasePie3DPlot(JRPie3DPlot pie3DPlot, JRBaseObjectFactory factory)
 	{
-		return ((JRChartDataset)parent).getResetType();
-	}
+		super(pie3DPlot, factory);
 		
-	/**
-	 *
-	 */
-	public byte getIncrementType()
-	{
-		return ((JRChartDataset)parent).getIncrementType();
+		depthFactor = pie3DPlot.getDepthFactor();
 	}
-		
+
+	
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public double getDepthFactor()
 	{
-		return resetGroup;
+		return depthFactor;
 	}
-		
+	
 	/**
 	 *
 	 */
-	public JRGroup getIncrementGroup()
+	public void setDepthFactor(double depthFactor)
 	{
-		return incrementGroup;
+		this.depthFactor = depthFactor;
 	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
-
-
+	
+	
 }

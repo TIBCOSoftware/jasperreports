@@ -213,7 +213,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Pie Chart Report]]></text>
+				<text><![CDATA[Pie 3D Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>
