@@ -325,7 +325,7 @@ public class JRExpressionCollector
 	 */
 	private void collect(JRCategoryDataset categoryDataset)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
-		addExpression(categoryDataset.getSerieExpression());
+		addExpression(categoryDataset.getSeriesExpression());
 		addExpression(categoryDataset.getCategoryExpression());
 		addExpression(categoryDataset.getValueExpression());
 		addExpression(categoryDataset.getLabelExpression());

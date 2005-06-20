@@ -50,7 +50,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	
-	private Comparable serie = null;
+	private Comparable series = null;
 	private Comparable category = null;
 	private Number value = null;
 	private String label = null;
@@ -73,9 +73,9 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	public JRExpression getSerieExpression()
+	public JRExpression getSeriesExpression()
 	{
-		return ((JRCategoryDataset)parent).getSerieExpression();
+		return ((JRCategoryDataset)parent).getSeriesExpression();
 	}
 		
 	/**
@@ -117,7 +117,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		serie = (Comparable)calculator.evaluate(getSerieExpression()); 
+		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
 		category = (Comparable)calculator.evaluate(getCategoryExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
@@ -129,7 +129,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	protected void increment()
 	{
-		if (category != null) dataset.addValue(value, serie, category);//FIXME NOW verify if condifion
+		if (category != null) dataset.addValue(value, series, category);//FIXME NOW verify if condifion
 		isIncremented = true;
 	}
 

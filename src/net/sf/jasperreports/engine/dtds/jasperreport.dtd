@@ -298,8 +298,8 @@
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
-<!ELEMENT categoryDataset (dataset, serieExpression, categoryExpression, valueExpression, labelExpression?)>
-<!ELEMENT serieExpression (#PCDATA)>
+<!ELEMENT categoryDataset (dataset, seriesExpression, categoryExpression, valueExpression, labelExpression?)>
+<!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST barPlot
@@ -312,12 +312,11 @@
 <!ELEMENT bar3DChart (chart, categoryDataset, barPlot)>
 
 <!ELEMENT xyBarChart (chart, (timePeriodValues* | timeSeries* | xySeries*), barPlot)>
-<!ELEMENT timePeriodValues (dataset, seriesNameExpression, startDateExpression, endDateExpression, valueExpression)>
-<!ELEMENT seriesNameExpression (#PCDATA)>
+<!ELEMENT timePeriodValues (dataset, seriesExpression, startDateExpression, endDateExpression, valueExpression)>
 <!ELEMENT endDateExpression (#PCDATA)>
-<!ELEMENT timeSeries (dataset, seriesNameExpression, timePeriodExpression, valueExpression)>
+<!ELEMENT timeSeries (dataset, seriesExpression, timePeriodExpression, valueExpression)>
 <!ELEMENT timePeriodExpression (#PCDATA)>
-<!ELEMENT xySeries (dataset, seriesNameExpression, xValueExpression, yValueExpression)>
+<!ELEMENT xySeries (dataset, seriesExpression, xValueExpression, yValueExpression)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 

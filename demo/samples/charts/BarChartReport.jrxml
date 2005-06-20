@@ -95,7 +95,7 @@
 				</chart>
 				<categoryDataset>
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
-					<serieExpression>"Freight"</serieExpression>
+					<seriesExpression>"Freight"</seriesExpression>
 					<categoryExpression>$F{ShipCountry}</categoryExpression>
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
 					<labelExpression></labelExpression>
