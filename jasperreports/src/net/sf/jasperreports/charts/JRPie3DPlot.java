@@ -36,7 +36,8 @@ import net.sf.jasperreports.engine.JRChartPlot;
  */
 public interface JRPie3DPlot extends JRChartPlot
 {
-	
+
+	public static final double DEPTH_FACTOR_DEFAULT = 0.2;
 	/**
 	 * 
 	 */

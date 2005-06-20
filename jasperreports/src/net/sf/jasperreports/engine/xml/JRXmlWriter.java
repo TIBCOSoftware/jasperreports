@@ -37,36 +37,11 @@ import java.util.Map;
 
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRElementGroup;
-import net.sf.jasperreports.engine.JREllipse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRQuery;
-import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.charts.JRPie3DChart;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRBarChart;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -878,6 +853,14 @@ public class JRXmlWriter
 		else if (element instanceof JRPieChart)
 		{
 			writePieChart((JRPieChart)element);
+		}
+		else if (element instanceof JRPie3DChart)
+		{
+			writePie3DChart((JRPie3DChart)element);
+		}
+		else if (element instanceof JRBarChart)
+		{
+			writeBarChart((JRBarChart)element);
 		}
 	}
 
@@ -1752,24 +1735,28 @@ public class JRXmlWriter
 		writeBox(chart.getBox());
 
 		// write title
-		sb.append("\t\t\t\t<chartTitle>\n");
-		String titleFont = writeFont(chart.getTitleFont());
-		if (titleFont != null)
-			sb.append("\t\t\t\t\t" + titleFont +"\n");
-		sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
-		sb.append(chart.getTitleExpression().getText());
-		sb.append("]]></titleExpression>\n");
-		sb.append("\t\t\t\t</chartTitle>\n");
+		if (chart.getTitleExpression() != null) {
+			sb.append("\t\t\t\t<chartTitle>\n");
+			String titleFont = writeFont(chart.getTitleFont());
+			if (titleFont != null)
+				sb.append("\t\t\t\t\t" + titleFont +"\n");
+			sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
+			sb.append(chart.getTitleExpression().getText());
+			sb.append("]]></titleExpression>\n");
+			sb.append("\t\t\t\t</chartTitle>\n");
+		}
 
 		// write subtitle
-		sb.append("\t\t\t\t<chartSubitle>\n");
-		String subtitleFont = writeFont(chart.getSubtitleFont());
-		if (subtitleFont != null)
-			sb.append("\t\t\t\t\t" + subtitleFont +"\n");
-		sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
-		sb.append(chart.getSubtitleExpression().getText());
-		sb.append("]]></subtitleExpression>\n");
-		sb.append("\t\t\t\t</chartSubtitle>\n");
+		if (chart.getSubtitleExpression() != null) {
+			sb.append("\t\t\t\t<chartSubitle>\n");
+			String subtitleFont = writeFont(chart.getSubtitleFont());
+			if (subtitleFont != null)
+				sb.append("\t\t\t\t\t" + subtitleFont +"\n");
+			sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
+			sb.append(chart.getSubtitleExpression().getText());
+			sb.append("]]></subtitleExpression>\n");
+			sb.append("\t\t\t\t</chartSubtitle>\n");
+		}
 
 		sb.append("\t\t\t</chart>\n");
 
@@ -1847,9 +1834,11 @@ public class JRXmlWriter
 		sb.append(dataset.getKeyExpression().getText());
 		sb.append("]]></keyExpression>\n");
 
-		sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-		sb.append(dataset.getLabelExpression().getText());
-		sb.append("]]></labelExpression>\n");
+		if (dataset.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(dataset.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
 
 		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
 		sb.append(dataset.getValueExpression().getText());
@@ -1863,6 +1852,117 @@ public class JRXmlWriter
 		sb.append("\t\t\t\t</piePlot>\n");
 
 		sb.append("\t\t\t</pieChart>\n");
+
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writePie3DChart(JRPie3DChart chart)
+	{
+		sb.append("\t\t\t<pie3DChart>\n");
+		writeChart(chart);
+
+		// write dataset
+		JRPieDataset dataset = (JRPieDataset) chart.getDataset();
+		sb.append("\t\t\t\t<pieDataset>\n");
+
+		writeDataset(dataset);
+
+		sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
+		sb.append(dataset.getKeyExpression().getText());
+		sb.append("]]></keyExpression>\n");
+
+		if (dataset.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(dataset.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
+		sb.append("\t\t\t\t</pieDataset>\n");
+
+		// write plot
+		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
+		sb.append("\t\t\t\t<pie3DPlot");
+		if (plot.getDepthFactor() != JRPie3DPlot.DEPTH_FACTOR_DEFAULT)
+			sb.append(" depthFactor=\"" + String.valueOf(plot.getDepthFactor()) + "\"");
+		sb.append(">\n");
+		writePlot(chart.getPlot());
+		sb.append("\t\t\t\t</pie3DPlot>\n");
+
+		sb.append("\t\t\t</pie3DChart>\n");
+
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeBarChart(JRBarChart chart)
+	{
+		sb.append("\t\t\t<barChart>\n");
+		writeChart(chart);
+
+		// write dataset
+		JRCategoryDataset dataset = (JRCategoryDataset) chart.getDataset();
+		sb.append("\t\t\t\t<categoryDataset>\n");
+
+		writeDataset(dataset);
+
+		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(dataset.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t<categoryExpression><![CDATA[");
+		sb.append(dataset.getCategoryExpression().getText());
+		sb.append("]]></categoryExpression>\n");
+
+		if (dataset.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(dataset.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
+		sb.append("\t\t\t\t</categoryDataset>\n");
+
+
+		// write plot
+		JRBarPlot plot = (JRBarPlot) chart.getPlot();
+		sb.append("\t\t\t\t<barPlot");
+		if (!plot.isShowTickLabels())
+			sb.append(" isShowTickLabels=\"false\"");
+		if (!plot.isShowTickMarks())
+			sb.append(" isShowTickMarks=\"false\"");
+		sb.append(">\n");
+		writePlot(chart.getPlot());
+
+		if (plot.getCategoryAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
+			sb.append(plot.getCategoryAxisLabelExpression().getText());
+			sb.append("]]></categoryAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</barPlot>\n");
+
+
+		sb.append("\t\t\t</barChart>\n");
 
 	}
 }

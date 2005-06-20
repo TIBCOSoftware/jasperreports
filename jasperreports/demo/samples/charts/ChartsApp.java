@@ -52,7 +52,8 @@ public class ChartsApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_HTML = "html";
-	
+	private static final String TASK_WRITE_XML = "writeXml";
+
 	
 	/**
 	 *
@@ -98,6 +99,12 @@ public class ChartsApp
 			{
 				JasperExportManager.exportReportToHtmlFile("BarChartReport.jrprint");
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_WRITE_XML.equals(taskName))
+			{
+				JasperCompileManager.writeReportToXmlFile("BarChartReport.jasper");
+				System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else

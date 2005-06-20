@@ -147,33 +147,31 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			// TODO: implement subtitle color
-			/*
 			String color = atts.getValue(ATTRIBUTE_color);
 			if (color != null && color.length() > 0)
 			{
 				char firstChar = color.charAt(0);
 				if (firstChar == '#')
 				{
-					chart.setsu(new Color(Integer.parseInt(color.substring(1), 16)));
+					chart.setSubtitleColor(new Color(Integer.parseInt(color.substring(1), 16)));
 				}
 				else if ('0' <= firstChar && firstChar <= '9')
 				{
-					chart.setTitleColor(new Color(Integer.parseInt(color)));
+					chart.setSubtitleColor(new Color(Integer.parseInt(color)));
 				}
 				else
 				{
 					if (JRXmlConstants.getColorMap().containsKey(color))
 					{
-						chart.setTitleColor((Color)JRXmlConstants.getColorMap().get(color));
+						chart.setSubtitleColor((Color)JRXmlConstants.getColorMap().get(color));
 					}
 					else
 					{
-						chart.setTitleColor(Color.black);
+						chart.setSubtitleColor(Color.black);
 					}
 				}
 			}
-			*/
+
 			return chart;
 		}
 	}

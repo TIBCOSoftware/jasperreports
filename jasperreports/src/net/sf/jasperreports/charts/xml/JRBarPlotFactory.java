@@ -40,9 +40,24 @@ import org.xml.sax.Attributes;
  */
 public class JRBarPlotFactory extends JRBaseFactory
 {
+	private static final String ATTRIBUTE_isShowTickMarks = "isShowTickMarks";
+	private static final String ATTRIBUTE_isShowTickLabels = "isShowTickLabels";
+
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignBarPlot)chart.getPlot();
+		JRDesignBarPlot plot = (JRDesignBarPlot)chart.getPlot();
+
+		String isShowTickMarks = atts.getValue(ATTRIBUTE_isShowTickMarks);
+		if (isShowTickMarks != null && isShowTickMarks.length() > 0) {
+            plot.setShowTickMarks(new Boolean(isShowTickMarks).booleanValue());
+		}
+
+		String isShowTickLabels = atts.getValue(ATTRIBUTE_isShowTickLabels);
+		if (isShowTickLabels != null && isShowTickLabels.length() > 0) {
+            plot.setShowTickLabels(new Boolean(isShowTickLabels).booleanValue());
+		}
+
+		return plot;
 	}
 }

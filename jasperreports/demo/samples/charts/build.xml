@@ -99,6 +99,14 @@
 		</java>
 	</target>
 
+	<target name="writeXml">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TwriteXml"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<!--
 		Deletes all the generated files.
 	-->
