@@ -25,26 +25,24 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignStackedBarChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+package net.sf.jasperreports.charts;
 
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @author Ionut Nedelcu
+ * @author Flavius Sana (fsana@users.sourceforge.net)
+ * @version $Id$ 
  */
-public class JRStackedBarChartFactory extends JRBaseFactory
-{
-	/**
-	 *
-	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStackedBarChart stackedBarChart = new JRDesignStackedBarChart();
+public interface JRBar3DPlot extends JRChartPlot {
+    
+    public JRExpression getCategoryAxisLabelExpression();
+    
+    public JRExpression getValueAxisLabelExpression();
+    
+    public int getXOffset();
+    
+    public int getYOffset();
 
-		return stackedBarChart;
-	}
 }

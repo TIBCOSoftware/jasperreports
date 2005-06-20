@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.charts.JRBar3DChart;
+import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -35,6 +37,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
+import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
@@ -686,6 +690,49 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		
 		return baseBarPlot;
 	}
+
+
+    /* (non-Javadoc)
+     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
+     */
+    public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
+        JRBaseBar3DChart baseBarChart = null;
+		
+		if (barChart != null)
+		{
+			baseBarChart = (JRBaseBar3DChart)get(barChart);
+			if (baseBarChart == null)
+			{
+				baseBarChart = new JRBaseBar3DChart(barChart, this);
+				put(barChart, baseBarChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBarChart;
+    }
+
+
+    /* (non-Javadoc)
+     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
+     */
+    public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
+        JRBaseBar3DPlot baseBarPlot = null;
+		
+		if (barPlot != null)
+		{
+			baseBarPlot = (JRBaseBar3DPlot)get(barPlot);
+			if (baseBarPlot == null)
+			{
+				baseBarPlot = new JRBaseBar3DPlot(barPlot, this);
+				put(barPlot, baseBarPlot);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBarPlot;
+    }
+
+
+  
 	
 
 }

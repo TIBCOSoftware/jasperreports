@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
+import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
@@ -344,7 +346,12 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/barChart", JRBarChartFactory.class.getName());
 		digester.addSetNext("*/barChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/barChart/barPlot", JRBarPlotFactory.class.getName());
-
+		
+		// bar3d charts
+		digester.addFactoryCreate( "*/bar3DChart", JRBar3DChartFactory.class.getName() );
+		digester.addSetNext( "*/bar3DChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate("*/bar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
+		
 		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/categoryDataset/seriesExpression", JRCategoryDatasetFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/categoryDataset/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());

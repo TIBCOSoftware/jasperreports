@@ -25,26 +25,46 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignStackedBarChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+package net.sf.jasperreports.charts.fill;
 
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
- * @author Ionut Nedelcu
+ * @author User
+ * @version $Id$ 
  */
-public class JRStackedBarChartFactory extends JRBaseFactory
-{
-	/**
-	 *
-	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignStackedBarChart stackedBarChart = new JRDesignStackedBarChart();
+public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot {
+    
+    public JRFillBar3DPlot( JRBar3DPlot barPlot, JRFillObjectFactory factory ){
+        super( barPlot, factory );
+    }
+    
+    public JRExpression getCategoryAxisLabelExpression(){
+        return ((JRBar3DPlot)parent).getCategoryAxisLabelExpression();
+    }
+    
+    public JRExpression getValueAxisLabelExpression(){
+        return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
+    }
+    
+    public int getXOffset(){
+        return ((JRBar3DPlot)parent).getXOffset();
+    }
+    
+    public void setXOffset( int xOffset ){
+    }
+    
+    public int getYOffset(){
+        return ((JRBar3DPlot)parent).getYOffset();
+    }
+    
+    public void setYOffset( int yOffset ){
+    }
 
-		return stackedBarChart;
-	}
+    
+    
 }

@@ -25,26 +25,39 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignStackedBarChart;
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
 
-
 /**
- * @author Ionut Nedelcu
+ * @author User
+ * @version JRBar3DPlotFactory.java Jun 20, 2005 7:14:40 PM User 
  */
-public class JRStackedBarChartFactory extends JRBaseFactory
-{
-	/**
-	 *
-	 */
+public class JRBar3DPlotFactory extends JRBaseFactory {
+    private static final String ATTRIBUTE_xOffset = "xOffset";
+	private static final String ATTRIBUTE_yOffset = "yOffset";
+
 	public Object createObject(Attributes atts)
 	{
-		JRDesignStackedBarChart stackedBarChart = new JRDesignStackedBarChart();
+		JRChart chart = (JRChart) digester.peek();
+		JRDesignBar3DPlot plot = (JRDesignBar3DPlot)chart.getPlot();
 
-		return stackedBarChart;
+		String xOffset = atts.getValue(ATTRIBUTE_xOffset);
+		if (xOffset != null && xOffset.length() > 0) {
+            plot.setXOffset(new Integer(xOffset).intValue());
+		}
+ 
+		String yOffset = atts.getValue(ATTRIBUTE_yOffset);
+		if (yOffset != null && yOffset.length() > 0) {
+            plot.setYOffset(new Integer( yOffset).intValue());
+		}
+
+		return plot;
 	}
+
 }

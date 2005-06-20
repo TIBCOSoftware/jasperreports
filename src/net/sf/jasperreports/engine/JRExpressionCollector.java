@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.jasperreports.charts.JRBar3DChart;
+import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -321,6 +323,13 @@ public class JRExpressionCollector
 		collect((JRCategoryDataset)barChart.getDataset());
 		collect((JRBarPlot)barChart.getPlot());
 	}
+	
+	
+	public void collect(JRBar3DChart barChart ){
+	    collectChart( barChart );
+	    collect((JRCategoryDataset)barChart.getDataset() );
+	    collect((JRBar3DPlot)barChart.getPlot() );
+	}
 
 	/**
 	 *
@@ -351,5 +360,13 @@ public class JRExpressionCollector
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
 	}
+	
+	
+	private void collect(JRBar3DPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(barPlot.getCategoryAxisLabelExpression());
+		addExpression(barPlot.getValueAxisLabelExpression());
+	}
+	
 
 }
