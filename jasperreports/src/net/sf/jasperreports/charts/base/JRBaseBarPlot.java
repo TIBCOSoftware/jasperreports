@@ -25,99 +25,64 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
+	private static final long serialVersionUID = 608;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRExpression categoryAxisLabelExpression = null;
+	protected JRExpression valueAxisLabelExpression = null;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	protected JRBaseBarPlot()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}
 
+	
+	/**
+	 *
+	 */
+	public JRBaseBarPlot(JRBarPlot barPlot, JRBaseObjectFactory factory)
+	{
+		super(barPlot, factory);
+
+		categoryAxisLabelExpression = factory.getExpression(barPlot.getCategoryAxisLabelExpression());
+		valueAxisLabelExpression = factory.getExpression(barPlot.getValueAxisLabelExpression());
+	}
 
 	/**
 	 *
 	 */
-	public byte getResetType()
+	public JRExpression getCategoryAxisLabelExpression()
 	{
-		return ((JRChartDataset)parent).getResetType();
-	}
-		
-	/**
-	 *
-	 */
-	public byte getIncrementType()
-	{
-		return ((JRChartDataset)parent).getIncrementType();
+		return categoryAxisLabelExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public JRGroup getResetGroup()
+	public JRExpression getValueAxisLabelExpression()
 	{
-		return resetGroup;
+		return valueAxisLabelExpression;
 	}
 		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
-
-	/**
-	 *
-	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
-
-
 }

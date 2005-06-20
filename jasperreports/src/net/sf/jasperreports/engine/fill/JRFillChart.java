@@ -330,6 +330,15 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
+	protected Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
+	{
+		return filler.calculator.evaluate(expression, evaluation);
+	}
+
+
+	/**
+	 *
+	 */
 	protected void rewind() throws JRException
 	{
 	}

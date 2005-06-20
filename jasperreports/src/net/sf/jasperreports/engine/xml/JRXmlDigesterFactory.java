@@ -29,6 +29,14 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.charts.xml.JRBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
+import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
+import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
+import net.sf.jasperreports.charts.xml.JRPieChartFactory;
+import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;

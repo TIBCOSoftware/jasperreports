@@ -25,99 +25,32 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts;
 
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public interface JRPieDataset extends JRChartDataset
 {
-
-
-	/**
-	 *
-	 */
-	protected JRChartDataset parent = null;
-
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
-
 	
 	/**
-	 *
+	 * 
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
-	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
-	}
-
+	public JRExpression getKeyExpression();
 
 	/**
-	 *
+	 * 
 	 */
-	public byte getResetType()
-	{
-		return ((JRChartDataset)parent).getResetType();
-	}
-		
-	/**
-	 *
-	 */
-	public byte getIncrementType()
-	{
-		return ((JRChartDataset)parent).getIncrementType();
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
+	public JRExpression getValueExpression();
 
 	/**
-	 *
+	 * 
 	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
-
-	/**
-	 *
-	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
-
+	public JRExpression getLabelExpression();
 
 }

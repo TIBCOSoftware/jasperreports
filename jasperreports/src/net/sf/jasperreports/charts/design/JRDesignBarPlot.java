@@ -25,99 +25,52 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRGroup;
-
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.charts.base.JRBaseBarPlot;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset implements JRChartDataset
+public class JRDesignBarPlot extends JRBaseBarPlot
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartDataset parent = null;
-
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	private static final long serialVersionUID = 608;
 
 	
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	public JRDesignBarPlot()
 	{
-		factory.put(dataset, this);
-
-		parent = dataset;
-
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
-	}
-
-
-	/**
-	 *
-	 */
-	public byte getResetType()
-	{
-		return ((JRChartDataset)parent).getResetType();
+		super();
+		
+		//FIXME NOW dataset = ;
 	}
 		
-	/**
-	 *
-	 */
-	public byte getIncrementType()
-	{
-		return ((JRChartDataset)parent).getIncrementType();
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	protected abstract void initialize();
 
 	/**
 	 *
 	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
+	public void setCategoryAxisLabelExpression(JRExpression categoryAxisLabelExpression)
+	{
+		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+	}
 
 	/**
 	 *
 	 */
-	protected abstract void increment();
-
-	/**
-	 *
-	 */
-	public abstract Dataset getDataset();
+	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
+	{
+		this.valueAxisLabelExpression = valueAxisLabelExpression;
+	}
 
 
 }
