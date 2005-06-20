@@ -39,6 +39,8 @@ import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
 import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
+import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
+import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
@@ -365,6 +367,25 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/categoryDataset/valueExpression", JRCategoryDatasetFactory.JRValueExpressionFactory.class);
 		digester.addSetNext("*/categoryDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categoryDataset/valueExpression", "setText", 0);
+
+		// XY bar charts
+		digester.addFactoryCreate("*/xyBarChart", JRXyBarChartFactory.class.getName());
+		digester.addSetNext("*/xyBarChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/xyBarChart/barPlot", JRBarPlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/timeSeries", JRTimeSeriesFactory.class.getName());
+		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class);
+		digester.addSetNext("*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/timeSeries/seriesExpression", "setText", 0);
+		digester.addFactoryCreate("*/timeSeries/timePeriodExpression", JRTimeSeriesFactory.JRTimePeriodExpressionFactory.class);
+		digester.addSetNext("*/timeSeries/timePeriodExpression", "setTimePeriodExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/timeSeries/timePeriodExpression", "setText", 0);
+		digester.addFactoryCreate("*/timeSeries/labelExpression", JRTimeSeriesFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/timeSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/timeSeries/labelExpression", "setText", 0);
+		digester.addFactoryCreate("*/timeSeries/valueExpression", JRTimeSeriesFactory.JRValueExpressionFactory.class);
+		digester.addSetNext("*/timeSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/timeSeries/valueExpression", "setText", 0);
 
 		digester.addFactoryCreate("*/stackedBarChart", JRBarChartFactory.class.getName());
 		digester.addSetNext("*/stackedBarChart", "addElement", JRDesignElement.class.getName());

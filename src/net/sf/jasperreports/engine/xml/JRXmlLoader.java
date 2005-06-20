@@ -423,16 +423,13 @@ public class JRXmlLoader
 		if (variables != null && variables.length > 0)
 		{
 			Map groupsMap = jasperDesign.getGroupsMap();
-			JRDesignVariable variable = null;
-			String groupName = null;
-			JRGroup group = null;
 			for(int i = 0; i < variables.length; i++)
 			{
-				variable = (JRDesignVariable)variables[i];
+				JRDesignVariable variable = (JRDesignVariable)variables[i];
 				if (variable.getResetType() == JRVariable.RESET_TYPE_GROUP)
 				{
-					groupName = null;
-					group = variable.getResetGroup();
+					String groupName = null;
+					JRGroup group = variable.getResetGroup();
 					if (group != null)
 					{
 						groupName = group.getName();
@@ -459,8 +456,8 @@ public class JRXmlLoader
 
 				if (variable.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
 				{
-					groupName = null;
-					group = variable.getIncrementGroup();
+					String groupName = null;
+					JRGroup group = variable.getIncrementGroup();
 					if (group != null)
 					{
 						groupName = group.getName();
@@ -628,37 +625,52 @@ public class JRXmlLoader
 		{
 			JRDesignChartDataset dataset = (JRDesignChartDataset)it.next();
 
-			String groupName = null;
-			JRGroup group = dataset.getIncrementGroup();
-			if (group != null)
+			if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
 			{
-				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
-			}
+				String groupName = null;
+				JRGroup group = dataset.getIncrementGroup();
+				if (group != null)
+				{
+					groupName = group.getName();
+					group = (JRGroup)groupsMap.get(group.getName());
+				}
 
-			if (group == null)
-			{
-				throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
+				if (group == null)
+				{
+					throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
+				}
+				else
+				{
+					dataset.setIncrementGroup(group);
+				}
 			}
 			else
 			{
-				dataset.setIncrementGroup(group);
+				dataset.setIncrementGroup(null);
 			}
 
-			group = dataset.getResetGroup();
-			if (group != null)
+			if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
 			{
-				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
-			}
+				String groupName = null;
+				JRGroup group = dataset.getResetGroup();
+				if (group != null)
+				{
+					groupName = group.getName();
+					group = (JRGroup)groupsMap.get(group.getName());
+				}
 
-			if (group == null)
-			{
-				throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
+				if (group == null)
+				{
+					throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
+				}
+				else
+				{
+					dataset.setResetGroup(group);
+				}
 			}
 			else
 			{
-				dataset.setResetGroup(group);
+				dataset.setResetGroup(null);
 			}
 		}
 	}

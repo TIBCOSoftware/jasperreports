@@ -40,9 +40,11 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
-import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
@@ -52,6 +54,8 @@ import net.sf.jasperreports.charts.fill.JRFillPieChart;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
+import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
+import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -605,6 +609,47 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillBarPlot;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
+	{
+		JRFillXyBarChart fillXyBarChart = null;
+		
+		if (xyBarChart != null)
+		{
+			fillXyBarChart = (JRFillXyBarChart)get(xyBarChart);
+			if (fillXyBarChart == null)
+			{
+				fillXyBarChart = new JRFillXyBarChart(filler, xyBarChart, this);
+			}
+		}
+		
+		return fillXyBarChart;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
+	{
+		JRFillTimeSeries fillTimeSeries = null;
+		
+		if (timeSeries != null)
+		{
+			fillTimeSeries = (JRFillTimeSeries)get(timeSeries);
+			if (fillTimeSeries == null)
+			{
+				fillTimeSeries = new JRFillTimeSeries(timeSeries, this);
+				datasets.add(fillTimeSeries);
+			}
+		}
+		
+		return fillTimeSeries;
 	}
 
 

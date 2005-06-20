@@ -40,6 +40,8 @@ import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRXyBarChart;
 
 
 /**
@@ -368,5 +370,26 @@ public class JRExpressionCollector
 		addExpression(barPlot.getValueAxisLabelExpression());
 	}
 	
+
+	/**
+	 *
+	 */
+	public void collect(JRXyBarChart xyBarChart)
+	{
+		collectChart(xyBarChart);
+		collect((JRTimeSeries)xyBarChart.getDataset());
+		collect((JRBarPlot)xyBarChart.getPlot());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRTimeSeries timeSeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(timeSeries.getSeriesExpression());
+		addExpression(timeSeries.getTimePeriodExpression());
+		addExpression(timeSeries.getValueExpression());
+		addExpression(timeSeries.getLabelExpression());
+	}
 
 }

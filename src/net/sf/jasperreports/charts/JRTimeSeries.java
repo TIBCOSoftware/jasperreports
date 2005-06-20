@@ -25,27 +25,37 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.design.JRDesignBarChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBarChartFactory extends JRBaseFactory
+public interface JRTimeSeries extends JRChartDataset
 {
+	
 	/**
-	 *
+	 * 
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignBarChart barChart = new JRDesignBarChart();
+	public JRExpression getSeriesExpression();
 
-		return barChart;
-	}
+	/**
+	 * 
+	 */
+	public JRExpression getTimePeriodExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getLabelExpression();
+
 }
