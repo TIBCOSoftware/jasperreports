@@ -310,7 +310,7 @@
 <!ELEMENT valueAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT bar3DChart (chart, categoryDataset, bar3DPlot)>
-<!ELEMENT bar3DPlot (plot)>
+<!ELEMENT bar3DPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST bar3DPlot
 	xOffset CDATA "0"
 	yOffset CDATA "0"
