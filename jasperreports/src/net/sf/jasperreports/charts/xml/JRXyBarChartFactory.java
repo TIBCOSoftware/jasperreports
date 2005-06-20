@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignBarChart;
+import net.sf.jasperreports.charts.design.JRDesignXyBarChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -37,15 +37,15 @@ import org.xml.sax.Attributes;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBarChartFactory extends JRBaseFactory
+public class JRXyBarChartFactory extends JRBaseFactory
 {
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignBarChart barChart = new JRDesignBarChart();
+		JRDesignXyBarChart xyBarChart = new JRDesignXyBarChart();
 
-		return barChart;
+		return xyBarChart;
 	}
 }

@@ -37,9 +37,10 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
-import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
@@ -49,6 +50,7 @@ import net.sf.jasperreports.charts.base.JRBasePieChart;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
+import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -733,6 +735,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 
   
+	
+
+	/**
+	 *
+	 */
+	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
+	{
+		JRBaseXyBarChart baseXyBarChart = null;
+		
+		if (xyBarChart != null)
+		{
+			baseXyBarChart = (JRBaseXyBarChart)get(xyBarChart);
+			if (baseXyBarChart == null)
+			{
+				baseXyBarChart = new JRBaseXyBarChart(xyBarChart, this);
+				put(xyBarChart, baseXyBarChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseXyBarChart;
+	}
 	
 
 }
