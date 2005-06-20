@@ -346,9 +346,9 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/barChart/barPlot", JRBarPlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/categoryDataset/serieExpression", JRCategoryDatasetFactory.JRSerieExpressionFactory.class);
-		digester.addSetNext("*/categoryDataset/serieExpression", "setSerieExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/categoryDataset/serieExpression", "setText", 0);
+		digester.addFactoryCreate("*/categoryDataset/seriesExpression", JRCategoryDatasetFactory.JRSeriesExpressionFactory.class);
+		digester.addSetNext("*/categoryDataset/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categoryDataset/seriesExpression", "setText", 0);
 		digester.addFactoryCreate("*/categoryDataset/categoryExpression", JRCategoryDatasetFactory.JRCategoryExpressionFactory.class);
 		digester.addSetNext("*/categoryDataset/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categoryDataset/categoryExpression", "setText", 0);

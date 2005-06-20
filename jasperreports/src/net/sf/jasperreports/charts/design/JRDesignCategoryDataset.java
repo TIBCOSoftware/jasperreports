@@ -46,7 +46,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRExpression serieExpression = null;
+	protected JRExpression seriesExpression = null;
 	protected JRExpression categoryExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
@@ -66,17 +66,17 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 *
 	 */
-	public JRExpression getSerieExpression()
+	public JRExpression getSeriesExpression()
 	{
-		return serieExpression;
+		return seriesExpression;
 	}
 		
 	/**
 	 *
 	 */
-	public void setSerieExpression(JRExpression serieExpression)
+	public void setSeriesExpression(JRExpression seriesExpression)
 	{
-		this.serieExpression = serieExpression;
+		this.seriesExpression = seriesExpression;
 	}
 
 	/**

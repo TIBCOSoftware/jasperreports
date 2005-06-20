@@ -51,7 +51,7 @@ public class JRCategoryDatasetFactory extends JRBaseFactory
 	}
 
 
-	public static class JRSerieExpressionFactory extends JRBaseFactory {
+	public static class JRSeriesExpressionFactory extends JRBaseFactory {
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();

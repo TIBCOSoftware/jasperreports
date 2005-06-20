@@ -46,7 +46,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRExpression serieExpression = null;
+	protected JRExpression seriesExpression = null;
 	protected JRExpression categoryExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
@@ -67,7 +67,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	{
 		super(dataset, factory);
 
-		serieExpression = factory.getExpression(dataset.getSerieExpression());
+		seriesExpression = factory.getExpression(dataset.getSeriesExpression());
 		categoryExpression = factory.getExpression(dataset.getCategoryExpression());
 		valueExpression = factory.getExpression(dataset.getValueExpression());
 		labelExpression = factory.getExpression(dataset.getLabelExpression());
@@ -77,9 +77,9 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	public JRExpression getSerieExpression()
+	public JRExpression getSeriesExpression()
 	{
-		return serieExpression;
+		return seriesExpression;
 	}
 		
 	/**
