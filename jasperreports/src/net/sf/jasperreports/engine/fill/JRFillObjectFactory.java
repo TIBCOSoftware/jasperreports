@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.charts.JRBar3DChart;
+import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -38,6 +40,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
+import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
@@ -603,5 +607,43 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillBarPlot;
 	}
 
+
+    /* (non-Javadoc)
+     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
+     */
+    public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
+       
+        JRFillBar3DChart fillBarChart = null;
+		
+		if (barChart != null)
+		{
+			fillBarChart = (JRFillBar3DChart)get(barChart);
+			if (fillBarChart == null)
+			{
+				fillBarChart = new JRFillBar3DChart(filler, barChart, this);
+			}
+		}
+		
+		return fillBarChart;
+    }
+
+
+    /* (non-Javadoc)
+     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
+     */
+    public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
+        JRFillBar3DPlot fillBarPlot = null;
+		
+		if (barPlot != null)
+		{
+			fillBarPlot = (JRFillBar3DPlot)get(barPlot);
+			if (fillBarPlot == null)
+			{
+				fillBarPlot = new JRFillBar3DPlot(barPlot, this);
+			}
+		}
+		
+		return fillBarPlot;
+    }
 
 }
