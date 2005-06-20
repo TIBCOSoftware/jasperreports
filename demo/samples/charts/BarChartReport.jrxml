@@ -100,7 +100,7 @@
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
 					<labelExpression></labelExpression>
 				</categoryDataset>
-				<barPlot>
+				<barPlot isShowTickMarks="true" isShowTickLabels="true">
 					<plot/>
 				</barPlot>
 			</barChart>
