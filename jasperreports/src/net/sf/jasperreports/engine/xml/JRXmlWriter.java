@@ -42,6 +42,7 @@ import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -862,6 +863,10 @@ public class JRXmlWriter
 		else if (element instanceof JRBarChart)
 		{
 			writeBarChart((JRBarChart)element);
+		}
+		else if (element instanceof JRStackedBarChart)
+		{
+			writeStackedBarChart((JRStackedBarChart)element);
 		}
 	}
 
@@ -1790,6 +1795,38 @@ public class JRXmlWriter
 
 	/**
 	 *
+	 * @param dataset
+	 */
+    private void writeCategoryDataSet(JRCategoryDataset dataset)
+	{
+		sb.append("\t\t\t\t<categoryDataset>\n");
+
+		writeDataset(dataset);
+
+		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(dataset.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t<categoryExpression><![CDATA[");
+		sb.append(dataset.getCategoryExpression().getText());
+		sb.append("]]></categoryExpression>\n");
+
+		if (dataset.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(dataset.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
+		sb.append("\t\t\t\t</categoryDataset>\n");
+	}
+
+
+	/**
+	 *
 	 * @param plot
 	 */
 	private void writePlot(JRChartPlot plot)
@@ -1904,49 +1941,17 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 * @param chart
+	 * @param plot
 	 */
-	private void writeBarChart(JRBarChart chart)
+	private void writeBarPlot(JRBarPlot plot)
 	{
-		sb.append("\t\t\t<barChart>\n");
-		writeChart(chart);
-
-		// write dataset
-		JRCategoryDataset dataset = (JRCategoryDataset) chart.getDataset();
-		sb.append("\t\t\t\t<categoryDataset>\n");
-
-		writeDataset(dataset);
-
-		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(dataset.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
-
-		sb.append("\t\t\t\t\t<categoryExpression><![CDATA[");
-		sb.append(dataset.getCategoryExpression().getText());
-		sb.append("]]></categoryExpression>\n");
-
-		if (dataset.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(dataset.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
-
-		sb.append("\t\t\t\t</categoryDataset>\n");
-
-
-		// write plot
-		JRBarPlot plot = (JRBarPlot) chart.getPlot();
 		sb.append("\t\t\t\t<barPlot");
 		if (!plot.isShowTickLabels())
 			sb.append(" isShowTickLabels=\"false\"");
 		if (!plot.isShowTickMarks())
 			sb.append(" isShowTickMarks=\"false\"");
 		sb.append(">\n");
-		writePlot(chart.getPlot());
+		writePlot(plot);
 
 		if (plot.getCategoryAxisLabelExpression() != null) {
 			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
@@ -1961,9 +1966,40 @@ public class JRXmlWriter
 		}
 
 		sb.append("\t\t\t\t</barPlot>\n");
+	}
 
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeBarChart(JRBarChart chart)
+	{
+		sb.append("\t\t\t<barChart>\n");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</barChart>\n");
 
 	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeStackedBarChart(JRStackedBarChart chart)
+	{
+		sb.append("\t\t\t<stackedBarChart>\n");
+
+		writeChart(chart);
+        writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeBarPlot((JRBarPlot) chart.getPlot());
+
+		sb.append("\t\t\t</stackedBarChart>\n");
+
+	}
+
 }
