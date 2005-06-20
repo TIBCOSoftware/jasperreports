@@ -309,7 +309,12 @@
 <!ELEMENT categoryAxisLabelExpression (#PCDATA)>
 <!ELEMENT valueAxisLabelExpression (#PCDATA)>
 
-<!ELEMENT bar3DChart (chart, categoryDataset, barPlot)>
+<!ELEMENT bar3DChart (chart, categoryDataset, bar3DPlot)>
+<!ELEMENT bar3DPlot (plot)>
+<!ATTLIST bar3DPlot
+	xOffset CDATA "0"
+	yOffset CDATA "0"
+>
 
 <!ELEMENT xyBarChart (chart, (timePeriodValues* | timeSeries* | xySeries*), barPlot)>
 <!ELEMENT timePeriodValues (dataset, seriesExpression, startDateExpression, endDateExpression, valueExpression)>
