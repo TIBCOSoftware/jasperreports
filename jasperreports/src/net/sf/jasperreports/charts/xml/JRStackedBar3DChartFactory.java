@@ -27,9 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.charts.design.JRDesignStackedBarChart;
 import net.sf.jasperreports.charts.design.JRDesignStackedBar3DChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
 import org.xml.sax.Attributes;
 
 
