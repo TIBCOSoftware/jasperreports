@@ -25,19 +25,18 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.base;
+package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
+import net.sf.jasperreports.engine.JRExpression;
+
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCategoryDataset
+public class JRDesignCategorySeries extends JRBaseCategorySeries
 {
 
 
@@ -46,45 +45,49 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRCategorySeries[] categorySeries = null;
-
 	
 	/**
 	 *
 	 */
-	protected JRBaseCategoryDataset()
+	public JRDesignCategorySeries()
 	{
+		super();
+		
+		//FIXME NOW dataset = ;
 	}
-	
-	
+		
+
 	/**
 	 *
 	 */
-	public JRBaseCategoryDataset(JRCategoryDataset dataset, JRBaseObjectFactory factory)
+	public void setSeriesExpression(JRExpression seriesExpression)
 	{
-		super(dataset, factory);
-
-		/*   */
-		JRCategorySeries[] srcCategorySeries = dataset.getSeries();
-		if (srcCategorySeries != null && srcCategorySeries.length > 0)
-		{
-			categorySeries = new JRCategorySeries[srcCategorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
-			{
-				categorySeries[i] = factory.getCategorySeries(srcCategorySeries[i]);
-			}
-		}
-
+		this.seriesExpression = seriesExpression;
 	}
 
-	
 	/**
 	 *
 	 */
-	public JRCategorySeries[] getSeries()
+	public void setCategoryExpression(JRExpression categoryExpression)
 	{
-		return categorySeries;
+		this.categoryExpression = categoryExpression;
 	}
 
-	
+	/**
+	 *
+	 */
+	public void setValueExpression(JRExpression valueExpression)
+	{
+		this.valueExpression = valueExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setLabelExpression(JRExpression labelExpression)
+	{
+		this.labelExpression = labelExpression;
+	}
+
+
 }

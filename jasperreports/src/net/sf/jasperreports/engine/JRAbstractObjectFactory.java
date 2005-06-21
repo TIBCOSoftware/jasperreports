@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
@@ -160,6 +161,11 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset);
+
+	/**
+	 *
+	 */
+	public abstract JRCategorySeries getCategorySeries(JRCategorySeries categorySeries);
 
 	/**
 	 *

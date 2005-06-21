@@ -28,7 +28,6 @@
 package net.sf.jasperreports.charts;
 
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
@@ -41,21 +40,6 @@ public interface JRCategoryDataset extends JRChartDataset
 	/**
 	 * 
 	 */
-	public JRExpression getSeriesExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getCategoryExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getValueExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getLabelExpression();
+	public JRCategorySeries[] getSeries();
 
 }

@@ -29,11 +29,13 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
@@ -357,18 +359,22 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/bar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
 		
 		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/categoryDataset/seriesExpression", JRCategoryDatasetFactory.JRSeriesExpressionFactory.class);
-		digester.addSetNext("*/categoryDataset/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/categoryDataset/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/categoryDataset/categoryExpression", JRCategoryDatasetFactory.JRCategoryExpressionFactory.class);
-		digester.addSetNext("*/categoryDataset/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/categoryDataset/categoryExpression", "setText", 0);
-		digester.addFactoryCreate("*/categoryDataset/labelExpression", JRCategoryDatasetFactory.JRLabelExpressionFactory.class);
-		digester.addSetNext("*/categoryDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/categoryDataset/labelExpression", "setText", 0);
-		digester.addFactoryCreate("*/categoryDataset/valueExpression", JRCategoryDatasetFactory.JRValueExpressionFactory.class);
-		digester.addSetNext("*/categoryDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
-		digester.addCallMethod("*/categoryDataset/valueExpression", "setText", 0);
+		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class);
+		digester.addSetNext("*/categoryDataset/categorySeries", "addCategorySeries", JRDesignCategorySeries.class.getName());
+
+		digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/categorySeries/seriesExpression", JRCategorySeriesFactory.JRSeriesExpressionFactory.class);
+		digester.addSetNext("*/categorySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categorySeries/seriesExpression", "setText", 0);
+		digester.addFactoryCreate("*/categorySeries/categoryExpression", JRCategorySeriesFactory.JRCategoryExpressionFactory.class);
+		digester.addSetNext("*/categorySeries/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categorySeries/categoryExpression", "setText", 0);
+		digester.addFactoryCreate("*/categorySeries/labelExpression", JRCategorySeriesFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/categorySeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categorySeries/labelExpression", "setText", 0);
+		digester.addFactoryCreate("*/categorySeries/valueExpression", JRCategorySeriesFactory.JRValueExpressionFactory.class);
+		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
 
 		// XY bar charts
 		digester.addFactoryCreate("*/xyBarChart", JRXyBarChartFactory.class.getName());

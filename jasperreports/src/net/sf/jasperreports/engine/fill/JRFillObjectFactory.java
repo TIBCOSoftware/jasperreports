@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
@@ -49,6 +50,7 @@ import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
+import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillPie3DChart;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieChart;
@@ -609,6 +611,26 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillCategoryDataset;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
+	{
+		JRFillCategorySeries fillCategorySeries = null;
+		
+		if (categorySeries != null)
+		{
+			fillCategorySeries = (JRFillCategorySeries)get(categorySeries);
+			if (fillCategorySeries == null)
+			{
+				fillCategorySeries = new JRFillCategorySeries(categorySeries, this);
+			}
+		}
+		
+		return fillCategorySeries;
 	}
 
 
