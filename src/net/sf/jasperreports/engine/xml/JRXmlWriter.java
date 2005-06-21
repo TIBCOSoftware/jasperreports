@@ -1826,7 +1826,7 @@ public class JRXmlWriter
 	 *
 	 * @param dataset
 	 */
-    private void writeCategoryDataSet(JRCategoryDataset dataset)
+	private void writeCategoryDataSet(JRCategoryDataset dataset)
 	{
 		sb.append("\t\t\t\t<categoryDataset>\n");
 
@@ -2024,7 +2024,7 @@ public class JRXmlWriter
 		sb.append("\t\t\t<stackedBarChart>\n");
 
 		writeChart(chart);
-        writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</stackedBarChart>\n");

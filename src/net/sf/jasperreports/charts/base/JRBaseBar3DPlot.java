@@ -28,6 +28,8 @@
 
 package net.sf.jasperreports.charts.base;
 
+import org.jfree.chart.renderer.category.BarRenderer3D;
+
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
@@ -39,50 +41,50 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 
-    private static final long serialVersionUID = 608;
-    
-    protected JRExpression categoryAxisLabelExpression = null;
-    protected JRExpression valueAxisLabelExpression = null;
-    protected int xOffset = 0;
-    protected int yOffset = 0;
-    
-    
-    protected JRBaseBar3DPlot(){
-        
-    }
-    
-    public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
-        super( barPlot, factory );
-        
-        xOffset = barPlot.getXOffset();
-        yOffset = barPlot.getYOffset();
-        
-        categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
-        valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
-        
-    }
-    
-    public JRExpression getCategoryAxisLabelExpression(){
-        return categoryAxisLabelExpression;
-    }
-    
-    public JRExpression getValueAxisLabelExpression(){
-        return valueAxisLabelExpression;
-    }
-    
-    public int getXOffset(){
-        return xOffset;
-    }
-    
-    public void setXOffset( int xOffset ){
-        this.xOffset = xOffset;
-    }
-    
-    public int getYOffset(){
-        return yOffset;
-    }
-    
-    public void setYOffset( int yOffset ){
-        this.yOffset = yOffset;
-    }
+	private static final long serialVersionUID = 608;
+	
+	protected JRExpression categoryAxisLabelExpression = null;
+	protected JRExpression valueAxisLabelExpression = null;
+	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	protected double yOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	
+	
+	protected JRBaseBar3DPlot(){
+		
+	}
+	
+	public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
+		super( barPlot, factory );
+		
+		xOffset = barPlot.getXOffset();
+		yOffset = barPlot.getYOffset();
+		
+		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
+		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
+		
+	}
+	
+	public JRExpression getCategoryAxisLabelExpression(){
+		return categoryAxisLabelExpression;
+	}
+	
+	public JRExpression getValueAxisLabelExpression(){
+		return valueAxisLabelExpression;
+	}
+	
+	public double getXOffset(){
+		return xOffset;
+	}
+	
+	public void setXOffset( double xOffset ){
+		this.xOffset = xOffset;
+	}
+	
+	public double getYOffset(){
+		return yOffset;
+	}
+	
+	public void setYOffset( double yOffset ){
+		this.yOffset = yOffset;
+	}
 }

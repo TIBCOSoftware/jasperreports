@@ -36,13 +36,13 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$ 
  */
 public interface JRBar3DPlot extends JRChartPlot {
-    
-    public JRExpression getCategoryAxisLabelExpression();
-    
-    public JRExpression getValueAxisLabelExpression();
-    
-    public int getXOffset();
-    
-    public int getYOffset();
+	
+	public JRExpression getCategoryAxisLabelExpression();
+	
+	public JRExpression getValueAxisLabelExpression();
+	
+	public double getXOffset();
+	
+	public double getYOffset();
 
 }

@@ -38,33 +38,33 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @version $Id$ 
  */
 public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot {
-    
-    public JRFillBar3DPlot( JRBar3DPlot barPlot, JRFillObjectFactory factory ){
-        super( barPlot, factory );
-    }
-    
-    public JRExpression getCategoryAxisLabelExpression(){
-        return ((JRBar3DPlot)parent).getCategoryAxisLabelExpression();
-    }
-    
-    public JRExpression getValueAxisLabelExpression(){
-        return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
-    }
-    
-    public int getXOffset(){
-        return ((JRBar3DPlot)parent).getXOffset();
-    }
-    
-    public void setXOffset( int xOffset ){
-    }
-    
-    public int getYOffset(){
-        return ((JRBar3DPlot)parent).getYOffset();
-    }
-    
-    public void setYOffset( int yOffset ){
-    }
+	
+	public JRFillBar3DPlot( JRBar3DPlot barPlot, JRFillObjectFactory factory ){
+		super( barPlot, factory );
+	}
+	
+	public JRExpression getCategoryAxisLabelExpression(){
+		return ((JRBar3DPlot)parent).getCategoryAxisLabelExpression();
+	}
+	
+	public JRExpression getValueAxisLabelExpression(){
+		return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
+	}
+	
+	public double getXOffset(){
+		return ((JRBar3DPlot)parent).getXOffset();
+	}
+	
+	public void setXOffset( double xOffset ){
+	}
+	
+	public double getYOffset(){
+		return ((JRBar3DPlot)parent).getYOffset();
+	}
+	
+	public void setYOffset( double yOffset ){
+	}
 
-    
-    
+	
+	
 }

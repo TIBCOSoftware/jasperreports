@@ -328,9 +328,9 @@ public class JRExpressionCollector
 	
 	
 	public void collect(JRBar3DChart barChart ){
-	    collectChart( barChart );
-	    collect((JRCategoryDataset)barChart.getDataset() );
-	    collect((JRBar3DPlot)barChart.getPlot() );
+		collectChart( barChart );
+		collect((JRCategoryDataset)barChart.getDataset() );
+		collect((JRBar3DPlot)barChart.getPlot() );
 	}
 
 	/**
