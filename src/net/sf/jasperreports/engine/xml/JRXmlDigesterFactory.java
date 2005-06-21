@@ -35,6 +35,8 @@ import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRLineChartFactory;
+import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
@@ -398,6 +400,10 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/stackedBarChart", JRStackedBarChartFactory.class.getName());
 		digester.addSetNext("*/stackedBarChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBarChart/barPlot", JRBarPlotFactory.class.getName());
+		
+		digester.addFactoryCreate( "*/lineChart", JRLineChartFactory.class.getName() );
+		digester.addSetNext( "*/lineChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate( "*/linePlot", JRLinePlotFactory.class.getName() );
 
 		digester.addFactoryCreate("*/stackedBar3DChart", JRStackedBar3DChartFactory.class.getName());
 		digester.addSetNext("*/stackedBar3DChart", "addElement", JRDesignElement.class.getName());

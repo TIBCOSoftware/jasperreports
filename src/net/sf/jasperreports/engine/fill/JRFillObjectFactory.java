@@ -35,6 +35,8 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRLineChart;
+import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
@@ -50,6 +52,8 @@ import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
+import net.sf.jasperreports.charts.fill.JRFillLineChart;
+import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillPie3DChart;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
@@ -695,18 +699,16 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
+	/** 
+	 * 
 	 */
 	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
 	   
 		JRFillBar3DChart fillBarChart = null;
 		
-		if (barChart != null)
-		{
+		if (barChart != null){
 			fillBarChart = (JRFillBar3DChart)get(barChart);
-			if (fillBarChart == null)
-			{
+			if (fillBarChart == null){
 				fillBarChart = new JRFillBar3DChart(filler, barChart, this);
 			}
 		}
@@ -715,22 +717,54 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
+	/**
+	 * 
 	 */
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
 		
-		if (barPlot != null)
-		{
+		if (barPlot != null){
 			fillBarPlot = (JRFillBar3DPlot)get(barPlot);
-			if (fillBarPlot == null)
-			{
+			if (fillBarPlot == null){
 				fillBarPlot = new JRFillBar3DPlot(barPlot, this);
 			}
 		}
 		
 		return fillBarPlot;
 	}
+
+
+    /** 
+     * 
+     */
+    public JRLineChart getLineChart(JRLineChart lineChart) {
+        JRFillLineChart fillLineChart = null;
+		
+		if (lineChart != null){
+			fillLineChart = (JRFillLineChart)get(lineChart);
+			if (fillLineChart == null){
+				fillLineChart = new JRFillLineChart(filler, lineChart, this);
+			}
+		}
+		
+		return fillLineChart;
+    }
+
+
+    /** 
+     * 
+     */
+    public JRLinePlot getLinePlot(JRLinePlot linePlot) {
+        JRFillLinePlot fillLinePlot = null;
+		
+		if (linePlot != null){
+			fillLinePlot = (JRFillLinePlot)get(linePlot);
+			if (fillLinePlot == null){
+				fillLinePlot = new JRFillLinePlot(linePlot, this);
+			}
+		}
+		
+		return fillLinePlot;
+    }
 
 }

@@ -32,6 +32,8 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRLineChart;
+import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
@@ -46,6 +48,8 @@ import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
+import net.sf.jasperreports.charts.base.JRBaseLineChart;
+import net.sf.jasperreports.charts.base.JRBaseLinePlot;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBasePie3DChart;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
@@ -802,6 +806,46 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		
 		return baseXyBarChart;
 	}
+
+
+    /** 
+     * 
+     */
+    public JRLineChart getLineChart(JRLineChart lineChart) {
+        JRBaseLineChart baseLineChart = null;
+		
+		if (lineChart != null)
+		{
+			baseLineChart = (JRBaseLineChart)get(lineChart);
+			if (baseLineChart == null)
+			{
+				baseLineChart = new JRBaseLineChart(lineChart, this);
+				put(lineChart, baseLineChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseLineChart;
+    }
+
+
+    /** 
+     * 
+     */
+    public JRLinePlot getLinePlot(JRLinePlot linePlot) {
+        JRBaseLinePlot baseLinePlot = null;
+		
+		if (linePlot != null)
+		{
+			baseLinePlot = (JRBaseLinePlot)get(linePlot);
+			if (baseLinePlot == null)
+			{
+				baseLinePlot = new JRBaseLinePlot(linePlot, this);
+				put(linePlot, baseLinePlot);//FIXME NOW need this?
+			}
+		}
+		
+		return baseLinePlot;
+    }
 	
 
 }
