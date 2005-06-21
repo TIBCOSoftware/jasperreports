@@ -42,6 +42,7 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 
 
 /**
@@ -149,6 +150,11 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedBarChart);
+
+	/**
+	 *
+	 */
+	public abstract JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedBar3DChart);
 
 	/**
 	 *

@@ -39,6 +39,7 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
@@ -51,6 +52,7 @@ import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
+import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -649,6 +651,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseStackedBarChart;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedbar3DChart)
+	{
+		JRBaseStackedBar3DChart baseStackedBar3DChart = null;
+
+		if (stackedbar3DChart != null)
+		{
+			baseStackedBar3DChart = (JRBaseStackedBar3DChart)get(stackedbar3DChart);
+			if (baseStackedBar3DChart == null)
+			{
+				baseStackedBar3DChart = new JRBaseStackedBar3DChart(stackedbar3DChart, this);
+				put(stackedbar3DChart, baseStackedBar3DChart);//FIXME NOW need this?
+			}
+		}
+
+		return baseStackedBar3DChart;
 	}
 
 
