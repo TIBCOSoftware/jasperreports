@@ -298,7 +298,8 @@
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
-<!ELEMENT categoryDataset (dataset, seriesExpression, categoryExpression, valueExpression, labelExpression?)>
+<!ELEMENT categoryDataset (dataset, categorySeries+)>
+<!ELEMENT categorySeries (seriesExpression, categoryExpression, valueExpression, labelExpression?)>
 <!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>

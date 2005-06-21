@@ -95,10 +95,18 @@
 				</chart>
 				<categoryDataset>
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
-					<seriesExpression>"Freight"</seriesExpression>
-					<categoryExpression>$F{ShipCountry}</categoryExpression>
-					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
-					<labelExpression></labelExpression>
+					<categorySeries>
+						<seriesExpression>"Freight"</seriesExpression>
+						<categoryExpression>$F{ShipCountry}</categoryExpression>
+						<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
+						<labelExpression></labelExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression>"Half Freight"</seriesExpression>
+						<categoryExpression>$F{ShipCountry}</categoryExpression>
+						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() / 2d)</valueExpression>
+						<labelExpression></labelExpression>
+					</categorySeries>
 				</categoryDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
 					<plot/>

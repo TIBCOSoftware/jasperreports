@@ -29,7 +29,6 @@ package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -41,6 +40,7 @@ import org.xml.sax.Attributes;
  */
 public class JRCategoryDatasetFactory extends JRBaseFactory
 {
+
 	/**
 	 *
 	 */
@@ -50,47 +50,4 @@ public class JRCategoryDatasetFactory extends JRBaseFactory
 		return (JRDesignCategoryDataset)chart.getDataset();
 	}
 
-
-	public static class JRSeriesExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Comparable.class);
-			expression.setValueClassName(Comparable.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRCategoryExpressionFactory extends JRBaseFactory {//FIXME NOW make only one expression factory by type?
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Comparable.class);
-			expression.setValueClassName(Comparable.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRLabelExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(String.class);
-			expression.setValueClassName(String.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRValueExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Number.class);
-			expression.setValueClassName(Number.class.getName());
-			return expression;
-		}
-	}
 }

@@ -28,7 +28,7 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -50,11 +50,8 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	
-	private Comparable series = null;
-	private Comparable category = null;
-	private Number value = null;
-	private String label = null;
-	
+	protected JRFillCategorySeries[] categorySeries = null;
+
 	private boolean isIncremented = false;
 	
 	
@@ -67,42 +64,29 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 		)
 	{
 		super(categoryDataset, factory);
-	}
 
-
-	/**
-	 *
-	 */
-	public JRExpression getSeriesExpression()
-	{
-		return ((JRCategoryDataset)parent).getSeriesExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getCategoryExpression()
-	{
-		return ((JRCategoryDataset)parent).getCategoryExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getValueExpression()
-	{
-		return ((JRCategoryDataset)parent).getValueExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return ((JRCategoryDataset)parent).getLabelExpression();
+		/*   */
+		JRCategorySeries[] srcCategorySeries = categoryDataset.getSeries();
+		if (srcCategorySeries != null && srcCategorySeries.length > 0)
+		{
+			categorySeries = new JRFillCategorySeries[srcCategorySeries.length];
+			for(int i = 0; i < categorySeries.length; i++)
+			{
+				categorySeries[i] = (JRFillCategorySeries)factory.getCategorySeries(srcCategorySeries[i]);
+			}
+		}
 	}
 	
 	
+	/**
+	 *
+	 */
+	public JRCategorySeries[] getSeries()
+	{
+		return categorySeries;
+	}
+
+
 	/**
 	 *
 	 */
@@ -117,10 +101,13 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
-		category = (Comparable)calculator.evaluate(getCategoryExpression()); 
-		value = (Number)calculator.evaluate(getValueExpression());
-		label = (String)calculator.evaluate(getLabelExpression());
+		if (categorySeries != null && categorySeries.length > 0)
+		{
+			for(int i = 0; i < categorySeries.length; i++)
+			{
+				categorySeries[i].evaluate(calculator);
+			}
+		}
 		isIncremented = false;
 	}
 
@@ -129,7 +116,21 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	protected void increment()
 	{
-		if (category != null) dataset.addValue(value, series, category);//FIXME NOW verify if condifion
+		if (categorySeries != null && categorySeries.length > 0)
+		{
+			for(int i = 0; i < categorySeries.length; i++)
+			{
+				JRFillCategorySeries crtCategorySeries = categorySeries[i];
+				if (crtCategorySeries.getCategory() != null) 
+					dataset.addValue(
+						crtCategorySeries.getValue(), 
+						crtCategorySeries.getSeries(), 
+						crtCategorySeries.getCategory()
+						);//FIXME NOW verify if condifion
+			}
+		}
+//		if (category != null) dataset.addValue(value, series, category);//FIXME NOW verify if condifion
+//		if (category != null) dataset.addValue(new Double(value.doubleValue() / 2d), "FIXME NOW", category);//FIXME NOW verify if condifion
 		isIncremented = true;
 	}
 

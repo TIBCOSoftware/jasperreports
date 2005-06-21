@@ -27,9 +27,10 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.charts.JRCategoryDataset;
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
@@ -37,7 +38,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCategoryDataset
+public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 {
 
 
@@ -46,13 +47,16 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRCategorySeries[] categorySeries = null;
+	protected JRExpression seriesExpression = null;
+	protected JRExpression categoryExpression = null;
+	protected JRExpression valueExpression = null;
+	protected JRExpression labelExpression = null;
 
 	
 	/**
 	 *
 	 */
-	protected JRBaseCategoryDataset()
+	protected JRBaseCategorySeries()
 	{
 	}
 	
@@ -60,31 +64,47 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	public JRBaseCategoryDataset(JRCategoryDataset dataset, JRBaseObjectFactory factory)
+	public JRBaseCategorySeries(JRCategorySeries categorySeries, JRBaseObjectFactory factory)
 	{
-		super(dataset, factory);
+		factory.put(categorySeries, this);
 
-		/*   */
-		JRCategorySeries[] srcCategorySeries = dataset.getSeries();
-		if (srcCategorySeries != null && srcCategorySeries.length > 0)
-		{
-			categorySeries = new JRCategorySeries[srcCategorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
-			{
-				categorySeries[i] = factory.getCategorySeries(srcCategorySeries[i]);
-			}
-		}
-
+		seriesExpression = factory.getExpression(categorySeries.getSeriesExpression());
+		categoryExpression = factory.getExpression(categorySeries.getCategoryExpression());
+		valueExpression = factory.getExpression(categorySeries.getValueExpression());
+		labelExpression = factory.getExpression(categorySeries.getLabelExpression());
 	}
 
 	
 	/**
 	 *
 	 */
-	public JRCategorySeries[] getSeries()
+	public JRExpression getSeriesExpression()
 	{
-		return categorySeries;
+		return seriesExpression;
 	}
-
-	
+		
+	/**
+	 *
+	 */
+	public JRExpression getCategoryExpression()
+	{
+		return categoryExpression;
+	}
+		
+	/**
+	 *
+	 */
+	public JRExpression getValueExpression()
+	{
+		return valueExpression;
+	}
+		
+	/**
+	 *
+	 */
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
+	}
+		
 }

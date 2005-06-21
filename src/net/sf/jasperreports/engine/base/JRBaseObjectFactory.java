@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
@@ -45,6 +46,7 @@ import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
+import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBasePie3DChart;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieChart;
@@ -693,6 +695,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseCategoryDataset;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
+	{
+		JRBaseCategorySeries baseCategorySeries = null;
+		
+		if (categorySeries != null)
+		{
+			baseCategorySeries = (JRBaseCategorySeries)get(categorySeries);
+			if (baseCategorySeries == null)
+			{
+				baseCategorySeries = new JRBaseCategorySeries(categorySeries, this);
+				put(categorySeries, baseCategorySeries);//FIXME NOW need this?
+			}
+		}
+		
+		return baseCategorySeries;
 	}
 	
 

@@ -25,66 +25,36 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.base;
+package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCategoryDataset
+public interface JRCategorySeries
 {
-
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 608;
-
-	protected JRCategorySeries[] categorySeries = null;
-
 	
 	/**
-	 *
+	 * 
 	 */
-	protected JRBaseCategoryDataset()
-	{
-	}
-	
-	
+	public JRExpression getSeriesExpression();
+
 	/**
-	 *
+	 * 
 	 */
-	public JRBaseCategoryDataset(JRCategoryDataset dataset, JRBaseObjectFactory factory)
-	{
-		super(dataset, factory);
+	public JRExpression getCategoryExpression();
 
-		/*   */
-		JRCategorySeries[] srcCategorySeries = dataset.getSeries();
-		if (srcCategorySeries != null && srcCategorySeries.length > 0)
-		{
-			categorySeries = new JRCategorySeries[srcCategorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
-			{
-				categorySeries[i] = factory.getCategorySeries(srcCategorySeries[i]);
-			}
-		}
-
-	}
-
-	
 	/**
-	 *
+	 * 
 	 */
-	public JRCategorySeries[] getSeries()
-	{
-		return categorySeries;
-	}
+	public JRExpression getValueExpression();
 
-	
+	/**
+	 * 
+	 */
+	public JRExpression getLabelExpression();
+
 }

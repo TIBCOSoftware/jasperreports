@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -359,10 +360,25 @@ public class JRExpressionCollector
 	 */
 	private void collect(JRCategoryDataset categoryDataset)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
-		addExpression(categoryDataset.getSeriesExpression());
-		addExpression(categoryDataset.getCategoryExpression());
-		addExpression(categoryDataset.getValueExpression());
-		addExpression(categoryDataset.getLabelExpression());
+		JRCategorySeries[] categorySeries = categoryDataset.getSeries();
+		if (categorySeries != null && categorySeries.length > 0)
+		{
+			for(int j = 0; j < categorySeries.length; j++)
+			{
+				collect(categorySeries[j]);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRCategorySeries categorySeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(categorySeries.getSeriesExpression());
+		addExpression(categorySeries.getCategoryExpression());
+		addExpression(categorySeries.getValueExpression());
+		addExpression(categorySeries.getLabelExpression());
 	}
 
 	/**

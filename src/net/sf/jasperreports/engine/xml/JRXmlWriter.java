@@ -38,6 +38,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
@@ -1844,25 +1845,47 @@ public class JRXmlWriter
 
 		writeDataset(dataset);
 
-		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(dataset.getSeriesExpression().getText());
+		/*   */
+		JRCategorySeries[] categorySeries = dataset.getSeries();
+		if (categorySeries != null && categorySeries.length > 0)
+		{
+			for(int i = 0; i < categorySeries.length; i++)
+			{
+				writeCategorySeries(categorySeries[i]);
+			}
+		}
+
+		sb.append("\t\t\t\t</categoryDataset>\n");
+	}
+
+
+	/**
+	 *
+	 * @param dataset
+	 */
+	private void writeCategorySeries(JRCategorySeries categorySeries)
+	{
+		sb.append("\t\t\t\t\t<categorySeries>\n");
+
+		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(categorySeries.getSeriesExpression().getText());
 		sb.append("]]></seriesExpression>\n");
 
-		sb.append("\t\t\t\t\t<categoryExpression><![CDATA[");
-		sb.append(dataset.getCategoryExpression().getText());
+		sb.append("\t\t\t\t\t\t<categoryExpression><![CDATA[");
+		sb.append(categorySeries.getCategoryExpression().getText());
 		sb.append("]]></categoryExpression>\n");
 
-		if (dataset.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(dataset.getLabelExpression().getText());
+		if (categorySeries.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(categorySeries.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
 		}
 
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
+		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(categorySeries.getValueExpression().getText());
 		sb.append("]]></valueExpression>\n");
 
-		sb.append("\t\t\t\t</categoryDataset>\n");
+		sb.append("\t\t\t\t\t</categorySeries>\n");
 	}
 
 

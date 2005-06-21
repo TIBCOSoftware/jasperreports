@@ -27,8 +27,12 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
@@ -46,10 +50,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRExpression seriesExpression = null;
-	protected JRExpression categoryExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
+	private List categorySeriesList = new ArrayList();
 
 	
 	/**
@@ -66,65 +67,36 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 *
 	 */
-	public JRExpression getSeriesExpression()
+	public JRCategorySeries[] getSeries()
 	{
-		return seriesExpression;
-	}
+		JRCategorySeries[] categorySeriesArray = new JRCategorySeries[categorySeriesList.size()];
 		
-	/**
-	 *
-	 */
-	public void setSeriesExpression(JRExpression seriesExpression)
-	{
-		this.seriesExpression = seriesExpression;
+		categorySeriesList.toArray(categorySeriesArray);
+
+		return categorySeriesArray;
 	}
+	
 
 	/**
 	 *
 	 */
-	public JRExpression getCategoryExpression()
+	public void addCategorySeries(JRCategorySeries categorySeries) throws JRException
 	{
-		return categoryExpression;
+		categorySeriesList.add(categorySeries);
 	}
-		
-	/**
-	 *
-	 */
-	public void setCategoryExpression(JRExpression categoryExpression)
-	{
-		this.categoryExpression = categoryExpression;
-	}
+	
 
 	/**
 	 *
 	 */
-	public JRExpression getValueExpression()
+	public JRCategorySeries removeCategorySeries(JRCategorySeries categorySeries)
 	{
-		return valueExpression;
-	}
+		if (categorySeries != null)
+		{
+			categorySeriesList.remove(categorySeries);
+		}
 		
-	/**
-	 *
-	 */
-	public void setValueExpression(JRExpression valueExpression)
-	{
-		this.valueExpression = valueExpression;
-	}
-
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return labelExpression;
-	}
-		
-	/**
-	 *
-	 */
-	public void setLabelExpression(JRExpression labelExpression)
-	{
-		this.labelExpression = labelExpression;
+		return categorySeries;
 	}
 
 
