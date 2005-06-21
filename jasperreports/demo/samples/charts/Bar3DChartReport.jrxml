@@ -100,7 +100,7 @@
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
 					<labelExpression></labelExpression>
 				</categoryDataset>
-				<bar3DPlot xOffset="0" yOffset="0">
+				<bar3DPlot>
 					<plot/>
 				</bar3DPlot>
 			</bar3DChart>
@@ -214,7 +214,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Bar Chart Report]]></text>
+				<text><![CDATA[Bar 3D Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>

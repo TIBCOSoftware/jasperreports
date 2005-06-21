@@ -653,12 +653,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-    /* (non-Javadoc)
-     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
-     */
-    public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
-       
-        JRFillBar3DChart fillBarChart = null;
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
+	 */
+	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
+	   
+		JRFillBar3DChart fillBarChart = null;
 		
 		if (barChart != null)
 		{
@@ -670,14 +670,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillBarChart;
-    }
+	}
 
 
-    /* (non-Javadoc)
-     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
-     */
-    public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
-        JRFillBar3DPlot fillBarPlot = null;
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
+	 */
+	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
+		JRFillBar3DPlot fillBarPlot = null;
 		
 		if (barPlot != null)
 		{
@@ -689,6 +689,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillBarPlot;
-    }
+	}
 
 }

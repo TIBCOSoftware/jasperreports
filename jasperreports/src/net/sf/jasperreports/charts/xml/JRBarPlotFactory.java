@@ -50,12 +50,12 @@ public class JRBarPlotFactory extends JRBaseFactory
 
 		String isShowTickMarks = atts.getValue(ATTRIBUTE_isShowTickMarks);
 		if (isShowTickMarks != null && isShowTickMarks.length() > 0) {
-            plot.setShowTickMarks(new Boolean(isShowTickMarks).booleanValue());
+			plot.setShowTickMarks(new Boolean(isShowTickMarks).booleanValue());
 		}
 
 		String isShowTickLabels = atts.getValue(ATTRIBUTE_isShowTickLabels);
 		if (isShowTickLabels != null && isShowTickLabels.length() > 0) {
-            plot.setShowTickLabels(new Boolean(isShowTickLabels).booleanValue());
+			plot.setShowTickLabels(new Boolean(isShowTickLabels).booleanValue());
 		}
 
 		return plot;

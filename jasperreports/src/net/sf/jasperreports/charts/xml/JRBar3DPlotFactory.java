@@ -39,7 +39,7 @@ import org.xml.sax.Attributes;
  * @version JRBar3DPlotFactory.java Jun 20, 2005 7:14:40 PM User 
  */
 public class JRBar3DPlotFactory extends JRBaseFactory {
-    private static final String ATTRIBUTE_xOffset = "xOffset";
+	private static final String ATTRIBUTE_xOffset = "xOffset";
 	private static final String ATTRIBUTE_yOffset = "yOffset";
 
 	public Object createObject(Attributes atts)
@@ -49,12 +49,12 @@ public class JRBar3DPlotFactory extends JRBaseFactory {
 
 		String xOffset = atts.getValue(ATTRIBUTE_xOffset);
 		if (xOffset != null && xOffset.length() > 0) {
-            plot.setXOffset(new Integer(xOffset).intValue());
+			plot.setXOffset(Double.parseDouble(xOffset));
 		}
  
 		String yOffset = atts.getValue(ATTRIBUTE_yOffset);
 		if (yOffset != null && yOffset.length() > 0) {
-            plot.setYOffset(new Integer( yOffset).intValue());
+			plot.setYOffset(Double.parseDouble(yOffset));
 		}
 
 		return plot;

@@ -39,11 +39,11 @@ import org.xml.sax.Attributes;
  * @version $Id$ 
  */
 public class JRBar3DChartFactory extends JRBaseFactory {
-    
-    public Object createObject( Attributes attrs ){
-        JRDesignBar3DChart barChart = new JRDesignBar3DChart();
-        
-        return barChart;
-    }
+	
+	public Object createObject( Attributes attrs ){
+		JRDesignBar3DChart barChart = new JRDesignBar3DChart();
+		
+		return barChart;
+	}
 
 }

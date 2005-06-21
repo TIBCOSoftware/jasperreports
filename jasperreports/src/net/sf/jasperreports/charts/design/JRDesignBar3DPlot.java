@@ -36,21 +36,21 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$ 
  */
 public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
-    
-    private static final long serialVersionUID = 608;
-    
-    
-    public JRDesignBar3DPlot(){
-        super();
-    }
-    
-    public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
-        this.categoryAxisLabelExpression = categoryAxisLabelExpression;
-    }
-    
-    public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
-        this.valueAxisLabelExpression = valueAxisLabelExpression;
-    }
-    
-    
+	
+	private static final long serialVersionUID = 608;
+	
+	
+	public JRDesignBar3DPlot(){
+		super();
+	}
+	
+	public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
+		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+	}
+	
+	public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
+		this.valueAxisLabelExpression = valueAxisLabelExpression;
+	}
+	
+	
 }
