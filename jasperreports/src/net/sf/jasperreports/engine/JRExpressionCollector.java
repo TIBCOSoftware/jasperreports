@@ -35,6 +35,8 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRLineChart;
+import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPieChart;
@@ -334,6 +336,12 @@ public class JRExpressionCollector
 		collect((JRCategoryDataset)barChart.getDataset() );
 		collect((JRBar3DPlot)barChart.getPlot() );
 	}
+	
+	public void collect( JRLineChart lineChart ){
+	    collectChart( lineChart );
+	    collect( (JRCategoryDataset)lineChart.getDataset() );
+	    collect( (JRLinePlot)lineChart.getPlot()  );
+	}
 
 	/**
 	 *
@@ -397,6 +405,11 @@ public class JRExpressionCollector
 		addExpression(barPlot.getValueAxisLabelExpression());
 	}
 	
+	
+	private void collect( JRLinePlot linePlot ){
+	    addExpression( linePlot.getCategoryAxisLabelExpression() );
+	    addExpression( linePlot.getValueAxisLabelExpression() );
+	}
 
 	/**
 	 *

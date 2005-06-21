@@ -48,6 +48,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;
+	
 	protected boolean isShowTickMarks = false;
 	protected boolean isShowTickLabels = false;
 
