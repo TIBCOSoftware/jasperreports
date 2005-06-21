@@ -39,6 +39,7 @@ import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
 import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
+import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.engine.JRBand;
@@ -387,7 +388,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/timeSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/valueExpression", "setText", 0);
 
-		digester.addFactoryCreate("*/stackedBarChart", JRBarChartFactory.class.getName());
+		digester.addFactoryCreate("*/stackedBarChart", JRStackedBarChartFactory.class.getName());
 		digester.addSetNext("*/stackedBarChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBarChart/barPlot", JRBarPlotFactory.class.getName());
 	}

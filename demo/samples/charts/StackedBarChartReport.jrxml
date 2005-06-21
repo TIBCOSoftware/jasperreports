@@ -214,7 +214,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Bar Chart Report]]></text>
+				<text><![CDATA[Stacked Bar Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>
