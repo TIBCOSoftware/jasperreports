@@ -327,7 +327,7 @@
 
 <!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
 
-<!ELEMENT stackedBar3DChart (chart, categoryDataset, barPlot)>
+<!ELEMENT stackedBar3DChart (chart, categoryDataset, bar3DPlot)>
 
 <!ELEMENT lineChart (chart, categoryDataset, linePlot)>
 <!ELEMENT linePlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
