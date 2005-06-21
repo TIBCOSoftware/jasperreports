@@ -43,6 +43,7 @@ import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
@@ -56,6 +57,7 @@ import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
 import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
+import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -571,6 +573,24 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	/**
+	 *
+	 */
+	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedBar3DChart)
+	{
+		JRFillStackedBar3DChart fillBar3DChart = null;
+
+		if (stackedBar3DChart != null)
+		{
+			fillBar3DChart = (JRFillStackedBar3DChart)get(stackedBar3DChart);
+			if (fillBar3DChart == null)
+			{
+				fillBar3DChart = new JRFillStackedBar3DChart(filler, stackedBar3DChart, this);
+			}
+		}
+
+		return fillBar3DChart;
+	}
 	/**
 	 *
 	 */

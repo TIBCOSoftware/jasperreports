@@ -43,6 +43,9 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRBar3DChart;
+import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -76,6 +79,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 
 /**
@@ -893,9 +897,17 @@ public class JRXmlWriter
 		{
 			writeBarChart((JRBarChart)element);
 		}
+		else if (element instanceof JRBar3DChart)
+		{
+			writeBar3DChart((JRBar3DChart)element);
+		}
 		else if (element instanceof JRStackedBarChart)
 		{
 			writeStackedBarChart((JRStackedBarChart)element);
+		}
+		else if (element instanceof JRStackedBar3DChart)
+		{
+			writeStackedBar3DChart((JRStackedBar3DChart)element);
 		}
 	}
 
@@ -2000,6 +2012,36 @@ public class JRXmlWriter
 
 	/**
 	 *
+	 * @param plot
+	 */
+	private void writeBar3DPlot(JRBar3DPlot plot)
+	{
+		sb.append("\t\t\t\t<bar3DPlot");
+		if (plot.getXOffset() != BarRenderer3D.DEFAULT_X_OFFSET)
+			sb.append(" xOffset=\"" + plot.getXOffset() + "\"");
+		if (plot.getYOffset() != BarRenderer3D.DEFAULT_Y_OFFSET)
+			sb.append(" yOffset=\"" + plot.getYOffset() + "\"");
+		sb.append(">\n");
+		writePlot(plot);
+
+		if (plot.getCategoryAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
+			sb.append(plot.getCategoryAxisLabelExpression().getText());
+			sb.append("]]></categoryAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</bar3DPlot>\n");
+	}
+
+
+	/**
+	 *
 	 * @param chart
 	 */
 	private void writeBarChart(JRBarChart chart)
@@ -2011,7 +2053,22 @@ public class JRXmlWriter
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</barChart>\n");
+	}
 
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeBar3DChart(JRBar3DChart chart)
+	{
+		sb.append("\t\t\t<bar3DChart>\n");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeBar3DPlot((JRBar3DPlot) chart.getPlot());
+
+		sb.append("\t\t\t</bar3DChart>\n");
 	}
 
 
@@ -2028,7 +2085,21 @@ public class JRXmlWriter
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</stackedBarChart>\n");
-
 	}
 
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeStackedBar3DChart(JRStackedBar3DChart chart)
+	{
+		sb.append("\t\t\t<stackedBar3DChart>\n");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeBar3DPlot((JRBar3DPlot) chart.getPlot());
+
+		sb.append("\t\t\t</stackedBar3DChart>\n");
+	}
 }
