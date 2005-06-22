@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.xml;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
+import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
+import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
@@ -357,6 +359,11 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/barChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/barChart/barPlot", JRBarPlotFactory.class.getName());
 		
+		// area charts
+		digester.addFactoryCreate( "*/areaChart", JRAreaChartFactory.class.getName() );
+		digester.addSetNext( "*/areaChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate( "*/areaChart/areaPlot", JRAreaPlotFactory.class.getName() );
+		
 		// bar3d charts
 		digester.addFactoryCreate( "*/bar3DChart", JRBar3DChartFactory.class.getName() );
 		digester.addSetNext( "*/bar3DChart", "addElement", JRDesignElement.class.getName() );
@@ -366,6 +373,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class.getName());
 		digester.addSetNext("*/categoryDataset/categorySeries", "addCategorySeries", JRDesignCategorySeries.class.getName());
 
+		digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/categorySeries/seriesExpression", JRCategorySeriesFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/categorySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/seriesExpression", "setText", 0);
@@ -408,7 +416,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/lineChart", JRLineChartFactory.class.getName() );
 		digester.addSetNext( "*/lineChart", "addElement", JRDesignElement.class.getName() );
 		digester.addFactoryCreate( "*/linePlot", JRLinePlotFactory.class.getName() );
-
+	
 		digester.addFactoryCreate("*/stackedBar3DChart", JRStackedBar3DChartFactory.class.getName());
 		digester.addSetNext("*/stackedBar3DChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());

@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.charts.JRAreaChart;
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
@@ -48,6 +50,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.fill.JRFillAreaChart;
+import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
@@ -716,6 +720,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillTimeSeries == null)
 			{
 				fillTimeSeries = new JRFillTimeSeries(timeSeries, this);
+				datasets.add(fillTimeSeries);
 			}
 		}
 		
@@ -789,6 +794,44 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillLinePlot;
+    }
+
+
+    /**
+     * 
+     */
+    public JRAreaChart getAreaChart(JRAreaChart areaChart) {
+        JRFillAreaChart fillAreaChart = null;
+
+		if (areaChart != null)
+		{
+			fillAreaChart = (JRFillAreaChart)get(areaChart);
+			if (fillAreaChart == null)
+			{
+				fillAreaChart = new JRFillAreaChart(filler, areaChart, this);
+			}
+		}
+
+		return fillAreaChart;
+    }
+
+
+    /**
+     * 
+     */
+    public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
+        JRFillAreaPlot fillAreaPlot = null;
+		
+		if (areaPlot != null)
+		{
+			fillAreaPlot = (JRFillAreaPlot)get(areaPlot);
+			if (fillAreaPlot == null)
+			{
+				fillAreaPlot = new JRFillAreaPlot(areaPlot, this);
+			}
+		}
+		
+		return fillAreaPlot;
     }
 
 }

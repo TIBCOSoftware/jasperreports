@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.JRAreaChart;
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
@@ -189,8 +191,23 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRBar3DChart getBar3DChart( JRBar3DChart barChart );
 
- 
+	/**
+	 *   
+	 */
 	public abstract JRLineChart getLineChart( JRLineChart lineChart );
 	
+	/**
+	 *   
+	 */
 	public abstract JRLinePlot getLinePlot( JRLinePlot linePlot );
+	
+	/**
+	 *   
+	 */
+	public abstract JRAreaChart getAreaChart( JRAreaChart areaChart );
+	
+	/**
+	 *   
+	 */
+	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
 }

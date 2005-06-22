@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.charts.JRAreaChart;
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
@@ -45,6 +47,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.base.JRBaseAreaChart;
+import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
@@ -891,6 +895,46 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseLinePlot;
+    }
+
+
+    /**
+     *  
+     */
+    public JRAreaChart getAreaChart(JRAreaChart areaChart) {
+        JRBaseAreaChart baseAreaChart = null;
+		
+		if (areaChart != null)
+		{
+			baseAreaChart = (JRBaseAreaChart)get(areaChart);
+			if (baseAreaChart == null)
+			{
+				baseAreaChart = new JRBaseAreaChart(areaChart, this);
+				put(areaChart, baseAreaChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseAreaChart;
+    }
+
+
+    /**
+     * 
+     */
+    public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
+        JRBaseAreaPlot baseAreaPlot = null;
+		
+		if (areaPlot != null)
+		{
+			baseAreaPlot = (JRBaseAreaPlot)get(areaPlot);
+			if (baseAreaPlot == null)
+			{
+				baseAreaPlot = new JRBaseAreaPlot(areaPlot, this);
+				put(areaPlot, baseAreaPlot);//FIXME NOW need this?
+			}
+		}
+		
+		return baseAreaPlot;
     }
 	
 

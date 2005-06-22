@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.jasperreports.charts.JRAreaChart;
+import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
@@ -343,6 +345,12 @@ public class JRExpressionCollector
 	    collect( (JRCategoryDataset)lineChart.getDataset() );
 	    collect( (JRLinePlot)lineChart.getPlot()  );
 	}
+	
+	public void collect( JRAreaChart areaChart ){
+	    collectChart( areaChart );
+	    collect( (JRCategoryDataset)areaChart.getDataset() );
+	    collect( (JRAreaPlot)areaChart.getPlot() ) ;
+	}
 
 	/**
 	 *
@@ -426,6 +434,11 @@ public class JRExpressionCollector
 	    addExpression( linePlot.getCategoryAxisLabelExpression() );
 	    addExpression( linePlot.getValueAxisLabelExpression() );
 	}
+	
+	private void collect( JRAreaPlot areaPlot ){
+	    addExpression( areaPlot.getCategoryAxisLabelExpression() );
+	    addExpression( areaPlot.getValueAxisLabelExpression() );
+	}
 
 	/**
 	 *
@@ -447,5 +460,6 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getValueExpression());
 		addExpression(timeSeries.getLabelExpression());
 	}
+
 
 }
