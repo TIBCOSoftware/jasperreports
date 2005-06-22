@@ -129,8 +129,6 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 						);//FIXME NOW verify if condifion
 			}
 		}
-//		if (category != null) dataset.addValue(value, series, category);//FIXME NOW verify if condifion
-//		if (category != null) dataset.addValue(new Double(value.doubleValue() / 2d), "FIXME NOW", category);//FIXME NOW verify if condifion
 		isIncremented = true;
 	}
 
