@@ -341,7 +341,7 @@
 >
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
-<!ELEMENT xyDataset (dataset, categoryExpression, valueExpression, labelExpression?)>
+<!ELEMENT xyDataset (dataset, (categorySeries+ | xySeries+))>
 
 <!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
 <!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
