@@ -302,6 +302,7 @@
 <!ELEMENT categorySeries (seriesExpression, categoryExpression, valueExpression, labelExpression?)>
 <!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
+
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST barPlot
 	isShowTickMarks (true | false) "true"
