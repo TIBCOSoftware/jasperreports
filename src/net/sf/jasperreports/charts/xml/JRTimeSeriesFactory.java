@@ -62,7 +62,7 @@ public class JRTimeSeriesFactory extends JRBaseFactory
 	}
 
 
-	public static class JRTimePeriodExpressionFactory extends JRBaseFactory {//FIXME NOW make only one expression factory by type?
+	public static class JRTimePeriodExpressionFactory extends JRBaseFactory {
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();

@@ -49,36 +49,9 @@ public class JRDesignChartDataset extends JRBaseChartDataset
 	/**
 	 *
 	 */
-	public JRDesignChartDataset()
-	{
-		super();
-		
-		//FIXME NOW dataset = ;
-	}
-		
-
-	/**
-	 *
-	 *
-	public byte getResetType()
-	{
-		return resetType;
-	}
-		
-	/**
-	 *
-	 */
 	public void setResetType(byte resetType)
 	{
 		this.resetType = resetType;
-	}
-		
-	/**
-	 *
-	 *
-	public byte getIncrementType()
-	{
-		return incrementType;
 	}
 		
 	/**
@@ -91,26 +64,10 @@ public class JRDesignChartDataset extends JRBaseChartDataset
 		
 	/**
 	 *
-	 *
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
-	/**
-	 *
 	 */
 	public void setResetGroup(JRGroup group)
 	{
 		this.resetGroup = group;
-	}
-		
-	/**
-	 *
-	 *
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
 	}
 		
 	/**
