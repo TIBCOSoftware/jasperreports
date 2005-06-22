@@ -27,9 +27,10 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
@@ -37,7 +38,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseTimeSeries extends JRBaseChartDataset implements JRTimeSeries
+public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 {
 
 
@@ -63,14 +64,14 @@ public class JRBaseTimeSeries extends JRBaseChartDataset implements JRTimeSeries
 	/**
 	 *
 	 */
-	public JRBaseTimeSeries(JRTimeSeries dataset, JRBaseObjectFactory factory)
+	public JRBaseTimeSeries(JRTimeSeries timeSeries, JRBaseObjectFactory factory)
 	{
-		super(dataset, factory);
+		factory.put(timeSeries, this);
 
-		seriesExpression = factory.getExpression(dataset.getSeriesExpression());
-		timePeriodExpression = factory.getExpression(dataset.getTimePeriodExpression());
-		valueExpression = factory.getExpression(dataset.getValueExpression());
-		labelExpression = factory.getExpression(dataset.getLabelExpression());
+		seriesExpression = factory.getExpression(timeSeries.getSeriesExpression());
+		timePeriodExpression = factory.getExpression(timeSeries.getTimePeriodExpression());
+		valueExpression = factory.getExpression(timeSeries.getValueExpression());
+		labelExpression = factory.getExpression(timeSeries.getLabelExpression());
 	}
 
 	

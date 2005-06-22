@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRCategorySeries;
@@ -52,6 +53,7 @@ import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
+import net.sf.jasperreports.charts.fill.JRFillIntervalXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillLineChart;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
@@ -597,6 +599,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillBar3DChart;
 	}
+
+	
 	/**
 	 *
 	 */
@@ -615,6 +619,27 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillCategoryDataset;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRIntervalXyDataset getIntervalXyDataset(JRIntervalXyDataset intervalXyDataset)
+	{
+		JRFillIntervalXyDataset fillIntervalXyDataset = null;
+		
+		if (intervalXyDataset != null)
+		{
+			fillIntervalXyDataset = (JRFillIntervalXyDataset)get(intervalXyDataset);
+			if (fillIntervalXyDataset == null)
+			{
+				fillIntervalXyDataset = new JRFillIntervalXyDataset(intervalXyDataset, this);
+				datasets.add(fillIntervalXyDataset);
+			}
+		}
+		
+		return fillIntervalXyDataset;
 	}
 
 
@@ -691,7 +716,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillTimeSeries == null)
 			{
 				fillTimeSeries = new JRFillTimeSeries(timeSeries, this);
-				datasets.add(fillTimeSeries);
 			}
 		}
 		

@@ -27,9 +27,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
 
@@ -37,7 +36,7 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignTimeSeries extends JRDesignChartDataset implements JRTimeSeries
+public class JRDesignTimeSeries extends JRBaseTimeSeries
 {
 
 
@@ -45,11 +44,6 @@ public class JRDesignTimeSeries extends JRDesignChartDataset implements JRTimeSe
 	 *
 	 */
 	private static final long serialVersionUID = 608;
-
-	protected JRExpression seriesExpression = null;
-	protected JRExpression timePeriodExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
 
 	
 	/**
@@ -66,27 +60,11 @@ public class JRDesignTimeSeries extends JRDesignChartDataset implements JRTimeSe
 	/**
 	 *
 	 */
-	public JRExpression getSeriesExpression()
-	{
-		return seriesExpression;
-	}
-		
-	/**
-	 *
-	 */
 	public void setSeriesExpression(JRExpression seriesExpression)
 	{
 		this.seriesExpression = seriesExpression;
 	}
 
-	/**
-	 *
-	 */
-	public JRExpression getTimePeriodExpression()
-	{
-		return timePeriodExpression;
-	}
-		
 	/**
 	 *
 	 */
@@ -98,27 +76,11 @@ public class JRDesignTimeSeries extends JRDesignChartDataset implements JRTimeSe
 	/**
 	 *
 	 */
-	public JRExpression getValueExpression()
-	{
-		return valueExpression;
-	}
-		
-	/**
-	 *
-	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		this.valueExpression = valueExpression;
 	}
 
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return labelExpression;
-	}
-		
 	/**
 	 *
 	 */
