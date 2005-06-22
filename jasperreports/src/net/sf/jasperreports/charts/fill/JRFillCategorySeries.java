@@ -56,13 +56,13 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 *
 	 */
 	public JRFillCategorySeries(
-		JRCategorySeries series, 
+		JRCategorySeries categorySeries, 
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(series, this);
+		factory.put(categorySeries, this);
 
-		parent = series;
+		parent = categorySeries;
 	}
 
 

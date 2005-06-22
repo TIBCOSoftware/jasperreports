@@ -35,17 +35,18 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
-import net.sf.jasperreports.charts.JRStackedBar3DChart;
 
 
 /**
@@ -381,6 +382,21 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
+	private void collect(JRIntervalXyDataset intervalXyDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		JRTimeSeries[] timeSeries = intervalXyDataset.getSeries();
+		if (timeSeries != null && timeSeries.length > 0)
+		{
+			for(int j = 0; j < timeSeries.length; j++)
+			{
+				collect(timeSeries[j]);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
 	private void collect(JRCategorySeries categorySeries)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
 		addExpression(categorySeries.getSeriesExpression());
@@ -417,7 +433,7 @@ public class JRExpressionCollector
 	public void collect(JRXyBarChart xyBarChart)
 	{
 		collectChart(xyBarChart);
-		collect((JRTimeSeries)xyBarChart.getDataset());
+		collect((JRIntervalXyDataset)xyBarChart.getDataset());
 		collect((JRBarPlot)xyBarChart.getPlot());
 	}
 

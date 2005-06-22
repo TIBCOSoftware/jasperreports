@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
 
 
@@ -35,7 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTimeSeries extends JRChartDataset
+public interface JRTimeSeries
 {
 	
 	/**

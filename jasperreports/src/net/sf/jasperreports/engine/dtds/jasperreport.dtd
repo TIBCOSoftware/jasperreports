@@ -317,12 +317,14 @@
 	yOffset CDATA #IMPLIED
 >
 
-<!ELEMENT xyBarChart (chart, (timePeriodValues* | timeSeries* | xySeries*), barPlot)>
-<!ELEMENT timePeriodValues (dataset, seriesExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT xyBarChart (chart, intervalXyDataset, barPlot)>
+<!ELEMENT intervalXyDataset (dataset, (timePeriodValues+ | timeSeries+ | xySeries+))>
+<!ELEMENT timePeriodValues (seriesExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression)>
+<!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression)>
+<!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
-<!ELEMENT timeSeries (dataset, seriesExpression, timePeriodExpression, valueExpression)>
 <!ELEMENT timePeriodExpression (#PCDATA)>
-<!ELEMENT xySeries (dataset, seriesExpression, xValueExpression, yValueExpression)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 

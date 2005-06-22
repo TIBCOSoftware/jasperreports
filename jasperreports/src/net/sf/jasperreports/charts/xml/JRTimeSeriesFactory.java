@@ -30,7 +30,6 @@ package net.sf.jasperreports.charts.xml;
 import java.util.Date;
 
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -48,8 +47,7 @@ public class JRTimeSeriesFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignTimeSeries)chart.getDataset();
+		return new JRDesignTimeSeries();
 	}
 
 

@@ -157,12 +157,14 @@
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
-				<timeSeries>
+				<intervalXyDataset>
 					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
-					<seriesExpression>"Freight"</seriesExpression>
-					<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
-					<valueExpression>$V{FreightSumYearGroup}</valueExpression>
-				</timeSeries>
+					<timeSeries>
+						<seriesExpression>"Freight"</seriesExpression>
+						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
+						<valueExpression>$V{FreightSumYearGroup}</valueExpression>
+					</timeSeries>
+				</intervalXyDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
 					<plot/>
 				</barPlot>

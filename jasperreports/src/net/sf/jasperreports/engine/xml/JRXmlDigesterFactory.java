@@ -30,11 +30,13 @@ package net.sf.jasperreports.engine.xml;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
+import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRIntervalXyDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
@@ -361,10 +363,9 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/bar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
 		
 		digester.addFactoryCreate("*/categoryDataset", JRCategoryDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class);
+		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class.getName());
 		digester.addSetNext("*/categoryDataset/categorySeries", "addCategorySeries", JRDesignCategorySeries.class.getName());
 
-		digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/categorySeries/seriesExpression", JRCategorySeriesFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/categorySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/seriesExpression", "setText", 0);
@@ -383,7 +384,10 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/xyBarChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/xyBarChart/barPlot", JRBarPlotFactory.class.getName());
 
-		digester.addFactoryCreate("*/timeSeries", JRTimeSeriesFactory.class.getName());
+		digester.addFactoryCreate("*/intervalXyDataset", JRIntervalXyDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/intervalXyDataset/timeSeries", JRTimeSeriesFactory.class.getName());//FIXME NOW why */intervalXyDataset/timeSeries and not */timeSeries 
+		digester.addSetNext("*/intervalXyDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName());
+
 		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/seriesExpression", "setText", 0);

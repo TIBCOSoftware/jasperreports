@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRCategorySeries;
@@ -41,6 +42,7 @@ import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
@@ -48,6 +50,7 @@ import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
+import net.sf.jasperreports.charts.base.JRBaseIntervalXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseLineChart;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
@@ -57,6 +60,7 @@ import net.sf.jasperreports.charts.base.JRBasePieChart;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
+import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
 import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -705,6 +709,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public JRIntervalXyDataset getIntervalXyDataset(JRIntervalXyDataset intervalXyDataset)
+	{
+		JRBaseIntervalXyDataset baseIntervalXyDataset = null;
+		
+		if (intervalXyDataset != null)
+		{
+			baseIntervalXyDataset = (JRBaseIntervalXyDataset)get(intervalXyDataset);
+			if (baseIntervalXyDataset == null)
+			{
+				baseIntervalXyDataset = new JRBaseIntervalXyDataset(intervalXyDataset, this);
+				put(intervalXyDataset, baseIntervalXyDataset);//FIXME NOW need this?
+			}
+		}
+		
+		return baseIntervalXyDataset;
+	}
+	
+
+	/**
+	 *
+	 */
 	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
 	{
 		JRBaseCategorySeries baseCategorySeries = null;
@@ -720,6 +745,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseCategorySeries;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
+	{
+		JRBaseTimeSeries baseTimeSeries = null;
+		
+		if (timeSeries != null)
+		{
+			baseTimeSeries = (JRBaseTimeSeries)get(timeSeries);
+			if (baseTimeSeries == null)
+			{
+				baseTimeSeries = new JRBaseTimeSeries(timeSeries, this);
+				put(timeSeries, baseTimeSeries);//FIXME NOW need this?
+			}
+		}
+		
+		return baseTimeSeries;
 	}
 	
 
