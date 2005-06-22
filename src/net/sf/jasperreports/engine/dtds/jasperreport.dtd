@@ -357,7 +357,8 @@
 <!ELEMENT yAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
-<!ELEMENT xyzDataset (dataset, xValueExpression, yValueExpression, zValueExpression?)>
+<!ELEMENT xyzDataset (dataset, xyzSeries+)>
+<!ELEMENT xyzSeries (xValueExpression, yValueExpression, zValueExpression?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
 <!ATTLIST bubblePlot
 	scaleType (bothAxes | domainAxis | rangeAxis) "rangeAxis"
