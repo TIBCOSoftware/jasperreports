@@ -25,6 +25,7 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -35,7 +36,10 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -85,25 +89,25 @@ public class ChartsApp
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
 				
-				JasperFillManager.fillReportToFile("BarChartReport.jasper", parameters, getConnection());
+				JasperFillManager.fillReportToFile("HighLowChartReport.jasper", parameters, getConnection());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile("BarChartReport.jrprint");
+				JasperExportManager.exportReportToPdfFile("HighLowChartReport.jrprint");
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile("BarChartReport.jrprint");
+				JasperExportManager.exportReportToHtmlFile("HighLowChartReport.jrprint");
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_WRITE_XML.equals(taskName))
 			{
-				JasperCompileManager.writeReportToXmlFile("BarChartReport.jasper");
+				JasperCompileManager.writeReportToXmlFile("HighLowChartReport.jasper");
 				System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}

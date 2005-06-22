@@ -2,9 +2,9 @@
 <!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="StackedBarChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+<jasperReport name="HighLowChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<reportFont name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
@@ -70,7 +70,7 @@
 	<group name="FirstLetterGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="false" minHeightToStartNewPage="200">
 		<groupExpression><![CDATA[$V{FirstLetter}]]></groupExpression>
 		<groupHeader>
-		<band height="200">
+		<band height="25">
 			<rectangle>
 				<reportElement x="0" y="14" width="270" height="11" forecolor="#ffdddd" backcolor="#ffdddd"/>
 				<graphicElement/>
@@ -89,29 +89,6 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 			</textField>
-			<stackedBarChart>
-				<chart evaluationTime="Group" evaluationGroup="FirstLetterGroup">
-					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
-				</chart>
-				<categoryDataset>
-					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
-					<categorySeries>
-						<seriesExpression>"Freight"</seriesExpression>
-						<categoryExpression>$F{ShipCountry}</categoryExpression>
-						<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
-						<labelExpression></labelExpression>
-					</categorySeries>
-					<categorySeries>
-						<seriesExpression>"Half Freight"</seriesExpression>
-						<categoryExpression>$F{ShipCountry}</categoryExpression>
-						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() / 2d)</valueExpression>
-						<labelExpression></labelExpression>
-					</categorySeries>
-				</categoryDataset>
-				<barPlot>
-					<plot/>
-				</barPlot>
-			</stackedBarChart>
 		</band>
 		</groupHeader>
 		<groupFooter>
@@ -120,7 +97,7 @@
 				<reportElement x="0" y="0" width="270" height="1" forecolor="#ff0000"/>
 				<graphicElement/>
 			</line>
-			<staticText>				
+			<staticText>
 				<reportElement x="0" y="1" width="45" height="11" forecolor="#ff0000"/>
 				<textElement textAlignment="Right">
 					<font reportFont="Arial_Bold"/>
@@ -154,7 +131,7 @@
 	<group name="CountryGroup" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
-		<band height="15">
+		<band height="200">
 			<line>
 				<reportElement x="0" y="14" width="270" height="1"/>
 				<graphicElement/>
@@ -173,6 +150,23 @@
 				</textElement>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
 			</textField>
+			<highLowChart>
+				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
+					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
+				</chart>
+				<highLowDataset>
+					<dataset resetType="Group" resetGroup="CountryGroup"/>
+					<seriesExpression>$F{ShipCountry}</seriesExpression>
+					<dateExpression>$F{OrderDate}</dateExpression>
+					<highExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.6)</highExpression>
+					<lowExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.6)</lowExpression>
+					<openExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.3)</openExpression>
+					<closeExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.4)</closeExpression>
+				</highLowDataset>
+				<highLowPlot>
+					<plot/>
+				</highLowPlot>
+			</highLowChart>
 		</band>
 		</groupHeader>
 		<groupFooter>
@@ -222,7 +216,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Stacked Bar Chart Report]]></text>
+				<text><![CDATA[High Low Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>
