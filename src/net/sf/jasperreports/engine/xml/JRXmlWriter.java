@@ -47,6 +47,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -909,6 +911,10 @@ public class JRXmlWriter
 		else if (element instanceof JRStackedBar3DChart)
 		{
 			writeStackedBar3DChart((JRStackedBar3DChart)element);
+		}
+		else if (element instanceof JRLineChart)
+		{
+			writeLineChart((JRLineChart) element);
 		}
 	}
 
@@ -1861,7 +1867,7 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 * @param dataset
+	 * @param categorySeries
 	 */
 	private void writeCategorySeries(JRCategorySeries categorySeries)
 	{
@@ -2037,6 +2043,36 @@ public class JRXmlWriter
 	 *
 	 * @param plot
 	 */
+	private void writeLinePlot(JRLinePlot plot)
+	{
+		sb.append("\t\t\t\t<linePlot");
+		if (!plot.isShowLines())
+			sb.append(" isShowLines=\"false\"");
+		if (!plot.isShowShapes())
+			sb.append(" isShowShapess=\"false\"");
+		sb.append(">\n");
+		writePlot(plot);
+
+		if (plot.getCategoryAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
+			sb.append(plot.getCategoryAxisLabelExpression().getText());
+			sb.append("]]></categoryAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</linePlot>\n");
+	}
+
+
+	/**
+	 *
+	 * @param plot
+	 */
 	private void writeBar3DPlot(JRBar3DPlot plot)
 	{
 		sb.append("\t\t\t\t<bar3DPlot");
@@ -2125,4 +2161,21 @@ public class JRXmlWriter
 
 		sb.append("\t\t\t</stackedBar3DChart>\n");
 	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeLineChart(JRLineChart chart)
+	{
+		sb.append("\t\t\t<lineChart>\n");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeLinePlot((JRLinePlot) chart.getPlot());
+
+		sb.append("\t\t\t</lineChart>\n");
+	}
+
 }
