@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.charts.*;
+import net.sf.jasperreports.charts.fill.*;
 import net.sf.jasperreports.charts.JRAreaChart;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
@@ -834,4 +836,56 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillAreaPlot;
     }
 
+
+	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
+	{
+		JRFillHighLowChart fillHighLowChart = null;
+
+		if (highLowChart != null){
+			fillHighLowChart = (JRFillHighLowChart)get(highLowChart);
+			if (fillHighLowChart == null){
+				fillHighLowChart = new JRFillHighLowChart(filler, highLowChart, this);
+			}
+		}
+
+		return fillHighLowChart;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRHighLowDataset getHighLowDataset(JRHighLowDataset highLowDataset)
+	{
+		JRFillHighLowDataset fillHighLowDataset = null;
+
+		if (highLowDataset != null)
+		{
+			fillHighLowDataset = (JRFillHighLowDataset)get(highLowDataset);
+			if (fillHighLowDataset == null)
+			{
+				fillHighLowDataset = new JRFillHighLowDataset(highLowDataset, this);
+				datasets.add(fillHighLowDataset);
+			}
+		}
+
+		return fillHighLowDataset;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRHighLowPlot getHighLowPlot(JRHighLowPlot highLowPlot) {
+		JRFillHighLowPlot fillHighLowPlot = null;
+
+		if (highLowPlot != null){
+			fillHighLowPlot = (JRFillHighLowPlot)get(highLowPlot);
+			if (fillHighLowPlot == null){
+				fillHighLowPlot = new JRFillHighLowPlot(highLowPlot, this);
+			}
+		}
+
+		return fillHighLowPlot;
+	}
 }

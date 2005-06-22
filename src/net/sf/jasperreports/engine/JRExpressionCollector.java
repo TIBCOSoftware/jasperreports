@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.jasperreports.charts.*;
 import net.sf.jasperreports.charts.JRAreaChart;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
@@ -461,5 +462,36 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getLabelExpression());
 	}
 
+	/**
+	 *
+	 */
+	public void collect(JRHighLowChart highLowChart)
+	{
+		collectChart(highLowChart);
+		collect((JRHighLowDataset)highLowChart.getDataset());
+		collect((JRHighLowPlot)highLowChart.getPlot());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRHighLowPlot highLowPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(highLowPlot.getTimeAxisLabelExpression());
+		addExpression(highLowPlot.getValueAxisLabelExpression());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRHighLowDataset highLowDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(highLowDataset.getSeriesExpression());
+		addExpression(highLowDataset.getDateExpression());
+		addExpression(highLowDataset.getHighExpression());
+		addExpression(highLowDataset.getLowExpression());
+		addExpression(highLowDataset.getOpenExpression());
+		addExpression(highLowDataset.getCloseExpression());
+	}
 
 }
