@@ -47,6 +47,7 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.JRHighLowChart;
 import net.sf.jasperreports.charts.base.JRBaseAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
@@ -67,6 +68,7 @@ import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
 import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
+import net.sf.jasperreports.charts.base.JRBaseHighLowChart;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -937,5 +939,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseAreaPlot;
     }
 	
+
+
+	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
+	{
+		JRBaseHighLowChart baseHighLowChart = null;
+
+		if (highLowChart != null)
+		{
+			baseHighLowChart = (JRBaseHighLowChart)get(highLowChart);
+			if (baseHighLowChart == null)
+			{
+				baseHighLowChart = new JRBaseHighLowChart(highLowChart, this);
+				put(highLowChart, baseHighLowChart);//FIXME NOW need this?
+			}
+		}
+
+		return baseHighLowChart;
+	}
+
 
 }

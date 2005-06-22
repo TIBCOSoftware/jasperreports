@@ -48,6 +48,7 @@ import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.JRHighLowChart;
 
 
 /**
@@ -210,4 +211,10 @@ public abstract class JRAbstractObjectFactory
 	 *   
 	 */
 	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
+
+
+	/**
+	 *
+	 */
+	public abstract JRHighLowChart getHighLowChart(JRHighLowChart highLowChart);
 }

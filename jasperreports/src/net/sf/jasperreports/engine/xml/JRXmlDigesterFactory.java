@@ -33,24 +33,7 @@ import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
-import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
-import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
-import net.sf.jasperreports.charts.xml.JRBarChartFactory;
-import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
-import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
-import net.sf.jasperreports.charts.xml.JRIntervalXyDatasetFactory;
-import net.sf.jasperreports.charts.xml.JRLineChartFactory;
-import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
-import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
-import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
-import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
-import net.sf.jasperreports.charts.xml.JRPieChartFactory;
-import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
-import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
-import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
-import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
-import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
-import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
+import net.sf.jasperreports.charts.xml.*;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
@@ -393,7 +376,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/xyBarChart/barPlot", JRBarPlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/intervalXyDataset", JRIntervalXyDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/intervalXyDataset/timeSeries", JRTimeSeriesFactory.class.getName());//FIXME NOW why */intervalXyDataset/timeSeries and not */timeSeries 
+		digester.addFactoryCreate("*/intervalXyDataset/timeSeries", JRTimeSeriesFactory.class.getName());//FIXME NOW why */intervalXyDataset/timeSeries and not */timeSeries
 		digester.addSetNext("*/intervalXyDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName());
 
 		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class);
@@ -420,6 +403,32 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/stackedBar3DChart", JRStackedBar3DChartFactory.class.getName());
 		digester.addSetNext("*/stackedBar3DChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
+
+		// high-low charts
+		digester.addFactoryCreate("*/highLowChart", JRHighLowChartFactory.class.getName());
+		digester.addSetNext("*/highLowChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/highLowChart/highLowPlot", JRHighLowPlotFactory.class.getName());
+
+		digester.addFactoryCreate("*/highLowDataset", JRHighLowDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/highLowDataset/seriesExpression", JRHighLowDatasetFactory.JRSeriesExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/seriesExpression", "setText", 0);
+		digester.addFactoryCreate("*/highLowDataset/dateExpression", JRHighLowDatasetFactory.JRDateExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/dateExpression", "setDateExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/dateExpression", "setText", 0);
+		digester.addFactoryCreate("*/highLowDataset/highExpression", JRHighLowDatasetFactory.JRNumberExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/highExpression", "setHighExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/highExpression", "setText", 0);
+		digester.addFactoryCreate("*/highLowDataset/lowExpression", JRHighLowDatasetFactory.JRNumberExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/lowExpression", "setText", 0);
+		digester.addFactoryCreate("*/highLowDataset/openExpression", JRHighLowDatasetFactory.JRNumberExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/openExpression", "setOpenExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/openExpression", "setText", 0);
+		digester.addFactoryCreate("*/highLowDataset/closeExpression", JRHighLowDatasetFactory.JRNumberExpressionFactory.class);
+		digester.addSetNext("*/highLowDataset/closeExpression", "setCloseExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/highLowDataset/closeExpression", "setText", 0);
+
 	}
 	
 	

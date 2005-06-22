@@ -375,7 +375,7 @@
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
-<!ELEMENT highLowDataset (dataset, dateExpression, highExpression, lowExpression, openExpression, closeExpression)>
+<!ELEMENT highLowDataset (dataset, seriesExpression, dateExpression, highExpression, lowExpression, openExpression, closeExpression)>
 <!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST highLowPlot
 	isShowCloseTicks (true | false) "true"
