@@ -37,18 +37,19 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRHighLowChart;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
-import net.sf.jasperreports.charts.JRStackedBar3DChart;
-import net.sf.jasperreports.charts.JRHighLowChart;
+import net.sf.jasperreports.charts.JRXyLineChart;
 
 
 /**
@@ -196,6 +197,11 @@ public abstract class JRAbstractObjectFactory
 	 *   
 	 */
 	public abstract JRLineChart getLineChart( JRLineChart lineChart );
+	
+	/**
+	 *   
+	 */
+	public abstract JRXyLineChart getXyLineChart( JRXyLineChart xyLineChart );
 	
 	/**
 	 *   

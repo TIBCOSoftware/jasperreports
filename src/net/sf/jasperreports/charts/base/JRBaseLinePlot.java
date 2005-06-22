@@ -38,56 +38,56 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @version $Id$ 
  */
 public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
-    
-    private static final long serialVersionUID = 608;
-    
-    protected JRExpression categoryAxisLabelExpression = null;
-    protected JRExpression valueAxisLabelExpression = null;
-    
-    boolean isShowShapes = true;
-    boolean isShowLines = true;
-    
-    
-    protected JRBaseLinePlot(){
-    }
-    
-    public JRBaseLinePlot( JRLinePlot linePlot, JRBaseObjectFactory factory ){
-        super( linePlot, factory );
-        
-        isShowShapes = linePlot.isShowShapes();
-        isShowLines = linePlot.isShowLines();
-        
-        categoryAxisLabelExpression = factory.getExpression( linePlot.getCategoryAxisLabelExpression() );
-        valueAxisLabelExpression = factory.getExpression( linePlot.getValueAxisLabelExpression() );
-       
-    }
-    
-    public JRExpression getCategoryAxisLabelExpression(){
-        return categoryAxisLabelExpression;
-    }
-    
-    public JRExpression getValueAxisLabelExpression() {
-        return valueAxisLabelExpression;
-    }
-    
-    public boolean isShowShapes(){
-        return isShowShapes;
-    }
-    
-    public boolean isShowLines(){
-        return isShowLines;
-    }
-    
-    public void setShowShapes( boolean value ){
-        this.isShowShapes = value;
-    }
-    
-    public void setShowLines( boolean value ){
-        this.isShowLines = value;
-    }
+	
+	private static final long serialVersionUID = 608;
+	
+	protected JRExpression categoryAxisLabelExpression = null;
+	protected JRExpression valueAxisLabelExpression = null;
+	
+	boolean isShowShapes = true;
+	boolean isShowLines = true;
+	
+	
+	protected JRBaseLinePlot(){
+	}
+	
+	public JRBaseLinePlot( JRLinePlot linePlot, JRBaseObjectFactory factory ){
+		super( linePlot, factory );
+		
+		isShowShapes = linePlot.isShowShapes();
+		isShowLines = linePlot.isShowLines();
+		
+		categoryAxisLabelExpression = factory.getExpression( linePlot.getCategoryAxisLabelExpression() );
+		valueAxisLabelExpression = factory.getExpression( linePlot.getValueAxisLabelExpression() );
+	   
+	}
+	
+	public JRExpression getCategoryAxisLabelExpression(){
+		return categoryAxisLabelExpression;
+	}
+	
+	public JRExpression getValueAxisLabelExpression() {
+		return valueAxisLabelExpression;
+	}
+	
+	public boolean isShowShapes(){
+		return isShowShapes;
+	}
+	
+	public boolean isShowLines(){
+		return isShowLines;
+	}
+	
+	public void setShowShapes( boolean value ){
+		this.isShowShapes = value;
+	}
+	
+	public void setShowLines( boolean value ){
+		this.isShowLines = value;
+	}
 
   
    
-     
+	 
 
 }

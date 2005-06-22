@@ -39,9 +39,9 @@ import org.xml.sax.Attributes;
  */
 public class JRAreaChartFactory extends JRBaseFactory {
 
-    public Object createObject( Attributes atts ){
-        JRDesignAreaChart areaChart = new JRDesignAreaChart();
-        
-        return areaChart;
-    }
+	public Object createObject( Attributes atts ){
+		JRDesignAreaChart areaChart = new JRDesignAreaChart();
+		
+		return areaChart;
+	}
 }

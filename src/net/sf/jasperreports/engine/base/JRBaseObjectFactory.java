@@ -34,20 +34,22 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRHighLowChart;
 import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
-import net.sf.jasperreports.charts.JRStackedBar3DChart;
-import net.sf.jasperreports.charts.JRHighLowChart;
+import net.sf.jasperreports.charts.JRXyLineChart;
+import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.base.JRBaseAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
@@ -55,20 +57,22 @@ import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
+import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
+import net.sf.jasperreports.charts.base.JRBaseHighLowChart;
 import net.sf.jasperreports.charts.base.JRBaseIntervalXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseLineChart;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
-import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBasePie3DChart;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieChart;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
+import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
-import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
-import net.sf.jasperreports.charts.base.JRBaseHighLowChart;
+import net.sf.jasperreports.charts.base.JRBaseXyLineChart;
+import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -757,6 +761,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public JRXySeries getXySeries(JRXySeries xySeries)
+	{
+		JRBaseXySeries baseXySeries = null;
+		
+		if (xySeries != null)
+		{
+			baseXySeries = (JRBaseXySeries)get(xySeries);
+			if (baseXySeries == null)
+			{
+				baseXySeries = new JRBaseXySeries(xySeries, this);
+				put(xySeries, baseXySeries);//FIXME NOW need this?
+			}
+		}
+		
+		return baseXySeries;
+	}
+	
+
+	/**
+	 *
+	 */
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
 		JRBaseTimeSeries baseTimeSeries = null;
@@ -860,11 +885,11 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-    /** 
-     * 
-     */
-    public JRLineChart getLineChart(JRLineChart lineChart) {
-        JRBaseLineChart baseLineChart = null;
+	/** 
+	 * 
+	 */
+	public JRLineChart getLineChart(JRLineChart lineChart) {
+		JRBaseLineChart baseLineChart = null;
 		
 		if (lineChart != null)
 		{
@@ -877,14 +902,34 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseLineChart;
-    }
+	}
 
 
-    /** 
-     * 
-     */
-    public JRLinePlot getLinePlot(JRLinePlot linePlot) {
-        JRBaseLinePlot baseLinePlot = null;
+	/** 
+	 * 
+	 */
+	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
+		JRBaseXyLineChart baseXyLineChart = null;
+		
+		if (xyLineChart != null)
+		{
+			baseXyLineChart = (JRBaseXyLineChart)get(xyLineChart);
+			if (baseXyLineChart == null)
+			{
+				baseXyLineChart = new JRBaseXyLineChart(xyLineChart, this);
+				put(xyLineChart, baseXyLineChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseXyLineChart;
+	}
+
+
+	/** 
+	 * 
+	 */
+	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
+		JRBaseLinePlot baseLinePlot = null;
 		
 		if (linePlot != null)
 		{
@@ -897,14 +942,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseLinePlot;
-    }
+	}
 
 
-    /**
-     *  
-     */
-    public JRAreaChart getAreaChart(JRAreaChart areaChart) {
-        JRBaseAreaChart baseAreaChart = null;
+	/**
+	 *  
+	 */
+	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
+		JRBaseAreaChart baseAreaChart = null;
 		
 		if (areaChart != null)
 		{
@@ -917,14 +962,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseAreaChart;
-    }
+	}
 
 
-    /**
-     * 
-     */
-    public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
-        JRBaseAreaPlot baseAreaPlot = null;
+	/**
+	 * 
+	 */
+	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
+		JRBaseAreaPlot baseAreaPlot = null;
 		
 		if (areaPlot != null)
 		{
@@ -937,7 +982,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseAreaPlot;
-    }
+	}
 	
 
 

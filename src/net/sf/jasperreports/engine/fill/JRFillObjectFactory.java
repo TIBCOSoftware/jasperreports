@@ -30,8 +30,6 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.charts.*;
-import net.sf.jasperreports.charts.fill.*;
 import net.sf.jasperreports.charts.JRAreaChart;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
@@ -39,19 +37,25 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRHighLowChart;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
-import net.sf.jasperreports.charts.JRStackedBar3DChart;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXyLineChart;
+import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.fill.JRFillAreaChart;
 import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
@@ -59,19 +63,25 @@ import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
+import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
+import net.sf.jasperreports.charts.fill.JRFillHighLowChart;
+import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
+import net.sf.jasperreports.charts.fill.JRFillHighLowPlot;
 import net.sf.jasperreports.charts.fill.JRFillIntervalXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillLineChart;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
-import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillPie3DChart;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieChart;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
+import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
 import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
-import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
+import net.sf.jasperreports.charts.fill.JRFillXyDataset;
+import net.sf.jasperreports.charts.fill.JRFillXyLineChart;
+import net.sf.jasperreports.charts.fill.JRFillXySeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -631,6 +641,27 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public JRXyDataset getXyDataset(JRXyDataset xyDataset)
+	{
+		JRFillXyDataset fillXyDataset = null;
+		
+		if (xyDataset != null)
+		{
+			fillXyDataset = (JRFillXyDataset)get(xyDataset);
+			if (fillXyDataset == null)
+			{
+				fillXyDataset = new JRFillXyDataset(xyDataset, this);
+				datasets.add(fillXyDataset);
+			}
+		}
+		
+		return fillXyDataset;
+	}
+
+
+	/**
+	 *
+	 */
 	public JRIntervalXyDataset getIntervalXyDataset(JRIntervalXyDataset intervalXyDataset)
 	{
 		JRFillIntervalXyDataset fillIntervalXyDataset = null;
@@ -666,6 +697,26 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillCategorySeries;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRXySeries getXySeries(JRXySeries xySeries)
+	{
+		JRFillXySeries fillXySeries = null;
+		
+		if (xySeries != null)
+		{
+			fillXySeries = (JRFillXySeries)get(xySeries);
+			if (fillXySeries == null)
+			{
+				fillXySeries = new JRFillXySeries(xySeries, this);
+			}
+		}
+		
+		return fillXySeries;
 	}
 
 
@@ -722,7 +773,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillTimeSeries == null)
 			{
 				fillTimeSeries = new JRFillTimeSeries(timeSeries, this);
-				datasets.add(fillTimeSeries);
 			}
 		}
 		
@@ -765,11 +815,11 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-    /** 
-     * 
-     */
-    public JRLineChart getLineChart(JRLineChart lineChart) {
-        JRFillLineChart fillLineChart = null;
+	/** 
+	 * 
+	 */
+	public JRLineChart getLineChart(JRLineChart lineChart) {
+		JRFillLineChart fillLineChart = null;
 		
 		if (lineChart != null){
 			fillLineChart = (JRFillLineChart)get(lineChart);
@@ -779,14 +829,31 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillLineChart;
-    }
+	}
 
 
-    /** 
-     * 
-     */
-    public JRLinePlot getLinePlot(JRLinePlot linePlot) {
-        JRFillLinePlot fillLinePlot = null;
+	/** 
+	 * 
+	 */
+	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
+		JRFillXyLineChart fillXyLineChart = null;
+		
+		if (xyLineChart != null){
+			fillXyLineChart = (JRFillXyLineChart)get(xyLineChart);
+			if (fillXyLineChart == null){
+				fillXyLineChart = new JRFillXyLineChart(filler, xyLineChart, this);
+			}
+		}
+		
+		return fillXyLineChart;
+	}
+
+
+	/** 
+	 * 
+	 */
+	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
+		JRFillLinePlot fillLinePlot = null;
 		
 		if (linePlot != null){
 			fillLinePlot = (JRFillLinePlot)get(linePlot);
@@ -796,14 +863,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillLinePlot;
-    }
+	}
 
 
-    /**
-     * 
-     */
-    public JRAreaChart getAreaChart(JRAreaChart areaChart) {
-        JRFillAreaChart fillAreaChart = null;
+	/**
+	 * 
+	 */
+	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
+		JRFillAreaChart fillAreaChart = null;
 
 		if (areaChart != null)
 		{
@@ -815,14 +882,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillAreaChart;
-    }
+	}
 
 
-    /**
-     * 
-     */
-    public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
-        JRFillAreaPlot fillAreaPlot = null;
+	/**
+	 * 
+	 */
+	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
+		JRFillAreaPlot fillAreaPlot = null;
 		
 		if (areaPlot != null)
 		{
@@ -834,7 +901,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillAreaPlot;
-    }
+	}
 
 
 	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)

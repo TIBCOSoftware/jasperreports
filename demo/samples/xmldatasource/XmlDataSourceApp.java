@@ -96,7 +96,7 @@ public class XmlDataSourceApp
 			if (TASK_FILL.equals(taskName))
 			{
 				JasperFillManager.fillReportToFile(fileName, null,
-                    new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
+					new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
@@ -170,7 +170,7 @@ public class XmlDataSourceApp
 			else if (TASK_RUN.equals(taskName))
 			{
 				JasperRunManager.runReportToPdfFile(fileName, null,
-                    new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
+					new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}

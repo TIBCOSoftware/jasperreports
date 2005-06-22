@@ -36,13 +36,13 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$
  */
 public interface JRLinePlot extends JRChartPlot {
-    
-    public JRExpression getCategoryAxisLabelExpression();
-    
-    public JRExpression getValueAxisLabelExpression();
-    
-    public boolean isShowLines();
-    
-    public boolean isShowShapes();
+	
+	public JRExpression getCategoryAxisLabelExpression();
+	
+	public JRExpression getValueAxisLabelExpression();
+	
+	public boolean isShowLines();
+	
+	public boolean isShowShapes();
    
 }

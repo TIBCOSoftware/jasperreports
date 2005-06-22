@@ -27,9 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.charts.design.JRDesignPieChart;
 import net.sf.jasperreports.charts.design.JRDesignHighLowChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
 import org.xml.sax.Attributes;
 
 

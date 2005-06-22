@@ -27,9 +27,9 @@
  */
 package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.engine.design.JRDesignChartDataset;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
 /**
@@ -44,7 +44,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	private static final long serialVersionUID = 608;
 
 	protected JRExpression seriesExpression;
-    protected JRExpression dateExpression;
+	protected JRExpression dateExpression;
 	protected JRExpression highExpression;
 	protected JRExpression lowExpression;
 	protected JRExpression openExpression;

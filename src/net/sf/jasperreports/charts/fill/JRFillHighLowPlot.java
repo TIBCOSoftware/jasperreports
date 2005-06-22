@@ -27,10 +27,10 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.charts.JRHighLowPlot;
 
 
 /**

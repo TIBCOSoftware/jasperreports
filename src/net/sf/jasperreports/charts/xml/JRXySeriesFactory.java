@@ -27,10 +27,7 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import java.util.Date;
-
-import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.design.JRDesignXySeries;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -38,17 +35,17 @@ import org.xml.sax.Attributes;
 
 
 /**
- * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
-public class JRHighLowDatasetFactory extends JRBaseFactory
+public class JRXySeriesFactory extends JRBaseFactory
 {
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignHighLowDataset)chart.getDataset();
+		return new JRDesignXySeries();
 	}
 
 
@@ -57,27 +54,41 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 		{
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClass(Comparable.class);
-			return expression;
-		}
-	}
-
-	public static class JRDateExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Date.class);
+			expression.setValueClassName(Comparable.class.getName());
 			return expression;
 		}
 	}
 
 
-	public static class JRNumberExpressionFactory extends JRBaseFactory {
+	public static class JRXValueExpressionFactory extends JRBaseFactory {//FIXME NOW make only one expression factory by type?
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClass(Number.class);
+			expression.setValueClassName(Number.class.getName());
 			return expression;
 		}
 	}
 
+
+	public static class JRLabelExpressionFactory extends JRBaseFactory {
+		public Object createObject(Attributes atts)
+		{
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass(String.class);
+			expression.setValueClassName(String.class.getName());
+			return expression;
+		}
+	}
+
+
+	public static class JRYValueExpressionFactory extends JRBaseFactory {
+		public Object createObject(Attributes atts)
+		{
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass(Number.class);
+			expression.setValueClassName(Number.class.getName());
+			return expression;
+		}
+	}
 }

@@ -39,23 +39,23 @@ import org.xml.sax.Attributes;
  * @version $Id$
  */
 public class JRLinePlotFactory extends JRBaseFactory {
-    private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
-    private static final String ATTRIBUTE_isShowLines = "isShowLines";
-    
-    public Object createObject( Attributes attrs ){
-        JRChart chart = (JRChart)digester.peek();
-        JRDesignLinePlot plot = (JRDesignLinePlot)chart.getPlot();
-        
-        String isShowShapes = attrs.getValue( ATTRIBUTE_isShowShapes );
-        if( isShowShapes != null && isShowShapes.length() > 0 ){
-            plot.setShowShapes( new Boolean( isShowShapes ).booleanValue() );
-        }
-        
-        String isShowLines = attrs.getValue( ATTRIBUTE_isShowLines );
-        if( isShowLines != null && isShowLines.length() > 0 ){
-            plot.setShowLines( new Boolean( isShowLines ).booleanValue() );
-        }
-        
-        return plot;
-    }
+	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
+	private static final String ATTRIBUTE_isShowLines = "isShowLines";
+	
+	public Object createObject( Attributes attrs ){
+		JRChart chart = (JRChart)digester.peek();
+		JRDesignLinePlot plot = (JRDesignLinePlot)chart.getPlot();
+		
+		String isShowShapes = attrs.getValue( ATTRIBUTE_isShowShapes );
+		if( isShowShapes != null && isShowShapes.length() > 0 ){
+			plot.setShowShapes( new Boolean( isShowShapes ).booleanValue() );
+		}
+		
+		String isShowLines = attrs.getValue( ATTRIBUTE_isShowLines );
+		if( isShowLines != null && isShowLines.length() > 0 ){
+			plot.setShowLines( new Boolean( isShowLines ).booleanValue() );
+		}
+		
+		return plot;
+	}
 }

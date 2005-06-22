@@ -27,11 +27,10 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.charts.JRHighLowDataset;
-import net.sf.jasperreports.charts.JRPieDataset;
 
 
 /**
@@ -46,7 +45,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	private static final long serialVersionUID = 608;
 
 	protected JRExpression seriesExpression;
-    protected JRExpression dateExpression;
+	protected JRExpression dateExpression;
 	protected JRExpression highExpression;
 	protected JRExpression lowExpression;
 	protected JRExpression openExpression;

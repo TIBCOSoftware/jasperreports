@@ -37,17 +37,17 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignLinePlot extends JRBaseLinePlot {
 
-    private static final long serialVersionUID = 608;
-    
-    public JRDesignLinePlot(){
-        super();
-    }
-    
-    public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
-        this.categoryAxisLabelExpression = categoryAxisLabelExpression;
-    }
-    
-    public void setValueAxisLabelExprssion( JRExpression valueAxisLabelExpression ){
-        this.valueAxisLabelExpression = valueAxisLabelExpression;
-    }
+	private static final long serialVersionUID = 608;
+	
+	public JRDesignLinePlot(){
+		super();
+	}
+	
+	public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
+		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+	}
+	
+	public void setValueAxisLabelExprssion( JRExpression valueAxisLabelExpression ){
+		this.valueAxisLabelExpression = valueAxisLabelExpression;
+	}
 }
