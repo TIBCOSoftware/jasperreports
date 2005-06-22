@@ -37,18 +37,18 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignAreaPlot extends JRBaseAreaPlot {
 
-    private static final long serialVersionUID = 608;
-    
-    
-    public JRDesignAreaPlot(){
-        super();
-    }
-    
-    public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
-        this.categoryAxisLabelExpression = categoryAxisLabelExpression;
-    }
-    
-    public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
-        this.valueAxisLabelExpression = valueAxisLabelExpression;
-    }
+	private static final long serialVersionUID = 608;
+	
+	
+	public JRDesignAreaPlot(){
+		super();
+	}
+	
+	public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
+		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+	}
+	
+	public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
+		this.valueAxisLabelExpression = valueAxisLabelExpression;
+	}
 }

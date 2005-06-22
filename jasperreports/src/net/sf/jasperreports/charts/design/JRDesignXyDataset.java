@@ -25,29 +25,68 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.charts.design;
 
-package net.sf.jasperreports.charts.fill;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
+
+
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
- * @version $Id$ 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
-public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot {
+public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDataset
+{
 
-	public JRFillAreaPlot( JRAreaPlot plot, JRFillObjectFactory factory ){
-		 super( plot, factory ); 
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 608;
+
+	private List xySeriesList = new ArrayList();
+
+	
+	/**
+	 *
+	 */
+	public JRXySeries[] getSeries()
+	{
+		JRXySeries[] xySeriesArray = new JRXySeries[xySeriesList.size()];
+		
+		xySeriesList.toArray(xySeriesArray);
+
+		return xySeriesArray;
 	}
 	
-	public JRExpression getCategoryAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getCategoryAxisLabelExpression();
+
+	/**
+	 *
+	 */
+	public void addXySeries(JRXySeries xySeries) throws JRException
+	{
+		xySeriesList.add(xySeries);
 	}
 	
-	public JRExpression getValueAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getValueAxisLabelExpression();
+
+	/**
+	 *
+	 */
+	public JRXySeries removeXySeries(JRXySeries xySeries)
+	{
+		if (xySeries != null)
+		{
+			xySeriesList.remove(xySeries);
+		}
+		
+		return xySeries;
 	}
+
+
 }

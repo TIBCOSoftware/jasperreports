@@ -25,7 +25,6 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,10 +35,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -58,6 +53,20 @@ public class ChartsApp
 	private static final String TASK_HTML = "html";
 	private static final String TASK_WRITE_XML = "writeXml";
 
+	private static final String[] reportNames = 
+		{
+		"PieChartReport", 
+		"Pie3DChartReport", 
+		"BarChartReport", 
+		"Bar3DChartReport", 
+		"StackedBarChartReport", 
+		"StackedBar3DChartReport", 
+		"XYBarChartReport", 
+		"AreaChartReport", 
+		"LineChartReport", 
+		"XYLineChartReport", 
+		"HighLowChartReport"
+		};
 	
 	/**
 	 *
@@ -83,32 +92,51 @@ public class ChartsApp
 
 		try
 		{
-			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
 				
-				JasperFillManager.fillReportToFile("HighLowChartReport.jasper", parameters, getConnection());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", parameters, getConnection());
+					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
+				}
+				
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile("HighLowChartReport.jrprint");
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToPdfFile(reportNames[i] + ".jrprint");
+					System.err.println("Report : " + reportNames[i] + ". PDF export time : " + (System.currentTimeMillis() - start));
+				}
+
 				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile("HighLowChartReport.jrprint");
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
+					System.err.println("Report : " + reportNames[i] + ". PDF export time : " + (System.currentTimeMillis() - start));
+				}
+
 				System.exit(0);
 			}
 			else if (TASK_WRITE_XML.equals(taskName))
 			{
-				JasperCompileManager.writeReportToXmlFile("HighLowChartReport.jasper");
-				System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++)
+				{
+					long start = System.currentTimeMillis();
+					JasperCompileManager.writeReportToXmlFile(reportNames[i] + ".jasper", reportNames[i] + ".jasper.jrxml");
+					System.err.println("Report : " + reportNames[i] + ". XML write time : " + (System.currentTimeMillis() - start));
+				}
+
 				System.exit(0);
 			}
 			else

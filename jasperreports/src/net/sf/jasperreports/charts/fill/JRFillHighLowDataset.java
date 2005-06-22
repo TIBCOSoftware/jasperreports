@@ -27,22 +27,20 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.engine.fill.JRFillChartDataset;
-import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.charts.JRHighLowDataset;
-import org.jfree.data.general.Dataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.DefaultHighLowDataset;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Arrays;
+
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRCalculator;
+import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+
+import org.jfree.data.general.Dataset;
+import org.jfree.data.xy.DefaultHighLowDataset;
 
 
 /**

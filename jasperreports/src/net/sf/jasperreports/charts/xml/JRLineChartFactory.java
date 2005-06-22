@@ -38,10 +38,10 @@ import org.xml.sax.Attributes;
  * @version $Id$
  */
 public class JRLineChartFactory extends JRBaseFactory {
-    
-    public Object createObject( Attributes attrs ){
-        JRDesignLineChart lineChart = new JRDesignLineChart();
-        
-        return lineChart;
-    }
+	
+	public Object createObject( Attributes attrs ){
+		JRDesignLineChart lineChart = new JRDesignLineChart();
+		
+		return lineChart;
+	}
 }

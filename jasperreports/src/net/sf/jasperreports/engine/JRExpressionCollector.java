@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.sf.jasperreports.charts.*;
 import net.sf.jasperreports.charts.JRAreaChart;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DChart;
@@ -39,6 +38,9 @@ import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRHighLowChart;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLineChart;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -50,6 +52,9 @@ import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXyLineChart;
+import net.sf.jasperreports.charts.JRXySeries;
 
 
 /**
@@ -342,15 +347,21 @@ public class JRExpressionCollector
 	}
 	
 	public void collect( JRLineChart lineChart ){
-	    collectChart( lineChart );
-	    collect( (JRCategoryDataset)lineChart.getDataset() );
-	    collect( (JRLinePlot)lineChart.getPlot()  );
+		collectChart( lineChart );
+		collect( (JRCategoryDataset)lineChart.getDataset() );
+		collect( (JRLinePlot)lineChart.getPlot()  );
+	}
+	
+	public void collect( JRXyLineChart xyLineChart ){
+		collectChart( xyLineChart );
+		collect( (JRXyDataset)xyLineChart.getDataset() );
+		collect( (JRLinePlot)xyLineChart.getPlot()  );
 	}
 	
 	public void collect( JRAreaChart areaChart ){
-	    collectChart( areaChart );
-	    collect( (JRCategoryDataset)areaChart.getDataset() );
-	    collect( (JRAreaPlot)areaChart.getPlot() ) ;
+		collectChart( areaChart );
+		collect( (JRCategoryDataset)areaChart.getDataset() );
+		collect( (JRAreaPlot)areaChart.getPlot() ) ;
 	}
 
 	/**
@@ -391,6 +402,21 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
+	private void collect(JRXyDataset xyDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		JRXySeries[] xySeries = xyDataset.getSeries();
+		if (xySeries != null && xySeries.length > 0)
+		{
+			for(int j = 0; j < xySeries.length; j++)
+			{
+				collect(xySeries[j]);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
 	private void collect(JRIntervalXyDataset intervalXyDataset)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
 		JRTimeSeries[] timeSeries = intervalXyDataset.getSeries();
@@ -401,6 +427,17 @@ public class JRExpressionCollector
 				collect(timeSeries[j]);
 			}
 		}
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRXySeries xySeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(xySeries.getSeriesExpression());
+		addExpression(xySeries.getXValueExpression());
+		addExpression(xySeries.getYValueExpression());
+		addExpression(xySeries.getLabelExpression());
 	}
 
 	/**
@@ -432,13 +469,13 @@ public class JRExpressionCollector
 	
 	
 	private void collect( JRLinePlot linePlot ){
-	    addExpression( linePlot.getCategoryAxisLabelExpression() );
-	    addExpression( linePlot.getValueAxisLabelExpression() );
+		addExpression( linePlot.getCategoryAxisLabelExpression() );
+		addExpression( linePlot.getValueAxisLabelExpression() );
 	}
 	
 	private void collect( JRAreaPlot areaPlot ){
-	    addExpression( areaPlot.getCategoryAxisLabelExpression() );
-	    addExpression( areaPlot.getValueAxisLabelExpression() );
+		addExpression( areaPlot.getCategoryAxisLabelExpression() );
+		addExpression( areaPlot.getValueAxisLabelExpression() );
 	}
 
 	/**

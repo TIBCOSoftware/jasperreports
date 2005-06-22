@@ -28,11 +28,11 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (fsana@users.sourceforge.net)
@@ -40,10 +40,10 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
  */
 public class JRAreaPlotFactory extends JRBaseFactory {
 
-    public Object createObject( Attributes attrs ){
-        JRChart chart = (JRChart)digester.peek();
-        JRDesignAreaPlot plot = (JRDesignAreaPlot)chart.getPlot();
-        
-        return plot;
-    }
+	public Object createObject( Attributes attrs ){
+		JRChart chart = (JRChart)digester.peek();
+		JRDesignAreaPlot plot = (JRDesignAreaPlot)chart.getPlot();
+		
+		return plot;
+	}
 }

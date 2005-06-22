@@ -27,85 +27,64 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
 /**
- * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
-public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
+public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 {
+
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 608;
 
-	protected JRExpression timeAxisLabelExpression = null;
-	protected JRExpression valueAxisLabelExpression = null;
+	protected JRXySeries[] xySeries = null;
 
-	protected boolean isShowOpenTicks = false;
-	protected boolean isShowCloseTicks = false;
-
-
+	
 	/**
 	 *
 	 */
-	protected JRBaseHighLowPlot()
+	protected JRBaseXyDataset()
 	{
 	}
-
-
+	
+	
 	/**
 	 *
 	 */
-	public JRBaseHighLowPlot(JRHighLowPlot highLowPlot, JRBaseObjectFactory factory)
+	public JRBaseXyDataset(JRXyDataset dataset, JRBaseObjectFactory factory)
 	{
-		super(highLowPlot, factory);
+		super(dataset, factory);
 
-		isShowOpenTicks = highLowPlot.isShowOpenTicks();
-		isShowCloseTicks = highLowPlot.isShowCloseTicks();
+		/*   */
+		JRXySeries[] srcXySeries = dataset.getSeries();
+		if (srcXySeries != null && srcXySeries.length > 0)
+		{
+			xySeries = new JRXySeries[srcXySeries.length];
+			for(int i = 0; i < xySeries.length; i++)
+			{
+				xySeries[i] = factory.getXySeries(srcXySeries[i]);
+			}
+		}
 
-		timeAxisLabelExpression = factory.getExpression(highLowPlot.getTimeAxisLabelExpression());
-		valueAxisLabelExpression = factory.getExpression(highLowPlot.getValueAxisLabelExpression());
 	}
 
-
-	public JRExpression getTimeAxisLabelExpression()
+	
+	/**
+	 *
+	 */
+	public JRXySeries[] getSeries()
 	{
-		return timeAxisLabelExpression;
+		return xySeries;
 	}
 
-
-	public JRExpression getValueAxisLabelExpression()
-	{
-		return valueAxisLabelExpression;
-	}
-
-
-	public boolean isShowOpenTicks()
-	{
-		return isShowOpenTicks;
-	}
-
-
-	public void setShowOpenTicks(boolean showOpenTicks)
-	{
-		isShowOpenTicks = showOpenTicks;
-	}
-
-
-	public boolean isShowCloseTicks()
-	{
-		return isShowCloseTicks;
-	}
-
-
-	public void setShowCloseTicks(boolean showCloseTicks)
-	{
-		isShowCloseTicks = showCloseTicks;
-	}
+	
 }

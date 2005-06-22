@@ -25,29 +25,58 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.charts.design;
 
-package net.sf.jasperreports.charts.fill;
-
-import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+
+
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
- * @version $Id$ 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
-public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot {
+public class JRDesignXySeries extends JRBaseXySeries
+{
 
-	public JRFillAreaPlot( JRAreaPlot plot, JRFillObjectFactory factory ){
-		 super( plot, factory ); 
-	}
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 608;
+
 	
-	public JRExpression getCategoryAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getCategoryAxisLabelExpression();
+	/**
+	 *
+	 */
+	public void setSeriesExpression(JRExpression seriesExpression)
+	{
+		this.seriesExpression = seriesExpression;
 	}
-	
-	public JRExpression getValueAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getValueAxisLabelExpression();
+
+	/**
+	 *
+	 */
+	public void setXValueExpression(JRExpression xValueExpression)
+	{
+		this.xValueExpression = xValueExpression;
 	}
+
+	/**
+	 *
+	 */
+	public void setYValueExpression(JRExpression yValueExpression)
+	{
+		this.yValueExpression = yValueExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setLabelExpression(JRExpression labelExpression)
+	{
+		this.labelExpression = labelExpression;
+	}
+
+
 }

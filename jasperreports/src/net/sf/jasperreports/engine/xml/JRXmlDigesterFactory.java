@@ -30,10 +30,34 @@ package net.sf.jasperreports.engine.xml;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
+import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
+import net.sf.jasperreports.charts.design.JRDesignXySeries;
 import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
-import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
-import net.sf.jasperreports.charts.xml.*;
+import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
+import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
+import net.sf.jasperreports.charts.xml.JRBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
+import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
+import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
+import net.sf.jasperreports.charts.xml.JRHighLowDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRHighLowPlotFactory;
+import net.sf.jasperreports.charts.xml.JRIntervalXyDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRLineChartFactory;
+import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
+import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
+import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
+import net.sf.jasperreports.charts.xml.JRPieChartFactory;
+import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
+import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
+import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
+import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
+import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
@@ -400,6 +424,27 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/lineChart", "addElement", JRDesignElement.class.getName() );
 		digester.addFactoryCreate( "*/linePlot", JRLinePlotFactory.class.getName() );
 	
+		digester.addFactoryCreate( "*/xyLineChart", JRXyLineChartFactory.class.getName() );
+		digester.addSetNext( "*/xyLineChart", "addElement", JRDesignElement.class.getName() );
+	
+		digester.addFactoryCreate("*/xyDataset", JRXyDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/xyDataset/xySeries", JRXySeriesFactory.class.getName());
+		digester.addSetNext("*/xyDataset/xySeries", "addXySeries", JRDesignXySeries.class.getName());
+
+		digester.addFactoryCreate("*/xySeries", JRXyDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/xySeries/seriesExpression", JRXySeriesFactory.JRSeriesExpressionFactory.class);
+		digester.addSetNext("*/xySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/xySeries/seriesExpression", "setText", 0);
+		digester.addFactoryCreate("*/xySeries/xValueExpression", JRXySeriesFactory.JRXValueExpressionFactory.class);
+		digester.addSetNext("*/xySeries/xValueExpression", "setXValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/xySeries/xValueExpression", "setText", 0);
+		digester.addFactoryCreate("*/xySeries/yValueExpression", JRXySeriesFactory.JRYValueExpressionFactory.class);
+		digester.addSetNext("*/xySeries/yValueExpression", "setYValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/xySeries/yValueExpression", "setText", 0);
+		digester.addFactoryCreate("*/xySeries/labelExpression", JRXySeriesFactory.JRLabelExpressionFactory.class);
+		digester.addSetNext("*/xySeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/xySeries/labelExpression", "setText", 0);
+
 		digester.addFactoryCreate("*/stackedBar3DChart", JRStackedBar3DChartFactory.class.getName());
 		digester.addSetNext("*/stackedBar3DChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());

@@ -28,12 +28,12 @@
 
 package net.sf.jasperreports.charts.base;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+
+import org.jfree.chart.renderer.category.BarRenderer3D;
 
 /**
  * @author Flavius Sana

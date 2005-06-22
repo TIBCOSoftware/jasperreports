@@ -26,28 +26,22 @@
  * http://www.jaspersoft.com
  */
 
-package net.sf.jasperreports.charts.fill;
+package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.charts.design.JRDesignXyLineChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (fsana@users.sourceforge.net)
- * @version $Id$ 
+ * @version $Id$
  */
-public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot {
-
-	public JRFillAreaPlot( JRAreaPlot plot, JRFillObjectFactory factory ){
-		 super( plot, factory ); 
-	}
+public class JRXyLineChartFactory extends JRBaseFactory {
 	
-	public JRExpression getCategoryAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getCategoryAxisLabelExpression();
-	}
-	
-	public JRExpression getValueAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getValueAxisLabelExpression();
+	public Object createObject( Attributes attrs ){
+		JRDesignXyLineChart xyLineChart = new JRDesignXyLineChart();
+		
+		return xyLineChart;
 	}
 }

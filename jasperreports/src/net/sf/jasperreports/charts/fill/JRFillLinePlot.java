@@ -38,32 +38,32 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @version $Id$
  */
 public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot {
-    
-    public JRFillLinePlot( JRLinePlot plot, JRFillObjectFactory factory ){
-        super( plot, factory );
-    }
-    
-    public JRExpression getCategoryAxisLabelExpression(){
-        return ((JRLinePlot)parent).getCategoryAxisLabelExpression();   
-    }
-    
-    public JRExpression getValueAxisLabelExpression(){
-        return ((JRLinePlot)parent).getValueAxisLabelExpression();
-    }
-    
-    public boolean isShowShapes(){
-        return ((JRLinePlot)parent).isShowShapes();
-    }
-    
-    public void setShowShapes( boolean value ){
-        
-    }
-    
-    public boolean isShowLines(){
-        return ((JRLinePlot)parent).isShowLines();
-    }
-    
-    public void setShowLines( boolean value ){
-        
-    }
+	
+	public JRFillLinePlot( JRLinePlot plot, JRFillObjectFactory factory ){
+		super( plot, factory );
+	}
+	
+	public JRExpression getCategoryAxisLabelExpression(){
+		return ((JRLinePlot)parent).getCategoryAxisLabelExpression();   
+	}
+	
+	public JRExpression getValueAxisLabelExpression(){
+		return ((JRLinePlot)parent).getValueAxisLabelExpression();
+	}
+	
+	public boolean isShowShapes(){
+		return ((JRLinePlot)parent).isShowShapes();
+	}
+	
+	public void setShowShapes( boolean value ){
+		
+	}
+	
+	public boolean isShowLines(){
+		return ((JRLinePlot)parent).isShowLines();
+	}
+	
+	public void setShowLines( boolean value ){
+		
+	}
 }

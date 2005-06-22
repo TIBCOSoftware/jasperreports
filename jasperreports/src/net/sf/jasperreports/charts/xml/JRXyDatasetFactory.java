@@ -25,29 +25,29 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.charts.xml;
 
-package net.sf.jasperreports.charts.fill;
+import net.sf.jasperreports.charts.design.JRDesignXyDataset;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import org.xml.sax.Attributes;
+
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
- * @version $Id$ 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
-public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot {
+public class JRXyDatasetFactory extends JRBaseFactory
+{
 
-	public JRFillAreaPlot( JRAreaPlot plot, JRFillObjectFactory factory ){
-		 super( plot, factory ); 
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		JRChart chart = (JRChart) digester.peek();
+		return (JRDesignXyDataset)chart.getDataset();
 	}
-	
-	public JRExpression getCategoryAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getCategoryAxisLabelExpression();
-	}
-	
-	public JRExpression getValueAxisLabelExpression(){
-		return ((JRAreaPlot)parent).getValueAxisLabelExpression();
-	}
+
 }

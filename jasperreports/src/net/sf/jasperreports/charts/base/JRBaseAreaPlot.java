@@ -30,8 +30,8 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * @author Flavius Sana (fsana@users.sourceforge.net)
@@ -39,27 +39,27 @@ import net.sf.jasperreports.engine.base.JRBaseChartPlot;
  */
 public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 
-    private static final long serialVersionUID = 608;
-    
-    protected JRExpression categoryAxisLabelExpression = null;
-    protected JRExpression valueAxisLabelExpression = null;
-    
-    public JRBaseAreaPlot(){
-    }
-    
-    public JRBaseAreaPlot( JRAreaPlot areaPlot, JRBaseObjectFactory factory ){
-        super( areaPlot, factory );
-        
-        categoryAxisLabelExpression = factory.getExpression( areaPlot.getCategoryAxisLabelExpression() );
-        valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
-        
-    }
-    
-    public JRExpression getCategoryAxisLabelExpression(){
-        return categoryAxisLabelExpression;
-    }
-    
-    public JRExpression getValueAxisLabelExpression(){
-        return valueAxisLabelExpression;
-    }
+	private static final long serialVersionUID = 608;
+	
+	protected JRExpression categoryAxisLabelExpression = null;
+	protected JRExpression valueAxisLabelExpression = null;
+	
+	public JRBaseAreaPlot(){
+	}
+	
+	public JRBaseAreaPlot( JRAreaPlot areaPlot, JRBaseObjectFactory factory ){
+		super( areaPlot, factory );
+		
+		categoryAxisLabelExpression = factory.getExpression( areaPlot.getCategoryAxisLabelExpression() );
+		valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
+		
+	}
+	
+	public JRExpression getCategoryAxisLabelExpression(){
+		return categoryAxisLabelExpression;
+	}
+	
+	public JRExpression getValueAxisLabelExpression(){
+		return valueAxisLabelExpression;
+	}
 }

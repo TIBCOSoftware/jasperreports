@@ -37,8 +37,8 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRAreaPlot extends JRChartPlot {
 
-    public JRExpression getCategoryAxisLabelExpression();
-    
-    public JRExpression getValueAxisLabelExpression();
-    
+	public JRExpression getCategoryAxisLabelExpression();
+	
+	public JRExpression getValueAxisLabelExpression();
+	
 }
