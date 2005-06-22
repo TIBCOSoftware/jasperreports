@@ -45,15 +45,4 @@ public class JRDesignPiePlot extends JRBasePiePlot
 	private static final long serialVersionUID = 608;
 
 	
-	/**
-	 *
-	 */
-	public JRDesignPiePlot()
-	{
-		super();
-		
-		//FIXME NOW dataset = new JRDesignPieDataset();
-	}
-		
-
 }

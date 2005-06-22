@@ -49,17 +49,6 @@ public class JRDesignTimeSeries extends JRBaseTimeSeries
 	/**
 	 *
 	 */
-	public JRDesignTimeSeries()
-	{
-		super();
-		
-		//FIXME NOW dataset = ;
-	}
-		
-
-	/**
-	 *
-	 */
 	public void setSeriesExpression(JRExpression seriesExpression)
 	{
 		this.seriesExpression = seriesExpression;
