@@ -48,17 +48,6 @@ public class JRDesignBarPlot extends JRBaseBarPlot
 	/**
 	 *
 	 */
-	public JRDesignBarPlot()
-	{
-		super();
-		
-		//FIXME NOW dataset = ;
-	}
-		
-
-	/**
-	 *
-	 */
 	public void setCategoryAxisLabelExpression(JRExpression categoryAxisLabelExpression)
 	{
 		this.categoryAxisLabelExpression = categoryAxisLabelExpression;

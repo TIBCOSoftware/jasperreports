@@ -54,17 +54,6 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 *
 	 */
-	public JRDesignPieDataset()
-	{
-		super();
-		
-		//FIXME NOW dataset = new JRDesignPieDataset();
-	}
-		
-
-	/**
-	 *
-	 */
 	public JRExpression getKeyExpression()
 	{
 		return keyExpression;

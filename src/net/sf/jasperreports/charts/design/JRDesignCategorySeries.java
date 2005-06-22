@@ -49,17 +49,6 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries
 	/**
 	 *
 	 */
-	public JRDesignCategorySeries()
-	{
-		super();
-		
-		//FIXME NOW dataset = ;
-	}
-		
-
-	/**
-	 *
-	 */
 	public void setSeriesExpression(JRExpression seriesExpression)
 	{
 		this.seriesExpression = seriesExpression;

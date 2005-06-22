@@ -56,17 +56,6 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 *
 	 */
-	public JRDesignCategoryDataset()
-	{
-		super();
-		
-		//FIXME NOW dataset = ;
-	}
-		
-
-	/**
-	 *
-	 */
 	public JRCategorySeries[] getSeries()
 	{
 		JRCategorySeries[] categorySeriesArray = new JRCategorySeries[categorySeriesList.size()];
