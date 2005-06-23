@@ -52,6 +52,8 @@ import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.base.JRBaseAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
@@ -77,6 +79,8 @@ import net.sf.jasperreports.charts.base.JRBaseXyAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
 import net.sf.jasperreports.charts.base.JRBaseXyLineChart;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
+import net.sf.jasperreports.charts.base.JRBaseCandlestickChart;
+import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -1045,6 +1049,42 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseHighLowChart;
+	}
+
+
+	public JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart)
+	{
+		JRBaseCandlestickChart baseCandlestickChart = null;
+
+		if (candlestickChart != null)
+		{
+			baseCandlestickChart = (JRBaseCandlestickChart)get(candlestickChart);
+			if (baseCandlestickChart == null)
+			{
+				baseCandlestickChart = new JRBaseCandlestickChart(candlestickChart, this);
+				put(candlestickChart, baseCandlestickChart);//FIXME NOW need this?
+			}
+		}
+
+		return baseCandlestickChart;
+	}
+
+
+	public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
+	{
+		JRBaseCandlestickPlot baseCandlestickPlot = null;
+
+		if (candlestickPlot != null)
+		{
+			baseCandlestickPlot = (JRBaseCandlestickPlot)get(candlestickPlot);
+			if (baseCandlestickPlot == null)
+			{
+				baseCandlestickPlot = new JRBaseCandlestickPlot(candlestickPlot, this);
+				put(candlestickPlot, baseCandlestickPlot);//FIXME NOW need this?
+			}
+		}
+
+		return baseCandlestickPlot;
 	}
 
 

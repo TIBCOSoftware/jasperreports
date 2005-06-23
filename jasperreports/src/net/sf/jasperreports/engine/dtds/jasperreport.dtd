@@ -375,7 +375,7 @@
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
-<!ELEMENT highLowDataset (dataset, seriesExpression, dateExpression, highExpression, lowExpression, openExpression, closeExpression)>
+<!ELEMENT highLowDataset (dataset, seriesExpression, dateExpression, highExpression, lowExpression, openExpression, closeExpression, volumeExpression)>
 <!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST highLowPlot
 	isShowCloseTicks (true | false) "true"
@@ -386,6 +386,7 @@
 <!ELEMENT lowExpression (#PCDATA)>
 <!ELEMENT openExpression (#PCDATA)>
 <!ELEMENT closeExpression (#PCDATA)>
+<!ELEMENT volumeExpression (#PCDATA)>
 
 <!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
 <!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>

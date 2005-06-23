@@ -59,6 +59,9 @@ import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.fill.JRFillAreaChart;
 import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
@@ -88,6 +91,8 @@ import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyLineChart;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
+import net.sf.jasperreports.charts.fill.JRFillCandlestickChart;
+import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -978,6 +983,21 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	public JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart)
+	{
+		JRFillCandlestickChart fillCandlestickChart = null;
+
+		if (candlestickChart != null){
+			fillCandlestickChart = (JRFillCandlestickChart)get(candlestickChart);
+			if (fillCandlestickChart == null){
+				fillCandlestickChart = new JRFillCandlestickChart(filler, candlestickChart, this);
+			}
+		}
+
+		return fillCandlestickChart;
+	}
+
+
 	/**
 	 *
 	 */
@@ -1013,5 +1033,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillHighLowPlot;
+	}
+
+
+	public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
+	{
+		JRFillCandlestickPlot fillCandlestickPlot = null;
+
+		if (candlestickPlot != null){
+			fillCandlestickPlot = (JRFillCandlestickPlot)get(candlestickPlot);
+			if (fillCandlestickPlot == null){
+				fillCandlestickPlot = new JRFillCandlestickPlot(candlestickPlot, this);
+			}
+		}
+
+		return fillCandlestickPlot;
 	}
 }

@@ -235,4 +235,17 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRHighLowChart getHighLowChart(JRHighLowChart highLowChart);
+
+
+	/**
+	 *
+	 */
+	public abstract JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart);
+
+
+	/**
+	 *
+	 */
+	public abstract JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot);
+
 }

@@ -50,6 +50,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	protected JRExpression lowExpression;
 	protected JRExpression openExpression;
 	protected JRExpression closeExpression;
+	protected JRExpression volumeExpression;
 
 
 	/**
@@ -73,6 +74,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 		lowExpression = factory.getExpression(dataset.getLowExpression());
 		openExpression = factory.getExpression(dataset.getOpenExpression());
 		closeExpression = factory.getExpression(dataset.getCloseExpression());
+		volumeExpression = factory.getExpression(dataset.getVolumeExpression());
 	}
 
 
@@ -110,5 +112,10 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	public JRExpression getCloseExpression()
 	{
 		return closeExpression;
+	}
+
+	public JRExpression getVolumeExpression()
+	{
+		return volumeExpression;
 	}
 }

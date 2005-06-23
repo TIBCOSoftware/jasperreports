@@ -58,6 +58,8 @@ import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 
 
 /**
@@ -549,6 +551,25 @@ public class JRExpressionCollector
 		addExpression(highLowDataset.getLowExpression());
 		addExpression(highLowDataset.getOpenExpression());
 		addExpression(highLowDataset.getCloseExpression());
+	}
+
+	/**
+	 *
+	 */
+	public void collect(JRCandlestickChart candlestickChart)
+	{
+		collectChart(candlestickChart);
+		collect((JRHighLowDataset)candlestickChart.getDataset());
+		collect((JRCandlestickPlot)candlestickChart.getPlot());
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRCandlestickPlot candlestickPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	{
+		addExpression(candlestickPlot.getTimeAxisLabelExpression());
+		addExpression(candlestickPlot.getValueAxisLabelExpression());
 	}
 
 }
