@@ -155,14 +155,14 @@
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<highLowDataset>
-					<dataset incrementType="Group" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
-					<seriesExpression>$F{ShipCountry}</seriesExpression>
-					<dateExpression>$F{OrderDate}</dateExpression>
-					<highExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.6)</highExpression>
-					<lowExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.6)</lowExpression>
-					<openExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.3)</openExpression>
-					<closeExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.4)</closeExpression>
-					<volumeExpression>new Double($F{Freight}.doubleValue()*0.5)</volumeExpression>
+					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="CountryGroup"/>
+					<seriesExpression>"Freight"</seriesExpression>
+					<dateExpression>$V{DateHighestCountryGroup}</dateExpression>
+					<highExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 1.6d)</highExpression>
+					<lowExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 0.4d)</lowExpression>
+					<openExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 0.7)</openExpression>
+					<closeExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 1.4)</closeExpression>
+					<volumeExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 0.5)</volumeExpression>
 				</highLowDataset>
 				<candlestickPlot isShowVolume="true" >
 					<plot/>
@@ -206,9 +206,6 @@
 			</textField>
 		</band>
 		</groupFooter>
-	</group>
-	<group name="YearGroup">
-		<groupExpression><![CDATA[new Integer($F{OrderDate}.getYear())]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">
