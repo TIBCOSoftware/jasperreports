@@ -27,16 +27,16 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignCandlestickChart;
-
 import org.xml.sax.Attributes;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCandlestickChartFactory
+public class JRCandlestickChartFactory extends JRBaseFactory
 {
 	/**
 	 *

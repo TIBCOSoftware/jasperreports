@@ -54,6 +54,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyLineChart;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 
 
 /**

@@ -55,19 +55,19 @@ public class ChartsApp
 
 	private static final String[] reportNames = 
 		{
-		"PieChartReport", 
-		"Pie3DChartReport", 
-		"BarChartReport", 
-		"Bar3DChartReport", 
-		"StackedBarChartReport", 
-		"StackedBar3DChartReport", 
-		"XYBarChartReport", 
-		"AreaChartReport", 
-		"XYAreaChartReport", 
-		"ScatterChartReport", 
-		"LineChartReport", 
-		"XYLineChartReport", 
-		"HighLowChartReport",
+//		"PieChartReport",
+//		"Pie3DChartReport",
+//		"BarChartReport",
+//		"Bar3DChartReport",
+//		"StackedBarChartReport",
+//		"StackedBar3DChartReport",
+//		"XYBarChartReport",
+//		"AreaChartReport",
+//		"XYAreaChartReport",
+//		"ScatterChartReport",
+//		"LineChartReport",
+//		"XYLineChartReport",
+//		"HighLowChartReport",
 		"CandlestickChartReport"
 		};
 	
@@ -97,7 +97,6 @@ public class ChartsApp
 		{
 			if (TASK_FILL.equals(taskName))
 			{
-//				JasperCompileManager.compileReportToFile("CandlestickChartReport.jrxml");
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
 				
