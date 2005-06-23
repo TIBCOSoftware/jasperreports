@@ -71,7 +71,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	public JRExpression getSeriesExpression()
 	{
-		return ((JRXySeries)parent).getSeriesExpression();
+		return parent.getSeriesExpression();
 	}
 		
 	/**
@@ -79,7 +79,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	public JRExpression getXValueExpression()
 	{
-		return ((JRXySeries)parent).getXValueExpression();
+		return parent.getXValueExpression();
 	}
 		
 	/**
@@ -87,7 +87,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	public JRExpression getYValueExpression()
 	{
-		return ((JRXySeries)parent).getYValueExpression();
+		return parent.getYValueExpression();
 	}
 		
 	/**
@@ -95,7 +95,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return ((JRXySeries)parent).getLabelExpression();
+		return parent.getLabelExpression();
 	}
 	
 	

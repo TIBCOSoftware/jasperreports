@@ -71,7 +71,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public JRExpression getSeriesExpression()
 	{
-		return ((JRCategorySeries)parent).getSeriesExpression();
+		return parent.getSeriesExpression();
 	}
 		
 	/**
@@ -79,7 +79,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public JRExpression getCategoryExpression()
 	{
-		return ((JRCategorySeries)parent).getCategoryExpression();
+		return parent.getCategoryExpression();
 	}
 		
 	/**
@@ -87,7 +87,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public JRExpression getValueExpression()
 	{
-		return ((JRCategorySeries)parent).getValueExpression();
+		return parent.getValueExpression();
 	}
 		
 	/**
@@ -95,7 +95,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return ((JRCategorySeries)parent).getLabelExpression();
+		return parent.getLabelExpression();
 	}
 	
 	

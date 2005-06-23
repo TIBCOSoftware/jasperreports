@@ -73,7 +73,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	public JRExpression getSeriesExpression()
 	{
-		return ((JRTimeSeries)parent).getSeriesExpression();
+		return parent.getSeriesExpression();
 	}
 		
 	/**
@@ -81,7 +81,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	public JRExpression getTimePeriodExpression()
 	{
-		return ((JRTimeSeries)parent).getTimePeriodExpression();
+		return parent.getTimePeriodExpression();
 	}
 		
 	/**
@@ -89,7 +89,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	public JRExpression getValueExpression()
 	{
-		return ((JRTimeSeries)parent).getValueExpression();
+		return parent.getValueExpression();
 	}
 		
 	/**
@@ -97,7 +97,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return ((JRTimeSeries)parent).getLabelExpression();
+		return parent.getLabelExpression();
 	}
 	
 	
