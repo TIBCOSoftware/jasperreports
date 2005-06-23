@@ -36,6 +36,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowChart;
@@ -58,8 +60,6 @@ import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
-import net.sf.jasperreports.charts.JRCandlestickChart;
-import net.sf.jasperreports.charts.JRCandlestickPlot;
 
 
 /**
