@@ -59,7 +59,7 @@
 	-->
 	<target name="view">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-FHighLowChartReport.jrprint"/>
+			<arg value="-FCandlestickChartReport.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

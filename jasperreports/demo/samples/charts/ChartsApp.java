@@ -67,7 +67,8 @@ public class ChartsApp
 		"ScatterChartReport", 
 		"LineChartReport", 
 		"XYLineChartReport", 
-		"HighLowChartReport"
+		"HighLowChartReport",
+		"CandlestickChartReport"
 		};
 	
 	/**
@@ -96,6 +97,7 @@ public class ChartsApp
 		{
 			if (TASK_FILL.equals(taskName))
 			{
+//				JasperCompileManager.compileReportToFile("CandlestickChartReport.jrxml");
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
 				
@@ -105,7 +107,7 @@ public class ChartsApp
 					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", parameters, getConnection());
 					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
 				}
-				
+
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))

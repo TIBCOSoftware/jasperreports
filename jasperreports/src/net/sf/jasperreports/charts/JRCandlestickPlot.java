@@ -27,53 +27,32 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
-public interface JRHighLowDataset extends JRChartDataset
+public interface JRCandlestickPlot extends JRChartPlot
 {
 	/**
 	 *
+	 * @return
 	 */
-	public JRExpression getSeriesExpression();
+	public JRExpression getValueAxisLabelExpression();
+
+	/**
+	 *
+	 * @return
+	 */
+	public JRExpression getTimeAxisLabelExpression();
 
 
 	/**
 	 *
+	 * @return
 	 */
-	public JRExpression getDateExpression();
+	public boolean isShowVolume();
 
-
-	/**
-	 *
-	 */
-	public JRExpression getHighExpression();
-
-
-	/**
-	 *
-	 */
-	public JRExpression getLowExpression();
-
-
-	/**
-	 *
-	 */
-	public JRExpression getOpenExpression();
-
-
-	/**
-	 *
-	 */
-	public JRExpression getCloseExpression();
-
-
-	/**
-	 *
-	 */
-	public JRExpression getVolumeExpression();
 }
