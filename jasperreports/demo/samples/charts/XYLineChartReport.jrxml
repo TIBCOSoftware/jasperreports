@@ -161,6 +161,11 @@
 						<xValueExpression>$F{OrderID}</xValueExpression>
 						<yValueExpression>$F{Freight}</yValueExpression>
 					</xySeries>
+					<xySeries>
+						<seriesExpression>"Half Freight"</seriesExpression>
+						<xValueExpression>$F{OrderID}</xValueExpression>
+						<yValueExpression>new Double($F{Freight}.doubleValue() / 2d)</yValueExpression>
+					</xySeries>
 				</xyDataset>
 				<linePlot isShowLines="true" isShowShapes="false">
 					<plot/>
