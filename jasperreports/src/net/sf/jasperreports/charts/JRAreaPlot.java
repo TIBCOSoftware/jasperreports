@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @author Flavus Sana (fsana@users.sourceforge.net) 
+ * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
  * @version $Id$
  */
 public interface JRAreaPlot extends JRChartPlot {

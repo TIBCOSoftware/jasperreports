@@ -48,6 +48,8 @@ import net.sf.jasperreports.charts.JRPie3DChart;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRScatterChart;
+import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
@@ -359,6 +361,12 @@ public class JRExpressionCollector
 		collect( (JRLinePlot)xyLineChart.getPlot()  );
 	}
 	
+	public void collect( JRScatterChart scatterChart ){
+		collectChart( scatterChart );
+		collect( (JRXyDataset)scatterChart.getDataset() );
+		collect( (JRScatterPlot)scatterChart.getPlot()  );
+	}
+	
 	public void collect( JRAreaChart areaChart ){
 		collectChart( areaChart );
 		collect( (JRCategoryDataset)areaChart.getDataset() );
@@ -478,6 +486,11 @@ public class JRExpressionCollector
 	private void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
+	}
+	
+	private void collect( JRScatterPlot scatterPlot ){
+		addExpression( scatterPlot.getXAxisLabelExpression() );
+		addExpression( scatterPlot.getYAxisLabelExpression() );
 	}
 	
 	private void collect( JRAreaPlot areaPlot ){

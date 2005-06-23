@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
 public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {

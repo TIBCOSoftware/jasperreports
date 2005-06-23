@@ -44,6 +44,7 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRScatterChart;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
@@ -68,6 +69,7 @@ import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieChart;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
+import net.sf.jasperreports.charts.base.JRBaseScatterChart;
 import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
@@ -904,6 +906,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseLineChart;
+	}
+
+
+	/** 
+	 * 
+	 */
+	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
+		JRBaseScatterChart baseScatterChart = null;
+		
+		if (scatterChart != null)
+		{
+			baseScatterChart = (JRBaseScatterChart)get(scatterChart);
+			if (baseScatterChart == null)
+			{
+				baseScatterChart = new JRBaseScatterChart(scatterChart, this);
+				put(scatterChart, baseScatterChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseScatterChart;
 	}
 
 

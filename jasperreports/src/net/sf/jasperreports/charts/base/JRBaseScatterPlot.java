@@ -28,63 +28,66 @@
 
 package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
-import org.jfree.chart.renderer.category.BarRenderer3D;
-
 /**
- * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$ 
  */
-public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
-
+public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot {
+	
 	private static final long serialVersionUID = 608;
 	
-	protected JRExpression categoryAxisLabelExpression = null;
-	protected JRExpression valueAxisLabelExpression = null;
-	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
-	protected double yOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	protected JRExpression xAxisLabelExpression = null;
+	protected JRExpression yAxisLabelExpression = null;
+	
+	boolean isShowShapes = true;
+	boolean isShowLines = true;
 	
 	
-	protected JRBaseBar3DPlot(){
+	protected JRBaseScatterPlot(){
+	}
+	
+	public JRBaseScatterPlot( JRScatterPlot scattedPlot, JRBaseObjectFactory factory ){
+		super( scattedPlot, factory );
 		
-	}
-	
-	public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
-		super( barPlot, factory );
+		isShowShapes = scattedPlot.isShowShapes();
+		isShowLines = scattedPlot.isShowLines();
 		
-		xOffset = barPlot.getXOffset();
-		yOffset = barPlot.getYOffset();
-		
-		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
-		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
-		
+		xAxisLabelExpression = factory.getExpression( scattedPlot.getXAxisLabelExpression() );
+		yAxisLabelExpression = factory.getExpression( scattedPlot.getYAxisLabelExpression() );
+	   
 	}
 	
-	public JRExpression getCategoryAxisLabelExpression(){
-		return categoryAxisLabelExpression;
+	public JRExpression getXAxisLabelExpression(){
+		return xAxisLabelExpression;
 	}
 	
-	public JRExpression getValueAxisLabelExpression(){
-		return valueAxisLabelExpression;
+	public JRExpression getYAxisLabelExpression() {
+		return yAxisLabelExpression;
 	}
 	
-	public double getXOffset(){
-		return xOffset;
+	public boolean isShowShapes(){
+		return isShowShapes;
 	}
 	
-	public void setXOffset( double xOffset ){
-		this.xOffset = xOffset;
+	public boolean isShowLines(){
+		return isShowLines;
 	}
 	
-	public double getYOffset(){
-		return yOffset;
+	public void setShowShapes( boolean value ){
+		this.isShowShapes = value;
 	}
 	
-	public void setYOffset( double yOffset ){
-		this.yOffset = yOffset;
+	public void setShowLines( boolean value ){
+		this.isShowLines = value;
 	}
+
+  
+   
+	 
+
 }

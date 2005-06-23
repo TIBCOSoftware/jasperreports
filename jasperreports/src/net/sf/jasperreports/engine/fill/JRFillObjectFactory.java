@@ -49,6 +49,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRScatterChart;
+import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
@@ -76,6 +78,8 @@ import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieChart;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
+import net.sf.jasperreports.charts.fill.JRFillScatterChart;
+import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
 import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
@@ -837,6 +841,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/** 
 	 * 
 	 */
+	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
+		JRFillScatterChart fillLineChart = null;
+		
+		if (scatterChart != null){
+			fillLineChart = (JRFillScatterChart)get(scatterChart);
+			if (fillLineChart == null){
+				fillLineChart = new JRFillScatterChart(filler, scatterChart, this);
+			}
+		}
+		
+		return fillLineChart;
+	}
+
+
+	/** 
+	 * 
+	 */
 	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
 		JRFillXyLineChart fillXyLineChart = null;
 		
@@ -865,6 +886,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillLinePlot;
+	}
+
+
+	/** 
+	 * 
+	 */
+	public JRScatterPlot getScatterPlot(JRScatterPlot scatterPlot) {
+		JRFillScatterPlot fillScatterPlot = null;
+		
+		if (scatterPlot != null){
+			fillScatterPlot = (JRFillScatterPlot)get(scatterPlot);
+			if (fillScatterPlot == null){
+				fillScatterPlot = new JRFillScatterPlot(scatterPlot, this);
+			}
+		}
+		
+		return fillScatterPlot;
 	}
 
 

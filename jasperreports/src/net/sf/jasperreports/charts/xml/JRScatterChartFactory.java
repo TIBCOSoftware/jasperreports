@@ -28,34 +28,20 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignLinePlot;
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.design.JRDesignScatterChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
 
 /**
- * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRLinePlotFactory extends JRBaseFactory {
-	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
-	private static final String ATTRIBUTE_isShowLines = "isShowLines";
+public class JRScatterChartFactory extends JRBaseFactory {
 	
 	public Object createObject( Attributes attrs ){
-		JRChart chart = (JRChart)digester.peek();
-		JRDesignLinePlot plot = (JRDesignLinePlot)chart.getPlot();
+		JRDesignScatterChart scatterChart = new JRDesignScatterChart();
 		
-		String isShowShapes = attrs.getValue( ATTRIBUTE_isShowShapes );
-		if( isShowShapes != null && isShowShapes.length() > 0 ){
-			plot.setShowShapes( new Boolean( isShowShapes ).booleanValue() );
-		}
-		
-		String isShowLines = attrs.getValue( ATTRIBUTE_isShowLines );
-		if( isShowLines != null && isShowLines.length() > 0 ){
-			plot.setShowLines( new Boolean( isShowLines ).booleanValue() );
-		}
-		
-		return plot;
+		return scatterChart;
 	}
 }
