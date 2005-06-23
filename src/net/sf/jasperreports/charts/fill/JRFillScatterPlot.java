@@ -26,36 +26,45 @@
  * http://www.jaspersoft.com
  */
 
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.charts.design.JRDesignLinePlot;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
- * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRLinePlotFactory extends JRBaseFactory {
-	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
-	private static final String ATTRIBUTE_isShowLines = "isShowLines";
+public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot {
 	
-	public Object createObject( Attributes attrs ){
-		JRChart chart = (JRChart)digester.peek();
-		JRDesignLinePlot plot = (JRDesignLinePlot)chart.getPlot();
+	public JRFillScatterPlot( JRScatterPlot plot, JRFillObjectFactory factory ){
+		super( plot, factory );
+	}
+	
+	public JRExpression getXAxisLabelExpression(){
+		return ((JRScatterPlot)parent).getXAxisLabelExpression();   
+	}
+	
+	public JRExpression getYAxisLabelExpression(){
+		return ((JRScatterPlot)parent).getYAxisLabelExpression();
+	}
+	
+	public boolean isShowShapes(){
+		return ((JRLinePlot)parent).isShowShapes();
+	}
+	
+	public void setShowShapes( boolean value ){
 		
-		String isShowShapes = attrs.getValue( ATTRIBUTE_isShowShapes );
-		if( isShowShapes != null && isShowShapes.length() > 0 ){
-			plot.setShowShapes( new Boolean( isShowShapes ).booleanValue() );
-		}
+	}
+	
+	public boolean isShowLines(){
+		return ((JRLinePlot)parent).isShowLines();
+	}
+	
+	public void setShowLines( boolean value ){
 		
-		String isShowLines = attrs.getValue( ATTRIBUTE_isShowLines );
-		if( isShowLines != null && isShowLines.length() > 0 ){
-			plot.setShowLines( new Boolean( isShowLines ).booleanValue() );
-		}
-		
-		return plot;
 	}
 }

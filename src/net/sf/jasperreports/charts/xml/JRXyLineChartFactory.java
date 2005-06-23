@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import org.xml.sax.Attributes;
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class JRXyLineChartFactory extends JRBaseFactory {

@@ -64,6 +64,7 @@ public class ChartsApp
 		"XYBarChartReport", 
 		"AreaChartReport", 
 		"XYAreaChartReport", 
+		"ScatterChartReport", 
 		"LineChartReport", 
 		"XYLineChartReport", 
 		"HighLowChartReport"

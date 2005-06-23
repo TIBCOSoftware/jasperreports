@@ -51,6 +51,8 @@ import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
 import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
+import net.sf.jasperreports.charts.xml.JRScatterChartFactory;
+import net.sf.jasperreports.charts.xml.JRScatterPlotFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
@@ -431,6 +433,10 @@ public class JRXmlDigesterFactory
 	
 		digester.addFactoryCreate( "*/xyLineChart", JRXyLineChartFactory.class.getName() );
 		digester.addSetNext( "*/xyLineChart", "addElement", JRDesignElement.class.getName() );
+	
+		digester.addFactoryCreate( "*/scatterChart", JRScatterChartFactory.class.getName() );
+		digester.addSetNext( "*/scatterChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate( "*/scatterPlot", JRScatterPlotFactory.class.getName() );
 	
 		digester.addFactoryCreate("*/xyDataset", JRXyDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/xyDataset/xySeries", JRXySeriesFactory.class.getName());

@@ -32,7 +32,7 @@ import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
 public class JRDesignAreaPlot extends JRBaseAreaPlot {

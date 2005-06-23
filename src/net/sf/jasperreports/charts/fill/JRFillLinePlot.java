@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
- * @author Flavius Sana (fsana@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
 public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot {
