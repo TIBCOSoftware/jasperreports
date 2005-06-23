@@ -49,6 +49,18 @@ import net.sf.jasperreports.charts.JRPieChart;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRHighLowChart;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRCandlestickChart;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
+import net.sf.jasperreports.charts.JRAreaChart;
+import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRScatterChart;
+import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -915,6 +927,22 @@ public class JRXmlWriter
 		else if (element instanceof JRLineChart)
 		{
 			writeLineChart((JRLineChart) element);
+		}
+		else if (element instanceof JRHighLowChart)
+		{
+			writeHighLowChart((JRHighLowChart) element);
+		}
+		else if (element instanceof JRCandlestickChart)
+		{
+			writeCandlestickChart((JRCandlestickChart) element);
+		}
+		else if (element instanceof JRAreaChart)
+		{
+			writeAreaChart((JRAreaChart) element);
+		}
+		else if (element instanceof JRScatterChart)
+		{
+			writeScatterChart((JRScatterChart) element);
 		}
 	}
 
@@ -1897,6 +1925,77 @@ public class JRXmlWriter
 
 	/**
 	 *
+	 * @param xySeries
+	 */
+	private void writeXySeries(JRXySeries xySeries)
+	{
+		sb.append("\t\t\t\t\t<xySeries>\n");
+
+		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(xySeries.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<xValueExpression><![CDATA[");
+		sb.append(xySeries.getXValueExpression().getText());
+		sb.append("]]></xValueExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<yValueExpression><![CDATA[");
+		sb.append(xySeries.getYValueExpression().getText());
+		sb.append("]]></yValueExpression>\n");
+
+		sb.append("\t\t\t\t\t</xySeries>\n");
+	}
+
+
+	/**
+	 *
+	 * @param dataset
+	 */
+	private void writeXyDataset(JRXyDataset dataset)
+	{
+		sb.append("\t\t\t\t<xyDataset>\n");
+
+		writeDataset(dataset);
+
+		/*   */
+		JRXySeries[] xySeries = dataset.getSeries();
+		if (xySeries != null && xySeries.length > 0)
+		{
+			for(int i = 0; i < xySeries.length; i++)
+			{
+				writeXySeries(xySeries[i]);
+			}
+		}
+
+		sb.append("\t\t\t\t</xyDataset>\n");
+	}
+
+
+	/**
+	 *
+	 * @param timeSeries
+	 */
+	private void writeTimeSeries(JRTimeSeries timeSeries)
+	{
+		sb.append("\t\t\t\t\t<timeSeries>\n");
+
+		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(timeSeries.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
+		sb.append(timeSeries.getTimePeriodExpression().getText());
+		sb.append("]]></timePeriodExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(timeSeries.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
+		sb.append("\t\t\t\t\t</timeSeries>\n");
+	}
+
+	/**
+	 *
 	 * @param plot
 	 */
 	private void writePlot(JRChartPlot plot)
@@ -2176,6 +2275,195 @@ public class JRXmlWriter
 		writeLinePlot((JRLinePlot) chart.getPlot());
 
 		sb.append("\t\t\t</lineChart>\n");
+	}
+
+	private void writeHighLowDataset(JRHighLowDataset dataset)
+	{
+        sb.append("\t\t\t\t<highLowDataset>\n");
+
+		writeDataset(dataset);
+
+		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(dataset.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t<dateExpression><![CDATA[");
+		sb.append(dataset.getDateExpression().getText());
+		sb.append("]]></dateExpression>\n");
+
+		sb.append("\t\t\t\t\t<highExpression><![CDATA[");
+		sb.append(dataset.getHighExpression().getText());
+		sb.append("]]></highExpression>\n");
+
+		sb.append("\t\t\t\t\t<lowExpression><![CDATA[");
+		sb.append(dataset.getLowExpression().getText());
+		sb.append("]]></lowExpression>\n");
+
+		sb.append("\t\t\t\t\t<openExpression><![CDATA[");
+		sb.append(dataset.getOpenExpression().getText());
+		sb.append("]]></openExpression>\n");
+
+		sb.append("\t\t\t\t\t<closeExpression><![CDATA[");
+		sb.append(dataset.getCloseExpression().getText());
+		sb.append("]]></closeExpression>\n");
+
+		sb.append("\t\t\t\t\t<volumeExpression><![CDATA[");
+		sb.append(dataset.getVolumeExpression().getText());
+		sb.append("]]></volumeExpression>\n");
+
+		sb.append("\t\t\t\t</highLowDataset>\n");
+	}
+
+
+	private void writeHighLowChart(JRHighLowChart chart)
+	{
+		sb.append("\t\t\t<highLowChart>\n");
+
+		writeChart(chart);
+		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
+
+		JRHighLowPlot plot = (JRHighLowPlot) chart.getPlot();
+		sb.append("\t\t\t\t<highLowPlot");
+		if (!plot.isShowOpenTicks())
+			sb.append(" isShowOpenTicks=\"false\"");
+		if (!plot.isShowCloseTicks())
+			sb.append(" isShowCloseTicks=\"false\"");
+		sb.append(">\n");
+		writePlot(plot);
+
+		if (plot.getTimeAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<timeAxisLabelExpression><![CDATA[");
+			sb.append(plot.getTimeAxisLabelExpression().getText());
+			sb.append("]]></timeAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</highLowPlot>\n");
+
+		sb.append("\t\t\t</highLowChart>\n");
+	}
+
+
+	private void writeCandlestickChart(JRCandlestickChart chart)
+	{
+		sb.append("\t\t\t<candlestickChart>\n");
+
+		writeChart(chart);
+		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
+
+		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
+		sb.append("\t\t\t\t<highLowPlot");
+		if (!plot.isShowVolume())
+			sb.append(" isShowVolume=\"false\"");
+		sb.append(">\n");
+		writePlot(plot);
+
+		if (plot.getTimeAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<timeAxisLabelExpression><![CDATA[");
+			sb.append(plot.getTimeAxisLabelExpression().getText());
+			sb.append("]]></timeAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</candlestickPlot>\n");
+
+		sb.append("\t\t\t</candlestickChart>\n");
+	}
+
+	/**
+	 *
+	 * @param plot
+	 */
+	private void writeAreaPlot(JRAreaPlot plot)
+	{
+		sb.append("\t\t\t\t<areaPlot>\n");
+		writePlot(plot);
+
+		if (plot.getCategoryAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
+			sb.append(plot.getCategoryAxisLabelExpression().getText());
+			sb.append("]]></categoryAxisLabelExpression>\n");
+		}
+
+		if (plot.getValueAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
+			sb.append(plot.getValueAxisLabelExpression().getText());
+			sb.append("]]></valueAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</areaPlot>\n");
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeAreaChart(JRAreaChart chart)
+	{
+		sb.append("\t\t\t<areaChart>\n");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeAreaPlot((JRAreaPlot) chart.getPlot());
+
+		sb.append("\t\t\t</areaChart>\n");
+	}
+
+
+	/**
+	 *
+	 * @param plot
+	 */
+	private void writeScatterPlot(JRScatterPlot plot)
+	{
+		sb.append("\t\t\t\t<scatterPlot");
+		if (!plot.isShowLines())
+			sb.append(" isShowLines=\"false\"");
+		if (!plot.isShowShapes())
+			sb.append(" isShowShapess=\"false\"");
+		sb.append(">\n");
+		writePlot(plot);
+
+		if (plot.getXAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<xAxisLabelExpression><![CDATA[");
+			sb.append(plot.getXAxisLabelExpression().getText());
+			sb.append("]]></xAxisLabelExpression>\n");
+		}
+
+		if (plot.getYAxisLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<yAxisLabelExpression><![CDATA[");
+			sb.append(plot.getYAxisLabelExpression().getText());
+			sb.append("]]></yAxisLabelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</scatterPlot>\n");
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeScatterChart(JRScatterChart chart)
+	{
+		sb.append("\t\t\t<scatterChart>\n");
+
+		writeChart(chart);
+		writeXyDataset((JRXyDataset) chart.getDataset());
+		writeScatterPlot((JRScatterPlot) chart.getPlot());
+
+		sb.append("\t\t\t</scatterChart>\n");
 	}
 
 }
