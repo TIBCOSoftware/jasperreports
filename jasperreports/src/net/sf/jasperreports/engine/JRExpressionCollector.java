@@ -551,6 +551,7 @@ public class JRExpressionCollector
 		addExpression(highLowDataset.getLowExpression());
 		addExpression(highLowDataset.getOpenExpression());
 		addExpression(highLowDataset.getCloseExpression());
+		addExpression(highLowDataset.getVolumeExpression());
 	}
 
 	/**

@@ -150,24 +150,24 @@
 				</textElement>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
 			</textField>
-			<highLowChart>
+			<candlestickChart>
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<highLowDataset>
-					<dataset resetType="Group" resetGroup="CountryGroup"/>
+					<dataset incrementType="Group" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<seriesExpression>$F{ShipCountry}</seriesExpression>
-					<dateExpression>$F{OrderDate}</dateExpression>
+					<dateExpression>$F{OrderDate}.getYear()</dateExpression>
 					<highExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.6)</highExpression>
 					<lowExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.6)</lowExpression>
 					<openExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.3)</openExpression>
 					<closeExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.4)</closeExpression>
-					<volumeExpression>new Double($F{Freight}.doubleValue() / 2)</volumeExpression>
+					<volumeExpression>new Double($F{Freight}.doubleValue()*0.5)</volumeExpression>
 				</highLowDataset>
-				<highLowPlot>
+				<candlestickPlot isShowVolume="true" >
 					<plot/>
-				</highLowPlot>
-			</highLowChart>
+				</candlestickPlot>
+			</candlestickChart>
 		</band>
 		</groupHeader>
 		<groupFooter>
@@ -206,6 +206,9 @@
 			</textField>
 		</band>
 		</groupFooter>
+	</group>
+	<group name="YearGroup">
+		<groupExpression><![CDATA[new Integer($F{OrderDate}.getYear())]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">

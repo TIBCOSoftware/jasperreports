@@ -47,7 +47,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;
 
-	protected boolean isShowVolume = false;
+	protected boolean isShowVolume = true;
 
 
 	/**
