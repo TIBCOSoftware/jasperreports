@@ -184,7 +184,6 @@ public class JRChartFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(String.class);
 			expression.setValueClassName(String.class.getName());
 			return expression;
 		}

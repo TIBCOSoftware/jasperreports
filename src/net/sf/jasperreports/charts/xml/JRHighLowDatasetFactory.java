@@ -56,7 +56,7 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Comparable.class);
+			expression.setValueClassName(Comparable.class.getName());
 			return expression;
 		}
 	}
@@ -65,7 +65,7 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Date.class);
+			expression.setValueClassName(Date.class.getName());
 			return expression;
 		}
 	}
@@ -75,7 +75,7 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Number.class);
+			expression.setValueClassName(Number.class.getName());
 			return expression;
 		}
 	}
