@@ -27,25 +27,35 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignPiePlot;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
 import org.xml.sax.Attributes;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
-public class JRPiePlotFactory extends JRBaseFactory
+public class JRCandlestickPlotFactory extends JRBaseFactory
 {
+
+	private static final String ATTRIBUTE_isShowVolume = "isShowVolume";
+
+
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();
+		JRDesignCandlestickPlot plot = (JRDesignCandlestickPlot)chart.getPlot();
+
+		String isShowVolume = atts.getValue(ATTRIBUTE_isShowVolume);
+		if (isShowVolume != null && isShowVolume.length() > 0) {
+			plot.setShowVolume(new Boolean(isShowVolume).booleanValue());
+		}
+
+		return plot;
 	}
 }

@@ -27,25 +27,20 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignPiePlot;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
 import org.xml.sax.Attributes;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickChart;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
-public class JRPiePlotFactory extends JRBaseFactory
+public class JRCandlestickChartFactory
 {
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();
+		return new JRDesignCandlestickChart();
 	}
 }

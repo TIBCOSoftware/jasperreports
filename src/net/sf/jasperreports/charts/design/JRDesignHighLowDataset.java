@@ -49,6 +49,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	protected JRExpression lowExpression;
 	protected JRExpression openExpression;
 	protected JRExpression closeExpression;
+	protected JRExpression volumeExpression;
 
 
 	public JRExpression getSeriesExpression()
@@ -119,6 +120,18 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	public void setCloseExpression(JRExpression closeExpression)
 	{
 		this.closeExpression = closeExpression;
+	}
+
+
+	public JRExpression getVolumeExpression()
+	{
+		return volumeExpression;
+	}
+
+
+	public void setVolumeExpression(JRExpression volumeExpression)
+	{
+		this.volumeExpression = volumeExpression;
 	}
 }
 

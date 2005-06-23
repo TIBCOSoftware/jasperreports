@@ -60,6 +60,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	private Number low = null;
 	private Number open = null;
 	private Number close = null;
+	private Number volume = null;
 
 	private boolean isIncremented = false;
 
@@ -87,6 +88,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		low = (Number) calculator.evaluate(getLowExpression());
 		open = (Number) calculator.evaluate(getOpenExpression());
 		close = (Number) calculator.evaluate(getCloseExpression());
+		volume = (Number) calculator.evaluate(getVolumeExpression());
 		isIncremented = false;
 	}
 
@@ -99,6 +101,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		element.setLow(low);
 		element.setOpen(open);
 		element.setClose(close);
+		element.setVolume(volume);
 
 		elements.add(element);
 		isIncremented = true;
@@ -120,8 +123,6 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		double[] closeArray = new double[size];
 		double[] volumeArray = new double[size];
 
-		Arrays.fill(volumeArray, 0);
-
 		for (int i = 0; i < elements.size(); i++) {
 			HighLowElement bean = (HighLowElement) elements.get(i);
 			dateArray[i] = new Date(bean.getDate().getTime());
@@ -129,6 +130,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 			lowArray[i] = bean.getLow().doubleValue();
 			openArray[i] = bean.getOpen().doubleValue();
 			closeArray[i] = bean.getClose().doubleValue();
+			volumeArray[i] = bean.getVolume().doubleValue();
 		}
 
 		dataset = new DefaultHighLowDataset(series, dateArray, highArray, lowArray, openArray, closeArray, volumeArray);
@@ -172,6 +174,10 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	public JRExpression getVolumeExpression()
+	{
+		return ((JRHighLowDataset)parent).getVolumeExpression();
+	}
 
 	/**
 	 *
@@ -183,7 +189,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		Number low;
 		Number open;
 		Number close;
-
+		Number volume;
 
 		public Date getDate()
 		{
@@ -242,6 +248,18 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		public void setClose(Number close)
 		{
 			this.close = close;
+		}
+
+
+		public Number getVolume()
+		{
+			return volume;
+		}
+
+
+		public void setVolume(Number volume)
+		{
+			this.volume = volume;
 		}
 	}
 }

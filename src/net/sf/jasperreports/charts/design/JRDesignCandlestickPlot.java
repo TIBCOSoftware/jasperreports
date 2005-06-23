@@ -25,27 +25,34 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.charts.design;
 
-import net.sf.jasperreports.charts.design.JRDesignPiePlot;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
-public class JRPiePlotFactory extends JRBaseFactory
+public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 {
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	private static final long serialVersionUID = 608;
+
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelExpression(JRExpression timeAxisLabelExpression)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();
+		this.timeAxisLabelExpression = timeAxisLabelExpression;
+	}
+
+
+	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
+	{
+		this.valueAxisLabelExpression = valueAxisLabelExpression;
 	}
 }

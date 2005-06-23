@@ -25,27 +25,45 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.charts.design.JRDesignPiePlot;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
 
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
-public class JRPiePlotFactory extends JRBaseFactory
+public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlestickPlot
 {
+
 	/**
 	 *
 	 */
-	public Object createObject(Attributes atts)
+	public JRFillCandlestickPlot(
+		JRCandlestickPlot candlestickPlot,
+		JRFillObjectFactory factory
+		)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();
+		super(candlestickPlot, factory);
+	}
+
+	public JRExpression getValueAxisLabelExpression()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisLabelExpression();
+	}
+
+
+	public JRExpression getTimeAxisLabelExpression()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisLabelExpression();
+	}
+
+
+	public boolean isShowVolume()
+	{
+		return ((JRCandlestickPlot)parent).isShowVolume();
 	}
 }
