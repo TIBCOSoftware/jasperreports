@@ -32,12 +32,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.charts.design.JRDesignXySeries;
+import net.sf.jasperreports.charts.design.JRDesignXyzSeries;
 import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
+import net.sf.jasperreports.charts.xml.JRBubbleChartFactory;
+import net.sf.jasperreports.charts.xml.JRBubblePlotFactory;
 import net.sf.jasperreports.charts.xml.JRCandlestickChartFactory;
 import net.sf.jasperreports.charts.xml.JRCandlestickPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
@@ -63,6 +66,8 @@ import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
+import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
@@ -403,6 +408,26 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
 
+		
+		digester.addFactoryCreate( "*/xyzDataset", JRXyzDatasetFactory.class.getName() );
+		digester.addFactoryCreate( "*/xyzDataset/xyzSeries", JRXyzSeriesFactory.class.getName() );
+		digester.addSetNext( "*/xyzDataset/xyzSeries", "addXyzSeries", JRDesignXyzSeries.class.getName() );
+		
+		digester.addFactoryCreate( "*/xyzSeries/seriesExpression", JRXyzSeriesFactory.JRSeriesExpressionFactory.class );
+		digester.addSetNext( "*/xyzSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/xyzSeries/seriesExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/xyzSeries", JRXyzDatasetFactory.class.getName() );
+		digester.addFactoryCreate( "*/xyzSeries/xValueExpression", JRXyzSeriesFactory.JRXValueExpressionFactory.class );
+		digester.addSetNext( "*/xyzSeries/xValueExpression", "setXValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/xyzSeries/xValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/xyzSeries/yValueExpression", JRXyzSeriesFactory.JRYValueExpressionFactory.class );
+		digester.addSetNext( "*/xyzSeries/yValueExpression", "setYValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/xyzSeries/yValueExpression", "setText", 0 );
+		digester.addFactoryCreate( "*/xyzSeries/zValueExpression", JRXyzSeriesFactory.JRZValueExpressionFactory.class );
+		digester.addSetNext( "*/xyzSeries/zValueExpression", "setZValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/xyzSeries/zValueExpression", "setText", 0 );
+		
+		
 		// XY bar charts
 		digester.addFactoryCreate("*/xyBarChart", JRXyBarChartFactory.class.getName());
 		digester.addSetNext("*/xyBarChart", "addElement", JRDesignElement.class.getName());
@@ -461,6 +486,12 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/stackedBar3DChart", JRStackedBar3DChartFactory.class.getName());
 		digester.addSetNext("*/stackedBar3DChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/stackedBar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
+		
+		digester.addFactoryCreate( "*/bubbleChart", JRBubbleChartFactory.class.getName() );
+		digester.addSetNext( "*/bubbleChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate( "*/bubblePlot", JRBubblePlotFactory.class.getName() );
+	
+		
 
 		// high-low charts
 		digester.addFactoryCreate("*/highLowChart", JRHighLowChartFactory.class.getName());
