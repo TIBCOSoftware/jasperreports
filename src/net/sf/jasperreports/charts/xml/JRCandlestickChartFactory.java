@@ -27,8 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import org.xml.sax.Attributes;
 import net.sf.jasperreports.charts.design.JRDesignCandlestickChart;
+
+import org.xml.sax.Attributes;
 
 
 /**

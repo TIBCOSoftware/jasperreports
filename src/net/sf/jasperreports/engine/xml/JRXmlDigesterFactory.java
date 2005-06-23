@@ -38,6 +38,8 @@ import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRBarPlotFactory;
+import net.sf.jasperreports.charts.xml.JRCandlestickChartFactory;
+import net.sf.jasperreports.charts.xml.JRCandlestickPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
@@ -61,8 +63,6 @@ import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
-import net.sf.jasperreports.charts.xml.JRCandlestickChartFactory;
-import net.sf.jasperreports.charts.xml.JRCandlestickPlotFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
@@ -491,8 +491,8 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("*/highLowDataset/volumeExpression", "setText", 0);
 
 		// candlestick charts
-//		digester.addFactoryCreate("*/candlestickChart", JRCandlestickChartFactory.class);
-//		digester.addSetNext("*/candlestickChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/candlestickChart", JRCandlestickChartFactory.class);
+		digester.addSetNext("*/candlestickChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/candlestickChart/candlestickPlot", JRCandlestickPlotFactory.class);
 	}
 	

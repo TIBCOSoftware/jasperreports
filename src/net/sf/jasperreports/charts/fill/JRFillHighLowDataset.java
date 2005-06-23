@@ -28,7 +28,6 @@
 package net.sf.jasperreports.charts.fill;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
