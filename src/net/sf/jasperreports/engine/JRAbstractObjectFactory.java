@@ -48,6 +48,7 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
+import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyLineChart;
 
@@ -212,6 +213,11 @@ public abstract class JRAbstractObjectFactory
 	 *   
 	 */
 	public abstract JRAreaChart getAreaChart( JRAreaChart areaChart );
+	
+	/**
+	 *   
+	 */
+	public abstract JRXyAreaChart getXyAreaChart( JRXyAreaChart areaChart );
 	
 	/**
 	 *   
