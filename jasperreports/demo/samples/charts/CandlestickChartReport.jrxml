@@ -157,7 +157,7 @@
 				<highLowDataset>
 					<dataset incrementType="Group" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<seriesExpression>$F{ShipCountry}</seriesExpression>
-					<dateExpression>$F{OrderDate}.getYear()</dateExpression>
+					<dateExpression>$F{OrderDate}</dateExpression>
 					<highExpression>new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.6)</highExpression>
 					<lowExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.6)</lowExpression>
 					<openExpression>new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.3)</openExpression>
