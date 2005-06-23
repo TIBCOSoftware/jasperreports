@@ -53,7 +53,6 @@ public class JRXySeriesFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Comparable.class);
 			expression.setValueClassName(Comparable.class.getName());
 			return expression;
 		}
@@ -64,7 +63,6 @@ public class JRXySeriesFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Number.class);
 			expression.setValueClassName(Number.class.getName());
 			return expression;
 		}
@@ -75,7 +73,6 @@ public class JRXySeriesFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(String.class);
 			expression.setValueClassName(String.class.getName());
 			return expression;
 		}
@@ -86,7 +83,6 @@ public class JRXySeriesFactory extends JRBaseFactory
 		public Object createObject(Attributes atts)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass(Number.class);
 			expression.setValueClassName(Number.class.getName());
 			return expression;
 		}
