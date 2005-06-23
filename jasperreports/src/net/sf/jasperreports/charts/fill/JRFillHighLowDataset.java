@@ -44,6 +44,7 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLowDataset
 {

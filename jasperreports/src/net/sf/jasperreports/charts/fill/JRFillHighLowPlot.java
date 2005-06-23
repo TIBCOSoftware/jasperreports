@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 {

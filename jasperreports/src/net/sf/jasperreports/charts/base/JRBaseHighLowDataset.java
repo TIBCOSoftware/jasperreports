@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLowDataset
 {

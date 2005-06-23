@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHighLowDataset
 {
