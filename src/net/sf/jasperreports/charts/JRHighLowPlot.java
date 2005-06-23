@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public interface JRHighLowPlot extends JRChartPlot
 {
