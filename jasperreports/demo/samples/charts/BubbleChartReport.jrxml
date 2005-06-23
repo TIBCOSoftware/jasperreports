@@ -216,7 +216,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Bar Chart Report]]></text>
+				<text><![CDATA[Bubble Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>
