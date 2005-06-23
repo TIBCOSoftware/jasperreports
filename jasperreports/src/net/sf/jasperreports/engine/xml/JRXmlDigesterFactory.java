@@ -54,6 +54,7 @@ import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
+import net.sf.jasperreports.charts.xml.JRXyAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
@@ -370,6 +371,10 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/areaChart", JRAreaChartFactory.class.getName() );
 		digester.addSetNext( "*/areaChart", "addElement", JRDesignElement.class.getName() );
 		digester.addFactoryCreate( "*/areaChart/areaPlot", JRAreaPlotFactory.class.getName() );
+		
+		digester.addFactoryCreate( "*/xyAreaChart", JRXyAreaChartFactory.class.getName() );
+		digester.addSetNext( "*/xyAreaChart", "addElement", JRDesignElement.class.getName() );
+		digester.addFactoryCreate( "*/xyAreaChart/areaPlot", JRAreaPlotFactory.class.getName() );
 		
 		// bar3d charts
 		digester.addFactoryCreate( "*/bar3DChart", JRBar3DChartFactory.class.getName() );

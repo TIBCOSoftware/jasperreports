@@ -63,6 +63,7 @@ public class ChartsApp
 		"StackedBar3DChartReport", 
 		"XYBarChartReport", 
 		"AreaChartReport", 
+		"XYAreaChartReport", 
 		"LineChartReport", 
 		"XYLineChartReport", 
 		"HighLowChartReport"

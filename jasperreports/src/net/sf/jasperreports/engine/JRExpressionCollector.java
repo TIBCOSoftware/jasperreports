@@ -51,6 +51,7 @@ import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
@@ -361,6 +362,12 @@ public class JRExpressionCollector
 	public void collect( JRAreaChart areaChart ){
 		collectChart( areaChart );
 		collect( (JRCategoryDataset)areaChart.getDataset() );
+		collect( (JRAreaPlot)areaChart.getPlot() ) ;
+	}
+
+	public void collect( JRXyAreaChart areaChart ){
+		collectChart( areaChart );
+		collect( (JRXyDataset)areaChart.getDataset() );
 		collect( (JRAreaPlot)areaChart.getPlot() ) ;
 	}
 

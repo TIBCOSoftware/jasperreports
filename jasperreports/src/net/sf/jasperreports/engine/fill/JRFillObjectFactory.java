@@ -52,6 +52,7 @@ import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRStackedBar3DChart;
 import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
@@ -78,6 +79,7 @@ import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
+import net.sf.jasperreports.charts.fill.JRFillXyAreaChart;
 import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyLineChart;
@@ -882,6 +884,25 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillAreaChart;
+	}
+
+
+	/**
+	 * 
+	 */
+	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
+		JRFillXyAreaChart fillXyAreaChart = null;
+
+		if (xyAreaChart != null)
+		{
+			fillXyAreaChart = (JRFillXyAreaChart)get(xyAreaChart);
+			if (fillXyAreaChart == null)
+			{
+				fillXyAreaChart = new JRFillXyAreaChart(filler, xyAreaChart, this);
+			}
+		}
+
+		return fillXyAreaChart;
 	}
 
 
