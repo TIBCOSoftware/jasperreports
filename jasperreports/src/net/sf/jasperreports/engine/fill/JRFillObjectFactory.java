@@ -36,6 +36,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubbleChart;
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickChart;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -61,12 +63,16 @@ import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.fill.JRFillAreaChart;
 import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
 import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
+import net.sf.jasperreports.charts.fill.JRFillBubbleChart;
+import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
 import net.sf.jasperreports.charts.fill.JRFillCandlestickChart;
 import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
@@ -92,6 +98,8 @@ import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyLineChart;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
+import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
+import net.sf.jasperreports.charts.fill.JRFillXyzSeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -646,6 +654,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		return fillCategoryDataset;
 	}
+	
+	public JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset ){
+	    JRFillXyzDataset fillXyzDataset = null;
+	    if( xyzDataset != null ){
+	        fillXyzDataset = (JRFillXyzDataset)get( xyzDataset );
+	        if( fillXyzDataset == null ){
+	            fillXyzDataset = new JRFillXyzDataset( xyzDataset, this );
+	            datasets.add( fillXyzDataset );
+	        }   
+	    }
+	    
+	    return fillXyzDataset;
+	    
+	}
 
 
 	/**
@@ -707,6 +729,21 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return fillCategorySeries;
+	}
+	
+	
+	public JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries ){
+	    JRFillXyzSeries fillXyzSeries = null;
+	    
+	    if( xyzSeries != null ){
+	        fillXyzSeries = (JRFillXyzSeries)get( xyzSeries );
+	        
+	        if( fillXyzSeries == null ){
+	            fillXyzSeries = new JRFillXyzSeries( xyzSeries, this );
+	        }
+	    }
+	    
+	    return fillXyzSeries;
 	}
 
 
@@ -965,6 +1002,44 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		return fillAreaPlot;
 	}
+
+
+    /**
+     * 
+     */
+    public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
+        JRFillBubbleChart fillBubbleChart = null;
+		
+		if (bubbleChart != null)
+		{
+		    fillBubbleChart = (JRFillBubbleChart)get(bubbleChart);
+			if (fillBubbleChart == null)
+			{
+			    fillBubbleChart = new JRFillBubbleChart(filler, bubbleChart, this);
+			}
+		}
+		
+		return fillBubbleChart;
+    }
+
+
+    /* (non-Javadoc)
+     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBubblePlot(net.sf.jasperreports.charts.JRBubblePlot)
+     */
+    public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
+        JRFillBubblePlot fillBubblePlot = null;
+		
+		if (bubblePlot != null)
+		{
+			fillBubblePlot = (JRFillBubblePlot)get(bubblePlot);
+			if (fillBubblePlot == null)
+			{
+				fillBubblePlot = new JRFillBubblePlot(bubblePlot, this);
+			}
+		}
+		
+		return fillBubblePlot;
+    }
 
 
 	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)

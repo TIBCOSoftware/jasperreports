@@ -33,6 +33,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubbleChart;
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickChart;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -54,12 +56,16 @@ import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.base.JRBaseAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
+import net.sf.jasperreports.charts.base.JRBaseBubbleChart;
+import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
 import net.sf.jasperreports.charts.base.JRBaseCandlestickChart;
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
@@ -81,6 +87,8 @@ import net.sf.jasperreports.charts.base.JRBaseXyAreaChart;
 import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
 import net.sf.jasperreports.charts.base.JRBaseXyLineChart;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
+import net.sf.jasperreports.charts.base.JRBaseXyzDataset;
+import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -1030,7 +1038,87 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseAreaPlot;
-	}
+    }
+
+
+    /* 
+     *
+     */
+    public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
+        JRBaseXyzDataset baseXyzDataset = null;
+		
+		if (xyzDataset != null)
+		{
+		    baseXyzDataset = (JRBaseXyzDataset)get(xyzDataset);
+			if (baseXyzDataset == null)
+			{
+			    baseXyzDataset = new JRBaseXyzDataset(xyzDataset, this);
+				put(xyzDataset, baseXyzDataset);//FIXME NOW need this?
+			}
+		}
+		
+		return baseXyzDataset;
+    }
+
+
+    /** 
+     * 
+     */
+    public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
+        JRBaseXyzSeries baseXyzSeries = null;
+		
+		if (xyzSeries != null)
+		{
+			baseXyzSeries = (JRBaseXyzSeries)get(xyzSeries);
+			if (baseXyzSeries == null)
+			{
+				baseXyzSeries = new JRBaseXyzSeries(xyzSeries, this);
+				put(xyzSeries, baseXyzSeries);//FIXME NOW need this?
+			}
+		}
+		
+		return baseXyzSeries;
+    }
+
+
+    /** 
+     *
+     */
+    public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
+        JRBaseBubbleChart baseBubbleChart = null;
+		
+		if (bubbleChart != null)
+		{
+			baseBubbleChart = (JRBaseBubbleChart)get(bubbleChart);
+			if (baseBubbleChart == null)
+			{
+				baseBubbleChart = new JRBaseBubbleChart(bubbleChart, this);
+				put(bubbleChart, baseBubbleChart);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBubbleChart;
+    }
+
+
+    /** 
+     *
+     */
+    public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
+        JRBaseBubblePlot baseBubblePlot = null;
+		
+		if (bubblePlot != null)
+		{
+			baseBubblePlot = (JRBaseBubblePlot)get(bubblePlot);
+			if (baseBubblePlot == null)
+			{
+				baseBubblePlot = new JRBaseBubblePlot(bubblePlot, this);
+				put(bubblePlot, baseBubblePlot);//FIXME NOW need this?
+			}
+		}
+		
+		return baseBubblePlot;
+    }
 	
 
 

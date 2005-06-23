@@ -36,6 +36,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubbleChart;
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickChart;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -57,6 +59,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
@@ -521,6 +525,15 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getLabelExpression());
 	}
 
+    /**
+     *
+     */
+    public void collect(JRBubbleChart chart) {
+        collectChart(chart);
+		collect((JRXyzDataset)chart.getDataset());
+		collect((JRBubblePlot)chart.getPlot()); 
+        
+    }
 	/**
 	 *
 	 */
@@ -530,6 +543,42 @@ public class JRExpressionCollector
 		collect((JRHighLowDataset)highLowChart.getDataset());
 		collect((JRHighLowPlot)highLowChart.getPlot());
 	}
+
+    /**
+     *
+     */
+    private void collect(JRXyzDataset xyzDataset) {
+		JRXyzSeries[] xyzSeries = xyzDataset.getSeries();
+		if (xyzSeries != null && xyzSeries.length > 0)
+		{
+			for(int j = 0; j < xyzSeries.length; j++)
+			{
+				collect(xyzSeries[j]);
+			}
+		}
+        
+    }
+
+    /**
+     *
+     */
+    private void collect(JRXyzSeries xyzSeries) {
+        addExpression(xyzSeries.getSeriesExpression());
+		addExpression(xyzSeries.getXValueExpression());
+		addExpression(xyzSeries.getYValueExpression());
+		addExpression(xyzSeries.getZValueExpression());
+        
+    }
+
+    /**
+     *
+     */
+    private void collect(JRBubblePlot bubblePlot) {
+        addExpression(bubblePlot.getCategoryAxisLabelExpression());
+		addExpression(bubblePlot.getValueAxisLabelExpression());
+        
+    }
+
 
 	/**
 	 *

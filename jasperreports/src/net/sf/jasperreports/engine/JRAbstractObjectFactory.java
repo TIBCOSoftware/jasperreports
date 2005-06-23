@@ -36,6 +36,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubbleChart;
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickChart;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
@@ -54,8 +56,8 @@ import net.sf.jasperreports.charts.JRStackedBarChart;
 import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyBarChart;
 import net.sf.jasperreports.charts.JRXyLineChart;
-import net.sf.jasperreports.charts.JRCandlestickChart;
-import net.sf.jasperreports.charts.JRCandlestickPlot;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 
 
 /**
@@ -180,6 +182,17 @@ public abstract class JRAbstractObjectFactory
 	public abstract JRCategorySeries getCategorySeries(JRCategorySeries categorySeries);
 
 	/**
+	 * 
+	 */
+	public abstract JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset );
+
+	/**
+	 * 
+	 */
+	public abstract JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries );
+	
+	
+	/**
 	 *
 	 */
 	public abstract JRBarPlot getBarPlot(JRBarPlot barPlot);
@@ -233,6 +246,17 @@ public abstract class JRAbstractObjectFactory
 	 *   
 	 */
 	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
+
+	/**
+	 * 
+	 */
+	public abstract JRBubbleChart getBubbleChart( JRBubbleChart bubbleChart );
+	
+
+	/**
+	 * 
+	 */
+	public abstract JRBubblePlot getBubblePlot( JRBubblePlot bubblePlot );
 
 
 	/**
