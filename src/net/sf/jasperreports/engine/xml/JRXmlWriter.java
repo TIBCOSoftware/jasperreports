@@ -39,6 +39,8 @@ import net.sf.jasperreports.charts.JRBar3DChart;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarChart;
 import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubbleChart;
+import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRLineChart;
@@ -62,6 +64,8 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRScatterChart;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyAreaChart;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -944,6 +948,9 @@ public class JRXmlWriter
 		else if (element instanceof JRScatterChart)
 		{
 			writeScatterChart((JRScatterChart) element);
+		}
+		else if( element instanceof JRBubbleChart ){
+		    writeBubbleChart((JRBubbleChart)element);
 		}
 	}
 
@@ -1923,6 +1930,48 @@ public class JRXmlWriter
 		sb.append("\t\t\t\t\t</categorySeries>\n");
 	}
 
+	/**
+	 * 
+	 * @param dataset
+	 */
+	private void writeXyzDataset( JRXyzDataset dataset ){
+	    sb.append( "\t\t\t\t<xyzDataset>\n" );
+	    writeDataset( dataset );
+	    
+	    JRXyzSeries[] series = dataset.getSeries();
+	    if( series != null && series.length > 0 ){
+	        for( int i = 0; i < series.length; i++ ){
+	            writeXyzSeries( series[i] ); 
+	        }
+	    }
+	    sb.append( "\t\t\t\t</xyzDataset>\n" );
+	}
+	
+	
+	/**
+	 * 
+	 * @param series
+	 */
+	private void writeXyzSeries( JRXyzSeries series ){
+	    sb.append( "\t\t\t\t\t<xyzSeries>\n" );
+	    sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
+	    sb.append( series.getSeriesExpression().getText() );
+	    sb.append("]]></seriesExpression>\n");
+	    
+	    sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
+	    sb.append( series.getXValueExpression().getText() );
+	    sb.append( "]]></xValueExpression>\n" );
+	    
+	    sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
+	    sb.append( series.getYValueExpression().getText() );
+	    sb.append( "]]></yValueExpression>\n" );
+	    
+	    sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
+	    sb.append( series.getZValueExpression().getText() );
+	    sb.append( "]]></zValueExpression>\n" );
+	    
+	    sb.append( "\t\t\t\t\t</xyzSeries>\n" );
+	}
 
 	/**
 	 *
@@ -2137,6 +2186,41 @@ public class JRXmlWriter
 
 		sb.append("\t\t\t\t</barPlot>\n");
 	}
+	
+	
+	/**
+	 * 
+	 */
+	private void writeBubblePlot( JRBubblePlot plot ){
+	    sb.append( "\t\t\t\t<bubblePlot scaleType=\"" );
+	    switch( plot.getScaleType() ){
+	    	case 0:
+	    	    sb.append( "bothAxes\"" );
+	    	    break;
+	    	case 1:
+	    	    sb.append( "domainAxis\"" );
+	    	    break;
+	    	case 2:
+	    	    sb.append( "rangeAxis\"");
+	    	    break;
+	    }
+	    sb.append( ">\n" );
+	    writePlot( plot );
+	    if( plot.getCategoryAxisLabelExpression() != null ){
+	        sb.append( "\t\t\t\t\t<xAxisLabelExpression><![CDATA[" );
+	        sb.append( plot.getCategoryAxisLabelExpression().getText() );
+	        sb.append( "]]></xAxisLabelExpression>\n" );
+	    }
+	    
+	    if( plot.getValueAxisLabelExpression() != null ){
+	        sb.append( "\t\t\t\t\t<yAxisLabelExpression><![CDATA[" );
+	        sb.append( plot.getValueAxisLabelExpression().getText() );
+	        sb.append( "]]></yAxisLabelExpression>\n" );
+	    }
+	    
+	    sb.append( "\t\t\t\t</bubblePlot>\n" );
+	    
+	}
 
 
 	/**
@@ -2228,6 +2312,19 @@ public class JRXmlWriter
 		writeBar3DPlot((JRBar3DPlot) chart.getPlot());
 
 		sb.append("\t\t\t</bar3DChart>\n");
+	}
+	
+	
+	/**
+	 * 
+	 * @param chart
+	 */
+	private void writeBubbleChart( JRBubbleChart chart ){
+	    sb.append( "\t\t\t<bubbleChart>\n" );
+	    writeChart( chart );
+	    writeXyzDataset( (JRXyzDataset)chart.getDataset() );
+	    writeBubblePlot( (JRBubblePlot)chart.getPlot());
+	    sb.append( "\t\t\t</bubbleChart>\n" );
 	}
 
 
