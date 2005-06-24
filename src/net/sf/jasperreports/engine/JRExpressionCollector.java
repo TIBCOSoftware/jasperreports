@@ -574,8 +574,8 @@ public class JRExpressionCollector
      *
      */
     private void collect(JRBubblePlot bubblePlot) {
-        addExpression(bubblePlot.getCategoryAxisLabelExpression());
-		addExpression(bubblePlot.getValueAxisLabelExpression());
+        addExpression(bubblePlot.getXAxisLabelExpression());
+		addExpression(bubblePlot.getYAxisLabelExpression());
         
     }
 

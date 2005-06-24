@@ -40,12 +40,12 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
     private static final long serialVersionUID = 608;
     
     
-    public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
-        this.categoryAxisLabelExpression = categoryAxisLabelExpression;
+    public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
+        this.xAxisLabelExpression = xAxisLabelExpression;
     }
     
-    public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
-        this.valueAxisLabelExpression = valueAxisLabelExpression;
+    public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
+        this.yAxisLabelExpression = yAxisLabelExpression;
     }
     
     

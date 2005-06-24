@@ -37,9 +37,9 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRBubblePlot extends JRChartPlot {
     
-    public JRExpression getCategoryAxisLabelExpression();
+    public JRExpression getXAxisLabelExpression();
     
-    public JRExpression getValueAxisLabelExpression();
+    public JRExpression getYAxisLabelExpression();
     
     public int getScaleType();
 

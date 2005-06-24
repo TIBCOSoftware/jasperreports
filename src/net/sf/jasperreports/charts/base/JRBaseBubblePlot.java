@@ -28,6 +28,8 @@
 
 package net.sf.jasperreports.charts.base;
 
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -41,10 +43,10 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 
     private static final long serialVersionUID = 608;
     
-    protected JRExpression categoryAxisLabelExpression = null;
-    protected JRExpression valueAxisLabelExpression = null;
+    protected JRExpression xAxisLabelExpression = null;
+    protected JRExpression yAxisLabelExpression = null;
     
-    protected int scaleType = 0; // FIXME ADD CONSTANTS IN JRXmlConstants
+    protected int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
     
     
     protected JRBaseBubblePlot(){  
@@ -55,16 +57,16 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
         
         scaleType = bubblePlot.getScaleType();
         
-        categoryAxisLabelExpression = factory.getExpression( bubblePlot.getCategoryAxisLabelExpression() );
-        valueAxisLabelExpression = factory.getExpression( bubblePlot.getValueAxisLabelExpression() );
+        xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
+        yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
     }
     
-    public JRExpression getCategoryAxisLabelExpression(){
-        return categoryAxisLabelExpression;
+    public JRExpression getXAxisLabelExpression(){
+        return xAxisLabelExpression;
     }
     
-    public JRExpression getValueAxisLabelExpression(){
-        return valueAxisLabelExpression;
+    public JRExpression getYAxisLabelExpression(){
+        return yAxisLabelExpression;
     }
     
     public int getScaleType(){
