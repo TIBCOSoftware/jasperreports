@@ -366,7 +366,8 @@
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
-<!ELEMENT timeSeriesChart (chart, timeSeries*, timeSeriesPlot)>
+<!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
+<!ELEMENT timeSeriesDataset (dataset, timeSeries+)>
 <!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST timeSeriesPlot
 	isShowLines (true | false) "true"
