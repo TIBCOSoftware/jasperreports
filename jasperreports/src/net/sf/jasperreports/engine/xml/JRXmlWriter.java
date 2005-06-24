@@ -2208,28 +2208,21 @@ public class JRXmlWriter
 	 */
 	private void writeBubblePlot( JRBubblePlot plot ){
 	    sb.append( "\t\t\t\t<bubblePlot scaleType=\"" );
-	    switch( plot.getScaleType() ){
-	    	case 0:
-	    	    sb.append( "bothAxes\"" );
-	    	    break;
-	    	case 1:
-	    	    sb.append( "domainAxis\"" );
-	    	    break;
-	    	case 2:
-	    	    sb.append( "rangeAxis\"");
-	    	    break;
-	    }
-	    sb.append( ">\n" );
+	    
+	    Map scaleTypeMap = JRXmlConstants.getScaleTypeMap();
+	    sb.append( scaleTypeMap.get( new Integer( plot.getScaleType() )));
+	    
+	    sb.append( "\">\n" );
 	    writePlot( plot );
-	    if( plot.getCategoryAxisLabelExpression() != null ){
+	    if( plot.getXAxisLabelExpression() != null ){
 	        sb.append( "\t\t\t\t\t<xAxisLabelExpression><![CDATA[" );
-	        sb.append( plot.getCategoryAxisLabelExpression().getText() );
+	        sb.append( plot.getXAxisLabelExpression().getText() );
 	        sb.append( "]]></xAxisLabelExpression>\n" );
 	    }
 	    
-	    if( plot.getValueAxisLabelExpression() != null ){
+	    if( plot.getYAxisLabelExpression() != null ){
 	        sb.append( "\t\t\t\t\t<yAxisLabelExpression><![CDATA[" );
-	        sb.append( plot.getValueAxisLabelExpression().getText() );
+	        sb.append( plot.getYAxisLabelExpression().getText() );
 	        sb.append( "]]></yAxisLabelExpression>\n" );
 	    }
 	    

@@ -28,11 +28,12 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -46,21 +47,13 @@ public class JRBubblePlotFactory extends JRBaseFactory {
         JRChart chart = (JRChart)digester.peek();
         JRDesignBubblePlot plot = (JRDesignBubblePlot)chart.getPlot();
         
-        //FIXME - replace with constants
-        String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
-        if( scaleType.equalsIgnoreCase( "bothAxes" )){
-            plot.setScaleType( 0 );
-        }
-        else if( scaleType.equalsIgnoreCase( "domainAxis" )){
-            plot.setScaleType( 1 );
-        }
-        else if( scaleType.equalsIgnoreCase( "rangeAxis" )){
-            plot.setScaleType( 2 );
-        }
-        else {
-            plot.setScaleType( 0 );
-        }
         
+        String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
+        Integer intScaleType = (Integer)JRXmlConstants.getScaleTypeMap().get( scaleType );
+        if( intScaleType != null ){
+            plot.setScaleType( intScaleType.intValue()  );
+        }
+       
         return plot;
     }
 

@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 
 
@@ -721,5 +722,27 @@ public class JRXmlConstants
 		
 		return plotOrientationMap;
 	}
+	
+	
+	private static final String SCALE_ON_BOTH_AXES = "bothAxes";
+	private static final String SCALE_ON_DOMAIN_AXIS = "domainAxis";
+	private static final String SCALE_ON_RANGE_AXIS = "rangeAxis";
+	
+	private static Map scaleTypeMap = null;
+	
+	public static Map  getScaleTypeMap(){
+	    if( scaleTypeMap == null ){
+	        scaleTypeMap = new HashMap( 6 );
+	        scaleTypeMap.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
+	        scaleTypeMap.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
+	        scaleTypeMap.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
+	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
+	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
+	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
+	    }
+	    
+	    return scaleTypeMap;
+	}
+	
 
 }

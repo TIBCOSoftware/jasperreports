@@ -43,12 +43,12 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
         super( bubblePlot, factory );
     }
     
-    public JRExpression getValueAxisLabelExpression(){
-        return ((JRBubblePlot)parent ).getValueAxisLabelExpression();
+    public JRExpression getXAxisLabelExpression(){
+        return ((JRBubblePlot)parent ).getXAxisLabelExpression();
     }
     
-    public JRExpression getCategoryAxisLabelExpression(){
-        return ((JRBubblePlot)parent).getCategoryAxisLabelExpression();
+    public JRExpression getYAxisLabelExpression(){
+        return ((JRBubblePlot)parent).getYAxisLabelExpression();
     }
     
     public int getScaleType(){
