@@ -61,6 +61,7 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRScatterChart;
 import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -2466,4 +2467,44 @@ public class JRXmlWriter
 		sb.append("\t\t\t</scatterChart>\n");
 	}
 
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeXyAreaChart(JRXyAreaChart chart)
+	{
+		sb.append("\t\t\t<xyAreaChart>\n");
+
+		writeChart(chart);
+		writeXyDataset((JRXyDataset) chart.getDataset());
+		writeAreaPlot((JRAreaPlot) chart.getPlot());
+
+		sb.append("\t\t\t</xyAreaChart>\n");
+	}
+
+
+	/**
+	 *
+	 * @param timeSeries
+	 *
+	private void writeTimePeriodValues(JRTimePeriodValues timeSeries)
+	{
+		sb.append("\t\t\t\t\t<timeSeries>\n");
+
+		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+		sb.append(timeSeries.getSeriesExpression().getText());
+		sb.append("]]></seriesExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
+		sb.append(timeSeries.getTimePeriodExpression().getText());
+		sb.append("]]></timePeriodExpression>\n");
+
+		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(timeSeries.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
+		sb.append("\t\t\t\t\t</timeSeries>\n");
+	}
+	*/
 }
