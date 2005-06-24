@@ -66,6 +66,9 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyAreaChart;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
+import net.sf.jasperreports.charts.JRXyBarChart;
+import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -948,6 +951,18 @@ public class JRXmlWriter
 		else if (element instanceof JRScatterChart)
 		{
 			writeScatterChart((JRScatterChart) element);
+		}
+		else if (element instanceof JRXyBarChart)
+		{
+			writeXyBarChart((JRXyBarChart) element);
+		}
+		else if (element instanceof JRXyAreaChart)
+		{
+			writeXyAreaChart((JRXyAreaChart) element);
+		}
+		else if (element instanceof JRXyLineChart)
+		{
+			writeXyLineChart((JRXyLineChart) element);
 		}
 		else if( element instanceof JRBubbleChart ){
 		    writeBubbleChart((JRBubbleChart)element);
@@ -2583,25 +2598,54 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 * @param timeSeries
-	 *
-	private void writeTimePeriodValues(JRTimePeriodValues timeSeries)
+	 * @param dataset
+	 */
+    private void writeIntervalXyDataset(JRIntervalXyDataset dataset)
 	{
-		sb.append("\t\t\t\t\t<timeSeries>\n");
+		sb.append("\t\t\t\t<intervalXyDataset>\n");
 
-		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(timeSeries.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
+		writeDataset(dataset);
+		JRTimeSeries[] timeSeries = dataset.getSeries();
+		if (timeSeries != null && timeSeries.length > 0)
+		{
+			for(int i = 0; i < timeSeries.length; i++)
+			{
+				writeTimeSeries(timeSeries[i]);
+			}
+		}
 
-		sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
-		sb.append(timeSeries.getTimePeriodExpression().getText());
-		sb.append("]]></timePeriodExpression>\n");
-
-		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(timeSeries.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
-
-		sb.append("\t\t\t\t\t</timeSeries>\n");
+		sb.append("\t\t\t\t</intervalXyDataset>\n");
 	}
-	*/
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeXyBarChart(JRXyBarChart chart)
+	{
+		sb.append("\t\t\t<xyBarChart>\n");
+
+		writeChart(chart);
+		writeIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
+		writeBarPlot((JRBarPlot) chart.getPlot());
+
+		sb.append("\t\t\t</xyBarChart>\n");
+	}
+
+
+	/**
+	 *
+	 * @param chart
+	 */
+	private void writeXyLineChart(JRXyLineChart chart)
+	{
+		sb.append("\t\t\t<xyLineChart>\n");
+
+		writeChart(chart);
+		writeXyDataset((JRXyDataset) chart.getDataset());
+		writeLinePlot((JRLinePlot) chart.getPlot());
+
+		sb.append("\t\t\t</xyLineChart>\n");
+	}
 }
