@@ -335,6 +335,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseGroup == null)
 			{
 				baseGroup = new JRBaseGroup(group, this);
+				//FIXME NOW why not put in map
 			}
 		}
 		
@@ -556,7 +557,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (basePieChart == null)
 			{
 				basePieChart = new JRBasePieChart(pieChart, this);
-				put(pieChart, basePieChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -577,7 +577,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (basePieDataset == null)
 			{
 				basePieDataset = new JRBasePieDataset(pieDataset, this);
-				put(pieDataset, basePieDataset);//FIXME NOW need this?
 			}
 		}
 		
@@ -598,7 +597,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (basePiePlot == null)
 			{
 				basePiePlot = new JRBasePiePlot(piePlot, this);
-				put(piePlot, basePiePlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -619,7 +617,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (basePie3DChart == null)
 			{
 				basePie3DChart = new JRBasePie3DChart(pie3DChart, this);
-				put(pie3DChart, basePie3DChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -640,7 +637,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (basePie3DPlot == null)
 			{
 				basePie3DPlot = new JRBasePie3DPlot(pie3DPlot, this);
-				put(pie3DPlot, basePie3DPlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -661,7 +657,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBarChart == null)
 			{
 				baseBarChart = new JRBaseBarChart(barChart, this);
-				put(barChart, baseBarChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -682,7 +677,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseStackedBarChart == null)
 			{
 				baseStackedBarChart = new JRBaseStackedBarChart(stackedbarChart, this);
-				put(stackedbarChart, baseStackedBarChart);//FIXME NOW need this?
 			}
 		}
 
@@ -703,7 +697,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseStackedBar3DChart == null)
 			{
 				baseStackedBar3DChart = new JRBaseStackedBar3DChart(stackedbar3DChart, this);
-				put(stackedbar3DChart, baseStackedBar3DChart);//FIXME NOW need this?
 			}
 		}
 
@@ -724,7 +717,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseCategoryDataset == null)
 			{
 				baseCategoryDataset = new JRBaseCategoryDataset(categoryDataset, this);
-				put(categoryDataset, baseCategoryDataset);//FIXME NOW need this?
 			}
 		}
 		
@@ -745,7 +737,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseIntervalXyDataset == null)
 			{
 				baseIntervalXyDataset = new JRBaseIntervalXyDataset(intervalXyDataset, this);
-				put(intervalXyDataset, baseIntervalXyDataset);//FIXME NOW need this?
 			}
 		}
 		
@@ -766,7 +757,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseCategorySeries == null)
 			{
 				baseCategorySeries = new JRBaseCategorySeries(categorySeries, this);
-				put(categorySeries, baseCategorySeries);//FIXME NOW need this?
 			}
 		}
 		
@@ -787,7 +777,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXySeries == null)
 			{
 				baseXySeries = new JRBaseXySeries(xySeries, this);
-				put(xySeries, baseXySeries);//FIXME NOW need this?
 			}
 		}
 		
@@ -808,7 +797,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseTimeSeries == null)
 			{
 				baseTimeSeries = new JRBaseTimeSeries(timeSeries, this);
-				put(timeSeries, baseTimeSeries);//FIXME NOW need this?
 			}
 		}
 		
@@ -829,7 +817,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBarPlot == null)
 			{
 				baseBarPlot = new JRBaseBarPlot(barPlot, this);
-				put(barPlot, baseBarPlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -849,7 +836,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBarChart == null)
 			{
 				baseBarChart = new JRBaseBar3DChart(barChart, this);
-				put(barChart, baseBarChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -869,7 +855,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBarPlot == null)
 			{
 				baseBarPlot = new JRBaseBar3DPlot(barPlot, this);
-				put(barPlot, baseBarPlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -893,7 +878,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXyBarChart == null)
 			{
 				baseXyBarChart = new JRBaseXyBarChart(xyBarChart, this);
-				put(xyBarChart, baseXyBarChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -913,7 +897,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseLineChart == null)
 			{
 				baseLineChart = new JRBaseLineChart(lineChart, this);
-				put(lineChart, baseLineChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -933,7 +916,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseScatterChart == null)
 			{
 				baseScatterChart = new JRBaseScatterChart(scatterChart, this);
-				put(scatterChart, baseScatterChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -953,7 +935,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXyLineChart == null)
 			{
 				baseXyLineChart = new JRBaseXyLineChart(xyLineChart, this);
-				put(xyLineChart, baseXyLineChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -973,7 +954,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseLinePlot == null)
 			{
 				baseLinePlot = new JRBaseLinePlot(linePlot, this);
-				put(linePlot, baseLinePlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -993,7 +973,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseAreaChart == null)
 			{
 				baseAreaChart = new JRBaseAreaChart(areaChart, this);
-				put(areaChart, baseAreaChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -1013,7 +992,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXyAreaChart == null)
 			{
 				baseXyAreaChart = new JRBaseXyAreaChart(xyAreaChart, this);
-				put(xyAreaChart, baseXyAreaChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -1033,7 +1011,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseAreaPlot == null)
 			{
 				baseAreaPlot = new JRBaseAreaPlot(areaPlot, this);
-				put(areaPlot, baseAreaPlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -1053,7 +1030,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXyzDataset == null)
 			{
 			    baseXyzDataset = new JRBaseXyzDataset(xyzDataset, this);
-				put(xyzDataset, baseXyzDataset);//FIXME NOW need this?
 			}
 		}
 		
@@ -1073,7 +1049,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseXyzSeries == null)
 			{
 				baseXyzSeries = new JRBaseXyzSeries(xyzSeries, this);
-				put(xyzSeries, baseXyzSeries);//FIXME NOW need this?
 			}
 		}
 		
@@ -1093,7 +1068,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBubbleChart == null)
 			{
 				baseBubbleChart = new JRBaseBubbleChart(bubbleChart, this);
-				put(bubbleChart, baseBubbleChart);//FIXME NOW need this?
 			}
 		}
 		
@@ -1113,7 +1087,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseBubblePlot == null)
 			{
 				baseBubblePlot = new JRBaseBubblePlot(bubblePlot, this);
-				put(bubblePlot, baseBubblePlot);//FIXME NOW need this?
 			}
 		}
 		
@@ -1132,7 +1105,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseHighLowChart == null)
 			{
 				baseHighLowChart = new JRBaseHighLowChart(highLowChart, this);
-				put(highLowChart, baseHighLowChart);//FIXME NOW need this?
 			}
 		}
 
@@ -1150,7 +1122,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseCandlestickChart == null)
 			{
 				baseCandlestickChart = new JRBaseCandlestickChart(candlestickChart, this);
-				put(candlestickChart, baseCandlestickChart);//FIXME NOW need this?
 			}
 		}
 
@@ -1168,7 +1139,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseCandlestickPlot == null)
 			{
 				baseCandlestickPlot = new JRBaseCandlestickPlot(candlestickPlot, this);
-				put(candlestickPlot, baseCandlestickPlot);//FIXME NOW need this?
 			}
 		}
 
