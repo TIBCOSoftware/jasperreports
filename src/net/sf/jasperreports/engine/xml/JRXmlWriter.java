@@ -2463,7 +2463,7 @@ public class JRXmlWriter
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-		sb.append("\t\t\t\t<highLowPlot");
+		sb.append("\t\t\t\t<candlestickPlot");
 		if (!plot.isShowVolume())
 			sb.append(" isShowVolume=\"false\"");
 		sb.append(">\n");

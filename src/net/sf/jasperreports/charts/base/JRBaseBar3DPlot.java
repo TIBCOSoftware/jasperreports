@@ -46,7 +46,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;
 	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
-	protected double yOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	protected double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
 	
 	
 	protected JRBaseBar3DPlot(){

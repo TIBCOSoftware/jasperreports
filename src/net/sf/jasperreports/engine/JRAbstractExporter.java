@@ -130,7 +130,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected void setInput() throws JRException
 	{
 		jasperPrintList = (List)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
-		if (jasperPrintList == null || jasperPrintList.size() == 0)
+		if (jasperPrintList == null)
 		{
 			isModeBatch = false;
 			
@@ -178,7 +178,12 @@ public abstract class JRAbstractExporter implements JRExporter
 		else
 		{
 			isModeBatch = true;
-			
+
+			if (jasperPrintList.size() == 0)
+			{
+				throw new JRException("Empty input source supplied to the exporter in batch mode.");
+			}
+
 			jasperPrint = (JasperPrint)jasperPrintList.get(0);
 		}
 	}
