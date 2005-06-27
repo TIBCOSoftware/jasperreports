@@ -29,7 +29,9 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
+import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -38,12 +40,14 @@ import net.sf.jasperreports.engine.JRExpression;
 public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
 	private static final long serialVersionUID = 608;
-	
-	
-	public JRDesignBar3DPlot(){
-		super();
+
+
+	public JRDesignBar3DPlot(JRChartPlot barPlot)
+	{
+		super(barPlot);
 	}
-	
+
+
 	public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
 		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
 	}

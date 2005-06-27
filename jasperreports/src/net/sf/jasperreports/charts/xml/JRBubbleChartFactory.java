@@ -30,8 +30,9 @@ package net.sf.jasperreports.charts.xml;
 
 import org.xml.sax.Attributes;
 
-import net.sf.jasperreports.charts.design.JRDesignBubbleChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -41,8 +42,8 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
 public class JRBubbleChartFactory extends JRBaseFactory {
 	
 	public Object createObject( Attributes attrs ){
-		JRDesignBubbleChart bubbleChart = new JRDesignBubbleChart();
-		
-		return bubbleChart;
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_BUBBLE);
+
+		return chart;
 	}
 }

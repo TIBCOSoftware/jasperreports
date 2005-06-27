@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRChartDataset;
 
 
 /**
@@ -52,8 +53,9 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 	/**
 	 *
 	 */
-	protected JRBaseXyDataset()
+	public JRBaseXyDataset(JRChartDataset dataset)
 	{
+		super(dataset);
 	}
 	
 	

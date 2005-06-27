@@ -37,13 +37,34 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.charts.design.JRDesignPiePlot;
+import net.sf.jasperreports.charts.design.JRDesignPieDataset;
+import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
+import net.sf.jasperreports.charts.design.JRDesignBarPlot;
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
+import net.sf.jasperreports.charts.design.JRDesignLinePlot;
+import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyDataset;
+import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRDesignChart extends JRDesignElement implements JRChart
+public class JRDesignChart extends JRDesignElement implements JRChart
 {
 
 
@@ -51,6 +72,11 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	 *
 	 */
 	private static final long serialVersionUID = 608;
+
+	/**
+	 *
+	 */
+	protected byte chartType = 0;
 
 	/**
 	 *
@@ -84,7 +110,16 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
 
-	
+
+	/**
+	 *
+	 */
+	public JRDesignChart(byte chartType)
+	{
+		setChartType(chartType);
+	}
+
+
 	/**
 	 *
 	 */
@@ -366,4 +401,154 @@ public abstract class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 
+	public byte getChartType()
+	{
+		return chartType;
+	}
+
+
+	/**
+	 *
+	 */
+	public void setChartType(byte chartType)
+	{
+		this.chartType = chartType;
+
+		switch(chartType) {
+			case CHART_TYPE_AREA:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignAreaPlot(plot);
+			    break;
+			case CHART_TYPE_BAR:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignBarPlot(plot);
+			    break;
+			case CHART_TYPE_BAR3D:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignBar3DPlot(plot);
+			    break;
+			case CHART_TYPE_BUBBLE:
+				dataset = new JRDesignXyzDataset(dataset);
+				plot = new JRDesignBubblePlot(plot);
+			    break;
+			case CHART_TYPE_CANDLESTICK:
+				dataset = new JRDesignHighLowDataset(dataset);
+				plot = new JRDesignCandlestickPlot(plot);
+			    break;
+			case CHART_TYPE_HIGHLOW:
+				dataset = new JRDesignHighLowDataset(dataset);
+				plot = new JRDesignHighLowPlot(plot);
+			    break;
+			case CHART_TYPE_LINE:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignLinePlot(plot);
+			    break;
+			case CHART_TYPE_PIE:
+				dataset = new JRDesignPieDataset(dataset);
+				plot = new JRDesignPiePlot(plot);
+				break;
+			case CHART_TYPE_PIE3D:
+				dataset = new JRDesignPieDataset(dataset);
+				plot = new JRDesignPie3DPlot(plot);
+				break;
+			case CHART_TYPE_SCATTER:
+				dataset = new JRDesignXyDataset(dataset);
+				plot = new JRDesignScatterPlot(plot);
+				break;
+			case CHART_TYPE_STACKEDBAR:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignBarPlot(plot);
+				break;
+			case CHART_TYPE_STACKEDBAR3D:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignBar3DPlot(plot);
+				break;
+			case CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case CHART_TYPE_XYAREA:
+				dataset = new JRDesignXyDataset(dataset);
+				plot = new JRDesignAreaPlot(plot);
+				break;
+			case CHART_TYPE_XYBAR:
+				dataset = new JRDesignIntervalXyDataset(dataset);
+				plot = new JRDesignBarPlot(plot);
+				break;
+			case CHART_TYPE_XYLINE:
+				dataset = new JRDesignXyDataset(dataset);
+				plot = new JRDesignLinePlot(plot);
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
+	}
+
+
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getChart( this );
+	}
+
+
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
+	public void writeXml(JRXmlWriter xmlWriter)
+	{
+		switch(chartType) {
+			case CHART_TYPE_AREA:
+				xmlWriter.writeAreaChart(this);
+			    break;
+			case CHART_TYPE_BAR:
+				xmlWriter.writeBarChart(this);
+			    break;
+			case CHART_TYPE_BAR3D:
+				xmlWriter.writeBar3DChart(this);
+			    break;
+			case CHART_TYPE_BUBBLE:
+				xmlWriter.writeBubbleChart(this);
+			    break;
+			case CHART_TYPE_CANDLESTICK:
+				xmlWriter.writeCandlestickChart(this);
+			    break;
+			case CHART_TYPE_HIGHLOW:
+				xmlWriter.writeHighLowChart(this);
+			    break;
+			case CHART_TYPE_LINE:
+				xmlWriter.writeLineChart(this);
+			    break;
+			case CHART_TYPE_PIE:
+				xmlWriter.writePieChart(this);
+				break;
+			case CHART_TYPE_PIE3D:
+				xmlWriter.writePie3DChart(this);
+				break;
+			case CHART_TYPE_SCATTER:
+				xmlWriter.writeScatterChart(this);
+				break;
+			case CHART_TYPE_STACKEDBAR:
+				xmlWriter.writeStackedBarChart(this);
+				break;
+			case CHART_TYPE_STACKEDBAR3D:
+				xmlWriter.writeStackedBar3DChart(this);
+				break;
+			case CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case CHART_TYPE_XYAREA:
+				xmlWriter.writeXyAreaChart(this);
+				break;
+			case CHART_TYPE_XYBAR:
+				xmlWriter.writeXyBarChart(this);
+				break;
+			case CHART_TYPE_XYLINE:
+				xmlWriter.writeXyLineChart(this);
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
+	}
 }

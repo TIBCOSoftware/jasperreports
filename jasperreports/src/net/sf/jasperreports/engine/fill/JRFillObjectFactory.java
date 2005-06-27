@@ -65,38 +65,23 @@ import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.charts.fill.JRFillAreaChart;
 import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
-import net.sf.jasperreports.charts.fill.JRFillBar3DChart;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillBarChart;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
-import net.sf.jasperreports.charts.fill.JRFillBubbleChart;
 import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
-import net.sf.jasperreports.charts.fill.JRFillCandlestickChart;
 import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
-import net.sf.jasperreports.charts.fill.JRFillHighLowChart;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillHighLowPlot;
 import net.sf.jasperreports.charts.fill.JRFillIntervalXyDataset;
-import net.sf.jasperreports.charts.fill.JRFillLineChart;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
-import net.sf.jasperreports.charts.fill.JRFillPie3DChart;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillPieChart;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
-import net.sf.jasperreports.charts.fill.JRFillScatterChart;
 import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
-import net.sf.jasperreports.charts.fill.JRFillStackedBar3DChart;
-import net.sf.jasperreports.charts.fill.JRFillStackedBarChart;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
-import net.sf.jasperreports.charts.fill.JRFillXyAreaChart;
-import net.sf.jasperreports.charts.fill.JRFillXyBarChart;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
-import net.sf.jasperreports.charts.fill.JRFillXyLineChart;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzSeries;
@@ -116,6 +101,7 @@ import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
 
@@ -474,9 +460,26 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	public JRChart getChart(JRChart chart)
+	{
+		JRFillChart fillChart = null;
+
+		if (chart != null)
+		{
+			fillChart = (JRFillChart)get(chart);
+			if (fillChart == null)
+			{
+				fillChart = new JRFillChart(filler, chart, this);
+			}
+		}
+
+		return fillChart;
+	}
+
+
 	/**
 	 *
-	 */
+	 *
 	public JRPieChart getPieChart(JRPieChart pieChart)
 	{
 		JRFillPieChart fillPieChart = null;
@@ -537,7 +540,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
 	{
 		JRFillPie3DChart fillPie3DChart = null;
@@ -577,7 +580,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRBarChart getBarChart(JRBarChart barChart)
 	{
 		JRFillBarChart fillBarChart = null;
@@ -597,7 +600,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedBarChart)
 	{
 		JRFillStackedBarChart fillBarChart = null;
@@ -617,7 +620,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedBar3DChart)
 	{
 		JRFillStackedBar3DChart fillBar3DChart = null;
@@ -789,7 +792,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
 	{
 		JRFillXyBarChart fillXyBarChart = null;
@@ -829,7 +832,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
 
 		JRFillBar3DChart fillBarChart = null;
@@ -864,7 +867,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRLineChart getLineChart(JRLineChart lineChart) {
 		JRFillLineChart fillLineChart = null;
 
@@ -881,7 +884,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
 		JRFillScatterChart fillLineChart = null;
 
@@ -898,7 +901,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
 		JRFillXyLineChart fillXyLineChart = null;
 
@@ -949,7 +952,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
 		JRFillAreaChart fillAreaChart = null;
 
@@ -968,7 +971,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
 		JRFillXyAreaChart fillXyAreaChart = null;
 
@@ -1006,7 +1009,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
 		JRFillBubbleChart fillBubbleChart = null;
 
@@ -1042,6 +1045,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	/**
+	 *
+	 *
 	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
 	{
 		JRFillHighLowChart fillHighLowChart = null;

@@ -2091,7 +2091,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writePieChart(JRPieChart chart)
+	public void writePieChart(JRChart chart)
 	{
 		sb.append("\t\t\t<pieChart>\n");
 		writeChart(chart);
@@ -2132,7 +2132,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writePie3DChart(JRPie3DChart chart)
+	public void writePie3DChart(JRChart chart)
 	{
 		sb.append("\t\t\t<pie3DChart>\n");
 		writeChart(chart);
@@ -2294,7 +2294,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeBarChart(JRBarChart chart)
+	public void writeBarChart(JRChart chart)
 	{
 		sb.append("\t\t\t<barChart>\n");
 
@@ -2310,7 +2310,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeBar3DChart(JRBar3DChart chart)
+	public void writeBar3DChart(JRChart chart)
 	{
 		sb.append("\t\t\t<bar3DChart>\n");
 
@@ -2326,7 +2326,7 @@ public class JRXmlWriter
 	 * 
 	 * @param chart
 	 */
-	public void writeBubbleChart( JRBubbleChart chart ){
+	public void writeBubbleChart( JRChart chart ){
 		sb.append( "\t\t\t<bubbleChart>\n" );
 		writeChart( chart );
 		writeXyzDataset( (JRXyzDataset)chart.getDataset() );
@@ -2339,7 +2339,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeStackedBarChart(JRStackedBarChart chart)
+	public void writeStackedBarChart(JRChart chart)
 	{
 		sb.append("\t\t\t<stackedBarChart>\n");
 
@@ -2355,7 +2355,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeStackedBar3DChart(JRStackedBar3DChart chart)
+	public void writeStackedBar3DChart(JRChart chart)
 	{
 		sb.append("\t\t\t<stackedBar3DChart>\n");
 
@@ -2371,7 +2371,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeLineChart(JRLineChart chart)
+	public void writeLineChart(JRChart chart)
 	{
 		sb.append("\t\t\t<lineChart>\n");
 
@@ -2420,7 +2420,7 @@ public class JRXmlWriter
 	}
 
 
-	public void writeHighLowChart(JRHighLowChart chart)
+	public void writeHighLowChart(JRChart chart)
 	{
 		sb.append("\t\t\t<highLowChart>\n");
 
@@ -2454,7 +2454,7 @@ public class JRXmlWriter
 	}
 
 
-	public void writeCandlestickChart(JRCandlestickChart chart)
+	public void writeCandlestickChart(JRChart chart)
 	{
 		sb.append("\t\t\t<candlestickChart>\n");
 
@@ -2514,7 +2514,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeAreaChart(JRAreaChart chart)
+	public void writeAreaChart(JRChart chart)
 	{
 		sb.append("\t\t\t<areaChart>\n");
 
@@ -2560,7 +2560,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeScatterChart(JRScatterChart chart)
+	public void writeScatterChart(JRChart chart)
 	{
 		sb.append("\t\t\t<scatterChart>\n");
 
@@ -2576,7 +2576,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeXyAreaChart(JRXyAreaChart chart)
+	public void writeXyAreaChart(JRChart chart)
 	{
 		sb.append("\t\t\t<xyAreaChart>\n");
 
@@ -2614,7 +2614,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	public void writeXyBarChart(JRXyBarChart chart)
+	public void writeXyBarChart(JRChart chart)
 	{
 		sb.append("\t\t\t<xyBarChart>\n");
 
@@ -2628,9 +2628,8 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeXyLineChart(JRXyLineChart chart)
+	public void writeXyLineChart(JRChart chart)
 	{
 		sb.append("\t\t\t<xyLineChart>\n");
 
@@ -2639,5 +2638,62 @@ public class JRXmlWriter
 		writeLinePlot((JRLinePlot) chart.getPlot());
 
 		sb.append("\t\t\t</xyLineChart>\n");
+	}
+
+
+	public void writeChartTag(JRChart chart)
+	{
+		switch(chart.getChartType()) {
+			case JRChart.CHART_TYPE_AREA:
+				writeAreaChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_BAR:
+				writeBarChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_BAR3D:
+				writeBar3DChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_BUBBLE:
+				writeBubbleChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_CANDLESTICK:
+				writeCandlestickChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_HIGHLOW:
+				writeHighLowChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_LINE:
+				writeLineChart(chart);
+			    break;
+			case JRChart.CHART_TYPE_PIE:
+				writePieChart(chart);
+				break;
+			case JRChart.CHART_TYPE_PIE3D:
+				writePie3DChart(chart);
+				break;
+			case JRChart.CHART_TYPE_SCATTER:
+				writeScatterChart(chart);
+				break;
+			case JRChart.CHART_TYPE_STACKEDBAR:
+				writeStackedBarChart(chart);
+				break;
+			case JRChart.CHART_TYPE_STACKEDBAR3D:
+				writeStackedBar3DChart(chart);
+				break;
+			case JRChart.CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case JRChart.CHART_TYPE_XYAREA:
+				writeXyAreaChart(chart);
+				break;
+			case JRChart.CHART_TYPE_XYBAR:
+				writeXyBarChart(chart);
+				break;
+			case JRChart.CHART_TYPE_XYLINE:
+				writeXyLineChart(chart);
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
 	}
 }

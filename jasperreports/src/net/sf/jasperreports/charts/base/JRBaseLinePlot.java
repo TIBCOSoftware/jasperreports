@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -48,7 +49,8 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	boolean isShowLines = true;
 	
 	
-	protected JRBaseLinePlot(){
+	public JRBaseLinePlot( JRChartPlot linePlot){
+		super( linePlot);
 	}
 	
 	public JRBaseLinePlot( JRLinePlot linePlot, JRBaseObjectFactory factory ){

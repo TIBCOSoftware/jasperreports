@@ -28,8 +28,9 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignXyAreaChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -40,8 +41,8 @@ import org.xml.sax.Attributes;
 public class JRXyAreaChartFactory extends JRBaseFactory {
 
 	public Object createObject( Attributes atts ){
-		JRDesignXyAreaChart xyAreaChart = new JRDesignXyAreaChart();//FIXME NOW simplify all
-		
-		return xyAreaChart;
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_XYAREA);
+
+		return chart;
 	}
 }

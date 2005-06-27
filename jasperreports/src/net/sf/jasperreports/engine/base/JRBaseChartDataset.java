@@ -56,11 +56,17 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseChartDataset()
+	protected JRBaseChartDataset(JRChartDataset dataset)
 	{
+		if (dataset != null) {
+			resetType = dataset.getResetType();
+			incrementType = dataset.getIncrementType();
+			resetGroup = dataset.getResetGroup();
+			incrementGroup = dataset.getIncrementGroup();
+		}
 	}
 
-	
+
 	/**
 	 *
 	 */

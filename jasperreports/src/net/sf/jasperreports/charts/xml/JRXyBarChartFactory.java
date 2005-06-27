@@ -27,8 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignXyBarChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -44,8 +45,8 @@ public class JRXyBarChartFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignXyBarChart xyBarChart = new JRDesignXyBarChart();
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_XYBAR);
 
-		return xyBarChart;
+		return chart;
 	}
 }

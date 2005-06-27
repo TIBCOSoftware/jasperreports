@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
@@ -41,6 +42,15 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	 *
 	 */
 	private static final long serialVersionUID = 608;
+
+
+	/**
+	 *
+	 */
+	public JRDesignCandlestickPlot(JRChartPlot candlestickPlot)
+	{
+		super(candlestickPlot);
+	}
 
 
 	/**

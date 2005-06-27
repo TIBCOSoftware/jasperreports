@@ -32,6 +32,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 
@@ -49,9 +50,11 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	protected int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
 	
 	
-	protected JRBaseBubblePlot(){  
+	public JRBaseBubblePlot( JRChartPlot bubblePlot){
+		super( bubblePlot);
 	}
-	
+
+
 	public JRBaseBubblePlot( JRBubblePlot bubblePlot, JRBaseObjectFactory factory ){
 		super( bubblePlot, factory );
 		

@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -38,11 +39,14 @@ import net.sf.jasperreports.engine.JRExpression;
 public class JRDesignScatterPlot extends JRBaseScatterPlot {
 
 	private static final long serialVersionUID = 608;
-	
-	public JRDesignScatterPlot(){
-		super();
+
+
+	public JRDesignScatterPlot(JRChartPlot scattedPlot)
+	{
+		super(scattedPlot);
 	}
-	
+
+
 	public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
 		this.xAxisLabelExpression = xAxisLabelExpression;
 	}

@@ -28,8 +28,9 @@
 package net.sf.jasperreports.charts.xml;
 
 import org.xml.sax.Attributes;
-import net.sf.jasperreports.charts.design.JRDesignCandlestickChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 
 /**
@@ -43,6 +44,8 @@ public class JRCandlestickChartFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		return new JRDesignCandlestickChart();
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_CANDLESTICK);
+
+		return chart;
 	}
 }

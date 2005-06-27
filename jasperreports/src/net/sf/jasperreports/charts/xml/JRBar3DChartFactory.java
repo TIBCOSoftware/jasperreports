@@ -28,8 +28,9 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignBar3DChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -41,9 +42,9 @@ import org.xml.sax.Attributes;
 public class JRBar3DChartFactory extends JRBaseFactory {
 	
 	public Object createObject( Attributes attrs ){
-		JRDesignBar3DChart barChart = new JRDesignBar3DChart();
-		
-		return barChart;
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_BAR3D);
+
+		return chart;
 	}
 
 }

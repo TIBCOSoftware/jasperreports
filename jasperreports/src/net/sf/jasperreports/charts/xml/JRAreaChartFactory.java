@@ -28,8 +28,9 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignAreaChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -40,8 +41,8 @@ import org.xml.sax.Attributes;
 public class JRAreaChartFactory extends JRBaseFactory {
 
 	public Object createObject( Attributes atts ){
-		JRDesignAreaChart areaChart = new JRDesignAreaChart();
-		
+		JRDesignChart areaChart = new JRDesignChart(JRChart.CHART_TYPE_AREA);
+
 		return areaChart;
 	}
 }

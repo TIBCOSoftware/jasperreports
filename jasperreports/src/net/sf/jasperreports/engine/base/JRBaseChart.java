@@ -37,13 +37,50 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
+import net.sf.jasperreports.charts.design.JRDesignBarPlot;
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
+import net.sf.jasperreports.charts.design.JRDesignLinePlot;
+import net.sf.jasperreports.charts.design.JRDesignPieDataset;
+import net.sf.jasperreports.charts.design.JRDesignPiePlot;
+import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyDataset;
+import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
+import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRBubblePlot;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseChart extends JRBaseElement implements JRChart
+public class JRBaseChart extends JRBaseElement implements JRChart
 {
 
 
@@ -51,6 +88,11 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	 *
 	 */
 	private static final long serialVersionUID = 608;
+
+	/**
+	 *
+	 */
+	protected byte chartType = 0;
 
 	/**
 	 *
@@ -84,14 +126,83 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
 	
-
 	/**
 	 *
 	 */
 	protected JRBaseChart(JRChart chart, JRBaseObjectFactory factory)
 	{
 		super(chart, factory);
-		
+
+		chartType = chart.getChartType();
+
+		switch(chartType) {
+			case CHART_TYPE_AREA:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BAR:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BAR3D:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BUBBLE:
+				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
+				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_CANDLESTICK:
+				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				plot = factory.getCandlestickPlot((JRCandlestickPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_HIGHLOW:
+				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				plot = factory.getHighLowPlot((JRHighLowPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_LINE:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_PIE:
+				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
+				break;
+			case CHART_TYPE_PIE3D:
+				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_SCATTER:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_STACKEDBAR:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_STACKEDBAR3D:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case CHART_TYPE_XYAREA:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_XYBAR:
+				dataset = factory.getIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_XYLINE:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
+
 		isShowLegend = chart.isShowLegend();
 		evaluationTime = chart.getEvaluationTime();
 		hyperlinkType = chart.getHyperlinkType();
@@ -298,5 +409,26 @@ public abstract class JRBaseChart extends JRBaseElement implements JRChart
 		return plot;
 	}
 
+    public byte getChartType()
+	{
+		return chartType;
+	}
 
+
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getChart(this);
+	}
+
+
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
+	public void writeXml(JRXmlWriter xmlWriter)
+	{
+		xmlWriter.writeChartTag(this);
+	}
 }

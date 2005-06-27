@@ -31,6 +31,7 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import java.util.List;
 import java.util.ArrayList;
@@ -44,7 +45,17 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	private static final long serialVersionUID = 608;
 	
 	private List xyzSeriesList = new ArrayList();
-	
+
+
+	/**
+	 *
+	 */
+	public JRDesignXyzDataset(JRChartDataset dataset)
+	{
+		super(dataset);
+	}
+
+
 	public JRXyzSeries[] getSeries(){
 		JRXyzSeries[] xyzSeriesArray = new JRXyzSeries[ xyzSeriesList.size() ];
 		xyzSeriesList.toArray( xyzSeriesArray );

@@ -27,8 +27,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Map;
+import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -41,15 +42,68 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubblePlot;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRIntervalXyDataset;
+import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
+import net.sf.jasperreports.charts.fill.JRFillBarPlot;
+import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
+import net.sf.jasperreports.charts.fill.JRFillLinePlot;
+import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
+import net.sf.jasperreports.renderers.JCommonDrawableRenderer;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import org.jfree.chart.renderer.xy.CandlestickRenderer;
+import org.jfree.chart.renderer.xy.HighLowRenderer;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.xy.XYZDataset;
+import org.jfree.data.xy.DefaultHighLowDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.IntervalXYDataset;
+import org.jfree.data.general.PieDataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChart extends JRFillElement implements JRChart
+public class JRFillChart extends JRFillElement implements JRChart
 {
 
+
+	/**
+	 *
+	 */
+	protected byte chartType = 0;
 
 	/**
 	 *
@@ -84,6 +138,76 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 		super(filler, chart, factory);
 
 		/*   */
+		chartType = chart.getChartType();
+
+		switch(chartType) {
+			case CHART_TYPE_AREA:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BAR:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BAR3D:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_BUBBLE:
+				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
+				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_CANDLESTICK:
+				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				plot = factory.getCandlestickPlot((JRCandlestickPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_HIGHLOW:
+				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				plot = factory.getHighLowPlot((JRHighLowPlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_LINE:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
+			    break;
+			case CHART_TYPE_PIE:
+				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
+				break;
+			case CHART_TYPE_PIE3D:
+				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_SCATTER:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_STACKEDBAR:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_STACKEDBAR3D:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case CHART_TYPE_XYAREA:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_XYBAR:
+				dataset = factory.getIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_XYLINE:
+				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
+
 		titleFont = factory.getFont(chart.getTitleFont());
 		subtitleFont = factory.getFont(chart.getSubtitleFont());
 
@@ -372,6 +496,59 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateImage(byte evaluation) throws JRException
 	{
+		switch(chartType) {
+			case CHART_TYPE_AREA:
+				evaluateAreaImage(evaluation);
+			    break;
+			case CHART_TYPE_BAR:
+				evaluateBarImage(evaluation);
+			    break;
+			case CHART_TYPE_BAR3D:
+				evaluateBar3DImage(evaluation);
+			    break;
+			case CHART_TYPE_BUBBLE:
+				evaluateBubbleImage(evaluation);
+			    break;
+			case CHART_TYPE_CANDLESTICK:
+				evaluateCandlestickImage(evaluation);
+			    break;
+			case CHART_TYPE_HIGHLOW:
+				evaluateHighLowImage(evaluation);
+			    break;
+			case CHART_TYPE_LINE:
+				evaluateLineImage(evaluation);
+			    break;
+			case CHART_TYPE_PIE:
+				evaluatePieImage(evaluation);
+				break;
+			case CHART_TYPE_PIE3D:
+				evaluatePie3DImage(evaluation);
+				break;
+			case CHART_TYPE_SCATTER:
+				evaluateScatterImage(evaluation);
+				break;
+			case CHART_TYPE_STACKEDBAR:
+				evaluateStackedBarImage(evaluation);
+				break;
+			case CHART_TYPE_STACKEDBAR3D:
+				evaluateStackedBar3DImage(evaluation);
+				break;
+			case CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case CHART_TYPE_XYAREA:
+				evaluateXyAreaImage(evaluation);
+				break;
+			case CHART_TYPE_XYBAR:
+				evaluateXYBarImage(evaluation);
+				break;
+			case CHART_TYPE_XYLINE:
+				evaluateXyLineImage(evaluation);
+				break;
+			default:
+				throw new JRRuntimeException("Chart type " + getChartType() + " not supported.");
+		}
+
 		anchorName = (String)filler.calculator.evaluate(getAnchorNameExpression(), evaluation);
 		hyperlinkReference = (String)filler.calculator.evaluate(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkAnchor = (String)filler.calculator.evaluate(getHyperlinkAnchorExpression(), evaluation);
@@ -536,5 +713,722 @@ public abstract class JRFillChart extends JRFillElement implements JRChart
 		printImage.setHyperlinkPage(getHyperlinkPage());
 	}
 
+	public byte getChartType()
+	{
+		return chartType;
+	}
+
+
+	public JRElement getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getChart(this);
+	}
+
+
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
+	/**
+	 * The method is never called for fill charts
+	 * @param writer
+	 */
+	public void writeXml(JRXmlWriter writer)
+	{
+	}
+
+	protected void evaluateAreaImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createAreaChart( (String)evaluateExpression(getTitleExpression(), evaluation ),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	protected void evaluateBar3DImage( byte evaluation ) throws JRException {
+		JFreeChart chart =
+			ChartFactory.createBarChart3D(
+					(String)evaluateExpression( getTitleExpression(), evaluation ),
+					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
+					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
+					(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+					getPlot().getOrientation(),
+					isShowLegend(),
+					true,
+					false );
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+		BarRenderer3D barRenderer3D =
+			new BarRenderer3D(
+				((JRFillBar3DPlot)getPlot()).getXOffset(),
+				((JRFillBar3DPlot)getPlot()).getYOffset()
+				);
+		plot.setRenderer(barRenderer3D);
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateBarImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createBarChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+		((CategoryAxis)plot.getDomainAxis()).setTickMarksVisible(
+			((JRFillBarPlot)getPlot()).isShowTickMarks()
+			);
+		((CategoryAxis)plot.getDomainAxis()).setTickLabelsVisible(
+				((JRFillBarPlot)getPlot()).isShowTickLabels()
+				);
+		((NumberAxis)plot.getRangeAxis()).setTickMarksVisible(
+				((JRFillBarPlot)getPlot()).isShowTickMarks()
+				);
+		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
+				((JRFillBarPlot)getPlot()).isShowTickLabels()
+				);
+
+		renderer = new JCommonDrawableRenderer(chart);
+
+	}
+
+
+	protected void evaluateBubbleImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createBubbleChart(
+				(String)evaluateExpression( getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression(), evaluation ),
+				(String)evaluateExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression(), evaluation ),
+				 (XYZDataset)((JRFillChartDataset)dataset).getDataset(),
+				 getPlot().getOrientation(),
+				 isShowLegend(),
+				 true,
+				 false);
+
+
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( ((JRFillBubblePlot)getPlot()).getScaleType() );
+		plot.setRenderer( bubbleRenderer );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	/**
+	 *
+	 * @param evaluation
+	 * @throws net.sf.jasperreports.engine.JRException
+	 */
+	protected void evaluateCandlestickImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createCandlestickChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(DefaultHighLowDataset)((JRFillChartDataset)dataset).getDataset(),
+				isShowLegend()
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot) chart.getPlot();
+		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) plot.getRenderer();
+		candlestickRenderer.setDrawVolume(((JRCandlestickPlot)getPlot()).isShowVolume());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	/**
+	 *
+	 * @param evaluation
+	 * @throws JRException
+	 */
+	protected void evaluateHighLowImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createHighLowChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(DefaultHighLowDataset)((JRFillChartDataset)dataset).getDataset(),
+				isShowLegend()
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot) chart.getPlot();
+		HighLowRenderer hlRenderer = (HighLowRenderer) plot.getRenderer();
+		hlRenderer.setDrawOpenTicks(((JRHighLowPlot)getPlot()).isShowOpenTicks());
+		hlRenderer.setDrawCloseTicks(((JRHighLowPlot)getPlot()).isShowCloseTicks());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	protected void evaluateLineImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createLineChart(
+				(String)evaluateExpression( getTitleExpression(), evaluation),
+				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
+		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
+		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluatePie3DImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createPieChart3D(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(PieDataset)((JRFillChartDataset)dataset).getDataset(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			chart.getTitle().setPaint(getTitleColor());
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle();
+			subtitle.setPaint(getSubtitleColor());
+			chart.addSubtitle(subtitle);
+		}
+
+		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+		plot.setOutlinePaint(getPlot().getBackcolor());
+		//plot.setStartAngle(290);
+		//plot.setDirection(Rotation.CLOCKWISE);
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+		plot.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluatePieImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createPieChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(PieDataset)((JRFillChartDataset)dataset).getDataset(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		PiePlot plot = (PiePlot)chart.getPlot();
+		plot.setOutlinePaint(getPlot().getBackcolor());
+		//plot.setStartAngle(290);
+		//plot.setDirection(Rotation.CLOCKWISE);
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+
+		plot.setLabelGenerator(new CustomLabelGenerator());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+	private static class CustomLabelGenerator implements PieSectionLabelGenerator, Serializable
+	{
+		public String generateSectionLabel(PieDataset arg0, Comparable arg1)
+		{
+			return "FIXME NOW";
+		}
+	}
+
+
+	protected void evaluateScatterImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createScatterPlot(
+				(String)evaluateExpression( getTitleExpression(), evaluation),
+				(String)evaluateExpression( ((JRScatterPlot)getPlot()).getXAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression(), evaluation ),
+				(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+//		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
+//		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
+//		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateStackedBar3DImage(byte evaluation) throws JRException
+	{
+		// TODO: a special plot implementation should be made for stacked bar charts
+		JFreeChart chart =
+			ChartFactory.createStackedBarChart3D(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateStackedBarImage(byte evaluation) throws JRException
+	{
+		// TODO: a special plot implementation should be made for stacked bar charts
+		JFreeChart chart =
+			ChartFactory.createStackedBarChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	protected void evaluateXyAreaImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createXYAreaChart(
+			(String)evaluateExpression(getTitleExpression(), evaluation ),
+			(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
+			(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+			(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+			getPlot().getOrientation(),
+			isShowLegend(),
+			true,
+			false
+			);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateXYBarImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createXYBarChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				true,
+				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(IntervalXYDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false
+				);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+		plot.setBackgroundPaint(getPlot().getBackcolor());
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+//		((XYPlot)plot.getDomainAxis()).setTickMarksVisible(
+//			((JRFillBarPlot)getPlot()).isShowTickMarks()
+//			);
+//		((CategoryAxis)plot.getDomainAxis()).setTickLabelsVisible(
+//				((JRFillBarPlot)getPlot()).isShowTickLabels()
+//				);
+//		((NumberAxis)plot.getRangeAxis()).setTickMarksVisible(
+//				((JRFillBarPlot)getPlot()).isShowTickMarks()
+//				);
+//		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
+//				((JRFillBarPlot)getPlot()).isShowTickLabels()
+//				);
+
+		renderer = new JCommonDrawableRenderer(chart);
+	}
+
+
+	protected void evaluateXyLineImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createXYLineChart(
+				(String)evaluateExpression( getTitleExpression(), evaluation),
+				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
+				(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false);
+
+		if (chart.getTitle() != null)
+		{
+			TextTitle title = chart.getTitle();
+			title.setPaint(getTitleColor());
+			Map attributes = getTitleFont().getNonPdfAttributes();
+			title.setFont(new Font(attributes));
+
+		}
+
+		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
+		if (subtitleText != null)
+		{
+			TextTitle subtitle = new TextTitle(subtitleText);
+			subtitle.setPaint(getSubtitleColor());
+			Map attributes = getSubtitleFont().getNonPdfAttributes();
+			subtitle.setFont(new Font(attributes));
+			chart.addSubtitle(subtitle);
+		}
+
+		XYPlot plot = (XYPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
+//		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
+//		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
+//		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
+
+		renderer = new JCommonDrawableRenderer( chart );
+	}
 
 }
