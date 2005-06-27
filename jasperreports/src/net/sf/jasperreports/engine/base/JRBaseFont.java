@@ -563,7 +563,38 @@ public class JRBaseFont implements JRFont, Serializable
 		this.isCachingAttributes = isCachingAttributes;
 		attributes = null;
 	}
-	
+
+
+	/**
+	 *
+	 */
+    public Map getNonPdfAttributes()
+	{
+		Map attributes = new HashMap();
+
+		attributes.put(TextAttribute.FAMILY, getFontName());
+		attributes.put(TextAttribute.SIZE, new Float(getSize()));
+
+		if (isBold())
+		{
+			attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		}
+		if (isItalic())
+		{
+			attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+		}
+		if (isUnderline())
+		{
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		}
+		if (isStrikeThrough())
+		{
+			attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+		}
+
+		return attributes;
+	}
+
 
 	/**
 	 *
@@ -572,28 +603,8 @@ public class JRBaseFont implements JRFont, Serializable
 	{
 		if (attributes == null || !isCachingAttributes)
 		{
-			attributes = new HashMap();
+			attributes = getNonPdfAttributes();
 
-			attributes.put(TextAttribute.FAMILY, getFontName());
-			attributes.put(TextAttribute.SIZE, new Float(getSize()));
-
-			if (isBold())
-			{
-				attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-			}
-			if (isItalic())
-			{
-				attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
-			}
-			if (isUnderline())
-			{
-				attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-			}
-			if (isStrikeThrough())
-			{
-				attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-			}
-		
 			attributes.put(JRTextAttribute.PDF_FONT_NAME, getPdfFontName());
 			attributes.put(JRTextAttribute.PDF_ENCODING, getPdfEncoding());
 
