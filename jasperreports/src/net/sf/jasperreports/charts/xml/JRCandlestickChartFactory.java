@@ -27,10 +27,11 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import org.xml.sax.Attributes;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
+import org.xml.sax.Attributes;
 
 
 /**

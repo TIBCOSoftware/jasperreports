@@ -28,8 +28,8 @@
 package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRBarPlot;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 

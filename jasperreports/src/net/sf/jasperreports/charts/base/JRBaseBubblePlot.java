@@ -28,13 +28,13 @@
 
 package net.sf.jasperreports.charts.base;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-
 import net.sf.jasperreports.charts.JRBubblePlot;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)

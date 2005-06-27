@@ -31,6 +31,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignXyzSeries;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
 import org.xml.sax.Attributes;
 /**
  * @author Flavius Sana (flavius_sana@user.sourceforge.net)

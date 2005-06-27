@@ -28,11 +28,12 @@
 
 package net.sf.jasperreports.charts.util;
 
-import org.jfree.data.xy.AbstractXYZDataset;
-import org.jfree.data.xy.XYZDataset;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
+
+import org.jfree.data.xy.AbstractXYZDataset;
+import org.jfree.data.xy.XYZDataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)

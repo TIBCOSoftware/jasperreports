@@ -29,35 +29,35 @@ package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignBarPlot;
+import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
+import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
+import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
+import net.sf.jasperreports.charts.design.JRDesignLinePlot;
+import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignPieDataset;
+import net.sf.jasperreports.charts.design.JRDesignPiePlot;
+import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyDataset;
+import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-import net.sf.jasperreports.charts.design.JRDesignPiePlot;
-import net.sf.jasperreports.charts.design.JRDesignPieDataset;
-import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
-import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
-import net.sf.jasperreports.charts.design.JRDesignBarPlot;
-import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
-import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
-import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
-import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
-import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
-import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
-import net.sf.jasperreports.charts.design.JRDesignLinePlot;
-import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
-import net.sf.jasperreports.charts.design.JRDesignXyDataset;
-import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
-import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
 
 
 /**

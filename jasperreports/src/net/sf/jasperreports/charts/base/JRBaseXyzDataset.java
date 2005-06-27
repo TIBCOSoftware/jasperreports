@@ -30,9 +30,9 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.base.JRBaseChartDataset;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)

@@ -29,9 +29,9 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.JRChartDataset;
 
 
 /**

@@ -29,8 +29,8 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
