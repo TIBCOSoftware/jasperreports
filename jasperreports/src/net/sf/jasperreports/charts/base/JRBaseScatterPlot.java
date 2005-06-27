@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -59,7 +59,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		
 		xAxisLabelExpression = factory.getExpression( scattedPlot.getXAxisLabelExpression() );
 		yAxisLabelExpression = factory.getExpression( scattedPlot.getYAxisLabelExpression() );
-	   
+
 	}
 	
 	public JRExpression getXAxisLabelExpression(){
@@ -85,9 +85,5 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	public void setShowLines( boolean value ){
 		this.isShowLines = value;
 	}
-
-  
-   
-	 
 
 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -39,10 +39,10 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
  */
 
 public class JRBubbleChartFactory extends JRBaseFactory {
-    
-    public Object createObject( Attributes attrs ){
-        JRDesignBubbleChart bubbleChart = new JRDesignBubbleChart();
-        
-        return bubbleChart;
-    }
+	
+	public Object createObject( Attributes attrs ){
+		JRDesignBubbleChart bubbleChart = new JRDesignBubbleChart();
+		
+		return bubbleChart;
+	}
 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -74,7 +74,7 @@ public class CustomBeanFactory
 			new CustomBean("San Francisco", new Integer(48), "Robert White", "549 Seventh Av."),
 			new CustomBean("San Francisco", new Integer(7), "James Peterson", "231 Upland Pl.")
 		};  
-            
+			
 
 	/**
 	 *

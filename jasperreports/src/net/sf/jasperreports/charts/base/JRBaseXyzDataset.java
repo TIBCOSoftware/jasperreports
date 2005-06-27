@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -38,30 +38,30 @@ import net.sf.jasperreports.engine.base.JRBaseChartDataset;
  * @version $Id$
  */
 public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset {
-    
-    public static final long serialVersionUID = 608;
-    
-    protected JRXyzSeries[] xyzSeries = null;
-    
-    public JRBaseXyzDataset(){
-    }
-    
-    public JRBaseXyzDataset( JRXyzDataset dataset, JRBaseObjectFactory factory ){
-        super( dataset, factory );
-        
-        JRXyzSeries[] srcXyzSeries = dataset.getSeries();
-        
-        if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
-            
-            xyzSeries = new JRXyzSeries[ srcXyzSeries.length ];
-            for( int i = 0; i < srcXyzSeries.length; i++ ){
-                xyzSeries[i] = factory.getXyzSeries( srcXyzSeries[i] );
-            }
-        }
-    }
-    
-    public JRXyzSeries[] getSeries(){
-        return xyzSeries;
-    }
+	
+	public static final long serialVersionUID = 608;
+	
+	protected JRXyzSeries[] xyzSeries = null;
+	
+	public JRBaseXyzDataset(){
+	}
+	
+	public JRBaseXyzDataset( JRXyzDataset dataset, JRBaseObjectFactory factory ){
+		super( dataset, factory );
+		
+		JRXyzSeries[] srcXyzSeries = dataset.getSeries();
+		
+		if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
+			
+			xyzSeries = new JRXyzSeries[ srcXyzSeries.length ];
+			for( int i = 0; i < srcXyzSeries.length; i++ ){
+				xyzSeries[i] = factory.getXyzSeries( srcXyzSeries[i] );
+			}
+		}
+	}
+	
+	public JRXyzSeries[] getSeries(){
+		return xyzSeries;
+	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -39,24 +39,24 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 
-    public JRFillBubblePlot( JRBubblePlot bubblePlot, JRFillObjectFactory factory ){
-        super( bubblePlot, factory );
-    }
-    
-    public JRExpression getXAxisLabelExpression(){
-        return ((JRBubblePlot)parent ).getXAxisLabelExpression();
-    }
-    
-    public JRExpression getYAxisLabelExpression(){
-        return ((JRBubblePlot)parent).getYAxisLabelExpression();
-    }
-    
-    public int getScaleType(){
-        return ((JRBubblePlot)parent).getScaleType();
-    }
-    
-    public void setScaleType( int scaleType ){
-    }
-    
-    
+	public JRFillBubblePlot( JRBubblePlot bubblePlot, JRFillObjectFactory factory ){
+		super( bubblePlot, factory );
+	}
+	
+	public JRExpression getXAxisLabelExpression(){
+		return ((JRBubblePlot)parent ).getXAxisLabelExpression();
+	}
+	
+	public JRExpression getYAxisLabelExpression(){
+		return ((JRBubblePlot)parent).getYAxisLabelExpression();
+	}
+	
+	public int getScaleType(){
+		return ((JRBubblePlot)parent).getScaleType();
+	}
+	
+	public void setScaleType( int scaleType ){
+	}
+	
+	
 }

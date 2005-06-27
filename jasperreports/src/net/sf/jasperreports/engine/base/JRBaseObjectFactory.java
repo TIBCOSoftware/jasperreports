@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -1015,33 +1015,33 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseAreaPlot;
-    }
+	}
 
 
-    /* 
-     *
-     */
-    public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
-        JRBaseXyzDataset baseXyzDataset = null;
+	/* 
+	 *
+	 */
+	public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
+		JRBaseXyzDataset baseXyzDataset = null;
 		
 		if (xyzDataset != null)
 		{
-		    baseXyzDataset = (JRBaseXyzDataset)get(xyzDataset);
+			baseXyzDataset = (JRBaseXyzDataset)get(xyzDataset);
 			if (baseXyzDataset == null)
 			{
-			    baseXyzDataset = new JRBaseXyzDataset(xyzDataset, this);
+				baseXyzDataset = new JRBaseXyzDataset(xyzDataset, this);
 			}
 		}
 		
 		return baseXyzDataset;
-    }
+	}
 
 
-    /** 
-     * 
-     */
-    public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
-        JRBaseXyzSeries baseXyzSeries = null;
+	/** 
+	 * 
+	 */
+	public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
+		JRBaseXyzSeries baseXyzSeries = null;
 		
 		if (xyzSeries != null)
 		{
@@ -1053,14 +1053,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseXyzSeries;
-    }
+	}
 
 
-    /** 
-     *
-     */
-    public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
-        JRBaseBubbleChart baseBubbleChart = null;
+	/** 
+	 *
+	 */
+	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
+		JRBaseBubbleChart baseBubbleChart = null;
 		
 		if (bubbleChart != null)
 		{
@@ -1072,14 +1072,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseBubbleChart;
-    }
+	}
 
 
-    /** 
-     *
-     */
-    public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
-        JRBaseBubblePlot baseBubblePlot = null;
+	/** 
+	 *
+	 */
+	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
+		JRBaseBubblePlot baseBubblePlot = null;
 		
 		if (bubblePlot != null)
 		{
@@ -1091,7 +1091,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseBubblePlot;
-    }
+	}
 	
 
 

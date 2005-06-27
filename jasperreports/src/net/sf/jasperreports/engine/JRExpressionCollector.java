@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -525,15 +525,15 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getLabelExpression());
 	}
 
-    /**
-     *
-     */
-    public void collect(JRBubbleChart chart) {
-        collectChart(chart);
+	/**
+	 *
+	 */
+	public void collect(JRBubbleChart chart) {
+		collectChart(chart);
 		collect((JRXyzDataset)chart.getDataset());
 		collect((JRBubblePlot)chart.getPlot()); 
-        
-    }
+		
+	}
 	/**
 	 *
 	 */
@@ -544,10 +544,10 @@ public class JRExpressionCollector
 		collect((JRHighLowPlot)highLowChart.getPlot());
 	}
 
-    /**
-     *
-     */
-    private void collect(JRXyzDataset xyzDataset) {
+	/**
+	 *
+	 */
+	private void collect(JRXyzDataset xyzDataset) {
 		JRXyzSeries[] xyzSeries = xyzDataset.getSeries();
 		if (xyzSeries != null && xyzSeries.length > 0)
 		{
@@ -556,28 +556,28 @@ public class JRExpressionCollector
 				collect(xyzSeries[j]);
 			}
 		}
-        
-    }
+		
+	}
 
-    /**
-     *
-     */
-    private void collect(JRXyzSeries xyzSeries) {
-        addExpression(xyzSeries.getSeriesExpression());
+	/**
+	 *
+	 */
+	private void collect(JRXyzSeries xyzSeries) {
+		addExpression(xyzSeries.getSeriesExpression());
 		addExpression(xyzSeries.getXValueExpression());
 		addExpression(xyzSeries.getYValueExpression());
 		addExpression(xyzSeries.getZValueExpression());
-        
-    }
+		
+	}
 
-    /**
-     *
-     */
-    private void collect(JRBubblePlot bubblePlot) {
-        addExpression(bubblePlot.getXAxisLabelExpression());
+	/**
+	 *
+	 */
+	private void collect(JRBubblePlot bubblePlot) {
+		addExpression(bubblePlot.getXAxisLabelExpression());
 		addExpression(bubblePlot.getYAxisLabelExpression());
-        
-    }
+		
+	}
 
 
 	/**

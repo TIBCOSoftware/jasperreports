@@ -1,25 +1,25 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 185, Berry Street, Suite 6200
  * San Francisco CA 94107
@@ -154,7 +154,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		return (JRFillChartDataset[]) datasets.toArray(new JRFillChartDataset[datasets.size()]);
 	}
-	
+
 
 	/**
 	 *
@@ -162,7 +162,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont fillFont = null;
-		
+
 		if (font != null)
 		{
 			fillFont = (JRBaseReportFont)get(font);
@@ -173,7 +173,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				put(font, fillFont);
 			}
 		}
-		
+
 		return fillFont;
 	}
 
@@ -184,23 +184,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseFont getFont(JRFont font)
 	{
 		JRBaseFont fillFont = null;
-		
+
 		if (font != null)
 		{
 			fillFont = (JRBaseFont)get(font);
 			if (fillFont == null)
 			{
-				fillFont = 
+				fillFont =
 					new JRBaseFont(
-						filler.getJasperPrint(), 
-						getReportFont(font.getReportFont()), 
+						filler.getJasperPrint(),
+						getReportFont(font.getReportFont()),
 						font
 						);
 				fillFont.setCachingAttributes(true);
 				put(font, fillFont);
 			}
 		}
-		else 
+		else
 		{
 			if (defaultFont == null)
 			{
@@ -208,7 +208,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 			fillFont = getFont(defaultFont);
 		}
-		
+
 		return fillFont;
 	}
 
@@ -219,7 +219,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillParameter getParameter(JRParameter parameter)
 	{
 		JRFillParameter fillParameter = null;
-		
+
 		if (parameter != null)
 		{
 			fillParameter = (JRFillParameter)get(parameter);
@@ -228,7 +228,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillParameter = new JRFillParameter(parameter, this);
 			}
 		}
-		
+
 		return fillParameter;
 	}
 
@@ -239,7 +239,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillField getField(JRField field)
 	{
 		JRFillField fillField = null;
-		
+
 		if (field != null)
 		{
 			fillField = (JRFillField)get(field);
@@ -248,7 +248,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillField = new JRFillField(field, this);
 			}
 		}
-		
+
 		return fillField;
 	}
 
@@ -259,7 +259,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillVariable getVariable(JRVariable variable)
 	{
 		JRFillVariable fillVariable = null;
-		
+
 		if (variable != null)
 		{
 			fillVariable = (JRFillVariable)get(variable);
@@ -268,7 +268,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillVariable = new JRFillVariable(variable, this);
 			}
 		}
-		
+
 		return fillVariable;
 	}
 
@@ -279,7 +279,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillGroup getGroup(JRGroup group)
 	{
 		JRFillGroup fillGroup = null;
-		
+
 		if (group != null)
 		{
 			fillGroup = (JRFillGroup)get(group);
@@ -288,7 +288,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillGroup = new JRFillGroup(group, this);
 			}
 		}
-		
+
 		return fillGroup;
 	}
 
@@ -299,7 +299,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillBand getBand(JRBand band)
 	{
 		JRFillBand fillBand = null;
-		
+
 		//if (band != null)
 		//{
 		// for null bands, the filler's missingFillBand will be returned
@@ -309,7 +309,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillBand = new JRFillBand(filler, band, this);
 			}
 		//}
-		
+
 		return fillBand;
 	}
 
@@ -320,7 +320,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRFillElementGroup fillElementGroup = null;
-		
+
 		if (elementGroup != null)
 		{
 			fillElementGroup = (JRFillElementGroup)get(elementGroup);
@@ -329,7 +329,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillElementGroup = new JRFillElementGroup(elementGroup, this);
 			}
 		}
-		
+
 		return fillElementGroup;
 	}
 
@@ -340,7 +340,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRLine getLine(JRLine line)
 	{
 		JRFillLine fillLine = null;
-		
+
 		if (line != null)
 		{
 			fillLine = (JRFillLine)get(line);
@@ -349,7 +349,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillLine = new JRFillLine(filler, line, this);
 			}
 		}
-		
+
 		return fillLine;
 	}
 
@@ -360,7 +360,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRRectangle getRectangle(JRRectangle rectangle)
 	{
 		JRFillRectangle fillRectangle = null;
-		
+
 		if (rectangle != null)
 		{
 			fillRectangle = (JRFillRectangle)get(rectangle);
@@ -369,7 +369,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillRectangle = new JRFillRectangle(filler, rectangle, this);
 			}
 		}
-		
+
 		return fillRectangle;
 	}
 
@@ -380,7 +380,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JREllipse getEllipse(JREllipse ellipse)
 	{
 		JRFillEllipse fillEllipse = null;
-		
+
 		if (ellipse != null)
 		{
 			fillEllipse = (JRFillEllipse)get(ellipse);
@@ -389,7 +389,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillEllipse = new JRFillEllipse(filler, ellipse, this);
 			}
 		}
-		
+
 		return fillEllipse;
 	}
 
@@ -400,7 +400,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRImage getImage(JRImage image)
 	{
 		JRFillImage fillImage = null;
-		
+
 		if (image != null)
 		{
 			fillImage = (JRFillImage)get(image);
@@ -409,7 +409,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillImage = new JRFillImage(filler, image, this);
 			}
 		}
-		
+
 		return fillImage;
 	}
 
@@ -420,7 +420,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRStaticText getStaticText(JRStaticText staticText)
 	{
 		JRFillStaticText fillStaticText = null;
-		
+
 		if (staticText != null)
 		{
 			fillStaticText = (JRFillStaticText)get(staticText);
@@ -429,7 +429,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillStaticText = new JRFillStaticText(filler, staticText, this);
 			}
 		}
-		
+
 		return fillStaticText;
 	}
 
@@ -440,7 +440,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRTextField getTextField(JRTextField textField)
 	{
 		JRFillTextField fillTextField = null;
-		
+
 		if (textField != null)
 		{
 			fillTextField = (JRFillTextField)get(textField);
@@ -449,7 +449,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillTextField = new JRFillTextField(filler, textField, this);
 			}
 		}
-		
+
 		return fillTextField;
 	}
 
@@ -460,7 +460,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRSubreport getSubreport(JRSubreport subreport)
 	{
 		JRFillSubreport fillSubreport = null;
-		
+
 		if (subreport != null)
 		{
 			fillSubreport = (JRFillSubreport)get(subreport);
@@ -469,7 +469,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillSubreport = new JRFillSubreport(filler, subreport, this);
 			}
 		}
-		
+
 		return fillSubreport;
 	}
 
@@ -480,7 +480,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRPieChart getPieChart(JRPieChart pieChart)
 	{
 		JRFillPieChart fillPieChart = null;
-		
+
 		if (pieChart != null)
 		{
 			fillPieChart = (JRFillPieChart)get(pieChart);
@@ -489,7 +489,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillPieChart = new JRFillPieChart(filler, pieChart, this);
 			}
 		}
-		
+
 		return fillPieChart;
 	}
 
@@ -500,7 +500,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
 		JRFillPieDataset fillPieDataset = null;
-		
+
 		if (pieDataset != null)
 		{
 			fillPieDataset = (JRFillPieDataset)get(pieDataset);
@@ -510,7 +510,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				datasets.add(fillPieDataset);
 			}
 		}
-		
+
 		return fillPieDataset;
 	}
 
@@ -521,7 +521,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRPiePlot getPiePlot(JRPiePlot piePlot)
 	{
 		JRFillPiePlot fillPiePlot = null;
-		
+
 		if (piePlot != null)
 		{
 			fillPiePlot = (JRFillPiePlot)get(piePlot);
@@ -530,7 +530,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillPiePlot = new JRFillPiePlot(piePlot, this);
 			}
 		}
-		
+
 		return fillPiePlot;
 	}
 
@@ -541,7 +541,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
 	{
 		JRFillPie3DChart fillPie3DChart = null;
-		
+
 		if (pie3DChart != null)
 		{
 			fillPie3DChart = (JRFillPie3DChart)get(pie3DChart);
@@ -550,7 +550,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillPie3DChart = new JRFillPie3DChart(filler, pie3DChart, this);
 			}
 		}
-		
+
 		return fillPie3DChart;
 	}
 
@@ -561,7 +561,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
 		JRFillPie3DPlot fillPie3DPlot = null;
-		
+
 		if (pie3DPlot != null)
 		{
 			fillPie3DPlot = (JRFillPie3DPlot)get(pie3DPlot);
@@ -570,7 +570,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillPie3DPlot = new JRFillPie3DPlot(pie3DPlot, this);
 			}
 		}
-		
+
 		return fillPie3DPlot;
 	}
 
@@ -581,7 +581,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRBarChart getBarChart(JRBarChart barChart)
 	{
 		JRFillBarChart fillBarChart = null;
-		
+
 		if (barChart != null)
 		{
 			fillBarChart = (JRFillBarChart)get(barChart);
@@ -590,7 +590,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillBarChart = new JRFillBarChart(filler, barChart, this);
 			}
 		}
-		
+
 		return fillBarChart;
 	}
 
@@ -634,14 +634,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillBar3DChart;
 	}
 
-	
+
 	/**
 	 *
 	 */
 	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
 	{
 		JRFillCategoryDataset fillCategoryDataset = null;
-		
+
 		if (categoryDataset != null)
 		{
 			fillCategoryDataset = (JRFillCategoryDataset)get(categoryDataset);
@@ -651,22 +651,22 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				datasets.add(fillCategoryDataset);
 			}
 		}
-		
+
 		return fillCategoryDataset;
 	}
-	
+
 	public JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset ){
-	    JRFillXyzDataset fillXyzDataset = null;
-	    if( xyzDataset != null ){
-	        fillXyzDataset = (JRFillXyzDataset)get( xyzDataset );
-	        if( fillXyzDataset == null ){
-	            fillXyzDataset = new JRFillXyzDataset( xyzDataset, this );
-	            datasets.add( fillXyzDataset );
-	        }   
-	    }
-	    
-	    return fillXyzDataset;
-	    
+		JRFillXyzDataset fillXyzDataset = null;
+		if( xyzDataset != null ){
+			fillXyzDataset = (JRFillXyzDataset)get( xyzDataset );
+			if( fillXyzDataset == null ){
+				fillXyzDataset = new JRFillXyzDataset( xyzDataset, this );
+				datasets.add( fillXyzDataset );
+			}
+		}
+
+		return fillXyzDataset;
+
 	}
 
 
@@ -676,7 +676,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRXyDataset getXyDataset(JRXyDataset xyDataset)
 	{
 		JRFillXyDataset fillXyDataset = null;
-		
+
 		if (xyDataset != null)
 		{
 			fillXyDataset = (JRFillXyDataset)get(xyDataset);
@@ -686,7 +686,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				datasets.add(fillXyDataset);
 			}
 		}
-		
+
 		return fillXyDataset;
 	}
 
@@ -697,7 +697,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRIntervalXyDataset getIntervalXyDataset(JRIntervalXyDataset intervalXyDataset)
 	{
 		JRFillIntervalXyDataset fillIntervalXyDataset = null;
-		
+
 		if (intervalXyDataset != null)
 		{
 			fillIntervalXyDataset = (JRFillIntervalXyDataset)get(intervalXyDataset);
@@ -707,7 +707,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				datasets.add(fillIntervalXyDataset);
 			}
 		}
-		
+
 		return fillIntervalXyDataset;
 	}
 
@@ -718,7 +718,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
 	{
 		JRFillCategorySeries fillCategorySeries = null;
-		
+
 		if (categorySeries != null)
 		{
 			fillCategorySeries = (JRFillCategorySeries)get(categorySeries);
@@ -727,23 +727,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillCategorySeries = new JRFillCategorySeries(categorySeries, this);
 			}
 		}
-		
+
 		return fillCategorySeries;
 	}
-	
-	
+
+
 	public JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries ){
-	    JRFillXyzSeries fillXyzSeries = null;
-	    
-	    if( xyzSeries != null ){
-	        fillXyzSeries = (JRFillXyzSeries)get( xyzSeries );
-	        
-	        if( fillXyzSeries == null ){
-	            fillXyzSeries = new JRFillXyzSeries( xyzSeries, this );
-	        }
-	    }
-	    
-	    return fillXyzSeries;
+		JRFillXyzSeries fillXyzSeries = null;
+
+		if( xyzSeries != null ){
+			fillXyzSeries = (JRFillXyzSeries)get( xyzSeries );
+
+			if( fillXyzSeries == null ){
+				fillXyzSeries = new JRFillXyzSeries( xyzSeries, this );
+			}
+		}
+
+		return fillXyzSeries;
 	}
 
 
@@ -753,7 +753,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRXySeries getXySeries(JRXySeries xySeries)
 	{
 		JRFillXySeries fillXySeries = null;
-		
+
 		if (xySeries != null)
 		{
 			fillXySeries = (JRFillXySeries)get(xySeries);
@@ -762,7 +762,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillXySeries = new JRFillXySeries(xySeries, this);
 			}
 		}
-		
+
 		return fillXySeries;
 	}
 
@@ -773,7 +773,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRBarPlot getBarPlot(JRBarPlot barPlot)
 	{
 		JRFillBarPlot fillBarPlot = null;
-		
+
 		if (barPlot != null)
 		{
 			fillBarPlot = (JRFillBarPlot)get(barPlot);
@@ -782,7 +782,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillBarPlot = new JRFillBarPlot(barPlot, this);
 			}
 		}
-		
+
 		return fillBarPlot;
 	}
 
@@ -793,7 +793,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
 	{
 		JRFillXyBarChart fillXyBarChart = null;
-		
+
 		if (xyBarChart != null)
 		{
 			fillXyBarChart = (JRFillXyBarChart)get(xyBarChart);
@@ -802,7 +802,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillXyBarChart = new JRFillXyBarChart(filler, xyBarChart, this);
 			}
 		}
-		
+
 		return fillXyBarChart;
 	}
 
@@ -813,7 +813,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
 		JRFillTimeSeries fillTimeSeries = null;
-		
+
 		if (timeSeries != null)
 		{
 			fillTimeSeries = (JRFillTimeSeries)get(timeSeries);
@@ -822,133 +822,133 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillTimeSeries = new JRFillTimeSeries(timeSeries, this);
 			}
 		}
-		
+
 		return fillTimeSeries;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
-	   
+
 		JRFillBar3DChart fillBarChart = null;
-		
+
 		if (barChart != null){
 			fillBarChart = (JRFillBar3DChart)get(barChart);
 			if (fillBarChart == null){
 				fillBarChart = new JRFillBar3DChart(filler, barChart, this);
 			}
 		}
-		
+
 		return fillBarChart;
 	}
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
-		
+
 		if (barPlot != null){
 			fillBarPlot = (JRFillBar3DPlot)get(barPlot);
 			if (fillBarPlot == null){
 				fillBarPlot = new JRFillBar3DPlot(barPlot, this);
 			}
 		}
-		
+
 		return fillBarPlot;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRLineChart getLineChart(JRLineChart lineChart) {
 		JRFillLineChart fillLineChart = null;
-		
+
 		if (lineChart != null){
 			fillLineChart = (JRFillLineChart)get(lineChart);
 			if (fillLineChart == null){
 				fillLineChart = new JRFillLineChart(filler, lineChart, this);
 			}
 		}
-		
+
 		return fillLineChart;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
 		JRFillScatterChart fillLineChart = null;
-		
+
 		if (scatterChart != null){
 			fillLineChart = (JRFillScatterChart)get(scatterChart);
 			if (fillLineChart == null){
 				fillLineChart = new JRFillScatterChart(filler, scatterChart, this);
 			}
 		}
-		
+
 		return fillLineChart;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
 		JRFillXyLineChart fillXyLineChart = null;
-		
+
 		if (xyLineChart != null){
 			fillXyLineChart = (JRFillXyLineChart)get(xyLineChart);
 			if (fillXyLineChart == null){
 				fillXyLineChart = new JRFillXyLineChart(filler, xyLineChart, this);
 			}
 		}
-		
+
 		return fillXyLineChart;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
 		JRFillLinePlot fillLinePlot = null;
-		
+
 		if (linePlot != null){
 			fillLinePlot = (JRFillLinePlot)get(linePlot);
 			if (fillLinePlot == null){
 				fillLinePlot = new JRFillLinePlot(linePlot, this);
 			}
 		}
-		
+
 		return fillLinePlot;
 	}
 
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	public JRScatterPlot getScatterPlot(JRScatterPlot scatterPlot) {
 		JRFillScatterPlot fillScatterPlot = null;
-		
+
 		if (scatterPlot != null){
 			fillScatterPlot = (JRFillScatterPlot)get(scatterPlot);
 			if (fillScatterPlot == null){
 				fillScatterPlot = new JRFillScatterPlot(scatterPlot, this);
 			}
 		}
-		
+
 		return fillScatterPlot;
 	}
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
 		JRFillAreaChart fillAreaChart = null;
@@ -967,7 +967,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
 		JRFillXyAreaChart fillXyAreaChart = null;
@@ -986,11 +986,11 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRFillAreaPlot fillAreaPlot = null;
-		
+
 		if (areaPlot != null)
 		{
 			fillAreaPlot = (JRFillAreaPlot)get(areaPlot);
@@ -999,36 +999,36 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillAreaPlot = new JRFillAreaPlot(areaPlot, this);
 			}
 		}
-		
+
 		return fillAreaPlot;
 	}
 
 
-    /**
-     * 
-     */
-    public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
-        JRFillBubbleChart fillBubbleChart = null;
-		
+	/**
+	 *
+	 */
+	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
+		JRFillBubbleChart fillBubbleChart = null;
+
 		if (bubbleChart != null)
 		{
-		    fillBubbleChart = (JRFillBubbleChart)get(bubbleChart);
+			fillBubbleChart = (JRFillBubbleChart)get(bubbleChart);
 			if (fillBubbleChart == null)
 			{
-			    fillBubbleChart = new JRFillBubbleChart(filler, bubbleChart, this);
+				fillBubbleChart = new JRFillBubbleChart(filler, bubbleChart, this);
 			}
 		}
-		
+
 		return fillBubbleChart;
-    }
+	}
 
 
-    /* (non-Javadoc)
-     * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBubblePlot(net.sf.jasperreports.charts.JRBubblePlot)
-     */
-    public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
-        JRFillBubblePlot fillBubblePlot = null;
-		
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBubblePlot(net.sf.jasperreports.charts.JRBubblePlot)
+	 */
+	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
+		JRFillBubblePlot fillBubblePlot = null;
+
 		if (bubblePlot != null)
 		{
 			fillBubblePlot = (JRFillBubblePlot)get(bubblePlot);
@@ -1037,9 +1037,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillBubblePlot = new JRFillBubblePlot(bubblePlot, this);
 			}
 		}
-		
+
 		return fillBubblePlot;
-    }
+	}
 
 
 	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)

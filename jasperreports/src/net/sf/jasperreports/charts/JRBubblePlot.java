@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -36,11 +36,11 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$
  */
 public interface JRBubblePlot extends JRChartPlot {
-    
-    public JRExpression getXAxisLabelExpression();
-    
-    public JRExpression getYAxisLabelExpression();
-    
-    public int getScaleType();
+	
+	public JRExpression getXAxisLabelExpression();
+	
+	public JRExpression getYAxisLabelExpression();
+	
+	public int getScaleType();
 
 }

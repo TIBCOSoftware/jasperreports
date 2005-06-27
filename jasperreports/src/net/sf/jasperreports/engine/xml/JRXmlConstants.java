@@ -1,25 +1,25 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 185, Berry Street, Suite 6200
  * San Francisco CA 94107
@@ -78,7 +78,7 @@ public class JRXmlConstants
 			positionTypeMap.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP),    POSITION_TYPE_FIX_RELATIVE_TO_TOP);
 			positionTypeMap.put(new Byte(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM), POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM);
 		}
-		
+
 		return positionTypeMap;
 	}
 
@@ -100,7 +100,7 @@ public class JRXmlConstants
 			modeMap.put(new Byte(JRElement.MODE_OPAQUE),      MODE_OPAQUE);
 			modeMap.put(new Byte(JRElement.MODE_TRANSPARENT), MODE_TRANSPARENT);
 		}
-		
+
 		return modeMap;
 	}
 
@@ -155,7 +155,7 @@ public class JRXmlConstants
 			colorMap.put(Color.yellow,     COLOR_YELLOW);
 			colorMap.put(Color.white,      COLOR_WHITE);
 		}
-		
+
 		return colorMap;
 	}
 
@@ -183,7 +183,7 @@ public class JRXmlConstants
 			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_RIGHT),     HORIZONTAL_ALIGN_RIGHT);
 			horizontalAlignMap.put(new Byte(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED), HORIZONTAL_ALIGN_JUSTIFIED);
 		}
-		
+
 		return horizontalAlignMap;
 	}
 
@@ -216,7 +216,7 @@ public class JRXmlConstants
 			verticalAlignMap.put(new Byte(JRTextElement.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
 			verticalAlignMap.put(new Byte(JRTextElement.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
 		}
-		
+
 		return verticalAlignMap;
 	}
 
@@ -241,7 +241,7 @@ public class JRXmlConstants
 			rotationMap.put(new Byte(JRTextElement.ROTATION_LEFT),  ROTATION_LEFT);
 			rotationMap.put(new Byte(JRTextElement.ROTATION_RIGHT), ROTATION_RIGHT);
 		}
-		
+
 		return rotationMap;
 	}
 
@@ -263,7 +263,7 @@ public class JRXmlConstants
 			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_LTR), RUN_DIRECTION_LTR);
 			runDirectionMap.put(new Byte(JRPrintText.RUN_DIRECTION_RTL), RUN_DIRECTION_RTL);
 		}
-		
+
 		return runDirectionMap;
 	}
 
@@ -288,7 +288,7 @@ public class JRXmlConstants
 			lineSpacingMap.put(new Byte(JRTextElement.LINE_SPACING_1_1_2),  LINE_SPACING_1_1_2);
 			lineSpacingMap.put(new Byte(JRTextElement.LINE_SPACING_DOUBLE), LINE_SPACING_DOUBLE);
 		}
-		
+
 		return lineSpacingMap;
 	}
 
@@ -310,7 +310,7 @@ public class JRXmlConstants
 			directionMap.put(new Byte(JRLine.DIRECTION_TOP_DOWN),  DIRECTION_TOP_DOWN);
 			directionMap.put(new Byte(JRLine.DIRECTION_BOTTOM_UP), DIRECTION_BOTTOM_UP);
 		}
-		
+
 		return directionMap;
 	}
 
@@ -335,7 +335,7 @@ public class JRXmlConstants
 			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_FILL_FRAME),   SCALE_IMAGE_FILL_FRAME);
 			scaleImageMap.put(new Byte(JRImage.SCALE_IMAGE_RETAIN_SHAPE), SCALE_IMAGE_RETAIN_SHAPE);
 		}
-		
+
 		return scaleImageMap;
 	}
 
@@ -360,7 +360,7 @@ public class JRXmlConstants
 			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_BLANK), ON_ERROR_TYPE_BLANK);
 			onErrorTypeMap.put(new Byte(JRImage.ON_ERROR_TYPE_ICON),  ON_ERROR_TYPE_ICON);
 		}
-		
+
 		return onErrorTypeMap;
 	}
 
@@ -385,7 +385,7 @@ public class JRXmlConstants
 			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT), STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT);
 			stretchTypeMap.put(new Byte(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT),    STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
 		}
-		
+
 		return stretchTypeMap;
 	}
 
@@ -419,7 +419,7 @@ public class JRXmlConstants
 			penMap.put(new Byte(JRGraphicElement.PEN_4_POINT),  PEN_4_POINT);
 			penMap.put(new Byte(JRGraphicElement.PEN_DOTTED),   PEN_DOTTED);
 		}
-		
+
 		return penMap;
 	}
 
@@ -438,7 +438,7 @@ public class JRXmlConstants
 			fillMap.put(FILL_SOLID, new Byte(JRGraphicElement.FILL_SOLID));
 			fillMap.put(new Byte(JRGraphicElement.FILL_SOLID), FILL_SOLID);
 		}
-		
+
 		return fillMap;
 	}
 
@@ -469,7 +469,7 @@ public class JRXmlConstants
 			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_COLUMN), RESET_TYPE_COLUMN);
 			resetTypeMap.put(new Byte(JRVariable.RESET_TYPE_GROUP),  RESET_TYPE_GROUP);
 		}
-		
+
 		return resetTypeMap;
 	}
 
@@ -512,7 +512,7 @@ public class JRXmlConstants
 			calculationMap.put(new Byte(JRVariable.CALCULATION_VARIANCE),           CALCULATION_VARIANCE);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
 		}
-		
+
 		return calculationMap;
 	}
 
@@ -534,7 +534,7 @@ public class JRXmlConstants
 			printOrderMap.put(new Byte(JRReport.PRINT_ORDER_VERTICAL),   PRINT_ORDER_VERTICAL);
 			printOrderMap.put(new Byte(JRReport.PRINT_ORDER_HORIZONTAL), PRINT_ORDER_HORIZONTAL);
 		}
-		
+
 		return printOrderMap;
 	}
 
@@ -556,7 +556,7 @@ public class JRXmlConstants
 			orientationMap.put(new Byte(JRReport.ORIENTATION_PORTRAIT),  ORIENTATION_PORTRAIT);
 			orientationMap.put(new Byte(JRReport.ORIENTATION_LANDSCAPE), ORIENTATION_LANDSCAPE);
 		}
-		
+
 		return orientationMap;
 	}
 
@@ -581,7 +581,7 @@ public class JRXmlConstants
 			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             WHEN_NO_DATA_TYPE_BLANK_PAGE);
 			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
 		}
-		
+
 		return whenNoDataTypeMap;
 	}
 
@@ -612,7 +612,7 @@ public class JRXmlConstants
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_COLUMN), EVALUATION_TIME_COLUMN);
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_GROUP),  EVALUATION_TIME_GROUP);
 		}
-		
+
 		return evaluationTimeMap;
 	}
 
@@ -646,7 +646,7 @@ public class JRXmlConstants
 			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR), HYPERLINK_TYPE_REMOTE_ANCHOR);
 			hyperlinkTypeMap.put(new Byte(JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE),   HYPERLINK_TYPE_REMOTE_PAGE);
 		}
-		
+
 		return hyperlinkTypeMap;
 	}
 
@@ -668,7 +668,7 @@ public class JRXmlConstants
 			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_SELF),  HYPERLINK_TARGET_SELF);
 			hyperlinkTargetMap.put(new Byte(JRHyperlink.HYPERLINK_TARGET_BLANK), HYPERLINK_TARGET_BLANK);
 		}
-		
+
 		return hyperlinkTargetMap;
 	}
 
@@ -680,9 +680,9 @@ public class JRXmlConstants
 	public static final String TITLE_POSITION_BOTTOM = "bottom";
 	public static final String TITLE_POSITION_LEFT = "left";
 	public static final String TITLE_POSITION_RIGHT = "right";
-	
+
 	public static Map chartTitlePositionMap = null;
-	
+
 	public static Map getChartTitlePositionMap()
 	{
 		if (chartTitlePositionMap == null)
@@ -697,10 +697,10 @@ public class JRXmlConstants
 			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_LEFT),   TITLE_POSITION_LEFT);
 			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_RIGHT),  TITLE_POSITION_RIGHT);
 		}
-		
+
 		return chartTitlePositionMap;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -719,30 +719,30 @@ public class JRXmlConstants
 			plotOrientationMap.put(PlotOrientation.HORIZONTAL, ORIENTATION_HORIZONTAL);
 			plotOrientationMap.put(PlotOrientation.VERTICAL,   ORIENTATION_VERTICAL);
 		}
-		
+
 		return plotOrientationMap;
 	}
-	
-	
+
+
 	private static final String SCALE_ON_BOTH_AXES = "bothAxes";
 	private static final String SCALE_ON_DOMAIN_AXIS = "domainAxis";
 	private static final String SCALE_ON_RANGE_AXIS = "rangeAxis";
-	
+
 	private static Map scaleTypeMap = null;
-	
+
 	public static Map  getScaleTypeMap(){
-	    if( scaleTypeMap == null ){
-	        scaleTypeMap = new HashMap( 6 );
-	        scaleTypeMap.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
-	        scaleTypeMap.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
-	        scaleTypeMap.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
-	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
-	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
-	        scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
-	    }
-	    
-	    return scaleTypeMap;
+		if( scaleTypeMap == null ){
+			scaleTypeMap = new HashMap( 6 );
+			scaleTypeMap.put( SCALE_ON_BOTH_AXES, new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ));
+			scaleTypeMap.put( SCALE_ON_DOMAIN_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ));
+			scaleTypeMap.put( SCALE_ON_RANGE_AXIS, new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ));
+			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_BOTH_AXES ), SCALE_ON_BOTH_AXES );
+			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS ), SCALE_ON_DOMAIN_AXIS );
+			scaleTypeMap.put( new Integer( XYBubbleRenderer.SCALE_ON_RANGE_AXIS ), SCALE_ON_RANGE_AXIS );
+		}
+
+		return scaleTypeMap;
 	}
-	
+
 
 }

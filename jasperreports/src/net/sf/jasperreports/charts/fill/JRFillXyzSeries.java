@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -39,58 +39,58 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @version $Id$
  */
 public class JRFillXyzSeries implements JRXyzSeries {
-    
-    JRXyzSeries parent = null;
-    
-    private Comparable series = null;
-    private Number xValue = null;
-    private Number yValue = null;
-    private Number zValue = null;
-    
-    
-    public JRFillXyzSeries( JRXyzSeries xyzSeries, JRFillObjectFactory factory ){
-        factory.put( xyzSeries, this );
-        parent = xyzSeries;
-    }
-    
-    public JRExpression getSeriesExpression(){
-        return parent.getSeriesExpression();
-    }
-    
-    public JRExpression getXValueExpression(){
-        return parent.getXValueExpression();
-    }
-    
-    public JRExpression getYValueExpression(){
-        return parent.getYValueExpression();
-    }
-    
-    public JRExpression getZValueExpression(){
-        return parent.getZValueExpression();
-    }
-    
-    
-    protected Comparable getSeries(){
-        return series;
-    }
-    
-    protected Number getXValue(){
-        return xValue;
-    }
-    
-    protected Number getYValue(){
-        return yValue;
-    }
-    
-    protected Number getZValue(){
-        return zValue;
-    }
-    
-    protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-        series = (Comparable)calculator.evaluate( getSeriesExpression() );
-        xValue = (Number)calculator.evaluate( getXValueExpression() );
-        yValue = (Number)calculator.evaluate( getYValueExpression() );
-        zValue = (Number)calculator.evaluate( getZValueExpression() );
-    }
+	
+	JRXyzSeries parent = null;
+	
+	private Comparable series = null;
+	private Number xValue = null;
+	private Number yValue = null;
+	private Number zValue = null;
+	
+	
+	public JRFillXyzSeries( JRXyzSeries xyzSeries, JRFillObjectFactory factory ){
+		factory.put( xyzSeries, this );
+		parent = xyzSeries;
+	}
+	
+	public JRExpression getSeriesExpression(){
+		return parent.getSeriesExpression();
+	}
+	
+	public JRExpression getXValueExpression(){
+		return parent.getXValueExpression();
+	}
+	
+	public JRExpression getYValueExpression(){
+		return parent.getYValueExpression();
+	}
+	
+	public JRExpression getZValueExpression(){
+		return parent.getZValueExpression();
+	}
+	
+	
+	protected Comparable getSeries(){
+		return series;
+	}
+	
+	protected Number getXValue(){
+		return xValue;
+	}
+	
+	protected Number getYValue(){
+		return yValue;
+	}
+	
+	protected Number getZValue(){
+		return zValue;
+	}
+	
+	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
+		series = (Comparable)calculator.evaluate( getSeriesExpression() );
+		xValue = (Number)calculator.evaluate( getXValueExpression() );
+		yValue = (Number)calculator.evaluate( getYValueExpression() );
+		zValue = (Number)calculator.evaluate( getZValueExpression() );
+	}
 
 }

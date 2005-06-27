@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -40,41 +40,41 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 
-    private static final long serialVersionUID = 608;
-    
-    protected JRExpression seriesExpression = null;
-    protected JRExpression xValueExpression = null;
-    protected JRExpression yValueExpression = null;
-    protected JRExpression zValueExpression = null;
-    
-    public JRBaseXyzSeries(){
-    }
-    
-    public JRBaseXyzSeries( JRXyzSeries xyzSeries, JRBaseObjectFactory factory ){
-        factory.put( xyzSeries, this );
-        
-        seriesExpression = factory.getExpression( xyzSeries.getSeriesExpression() );
-        xValueExpression = factory.getExpression( xyzSeries.getXValueExpression() );
-        yValueExpression = factory.getExpression( xyzSeries.getYValueExpression() );
-        zValueExpression = factory.getExpression( xyzSeries.getZValueExpression() );
-        
-    }
-    
-    
-    public JRExpression getSeriesExpression(){
-        return seriesExpression;
-    }
-    
-    public JRExpression getXValueExpression(){
-        return xValueExpression;
-    }
-    
-    public JRExpression getYValueExpression(){
-        return yValueExpression;
-    }
-    
-    public JRExpression getZValueExpression(){
-        return zValueExpression;
-    }
-    
+	private static final long serialVersionUID = 608;
+	
+	protected JRExpression seriesExpression = null;
+	protected JRExpression xValueExpression = null;
+	protected JRExpression yValueExpression = null;
+	protected JRExpression zValueExpression = null;
+	
+	public JRBaseXyzSeries(){
+	}
+	
+	public JRBaseXyzSeries( JRXyzSeries xyzSeries, JRBaseObjectFactory factory ){
+		factory.put( xyzSeries, this );
+		
+		seriesExpression = factory.getExpression( xyzSeries.getSeriesExpression() );
+		xValueExpression = factory.getExpression( xyzSeries.getXValueExpression() );
+		yValueExpression = factory.getExpression( xyzSeries.getYValueExpression() );
+		zValueExpression = factory.getExpression( xyzSeries.getZValueExpression() );
+		
+	}
+	
+	
+	public JRExpression getSeriesExpression(){
+		return seriesExpression;
+	}
+	
+	public JRExpression getXValueExpression(){
+		return xValueExpression;
+	}
+	
+	public JRExpression getYValueExpression(){
+		return yValueExpression;
+	}
+	
+	public JRExpression getZValueExpression(){
+		return zValueExpression;
+	}
+	
 }

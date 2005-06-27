@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -39,10 +39,10 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
  * @version $Id$
  */
 public class JRXyzDatasetFactory extends JRBaseFactory {
-    
-    public Object createObject( Attributes attrs ){
-        JRChart chart = (JRChart)digester.peek();
-        return (JRDesignXyzDataset)chart.getDataset();
-    }
+	
+	public Object createObject( Attributes attrs ){
+		JRChart chart = (JRChart)digester.peek();
+		return (JRDesignXyzDataset)chart.getDataset();
+	}
 
 }

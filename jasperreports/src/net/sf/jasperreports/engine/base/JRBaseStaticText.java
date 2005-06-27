@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -96,6 +97,14 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	/**
+	 *
+	 */
+	public void writeXml(JRXmlWriter writer)
+	{
+		writer.writeStaticText(this);
 	}
 
 

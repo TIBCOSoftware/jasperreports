@@ -1,25 +1,25 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 185, Berry Street, Suite 6200
  * San Francisco CA 94107
@@ -67,7 +67,7 @@ import net.sf.jasperreports.charts.JRXyzSeries;
 public abstract class JRAbstractObjectFactory
 {
 
-	
+
 	/**
 	 *
 	 */
@@ -182,21 +182,21 @@ public abstract class JRAbstractObjectFactory
 	public abstract JRCategorySeries getCategorySeries(JRCategorySeries categorySeries);
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset );
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries );
-	
-	
+
+
 	/**
 	 *
 	 */
 	public abstract JRBarPlot getBarPlot(JRBarPlot barPlot);
-	
+
 	/**
 	 *
 	 */
@@ -206,55 +206,55 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart);
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public abstract JRBar3DChart getBar3DChart( JRBar3DChart barChart );
 
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRLineChart getLineChart( JRLineChart lineChart );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRXyLineChart getXyLineChart( JRXyLineChart xyLineChart );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRScatterChart getScatterChart( JRScatterChart scatterChart );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRLinePlot getLinePlot( JRLinePlot linePlot );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRAreaChart getAreaChart( JRAreaChart areaChart );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRXyAreaChart getXyAreaChart( JRXyAreaChart areaChart );
-	
+
 	/**
-	 *   
+	 *
 	 */
 	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract JRBubbleChart getBubbleChart( JRBubbleChart bubbleChart );
-	
+
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract JRBubblePlot getBubblePlot( JRBubblePlot bubblePlot );
 

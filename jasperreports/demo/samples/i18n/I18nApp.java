@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -215,13 +215,13 @@ public class I18nApp
 	{
 		Locale[] locales = 
 			new Locale[]
-		   {
+			{
 				Locale.GERMANY,
 				Locale.US,
 				Locale.FRANCE,
 				new Locale("pt", "PT"),
 				new Locale("ro", "RO")
-		   };
+			};
 									  
 		return 
 			(Locale)JOptionPane.showInputDialog(

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -55,19 +55,20 @@ public class ChartsApp
 
 	private static final String[] reportNames = 
 		{
-//		"PieChartReport",
-//		"Pie3DChartReport",
-//		"BarChartReport",
-//		"Bar3DChartReport",
-//		"StackedBarChartReport",
-//		"StackedBar3DChartReport",
-//		"XYBarChartReport",
-//		"AreaChartReport",
-//		"XYAreaChartReport",
-//		"ScatterChartReport",
-//		"LineChartReport",
-//		"XYLineChartReport",
-//		"HighLowChartReport",
+		"PieChartReport",
+		"Pie3DChartReport",
+		"BarChartReport",
+		"Bar3DChartReport",
+		"StackedBarChartReport",
+		"StackedBar3DChartReport",
+		"XYBarChartReport",
+		"AreaChartReport",
+		"XYAreaChartReport",
+		"ScatterChartReport",
+		"LineChartReport",
+		"XYLineChartReport",
+		"BubbleChartReport",
+		"HighLowChartReport",
 		"CandlestickChartReport"
 		};
 	

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -41,39 +41,39 @@ import net.sf.jasperreports.engine.base.JRBaseChartPlot;
  */
 public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 
-    private static final long serialVersionUID = 608;
-    
-    protected JRExpression xAxisLabelExpression = null;
-    protected JRExpression yAxisLabelExpression = null;
-    
-    protected int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
-    
-    
-    protected JRBaseBubblePlot(){  
-    }
-    
-    public JRBaseBubblePlot( JRBubblePlot bubblePlot, JRBaseObjectFactory factory ){
-        super( bubblePlot, factory );
-        
-        scaleType = bubblePlot.getScaleType();
-        
-        xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
-        yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
-    }
-    
-    public JRExpression getXAxisLabelExpression(){
-        return xAxisLabelExpression;
-    }
-    
-    public JRExpression getYAxisLabelExpression(){
-        return yAxisLabelExpression;
-    }
-    
-    public int getScaleType(){
-        return scaleType;
-    }
-    
-    public void setScaleType( int scaleType ){
-        this.scaleType = scaleType;
-    }
+	private static final long serialVersionUID = 608;
+	
+	protected JRExpression xAxisLabelExpression = null;
+	protected JRExpression yAxisLabelExpression = null;
+	
+	protected int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+	
+	
+	protected JRBaseBubblePlot(){  
+	}
+	
+	public JRBaseBubblePlot( JRBubblePlot bubblePlot, JRBaseObjectFactory factory ){
+		super( bubblePlot, factory );
+		
+		scaleType = bubblePlot.getScaleType();
+		
+		xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
+		yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
+	}
+	
+	public JRExpression getXAxisLabelExpression(){
+		return xAxisLabelExpression;
+	}
+	
+	public JRExpression getYAxisLabelExpression(){
+		return yAxisLabelExpression;
+	}
+	
+	public int getScaleType(){
+		return scaleType;
+	}
+	
+	public void setScaleType( int scaleType ){
+		this.scaleType = scaleType;
+	}
 }

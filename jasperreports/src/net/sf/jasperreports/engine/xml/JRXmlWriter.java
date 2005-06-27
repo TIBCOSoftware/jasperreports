@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -832,11 +832,11 @@ public class JRXmlWriter
 				child = children.get(i);
 				if (child instanceof JRElementGroup)
 				{
-					writeElementGroup((JRElementGroup)child);
+					writeElementGroup((JRElementGroup)child);//FIXME NOW element group also visitable?
 				}
 				else
 				{
-					writeElement((JRElement)child);
+					((JRElement)child).writeXml(this);
 				}
 			}
 		}
@@ -866,7 +866,7 @@ public class JRXmlWriter
 				}
 				else
 				{
-					writeElement((JRElement)child);
+					((JRElement)child).writeXml(this);
 				}
 			}
 		}
@@ -877,8 +877,8 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 */
-	private void writeElement(JRElement element)
+	 *
+	private void writeElement(JRElement element)//FIXME NOW implement visitor
 	{
 		if(element instanceof JRLine)
 		{
@@ -965,7 +965,7 @@ public class JRXmlWriter
 			writeXyLineChart((JRXyLineChart) element);
 		}
 		else if( element instanceof JRBubbleChart ){
-		    writeBubbleChart((JRBubbleChart)element);
+			writeBubbleChart((JRBubbleChart)element);
 		}
 	}
 
@@ -973,7 +973,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeLine(JRLine line)
+	public void writeLine(JRLine line)
 	{
 		sb.append("\t\t\t<line");
 
@@ -1150,7 +1150,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeRectangle(JRRectangle rectangle)
+	public void writeRectangle(JRRectangle rectangle)
 	{
 		sb.append("\t\t\t<rectangle");
 
@@ -1173,7 +1173,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeEllipse(JREllipse ellipse)
+	public void writeEllipse(JREllipse ellipse)
 	{
 		sb.append("\t\t\t<ellipse>\n");
 
@@ -1187,7 +1187,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeImage(JRImage image)
+	public void writeImage(JRImage image)
 	{
 		sb.append("\t\t\t<image");
 
@@ -1435,7 +1435,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeStaticText(JRStaticText staticText)
+	public void writeStaticText(JRStaticText staticText)
 	{
 		sb.append("\t\t\t<staticText>\n");
 
@@ -1621,7 +1621,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeTextField(JRTextField textField)
+	public void writeTextField(JRTextField textField)
 	{
 		sb.append("\t\t\t<textField");
 
@@ -1729,7 +1729,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeSubreport(JRSubreport subreport)
+	public void writeSubreport(JRSubreport subreport)
 	{
 		sb.append("\t\t\t<subreport");
 
@@ -1950,16 +1950,16 @@ public class JRXmlWriter
 	 * @param dataset
 	 */
 	private void writeXyzDataset( JRXyzDataset dataset ){
-	    sb.append( "\t\t\t\t<xyzDataset>\n" );
-	    writeDataset( dataset );
-	    
-	    JRXyzSeries[] series = dataset.getSeries();
-	    if( series != null && series.length > 0 ){
-	        for( int i = 0; i < series.length; i++ ){
-	            writeXyzSeries( series[i] ); 
-	        }
-	    }
-	    sb.append( "\t\t\t\t</xyzDataset>\n" );
+		sb.append( "\t\t\t\t<xyzDataset>\n" );
+		writeDataset( dataset );
+		
+		JRXyzSeries[] series = dataset.getSeries();
+		if( series != null && series.length > 0 ){
+			for( int i = 0; i < series.length; i++ ){
+				writeXyzSeries( series[i] ); 
+			}
+		}
+		sb.append( "\t\t\t\t</xyzDataset>\n" );
 	}
 	
 	
@@ -1968,24 +1968,24 @@ public class JRXmlWriter
 	 * @param series
 	 */
 	private void writeXyzSeries( JRXyzSeries series ){
-	    sb.append( "\t\t\t\t\t<xyzSeries>\n" );
-	    sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
-	    sb.append( series.getSeriesExpression().getText() );
-	    sb.append("]]></seriesExpression>\n");
-	    
-	    sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
-	    sb.append( series.getXValueExpression().getText() );
-	    sb.append( "]]></xValueExpression>\n" );
-	    
-	    sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
-	    sb.append( series.getYValueExpression().getText() );
-	    sb.append( "]]></yValueExpression>\n" );
-	    
-	    sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
-	    sb.append( series.getZValueExpression().getText() );
-	    sb.append( "]]></zValueExpression>\n" );
-	    
-	    sb.append( "\t\t\t\t\t</xyzSeries>\n" );
+		sb.append( "\t\t\t\t\t<xyzSeries>\n" );
+		sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
+		sb.append( series.getSeriesExpression().getText() );
+		sb.append("]]></seriesExpression>\n");
+		
+		sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
+		sb.append( series.getXValueExpression().getText() );
+		sb.append( "]]></xValueExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
+		sb.append( series.getYValueExpression().getText() );
+		sb.append( "]]></yValueExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
+		sb.append( series.getZValueExpression().getText() );
+		sb.append( "]]></zValueExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t</xyzSeries>\n" );
 	}
 
 	/**
@@ -2091,7 +2091,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writePieChart(JRPieChart chart)
+	public void writePieChart(JRPieChart chart)
 	{
 		sb.append("\t\t\t<pieChart>\n");
 		writeChart(chart);
@@ -2132,7 +2132,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writePie3DChart(JRPie3DChart chart)
+	public void writePie3DChart(JRPie3DChart chart)
 	{
 		sb.append("\t\t\t<pie3DChart>\n");
 		writeChart(chart);
@@ -2207,27 +2207,26 @@ public class JRXmlWriter
 	 * 
 	 */
 	private void writeBubblePlot( JRBubblePlot plot ){
-	    sb.append( "\t\t\t\t<bubblePlot scaleType=\"" );
-	    
-	    Map scaleTypeMap = JRXmlConstants.getScaleTypeMap();
-	    sb.append( scaleTypeMap.get( new Integer( plot.getScaleType() )));
-	    
-	    sb.append( "\">\n" );
-	    writePlot( plot );
-	    if( plot.getXAxisLabelExpression() != null ){
-	        sb.append( "\t\t\t\t\t<xAxisLabelExpression><![CDATA[" );
-	        sb.append( plot.getXAxisLabelExpression().getText() );
-	        sb.append( "]]></xAxisLabelExpression>\n" );
-	    }
-	    
-	    if( plot.getYAxisLabelExpression() != null ){
-	        sb.append( "\t\t\t\t\t<yAxisLabelExpression><![CDATA[" );
-	        sb.append( plot.getYAxisLabelExpression().getText() );
-	        sb.append( "]]></yAxisLabelExpression>\n" );
-	    }
-	    
-	    sb.append( "\t\t\t\t</bubblePlot>\n" );
-	    
+		sb.append( "\t\t\t\t<bubblePlot scaleType=\"" );
+		
+		Map scaleTypeMap = JRXmlConstants.getScaleTypeMap();
+		sb.append( scaleTypeMap.get( new Integer( plot.getScaleType() )));
+		
+		sb.append( "\">\n" );
+		writePlot( plot );
+		if( plot.getXAxisLabelExpression() != null ){
+			sb.append( "\t\t\t\t\t<xAxisLabelExpression><![CDATA[" );
+			sb.append( plot.getXAxisLabelExpression().getText() );
+			sb.append( "]]></xAxisLabelExpression>\n" );
+		}
+		
+		if( plot.getYAxisLabelExpression() != null ){
+			sb.append( "\t\t\t\t\t<yAxisLabelExpression><![CDATA[" );
+			sb.append( plot.getYAxisLabelExpression().getText() );
+			sb.append( "]]></yAxisLabelExpression>\n" );
+		}
+		
+		sb.append( "\t\t\t\t</bubblePlot>\n" );
 	}
 
 
@@ -2265,7 +2264,7 @@ public class JRXmlWriter
 	 *
 	 * @param plot
 	 */
-	private void writeBar3DPlot(JRBar3DPlot plot)
+	public void writeBar3DPlot(JRBar3DPlot plot)
 	{
 		sb.append("\t\t\t\t<bar3DPlot");
 		if (plot.getXOffset() != BarRenderer3D.DEFAULT_X_OFFSET)
@@ -2295,7 +2294,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeBarChart(JRBarChart chart)
+	public void writeBarChart(JRBarChart chart)
 	{
 		sb.append("\t\t\t<barChart>\n");
 
@@ -2311,7 +2310,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeBar3DChart(JRBar3DChart chart)
+	public void writeBar3DChart(JRBar3DChart chart)
 	{
 		sb.append("\t\t\t<bar3DChart>\n");
 
@@ -2327,12 +2326,12 @@ public class JRXmlWriter
 	 * 
 	 * @param chart
 	 */
-	private void writeBubbleChart( JRBubbleChart chart ){
-	    sb.append( "\t\t\t<bubbleChart>\n" );
-	    writeChart( chart );
-	    writeXyzDataset( (JRXyzDataset)chart.getDataset() );
-	    writeBubblePlot( (JRBubblePlot)chart.getPlot());
-	    sb.append( "\t\t\t</bubbleChart>\n" );
+	public void writeBubbleChart( JRBubbleChart chart ){
+		sb.append( "\t\t\t<bubbleChart>\n" );
+		writeChart( chart );
+		writeXyzDataset( (JRXyzDataset)chart.getDataset() );
+		writeBubblePlot( (JRBubblePlot)chart.getPlot());
+		sb.append( "\t\t\t</bubbleChart>\n" );
 	}
 
 
@@ -2340,7 +2339,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeStackedBarChart(JRStackedBarChart chart)
+	public void writeStackedBarChart(JRStackedBarChart chart)
 	{
 		sb.append("\t\t\t<stackedBarChart>\n");
 
@@ -2356,7 +2355,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeStackedBar3DChart(JRStackedBar3DChart chart)
+	public void writeStackedBar3DChart(JRStackedBar3DChart chart)
 	{
 		sb.append("\t\t\t<stackedBar3DChart>\n");
 
@@ -2372,7 +2371,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeLineChart(JRLineChart chart)
+	public void writeLineChart(JRLineChart chart)
 	{
 		sb.append("\t\t\t<lineChart>\n");
 
@@ -2383,9 +2382,9 @@ public class JRXmlWriter
 		sb.append("\t\t\t</lineChart>\n");
 	}
 
-	private void writeHighLowDataset(JRHighLowDataset dataset)
+	public void writeHighLowDataset(JRHighLowDataset dataset)
 	{
-        sb.append("\t\t\t\t<highLowDataset>\n");
+		sb.append("\t\t\t\t<highLowDataset>\n");
 
 		writeDataset(dataset);
 
@@ -2421,7 +2420,7 @@ public class JRXmlWriter
 	}
 
 
-	private void writeHighLowChart(JRHighLowChart chart)
+	public void writeHighLowChart(JRHighLowChart chart)
 	{
 		sb.append("\t\t\t<highLowChart>\n");
 
@@ -2455,7 +2454,7 @@ public class JRXmlWriter
 	}
 
 
-	private void writeCandlestickChart(JRCandlestickChart chart)
+	public void writeCandlestickChart(JRCandlestickChart chart)
 	{
 		sb.append("\t\t\t<candlestickChart>\n");
 
@@ -2463,7 +2462,7 @@ public class JRXmlWriter
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-		sb.append("\t\t\t\t<candlestickPlot");
+		sb.append("\t\t\t\t<highLowPlot");
 		if (!plot.isShowVolume())
 			sb.append(" isShowVolume=\"false\"");
 		sb.append(">\n");
@@ -2515,7 +2514,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeAreaChart(JRAreaChart chart)
+	public void writeAreaChart(JRAreaChart chart)
 	{
 		sb.append("\t\t\t<areaChart>\n");
 
@@ -2561,7 +2560,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeScatterChart(JRScatterChart chart)
+	public void writeScatterChart(JRScatterChart chart)
 	{
 		sb.append("\t\t\t<scatterChart>\n");
 
@@ -2577,7 +2576,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeXyAreaChart(JRXyAreaChart chart)
+	public void writeXyAreaChart(JRXyAreaChart chart)
 	{
 		sb.append("\t\t\t<xyAreaChart>\n");
 
@@ -2593,7 +2592,7 @@ public class JRXmlWriter
 	 *
 	 * @param dataset
 	 */
-    private void writeIntervalXyDataset(JRIntervalXyDataset dataset)
+	private void writeIntervalXyDataset(JRIntervalXyDataset dataset)
 	{
 		sb.append("\t\t\t\t<intervalXyDataset>\n");
 
@@ -2615,7 +2614,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeXyBarChart(JRXyBarChart chart)
+	public void writeXyBarChart(JRXyBarChart chart)
 	{
 		sb.append("\t\t\t<xyBarChart>\n");
 
@@ -2631,7 +2630,7 @@ public class JRXmlWriter
 	 *
 	 * @param chart
 	 */
-	private void writeXyLineChart(JRXyLineChart chart)
+	public void writeXyLineChart(JRXyLineChart chart)
 	{
 		sb.append("\t\t\t<xyLineChart>\n");
 

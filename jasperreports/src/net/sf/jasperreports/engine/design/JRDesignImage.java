@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -270,7 +271,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 
 	/**
 	 * Sets the evaluation time for this image.
-     * 
+	 * 
 	 */
 	public void setEvaluationTime(byte evaluationTime)
 	{
@@ -363,6 +364,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	/**
+	 *
+	 */
+	public void writeXml(JRXmlWriter xmlWriter)
+	{
+		xmlWriter.writeImage(this);
 	}
 
 

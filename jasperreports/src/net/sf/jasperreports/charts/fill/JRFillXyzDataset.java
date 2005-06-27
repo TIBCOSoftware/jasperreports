@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -44,63 +44,63 @@ import net.sf.jasperreports.engine.fill.JRFillChartDataset;
  */
 public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset {
 
-    private DefaultXYZDataset dataset = new DefaultXYZDataset();
-    
-    protected JRFillXyzSeries[] xyzSeries = null;
-    
-    private boolean isIncremented = false;
-    
-    
-    public JRFillXyzDataset( JRXyzDataset xyzDataset, JRFillObjectFactory factory ){
-        super( xyzDataset, factory );
-        
-        JRXyzSeries[] srcXyzSeries = xyzDataset.getSeries();
-        if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
-            xyzSeries = new JRFillXyzSeries[ srcXyzSeries.length ];
-            for( int i = 0; i< xyzSeries.length; i++ ){
-                xyzSeries[i] = (JRFillXyzSeries)factory.getXyzSeries( srcXyzSeries[i]);
-            }
-        }
-    }
-    
-    public JRXyzSeries[] getSeries(){
-        return xyzSeries;
-    }
-    
-    protected void initialize(){
-        dataset = new DefaultXYZDataset();
-        isIncremented = false;
-    }
-    
-    protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-        if( xyzSeries != null && xyzSeries.length > 0 ){
-            for( int i = 0; i < xyzSeries.length; i++ ){
-                xyzSeries[i].evaluate( calculator );
-            }
-        }
-    }
-    
-    protected void increment(){
-        if( xyzSeries != null && xyzSeries .length > 0 ){
-            for( int i = 0; i< xyzSeries.length; i++ ){
-                JRFillXyzSeries crtXyzSeries = xyzSeries[i];
-                if( crtXyzSeries.getSeries() != null ){
-                    dataset.addValue( crtXyzSeries.getSeries(), 
-                            		  crtXyzSeries.getXValue(),
-                            		  crtXyzSeries.getYValue(),
-                            		  crtXyzSeries.getZValue());
-                }
-            }
-        }
-        
-        isIncremented = true;
-    }
-    
-    public Dataset getDataset() {
-        if( isIncremented == false ){
-            increment();
-        }
-        
-        return dataset;
-    }
+	private DefaultXYZDataset dataset = new DefaultXYZDataset();
+	
+	protected JRFillXyzSeries[] xyzSeries = null;
+	
+	private boolean isIncremented = false;
+	
+	
+	public JRFillXyzDataset( JRXyzDataset xyzDataset, JRFillObjectFactory factory ){
+		super( xyzDataset, factory );
+		
+		JRXyzSeries[] srcXyzSeries = xyzDataset.getSeries();
+		if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
+			xyzSeries = new JRFillXyzSeries[ srcXyzSeries.length ];
+			for( int i = 0; i< xyzSeries.length; i++ ){
+				xyzSeries[i] = (JRFillXyzSeries)factory.getXyzSeries( srcXyzSeries[i]);
+			}
+		}
+	}
+	
+	public JRXyzSeries[] getSeries(){
+		return xyzSeries;
+	}
+	
+	protected void initialize(){
+		dataset = new DefaultXYZDataset();
+		isIncremented = false;
+	}
+	
+	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
+		if( xyzSeries != null && xyzSeries.length > 0 ){
+			for( int i = 0; i < xyzSeries.length; i++ ){
+				xyzSeries[i].evaluate( calculator );
+			}
+		}
+	}
+	
+	protected void increment(){
+		if( xyzSeries != null && xyzSeries .length > 0 ){
+			for( int i = 0; i< xyzSeries.length; i++ ){
+				JRFillXyzSeries crtXyzSeries = xyzSeries[i];
+				if( crtXyzSeries.getSeries() != null ){
+					dataset.addValue( crtXyzSeries.getSeries(), 
+									  crtXyzSeries.getXValue(),
+									  crtXyzSeries.getYValue(),
+									  crtXyzSeries.getZValue());
+				}
+			}
+		}
+		
+		isIncremented = true;
+	}
+	
+	public Dataset getDataset() {
+		if( isIncremented == false ){
+			increment();
+		}
+		
+		return dataset;
+	}
 }

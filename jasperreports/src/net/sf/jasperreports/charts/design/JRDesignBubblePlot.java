@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -36,17 +36,17 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$ 
  */
 public class JRDesignBubblePlot extends JRBaseBubblePlot {
-    
-    private static final long serialVersionUID = 608;
-    
-    
-    public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
-        this.xAxisLabelExpression = xAxisLabelExpression;
-    }
-    
-    public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
-        this.yAxisLabelExpression = yAxisLabelExpression;
-    }
-    
-    
+	
+	private static final long serialVersionUID = 608;
+	
+	
+	public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
+		this.xAxisLabelExpression = xAxisLabelExpression;
+	}
+	
+	public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
+		this.yAxisLabelExpression = yAxisLabelExpression;
+	}
+	
+	
 }

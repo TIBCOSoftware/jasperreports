@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 //import java.awt.image.*;
 
 
@@ -606,6 +607,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	/**
+	 *
+	 */
+	public void writeXml(JRXmlWriter xmlWriter)
+	{
+		xmlWriter.writeImage(this);
 	}
 
 

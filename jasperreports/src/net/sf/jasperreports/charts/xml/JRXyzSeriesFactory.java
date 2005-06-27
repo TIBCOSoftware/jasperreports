@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -37,59 +37,58 @@ import org.xml.sax.Attributes;
  * @version $Id$
  */
 public class JRXyzSeriesFactory extends JRBaseFactory {
-    
-    public Object createObject( Attributes attrs ){
-        return new JRDesignXyzSeries();
-    }
-    
-    public static class JRSeriesExpressionFactory extends JRBaseFactory {
-        
-        public Object createObject( Attributes attrs ){
-            JRDesignExpression expression = new JRDesignExpression();
-            expression.setValueClass( Comparable.class );
-            expression.setValueClassName( Comparable.class.getName() );
-            
-            return expression;
-            
-        }
-    }
-    
-    public static class JRXValueExpressionFactory extends JRBaseFactory {
-        
-        public Object createObject( Attributes attrs ){
-            JRDesignExpression expression = new JRDesignExpression();
-            expression.setValueClass( Number.class );
-            expression.setValueClassName( Number.class.getName() );
-            
-            return expression;
-        }
-    
-    }
-    
-    
-    public static class JRYValueExpressionFactory extends JRBaseFactory {
-        
-        public Object createObject( Attributes attrs ){
-            JRDesignExpression expression = new JRDesignExpression();
-            expression.setValueClass( Number.class );
-            expression.setValueClassName( Number.class.getName() );
-            
-            return expression;
-        }
-    }
-    
-    
-    public static class JRZValueExpressionFactory extends JRBaseFactory {
-        
-        public Object createObject( Attributes attrs ){
-            JRDesignExpression expression = new JRDesignExpression();
-            expression.setValueClass( Number.class );
-            expression.setValueClassName( Number.class.getName() );
-            
-            return expression;
-        }
-    }
-    
-    
-   
+	
+	public Object createObject( Attributes attrs ){
+		return new JRDesignXyzSeries();
+	}
+	
+	public static class JRSeriesExpressionFactory extends JRBaseFactory {
+		
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass( Comparable.class );
+			expression.setValueClassName( Comparable.class.getName() );
+			
+			return expression;
+			
+		}
+	}
+	
+	public static class JRXValueExpressionFactory extends JRBaseFactory {
+		
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass( Number.class );
+			expression.setValueClassName( Number.class.getName() );
+			
+			return expression;
+		}
+	
+	}
+	
+	
+	public static class JRYValueExpressionFactory extends JRBaseFactory {
+		
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass( Number.class );
+			expression.setValueClassName( Number.class.getName() );
+			
+			return expression;
+		}
+	}
+	
+	
+	public static class JRZValueExpressionFactory extends JRBaseFactory {
+		
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClass( Number.class );
+			expression.setValueClassName( Number.class.getName() );
+			
+			return expression;
+		}
+	}
+
+
 }
