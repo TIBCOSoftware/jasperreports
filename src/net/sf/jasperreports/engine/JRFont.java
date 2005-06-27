@@ -186,6 +186,12 @@ public interface JRFont
 	/**
 	 *
 	 */
+	public Map getNonPdfAttributes();
+
+
+	/**
+	 *
+	 */
 	public Map getAttributes();
 	
 
