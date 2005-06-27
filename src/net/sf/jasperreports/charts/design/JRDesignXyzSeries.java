@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -36,23 +36,23 @@ import net.sf.jasperreports.engine.JRExpression;
  * @version $Id$
  */
 public class JRDesignXyzSeries extends JRBaseXyzSeries {
-    
-    private static final long serialVersionUID=608;
-    
-    public void setSeriesExpression( JRExpression seriesExpression ){
-        this.seriesExpression = seriesExpression;
-    }
-   
-    public void setXValueExpression( JRExpression xValueExpression ){
-        this.xValueExpression = xValueExpression;
-    }
-    
-    public void setYValueExpression( JRExpression yValueExpression ){
-        this.yValueExpression = yValueExpression;
-    }
-    
-    public void setZValueExpression( JRExpression zValueExpression ){
-        this.zValueExpression = zValueExpression;
-    }
-    
+	
+	private static final long serialVersionUID=608;
+	
+	public void setSeriesExpression( JRExpression seriesExpression ){
+		this.seriesExpression = seriesExpression;
+	}
+
+	public void setXValueExpression( JRExpression xValueExpression ){
+		this.xValueExpression = xValueExpression;
+	}
+	
+	public void setYValueExpression( JRExpression yValueExpression ){
+		this.yValueExpression = yValueExpression;
+	}
+	
+	public void setZValueExpression( JRExpression zValueExpression ){
+		this.zValueExpression = zValueExpression;
+	}
+	
 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -142,10 +142,10 @@ public class JRXmlLoader
 	/**
 	*
 	*/
-   public Set getGroupBoundDatasets()
-   {
-	   return groupBoundDatasets;
-   }
+	public Set getGroupBoundDatasets()
+	{
+		return groupBoundDatasets;
+	}
 
 	/**
 	 *

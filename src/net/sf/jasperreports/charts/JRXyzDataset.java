@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * @version $Id$
  */
 public interface JRXyzDataset extends JRChartDataset {
-    
-    public JRXyzSeries[] getSeries();
+	
+	public JRXyzSeries[] getSeries();
 
 }

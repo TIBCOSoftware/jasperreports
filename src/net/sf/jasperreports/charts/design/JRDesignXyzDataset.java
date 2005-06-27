@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -40,29 +40,29 @@ import java.util.ArrayList;
  * @version $Id$ 
  */
 public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDataset {
-    
-    private static final long serialVersionUID = 608;
-    
-    private List xyzSeriesList = new ArrayList();
-    
-    public JRXyzSeries[] getSeries(){
-        JRXyzSeries[] xyzSeriesArray = new JRXyzSeries[ xyzSeriesList.size() ];
-        xyzSeriesList.toArray( xyzSeriesArray );
-        
-        return xyzSeriesArray;
-    }
-    
-    public void addXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
-        xyzSeriesList.add( xyzSeries );
-    }
-    
-    public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
-        if( xyzSeries != null ){
-            xyzSeriesList.remove( xyzSeries );
-        }
-        
-        return xyzSeries;
-    }
-    
+	
+	private static final long serialVersionUID = 608;
+	
+	private List xyzSeriesList = new ArrayList();
+	
+	public JRXyzSeries[] getSeries(){
+		JRXyzSeries[] xyzSeriesArray = new JRXyzSeries[ xyzSeriesList.size() ];
+		xyzSeriesList.toArray( xyzSeriesArray );
+		
+		return xyzSeriesArray;
+	}
+	
+	public void addXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
+		xyzSeriesList.add( xyzSeries );
+	}
+	
+	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
+		if( xyzSeries != null ){
+			xyzSeriesList.remove( xyzSeries );
+		}
+		
+		return xyzSeries;
+	}
+	
 
 }

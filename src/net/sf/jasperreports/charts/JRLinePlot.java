@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -44,5 +44,5 @@ public interface JRLinePlot extends JRChartPlot {
 	public boolean isShowLines();
 	
 	public boolean isShowShapes();
-   
+
 }

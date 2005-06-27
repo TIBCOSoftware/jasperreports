@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -44,7 +44,7 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot {
 	}
 	
 	public JRExpression getCategoryAxisLabelExpression(){
-		return ((JRLinePlot)parent).getCategoryAxisLabelExpression();   
+		return ((JRLinePlot)parent).getCategoryAxisLabelExpression();
 	}
 	
 	public JRExpression getValueAxisLabelExpression(){

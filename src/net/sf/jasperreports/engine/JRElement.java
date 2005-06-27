@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Color;
+
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -272,6 +274,11 @@ public interface JRElement
 	 *
 	 */
 	public void collectExpressions(JRExpressionCollector collector);
+
+	/**
+	 *
+	 */
+	public void writeXml(JRXmlWriter writer);
 
 
 }

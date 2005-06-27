@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -40,21 +40,21 @@ import org.xml.sax.Attributes;
  * @version $Id$
  */
 public class JRBubblePlotFactory extends JRBaseFactory {
-    
-    private static final String ATTRIBUTE_scaleType = "scaleType";
-    
-    public Object createObject( Attributes attributes ){
-        JRChart chart = (JRChart)digester.peek();
-        JRDesignBubblePlot plot = (JRDesignBubblePlot)chart.getPlot();
-        
-        
-        String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
-        Integer intScaleType = (Integer)JRXmlConstants.getScaleTypeMap().get( scaleType );
-        if( intScaleType != null ){
-            plot.setScaleType( intScaleType.intValue()  );
-        }
-       
-        return plot;
-    }
+	
+	private static final String ATTRIBUTE_scaleType = "scaleType";
+	
+	public Object createObject( Attributes attributes ){
+		JRChart chart = (JRChart)digester.peek();
+		JRDesignBubblePlot plot = (JRDesignBubblePlot)chart.getPlot();
+		
+		
+		String scaleType = attributes.getValue( ATTRIBUTE_scaleType );
+		Integer intScaleType = (Integer)JRXmlConstants.getScaleTypeMap().get( scaleType );
+		if( intScaleType != null ){
+			plot.setScaleType( intScaleType.intValue()  );
+		}
+
+		return plot;
+	}
 
 }

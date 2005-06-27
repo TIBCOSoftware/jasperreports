@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -36,12 +36,12 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRXyzSeries {
 
-    public JRExpression getSeriesExpression();
-    
-    public JRExpression getXValueExpression();
-    
-    public JRExpression getYValueExpression();
-    
-    public JRExpression getZValueExpression();
-    
+	public JRExpression getSeriesExpression();
+	
+	public JRExpression getXValueExpression();
+	
+	public JRExpression getYValueExpression();
+	
+	public JRExpression getZValueExpression();
+	
 }
