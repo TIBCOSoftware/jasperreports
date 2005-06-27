@@ -28,7 +28,6 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
-import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 
 

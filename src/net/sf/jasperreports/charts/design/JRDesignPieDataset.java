@@ -28,8 +28,8 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 

@@ -28,15 +28,15 @@
 
 package net.sf.jasperreports.charts.fill;
 
-import org.jfree.data.general.Dataset;
-
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.DefaultXYZDataset;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+
+import org.jfree.data.general.Dataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)

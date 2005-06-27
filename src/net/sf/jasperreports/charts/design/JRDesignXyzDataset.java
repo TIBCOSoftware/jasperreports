@@ -28,13 +28,14 @@
 
 package net.sf.jasperreports.charts.design;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)

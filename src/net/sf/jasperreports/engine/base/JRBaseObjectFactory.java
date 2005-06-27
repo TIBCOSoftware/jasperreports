@@ -329,7 +329,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseGroup == null)
 			{
 				baseGroup = new JRBaseGroup(group, this);
-				//FIXME NOW why not put in map
 			}
 		}
 		
