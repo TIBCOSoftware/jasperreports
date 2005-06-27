@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 
 
@@ -44,5 +45,12 @@ public class JRDesignPie3DPlot extends JRBasePie3DPlot
 	 */
 	private static final long serialVersionUID = 608;
 
-	
+
+	/**
+	 *
+	 */
+	public JRDesignPie3DPlot(JRChartPlot pie3DPlot)
+	{
+		super(pie3DPlot);
+	}
 }

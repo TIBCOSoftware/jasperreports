@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -48,9 +49,10 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	boolean isShowLines = true;
 	
 	
-	protected JRBaseScatterPlot(){
+	public JRBaseScatterPlot( JRChartPlot scattedPlot){
+		super( scattedPlot);
 	}
-	
+
 	public JRBaseScatterPlot( JRScatterPlot scattedPlot, JRBaseObjectFactory factory ){
 		super( scattedPlot, factory );
 		

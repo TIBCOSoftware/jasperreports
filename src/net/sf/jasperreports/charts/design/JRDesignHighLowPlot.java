@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
@@ -42,6 +43,15 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	 *
 	 */
 	private static final long serialVersionUID = 608;
+
+
+	/**
+	 *
+	 */
+	public JRDesignHighLowPlot(JRChartPlot highLowPlot)
+	{
+		super(highLowPlot);
+	}
 
 
 	/**

@@ -58,37 +58,30 @@ import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.charts.base.JRBaseAreaChart;
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
-import net.sf.jasperreports.charts.base.JRBaseBar3DChart;
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
-import net.sf.jasperreports.charts.base.JRBaseBarChart;
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
-import net.sf.jasperreports.charts.base.JRBaseBubbleChart;
 import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
-import net.sf.jasperreports.charts.base.JRBaseCandlestickChart;
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
-import net.sf.jasperreports.charts.base.JRBaseHighLowChart;
 import net.sf.jasperreports.charts.base.JRBaseIntervalXyDataset;
-import net.sf.jasperreports.charts.base.JRBaseLineChart;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
-import net.sf.jasperreports.charts.base.JRBasePie3DChart;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
-import net.sf.jasperreports.charts.base.JRBasePieChart;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
-import net.sf.jasperreports.charts.base.JRBaseScatterChart;
-import net.sf.jasperreports.charts.base.JRBaseStackedBar3DChart;
-import net.sf.jasperreports.charts.base.JRBaseStackedBarChart;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
-import net.sf.jasperreports.charts.base.JRBaseXyAreaChart;
-import net.sf.jasperreports.charts.base.JRBaseXyBarChart;
-import net.sf.jasperreports.charts.base.JRBaseXyLineChart;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.charts.base.JRBaseXyzDataset;
 import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
+import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
+import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
+import net.sf.jasperreports.charts.base.JRBaseHighLowDataset;
+import net.sf.jasperreports.charts.base.JRBaseXyDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -110,6 +103,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRChart;
 
 
 /**
@@ -546,7 +540,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRPieChart getPieChart(JRPieChart pieChart)
 	{
 		JRBasePieChart basePieChart = null;
@@ -606,7 +600,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
 	{
 		JRBasePie3DChart basePie3DChart = null;
@@ -646,7 +640,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRBarChart getBarChart(JRBarChart barChart)
 	{
 		JRBaseBarChart baseBarChart = null;
@@ -666,7 +660,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedbarChart)
 	{
 		JRBaseStackedBarChart baseStackedBarChart = null;
@@ -686,7 +680,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedbar3DChart)
 	{
 		JRBaseStackedBar3DChart baseStackedBar3DChart = null;
@@ -826,7 +820,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
-	 */
+	 *
 	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
 		JRBaseBar3DChart baseBarChart = null;
 		
@@ -867,7 +861,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
 	{
 		JRBaseXyBarChart baseXyBarChart = null;
@@ -887,7 +881,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/** 
 	 * 
-	 */
+	 *
 	public JRLineChart getLineChart(JRLineChart lineChart) {
 		JRBaseLineChart baseLineChart = null;
 		
@@ -906,7 +900,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/** 
 	 * 
-	 */
+	 *
 	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
 		JRBaseScatterChart baseScatterChart = null;
 		
@@ -925,7 +919,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/** 
 	 * 
-	 */
+	 *
 	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
 		JRBaseXyLineChart baseXyLineChart = null;
 		
@@ -963,7 +957,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *  
-	 */
+	 *
 	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
 		JRBaseAreaChart baseAreaChart = null;
 		
@@ -982,7 +976,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *  
-	 */
+	 *
 	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
 		JRBaseXyAreaChart baseXyAreaChart = null;
 		
@@ -1037,7 +1031,44 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/** 
+	/*
+	 *
+	 */
+	public JRXyDataset getXyDataset(JRXyDataset xyDataset) {
+		JRBaseXyDataset baseXyDataset = null;
+
+		if (xyDataset != null)
+		{
+			baseXyDataset = (JRBaseXyDataset)get(xyDataset);
+			if (baseXyDataset == null)
+			{
+				baseXyDataset = new JRBaseXyDataset(xyDataset, this);
+			}
+		}
+
+		return baseXyDataset;
+	}
+
+	/*
+	 *
+	 */
+	public JRHighLowDataset getHighLowDataset(JRHighLowDataset highLowDataset) {
+		JRBaseHighLowDataset baseHighLowDataset = null;
+
+		if (highLowDataset != null)
+		{
+			baseHighLowDataset = (JRBaseHighLowDataset)get(highLowDataset);
+			if (baseHighLowDataset == null)
+			{
+				baseHighLowDataset = new JRBaseHighLowDataset(highLowDataset, this);
+			}
+		}
+
+		return baseHighLowDataset;
+	}
+
+
+	/**
 	 * 
 	 */
 	public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
@@ -1058,7 +1089,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/** 
 	 *
-	 */
+	 *
 	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
 		JRBaseBubbleChart baseBubbleChart = null;
 		
@@ -1094,7 +1125,9 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 	
 
-
+    /**
+	 *
+	 *
 	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
 	{
 		JRBaseHighLowChart baseHighLowChart = null;
@@ -1129,7 +1162,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
+	 /**
+	  *
+	  */
+	 public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
 	{
 		JRBaseCandlestickPlot baseCandlestickPlot = null;
 
@@ -1145,5 +1181,64 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseCandlestickPlot;
 	}
 
+
+	/**
+	 *
+	 */
+	public JRHighLowPlot getHighLowPlot(JRHighLowPlot highLowPlot)
+	{
+		JRBaseHighLowPlot baseHighLowPlot = null;
+
+		if (highLowPlot != null)
+		{
+			baseHighLowPlot = (JRBaseHighLowPlot)get(highLowPlot);
+			if (baseHighLowPlot == null)
+			{
+				baseHighLowPlot = new JRBaseHighLowPlot(highLowPlot, this);
+			}
+		}
+
+		return baseHighLowPlot;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRScatterPlot getScatterPlot(JRScatterPlot scatterPlot)
+	{
+		JRBaseScatterPlot baseScatterPlot = null;
+
+		if (scatterPlot != null)
+		{
+			baseScatterPlot = (JRBaseScatterPlot)get(scatterPlot);
+			if (baseScatterPlot == null)
+			{
+				baseScatterPlot = new JRBaseScatterPlot(scatterPlot, this);
+			}
+		}
+
+		return baseScatterPlot;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRChart getChart(JRChart chart)
+	{
+		JRBaseChart baseChart = null;
+
+		if (chart != null)
+		{
+			baseChart = (JRBaseChart)get(chart);
+			if (baseChart == null)
+			{
+				baseChart = new JRBaseChart(chart, this);
+			}
+		}
+
+		return baseChart;
+	}
 
 }

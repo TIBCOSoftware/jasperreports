@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 /**
  * Contains parameters useful for export in PDF format.
  * <p>
- * The HTML exporter can send data to an output stream or a file on disk. The engine looks among the export parameters in
+ * The PDF exporter can send data to an output stream or a file on disk. The engine looks among the export parameters in
  * order to find the selected output type in this order: OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
  * <p>
  *

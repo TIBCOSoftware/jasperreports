@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
@@ -49,11 +50,12 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 *
 	 */
-	protected JRBasePiePlot()
+	public JRBasePiePlot(JRChartPlot piePlot)
 	{
+		super(piePlot);
 	}
 
-	
+
 	/**
 	 *
 	 */

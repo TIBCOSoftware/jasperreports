@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -48,11 +49,12 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
 	protected double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
 	
-	
-	protected JRBaseBar3DPlot(){
-		
+
+	public JRBaseBar3DPlot( JRChartPlot barPlot){
+		super( barPlot);
 	}
-	
+
+
 	public JRBaseBar3DPlot( JRBar3DPlot barPlot, JRBaseObjectFactory factory ){
 		super( barPlot, factory );
 		

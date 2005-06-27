@@ -28,8 +28,9 @@
 
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignScatterChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -40,8 +41,8 @@ import org.xml.sax.Attributes;
 public class JRScatterChartFactory extends JRBaseFactory {
 	
 	public Object createObject( Attributes attrs ){
-		JRDesignScatterChart scatterChart = new JRDesignScatterChart();
-		
-		return scatterChart;
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_SCATTER);
+
+		return chart;
 	}
 }

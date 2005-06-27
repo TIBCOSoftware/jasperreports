@@ -64,6 +64,23 @@ import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyLineChart;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
+import net.sf.jasperreports.charts.design.JRDesignBarPlot;
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
+import net.sf.jasperreports.charts.design.JRDesignLinePlot;
+import net.sf.jasperreports.charts.design.JRDesignPieDataset;
+import net.sf.jasperreports.charts.design.JRDesignPiePlot;
+import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
+import net.sf.jasperreports.charts.design.JRDesignXyDataset;
+import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
+import net.sf.jasperreports.engine.base.JRBaseChart;
 
 
 /**
@@ -290,7 +307,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collectChart(JRChart chart)
+	public void collect(JRChart chart)
 	{
 		collectElement(chart);
 		collectAnchor(chart);
@@ -298,11 +315,77 @@ public class JRExpressionCollector
 		
 		addExpression(chart.getTitleExpression());
 		addExpression(chart.getSubtitleExpression());
+
+		switch(chart.getChartType()) {
+			case JRChart.CHART_TYPE_AREA:
+				collect( (JRCategoryDataset)chart.getDataset() );
+				collect( (JRAreaPlot)chart.getPlot() ) ;
+			    break;
+			case JRChart.CHART_TYPE_BAR:
+				collect((JRCategoryDataset)chart.getDataset());
+				collect((JRBarPlot)chart.getPlot());
+			    break;
+			case JRChart.CHART_TYPE_BAR3D:
+				collect((JRCategoryDataset)chart.getDataset() );
+				collect((JRBar3DPlot)chart.getPlot() );
+			    break;
+			case JRChart.CHART_TYPE_BUBBLE:
+				collect((JRXyzDataset)chart.getDataset());
+				collect((JRBubblePlot)chart.getPlot());
+			    break;
+			case JRChart.CHART_TYPE_CANDLESTICK:
+				collect((JRHighLowDataset)chart.getDataset());
+				collect((JRCandlestickPlot)chart.getPlot());
+			    break;
+			case JRChart.CHART_TYPE_HIGHLOW:
+				collect((JRHighLowDataset)chart.getDataset());
+				collect((JRHighLowPlot)chart.getPlot());
+			    break;
+			case JRChart.CHART_TYPE_LINE:
+				collect( (JRCategoryDataset)chart.getDataset() );
+				collect( (JRLinePlot)chart.getPlot()  );
+			    break;
+			case JRChart.CHART_TYPE_PIE:
+				collect((JRPieDataset)chart.getDataset());
+				break;
+			case JRChart.CHART_TYPE_PIE3D:
+				collect((JRPieDataset)chart.getDataset());
+				break;
+			case JRChart.CHART_TYPE_SCATTER:
+				collect( (JRXyDataset)chart.getDataset() );
+				collect( (JRScatterPlot)chart.getPlot()  );
+				break;
+			case JRChart.CHART_TYPE_STACKEDBAR:
+				collect((JRCategoryDataset)chart.getDataset());
+				collect((JRBarPlot)chart.getPlot());
+				break;
+			case JRChart.CHART_TYPE_STACKEDBAR3D:
+				collect((JRCategoryDataset)chart.getDataset());
+				collect((JRBar3DPlot)chart.getPlot());
+				break;
+			case JRChart.CHART_TYPE_TIMESERIES:
+				// TODO after time series charts are completed
+				break;
+			case JRChart.CHART_TYPE_XYAREA:
+				collect( (JRXyDataset)chart.getDataset() );
+				collect( (JRAreaPlot)chart.getPlot() ) ;
+				break;
+			case JRChart.CHART_TYPE_XYBAR:
+				collect((JRIntervalXyDataset)chart.getDataset());
+				collect((JRBarPlot)chart.getPlot());
+				break;
+			case JRChart.CHART_TYPE_XYLINE:
+				collect( (JRXyDataset)chart.getDataset() );
+				collect( (JRLinePlot)chart.getPlot()  );
+				break;
+			default:
+				throw new JRRuntimeException("Chart type not supported.");
+		}
 	}
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRPieChart pieChart)
 	{
 		collectChart(pieChart);
@@ -328,7 +411,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRPie3DChart pie3DChart)
 	{
 		collectElement(pie3DChart);
@@ -340,7 +423,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRBarChart barChart)
 	{
 		collectChart(barChart);
@@ -387,7 +470,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRStackedBarChart stackedBarChart)
 	{
 		collectChart(stackedBarChart);
@@ -397,7 +480,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRStackedBar3DChart stackedBar3DChart)
 	{
 		collectChart(stackedBar3DChart);
@@ -506,7 +589,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRXyBarChart xyBarChart)
 	{
 		collectChart(xyBarChart);
@@ -527,7 +610,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRBubbleChart chart) {
 		collectChart(chart);
 		collect((JRXyzDataset)chart.getDataset());
@@ -536,7 +619,7 @@ public class JRExpressionCollector
 	}
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRHighLowChart highLowChart)
 	{
 		collectChart(highLowChart);
@@ -605,7 +688,7 @@ public class JRExpressionCollector
 
 	/**
 	 *
-	 */
+	 *
 	public void collect(JRCandlestickChart candlestickChart)
 	{
 		collectChart(candlestickChart);

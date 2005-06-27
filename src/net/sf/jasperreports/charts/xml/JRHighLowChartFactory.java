@@ -27,8 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignHighLowChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -44,6 +45,8 @@ public class JRHighLowChartFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		return new JRDesignHighLowChart();
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_HIGHLOW);
+
+		return chart;
 	}
 }

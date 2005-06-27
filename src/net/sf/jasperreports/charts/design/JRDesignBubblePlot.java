@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -38,8 +39,14 @@ import net.sf.jasperreports.engine.JRExpression;
 public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	
 	private static final long serialVersionUID = 608;
-	
-	
+
+
+	public JRDesignBubblePlot(JRChartPlot bubblePlot)
+	{
+		super(bubblePlot);
+	}
+
+
 	public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
 		this.xAxisLabelExpression = xAxisLabelExpression;
 	}

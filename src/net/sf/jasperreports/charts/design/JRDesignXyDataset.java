@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
@@ -52,7 +53,16 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 
 	private List xySeriesList = new ArrayList();
 
-	
+
+	/**
+	 *
+	 */
+	public JRDesignXyDataset(JRChartDataset dataset)
+	{
+		super(dataset);
+	}
+
+
 	/**
 	 *
 	 */

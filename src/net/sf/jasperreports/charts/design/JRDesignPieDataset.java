@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
@@ -50,7 +51,16 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
 
-	
+
+	/**
+	 *
+	 */
+	public JRDesignPieDataset(JRChartDataset dataset)
+	{
+		super(dataset);
+	}
+
+
 	/**
 	 *
 	 */

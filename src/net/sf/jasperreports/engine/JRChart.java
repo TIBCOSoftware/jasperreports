@@ -46,7 +46,23 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	public static final byte TITLE_POSITION_LEFT = 3;
 	public static final byte TITLE_POSITION_RIGHT = 4;
 
-	
+
+	public static final byte CHART_TYPE_AREA = 1;
+	public static final byte CHART_TYPE_BAR3D = 2;
+	public static final byte CHART_TYPE_BAR = 3;
+	public static final byte CHART_TYPE_BUBBLE = 4;
+	public static final byte CHART_TYPE_CANDLESTICK = 5;
+	public static final byte CHART_TYPE_HIGHLOW = 6;
+	public static final byte CHART_TYPE_LINE = 7;
+	public static final byte CHART_TYPE_PIE3D = 8;
+	public static final byte CHART_TYPE_PIE = 9;
+	public static final byte CHART_TYPE_SCATTER = 10;
+	public static final byte CHART_TYPE_STACKEDBAR3D = 11;
+	public static final byte CHART_TYPE_STACKEDBAR = 12;
+	public static final byte CHART_TYPE_XYAREA = 13;
+	public static final byte CHART_TYPE_XYBAR = 14;
+	public static final byte CHART_TYPE_XYLINE = 15;
+	public static final byte CHART_TYPE_TIMESERIES = 16;
 	/**
 	 *
 	 */
@@ -127,4 +143,8 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	public JRChartPlot getPlot();
 
 
+	/**
+	 *
+	 */ 
+	public byte getChartType();
 }

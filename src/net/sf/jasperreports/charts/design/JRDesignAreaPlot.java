@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseAreaPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -38,12 +39,14 @@ import net.sf.jasperreports.engine.JRExpression;
 public class JRDesignAreaPlot extends JRBaseAreaPlot {
 
 	private static final long serialVersionUID = 608;
-	
-	
-	public JRDesignAreaPlot(){
-		super();
+
+
+	public JRDesignAreaPlot(JRChartPlot areaPlot)
+	{
+		super(areaPlot);
 	}
-	
+
+
 	public void setCategoryAxisLabelExpression( JRExpression categoryAxisLabelExpression ){
 		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
 	}

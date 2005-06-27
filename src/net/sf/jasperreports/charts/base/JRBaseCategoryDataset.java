@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRChartDataset;
 
 
 /**
@@ -52,8 +53,9 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	protected JRBaseCategoryDataset()
+	public JRBaseCategoryDataset(JRChartDataset dataset)
 	{
+		super(dataset);
 	}
 	
 	

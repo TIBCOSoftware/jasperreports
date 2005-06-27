@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseBarPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
@@ -44,7 +45,16 @@ public class JRDesignBarPlot extends JRBaseBarPlot
 	 */
 	private static final long serialVersionUID = 608;
 
-	
+
+	/**
+	 *
+	 */
+	public JRDesignBarPlot(JRChartPlot barPlot)
+	{
+		super(barPlot);
+	}
+
+
 	/**
 	 *
 	 */

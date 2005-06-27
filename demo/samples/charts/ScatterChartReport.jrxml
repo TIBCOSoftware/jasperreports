@@ -220,7 +220,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[XY Line Chart Report]]></text>
+				<text><![CDATA[Scatter Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>

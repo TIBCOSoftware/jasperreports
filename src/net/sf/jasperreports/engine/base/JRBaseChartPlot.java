@@ -57,11 +57,17 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseChartPlot()
+	protected JRBaseChartPlot(JRChartPlot plot)
 	{
+		if (plot != null) {
+			backcolor = plot.getBackcolor();
+			orientation = plot.getOrientation();
+			backgroundAlpha = plot.getBackgroundAlpha();
+			foregroundAlpha = plot.getForegroundAlpha();
+		}
 	}
 
-	
+
 	/**
 	 *
 	 */

@@ -27,8 +27,9 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.design.JRDesignStackedBar3DChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.JRChart;
 
 import org.xml.sax.Attributes;
 
@@ -44,8 +45,8 @@ public class JRStackedBar3DChartFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignStackedBar3DChart stackedBar3DChart = new JRDesignStackedBar3DChart();
+		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_STACKEDBAR3D);
 
-		return stackedBar3DChart;
+		return chart;
 	}
 }
