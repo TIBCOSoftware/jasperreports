@@ -55,7 +55,6 @@ import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
