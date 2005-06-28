@@ -4,6 +4,8 @@ JasperReports Change Log
 
 JasperReports 0.x.x
 -----------------------------------
+- built-in support for charts added;
+
 - report fields can be of any type, just like report parameters and report variables. 
 This simplifies working with JavaBean data sources where casting from java.lang.Object 
 to the actual report field class is no longer required in the expressions;
