@@ -116,10 +116,6 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRSubreport getSubreport(JRSubreport subreport);
 
-	/**
-	 *
-	 */
-//	public abstract JRPieChart getPieChart(JRPieChart pieChart);
 
 	/**
 	 *
@@ -131,30 +127,12 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRPiePlot getPiePlot(JRPiePlot piePlot);
 
-	/**
-	 *
-	 */
-//	public abstract JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart);
 
 	/**
 	 *
 	 */
 	public abstract JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot);
 
-	/**
-	 *
-	 */
-//	public abstract JRBarChart getBarChart(JRBarChart barChart);
-
-	/**
-	 *
-	 */
-//	public abstract JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedBarChart);
-
-	/**
-	 *
-	 */
-//	public abstract JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedBar3DChart);
 
 	/**
 	 *
@@ -187,55 +165,17 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRBar3DPlot getBar3DPlot( JRBar3DPlot barPlot );
 
-	/**
-	 *
-	 */
-//	public abstract JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart);
-
-	/**
-	 *
-	 */
-//	public abstract JRBar3DChart getBar3DChart( JRBar3DChart barChart );
-
-	/**
-	 *
-	 */
-//	public abstract JRLineChart getLineChart( JRLineChart lineChart );
-
-	/**
-	 *
-	 */
-//	public abstract JRXyLineChart getXyLineChart( JRXyLineChart xyLineChart );
-
-	/**
-	 *
-	 */
-//	public abstract JRScatterChart getScatterChart( JRScatterChart scatterChart );
 
 	/**
 	 *
 	 */
 	public abstract JRLinePlot getLinePlot( JRLinePlot linePlot );
 
-	/**
-	 *
-	 */
-//	public abstract JRAreaChart getAreaChart( JRAreaChart areaChart );
-
-	/**
-	 *
-	 */
-//	public abstract JRXyAreaChart getXyAreaChart( JRXyAreaChart areaChart );
 
 	/**
 	 *
 	 */
 	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
-
-	/**
-	 *
-	 */
-//	public abstract JRBubbleChart getBubbleChart( JRBubbleChart bubbleChart );
 
 
 	/**
@@ -247,20 +187,11 @@ public abstract class JRAbstractObjectFactory
 	/**
 	 *
 	 */
-//	public abstract JRHighLowChart getHighLowChart(JRHighLowChart highLowChart);
-
-
-	/**
-	 *
-	 */
-//	public abstract JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart);
-
-
-	/**
-	 *
-	 */
 	public abstract JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot);
 
 
+	/**
+	 *
+	 */
 	public abstract JRChart getChart(JRChart chart);
 }

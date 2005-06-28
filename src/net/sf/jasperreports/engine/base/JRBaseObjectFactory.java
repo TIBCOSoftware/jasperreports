@@ -524,26 +524,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRPieChart getPieChart(JRPieChart pieChart)
-	{
-		JRBasePieChart basePieChart = null;
-		
-		if (pieChart != null)
-		{
-			basePieChart = (JRBasePieChart)get(pieChart);
-			if (basePieChart == null)
-			{
-				basePieChart = new JRBasePieChart(pieChart, this);
-			}
-		}
-		
-		return basePieChart;
-	}
-	
-
-	/**
-	 *
 	 */
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
@@ -584,26 +564,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
-	{
-		JRBasePie3DChart basePie3DChart = null;
-		
-		if (pie3DChart != null)
-		{
-			basePie3DChart = (JRBasePie3DChart)get(pie3DChart);
-			if (basePie3DChart == null)
-			{
-				basePie3DChart = new JRBasePie3DChart(pie3DChart, this);
-			}
-		}
-		
-		return basePie3DChart;
-	}
-	
-
-	/**
-	 *
 	 */
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
@@ -619,66 +579,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return basePie3DPlot;
-	}
-	
-
-	/**
-	 *
-	 *
-	public JRBarChart getBarChart(JRBarChart barChart)
-	{
-		JRBaseBarChart baseBarChart = null;
-		
-		if (barChart != null)
-		{
-			baseBarChart = (JRBaseBarChart)get(barChart);
-			if (baseBarChart == null)
-			{
-				baseBarChart = new JRBaseBarChart(barChart, this);
-			}
-		}
-		
-		return baseBarChart;
-	}
-	
-
-	/**
-	 *
-	 *
-	public JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedbarChart)
-	{
-		JRBaseStackedBarChart baseStackedBarChart = null;
-
-		if (stackedbarChart != null)
-		{
-			baseStackedBarChart = (JRBaseStackedBarChart)get(stackedbarChart);
-			if (baseStackedBarChart == null)
-			{
-				baseStackedBarChart = new JRBaseStackedBarChart(stackedbarChart, this);
-			}
-		}
-
-		return baseStackedBarChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedbar3DChart)
-	{
-		JRBaseStackedBar3DChart baseStackedBar3DChart = null;
-
-		if (stackedbar3DChart != null)
-		{
-			baseStackedBar3DChart = (JRBaseStackedBar3DChart)get(stackedbar3DChart);
-			if (baseStackedBar3DChart == null)
-			{
-				baseStackedBar3DChart = new JRBaseStackedBar3DChart(stackedbar3DChart, this);
-			}
-		}
-
-		return baseStackedBar3DChart;
 	}
 
 
@@ -803,25 +703,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 
 	/* (non-Javadoc)
-	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DChart(net.sf.jasperreports.charts.JRBar3DChart)
-	 *
-	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
-		JRBaseBar3DChart baseBarChart = null;
-		
-		if (barChart != null)
-		{
-			baseBarChart = (JRBaseBar3DChart)get(barChart);
-			if (baseBarChart == null)
-			{
-				baseBarChart = new JRBaseBar3DChart(barChart, this);
-			}
-		}
-		
-		return baseBarChart;
-	}
-
-
-	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
 	 */
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
@@ -837,86 +718,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseBarPlot;
-	}
-
-
-  
-	
-
-	/**
-	 *
-	 *
-	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
-	{
-		JRBaseXyBarChart baseXyBarChart = null;
-		
-		if (xyBarChart != null)
-		{
-			baseXyBarChart = (JRBaseXyBarChart)get(xyBarChart);
-			if (baseXyBarChart == null)
-			{
-				baseXyBarChart = new JRBaseXyBarChart(xyBarChart, this);
-			}
-		}
-		
-		return baseXyBarChart;
-	}
-
-
-	/** 
-	 * 
-	 *
-	public JRLineChart getLineChart(JRLineChart lineChart) {
-		JRBaseLineChart baseLineChart = null;
-		
-		if (lineChart != null)
-		{
-			baseLineChart = (JRBaseLineChart)get(lineChart);
-			if (baseLineChart == null)
-			{
-				baseLineChart = new JRBaseLineChart(lineChart, this);
-			}
-		}
-		
-		return baseLineChart;
-	}
-
-
-	/** 
-	 * 
-	 *
-	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
-		JRBaseScatterChart baseScatterChart = null;
-		
-		if (scatterChart != null)
-		{
-			baseScatterChart = (JRBaseScatterChart)get(scatterChart);
-			if (baseScatterChart == null)
-			{
-				baseScatterChart = new JRBaseScatterChart(scatterChart, this);
-			}
-		}
-		
-		return baseScatterChart;
-	}
-
-
-	/** 
-	 * 
-	 *
-	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
-		JRBaseXyLineChart baseXyLineChart = null;
-		
-		if (xyLineChart != null)
-		{
-			baseXyLineChart = (JRBaseXyLineChart)get(xyLineChart);
-			if (baseXyLineChart == null)
-			{
-				baseXyLineChart = new JRBaseXyLineChart(xyLineChart, this);
-			}
-		}
-		
-		return baseXyLineChart;
 	}
 
 
@@ -936,44 +737,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseLinePlot;
-	}
-
-
-	/**
-	 *  
-	 *
-	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
-		JRBaseAreaChart baseAreaChart = null;
-		
-		if (areaChart != null)
-		{
-			baseAreaChart = (JRBaseAreaChart)get(areaChart);
-			if (baseAreaChart == null)
-			{
-				baseAreaChart = new JRBaseAreaChart(areaChart, this);
-			}
-		}
-		
-		return baseAreaChart;
-	}
-
-
-	/**
-	 *  
-	 *
-	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
-		JRBaseXyAreaChart baseXyAreaChart = null;
-		
-		if (xyAreaChart != null)
-		{
-			baseXyAreaChart = (JRBaseXyAreaChart)get(xyAreaChart);
-			if (baseXyAreaChart == null)
-			{
-				baseXyAreaChart = new JRBaseXyAreaChart(xyAreaChart, this);
-			}
-		}
-		
-		return baseXyAreaChart;
 	}
 
 
@@ -1071,26 +834,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/** 
-	 *
-	 *
-	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
-		JRBaseBubbleChart baseBubbleChart = null;
-		
-		if (bubbleChart != null)
-		{
-			baseBubbleChart = (JRBaseBubbleChart)get(bubbleChart);
-			if (baseBubbleChart == null)
-			{
-				baseBubbleChart = new JRBaseBubbleChart(bubbleChart, this);
-			}
-		}
-		
-		return baseBubbleChart;
-	}
-
-
-	/** 
+	/**
 	 *
 	 */
 	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
@@ -1108,43 +852,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseBubblePlot;
 	}
 	
-
-    /**
-	 *
-	 *
-	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
-	{
-		JRBaseHighLowChart baseHighLowChart = null;
-
-		if (highLowChart != null)
-		{
-			baseHighLowChart = (JRBaseHighLowChart)get(highLowChart);
-			if (baseHighLowChart == null)
-			{
-				baseHighLowChart = new JRBaseHighLowChart(highLowChart, this);
-			}
-		}
-
-		return baseHighLowChart;
-	}
-
-
-	public JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart)
-	{
-		JRBaseCandlestickChart baseCandlestickChart = null;
-
-		if (candlestickChart != null)
-		{
-			baseCandlestickChart = (JRBaseCandlestickChart)get(candlestickChart);
-			if (baseCandlestickChart == null)
-			{
-				baseCandlestickChart = new JRBaseCandlestickChart(candlestickChart, this);
-			}
-		}
-
-		return baseCandlestickChart;
-	}
-
 
 	 /**
 	  *
