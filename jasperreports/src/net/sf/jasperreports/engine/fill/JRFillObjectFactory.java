@@ -464,26 +464,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRPieChart getPieChart(JRPieChart pieChart)
-	{
-		JRFillPieChart fillPieChart = null;
-
-		if (pieChart != null)
-		{
-			fillPieChart = (JRFillPieChart)get(pieChart);
-			if (fillPieChart == null)
-			{
-				fillPieChart = new JRFillPieChart(filler, pieChart, this);
-			}
-		}
-
-		return fillPieChart;
-	}
-
-
-	/**
-	 *
 	 */
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
@@ -525,26 +505,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRPie3DChart getPie3DChart(JRPie3DChart pie3DChart)
-	{
-		JRFillPie3DChart fillPie3DChart = null;
-
-		if (pie3DChart != null)
-		{
-			fillPie3DChart = (JRFillPie3DChart)get(pie3DChart);
-			if (fillPie3DChart == null)
-			{
-				fillPie3DChart = new JRFillPie3DChart(filler, pie3DChart, this);
-			}
-		}
-
-		return fillPie3DChart;
-	}
-
-
-	/**
-	 *
 	 */
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
@@ -560,66 +520,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillPie3DPlot;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRBarChart getBarChart(JRBarChart barChart)
-	{
-		JRFillBarChart fillBarChart = null;
-
-		if (barChart != null)
-		{
-			fillBarChart = (JRFillBarChart)get(barChart);
-			if (fillBarChart == null)
-			{
-				fillBarChart = new JRFillBarChart(filler, barChart, this);
-			}
-		}
-
-		return fillBarChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRStackedBarChart getStackedBarChart(JRStackedBarChart stackedBarChart)
-	{
-		JRFillStackedBarChart fillBarChart = null;
-
-		if (stackedBarChart != null)
-		{
-			fillBarChart = (JRFillStackedBarChart)get(stackedBarChart);
-			if (fillBarChart == null)
-			{
-				fillBarChart = new JRFillStackedBarChart(filler, stackedBarChart, this);
-			}
-		}
-
-		return fillBarChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRStackedBar3DChart getStackedBar3DChart(JRStackedBar3DChart stackedBar3DChart)
-	{
-		JRFillStackedBar3DChart fillBar3DChart = null;
-
-		if (stackedBar3DChart != null)
-		{
-			fillBar3DChart = (JRFillStackedBar3DChart)get(stackedBar3DChart);
-			if (fillBar3DChart == null)
-			{
-				fillBar3DChart = new JRFillStackedBar3DChart(filler, stackedBar3DChart, this);
-			}
-		}
-
-		return fillBar3DChart;
 	}
 
 
@@ -777,26 +677,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRXyBarChart getXyBarChart(JRXyBarChart xyBarChart)
-	{
-		JRFillXyBarChart fillXyBarChart = null;
-
-		if (xyBarChart != null)
-		{
-			fillXyBarChart = (JRFillXyBarChart)get(xyBarChart);
-			if (fillXyBarChart == null)
-			{
-				fillXyBarChart = new JRFillXyBarChart(filler, xyBarChart, this);
-			}
-		}
-
-		return fillXyBarChart;
-	}
-
-
-	/**
-	 *
 	 */
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
@@ -817,24 +697,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRBar3DChart getBar3DChart(JRBar3DChart barChart) {
-
-		JRFillBar3DChart fillBarChart = null;
-
-		if (barChart != null){
-			fillBarChart = (JRFillBar3DChart)get(barChart);
-			if (fillBarChart == null){
-				fillBarChart = new JRFillBar3DChart(filler, barChart, this);
-			}
-		}
-
-		return fillBarChart;
-	}
-
-
-	/**
-	 *
 	 */
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
@@ -847,57 +709,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillBarPlot;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRLineChart getLineChart(JRLineChart lineChart) {
-		JRFillLineChart fillLineChart = null;
-
-		if (lineChart != null){
-			fillLineChart = (JRFillLineChart)get(lineChart);
-			if (fillLineChart == null){
-				fillLineChart = new JRFillLineChart(filler, lineChart, this);
-			}
-		}
-
-		return fillLineChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRScatterChart getScatterChart(JRScatterChart scatterChart) {
-		JRFillScatterChart fillLineChart = null;
-
-		if (scatterChart != null){
-			fillLineChart = (JRFillScatterChart)get(scatterChart);
-			if (fillLineChart == null){
-				fillLineChart = new JRFillScatterChart(filler, scatterChart, this);
-			}
-		}
-
-		return fillLineChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRXyLineChart getXyLineChart(JRXyLineChart xyLineChart) {
-		JRFillXyLineChart fillXyLineChart = null;
-
-		if (xyLineChart != null){
-			fillXyLineChart = (JRFillXyLineChart)get(xyLineChart);
-			if (fillXyLineChart == null){
-				fillXyLineChart = new JRFillXyLineChart(filler, xyLineChart, this);
-			}
-		}
-
-		return fillXyLineChart;
 	}
 
 
@@ -937,44 +748,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 *
-	public JRAreaChart getAreaChart(JRAreaChart areaChart) {
-		JRFillAreaChart fillAreaChart = null;
-
-		if (areaChart != null)
-		{
-			fillAreaChart = (JRFillAreaChart)get(areaChart);
-			if (fillAreaChart == null)
-			{
-				fillAreaChart = new JRFillAreaChart(filler, areaChart, this);
-			}
-		}
-
-		return fillAreaChart;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRXyAreaChart getXyAreaChart(JRXyAreaChart xyAreaChart) {
-		JRFillXyAreaChart fillXyAreaChart = null;
-
-		if (xyAreaChart != null)
-		{
-			fillXyAreaChart = (JRFillXyAreaChart)get(xyAreaChart);
-			if (fillXyAreaChart == null)
-			{
-				fillXyAreaChart = new JRFillXyAreaChart(filler, xyAreaChart, this);
-			}
-		}
-
-		return fillXyAreaChart;
-	}
-
-
-	/**
-	 *
 	 */
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRFillAreaPlot fillAreaPlot = null;
@@ -989,25 +762,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillAreaPlot;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRBubbleChart getBubbleChart(JRBubbleChart bubbleChart) {
-		JRFillBubbleChart fillBubbleChart = null;
-
-		if (bubbleChart != null)
-		{
-			fillBubbleChart = (JRFillBubbleChart)get(bubbleChart);
-			if (fillBubbleChart == null)
-			{
-				fillBubbleChart = new JRFillBubbleChart(filler, bubbleChart, this);
-			}
-		}
-
-		return fillBubbleChart;
 	}
 
 
@@ -1027,39 +781,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillBubblePlot;
-	}
-
-
-	/**
-	 *
-	 *
-	public JRHighLowChart getHighLowChart(JRHighLowChart highLowChart)
-	{
-		JRFillHighLowChart fillHighLowChart = null;
-
-		if (highLowChart != null){
-			fillHighLowChart = (JRFillHighLowChart)get(highLowChart);
-			if (fillHighLowChart == null){
-				fillHighLowChart = new JRFillHighLowChart(filler, highLowChart, this);
-			}
-		}
-
-		return fillHighLowChart;
-	}
-
-
-	public JRCandlestickChart getCandlestickChart(JRCandlestickChart candlestickChart)
-	{
-		JRFillCandlestickChart fillCandlestickChart = null;
-
-		if (candlestickChart != null){
-			fillCandlestickChart = (JRFillCandlestickChart)get(candlestickChart);
-			if (fillCandlestickChart == null){
-				fillCandlestickChart = new JRFillCandlestickChart(filler, candlestickChart, this);
-			}
-		}
-
-		return fillCandlestickChart;
 	}
 
 

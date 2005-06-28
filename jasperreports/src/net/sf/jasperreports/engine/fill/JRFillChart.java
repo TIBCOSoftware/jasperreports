@@ -741,16 +741,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 	}
 
-	protected void evaluateAreaImage( byte evaluation ) throws JRException {
-		JFreeChart chart = ChartFactory.createAreaChart( (String)evaluateExpression(getTitleExpression(), evaluation ),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
-				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
-				getPlot().getOrientation(),
-				isShowLegend(),
-				true,
-				false);
 
+	/**
+	 *
+	 */
+	private void setTitles(JFreeChart chart, byte evaluation) throws JRException
+	{
 		if (chart.getTitle() != null)
 		{
 			TextTitle title = chart.getTitle();
@@ -769,6 +765,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 			subtitle.setFont(new Font(attributes));
 			chart.addSubtitle(subtitle);
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateAreaImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createAreaChart( (String)evaluateExpression(getTitleExpression(), evaluation ),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false);
+
+        setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -791,24 +804,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					true,
 					false );
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -842,24 +838,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -895,26 +874,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				 true,
 				 false);
 
-
-
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -944,24 +904,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				isShowLegend()
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) plot.getRenderer();
@@ -987,24 +930,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				isShowLegend()
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		HighLowRenderer hlRenderer = (HighLowRenderer) plot.getRenderer();
@@ -1026,24 +952,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -1072,18 +981,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			chart.getTitle().setPaint(getTitleColor());
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle();
-			subtitle.setPaint(getSubtitleColor());
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
 		plot.setOutlinePaint(getPlot().getBackcolor());
@@ -1113,24 +1011,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		PiePlot plot = (PiePlot)chart.getPlot();
 		plot.setOutlinePaint(getPlot().getBackcolor());
@@ -1166,24 +1047,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -1216,24 +1080,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -1263,24 +1110,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -1304,24 +1134,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			false
 			);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
@@ -1350,24 +1163,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
@@ -1402,24 +1198,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		if (chart.getTitle() != null)
-		{
-			TextTitle title = chart.getTitle();
-			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
-
-		}
-
-		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
-			chart.addSubtitle(subtitle);
-		}
+		setTitles(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
