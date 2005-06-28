@@ -33,6 +33,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.lang.reflect.Method;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -46,6 +47,7 @@ import javax.print.attribute.standard.MediaPrintableArea;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.print.JRPrinterAWT;
 
 
 /**
@@ -126,6 +128,10 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		}
 
 		PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+		// fix for bug ID 6255588 from Sun bug database
+		JRPrinterAWT.initPrinterJobFields(printerJob);
+
 		printerJob.setPrintable(this);
 		
 		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
