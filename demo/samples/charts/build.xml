@@ -88,7 +88,7 @@
 	</target>
 
 	<!--
-	FIXME NOW
+		Generates a report design XML file from a .jasper file.
 	-->
 	<target name="writeXml">
 		<java classname="${class.name}" fork="true">

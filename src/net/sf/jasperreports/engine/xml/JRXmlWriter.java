@@ -1917,15 +1917,15 @@ public class JRXmlWriter
 		sb.append(categorySeries.getCategoryExpression().getText());
 		sb.append("]]></categoryExpression>\n");
 
+		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(categorySeries.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
 		if (categorySeries.getLabelExpression() != null) {
 			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
 			sb.append(categorySeries.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
 		}
-
-		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(categorySeries.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
 
 		sb.append("\t\t\t\t\t</categorySeries>\n");
 	}
@@ -2091,15 +2091,15 @@ public class JRXmlWriter
 		sb.append(dataset.getKeyExpression().getText());
 		sb.append("]]></keyExpression>\n");
 
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
 		if (dataset.getLabelExpression() != null) {
 			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
 			sb.append(dataset.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
 		}
-
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
 
 		sb.append("\t\t\t\t</pieDataset>\n");
 
@@ -2132,15 +2132,15 @@ public class JRXmlWriter
 		sb.append(dataset.getKeyExpression().getText());
 		sb.append("]]></keyExpression>\n");
 
+		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+		sb.append(dataset.getValueExpression().getText());
+		sb.append("]]></valueExpression>\n");
+
 		if (dataset.getLabelExpression() != null) {
 			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
 			sb.append(dataset.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
 		}
-
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
 
 		sb.append("\t\t\t\t</pieDataset>\n");
 
@@ -2225,7 +2225,7 @@ public class JRXmlWriter
 		if (!plot.isShowLines())
 			sb.append(" isShowLines=\"false\"");
 		if (!plot.isShowShapes())
-			sb.append(" isShowShapess=\"false\"");
+			sb.append(" isShowShapes=\"false\"");
 		sb.append(">\n");
 		writePlot(plot);
 
@@ -2447,7 +2447,7 @@ public class JRXmlWriter
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-		sb.append("\t\t\t\t<highLowPlot");
+		sb.append("\t\t\t\t<candlestickPlot");
 		if (!plot.isShowVolume())
 			sb.append(" isShowVolume=\"false\"");
 		sb.append(">\n");
