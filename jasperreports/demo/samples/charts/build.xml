@@ -104,6 +104,7 @@
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jasper.jrxml" />
 			<fileset dir="." includes="**/*.jrprint" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
