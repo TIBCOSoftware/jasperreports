@@ -57,7 +57,7 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 				found = true;
 			}
 		}
-	   
+
 		if( !found ){
 			XYZElement element = new XYZElement();
 			element.setSeries( series );

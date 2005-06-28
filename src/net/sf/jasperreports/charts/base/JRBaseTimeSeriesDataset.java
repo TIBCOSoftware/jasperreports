@@ -38,41 +38,41 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @version $Id$
  */
 public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTimeSeriesDataset {
-    
-    private static final long serialVersionUID = 608;
-    
-    private JRTimeSeries[] timeSeries = null;
-    private Class timePeriod;
-    
-    protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){
-    	super( dataset );
-    }
-    
-    public JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset, JRBaseObjectFactory factory ){
-        super( dataset, factory );
-        
-        timePeriod = dataset.getTimePeriod();
-        
-        JRTimeSeries[] srcTimeSeries = dataset.getSeries();
-        
-        if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
-            timeSeries = new JRTimeSeries[ srcTimeSeries.length ];
-            for( int i = 0; i< timeSeries.length; i++ ){
-                timeSeries[i] = factory.getTimeSeries( srcTimeSeries[i]);
-            }
-        }
-    }
-    
-    public JRTimeSeries[] getSeries(){
-        return timeSeries;
-    }
-    
-    public Class getTimePeriod(){
-    	return timePeriod;
-    }
-    
-    public void setTimePeriod( Class timePeriod ){
-    	this.timePeriod = timePeriod;
-    }
+	
+	private static final long serialVersionUID = 608;
+	
+	private JRTimeSeries[] timeSeries = null;
+	private Class timePeriod;
+	
+	protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){
+		super( dataset );
+	}
+	
+	public JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset, JRBaseObjectFactory factory ){
+		super( dataset, factory );
+		
+		timePeriod = dataset.getTimePeriod();
+		
+		JRTimeSeries[] srcTimeSeries = dataset.getSeries();
+		
+		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
+			timeSeries = new JRTimeSeries[ srcTimeSeries.length ];
+			for( int i = 0; i< timeSeries.length; i++ ){
+				timeSeries[i] = factory.getTimeSeries( srcTimeSeries[i]);
+			}
+		}
+	}
+	
+	public JRTimeSeries[] getSeries(){
+		return timeSeries;
+	}
+	
+	public Class getTimePeriod(){
+		return timePeriod;
+	}
+	
+	public void setTimePeriod( Class timePeriod ){
+		this.timePeriod = timePeriod;
+	}
 
 }

@@ -290,31 +290,31 @@ public class JRExpressionCollector
 			case JRChart.CHART_TYPE_AREA:
 				collect( (JRCategoryDataset)chart.getDataset() );
 				collect( (JRAreaPlot)chart.getPlot() ) ;
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BAR:
 				collect((JRCategoryDataset)chart.getDataset());
 				collect((JRBarPlot)chart.getPlot());
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BAR3D:
 				collect((JRCategoryDataset)chart.getDataset() );
 				collect((JRBar3DPlot)chart.getPlot() );
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BUBBLE:
 				collect((JRXyzDataset)chart.getDataset());
 				collect((JRBubblePlot)chart.getPlot());
-			    break;
+				break;
 			case JRChart.CHART_TYPE_CANDLESTICK:
 				collect((JRHighLowDataset)chart.getDataset());
 				collect((JRCandlestickPlot)chart.getPlot());
-			    break;
+				break;
 			case JRChart.CHART_TYPE_HIGHLOW:
 				collect((JRHighLowDataset)chart.getDataset());
 				collect((JRHighLowPlot)chart.getPlot());
-			    break;
+				break;
 			case JRChart.CHART_TYPE_LINE:
 				collect( (JRCategoryDataset)chart.getDataset() );
 				collect( (JRLinePlot)chart.getPlot()  );
-			    break;
+				break;
 			case JRChart.CHART_TYPE_PIE:
 				collect((JRPieDataset)chart.getDataset());
 				break;

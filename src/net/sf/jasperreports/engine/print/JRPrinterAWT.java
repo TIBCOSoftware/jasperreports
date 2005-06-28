@@ -264,9 +264,9 @@ public class JRPrinterAWT implements Printable
 	 * start fix for bug ID 6255588 from Sun bug database
 	 * @param job print job that the fix applies to
 	 */
-    public static void initPrinterJobFields(PrinterJob job)
+	public static void initPrinterJobFields(PrinterJob job)
 	{
-        Class klass = job.getClass();
+		Class klass = job.getClass();
 		try {
 			Class printServiceClass = Class.forName("javax.print.PrintService");
 			Method method = klass.getMethod("getPrintService", null);

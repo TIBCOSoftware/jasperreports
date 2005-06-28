@@ -568,7 +568,7 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
-    public Map getNonPdfAttributes()
+	public Map getNonPdfAttributes()
 	{
 		Map attributes = new HashMap();
 

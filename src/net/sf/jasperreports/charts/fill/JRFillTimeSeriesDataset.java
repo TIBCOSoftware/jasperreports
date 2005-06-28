@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -48,80 +48,80 @@ import org.jfree.data.time.TimeSeriesCollection;
  */
 public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTimeSeriesDataset {
 
-    private TimeSeriesCollection dataset = new TimeSeriesCollection();
-    
-    protected JRFillTimeSeries[] timeSeries = null;
-    protected Class timeSeriesClass = null;
-    
-    private boolean isIncremented = false;
-    
-    public JRFillTimeSeriesDataset( JRTimeSeriesDataset  timeSeriesDataset, 
-            					 	JRFillObjectFactory factory ){
-        
-        super( timeSeriesDataset, factory );
-        
-        JRTimeSeries[] srcTimeSeries = timeSeriesDataset.getSeries();
-        if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
-            timeSeries = new JRFillTimeSeries[ srcTimeSeries.length ];
-            for( int i = 0; i < timeSeries.length; i++ ){
-                timeSeries[i] = (JRFillTimeSeries)factory.getTimeSeries( srcTimeSeries[i] );
-            }
-        }   
+	private TimeSeriesCollection dataset = new TimeSeriesCollection();
+	
+	protected JRFillTimeSeries[] timeSeries = null;
+	protected Class timeSeriesClass = null;
+	
+	private boolean isIncremented = false;
+	
+	public JRFillTimeSeriesDataset( JRTimeSeriesDataset  timeSeriesDataset, 
+									JRFillObjectFactory factory ){
+		
+		super( timeSeriesDataset, factory );
+		
+		JRTimeSeries[] srcTimeSeries = timeSeriesDataset.getSeries();
+		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
+			timeSeries = new JRFillTimeSeries[ srcTimeSeries.length ];
+			for( int i = 0; i < timeSeries.length; i++ ){
+				timeSeries[i] = (JRFillTimeSeries)factory.getTimeSeries( srcTimeSeries[i] );
+			}
+		}
   
-       timeSeriesClass = getTimePeriod();
-    }
-    
-    public JRTimeSeries[] getSeries(){
-    	return timeSeries;
-    }
-    
-    protected void initialize(){
-    	dataset = new TimeSeriesCollection();
-    	isIncremented = false;
-    }
-    
-    protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-    	if( timeSeries != null && timeSeries.length > 0 ){
-    		for( int i = 0; i < timeSeries.length; i++ ){
-    			timeSeries[i].evaluate( calculator );
-    		}
-    	}
-    	isIncremented = false;
-    }
-    
-    
-    protected void increment(){
-    	if( timeSeries != null && timeSeries.length > 0 ){
-    		for( int i = 0; i < timeSeries.length; i++ ){
-    			JRFillTimeSeries crtTimeSeries = timeSeries[i];
-    			String seriesName = (String)crtTimeSeries.getSeries();
-    			TimeSeries timeSeries = dataset.getSeries( seriesName );
-    			if( timeSeries == null ){
-    				timeSeries = new TimeSeries( seriesName );
-    				dataset.addSeries( timeSeries );
-    			}
-    			
-    			if( crtTimeSeries.getTimePeriod() != null ){
-    				timeSeries.addOrUpdate( 
-    					RegularTimePeriod.createInstance( 
-    							getTimePeriod(),
+		timeSeriesClass = getTimePeriod();
+	}
+	
+	public JRTimeSeries[] getSeries(){
+		return timeSeries;
+	}
+	
+	protected void initialize(){
+		dataset = new TimeSeriesCollection();
+		isIncremented = false;
+	}
+	
+	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
+		if( timeSeries != null && timeSeries.length > 0 ){
+			for( int i = 0; i < timeSeries.length; i++ ){
+				timeSeries[i].evaluate( calculator );
+			}
+		}
+		isIncremented = false;
+	}
+	
+	
+	protected void increment(){
+		if( timeSeries != null && timeSeries.length > 0 ){
+			for( int i = 0; i < timeSeries.length; i++ ){
+				JRFillTimeSeries crtTimeSeries = timeSeries[i];
+				String seriesName = (String)crtTimeSeries.getSeries();
+				TimeSeries timeSeries = dataset.getSeries( seriesName );
+				if( timeSeries == null ){
+					timeSeries = new TimeSeries( seriesName );
+					dataset.addSeries( timeSeries );
+				}
+				
+				if( crtTimeSeries.getTimePeriod() != null ){
+					timeSeries.addOrUpdate( 
+						RegularTimePeriod.createInstance( 
+								getTimePeriod(),
 								crtTimeSeries.getTimePeriod(),
 								TimeZone.getDefault()
-    						),
+							),
 						crtTimeSeries.getValue()
 					);
-    			}
-    		}
-    	}
-    	isIncremented = true;
-    }
-    
-    public Dataset getDataset(){
-    	if( isIncremented == false ){
-    		increment();
-    	}
-    	return dataset;
-    }
+				}
+			}
+		}
+		isIncremented = true;
+	}
+	
+	public Dataset getDataset(){
+		if( isIncremented == false ){
+			increment();
+		}
+		return dataset;
+	}
 
 
 	public Class getTimePeriod() {
@@ -130,5 +130,5 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 
 	public void setTimePeriod(Class timePeriod) {	
 	}
-    
+	
 }

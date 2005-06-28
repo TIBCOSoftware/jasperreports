@@ -35,10 +35,10 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * @version $Id$
  */
 public interface JRTimeSeriesDataset extends JRChartDataset {
-    
+	
 	public JRTimeSeries[] getSeries();
-    
-    public Class getTimePeriod();
+	
+	public Class getTimePeriod();
 
 	public void setTimePeriod(Class timePeriod);
 

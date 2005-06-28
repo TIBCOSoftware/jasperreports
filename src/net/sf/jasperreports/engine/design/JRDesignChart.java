@@ -420,31 +420,31 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			case CHART_TYPE_AREA:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignAreaPlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_BAR:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBarPlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_BAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBar3DPlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_BUBBLE:
 				dataset = new JRDesignXyzDataset(dataset);
 				plot = new JRDesignBubblePlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_CANDLESTICK:
 				dataset = new JRDesignHighLowDataset(dataset);
 				plot = new JRDesignCandlestickPlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_HIGHLOW:
 				dataset = new JRDesignHighLowDataset(dataset);
 				plot = new JRDesignHighLowPlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_LINE:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignLinePlot(plot);
-			    break;
+				break;
 			case CHART_TYPE_PIE:
 				dataset = new JRDesignPieDataset(dataset);
 				plot = new JRDesignPiePlot(plot);
@@ -504,25 +504,25 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		switch(chartType) {
 			case CHART_TYPE_AREA:
 				xmlWriter.writeAreaChart(this);
-			    break;
+				break;
 			case CHART_TYPE_BAR:
 				xmlWriter.writeBarChart(this);
-			    break;
+				break;
 			case CHART_TYPE_BAR3D:
 				xmlWriter.writeBar3DChart(this);
-			    break;
+				break;
 			case CHART_TYPE_BUBBLE:
 				xmlWriter.writeBubbleChart(this);
-			    break;
+				break;
 			case CHART_TYPE_CANDLESTICK:
 				xmlWriter.writeCandlestickChart(this);
-			    break;
+				break;
 			case CHART_TYPE_HIGHLOW:
 				xmlWriter.writeHighLowChart(this);
-			    break;
+				break;
 			case CHART_TYPE_LINE:
 				xmlWriter.writeLineChart(this);
-			    break;
+				break;
 			case CHART_TYPE_PIE:
 				xmlWriter.writePieChart(this);
 				break;
