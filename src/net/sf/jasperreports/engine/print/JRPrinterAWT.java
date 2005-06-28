@@ -48,8 +48,6 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 
-import javax.print.PrintService;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -270,15 +268,15 @@ public class JRPrinterAWT implements Printable
 	{
         Class klass = job.getClass();
 		try {
+			Class printServiceClass = Class.forName("javax.print.PrintService");
 			Method method = klass.getMethod("getPrintService", null);
 			Object printService = method.invoke(job, null);
-			method = klass.getMethod("setPrintService", new Class[]{PrintService.class});
+			method = klass.getMethod("setPrintService", new Class[]{printServiceClass});
 			method.invoke(job, new Object[] {printService});
 		} catch (NoSuchMethodException e) {
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 		}
 	}
 }
