@@ -163,6 +163,7 @@
 						<seriesExpression>"Freight"</seriesExpression>
 						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
 						<valueExpression>$V{FreightSumYearGroup}</valueExpression>
+						<labelExpression></labelExpression>
 					</timeSeries>
 				</intervalXyDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
