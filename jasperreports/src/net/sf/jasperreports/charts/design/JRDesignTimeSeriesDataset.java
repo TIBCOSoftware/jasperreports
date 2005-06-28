@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -42,34 +42,34 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
  * @version $Id$  
  */
 public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements JRTimeSeriesDataset {
-    
-    private static final long serialVersionUID = 608;
-    
-    private List timeSeriesList = new ArrayList();
-    private Class timePeriod = null;
-    
-    public JRDesignTimeSeriesDataset( JRChartDataset dataset ){
-    	super( dataset );
-    }
+	
+	private static final long serialVersionUID = 608;
+	
+	private List timeSeriesList = new ArrayList();
+	private Class timePeriod = null;
+	
+	public JRDesignTimeSeriesDataset( JRChartDataset dataset ){
+		super( dataset );
+	}
 
-    public JRTimeSeries[] getSeries(){
-        JRTimeSeries[] timeSeriesArray = new JRTimeSeries[ timeSeriesList.size() ];
-        timeSeriesList.toArray( timeSeriesArray );
-        
-        return timeSeriesArray;
-    }
-    
-    public void addTimeSeries( JRTimeSeries timeSeries ) throws JRException {
-        timeSeriesList.add( timeSeries );
-    }
-    
-    public JRTimeSeries removeTimeSeries( JRTimeSeries timeSeries ) {
-        if( timeSeries != null && timeSeriesList.contains( timeSeries )){
-            timeSeriesList.remove( timeSeries );
-        }
-        
-        return timeSeries;
-    }
+	public JRTimeSeries[] getSeries(){
+		JRTimeSeries[] timeSeriesArray = new JRTimeSeries[ timeSeriesList.size() ];
+		timeSeriesList.toArray( timeSeriesArray );
+		
+		return timeSeriesArray;
+	}
+	
+	public void addTimeSeries( JRTimeSeries timeSeries ) throws JRException {
+		timeSeriesList.add( timeSeries );
+	}
+	
+	public JRTimeSeries removeTimeSeries( JRTimeSeries timeSeries ) {
+		if( timeSeries != null && timeSeriesList.contains( timeSeries )){
+			timeSeriesList.remove( timeSeries );
+		}
+		
+		return timeSeries;
+	}
 
 
 	public Class getTimePeriod() {
@@ -80,5 +80,5 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		this.timePeriod = timePeriod;
 	}
 
-    
+	
 }

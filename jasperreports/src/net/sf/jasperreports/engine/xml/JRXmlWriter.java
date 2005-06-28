@@ -2683,25 +2683,25 @@ public class JRXmlWriter
 		switch(chart.getChartType()) {
 			case JRChart.CHART_TYPE_AREA:
 				writeAreaChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BAR:
 				writeBarChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BAR3D:
 				writeBar3DChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_BUBBLE:
 				writeBubbleChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_CANDLESTICK:
 				writeCandlestickChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_HIGHLOW:
 				writeHighLowChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_LINE:
 				writeLineChart(chart);
-			    break;
+				break;
 			case JRChart.CHART_TYPE_PIE:
 				writePieChart(chart);
 				break;

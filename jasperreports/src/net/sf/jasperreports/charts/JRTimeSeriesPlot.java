@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *                   GNU Lesser General Public License
+ * GNU Lesser General Public License
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
@@ -37,12 +37,12 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRTimeSeriesPlot extends JRChartPlot {
 
-    public JRExpression getTimeAxisLabelExpression();
-    
-    public JRExpression getValueAxisLabelExpression();
-    
-    public boolean isShowLines();
-    
-    public boolean isShowShapes();
-    
+	public JRExpression getTimeAxisLabelExpression();
+	
+	public JRExpression getValueAxisLabelExpression();
+	
+	public boolean isShowLines();
+	
+	public boolean isShowShapes();
+	
 }

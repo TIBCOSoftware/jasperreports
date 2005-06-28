@@ -150,31 +150,31 @@ public class JRFillChart extends JRFillElement implements JRChart
 			case CHART_TYPE_AREA:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_BAR:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_BAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_BUBBLE:
 				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
 				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_CANDLESTICK:
 				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getCandlestickPlot((JRCandlestickPlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_HIGHLOW:
 				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getHighLowPlot((JRHighLowPlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_LINE:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
-			    break;
+				break;
 			case CHART_TYPE_PIE:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
@@ -506,25 +506,25 @@ public class JRFillChart extends JRFillElement implements JRChart
 		switch(chartType) {
 			case CHART_TYPE_AREA:
 				evaluateAreaImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_BAR:
 				evaluateBarImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_BAR3D:
 				evaluateBar3DImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_BUBBLE:
 				evaluateBubbleImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_CANDLESTICK:
 				evaluateCandlestickImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_HIGHLOW:
 				evaluateHighLowImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_LINE:
 				evaluateLineImage(evaluation);
-			    break;
+				break;
 			case CHART_TYPE_PIE:
 				evaluatePieImage(evaluation);
 				break;
@@ -786,7 +786,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-        setTitles(chart, evaluation);
+		setTitles(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		plot.setBackgroundPaint( getPlot().getBackcolor() );
