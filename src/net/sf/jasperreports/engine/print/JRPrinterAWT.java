@@ -37,6 +37,8 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -45,6 +47,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+
+import javax.print.PrintService;
 
 
 /**
@@ -134,6 +138,10 @@ public class JRPrinterAWT implements Printable
 		pageOffset = firstPageIndex;
 
 		PrinterJob printJob = PrinterJob.getPrinterJob();
+
+		// fix for bug ID 6255588 from Sun bug database
+		initPrinterJobFields(printJob);
+		
 		PageFormat pageFormat = printJob.defaultPage();
 		Paper paper = pageFormat.getPaper();
 
@@ -254,4 +262,23 @@ public class JRPrinterAWT implements Printable
 	}
 
 
+	/**
+	 * start fix for bug ID 6255588 from Sun bug database
+	 * @param job print job that the fix applies to
+	 */
+    public static void initPrinterJobFields(PrinterJob job)
+	{
+        Class klass = job.getClass();
+		try {
+			Method method = klass.getMethod("getPrintService", null);
+			Object printService = method.invoke(job, null);
+			method = klass.getMethod("setPrintService", new Class[]{PrintService.class});
+			method.invoke(job, new Object[] {printService});
+		} catch (NoSuchMethodException e) {
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
 }
