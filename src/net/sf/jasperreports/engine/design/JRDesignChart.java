@@ -43,6 +43,8 @@ import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.charts.design.JRDesignPiePlot;
 import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
+import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -464,7 +466,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignBar3DPlot(plot);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				dataset = new JRDesignTimeSeriesDataset( dataset );
+				plot = new JRDesignTimeSeriesPlot( plot );
 				break;
 			case CHART_TYPE_XYAREA:
 				dataset = new JRDesignXyDataset(dataset);
@@ -536,7 +539,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				xmlWriter.writeStackedBar3DChart(this);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				xmlWriter.writeTimeSeriesChart( this );
 				break;
 			case CHART_TYPE_XYAREA:
 				xmlWriter.writeXyAreaChart(this);

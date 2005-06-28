@@ -50,6 +50,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -1899,6 +1901,21 @@ public class JRXmlWriter
 
 		sb.append("\t\t\t\t</categoryDataset>\n");
 	}
+	
+	
+	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset ){
+		sb.append( "\t\t\t\t<timeSeriesDataset>\n" );
+		writeDataset( dataset );
+		
+		JRTimeSeries[] timeSeries = dataset.getSeries();
+		if( timeSeries != null && timeSeries.length > 0 ){
+			for( int i = 0; i < timeSeries.length; i++ ){
+				writeTimeSeries( timeSeries[i] );
+			}
+		}
+		sb.append( "\t\t\t\t</timeSeriesDataset>\n" );
+		
+	}
 
 
 	/**
@@ -2243,6 +2260,32 @@ public class JRXmlWriter
 
 		sb.append("\t\t\t\t</linePlot>\n");
 	}
+	
+	
+	private void writeTimeSeriesPlot( JRTimeSeriesPlot plot ){
+		sb.append( "\t\t\t\t<timeSeriesPlot" );
+		if( !plot.isShowLines() ){
+			sb.append( " isShowLines=\"false\" " );
+		}
+		if( !plot.isShowShapes() ){
+			sb.append( "isShowShapes=\"false\" ");
+		}
+		sb.append( ">\n" );
+		
+		if(plot.getTimeAxisLabelExpression() != null ){
+			sb.append( "\t\t\t\t\t<timeAxisLabelExpression><[CDATA[" );
+			sb.append( plot.getTimeAxisLabelExpression() );
+			sb.append( "]]></timeAxisLabelExpression>\n" );
+		}
+		
+		if( plot.getValueAxisLabelExpression() != null ){
+			sb.append( "\t\t\t\t\t<valueAxisLabelExpression><[CDATA[" );
+			sb.append( plot.getValueAxisLabelExpression() );
+			sb.append( "]]></valueAxisLabelExpression>\n" );
+		}
+		
+		sb.append( "\t\t\t\t</timeSeriesPlot>\n" );
+	}
 
 
 	/**
@@ -2365,6 +2408,15 @@ public class JRXmlWriter
 		writeLinePlot((JRLinePlot) chart.getPlot());
 
 		sb.append("\t\t\t</lineChart>\n");
+	}
+	
+	
+	public void writeTimeSeriesChart( JRChart chart ){
+		sb.append( "\t\t\t<timeSeriesChart>\n" );
+		writeChart( chart );
+		writeTimeSeriesDataset( (JRTimeSeriesDataset)chart.getDataset() );
+		writeTimeSeriesPlot( (JRTimeSeriesPlot)chart.getPlot() );
+		sb.append( "\t\t\t</timeSeriesChart>\n" );
 	}
 
 	public void writeHighLowDataset(JRHighLowDataset dataset)
@@ -2666,7 +2718,7 @@ public class JRXmlWriter
 				writeStackedBar3DChart(chart);
 				break;
 			case JRChart.CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				writeTimeSeriesChart( chart );
 				break;
 			case JRChart.CHART_TYPE_XYAREA:
 				writeXyAreaChart(chart);

@@ -45,6 +45,8 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -332,7 +334,8 @@ public class JRExpressionCollector
 				collect((JRBar3DPlot)chart.getPlot());
 				break;
 			case JRChart.CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				collect((JRTimeSeriesDataset)chart.getDataset() );
+				collect((JRTimeSeriesPlot)chart.getPlot());
 				break;
 			case JRChart.CHART_TYPE_XYAREA:
 				collect( (JRXyDataset)chart.getDataset() );
@@ -410,6 +413,12 @@ public class JRExpressionCollector
 		collectChart( lineChart );
 		collect( (JRCategoryDataset)lineChart.getDataset() );
 		collect( (JRLinePlot)lineChart.getPlot()  );
+	}
+	
+	public void collect( JRTimeSeriesChart timeSeriesChart ){
+		collectChart( timeSeriesChart );
+		collect( (JRTimeSeriesDataset)timeSeriesChart.getDataset() );
+		collect( (JRTimeSeriesPlot)timeSeriesChart.getPlot() );
 	}
 	
 	public void collect( JRXyLineChart xyLineChart ){
@@ -500,7 +509,20 @@ public class JRExpressionCollector
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	private void collect( JRTimeSeriesDataset timeSeriesDataset ){
+		JRTimeSeries[] timeSeries = timeSeriesDataset.getSeries();
+		if( timeSeries != null && timeSeries.length > 0 ){
+			for( int i = 0; i <  timeSeries.length; i++ ){
+				collect( timeSeries[i] );
+			}
+		}
+	}
 
+	
 	/**
 	 *
 	 */
@@ -543,6 +565,11 @@ public class JRExpressionCollector
 	private void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
+	}
+	
+	private void collect( JRTimeSeriesPlot timeSeriesPlot ){
+		addExpression( timeSeriesPlot.getTimeAxisLabelExpression() );
+		addExpression( timeSeriesPlot.getValueAxisLabelExpression() );
 	}
 	
 	private void collect( JRScatterPlot scatterPlot ){

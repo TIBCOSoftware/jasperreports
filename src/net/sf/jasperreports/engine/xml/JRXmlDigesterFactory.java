@@ -60,7 +60,10 @@ import net.sf.jasperreports.charts.xml.JRScatterChartFactory;
 import net.sf.jasperreports.charts.xml.JRScatterPlotFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRTimeSeriesChartFactory;
+import net.sf.jasperreports.charts.xml.JRTimeSeriesDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
+import net.sf.jasperreports.charts.xml.JRTimeSeriesPlotFactory;
 import net.sf.jasperreports.charts.xml.JRXyAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
@@ -365,7 +368,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pieDataset/valueExpression", JRPieDatasetFactory.JRValueExpressionFactory.class);
 		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
-
+		
 		// pie 3D charts
 		digester.addFactoryCreate("*/pie3DChart", JRPie3DChartFactory.class.getName());
 		digester.addSetNext("*/pie3DChart", "addElement", JRDesignElement.class.getName());
@@ -394,7 +397,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/categoryDataset/categorySeries", JRCategorySeriesFactory.class.getName());
 		digester.addSetNext("*/categoryDataset/categorySeries", "addCategorySeries", JRDesignCategorySeries.class.getName());
 
-		digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
+		//digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/categorySeries/seriesExpression", JRCategorySeriesFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/categorySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/seriesExpression", "setText", 0);
@@ -427,12 +430,36 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/xyzSeries/zValueExpression", "setZValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/xyzSeries/zValueExpression", "setText", 0 );
 		
+		// time series dataset 
+		digester.addFactoryCreate( "*/timeSeriesDataset", JRTimeSeriesDatasetFactory.class.getName() );
+		digester.addFactoryCreate( "*/timeSeriesDataset/timeSeries", JRTimeSeriesFactory.class.getName());
+		digester.addSetNext( "*/timeSeriesDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName() );
+		
+		
+//		digester.addFactoryCreate( "*/timeSeries", JRTimeSeriesDatasetFactory.class.getName() );
+//		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class.getName() );
+//		digester.addSetNext( "*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName() );
+//		digester.addCallMethod( "*/timeSeries/seriesExpression", "setText", 0 );
+//		digester.addFactoryCreate("*/timeSeries/timePeriodExpression", JRTimeSeriesFactory.JRTimePeriodExpressionFactory.class.getName() );
+//		digester.addSetNext( "*/timeSeries/timePeriodExpression", "setTimePeriodExpression", JRDesignExpression.class.getName() );
+//		digester.addCallMethod( "*/timeSeries/timePeriodExpression", "setText", 0 );
+//		digester.addFactoryCreate("*/timeSeries/valueExpression", JRTimeSeriesFactory.JRValueExpressionFactory.class.getName() );
+//		digester.addSetNext( "*/timeSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName() );
+//		digester.addCallMethod( "*/timeSeries/valueExpression", "setText", 0 );
+//		digester.addFactoryCreate("*/timeSeries/labelExpression", JRTimeSeriesFactory.JRLabelExpressionFactory.class.getName() );
+//		digester.addSetNext( "*/timeSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName() );
+//		digester.addCallMethod( "*/timeSeries/labelExpression", "setText", 0 );
+		
+		digester.addFactoryCreate("*/timeSeriesChart", JRTimeSeriesChartFactory.class.getName());
+		digester.addSetNext("*/timeSeriesChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/timeSeriesChart/timeSeriesPlot", JRTimeSeriesPlotFactory.class.getName());
 		
 		// XY bar charts
 		digester.addFactoryCreate("*/xyBarChart", JRXyBarChartFactory.class.getName());
 		digester.addSetNext("*/xyBarChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/xyBarChart/barPlot", JRBarPlotFactory.class.getName());
 
+		
 		digester.addFactoryCreate("*/intervalXyDataset", JRIntervalXyDatasetFactory.class.getName());
 		digester.addFactoryCreate("*/intervalXyDataset/timeSeries", JRTimeSeriesFactory.class.getName());//FIXME NOW why */intervalXyDataset/timeSeries and not */timeSeries
 		digester.addSetNext("*/intervalXyDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName());

@@ -46,6 +46,15 @@ import net.sf.jasperreports.engine.JRVariable;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.Quarter;
+import org.jfree.data.time.Second;
+import org.jfree.data.time.Week;
+import org.jfree.data.time.Year;
 
 
 
@@ -742,6 +751,52 @@ public class JRXmlConstants
 		}
 
 		return scaleTypeMap;
+	}
+	
+	
+	
+	private static final String TIME_PERIOD_YEAR = "year";
+	private static final String TIME_PERIOD_QUARTER = "quarter";
+	private static final String TIME_PERIOD_MONTH = "month";
+	private static final String TIME_PERIOD_WEEK = "week";
+	private static final String TIME_PERIOD_DAY = "day";
+	private static final String TIME_PERIOD_HOUR = "hour";
+	private static final String TIME_PERIOD_MINUTE = "minute";
+	private static final String TIME_PERIOD_SECOND = "second";
+	private static final String TIME_PERIOD_MILISECOND = "milisecond";
+	
+	
+	
+	public static Class getTimePeriod( String timePeriod ) {
+		if( timePeriod.equals( TIME_PERIOD_YEAR ) ){
+			return Year.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_QUARTER )){
+			return Quarter.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_MONTH )){
+			return Month.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_WEEK )){
+			return Week.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_DAY )) {
+			return Day.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_HOUR )){
+			return Hour.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_MINUTE )){
+			return Minute.class;
+		}
+		else if( timePeriod.equals( TIME_PERIOD_SECOND )){
+			return Second.class;
+		}
+		else {
+			return Millisecond.class;
+		}
+		
+		
 	}
 
 

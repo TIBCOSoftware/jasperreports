@@ -46,6 +46,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
@@ -53,6 +55,7 @@ import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
+import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -85,9 +88,11 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
@@ -192,7 +197,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
+				plot = factory.getTimeSeriesPlot((JRTimeSeriesPlot)chart.getPlot());
 				break;
 			case CHART_TYPE_XYAREA:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
@@ -536,7 +542,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				evaluateStackedBar3DImage(evaluation);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				evaluateTimeSeriesImage( evaluation );
 				break;
 			case CHART_TYPE_XYAREA:
 				evaluateXyAreaImage(evaluation);
@@ -1212,4 +1218,37 @@ public class JRFillChart extends JRFillElement implements JRChart
 		renderer = new JCommonDrawableRenderer( chart );
 	}
 
+	protected void evaluateTimeSeriesImage( byte evaluation ) throws JRException {
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(
+				(String)evaluateExpression( getTitleExpression(), evaluation ),
+				(String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression(), evaluation ),
+				(String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
+				(TimeSeriesCollection)((JRFillChartDataset)dataset).getDataset(),
+				isShowLegend(),
+				true,
+				false );
+		
+		if( chart.getTitle() != null ){
+			chart.getTitle().setPaint( getTitleColor() );
+		}
+		
+		String subtitleText = (String)evaluateExpression( getSubtitleExpression(), evaluation );
+		if( subtitleText != null ){
+			TextTitle subtitle = new TextTitle();
+			subtitle.setPaint( getSubtitleColor() );
+			chart.addSubtitle( subtitle );
+		}
+		
+		XYPlot plot = (XYPlot)chart.getPlot();
+		plot.setBackgroundPaint( getPlot().getBackcolor() );
+		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
+		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+		
+		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)plot.getRenderer();
+		lineRenderer.setDefaultLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
+		lineRenderer.setDefaultShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
+		
+		renderer = new JCommonDrawableRenderer( chart );
+		
+	}
 }
