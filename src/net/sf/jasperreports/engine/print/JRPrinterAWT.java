@@ -261,7 +261,7 @@ public class JRPrinterAWT implements Printable
 
 
 	/**
-	 * start fix for bug ID 6255588 from Sun bug database
+	 * Fix for bug ID 6255588 from Sun bug database
 	 * @param job print job that the fix applies to
 	 */
 	public static void initPrinterJobFields(PrinterJob job)
