@@ -43,6 +43,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -169,7 +171,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_TIMESERIES:
-				// TODO after time series charts are completed
+				dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
+				plot = factory.getTimeSeriesPlot( (JRTimeSeriesPlot)chart.getPlot() );
 				break;
 			case CHART_TYPE_XYAREA:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());

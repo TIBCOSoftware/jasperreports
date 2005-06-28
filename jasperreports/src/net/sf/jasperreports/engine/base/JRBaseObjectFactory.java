@@ -43,6 +43,8 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -63,6 +65,8 @@ import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
+import net.sf.jasperreports.charts.base.JRBaseTimeSeriesDataset;
+import net.sf.jasperreports.charts.base.JRBaseTimeSeriesPlot;
 import net.sf.jasperreports.charts.base.JRBaseXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.charts.base.JRBaseXyzDataset;
@@ -601,6 +605,18 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseCategoryDataset;
 	}
 	
+	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
+		JRBaseTimeSeriesDataset baseTimeSeriesDataset = null;
+		if( timeSeriesDataset != null ){
+			baseTimeSeriesDataset = (JRBaseTimeSeriesDataset)get( timeSeriesDataset );
+			if( baseTimeSeriesDataset == null ){
+				baseTimeSeriesDataset = new JRBaseTimeSeriesDataset( timeSeriesDataset, this );
+			}
+		}
+		
+		return baseTimeSeriesDataset;
+	}
+	
 
 	/**
 	 *
@@ -911,7 +927,20 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 		return baseScatterPlot;
 	}
+	
+	
 
+	public JRTimeSeriesPlot getTimeSeriesPlot( JRTimeSeriesPlot plot ){
+		JRBaseTimeSeriesPlot basePlot = null;
+		if( plot != null ){
+			basePlot = (JRBaseTimeSeriesPlot)get( plot );
+			if( basePlot == null ){
+				basePlot = new JRBaseTimeSeriesPlot( plot, this );
+			}
+		}
+		
+		return basePlot;
+	}
 
 	/**
 	 *

@@ -46,6 +46,8 @@ import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -66,6 +68,8 @@ import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
+import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
+import net.sf.jasperreports.charts.fill.JRFillTimeSeriesPlot;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
@@ -599,6 +603,22 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillIntervalXyDataset;
 	}
 
+	
+	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
+		JRFillTimeSeriesDataset fillTimeSeriesDataset = null;
+		
+		if( timeSeriesDataset != null ){
+			
+			fillTimeSeriesDataset = (JRFillTimeSeriesDataset)get( timeSeriesDataset );
+			
+			if( fillTimeSeriesDataset == null ){
+				fillTimeSeriesDataset = new JRFillTimeSeriesDataset( timeSeriesDataset, this );
+				datasets.add( fillTimeSeriesDataset );
+			}
+		}
+		
+		return fillTimeSeriesDataset;
+	}
 
 	/**
 	 *
@@ -834,5 +854,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillCandlestickPlot;
+	}
+	
+
+	
+	public JRTimeSeriesPlot getTimeSeriesPlot( JRTimeSeriesPlot plot ){
+		JRFillTimeSeriesPlot fillPlot = null;
+		if( plot != null ){
+			fillPlot = (JRFillTimeSeriesPlot)get( plot );
+			if( fillPlot == null ){
+				fillPlot = new JRFillTimeSeriesPlot( plot, this );
+			}
+		}
+		
+		return fillPlot;
+		
 	}
 }

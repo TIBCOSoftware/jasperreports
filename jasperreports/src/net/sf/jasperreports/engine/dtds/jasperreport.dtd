@@ -321,7 +321,6 @@
 <!ELEMENT xyBarChart (chart, intervalXyDataset, barPlot)>
 <!ELEMENT intervalXyDataset (dataset, (timePeriodValues+ | timeSeries+ | xySeries+))>
 <!ELEMENT timePeriodValues (seriesExpression, startDateExpression, endDateExpression, valueExpression)>
-<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression)>
 <!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression)>
 <!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
@@ -366,8 +365,13 @@
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
-<!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
 <!ELEMENT timeSeriesDataset (dataset, timeSeries+)>
+<!ATTLIST timeSeriesDataset
+	timePeriod (year | quarter | month | week | day | hour | minute | second | milisecond ) "day"
+>
+<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression)>
+
+<!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
 <!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST timeSeriesPlot
 	isShowLines (true | false) "true"
