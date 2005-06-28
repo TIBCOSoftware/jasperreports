@@ -31,6 +31,11 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**
+ * Contains parameters useful for export in XLS format.
+ * <p>
+ * The XLS exporter can send data to an output stream or file on disk. The engine looks among the export parameters in
+ * order to find the selected output type in this order: OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
