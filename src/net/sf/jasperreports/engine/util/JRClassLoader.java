@@ -41,6 +41,13 @@ import java.security.SecureClassLoader;
 public class JRClassLoader extends SecureClassLoader
 {
 
+    /**
+     *
+     */
+    protected JRClassLoader()
+    {
+        super();
+    }
 
 	/**
 	 *
@@ -63,7 +70,7 @@ public class JRClassLoader extends SecureClassLoader
 		{
 			try
 			{
-				clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
+				clazz = Class.forName(className, true, classLoader);
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -74,7 +81,15 @@ public class JRClassLoader extends SecureClassLoader
 
 		if (clazz == null)
 		{
-			clazz = Class.forName(className, true, JRClassLoader.class.getClassLoader());
+		    classLoader = JRClassLoader.class.getClassLoader();
+			if (classLoader == null)
+			{
+                clazz = Class.forName(className);
+            }
+			else
+			{
+                clazz = Class.forName(className, true, classLoader);
+			}
 		}
 
 		return clazz;
@@ -88,23 +103,37 @@ public class JRClassLoader extends SecureClassLoader
 	{
 		Class clazz = null;
 
-		try
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader != null)
 		{
-			clazz = 
-				(new JRClassLoader(Thread.currentThread().getContextClassLoader()))
-					.loadClass(className, file);
-		}
-		catch(NoClassDefFoundError e)
-		{
-			//if (log.isWarnEnabled())
-			//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			try
+			{
+	            clazz = 
+					(new JRClassLoader(classLoader))
+						.loadClass(className, file);
+			}
+			catch(NoClassDefFoundError e)
+			{
+				//if (log.isWarnEnabled())
+				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			}
 		}
 	
 		if (clazz == null)
 		{
-			clazz = 
-				(new JRClassLoader(JRClassLoader.class.getClassLoader()))
-					.loadClass(className, file);
+		    classLoader = JRClassLoader.class.getClassLoader();
+		    if (classLoader == null)
+		    {
+				clazz = 
+					(new JRClassLoader())
+						.loadClass(className, file);
+		    }
+		    else
+		    {
+				clazz = 
+					(new JRClassLoader(classLoader))
+						.loadClass(className, file);
+		    }
 		}
 		
 		return clazz;
@@ -118,23 +147,37 @@ public class JRClassLoader extends SecureClassLoader
 	{
 		Class clazz = null;
 
-		try
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader != null)
 		{
-			clazz = 
-				(new JRClassLoader(Thread.currentThread().getContextClassLoader()))
-					.loadClass(className, bytecodes);
-		}
-		catch(NoClassDefFoundError e)
-		{
-			//if (log.isWarnEnabled())
-			//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			try
+			{
+	            clazz = 
+					(new JRClassLoader(classLoader))
+						.loadClass(className, bytecodes);
+			}
+			catch(NoClassDefFoundError e)
+			{
+				//if (log.isWarnEnabled())
+				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+			}
 		}
 	
 		if (clazz == null)
 		{
-			clazz = 
-				(new JRClassLoader(JRClassLoader.class.getClassLoader()))
-					.loadClass(className, bytecodes);
+		    classLoader = JRClassLoader.class.getClassLoader();
+		    if (classLoader == null)
+		    {
+				clazz = 
+					(new JRClassLoader())
+						.loadClass(className, bytecodes);
+		    }
+		    else
+		    {
+				clazz = 
+					(new JRClassLoader(classLoader))
+						.loadClass(className, bytecodes);
+		    }
 		}
 
 		return clazz;

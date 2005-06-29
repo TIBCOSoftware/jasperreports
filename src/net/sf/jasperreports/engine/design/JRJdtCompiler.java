@@ -226,7 +226,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						return new NameEnvironmentAnswer(compilationUnit);
 					}
 					String resourceName = className.replace('.', '/') + ".class";
-					InputStream is = classLoader.getResourceAsStream(resourceName);
+					InputStream is = getResource(resourceName);
 					if (is != null) 
 					{
 						byte[] classBytes;
@@ -263,7 +263,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 					return false;
 				}
 				String resourceName = result.replace('.', '/') + ".class";
-				InputStream is = classLoader.getResourceAsStream(resourceName);
+				InputStream is = getResource(resourceName);
 				return is == null;
 			}
 
@@ -296,6 +296,18 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 			public void cleanup() 
 			{
+			}
+			
+			private InputStream getResource (String resourceName)
+			{
+			    if (classLoader == null)
+			    {
+			        return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
+			    }
+			    else
+			    {
+			        return classLoader.getResourceAsStream(resourceName);
+			    }
 			}
 
 		};
@@ -419,7 +431,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			try
 			{
-				Class.forName(JRJdtCompiler.class.getName(), true, Thread.currentThread().getContextClassLoader());
+				Class.forName(JRJdtCompiler.class.getName(), true, classLoader);
 			}
 			catch (ClassNotFoundException e)
 			{

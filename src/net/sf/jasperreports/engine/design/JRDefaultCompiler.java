@@ -134,7 +134,14 @@ public class JRDefaultCompiler implements JRCompiler
 			classLoader = JRDefaultCompiler.class.getClassLoader();
 			try
 			{
-				compilerClass = classLoader.loadClass(compilerClassName);
+				if (classLoader == null)
+				{
+                    compilerClass = Class.forName(compilerClassName);
+				}
+				else
+				{
+                    compilerClass = classLoader.loadClass(compilerClassName);
+                }
 			}
 			catch(ClassNotFoundException e)
 			{

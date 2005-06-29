@@ -159,7 +159,14 @@ public class JRImageLoader
 			//	wasWarning = true;
 			//}
 			classLoader = JRImageLoader.class.getClassLoader();
-			url = classLoader.getResource(location);
+			if (classLoader == null)
+			{
+                url = JRImageLoader.class.getResource("/" + location);
+            }
+			else
+			{
+                url = classLoader.getResource(location);
+			}
 		}
 
 		if (url != null)
@@ -227,22 +234,7 @@ public class JRImageLoader
 			{
 				if (img_NO_IMAGE == null)
 				{
-					ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-					URL url = classLoader.getResource(str_NO_IMAGE);
-					if (url == null)
-					{
-						//if (!wasWarning)
-						//{
-						//	if (log.isWarnEnabled())
-						//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
-						//	wasWarning = true;
-						//}
-						classLoader = JRImageLoader.class.getClassLoader();
-					}
-					InputStream is = classLoader.getResourceAsStream(str_NO_IMAGE);
-					img_NO_IMAGE = loadImage(
-						loadImageDataFromInputStream(is)
-						);
+				    img_NO_IMAGE = loadImage(str_NO_IMAGE);
 				}
 				image = img_NO_IMAGE;
 				break;
@@ -251,22 +243,7 @@ public class JRImageLoader
 			{
 				if (img_SUBREPORT_IMAGE == null)
 				{
-					ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-					URL url = classLoader.getResource(str_SUBREPORT_IMAGE);
-					if (url == null)
-					{
-						//if (!wasWarning)
-						//{
-						//	if (log.isWarnEnabled())
-						//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
-						//	wasWarning = true;
-						//}
-						classLoader = JRImageLoader.class.getClassLoader();
-					}
-					InputStream is = classLoader.getResourceAsStream(str_SUBREPORT_IMAGE);
-					img_SUBREPORT_IMAGE = loadImage(
-						loadImageDataFromInputStream(is)
-						);
+					img_SUBREPORT_IMAGE = loadImage(str_SUBREPORT_IMAGE);
 				}
 				image = img_SUBREPORT_IMAGE;
 				break;
@@ -275,22 +252,7 @@ public class JRImageLoader
 			{
 				if (img_CHART_IMAGE == null)
 				{
-					ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-					URL url = classLoader.getResource(str_CHART_IMAGE);
-					if (url == null)
-					{
-						//if (!wasWarning)
-						//{
-						//	if (log.isWarnEnabled())
-						//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
-						//	wasWarning = true;
-						//}
-						classLoader = JRImageLoader.class.getClassLoader();
-					}
-					InputStream is = classLoader.getResourceAsStream(str_CHART_IMAGE);
-					img_CHART_IMAGE = loadImage(
-						loadImageDataFromInputStream(is)
-						);
+					img_CHART_IMAGE = loadImage(str_CHART_IMAGE);
 				}
 				image = img_CHART_IMAGE;
 				break;
@@ -301,7 +263,7 @@ public class JRImageLoader
 	}
 
 
-	/**
+    /**
 	 *
 	 */
 	public static Image loadImage(byte[] bytes) throws JRException
@@ -324,5 +286,39 @@ public class JRImageLoader
 		return image;
 	}
 
+
+	/**
+	 * Loads an image from an specified resource.
+	 * 
+	 * @param image the resource name
+     * @throws JRException
+     */
+    protected static Image loadImage(String image) throws JRException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL url = classLoader.getResource(image);
+        if (url == null)
+        {
+        	//if (!wasWarning)
+        	//{
+        	//	if (log.isWarnEnabled())
+        	//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
+        	//	wasWarning = true;
+        	//}
+        	classLoader = JRImageLoader.class.getClassLoader();
+        }
+        InputStream is;
+        if (classLoader == null)
+        {
+            is = JRImageLoader.class.getResourceAsStream("/" + image);
+        }
+        else
+        {
+            is = classLoader.getResourceAsStream(image);
+        }
+        
+        return loadImage(
+        	loadImageDataFromInputStream(is)
+        	);
+    }
 
 }
