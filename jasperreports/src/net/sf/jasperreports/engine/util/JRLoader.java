@@ -251,7 +251,14 @@ public class JRLoader
 			//	wasWarning = true;
 			//}
 			classLoader = JRLoader.class.getClassLoader();
-			url = classLoader.getResource(location);
+			if (classLoader == null)
+			{
+                url = JRLoader.class.getResource("/" + location);
+            }
+			else
+			{				
+				url = classLoader.getResource(location);
+			}
 		}
 
 		if (url != null)
@@ -446,7 +453,14 @@ public class JRLoader
 			//	wasWarning = true;
 			//}
 			classLoader = JRLoader.class.getClassLoader();
-			url = classLoader.getResource(location);
+			if (classLoader == null)
+			{
+                url = JRLoader.class.getResource("/" + location);
+            }
+			else
+			{
+                url = classLoader.getResource(location);
+			}
 		}
 
 		if (url != null)
