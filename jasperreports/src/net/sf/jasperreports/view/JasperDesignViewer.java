@@ -157,7 +157,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	public static void viewReportDesign(String sourceFile, boolean isXML) throws JRException
 	{
 		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(sourceFile, isXML);
-		jasperDesignViewer.show();
+		jasperDesignViewer.setVisible(true);
 	}
 
 	
@@ -167,7 +167,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	public static void viewReportDesign(InputStream is, boolean isXML) throws JRException
 	{
 		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(is, isXML);
-		jasperDesignViewer.show();
+		jasperDesignViewer.setVisible(true);
 	}
 
 	
@@ -177,7 +177,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	public static void viewReportDesign(JRReport report) throws JRException
 	{
 		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(report);
-		jasperDesignViewer.show();
+		jasperDesignViewer.setVisible(true);
 	}
 
 	

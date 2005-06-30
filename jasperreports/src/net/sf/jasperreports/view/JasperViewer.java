@@ -256,7 +256,7 @@ public class JasperViewer extends javax.swing.JFrame
 				isXMLFile,
 				true
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 	/**
@@ -273,7 +273,7 @@ public class JasperViewer extends javax.swing.JFrame
 				isXMLFile,
 				true
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class JasperViewer extends javax.swing.JFrame
 				jasperPrint,
 				true
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class JasperViewer extends javax.swing.JFrame
 				isXMLFile, 
 				isExitOnClose
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class JasperViewer extends javax.swing.JFrame
 				isXMLFile,
 				isExitOnClose
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 	/**
@@ -340,7 +340,7 @@ public class JasperViewer extends javax.swing.JFrame
 				jasperPrint,
 				isExitOnClose
 				);
-		jasperViewer.show();
+		jasperViewer.setVisible(true);
 	}
 
 
