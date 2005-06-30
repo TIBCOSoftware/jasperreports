@@ -269,8 +269,8 @@ public class JRPrinterAWT implements Printable
 		Class klass = job.getClass();
 		try {
 			Class printServiceClass = Class.forName("javax.print.PrintService");
-			Method method = klass.getMethod("getPrintService", null);
-			Object printService = method.invoke(job, null);
+			Method method = klass.getMethod("getPrintService", (Class[])null);
+			Object printService = method.invoke(job, (Object[])null);
 			method = klass.getMethod("setPrintService", new Class[]{printServiceClass});
 			method.invoke(job, new Object[] {printService});
 		} catch (NoSuchMethodException e) {
