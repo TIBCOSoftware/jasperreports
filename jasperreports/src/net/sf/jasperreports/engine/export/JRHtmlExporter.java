@@ -854,7 +854,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(
 			replaceNewLineWithBR(
-				JRStringUtil.xmlEncode(text)
+				JRStringUtil.htmlEncode(text)
 				)
 			);
 			

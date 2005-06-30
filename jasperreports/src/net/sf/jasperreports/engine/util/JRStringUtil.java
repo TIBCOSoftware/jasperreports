@@ -101,6 +101,38 @@ public class JRStringUtil
 
 
 	/**
+	 *
+	 */
+	public static String htmlEncode(String text)
+	{
+		if (text != null)
+		{
+			StringBuffer ret = new StringBuffer();
+
+			for (int i = 0; i < text.length(); i ++)
+			{
+				switch (text.charAt(i))
+				{
+					case ' ' : ret.append("&nbsp;"); break;
+					case '&' : ret.append("&amp;"); break;
+					case '>' : ret.append("&gt;"); break;
+					case '<' : ret.append("&lt;"); break;
+					case '\"' : ret.append("&quot;"); break;
+
+					default : ret.append(text.substring(i, i + 1)); break;
+				}
+			}
+
+			return ret.toString();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	/**
 	 * Takes a name and returns the same if it is a Java identifier;
 	 * else it substitutes the illegal characters so that it can be an identifier
 	 *
