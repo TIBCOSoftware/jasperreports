@@ -604,13 +604,16 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		reportBoundImages = new HashMap();
 		pageBoundImages = new HashMap();
 		columnBoundImages = new HashMap();
+		groupBoundImages = new HashMap();
 
 		reportBoundTexts = new HashMap();
 		pageBoundTexts = new HashMap();
 		columnBoundTexts = new HashMap();
-
-		groupBoundImages = new HashMap();
 		groupBoundTexts = new HashMap();
+
+		reportBoundCharts = new HashMap();
+		pageBoundCharts = new HashMap();
+		columnBoundCharts = new HashMap();
 		groupBoundCharts = new HashMap();
 
 		if (groups != null && groups.length > 0)
@@ -932,6 +935,21 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 		reportBoundImages = new HashMap();
+
+		Collection charts = reportBoundCharts.keySet();
+		if (charts != null && charts.size() > 0)
+		{
+			for(Iterator it = charts.iterator(); it.hasNext();)
+			{
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillChart chart = (JRFillChart)reportBoundCharts.get(printImage);
+				
+				chart.evaluateImage(JRExpression.EVALUATION_DEFAULT);
+
+				chart.copy(printImage);
+			}
+		}
+		reportBoundCharts = new HashMap();
 	}
 
 
@@ -954,6 +972,21 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 		pageBoundImages = new HashMap();
+
+		Collection charts = pageBoundCharts.keySet();
+		if (charts != null && charts.size() > 0)
+		{
+			for(Iterator it = charts.iterator(); it.hasNext();)
+			{
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillChart chart = (JRFillChart)pageBoundCharts.get(printImage);
+
+				chart.evaluateImage(evaluation);
+
+				chart.copy(printImage);
+			}
+		}
+		pageBoundCharts = new HashMap();
 	}
 
 
@@ -976,6 +1009,21 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 		columnBoundImages = new HashMap();
+
+		Collection charts = columnBoundCharts.keySet();
+		if (charts != null && charts.size() > 0)
+		{
+			for(Iterator it = charts.iterator(); it.hasNext();)
+			{
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillChart chart = (JRFillChart)columnBoundCharts.get(printImage);
+
+				chart.evaluateImage(evaluation);
+
+				chart.copy(printImage);
+			}
+		}
+		columnBoundCharts = new HashMap();
 	}
 
 
