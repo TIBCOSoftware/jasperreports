@@ -8,7 +8,10 @@
 	<target name="compile">
 		<mkdir dir="./build/classes"/> 
 		<condition property="using.jdk.1.4">
+			<or>
 			<equals arg1="${ant.java.version}" arg2="1.4"/>
+			<equals arg1="${ant.java.version}" arg2="1.5"/>
+			</or>
 		</condition>
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
