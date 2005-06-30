@@ -140,6 +140,11 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 		}
 		return retVal;
 	}
+
+    public Comparable getSeriesKey(int arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 	
 	
 
