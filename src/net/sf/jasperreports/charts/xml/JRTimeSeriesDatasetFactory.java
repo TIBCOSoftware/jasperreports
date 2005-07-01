@@ -30,7 +30,6 @@ package net.sf.jasperreports.charts.xml;
 
 
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
