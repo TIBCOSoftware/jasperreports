@@ -222,7 +222,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[XY Bar Chart Report]]></text>
+				<text><![CDATA[XY Bar Chart with Time Series Dataset Report]]></text>
 			</staticText>
 		</band>
 	</title>
