@@ -28,18 +28,18 @@
 
 package net.sf.jasperreports.charts.fill;
 
-import org.jfree.data.general.Dataset;
-import org.jfree.data.time.SimpleTimePeriod;
-import org.jfree.data.time.TimePeriodValues;
-import org.jfree.data.time.TimePeriodValuesCollection;
-
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+
+import org.jfree.data.general.Dataset;
+import org.jfree.data.time.SimpleTimePeriod;
+import org.jfree.data.time.TimePeriodValues;
+import org.jfree.data.time.TimePeriodValuesCollection;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
