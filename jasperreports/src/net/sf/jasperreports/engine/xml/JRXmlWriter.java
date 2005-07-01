@@ -44,7 +44,6 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -2627,28 +2626,6 @@ public class JRXmlWriter
 
 	/**
 	 *
-	 * @param dataset
-	 */
-	private void writeIntervalXyDataset(JRIntervalXyDataset dataset)
-	{
-		sb.append("\t\t\t\t<intervalXyDataset>\n");
-
-		writeDataset(dataset);
-		JRTimeSeries[] timeSeries = dataset.getSeries();
-		if (timeSeries != null && timeSeries.length > 0)
-		{
-			for(int i = 0; i < timeSeries.length; i++)
-			{
-				writeTimeSeries(timeSeries[i]);
-			}
-		}
-
-		sb.append("\t\t\t\t</intervalXyDataset>\n");
-	}
-
-
-	/**
-	 *
 	 * @param chart
 	 */
 	public void writeXyBarChart(JRChart chart)
@@ -2656,7 +2633,7 @@ public class JRXmlWriter
 		sb.append("\t\t\t<xyBarChart>\n");
 
 		writeChart(chart);
-		writeIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
+		//FIXME NOW write...Dataset;
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</xyBarChart>\n");

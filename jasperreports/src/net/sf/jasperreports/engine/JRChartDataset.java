@@ -34,14 +34,13 @@ package net.sf.jasperreports.engine;
  */
 public interface JRChartDataset
 {
-	public static final byte CATEGORY_DATASET = 0;
-	public static final byte HIGHLOW_DATASET = 1;
-	public static final byte INTERVALXY_DATASET = 2;
-	public static final byte PIE_DATASET = 3;
-	public static final byte TIMEPERIOD_DATASET = 4;
-	public static final byte TIMESERIES_DATASET = 5;
-	public static final byte XY_DATASET = 6;
-	public static final byte XYZ_DATASET = 7;
+	public static final byte PIE_DATASET = 1;
+	public static final byte CATEGORY_DATASET = 2;
+	public static final byte XY_DATASET = 3;
+	public static final byte XYZ_DATASET = 4;
+	public static final byte TIMEPERIOD_DATASET = 5;
+	public static final byte TIMESERIES_DATASET = 6;
+	public static final byte HIGHLOW_DATASET = 7;
 	
 	/**
 	 *
