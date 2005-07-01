@@ -32,6 +32,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -129,6 +130,13 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 
 	public void setTimePeriod(Class timePeriod) {	
+	}
+
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.TIMESERIES_DATASET;
 	}
 	
 }

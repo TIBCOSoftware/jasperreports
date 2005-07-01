@@ -88,5 +88,13 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 		return xySeries;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.XY_DATASET;
+	}
+
 	
 }

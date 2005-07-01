@@ -144,5 +144,12 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	{
 		this.volumeExpression = volumeExpression;
 	}
+
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.HIGHLOW_DATASET;
+	}
 }
 

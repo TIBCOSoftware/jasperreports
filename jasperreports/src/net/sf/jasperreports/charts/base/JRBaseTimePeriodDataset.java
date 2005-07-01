@@ -27,83 +27,55 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
-{
-
-
+public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTimePeriodDataset {
+	
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 608;
-
-	protected JRExpression keyExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
-
 	
-	/**
-	 *
-	 */
-	public JRBasePieDataset(JRChartDataset dataset)
-	{
-		super(dataset);
+	private JRTimePeriodSeries[] timePeriodSeries = null;
+	
+	protected JRBaseTimePeriodDataset( JRTimePeriodDataset dataset ){
+		super( dataset );
 	}
 	
-	
-	/**
-	 *
-	 */
-	public JRBasePieDataset(JRPieDataset dataset, JRBaseObjectFactory factory)
-	{
-		super(dataset, factory);
-
-		keyExpression = factory.getExpression(dataset.getKeyExpression());
-		valueExpression = factory.getExpression(dataset.getValueExpression());
-		labelExpression = factory.getExpression(dataset.getLabelExpression());
-	}
-
-	
-	/**
-	 *
-	 */
-	public JRExpression getKeyExpression()
-	{
-		return keyExpression;
-	}
+	public JRBaseTimePeriodDataset( JRTimePeriodDataset dataset, JRBaseObjectFactory factory ){
+		super( dataset, factory );
 		
-	/**
-	 *
-	 */
-	public JRExpression getValueExpression()
-	{
-		return valueExpression;
-	}
+		JRTimePeriodSeries[] srcTimePeriodSeries = dataset.getSeries();
 		
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return labelExpression;
+		if( srcTimePeriodSeries != null && srcTimePeriodSeries.length > 0 ){
+			timePeriodSeries = new JRTimePeriodSeries[srcTimePeriodSeries.length];
+			for( int i = 0; i < timePeriodSeries.length; i++ ){
+				timePeriodSeries[i] = factory.getTimePeriodSeries( srcTimePeriodSeries[i] );
+			}
+		}
 	}
-
+	
+	public JRTimePeriodSeries[] getSeries(){
+		return timePeriodSeries;
+	}
 
 	/** 
 	 * 
 	 */
 	public byte getDatasetType() {
-		return JRChartDataset.PIE_DATASET;
+		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
-		
+	
+	
+	
+	
+	
 }

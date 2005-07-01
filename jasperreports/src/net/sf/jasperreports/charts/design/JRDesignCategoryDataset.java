@@ -99,4 +99,12 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	}
 
 
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.CATEGORY_DATASET;
+	}
+
+
 }

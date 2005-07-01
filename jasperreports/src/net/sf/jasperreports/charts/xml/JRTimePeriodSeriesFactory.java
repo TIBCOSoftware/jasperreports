@@ -25,15 +25,13 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
 package net.sf.jasperreports.charts.xml;
 
+import java.util.Date;
 
-import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -41,34 +39,48 @@ import org.xml.sax.Attributes;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTimeSeriesDatasetFactory extends JRBaseFactory {
-	
-	private static final String ATTRIBUTE_timePeriod = "timePeriod";
+public class JRTimePeriodSeriesFactory extends JRBaseFactory {
 	
 	/**
 	 * 
 	 */
-	public Object createObject( Attributes attrs ){	
-		JRDesignChart chart = (JRDesignChart)digester.peek();
-		
-		JRDesignTimeSeriesDataset dataset = null; 
-		
-		if( chart.getDataset() == null ){
-			dataset = new JRDesignTimeSeriesDataset( chart.getDataset() );
-		}
-		else {
-			dataset = (JRDesignTimeSeriesDataset)chart.getDataset();
-		}
-		
-
-		String timePeriod = attrs.getValue( ATTRIBUTE_timePeriod );
-		if( timePeriod != null && timePeriod.length() > 0 ){
-			dataset.setTimePeriod( JRXmlConstants.getTimePeriod( timePeriod ));
-		}
-		
-		
-		chart.setDataset( dataset );
-		
-		return dataset;
+	public Object createObject( Attributes attrs ){
+		return new JRDesignTimePeriodSeries();
 	}
+	
+	
+	public static class JRSeriesExpressionFactory extends JRBaseFactory {
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName( Comparable.class.getName() );
+			return expression;
+		}
+	}
+	
+	
+	public static class JRStartDateExpressionFactory extends JRBaseFactory {
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName( Date.class.getName() );
+			return expression;
+		}
+	}
+	
+	public static class JREndDateExpressionFactory extends JRBaseFactory {
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName( Date.class.getName() );
+			return expression;
+		}
+	}
+	
+	public static class JRValueExpressionFactory extends JRBaseFactory {
+		public Object createObject( Attributes attrs ){
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName( Number.class.getName() );
+			return expression;
+		}
+	}
+	
+
 }

@@ -61,7 +61,7 @@ public abstract class JRFillChartDataset implements JRChartDataset
 		factory.put(dataset, this);
 
 		parent = dataset;
-
+		
 		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
 		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
 	}

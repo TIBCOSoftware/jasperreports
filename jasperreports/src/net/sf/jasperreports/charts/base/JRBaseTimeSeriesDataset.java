@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -39,6 +40,9 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTimeSeriesDataset {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 608;
 	
 	private JRTimeSeries[] timeSeries = null;
@@ -52,7 +56,6 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		super( dataset, factory );
 		
 		timePeriod = dataset.getTimePeriod();
-		
 		JRTimeSeries[] srcTimeSeries = dataset.getSeries();
 		
 		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
@@ -73,6 +76,14 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	
 	public void setTimePeriod( Class timePeriod ){
 		this.timePeriod = timePeriod;
+	}
+
+
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.TIMESERIES_DATASET;
 	}
 
 }

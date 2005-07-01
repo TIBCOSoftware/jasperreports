@@ -37,12 +37,12 @@ import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
@@ -179,8 +179,16 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_XYBAR:
-				dataset = factory.getIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
-				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
+				
+				switch (chart.getDataset().getDatasetType()){
+					case JRChartDataset.TIMESERIES_DATASET:
+						dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset) chart.getDataset());
+						break;
+					case JRChartDataset.TIMEPERIOD_DATASET:
+						dataset = factory.getTimePeriodDataset((JRTimePeriodDataset) chart.getDataset() );
+						break;
+				}
+				plot = factory.getBarPlot((JRBarPlot)chart.getPlot());
 				break;
 			case CHART_TYPE_XYLINE:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());

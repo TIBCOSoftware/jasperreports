@@ -44,6 +44,8 @@ import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
@@ -59,7 +61,7 @@ import net.sf.jasperreports.charts.JRXyzSeries;
  */
 public class JRExpressionCollector
 {
-
+	
 	
 	/**
 	 *
@@ -342,7 +344,12 @@ public class JRExpressionCollector
 				collect( (JRAreaPlot)chart.getPlot() ) ;
 				break;
 			case JRChart.CHART_TYPE_XYBAR:
-				collect((JRIntervalXyDataset)chart.getDataset());
+				if( chart.getDataset() instanceof JRTimePeriodDataset ){	
+					collect((JRTimePeriodDataset)chart.getDataset());
+				}
+				else {
+					collect((JRTimeSeriesDataset)chart.getDataset());
+				}
 				collect((JRBarPlot)chart.getPlot());
 				break;
 			case JRChart.CHART_TYPE_XYLINE:
@@ -354,14 +361,7 @@ public class JRExpressionCollector
 		}
 	}
 
-	/**
-	 *
-	 *
-	public void collect(JRPieChart pieChart)
-	{
-		collectChart(pieChart);
-		collect((JRPieDataset)pieChart.getDataset());
-	}
+
 
 	/**
 	 *
@@ -380,90 +380,7 @@ public class JRExpressionCollector
 	{
 	}
 
-	/**
-	 *
-	 *
-	public void collect(JRPie3DChart pie3DChart)
-	{
-		collectElement(pie3DChart);
-		collectAnchor(pie3DChart);
-		collectHyperlink(pie3DChart);
-		collectChart(pie3DChart);
-		collect((JRPieDataset)pie3DChart.getDataset());
-	}
-
-	/**
-	 *
-	 *
-	public void collect(JRBarChart barChart)
-	{
-		collectChart(barChart);
-		collect((JRCategoryDataset)barChart.getDataset());
-		collect((JRBarPlot)barChart.getPlot());
-	}
 	
-	
-	public void collect(JRBar3DChart barChart ){
-		collectChart( barChart );
-		collect((JRCategoryDataset)barChart.getDataset() );
-		collect((JRBar3DPlot)barChart.getPlot() );
-	}
-	
-	public void collect( JRLineChart lineChart ){
-		collectChart( lineChart );
-		collect( (JRCategoryDataset)lineChart.getDataset() );
-		collect( (JRLinePlot)lineChart.getPlot()  );
-	}
-	
-	public void collect( JRTimeSeriesChart timeSeriesChart ){
-		collectChart( timeSeriesChart );
-		collect( (JRTimeSeriesDataset)timeSeriesChart.getDataset() );
-		collect( (JRTimeSeriesPlot)timeSeriesChart.getPlot() );
-	}
-	
-	public void collect( JRXyLineChart xyLineChart ){
-		collectChart( xyLineChart );
-		collect( (JRXyDataset)xyLineChart.getDataset() );
-		collect( (JRLinePlot)xyLineChart.getPlot()  );
-	}
-	
-	public void collect( JRScatterChart scatterChart ){
-		collectChart( scatterChart );
-		collect( (JRXyDataset)scatterChart.getDataset() );
-		collect( (JRScatterPlot)scatterChart.getPlot()  );
-	}
-	
-	public void collect( JRAreaChart areaChart ){
-		collectChart( areaChart );
-		collect( (JRCategoryDataset)areaChart.getDataset() );
-		collect( (JRAreaPlot)areaChart.getPlot() ) ;
-	}
-
-	public void collect( JRXyAreaChart areaChart ){
-		collectChart( areaChart );
-		collect( (JRXyDataset)areaChart.getDataset() );
-		collect( (JRAreaPlot)areaChart.getPlot() ) ;
-	}
-
-	/**
-	 *
-	 *
-	public void collect(JRStackedBarChart stackedBarChart)
-	{
-		collectChart(stackedBarChart);
-		collect((JRCategoryDataset)stackedBarChart.getDataset());
-		collect((JRBarPlot)stackedBarChart.getPlot());
-	}
-
-	/**
-	 *
-	 *
-	public void collect(JRStackedBar3DChart stackedBar3DChart)
-	{
-		collectChart(stackedBar3DChart);
-		collect((JRCategoryDataset)stackedBar3DChart.getDataset());
-		collect((JRBar3DPlot)stackedBar3DChart.getPlot());
-	}
 
 	/**
 	 *
@@ -518,6 +435,16 @@ public class JRExpressionCollector
 		if( timeSeries != null && timeSeries.length > 0 ){
 			for( int i = 0; i <  timeSeries.length; i++ ){
 				collect( timeSeries[i] );
+			}
+		}
+	}
+	
+	
+	private void collect( JRTimePeriodDataset timePeriodDataset ){
+		JRTimePeriodSeries[] timePeriodSeries = timePeriodDataset.getSeries();
+		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
+			for( int i = 0; i < timePeriodSeries.length; i++ ){
+				collect( timePeriodSeries[i] );
 			}
 		}
 	}
@@ -582,15 +509,6 @@ public class JRExpressionCollector
 		addExpression( areaPlot.getValueAxisLabelExpression() );
 	}
 
-	/**
-	 *
-	 *
-	public void collect(JRXyBarChart xyBarChart)
-	{
-		collectChart(xyBarChart);
-		collect((JRIntervalXyDataset)xyBarChart.getDataset());
-		collect((JRBarPlot)xyBarChart.getPlot());
-	}
 
 	/**
 	 *
@@ -602,25 +520,20 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getValueExpression());
 		addExpression(timeSeries.getLabelExpression());
 	}
+	
+	
+	/**
+	 * 
+	 * @param timePeriodSeries
+	 */
+	private void collect( JRTimePeriodSeries timePeriodSeries ){
+		addExpression( timePeriodSeries.getSeriesExpression() );
+		addExpression( timePeriodSeries.getStartDateExpression() );
+		addExpression( timePeriodSeries.getEndDateExpression() );
+		addExpression( timePeriodSeries.getValueExpression() );
+	}
 
-	/**
-	 *
-	 *
-	public void collect(JRBubbleChart chart) {
-		collectChart(chart);
-		collect((JRXyzDataset)chart.getDataset());
-		collect((JRBubblePlot)chart.getPlot()); 
-		
-	}
-	/**
-	 *
-	 *
-	public void collect(JRHighLowChart highLowChart)
-	{
-		collectChart(highLowChart);
-		collect((JRHighLowDataset)highLowChart.getDataset());
-		collect((JRHighLowPlot)highLowChart.getPlot());
-	}
+
 
 	/**
 	 *
@@ -681,15 +594,6 @@ public class JRExpressionCollector
 		addExpression(highLowDataset.getVolumeExpression());
 	}
 
-	/**
-	 *
-	 *
-	public void collect(JRCandlestickChart candlestickChart)
-	{
-		collectChart(candlestickChart);
-		collect((JRHighLowDataset)candlestickChart.getDataset());
-		collect((JRCandlestickPlot)candlestickChart.getPlot());
-	}
 
 	/**
 	 *

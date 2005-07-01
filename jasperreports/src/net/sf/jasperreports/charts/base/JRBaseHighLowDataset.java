@@ -121,4 +121,12 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	{
 		return volumeExpression;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.HIGHLOW_DATASET;
+	}
 }

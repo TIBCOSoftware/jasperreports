@@ -43,6 +43,9 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
  */
 public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements JRTimeSeriesDataset {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 608;
 	
 	private List timeSeriesList = new ArrayList();
@@ -80,5 +83,11 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		this.timePeriod = timePeriod;
 	}
 
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.TIMESERIES_DATASET;
+	}
 	
 }

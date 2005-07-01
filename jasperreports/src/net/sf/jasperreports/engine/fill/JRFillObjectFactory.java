@@ -45,6 +45,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
@@ -67,6 +69,8 @@ import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
+import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
+import net.sf.jasperreports.charts.fill.JRFillTimePeriodSeries;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesPlot;
@@ -619,6 +623,18 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		return fillTimeSeriesDataset;
 	}
+	
+	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
+		JRFillTimePeriodDataset fillTimePeriodDataset = null;
+		if( timePeriodDataset != null ){
+			fillTimePeriodDataset = (JRFillTimePeriodDataset)get( timePeriodDataset );
+			if( fillTimePeriodDataset == null ){
+				fillTimePeriodDataset = new JRFillTimePeriodDataset( timePeriodDataset, this );
+				datasets.add( fillTimePeriodDataset );
+			}
+		}
+		return fillTimePeriodDataset;
+	}
 
 	/**
 	 *
@@ -712,6 +728,18 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillTimeSeries;
+	}
+	
+	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){ 
+		JRFillTimePeriodSeries fillTimePeriodSeries = null;
+		if( timePeriodSeries != null ){
+			fillTimePeriodSeries = (JRFillTimePeriodSeries)get( timePeriodSeries );
+			if( fillTimePeriodSeries == null ){
+				fillTimePeriodSeries = new JRFillTimePeriodSeries( timePeriodSeries, this );
+			}
+		}
+		
+		return fillTimePeriodSeries;
 	}
 
 

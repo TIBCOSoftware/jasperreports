@@ -25,47 +25,26 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
 
+package net.sf.jasperreports.charts.xml;
+
+
+import net.sf.jasperreports.charts.design.JRDesignTimePeriodDataset;
+import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
+import org.xml.sax.Attributes;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChartDataset
-{
-	public static final byte CATEGORY_DATASET = 0;
-	public static final byte HIGHLOW_DATASET = 1;
-	public static final byte INTERVALXY_DATASET = 2;
-	public static final byte PIE_DATASET = 3;
-	public static final byte TIMEPERIOD_DATASET = 4;
-	public static final byte TIMESERIES_DATASET = 5;
-	public static final byte XY_DATASET = 6;
-	public static final byte XYZ_DATASET = 7;
+public class JRTimePeriodDatasetFactory extends JRBaseFactory {
 	
-	/**
-	 *
-	 */
-	public byte getResetType();
-
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup();
-		
-	/**
-	 *
-	 */
-	public byte getIncrementType();
-
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup();
-	
-	/**
-	 * 
-	 */
-	public byte getDatasetType();
-		
+	public Object createObject( Attributes attrs ){
+		JRDesignChart chart = (JRDesignChart)digester.peek();
+		JRDesignTimePeriodDataset dataset =  (JRDesignTimePeriodDataset)chart.getDataset(); 
+		chart.setDataset(dataset);
+		return dataset;
+	}
 }

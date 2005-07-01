@@ -27,83 +27,57 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
+import java.io.Serializable;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
-{
-
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 608;
-
-	protected JRExpression keyExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
-
+public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable {
 	
 	/**
-	 *
-	 */
-	public JRBasePieDataset(JRChartDataset dataset)
-	{
-		super(dataset);
-	}
-	
-	
-	/**
-	 *
-	 */
-	public JRBasePieDataset(JRPieDataset dataset, JRBaseObjectFactory factory)
-	{
-		super(dataset, factory);
-
-		keyExpression = factory.getExpression(dataset.getKeyExpression());
-		valueExpression = factory.getExpression(dataset.getValueExpression());
-		labelExpression = factory.getExpression(dataset.getLabelExpression());
-	}
-
-	
-	/**
-	 *
-	 */
-	public JRExpression getKeyExpression()
-	{
-		return keyExpression;
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getValueExpression()
-	{
-		return valueExpression;
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return labelExpression;
-	}
-
-
-	/** 
 	 * 
 	 */
-	public byte getDatasetType() {
-		return JRChartDataset.PIE_DATASET;
+	private static final long serialVersionUID=608; 
+	
+	protected JRExpression seriesExpression;
+	
+	protected JRExpression startDateExpression;
+	
+	protected JRExpression endDateExpression;
+	
+	protected JRExpression valueExpression;
+	
+	
+	protected JRBaseTimePeriodSeries(){
 	}
+	
+	public JRBaseTimePeriodSeries( JRTimePeriodSeries timePeriodSeries, JRBaseObjectFactory factory ){
+		factory.put( timePeriodSeries, factory );
 		
+		seriesExpression = factory.getExpression( timePeriodSeries.getSeriesExpression() );
+		startDateExpression = factory.getExpression( timePeriodSeries.getStartDateExpression() );
+		endDateExpression = factory.getExpression( timePeriodSeries.getEndDateExpression() );
+		valueExpression = factory.getExpression( timePeriodSeries.getValueExpression() );
+	}
+	
+	public JRExpression getSeriesExpression(){
+		return seriesExpression;
+	}
+	
+	public JRExpression getStartDateExpression(){
+		return startDateExpression;
+	}
+	
+	public JRExpression getEndDateExpression(){
+		return endDateExpression;
+	}
+	
+	public JRExpression getValueExpression(){
+		return valueExpression;
+	}
 }

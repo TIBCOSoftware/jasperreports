@@ -40,12 +40,12 @@ import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
@@ -92,6 +92,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.TimePeriodValuesCollection;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
@@ -205,7 +206,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_XYBAR:
-				dataset = factory.getIntervalXyDataset((JRIntervalXyDataset) chart.getDataset());
+				switch (chart.getDataset().getDatasetType()){
+					case JRChartDataset.TIMESERIES_DATASET:
+						dataset = factory.getTimeSeriesDataset( (JRTimeSeriesDataset)chart.getDataset() );
+						break;
+					case JRChartDataset.TIMEPERIOD_DATASET:
+						dataset = factory.getTimePeriodDataset((JRTimePeriodDataset) chart.getDataset() );
+						break;
+				}
+				
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_XYLINE:
@@ -1142,13 +1151,27 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateXYBarImage(byte evaluation) throws JRException
 	{
+		IntervalXYDataset tmpDataset = null;
+		
+		switch( dataset.getDatasetType() ){
+			case JRChartDataset.TIMESERIES_DATASET:
+				tmpDataset = (TimeSeriesCollection)((JRFillChartDataset)dataset).getDataset();
+				break;
+			case JRChartDataset.TIMEPERIOD_DATASET:
+				tmpDataset = (TimePeriodValuesCollection)((JRFillChartDataset)dataset).getDataset();
+				break;
+				
+		}
+		
+		
+		
 		JFreeChart chart =
 			ChartFactory.createXYBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				true,
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(IntervalXYDataset)((JRFillChartDataset)dataset).getDataset(),
+				tmpDataset,
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
