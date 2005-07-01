@@ -253,8 +253,8 @@ public class JRLoader
 			classLoader = JRLoader.class.getClassLoader();
 			if (classLoader == null)
 			{
-                url = JRLoader.class.getResource("/" + location);
-            }
+				url = JRLoader.class.getResource("/" + location);
+			}
 			else
 			{				
 				url = classLoader.getResource(location);
@@ -455,11 +455,11 @@ public class JRLoader
 			classLoader = JRLoader.class.getClassLoader();
 			if (classLoader == null)
 			{
-                url = JRLoader.class.getResource("/" + location);
-            }
+				url = JRLoader.class.getResource("/" + location);
+			}
 			else
 			{
-                url = classLoader.getResource(location);
+				url = classLoader.getResource(location);
 			}
 		}
 

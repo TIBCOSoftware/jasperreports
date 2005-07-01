@@ -41,13 +41,13 @@ import java.security.SecureClassLoader;
 public class JRClassLoader extends SecureClassLoader
 {
 
-    /**
-     *
-     */
-    protected JRClassLoader()
-    {
-        super();
-    }
+	/**
+	 *
+	 */
+	protected JRClassLoader()
+	{
+		super();
+	}
 
 	/**
 	 *
@@ -81,14 +81,14 @@ public class JRClassLoader extends SecureClassLoader
 
 		if (clazz == null)
 		{
-		    classLoader = JRClassLoader.class.getClassLoader();
+			classLoader = JRClassLoader.class.getClassLoader();
 			if (classLoader == null)
 			{
-                clazz = Class.forName(className);
-            }
+				clazz = Class.forName(className);
+			}
 			else
 			{
-                clazz = Class.forName(className, true, classLoader);
+				clazz = Class.forName(className, true, classLoader);
 			}
 		}
 
@@ -108,7 +108,7 @@ public class JRClassLoader extends SecureClassLoader
 		{
 			try
 			{
-	            clazz = 
+				clazz = 
 					(new JRClassLoader(classLoader))
 						.loadClass(className, file);
 			}
@@ -121,19 +121,19 @@ public class JRClassLoader extends SecureClassLoader
 	
 		if (clazz == null)
 		{
-		    classLoader = JRClassLoader.class.getClassLoader();
-		    if (classLoader == null)
-		    {
+			classLoader = JRClassLoader.class.getClassLoader();
+			if (classLoader == null)
+			{
 				clazz = 
 					(new JRClassLoader())
 						.loadClass(className, file);
-		    }
-		    else
-		    {
+			}
+			else
+			{
 				clazz = 
 					(new JRClassLoader(classLoader))
 						.loadClass(className, file);
-		    }
+			}
 		}
 		
 		return clazz;
@@ -152,7 +152,7 @@ public class JRClassLoader extends SecureClassLoader
 		{
 			try
 			{
-	            clazz = 
+				clazz = 
 					(new JRClassLoader(classLoader))
 						.loadClass(className, bytecodes);
 			}
@@ -165,19 +165,19 @@ public class JRClassLoader extends SecureClassLoader
 	
 		if (clazz == null)
 		{
-		    classLoader = JRClassLoader.class.getClassLoader();
-		    if (classLoader == null)
-		    {
+			classLoader = JRClassLoader.class.getClassLoader();
+			if (classLoader == null)
+			{
 				clazz = 
 					(new JRClassLoader())
 						.loadClass(className, bytecodes);
-		    }
-		    else
-		    {
+			}
+			else
+			{
 				clazz = 
 					(new JRClassLoader(classLoader))
 						.loadClass(className, bytecodes);
-		    }
+			}
 		}
 
 		return clazz;

@@ -300,14 +300,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			
 			private InputStream getResource (String resourceName)
 			{
-			    if (classLoader == null)
-			    {
-			        return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
-			    }
-			    else
-			    {
-			        return classLoader.getResourceAsStream(resourceName);
-			    }
+				if (classLoader == null)
+				{
+					return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
+				}
+				else
+				{
+					return classLoader.getResourceAsStream(resourceName);
+				}
 			}
 
 		};

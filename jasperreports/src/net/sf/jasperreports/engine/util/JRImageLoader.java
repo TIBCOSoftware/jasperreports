@@ -161,11 +161,11 @@ public class JRImageLoader
 			classLoader = JRImageLoader.class.getClassLoader();
 			if (classLoader == null)
 			{
-                url = JRImageLoader.class.getResource("/" + location);
-            }
+				url = JRImageLoader.class.getResource("/" + location);
+			}
 			else
 			{
-                url = classLoader.getResource(location);
+				url = classLoader.getResource(location);
 			}
 		}
 
@@ -234,7 +234,7 @@ public class JRImageLoader
 			{
 				if (img_NO_IMAGE == null)
 				{
-				    img_NO_IMAGE = loadImage(str_NO_IMAGE);
+					img_NO_IMAGE = loadImage(str_NO_IMAGE);
 				}
 				image = img_NO_IMAGE;
 				break;
@@ -263,7 +263,7 @@ public class JRImageLoader
 	}
 
 
-    /**
+	/**
 	 *
 	 */
 	public static Image loadImage(byte[] bytes) throws JRException
@@ -291,34 +291,34 @@ public class JRImageLoader
 	 * Loads an image from an specified resource.
 	 * 
 	 * @param image the resource name
-     * @throws JRException
-     */
-    protected static Image loadImage(String image) throws JRException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        URL url = classLoader.getResource(image);
-        if (url == null)
-        {
-        	//if (!wasWarning)
-        	//{
-        	//	if (log.isWarnEnabled())
-        	//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
-        	//	wasWarning = true;
-        	//}
-        	classLoader = JRImageLoader.class.getClassLoader();
-        }
-        InputStream is;
-        if (classLoader == null)
-        {
-            is = JRImageLoader.class.getResourceAsStream("/" + image);
-        }
-        else
-        {
-            is = classLoader.getResourceAsStream(image);
-        }
-        
-        return loadImage(
-        	loadImageDataFromInputStream(is)
-        	);
-    }
+	 * @throws JRException
+	 */
+	protected static Image loadImage(String image) throws JRException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		URL url = classLoader.getResource(image);
+		if (url == null)
+		{
+			//if (!wasWarning)
+			//{
+			//	if (log.isWarnEnabled())
+			//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
+			//	wasWarning = true;
+			//}
+			classLoader = JRImageLoader.class.getClassLoader();
+		}
+		InputStream is;
+		if (classLoader == null)
+		{
+			is = JRImageLoader.class.getResourceAsStream("/" + image);
+		}
+		else
+		{
+			is = classLoader.getResourceAsStream(image);
+		}
+		
+		return loadImage(
+			loadImageDataFromInputStream(is)
+			);
+	}
 
 }

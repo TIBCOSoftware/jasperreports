@@ -136,12 +136,12 @@ public class JRDefaultCompiler implements JRCompiler
 			{
 				if (classLoader == null)
 				{
-                    compilerClass = Class.forName(compilerClassName);
+					compilerClass = Class.forName(compilerClassName);
 				}
 				else
 				{
-                    compilerClass = classLoader.loadClass(compilerClassName);
-                }
+					compilerClass = classLoader.loadClass(compilerClassName);
+				}
 			}
 			catch(ClassNotFoundException e)
 			{
