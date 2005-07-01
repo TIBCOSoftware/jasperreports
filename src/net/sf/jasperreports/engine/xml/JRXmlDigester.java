@@ -128,11 +128,11 @@ public class JRXmlDigester extends Digester
 			InputStream is;
 			if (classLoader == null)
 			{
-			    is = JRXmlDigester.class.getResourceAsStream("/" + dtd);
+				is = JRXmlDigester.class.getResourceAsStream("/" + dtd);
 			}
 			else
 			{
-			    is = classLoader.getResourceAsStream(dtd);
+				is = classLoader.getResourceAsStream(dtd);
 			}
 			
 			if (is != null)
