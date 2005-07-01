@@ -88,5 +88,13 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 		return categorySeries;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.CATEGORY_DATASET;
+	}
+
 	
 }

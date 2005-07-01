@@ -77,4 +77,12 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	}
 	
 
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.XYZ_DATASET;
+	}
+	
+	
 }

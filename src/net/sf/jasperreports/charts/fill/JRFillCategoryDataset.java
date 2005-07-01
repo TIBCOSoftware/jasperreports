@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -142,6 +143,14 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			increment();
 		}
 		return dataset;
+	}
+
+
+	/**
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.CATEGORY_DATASET;
 	}
 
 	

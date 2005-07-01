@@ -37,12 +37,12 @@ import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
 import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
-import net.sf.jasperreports.charts.design.JRDesignIntervalXyDataset;
 import net.sf.jasperreports.charts.design.JRDesignLinePlot;
 import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.charts.design.JRDesignPiePlot;
 import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignTimePeriodDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
@@ -466,7 +466,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignBar3DPlot(plot);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				dataset = new JRDesignTimeSeriesDataset( dataset );
+				//dataset = new JRDesignTimeSeriesDataset( dataset );
 				plot = new JRDesignTimeSeriesPlot( plot );
 				break;
 			case CHART_TYPE_XYAREA:
@@ -474,7 +474,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignAreaPlot(plot);
 				break;
 			case CHART_TYPE_XYBAR:
-				dataset = new JRDesignIntervalXyDataset(dataset);
 				plot = new JRDesignBarPlot(plot);
 				break;
 			case CHART_TYPE_XYLINE:
@@ -485,6 +484,20 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 	}
+
+
+	public void setDataset(JRChartDataset ds)
+	{
+		switch( ds.getDatasetType() ){
+			case JRChartDataset.TIMESERIES_DATASET:
+				dataset = (JRDesignTimeSeriesDataset)ds;
+				break;
+			case JRChartDataset.TIMEPERIOD_DATASET:
+				dataset = (JRDesignTimePeriodDataset)ds;
+				break;
+		}
+	}
+
 
 
 	public JRElement getCopy(JRAbstractObjectFactory factory)

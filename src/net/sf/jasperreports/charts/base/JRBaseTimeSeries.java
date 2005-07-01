@@ -72,6 +72,7 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 		timePeriodExpression = factory.getExpression(timeSeries.getTimePeriodExpression());
 		valueExpression = factory.getExpression(timeSeries.getValueExpression());
 		labelExpression = factory.getExpression(timeSeries.getLabelExpression());
+		
 	}
 
 	

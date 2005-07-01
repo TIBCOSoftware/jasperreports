@@ -42,6 +42,8 @@ import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
@@ -64,6 +66,8 @@ import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
+import net.sf.jasperreports.charts.base.JRBaseTimePeriodDataset;
+import net.sf.jasperreports.charts.base.JRBaseTimePeriodSeries;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeriesDataset;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeriesPlot;
@@ -617,26 +621,29 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTimeSeriesDataset;
 	}
 	
-
-	/**
-	 *
-	 */
-	public JRIntervalXyDataset getIntervalXyDataset(JRIntervalXyDataset intervalXyDataset)
-	{
+	
+	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
+		JRBaseTimePeriodDataset baseTimePeriodDataset = null;
+		if( timePeriodDataset != null ){
+			baseTimePeriodDataset = (JRBaseTimePeriodDataset)get( timePeriodDataset );
+			if( baseTimePeriodDataset == null ){
+				baseTimePeriodDataset = new JRBaseTimePeriodDataset( timePeriodDataset, this );
+			}
+		}
+		return baseTimePeriodDataset;
+	}
+	
+	public JRIntervalXyDataset getIntervalXyDataset( JRIntervalXyDataset intervalXyDataset ){
 		JRBaseIntervalXyDataset baseIntervalXyDataset = null;
-		
-		if (intervalXyDataset != null)
-		{
-			baseIntervalXyDataset = (JRBaseIntervalXyDataset)get(intervalXyDataset);
-			if (baseIntervalXyDataset == null)
-			{
-				baseIntervalXyDataset = new JRBaseIntervalXyDataset(intervalXyDataset, this);
+		if( intervalXyDataset != null ){
+			baseIntervalXyDataset = (JRBaseIntervalXyDataset)get( intervalXyDataset );
+			if( baseIntervalXyDataset == null ){
+				baseIntervalXyDataset = new JRBaseIntervalXyDataset( intervalXyDataset );
 			}
 		}
 		
 		return baseIntervalXyDataset;
 	}
-	
 
 	/**
 	 *
@@ -695,6 +702,21 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		
 		return baseTimeSeries;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
+		JRBaseTimePeriodSeries baseTimePeriodSeries = null;
+		if( timePeriodSeries != null ){
+			baseTimePeriodSeries = (JRBaseTimePeriodSeries)get( timePeriodSeries );
+			if( baseTimePeriodSeries == null ){
+				baseTimePeriodSeries = new JRBaseTimePeriodSeries( timePeriodSeries, this );
+			}
+		}
+		
+		return baseTimePeriodSeries;
 	}
 	
 

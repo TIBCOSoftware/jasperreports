@@ -110,4 +110,12 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.PIE_DATASET;
+	}
+	
+	
 }

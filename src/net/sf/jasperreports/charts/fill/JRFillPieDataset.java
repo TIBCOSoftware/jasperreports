@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -133,6 +134,14 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 			increment();
 		}
 		return dataset;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.PIE_DATASET;
 	}
 
 	

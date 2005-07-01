@@ -25,53 +25,58 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.charts.design;
 
-package net.sf.jasperreports.charts.base;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset {
+public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements JRTimePeriodDataset {
 	
-	public static final long serialVersionUID = 608;
-	
-	protected JRXyzSeries[] xyzSeries = null;
-	
-
-	public JRBaseXyzDataset( JRChartDataset dataset){
-		super( dataset);
-	}
-
-	public JRBaseXyzDataset( JRXyzDataset dataset, JRBaseObjectFactory factory ){
-		super( dataset, factory );
-		
-		JRXyzSeries[] srcXyzSeries = dataset.getSeries();
-		
-		if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
-			
-			xyzSeries = new JRXyzSeries[ srcXyzSeries.length ];
-			for( int i = 0; i < srcXyzSeries.length; i++ ){
-				xyzSeries[i] = factory.getXyzSeries( srcXyzSeries[i] );
-			}
-		}
-	}
-	
-	public JRXyzSeries[] getSeries(){
-		return xyzSeries;
-	}
-
 	/**
 	 * 
 	 */
-	public byte getDatasetType() {
-		return JRChartDataset.XYZ_DATASET;
+	public static final long serialVersionUID = 608;
+	
+	private List timePeriodSeriesList = new ArrayList();
+	
+	public JRDesignTimePeriodDataset( JRChartDataset dataset ){
+		super( dataset );
 	}
-
+	
+	public JRTimePeriodSeries[] getSeries(){
+		JRTimePeriodSeries[] timePeriodSeriesArray = new JRTimePeriodSeries[ timePeriodSeriesList.size() ];
+		timePeriodSeriesList.toArray( timePeriodSeriesArray );
+		
+		return timePeriodSeriesArray;
+	}
+	
+	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) throws JRException {
+		timePeriodSeriesList.add( timePeriodSeries );
+	}
+	
+	public JRTimePeriodSeries removeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
+		if( timePeriodSeries != null && timePeriodSeriesList.contains( timePeriodSeries )){
+			timePeriodSeriesList.remove( timePeriodSeries );
+		}
+		
+		return timePeriodSeries;
+	}
+	
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.TIMEPERIOD_DATASET;
+	}
+	
 }

@@ -318,15 +318,16 @@
 	yOffset CDATA #IMPLIED
 >
 
-<!ELEMENT xyBarChart (chart, intervalXyDataset, barPlot)>
-<!ELEMENT intervalXyDataset (dataset, (timePeriodValues+ | timeSeries+ | xySeries+))>
-<!ELEMENT timePeriodValues (seriesExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
+
 <!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression)>
-<!ELEMENT startDateExpression (#PCDATA)>
-<!ELEMENT endDateExpression (#PCDATA)>
-<!ELEMENT timePeriodExpression (#PCDATA)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
+
+<!ELEMENT timePeriodDataset (dataset, timePeriodSeries+)>
+<!ELEMENT timePeriodSeries (seriesExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT startDateExpression (#PCDATA)>
+<!ELEMENT endDateExpression (#PCDATA)>
 
 <!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
 
@@ -370,6 +371,7 @@
 	timePeriod (year | quarter | month | week | day | hour | minute | second | milisecond ) "day"
 >
 <!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression)>
+<!ELEMENT timePeriodExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
 <!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>

@@ -41,6 +41,9 @@ import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
+import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
@@ -146,6 +149,21 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset );
 
+	/**
+	 * 
+	 */
+	public abstract JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset );
+	
+	/**
+	 * 
+	 */
+	public abstract JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries );
+	
+	/**
+	 * 
+	 */
+	public abstract JRTimeSeries getTimeSeries( JRTimeSeries timeSeries );
+	
 	/**
 	 *
 	 */

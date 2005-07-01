@@ -99,4 +99,12 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	}
 
 
+	/** 
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.XY_DATASET;
+	}
+	
+	
 }

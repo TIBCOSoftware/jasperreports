@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -261,5 +262,12 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		{
 			this.volume = volume;
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.HIGHLOW_DATASET;
 	}
 }

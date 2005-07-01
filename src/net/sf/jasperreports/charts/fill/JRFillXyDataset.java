@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -162,6 +163,14 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 			increment();
 		}
 		return dataset;
+	}
+
+
+	/**
+	 * 
+	 */
+	public byte getDatasetType() {
+		return JRChartDataset.XY_DATASET;
 	}
 
 	
