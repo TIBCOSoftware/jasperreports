@@ -2,7 +2,7 @@
 <!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
-<jasperReport name="TimeSeriesChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport name="XYBarChartTimePeriodReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -14,7 +14,7 @@
 	</parameter>
 	<parameter name="SummaryImage" class="java.awt.Image">
 	</parameter>
-	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} AND OrderDate != null ORDER BY ShipCountry]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>
 	<field name="ShipCountry" class="java.lang.String">
@@ -50,6 +50,9 @@
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" resetGroup="CountryGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
+	</variable>
+	<variable name="FreightSumYearGroup" class="java.lang.Double" resetType="Group" resetGroup="YearGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
 	<variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
@@ -150,30 +153,24 @@
 				</textElement>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
 			</textField>
-			<timeSeriesChart>
+			<xyBarChart>
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
-				<timeSeriesDataset timePeriod="year">
-					<dataset resetType="Group" resetGroup="CountryGroup"/>
+				<timeSeriesDataset>
+					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<timeSeries>
 						<seriesExpression>"Freight"</seriesExpression>
 						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
-						<valueExpression>$F{Freight}</valueExpression>
-						<labelExpression></labelExpression>
-					</timeSeries>
-					<timeSeries>
-						<seriesExpression>"Half-Freight"</seriesExpression>
-						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
-						<valueExpression>new Double( $F{Freight}.doubleValue()/2d )</valueExpression>
+						<valueExpression>$V{FreightSumYearGroup}</valueExpression>
 						<labelExpression></labelExpression>
 					</timeSeries>
 				</timeSeriesDataset>
-				<timeSeriesPlot isShowLines="true" isShowShapes="true">
+				<barPlot isShowTickMarks="true" isShowTickLabels="true">
 					<plot/>
-				</timeSeriesPlot>
-			</timeSeriesChart>
-		 </band>
+				</barPlot>
+			</xyBarChart>
+		</band>
 		</groupHeader>
 		<groupFooter>
 		<band height="15">
@@ -212,6 +209,9 @@
 		</band>
 		</groupFooter>
 	</group>
+	<group name="YearGroup">
+		<groupExpression><![CDATA[new Integer($F{OrderDate}.getYear())]]></groupExpression>
+	</group>
 	<title>
 		<band height="50">
 			<elementGroup>
@@ -222,7 +222,7 @@
 				<textElement textAlignment="Center">
 					<font reportFont="Comic_Bold" size="22"/>
 				</textElement>
-				<text><![CDATA[Time Series Chart Report]]></text>
+				<text><![CDATA[XY Bar Chart Report]]></text>
 			</staticText>
 		</band>
 	</title>
