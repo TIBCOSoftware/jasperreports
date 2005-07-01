@@ -49,7 +49,6 @@ import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowPlotFactory;
-import net.sf.jasperreports.charts.xml.JRIntervalXyDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
@@ -481,10 +480,6 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/xyBarChart/barPlot", JRBarPlotFactory.class.getName());
 
 		
-		digester.addFactoryCreate("*/intervalXyDataset", JRIntervalXyDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/intervalXyDataset/timeSeries", JRTimeSeriesFactory.class.getName());//FIXME NOW why */intervalXyDataset/timeSeries and not */timeSeries
-		digester.addSetNext("*/intervalXyDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName());
-
 		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class);
 		digester.addSetNext("*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/seriesExpression", "setText", 0);

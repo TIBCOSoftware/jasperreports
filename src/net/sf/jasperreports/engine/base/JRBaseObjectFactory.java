@@ -36,7 +36,6 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -60,7 +59,6 @@ import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBaseHighLowDataset;
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
-import net.sf.jasperreports.charts.base.JRBaseIntervalXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
@@ -633,18 +631,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTimePeriodDataset;
 	}
 	
-	public JRIntervalXyDataset getIntervalXyDataset( JRIntervalXyDataset intervalXyDataset ){
-		JRBaseIntervalXyDataset baseIntervalXyDataset = null;
-		if( intervalXyDataset != null ){
-			baseIntervalXyDataset = (JRBaseIntervalXyDataset)get( intervalXyDataset );
-			if( baseIntervalXyDataset == null ){
-				baseIntervalXyDataset = new JRBaseIntervalXyDataset( intervalXyDataset );
-			}
-		}
-		
-		return baseIntervalXyDataset;
-	}
-
 	/**
 	 *
 	 */

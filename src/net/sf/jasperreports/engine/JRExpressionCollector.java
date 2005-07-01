@@ -39,7 +39,6 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRIntervalXyDataset;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
@@ -412,21 +411,6 @@ public class JRExpressionCollector
 		}
 	}
 
-	/**
-	 *
-	 */
-	private void collect(JRIntervalXyDataset intervalXyDataset)//FIXME NOW JRChartDataset should have collect like all elements?
-	{
-		JRTimeSeries[] timeSeries = intervalXyDataset.getSeries();
-		if (timeSeries != null && timeSeries.length > 0)
-		{
-			for(int j = 0; j < timeSeries.length; j++)
-			{
-				collect(timeSeries[j]);
-			}
-		}
-	}
-	
 	/**
 	 * 
 	 */
