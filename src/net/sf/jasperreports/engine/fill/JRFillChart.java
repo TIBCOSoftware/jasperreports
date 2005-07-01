@@ -81,6 +81,7 @@ import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -750,8 +751,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	private void setTitles(JFreeChart chart, byte evaluation) throws JRException
+	private void configureChart(JFreeChart chart, byte evaluation) throws JRException
 	{
+		chart.setBackgroundPaint(getBackcolor());
+
 		if (chart.getTitle() != null)
 		{
 			TextTitle title = chart.getTitle();
@@ -770,8 +773,25 @@ public class JRFillChart extends JRFillElement implements JRChart
 			subtitle.setFont(new Font(attributes));
 			chart.addSubtitle(subtitle);
 		}
+		
+		configurePlot(chart.getPlot(), evaluation);
 	}
 
+	/**
+	 *
+	 */
+	private void configurePlot(Plot plot, byte evaluation) throws JRException
+	{
+		plot.setOutlinePaint(getBackcolor());
+
+		if (getPlot().getBackcolor() != null)
+		{
+			plot.setBackgroundPaint(getPlot().getBackcolor());
+		}
+		
+		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+	}
 
 	/**
 	 *
@@ -786,12 +806,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
@@ -809,12 +826,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 					true,
 					false );
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
+
 		BarRenderer3D barRenderer3D =
 			new BarRenderer3D(
 				((JRFillBar3DPlot)getPlot()).getXOffset(),
@@ -843,13 +858,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+
 		((CategoryAxis)plot.getDomainAxis()).setTickMarksVisible(
 			((JRFillBarPlot)getPlot()).isShowTickMarks()
 			);
@@ -879,12 +892,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				 true,
 				 false);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( ((JRFillBubblePlot)getPlot()).getScaleType() );
 		plot.setRenderer( bubbleRenderer );
@@ -909,7 +919,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				isShowLegend()
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) plot.getRenderer();
@@ -935,7 +945,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				isShowLegend()
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		HighLowRenderer hlRenderer = (HighLowRenderer) plot.getRenderer();
@@ -957,12 +967,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
 		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
@@ -986,16 +993,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
-		plot.setOutlinePaint(getPlot().getBackcolor());
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
 		plot.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
 
 		renderer = new JCommonDrawableRenderer(chart);
@@ -1016,16 +1019,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		PiePlot plot = (PiePlot)chart.getPlot();
-		plot.setOutlinePaint(getPlot().getBackcolor());
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
 
 		plot.setLabelGenerator(new CustomLabelGenerator());
 
@@ -1052,12 +1051,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 //		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
 //		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
@@ -1085,13 +1081,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1115,13 +1108,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1139,12 +1129,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 			false
 			);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
@@ -1168,13 +1155,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false
 				);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
-		plot.setBackgroundPaint(getPlot().getBackcolor());
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
 //		((XYPlot)plot.getDomainAxis()).setTickMarksVisible(
 //			((JRFillBarPlot)getPlot()).isShowTickMarks()
 //			);
@@ -1203,12 +1187,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false);
 
-		setTitles(chart, evaluation);
+		configureChart(chart, evaluation);
 
 		XYPlot plot = (XYPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 
 //		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
 //		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
@@ -1227,21 +1208,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				true,
 				false );
 		
-		if( chart.getTitle() != null ){
-			chart.getTitle().setPaint( getTitleColor() );
-		}
-		
-		String subtitleText = (String)evaluateExpression( getSubtitleExpression(), evaluation );
-		if( subtitleText != null ){
-			TextTitle subtitle = new TextTitle();
-			subtitle.setPaint( getSubtitleColor() );
-			chart.addSubtitle( subtitle );
-		}
+		configureChart(chart, evaluation);
 		
 		XYPlot plot = (XYPlot)chart.getPlot();
-		plot.setBackgroundPaint( getPlot().getBackcolor() );
-		plot.setBackgroundAlpha( getPlot().getBackgroundAlpha() );
-		plot.setForegroundAlpha( getPlot().getForegroundAlpha() );
 		
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)plot.getRenderer();
 		lineRenderer.setDefaultLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
