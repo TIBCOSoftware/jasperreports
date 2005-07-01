@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import java.io.Serializable;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
