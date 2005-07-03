@@ -25,7 +25,6 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
 package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;

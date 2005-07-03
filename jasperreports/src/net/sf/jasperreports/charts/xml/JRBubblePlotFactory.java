@@ -25,7 +25,6 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
