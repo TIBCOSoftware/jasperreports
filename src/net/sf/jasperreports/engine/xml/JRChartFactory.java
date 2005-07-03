@@ -32,7 +32,6 @@ import java.util.Collection;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChart;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 
 import org.xml.sax.Attributes;
@@ -134,7 +133,6 @@ public class JRChartFactory extends JRBaseFactory
 	}
 
 
-
 	/**
 	 *
 	 */
@@ -173,19 +171,6 @@ public class JRChartFactory extends JRBaseFactory
 			}
 
 			return chart;
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public static class JRTitleExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(String.class.getName());
-			return expression;
 		}
 	}
 

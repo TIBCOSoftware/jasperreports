@@ -53,9 +53,6 @@ public class JRSubreportFactory extends JRBaseFactory
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 
-		int count = xmlLoader.getSubreportsCount() + 1;
-		xmlLoader.setSubreportsCount(count);
-
 		JRDesignSubreport subreport = new JRDesignSubreport();
 
 		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);

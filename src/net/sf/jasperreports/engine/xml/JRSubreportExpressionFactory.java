@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 
@@ -71,9 +70,6 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 		{
 			expression.setValueClass(java.lang.String.class);
 		}
-
-		int count = xmlLoader.getSubreportsCount();
-		expression.setName(JRExpression.PREFIX_subreport + count);
 
 		return expression;
 	}

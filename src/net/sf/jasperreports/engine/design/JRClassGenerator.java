@@ -472,7 +472,7 @@ public class JRClassGenerator
 			sb.append("            case "); 
 			sb.append(expression.getId()); 
 			sb.append(" : // ");
-			sb.append(expression.getName()); 
+			sb.append(expression.getId()); 
 			sb.append("\n");
 			sb.append("            {\n");
 			sb.append("                value = (");

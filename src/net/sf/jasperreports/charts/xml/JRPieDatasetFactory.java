@@ -29,7 +29,6 @@ package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -41,6 +40,7 @@ import org.xml.sax.Attributes;
  */
 public class JRPieDatasetFactory extends JRBaseFactory
 {
+	
 	/**
 	 *
 	 */
@@ -50,33 +50,4 @@ public class JRPieDatasetFactory extends JRBaseFactory
 		return (JRDesignPieDataset) chart.getDataset();
 	}
 
-
-	public static class JRKeyExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Comparable.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRLabelExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(String.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRValueExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Number.class.getName());
-			return expression;
-		}
-	}
 }

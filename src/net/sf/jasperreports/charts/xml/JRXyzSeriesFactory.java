@@ -25,71 +25,27 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignXyzSeries;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
+
+
 /**
  * @author Flavius Sana (flavius_sana@user.sourceforge.net)
  * @version $Id$
  */
-public class JRXyzSeriesFactory extends JRBaseFactory {
+public class JRXyzSeriesFactory extends JRBaseFactory 
+{
 	
-	public Object createObject( Attributes attrs ){
+	/**
+	 * 
+	 */
+	public Object createObject( Attributes attrs )
+	{
 		return new JRDesignXyzSeries();
 	}
 	
-	public static class JRSeriesExpressionFactory extends JRBaseFactory {
-		
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass( Comparable.class );
-			expression.setValueClassName( Comparable.class.getName() );
-			
-			return expression;
-			
-		}
-	}
-	
-	public static class JRXValueExpressionFactory extends JRBaseFactory {
-		
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass( Number.class );
-			expression.setValueClassName( Number.class.getName() );
-			
-			return expression;
-		}
-	
-	}
-	
-	
-	public static class JRYValueExpressionFactory extends JRBaseFactory {
-		
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass( Number.class );
-			expression.setValueClassName( Number.class.getName() );
-			
-			return expression;
-		}
-	}
-	
-	
-	public static class JRZValueExpressionFactory extends JRBaseFactory {
-		
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClass( Number.class );
-			expression.setValueClassName( Number.class.getName() );
-			
-			return expression;
-		}
-	}
-
-
 }
