@@ -52,7 +52,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 *
 	 */
 	protected String valueClassName = null;
-	protected String name = null;
 	protected int id = 0;
 
 	protected transient Class valueClass = null;
@@ -79,7 +78,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 		factory.put(expression, this);
 		
 		valueClassName = expression.getValueClassName();
-		name = expression.getName();
 		id = expression.getId();
 		
 		/*   */
@@ -124,14 +122,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 	public String getValueClassName()
 	{
 		return valueClassName;
-	}
-	
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return name;
 	}
 	
 	/**

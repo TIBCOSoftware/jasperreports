@@ -27,60 +27,25 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import java.util.Date;
-
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
+
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTimePeriodSeriesFactory extends JRBaseFactory {
+public class JRTimePeriodSeriesFactory extends JRBaseFactory 
+{
 	
 	/**
 	 * 
 	 */
-	public Object createObject( Attributes attrs ){
+	public Object createObject( Attributes attrs )
+	{
 		return new JRDesignTimePeriodSeries();
 	}
 	
-	
-	public static class JRSeriesExpressionFactory extends JRBaseFactory {
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName( Comparable.class.getName() );
-			return expression;
-		}
-	}
-	
-	
-	public static class JRStartDateExpressionFactory extends JRBaseFactory {
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName( Date.class.getName() );
-			return expression;
-		}
-	}
-	
-	public static class JREndDateExpressionFactory extends JRBaseFactory {
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName( Date.class.getName() );
-			return expression;
-		}
-	}
-	
-	public static class JRValueExpressionFactory extends JRBaseFactory {
-		public Object createObject( Attributes attrs ){
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName( Number.class.getName() );
-			return expression;
-		}
-	}
-	
-
 }

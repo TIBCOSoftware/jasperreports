@@ -55,7 +55,7 @@ public class JRExpressionEvalException extends JRException
 	public JRExpressionEvalException(JRExpression expr, Throwable e)
 	{
 		super(
-			"Error evaluating expression : " + expr.getName() 
+			"Error evaluating expression : " 
 			+ "\n\tSource text : " + expr.getText()
 			);
 			

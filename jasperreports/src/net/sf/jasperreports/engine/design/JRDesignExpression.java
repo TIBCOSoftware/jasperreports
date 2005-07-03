@@ -118,16 +118,6 @@ public class JRDesignExpression extends JRBaseExpression
 	/**
 	 *
 	 */
-	public void setName(String name)
-	{
-		Object oldValue = this.name;
-		this.name = name;
-		getPropertyChangeSupport().firePropertyChange(NAME_PROPERTY, oldValue, this.name);
-	}
-
-	/**
-	 *
-	 */
 	public void setId(int id)
 	{
 		int oldValue = this.id;
@@ -373,16 +363,6 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener l) {
 		getPropertyChangeSupport().addPropertyChangeListener(l);
-	}
-
-	/**
-	 * Add a property listener to receive property change events for only one specific
-	 * property.
-	 * @param propName The property to listen to.
-	 * @param l The property listener to add.
-	 */
-	public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-		getPropertyChangeSupport().addPropertyChangeListener(name, l);
 	}
 
 	/**

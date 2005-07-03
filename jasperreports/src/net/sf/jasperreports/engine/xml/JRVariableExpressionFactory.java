@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -59,7 +58,6 @@ public class JRVariableExpressionFactory extends JRBaseFactory
 		{
 			expression.setValueClassName(variable.getValueClassName());
 		}
-		expression.setName(JRExpression.PREFIX_variable + variable.getName());
 
 		return expression;
 	}

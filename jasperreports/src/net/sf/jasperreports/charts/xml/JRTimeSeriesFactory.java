@@ -27,10 +27,7 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import java.util.Date;
-
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -42,6 +39,7 @@ import org.xml.sax.Attributes;
  */
 public class JRTimeSeriesFactory extends JRBaseFactory
 {
+
 	/**
 	 *
 	 */
@@ -50,43 +48,4 @@ public class JRTimeSeriesFactory extends JRBaseFactory
 		return new JRDesignTimeSeries();
 	}
 
-
-	public static class JRSeriesExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Comparable.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRTimePeriodExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Date.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRLabelExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(String.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRValueExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Number.class.getName());
-			return expression;
-		}
-	}
 }

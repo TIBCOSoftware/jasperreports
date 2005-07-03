@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 
 import org.xml.sax.Attributes;
@@ -64,10 +63,6 @@ public class JRImageExpressionFactory extends JRBaseFactory
 		{
 			expression.setValueClass(java.lang.String.class);
 		}
-
-		int count = xmlLoader.getImagesCount() + 1;
-		xmlLoader.setImagesCount(count);
-		expression.setName(JRExpression.PREFIX_image + count);
 
 		return expression;
 	}

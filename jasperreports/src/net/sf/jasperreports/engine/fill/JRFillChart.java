@@ -92,7 +92,6 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.data.time.TimePeriodValuesCollection;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
@@ -1151,19 +1150,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateXYBarImage(byte evaluation) throws JRException
 	{
-		IntervalXYDataset tmpDataset = null;
-		
-		switch( dataset.getDatasetType() ){
-			case JRChartDataset.TIMESERIES_DATASET:
-				tmpDataset = (TimeSeriesCollection)((JRFillChartDataset)dataset).getDataset();
-				break;
-			case JRChartDataset.TIMEPERIOD_DATASET:
-				tmpDataset = (TimePeriodValuesCollection)((JRFillChartDataset)dataset).getDataset();
-				break;
-				
-		}
-		
-		
+		IntervalXYDataset tmpDataset = (IntervalXYDataset)((JRFillChartDataset)dataset).getDataset();
 		
 		JFreeChart chart =
 			ChartFactory.createXYBarChart(

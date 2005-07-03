@@ -27,11 +27,8 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import java.util.Date;
-
 import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -43,6 +40,7 @@ import org.xml.sax.Attributes;
  */
 public class JRHighLowDatasetFactory extends JRBaseFactory
 {
+	
 	/**
 	 *
 	 */
@@ -50,35 +48,6 @@ public class JRHighLowDatasetFactory extends JRBaseFactory
 	{
 		JRChart chart = (JRChart) digester.peek();
 		return (JRDesignHighLowDataset)chart.getDataset();
-	}
-
-
-	public static class JRSeriesExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Comparable.class.getName());
-			return expression;
-		}
-	}
-
-	public static class JRDateExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Date.class.getName());
-			return expression;
-		}
-	}
-
-
-	public static class JRNumberExpressionFactory extends JRBaseFactory {
-		public Object createObject(Attributes atts)
-		{
-			JRDesignExpression expression = new JRDesignExpression();
-			expression.setValueClassName(Number.class.getName());
-			return expression;
-		}
 	}
 
 }

@@ -57,38 +57,12 @@ public interface JRExpression
 	/**
 	 *
 	 */
-	public static final String PREFIX_variable = "variable_";
-	public static final String PREFIX_variableInitialValue = "variableInitialValue_";
-	public static final String PREFIX_connection = "connection_";
-	public static final String PREFIX_anchorName = "anchorName_";
-	public static final String PREFIX_dataSource = "dataSource_";
-	public static final String PREFIX_image = "image_";
-	public static final String PREFIX_parameterDefaultValue = "parameterDefaultValue_";
-	public static final String PREFIX_group = "group_";
-	public static final String PREFIX_hyperlinkAnchor = "hyperlinkAnchor_";
-	public static final String PREFIX_hyperlinkPage = "hyperlinkPage_";
-	public static final String PREFIX_hyperlinkReference = "hyperlinkReference_";
-	public static final String PREFIX_parametersMap = "parametersMap_";
-	public static final String PREFIX_printWhen = "printWhen_";
-	public static final String PREFIX_subreport = "subreport_";
-	public static final String PREFIX_subreportParameter = "subreportParameter_";
-	public static final String PREFIX_textField = "textField_";
-
-
-	/**
-	 *
-	 */
 	public Class getValueClass();
 	
 	/**
 	 *
 	 */
 	public String getValueClassName();
-	
-	/**
-	 *
-	 */
-	public String getName();
 	
 	/**
 	 *
