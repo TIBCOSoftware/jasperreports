@@ -320,7 +320,7 @@
 
 <!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
 
-<!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression)>
+<!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression, labelExpression?)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 
