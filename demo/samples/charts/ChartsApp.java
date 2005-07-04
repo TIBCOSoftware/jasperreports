@@ -69,6 +69,7 @@ public class ChartsApp
 		"ScatterChartReport",
 		"LineChartReport",
 		"XYLineChartReport",
+		"TimeSeriesChartReport",
 		"BubbleChartReport",
 		"HighLowChartReport",
 		"CandlestickChartReport"
@@ -99,10 +100,9 @@ public class ChartsApp
 		try
 		{
 			if (TASK_FILL.equals(taskName))
-			{			
+			{
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
-				
 				
 				for(int i = 0; i < reportNames.length; i++)
 				{
