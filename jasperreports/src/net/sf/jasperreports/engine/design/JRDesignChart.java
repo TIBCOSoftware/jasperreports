@@ -495,6 +495,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			case JRChartDataset.TIMEPERIOD_DATASET:
 				dataset = (JRDesignTimePeriodDataset)ds;
 				break;
+			case JRChartDataset.XY_DATASET:
+				dataset = (JRDesignXyDataset)ds;
+				break;
 		}
 	}
 

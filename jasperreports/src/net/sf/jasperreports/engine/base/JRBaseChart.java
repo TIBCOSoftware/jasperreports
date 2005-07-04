@@ -187,6 +187,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 					case JRChartDataset.TIMEPERIOD_DATASET:
 						dataset = factory.getTimePeriodDataset((JRTimePeriodDataset) chart.getDataset() );
 						break;
+					case JRChartDataset.XY_DATASET:
+						dataset = factory.getXyDataset( (JRXyDataset)chart.getDataset() );
+						break;
 				}
 				plot = factory.getBarPlot((JRBarPlot)chart.getPlot());
 				break;

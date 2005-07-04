@@ -28,7 +28,7 @@
 package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -46,8 +46,19 @@ public class JRXyDatasetFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignXyDataset)chart.getDataset();
+		JRDesignChart chart = (JRDesignChart) digester.peek();
+		
+		JRDesignXyDataset dataset = null; 
+		
+		if( chart.getDataset() == null ){
+			dataset = new JRDesignXyDataset( chart.getDataset() );
+		}
+		else {
+			dataset = (JRDesignXyDataset)chart.getDataset();
+		}
+		
+		chart.setDataset( dataset );
+		return dataset;
 	}
 
 }

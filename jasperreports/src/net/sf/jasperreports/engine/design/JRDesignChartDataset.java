@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public  class JRDesignChartDataset extends JRBaseChartDataset
+public class JRDesignChartDataset extends JRBaseChartDataset
 {
 
 
@@ -98,13 +98,11 @@ public  class JRDesignChartDataset extends JRBaseChartDataset
 		this.incrementGroup = group;
 	}
 
-
-	
+	/**
+	 * 
+	 */
 	public byte getDatasetType() {
 		return -1;
 	}
 	
-	
-		
-
 }

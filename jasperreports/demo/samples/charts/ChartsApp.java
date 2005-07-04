@@ -61,6 +61,8 @@ public class ChartsApp
 		"Bar3DChartReport",
 		"StackedBarChartReport",
 		"StackedBar3DChartReport",
+		"XYBarChartTimePeriodReport",
+		"XYBarChartTimeSeriesReport",
 		"XYBarChartReport",
 		"AreaChartReport",
 		"XYAreaChartReport",
@@ -97,9 +99,10 @@ public class ChartsApp
 		try
 		{
 			if (TASK_FILL.equals(taskName))
-			{
+			{			
 				Map parameters = new HashMap();
 				parameters.put("MaxOrderID", new Integer(12500));
+				
 				
 				for(int i = 0; i < reportNames.length; i++)
 				{

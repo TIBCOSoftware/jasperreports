@@ -346,6 +346,9 @@ public class JRExpressionCollector
 				if( chart.getDataset() instanceof JRTimePeriodDataset ){	
 					collect((JRTimePeriodDataset)chart.getDataset());
 				}
+				else if( chart.getDataset() instanceof JRXyDataset ) {
+					collect( (JRXyDataset)chart.getDataset() );
+				}
 				else {
 					collect((JRTimeSeriesDataset)chart.getDataset());
 				}
