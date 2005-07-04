@@ -99,7 +99,6 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 				TimePeriodValues timePeriodValues = null;
 				for( int j = 0; j<dataset.getSeriesCount(); j++ ){
 					TimePeriodValues tmp = dataset.getSeries( j );
-					//FIXME NOW it was getName in older JFreeChart ??? if( tmp.getName().equals( seriesName )){
 					if( tmp.getKey().equals( seriesName )){
 						timePeriodValues = tmp;
 					}
