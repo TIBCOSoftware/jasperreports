@@ -1155,16 +1155,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		IntervalXYDataset tmpDataset = (IntervalXYDataset)((JRFillChartDataset)dataset).getDataset();
 		
-		boolean isDate = true;
-		if( dataset.getDatasetType() == JRChartDataset.XY_DATASET ){
-			isDate = false;
-		}
-		
 		JFreeChart chart =
 			ChartFactory.createXYBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				isDate,
+				(dataset.getDatasetType() != JRChartDataset.XY_DATASET),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				tmpDataset,
 				getPlot().getOrientation(),
