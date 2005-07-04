@@ -25,6 +25,11 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Tim Thomas - tthomas48@users.sourceforge.net 
+ */
 package net.sf.jasperreports.engine.data;
 
 import java.io.File;
@@ -44,6 +49,7 @@ import net.sf.jasperreports.engine.design.JRDesignField;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.xpath.CachedXPathAPI;
+import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -329,23 +335,28 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		Class valueClass = jrField.getValueClass();
 
 		if(Object.class != valueClass) {
-			Node node = null;
+			String text = null;
+			
 			try {
-				node = xpathAPI.selectSingleNode(currentNode, expression);
+				XObject list = xpathAPI.eval(currentNode, expression);
+				if (list.getType() == XObject.CLASS_NODESET) {
+					Node node = list.nodeset().nextNode();
+					if (node != null) {
+						text = getText(node);
+					}
+				} else {
+					text = list.str();
+				}
 			} catch (TransformerException e) {
 				throw new JRException("XPath selection failed. Expression: "
 						+ expression, e);
 			}
 	
-			if (node != null) {
-				String text = getText(node);
-				
-				if(text != null) {
-					if(String.class == valueClass)
-						value = text;
-					else
-						value = ConvertUtils.convert(text.trim(), valueClass);
-				}
+			if(text != null) {
+				if(String.class == valueClass)
+					value = text;
+				else
+					value = ConvertUtils.convert(text.trim(), valueClass);
 			}
 		}
 		
