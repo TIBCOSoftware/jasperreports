@@ -46,37 +46,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class TextRenderer
 {
 
-	/**
-	 *
-	 *
-	private static FontRenderContext FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
-
-	/**
-	 * 
-	 *
-	private JRFillTextElement fillTextElement = null;
-
-
-	/**
-	 * 
-	 *
-	private MaxFontSizeFinder maxFontSizeFinder = null;
-
-	private float width = 0;
-	private float height = 0;
-	private float lineSpacing = 0;
-
-	private int maxHeight = 0;
-	private int textOffset = 0;
-	private int lines = 0;
-	private int fontSizeSum = 0;
-	private int firstLineMaxFontSize = 0;
-	private float textHeight = 0;
-	private float firstLineLeading = 0;
-	private boolean isLeftToRight = true;
-	private boolean isMaxHeightReached = false;
-	*/
-	
 	private Graphics2D grx = null;
 	private int x = 0;
 	private int y = 0;
