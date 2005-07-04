@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -35,6 +38,8 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
@@ -52,6 +57,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	
 	protected JRFillCategorySeries[] categorySeries = null;
+	protected Map[] labels = null;
 
 	private boolean isIncremented = false;
 	
@@ -94,6 +100,14 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	protected void initialize()
 	{
 		dataset = new DefaultCategoryDataset();
+		labels = new Map[getSeries().length];//FIXME NOW test nulls
+		for(int i = 0; i < labels.length; i++)
+		{
+			if (getSeries()[i].getLabelExpression() != null)
+			{
+				labels[i] = new HashMap();
+			}
+		}
 		isIncremented = false;
 	}
 
@@ -122,12 +136,18 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			for(int i = 0; i < categorySeries.length; i++)
 			{
 				JRFillCategorySeries crtCategorySeries = categorySeries[i];
-				if (crtCategorySeries.getCategory() != null) 
+				if (crtCategorySeries.getCategory() != null)
+				{
 					dataset.addValue(
 						crtCategorySeries.getValue(), 
 						crtCategorySeries.getSeries(), 
 						crtCategorySeries.getCategory()
 						);//FIXME NOW verify if condifion
+					if (labels[i] != null)
+					{
+						labels[i].put(crtCategorySeries.getCategory(), crtCategorySeries.getLabel());
+					}
+				}
 			}
 		}
 		isIncremented = true;
@@ -151,6 +171,53 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	 */
 	public byte getDatasetType() {
 		return JRChartDataset.CATEGORY_DATASET;
+	}
+
+	
+	/**
+	 *
+	 */
+	public CategoryLabelGenerator getLabelGenerator()
+	{
+		return new CategoryLabelGenerator(labels);
+	}
+
+
+	/**
+	 *
+	 */
+	static class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator {
+
+		private Map[] labels = null;
+		
+		public CategoryLabelGenerator(Map[] labels)
+		{
+			this.labels = labels;
+		}
+
+		public String generateLabel(CategoryDataset dataset, int series, int category ) {
+			if (labels[series] == null)
+			{
+				return super.generateLabel(dataset, series, category);
+			}
+			else
+			{
+				return (String)labels[series].get(dataset.getColumnKey(category));
+			}
+			
+		}
+
+		public String generateRowLabel(CategoryDataset arg0, int arg1) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		
+		public String generateColumnLabel(CategoryDataset arg0, int arg1) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 
 	
