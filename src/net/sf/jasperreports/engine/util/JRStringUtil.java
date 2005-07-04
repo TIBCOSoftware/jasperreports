@@ -44,33 +44,6 @@ public class JRStringUtil
 	/**
 	 *
 	 */
-	public static String replaceTabWithBlank(String source)
-	{
-		String result = source;
-
-		if (source != null && source.length() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer(source);
-			
-			int offset = 0;
-			int pos = source.indexOf("\t", offset);
-			while (pos >= 0)
-			{
-				sbuffer.setCharAt(pos, ' ');
-				offset = pos + 1;
-				pos = source.indexOf("\t", offset);
-			}
-			
-			result = sbuffer.toString();
-		}
-		
-		return result;
-	}
-		
-
-	/**
-	 *
-	 */
 	public static String xmlEncode(String text)
 	{
 		if (text != null)
