@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.Serializable;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
@@ -53,8 +52,10 @@ import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
+import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
+import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -78,16 +79,20 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
+import org.jfree.chart.labels.XYSeriesLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
@@ -849,6 +854,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		plot.setRenderer(barRenderer3D);
 
 		renderer = new JCommonDrawableRenderer( chart );
+		
+		// add label generator
+		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
+		// set item labels visible 
+		barRenderer3D.setItemLabelsVisible( true );
 	}
 
 
@@ -857,12 +867,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateBarImage(byte evaluation) throws JRException
 	{
+		CategoryDataset categoryDataset = (CategoryDataset)((JRFillChartDataset) dataset).getDataset();
 		JFreeChart chart =
 			ChartFactory.createBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				categoryDataset,
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -886,7 +897,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
 				((JRFillBarPlot)getPlot()).isShowTickLabels()
 				);
-
+		
+		CategoryItemRenderer categoryRenderer = plot.getRenderer();
+		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setItemLabelsVisible( true );
+		
 		renderer = new JCommonDrawableRenderer(chart);
 
 	}
@@ -1011,6 +1026,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
 		plot.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
+		
+		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
+		if (labelGenerator != null)
+		{
+			plot.setLabelGenerator(labelGenerator);
+		}
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1037,18 +1058,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
 
-		plot.setLabelGenerator(new CustomLabelGenerator());
+		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
+		if (labelGenerator != null)
+		{
+			plot.setLabelGenerator(labelGenerator);
+		}
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
 
-	private static class CustomLabelGenerator implements PieSectionLabelGenerator, Serializable
-	{
-		public String generateSectionLabel(PieDataset arg0, Comparable arg1)
-		{
-			return "FIXME NOW";
-		}
-	}
 
 
 	protected void evaluateScatterImage( byte evaluation ) throws JRException {
@@ -1155,11 +1173,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		IntervalXYDataset tmpDataset = (IntervalXYDataset)((JRFillChartDataset)dataset).getDataset();
 		
+		boolean isDate = true;
+		if( dataset.getDatasetType() == JRChartDataset.XY_DATASET ){
+			isDate = false;
+		}
+		
 		JFreeChart chart =
 			ChartFactory.createXYBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
-				(dataset.getDatasetType() != JRChartDataset.XY_DATASET),
+				isDate,
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
 				tmpDataset,
 				getPlot().getOrientation(),
@@ -1184,6 +1207,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 //		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
 //				((JRFillBarPlot)getPlot()).isShowTickLabels()
 //				);
+		
+		XYItemRenderer itemRenderer = plot.getRenderer();
+		XYSeriesLabelGenerator labelGenerator = new StandardXYSeriesLabelGenerator();
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}

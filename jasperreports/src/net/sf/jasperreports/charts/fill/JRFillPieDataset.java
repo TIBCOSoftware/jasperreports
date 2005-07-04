@@ -35,8 +35,14 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
 
 /**
@@ -50,6 +56,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 *
 	 */
 	private DefaultPieDataset dataset = new DefaultPieDataset();
+	private Map labels = null;
 	
 	private Comparable key = null;
 	private Number value = null;
@@ -101,6 +108,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	protected void initialize()
 	{
 		dataset = new DefaultPieDataset();
+		labels = new HashMap();
 		isIncremented = false;
 	}
 
@@ -112,6 +120,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		key = (Comparable)calculator.evaluate(getKeyExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
+		
 		isIncremented = false;
 	}
 
@@ -120,7 +129,11 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 */
 	protected void increment()
 	{
-		if (key != null) dataset.setValue(key, value);//FIXME NOW verify if condifion
+		if (key != null){
+			dataset.setValue(key, value);//FIXME NOW verify if condifion
+			labels.put( key, label );
+		}
+		
 		isIncremented = true;
 	}
 
@@ -144,5 +157,24 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		return JRChartDataset.PIE_DATASET;
 	}
 
+
+	public PieLabelGenerator getLabelGenerator(){
+		return (getLabelExpression() == null) ? null : new PieLabelGenerator( labels );
+	}
+	
+	private static class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
+	{
+		private Map labels = null;
+		
+		public PieLabelGenerator( Map labels )
+		{
+			this.labels = labels;
+		}
+		
+		public String generateSectionLabel(PieDataset arg0, Comparable arg1)
+		{
+			return (String)labels.get( arg1 );
+		}
+	}
 	
 }
