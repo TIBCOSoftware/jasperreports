@@ -99,13 +99,13 @@
 						<seriesExpression>"Freight"</seriesExpression>
 						<categoryExpression>$F{ShipCountry}</categoryExpression>
 						<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
-						<labelExpression></labelExpression>
+						<labelExpression>"FixMe"</labelExpression>
 					</categorySeries>
 					<categorySeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
 						<categoryExpression>$F{ShipCountry}</categoryExpression>
 						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() / 2d)</valueExpression>
-						<labelExpression></labelExpression>
+						<!--<labelExpression>"FixMe"</labelExpression>-->
 					</categorySeries>
 				</categoryDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
