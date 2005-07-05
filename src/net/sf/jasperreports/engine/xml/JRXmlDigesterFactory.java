@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.SetNestedPropertiesRule;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -259,7 +260,10 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("*/staticText", JRStaticTextFactory.class.getName());
 		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
-		digester.addCallMethod("*/staticText/text", "setText", 0);
+		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule();
+		textRule.setTrimData(false);
+		textRule.setAllowUnknownChildElements(true);
+		digester.addRule("*/staticText", textRule);
 
 
 		/*   */
