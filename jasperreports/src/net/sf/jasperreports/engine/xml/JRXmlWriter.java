@@ -48,6 +48,8 @@ import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
@@ -1808,7 +1810,10 @@ public class JRXmlWriter
 	
 	
 	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset ){
-		sb.append( "\t\t\t\t<timeSeriesDataset>\n" );
+		sb.append( "\t\t\t\t<timeSeriesDataset");
+		sb.append( " timePeriod=\"" + JRXmlConstants.getTimePeriodName( dataset.getTimePeriod() ) + "\"" );
+		sb.append(">\n" );
+		
 		writeDataset( dataset );
 		
 		JRTimeSeries[] timeSeries = dataset.getSeries();
@@ -1819,6 +1824,20 @@ public class JRXmlWriter
 		}
 		sb.append( "\t\t\t\t</timeSeriesDataset>\n" );
 		
+	}
+	
+	
+	private void writeTimePeriodDataset( JRTimePeriodDataset dataset ){
+		sb.append( "\t\t\t\t<timePeriodDataset>\n");
+		writeDataset( dataset );
+		
+		JRTimePeriodSeries[] timePeriodSeries = dataset.getSeries();
+		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
+			for( int i = 0; i < timePeriodSeries.length; i++ ){
+				writeTimePeriodSeries( timePeriodSeries[i] );
+			}
+		}
+		sb.append( "\t\t\t\t</timePeriodDataset>\n" );
 	}
 
 
@@ -1913,7 +1932,12 @@ public class JRXmlWriter
 		sb.append("\t\t\t\t\t\t<yValueExpression><![CDATA[");
 		sb.append(xySeries.getYValueExpression().getText());
 		sb.append("]]></yValueExpression>\n");
-
+		
+		if( xySeries.getLabelExpression() != null ){
+			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(xySeries.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
 		sb.append("\t\t\t\t\t</xySeries>\n");
 	}
 
@@ -1961,8 +1985,44 @@ public class JRXmlWriter
 		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
 		sb.append(timeSeries.getValueExpression().getText());
 		sb.append("]]></valueExpression>\n");
+		
+		if( timeSeries.getLabelExpression() != null ){
+			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(timeSeries.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
 
 		sb.append("\t\t\t\t\t</timeSeries>\n");
+	}
+	
+	
+	private void writeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
+		sb.append( "\t\t\t\t\t<timePeriodSeries>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
+		sb.append( timePeriodSeries.getSeriesExpression().getText() );
+		sb.append( "]]></seriesExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<startDateExpression><![CDATA[" );
+		sb.append( timePeriodSeries.getStartDateExpression().getText() );
+		sb.append( "]]></startDateExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<endDateExpression><![CDATA[" );
+		sb.append( timePeriodSeries.getEndDateExpression().getText() );
+		sb.append( "]]></endDateExpression>\n" );
+		
+		sb.append( "\t\t\t\t\t\t<valueExpression><![CDATA[" );
+		sb.append( timePeriodSeries.getValueExpression().getText() );
+		sb.append( "]]></valueExpression>\n" );
+		
+		if( timePeriodSeries.getLabelExpression() != null ){
+			sb.append( "\t\t\t\t\t\t<labelExpression><![CDATA[" );
+			sb.append( timePeriodSeries.getLabelExpression().getText() );
+			sb.append( "]]></labelExpression>\n" );
+		}
+		
+		
+		sb.append( "\t\t\t\t\t</timePeriodSeries>\n" );
 	}
 
 	/**
@@ -2175,6 +2235,8 @@ public class JRXmlWriter
 			sb.append( "isShowShapes=\"false\" ");
 		}
 		sb.append( ">\n" );
+		
+		writePlot( plot );
 		
 		if(plot.getTimeAxisLabelExpression() != null ){
 			sb.append( "\t\t\t\t\t<timeAxisLabelExpression><[CDATA[" );
@@ -2538,7 +2600,20 @@ public class JRXmlWriter
 		sb.append("\t\t\t<xyBarChart>\n");
 
 		writeChart(chart);
-		//FIXME NOW write...Dataset;
+		JRChartDataset dataset = chart.getDataset();
+		
+		if( dataset.getDatasetType() == JRChartDataset.TIMESERIES_DATASET ){
+			writeTimeSeriesDataset( (JRTimeSeriesDataset)dataset );
+		}
+		else if( dataset.getDatasetType() == JRChartDataset.TIMEPERIOD_DATASET ){
+			writeTimePeriodDataset( (JRTimePeriodDataset)dataset );
+		}
+		else if( dataset.getDatasetType() == JRChartDataset.XY_DATASET ){
+			writeXyDataset( (JRXyDataset)dataset );
+		}
+		
+	
+		
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
 		sb.append("\t\t\t</xyBarChart>\n");
