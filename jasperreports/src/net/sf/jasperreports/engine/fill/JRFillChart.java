@@ -56,6 +56,9 @@ import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
+import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
+import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
+import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -79,8 +82,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
-import org.jfree.chart.labels.XYSeriesLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
@@ -1208,8 +1209,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 //				((JRFillBarPlot)getPlot()).isShowTickLabels()
 //				);
 		
+		
 		XYItemRenderer itemRenderer = plot.getRenderer();
-		XYSeriesLabelGenerator labelGenerator = new StandardXYSeriesLabelGenerator();
+		if( getDataset().getDatasetType() == JRChartDataset.TIMESERIES_DATASET ) {
+			itemRenderer.setBaseItemLabelGenerator( ((JRFillTimeSeriesDataset)getDataset()).getLabelGenerator() );
+		}
+		else if( getDataset().getDatasetType() == JRChartDataset.TIMEPERIOD_DATASET  ){
+			itemRenderer.setBaseItemLabelGenerator( ((JRFillTimePeriodDataset)getDataset()).getLabelGenerator() );
+		}
+		else if( getDataset().getDatasetType() == JRChartDataset.XY_DATASET ) {
+			itemRenderer.setBaseItemLabelGenerator( ((JRFillXyDataset)getDataset()).getLabelGenerator() );
+		}
+
+		itemRenderer.setBaseItemLabelsVisible( true );
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}

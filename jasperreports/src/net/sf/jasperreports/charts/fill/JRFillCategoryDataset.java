@@ -203,19 +203,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			else
 			{
 				return (String)labels[series].get(dataset.getColumnKey(category));
-			}
-			
-		}
-
-		public String generateRowLabel(CategoryDataset arg0, int arg1) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		
-		public String generateColumnLabel(CategoryDataset arg0, int arg1) {
-			// TODO Auto-generated method stub
-			return null;
+			}	
 		}
 		
 	}

@@ -35,9 +35,14 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.general.Dataset;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import java.util.Map;
+import java.util.HashMap;
 
 
 /**
@@ -50,9 +55,10 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	/**
 	 *
 	 */
-	private XYSeriesCollection dataset = null;
+	private XYSeriesCollection dataset = new XYSeriesCollection();
 	
 	protected JRFillXySeries[] xySeries = null;
+	protected Map[] labels = null;
 
 	private boolean isIncremented = false;
 	
@@ -95,6 +101,12 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	protected void initialize()
 	{
 		dataset = null;
+		labels = new Map[ getSeries().length ];
+		for( int i = 0; i<labels.length; i++ ){
+			if( getSeries()[i].getLabelExpression() != null ){
+				labels[i] = new HashMap();
+			}
+		}
 		isIncremented = false;
 	}
 
@@ -148,6 +160,9 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 						crtXySeries.getXValue(), 
 						crtXySeries.getYValue()
 						);//FIXME NOW verify if condifion
+				if( labels[i] != null ){
+					labels[i].put( crtXySeries.getXValue(), crtXySeries.getLabel() );
+				}
 			}
 		}
 		isIncremented = true;
@@ -172,6 +187,33 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	public byte getDatasetType() {
 		return JRChartDataset.XY_DATASET;
 	}
-
+	
+	public XYDatasetLabelGenerator getLabelGenerator(){
+		return new XYDatasetLabelGenerator( labels );	
+	}
+	
+	
+	static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator {
+		private Map[] labels = null;
+		
+		public XYDatasetLabelGenerator( Map[] labels ){
+			this.labels = labels;
+		}
+		
+		public String generateLabel( XYDataset dataset, int series, int item  ){
+			
+			if( labels[series] != null ){
+				return (String)labels[series].get( ((XYSeriesCollection)dataset).getX( series, item ));
+				
+			}
+			else {
+				return super.generateLabel( dataset, series, item );
+			}
+		}
+	}
+	
+	
+	
+	
 	
 }

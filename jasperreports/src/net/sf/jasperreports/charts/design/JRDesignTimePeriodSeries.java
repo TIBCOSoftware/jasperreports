@@ -68,4 +68,11 @@ public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries {
 	public void setValueExpression( JRExpression valueExpression ){
 		this.valueExpression = valueExpression;
 	}
+	
+	/**
+	 * 
+	 */
+	public void setLabelExpression( JRExpression labelExpression ){
+		this.labelExpression = labelExpression;
+	}
 }

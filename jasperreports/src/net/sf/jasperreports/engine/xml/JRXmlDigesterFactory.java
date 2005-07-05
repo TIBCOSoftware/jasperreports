@@ -459,6 +459,9 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/timePeriodSeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
 		digester.addSetNext("*/timePeriodSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timePeriodSeries/valueExpression", "setText", 0);
+		digester.addFactoryCreate( "*/timePeriodSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class );
+		digester.addSetNext( "*/timePeriodSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod( "*/timePeriodSeries/labelExpression", "setText", 0);
 		
 //		digester.addFactoryCreate( "*/timeSeries", JRTimeSeriesDatasetFactory.class.getName() );
 //		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class.getName() );

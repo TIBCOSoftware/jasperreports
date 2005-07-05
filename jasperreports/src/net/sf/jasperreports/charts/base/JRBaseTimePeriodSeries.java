@@ -52,6 +52,8 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	
 	protected JRExpression valueExpression;
 	
+	protected JRExpression labelExpression;
+	
 	
 	protected JRBaseTimePeriodSeries(){
 	}
@@ -63,6 +65,7 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 		startDateExpression = factory.getExpression( timePeriodSeries.getStartDateExpression() );
 		endDateExpression = factory.getExpression( timePeriodSeries.getEndDateExpression() );
 		valueExpression = factory.getExpression( timePeriodSeries.getValueExpression() );
+		labelExpression = factory.getExpression( timePeriodSeries.getLabelExpression() );
 	}
 	
 	public JRExpression getSeriesExpression(){
@@ -79,5 +82,9 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	
 	public JRExpression getValueExpression(){
 		return valueExpression;
+	}
+	
+	public JRExpression getLabelExpression(){
+		return labelExpression;
 	}
 }
