@@ -35,10 +35,15 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.data.time.TimePeriodValues;
 import org.jfree.data.time.TimePeriodValuesCollection;
+import org.jfree.data.xy.XYDataset;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -49,8 +54,8 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	/**
 	 * 
 	 */
-	TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
-	
+	private TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
+	protected Map[] labels = null;
 	protected JRFillTimePeriodSeries[] timePeriodSeries = null;
 	
 	private boolean isIncremented = false;
@@ -77,6 +82,12 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	
 	protected void initialize(){
 		dataset = new TimePeriodValuesCollection();
+		labels = new Map[getSeries().length];
+		for( int i = 0; i<labels.length; i++ ){
+			if( getSeries()[i].getLabelExpression() != null ){
+				labels[i] = new HashMap();
+			}
+		}
 		isIncremented = false;
 	}
 	
@@ -109,9 +120,10 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 					dataset.addSeries( timePeriodValues );
 				}
 				
+				SimpleTimePeriod stp = new SimpleTimePeriod( crtTimePeriodSeries.getStartDate(), crtTimePeriodSeries.getEndDate() );
 				if( crtTimePeriodSeries.getStartDate() != null && crtTimePeriodSeries.getEndDate() != null ){
-					timePeriodValues.add( new SimpleTimePeriod( crtTimePeriodSeries.getStartDate(), crtTimePeriodSeries.getEndDate() ),
-										  crtTimePeriodSeries.getValue());
+					timePeriodValues.add( stp,crtTimePeriodSeries.getValue());
+					labels[i].put( stp, crtTimePeriodSeries.getLabel() );
 				}
 				
 			}
@@ -132,5 +144,30 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	public byte getDatasetType() {
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}	
+	
+	public TimePeriodLabelGenerator getLabelGenerator(){
+		return new TimePeriodLabelGenerator( labels );
+	}
+	
+	static class TimePeriodLabelGenerator extends StandardXYItemLabelGenerator {
+		
+		private Map[] labels = null;
+		
+		public TimePeriodLabelGenerator( Map[] labels ){
+			this.labels = labels;
+		}
+		
+		public String getLabel( XYDataset dataset, int series, int item ){
+			if( labels[series] != null ){
+				return (String)labels[series].get( ((TimePeriodValuesCollection)dataset).getSeries( series ).getTimePeriod( item ));
+			}
+			else {
+				return super.generateLabel( dataset, series, item );
+			}
+		}
+	}
+	
+	
+	
 	
 }

@@ -325,7 +325,7 @@
 <!ELEMENT yValueExpression (#PCDATA)>
 
 <!ELEMENT timePeriodDataset (dataset, timePeriodSeries+)>
-<!ELEMENT timePeriodSeries (seriesExpression, startDateExpression, endDateExpression, valueExpression)>
+<!ELEMENT timePeriodSeries (seriesExpression, startDateExpression, endDateExpression, valueExpression, labelExpression?)>
 <!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
 
@@ -370,7 +370,7 @@
 <!ATTLIST timeSeriesDataset
 	timePeriod (year | quarter | month | week | day | hour | minute | second | milisecond ) "day"
 >
-<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression)>
+<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression?)>
 <!ELEMENT timePeriodExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>

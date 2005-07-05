@@ -55,4 +55,9 @@ public interface JRTimePeriodSeries {
 	 */
 	public JRExpression getValueExpression();
 	
+	/**
+	 * 
+	 */
+	public JRExpression getLabelExpression();
+	
 }

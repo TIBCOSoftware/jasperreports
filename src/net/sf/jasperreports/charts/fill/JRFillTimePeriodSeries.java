@@ -49,6 +49,8 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 	private Date startDate = null;
 	private Date endDate = null;
 	private Number value = null;
+	private String label = null;
+	
 	
 	public JRFillTimePeriodSeries( JRTimePeriodSeries timePeriodSeries, JRFillObjectFactory factory  ){
 		factory.put( timePeriodSeries, this );
@@ -72,6 +74,10 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 		return parent.getValueExpression();
 	}
 	
+	public JRExpression getLabelExpression(){
+		return parent.getLabelExpression();
+	}
+	
 	protected Comparable getSeries(){
 		return series;
 	}
@@ -88,11 +94,16 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 		return value;
 	}
 	
+	protected String getLabel(){
+		return label;
+	}
+	
 	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
 		series = (Comparable)calculator.evaluate( getSeriesExpression() );
 		startDate = (Date)calculator.evaluate( getStartDateExpression() );
 		endDate = (Date)calculator.evaluate( getEndDateExpression() );
 		value= (Number)calculator.evaluate( getValueExpression() );
+		label = (String)calculator.evaluate( getLabelExpression() );
 	}
 	
 	
