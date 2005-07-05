@@ -985,9 +985,9 @@ public class JRXmlExporter extends JRAbstractExporter
 			
 			if (tmpBuffer.length() > 0)
 			{
-				sbuffer.append("<box");
+				sbuffer.append("\t\t\t<box");
 				sbuffer.append(tmpBuffer.toString());
-				sbuffer.append("/>");
+				sbuffer.append("/>\n");
 			}
 		}
 	}
