@@ -34,38 +34,22 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
-import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.base.JRBasePrintElement;
-import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -75,26 +59,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
-import org.xml.sax.SAXException;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporter extends JRAbstractExporter
+public class JRXlsExporter extends JRXLSAbstractExporter
 {
-
-
-	/**
-	 *
-	 */
-	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
-
-	/**
-	 *
-	 */
-	protected int pageHeight = 0;
 
 	/**
 	 *
@@ -105,370 +77,78 @@ public class JRXlsExporter extends JRAbstractExporter
 	protected HSSFCell cell = null;
 	protected HSSFCellStyle emptyCellStyle = null;
 
-	protected JRExportProgressMonitor progressMonitor = null;
-
-	protected int reportIndex = 0;
-
-	/**
-	 *
-	 */
-	protected JRFont defaultFont = null;
-	protected List loadedFonts = new ArrayList();
-	protected List loadedCellStyles = new ArrayList();
-
-	/**
-	 *
-	 */
-	protected boolean isOnePagePerSheet = false;
-	protected boolean isRemoveEmptySpace = false;
-	protected boolean isAutoDetectCellType = true;
-
 	/**
 	 *
 	 */
 	protected short whiteIndex = (new HSSFColor.WHITE()).getIndex();
+	protected short blackIndex = (new HSSFColor.BLACK()).getIndex();
+	
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
-	/**
-	 *
-	 */
-	protected JRExporterGridCell grid[][] = null;
-	protected boolean isRowNotEmpty[] = null;
-	protected List xCuts = null;
-	protected List yCuts = null;
-
-
-	/**
-	 *
-	 */
-	protected JRFont getDefaultFont()
+	
+	protected void setBackground()
 	{
-		if (defaultFont == null)
+		if (!isWhitePageBackground)
 		{
-			defaultFont = jasperPrint.getDefaultFont();
-			if (defaultFont == null)
-			{
-				defaultFont = new JRBaseFont();
-			}
-		}
-		
-		return defaultFont;
-	}
-
-
-	/**
-	 *
-	 */
-	public void exportReport() throws JRException
-	{
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-		
-		/*   */
-		setOffset();
-
-		/*   */
-		setInput();
-
-		/*   */
-		if (!isModeBatch)
-		{
-			setPageRange();
-		}
-
-		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET);
-		if (isOnePagePerSheetParameter != null)
-		{
-			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
-		}
-
-		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-		if (isRemoveEmptySpaceParameter != null)
-		{
-			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
-		}
-		
-		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
-		if (isWhitePageBackgroundParameter != null)
-		{
-			if (!isWhitePageBackgroundParameter.booleanValue())
-			{
-				backgroundMode = HSSFCellStyle.NO_FILL;
-			}
-		}
-		
-		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
-		if (isAutoDetectCellTypeParameter != null)
-		{
-			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
-		}
-		
-		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-		if (os != null)
-		{
-			exportReportToStream(os);
-		}
-		else
-		{
-			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-			if (destFile == null)
-			{
-				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-				if (fileName != null)
-				{
-					destFile = new File(fileName);
-				}
-				else
-				{
-					throw new JRException("No output specified for the exporter.");
-				}
-			}
-
-			try
-			{
-				os = new FileOutputStream(destFile);
-				exportReportToStream(os);
-				os.flush();
-			}
-			catch (IOException e)
-			{
-				throw new JRException("Error trying to export to file : " + destFile, e);
-			}
-			finally
-			{
-				if (os != null)
-				{
-					try
-					{
-						os.close();
-					}
-					catch(IOException e)
-					{
-					}
-				}
-			}
+			backgroundMode = HSSFCellStyle.NO_FILL;
 		}
 	}
 
 
-	/**
-	 *
-	 */
-	protected void exportReportToStream(OutputStream os) throws JRException
+	protected void openWorkbook(OutputStream os)
 	{
 		workbook = new HSSFWorkbook();
 		emptyCellStyle = workbook.createCellStyle();
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);
-		
+	}
+	
+	protected void createSheet(String name)
+	{
+		sheet = workbook.createSheet(name);
+	}
+	
+	protected void closeWorkbook(OutputStream os) throws JRException
+	{
 		try
 		{
-			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
-			{
-				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-				defaultFont = null;
-
-				List pages = jasperPrint.getPages();
-				if (pages != null && pages.size() > 0)
-				{
-					if (isModeBatch)
-					{
-						startPageIndex = 0;
-						endPageIndex = pages.size() - 1;
-					}
-
-					if (isOnePagePerSheet)
-					{
-						pageHeight = jasperPrint.getPageHeight();
-					
-						for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-						{
-							if (Thread.currentThread().isInterrupted())
-							{
-								throw new JRException("Current thread interrupted.");
-							}
-				
-							JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-		
-							sheet = workbook.createSheet("Page " + (pageIndex + 1));
-	
-							/*   */
-							exportPage(page, page);
-						}
-					}
-					else
-					{
-						pageHeight = jasperPrint.getPageHeight() * (endPageIndex - startPageIndex + 1);
-
-						JRPrintPage alterYAllPages = new JRBasePrintPage();
-						JRPrintPage allPages = new JRBasePrintPage();
-						Collection elements = null;
-						JRPrintElement alterYElement = null;
-						JRPrintElement element = null;
-						for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-						{
-							if (Thread.currentThread().isInterrupted())
-							{
-								throw new JRException("Current thread interrupted.");
-							}
-				
-							JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-		
-							elements = page.getElements();
-							if (elements != null && elements.size() > 0)
-							{
-								for(Iterator it = elements.iterator(); it.hasNext();)
-								{
-									element = (JRPrintElement)it.next();
-									allPages.addElement(element);
-								
-									alterYElement = new JRBasePrintElement();
-									alterYElement.setY(element.getY() + globalOffsetY + jasperPrint.getPageHeight() * pageIndex);
-									alterYAllPages.addElement(alterYElement);
-								}
-							}
-						}
-
-						sheet = workbook.createSheet(jasperPrint.getName());
-
-						/*   */
-						exportPage(alterYAllPages, allPages);
-					}
-				}
-			}
-
 			workbook.write(os);
 		}
-		catch(IOException e) 
+		catch (IOException e)
 		{
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
 		}
 	}
 
-
-	/**
-	 *
-	 */
-	protected void exportPage(JRPrintPage alterYPage, JRPrintPage page) throws JRException
+	protected void setColumnWidth(short index, short width)
 	{
-		layoutGrid(alterYPage, page);
+		sheet.setColumnWidth(index, width);
+	}
 
-		int width = 0;
-		for(int i = 1; i < xCuts.size(); i++)
+	protected void setRowHeight(int y, int lastRowHeight) throws JRException
+	{
+		row = sheet.getRow((short)y);		
+		if (row == null)
 		{
-			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			sheet.setColumnWidth((short)(i - 1), (short)(width * 43));
-		}
-
-		JRPrintElement element = null;
-		HSSFCell emptyCell = null;
-		for(int y = 0; y < grid.length; y++)
-		{
-			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
-			{
-				row = sheet.getRow((short)y);
-				
-				if (row == null)
-				{
-					row = sheet.createRow((short)y);
-				}
-	
-				int emptyCellColSpan = 0;
-				int emptyCellWidth = 0;
-				int lastRowHeight = grid[y][0].height;
-	
-				row.setHeightInPoints((short)lastRowHeight);
-	
-				int x = 0;
-				for(x = 0; x < grid[y].length; x++)
-				{
-					emptyCell = row.getCell((short)x);
-					if (emptyCell == null)
-					{
-						emptyCell = row.createCell((short)x);
-						emptyCell.setCellStyle(emptyCellStyle);
-					}
-	
-					if(grid[y][x].element != null)
-					{
-						if (emptyCellColSpan > 0)
-						{
-							if (emptyCellColSpan > 1)
-							{
-								//sbuffer.append(" colspan=" + emptyCellColSpan);
-								//sheet.addMergedRegion(new Region(y, (short)(x - emptyCellColSpan - 1), y, (short)(x - 1)));
-							}
-							emptyCellColSpan = 0;
-							emptyCellWidth = 0;
-						}
-	
-						element = grid[y][x].element;
-	
-						if (element instanceof JRPrintLine)
-						{
-							exportLine((JRPrintLine)element, grid[y][x], x, y);
-						}
-						else if (element instanceof JRPrintRectangle)
-						{
-							exportRectangle(element, grid[y][x], x, y);
-						}
-						else if (element instanceof JRPrintEllipse)
-						{
-							exportRectangle(element, grid[y][x], x, y);
-						}
-//						else if (element instanceof JRPrintImage)//FIXME at least the border should appear
-//						{
-//							exportImage(element, grid[y][x], x, y);
-//						}
-						else if (element instanceof JRPrintText)
-						{
-							exportText((JRPrintText)element, grid[y][x], x, y);
-						}
-	
-						x += grid[y][x].colSpan - 1;
-					}
-					else
-					{
-						emptyCellColSpan++;
-						emptyCellWidth += grid[y][x].width;
-					}
-				}
-	
-				if (emptyCellColSpan > 0)
-				{
-					if (emptyCellColSpan > 1)
-					{
-						//sbuffer.append(" colspan=" + emptyCellColSpan);
-						//sheet.addMergedRegion(new Region(y, (short)x, y, (short)(x + emptyCellColSpan - 1)));
-					}
-				}
-			}
-			else
-			{
-				row = sheet.getRow((short)y);
-				if (row == null)
-				{
-					row = sheet.createRow((short)y);
-				}
-				row.setHeight((short)0);
-	
-				for(int x = 0; x < grid[y].length; x++)
-				{
-					emptyCell = row.getCell((short)x);
-					if (emptyCell == null)
-					{
-						emptyCell = row.createCell((short)x);
-						emptyCell.setCellStyle(emptyCellStyle);
-					}
-				}
-			}
+			row = sheet.createRow((short)y);
 		}
 		
-		if (progressMonitor != null)
+		row.setHeightInPoints((short)lastRowHeight);
+	}
+
+	protected void setCell(int x, int y)
+	{
+		HSSFCell emptyCell = row.getCell((short)x);
+		if (emptyCell == null)
 		{
-			progressMonitor.afterPageExport();
+			emptyCell = row.createCell((short)x);
+			emptyCell.setCellStyle(emptyCellStyle);
 		}
 	}
 
+	protected void addBlankCell(int x, int y) throws JRException
+	{
+	}
 
 	/**
 	 *
@@ -555,39 +235,6 @@ public class JRXlsExporter extends JRAbstractExporter
 		cell.setCellStyle(cellStyle);
 	}
 	
-	
-	/**
-	 *
-	 */
-	protected JRStyledText getStyledText(JRPrintText textElement)
-	{
-		JRStyledText styledText = null;
-
-		String text = textElement.getText();
-		if (text != null)
-		{
-			if (textElement.isStyledText())
-			{
-				try
-				{
-					styledText = styledTextParser.parse(null, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
-		
-			if (styledText == null)
-			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(null, 0, text.length()));
-			}
-		}
-		
-		return styledText;
-	}
 
 
 	/**
@@ -612,183 +259,10 @@ public class JRXlsExporter extends JRAbstractExporter
 
 		HSSFFont cellFont = getLoadedFont(font, forecolor);
 
-		short horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-		short verticalAlignment = HSSFCellStyle.ALIGN_LEFT;
-		short rotation = 0;
-
-		switch (textElement.getRotation())
-		{
-			case JRTextElement.ROTATION_LEFT :
-			{
-				rotation = 90;
-
-				switch (textElement.getTextAlignment())
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_JUSTIFY;
-						break;
-					}
-					default :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
-					}
-				}
-
-				switch (textElement.getVerticalAlignment())
-				{
-					case JRTextElement.VERTICAL_ALIGN_TOP :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-					}
-				}
-
-				break;
-			}
-			case JRTextElement.ROTATION_RIGHT :
-			{
-				rotation = -90;
-
-				switch (textElement.getTextAlignment())
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_JUSTIFY;
-						break;
-					}
-					default :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
-					}
-				}
-
-				switch (textElement.getVerticalAlignment())
-				{
-					case JRTextElement.VERTICAL_ALIGN_TOP :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
-					}
-				}
-
-				break;
-			}
-			case JRTextElement.ROTATION_NONE :
-			default :
-			{
-				rotation = 0;
-
-				switch (textElement.getTextAlignment())
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_CENTER;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_RIGHT;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_JUSTIFY;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HSSFCellStyle.ALIGN_LEFT;
-					}
-				}
-
-				switch (textElement.getVerticalAlignment())
-				{
-					case JRTextElement.VERTICAL_ALIGN_TOP :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_MIDDLE :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_CENTER;
-						break;
-					}
-					case JRTextElement.VERTICAL_ALIGN_BOTTOM :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_BOTTOM;
-						break;
-					}
-					default :
-					{
-						verticalAlignment = HSSFCellStyle.VERTICAL_TOP;
-					}
-				}
-			}
-		}
+		TextAlignment alignment = getTextAlignment(textElement);
+		short horizontalAlignment = getHorizontalAlignment(alignment);
+		short verticalAlignment = getVerticalAlignment(alignment);
+		short rotation = getRotation(alignment);
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
@@ -892,149 +366,51 @@ public class JRXlsExporter extends JRAbstractExporter
 		cell.setCellStyle(cellStyle);
 	}
 
-
-	/**
-	 *
-	 */
-	protected void layoutGrid(JRPrintPage alterYPage, JRPrintPage page)
+	private short getHorizontalAlignment(TextAlignment alignment)
 	{
-		xCuts = new ArrayList();
-		yCuts = new ArrayList();
-
-		xCuts.add(new Integer(0));
-		xCuts.add(new Integer(jasperPrint.getPageWidth()));
-		yCuts.add(new Integer(0));
-		yCuts.add(new Integer(pageHeight));
-
-		Integer x = null;
-		Integer y = null;
-
-		JRPrintElement alterYElement = null;
-		JRPrintElement element = null;
-
-		List alterYElems = alterYPage.getElements();
-		List elems = page.getElements();
-		for(int i = 0; i < elems.size(); i++)
+		switch (alignment.horizontalAlignment)
 		{
-			alterYElement = (JRPrintElement)alterYElems.get(i);
-			element = (JRPrintElement)elems.get(i);
-
-			if (!(element instanceof JRPrintImage))
-			{
-				x = new Integer(element.getX() + globalOffsetX);
-				if (!xCuts.contains(x))
-				{
-					xCuts.add(x);
-				}
-				x = new Integer(element.getX() + globalOffsetX + element.getWidth());
-				if (!xCuts.contains(x))
-				{
-					xCuts.add(x);
-				}
-				y = new Integer(alterYElement.getY());
-				if (!yCuts.contains(y))
-				{
-					yCuts.add(y);
-				}
-				y = new Integer(alterYElement.getY() + element.getHeight());
-				if (!yCuts.contains(y))
-				{
-					yCuts.add(y);
-				}
-			}
-		}
-
-		Collections.sort(xCuts);
-		Collections.sort(yCuts);
-
-		int xCellCount = xCuts.size() - 1;
-		int yCellCount = yCuts.size() - 1;
-
-		grid = new JRExporterGridCell[yCellCount][xCellCount];
-		isRowNotEmpty = new boolean[yCellCount];
-
-		for(int j = 0; j < yCellCount; j++)
-		{
-			for(int i = 0; i < xCellCount; i++)
-			{
-				grid[j][i] =
-					new JRExporterGridCell(
-						null,
-						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
-						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
-						1,
-						1
-						);
-			}
-		}
-
-		int x1 = 0;
-		int y1 = 0;
-		int x2 = 0;
-		int y2 = 0;
-		int xi = 0;
-		int yi = 0;
-		boolean isOverlap = false;
-
-		for(int i = elems.size() - 1; i >= 0; i--)
-		{
-			alterYElement = (JRPrintElement)alterYElems.get(i);
-			element = (JRPrintElement)elems.get(i);
-			
-			if (!(element instanceof JRPrintImage))
-			{
-				x1 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX));
-				y1 = yCuts.indexOf(new Integer(alterYElement.getY()));
-				x2 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX + element.getWidth()));
-				y2 = yCuts.indexOf(new Integer(alterYElement.getY() + element.getHeight()));
-
-				isOverlap = false;
-				yi = y1;
-				while(yi < y2 && !isOverlap)
-				{
-					xi = x1;
-					while(xi < x2 && !isOverlap)
-					{
-						if(grid[yi][xi].element != null)
-						{
-							isOverlap = true;
-						}
-						xi++;
-					}
-					yi++;
-				}
-
-				if (!isOverlap)
-				{
-					yi = y1;
-					while(yi < y2)
-					{
-						xi = x1;
-						while(xi < x2)
-						{
-							grid[yi][xi] = JRExporterGridCell.OCCUPIED_CELL;
-							xi++;
-						}
-						isRowNotEmpty[yi] = true;
-						yi++;
-					}
-
-					if (x2 - x1 != 0 && y2 - y1 != 0)
-					{
-						grid[y1][x1] = 
-							new JRExporterGridCell(
-								element,
-								element.getWidth(),
-								element.getHeight(),
-								x2 - x1,
-								y2 - y1
-								);
-					}
-				}
-			}
+			case TextAlignment.ALIGN_RIGHT:
+				return HSSFCellStyle.ALIGN_RIGHT;
+			case TextAlignment.ALIGN_CENTER:
+				return HSSFCellStyle.ALIGN_CENTER;
+			case TextAlignment.ALIGN_JUSTIFY:
+				return HSSFCellStyle.ALIGN_JUSTIFY;
+			case TextAlignment.ALIGN_LEFT:
+			default:
+				return HSSFCellStyle.ALIGN_LEFT;
 		}
 	}
 
+	private short getVerticalAlignment(TextAlignment alignment)
+	{
+		switch (alignment.verticalAlignment)
+		{
+			case TextAlignment.VERTICAL_BOTTOM:
+				return HSSFCellStyle.VERTICAL_BOTTOM;
+			case TextAlignment.VERTICAL_CENTER:
+				return HSSFCellStyle.VERTICAL_CENTER;
+			case TextAlignment.VERTICAL_JUSTIFY:
+				return HSSFCellStyle.VERTICAL_JUSTIFY;
+			case TextAlignment.VERTICAL_TOP:
+			default:
+				return HSSFCellStyle.VERTICAL_TOP;
+		}
+	}
+
+	private short getRotation(TextAlignment alignment)
+	{
+		switch (alignment.rotation)
+		{
+			case JRTextElement.ROTATION_LEFT:
+				return 90;
+			case JRTextElement.ROTATION_RIGHT:
+				return -90;
+			case JRTextElement.ROTATION_NONE:
+			default:
+				return 0;
+		}
+	}
 
 	/**
 	 *
@@ -1263,5 +639,13 @@ public class JRXlsExporter extends JRAbstractExporter
 		return border;
 	}
 
+	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell, int x, int y)
+	{
+		//nothing
+	}
 
+	protected boolean isToExport(JRPrintElement element)
+	{
+		return !(element instanceof JRPrintImage);
+	}
 }
