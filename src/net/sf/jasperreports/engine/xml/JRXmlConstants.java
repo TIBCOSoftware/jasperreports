@@ -796,7 +796,37 @@ public class JRXmlConstants
 			return Millisecond.class;
 		}
 		
-		
+	}
+	
+	
+	public static String getTimePeriodName( Class clazz  ){
+		if( clazz == Year.class ){
+			return TIME_PERIOD_YEAR;
+		}
+		else if ( clazz == Quarter.class ){
+			return TIME_PERIOD_QUARTER;
+		}
+		else if( clazz == Month.class ){
+			return TIME_PERIOD_MONTH;
+		}
+		else if( clazz == Week.class ){
+			return TIME_PERIOD_WEEK;
+		}
+		else if( clazz == Day.class ){
+			return TIME_PERIOD_DAY;
+		}
+		else if( clazz == Hour.class ){
+			return TIME_PERIOD_HOUR;
+		}
+		else if( clazz == Minute.class ){
+			return TIME_PERIOD_MINUTE;
+		}
+		else if( clazz == Second.class ){
+			return TIME_PERIOD_SECOND;
+		}
+		else {
+			return TIME_PERIOD_MILISECOND;
+		}
 	}
 
 
