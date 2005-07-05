@@ -81,6 +81,7 @@ public class TextMeasurer
 	private boolean isLeftToRight = true;
 	private boolean isMaxHeightReached = false;
 	
+	
 	/**
 	 * 
 	 */
@@ -189,7 +190,8 @@ public class TextMeasurer
 	 */
 	public void measure(
 		JRStyledText styledText,
-		String allText,
+		String remainingText,
+		int remainingTextStart,
 		int availableStretchHeight 
 		)
 	{
@@ -198,11 +200,11 @@ public class TextMeasurer
 
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 
-		int tokenPosition = 0;
-		int lastParagraphStart = 0;
+		int tokenPosition = remainingTextStart;
+		int lastParagraphStart = remainingTextStart;
 		String lastParagraphText = null;
 
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
+		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
 
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
@@ -224,7 +226,7 @@ public class TextMeasurer
 			tokenPosition += token.length();
 		}
 
-		if (!isMaxHeightReached && lastParagraphStart < allText.length())
+		if (!isMaxHeightReached && lastParagraphStart < remainingTextStart + remainingText.length())
 		{
 			renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
 		}

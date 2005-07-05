@@ -407,12 +407,12 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		String allText = 
+		String remainingText = 
 			getText().substring(
 				getTextEnd()
 				);
 
-		if (allText.length() == 0)
+		if (remainingText.length() == 0)
 		{
 			return;
 		}
@@ -420,7 +420,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		/*   */
 		textMeasurer.measure(
 			styledText,
-			allText,
+			remainingText,
+			getTextEnd(),
 			availableStretchHeight 
 			);
 		
@@ -442,7 +443,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			setStretchHeight(getHeight());
 		}
 		setTextStart(getTextEnd());
-		setTextEnd(getTextStart() + textMeasurer.getTextOffset());
+		setTextEnd(textMeasurer.getTextOffset());
 		setLineSpacingFactor(textMeasurer.getLineSpacingFactor());
 		setLeadingOffset(textMeasurer.getLeadingOffset());
 	}
