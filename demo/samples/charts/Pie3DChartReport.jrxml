@@ -97,7 +97,7 @@
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
 					<keyExpression>$F{ShipCountry}</keyExpression>
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
-					<labelExpression></labelExpression>
+					<labelExpression>"FixMe"</labelExpression>
 				</pieDataset>
 				<pie3DPlot depthFactor="0.2">
 					<plot foregroundAlpha="0.5"/>

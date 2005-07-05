@@ -163,7 +163,7 @@
 						<seriesExpression>"Freight"</seriesExpression>
 						<xValueExpression>$F{OrderID}</xValueExpression>
 						<yValueExpression>$F{Freight}</yValueExpression>
-						<labelExpression></labelExpression>
+						<labelExpression>"FIXME"</labelExpression>
 					</xySeries>
 				</xyDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
