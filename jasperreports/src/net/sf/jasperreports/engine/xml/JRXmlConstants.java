@@ -800,28 +800,28 @@ public class JRXmlConstants
 	
 	
 	public static String getTimePeriodName( Class clazz  ){
-		if( clazz == Year.class ){
+		if( clazz.equals( Year.class )){
 			return TIME_PERIOD_YEAR;
 		}
-		else if ( clazz == Quarter.class ){
+		else if ( clazz.equals( Quarter.class )){
 			return TIME_PERIOD_QUARTER;
 		}
-		else if( clazz == Month.class ){
+		else if( clazz.equals( Month.class )){
 			return TIME_PERIOD_MONTH;
 		}
-		else if( clazz == Week.class ){
+		else if( clazz.equals( Week.class )){
 			return TIME_PERIOD_WEEK;
 		}
-		else if( clazz == Day.class ){
+		else if( clazz.equals( Day.class )){
 			return TIME_PERIOD_DAY;
 		}
-		else if( clazz == Hour.class ){
+		else if( clazz.equals( Hour.class )){
 			return TIME_PERIOD_HOUR;
 		}
-		else if( clazz == Minute.class ){
+		else if( clazz.equals( Minute.class )){
 			return TIME_PERIOD_MINUTE;
 		}
-		else if( clazz == Second.class ){
+		else if( clazz.equals( Second.class )){
 			return TIME_PERIOD_SECOND;
 		}
 		else {

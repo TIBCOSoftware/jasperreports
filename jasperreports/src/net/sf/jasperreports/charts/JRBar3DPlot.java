@@ -40,8 +40,19 @@ public interface JRBar3DPlot extends JRChartPlot {
 	
 	public JRExpression getValueAxisLabelExpression();
 	
+	/**
+	 * 
+	 */
 	public double getXOffset();
 	
+	/**
+	 * 
+	 */
 	public double getYOffset();
+	
+	/**
+	 * 
+	 */
+	public boolean isShowLabels();
 
 }

@@ -47,6 +47,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	protected JRExpression valueAxisLabelExpression = null;
 	protected double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
 	protected double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
+	protected boolean isShowLabels = false;
 	
 
 	public JRBaseBar3DPlot( JRChartPlot barPlot){
@@ -59,6 +60,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 		
 		xOffset = barPlot.getXOffset();
 		yOffset = barPlot.getYOffset();
+		isShowLabels = barPlot.isShowLabels();
 		
 		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
 		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
@@ -87,5 +89,13 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 	
 	public void setYOffset( double yOffset ){
 		this.yOffset = yOffset;
+	}
+	
+	public boolean isShowLabels(){
+		return isShowLabels;
+	}
+	
+	public void setShowLabels( boolean isShowLabels ){
+		this.isShowLabels = isShowLabels;
 	}
 }

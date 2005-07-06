@@ -34,12 +34,13 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import org.xml.sax.Attributes;
 
 /**
- * @author User
- * @version JRBar3DPlotFactory.java Jun 20, 2005 7:14:40 PM User 
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRBar3DPlotFactory extends JRBaseFactory {
 	private static final String ATTRIBUTE_xOffset = "xOffset";
 	private static final String ATTRIBUTE_yOffset = "yOffset";
+	private static final String ATTRIBUTE_isShowLabels = "isShowLabels";
 
 	public Object createObject(Attributes atts)
 	{
@@ -54,6 +55,11 @@ public class JRBar3DPlotFactory extends JRBaseFactory {
 		String yOffset = atts.getValue(ATTRIBUTE_yOffset);
 		if (yOffset != null && yOffset.length() > 0) {
 			plot.setYOffset(Double.parseDouble(yOffset));
+		}
+		
+		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
+		if( isShowLabels != null && isShowLabels.length() > 0 ){
+			plot.setShowLabels( new Boolean( isShowLabels ).booleanValue());
 		}
 
 		return plot;

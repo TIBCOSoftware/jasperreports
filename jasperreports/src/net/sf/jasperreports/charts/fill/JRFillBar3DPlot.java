@@ -63,6 +63,14 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot {
 	
 	public void setYOffset( double yOffset ){
 	}
+	
+	public boolean isShowLabels(){
+		return ((JRBar3DPlot)parent).isShowLabels();
+	}
+	
+	public void setShowLabels( boolean isShowLabels ){
+		
+	}
 
 	
 	
