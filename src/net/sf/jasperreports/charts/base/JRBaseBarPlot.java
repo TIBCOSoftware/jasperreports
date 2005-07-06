@@ -52,6 +52,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	
 	protected boolean isShowTickMarks = false;
 	protected boolean isShowTickLabels = false;
+	protected boolean isShowLabels = false;
 
 	
 	/**
@@ -71,6 +72,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 
 		isShowTickMarks = barPlot.isShowTickMarks();
 		isShowTickLabels = barPlot.isShowTickLabels();
+		isShowLabels = barPlot.isShowLabels();
 		
 		categoryAxisLabelExpression = factory.getExpression(barPlot.getCategoryAxisLabelExpression());
 		valueAxisLabelExpression = factory.getExpression(barPlot.getValueAxisLabelExpression());
@@ -122,6 +124,20 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	public void setShowTickLabels(boolean isShowTickLabels)
 	{
 		this.isShowTickLabels = isShowTickLabels;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isShowLabels(){
+		return isShowLabels;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setShowLabels( boolean isShowLabels ){
+		this.isShowLabels = isShowLabels;
 	}
 		
 }

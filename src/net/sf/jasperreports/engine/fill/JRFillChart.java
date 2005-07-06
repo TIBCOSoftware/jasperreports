@@ -858,8 +858,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		// add label generator
 		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
+
 		// set item labels visible 
-		barRenderer3D.setItemLabelsVisible( true );
+		barRenderer3D.setItemLabelsVisible( ((JRFillBar3DPlot)getPlot()).isShowLabels() );
 	}
 
 
@@ -901,7 +902,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		CategoryItemRenderer categoryRenderer = plot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		categoryRenderer.setItemLabelsVisible( true );
+		
+		// set item labels visible
+		categoryRenderer.setItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
 		
 		renderer = new JCommonDrawableRenderer(chart);
 
@@ -1064,6 +1067,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			plot.setLabelGenerator(labelGenerator);
 		}
+		
+		
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1221,7 +1226,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			itemRenderer.setBaseItemLabelGenerator( ((JRFillXyDataset)getDataset()).getLabelGenerator() );
 		}
 
-		itemRenderer.setBaseItemLabelsVisible( true );
+		itemRenderer.setBaseItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}

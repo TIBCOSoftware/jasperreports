@@ -50,6 +50,5 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 	{
 		super(piePlot, factory);
 	}
-		
-
+	
 }

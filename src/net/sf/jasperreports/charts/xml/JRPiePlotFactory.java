@@ -46,6 +46,6 @@ public class JRPiePlotFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();
+		return (JRDesignPiePlot)chart.getPlot();	
 	}
 }

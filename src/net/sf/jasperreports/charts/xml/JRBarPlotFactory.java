@@ -42,6 +42,7 @@ public class JRBarPlotFactory extends JRBaseFactory
 {
 	private static final String ATTRIBUTE_isShowTickMarks = "isShowTickMarks";
 	private static final String ATTRIBUTE_isShowTickLabels = "isShowTickLabels";
+	private static final String ATTRIBUTE_isShowLabels = "isShowLabels";
 
 	public Object createObject(Attributes atts)
 	{
@@ -56,6 +57,11 @@ public class JRBarPlotFactory extends JRBaseFactory
 		String isShowTickLabels = atts.getValue(ATTRIBUTE_isShowTickLabels);
 		if (isShowTickLabels != null && isShowTickLabels.length() > 0) {
 			plot.setShowTickLabels(new Boolean(isShowTickLabels).booleanValue());
+		}
+		
+		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
+		if( isShowLabels != null && isShowLabels.length() > 0 ){
+			plot.setShowLabels( new Boolean( isShowLabels ).booleanValue() );
 		}
 
 		return plot;

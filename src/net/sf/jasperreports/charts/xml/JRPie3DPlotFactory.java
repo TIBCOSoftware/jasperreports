@@ -58,6 +58,7 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 		{
 			pie3DPlot.setDepthFactor(Double.parseDouble(depthFactor));
 		}
+		
 
 		return pie3DPlot;
 	}
