@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.design;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,6 +54,7 @@ import org.eclipse.jdt.internal.compiler.ICompilerRequestor;
 import org.eclipse.jdt.internal.compiler.IErrorHandlingPolicy;
 import org.eclipse.jdt.internal.compiler.IProblemFactory;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
+import org.eclipse.jdt.internal.compiler.env.IBinaryType;
 import org.eclipse.jdt.internal.compiler.env.ICompilationUnit;
 import org.eclipse.jdt.internal.compiler.env.INameEnvironment;
 import org.eclipse.jdt.internal.compiler.env.NameEnvironmentAnswer;
@@ -68,7 +71,46 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	 *  
 	 */
 	private static final Log log = LogFactory.getLog(JRJdtCompiler.class);
+	
+	private final ClassLoader classLoader;
 
+	private Constructor constrNameEnvAnsBin;
+	private Constructor constrNameEnvAnsCompUnit;
+	
+	private boolean is2ArgsConstr;
+	private Constructor constrNameEnvAnsBin2Args;
+	private Constructor constrNameEnvAnsCompUnit2Args;
+
+	public JRJdtCompiler ()
+	{
+		classLoader = getClassLoader();
+		
+		try
+		{
+			constrNameEnvAnsBin = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class});
+			constrNameEnvAnsCompUnit = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class});
+			is2ArgsConstr = false;
+		}
+		catch (NoSuchMethodException e)
+		{
+			// trying 3.1 classes
+			try
+			{
+				Class classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
+				constrNameEnvAnsBin2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class, classAccessRestriction});
+				constrNameEnvAnsCompUnit2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class, classAccessRestriction});
+				is2ArgsConstr = true;
+			}
+			catch (ClassNotFoundException ex)
+			{
+				throw new RuntimeException("Not able to load JDT classes", ex);
+			}
+			catch (NoSuchMethodException ex)
+			{
+				throw new RuntimeException("Not able to load JDT classes", ex);
+			}
+		}
+	}
 	
 	/**
 	 *
@@ -149,7 +191,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	 */
 	private String compileClass(final String sourceCode, final String targetClassName, final ClassFile[] classFiles)
 	{
-		final ClassLoader classLoader = getClassLoader();
 		final StringBuffer problemBuffer = new StringBuffer();
 
 
@@ -223,7 +264,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						ICompilationUnit compilationUnit = 
 							new CompilationUnit(
 								sourceCode, className);
-						return new NameEnvironmentAnswer(compilationUnit);
+						if (is2ArgsConstr)
+						{
+							return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit2Args.newInstance(new Object[] { compilationUnit, null });
+						}
+						else
+						{
+							return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit.newInstance(new Object[] { compilationUnit });
+						}
 					}
 					String resourceName = className.replace('.', '/') + ".class";
 					InputStream is = getResource(resourceName);
@@ -242,7 +290,15 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						char[] fileName = className.toCharArray();
 						ClassFileReader classFileReader = 
 							new ClassFileReader(classBytes, fileName, true);
-						return new NameEnvironmentAnswer(classFileReader);
+						
+						if (is2ArgsConstr)
+						{
+							return (NameEnvironmentAnswer) constrNameEnvAnsBin2Args.newInstance(new Object[] { classFileReader, null });
+						}
+						else
+						{
+							return (NameEnvironmentAnswer) constrNameEnvAnsBin.newInstance(new Object[] { classFileReader });
+						}
 					}
 				}
 				catch (IOException exc) 
@@ -252,6 +308,22 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				catch (org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException exc) 
 				{
 					log.error("Compilation error", exc);
+				}
+				catch (InvocationTargetException e)
+				{
+					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+				}
+				catch (IllegalArgumentException e)
+				{
+					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+				}
+				catch (InstantiationException e)
+				{
+					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+				}
+				catch (IllegalAccessException e)
+				{
+					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
 				}
 				return null;
 			}
@@ -296,18 +368,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 			public void cleanup() 
 			{
-			}
-			
-			private InputStream getResource (String resourceName)
-			{
-				if (classLoader == null)
-				{
-					return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
-				}
-				else
-				{
-					return classLoader.getResourceAsStream(resourceName);
-				}
 			}
 
 		};
@@ -448,6 +508,28 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		return classLoader;
 	}
-
-
+	
+	protected InputStream getResource (String resourceName)
+	{
+		if (classLoader == null)
+		{
+			return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
+		}
+		else
+		{
+			return classLoader.getResourceAsStream(resourceName);
+		}
+	}
+	
+	protected Class loadClass (String className) throws ClassNotFoundException
+	{
+		if (classLoader == null)
+		{
+			return Class.forName(className);
+		}
+		else
+		{
+			return classLoader.loadClass(className);
+		}
+	}
 }
