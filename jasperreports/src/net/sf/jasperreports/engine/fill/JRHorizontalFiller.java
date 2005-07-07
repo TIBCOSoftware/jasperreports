@@ -1131,7 +1131,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 		}
 		
-		printPage = new JRBasePrintPage();
+		printPage = newPage();
 		if (isResetPageNumber)
 		{
 			calculator.getPageNumber().setValue(new Integer(1));

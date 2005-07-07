@@ -83,7 +83,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 		}
 		else
 		{
-			font = new JRDesignFont(jasperPrint);
+			font = new JRDesignFont(jasperPrint.getDefaultFontProvider());
 		}
 
 		if (atts.getValue(ATTRIBUTE_fontName) != null)
