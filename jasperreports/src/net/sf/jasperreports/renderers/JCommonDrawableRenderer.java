@@ -39,6 +39,8 @@ import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.OldLegend;
 import org.jfree.ui.Drawable;
 
 
@@ -75,6 +77,10 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	{
 		if (drawable != null) 
 		{
+			//FIXME remove this when upgrading JFreeChart
+			//-- fix to avoid bug in JFreeChart RC1 http://www.jfree.org/phpBB2/viewtopic.php?t=13275&highlight=legend+transient
+			((JFreeChart)drawable).setOldLegend(OldLegend.createInstance((JFreeChart)drawable));
+			//-- end fix
 			drawable.draw(grx, rectangle);
 		}
 	}

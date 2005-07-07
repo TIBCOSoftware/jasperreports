@@ -38,15 +38,25 @@ import org.jfree.data.xy.XYZDataset;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset {
+public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset 
+{
 	
+	/**
+	 * 
+	 */
 	List dataset = null;
 	
-	
-	public DefaultXYZDataset(){
+	/**
+	 * 
+	 */
+	public DefaultXYZDataset()
+	{
 		dataset = new ArrayList();
 	}
 	
+	/**
+	 * 
+	 */
 	public void addValue( Comparable series, Number xValue, Number yValue, Number zValue ){
 		boolean found = false;
 		for( Iterator it = dataset.iterator(); it.hasNext(); ){
@@ -79,20 +89,8 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public String getSeriesName(int index ) {
-		String retVal = null;
-		if( dataset != null ){
-			if( index < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( index );
-				retVal = element.getSeries().toString();
-			}
-		}
-		return retVal;
-	}
-
-
 	public Number getZ(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -104,7 +102,9 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 		return retVal;
 	}
 
-
+	/**
+	 * 
+	 */
 	public int getItemCount(int series ) {
 		int retVal = 0;
 		if( dataset != null ){
@@ -116,7 +116,9 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 		return retVal;
 	}
 
-
+	/**
+	 * 
+	 */
 	public Number getX(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -128,7 +130,9 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 		return retVal;
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public Number getY(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -140,11 +144,18 @@ public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset
 		return retVal;
 	}
 
-	public Comparable getSeriesKey(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 
+	 */
+	public Comparable getSeriesKey(int index) {
+		String retVal = null;
+		if( dataset != null ){
+			if( index < getSeriesCount() ){
+				XYZElement element = (XYZElement)dataset.get( index );
+				retVal = element.getSeries().toString();
+			}
+		}
+		return retVal;
 	}
-	
-	
 
 }
