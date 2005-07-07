@@ -79,6 +79,11 @@ public interface JRParameter
 	 * design time, the engine will try to load the resource bundle using specified name and locale.
 	 */
 	public static final String REPORT_RESOURCE_BUNDLE = "REPORT_RESOURCE_BUNDLE";
+	
+	/**
+	 * The {@link JRVirtualizer JRVirtualizer} to be used for page virtualization.  This parameter is optional.
+	 */
+	public static final String REPORT_VIRTUALIZER = "REPORT_VIRTUALIZER";
 
 
 	/**

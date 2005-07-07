@@ -25,6 +25,13 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+
+/*
+ * Contributors:
+ * John Bindel - jbindel@users.sourceforge.net 
+ */
+
 package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
@@ -48,9 +55,34 @@ import java.util.Map;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperPrint implements JRDefaultFontProvider, Serializable
+public class JasperPrint implements Serializable 
 {
 	
+	/**
+	 * A small class for implementing just the font provider functionality.
+	 */
+	private static class DefaultFontProvider implements JRDefaultFontProvider, Serializable
+	{
+        private static final long serialVersionUID = 608;
+        
+		private JRReportFont defaultFont;
+
+		DefaultFontProvider(JRReportFont font)
+		{
+			this.defaultFont = font;
+		}
+
+		public JRReportFont getDefaultFont()
+		{
+			return this.defaultFont;
+		}
+
+		void setDefaultFont(JRReportFont font)
+		{
+			this.defaultFont = font;
+		}
+	}
+
 
 	/**
 	 *
@@ -65,13 +97,13 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	private int pageHeight = 0;
 	private byte orientation = JRReport.ORIENTATION_PORTRAIT;
 
-	private JRReportFont defaultFont = null;
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
 
 	private List pages = new ArrayList();
 
 	private transient Map anchorIndexes = null;
+	private DefaultFontProvider defaultFontProvider = null;
 
 
 	/**
@@ -79,6 +111,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	 */
 	public JasperPrint()
 	{
+	    defaultFontProvider = new DefaultFontProvider(null);
 	}
 
 	/**
@@ -157,7 +190,7 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	 */
 	public JRReportFont getDefaultFont()
 	{
-		return this.defaultFont;
+		return this.defaultFontProvider.getDefaultFont();
 	}
 
 	/**
@@ -165,7 +198,16 @@ public class JasperPrint implements JRDefaultFontProvider, Serializable
 	 */
 	public void setDefaultFont(JRReportFont font)
 	{
-		this.defaultFont = font;
+		this.defaultFontProvider.setDefaultFont(font);
+	}
+
+	/**
+	 * When we want to virtualize pages, we want a font provider that
+	 * is <i>not</i> the print object itself.
+	 */
+	public JRDefaultFontProvider getDefaultFontProvider()
+	{
+		return this.defaultFontProvider;
 	}
 		
 	/**
