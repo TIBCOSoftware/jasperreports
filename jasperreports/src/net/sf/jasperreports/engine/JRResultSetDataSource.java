@@ -32,15 +32,25 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayReader;
+import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
@@ -166,36 +176,15 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.io.InputStream.class))
 				{
-					objValue = resultSet.getBinaryStream(columnIndex.intValue());
-					if(resultSet.wasNull())
+					byte[] bytes = readBytes(columnIndex);
+					
+					if(bytes == null)
 					{
 						objValue = null;
 					}
 					else
 					{
-						InputStream is = (InputStream)objValue;
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						byte[] bytes = new byte[1000];
-						int ln = 0;
-						try
-						{
-							while ((ln = is.read(bytes)) > 0)
-							{
-								baos.write(bytes, 0, ln);
-							}
-							baos.flush();
-						}
-						finally
-						{
-							try
-							{
-								baos.close();
-							}
-							catch(IOException e)
-							{
-							}
-						}
-						objValue = new ByteArrayInputStream(baos.toByteArray());
+						objValue = new ByteArrayInputStream(bytes);
 					}					
 				}
 				else if (clazz.equals(java.lang.Long.class))
@@ -224,11 +213,92 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.String.class))
 				{
-					objValue = resultSet.getString(columnIndex.intValue());
+					int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+					switch (columnType)
+					{
+						case Types.CLOB:
+							Clob clob = resultSet.getClob(columnIndex.intValue());
+							if (resultSet.wasNull())
+							{
+								objValue = null;
+							}
+							else
+							{
+								objValue = clobToString(clob);
+							}
+							break;
+							
+						default:
+							objValue = resultSet.getString(columnIndex.intValue());
+							if(resultSet.wasNull())
+							{
+								objValue = null;
+							}
+							break;
+					}
+				}
+				else if (clazz.equals(Clob.class))
+				{
+					objValue = resultSet.getClob(columnIndex.intValue());
 					if(resultSet.wasNull())
 					{
 						objValue = null;
 					}
+				}
+				else if (clazz.equals(Reader.class))
+				{
+					Reader reader = null;
+					long size = -1;
+					
+					int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+					switch (columnType)
+					{
+						case Types.CLOB:
+							Clob clob = resultSet.getClob(columnIndex.intValue());
+							if (!resultSet.wasNull())
+							{
+								reader = clob.getCharacterStream();
+								size = clob.length();
+							}
+							break;
+							
+						default:
+							reader = resultSet.getCharacterStream(columnIndex.intValue());
+							if (resultSet.wasNull())
+							{
+								reader = null; 
+							}
+					}
+					
+					if (reader == null)
+					{
+						objValue = null;
+					}
+					else
+					{
+						objValue = getArrayReader(reader, size);
+					}
+				}
+				else if (clazz.equals(Blob.class))
+				{
+					objValue = resultSet.getBlob(columnIndex.intValue());
+					if(resultSet.wasNull())
+					{
+						objValue = null;
+					}
+				}
+				else if (clazz.equals(Image.class))
+				{
+					byte[] bytes = readBytes(columnIndex);
+					
+					if(bytes == null)
+					{
+						objValue = null;
+					}
+					else
+					{
+						objValue = JRImageLoader.loadImage(bytes);
+					}					
 				}
 				else
 				{
@@ -243,6 +313,9 @@ public class JRResultSetDataSource implements JRDataSource
 		
 		return objValue;
 	}
+
+
+
 
 
 	/**
@@ -296,4 +369,105 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
+	protected String clobToString(Clob clob) throws JRException
+	{
+		try
+		{
+			int bufSize = 8192;
+			char[] buf = new char[bufSize];
+			
+			Reader reader = new BufferedReader(clob.getCharacterStream(), bufSize);
+			StringBuffer str = new StringBuffer((int) clob.length());
+			
+			for (int read = reader.read(buf); read > 0; read = reader.read(buf))
+			{
+				str.append(buf, 0, read);
+			}
+
+			return str.toString();
+		}
+		catch (SQLException e)
+		{
+			throw new JRException("Unable to read clob value", e);
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Unable to read clob value", e);
+		}
+	}
+
+	protected CharArrayReader getArrayReader(Reader reader, long size) throws IOException
+	{
+		char[] buf = new char[8192];
+		CharArrayWriter bufWriter = new CharArrayWriter((size > 0) ? (int) size : 8192);
+		
+		BufferedReader bufReader = new BufferedReader(reader, 8192);
+		for (int read = bufReader.read(buf); read > 0; read = bufReader.read(buf))
+		{
+			bufWriter.write(buf, 0, read);
+		}
+		bufWriter.flush();
+		
+		return new CharArrayReader(bufWriter.toCharArray());
+	}
+
+	protected byte[] readBytes(Integer columnIndex) throws SQLException, IOException
+	{
+		InputStream is = null;
+		long size = -1;
+		
+		int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+		switch (columnType)
+		{
+			case Types.BLOB:
+				Blob blob = resultSet.getBlob(columnIndex.intValue());
+				if (!resultSet.wasNull())
+				{
+					is = blob.getBinaryStream();
+					size = blob.length();
+				}
+				break;
+				
+			default:
+				is = resultSet.getBinaryStream(columnIndex.intValue());
+				if (resultSet.wasNull())
+				{
+					is = null; 
+				}
+		}
+		
+		byte[] bytes = null;
+		if (is != null)
+		{
+			bytes = readBytes(is, size);
+		}
+		
+		return bytes;
+	}
+
+	protected byte[] readBytes(InputStream is, long size) throws IOException
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(size > 0 ? (int) size : 1000);
+		byte[] bytes = new byte[1000];
+		int ln = 0;
+		try
+		{
+			while ((ln = is.read(bytes)) > 0)
+			{
+				baos.write(bytes, 0, ln);
+			}
+			baos.flush();
+		}
+		finally
+		{
+			try
+			{
+				baos.close();
+			}
+			catch(IOException e)
+			{
+			}
+		}
+		return baos.toByteArray();
+	}
 }
