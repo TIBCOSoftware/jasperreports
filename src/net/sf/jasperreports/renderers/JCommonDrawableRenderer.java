@@ -40,7 +40,8 @@ import java.awt.geom.Rectangle2D;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.OldLegend;
+import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.ui.Drawable;
 
 
@@ -59,6 +60,7 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	 *
 	 */	
 	private Drawable drawable = null;
+	private LegendItemSource[] legendItemSources = null;
 
 
 	/**
@@ -67,6 +69,11 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	public JCommonDrawableRenderer(Drawable drawable) 
 	{
 		this.drawable = drawable;
+		LegendTitle legend = ((JFreeChart)drawable).getLegend();
+		if (legend != null)
+		{
+			legendItemSources = legend.getSources();
+		}
 	}
 
 
@@ -79,7 +86,11 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 		{
 			//FIXME remove this when upgrading JFreeChart
 			//-- fix to avoid bug in JFreeChart RC1 http://www.jfree.org/phpBB2/viewtopic.php?t=13275&highlight=legend+transient
-			((JFreeChart)drawable).setOldLegend(OldLegend.createInstance((JFreeChart)drawable));
+			LegendTitle legend = ((JFreeChart)drawable).getLegend();
+			if (legend != null && legendItemSources != null)
+			{
+				legend.setSources(legendItemSources);
+			}
 			//-- end fix
 			drawable.draw(grx, rectangle);
 		}
