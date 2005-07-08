@@ -1255,10 +1255,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	protected void evaluateTimeSeriesImage( byte evaluation ) throws JRException {
+		
+		
+		String timeAxisLabel = (String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression(), evaluation );
+		String valueAxisLabel = (String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression(), evaluation );
+				
 		JFreeChart chart = ChartFactory.createTimeSeriesChart(
 				(String)evaluateExpression( getTitleExpression(), evaluation ),
-				(String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getTimeAxisLabelExpression(), evaluation ),
-				(String)evaluateExpression( ((JRTimeSeriesPlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
+				timeAxisLabel,
+				valueAxisLabel,
 				(TimeSeriesCollection)((JRFillChartDataset)dataset).getDataset(),
 				isShowLegend(),
 				true,

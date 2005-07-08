@@ -46,6 +46,7 @@ public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 	
 	public void setTimeAxisLabelExpression( JRExpression timeAxisLabelExpression ){
 		this.timeAxisLabelExpression = timeAxisLabelExpression;
+		
 	}
 	
 	public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){

@@ -50,7 +50,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 		this.categoryAxisLabelExpression = categoryAxisLabelExpression;
 	}
 	
-	public void setValueAxisLabelExprssion( JRExpression valueAxisLabelExpression ){
+	public void setValueAxisLabelExpression( JRExpression valueAxisLabelExpression ){
 		this.valueAxisLabelExpression = valueAxisLabelExpression;
 	}
 }
