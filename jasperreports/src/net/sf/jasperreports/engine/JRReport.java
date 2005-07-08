@@ -60,6 +60,23 @@ public interface JRReport extends JRDefaultFontProvider
 	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
 	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
 
+	/**
+	 * Return NULL when a resource is missing.
+	 */
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = 1;
+	/**
+	 * Return empty string when a resource is missing.
+	 */
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = 2;
+	/**
+	 * Return the key when a resource is missing.
+	 */
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = 3;
+	/**
+	 * Throw an exception when a resource is missing.
+	 */
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = 4;
+
 	
 	/**
 	 *
@@ -261,5 +278,14 @@ public interface JRReport extends JRDefaultFontProvider
 	 */
 	public JRBand getSummary();
 
-
+	/**
+	 * Returns the resource missing handling type.
+	 */
+	public byte getWhenResourceMissingType();
+		
+	/**
+	 * Sets the resource missing handling type.
+	 * @param whenResourceMissingType the resource missing handling type
+	 */
+	public void setWhenResourceMissingType(byte whenResourceMissingType);
 }

@@ -62,6 +62,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
 	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
 	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
+	private static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
 
 
 	/**
@@ -167,6 +168,12 @@ public class JasperDesignFactory extends JRBaseFactory
 
 		jasperDesign.setScriptletClass(atts.getValue(ATTRIBUTE_scriptletClass));
 		jasperDesign.setResourceBundle(atts.getValue(ATTRIBUTE_resourceBundle));
+
+		Byte whenResourceMissingType = (Byte)JRXmlConstants.getWhenResourceMissingTypeMap().get(atts.getValue(ATTRIBUTE_whenResourceMissingType));
+		if (whenResourceMissingType != null)
+		{
+			jasperDesign.setWhenResourceMissingType(whenResourceMissingType.byteValue());
+		}
 
 		return jasperDesign;
 	}

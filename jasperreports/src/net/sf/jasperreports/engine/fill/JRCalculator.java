@@ -40,6 +40,8 @@ import java.util.ResourceBundle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -64,6 +66,8 @@ public abstract class JRCalculator
 	private JRFillParameter resourceBundle = null;
 	private JRFillVariable pageNumber = null;
 	private JRFillVariable columnNumber = null;
+	
+	protected JRBaseFiller filler;
 
 
 	/**
@@ -77,30 +81,24 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void init(
-		Map parametersMap,
-		Map fieldsMap,
-		Map variablesMap,
-		JRFillVariable[] vars,
-		JRFillGroup[] grps,
-		JRFillChartDataset[] dts
-		) throws JRException
+	protected void init(JRBaseFiller filler) throws JRException
 	{
-		parsm = parametersMap;
-		fldsm = fieldsMap;
-		varsm = variablesMap;
-		variables = vars;
-		groups = grps;
-		datasets = dts;
+		this.filler = filler;
+		parsm = filler.parametersMap;
+		fldsm = filler.fieldsMap;
+		varsm = filler.variablesMap;
+		variables = filler.variables;
+		groups = filler.groups;
+		datasets = filler.datasets;
 
-		resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		pageNumber = (JRFillVariable)variablesMap.get(JRVariable.PAGE_NUMBER);
-		columnNumber = (JRFillVariable)variablesMap.get(JRVariable.COLUMN_NUMBER);
+		resourceBundle = (JRFillParameter)parsm.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		pageNumber = (JRFillVariable)varsm.get(JRVariable.PAGE_NUMBER);
+		columnNumber = (JRFillVariable)varsm.get(JRVariable.COLUMN_NUMBER);
 		
 		customizedInit(
-			parametersMap,
-			fieldsMap,
-			variablesMap
+			parsm,
+			fldsm,
+			varsm
 			);
 	}
 
@@ -661,14 +659,15 @@ public abstract class JRCalculator
 		}
 		catch (NullPointerException e)
 		{
+			str = handleMissingResource(key, e);
 		}
 		catch (MissingResourceException e)
 		{
+			str = handleMissingResource(key, e);
 		}
 
 		return str;
 	}
-
 
 	/**
 	 *
@@ -694,5 +693,42 @@ public abstract class JRCalculator
 		return MessageFormat.format(pattern, new Object[]{arg0, arg1, arg2});
 	}
 
+	/**
+	 * Handles the case when a resource is missing.
+	 * 
+	 * @param key the resource key
+	 * @param e the exception
+	 * @return the value to use for the resource 
+	 * @throws JRRuntimeException when the resource missing handling type is Error
+	 */
+	protected String handleMissingResource(String key, Exception e) throws JRRuntimeException
+	{
+		String str;
+		switch (filler.whenResourceMissingType)
+		{
+			case JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY:
+			{
+				str = "";
+				break;
+			}
+			case JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY:
+			{
+				str = key;
+				break;
+			}
+			case JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR:
+			{
+				throw new JRRuntimeException("Resource nout found for key \"" + key + "\".", e);
+			}
+			case JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL:
+			default:
+			{
+				str = null;
+				break;
+			}
+		}
+		
+		return str;
+	}
 
 }

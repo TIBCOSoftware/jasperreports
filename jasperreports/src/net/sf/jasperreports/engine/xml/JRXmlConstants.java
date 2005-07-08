@@ -830,4 +830,33 @@ public class JRXmlConstants
 	}
 
 
+
+	/**
+	 *
+	 */
+	private static final String WHEN_RESOURCE_MISSING_TYPE_NULL = "Null";
+	private static final String WHEN_RESOURCE_MISSING_TYPE_EMPTY = "Empty";
+	private static final String WHEN_RESOURCE_MISSING_TYPE_KEY = "Key";
+	private static final String WHEN_RESOURCE_MISSING_TYPE_ERROR = "Error";
+
+	private static Map whenResourceMissingTypeMap = null;
+
+	public static Map getWhenResourceMissingTypeMap()
+	{
+		if (whenResourceMissingTypeMap == null)
+		{
+			whenResourceMissingTypeMap = new HashMap();
+			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_NULL, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL));
+			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_EMPTY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY));
+			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_KEY, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY));
+			whenResourceMissingTypeMap.put(WHEN_RESOURCE_MISSING_TYPE_ERROR, new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR));
+			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL), WHEN_RESOURCE_MISSING_TYPE_NULL);
+			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY), WHEN_RESOURCE_MISSING_TYPE_EMPTY);
+			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY), WHEN_RESOURCE_MISSING_TYPE_KEY);
+			whenResourceMissingTypeMap.put(new Byte(JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR), WHEN_RESOURCE_MISSING_TYPE_ERROR);
+		}
+
+		return whenResourceMissingTypeMap;
+	}
+
 }
