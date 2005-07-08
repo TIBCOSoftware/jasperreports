@@ -82,17 +82,30 @@ public class JRStringUtil
 		{
 			StringBuffer ret = new StringBuffer();
 
+			boolean isEncodeSpace = true;
 			for (int i = 0; i < text.length(); i ++)
 			{
 				switch (text.charAt(i))
 				{
-					case ' ' : ret.append("&nbsp;"); break;
-					case '&' : ret.append("&amp;"); break;
-					case '>' : ret.append("&gt;"); break;
-					case '<' : ret.append("&lt;"); break;
-					case '\"' : ret.append("&quot;"); break;
+					case ' ' : 
+						if (isEncodeSpace)
+						{
+							ret.append("&nbsp;");
+							isEncodeSpace = false;
+						}
+						else
+						{
+							ret.append(" ");
+							isEncodeSpace = true;
+						}
+						break;
+					case '&' : ret.append("&amp;"); isEncodeSpace = false; break;
+					case '>' : ret.append("&gt;"); isEncodeSpace = false; break;
+					case '<' : ret.append("&lt;"); isEncodeSpace = false; break;
+					case '\"' : ret.append("&quot;"); isEncodeSpace = false; break;
+					case '\n' : ret.append("<br>"); isEncodeSpace = false; break;
 
-					default : ret.append(text.substring(i, i + 1)); break;
+					default : ret.append(text.substring(i, i + 1)); isEncodeSpace = false; break;
 				}
 			}
 

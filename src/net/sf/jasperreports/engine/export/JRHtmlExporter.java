@@ -54,7 +54,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -853,9 +852,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writer.write("\">");
 
 		writer.write(
-			replaceNewLineWithBR(
-				JRStringUtil.htmlEncode(text)
-				)
+			JRStringUtil.htmlEncode(text)
 			);
 			
 		writer.write("</span>");
@@ -1658,38 +1655,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 	
 	
-	/**
-	 *
-	 */
-	protected static String replaceNewLineWithBR(String source)
-	{
-		String str = null;
-		
-		if (source != null)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			StringTokenizer tkzer = new StringTokenizer(source, "\n", true);
-			String token = null;
-			while(tkzer.hasMoreTokens())
-			{
-				token = tkzer.nextToken();
-				if ("\n".equals(token))
-				{
-					sbuffer.append("<br>");
-				}
-				else
-				{
-					sbuffer.append(token);
-				}
-			}
-			
-			str = sbuffer.toString();
-		}
-		
-		return str;
-	}
-
-
 	/**
 	 *
 	 */
