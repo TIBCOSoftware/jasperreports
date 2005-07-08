@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 0.x.x
+JasperReports x.x.x
 -----------------------------------
 - built-in support for charts added;
 
@@ -13,7 +13,9 @@ to the actual report field class is no longer required in the expressions;
 - when using $P{REPORT_SCRIPTLET} in expressions, specific cast to the actual scriptlet
 class is no longer needed;
 
-- new attribute "whenResourceMissingType" for customizing missing resource bundle behaviour
+- new attribute "whenResourceMissingType" for customizing missing resource bundle behaviour;
+
+- support for CLOB and BLOB report fields in JRResultSetDataSource;
 
 - minor bug fixes and improvements;
 
