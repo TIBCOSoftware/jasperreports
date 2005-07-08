@@ -20,6 +20,7 @@
 	isFloatColumnFooter (true | false) "false"
 	scriptletClass NMTOKEN #IMPLIED
 	resourceBundle NMTOKEN #IMPLIED
+	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 >
 
 <!ELEMENT property EMPTY>

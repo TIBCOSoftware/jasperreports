@@ -384,6 +384,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected boolean isFloatColumnFooter = false;
 	protected String scriptletClassName = null;
 	protected String resourceBundleBaseName = null;
+	
+	/**
+	 * the resource missing handling type
+	 */
+	protected byte whenResourceMissingType = JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
@@ -453,6 +458,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected boolean isParametersAlreadySet = false;
 
+	protected JRFillChartDataset[] datasets;
+
 	
 	/**
 	 *
@@ -483,6 +490,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
 		scriptletClassName = jasperReport.getScriptletClass();
 		resourceBundleBaseName = jasperReport.getResourceBundle();
+		whenResourceMissingType = jasperReport.getWhenResourceMissingType();
 
 		jasperPrint = new JasperPrint();
 
@@ -567,6 +575,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
+		
+		datasets = factory.getDatasets();
 
 		/*   *
 		resourceBundle = loadResourceBundle(resourceBundleBaseName);
@@ -607,15 +617,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		/*   */
 		calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
 
-		/*   */
-		calculator.init(
-			parametersMap,
-			fieldsMap,
-			variablesMap,
-			variables,
-			groups,
-			factory.getDatasets()
-			);
+		calculator.init(this);
 	}
 
 
@@ -1132,6 +1134,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			setParameter(parameter, resourceBundle);
 		}
+		
 		
 		/* Virtualizer */
 		virtualizer = (JRVirtualizer)parameterValues.get(JRParameter.REPORT_VIRTUALIZER);

@@ -322,6 +322,13 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if(report.getWhenResourceMissingType() != JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL)
+		{
+			sb.append(" whenResourceMissingType=\"");
+			sb.append((String)JRXmlConstants.getWhenResourceMissingTypeMap().get(new Byte(report.getWhenResourceMissingType())));
+			sb.append("\"");
+		}
+
 		sb.append(">\n");
 		
 		/*   */

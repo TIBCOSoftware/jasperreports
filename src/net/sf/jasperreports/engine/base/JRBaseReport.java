@@ -79,6 +79,12 @@ public class JRBaseReport implements JRReport, Serializable
 	protected boolean isFloatColumnFooter = false;
 	protected String scriptletClass = null;
 	protected String resourceBundle = null;
+	
+	/**
+	 * The resource missing handling type.
+	 * 
+	 */
+	protected byte whenResourceMissingType = WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 	/**
 	 *
@@ -135,6 +141,7 @@ public class JRBaseReport implements JRReport, Serializable
 		isFloatColumnFooter = report.isFloatColumnFooter();
 		scriptletClass = report.getScriptletClass();
 		resourceBundle = report.getResourceBundle();
+		whenResourceMissingType = report.getWhenResourceMissingType();
 
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -589,5 +596,21 @@ public class JRBaseReport implements JRReport, Serializable
 		return summary;
 	}
 
+	
+	/**
+	 *
+	 */
+	public byte getWhenResourceMissingType()
+	{
+		return whenResourceMissingType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setWhenResourceMissingType(byte whenResourceMissingType)
+	{
+		this.whenResourceMissingType = whenResourceMissingType;
+	}
 
 }
