@@ -106,9 +106,9 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 			for( int i = 0; i < timeSeries.length; i++ ){
 				JRFillTimeSeries crtTimeSeries = timeSeries[i];
 				String seriesName = (String)crtTimeSeries.getSeries();
-				TimeSeries timeSeries = dataset.getSeries( seriesName );
+				TimeSeries timeSeries = dataset.getSeries(seriesName);
 				if( timeSeries == null ){
-					timeSeries = new TimeSeries( seriesName );
+					timeSeries = new TimeSeries(seriesName, getTimePeriod());
 					dataset.addSeries( timeSeries );
 				}
 				
