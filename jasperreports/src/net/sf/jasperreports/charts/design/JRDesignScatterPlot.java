@@ -50,7 +50,7 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 		this.xAxisLabelExpression = xAxisLabelExpression;
 	}
 	
-	public void setYAxisLabelExprssion( JRExpression yAxisLabelExpression ){
+	public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
 		this.yAxisLabelExpression = yAxisLabelExpression;
 	}
 }
