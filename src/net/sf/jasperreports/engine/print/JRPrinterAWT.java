@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.print;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;

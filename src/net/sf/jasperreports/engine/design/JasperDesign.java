@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
@@ -292,7 +291,7 @@ public class JasperDesign extends JRBaseReport
 		expression.setValueClass(Integer.class);
 		//expression.setText("($V{PAGE_NUMBER} != null)?(new Integer($V{PAGE_NUMBER}.intValue() + 1)):(new Integer(1))");
 		expression.setText("new Integer(1)");
-		variable.setInitialValueExpression((JRExpression)expression);
+		variable.setInitialValueExpression(expression);
 		try 
 		{
 			addVariable(variable);
@@ -315,7 +314,7 @@ public class JasperDesign extends JRBaseReport
 		expression.setValueClass(Integer.class);
 		//expression.setText("($V{COLUMN_NUMBER} != null)?(new Integer($V{COLUMN_NUMBER}.intValue() + 1)):(new Integer(1))");
 		expression.setText("new Integer(1)");
-		variable.setInitialValueExpression((JRExpression)expression);
+		variable.setInitialValueExpression(expression);
 		try 
 		{
 			addVariable(variable);
@@ -340,7 +339,7 @@ public class JasperDesign extends JRBaseReport
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(0)");
-		variable.setInitialValueExpression((JRExpression)expression);
+		variable.setInitialValueExpression(expression);
 		try 
 		{
 			addVariable(variable);
@@ -361,11 +360,11 @@ public class JasperDesign extends JRBaseReport
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(1)");
-		variable.setExpression((JRExpression)expression);
+		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(0)");
-		variable.setInitialValueExpression((JRExpression)expression);
+		variable.setInitialValueExpression(expression);
 		try 
 		{
 			addVariable(variable);
@@ -386,11 +385,11 @@ public class JasperDesign extends JRBaseReport
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(1)");
-		variable.setExpression((JRExpression)expression);
+		variable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(0)");
-		variable.setInitialValueExpression((JRExpression)expression);
+		variable.setInitialValueExpression(expression);
 		try 
 		{
 			addVariable(variable);
@@ -808,10 +807,10 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
-	public JRReportFont removeFont(String name)
+	public JRReportFont removeFont(String propName)
 	{
 		return removeFont(
-			(JRReportFont)fontsMap.get(name)
+			(JRReportFont)fontsMap.get(propName)
 			);
 	}
 
@@ -1225,11 +1224,11 @@ public class JasperDesign extends JRBaseReport
 		JRDesignExpression expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(1)");
-		countVariable.setExpression((JRExpression)expression);
+		countVariable.setExpression(expression);
 		expression = new JRDesignExpression();
 		expression.setValueClass(Integer.class);
 		expression.setText("new Integer(0)");
-		countVariable.setInitialValueExpression((JRExpression)expression);
+		countVariable.setInitialValueExpression(expression);
 
 		addVariable(countVariable);
 

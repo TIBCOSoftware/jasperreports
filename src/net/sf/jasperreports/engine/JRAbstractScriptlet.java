@@ -225,7 +225,7 @@ public abstract class JRAbstractScriptlet
 			JRFillGroup group = null;
 			for(int i = 0; i < groups.length; i++)
 			{
-				group = (JRFillGroup)groups[i];
+				group = groups[i];
 				if (group.hasChanged())
 				{
 					this.beforeGroupInit(group.getName());
@@ -245,7 +245,7 @@ public abstract class JRAbstractScriptlet
 			JRFillGroup group = null;
 			for(int i = groups.length - 1; i >= 0; i--)
 			{
-				group = (JRFillGroup)groups[i];
+				group = groups[i];
 				if (group.hasChanged())
 				{
 					this.afterGroupInit(group.getName());

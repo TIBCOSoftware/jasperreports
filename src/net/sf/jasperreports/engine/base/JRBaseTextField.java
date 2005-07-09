@@ -79,7 +79,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	protected JRBaseTextField(JRTextField textField, JRBaseObjectFactory factory)
 	{
-		super((JRTextElement)textField, factory);
+		super(textField, factory);
 		
 		isStretchWithOverflow = textField.isStretchWithOverflow();
 		evaluationTime = textField.getEvaluationTime();

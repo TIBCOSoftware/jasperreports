@@ -84,7 +84,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		super(filler, image, factory);
 
-		evaluationGroup = (JRGroup)factory.getGroup(image.getEvaluationGroup());
+		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 	}
 
 

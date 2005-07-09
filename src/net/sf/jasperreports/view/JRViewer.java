@@ -713,7 +713,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	}//GEN-END:initComponents
 
-	private void txtGoToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGoToActionPerformed
+	void txtGoToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGoToActionPerformed
 		try
 		{
 			int pageNumber = Integer.parseInt(txtGoTo.getText());
@@ -732,14 +732,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_txtGoToActionPerformed
 
-	private void cmbZoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbZoomItemStateChanged
+	void cmbZoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbZoomItemStateChanged
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
 		btnFitPage.setSelected(false);
 		btnFitWidth.setSelected(false);
 	}//GEN-LAST:event_cmbZoomItemStateChanged
 
-	private void pnlMainComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlMainComponentResized
+	void pnlMainComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlMainComponentResized
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
@@ -752,7 +752,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 	}//GEN-LAST:event_pnlMainComponentResized
 
-	private void btnActualSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualSizeActionPerformed
+	void btnActualSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualSizeActionPerformed
 		// Add your handling code here:
 		if (btnActualSize.isSelected())
 		{
@@ -763,7 +763,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnActualSizeActionPerformed
 
-	private void btnFitWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitWidthActionPerformed
+	void btnFitWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitWidthActionPerformed
 		// Add your handling code here:
 		if (btnFitWidth.isSelected())
 		{
@@ -774,7 +774,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
-	private void btnFitPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitPageActionPerformed
+	void btnFitPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitPageActionPerformed
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
@@ -785,7 +785,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
-	private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+	void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 		// Add your handling code here:
 		
 		JFileChooser fileChooser = new JFileChooser();
@@ -968,7 +968,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnSaveActionPerformed
 
-	private void pnlLinksMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseDragged
+	void pnlLinksMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseDragged
 		// Add your handling code here:
 
 		Container container = pnlInScroll.getParent();
@@ -1003,12 +1003,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_pnlLinksMouseDragged
 
-	private void pnlLinksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseReleased
+	void pnlLinksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseReleased
 		// Add your handling code here:
 		pnlLinks.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_pnlLinksMouseReleased
 
-	private void pnlLinksMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMousePressed
+	void pnlLinksMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMousePressed
 		// Add your handling code here:
 		pnlLinks.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 		
@@ -1016,7 +1016,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		downY = evt.getY();
 	}//GEN-LAST:event_pnlLinksMousePressed
 
-	private void btnPrintActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPrintActionPerformed
+	void btnPrintActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPrintActionPerformed
 	{//GEN-HEADEREND:event_btnPrintActionPerformed
 		// Add your handling code here:
 		
@@ -1043,35 +1043,35 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	}//GEN-LAST:event_btnPrintActionPerformed
 
-	private void btnLastActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLastActionPerformed
+	void btnLastActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLastActionPerformed
 	{//GEN-HEADEREND:event_btnLastActionPerformed
 		// Add your handling code here:
 		setPageIndex(jasperPrint.getPages().size() - 1);
 		refreshPage();
 	}//GEN-LAST:event_btnLastActionPerformed
 
-	private void btnNextActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnNextActionPerformed
+	void btnNextActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnNextActionPerformed
 	{//GEN-HEADEREND:event_btnNextActionPerformed
 		// Add your handling code here:
 		setPageIndex(pageIndex + 1);
 		refreshPage();
 	}//GEN-LAST:event_btnNextActionPerformed
 
-	private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPreviousActionPerformed
+	void btnPreviousActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPreviousActionPerformed
 	{//GEN-HEADEREND:event_btnPreviousActionPerformed
 		// Add your handling code here:
 		setPageIndex(pageIndex - 1);
 		refreshPage();
 	}//GEN-LAST:event_btnPreviousActionPerformed
 
-	private void btnFirstActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFirstActionPerformed
+	void btnFirstActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFirstActionPerformed
 	{//GEN-HEADEREND:event_btnFirstActionPerformed
 		// Add your handling code here:
 		setPageIndex(0);
 		refreshPage();
 	}//GEN-LAST:event_btnFirstActionPerformed
 
-	private void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
+	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
 	{//GEN-HEADEREND:event_btnReloadActionPerformed
 		// Add your handling code here:
 		if (type == TYPE_FILE_NAME)
@@ -1096,7 +1096,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
 
-	private void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
+	void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
 	{//GEN-HEADEREND:event_btnZoomInActionPerformed
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
@@ -1115,7 +1115,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnZoomInActionPerformed
 
-	private void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
+	void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
 	{//GEN-HEADEREND:event_btnZoomOutActionPerformed
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
@@ -1134,7 +1134,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnZoomOutActionPerformed
 
-	private void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
+	void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		float newZoom = getZoomRatio();
@@ -1155,7 +1155,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	private void hyperlinkClicked(MouseEvent evt)
+	void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
 		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);

@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;

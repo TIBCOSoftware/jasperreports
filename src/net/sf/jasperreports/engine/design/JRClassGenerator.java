@@ -197,7 +197,7 @@ public class JRClassGenerator
 			for (int i = 0; i < variables.length; i++)
 			{
 				sb.append("    private JRFillVariable variable_");
-				sb.append(JRStringUtil.getLiteral((String)variables[i].getName()));
+				sb.append(JRStringUtil.getLiteral(variables[i].getName()));
 				sb.append(" = null;\n");
 			}
 		}

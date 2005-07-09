@@ -85,7 +85,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	protected JRBaseTextElement(JRTextElement textElement, JRBaseObjectFactory factory)
 	{
-		super((JRElement)textElement, factory);
+		super(textElement, factory);
 		
 		box = textElement.getBox();
 		horizontalAlignment = textElement.getTextAlignment();

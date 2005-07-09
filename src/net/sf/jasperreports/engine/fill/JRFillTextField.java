@@ -94,7 +94,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 		
-		evaluationGroup = (JRGroup)factory.getGroup(textField.getEvaluationGroup());
+		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 	}
 
 

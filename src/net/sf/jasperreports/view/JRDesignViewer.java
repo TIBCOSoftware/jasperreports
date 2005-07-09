@@ -117,9 +117,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private int downX = 0;
 	private int downY = 0;
 
-	private JScrollBar hBar = null;
-	private JScrollBar vBar = null;
-
 	private JRFont defaultFont = null;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
@@ -140,9 +137,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		initComponents();
 
-		hBar = scrollPane.getHorizontalScrollBar();
-		vBar = scrollPane.getVerticalScrollBar();
-
 		this.loadReport(fileName, isXML);
 		this.cmbZoom.setSelectedIndex(2);//100%
 	}
@@ -155,9 +149,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		initComponents();
 
-		hBar = scrollPane.getHorizontalScrollBar();
-		vBar = scrollPane.getVerticalScrollBar();
-
 		this.loadReport(is, isXML);
 		this.cmbZoom.setSelectedIndex(2);//100%
 	}
@@ -169,9 +160,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 		JRGraphEnvInitializer.initializeGraphEnv();
 
 		initComponents();
-
-		hBar = scrollPane.getHorizontalScrollBar();
-		vBar = scrollPane.getVerticalScrollBar();
 
 		this.loadReport(report);
 		this.cmbZoom.setSelectedIndex(2);//100%
@@ -380,7 +368,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	}//GEN-END:initComponents
 
-	private void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
+	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
 	{//GEN-HEADEREND:event_btnReloadActionPerformed
 		// Add your handling code here:
 		if (this.type == TYPE_FILE_NAME)
@@ -399,7 +387,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
 
-	private void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
+	void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
 	{//GEN-HEADEREND:event_btnZoomInActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -409,7 +397,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_btnZoomInActionPerformed
 
-	private void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
+	void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
 	{//GEN-HEADEREND:event_btnZoomOutActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -419,7 +407,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_btnZoomOutActionPerformed
 
-	private void lblPageMousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMousePressed
+	void lblPageMousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMousePressed
 	{//GEN-HEADEREND:event_lblPageMousePressed
 		// Add your handling code here:
 		this.lblPage.setCursor(new Cursor(Cursor.MOVE_CURSOR));
@@ -428,13 +416,13 @@ public class JRDesignViewer extends javax.swing.JPanel
 		this.downY = evt.getY();
 	}//GEN-LAST:event_lblPageMousePressed
 
-	private void lblPageMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMouseReleased
+	void lblPageMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMouseReleased
 	{//GEN-HEADEREND:event_lblPageMouseReleased
 		// Add your handling code here:
 		this.lblPage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_lblPageMouseReleased
 
-	private void lblPageMouseDragged(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMouseDragged
+	void lblPageMouseDragged(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMouseDragged
 	{//GEN-HEADEREND:event_lblPageMouseDragged
 		// Add your handling code here:
 		Container container = pnlInScroll.getParent();
@@ -469,7 +457,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_lblPageMouseDragged
 
-	private void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
+	void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -1112,7 +1100,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			JRExpression jrExpression = jrImage.getExpression();
 			if (jrExpression != null && jrExpression.getChunks().length == 1)
 			{
-				JRExpressionChunk firstChunk = (JRExpressionChunk)jrExpression.getChunks()[0];
+				JRExpressionChunk firstChunk = jrExpression.getChunks()[0];
 				if (firstChunk.getType() == JRExpressionChunk.TYPE_TEXT)
 				{
 					String location = firstChunk.getText().trim();
