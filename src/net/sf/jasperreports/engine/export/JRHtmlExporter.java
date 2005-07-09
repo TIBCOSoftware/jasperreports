@@ -294,7 +294,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		
 
-		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			try
@@ -1173,17 +1173,17 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		switch (image.getVerticalAlignment())
 		{
-			case JRTextElement.VERTICAL_ALIGN_BOTTOM : 
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM : 
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM; 
 				break;
 			}
-			case JRTextElement.VERTICAL_ALIGN_MIDDLE : 
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE : 
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
-			case JRTextElement.VERTICAL_ALIGN_TOP : 
+			case JRAlignment.VERTICAL_ALIGN_TOP : 
 			default : 
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP; 

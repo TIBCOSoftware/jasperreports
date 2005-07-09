@@ -1368,7 +1368,7 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (textElement.getVerticalAlignment() != JRTextElement.VERTICAL_ALIGN_TOP)
+		if (textElement.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
 			sb.append(" verticalAlignment=\"");
 			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(textElement.getVerticalAlignment())));

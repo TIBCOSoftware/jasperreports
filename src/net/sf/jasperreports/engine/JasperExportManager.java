@@ -351,7 +351,7 @@ public class JasperExportManager
 		JRXmlExporter exporter = new JRXmlExporter();
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRXmlExporterParameter.OUTPUT_STRING_BUFFER, sbuffer);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, sbuffer);
 		
 		exporter.exportReport();
 		

@@ -160,17 +160,17 @@ public class TextRenderer
 		verticalOffset = 0f;
 		switch (verticalAlignment)
 		{
-			case JRTextElement.VERTICAL_ALIGN_TOP :
+			case JRAlignment.VERTICAL_ALIGN_TOP :
 			{
 				verticalOffset = 0f;
 				break;
 			}
-			case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
 				verticalOffset = ((float)height - textHeight) / 2f;
 				break;
 			}
-			case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
 				verticalOffset = (float)height - textHeight;
 				break;

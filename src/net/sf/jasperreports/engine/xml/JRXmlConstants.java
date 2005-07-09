@@ -218,12 +218,12 @@ public class JRXmlConstants
 		if (verticalAlignMap == null)
 		{
 			verticalAlignMap = new HashMap(6);
-			verticalAlignMap.put(VERTICAL_ALIGN_TOP,    new Byte(JRTextElement.VERTICAL_ALIGN_TOP));
-			verticalAlignMap.put(VERTICAL_ALIGN_MIDDLE, new Byte(JRTextElement.VERTICAL_ALIGN_MIDDLE));
-			verticalAlignMap.put(VERTICAL_ALIGN_BOTTOM, new Byte(JRTextElement.VERTICAL_ALIGN_BOTTOM));
-			verticalAlignMap.put(new Byte(JRTextElement.VERTICAL_ALIGN_TOP),    VERTICAL_ALIGN_TOP);
-			verticalAlignMap.put(new Byte(JRTextElement.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
-			verticalAlignMap.put(new Byte(JRTextElement.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
+			verticalAlignMap.put(VERTICAL_ALIGN_TOP,    new Byte(JRAlignment.VERTICAL_ALIGN_TOP));
+			verticalAlignMap.put(VERTICAL_ALIGN_MIDDLE, new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE));
+			verticalAlignMap.put(VERTICAL_ALIGN_BOTTOM, new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM));
+			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_TOP),    VERTICAL_ALIGN_TOP);
+			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_MIDDLE), VERTICAL_ALIGN_MIDDLE);
+			verticalAlignMap.put(new Byte(JRAlignment.VERTICAL_ALIGN_BOTTOM), VERTICAL_ALIGN_BOTTOM);
 		}
 
 		return verticalAlignMap;

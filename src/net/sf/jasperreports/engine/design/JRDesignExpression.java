@@ -165,7 +165,7 @@ public class JRDesignExpression extends JRBaseExpression
 	public void addTextChunk(String text)
 	{
 		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
-		chunk.setType(JRDesignExpressionChunk.TYPE_TEXT);
+		chunk.setType(JRExpressionChunk.TYPE_TEXT);
 		chunk.setText(text);
 		
 		this.chunks.add(chunk);
@@ -177,7 +177,7 @@ public class JRDesignExpression extends JRBaseExpression
 	public void addParameterChunk(String text)
 	{
 		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
-		chunk.setType(JRDesignExpressionChunk.TYPE_PARAMETER);
+		chunk.setType(JRExpressionChunk.TYPE_PARAMETER);
 		chunk.setText(text);
 		
 		this.chunks.add(chunk);
@@ -189,7 +189,7 @@ public class JRDesignExpression extends JRBaseExpression
 	public void addFieldChunk(String text)
 	{
 		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
-		chunk.setType(JRDesignExpressionChunk.TYPE_FIELD);
+		chunk.setType(JRExpressionChunk.TYPE_FIELD);
 		chunk.setText(text);
 		
 		this.chunks.add(chunk);
@@ -201,7 +201,7 @@ public class JRDesignExpression extends JRBaseExpression
 	public void addVariableChunk(String text)
 	{
 		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
-		chunk.setType(JRDesignExpressionChunk.TYPE_VARIABLE);
+		chunk.setType(JRExpressionChunk.TYPE_VARIABLE);
 		chunk.setText(text);
 		
 		this.chunks.add(chunk);
@@ -213,7 +213,7 @@ public class JRDesignExpression extends JRBaseExpression
 	public void addResourceChunk(String text)
 	{
 		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
-		chunk.setType(JRDesignExpressionChunk.TYPE_RESOURCE);
+		chunk.setType(JRExpressionChunk.TYPE_RESOURCE);
 		chunk.setText(text);
 		
 		this.chunks.add(chunk);
