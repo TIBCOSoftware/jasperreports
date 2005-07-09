@@ -885,10 +885,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 
-		((CategoryAxis)plot.getDomainAxis()).setTickMarksVisible(
+		plot.getDomainAxis().setTickMarksVisible(
 			((JRFillBarPlot)getPlot()).isShowTickMarks()
 			);
-		((CategoryAxis)plot.getDomainAxis()).setTickLabelsVisible(
+		plot.getDomainAxis().setTickLabelsVisible(
 				((JRFillBarPlot)getPlot()).isShowTickLabels()
 				);
 		((NumberAxis)plot.getRangeAxis()).setTickMarksVisible(

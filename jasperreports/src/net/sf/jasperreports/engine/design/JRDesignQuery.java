@@ -92,7 +92,7 @@ public class JRDesignQuery extends JRBaseQuery
 	public void addTextChunk(String text)
 	{
 		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
-		chunk.setType(JRDesignQueryChunk.TYPE_TEXT);
+		chunk.setType(JRQueryChunk.TYPE_TEXT);
 		chunk.setText(text);
 
 		this.chunks.add(chunk);
@@ -104,7 +104,7 @@ public class JRDesignQuery extends JRBaseQuery
 	public void addParameterChunk(String text)
 	{
 		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
-		chunk.setType(JRDesignQueryChunk.TYPE_PARAMETER);
+		chunk.setType(JRQueryChunk.TYPE_PARAMETER);
 		chunk.setText(text);
 
 		this.chunks.add(chunk);
@@ -116,7 +116,7 @@ public class JRDesignQuery extends JRBaseQuery
 	public void addParameterClauseChunk(String text)
 	{
 		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
-		chunk.setType(JRDesignQueryChunk.TYPE_PARAMETER_CLAUSE);
+		chunk.setType(JRQueryChunk.TYPE_PARAMETER_CLAUSE);
 		chunk.setText(text);
 
 		this.chunks.add(chunk);

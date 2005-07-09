@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -358,12 +359,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					/*   */
 					switch (jasperReport.getPrintOrder())
 					{
-						case JasperReport.PRINT_ORDER_HORIZONTAL :
+						case JRReport.PRINT_ORDER_HORIZONTAL :
 						{
 							subreportFiller = new JRHorizontalFiller(jasperReport, filler);
 							break;
 						}
-						case JasperReport.PRINT_ORDER_VERTICAL :
+						case JRReport.PRINT_ORDER_VERTICAL :
 						{
 							subreportFiller = new JRVerticalFiller(jasperReport, filler);
 							break;
@@ -576,12 +577,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		/*   */
 		switch (jasperReport.getPrintOrder())
 		{
-			case JasperReport.PRINT_ORDER_HORIZONTAL :
+			case JRReport.PRINT_ORDER_HORIZONTAL :
 			{
 				subreportFiller = new JRHorizontalFiller(jasperReport, filler);
 				break;
 			}
-			case JasperReport.PRINT_ORDER_VERTICAL :
+			case JRReport.PRINT_ORDER_VERTICAL :
 			{
 				subreportFiller = new JRVerticalFiller(jasperReport, filler);
 				break;

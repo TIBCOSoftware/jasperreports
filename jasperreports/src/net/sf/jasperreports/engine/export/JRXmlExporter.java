@@ -130,7 +130,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			dtdLocation = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
 		}
 		
-		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			sb.append(exportReportToBuffer().toString());
@@ -763,7 +763,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			sbuffer.append("\"");
 		}
 
-		if (text.getVerticalAlignment() != JRTextElement.VERTICAL_ALIGN_TOP)
+		if (text.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
 			sbuffer.append(" verticalAlignment=\"");
 			sbuffer.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(text.getVerticalAlignment())));

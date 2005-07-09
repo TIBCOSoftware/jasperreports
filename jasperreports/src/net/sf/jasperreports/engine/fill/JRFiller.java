@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
@@ -57,12 +58,12 @@ public abstract class JRFiller
 
 		switch (jasperReport.getPrintOrder())
 		{
-			case JasperReport.PRINT_ORDER_HORIZONTAL :
+			case JRReport.PRINT_ORDER_HORIZONTAL :
 			{
 				filler = new JRHorizontalFiller(jasperReport);
 				break;
 			}
-			case JasperReport.PRINT_ORDER_VERTICAL :
+			case JRReport.PRINT_ORDER_VERTICAL :
 			{
 				filler = new JRVerticalFiller(jasperReport);
 				break;
@@ -97,12 +98,12 @@ public abstract class JRFiller
 
 		switch (jasperReport.getPrintOrder())
 		{
-			case JasperReport.PRINT_ORDER_HORIZONTAL :
+			case JRReport.PRINT_ORDER_HORIZONTAL :
 			{
 				filler = new JRHorizontalFiller(jasperReport);
 				break;
 			}
-			case JasperReport.PRINT_ORDER_VERTICAL :
+			case JRReport.PRINT_ORDER_VERTICAL :
 			{
 				filler = new JRVerticalFiller(jasperReport);
 				break;

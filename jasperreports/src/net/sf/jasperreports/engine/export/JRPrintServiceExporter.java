@@ -199,8 +199,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			return Printable.NO_SUCH_PAGE;
 		}
 		
-		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, (Graphics2D)graphics);
-		exporter.setParameter(JRGraphics2DExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
+		exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
 		
 		try
 		{

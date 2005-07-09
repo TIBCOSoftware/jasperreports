@@ -135,7 +135,7 @@ public class JRCsvExporter extends JRAbstractExporter
 			recordDelimiter = "\n";
 		}		
 		
-		StringBuffer sb = (StringBuffer)parameters.get(JRXmlExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			try
