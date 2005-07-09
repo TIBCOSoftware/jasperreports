@@ -103,10 +103,7 @@ public class JRImageRenderer implements JRRenderable
 		{
 			return null;
 		}
-		else
-		{
-			return new JRImageRenderer(imageData, onErrorType);
-		}
+		return new JRImageRenderer(imageData, onErrorType);
 	}
 
 
@@ -137,23 +134,19 @@ public class JRImageRenderer implements JRRenderable
 		{
 			return null;
 		}
-		else
+
+		if (isLazy)
 		{
-			if (isLazy)
-			{
-				return new JRImageRenderer(imageLocation, onErrorType);
-			}
-			else
-			{
-				try
-				{
-					return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), onErrorType);
-				}
-				catch (JRException e)
-				{
-					return getOnErrorRenderer(onErrorType, e);
-				}
-			}
+			return new JRImageRenderer(imageLocation, onErrorType);
+		}
+
+		try
+		{
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), onErrorType);
+		}
+		catch (JRException e)
+		{
+			return getOnErrorRenderer(onErrorType, e);
 		}
 	}
 

@@ -34,7 +34,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -333,7 +332,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void rewind() throws JRException
+	protected void rewind()
 	{
 		textStart = 0;
 		textEnd = 0;
@@ -386,10 +385,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		{
 			return null;
 		}
-		else
-		{
-			return styledText.getText();
-		}
+
+		return styledText.getText();
 	}
 	
 

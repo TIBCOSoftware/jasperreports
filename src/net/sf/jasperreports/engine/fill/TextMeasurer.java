@@ -349,10 +349,7 @@ public class TextMeasurer
 		{
 			return getTextHeight() / fontSizeSum;
 		}
-		else
-		{
-			return 0;
-		}
+		return 0;
 	}
 	
 	/**

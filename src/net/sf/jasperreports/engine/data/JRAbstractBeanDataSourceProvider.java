@@ -105,9 +105,9 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 			}
 	
 			return (JRField[]) fields.toArray(new JRField[fields.size()]);
-		} else {
-			return new JRField[0];
 		}
+
+		return new JRField[0];
 	}
 
 	/**

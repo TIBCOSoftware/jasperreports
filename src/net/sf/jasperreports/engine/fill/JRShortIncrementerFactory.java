@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -156,7 +155,7 @@ class JRShortCountIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
@@ -166,20 +165,16 @@ class JRShortCountIncrementer implements JRIncrementer
 			{
 				return JRShortIncrementerFactory.ZERO;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRShortIncrementerFactory.ZERO;
-			}
 
-			return new Short((short)(value.shortValue() + 1));
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRShortIncrementerFactory.ZERO;
+		}
+
+		return new Short((short)(value.shortValue() + 1));
 	}
 }
 
@@ -216,7 +211,7 @@ class JRShortSumIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -227,20 +222,16 @@ class JRShortSumIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRShortIncrementerFactory.ZERO;
-			}
 
-			return new Short((short)(value.shortValue() + newValue.shortValue()));
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRShortIncrementerFactory.ZERO;
+		}
+
+		return new Short((short)(value.shortValue() + newValue.shortValue()));
 	}
 }
 
@@ -277,7 +268,7 @@ class JRShortAverageIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -285,17 +276,11 @@ class JRShortAverageIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue();
-			}
+			return variable.getValue();
 		}
-		else
-		{
-			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
-			return new Short((short)(sumValue.shortValue() / countValue.shortValue()));
-		}
+		Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+		Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		return new Short((short)(sumValue.shortValue() / countValue.shortValue()));
 	}
 }
 
@@ -332,7 +317,7 @@ class JRShortStandardDeviationIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -340,16 +325,10 @@ class JRShortStandardDeviationIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue(); 
-			}
+			return variable.getValue(); 
 		}
-		else
-		{
-			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
-			return new Short( (short)Math.sqrt(varianceValue.doubleValue()) );
-		}
+		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		return new Short( (short)Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
 
@@ -386,7 +365,7 @@ class JRShortVarianceIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -397,10 +376,7 @@ class JRShortVarianceIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
+			return value;
 		}
 		else if (value == null || variable.isInitialized())
 		{

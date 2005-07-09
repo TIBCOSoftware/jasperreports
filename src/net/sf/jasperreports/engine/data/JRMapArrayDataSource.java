@@ -69,10 +69,8 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 		{
 			return (index < records.length);
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 	
 	

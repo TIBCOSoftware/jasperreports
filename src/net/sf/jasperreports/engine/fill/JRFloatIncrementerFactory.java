@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -156,7 +155,7 @@ class JRFloatCountIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
@@ -166,20 +165,16 @@ class JRFloatCountIncrementer implements JRIncrementer
 			{
 				return JRFloatIncrementerFactory.ZERO;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRFloatIncrementerFactory.ZERO;
-			}
 
-			return new Float(value.floatValue() + 1);
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRFloatIncrementerFactory.ZERO;
+		}
+
+		return new Float(value.floatValue() + 1);
 	}
 }
 
@@ -216,7 +211,7 @@ class JRFloatSumIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -227,20 +222,16 @@ class JRFloatSumIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRFloatIncrementerFactory.ZERO;
-			}
 
-			return new Float(value.floatValue() + newValue.floatValue());
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRFloatIncrementerFactory.ZERO;
+		}
+
+		return new Float(value.floatValue() + newValue.floatValue());
 	}
 }
 
@@ -277,7 +268,7 @@ class JRFloatAverageIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -285,17 +276,11 @@ class JRFloatAverageIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue();
-			}
+			return variable.getValue();
 		}
-		else
-		{
-			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
-			return new Float(sumValue.floatValue() / countValue.floatValue());
-		}
+		Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+		Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		return new Float(sumValue.floatValue() / countValue.floatValue());
 	}
 }
 
@@ -332,7 +317,7 @@ class JRFloatStandardDeviationIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -340,16 +325,10 @@ class JRFloatStandardDeviationIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue(); 
-			}
+			return variable.getValue(); 
 		}
-		else
-		{
-			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
-			return new Float( Math.sqrt(varianceValue.doubleValue()) );
-		}
+		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		return new Float( Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
 
@@ -386,7 +365,7 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -397,10 +376,8 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
+
+			return value;
 		}
 		else if (value == null || variable.isInitialized())
 		{

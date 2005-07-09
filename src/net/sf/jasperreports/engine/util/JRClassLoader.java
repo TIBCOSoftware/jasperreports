@@ -143,7 +143,7 @@ public class JRClassLoader extends SecureClassLoader
 	/**
 	 *
 	 */
-	public static Class loadClassFromBytes(String className, byte[] bytecodes) throws IOException
+	public static Class loadClassFromBytes(String className, byte[] bytecodes)
 	{
 		Class clazz = null;
 
@@ -189,8 +189,6 @@ public class JRClassLoader extends SecureClassLoader
 	 */
 	protected Class loadClass(String className, File file) throws IOException
 	{
-		Class clazz = null;
-
 		FileInputStream fis = null;
 		ByteArrayOutputStream baos = null;
 
@@ -234,30 +232,20 @@ public class JRClassLoader extends SecureClassLoader
 			}
 		}
 
-		bytecodes = baos.toByteArray();
-		clazz = 
-			this.defineClass(
-				className, 
-				bytecodes, 
-				0, 
-				bytecodes.length, 
-				JRClassLoader.class.getProtectionDomain().getCodeSource()
-				);
-
-		return clazz;
+		return loadClass(className, baos.toByteArray());
 	}
 
 
 	/**
 	 *
 	 */
-	protected Class loadClass(String className, byte[] bytecodes) throws IOException
+	protected Class loadClass(String className, byte[] bytecodes)
 	{
 		Class clazz = null;
 
 		clazz = 
-			this.defineClass(
-				null, 
+			defineClass(
+				className, 
 				bytecodes, 
 				0, 
 				bytecodes.length,

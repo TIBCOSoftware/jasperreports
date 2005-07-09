@@ -152,10 +152,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			{
 				return put(key, value, printPage);
 			}
-			else
-			{
-				return super.put(key, value);
-			}
+			return super.put(key, value);
 		}
 
 		public void clear()

@@ -1489,7 +1489,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		Font font =
 			new Font(
 				baseFont,
-				(float)jrFont.getSize(),
+				jrFont.getSize(),
 				//((jrFont.isBold())?Font.BOLD:0) +
 				//((jrFont.isItalic())?Font.ITALIC:0) +
 				(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
@@ -1674,17 +1674,17 @@ public class JRPdfExporter extends JRAbstractExporter
 			float verticalOffset = 0f;
 			switch (text.getVerticalAlignment())
 			{
-				case JRTextElement.VERTICAL_ALIGN_TOP :
+				case JRAlignment.VERTICAL_ALIGN_TOP :
 				{
 					verticalOffset = 0f;
 					break;
 				}
-				case JRTextElement.VERTICAL_ALIGN_MIDDLE :
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 				{
-					verticalOffset = ((float)height - text.getTextHeight()) / 2f;
+					verticalOffset = (height - text.getTextHeight()) / 2f;
 					break;
 				}
-				case JRTextElement.VERTICAL_ALIGN_BOTTOM :
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 				{
 					verticalOffset = height - text.getTextHeight();
 					break;
@@ -1741,7 +1741,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportBox(JRBox box, JRPrintElement element) throws DocumentException, IOException
+	protected void exportBox(JRBox box, JRPrintElement element)
 	{
 		if (box.getTopBorder() != JRGraphicElement.PEN_NONE)
 		{

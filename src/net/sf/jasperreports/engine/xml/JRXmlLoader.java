@@ -244,10 +244,7 @@ public class JRXmlLoader
 			{
 				throw (JRException)e;
 			}
-			else
-			{
-				throw new JRException(e);
-			}
+			throw new JRException(e);
 		}
 
 		/*   */
@@ -291,10 +288,8 @@ public class JRXmlLoader
 								+ "' for variable : " + variable.getName()
 								);
 					}
-					else
-					{
-						variable.setResetGroup(group);
-					}
+
+					variable.setResetGroup(group);
 				}
 				else
 				{
@@ -319,10 +314,8 @@ public class JRXmlLoader
 								+ "' for variable : " + variable.getName()
 								);
 					}
-					else
-					{
-						variable.setIncrementGroup(group);
-					}
+
+					variable.setIncrementGroup(group);
 				}
 				else
 				{
@@ -358,10 +351,8 @@ public class JRXmlLoader
 			{
 				throw new JRException("Unknown reprint group '" + groupName + "' for element.");
 			}
-			else
-			{
-				element.setPrintWhenGroupChanges(group);
-			}
+
+			element.setPrintWhenGroupChanges(group);
 		}
 	}
 
@@ -391,10 +382,8 @@ public class JRXmlLoader
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for image.");
 			}
-			else
-			{
-				image.setEvaluationGroup(group);
-			}
+
+			image.setEvaluationGroup(group);
 		}
 	}
 
@@ -424,10 +413,8 @@ public class JRXmlLoader
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for text field.");
 			}
-			else
-			{
-				textField.setEvaluationGroup(group);
-			}
+
+			textField.setEvaluationGroup(group);
 		}
 	}
 
@@ -454,10 +441,8 @@ public class JRXmlLoader
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for chart.");
 			}
-			else
-			{
-				chart.setEvaluationGroup(group);
-			}
+
+			chart.setEvaluationGroup(group);
 		}
 	}
 
@@ -486,10 +471,8 @@ public class JRXmlLoader
 				{
 					throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
 				}
-				else
-				{
-					dataset.setIncrementGroup(group);
-				}
+
+				dataset.setIncrementGroup(group);
 			}
 			else
 			{
@@ -510,10 +493,8 @@ public class JRXmlLoader
 				{
 					throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
 				}
-				else
-				{
-					dataset.setResetGroup(group);
-				}
+
+				dataset.setResetGroup(group);
 			}
 			else
 			{

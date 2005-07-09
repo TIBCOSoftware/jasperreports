@@ -85,10 +85,8 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		{
 			return (this.index < this.tableModel.getRowCount());
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 	
 	

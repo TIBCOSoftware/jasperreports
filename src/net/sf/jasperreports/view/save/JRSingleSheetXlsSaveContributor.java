@@ -58,10 +58,7 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		else
-		{
-			return file.getName().toLowerCase().endsWith(EXTENSION_XLS);
-		}
+		return file.getName().toLowerCase().endsWith(EXTENSION_XLS);
 	}
 
 	/**

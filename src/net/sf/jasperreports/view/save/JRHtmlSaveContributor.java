@@ -58,11 +58,8 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		else
-		{
-			String name = file.getName().toLowerCase();
-			return (name.endsWith(EXTENSION_HTM) || name.endsWith(EXTENSION_HTML));
-		}
+		String name = file.getName().toLowerCase();
+		return (name.endsWith(EXTENSION_HTM) || name.endsWith(EXTENSION_HTML));
 	}
 
 	/**

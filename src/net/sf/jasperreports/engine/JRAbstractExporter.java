@@ -236,11 +236,8 @@ public abstract class JRAbstractExporter implements JRExporter
 			{
 				throw new JRException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
 			}
-			else
-			{
-				startPageIndex = pageIndex;
-				endPageIndex = pageIndex;
-			}
+			startPageIndex = pageIndex;
+			endPageIndex = pageIndex;
 		}
 	}
 	

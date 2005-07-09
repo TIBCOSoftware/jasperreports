@@ -111,10 +111,10 @@ public class JRBaseFont implements JRFont, Serializable
 			setItalic(TextAttribute.POSTURE_OBLIQUE.equals(italic));
 		}
 
-		Float size = (Float)attributes.get(TextAttribute.SIZE);
-		if (size != null)
+		Float sizeAttr = (Float)attributes.get(TextAttribute.SIZE);
+		if (sizeAttr != null)
 		{
-			setSize(size.intValue());
+			setSize(sizeAttr.intValue());
 		}
 		
 		Object underline = attributes.get(TextAttribute.UNDERLINE);
@@ -129,22 +129,22 @@ public class JRBaseFont implements JRFont, Serializable
 			setStrikeThrough(TextAttribute.STRIKETHROUGH_ON.equals(strikeThrough));
 		}
 
-		String pdfFontName = (String)attributes.get(JRTextAttribute.PDF_FONT_NAME);
-		if (pdfFontName != null)
+		String pdfFontNameAttr = (String)attributes.get(JRTextAttribute.PDF_FONT_NAME);
+		if (pdfFontNameAttr != null)
 		{
-			setPdfFontName(pdfFontName);
+			setPdfFontName(pdfFontNameAttr);
 		}
 		
-		String pdfEncoding = (String)attributes.get(JRTextAttribute.PDF_ENCODING);
-		if (pdfEncoding != null)
+		String pdfEncodingAttr = (String)attributes.get(JRTextAttribute.PDF_ENCODING);
+		if (pdfEncodingAttr != null)
 		{
-			setPdfEncoding(pdfEncoding);
+			setPdfEncoding(pdfEncodingAttr);
 		}
 		
-		Boolean isPdfEmbedded = (Boolean)attributes.get(JRTextAttribute.IS_PDF_EMBEDDED);
-		if (isPdfEmbedded != null)
+		Boolean isPdfEmbeddedAttr = (Boolean)attributes.get(JRTextAttribute.IS_PDF_EMBEDDED);
+		if (isPdfEmbeddedAttr != null)
 		{
-			setPdfEmbedded(isPdfEmbedded.booleanValue());
+			setPdfEmbedded(isPdfEmbeddedAttr.booleanValue());
 		}
 	}
 		
@@ -212,10 +212,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().getFontName();
 		}
-		else
-		{
-			return fontName;
-		}
+		return fontName;
 	}
 	
 	/**
@@ -245,10 +242,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().isBold();
 		}
-		else
-		{
-			return isBold.booleanValue();
-		}
+		return isBold.booleanValue();
 	}
 	
 	/**
@@ -287,10 +281,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().isItalic();
 		}
-		else
-		{
-			return isItalic.booleanValue();
-		}
+		return isItalic.booleanValue();
 	}
 	
 	/**
@@ -328,10 +319,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().isUnderline();
 		}
-		else
-		{
-			return isUnderline.booleanValue();
-		}
+		return isUnderline.booleanValue();
 	}
 	
 	/**
@@ -369,10 +357,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().isStrikeThrough();
 		}
-		else
-		{
-			return isStrikeThrough.booleanValue();
-		}
+		return isStrikeThrough.booleanValue();
 	}
 	
 	/**
@@ -410,10 +395,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().getSize();
 		}
-		else
-		{
-			return size.intValue();
-		}
+		return size.intValue();
 	}
 	
 	/**
@@ -451,10 +433,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().getPdfFontName();
 		}
-		else
-		{
-			return pdfFontName;
-		}
+		return pdfFontName;
 	}
 
 	/**
@@ -483,10 +462,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().getPdfEncoding();
 		}
-		else
-		{
-			return pdfEncoding;
-		}
+		return pdfEncoding;
 	}
 	
 	/**
@@ -515,10 +491,7 @@ public class JRBaseFont implements JRFont, Serializable
 		{
 			return getBaseFont().isPdfEmbedded();
 		}
-		else
-		{
-			return isPdfEmbedded.booleanValue();
-		}
+		return isPdfEmbedded.booleanValue();
 	}
 
 	/**
@@ -570,29 +543,29 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public Map getNonPdfAttributes()
 	{
-		Map attributes = new HashMap();
+		Map nonPdfAttributes = new HashMap();
 
-		attributes.put(TextAttribute.FAMILY, getFontName());
-		attributes.put(TextAttribute.SIZE, new Float(getSize()));
+		nonPdfAttributes.put(TextAttribute.FAMILY, getFontName());
+		nonPdfAttributes.put(TextAttribute.SIZE, new Float(getSize()));
 
 		if (isBold())
 		{
-			attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		    nonPdfAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 		}
 		if (isItalic())
 		{
-			attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+		    nonPdfAttributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 		}
 		if (isUnderline())
 		{
-			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		    nonPdfAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		}
 		if (isStrikeThrough())
 		{
-			attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+		    nonPdfAttributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 		}
 
-		return attributes;
+		return nonPdfAttributes;
 	}
 
 
