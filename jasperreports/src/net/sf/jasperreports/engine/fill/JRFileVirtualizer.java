@@ -101,9 +101,9 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	/**
 	 * Uses the process's working directory as the location to store files.
 	 * 
-	 * @param directory
-	 *            the base directory in the filesystem where the paged out data
-	 *            is to be stored
+	 * @param maxSize
+	 *            the maximum size (in JRVirtualizable objects) of the paged in
+	 *            cache.
 	 */
 	public JRFileVirtualizer(int maxSize) {
 		this(maxSize, null);
@@ -193,12 +193,8 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	public void clearData(JRVirtualizable o) {
 		String uid = o.getUID();
 		if (pagedOut.containsKey(uid)) {
-			try {
-				// remove virtual data
-				fileDispose(o);
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
+			// remove virtual data
+			fileDispose(o);
 			pagedOut.remove(uid);
 		}
 	}
@@ -290,7 +286,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 		}
 	}
 
-	private void fileDispose(JRVirtualizable o) throws IOException {
+	private void fileDispose(JRVirtualizable o) {
 		String filename = makeFilename(o);
 		File file = new File(directory, filename);
 		file.delete();

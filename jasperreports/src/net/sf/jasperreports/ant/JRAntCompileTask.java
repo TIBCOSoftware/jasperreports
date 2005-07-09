@@ -333,21 +333,19 @@ public class JRAntCompileTask extends MatchingTask
 						location
 						);
 			}
+
+			if (srcdir.isDirectory())
+			{
+				DirectoryScanner ds = getDirectoryScanner(srcdir);
+				String[] files = ds.getIncludedFiles();
+				
+				scanDir(srcdir, destdir != null ? destdir : srcdir, files);
+			}
 			else
 			{
-				if (srcdir.isDirectory())
-				{
-					DirectoryScanner ds = getDirectoryScanner(srcdir);
-					String[] files = ds.getIncludedFiles();
-					
-					scanDir(srcdir, destdir != null ? destdir : srcdir, files);
-				}
-				else
-				{
-					String[] files = new String[]{srcdir.getName()};
-					
-					scanDir(srcdir.getParentFile(), destdir != null ? destdir : srcdir.getParentFile(), files);
-				}
+				String[] files = new String[]{srcdir.getName()};
+				
+				scanDir(srcdir.getParentFile(), destdir != null ? destdir : srcdir.getParentFile(), files);
 			}
 		}
 	}

@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -156,7 +155,7 @@ class JRDoubleCountIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
@@ -166,20 +165,16 @@ class JRDoubleCountIncrementer implements JRIncrementer
 			{
 				return JRDoubleIncrementerFactory.ZERO;
 			}
-			else
-			{
-				return value;
-			}
+		
+			return value;
 		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRDoubleIncrementerFactory.ZERO;
-			}
 
-			return new Double(value.doubleValue() + 1);
+		if (value == null || variable.isInitialized())
+		{
+			value = JRDoubleIncrementerFactory.ZERO;
 		}
+
+		return new Double(value.doubleValue() + 1);
 	}
 }
 
@@ -216,7 +211,7 @@ class JRDoubleSumIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -227,20 +222,16 @@ class JRDoubleSumIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRDoubleIncrementerFactory.ZERO;
-			}
 
-			return new Double(value.doubleValue() + newValue.doubleValue());
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRDoubleIncrementerFactory.ZERO;
+		}
+
+		return new Double(value.doubleValue() + newValue.doubleValue());
 	}
 }
 
@@ -277,7 +268,7 @@ class JRDoubleAverageIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -285,17 +276,11 @@ class JRDoubleAverageIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue();
-			}
+			return variable.getValue();
 		}
-		else
-		{
-			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
-			return new Double(sumValue.doubleValue() / countValue.doubleValue());
-		}
+		Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+		Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		return new Double(sumValue.doubleValue() / countValue.doubleValue());
 	}
 }
 
@@ -332,7 +317,7 @@ class JRDoubleStandardDeviationIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -340,16 +325,10 @@ class JRDoubleStandardDeviationIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue(); 
-			}
+			return variable.getValue(); 
 		}
-		else
-		{
-			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
-			return new Double( Math.sqrt(varianceValue.doubleValue()) );
-		}
+		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		return new Double( Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
 
@@ -386,7 +365,7 @@ class JRDoubleVarianceIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Number value = (Number)variable.getIncrementedValue();
 		Number newValue = (Number)expressionValue;
@@ -397,10 +376,7 @@ class JRDoubleVarianceIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
+			return value;
 		}
 		else if (value == null || variable.isInitialized())
 		{

@@ -197,7 +197,8 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	/**
 	 * 
 	 */
-	private static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator {
+	private static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator 
+	{
 		private Map[] labels = null;
 		
 		public XYDatasetLabelGenerator( Map[] labels ){
@@ -209,9 +210,7 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 			if( labels[series] != null ){
 				return (String)labels[series].get( ((XYSeriesCollection)dataset).getX( series, item ));
 			}
-			else {
-				return super.generateLabel( dataset, series, item );
-			}
+			return super.generateLabel( dataset, series, item );
 		}
 	}
 	

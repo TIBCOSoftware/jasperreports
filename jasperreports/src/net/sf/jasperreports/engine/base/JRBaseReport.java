@@ -408,48 +408,41 @@ public class JRBaseReport implements JRReport, Serializable
 			Set names = propertiesMap.keySet(); 
 			return (String[])names.toArray(new String[names.size()]);
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	/**
 	 *
 	 */
-	public String getProperty(String name)
+	public String getProperty(String propName)
 	{
 		if (propertiesMap != null)
 		{
-			return (String)propertiesMap.get(name);
+			return (String)propertiesMap.get(propName);
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	/**
 	 *
 	 */
-	public void setProperty(String name, String value)
+	public void setProperty(String propName, String value)
 	{
 		if (propertiesMap == null)
 		{
 			propertiesMap = new HashMap();
 		}
-		
-		propertiesMap.put(name, value);
+		propertiesMap.put(propName, value);
 	}
 
 	/**
 	 *
 	 */
-	public void removeProperty(String name)
+	public void removeProperty(String propName)
 	{
 		if (propertiesMap != null)
 		{
-			propertiesMap.remove(name);
+			propertiesMap.remove(propName);
 		}
 	}
 
@@ -462,10 +455,7 @@ public class JRBaseReport implements JRReport, Serializable
 		{
 			return (String[])importsSet.toArray(new String[importsSet.size()]);
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	/**

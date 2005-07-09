@@ -57,10 +57,7 @@ public class JRCsvSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		else
-		{
-			return file.getName().toLowerCase().endsWith(EXTENSION_CSV);
-		}
+		return file.getName().toLowerCase().endsWith(EXTENSION_CSV);
 	}
 
 	/**

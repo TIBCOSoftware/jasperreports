@@ -133,10 +133,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return border;
 		}
-		else
-		{
-			return topBorder.byteValue();
-		}
+		return topBorder.byteValue();
 	}
 
 	/**
@@ -164,10 +161,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return borderColor;
 		}
-		else
-		{
-			return topBorderColor;
-		}
+		return topBorderColor;
 	}
 
 	/**
@@ -195,10 +189,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return padding;
 		}
-		else
-		{
-			return topPadding.intValue();
-		}
+		return topPadding.intValue();
 	}
 
 	/**
@@ -226,10 +217,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return border;
 		}
-		else
-		{
-			return leftBorder.byteValue();
-		}
+		return leftBorder.byteValue();
 	}
 
 	/**
@@ -257,10 +245,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return borderColor;
 		}
-		else
-		{
-			return leftBorderColor;
-		}
+		return leftBorderColor;
 	}
 
 	/**
@@ -288,10 +273,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return padding;
 		}
-		else
-		{
-			return leftPadding.intValue();
-		}
+		return leftPadding.intValue();
 	}
 
 	/**
@@ -319,10 +301,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return border;
 		}
-		else
-		{
-			return bottomBorder.byteValue();
-		}
+		return bottomBorder.byteValue();
 	}
 
 	/**
@@ -350,10 +329,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return borderColor;
 		}
-		else
-		{
-			return bottomBorderColor;
-		}
+		return bottomBorderColor;
 	}
 
 	/**
@@ -381,10 +357,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return padding;
 		}
-		else
-		{
-			return bottomPadding.intValue();
-		}
+		return bottomPadding.intValue();
 	}
 
 	/**
@@ -412,10 +385,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return border;
 		}
-		else
-		{
-			return rightBorder.byteValue();
-		}
+		return rightBorder.byteValue();
 	}
 
 	/**
@@ -443,10 +413,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return borderColor;
 		}
-		else
-		{
-			return rightBorderColor;
-		}
+		return rightBorderColor;
 	}
 
 	/**
@@ -474,10 +441,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			return padding;
 		}
-		else
-		{
-			return rightPadding.intValue();
-		}
+		return rightPadding.intValue();
 	}
 
 	/**

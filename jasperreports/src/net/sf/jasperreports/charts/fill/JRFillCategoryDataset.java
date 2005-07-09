@@ -186,8 +186,8 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	static class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator {
-
+	static class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator 
+	{
 		private Map[] labels = null;
 		
 		public CategoryLabelGenerator(Map[] labels)
@@ -200,12 +200,8 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			{
 				return super.generateLabel(dataset, series, category);
 			}
-			else
-			{
-				return (String)labels[series].get(dataset.getColumnKey(category));
-			}	
+			return (String)labels[series].get(dataset.getColumnKey(category));
 		}
-		
 	}
 
 	

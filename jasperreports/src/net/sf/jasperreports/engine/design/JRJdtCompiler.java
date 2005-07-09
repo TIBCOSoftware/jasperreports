@@ -141,45 +141,43 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			}
 			throw new JRException(sbuffer.toString());
 		}
-		else
+
+		//Report design OK
+
+		//Generating expressions class source code
+		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
+
+		String classpath = System.getProperty("jasper.reports.compile.class.path");
+		if (classpath == null || classpath.length() == 0)
 		{
-			//Report design OK
+			classpath = System.getProperty("java.class.path");
+		}
 
-			//Generating expressions class source code
-			String sourceCode = JRClassGenerator.generateClass(jasperDesign);
+		try
+		{
+			ClassFile[] classFiles = new ClassFile[1];
+			//Compiling expression class source file
+			String compileErrors = compileClass(sourceCode, jasperDesign.getName(), classFiles);
+			if (compileErrors != null)
+			{
+				throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
+			}
 
-			String classpath = System.getProperty("jasper.reports.compile.class.path");
-			if (classpath == null || classpath.length() == 0)
-			{
-				classpath = System.getProperty("java.class.path");
-			}
-	
-			try
-			{
-				ClassFile[] classFiles = new ClassFile[1];
-				//Compiling expression class source file
-				String compileErrors = compileClass(sourceCode, jasperDesign.getName(), classFiles);
-				if (compileErrors != null)
-				{
-					throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
-				}
-	
-				//Reading class byte codes from compiled class file
-				jasperReport = 
-					new JasperReport(
-						jasperDesign,
-						JRJavacCompiler.class.getName(),
-						classFiles[0].getBytes()
-						);
-			}
-			catch (JRException e)
-			{
-				throw e;
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Error compiling report design.", e);
-			}
+			//Reading class byte codes from compiled class file
+			jasperReport = 
+				new JasperReport(
+					jasperDesign,
+					JRJavacCompiler.class.getName(),
+					classFiles[0].getBytes()
+					);
+		}
+		catch (JRException e)
+		{
+			throw e;
+		}
+		catch (Exception e)
+		{
+			throw new JRException("Error compiling report design.", e);
 		}
 
 		return jasperReport;
@@ -268,10 +266,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						{
 							return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit2Args.newInstance(new Object[] { compilationUnit, null });
 						}
-						else
-						{
-							return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit.newInstance(new Object[] { compilationUnit });
-						}
+
+						return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit.newInstance(new Object[] { compilationUnit });
 					}
 					String resourceName = className.replace('.', '/') + ".class";
 					InputStream is = getResource(resourceName);
@@ -295,10 +291,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						{
 							return (NameEnvironmentAnswer) constrNameEnvAnsBin2Args.newInstance(new Object[] { classFileReader, null });
 						}
-						else
-						{
-							return (NameEnvironmentAnswer) constrNameEnvAnsBin.newInstance(new Object[] { classFileReader });
-						}
+
+						return (NameEnvironmentAnswer) constrNameEnvAnsBin.newInstance(new Object[] { classFileReader });
 					}
 				}
 				catch (IOException exc) 
@@ -515,10 +509,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			return JRJdtCompiler.class.getResourceAsStream("/" + resourceName);
 		}
-		else
-		{
-			return classLoader.getResourceAsStream(resourceName);
-		}
+		return classLoader.getResourceAsStream(resourceName);
 	}
 	
 	protected Class loadClass (String className) throws ClassNotFoundException
@@ -527,9 +518,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			return Class.forName(className);
 		}
-		else
-		{
-			return classLoader.loadClass(className);
-		}
+		return classLoader.loadClass(className);
 	}
 }

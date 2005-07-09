@@ -110,10 +110,7 @@ public abstract class JRAbstractSvgRenderer implements JRRenderable
 				throw new JRRuntimeException(e);
 			}
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 

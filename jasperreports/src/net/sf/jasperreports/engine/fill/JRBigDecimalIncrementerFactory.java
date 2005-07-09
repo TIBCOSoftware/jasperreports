@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.math.BigDecimal;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -159,7 +158,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 
@@ -169,20 +168,16 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 			{
 				return JRBigDecimalIncrementerFactory.ZERO;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRBigDecimalIncrementerFactory.ZERO;
-			}
 
-			return value.add(JRBigDecimalIncrementerFactory.ONE);
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRBigDecimalIncrementerFactory.ZERO;
+		}
+
+		return value.add(JRBigDecimalIncrementerFactory.ONE);
 	}
 }
 
@@ -219,7 +214,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 		BigDecimal newValue = (BigDecimal)expressionValue;
@@ -230,20 +225,16 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			if (value == null || variable.isInitialized())
-			{
-				value = JRBigDecimalIncrementerFactory.ZERO;
-			}
 
-			return value.add(newValue);
+			return value;
 		}
+
+		if (value == null || variable.isInitialized())
+		{
+			value = JRBigDecimalIncrementerFactory.ZERO;
+		}
+
+		return value.add(newValue);
 	}
 }
 
@@ -280,7 +271,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -288,17 +279,11 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue();
-			}
+			return variable.getValue();
 		}
-		else
-		{
-			BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
-			return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
-		}
+		BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
+		BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
 	}
 }
 
@@ -335,7 +320,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		if (expressionValue == null)
 		{
@@ -343,16 +328,10 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return variable.getValue(); 
-			}
+			return variable.getValue(); 
 		}
-		else
-		{
-			Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
-			return new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
-		}
+		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		return new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
 
@@ -389,7 +368,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 		BigDecimal newValue = (BigDecimal)expressionValue;
@@ -400,10 +379,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 			{
 				return null;
 			}
-			else
-			{
-				return value;
-			}
+			return value;
 		}
 		else if (value == null || variable.isInitialized())
 		{

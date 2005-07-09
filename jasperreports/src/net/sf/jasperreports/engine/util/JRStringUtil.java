@@ -66,10 +66,8 @@ public class JRStringUtil
 
 			return ret.toString();
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 
@@ -111,10 +109,8 @@ public class JRStringUtil
 
 			return ret.toString();
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 
@@ -130,31 +126,29 @@ public class JRStringUtil
 		{
 			return name;
 		}
-		else
+
+		StringBuffer buffer = new StringBuffer(name.length() + 5);
+		
+		char[] literalChars = new char[name.length()];
+		name.getChars(0, literalChars.length, literalChars, 0);
+		
+		for (int i = 0; i < literalChars.length; i++)
 		{
-			StringBuffer buffer = new StringBuffer(name.length() + 5);
-			
-			char[] literalChars = new char[name.length()];
-			name.getChars(0, literalChars.length, literalChars, 0);
-			
-			for (int i = 0; i < literalChars.length; i++)
+			if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
 			{
-				if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
-				{
-					buffer.append((int)literalChars[i]);
-				}
-				else if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
-				{
-					buffer.append((int)literalChars[i]);
-				}
-				else
-				{
-					buffer.append(literalChars[i]);
-				}
+				buffer.append((int)literalChars[i]);
 			}
-			
-			return buffer.toString();
+			else if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
+			{
+				buffer.append((int)literalChars[i]);
+			}
+			else
+			{
+				buffer.append(literalChars[i]);
+			}
 		}
+		
+		return buffer.toString();
 	}
 	
 	

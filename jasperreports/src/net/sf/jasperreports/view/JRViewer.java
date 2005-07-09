@@ -796,8 +796,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				{
 					if (file.isDirectory())
 						return true;
-					else
-						return file.getName().toLowerCase().endsWith(".jrprint");
+
+					return file.getName().toLowerCase().endsWith(".jrprint");
 				}
 				
 				public String getDescription(){ return "JasperReports (*.jrprint)"; }

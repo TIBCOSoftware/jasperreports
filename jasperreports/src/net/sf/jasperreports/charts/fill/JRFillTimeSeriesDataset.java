@@ -159,7 +159,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
-	static class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator {
+	/** 
+	 * 
+	 */
+	private static class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator {
 		private Map[] labels = null;
 		
 		public TimeSeriesLabelGenerator( Map[] labels ){
@@ -170,11 +173,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 			if( labels[series] != null ){
 				return (String)labels[series].get(((TimeSeriesCollection)dataset).getSeries( series ).getTimePeriod( item ));
 			}
-			else {
-				return super.generateLabel( dataset, series, item );
-			}
-			
-			
+			return super.generateLabel( dataset, series, item );
 		}
 	}
 }

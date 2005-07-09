@@ -57,10 +57,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		else
-		{
-			return file.getName().toLowerCase().endsWith(EXTENSION_PDF);
-		}
+		return file.getName().toLowerCase().endsWith(EXTENSION_PDF);
 	}
 
 	/**

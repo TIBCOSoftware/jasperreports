@@ -61,10 +61,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 						{
 							return field.getName();
 						}
-						else
-						{
-							return field.getDescription();
-						}
+						return field.getDescription();
 					}
 				};
 		}

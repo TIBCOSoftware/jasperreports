@@ -166,10 +166,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 			{
 				throw (JRException)e;
 			}
-			else
-			{
-				throw new JRException(e);
-			}
+			throw new JRException(e);
 		}
 
 		return this.jasperPrint;

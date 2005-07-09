@@ -79,10 +79,8 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 		{
 			return (this.index < this.data.length);
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 	
 	

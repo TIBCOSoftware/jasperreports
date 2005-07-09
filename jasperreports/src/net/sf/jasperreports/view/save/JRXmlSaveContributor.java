@@ -59,11 +59,8 @@ public class JRXmlSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		else
-		{
-			String name = file.getName().toLowerCase();
-			return (name.endsWith(EXTENSION_XML) || name.endsWith(EXTENSION_JRPXML));
-		}
+		String name = file.getName().toLowerCase();
+		return (name.endsWith(EXTENSION_XML) || name.endsWith(EXTENSION_JRPXML));
 	}
 
 	/**
