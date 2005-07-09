@@ -79,7 +79,6 @@ import net.sf.jasperreports.renderers.JCommonDrawableRenderer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;

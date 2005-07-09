@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRTextElement;
 
