@@ -54,9 +54,6 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -66,11 +63,6 @@ public class JRVerifier
 {
 	
 	
-	/**
-	 *
-	 */
-	private static final Log log = LogFactory.getLog(JRVerifier.class);
-
 	/**
 	 *
 	 */

@@ -30,14 +30,21 @@ package net.sf.jasperreports.charts;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
+
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$ 
  */
 public interface JRBar3DPlot extends JRChartPlot {
 	
+	/**
+	 * 
+	 */
 	public JRExpression getCategoryAxisLabelExpression();
 	
+	/**
+	 * 
+	 */
 	public JRExpression getValueAxisLabelExpression();
 	
 	/**
@@ -48,11 +55,26 @@ public interface JRBar3DPlot extends JRChartPlot {
 	/**
 	 * 
 	 */
+	public void setXOffset(double xOffset);
+	
+	/**
+	 * 
+	 */
 	public double getYOffset();
 	
 	/**
 	 * 
 	 */
+	public void setYOffset(double yOffset);
+	
+	/**
+	 * 
+	 */
 	public boolean isShowLabels();
+
+	/**
+	 * 
+	 */
+	public void setShowLabels(boolean isShowLabels);
 
 }

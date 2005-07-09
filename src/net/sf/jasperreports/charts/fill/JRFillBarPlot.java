@@ -99,11 +99,16 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	{
 	}
 
-	
+	/**
+	 *
+	 */
 	public boolean isShowLabels(){
 		return ((JRBarPlot)parent).isShowLabels();
 	}
 	
+	/**
+	 *
+	 */
 	public void setShowLabels( boolean isShowLabels ){
 	}
 	

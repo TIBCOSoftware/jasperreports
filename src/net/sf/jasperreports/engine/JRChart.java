@@ -47,6 +47,9 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	public static final byte TITLE_POSITION_RIGHT = 4;
 
 
+	/**
+	 *
+	 */
 	public static final byte CHART_TYPE_AREA = 1;
 	public static final byte CHART_TYPE_BAR3D = 2;
 	public static final byte CHART_TYPE_BAR = 3;
@@ -63,6 +66,8 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	public static final byte CHART_TYPE_XYBAR = 14;
 	public static final byte CHART_TYPE_XYLINE = 15;
 	public static final byte CHART_TYPE_TIMESERIES = 16;
+
+
 	/**
 	 *
 	 */
@@ -110,9 +115,21 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	/**
 	 *
 	 */
+	public void setTitlePosition(byte titlePosition);
+	
+
+	/**
+	 *
+	 */
 	public Color getTitleColor();
 
 
+	/**
+	 *
+	 */
+	public void setTitleColor(Color titleColor);
+
+	
 	/**
 	 *
 	 */
@@ -134,6 +151,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	/**
 	 *
 	 */
+	public void setSubtitleColor(Color subtitleColor);
+
+	
+	/**
+	 *
+	 */
 	public JRChartDataset getDataset();
 
 
@@ -147,4 +170,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	 *
 	 */ 
 	public byte getChartType();
+	
+	
 }

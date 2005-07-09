@@ -57,5 +57,4 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 	public void setScaleType( int scaleType ){
 	}
 	
-	
 }

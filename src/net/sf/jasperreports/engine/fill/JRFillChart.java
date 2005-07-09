@@ -791,13 +791,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 			chart.addSubtitle(subtitle);
 		}
 		
-		configurePlot(chart.getPlot(), evaluation);
+		configurePlot(chart.getPlot());
 	}
 
 	/**
 	 *
 	 */
-	private void configurePlot(Plot plot, byte evaluation) throws JRException
+	private void configurePlot(Plot plot) throws JRException
 	{
 		plot.setOutlinePaint(getBackcolor());
 
@@ -824,8 +824,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false);
 
 		configureChart(chart, evaluation);
-
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
@@ -1088,12 +1086,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		XYPlot plot = (XYPlot)chart.getPlot();
-
-//		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
-//		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
-//		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
-
 		renderer = new JCommonDrawableRenderer( chart );
 	}
 
@@ -1117,9 +1109,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 				);
 
 		configureChart(chart, evaluation);
-
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
-		//plot.setNoDataMessage("No data to display");
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1145,9 +1134,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
-		//plot.setNoDataMessage("No data to display");
-
 		renderer = new JCommonDrawableRenderer(chart);
 	}
 
@@ -1165,8 +1151,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 			);
 
 		configureChart(chart, evaluation);
-
-		XYPlot plot = (XYPlot)chart.getPlot();
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
@@ -1244,12 +1228,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false);
 
 		configureChart(chart, evaluation);
-
-		XYPlot plot = (XYPlot)chart.getPlot();
-
-//		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
-//		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
-//		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}

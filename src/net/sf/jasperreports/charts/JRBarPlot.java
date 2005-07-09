@@ -54,13 +54,28 @@ public interface JRBarPlot extends JRChartPlot
 	public boolean isShowTickMarks();
 
 	/**
+	 *
+	 */
+	public void setShowTickMarks(boolean isShowTickMarks);
+		
+	/**
 	 * 
 	 */
 	public boolean isShowTickLabels();
 	
 	/**
+	 *
+	 */
+	public void setShowTickLabels(boolean isShowTickLabels);
+
+	/**
 	 * 
 	 */
 	public boolean isShowLabels();
 	
+	/**
+	 *
+	 */
+	public void setShowLabels( boolean isShowLabels );
+
 }

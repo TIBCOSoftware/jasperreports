@@ -40,6 +40,11 @@ import net.sf.jasperreports.engine.base.JRBaseParameter;
  */
 public class JRDesignParameter extends JRBaseParameter
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 608;
+
 	/** Mechanism for firing property change events. */
 	private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);
 
@@ -58,12 +63,6 @@ public class JRDesignParameter extends JRBaseParameter
 	/** Bean property name for default value expression. */
 	public static final String DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
 
-
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 608;
 
 	/**
 	 *
@@ -154,7 +153,7 @@ public class JRDesignParameter extends JRBaseParameter
 	 * @param l The property listener to add.
 	 */
 	public void addPropertyChangeListener(String propName, PropertyChangeListener l) {
-		getPropertyChangeSupport().addPropertyChangeListener(name, l);
+		getPropertyChangeSupport().addPropertyChangeListener(propName, l);
 	}
 
 	/**
