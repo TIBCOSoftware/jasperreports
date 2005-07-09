@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 

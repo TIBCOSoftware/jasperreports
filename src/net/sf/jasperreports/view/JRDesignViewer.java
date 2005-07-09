@@ -50,7 +50,6 @@ import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JViewport;
 
 import net.sf.jasperreports.engine.JRAlignment;
