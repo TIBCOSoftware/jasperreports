@@ -42,4 +42,6 @@ public interface JRBubblePlot extends JRChartPlot {
 	
 	public int getScaleType();
 
+	public void setScaleType(int scaleType);
+	
 }

@@ -41,7 +41,6 @@ import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
@@ -60,7 +59,6 @@ import net.sf.jasperreports.charts.JRXyzSeries;
  */
 public class JRExpressionCollector
 {
-	
 	
 	/**
 	 *
@@ -101,7 +99,6 @@ public class JRExpressionCollector
 		return expressions;
 	}
 		
-
 	/**
 	 *
 	 */
@@ -115,7 +112,6 @@ public class JRExpressionCollector
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -132,7 +128,6 @@ public class JRExpressionCollector
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -151,7 +146,6 @@ public class JRExpressionCollector
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -363,8 +357,6 @@ public class JRExpressionCollector
 		}
 	}
 
-
-
 	/**
 	 *
 	 */
@@ -374,15 +366,6 @@ public class JRExpressionCollector
 		addExpression(pieDataset.getValueExpression());
 		addExpression(pieDataset.getLabelExpression());
 	}
-
-	/**
-	 *
-	 */
-	private void collect(JRPiePlot piePlot)
-	{
-	}
-
-	
 
 	/**
 	 *
@@ -426,7 +409,9 @@ public class JRExpressionCollector
 		}
 	}
 	
-	
+	/**
+	 * 
+	 */
 	private void collect( JRTimePeriodDataset timePeriodDataset ){
 		JRTimePeriodSeries[] timePeriodSeries = timePeriodDataset.getSeries();
 		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
@@ -435,7 +420,6 @@ public class JRExpressionCollector
 			}
 		}
 	}
-
 	
 	/**
 	 *
@@ -468,34 +452,46 @@ public class JRExpressionCollector
 		addExpression(barPlot.getValueAxisLabelExpression());
 	}
 	
-	
+	/**
+	 *
+	 */
 	private void collect(JRBar3DPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
 	}
 	
-	
+	/**
+	 *
+	 */
 	private void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
 	}
 	
+	/**
+	 *
+	 */
 	private void collect( JRTimeSeriesPlot timeSeriesPlot ){
 		addExpression( timeSeriesPlot.getTimeAxisLabelExpression() );
 		addExpression( timeSeriesPlot.getValueAxisLabelExpression() );
 	}
 	
+	/**
+	 *
+	 */
 	private void collect( JRScatterPlot scatterPlot ){
 		addExpression( scatterPlot.getXAxisLabelExpression() );
 		addExpression( scatterPlot.getYAxisLabelExpression() );
 	}
 	
+	/**
+	 *
+	 */
 	private void collect( JRAreaPlot areaPlot ){
 		addExpression( areaPlot.getCategoryAxisLabelExpression() );
 		addExpression( areaPlot.getValueAxisLabelExpression() );
 	}
-
 
 	/**
 	 *
@@ -508,10 +504,8 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getLabelExpression());
 	}
 	
-	
 	/**
-	 * 
-	 * @param timePeriodSeries
+	 *
 	 */
 	private void collect( JRTimePeriodSeries timePeriodSeries ){
 		addExpression( timePeriodSeries.getSeriesExpression() );
@@ -519,8 +513,6 @@ public class JRExpressionCollector
 		addExpression( timePeriodSeries.getEndDateExpression() );
 		addExpression( timePeriodSeries.getValueExpression() );
 	}
-
-
 
 	/**
 	 *
@@ -557,7 +549,6 @@ public class JRExpressionCollector
 		
 	}
 
-
 	/**
 	 *
 	 */
@@ -580,7 +571,6 @@ public class JRExpressionCollector
 		addExpression(highLowDataset.getCloseExpression());
 		addExpression(highLowDataset.getVolumeExpression());
 	}
-
 
 	/**
 	 *

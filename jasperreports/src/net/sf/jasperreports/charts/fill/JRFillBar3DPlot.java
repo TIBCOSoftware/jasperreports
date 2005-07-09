@@ -69,9 +69,7 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot {
 	}
 	
 	public void setShowLabels( boolean isShowLabels ){
-		
 	}
-
 	
 	
 }

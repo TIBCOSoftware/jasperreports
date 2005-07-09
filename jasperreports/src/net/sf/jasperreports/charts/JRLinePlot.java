@@ -42,6 +42,10 @@ public interface JRLinePlot extends JRChartPlot {
 	
 	public boolean isShowLines();
 	
+	public void setShowLines(boolean isShowLines);
+	
 	public boolean isShowShapes();
 
+	public void setShowShapes(boolean isShowShapes);
+	
 }

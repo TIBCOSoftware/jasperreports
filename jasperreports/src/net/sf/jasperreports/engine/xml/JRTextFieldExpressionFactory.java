@@ -51,8 +51,6 @@ public class JRTextFieldExpressionFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-
 		JRDesignExpression expression = new JRDesignExpression();
 
 		if (atts.getValue(ATTRIBUTE_class) != null)

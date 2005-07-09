@@ -56,7 +56,6 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 	
 	public void setShowShapes( boolean value ){
-		
 	}
 	
 	public boolean isShowLines(){
@@ -64,6 +63,6 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 	
 	public void setShowLines( boolean value ){
-		
 	}
+	
 }

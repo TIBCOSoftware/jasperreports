@@ -153,7 +153,6 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 			for(int i = 0; i < xySeries.length; i++)
 			{
 				JRFillXySeries crtXySeries = xySeries[i];
-				String seriesName = (String)crtXySeries.getSeries();//FIXME NOW use string for series?
 				XYSeries xySeries = dataset.getSeries(i);
 				if (crtXySeries.getXValue() != null) 
 					xySeries.addOrUpdate(
@@ -180,7 +179,6 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		return dataset;
 	}
 
-
 	/**
 	 * 
 	 */
@@ -188,12 +186,18 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		return JRChartDataset.XY_DATASET;
 	}
 	
+	/**
+	 * 
+	 */
 	public XYDatasetLabelGenerator getLabelGenerator(){
 		return new XYDatasetLabelGenerator( labels );	
 	}
 	
 	
-	static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator {
+	/**
+	 * 
+	 */
+	private static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator {
 		private Map[] labels = null;
 		
 		public XYDatasetLabelGenerator( Map[] labels ){
@@ -204,16 +208,12 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 			
 			if( labels[series] != null ){
 				return (String)labels[series].get( ((XYSeriesCollection)dataset).getX( series, item ));
-				
 			}
 			else {
 				return super.generateLabel( dataset, series, item );
 			}
 		}
 	}
-	
-	
-	
 	
 	
 }

@@ -51,8 +51,6 @@ public class JRSubreportFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-
 		JRDesignSubreport subreport = new JRDesignSubreport();
 
 		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);
