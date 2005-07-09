@@ -1388,7 +1388,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-				JRFillGroup group = (JRFillGroup)groups[i];
+				JRFillGroup group = groups[i];
 
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
@@ -1511,7 +1511,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-			    JRFillGroup group = (JRFillGroup)groups[i];
+			    JRFillGroup group = groups[i];
 
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{

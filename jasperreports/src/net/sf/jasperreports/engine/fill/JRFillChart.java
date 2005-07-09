@@ -236,7 +236,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		titleFont = factory.getFont(chart.getTitleFont());
 		subtitleFont = factory.getFont(chart.getSubtitleFont());
 
-		evaluationGroup = (JRGroup)factory.getGroup(chart.getEvaluationGroup());
+		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 	}
 
 

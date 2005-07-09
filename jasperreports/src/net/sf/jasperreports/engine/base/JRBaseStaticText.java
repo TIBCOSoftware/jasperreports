@@ -61,7 +61,7 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	 */
 	protected JRBaseStaticText(JRStaticText staticText, JRBaseObjectFactory factory)
 	{
-		super((JRTextElement)staticText, factory);
+		super(staticText, factory);
 		
 		text = staticText.getText();
 	}

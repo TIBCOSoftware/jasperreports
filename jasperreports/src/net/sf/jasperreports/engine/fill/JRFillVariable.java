@@ -81,11 +81,11 @@ public class JRFillVariable implements JRVariable
 
 		parent = variable;
 		
-		resetGroup = (JRGroup)factory.getGroup(variable.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(variable.getIncrementGroup());
-		countVariable = (JRVariable)factory.getVariable(variable.getCountVariable());
-		sumVariable = (JRVariable)factory.getVariable(variable.getSumVariable());
-		varianceVariable = (JRVariable)factory.getVariable(variable.getVarianceVariable());
+		resetGroup = factory.getGroup(variable.getResetGroup());
+		incrementGroup = factory.getGroup(variable.getIncrementGroup());
+		countVariable = factory.getVariable(variable.getCountVariable());
+		sumVariable = factory.getVariable(variable.getSumVariable());
+		varianceVariable = factory.getVariable(variable.getVarianceVariable());
 	}
 
 

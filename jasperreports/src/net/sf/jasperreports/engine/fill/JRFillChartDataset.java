@@ -62,8 +62,8 @@ public abstract class JRFillChartDataset implements JRChartDataset
 
 		parent = dataset;
 		
-		resetGroup = (JRGroup)factory.getGroup(dataset.getResetGroup());
-		incrementGroup = (JRGroup)factory.getGroup(dataset.getIncrementGroup());
+		resetGroup = factory.getGroup(dataset.getResetGroup());
+		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
 	}
 
 
@@ -72,7 +72,7 @@ public abstract class JRFillChartDataset implements JRChartDataset
 	 */
 	public byte getResetType()
 	{
-		return ((JRChartDataset)parent).getResetType();
+		return parent.getResetType();
 	}
 		
 	/**
@@ -80,7 +80,7 @@ public abstract class JRFillChartDataset implements JRChartDataset
 	 */
 	public byte getIncrementType()
 	{
-		return ((JRChartDataset)parent).getIncrementType();
+		return parent.getIncrementType();
 	}
 		
 	/**
