@@ -147,8 +147,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 						new MediaPrintableArea(
 							0f, 
 							0f, 
-							(float)jasperPrint.getPageWidth() / 72f,
-							(float)jasperPrint.getPageHeight() / 72f,
+							jasperPrint.getPageWidth() / 72f,
+							jasperPrint.getPageHeight() / 72f,
 							MediaPrintableArea.INCH
 							)
 						);

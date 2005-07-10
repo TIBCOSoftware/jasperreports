@@ -1460,7 +1460,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 				if (image.getHeight() > 0)
 				{
-					double ratio = (double)normalWidth / (double)normalHeight;
+					double ratio = normalWidth / normalHeight;
 					
 					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
 					{
