@@ -70,16 +70,16 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	/**
 	 *  
 	 */
-	private static final Log log = LogFactory.getLog(JRJdtCompiler.class);
+	static final Log log = LogFactory.getLog(JRJdtCompiler.class);
 	
 	private final ClassLoader classLoader;
 
-	private Constructor constrNameEnvAnsBin;
-	private Constructor constrNameEnvAnsCompUnit;
+	Constructor constrNameEnvAnsBin;
+	Constructor constrNameEnvAnsCompUnit;
 	
-	private boolean is2ArgsConstr;
-	private Constructor constrNameEnvAnsBin2Args;
-	private Constructor constrNameEnvAnsCompUnit2Args;
+	boolean is2ArgsConstr;
+	Constructor constrNameEnvAnsBin2Args;
+	Constructor constrNameEnvAnsCompUnit2Args;
 
 	public JRJdtCompiler ()
 	{
@@ -194,12 +194,12 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		class CompilationUnit implements ICompilationUnit 
 		{
-			private String sourceCode;
+			private String srcCode;
 			private String className;
 
-			public CompilationUnit(String sourceCode, String className) 
+			public CompilationUnit(String srcCode, String className) 
 			{
-				this.sourceCode = sourceCode;
+				this.srcCode = srcCode;
 				this.className = className;
 			}
 
@@ -210,7 +210,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 			public char[] getContents() 
 			{
-				return sourceCode.toCharArray();
+				return srcCode.toCharArray();
 			}
 
 			public char[] getMainTypeName() 
@@ -479,28 +479,28 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	 */
 	private ClassLoader getClassLoader()
 	{
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		ClassLoader clsLoader = Thread.currentThread().getContextClassLoader();
 
-		if (classLoader != null)
+		if (clsLoader != null)
 		{
 			try
 			{
-				Class.forName(JRJdtCompiler.class.getName(), true, classLoader);
+				Class.forName(JRJdtCompiler.class.getName(), true, clsLoader);
 			}
 			catch (ClassNotFoundException e)
 			{
-				classLoader = null;
+				clsLoader = null;
 				//if (log.isWarnEnabled())
 				//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRJdtCompiler class. Using JRJdtCompiler.class.getClassLoader() instead.");
 			}
 		}
 	
-		if (classLoader == null)
+		if (clsLoader == null)
 		{
-			classLoader = JRClassLoader.class.getClassLoader();
+			clsLoader = JRClassLoader.class.getClassLoader();
 		}
 
-		return classLoader;
+		return clsLoader;
 	}
 	
 	protected InputStream getResource (String resourceName)
