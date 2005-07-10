@@ -420,7 +420,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 
@@ -534,7 +534,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintImage printImage = null;
 		
@@ -581,7 +581,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected void copy(JRPrintImage printImage) throws JRException
+	protected void copy(JRPrintImage printImage)
 	{
 		printImage.setRenderer(
 			this.getRenderer()

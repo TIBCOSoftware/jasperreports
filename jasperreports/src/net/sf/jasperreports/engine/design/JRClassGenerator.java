@@ -517,7 +517,7 @@ public class JRClassGenerator
 	private String generateExpression(
 		JRExpression expression,
 		byte evaluationType
-		) throws JRException
+		)
 	{
 		Map parametersMap = jasperDesign.getParametersMap();
 		Map fieldsMap = jasperDesign.getFieldsMap();

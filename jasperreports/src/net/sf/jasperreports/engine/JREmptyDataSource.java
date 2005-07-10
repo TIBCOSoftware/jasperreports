@@ -72,7 +72,7 @@ public class JREmptyDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public Object getFieldValue(JRField field) throws JRException
+	public Object getFieldValue(JRField field)
 	{
 		return null;
 	}

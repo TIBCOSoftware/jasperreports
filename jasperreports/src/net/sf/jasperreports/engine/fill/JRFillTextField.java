@@ -551,7 +551,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintText text = null;
 
@@ -605,7 +605,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected void copy(JRPrintText text) throws JRException
+	protected void copy(JRPrintText text)
 	{
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());

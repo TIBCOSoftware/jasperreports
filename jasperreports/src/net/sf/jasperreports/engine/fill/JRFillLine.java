@@ -103,7 +103,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintLine printLine = null;
 

@@ -88,7 +88,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void setPageHeight(int pageHeight) throws JRException
+	protected void setPageHeight(int pageHeight)
 	{
 		this.pageHeight = pageHeight;
 
@@ -1294,7 +1294,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void fillBand(JRPrintBand band) throws JRException
+	protected void fillBand(JRPrintBand band)
 	{
 		java.util.List elements = band.getElements();
 		

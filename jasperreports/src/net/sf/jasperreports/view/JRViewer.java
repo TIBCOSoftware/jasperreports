@@ -212,7 +212,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 *
 	 */
-	public void gotoHyperlink(JRPrintHyperlink hyperlink) throws JRException
+	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
 		switch(hyperlink.getHyperlinkType())
 		{

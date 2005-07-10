@@ -135,7 +135,7 @@ class JRDefaultNothingIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		return expressionValue;
 	}
@@ -176,7 +176,7 @@ class JRDefaultSystemIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		return variable.getValue();
 	}
