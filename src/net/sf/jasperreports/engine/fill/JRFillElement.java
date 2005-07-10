@@ -649,7 +649,7 @@ public abstract class JRFillElement implements JRElement
 	/**
 	 *
 	 */
-	protected void moveDependantElements() throws JRException
+	protected void moveDependantElements()
 	{
 		Collection elements = this.getDependantElements();
 		if (elements != null && elements.size() > 0)
