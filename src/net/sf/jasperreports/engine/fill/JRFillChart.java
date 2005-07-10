@@ -487,7 +487,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected void rewind() throws JRException
+	protected void rewind()
 	{
 	}
 
@@ -586,7 +586,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 
@@ -683,7 +683,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage());
 		
@@ -728,7 +728,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected void copy(JRPrintImage printImage) throws JRException//FIXME NOW do hyperlinks work for evaluationTime != now?
+	protected void copy(JRPrintImage printImage)//FIXME NOW do hyperlinks work for evaluationTime != now?
 	{
 		printImage.setRenderer(getRenderer());
 		printImage.setAnchorName(getAnchorName());
@@ -796,7 +796,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	private void configurePlot(Plot plot) throws JRException
+	private void configurePlot(Plot plot)
 	{
 		plot.setOutlinePaint(getBackcolor());
 

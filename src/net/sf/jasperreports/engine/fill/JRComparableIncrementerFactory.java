@@ -134,7 +134,7 @@ class JRComparableLowestIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Comparable value = (Comparable)variable.getIncrementedValue();
 		Comparable newValue = (Comparable)expressionValue;
@@ -184,7 +184,7 @@ class JRComparableHighestIncrementer implements JRIncrementer
 		JRFillVariable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
-		) throws JRException
+		)
 	{
 		Comparable value = (Comparable)variable.getIncrementedValue();
 		Comparable newValue = (Comparable)expressionValue;

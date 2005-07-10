@@ -88,7 +88,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintEllipse printEllipse = null;
 

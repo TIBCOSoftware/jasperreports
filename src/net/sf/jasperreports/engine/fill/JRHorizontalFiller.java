@@ -1331,7 +1331,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void fillBand(JRPrintBand band) throws JRException
+	protected void fillBand(JRPrintBand band)
 	{
 		java.util.List elements = band.getElements();
 		

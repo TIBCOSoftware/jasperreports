@@ -103,7 +103,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintRectangle printRectangle = null;
 

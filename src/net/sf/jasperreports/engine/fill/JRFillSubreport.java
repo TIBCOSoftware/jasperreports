@@ -607,7 +607,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintRectangle printRectangle = null;
 

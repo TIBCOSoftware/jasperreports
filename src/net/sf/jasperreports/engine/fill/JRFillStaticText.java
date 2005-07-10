@@ -177,7 +177,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintText text = null;
 

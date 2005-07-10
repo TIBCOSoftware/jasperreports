@@ -77,7 +77,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public Object getFieldValue(JRField field) throws JRException
+	public Object getFieldValue(JRField field)
 	{
 		Object value = null;
 		
