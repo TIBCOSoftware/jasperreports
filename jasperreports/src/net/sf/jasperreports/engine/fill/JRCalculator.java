@@ -81,9 +81,10 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected void init(JRBaseFiller filler) throws JRException
+	protected void init(JRBaseFiller parentFiller) throws JRException
 	{
-		this.filler = filler;
+		filler = parentFiller;
+		
 		parsm = filler.parametersMap;
 		fldsm = filler.fieldsMap;
 		varsm = filler.variablesMap;

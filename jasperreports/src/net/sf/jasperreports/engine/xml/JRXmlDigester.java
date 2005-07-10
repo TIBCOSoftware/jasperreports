@@ -76,7 +76,7 @@ public class JRXmlDigester extends Digester
 	 *
 	 */
 	public InputSource resolveEntity(
-		String publicId,
+		String pubId,
 		String systemId
 		)
 	{

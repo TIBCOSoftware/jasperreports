@@ -216,7 +216,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		btnReload.setPreferredSize(new java.awt.Dimension(80, 23));
 		btnReload.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnReloadActionPerformed(evt);
+				btnReloadActionPerformed();
 			}
 		});
 
@@ -236,7 +236,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnZoomInActionPerformed(evt);
+				btnZoomInActionPerformed();
 			}
 		});
 
@@ -250,7 +250,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnZoomOutActionPerformed(evt);
+				btnZoomOutActionPerformed();
 			}
 		});
 
@@ -262,7 +262,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
 		cmbZoom.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cmbZoomActionPerformed(evt);
+				cmbZoomActionPerformed();
 			}
 		});
 
@@ -333,7 +333,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 				lblPageMousePressed(evt);
 			}
 			public void mouseReleased(java.awt.event.MouseEvent evt) {
-				lblPageMouseReleased(evt);
+				lblPageMouseReleased();
 			}
 		});
 
@@ -367,7 +367,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	}//GEN-END:initComponents
 
-	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
+	void btnReloadActionPerformed()//GEN-FIRST:event_btnReloadActionPerformed
 	{//GEN-HEADEREND:event_btnReloadActionPerformed
 		// Add your handling code here:
 		if (this.type == TYPE_FILE_NAME)
@@ -386,7 +386,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
 
-	void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
+	void btnZoomInActionPerformed()//GEN-FIRST:event_btnZoomInActionPerformed
 	{//GEN-HEADEREND:event_btnZoomInActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -396,7 +396,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_btnZoomInActionPerformed
 
-	void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
+	void btnZoomOutActionPerformed()//GEN-FIRST:event_btnZoomOutActionPerformed
 	{//GEN-HEADEREND:event_btnZoomOutActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -415,7 +415,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		this.downY = evt.getY();
 	}//GEN-LAST:event_lblPageMousePressed
 
-	void lblPageMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblPageMouseReleased
+	void lblPageMouseReleased()//GEN-FIRST:event_lblPageMouseReleased
 	{//GEN-HEADEREND:event_lblPageMouseReleased
 		// Add your handling code here:
 		this.lblPage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -456,7 +456,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 	}//GEN-LAST:event_lblPageMouseDragged
 
-	void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
+	void cmbZoomActionPerformed()//GEN-FIRST:event_cmbZoomActionPerformed
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
@@ -490,9 +490,9 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	/**
 	*/
-	private void loadReport(String fileName, boolean isXML) throws JRException
+	private void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
-		if (isXML)
+		if (isXmlReport)
 		{
 			JasperDesign jasperDesign = JRXmlLoader.load(fileName);
 			this.verifyDesign(jasperDesign);
@@ -503,7 +503,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			this.report = (JRReport)JRLoader.loadObject(fileName);
 		}
 		this.type = TYPE_FILE_NAME;
-		this.isXML = isXML;
+		this.isXML = isXmlReport;
 		this.reportFileName = fileName;
 		this.setOffsetY();
 		this.btnReload.setEnabled(true);
@@ -512,9 +512,9 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	/**
 	*/
-	private void loadReport(InputStream is, boolean isXML) throws JRException
+	private void loadReport(InputStream is, boolean isXmlReport) throws JRException
 	{
-		if (isXML)
+		if (isXmlReport)
 		{
 			JasperDesign jasperDesign = JRXmlLoader.load(is);
 			this.verifyDesign(jasperDesign);
@@ -525,7 +525,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			this.report = (JRReport)JRLoader.loadObject(is);
 		}
 		this.type = TYPE_INPUT_STREAM;
-		this.isXML = isXML;
+		this.isXML = isXmlReport;
 		this.setOffsetY();
 		this.btnReload.setEnabled(false);
 	}
@@ -533,9 +533,9 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	/**
 	*/
-	private void loadReport(JRReport report)
+	private void loadReport(JRReport rep)
 	{
-		this.report = report;
+		this.report = rep;
 		this.type = TYPE_JASPER_DESIGN;
 		this.isXML = false;
 		this.setOffsetY();
