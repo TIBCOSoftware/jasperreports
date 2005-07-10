@@ -37,7 +37,6 @@ import java.net.URL;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 
@@ -79,7 +78,7 @@ public class JRXmlDigester extends Digester
 	public InputSource resolveEntity(
 		String publicId,
 		String systemId
-		) throws SAXException//, java.io.IOException
+		)
 	{
 		InputSource inputSource = null;
 
