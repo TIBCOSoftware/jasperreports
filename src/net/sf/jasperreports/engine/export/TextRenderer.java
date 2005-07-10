@@ -167,12 +167,12 @@ public class TextRenderer
 			}
 			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalOffset = ((float)height - textHeight) / 2f;
+				verticalOffset = (height - textHeight) / 2f;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalOffset = (float)height - textHeight;
+				verticalOffset = height - textHeight;
 				break;
 			}
 			default :

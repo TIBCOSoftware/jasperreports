@@ -743,11 +743,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
-			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / (float)jasperPrint.getPageHeight());
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
 		}
 		else if (btnFitWidth.isSelected())
 		{
-			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / (float)jasperPrint.getPageWidth());
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
 		}
 		
 	}//GEN-LAST:event_pnlMainComponentResized
@@ -770,7 +770,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnActualSize.setSelected(false);
 			btnFitPage.setSelected(false);
 
-			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / (float)jasperPrint.getPageWidth());
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
@@ -781,7 +781,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnActualSize.setSelected(false);
 			btnFitWidth.setSelected(false);
 
-			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / (float)jasperPrint.getPageHeight());
+			setZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
@@ -1107,11 +1107,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		int index = Arrays.binarySearch(zooms, newZoomInt);
 		if (index < 0)
 		{
-			setZoomRatio((float)zooms[- index - 1] / 100f);
+			setZoomRatio(zooms[- index - 1] / 100f);
 		}
 		else if (index < cmbZoom.getModel().getSize() - 1)
 		{
-			setZoomRatio((float)zooms[index + 1] / 100f);
+			setZoomRatio(zooms[index + 1] / 100f);
 		}
 	}//GEN-LAST:event_btnZoomInActionPerformed
 
@@ -1126,11 +1126,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		int index = Arrays.binarySearch(zooms, newZoomInt);
 		if (index > 0)
 		{
-			setZoomRatio((float)zooms[index - 1] / 100f);
+			setZoomRatio(zooms[index - 1] / 100f);
 		}
 		else if (index < -1)
 		{
-			setZoomRatio((float)zooms[- index - 2] / 100f);
+			setZoomRatio(zooms[- index - 2] / 100f);
 		}
 	}//GEN-LAST:event_btnZoomOutActionPerformed
 
