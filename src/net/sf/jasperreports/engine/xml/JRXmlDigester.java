@@ -106,12 +106,12 @@ public class JRXmlDigester extends Digester
 			}
 			
 
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			ClassLoader clsLoader = Thread.currentThread().getContextClassLoader();
 
 			URL url = null;
-			if (classLoader != null)
+			if (clsLoader != null)
 			{
-				url = classLoader.getResource(dtd);
+				url = clsLoader.getResource(dtd);
 			}
 			if (url == null)
 			{
@@ -121,17 +121,17 @@ public class JRXmlDigester extends Digester
 				//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRXmlDigester class. Using JRXmlDigester.class.getClassLoader() instead.");
 				//	wasWarning = true;
 				//}
-				classLoader = JRXmlDigester.class.getClassLoader();
+				clsLoader = JRXmlDigester.class.getClassLoader();
 			}
 			
 			InputStream is;
-			if (classLoader == null)
+			if (clsLoader == null)
 			{
 				is = JRXmlDigester.class.getResourceAsStream("/" + dtd);
 			}
 			else
 			{
-				is = classLoader.getResourceAsStream(dtd);
+				is = clsLoader.getResourceAsStream(dtd);
 			}
 			
 			if (is != null)

@@ -98,7 +98,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private int type = TYPE_FILE_NAME;
 	private boolean isXML = false;
 	private String reportFileName = null;
-	private JasperPrint jasperPrint = null;
+	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private float zoom = 0f;
 

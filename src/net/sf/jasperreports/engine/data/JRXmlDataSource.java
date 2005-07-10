@@ -368,21 +368,21 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 * of the document. An additional XPath expression specifies the select criteria applied to
 	 * this new document and that produces the nodes (records) for the data source.
 	 * 
-	 * @param selectExpression the XPath select expression
+	 * @param selectExpr the XPath select expression
 	 * @return the xml sub data source
 	 * @throws JRException if the sub data source couldn't be created
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String)
 	 */
-	public JRXmlDataSource subDataSource(String selectExpression)
+	public JRXmlDataSource subDataSource(String selectExpr)
 			throws JRException {
 		if(currentNode == null)
 			throw new JRException("No node available. Iterate or rewind the data source.");
 		
 		// create a new document from the current node
-		Document document = createDocumentBuilder().newDocument();
-		Node node = document.importNode(currentNode, true);
-		document.appendChild(node);
-		return new JRXmlDataSource(document, selectExpression);
+		Document doc = createDocumentBuilder().newDocument();
+		Node node = doc.importNode(currentNode, true);
+		doc.appendChild(node);
+		return new JRXmlDataSource(doc, selectExpr);
 	}
 
 	/**
@@ -404,14 +404,14 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 * An additional XPath expression specifies the select criteria applied to
 	 * this document and that produces the nodes (records) for the data source.
 	 * 
-	 * @param selectExpression the XPath select expression
+	 * @param selectExpr the XPath select expression
 	 * @return the xml sub data source
 	 * @throws JRException if the sub data source couldn't be created
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String)
 	 */
-	public JRXmlDataSource dataSource(String selectExpression)
+	public JRXmlDataSource dataSource(String selectExpr)
 			throws JRException {
-		return new JRXmlDataSource(document, selectExpression);
+		return new JRXmlDataSource(document, selectExpr);
 	}
 
 	/**
