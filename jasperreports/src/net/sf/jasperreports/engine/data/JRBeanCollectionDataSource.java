@@ -80,7 +80,7 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		boolean hasNext = false;
 		
@@ -134,7 +134,7 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		if (this.data != null)
 		{

@@ -77,7 +77,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		this.index++;
 
@@ -117,7 +117,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		this.index = -1;
 	}

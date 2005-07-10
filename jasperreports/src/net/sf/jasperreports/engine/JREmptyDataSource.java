@@ -63,7 +63,7 @@ public class JREmptyDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		return (index++ < count);
 	}
@@ -81,7 +81,7 @@ public class JREmptyDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		this.index = 0;
 	}

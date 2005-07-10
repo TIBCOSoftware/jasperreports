@@ -150,7 +150,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	
 	/** Creates new form JRViewer */
-	public JRViewer(JasperPrint jrPrint) throws JRException
+	public JRViewer(JasperPrint jrPrint)
 	{
 		setZooms();
 		
@@ -1257,7 +1257,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	protected void loadReport(JasperPrint jrPrint) throws JRException
+	protected void loadReport(JasperPrint jrPrint)
 	{
 		jasperPrint = jrPrint;
 		type = TYPE_JASPER_PRINT;

@@ -33,7 +33,6 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 

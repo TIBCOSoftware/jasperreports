@@ -71,7 +71,7 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		this.index++;
 
@@ -122,7 +122,7 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		this.index = -1;
 	}

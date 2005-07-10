@@ -533,7 +533,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	/**
 	*/
-	private void loadReport(JRReport report) throws JRException
+	private void loadReport(JRReport report)
 	{
 		this.report = report;
 		this.type = TYPE_JASPER_DESIGN;

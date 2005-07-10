@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
