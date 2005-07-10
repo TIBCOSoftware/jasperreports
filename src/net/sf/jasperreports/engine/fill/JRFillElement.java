@@ -593,7 +593,7 @@ public abstract class JRFillElement implements JRElement
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		if (
 			this.isPrintWhenExpressionNull() ||

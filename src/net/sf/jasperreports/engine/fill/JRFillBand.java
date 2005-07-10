@@ -497,7 +497,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	private void prepareElements(
 		int availableStretchHeight,
 		boolean isOverflowAllowed
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 

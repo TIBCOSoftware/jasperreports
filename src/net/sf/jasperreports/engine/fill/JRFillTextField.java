@@ -350,7 +350,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 
