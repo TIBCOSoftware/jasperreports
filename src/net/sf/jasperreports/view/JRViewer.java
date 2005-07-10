@@ -387,7 +387,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnSaveActionPerformed(evt);
+				btnSaveActionPerformed();
 			}
 		});
 
@@ -401,7 +401,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrint.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnPrintActionPerformed(evt);
+				btnPrintActionPerformed();
 			}
 		});
 
@@ -415,7 +415,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnReload.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnReloadActionPerformed(evt);
+				btnReloadActionPerformed();
 			}
 		});
 
@@ -432,7 +432,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFirst.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnFirstActionPerformed(evt);
+				btnFirstActionPerformed();
 			}
 		});
 
@@ -446,7 +446,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrevious.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnPreviousActionPerformed(evt);
+				btnPreviousActionPerformed();
 			}
 		});
 
@@ -460,7 +460,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnNext.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnNextActionPerformed(evt);
+				btnNextActionPerformed();
 			}
 		});
 
@@ -474,7 +474,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnLast.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnLastActionPerformed(evt);
+				btnLastActionPerformed();
 			}
 		});
 
@@ -486,7 +486,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
 		txtGoTo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				txtGoToActionPerformed(evt);
+				txtGoToActionPerformed();
 			}
 		});
 
@@ -503,7 +503,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnActualSize.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnActualSizeActionPerformed(evt);
+				btnActualSizeActionPerformed();
 			}
 		});
 
@@ -517,7 +517,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitPage.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnFitPageActionPerformed(evt);
+				btnFitPageActionPerformed();
 			}
 		});
 
@@ -531,7 +531,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnFitWidthActionPerformed(evt);
+				btnFitWidthActionPerformed();
 			}
 		});
 
@@ -548,7 +548,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnZoomInActionPerformed(evt);
+				btnZoomInActionPerformed();
 			}
 		});
 
@@ -562,7 +562,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnZoomOutActionPerformed(evt);
+				btnZoomOutActionPerformed();
 			}
 		});
 
@@ -575,12 +575,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
 		cmbZoom.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cmbZoomActionPerformed(evt);
+				cmbZoomActionPerformed();
 			}
 		});
 		cmbZoom.addItemListener(new java.awt.event.ItemListener() {
 			public void itemStateChanged(java.awt.event.ItemEvent evt) {
-				cmbZoomItemStateChanged(evt);
+				cmbZoomItemStateChanged();
 			}
 		});
 
@@ -592,7 +592,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
 			public void componentResized(java.awt.event.ComponentEvent evt) {
-				pnlMainComponentResized(evt);
+				pnlMainComponentResized();
 			}
 		});
 
@@ -618,7 +618,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				pnlLinksMousePressed(evt);
 			}
 			public void mouseReleased(java.awt.event.MouseEvent evt) {
-				pnlLinksMouseReleased(evt);
+				pnlLinksMouseReleased();
 			}
 		});
 		pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -713,7 +713,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	}//GEN-END:initComponents
 
-	void txtGoToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGoToActionPerformed
+	void txtGoToActionPerformed() {//GEN-FIRST:event_txtGoToActionPerformed
 		try
 		{
 			int pageNumber = Integer.parseInt(txtGoTo.getText());
@@ -732,14 +732,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_txtGoToActionPerformed
 
-	void cmbZoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbZoomItemStateChanged
+	void cmbZoomItemStateChanged() {//GEN-FIRST:event_cmbZoomItemStateChanged
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
 		btnFitPage.setSelected(false);
 		btnFitWidth.setSelected(false);
 	}//GEN-LAST:event_cmbZoomItemStateChanged
 
-	void pnlMainComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlMainComponentResized
+	void pnlMainComponentResized() {//GEN-FIRST:event_pnlMainComponentResized
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
@@ -752,7 +752,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 	}//GEN-LAST:event_pnlMainComponentResized
 
-	void btnActualSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualSizeActionPerformed
+	void btnActualSizeActionPerformed() {//GEN-FIRST:event_btnActualSizeActionPerformed
 		// Add your handling code here:
 		if (btnActualSize.isSelected())
 		{
@@ -763,7 +763,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnActualSizeActionPerformed
 
-	void btnFitWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitWidthActionPerformed
+	void btnFitWidthActionPerformed() {//GEN-FIRST:event_btnFitWidthActionPerformed
 		// Add your handling code here:
 		if (btnFitWidth.isSelected())
 		{
@@ -774,7 +774,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
-	void btnFitPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFitPageActionPerformed
+	void btnFitPageActionPerformed() {//GEN-FIRST:event_btnFitPageActionPerformed
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
@@ -785,7 +785,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
-	void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+	void btnSaveActionPerformed() {//GEN-FIRST:event_btnSaveActionPerformed
 		// Add your handling code here:
 		
 		JFileChooser fileChooser = new JFileChooser();
@@ -1003,7 +1003,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_pnlLinksMouseDragged
 
-	void pnlLinksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMouseReleased
+	void pnlLinksMouseReleased() {//GEN-FIRST:event_pnlLinksMouseReleased
 		// Add your handling code here:
 		pnlLinks.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_pnlLinksMouseReleased
@@ -1016,7 +1016,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		downY = evt.getY();
 	}//GEN-LAST:event_pnlLinksMousePressed
 
-	void btnPrintActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPrintActionPerformed
+	void btnPrintActionPerformed()//GEN-FIRST:event_btnPrintActionPerformed
 	{//GEN-HEADEREND:event_btnPrintActionPerformed
 		// Add your handling code here:
 		
@@ -1043,35 +1043,35 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	}//GEN-LAST:event_btnPrintActionPerformed
 
-	void btnLastActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLastActionPerformed
+	void btnLastActionPerformed()//GEN-FIRST:event_btnLastActionPerformed
 	{//GEN-HEADEREND:event_btnLastActionPerformed
 		// Add your handling code here:
 		setPageIndex(jasperPrint.getPages().size() - 1);
 		refreshPage();
 	}//GEN-LAST:event_btnLastActionPerformed
 
-	void btnNextActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnNextActionPerformed
+	void btnNextActionPerformed()//GEN-FIRST:event_btnNextActionPerformed
 	{//GEN-HEADEREND:event_btnNextActionPerformed
 		// Add your handling code here:
 		setPageIndex(pageIndex + 1);
 		refreshPage();
 	}//GEN-LAST:event_btnNextActionPerformed
 
-	void btnPreviousActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPreviousActionPerformed
+	void btnPreviousActionPerformed()//GEN-FIRST:event_btnPreviousActionPerformed
 	{//GEN-HEADEREND:event_btnPreviousActionPerformed
 		// Add your handling code here:
 		setPageIndex(pageIndex - 1);
 		refreshPage();
 	}//GEN-LAST:event_btnPreviousActionPerformed
 
-	void btnFirstActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnFirstActionPerformed
+	void btnFirstActionPerformed()//GEN-FIRST:event_btnFirstActionPerformed
 	{//GEN-HEADEREND:event_btnFirstActionPerformed
 		// Add your handling code here:
 		setPageIndex(0);
 		refreshPage();
 	}//GEN-LAST:event_btnFirstActionPerformed
 
-	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
+	void btnReloadActionPerformed()//GEN-FIRST:event_btnReloadActionPerformed
 	{//GEN-HEADEREND:event_btnReloadActionPerformed
 		// Add your handling code here:
 		if (type == TYPE_FILE_NAME)
@@ -1096,7 +1096,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
 
-	void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
+	void btnZoomInActionPerformed()//GEN-FIRST:event_btnZoomInActionPerformed
 	{//GEN-HEADEREND:event_btnZoomInActionPerformed
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
@@ -1115,7 +1115,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnZoomInActionPerformed
 
-	void btnZoomOutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomOutActionPerformed
+	void btnZoomOutActionPerformed()//GEN-FIRST:event_btnZoomOutActionPerformed
 	{//GEN-HEADEREND:event_btnZoomOutActionPerformed
 		// Add your handling code here:
 		btnActualSize.setSelected(false);
@@ -1134,7 +1134,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnZoomOutActionPerformed
 
-	void cmbZoomActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cmbZoomActionPerformed
+	void cmbZoomActionPerformed()//GEN-FIRST:event_cmbZoomActionPerformed
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		float newZoom = getZoomRatio();
@@ -1216,9 +1216,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	protected void loadReport(String fileName, boolean isXML) throws JRException
+	protected void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
-		if (isXML)
+		if (isXmlReport)
 		{
 			jasperPrint = JRPrintXmlLoader.load(fileName);
 		}
@@ -1228,7 +1228,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 
 		type = TYPE_FILE_NAME;
-		this.isXML = isXML;
+		this.isXML = isXmlReport;
 		reportFileName = fileName;
 		btnReload.setEnabled(true);
 		setPageIndex(0);
@@ -1237,9 +1237,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	protected void loadReport(InputStream is, boolean isXML) throws JRException
+	protected void loadReport(InputStream is, boolean isXmlReport) throws JRException
 	{
-		if (isXML)
+		if (isXmlReport)
 		{
 			jasperPrint = JRPrintXmlLoader.load(is);
 		}
@@ -1249,7 +1249,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 
 		type = TYPE_INPUT_STREAM;
-		this.isXML = isXML;
+		this.isXML = isXmlReport;
 		btnReload.setEnabled(false);
 		setPageIndex(0);
 	}

@@ -78,23 +78,23 @@ public class JRDesignElementGroup extends JRBaseElementGroup
 	/**
 	 *
 	 */
-	public void addElementGroup(JRDesignElementGroup elementGroup)
+	public void addElementGroup(JRDesignElementGroup elemGrp)
 	{
-		elementGroup.setElementGroup(this);
+		elemGrp.setElementGroup(this);
 		
-		this.children.add(elementGroup);
+		this.children.add(elemGrp);
 	}
 
 	/**
 	 *
 	 */
-	public JRDesignElementGroup removeElementGroup(JRDesignElementGroup elementGroup)
+	public JRDesignElementGroup removeElementGroup(JRDesignElementGroup elemGrp)
 	{
-		elementGroup.setElementGroup(null);
+		elemGrp.setElementGroup(null);
 
-		this.children.remove(elementGroup);
+		this.children.remove(elemGrp);
 		
-		return elementGroup;
+		return elemGrp;
 	}
 
 

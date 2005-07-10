@@ -925,19 +925,19 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			{
 				for(int i = 0; i < groups.length; i++)
 				{
-					String name = groups[i].getName();
+					String groupName = groups[i].getName();
 					
 					HashMap map = new HashMap();
-					perPageBoundElements.pageToGroupImage.put( name, map );
-					groupBoundImages.put(name, new BoundElementMap(map) );
+					perPageBoundElements.pageToGroupImage.put( groupName, map );
+					groupBoundImages.put(groupName, new BoundElementMap(map) );
 
 					map = new HashMap();
-					perPageBoundElements.pageToGroupText.put( name, map );
-					groupBoundTexts.put(name, new BoundElementMap(map));
+					perPageBoundElements.pageToGroupText.put( groupName, map );
+					groupBoundTexts.put(groupName, new BoundElementMap(map));
 
 					map = new HashMap();
-					perPageBoundElements.pageToGroupChart.put( name, map );
-					groupBoundCharts.put(name, new BoundElementMap(map));
+					perPageBoundElements.pageToGroupChart.put( groupName, map );
+					groupBoundCharts.put(groupName, new BoundElementMap(map));
 				}
 			}
 		}
@@ -963,7 +963,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected ResourceBundle loadResourceBundle()
 	{
-		ResourceBundle resourceBundle = null;
+		ResourceBundle tmpResourceBundle = null;
 
 		if (resourceBundleBaseName != null)
 		{
@@ -972,7 +972,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			{
 				try
 				{
-					resourceBundle = 
+					tmpResourceBundle = 
 						ResourceBundle.getBundle(
 							resourceBundleBaseName,
 							locale,
@@ -986,13 +986,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				}
 			}
 		
-			if (resourceBundle == null)
+			if (tmpResourceBundle == null)
 			{
 				classLoader = JRClassLoader.class.getClassLoader();
 				
 				if (classLoader == null)
 				{
-					resourceBundle = 
+					tmpResourceBundle = 
 						ResourceBundle.getBundle(
 							resourceBundleBaseName,
 							locale
@@ -1000,7 +1000,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				}
 				else
 				{
-					resourceBundle = 
+					tmpResourceBundle = 
 						ResourceBundle.getBundle(
 							resourceBundleBaseName,
 							locale,
@@ -1010,7 +1010,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 		
-		return resourceBundle;
+		return tmpResourceBundle;
 	}
 
 
@@ -1019,7 +1019,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected JRAbstractScriptlet createScriptlet() throws JRException
 	{
-		JRAbstractScriptlet scriptlet = null;
+		JRAbstractScriptlet tmpScriptlet = null;
 
 		if (scriptletClassName != null)
 		{
@@ -1036,7 +1036,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 			try
 			{
-				scriptlet = (JRAbstractScriptlet)clazz.newInstance();
+				tmpScriptlet = (JRAbstractScriptlet)clazz.newInstance();
 			}
 			catch (Exception e)
 			{
@@ -1044,12 +1044,12 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 		}
 
-		if (scriptlet == null)
+		if (tmpScriptlet == null)
 		{
-			scriptlet = new JRDefaultScriptlet();
+			tmpScriptlet = new JRDefaultScriptlet();
 		}
 
-		return scriptlet;
+		return tmpScriptlet;
 	}
 
 

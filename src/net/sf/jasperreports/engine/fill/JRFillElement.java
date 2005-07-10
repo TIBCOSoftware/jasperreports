@@ -552,26 +552,26 @@ public abstract class JRFillElement implements JRElement
 		byte evaluation
 		) throws JRException
 	{
-		boolean isPrintWhenExpressionNull = true;
-		boolean isPrintWhenTrue = false;
+		boolean isExprNull = true;
+		boolean isExprTrue = false;
 
 		JRExpression expression = this.getPrintWhenExpression();
 		if (expression != null)
 		{
-			isPrintWhenExpressionNull = false;
-			Boolean printWhenExpressionValue = (Boolean)this.filler.calculator.evaluate(expression, evaluation);
+			isExprNull = false;
+			Boolean printWhenExpressionValue = (Boolean)filler.calculator.evaluate(expression, evaluation);
 			if (printWhenExpressionValue == null)
 			{
-				isPrintWhenTrue = false;
+				isExprTrue = false;
 			}
 			else
 			{
-				isPrintWhenTrue = printWhenExpressionValue.booleanValue();
+				isExprTrue = printWhenExpressionValue.booleanValue();
 			}
 		}
 
-		this.setPrintWhenExpressionNull(isPrintWhenExpressionNull);
-		this.setPrintWhenTrue(isPrintWhenTrue);
+		setPrintWhenExpressionNull(isExprNull);
+		setPrintWhenTrue(isExprTrue);
 	}
 
 

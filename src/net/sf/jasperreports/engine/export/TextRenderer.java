@@ -65,38 +65,38 @@ public class TextRenderer
 	 * 
 	 */
 	public void render(
-		Graphics2D grx,
-		int x,
-		int y,
-		int width,
-		int height,
-		int topPadding,
-		int leftPadding,
-		int bottomPadding,
-		int rightPadding,
-		float textHeight,
-		byte textAlignment,
-		byte verticalAlignment,
-		byte lineSpacing,
+		Graphics2D initGrx,
+		int initX,
+		int initY,
+		int initWidth,
+		int initHeight,
+		int initTopPadding,
+		int initLeftPadding,
+		int initBottomPadding,
+		int initRightPadding,
+		float initTextHeight,
+		byte initTextAlignment,
+		byte initVerticalAlignment,
+		byte initLineSpacing,
 		JRStyledText styledText,
 		String allText
 		)
 	{
 		/*   */
 		initialize(
-			grx, 
-			x, 
-			y, 
-			width, 
-			height, 
-			topPadding,
-			leftPadding,
-			bottomPadding,
-			rightPadding,
-			textHeight, 
-			textAlignment, 
-			verticalAlignment, 
-			lineSpacing
+			initGrx, 
+			initX, 
+			initY, 
+			initWidth, 
+			initHeight, 
+			initTopPadding,
+			initLeftPadding,
+			initBottomPadding,
+			initRightPadding,
+			initTextHeight, 
+			initTextAlignment, 
+			initVerticalAlignment, 
+			initLineSpacing
 			);
 		
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
@@ -138,27 +138,27 @@ public class TextRenderer
 	 * 
 	 */
 	private void initialize(
-		Graphics2D grx,
-		int x,
-		int y,
-		int width,
-		int height,
-		int topPadding,
-		int leftPadding,
-		int bottomPadding,
-		int rightPadding,
-		float textHeight,
-		byte textAlignment,
-		byte verticalAlignment,
-		byte lineSpacing
+		Graphics2D initGrx,
+		int initX,
+		int initY,
+		int initWidth,
+		int initHeight,
+		int initTopPadding,
+		int initLeftPadding,
+		int initBottomPadding,
+		int initRightPadding,
+		float initTextHeight,
+		byte initTextAlignment,
+		byte initVerticalAlignment,
+		byte initLineSpacing
 		)
 	{
-		this.grx = grx;
+		this.grx = initGrx;
 		
-		this.textAlignment = textAlignment;
+		this.textAlignment = initTextAlignment;
 
 		verticalOffset = 0f;
-		switch (verticalAlignment)
+		switch (initVerticalAlignment)
 		{
 			case JRAlignment.VERTICAL_ALIGN_TOP :
 			{
@@ -167,12 +167,12 @@ public class TextRenderer
 			}
 			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
-				verticalOffset = (height - textHeight) / 2f;
+				verticalOffset = (initHeight - initTextHeight) / 2f;
 				break;
 			}
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalOffset = height - textHeight;
+				verticalOffset = initHeight - initTextHeight;
 				break;
 			}
 			default :
@@ -182,7 +182,7 @@ public class TextRenderer
 		}
 
 		floatLineSpacing = 1f;
-		switch (lineSpacing)
+		switch (initLineSpacing)
 		{
 			case JRTextElement.LINE_SPACING_SINGLE :
 			{
@@ -205,13 +205,13 @@ public class TextRenderer
 			}
 		}
 
-		this.x = x;
-		this.y = y;
-		this.topPadding = topPadding;
-		this.leftPadding = leftPadding;
-		formatWidth = width - leftPadding - rightPadding;
+		this.x = initX;
+		this.y = initY;
+		this.topPadding = initTopPadding;
+		this.leftPadding = initLeftPadding;
+		formatWidth = initWidth - initLeftPadding - initRightPadding;
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
-		maxHeight = height - topPadding - bottomPadding;
+		maxHeight = initHeight - initTopPadding - initBottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 
 		drawPosY = 0;

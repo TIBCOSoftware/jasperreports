@@ -379,14 +379,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getText()
 	{
-		JRStyledText styledText = getStyledText();
+		JRStyledText tmpStyledText = getStyledText();
 
-		if (styledText == null)
+		if (tmpStyledText == null)
 		{
 			return null;
 		}
 
-		return styledText.getText();
+		return tmpStyledText.getText();
 	}
 	
 
@@ -397,9 +397,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		int availableStretchHeight
 		)
 	{
-		JRStyledText styledText = getStyledText();
+		JRStyledText tmpStyledText = getStyledText();
 
-		if (styledText == null)
+		if (tmpStyledText == null)
 		{
 			return;
 		}
@@ -416,7 +416,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		/*   */
 		textMeasurer.measure(
-			styledText,
+			tmpStyledText,
 			remainingText,
 			getTextEnd(),
 			availableStretchHeight 

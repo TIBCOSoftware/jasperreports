@@ -188,16 +188,16 @@ public class JRFillElementGroup implements JRElementGroup
 			
 			setTopBottomElements();
 
-			JRElement[] elements = getElements();
+			JRElement[] allElements = getElements();
 
-			if (elements != null && elements.length > 0)
+			if (allElements != null && allElements.length > 0)
 			{
 				JRFillElement topElem = null;
 				JRFillElement bottomElem = null;
 
-				for(int i = 0; i < elements.length; i++)
+				for(int i = 0; i < allElements.length; i++)
 				{
-					JRFillElement element = (JRFillElement)elements[i];
+					JRFillElement element = (JRFillElement)allElements[i];
 					//if (element != this && element.isToPrint())
 					if (element.isToPrint())
 					{
@@ -246,30 +246,30 @@ public class JRFillElementGroup implements JRElementGroup
 	 */
 	private void setTopBottomElements()
 	{
-		JRElement[] elements = getElements();
+		JRElement[] allElements = getElements();
 	
-		if (elements != null && elements.length > 0)
+		if (allElements != null && allElements.length > 0)
 		{
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < allElements.length; i++)
 			{
 				if (
 					topElementInGroup == null ||
 					(topElementInGroup != null &&
-					elements[i].getY() + elements[i].getHeight() <
+					allElements[i].getY() + allElements[i].getHeight() <
 					topElementInGroup.getY() + topElementInGroup.getHeight())
 					)
 				{
-					topElementInGroup = elements[i];
+					topElementInGroup = allElements[i];
 				}
 
 				if (
 					bottomElementInGroup == null ||
 					(bottomElementInGroup != null &&
-					elements[i].getY() + elements[i].getHeight() >
+					allElements[i].getY() + allElements[i].getHeight() >
 					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
 					)
 				{
-					bottomElementInGroup = elements[i];
+					bottomElementInGroup = allElements[i];
 				}
 			}
 		}

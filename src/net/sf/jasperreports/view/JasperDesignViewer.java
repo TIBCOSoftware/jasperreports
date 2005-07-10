@@ -84,7 +84,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		setIconImage(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/jricon.GIF")).getImage());
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
-				exitForm(evt);
+				exitForm();
 			}
 		});
 
@@ -99,7 +99,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}//GEN-END:initComponents
 
 	/** Exit the Application */
-	void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
+	void exitForm() {//GEN-FIRST:event_exitForm
 		System.exit(0);
 	}//GEN-LAST:event_exitForm
 

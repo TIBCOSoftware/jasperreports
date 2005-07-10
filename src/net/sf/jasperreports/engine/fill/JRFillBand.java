@@ -331,12 +331,12 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 		//	this.isPrintWhenTrue()))
 		//	)
 		//{
-			JRElement[] elements = this.getElements();
-			if (elements != null && elements.length > 0)
+			JRElement[] allElements = this.getElements();
+			if (allElements != null && allElements.length > 0)
 			{
-				for(int i = 0; i < elements.length; i++)
+				for(int i = 0; i < allElements.length; i++)
 				{
-					((JRFillElement)elements[i]).evaluate(evaluation);
+					((JRFillElement)allElements[i]).evaluate(evaluation);
 				}
 			}
 		//}
@@ -449,13 +449,11 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	 */
 	protected void rewind() throws JRException
 	{
-		JRElement[] elements = this.ySortedElements;
-		if (elements != null && elements.length > 0)
+		if (ySortedElements != null && ySortedElements.length > 0)
 		{
-			JRFillElement element = null;
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < ySortedElements.length; i++)
 			{
-				element = (JRFillElement)elements[i];
+				JRFillElement element = ySortedElements[i];
 
 				element.rewind();
 
@@ -472,13 +470,11 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	 */
 	private void resetElements()
 	{
-		JRElement[] elements = this.ySortedElements;
-		if (elements != null && elements.length > 0)
+		if (ySortedElements != null && ySortedElements.length > 0)
 		{
-			JRFillElement element = null;
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < ySortedElements.length; i++)
 			{
-				element = (JRFillElement)elements[i];
+				JRFillElement element = ySortedElements[i];
 
 				element.reset();
 				
@@ -499,22 +495,20 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 		boolean isOverflowAllowed
 		)
 	{
-		boolean willOverflow = false;
+		boolean tmpWillOverflow = false;
 
 		int maxBandStretch = 0;
 		int bandStretch = 0;
 
 		firstY = isOverflow ? getHeight() : 0;
 
-		JRElement[] elements = this.ySortedElements;
-		if (elements != null && elements.length > 0)
+		if (ySortedElements != null && ySortedElements.length > 0)
 		{
-			JRFillElement element = null;
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < ySortedElements.length; i++)
 			{
-				element = (JRFillElement)elements[i];
+				JRFillElement element = ySortedElements[i];
 
-				willOverflow = element.prepare(availableStretchHeight, this.isOverflow) || willOverflow;
+				tmpWillOverflow = element.prepare(availableStretchHeight, this.isOverflow) || tmpWillOverflow;
 
 				element.moveDependantElements();
 
@@ -545,10 +539,10 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 
 		if (maxBandStretch > availableStretchHeight)
 		{
-			willOverflow = true;
+			tmpWillOverflow = true;
 		}
 		
-		if (willOverflow)
+		if (tmpWillOverflow)
 		{
 			this.stretchHeight = this.getHeight() + availableStretchHeight;
 		}
@@ -557,7 +551,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 			this.stretchHeight = this.getHeight() + maxBandStretch;
 		}
 
-		this.willOverflow = willOverflow && isOverflowAllowed;
+		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
 	}
 
 
@@ -566,13 +560,11 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	 */
 	private void stretchElements()
 	{
-		JRElement[] elements = this.stretchElements;
-		if (elements != null && elements.length > 0)
+		if (stretchElements != null && stretchElements.length > 0)
 		{
-			JRFillElement element = null;
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < stretchElements.length; i++)
 			{
-				element = (JRFillElement)elements[i];
+				JRFillElement element = stretchElements[i];
 				
 				element.stretchElement(this.stretchHeight - this.getHeight());
 				
@@ -589,13 +581,11 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	{
 		//if (!this.willOverflow)
 		//{
-			JRElement[] elements = this.bandBottomElements;
-			if (elements != null && elements.length > 0)
+			if (bandBottomElements != null && bandBottomElements.length > 0)
 			{
-				JRFillElement element = null;
-				for(int i = 0; i < elements.length; i++)
+				for(int i = 0; i < bandBottomElements.length; i++)
 				{
-					element = (JRFillElement)elements[i];
+					JRFillElement element = bandBottomElements[i];
 
 					element.setRelativeY(
 						element.getY() + this.stretchHeight - this.getHeight()
@@ -689,14 +679,12 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 
 		//int maxStretch = 0;
 		//int stretch = 0;
-		JRElement[] elements = this.getElements();
-		if (elements != null && elements.length > 0)
+		JRElement[] allElements = this.getElements();
+		if (allElements != null && allElements.length > 0)
 		{
-			JRFillElement element = null;
-			JRPrintElement printElement = null;
-			for(int i = 0; i < elements.length; i++)
+			for(int i = 0; i < allElements.length; i++)
 			{
-				element = (JRFillElement)elements[i];
+				JRFillElement element = (JRFillElement)allElements[i];
 				
 				element.setRelativeY(element.getRelativeY() - this.firstY);
 
@@ -709,7 +697,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 				
 				if (element.isToPrint())
 				{
-					printElement = element.fill();
+					JRPrintElement printElement = element.fill();
 					//printElement.setY(printElement.getY() - this.firstY);
 
 					if (printElement != null)
