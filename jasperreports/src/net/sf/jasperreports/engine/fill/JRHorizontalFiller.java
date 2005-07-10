@@ -91,7 +91,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void setPageHeight(int pageHeight) throws JRException
+	protected void setPageHeight(int pageHeight)
 	{
 		this.pageHeight = pageHeight;
 
