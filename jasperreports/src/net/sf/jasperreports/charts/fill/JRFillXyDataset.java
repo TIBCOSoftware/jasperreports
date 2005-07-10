@@ -138,11 +138,10 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 				for(int i = 0; i < xySeries.length; i++)
 				{
 					JRFillXySeries crtXySeries = xySeries[i];
-					String seriesName = (String)crtXySeries.getSeries();//FIXME NOW use string for series?
+					Comparable seriesName = crtXySeries.getSeries();
 					if (seriesName != null)
 					{
-						XYSeries xySeries = new XYSeries(seriesName);
-						dataset.addSeries(xySeries);
+						dataset.addSeries(new XYSeries(seriesName));
 					}
 				}
 			}
@@ -153,9 +152,9 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 			for(int i = 0; i < xySeries.length; i++)
 			{
 				JRFillXySeries crtXySeries = xySeries[i];
-				XYSeries xySeries = dataset.getSeries(i);
+				XYSeries xySrs = dataset.getSeries(i);
 				if (crtXySeries.getXValue() != null) 
-					xySeries.addOrUpdate(
+					xySrs.addOrUpdate(
 						crtXySeries.getXValue(), 
 						crtXySeries.getYValue()
 						);//FIXME NOW verify if condifion

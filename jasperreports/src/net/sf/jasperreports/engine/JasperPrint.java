@@ -260,10 +260,10 @@ public class JasperPrint implements Serializable
 	/**
 	 *
 	 */
-	public JRReportFont removeFont(String name)
+	public JRReportFont removeFont(String fontName)
 	{
 		return this.removeFont(
-			(JRReportFont)this.fontsMap.get(name)
+			(JRReportFont)this.fontsMap.get(fontName)
 			);
 	}
 
