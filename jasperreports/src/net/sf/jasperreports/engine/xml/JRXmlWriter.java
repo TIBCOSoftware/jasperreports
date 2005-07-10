@@ -132,7 +132,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	public static String writeReport(JRReport report, String encoding) throws JRException
+	public static String writeReport(JRReport report, String encoding)
 	{
 		JRXmlWriter writer = new JRXmlWriter(report, encoding);
 		return writer.writeReport();
@@ -205,7 +205,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	protected String writeReport() throws JRException
+	protected String writeReport()
 	{
 		sb = new StringBuffer();
 		

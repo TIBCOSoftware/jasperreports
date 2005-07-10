@@ -79,7 +79,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 *
 	 */
-	public void addCategorySeries(JRCategorySeries categorySeries) throws JRException
+	public void addCategorySeries(JRCategorySeries categorySeries)
 	{
 		categorySeriesList.add(categorySeries);
 	}

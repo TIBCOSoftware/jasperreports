@@ -79,7 +79,7 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	/**
 	 *
 	 */
-	public void addXySeries(JRXySeries xySeries) throws JRException
+	public void addXySeries(JRXySeries xySeries)
 	{
 		xySeriesList.add(xySeries);
 	}
