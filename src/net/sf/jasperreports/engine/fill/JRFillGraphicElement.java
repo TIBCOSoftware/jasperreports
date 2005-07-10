@@ -86,7 +86,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	/**
 	 *
 	 */
-	public void rewind() throws JRException
+	public void rewind()
 	{
 	}
 

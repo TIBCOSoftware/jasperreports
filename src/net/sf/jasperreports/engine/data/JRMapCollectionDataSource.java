@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
@@ -67,7 +66,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		boolean hasNext = false;
 		
@@ -104,7 +103,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		if (records != null)
 		{

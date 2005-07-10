@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.data;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
@@ -61,7 +60,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public boolean next() throws JRException
+	public boolean next()
 	{
 		index++;
 
@@ -95,7 +94,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public void moveFirst() throws JRException
+	public void moveFirst()
 	{
 		this.index = -1;
 	}

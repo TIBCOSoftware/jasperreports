@@ -92,7 +92,7 @@ public class JasperViewer extends javax.swing.JFrame
 	/** Creates new form JasperViewer */
 	public JasperViewer(
 		JasperPrint jasperPrint
-		) throws JRException
+		)
 	{
 		this.isExitOnClose = true;
 
@@ -139,7 +139,7 @@ public class JasperViewer extends javax.swing.JFrame
 	public JasperViewer(
 		JasperPrint jasperPrint,
 		boolean isExitOnClose
-		) throws JRException
+		)
 	{
 		this.isExitOnClose = isExitOnClose;
 		
@@ -281,7 +281,7 @@ public class JasperViewer extends javax.swing.JFrame
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint
-		) throws JRException
+		)
 	{
 		JasperViewer jasperViewer = 
 			new JasperViewer(
@@ -333,7 +333,7 @@ public class JasperViewer extends javax.swing.JFrame
 	public static void viewReport(
 		JasperPrint jasperPrint,
 		boolean isExitOnClose
-		) throws JRException
+		)
 	{
 		JasperViewer jasperViewer = 
 			new JasperViewer(

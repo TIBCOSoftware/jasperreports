@@ -309,7 +309,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#next()
 	 */
-	public boolean next() throws JRException {
+	public boolean next() {
 		if(currentNodeIndex == nodeListLength - 1)
 			return false;
 
