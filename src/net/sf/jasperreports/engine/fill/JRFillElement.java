@@ -618,7 +618,7 @@ public abstract class JRFillElement implements JRElement
 	/**
 	 *
 	 */
-	protected void stretchElement(int bandStretch) throws JRException
+	protected void stretchElement(int bandStretch)
 	{
 		switch (this.getStretchType())
 		{

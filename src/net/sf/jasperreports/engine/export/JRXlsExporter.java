@@ -125,7 +125,7 @@ public class JRXlsExporter extends JRXLSAbstractExporter
 		sheet.setColumnWidth(index, width);
 	}
 
-	protected void setRowHeight(int y, int lastRowHeight) throws JRException
+	protected void setRowHeight(int y, int lastRowHeight)
 	{
 		row = sheet.getRow((short)y);		
 		if (row == null)
@@ -146,7 +146,7 @@ public class JRXlsExporter extends JRXLSAbstractExporter
 		}
 	}
 
-	protected void addBlankCell(int x, int y) throws JRException
+	protected void addBlankCell(int x, int y)
 	{
 	}
 

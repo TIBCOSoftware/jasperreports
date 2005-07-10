@@ -276,7 +276,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException, IOException
+	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		layoutGrid(page);
 
