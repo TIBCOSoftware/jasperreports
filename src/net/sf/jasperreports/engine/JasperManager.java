@@ -939,7 +939,7 @@ public class JasperManager
 	/**
 	 * @deprecated Replaced by {@link JasperCompileManager#verifyDesign(JasperDesign)}.
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign) throws JRException
+	public static Collection verifyDesign(JasperDesign jasperDesign)
 	{
 		return JasperCompileManager.verifyDesign(jasperDesign);
 	}

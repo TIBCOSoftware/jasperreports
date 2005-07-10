@@ -36,7 +36,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
@@ -91,7 +90,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign) throws JRException
+	public static Collection verifyDesign(JasperDesign jasperDesign)
 	{
 		JRVerifier verifier = new JRVerifier(jasperDesign);
 		return verifier.verifyDesign();
@@ -100,7 +99,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	protected Collection verifyDesign() throws JRException
+	protected Collection verifyDesign()
 	{
 		/*   */
 		verifyDesignAttributes();
@@ -144,7 +143,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyDesignAttributes() throws JRException
+	private void verifyDesignAttributes()
 	{
 		if (jasperDesign.getName() == null || jasperDesign.getName().trim().length() == 0)
 		{
@@ -301,7 +300,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyQuery() throws JRException
+	private void verifyQuery()
 	{
 		JRQuery query = jasperDesign.getQuery();
 		if (query != null)
@@ -348,7 +347,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyExpressions() throws JRException
+	private void verifyExpressions()
 	{
 		Collection expressions = jasperDesign.getExpressions();
 		if (expressions != null && expressions.size() > 0)
@@ -408,7 +407,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyReportFonts() throws JRException
+	private void verifyReportFonts()
 	{
 		JRReportFont[] fonts = jasperDesign.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -429,7 +428,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyParameters() throws JRException
+	private void verifyParameters()
 	{
 		JRParameter[] parameters = jasperDesign.getParameters();
 		if (parameters != null && parameters.length > 0)
@@ -472,7 +471,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyFields() throws JRException
+	private void verifyFields()
 	{
 		JRField[] fields = jasperDesign.getFields();
 		if (fields != null && fields.length > 0)
@@ -500,7 +499,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyVariables() throws JRException
+	private void verifyVariables()
 	{
 		JRVariable[] variables = jasperDesign.getVariables();
 		if (variables != null && variables.length > 0)
@@ -591,7 +590,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyGroups() throws JRException
+	private void verifyGroups()
 	{
 		JRGroup[] groups = jasperDesign.getGroups();
 		if (groups != null && groups.length > 0)
@@ -690,7 +689,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyBand(JRBand band) throws JRException
+	private void verifyBand(JRBand band)
 	{
 		if (band != null)
 		{
@@ -779,7 +778,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyTextField(JRTextField textField) throws JRException
+	private void verifyTextField(JRTextField textField)
 	{
 		verifyTextElement(textField);
 		verifyAnchor(textField);
@@ -809,7 +808,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyTextElement(JRTextElement textElement) throws JRException
+	private void verifyTextElement(JRTextElement textElement)
 	{
 		if (textElement != null)
 		{
@@ -836,7 +835,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyAnchor(JRAnchor anchor) throws JRException
+	private void verifyAnchor(JRAnchor anchor)
 	{
 		if (anchor != null)
 		{
@@ -862,7 +861,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyHyperlink(JRHyperlink hyperlink) throws JRException
+	private void verifyHyperlink(JRHyperlink hyperlink)
 	{
 		if (hyperlink != null)
 		{
@@ -920,7 +919,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyImage(JRImage image) throws JRException
+	private void verifyImage(JRImage image)
 	{
 		verifyAnchor(image);
 		verifyHyperlink(image);
@@ -949,7 +948,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifySubreport(JRSubreport subreport) throws JRException
+	private void verifySubreport(JRSubreport subreport)
 	{
 		if (subreport != null)
 		{

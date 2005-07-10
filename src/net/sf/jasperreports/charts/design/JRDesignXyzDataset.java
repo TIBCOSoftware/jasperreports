@@ -33,7 +33,6 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 /**
@@ -63,11 +62,11 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 		return xyzSeriesArray;
 	}
 	
-	public void addXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
+	public void addXyzSeries( JRXyzSeries xyzSeries ) {
 		xyzSeriesList.add( xyzSeries );
 	}
 	
-	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) throws JRException {
+	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) {
 		if( xyzSeries != null ){
 			xyzSeriesList.remove( xyzSeries );
 		}

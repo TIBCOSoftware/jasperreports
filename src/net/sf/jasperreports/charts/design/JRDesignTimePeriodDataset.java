@@ -60,7 +60,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		return timePeriodSeriesArray;
 	}
 	
-	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) throws JRException {
+	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) {
 		timePeriodSeriesList.add( timePeriodSeries );
 	}
 	

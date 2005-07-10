@@ -61,7 +61,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		return timeSeriesArray;
 	}
 	
-	public void addTimeSeries( JRTimeSeries timeSeries ) throws JRException {
+	public void addTimeSeries( JRTimeSeries timeSeries ) {
 		timeSeriesList.add( timeSeries );
 	}
 	

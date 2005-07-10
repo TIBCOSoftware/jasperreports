@@ -220,7 +220,7 @@ public class JasperCompileManager
 	 * @return collection of String messages if problems are found
 	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign) throws JRException
+	public static Collection verifyDesign(JasperDesign jasperDesign)
 	{
 		return JRVerifier.verifyDesign(jasperDesign);
 	}
@@ -345,7 +345,7 @@ public class JasperCompileManager
 	 * @return XML representation of the report design
 	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
-	public static String writeReportToXml(JRReport report) throws JRException
+	public static String writeReportToXml(JRReport report)
 	{
 		return JRXmlWriter.writeReport(report, "UTF-8");
 	}
