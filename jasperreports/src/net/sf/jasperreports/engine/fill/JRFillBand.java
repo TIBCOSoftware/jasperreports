@@ -470,7 +470,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private void resetElements() throws JRException
+	private void resetElements()
 	{
 		JRElement[] elements = this.ySortedElements;
 		if (elements != null && elements.length > 0)
@@ -564,7 +564,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private void stretchElements() throws JRException
+	private void stretchElements()
 	{
 		JRElement[] elements = this.stretchElements;
 		if (elements != null && elements.length > 0)
@@ -585,7 +585,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private void moveBandBottomElements() throws JRException
+	private void moveBandBottomElements()
 	{
 		//if (!this.willOverflow)
 		//{
@@ -612,7 +612,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private void removeBlankElements() throws JRException
+	private void removeBlankElements()
 	{
 		JRElement[] remElems = this.removableElements;
 		if (remElems != null && remElems.length > 0)
