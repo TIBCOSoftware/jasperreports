@@ -268,7 +268,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void incrementVariable(JRFillVariable variable, byte incrementType) throws JRException
+	private void incrementVariable(JRFillVariable variable, byte incrementType)
 	{
 		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
 		{
@@ -331,7 +331,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void incrementDataset(JRFillChartDataset dataset, byte incrementType) throws JRException
+	private void incrementDataset(JRFillChartDataset dataset, byte incrementType)
 	{
 		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
 		{
@@ -451,7 +451,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void initializeDataset(JRFillChartDataset dataset, byte resetType) throws JRException
+	private void initializeDataset(JRFillChartDataset dataset, byte resetType)
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 //		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)

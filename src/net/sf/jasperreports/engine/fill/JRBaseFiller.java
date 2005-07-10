@@ -961,7 +961,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 *
 	 */
-	protected ResourceBundle loadResourceBundle() throws JRException
+	protected ResourceBundle loadResourceBundle()
 	{
 		ResourceBundle resourceBundle = null;
 
