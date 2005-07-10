@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JasperReport;
@@ -432,7 +433,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 
@@ -492,23 +493,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			}
 			catch (InterruptedException e)
 			{
-				throw new JRException("Error encountered while waiting on the report filling thread.", e);
+				throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
 			}
 			
 			if (error != null)
 			{
-				if (error instanceof JRException)
-				{
-					throw (JRException)error;
-				}
-				else if (error instanceof RuntimeException)
+				if (error instanceof RuntimeException)
 				{
 					throw (RuntimeException)error;
 				}
-				else
-				{
-					throw new JRException(error);
-				}
+
+				throw new JRRuntimeException(error);
 			}
 
 			printPage = subreportFiller.getCurrentPage();

@@ -696,7 +696,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 *
 	 */
-	protected abstract void setPageHeight(int pageHeight) throws JRException;
+	protected abstract void setPageHeight(int pageHeight);
 	
 
 	/**

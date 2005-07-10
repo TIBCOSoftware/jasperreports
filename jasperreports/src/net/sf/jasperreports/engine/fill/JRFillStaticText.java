@@ -105,7 +105,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		) throws JRException
+		)
 	{
 		boolean willOverflow = false;
 
