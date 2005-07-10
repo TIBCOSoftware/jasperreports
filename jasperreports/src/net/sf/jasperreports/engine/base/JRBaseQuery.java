@@ -96,33 +96,33 @@ public class JRBaseQuery implements JRQuery, Serializable
 	{
 		String text = "";
 		
-		JRQueryChunk[] chunks = this.getChunks();
-		if (chunks != null && chunks.length > 0)
+		JRQueryChunk[] cks = this.getChunks();
+		if (cks != null && cks.length > 0)
 		{
 			StringBuffer sbuffer = new StringBuffer();
 
-			for(int i = 0; i < chunks.length; i++)
+			for(int i = 0; i < cks.length; i++)
 			{
-				switch(chunks[i].getType())
+				switch(cks[i].getType())
 				{
 					case JRQueryChunk.TYPE_PARAMETER :
 					{
 						sbuffer.append("$P{");
-						sbuffer.append( chunks[i].getText() );
+						sbuffer.append( cks[i].getText() );
 						sbuffer.append("}");
 						break;
 					}
 					case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
 					{
 						sbuffer.append("$P!{");
-						sbuffer.append( chunks[i].getText() );
+						sbuffer.append( cks[i].getText() );
 						sbuffer.append("}");
 						break;
 					}
 					case JRQueryChunk.TYPE_TEXT :
 					default :
 					{
-						sbuffer.append( chunks[i].getText() );
+						sbuffer.append( cks[i].getText() );
 						break;
 					}
 				}

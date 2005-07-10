@@ -796,17 +796,17 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	private void configurePlot(Plot plot)
+	private void configurePlot(Plot p)
 	{
-		plot.setOutlinePaint(getBackcolor());
+		p.setOutlinePaint(getBackcolor());
 
 		if (getPlot().getBackcolor() != null)
 		{
-			plot.setBackgroundPaint(getPlot().getBackcolor());
+			p.setBackgroundPaint(getPlot().getBackcolor());
 		}
 		
-		plot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-		plot.setForegroundAlpha(getPlot().getForegroundAlpha());
+		p.setBackgroundAlpha(getPlot().getBackgroundAlpha());
+		p.setForegroundAlpha(getPlot().getForegroundAlpha());
 	}
 
 	/**
@@ -842,14 +842,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
 
 		BarRenderer3D barRenderer3D =
 			new BarRenderer3D(
 				((JRFillBar3DPlot)getPlot()).getXOffset(),
 				((JRFillBar3DPlot)getPlot()).getYOffset()
 				);
-		plot.setRenderer(barRenderer3D);
+		categoryPlot.setRenderer(barRenderer3D);
 
 		renderer = new JCommonDrawableRenderer( chart );
 		
@@ -881,23 +881,23 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 
-		plot.getDomainAxis().setTickMarksVisible(
+		categoryPlot.getDomainAxis().setTickMarksVisible(
 			((JRFillBarPlot)getPlot()).isShowTickMarks()
 			);
-		plot.getDomainAxis().setTickLabelsVisible(
+		categoryPlot.getDomainAxis().setTickLabelsVisible(
 				((JRFillBarPlot)getPlot()).isShowTickLabels()
 				);
-		((NumberAxis)plot.getRangeAxis()).setTickMarksVisible(
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
 				((JRFillBarPlot)getPlot()).isShowTickMarks()
 				);
-		((NumberAxis)plot.getRangeAxis()).setTickLabelsVisible(
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
 				((JRFillBarPlot)getPlot()).isShowTickLabels()
 				);
 		
-		CategoryItemRenderer categoryRenderer = plot.getRenderer();
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
 		
 		// set item labels visible
@@ -921,10 +921,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		XYPlot plot = (XYPlot)chart.getPlot();
+		XYPlot xyPlot = (XYPlot)chart.getPlot();
 
 		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( ((JRFillBubblePlot)getPlot()).getScaleType() );
-		plot.setRenderer( bubbleRenderer );
+		xyPlot.setRenderer( bubbleRenderer );
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
@@ -948,8 +948,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		XYPlot plot = (XYPlot) chart.getPlot();
-		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) plot.getRenderer();
+		XYPlot xyPlot = (XYPlot) chart.getPlot();
+		CandlestickRenderer candlestickRenderer = (CandlestickRenderer) xyPlot.getRenderer();
 		candlestickRenderer.setDrawVolume(((JRCandlestickPlot)getPlot()).isShowVolume());
 
 		renderer = new JCommonDrawableRenderer(chart);
@@ -974,8 +974,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		XYPlot plot = (XYPlot) chart.getPlot();
-		HighLowRenderer hlRenderer = (HighLowRenderer) plot.getRenderer();
+		XYPlot xyPlot = (XYPlot) chart.getPlot();
+		HighLowRenderer hlRenderer = (HighLowRenderer) xyPlot.getRenderer();
 		hlRenderer.setDrawOpenTicks(((JRHighLowPlot)getPlot()).isShowOpenTicks());
 		hlRenderer.setDrawCloseTicks(((JRHighLowPlot)getPlot()).isShowCloseTicks());
 
@@ -996,9 +996,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		CategoryPlot plot = (CategoryPlot)chart.getPlot();
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
 
-		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)plot.getRenderer();
+		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
 		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
 		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
 
@@ -1022,16 +1022,16 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+		PiePlot3D piePlot3D = (PiePlot3D) chart.getPlot();
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		plot.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
+		piePlot3D.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
 		
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
 		{
-			plot.setLabelGenerator(labelGenerator);
+			piePlot3D.setLabelGenerator(labelGenerator);
 		}
 
 		renderer = new JCommonDrawableRenderer(chart);
@@ -1054,7 +1054,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		PiePlot plot = (PiePlot)chart.getPlot();
+		PiePlot piePlot = (PiePlot)chart.getPlot();
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
@@ -1062,7 +1062,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
 		{
-			plot.setLabelGenerator(labelGenerator);
+			piePlot.setLabelGenerator(labelGenerator);
 		}
 		
 		
@@ -1182,7 +1182,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
-		XYPlot plot = (XYPlot)chart.getPlot();
+		XYPlot xyPlot = (XYPlot)chart.getPlot();
 		//plot.setNoDataMessage("No data to display");
 //		((XYPlot)plot.getDomainAxis()).setTickMarksVisible(
 //			((JRFillBarPlot)getPlot()).isShowTickMarks()
@@ -1198,7 +1198,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 //				);
 		
 		
-		XYItemRenderer itemRenderer = plot.getRenderer();
+		XYItemRenderer itemRenderer = xyPlot.getRenderer();
 		if( getDataset().getDatasetType() == JRChartDataset.TIMESERIES_DATASET ) {
 			itemRenderer.setBaseItemLabelGenerator( ((JRFillTimeSeriesDataset)getDataset()).getLabelGenerator() );
 		}
@@ -1248,9 +1248,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		configureChart(chart, evaluation);
 		
-		XYPlot plot = (XYPlot)chart.getPlot();
+		XYPlot xyPlot = (XYPlot)chart.getPlot();
 		
-		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)plot.getRenderer();
+		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
 		lineRenderer.setDefaultLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
 		lineRenderer.setDefaultShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
 		
