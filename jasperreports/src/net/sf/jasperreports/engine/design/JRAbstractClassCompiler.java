@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
 
 
@@ -81,16 +82,9 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 		//Generating expressions class source code
 		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
 
-		boolean isKeepJavaFile = 
-			Boolean.valueOf(
-				System.getProperty("jasper.reports.compile.keep.java.file")
-				).booleanValue();
+		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE); 
 
-		String tempDirStr = System.getProperty("jasper.reports.compile.temp");
-		if (tempDirStr == null || tempDirStr.length() == 0)
-		{
-			tempDirStr = System.getProperty("user.dir");
-		}
+		String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
 
 		File tempDirFile = new File(tempDirStr);
 		if (!tempDirFile.exists() || !tempDirFile.isDirectory())
@@ -104,11 +98,7 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 		//Creating expression class source file
 		JRSaver.saveClassSource(sourceCode, javaFile);
 
-		String classpath = System.getProperty("jasper.reports.compile.class.path");
-		if (classpath == null || classpath.length() == 0)
-		{
-			classpath = System.getProperty("java.class.path");
-		}
+		String classpath = JRProperties.getProperty(JRProperties.COMPILER_CLASSPATH);
 
 		try
 		{
