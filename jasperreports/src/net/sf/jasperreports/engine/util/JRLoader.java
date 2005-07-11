@@ -442,8 +442,14 @@ public class JRLoader
 			return loadBytes(file);
 		}
 
+		URL url = null;
+		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		URL url = classLoader.getResource(location);
+		if (classLoader != null)
+		{
+			url = classLoader.getResource(location);
+		}
+		
 		if (url == null)
 		{
 			//if (!wasWarning)
