@@ -31,6 +31,7 @@
  * Adrian Jackson - iapetus@users.sourceforge.net
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
+ * Ling Li - lonecatz@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 
@@ -1900,7 +1901,16 @@ public class JRPdfExporter extends JRAbstractExporter
 				for (Iterator i = fontFiles.iterator(); i.hasNext();)
 				{
 					JRProperties.PropertySuffix font = (JRProperties.PropertySuffix) i.next();
-					FontFactory.register(font.getValue(), font.getSuffix());
+					String file = font.getValue();
+					if (file.toLowerCase().endsWith(".ttc"))
+					{
+						FontFactory.register(file);
+					}
+					else
+					{
+						String alias = font.getSuffix();
+						FontFactory.register(file, alias);
+					}
 				}
 			}
 			
