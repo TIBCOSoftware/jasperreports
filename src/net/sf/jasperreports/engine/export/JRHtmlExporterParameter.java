@@ -137,4 +137,10 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	public static final JRHtmlExporterParameter IS_USING_IMAGES_TO_ALIGN = new JRHtmlExporterParameter("Is Using Images To Align");
 
 
+	/**
+	 * A boolean value specifying whether the export engine should use force wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
+	 */
+	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is wrap break word");
+
+
 }

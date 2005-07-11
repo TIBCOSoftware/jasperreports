@@ -163,6 +163,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected List xCuts = null;
 	protected List yCuts = null;
 
+	protected boolean isWrapBreakWord = false;
 
 	/**
 	 *
@@ -251,6 +252,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (imageNameToImageDataMap == null)
 		{
 			imageNameToImageDataMap = new HashMap();
+		}
+		
+		Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
+		if (isWrapBreakWordParameter != null)
+		{
+			isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
 		}
 		
 		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
@@ -997,6 +1004,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 				styleBuffer.append(horizontalAlignment);
 				styleBuffer.append(";");
 			}
+		}
+		
+		if (isWrapBreakWord)
+		{
+			styleBuffer.append("width: " + gridCell.width + "px; ");
+			styleBuffer.append("word-wrap: break-word; ");
 		}
 
 		if (styleBuffer.length() > 0)
