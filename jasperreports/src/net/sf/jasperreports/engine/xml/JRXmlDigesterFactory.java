@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.SetNestedPropertiesRule;
@@ -121,12 +122,7 @@ public class JRXmlDigesterFactory
 	 */
 	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException 
 	{
-		String validation = System.getProperty("jasper.reports.compile.xml.validation");
-		if (validation == null || validation.length() == 0)
-		{
-			validation = "true";
-		}
-		boolean validating = Boolean.valueOf(validation).booleanValue();
+		boolean validating = JRProperties.getBooleanProperty(JRProperties.COMPILER_XML_VALIDATION);
 		
 		digester.setErrorHandler(new ErrorHandlerImpl());
 		digester.setValidating(validating);

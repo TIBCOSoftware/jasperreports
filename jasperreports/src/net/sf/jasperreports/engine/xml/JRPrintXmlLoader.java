@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
 import org.xml.sax.ErrorHandler;
@@ -179,20 +180,15 @@ public class JRPrintXmlLoader implements ErrorHandler
 	private JRXmlDigester prepareDigester() throws ParserConfigurationException, SAXException
 	{
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-
-		String validation = System.getProperty("jasper.reports.export.xml.validation");
-		if (validation == null || validation.length() == 0)
-		{
-			validation = "true";
-		}
 		
-		saxParserFactory.setValidating(Boolean.valueOf(validation).booleanValue());
+		boolean validating = JRProperties.getBooleanProperty(JRProperties.EXPORT_XML_VALIDATION);		
+		saxParserFactory.setValidating(validating);
 
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 		//XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 		XMLReader xmlReader = saxParser.getXMLReader();
 
-		xmlReader.setFeature("http://xml.org/sax/features/validation", Boolean.valueOf(validation).booleanValue());
+		xmlReader.setFeature("http://xml.org/sax/features/validation", validating);
 
 		JRXmlDigester digester = new JRXmlDigester(xmlReader);
 		digester.push(this);

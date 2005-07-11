@@ -28,6 +28,7 @@
 package servlets;
 
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import java.io.*;
 import javax.servlet.*;
@@ -52,15 +53,15 @@ public class CompileServlet extends HttpServlet
 	{
 		ServletContext context = this.getServletConfig().getServletContext();
 
-		System.setProperty(
-			"jasper.reports.compile.class.path", 
+		JRProperties.setProperty(
+			JRProperties.COMPILER_CLASSPATH, 
 			context.getRealPath("/WEB-INF/lib/jasperreports-0.6.8.jar") +
 			System.getProperty("path.separator") + 
 			context.getRealPath("/WEB-INF/classes/")
 			);
 	
-		System.setProperty(
-			"jasper.reports.compile.temp", 
+		JRProperties.setProperty(
+			JRProperties.COMPILER_TEMP_DIR, 
 			context.getRealPath("/reports/")
 			);
 

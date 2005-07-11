@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -48,7 +49,7 @@ public class JRDefaultCompiler implements JRCompiler
 	{
 		JRCompiler jrCompiler = null;
 
-		String compiler = System.getProperty("jasper.reports.compiler.class");
+		String compiler = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
 		if (compiler == null || compiler.trim().length() == 0)
 		{
 			try 
