@@ -147,12 +147,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		//Generating expressions class source code
 		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
 
-		String classpath = System.getProperty("jasper.reports.compile.class.path");
-		if (classpath == null || classpath.length() == 0)
-		{
-			classpath = System.getProperty("java.class.path");
-		}
-
 		try
 		{
 			ClassFile[] classFiles = new ClassFile[1];
