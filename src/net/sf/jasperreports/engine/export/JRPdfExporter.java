@@ -940,9 +940,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 
-		int xoffset = 0;
-		int yoffset = 0;
-
 		JRRenderable renderer = printImage.getRenderer();
 		
 		if (
@@ -951,6 +948,9 @@ public class JRPdfExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
+			int xoffset = 0;
+			int yoffset = 0;
+
 			Chunk chunk = null;
 
 			float scaledWidth = availableImageWidth;
@@ -964,47 +964,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, null);
 				com.lowagie.text.Image image = null;
 
-				float xalignFactor = 0f;
-				switch (printImage.getHorizontalAlignment())
-				{
-					case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-					{
-						xalignFactor = 1f;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-					{
-						xalignFactor = 0.5f;
-						break;
-					}
-					case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-					default :
-					{
-						xalignFactor = 0f;
-						break;
-					}
-				}
-
-				float yalignFactor = 0f;
-				switch (printImage.getVerticalAlignment())
-				{
-					case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-					{
-						yalignFactor = 1f;
-						break;
-					}
-					case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-					{
-						yalignFactor = 0.5f;
-						break;
-					}
-					case JRAlignment.VERTICAL_ALIGN_TOP :
-					default :
-					{
-						yalignFactor = 0f;
-						break;
-					}
-				}
+				float xalignFactor = getXAlignFactor(printImage);
+				float yalignFactor = getYAlignFactor(printImage);
 
 				switch(printImage.getScaleImage())
 				{
@@ -1124,11 +1085,67 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
+				double normalWidth = availableImageWidth;
+				double normalHeight = availableImageHeight;
+				
+				Dimension2D dimension = renderer.getDimension();
+				if (dimension != null)
+				{
+					float xalignFactor = getXAlignFactor(printImage);
+					float yalignFactor = getYAlignFactor(printImage);
+					
+					switch (printImage.getScaleImage())
+					{
+						case JRImage.SCALE_IMAGE_CLIP:
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+							break;
+						}
+						case JRImage.SCALE_IMAGE_FILL_FRAME:
+						{
+							xoffset = 0;
+							yoffset = 0;
+							break;
+						}
+						case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+						default:
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+							double ratioX = (double) availableImageWidth / normalWidth;
+							double ratioY = (double) availableImageHeight / normalHeight;
+							double ratio = ratioX < ratioY ? ratioX : ratioY;
+							normalWidth *= ratio;
+							normalHeight *= ratio;
+							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+							break;
+						}
+					}
+				}
+
 				PdfTemplate template = pdfContentByte.createTemplate(availableImageWidth, availableImageHeight);
 				Graphics2D g = template.createGraphicsShapes(availableImageWidth, availableImageHeight);
-				Rectangle2D rectangle = new Rectangle2D.Float(0, 0, availableImageWidth, availableImageHeight);
+				
+				Rectangle2D rectangle = new Rectangle2D.Double(
+						(double) (xoffset > 0 ? 0 : xoffset), 
+						(double) (yoffset > 0 ? 0 : yoffset), 
+						normalWidth, 
+						normalHeight);
+				
+				g.setColor(printImage.getBackcolor());
+				g.fillRect(0, 0, 
+						normalWidth <= availableImageWidth ? (int) normalWidth : availableImageWidth, 
+						normalHeight <= availableImageHeight ? (int) normalHeight : availableImageHeight);
+
 				renderer.render(g, rectangle);
 				g.dispose();
+				
+				xoffset = (xoffset < 0 ? 0 : xoffset);
+				yoffset = (yoffset < 0 ? 0 : yoffset);
 
 				pdfContentByte.saveState();
 				pdfContentByte.addTemplate(
@@ -1154,6 +1171,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			pdfContentByte.addImage(image);
 			*/
+
 
 			if (printImage.getAnchorName() != null)
 			{
@@ -1275,6 +1293,58 @@ public class JRPdfExporter extends JRAbstractExporter
 				printImage
 				);
 		}
+	}
+
+
+	private float getXAlignFactor(JRPrintImage printImage)
+	{
+		float xalignFactor = 0f;
+		switch (printImage.getHorizontalAlignment())
+		{
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			{
+				xalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			{
+				xalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			default :
+			{
+				xalignFactor = 0f;
+				break;
+			}
+		}
+		return xalignFactor;
+	}
+
+
+	private float getYAlignFactor(JRPrintImage printImage)
+	{
+		float yalignFactor = 0f;
+		switch (printImage.getVerticalAlignment())
+		{
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			{
+				yalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			{
+				yalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_TOP :
+			default :
+			{
+				yalignFactor = 0f;
+				break;
+			}
+		}
+		return yalignFactor;
 	}
 
 
