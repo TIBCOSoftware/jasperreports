@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.fill.JRCalculator;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
 
 
@@ -85,18 +86,11 @@ public class JRBshCompiler implements JRCompiler
 			//Generating BeanShell script for report expressions
 			String bshScript = JRBshGenerator.generateScript(jasperDesign);
 			
-			boolean isKeepJavaFile = 
-				Boolean.valueOf(
-					System.getProperty("jasper.reports.compile.keep.java.file")
-					).booleanValue();
+			boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE);
 	
 			if (isKeepJavaFile) 
 			{
-				String tempDirStr = System.getProperty("jasper.reports.compile.temp");
-				if (tempDirStr == null || tempDirStr.length() == 0)
-				{
-					tempDirStr = System.getProperty("user.dir");
-				}
+				String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
 	
 				File tempDirFile = new File(tempDirStr);
 				if (!tempDirFile.exists() || !tempDirFile.isDirectory())

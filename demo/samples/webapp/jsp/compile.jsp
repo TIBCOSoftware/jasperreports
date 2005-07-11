@@ -29,18 +29,18 @@
 --%>
 
 <%@ page errorPage="error.jsp" %>
-<%@ page import="net.sf.jasperreports.engine.*" %>
+<%@ page import="net.sf.jasperreports.engine.*,net.sf.jasperreports.engine.util.JRProperties" %>
 
 <%
-	System.setProperty(
-		"jasper.reports.compile.class.path", 
+	JRProperties.setProperty(
+		JRProperties.COMPILER_CLASSPATH, 
 		application.getRealPath("/WEB-INF/lib/jasperreports-0.6.8.jar") +
 		System.getProperty("path.separator") + 
 		application.getRealPath("/WEB-INF/classes/")
 		);
 
-	System.setProperty(
-		"jasper.reports.compile.temp", 
+	JRProperties.setProperty(
+		JRProperties.COMPILER_TEMP_DIR, 
 		application.getRealPath("/reports/")
 		);
 

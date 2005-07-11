@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -89,6 +90,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -112,6 +114,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
+	protected static boolean fontsRegistered = false;
 
 	/**
 	 *
@@ -200,6 +203,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
+		registerFonts();
+		
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
 		/*   */
@@ -1426,19 +1431,30 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
 		
-		BaseFont baseFont = null;
 		Exception initialException = null;
 
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		/*
+		if (forecolor == null)
+		{
+			forecolor = Color.black;
+		}
+		*/
+
+		Font font = null;
+		
 		try
 		{
-			baseFont =
-				BaseFont.createFont(
+			font =
+				FontFactory.getFont(
 					jrFont.getPdfFontName(),
 					jrFont.getPdfEncoding(),
 					jrFont.isPdfEmbedded(),
-					true,
-					null,
-					null
+					jrFont.getSize(),
+//					(jrFont.isBold() ? Font.BOLD : 0) | (jrFont.isItalic() ? Font.ITALIC : 0) | 
+					(jrFont.isUnderline() ? Font.UNDERLINE : 0) | (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+					forecolor
 					);
 		}
 		catch(Exception e)
@@ -1446,7 +1462,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			initialException = e;
 		}
 
-		if (baseFont == null)
+		if (font == null)
 		{
 			byte[] bytes = null;
 
@@ -1466,7 +1482,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						);
 			}
 
-			baseFont =
+			BaseFont baseFont =
 				BaseFont.createFont(
 					jrFont.getPdfFontName(),
 					jrFont.getPdfEncoding(),
@@ -1475,27 +1491,18 @@ public class JRPdfExporter extends JRAbstractExporter
 					bytes,
 					null
 					);
+			
+			font =
+				new Font(
+					baseFont,
+					jrFont.getSize(),
+					//((jrFont.isBold())?Font.BOLD:0) +
+					//((jrFont.isItalic())?Font.ITALIC:0) +
+					(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
+						| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+					forecolor
+					);
 		}
-
-		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		/*
-		if (forecolor == null)
-		{
-			forecolor = Color.black;
-		}
-		*/
-		
-		Font font =
-			new Font(
-				baseFont,
-				jrFont.getSize(),
-				//((jrFont.isBold())?Font.BOLD:0) +
-				//((jrFont.isItalic())?Font.ITALIC:0) +
-				(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
-					| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
-				forecolor
-				);
 
 		Chunk chunk = new Chunk(text, font);
 		
@@ -1882,5 +1889,32 @@ public class JRPdfExporter extends JRAbstractExporter
 		return borderCorrection;
 	}
 
-	
+
+	protected static synchronized void registerFonts ()
+	{
+		if (!fontsRegistered)
+		{
+			List fontFiles = JRProperties.getProperties(JRProperties.PDF_FONT_FILES_PREFIX);
+			if (!fontFiles.isEmpty())
+			{
+				for (Iterator i = fontFiles.iterator(); i.hasNext();)
+				{
+					JRProperties.PropertySuffix font = (JRProperties.PropertySuffix) i.next();
+					FontFactory.register(font.getValue(), font.getSuffix());
+				}
+			}
+			
+			List fontDirs = JRProperties.getProperties(JRProperties.PDF_FONT_DIRS_PREFIX);
+			if (!fontDirs.isEmpty())
+			{
+				for (Iterator i = fontDirs.iterator(); i.hasNext();)
+				{
+					JRProperties.PropertySuffix dir = (JRProperties.PropertySuffix) i.next();
+					FontFactory.registerDirectory(dir.getValue());
+				}
+			}
+			
+			fontsRegistered = true;
+		}
+	}
 }

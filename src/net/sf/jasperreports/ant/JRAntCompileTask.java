@@ -41,6 +41,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -220,57 +221,40 @@ public class JRAntCompileTask extends MatchingTask
 		checkParameters();
 
 		reportFilesMap = new HashMap();
+
+		JRProperties.backupProperties();
 		
-		String oldTempdir = System.getProperty("jasper.reports.compile.temp");
-		String oldKeepjava = System.getProperty("jasper.reports.compile.keep.java.file");
-		String oldCompiler = System.getProperty("jasper.reports.compiler.class");
-		String oldClasspath = System.getProperty("jasper.reports.compile.class.path");
-		String oldXmlvalidation = System.getProperty("jasper.reports.compile.xml.validation");
-		
-		if (tempdir != null)
-			System.setProperty("jasper.reports.compile.temp", String.valueOf(tempdir));
+		try
+		{
+			if (tempdir != null)
+			{
+				JRProperties.setProperty(JRProperties.COMPILER_TEMP_DIR, String.valueOf(tempdir));
+			}
 
-		System.setProperty("jasper.reports.compile.keep.java.file", String.valueOf(keepjava));
+			JRProperties.setProperty(JRProperties.COMPILER_KEEP_JAVA_FILE, keepjava);
 
-		if (compiler != null)
-			System.setProperty("jasper.reports.compiler.class", compiler);
+			if (compiler != null)
+			{
+				JRProperties.setProperty(JRProperties.COMPILER_CLASS, compiler);
+			}
 
-		if (classpath != null)
-			System.setProperty("jasper.reports.compile.class.path", String.valueOf(classpath));
+			if (classpath != null)
+			{
+				JRProperties.setProperty(JRProperties.COMPILER_CLASSPATH, String.valueOf(classpath));
+			}
 
-		System.setProperty("jasper.reports.compile.xml.validation", String.valueOf(xmlvalidation));
+			JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);
 
-		/*   */
-		scanSrc();
-		
-		/*   */
-		compile();
-
-		if (oldTempdir == null)
-			System.setProperty("jasper.reports.compile.temp", "");
-		else
-			System.setProperty("jasper.reports.compile.temp", oldTempdir);
-
-		if (oldKeepjava == null)
-			System.setProperty("jasper.reports.compile.keep.java.file", "");
-		else
-			System.setProperty("jasper.reports.compile.keep.java.file", oldKeepjava);
-	
-		if (oldCompiler == null)
-			System.setProperty("jasper.reports.compiler.class", "");
-		else
-			System.setProperty("jasper.reports.compiler.class", oldCompiler);
+			/*   */
+			scanSrc();
 			
-		if (oldClasspath == null)
-			System.setProperty("jasper.reports.compile.class.path", "");
-		else
-			System.setProperty("jasper.reports.compile.class.path", oldClasspath);
-			
-		if (oldXmlvalidation == null)
-			System.setProperty("jasper.reports.compile.xml.validation", "");
-		else
-			System.setProperty("jasper.reports.compile.xml.validation", oldXmlvalidation);
-			
+			/*   */
+			compile();
+		}
+		finally
+		{
+			JRProperties.restoreProperties();
+		}
 	}
 	
 	
