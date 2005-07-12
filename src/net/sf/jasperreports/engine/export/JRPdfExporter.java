@@ -1115,8 +1115,8 @@ public class JRPdfExporter extends JRAbstractExporter
 						{
 							normalWidth = dimension.getWidth();
 							normalHeight = dimension.getHeight();
-							double ratioX = (double) availableImageWidth / normalWidth;
-							double ratioY = (double) availableImageHeight / normalHeight;
+							double ratioX = availableImageWidth / normalWidth;
+							double ratioY = availableImageHeight / normalHeight;
 							double ratio = ratioX < ratioY ? ratioX : ratioY;
 							normalWidth *= ratio;
 							normalHeight *= ratio;
@@ -1131,8 +1131,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				Graphics2D g = template.createGraphicsShapes(availableImageWidth, availableImageHeight);
 				
 				Rectangle2D rectangle = new Rectangle2D.Double(
-						(double) (xoffset > 0 ? 0 : xoffset), 
-						(double) (yoffset > 0 ? 0 : yoffset), 
+						(xoffset > 0 ? 0 : xoffset), 
+						(yoffset > 0 ? 0 : yoffset), 
 						normalWidth, 
 						normalHeight);
 				
