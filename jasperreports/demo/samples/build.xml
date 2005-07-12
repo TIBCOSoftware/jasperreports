@@ -453,6 +453,15 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Virtualizer Sample"/>
+		<echo message="==================================="/>
+		<ant dir="virtualizer" target="clean" />
+		<ant dir="virtualizer" target="javac" />
+		<ant dir="virtualizer" target="compile" />
+		<ant dir="virtualizer" target="export" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Webapp Sample"/>
 		<echo message="==================================="/>
 		<ant dir="webapp" target="clean" />
@@ -511,6 +520,7 @@
 		<ant dir="table" target="clean" />
 		<ant dir="tableofcontents" target="clean" />
 		<ant dir="unicode" target="clean" />
+		<ant dir="virtualizer" target="clean" />
 		<ant dir="webapp" target="clean" />
 		<ant dir="xmldatasource" target="clean" />
 	</target>
