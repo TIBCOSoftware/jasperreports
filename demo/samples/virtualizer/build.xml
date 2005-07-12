@@ -1,0 +1,180 @@
+<project name="JasperReports-VirtualizerSample" default="javac" basedir=".">
+
+	<property name="class.name" value="VirtualizerApp" />
+	<property name="file.name" value="FirstJasper" />
+	<property name="classes.dir" value="../../../build/classes" />
+	<property name="lib.dir" value="../../../lib" />
+	<property name="fonts.dir" value="../../fonts" />
+	
+	<path id="classpath">
+		<pathelement location="./"/>
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${fonts.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<!--
+		Compiles the java source files 
+		of the test application.
+	-->
+	<target name="javac">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<!--
+		Compiles the XML report design 
+		and produces the .jasper file.
+	-->
+	<target name="compile">
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrc destdir="./">
+			<src>
+				<fileset dir="./">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrc> 
+	</target>
+
+	<!--
+		Fills the report and launches the report viewer to preview it.
+	-->
+	<target name="view">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tview"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and sends it to the printer.
+	-->
+	<target name="print">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tprint"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and exports to PDF, XML, HTML and CSV.
+	-->	
+	<target name="export">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Texport"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<!--
+		Fills the report and generates a PDF version of it. 
+	-->
+	<target name="pdf">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tpdf"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}.pdf"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and generates a XML version of it. 
+	-->
+	<target name="xml">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Txml"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and generates a XML version of it. 
+	-->
+	<target name="xmlEmbed">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TxmlEmbed"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}.jrpxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and generates a HTML version of it. 
+	-->
+	<target name="html">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Thtml"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}.html"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Fills the report and generates a CSV version of it. 
+	-->
+	<target name="csv">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tcsv"/>
+			<arg value="-F${file.name}.jasper"/>
+			<arg value="-O${file.name}.csv"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-F${file.name}.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the compiled report design.
+	-->
+	<target name="viewDesign">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Deletes all the generated files.
+	-->
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.jasper" />
+			<fileset dir="." includes="**/*.jrprint" />
+			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.xls" />
+			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.pdf" />
+			<fileset dir="." includes="tmp/*" />
+		</delete>
+		<delete dir="${file.name}.jrpxml_files" />
+		<delete dir="${file.name}.html_files" />
+	</target>
+
+</project>
