@@ -98,6 +98,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -133,6 +135,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected boolean isCreatingBatchModeBookmarks = false;
 	protected boolean isEncrypted = false;
 	protected boolean is128BitKey = false;
 	protected String userPassword = null;
@@ -218,6 +221,11 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (!isModeBatch)
 		{
 			setPageRange();
+		}
+		
+		Boolean isCreatingBatchModeBookmarksParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS);
+		if(isCreatingBatchModeBookmarksParameter != null){
+			isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarksParameter.booleanValue();
 		}
 
 		Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
@@ -335,7 +343,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			document.open();
 
 			pdfContentByte = pdfWriter.getDirectContent();
-			//PdfOutline root = pdfContentByte.getRootOutline();
+			PdfOutline root = pdfContentByte.getRootOutline();
 
 			PdfWriter imageTesterPdfWriter = 
 				PdfWriter.getInstance(
@@ -360,9 +368,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					if (isModeBatch)
 					{
 						document.newPage();
-						// add a new level to our outline for this report
-						//PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
-						//new PdfOutline(root, newReport, jasperPrint.getName(), false);
+						
+						if( isCreatingBatchModeBookmarks ){
+							//add a new level to our outline for this report
+							PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
+							new PdfOutline(root, newReport, jasperPrint.getName(), false);
+						}
 
 						startPageIndex = 0;
 						endPageIndex = pages.size() - 1;
