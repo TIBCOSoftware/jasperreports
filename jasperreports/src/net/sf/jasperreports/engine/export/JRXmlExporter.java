@@ -39,11 +39,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
@@ -93,7 +91,9 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected PrintWriter writer = null;
+	protected Writer writer = null;
+	protected String encoding = null;
+	
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
 	protected Map imageNameToImageDataMap = null;
@@ -135,6 +135,12 @@ public class JRXmlExporter extends JRAbstractExporter
 			dtdLocation = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
 		}
 		
+		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+		if (encoding == null)
+		{
+			encoding = "UTF-8";
+		}
+		
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
@@ -143,51 +149,60 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-			if (os != null)
+			Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (outWriter != null)
 			{
 				try
 				{
-					Writer osw = new OutputStreamWriter(os, "UTF-8");
-					exportReportToStream(osw);
+					writer = outWriter;
+					exportReportToStream();
 				}
-				catch (Exception e)
+				catch (IOException e)
 				{
-					throw new JRException("Error writing to OutputStream : " + jasperPrint.getName(), e);
+					throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
 				}
 			}
 			else
 			{
-				destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-				if (destFile == null)
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				if (os != null)
 				{
-					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-					if (fileName != null)
+					try
 					{
-						destFile = new File(fileName);
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToStream();
 					}
-					else
+					catch (Exception e)
 					{
-						throw new JRException("No output specified for the exporter.");
+						throw new JRException("Error writing to OutputStream : " + jasperPrint.getName(), e);
 					}
 				}
-				
-				imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-				
-				Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
-				if (isEmbeddingImagesParameter == null)
+				else
 				{
-					isEmbeddingImagesParameter = Boolean.TRUE;
-				}
-				isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
-				
-				try
-				{
+					destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					if (destFile == null)
+					{
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						if (fileName != null)
+						{
+							destFile = new File(fileName);
+						}
+						else
+						{
+							throw new JRException("No output specified for the exporter.");
+						}
+					}
+					
+					imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+					
+					Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
+					if (isEmbeddingImagesParameter == null)
+					{
+						isEmbeddingImagesParameter = Boolean.TRUE;
+					}
+					isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
+					
 					exportReportToFile();
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error writing report " + jasperPrint.getName() + " to file " + destFile, e);
 				}
 			}
 		}
@@ -198,7 +213,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 * @throws IOException 
 	 *
 	 */
-	protected void exportReportToFile() throws JRException, IOException
+	protected void exportReportToFile() throws JRException
 	{
 		//if (!isEmbeddingImages)
 		{
@@ -206,12 +221,11 @@ public class JRXmlExporter extends JRAbstractExporter
 			imageNameToImageDataMap = new HashMap();
 		}
 				
-		Writer fWriter = null;
 		try
 		{
-			fWriter = new BufferedWriter(new FileWriter(destFile));
-			exportReportToStream(fWriter);
-			fWriter.flush();
+			OutputStream fileOutputStream = new FileOutputStream(destFile);
+			writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream, encoding));
+			exportReportToStream();
 		}
 		catch (IOException e)
 		{
@@ -219,11 +233,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 		finally
 		{
-			if (fWriter != null)
+			if (writer != null)
 			{
 				try
 				{
-					fWriter.close();
+					writer.close();
 				}
 				catch(IOException e)
 				{
@@ -248,9 +262,10 @@ public class JRXmlExporter extends JRAbstractExporter
 
 					File imageFile = new File(imagesDir, imageName);
 
+					OutputStream fos = null;
 					try
 					{
-						OutputStream fos = new FileOutputStream(imageFile);
+						fos = new FileOutputStream(imageFile);
 						fos.write(imageData, 0, imageData.length);
 					}
 					catch (IOException e)
@@ -259,11 +274,11 @@ public class JRXmlExporter extends JRAbstractExporter
 					}
 					finally
 					{
-						if (fWriter != null)
+						if (fos != null)
 						{
 							try
 							{
-								fWriter.close();
+								fos.close();
 							}
 							catch(IOException e)
 							{
@@ -278,53 +293,53 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected StringBuffer exportReportToBuffer() throws JRException
 	{
 		StringWriter buffer = new StringWriter();
+		writer = buffer;
 		try
 		{
-			exportReportToStream(buffer);
+			exportReportToStream();
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error exporting report to buffer", e);
+			throw new JRException("Error while exporting report to buffer", e);
 		}
 		return buffer.getBuffer();
 	}
 
 
-	protected void exportReportToStream(Writer out) throws JRException, IOException
+	protected void exportReportToStream() throws JRException, IOException
 	{
-		writer = new PrintWriter(out);
-		
-		writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.print("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"");
-		writer.print(dtdLocation);
-		writer.print("\">\n");
-		writer.print("\n");
+		writer.write("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n");
+		writer.write("<!DOCTYPE jasperPrint PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"");
+		writer.write(dtdLocation);
+		writer.write("\">\n");
+		writer.write("\n");
 
-		writer.print("<jasperPrint name=\"");
-		writer.print(jasperPrint.getName());
-		writer.print("\"");
+		writer.write("<jasperPrint name=\"");
+		writer.write(jasperPrint.getName());
+		writer.write("\"");
 
-		writer.print(" pageWidth=\"");
-		writer.print(jasperPrint.getPageWidth());
-		writer.print("\"");
+		writer.write(" pageWidth=\"");
+		writer.write(String.valueOf(jasperPrint.getPageWidth()));
+		writer.write("\"");
 
-		writer.print(" pageHeight=\"");
-		writer.print(jasperPrint.getPageHeight());
-		writer.print("\"");
+		writer.write(" pageHeight=\"");
+		writer.write(String.valueOf(jasperPrint.getPageHeight()));
+		writer.write("\"");
 
 		if (jasperPrint.getOrientation() != JRReport.ORIENTATION_PORTRAIT)
 		{
-			writer.print(" orientation=\"");
-			writer.print((String)JRXmlConstants.getOrientationMap().get(new Byte(jasperPrint.getOrientation())));
-			writer.print("\"");
+			writer.write(" orientation=\"");
+			writer.write((String)JRXmlConstants.getOrientationMap().get(new Byte(jasperPrint.getOrientation())));
+			writer.write("\"");
 		}
 
-		writer.print(">\n");
+		writer.write(">\n");
 		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -354,73 +369,77 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 		}
 
-		writer.print("</jasperPrint>\n");
+		writer.write("</jasperPrint>\n");
+		
+		writer.flush();
 	}
 
 
 	/**
+	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
 	protected void exportReportFont(JRReportFont font) throws IOException
 	{
-		writer.print("\t<reportFont");
+		writer.write("\t<reportFont");
 
-		writer.print(" name=\"");
-		writer.print(font.getName());
-		writer.print("\"");
+		writer.write(" name=\"");
+		writer.write(font.getName());
+		writer.write("\"");
 
-		writer.print(" isDefault=\"");
-		writer.print(font.isDefault());
-		writer.print("\"");
+		writer.write(" isDefault=\"");
+		writer.write(String.valueOf(font.isDefault()));
+		writer.write("\"");
 
-		writer.print(" fontName=\"");
-		writer.print(font.getFontName());
-		writer.print("\"");
+		writer.write(" fontName=\"");
+		writer.write(font.getFontName());
+		writer.write("\"");
 
-		writer.print(" size=\"");
-		writer.print(font.getSize());
-		writer.print("\"");
+		writer.write(" size=\"");
+		writer.write(String.valueOf(font.getSize()));
+		writer.write("\"");
 
-		writer.print(" isBold=\"");
-		writer.print(font.isBold());
-		writer.print("\"");
+		writer.write(" isBold=\"");
+		writer.write(String.valueOf(font.isBold()));
+		writer.write("\"");
 
-		writer.print(" isItalic=\"");
-		writer.print(font.isItalic());
-		writer.print("\"");
+		writer.write(" isItalic=\"");
+		writer.write(String.valueOf(font.isItalic()));
+		writer.write("\"");
 
-		writer.print(" isUnderline=\"");
-		writer.print(font.isUnderline());
-		writer.print("\"");
+		writer.write(" isUnderline=\"");
+		writer.write(String.valueOf(font.isUnderline()));
+		writer.write("\"");
 
-		writer.print(" isStrikeThrough=\"");
-		writer.print(font.isStrikeThrough());
-		writer.print("\"");
+		writer.write(" isStrikeThrough=\"");
+		writer.write(String.valueOf(font.isStrikeThrough()));
+		writer.write("\"");
 
-		writer.print(" pdfFontName=\"");
-		writer.print(font.getPdfFontName());
-		writer.print("\"");
+		writer.write(" pdfFontName=\"");
+		writer.write(font.getPdfFontName());
+		writer.write("\"");
 
-		writer.print(" pdfEncoding=\"");
-		writer.print(font.getPdfEncoding());
-		writer.print("\"");
+		writer.write(" pdfEncoding=\"");
+		writer.write(font.getPdfEncoding());
+		writer.write("\"");
 
-		writer.print(" isPdfEmbedded=\"");
-		writer.print(font.isPdfEmbedded());
-		writer.print("\"");
+		writer.write(" isPdfEmbedded=\"");
+		writer.write(String.valueOf(font.isPdfEmbedded()));
+		writer.write("\"");
 
-		writer.print("/>\n");
+		writer.write("/>\n");
 	}
 
 
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.print("\t<page>\n");
+		writer.write("\t<page>\n");
 
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
@@ -453,7 +472,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 		}
 
-		writer.print("\t</page>\n");
+		writer.write("\t</page>\n");
 		
 		if (progressMonitor != null)
 		{
@@ -464,35 +483,37 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException
 	{
-		writer.print("\t\t<line");
+		writer.write("\t\t<line");
 
 		if (line.getDirection() != JRLine.DIRECTION_TOP_DOWN)
 		{
-			writer.print(" direction=\"");
-			writer.print((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
-			writer.print("\"");
+			writer.write(" direction=\"");
+			writer.write((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
+			writer.write("\"");
 		}
 
-		writer.print(">\n");
+		writer.write(">\n");
 
 		exportReportElement(line);
 		exportGraphicElement(line);
 		
-		writer.print("\t\t</line>\n");
+		writer.write("\t\t</line>\n");
 	}
 
 
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
-		writer.print("\t\t\t<reportElement");
+		writer.write("\t\t\t<reportElement");
 
 		if (
 			(element instanceof JRPrintLine && element.getMode() != JRElement.MODE_OPAQUE) ||
@@ -502,52 +523,53 @@ public class JRXmlExporter extends JRAbstractExporter
 			(element instanceof JRPrintText && element.getMode() != JRElement.MODE_TRANSPARENT)
 			)
 		{
-			writer.print(" mode=\"");
-			writer.print((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
-			writer.print("\"");
+			writer.write(" mode=\"");
+			writer.write((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
+			writer.write("\"");
 		}
 
-		writer.print(" x=\"");
-		writer.print(element.getX() + globalOffsetX);
-		writer.print("\"");
+		writer.write(" x=\"");
+		writer.write(String.valueOf(element.getX() + globalOffsetX));
+		writer.write("\"");
 
-		writer.print(" y=\"");
-		writer.print(element.getY() + globalOffsetY);
-		writer.print("\"");
+		writer.write(" y=\"");
+		writer.write(String.valueOf(element.getY() + globalOffsetY));
+		writer.write("\"");
 
-		writer.print(" width=\"");
-		writer.print(element.getWidth());
-		writer.print("\"");
+		writer.write(" width=\"");
+		writer.write(String.valueOf(element.getWidth()));
+		writer.write("\"");
 
-		writer.print(" height=\"");
-		writer.print(element.getHeight());
-		writer.print("\"");
+		writer.write(" height=\"");
+		writer.write(String.valueOf(element.getHeight()));
+		writer.write("\"");
 
 		if (element.getForecolor().getRGB() != Color.black.getRGB())
 		{
-			writer.print(" forecolor=\"#");
-			writer.print(getHexaColor(element.getForecolor()));
-			writer.print("\"");
+			writer.write(" forecolor=\"#");
+			writer.write(getHexaColor(element.getForecolor()));
+			writer.write("\"");
 		}
 
 		if (element.getBackcolor().getRGB() != Color.white.getRGB())
 		{
-			writer.print(" backcolor=\"#");
-			writer.print(getHexaColor(element.getBackcolor()));
-			writer.print("\"");
+			writer.write(" backcolor=\"#");
+			writer.write(getHexaColor(element.getBackcolor()));
+			writer.write("\"");
 		}
 
-		writer.print("/>\n");
+		writer.write("/>\n");
 	}
 
 
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportGraphicElement(JRPrintGraphicElement element) throws IOException
 	{
-		writer.print("\t\t\t<graphicElement");
+		writer.write("\t\t\t<graphicElement");
 
 		if (
 			(element instanceof JRPrintLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
@@ -556,147 +578,150 @@ public class JRXmlExporter extends JRAbstractExporter
 			(element instanceof JRPrintImage && element.getPen() != JRGraphicElement.PEN_NONE)
 			)
 		{
-			writer.print(" pen=\"");
-			writer.print((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
-			writer.print("\"");
+			writer.write(" pen=\"");
+			writer.write((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
+			writer.write("\"");
 		}
 
 		if (element.getFill() != JRGraphicElement.FILL_SOLID)
 		{
-			writer.print(" fill=\"");
-			writer.print((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
-			writer.print("\"");
+			writer.write(" fill=\"");
+			writer.write((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
+			writer.write("\"");
 		}
 
-		writer.print("/>\n");
+		writer.write("/>\n");
 	}
 
 
 	/**
+	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle) throws IOException
 	{
-		writer.print("\t\t<rectangle");
+		writer.write("\t\t<rectangle");
 
 		if (rectangle.getRadius() != 0)
 		{
-			writer.print(" radius=\"");
-			writer.print(rectangle.getRadius());
-			writer.print("\"");
+			writer.write(" radius=\"");
+			writer.write(String.valueOf(rectangle.getRadius()));
+			writer.write("\"");
 		}
 
-		writer.print(">\n");
+		writer.write(">\n");
 
 		exportReportElement(rectangle);
 		exportGraphicElement(rectangle);
 		
-		writer.print("\t\t</rectangle>\n");
+		writer.write("\t\t</rectangle>\n");
 	}
 
 
 	/**
+	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
 	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException
 	{
-		writer.print("\t\t\t<ellipse>\n");
+		writer.write("\t\t\t<ellipse>\n");
 
 		exportReportElement(ellipse);
 		exportGraphicElement(ellipse);
 		
-		writer.print("\t\t</ellipse>\n");
+		writer.write("\t\t</ellipse>\n");
 	}
 
 
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportImage(JRPrintImage image) throws JRException, IOException
 	{
-		writer.print("\t\t<image");
+		writer.write("\t\t<image");
 
 		if (image.getScaleImage() != JRImage.SCALE_IMAGE_RETAIN_SHAPE)
 		{
-			writer.print(" scaleImage=\"");
-			writer.print((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
-			writer.print("\"");
+			writer.write(" scaleImage=\"");
+			writer.write((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
+			writer.write("\"");
 		}
 		
 		if (image.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			writer.print(" hAlign=\"");
-			writer.print((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
-			writer.print("\"");
+			writer.write(" hAlign=\"");
+			writer.write((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
+			writer.write("\"");
 		}
 		
 		if (image.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
-			writer.print(" vAlign=\"");
-			writer.print((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
-			writer.print("\"");
+			writer.write(" vAlign=\"");
+			writer.write((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
+			writer.write("\"");
 		}
 		
 		if (image.isLazy())
 		{
-			writer.print(" isLazy=\"");
-			writer.print(image.isLazy());
-			writer.print("\"");
+			writer.write(" isLazy=\"");
+			writer.write(String.valueOf(image.isLazy()));
+			writer.write("\"");
 		}
 
 		if (image.getOnErrorType() != JRImage.ON_ERROR_TYPE_ERROR)
 		{
-			writer.print(" onErrorType=\"");
-			writer.print((String)JRXmlConstants.getOnErrorTypeMap().get(new Byte(image.getOnErrorType())));
-			writer.print("\"");
+			writer.write(" onErrorType=\"");
+			writer.write((String)JRXmlConstants.getOnErrorTypeMap().get(new Byte(image.getOnErrorType())));
+			writer.write("\"");
 		}
 		
 		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			writer.print(" hyperlinkType=\"");
-			writer.print((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
-			writer.print("\"");
+			writer.write(" hyperlinkType=\"");
+			writer.write((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
+			writer.write("\"");
 		}
 
 		if (image.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
 		{
-			writer.print(" hyperlinkTarget=\"");
-			writer.print((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
-			writer.print("\"");
+			writer.write(" hyperlinkTarget=\"");
+			writer.write((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
+			writer.write("\"");
 		}
 
 		if (image.getAnchorName() != null)
 		{
-			writer.print(" anchorName=\"");
-			writer.print(image.getAnchorName());
-			writer.print("\"");
+			writer.write(" anchorName=\"");
+			writer.write(image.getAnchorName());
+			writer.write("\"");
 		}
 				
 		if (image.getHyperlinkReference() != null)
 		{
-			writer.print(" hyperlinkReference=\"");
-			writer.print(image.getHyperlinkReference());
-			writer.print("\"");
+			writer.write(" hyperlinkReference=\"");
+			writer.write(image.getHyperlinkReference());
+			writer.write("\"");
 		}
 
 		if (image.getHyperlinkAnchor() != null)
 		{
-			writer.print(" hyperlinkAnchor=\"");
-			writer.print(image.getHyperlinkAnchor());
-			writer.print("\"");
+			writer.write(" hyperlinkAnchor=\"");
+			writer.write(image.getHyperlinkAnchor());
+			writer.write("\"");
 		}
 
 		if (image.getHyperlinkPage() != null)
 		{
-			writer.print(" hyperlinkPage=\"");
-			writer.print(image.getHyperlinkPage());
-			writer.print("\"");
+			writer.write(" hyperlinkPage=\"");
+			writer.write(String.valueOf(image.getHyperlinkPage()));
+			writer.write("\"");
 		}
 
-		writer.print(">\n");
+		writer.write(">\n");
 
 
 		exportReportElement(image);
@@ -707,16 +732,16 @@ public class JRXmlExporter extends JRAbstractExporter
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
-			writer.print("\t\t\t<imageSource");
+			writer.write("\t\t\t<imageSource");
 	
 			if (isEmbeddingImages && !image.isLazy())
 			{
-				writer.print(" isEmbedded=\"");
-				writer.print(isEmbeddingImages && !image.isLazy());
-				writer.print("\"");
+				writer.write(" isEmbedded=\"");
+				writer.write(String.valueOf(isEmbeddingImages && !image.isLazy()));
+				writer.write("\"");
 			}
 	
-			writer.print("><![CDATA[");
+			writer.write("><![CDATA[");
 	
 			String imageSource = "";
 			
@@ -771,120 +796,121 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 			}
 			
-			writer.print(imageSource);
+			writer.write(imageSource);
 	
-			writer.print("]]></imageSource>\n");
+			writer.write("]]></imageSource>\n");
 		}
 		
-		writer.print("\t\t</image>\n");
+		writer.write("\t\t</image>\n");
 	}
 
 
 	/**
 	 * @throws IOException 
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportText(JRPrintText text) throws IOException
 	{
-		writer.print("\t\t<text");
+		writer.write("\t\t<text");
 
 		if (text.getTextAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
-			writer.print(" textAlignment=\"");
-			writer.print((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getTextAlignment())));
-			writer.print("\"");
+			writer.write(" textAlignment=\"");
+			writer.write((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getTextAlignment())));
+			writer.write("\"");
 		}
 
 		if (text.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
 		{
-			writer.print(" verticalAlignment=\"");
-			writer.print((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(text.getVerticalAlignment())));
-			writer.print("\"");
+			writer.write(" verticalAlignment=\"");
+			writer.write((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(text.getVerticalAlignment())));
+			writer.write("\"");
 
-			writer.print(" textHeight=\"");
-			writer.print(text.getTextHeight());
-			writer.print("\"");
+			writer.write(" textHeight=\"");
+			writer.write(String.valueOf(text.getTextHeight()));
+			writer.write("\"");
 		}
 
 		if (text.getRotation() != JRTextElement.ROTATION_NONE)
 		{
-			writer.print(" rotation=\"");
-			writer.print((String)JRXmlConstants.getRotationMap().get(new Byte(text.getRotation())));
-			writer.print("\"");
+			writer.write(" rotation=\"");
+			writer.write((String)JRXmlConstants.getRotationMap().get(new Byte(text.getRotation())));
+			writer.write("\"");
 		}
 
 		if (text.getRunDirection() != JRPrintText.RUN_DIRECTION_LTR)
 		{
-			writer.print(" runDirection=\"");
-			writer.print((String)JRXmlConstants.getRunDirectionMap().get(new Byte(text.getRunDirection())));
-			writer.print("\"");
+			writer.write(" runDirection=\"");
+			writer.write((String)JRXmlConstants.getRunDirectionMap().get(new Byte(text.getRunDirection())));
+			writer.write("\"");
 		}
 
 		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 		{
-			writer.print(" lineSpacing=\"");
-			writer.print((String)JRXmlConstants.getLineSpacingMap().get(new Byte(text.getLineSpacing())));
-			writer.print("\"");
+			writer.write(" lineSpacing=\"");
+			writer.write((String)JRXmlConstants.getLineSpacingMap().get(new Byte(text.getLineSpacing())));
+			writer.write("\"");
 		}
 
 		if (text.isStyledText())
 		{
-			writer.print(" isStyledText=\"");
-			writer.print(text.isStyledText());
-			writer.print("\"");
+			writer.write(" isStyledText=\"");
+			writer.write(String.valueOf(text.isStyledText()));
+			writer.write("\"");
 		}
 
-		writer.print(" lineSpacingFactor=\"");
-		writer.print(text.getLineSpacingFactor());
-		writer.print("\"");
+		writer.write(" lineSpacingFactor=\"");
+		writer.write(String.valueOf(text.getLineSpacingFactor()));
+		writer.write("\"");
 
-		writer.print(" leadingOffset=\"");
-		writer.print(text.getLeadingOffset());
-		writer.print("\"");
+		writer.write(" leadingOffset=\"");
+		writer.write(String.valueOf(text.getLeadingOffset()));
+		writer.write("\"");
 
 		if (text.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			writer.print(" hyperlinkType=\"");
-			writer.print((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(text.getHyperlinkType())));
-			writer.print("\"");
+			writer.write(" hyperlinkType=\"");
+			writer.write((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(text.getHyperlinkType())));
+			writer.write("\"");
 		}
 
 		if (text.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
 		{
-			writer.print(" hyperlinkTarget=\"");
-			writer.print((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(text.getHyperlinkTarget())));
-			writer.print("\"");
+			writer.write(" hyperlinkTarget=\"");
+			writer.write((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(text.getHyperlinkTarget())));
+			writer.write("\"");
 		}
 
 		if (text.getAnchorName() != null)
 		{
-			writer.print(" anchorName=\"");
-			writer.print(text.getAnchorName());
-			writer.print("\"");
+			writer.write(" anchorName=\"");
+			writer.write(text.getAnchorName());
+			writer.write("\"");
 		}
 				
 		if (text.getHyperlinkReference() != null)
 		{
-			writer.print(" hyperlinkReference=\"");
-			writer.print(text.getHyperlinkReference());
-			writer.print("\"");
+			writer.write(" hyperlinkReference=\"");
+			writer.write(text.getHyperlinkReference());
+			writer.write("\"");
 		}
 
 		if (text.getHyperlinkAnchor() != null)
 		{
-			writer.print(" hyperlinkAnchor=\"");
-			writer.print(text.getHyperlinkAnchor());
-			writer.print("\"");
+			writer.write(" hyperlinkAnchor=\"");
+			writer.write(text.getHyperlinkAnchor());
+			writer.write("\"");
 		}
 
 		if (text.getHyperlinkPage() != null)
 		{
-			writer.print(" hyperlinkPage=\"");
-			writer.print(text.getHyperlinkPage());
-			writer.print("\"");
+			writer.write(" hyperlinkPage=\"");
+			writer.write(String.valueOf(text.getHyperlinkPage()));
+			writer.write("\"");
 		}
 
-		writer.print(">\n");
+		writer.write(">\n");
 
 		exportReportElement(text);
 		exportBox(text.getBox());
@@ -892,21 +918,22 @@ public class JRXmlExporter extends JRAbstractExporter
 		String font = exportFont(text.getFont());
 		if (font != null)
 		{
-			writer.print("\t\t\t" + font + "\n");
+			writer.write("\t\t\t" + font + "\n");
 		}
 
 		if (text.getText() != null)
 		{
-			writer.print("\t\t\t<textContent><![CDATA[");
-			writer.print(text.getText());
-			writer.print("]]></textContent>\n");
+			writer.write("\t\t\t<textContent><![CDATA[");
+			writer.write(text.getText());
+			writer.write("]]></textContent>\n");
 		}
 
-		writer.print("\t\t</text>\n");
+		writer.write("\t\t</text>\n");
 	}
 
 
 	/**
+	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
@@ -1018,9 +1045,9 @@ public class JRXmlExporter extends JRAbstractExporter
 			
 			if (tmpBuffer.length() > 0)
 			{
-				writer.print("\t\t\t<box");
-				writer.print(tmpBuffer.toString());
-				writer.print("/>\n");
+				writer.write("\t\t\t<box");
+				writer.write(tmpBuffer.toString());
+				writer.write("/>\n");
 			}
 		}
 	}
