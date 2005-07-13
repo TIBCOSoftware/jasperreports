@@ -58,7 +58,11 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	{
 		super(name);
 	}
-
+	
+	/**
+	 * A boolean value specifying  whether the PDF document should contain an outline section
+	 */
+	public static final JRPdfExporterParameter IS_CREATING_BATCH_MODE_BOOKMARKS = new JRPdfExporterParameter("Is Creating Batch Mode Bookmarks");
 
 	/**
 	 * A boolean value specifying whether the final PDF document should be encrypted.
