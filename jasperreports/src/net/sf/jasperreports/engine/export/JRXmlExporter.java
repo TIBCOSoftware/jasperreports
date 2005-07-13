@@ -139,7 +139,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		if (sb != null)
 		{
 			StringBuffer buffer = exportReportToBuffer();
-			sb.append(buffer);
+			sb.append(buffer.toString());
 		}
 		else
 		{
