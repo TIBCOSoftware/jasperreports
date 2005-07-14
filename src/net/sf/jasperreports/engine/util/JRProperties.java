@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * are checked and their values are used.  This way of specifying properties is deprecated.<li> 
  * 
  * @author Lucian Chirita
- * @version $Id:
+ * @version $Id$
  */
 public class JRProperties
 {
