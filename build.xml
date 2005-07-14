@@ -65,11 +65,11 @@
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
 			<fileset dir="./build/classes">
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRChart.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRBox.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRChart.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
