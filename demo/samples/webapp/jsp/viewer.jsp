@@ -42,7 +42,9 @@
 	if (request.getParameter("reload") != null || jasperPrint == null)
 	{
 		File reportFile = new File(application.getRealPath("/reports/WebappReport.jasper"));
-	
+		if (!reportFile.exists())
+			throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
+
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(reportFile.getPath());
 
 		Map parameters = new HashMap();
