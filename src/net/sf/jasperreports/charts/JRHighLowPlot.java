@@ -40,25 +40,22 @@ public interface JRHighLowPlot extends JRChartPlot
 
 	/**
 	 *
-	 * @return
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
 	 *
-	 * @return
 	 */
 	public JRExpression getTimeAxisLabelExpression();
 
 	/**
 	 *
-	 * @return
 	 */
 	public boolean isShowOpenTicks();
 
 	/**
 	 *
-	 * @return
 	 */
 	public boolean isShowCloseTicks();
+	
 }

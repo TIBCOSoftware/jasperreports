@@ -328,7 +328,7 @@ public class JRProperties
 	}
 	
 	/**
-	 * Class used by {@link JRProperties#getProperties(String).
+	 * Class used by {@link JRProperties#getProperties(String)}.
 	 * 
 	 * @author Lucian Chirita
 	 */

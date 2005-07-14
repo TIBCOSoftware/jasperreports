@@ -37,22 +37,20 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRCandlestickPlot extends JRChartPlot
 {
+
 	/**
 	 *
-	 * @return
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
 	 *
-	 * @return
 	 */
 	public JRExpression getTimeAxisLabelExpression();
 
 
 	/**
 	 *
-	 * @return
 	 */
 	public boolean isShowVolume();
 
