@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.0.0
+JasperReports 1.0.0 (2005-07-)
 -----------------------------------
 - built-in support for charts added;
 
@@ -23,7 +23,7 @@ class is no longer needed;
 
 
 
-JasperReports 0.6.8
+JasperReports 0.6.8 (2005-05-31)
 -----------------------------------
 - fixes the bug introduced in the 0.6.7 version related to the way
 variables are incremented and group breaks estimated
@@ -34,7 +34,7 @@ variables are incremented and group breaks estimated
 
 
 
-JasperReports 0.6.7
+JasperReports 0.6.7 (2005-05-16)
 -----------------------------------
 - new REPORT_MAX_COUNT built-in parameter for limiting 
 the number of rows in the data source;
@@ -47,7 +47,7 @@ in parameter, field and variable names;
 
 
 
-JasperReports 0.6.6
+JasperReports 0.6.6 (2005-04-06)
 -----------------------------------
 - new "incrementType" and "incrementGroup" attributes added to allow 
 incrementing variable values on page, column or group breaks and not
@@ -68,7 +68,7 @@ as a separate sample;
 
 
 
-JasperReports 0.6.5
+JasperReports 0.6.5 (2005-02-27)
 -----------------------------------
 - JasperReports licensing model has been simplified and the library 
 will be shipped only under the "GNU Lesser Public License" (LGPL);
@@ -84,7 +84,7 @@ running on the JBoss Application Server;
 
 
 
-JasperReports 0.6.4
+JasperReports 0.6.4 (2005-01-16)
 -----------------------------------
 - new report compiler that uses the Eclipse JDT Java compiler for faster compilation 
 and simpler deployment;
@@ -94,7 +94,7 @@ and simpler deployment;
 
 
 
-JasperReports 0.6.3
+JasperReports 0.6.3 (2004-11-29)
 -----------------------------------
 - new <box> tag available for putting border around text and image elements
 with independent properties such as color, style and padding on all four sides;
@@ -110,7 +110,7 @@ all the elements on a page when exporting the generated document;
 
 
 
-JasperReports 0.6.2
+JasperReports 0.6.2 (2004-11-14)
 -----------------------------------
 - added support for import statements in order to eliminate 
 the need to use complete class names inside report expressions;
@@ -135,7 +135,7 @@ in order to allow opening documents in a new window;
 
 
 
-JasperReports 0.6.1
+JasperReports 0.6.1 (2004-08-30)
 -----------------------------------
 - new "lastPageFooter" report section added to simplify the creation of some
 special report designs;
@@ -150,7 +150,7 @@ the Barbecue open source library;
 
 
 
-JasperReports 0.6.0
+JasperReports 0.6.0 (2004-07-24)
 -----------------------------------
 - the package name hierarchy has changed throughout the entire library.
 The now obsolete root package called "dori.jasper" was replaced by "net.sf.jasperreports"
@@ -173,7 +173,7 @@ with subreports (contribution by Peter Severin);
 
 
 
-JasperReports 0.5.3
+JasperReports 0.5.3 (2004-05-18)
 -----------------------------------
 - new boolean "isStyledText" attribute available for text elements to allow 
 introducing style information inside the text content using XML syntax based on
@@ -192,7 +192,7 @@ with build tools and IDEs;
 
 
 
-JasperReports 0.5.2
+JasperReports 0.5.2 (2004-02-23)
 -----------------------------------
 - new "rotation" attribute for text elements to allow vertically heading text;
 
@@ -207,7 +207,7 @@ JasperReports 0.5.2
 
 
 
-JasperReports 0.5.1
+JasperReports 0.5.1 (2004-01-11)
 -----------------------------------
 - new data source implementations based on java.util.Map objects;
 
@@ -224,7 +224,7 @@ JasperReports 0.5.1
 
 
 
-JasperReports 0.5.0
+JasperReports 0.5.0 (2003-07-06)
 -----------------------------------
 - improved and customizable report compilation process;
 
@@ -243,7 +243,7 @@ page break behavior;
 
 
 
-JasperReports 0.4.6
+JasperReports 0.4.6 (2003-04-13)
 -----------------------------------
 - enhanced HTML and XLS exporters to include lines and rectangles
 and allow suppressing empty space between rows in order to obtain
@@ -270,7 +270,7 @@ on the project site;
 
 
 
-JasperReports 0.4.5
+JasperReports 0.4.5 (2003-01-29)
 -----------------------------------
 - images in PDF directly from file and not from java.awt.Image;
 
@@ -291,7 +291,7 @@ without requiring report recompilation;
 
 
 
-JasperReports 0.4.4
+JasperReports 0.4.4 (2002-12-02)
 -----------------------------------
 - support for java.sql.Time values added;
 
@@ -312,7 +312,7 @@ new features;
 
 
 
-JasperReports 0.4.3
+JasperReports 0.4.3 (2002-10-30)
 -----------------------------------
 - The JasperReports Ultimate Guide was released 
 (http://jasperreports.sourceforge.net/more.docs.html);
@@ -330,7 +330,7 @@ JasperReports 0.4.3
 
 
 
-JasperReports 0.4.2
+JasperReports 0.4.2 (2002-10-14)
 -----------------------------------
 - calculation "Count" implemented for non numeric expressions;
 
@@ -342,7 +342,7 @@ JasperReports 0.4.2
 
 
 
-JasperReports 0.4.1
+JasperReports 0.4.1 (2002-09-27)
 -----------------------------------
 - optional system properties introduced to customize the report compilation 
 (classpath and temporary working directory);
@@ -356,7 +356,7 @@ and printing the reports;
 
 
 
-JasperReports 0.4.0
+JasperReports 0.4.0 (2002-09-04)
 -----------------------------------
 - new "Apache style" license published;
 
@@ -380,7 +380,7 @@ of the reporting engine when there are no rows in the data source;
 
 
 
-JasperReports 0.3.3
+JasperReports 0.3.3 (2002-07-20)
 -----------------------------------
 - new JRDataSource implementations for wrapping TableModel objects, 
 bean arrays and bean collections;
@@ -392,7 +392,7 @@ and default value expression;
 
 
 
-JasperReports 0.3.2
+JasperReports 0.3.2 (2002-06-12)
 -----------------------------------
 - support for hyperlinks added;
 
@@ -408,7 +408,7 @@ JasperReports 0.3.2
 
 
 
-JasperReports 0.3.1
+JasperReports 0.3.1 (2002-05-21)
 -----------------------------------
 - support for XML output added;
 
@@ -418,7 +418,7 @@ JasperReports 0.3.1
 
 
 
-JasperReports 0.3.0
+JasperReports 0.3.0 (2002-05-13)
 -----------------------------------
 - improved design and architecture of the library;
 
@@ -456,7 +456,7 @@ from scriptlets solved;
 
 
 
-JasperReports 0.2.5
+JasperReports 0.2.5 (2002-02-24)
 -----------------------------------
 - license changed from GPL to LGPL;
 
@@ -475,7 +475,7 @@ for scriptlets functionality;
 
 
 
-JasperReports 0.2.4
+JasperReports 0.2.4 (2002-02-11)
 -----------------------------------
 - "reportElement" attribute "mode" implemented (Transparent/Opaque);
 
@@ -493,7 +493,7 @@ JasperReports 0.2.4
 
 
 
-JasperReports 0.2.3
+JasperReports 0.2.3 (2002-02-06)
 -----------------------------------
 - JasperReports project tree published. 
 With the use of ANT tool, the project can be quickly build 
