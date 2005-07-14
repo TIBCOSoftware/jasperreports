@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * <li>For backward compatibility, system properties like "jasper.reports.compile.xml.validation"
  * are checked and their values are used.  This way of specifying properties is deprecated.<li> 
  * 
- * @author Lucian Chirita
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
 public class JRProperties
