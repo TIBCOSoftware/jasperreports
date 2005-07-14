@@ -210,7 +210,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 
 	/**
-	 * @throws IOException 
 	 *
 	 */
 	protected void exportReportToFile() throws JRException
@@ -292,8 +291,6 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	protected StringBuffer exportReportToBuffer() throws JRException

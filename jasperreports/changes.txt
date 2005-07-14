@@ -17,6 +17,8 @@ class is no longer needed;
 
 - support for CLOB and BLOB report fields in JRResultSetDataSource;
 
+- support for PDF font registration using properties file;
+
 - minor bug fixes and improvements;
 
 

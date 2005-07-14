@@ -117,8 +117,8 @@ import org.xml.sax.SAXException;
  * <p>
  * Generally the full power of XPath expression is available. As an example, "/A/B[@id > 0"] will select all the
  * nodes of type /A/B having the id greater than 0. 
- * For a short XPath tutorial check the following URL:
- * @link http://www.zvon.org/xxl/XPathTutorial/General/examples.html
+ * You'll find a short XPath tutorial <a href="http://www.zvon.org/xxl/XPathTutorial/General/examples.html" target="_blank">here</a>.
+ * 
  * </p>
  * <p>
  * Note on performance. Due to the fact that all the XPath expression are interpreted the
