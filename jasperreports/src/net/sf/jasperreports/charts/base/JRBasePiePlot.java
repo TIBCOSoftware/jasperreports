@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	
 	/**

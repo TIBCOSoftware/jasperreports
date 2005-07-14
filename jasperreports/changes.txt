@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports x.x.x
+JasperReports 1.0.0
 -----------------------------------
 - built-in support for charts added;
 

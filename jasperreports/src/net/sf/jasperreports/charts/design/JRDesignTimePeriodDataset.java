@@ -45,7 +45,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public static final long serialVersionUID = 608;
+	public static final long serialVersionUID = 10000;
 	
 	private List timePeriodSeriesList = new ArrayList();
 	

@@ -45,7 +45,7 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	protected JRExpression seriesExpression = null;
 	protected JRExpression xValueExpression = null;

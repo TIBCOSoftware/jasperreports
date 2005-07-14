@@ -691,10 +691,6 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 				if (element.getRelativeY() + element.getStretchHeight() > this.stretchHeight)
 				{
 					element.setToPrint(false);
-					if (element instanceof JRFillSubreport)
-					{
-						element.rewind();
-					}
 				}
 				
 				element.setAlreadyPrinted(element.isToPrint() || element.isAlreadyPrinted());

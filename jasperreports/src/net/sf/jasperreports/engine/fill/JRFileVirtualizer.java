@@ -63,7 +63,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	 * when there are too many, it pushes the last touched one to disk.
 	 */
 	private static class Cache extends LinkedHashMap {
-		private static final long serialVersionUID = 608;
+		private static final long serialVersionUID = 10000;
 
 		private int maxSize;
 

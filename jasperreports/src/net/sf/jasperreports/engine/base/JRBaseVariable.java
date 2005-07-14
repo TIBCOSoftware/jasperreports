@@ -47,7 +47,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 *

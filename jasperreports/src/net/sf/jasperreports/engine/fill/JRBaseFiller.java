@@ -98,7 +98,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	public class BoundElementMap extends HashMap
 	{
-        private static final long serialVersionUID = 608;
+        private static final long serialVersionUID = 10000;
         
         private final Map perPageElements;
 

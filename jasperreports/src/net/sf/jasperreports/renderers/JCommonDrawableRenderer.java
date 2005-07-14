@@ -58,6 +58,11 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 
 	/**
 	 *
+	 */
+	private static final long serialVersionUID = 10000;
+
+	/**
+	 *
 	 */	
 	private Drawable drawable = null;
 	private LegendItemSource[] legendItemSources = null;
