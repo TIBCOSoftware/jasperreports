@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 
 /**
- * TODO: intro.
+ * Instances of this class are used for defining and setting exporter parameters.
  * <p>
  * The {@link JasperPrint} object needed for the export can be specified in many ways: an instance of <tt>JasperPrint</tt>,
  * an input stream, a file on disk, or an URL. The export engine will search for this object through parameters in the following
