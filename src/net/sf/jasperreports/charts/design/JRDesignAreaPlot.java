@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignAreaPlot extends JRBaseAreaPlot {
 
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 
 	public JRDesignAreaPlot(JRChartPlot areaPlot)

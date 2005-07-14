@@ -34,7 +34,7 @@
 <%
 	JRProperties.setProperty(
 		JRProperties.COMPILER_CLASSPATH, 
-		application.getRealPath("/WEB-INF/lib/jasperreports-0.6.8.jar") +
+		application.getRealPath("/WEB-INF/lib/jasperreports-1.0.0.jar") +
 		System.getProperty("path.separator") + 
 		application.getRealPath("/WEB-INF/classes/")
 		);

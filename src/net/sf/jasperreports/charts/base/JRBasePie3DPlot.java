@@ -45,7 +45,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 	
 	protected double depthFactor = 0.2;
 

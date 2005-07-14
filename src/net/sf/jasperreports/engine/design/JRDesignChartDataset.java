@@ -45,7 +45,7 @@ public abstract class JRDesignChartDataset extends JRBaseChartDataset
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 
 	/**

@@ -47,7 +47,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 *

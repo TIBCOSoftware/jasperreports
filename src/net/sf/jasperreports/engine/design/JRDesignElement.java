@@ -47,7 +47,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 * Sets the unique identifier for the element.

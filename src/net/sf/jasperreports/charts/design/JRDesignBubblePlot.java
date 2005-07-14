@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 
 	public JRDesignBubblePlot(JRChartPlot bubblePlot)

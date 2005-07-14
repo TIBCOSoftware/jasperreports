@@ -42,7 +42,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 *

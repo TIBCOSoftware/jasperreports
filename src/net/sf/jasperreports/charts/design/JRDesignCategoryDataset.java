@@ -49,7 +49,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	private List categorySeriesList = new ArrayList();
 

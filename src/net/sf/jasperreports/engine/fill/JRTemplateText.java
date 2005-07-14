@@ -47,7 +47,7 @@ public class JRTemplateText extends JRTemplateElement
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 *

@@ -41,7 +41,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 
 	/**

@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRExpression;
 
 public class JRDesignTimeSeriesPlot extends JRBaseTimeSeriesPlot {
 
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 	
 	public JRDesignTimeSeriesPlot(JRChartPlot plot){
 		super( plot );

@@ -42,7 +42,7 @@ public class JRDesignSubreportParameter extends JRBaseSubreportParameter
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 608;
+	private static final long serialVersionUID = 10000;
 
 	/**
 	 *
