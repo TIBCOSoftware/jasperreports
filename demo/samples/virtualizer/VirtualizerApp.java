@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Random;
 
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRField;
@@ -112,7 +113,7 @@ public class VirtualizerApp
 			// the filled object.
 			
 			// creating the data source
-			JRDataSource ds = new GeneratedDataSource((byte) 5,(byte) 3, 200);
+			JRDataSource ds = new JREmptyDataSource(1000);
 			
 			// creating the virtualizer
 			JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
@@ -213,22 +214,7 @@ public class VirtualizerApp
 		long start = System.currentTimeMillis();
 
 		// Preparing parameters
-		Image image = Toolkit.getDefaultToolkit().createImage("dukesign.jpg");
-		MediaTracker traker = new MediaTracker(new Panel());
-		traker.addImage(image, 0);
-		try
-		{
-			traker.waitForID(0);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
 		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "The First Jasper Report Ever");
-		parameters.put("MaxOrderID", new Integer(10500));
-		parameters.put("SummaryImage", image);
 		parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(fileName, parameters, dataSource);
@@ -244,137 +230,9 @@ public class VirtualizerApp
 	 */
 	private static void usage()
 	{
-		System.out.println("JasperApp usage:");
-		System.out.println("\tjava JasperApp -Ttask -Ffile");
-		System.out.println("\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run");
+		System.out.println("VirtualizerApp usage:");
+		System.out.println("\tjava VirtualizerApp -Ttask -Ffile");
+		System.out.println("\tTasks : print | pdf | xml | xmlEmbed | html | xls | csv | export | view");
 	}
 
-	private static class GeneratedDataSource implements JRDataSource 
-	{
-		private final char[] country;
-		private final int ordersPerCountry;
-		private final Random r;
-		private final char lastLetter;
-		
-		private static final char firstLetter = 'A'; 
-		
-		private int orderCount;
-
-		/**
-		 * @param noOfLetters the number of letters (starting form 'A') to be used for generated country names 
-		 * @param countryNameLength the length of a generated country name
-		 * @param ordersPerCountry how many orders to generate per country
-		 */
-		GeneratedDataSource (byte noOfLetters, byte countryNameLength, int ordersPerCountry)
-		{
-			this.lastLetter = (char) (firstLetter + noOfLetters - 1);
-			this.country = new char[countryNameLength];
-			
-			this.ordersPerCountry = ordersPerCountry;
-			this.r = new Random(System.currentTimeMillis());
-			
-			init();
-		}
-		
-		private void init()
-		{
-			orderCount = 0;
-			
-			for (int i = 0; i < country.length; i++)
-			{
-				country[i] = 'A';
-			}
-		}
-
-		public boolean next() throws JRException
-		{
-			if (++orderCount <= ordersPerCountry)
-			{
-				return true;
-			}
-			
-			int i;
-			for (i = country.length - 1; i >=0 && country[i] == lastLetter; --i);
-			
-			if (i >= 0)
-			{
-				++country[i];
-				for(++i; i < country.length; ++i)
-				{
-					country[i] = firstLetter;
-				}
-				
-				orderCount = 1;
-				
-				return true;
-			}
-			
-			return false;
-		}
-
-		public Object getFieldValue(JRField jrField) throws JRException
-		{
-			String name = jrField.getName();
-			if (name.equals("ShippedDate"))
-			{
-				return null;
-			}
-			else if (name.equals("ShipCountry"))
-			{
-				return String.copyValueOf(country);
-			}
-			else if (name.equals("RequiredDate"))
-			{
-				return null;
-			}
-			else if (name.equals("CustomerID"))
-			{
-				return null;
-			}
-			else if (name.equals("OrderID"))
-			{
-				return new Integer(orderCount);
-			}
-			else if (name.equals("ShipName"))
-			{
-				return "Ship" + orderCount;
-			}
-			else if (name.equals("ShipVia"))
-			{
-				return null;
-			}
-			else if (name.equals("ShipPostalCode"))
-			{
-				return null;
-			}
-			else if (name.equals("OrderDate"))
-			{
-				return new Timestamp(System.currentTimeMillis());
-			}
-			else if (name.equals("ShipCity"))
-			{
-				return "SF";
-			}
-			else if (name.equals("ShipAddress"))
-			{
-				return null;
-			}
-			else if (name.equals("EmployeeID"))
-			{
-				return null;
-			}
-			else if (name.equals("ShipRegion"))
-			{
-				return null;
-			}
-			else if (name.equals("Freight"))
-			{
-				return new Double(r.nextDouble());
-			}
-			else
-			{
-				throw new RuntimeException("Wrong field " + name);
-			}
-		}
-	}
 }

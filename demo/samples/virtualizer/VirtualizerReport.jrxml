@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="VirtualizerReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<title>
+		<band height="30">
+			<staticText>
+				<reportElement key="staticText-1" mode="Opaque" x="0" y="0" width="555" height="30"/>
+				<box topBorder="None" topBorderColor="#0" leftBorder="None" leftBorderColor="#0" bottomBorder="None" bottomBorderColor="#0" rightBorder="None" rightBorderColor="#ffffff"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[This report displays a very long list of random numbers to show that JasperReports can handle very large documents using the so-called virtualizer.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField pattern="#0.0000">
+				<reportElement key="textField-1" mode="Opaque" x="0" y="0" width="100" height="20"/>
+				<box topBorder="None" topBorderColor="#0" leftBorder="None" leftBorderColor="#0" bottomBorder="None" bottomBorderColor="#0" rightBorder="None" rightBorderColor="#ffffff"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(1000 * Math.random())]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="">
+				<reportElement key="textField-1" mode="Opaque" x="170" y="0" width="100" height="20"/>
+				<box topBorder="None" topBorderColor="#0" leftBorder="None" leftBorderColor="#0" bottomBorder="None" bottomBorderColor="#0" rightBorder="None" rightBorderColor="#ffffff"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="">
+				<reportElement key="textField-1" mode="Opaque" x="270" y="0" width="100" height="20"/>
+				<box topBorder="None" topBorderColor="#0" leftBorder="None" leftBorderColor="#0" bottomBorder="None" bottomBorderColor="#0" rightBorder="None" rightBorderColor="#ffffff"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
