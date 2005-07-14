@@ -281,86 +281,14 @@ public class JRExpressionCollector
 		addExpression(chart.getTitleExpression());
 		addExpression(chart.getSubtitleExpression());
 
-		switch(chart.getChartType()) {
-			case JRChart.CHART_TYPE_AREA:
-				collect( (JRCategoryDataset)chart.getDataset() );
-				collect( (JRAreaPlot)chart.getPlot() ) ;
-				break;
-			case JRChart.CHART_TYPE_BAR:
-				collect((JRCategoryDataset)chart.getDataset());
-				collect((JRBarPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_BAR3D:
-				collect((JRCategoryDataset)chart.getDataset() );
-				collect((JRBar3DPlot)chart.getPlot() );
-				break;
-			case JRChart.CHART_TYPE_BUBBLE:
-				collect((JRXyzDataset)chart.getDataset());
-				collect((JRBubblePlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_CANDLESTICK:
-				collect((JRHighLowDataset)chart.getDataset());
-				collect((JRCandlestickPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_HIGHLOW:
-				collect((JRHighLowDataset)chart.getDataset());
-				collect((JRHighLowPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_LINE:
-				collect( (JRCategoryDataset)chart.getDataset() );
-				collect( (JRLinePlot)chart.getPlot()  );
-				break;
-			case JRChart.CHART_TYPE_PIE:
-				collect((JRPieDataset)chart.getDataset());
-				break;
-			case JRChart.CHART_TYPE_PIE3D:
-				collect((JRPieDataset)chart.getDataset());
-				break;
-			case JRChart.CHART_TYPE_SCATTER:
-				collect( (JRXyDataset)chart.getDataset() );
-				collect( (JRScatterPlot)chart.getPlot()  );
-				break;
-			case JRChart.CHART_TYPE_STACKEDBAR:
-				collect((JRCategoryDataset)chart.getDataset());
-				collect((JRBarPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_STACKEDBAR3D:
-				collect((JRCategoryDataset)chart.getDataset());
-				collect((JRBar3DPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_TIMESERIES:
-				collect((JRTimeSeriesDataset)chart.getDataset() );
-				collect((JRTimeSeriesPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_XYAREA:
-				collect( (JRXyDataset)chart.getDataset() );
-				collect( (JRAreaPlot)chart.getPlot() ) ;
-				break;
-			case JRChart.CHART_TYPE_XYBAR:
-				if( chart.getDataset() instanceof JRTimePeriodDataset ){	
-					collect((JRTimePeriodDataset)chart.getDataset());
-				}
-				else if( chart.getDataset() instanceof JRXyDataset ) {
-					collect( (JRXyDataset)chart.getDataset() );
-				}
-				else {
-					collect((JRTimeSeriesDataset)chart.getDataset());
-				}
-				collect((JRBarPlot)chart.getPlot());
-				break;
-			case JRChart.CHART_TYPE_XYLINE:
-				collect( (JRXyDataset)chart.getDataset() );
-				collect( (JRLinePlot)chart.getPlot()  );
-				break;
-			default:
-				throw new JRRuntimeException("Chart type not supported.");
-		}
+		chart.getDataset().collectExpressions(this);
+		chart.getPlot().collectExpressions(this);
 	}
 
 	/**
 	 *
 	 */
-	private void collect(JRPieDataset pieDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRPieDataset pieDataset)
 	{
 		addExpression(pieDataset.getKeyExpression());
 		addExpression(pieDataset.getValueExpression());
@@ -370,7 +298,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRCategoryDataset categoryDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRCategoryDataset categoryDataset)
 	{
 		JRCategorySeries[] categorySeries = categoryDataset.getSeries();
 		if (categorySeries != null && categorySeries.length > 0)
@@ -385,7 +313,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRXyDataset xyDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRXyDataset xyDataset)
 	{
 		JRXySeries[] xySeries = xyDataset.getSeries();
 		if (xySeries != null && xySeries.length > 0)
@@ -400,7 +328,7 @@ public class JRExpressionCollector
 	/**
 	 * 
 	 */
-	private void collect( JRTimeSeriesDataset timeSeriesDataset ){
+	public void collect( JRTimeSeriesDataset timeSeriesDataset ){
 		JRTimeSeries[] timeSeries = timeSeriesDataset.getSeries();
 		if( timeSeries != null && timeSeries.length > 0 ){
 			for( int i = 0; i <  timeSeries.length; i++ ){
@@ -412,7 +340,7 @@ public class JRExpressionCollector
 	/**
 	 * 
 	 */
-	private void collect( JRTimePeriodDataset timePeriodDataset ){
+	public void collect( JRTimePeriodDataset timePeriodDataset ){
 		JRTimePeriodSeries[] timePeriodSeries = timePeriodDataset.getSeries();
 		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
 			for( int i = 0; i < timePeriodSeries.length; i++ ){
@@ -424,7 +352,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRXySeries xySeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	private void collect(JRXySeries xySeries)
 	{
 		addExpression(xySeries.getSeriesExpression());
 		addExpression(xySeries.getXValueExpression());
@@ -435,7 +363,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRCategorySeries categorySeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	private void collect(JRCategorySeries categorySeries)
 	{
 		addExpression(categorySeries.getSeriesExpression());
 		addExpression(categorySeries.getCategoryExpression());
@@ -446,7 +374,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRBarPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRBarPlot barPlot)
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
@@ -455,7 +383,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRBar3DPlot barPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRBar3DPlot barPlot)
 	{
 		addExpression(barPlot.getCategoryAxisLabelExpression());
 		addExpression(barPlot.getValueAxisLabelExpression());
@@ -464,7 +392,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect( JRLinePlot linePlot ){
+	public void collect( JRLinePlot linePlot ){
 		addExpression( linePlot.getCategoryAxisLabelExpression() );
 		addExpression( linePlot.getValueAxisLabelExpression() );
 	}
@@ -472,7 +400,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect( JRTimeSeriesPlot timeSeriesPlot ){
+	public void collect( JRTimeSeriesPlot timeSeriesPlot ){
 		addExpression( timeSeriesPlot.getTimeAxisLabelExpression() );
 		addExpression( timeSeriesPlot.getValueAxisLabelExpression() );
 	}
@@ -480,7 +408,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect( JRScatterPlot scatterPlot ){
+	public void collect( JRScatterPlot scatterPlot ){
 		addExpression( scatterPlot.getXAxisLabelExpression() );
 		addExpression( scatterPlot.getYAxisLabelExpression() );
 	}
@@ -488,7 +416,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect( JRAreaPlot areaPlot ){
+	public void collect( JRAreaPlot areaPlot ){
 		addExpression( areaPlot.getCategoryAxisLabelExpression() );
 		addExpression( areaPlot.getValueAxisLabelExpression() );
 	}
@@ -496,7 +424,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRTimeSeries timeSeries)//FIXME NOW JRChartDataset should have collect like all elements?
+	private void collect(JRTimeSeries timeSeries)
 	{
 		addExpression(timeSeries.getSeriesExpression());
 		addExpression(timeSeries.getTimePeriodExpression());
@@ -517,7 +445,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRXyzDataset xyzDataset) {
+	public void collect(JRXyzDataset xyzDataset) {
 		JRXyzSeries[] xyzSeries = xyzDataset.getSeries();
 		if (xyzSeries != null && xyzSeries.length > 0)
 		{
@@ -543,7 +471,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRBubblePlot bubblePlot) {
+	public void collect(JRBubblePlot bubblePlot) {
 		addExpression(bubblePlot.getXAxisLabelExpression());
 		addExpression(bubblePlot.getYAxisLabelExpression());
 		
@@ -552,7 +480,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRHighLowPlot highLowPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRHighLowPlot highLowPlot)
 	{
 		addExpression(highLowPlot.getTimeAxisLabelExpression());
 		addExpression(highLowPlot.getValueAxisLabelExpression());
@@ -561,7 +489,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRHighLowDataset highLowDataset)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRHighLowDataset highLowDataset)
 	{
 		addExpression(highLowDataset.getSeriesExpression());
 		addExpression(highLowDataset.getDateExpression());
@@ -575,7 +503,7 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect(JRCandlestickPlot candlestickPlot)//FIXME NOW JRChartDataset should have collect like all elements?
+	public void collect(JRCandlestickPlot candlestickPlot)
 	{
 		addExpression(candlestickPlot.getTimeAxisLabelExpression());
 		addExpression(candlestickPlot.getValueAxisLabelExpression());

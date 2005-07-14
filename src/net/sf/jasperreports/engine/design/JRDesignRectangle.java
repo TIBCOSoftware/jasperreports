@@ -28,7 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -72,7 +72,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChild getCopy(JRAbstractObjectFactory factory)
 	{
 		return factory.getRectangle(this);
 	}

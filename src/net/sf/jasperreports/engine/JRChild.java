@@ -25,109 +25,31 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine;
 
-import java.awt.Color;
-
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRExpressionCollector;
-
-import org.jfree.chart.plot.PlotOrientation;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
+ * An abstract representation of a report element. All report elements implement this interface. The interface contains
+ * constants and methods that apply to all report elements.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillChartPlot implements JRChartPlot
+public interface JRChild
 {
 
 
 	/**
 	 *
 	 */
-	protected JRChartPlot parent = null;
-
-
-	/**
-	 *
-	 */
-	protected JRFillChartPlot(
-		JRChartPlot plot, 
-		JRFillObjectFactory factory
-		)
-	{
-		factory.put(plot, this);
-
-		parent = plot;
-	}
-
+	public JRChild getCopy(JRAbstractObjectFactory factory);
 
 	/**
 	 *
 	 */
-	public Color getBackcolor()
-	{
-		return parent.getBackcolor();
-	}
+	public void writeXml(JRXmlWriter writer);
+
 	
-	/**
-	 *
-	 */
-	public void setBackcolor(Color backcolor)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public PlotOrientation getOrientation()
-	{
-		return parent.getOrientation();
-	}
-	
-	/**
-	 *
-	 */
-	public void setOrientation(PlotOrientation orientation)
-	{
-	}
-		
-	/**
-	 *
-	 */
-	public float getBackgroundAlpha()
-	{
-		return parent.getBackgroundAlpha();
-	}
-	
-	/**
-	 *
-	 */
-	public void setBackgroundAlpha(float BackgroundAlpha)
-	{
-	}
-	
-	/**
-	 *
-	 */
-	public float getForegroundAlpha()
-	{
-		return parent.getForegroundAlpha();
-	}
-	
-	/**
-	 *
-	 */
-	public void setForegroundAlpha(float foregroundAlpha)
-	{
-	}
-		
-	/**
-	 *
-	 */
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-	}
-
 }

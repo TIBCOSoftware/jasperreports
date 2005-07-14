@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 /**
@@ -78,4 +79,12 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 }

@@ -29,8 +29,6 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
-
 
 /**
  * An abstract representation of a report element. All report elements implement this interface. The interface contains
@@ -39,7 +37,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElement
+public interface JRElement extends JRChild
 {
 
 
@@ -268,17 +266,7 @@ public interface JRElement
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory);
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector);
-
-	/**
-	 *
-	 */
-	public void writeXml(JRXmlWriter writer);
 
 
 }

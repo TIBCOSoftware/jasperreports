@@ -106,7 +106,7 @@ public abstract class JRFillElement implements JRElement
 
 		/*   */
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
-		elementGroup = factory.getElementGroup(element.getElementGroup());
+		elementGroup = (JRFillElementGroup)factory.getElementGroup(element.getElementGroup());
 	}
 
 
