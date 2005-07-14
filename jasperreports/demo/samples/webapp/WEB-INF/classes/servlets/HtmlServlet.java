@@ -62,7 +62,9 @@ public class HtmlServlet extends HttpServlet
 		try
 		{
 			File reportFile = new File(context.getRealPath("/reports/WebappReport.jasper"));
-		
+			if (!reportFile.exists())
+				throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
+
 			JasperReport jasperReport = (JasperReport)JRLoader.loadObject(reportFile.getPath());
 		
 			Map parameters = new HashMap();

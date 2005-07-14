@@ -56,7 +56,9 @@ public class JasperPrintServlet extends HttpServlet
 		ServletContext context = this.getServletConfig().getServletContext();
 
 		File reportFile = new File(context.getRealPath("/reports/WebappReport.jasper"));
-	
+		if (!reportFile.exists())
+			throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
+
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("BaseDir", reportFile.getParentFile());
