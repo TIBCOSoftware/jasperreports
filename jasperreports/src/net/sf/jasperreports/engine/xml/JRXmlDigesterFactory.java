@@ -480,20 +480,6 @@ public class JRXmlDigesterFactory
 		digester.addSetNext( "*/timePeriodSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timePeriodSeries/labelExpression", "setText", 0);
 		
-//		digester.addFactoryCreate( "*/timeSeries", JRTimeSeriesDatasetFactory.class.getName() );
-//		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRTimeSeriesFactory.JRSeriesExpressionFactory.class.getName() );
-//		digester.addSetNext( "*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName() );
-//		digester.addCallMethod( "*/timeSeries/seriesExpression", "setText", 0 );
-//		digester.addFactoryCreate("*/timeSeries/timePeriodExpression", JRTimeSeriesFactory.JRTimePeriodExpressionFactory.class.getName() );
-//		digester.addSetNext( "*/timeSeries/timePeriodExpression", "setTimePeriodExpression", JRDesignExpression.class.getName() );
-//		digester.addCallMethod( "*/timeSeries/timePeriodExpression", "setText", 0 );
-//		digester.addFactoryCreate("*/timeSeries/valueExpression", JRTimeSeriesFactory.JRValueExpressionFactory.class.getName() );
-//		digester.addSetNext( "*/timeSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName() );
-//		digester.addCallMethod( "*/timeSeries/valueExpression", "setText", 0 );
-//		digester.addFactoryCreate("*/timeSeries/labelExpression", JRTimeSeriesFactory.JRLabelExpressionFactory.class.getName() );
-//		digester.addSetNext( "*/timeSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName() );
-//		digester.addCallMethod( "*/timeSeries/labelExpression", "setText", 0 );
-		
 		digester.addFactoryCreate("*/timeSeriesChart", JRTimeSeriesChartFactory.class.getName());
 		digester.addFactoryCreate("*/timeSeriesChart/timeSeriesPlot", JRTimeSeriesPlotFactory.class.getName());
 		digester.addSetNext("*/timeSeriesChart", "addElement", JRDesignElement.class.getName());

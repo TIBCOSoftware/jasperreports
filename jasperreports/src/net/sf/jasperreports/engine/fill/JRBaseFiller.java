@@ -98,25 +98,25 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	public class BoundElementMap extends HashMap
 	{
-        private static final long serialVersionUID = 10000;
-        
-        private final Map perPageElements;
+		private static final long serialVersionUID = 10000;
+		
+		private final Map perPageElements;
 
-        /**
-         * Used when per page maps are not required.  The map will behave just like
-         * <code>java.util.HashMap</code>.
-         */
-        BoundElementMap()
-        {
-        	super();
-        	this.perPageElements = null;
-        }
-        
-        /**
-         * Used when per page map is required.
-         * 
-         * @param perPageElements	the page map 
-         */
+		/**
+		 * Used when per page maps are not required.  The map will behave just like
+		 * <code>java.util.HashMap</code>.
+		 */
+		BoundElementMap()
+		{
+			super();
+			this.perPageElements = null;
+		}
+		
+		/**
+		 * Used when per page map is required.
+		 * 
+		 * @param perPageElements	the page map 
+		 */
 		BoundElementMap(Map perPageElements)
 		{
 			super();
@@ -140,7 +140,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				map.put(new Integer(System.identityHashCode(key)), key);
 			}
 
-		    return super.put(key, value);
+			return super.put(key, value);
 		}
 		
 		/**
@@ -1253,8 +1253,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(Iterator it = images.iterator(); it.hasNext();)
 			{
-			    JRPrintImage printImage = (JRPrintImage)it.next();
-			    JRFillImage image = (JRFillImage)boundImages.get(printImage);
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillImage image = (JRFillImage)boundImages.get(printImage);
 				
 				image.evaluateImage(evaluation);
 
@@ -1345,8 +1345,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(Iterator it = charts.iterator(); it.hasNext();)
 			{
-			    JRPrintImage printImage = (JRPrintImage)it.next();
-			    JRFillChart chart = (JRFillChart)boundCharts.get(printImage);
+				JRPrintImage printImage = (JRPrintImage)it.next();
+				JRFillChart chart = (JRFillChart)boundCharts.get(printImage);
 				
 				chart.evaluateImage(evaluation);
 
@@ -1418,8 +1418,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(Iterator it = texts.iterator(); it.hasNext();)
 			{
-			    JRPrintText text = (JRPrintText)it.next();
-			    JRFillTextField textField = (JRFillTextField)boundTexts.get(text);
+				JRPrintText text = (JRPrintText)it.next();
+				JRFillTextField textField = (JRFillTextField)boundTexts.get(text);
 				
 				textField.evaluateText(evaluation);
 
@@ -1511,7 +1511,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			for(int i = 0; i < groups.length; i++)
 			{
-			    JRFillGroup group = groups[i];
+				JRFillGroup group = groups[i];
 
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
