@@ -88,6 +88,11 @@ public abstract class JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public abstract JRElementGroup getElementGroup(JRElementGroup elementGroup);
+	
+	/**
+	 *
+	 */
 	public abstract JRLine getLine(JRLine line);
 
 	/**

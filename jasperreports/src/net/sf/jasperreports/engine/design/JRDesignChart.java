@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
@@ -502,8 +502,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 
-
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChild getCopy(JRAbstractObjectFactory factory)
 	{
 		return factory.getChart( this );
 	}

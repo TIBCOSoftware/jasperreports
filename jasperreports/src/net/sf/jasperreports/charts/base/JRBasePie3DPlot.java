@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -85,5 +86,11 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		this.depthFactor = depthFactor;
 	}
 	
-	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+	}
+
 }

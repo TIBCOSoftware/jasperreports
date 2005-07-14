@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
@@ -151,5 +152,16 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	public byte getDatasetType() {
 		return JRChartDataset.HIGHLOW_DATASET;
 	}
+
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }
 

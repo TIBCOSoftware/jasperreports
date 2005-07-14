@@ -28,7 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -102,7 +102,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChild getCopy(JRAbstractObjectFactory factory)
 	{
 		return factory.getLine(this);
 	}

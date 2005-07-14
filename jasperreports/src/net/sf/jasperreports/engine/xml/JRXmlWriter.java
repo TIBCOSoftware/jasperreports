@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
@@ -821,18 +822,9 @@ public class JRXmlWriter
 		List children = band.getChildren();
 		if (children != null && children.size() > 0)
 		{
-			Object child = null;
 			for(int i = 0; i < children.size(); i++)
 			{
-				child = children.get(i);
-				if (child instanceof JRElementGroup)
-				{
-					writeElementGroup((JRElementGroup)child);//FIXME NOW element group also visitable?
-				}
-				else
-				{
-					((JRElement)child).writeXml(this);
-				}
+				((JRChild)children.get(i)).writeXml(this);
 			}
 		}
 
@@ -843,7 +835,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeElementGroup(JRElementGroup elementGroup)
+	public void writeElementGroup(JRElementGroup elementGroup)
 	{
 		sb.append("\t\t\t<elementGroup>\n");
 
@@ -851,18 +843,10 @@ public class JRXmlWriter
 		List children = elementGroup.getChildren();
 		if (children != null && children.size() > 0)
 		{
-			Object child = null;
 			for(int i = 0; i < children.size(); i++)
 			{
-				child = children.get(i);
-				if (child instanceof JRElementGroup)
-				{
-					writeElementGroup((JRElementGroup)child);
-				}
-				else
-				{
-					((JRElement)child).writeXml(this);
-				}
+				JRChild child = (JRChild)children.get(i);
+				child.writeXml(this);
 			}
 		}
 

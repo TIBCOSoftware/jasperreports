@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -656,7 +657,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChild getCopy(JRAbstractObjectFactory factory)
 	{
 		return factory.getTextField(this);
 	}

@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.DefaultXYZDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -110,4 +111,15 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
 	}
+
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

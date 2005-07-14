@@ -350,7 +350,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseElementGroup getElementGroup(JRElementGroup elementGroup)
+	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRBaseElementGroup baseElementGroup = null;
 		

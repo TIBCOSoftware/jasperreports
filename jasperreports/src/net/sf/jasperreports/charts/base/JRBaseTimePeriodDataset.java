@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -74,8 +75,12 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 	
-	
-	
-	
-	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 }

@@ -27,9 +27,13 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -40,9 +44,6 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import java.util.Map;
-import java.util.HashMap;
 
 
 /**
@@ -214,4 +215,13 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	}
 	
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

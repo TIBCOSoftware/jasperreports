@@ -294,7 +294,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRFillElementGroup getElementGroup(JRElementGroup elementGroup)
+	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRFillElementGroup fillElementGroup = null;
 

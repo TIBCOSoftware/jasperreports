@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 /**
@@ -88,4 +89,12 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		return JRChartDataset.TIMESERIES_DATASET;
 	}
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 }

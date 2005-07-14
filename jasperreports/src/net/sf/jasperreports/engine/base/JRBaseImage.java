@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
@@ -305,7 +305,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public JRElement getCopy(JRAbstractObjectFactory factory)
+	public JRChild getCopy(JRAbstractObjectFactory factory)
 	{
 		return factory.getImage(this);
 	}

@@ -81,4 +81,9 @@ public interface JRChartPlot
 	 */
 	public void setForegroundAlpha(float foregroundAlpha);
 
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector);
+
 }

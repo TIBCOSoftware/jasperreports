@@ -31,8 +31,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -78,20 +81,11 @@ public class JRFillElementGroup implements JRElementGroup
 			List list = elementGrp.getChildren();
 			if (list != null && list.size() > 0)
 			{
-				Object child = null;
 				for(int i = 0; i < list.size(); i++)
 				{
-					child = list.get(i);
-					if (child instanceof JRElement)
-					{
-						child = ((JRElement)child).getCopy(factory);//FIXME NOW do the same for element group?
-						this.children.add(child);
-					}
-					else if (child instanceof JRElementGroup)
-					{
-						child = factory.getElementGroup((JRElementGroup)child);
-						this.children.add(child);
-					}
+					JRChild child = (JRChild)list.get(i);
+					child = child.getCopy(factory);
+					children.add(child);
 				}
 			}
 	
@@ -273,6 +267,24 @@ public class JRFillElementGroup implements JRElementGroup
 				}
 			}
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	public JRChild getCopy(JRAbstractObjectFactory factory)
+	{
+		return factory.getElementGroup(this);
+	}
+
+
+	/**
+	 *
+	 */
+	public void writeXml(JRXmlWriter xmlWriter)
+	{
+		xmlWriter.writeElementGroup(this);
 	}
 
 

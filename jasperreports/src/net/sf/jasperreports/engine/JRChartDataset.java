@@ -67,4 +67,9 @@ public interface JRChartDataset
 	 */
 	public byte getDatasetType();
 		
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector);
+
 }

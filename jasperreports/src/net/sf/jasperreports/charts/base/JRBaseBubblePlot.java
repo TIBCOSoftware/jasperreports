@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -78,4 +79,13 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	public void setScaleType( int scaleType ){
 		this.scaleType = scaleType;
 	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
 }

@@ -27,9 +27,13 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -41,9 +45,6 @@ import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.data.time.TimePeriodValues;
 import org.jfree.data.time.TimePeriodValuesCollection;
 import org.jfree.data.xy.XYDataset;
-
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -169,4 +170,13 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

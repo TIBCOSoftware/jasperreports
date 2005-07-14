@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
 
@@ -106,4 +107,13 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	}
 	
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

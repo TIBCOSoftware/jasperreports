@@ -33,6 +33,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -205,4 +206,13 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	}
 
 	
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

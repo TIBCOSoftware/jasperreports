@@ -27,17 +27,18 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.Dataset;
@@ -177,4 +178,14 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
+	}
+
+
 }

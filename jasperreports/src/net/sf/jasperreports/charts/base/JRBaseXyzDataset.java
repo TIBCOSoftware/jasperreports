@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.base;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -71,6 +72,14 @@ public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset
 	 */
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
+	}
+
+	/**
+	 *
+	 */
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		collector.collect(this);
 	}
 
 }
