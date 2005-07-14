@@ -134,6 +134,7 @@
 		Compiles the library API documentation.
 	-->
 	<target name="docs" depends="compile">
+		<mkdir dir="./docs/api"/> 
 		<delete dir="./docs/api/net"/>
 		<delete>
 			<fileset dir="./docs/api" includes="**/*.*" />

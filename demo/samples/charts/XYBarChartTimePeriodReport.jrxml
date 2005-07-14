@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="XYBarChartTimePeriodReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
@@ -160,10 +159,14 @@
 				<timeSeriesDataset>
 					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
 					<timeSeries>
+						<seriesExpression>"Half Freight"</seriesExpression>
+						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
+						<valueExpression>new Double($F{Freight}.doubleValue() / 2d)</valueExpression>
+					</timeSeries>
+					<timeSeries>
 						<seriesExpression>"Freight"</seriesExpression>
 						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
 						<valueExpression>$F{Freight}</valueExpression>
-						
 					</timeSeries>
 				</timeSeriesDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">

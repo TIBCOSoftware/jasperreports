@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="BubbleChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
@@ -160,7 +159,13 @@
 						<seriesExpression>"Freight"</seriesExpression>
 						<xValueExpression>$F{OrderID}</xValueExpression>
 						<yValueExpression>$F{Freight}</yValueExpression>
-						<zValueExpression>new Double( 30.00 )</zValueExpression>
+						<zValueExpression>new Double(30.00)</zValueExpression>
+					</xyzSeries>
+					<xyzSeries>
+						<seriesExpression>"Half Freight"</seriesExpression>
+						<xValueExpression>$F{OrderID}</xValueExpression>
+						<yValueExpression>new Double($F{Freight}.doubleValue() / 2d)</yValueExpression>
+						<zValueExpression>new Double(20.00)</zValueExpression>
 					</xyzSeries>
 				</xyzDataset>
 				<bubblePlot scaleType="rangeAxis">
