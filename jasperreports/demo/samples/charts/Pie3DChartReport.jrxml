@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="Pie3DChartReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
@@ -97,7 +96,6 @@
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
 					<keyExpression>$F{ShipCountry}</keyExpression>
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
-					<labelExpression>"FixMe"</labelExpression>
 				</pieDataset>
 				<pie3DPlot depthFactor="0.2">
 					<plot foregroundAlpha="0.5"/>
