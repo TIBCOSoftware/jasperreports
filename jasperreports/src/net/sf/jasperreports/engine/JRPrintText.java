@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyperlink
+public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink
 {
 
 
@@ -74,12 +74,12 @@ public interface JRPrintText extends JRPrintElement, JRPrintAnchor, JRPrintHyper
 	public void setLeadingOffset(float leadingOffset);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment();
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment);
 		

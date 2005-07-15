@@ -111,7 +111,7 @@ public class JRTemplateText extends JRTemplateElement
 		super.setElement(textElement);
 
 		box = textElement.getBox();
-		horizontalAlignment = textElement.getTextAlignment();
+		horizontalAlignment = textElement.getHorizontalAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
@@ -119,9 +119,17 @@ public class JRTemplateText extends JRTemplateElement
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
+	{
+		return horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHorizontalAlignment()
 	{
 		return horizontalAlignment;
 	}

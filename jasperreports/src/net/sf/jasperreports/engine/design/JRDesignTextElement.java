@@ -76,9 +76,17 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
+	{
+		return horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHorizontalAlignment()
 	{
 		return horizontalAlignment;
 	}
@@ -132,9 +140,17 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment)
+	{
+		this.horizontalAlignment = horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
 		this.horizontalAlignment = horizontalAlignment;
 	}

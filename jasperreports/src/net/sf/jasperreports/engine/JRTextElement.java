@@ -90,27 +90,17 @@ public interface JRTextElement extends JRElement, JRAlignment
 	/**
 	 * Gets the text horizontal alignment.
 	 * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment();
 
 	/**
 	 * Sets the text horizontal alignment.
 	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment);
 
-	/**
-	 * Gets the text vertical alignment.
-	 * @return a value representing one of the vertical alignment constants in {@link JRAlignment}
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 * Gets the text vertical alignment.
-	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
 	/**
 	 * Gets the text rotation.
 	 * @return a value representing one of the rotation constants in this class

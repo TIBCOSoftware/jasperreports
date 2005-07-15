@@ -811,10 +811,10 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		writer.write("\t\t<text");
 
-		if (text.getTextAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
+		if (text.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
 			writer.write(" textAlignment=\"");
-			writer.write((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getTextAlignment())));
+			writer.write((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(text.getHorizontalAlignment())));
 			writer.write("\"");
 		}
 

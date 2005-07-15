@@ -37,18 +37,46 @@ package net.sf.jasperreports.engine;
  */
 public interface JRAlignment
 {
-	//TODO: alignment getters and setters from JRTextElement and JRImage should be moved here.
 
-
+	/**
+	 * 
+	 */
 	public static final byte HORIZONTAL_ALIGN_LEFT = 1;
 	public static final byte HORIZONTAL_ALIGN_CENTER = 2;
 	public static final byte HORIZONTAL_ALIGN_RIGHT = 3;
 	public static final byte HORIZONTAL_ALIGN_JUSTIFIED = 4;
 
-
+	/**
+	 * 
+	 */
 	public static final byte VERTICAL_ALIGN_TOP = 1;
 	public static final byte VERTICAL_ALIGN_MIDDLE = 2;
 	public static final byte VERTICAL_ALIGN_BOTTOM = 3;
+	public static final byte VERTICAL_ALIGN_JUSTIFIED = 4;
 
 
+	/**
+	 * Gets the text horizontal alignment.
+	 * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 */
+	public byte getHorizontalAlignment();
+
+	/**
+	 * Sets the text horizontal alignment.
+	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment);
+
+	/**
+	 * Gets the text vertical alignment.
+	 * @return a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 */
+	public byte getVerticalAlignment();
+		
+	/**
+	 * Gets the text vertical alignment.
+	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
+	 */
+	public void setVerticalAlignment(byte verticalAlignment);
+		
 }

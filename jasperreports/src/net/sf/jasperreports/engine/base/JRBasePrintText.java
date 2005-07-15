@@ -132,7 +132,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
 	{
@@ -140,9 +140,25 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment)
+	{
+		this.horizontalAlignment = horizontalAlignment;
+	}
+
+	/**
+	 *
+	 */
+	public byte getHorizontalAlignment()
+	{
+		return horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
 		this.horizontalAlignment = horizontalAlignment;
 	}

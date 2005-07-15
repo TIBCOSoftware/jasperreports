@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -65,7 +66,7 @@ import org.apache.poi.hssf.util.Region;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporter extends JRXLSAbstractExporter
+public class JRXlsExporter extends JRXlsAbstractExporter
 {
 
 	/**
@@ -259,10 +260,10 @@ public class JRXlsExporter extends JRXLSAbstractExporter
 
 		HSSFFont cellFont = getLoadedFont(font, forecolor);
 
-		TextAlignment alignment = getTextAlignment(textElement);
-		short horizontalAlignment = getHorizontalAlignment(alignment);
-		short verticalAlignment = getVerticalAlignment(alignment);
-		short rotation = getRotation(alignment);
+		TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
+		short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
+		short verticalAlignment = getVerticalAlignment(textAlignHolder);
+		short rotation = getRotation(textAlignHolder);
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
@@ -366,39 +367,39 @@ public class JRXlsExporter extends JRXLSAbstractExporter
 		cell.setCellStyle(cellStyle);
 	}
 
-	private short getHorizontalAlignment(TextAlignment alignment)
+	private short getHorizontalAlignment(TextAlignHolder alignment)
 	{
 		switch (alignment.horizontalAlignment)
 		{
-			case TextAlignment.ALIGN_RIGHT:
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
 				return HSSFCellStyle.ALIGN_RIGHT;
-			case TextAlignment.ALIGN_CENTER:
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
 				return HSSFCellStyle.ALIGN_CENTER;
-			case TextAlignment.ALIGN_JUSTIFY:
+			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
 				return HSSFCellStyle.ALIGN_JUSTIFY;
-			case TextAlignment.ALIGN_LEFT:
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
 			default:
 				return HSSFCellStyle.ALIGN_LEFT;
 		}
 	}
 
-	private short getVerticalAlignment(TextAlignment alignment)
+	private short getVerticalAlignment(TextAlignHolder alignment)
 	{
 		switch (alignment.verticalAlignment)
 		{
-			case TextAlignment.VERTICAL_BOTTOM:
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
 				return HSSFCellStyle.VERTICAL_BOTTOM;
-			case TextAlignment.VERTICAL_CENTER:
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
 				return HSSFCellStyle.VERTICAL_CENTER;
-			case TextAlignment.VERTICAL_JUSTIFY:
+			case JRAlignment.VERTICAL_ALIGN_JUSTIFIED:
 				return HSSFCellStyle.VERTICAL_JUSTIFY;
-			case TextAlignment.VERTICAL_TOP:
+			case JRAlignment.VERTICAL_ALIGN_TOP:
 			default:
 				return HSSFCellStyle.VERTICAL_TOP;
 		}
 	}
 
-	private short getRotation(TextAlignment alignment)
+	private short getRotation(TextAlignHolder alignment)
 	{
 		switch (alignment.rotation)
 		{
