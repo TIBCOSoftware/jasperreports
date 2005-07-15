@@ -969,7 +969,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			switch (text.getTextAlignment())
+			switch (text.getHorizontalAlignment())
 			{
 				case JRAlignment.HORIZONTAL_ALIGN_RIGHT : 
 				{

@@ -60,7 +60,7 @@ public class JRTextElementFactory extends JRBaseFactory
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			textElement.setTextAlignment(horizontalAlignment.byteValue());
+			textElement.setHorizontalAlignment(horizontalAlignment.byteValue());
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));

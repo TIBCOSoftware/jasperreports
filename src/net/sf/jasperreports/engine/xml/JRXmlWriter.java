@@ -1345,10 +1345,10 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t<textElement");
 
-		if (textElement.getTextAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
+		if (textElement.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
 		{
 			sb.append(" textAlignment=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(textElement.getTextAlignment())));
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(textElement.getHorizontalAlignment())));
 			sb.append("\"");
 		}
 

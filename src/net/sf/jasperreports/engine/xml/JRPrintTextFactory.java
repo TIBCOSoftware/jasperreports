@@ -70,7 +70,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			text.setTextAlignment(horizontalAlignment.byteValue());
+			text.setHorizontalAlignment(horizontalAlignment.byteValue());
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));

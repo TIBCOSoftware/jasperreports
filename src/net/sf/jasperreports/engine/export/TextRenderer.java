@@ -58,7 +58,7 @@ public class TextRenderer
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
-	private byte textAlignment = 0;
+	private byte horizontalAlignment = 0;
 	
 	
 	/**
@@ -75,7 +75,7 @@ public class TextRenderer
 		int initBottomPadding,
 		int initRightPadding,
 		float initTextHeight,
-		byte initTextAlignment,
+		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
 		byte initLineSpacing,
 		JRStyledText styledText,
@@ -94,7 +94,7 @@ public class TextRenderer
 			initBottomPadding,
 			initRightPadding,
 			initTextHeight, 
-			initTextAlignment, 
+			initHorizontalAlignment, 
 			initVerticalAlignment, 
 			initLineSpacing
 			);
@@ -148,14 +148,14 @@ public class TextRenderer
 		int initBottomPadding,
 		int initRightPadding,
 		float initTextHeight,
-		byte initTextAlignment,
+		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
 		byte initLineSpacing
 		)
 	{
 		this.grx = initGrx;
 		
-		this.textAlignment = initTextAlignment;
+		this.horizontalAlignment = initHorizontalAlignment;
 
 		verticalOffset = 0f;
 		switch (initVerticalAlignment)
@@ -277,7 +277,7 @@ public class TextRenderer
 
 			if (drawPosY + layout.getDescent() <= maxHeight)
 			{
-				switch (textAlignment)
+				switch (horizontalAlignment)
 				{
 					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
 					{

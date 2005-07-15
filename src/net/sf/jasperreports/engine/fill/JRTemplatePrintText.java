@@ -116,17 +116,32 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTemplateText)template).getTextAlignment();
+		return ((JRTemplateText)template).getHorizontalAlignment();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
+	 */
+	public void setTextAlignment(byte horizontalAlignment)
+	{
 	}
 		
 	/**
 	 *
 	 */
-	public void setTextAlignment(byte horizontalAlignment)
+	public byte getHorizontalAlignment()
+	{
+		return ((JRTemplateText)template).getHorizontalAlignment();
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
 	}
 		

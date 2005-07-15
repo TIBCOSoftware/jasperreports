@@ -1718,7 +1718,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (textLength > 0)
 		{
 			int horizontalAlignment = Element.ALIGN_LEFT;
-			switch (text.getTextAlignment())
+			switch (text.getHorizontalAlignment())
 			{
 				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 				{

@@ -99,17 +99,32 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTextElement)parent).getTextAlignment();
+		return ((JRTextElement)parent).getHorizontalAlignment();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
+	 */
+	public void setTextAlignment(byte horizontalAlignment)
+	{
 	}
 		
 	/**
 	 *
 	 */
-	public void setTextAlignment(byte horizontalAlignment)
+	public byte getHorizontalAlignment()
+	{
+		return ((JRTextElement)parent).getHorizontalAlignment();
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
 	}
 		

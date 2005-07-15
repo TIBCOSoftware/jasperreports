@@ -1094,7 +1094,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateStackedBar3DImage(byte evaluation) throws JRException
 	{
-		// TODO: a special plot implementation should be made for stacked bar charts
 		JFreeChart chart =
 			ChartFactory.createStackedBarChart3D(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
@@ -1118,7 +1117,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateStackedBarImage(byte evaluation) throws JRException
 	{
-		// TODO: a special plot implementation should be made for stacked bar charts
 		JFreeChart chart =
 			ChartFactory.createStackedBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),

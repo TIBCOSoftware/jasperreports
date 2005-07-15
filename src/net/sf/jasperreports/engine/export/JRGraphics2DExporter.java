@@ -722,7 +722,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				bottomPadding,
 				rightPadding,
 				text.getTextHeight(), 
-				text.getTextAlignment(), 
+				text.getHorizontalAlignment(), 
 				text.getVerticalAlignment(), 
 				text.getLineSpacing(), 
 				styledText, 

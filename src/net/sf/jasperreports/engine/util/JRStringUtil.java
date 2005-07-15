@@ -155,7 +155,6 @@ public class JRStringUtil
 	/**
 	 * Checks if the input is a valid Java literal
 	 * @param literal
-	 * @return
 	 * @author Gaganis Giorgos (gaganis@users.sourceforge.net) 
 	 */
 	private static boolean isValidLiteral(String literal)

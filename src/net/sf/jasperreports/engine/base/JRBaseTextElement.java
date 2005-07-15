@@ -87,7 +87,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		super(textElement, factory);
 		
 		box = textElement.getBox();
-		horizontalAlignment = textElement.getTextAlignment();
+		horizontalAlignment = textElement.getHorizontalAlignment();
 		verticalAlignment = textElement.getVerticalAlignment();
 		rotation = textElement.getRotation();
 		lineSpacing = textElement.getLineSpacing();
@@ -98,7 +98,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
 	{
@@ -106,9 +106,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
 	public void setTextAlignment(byte horizontalAlignment)
+	{
+		this.horizontalAlignment = horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public byte getHorizontalAlignment()
+	{
+		return horizontalAlignment;
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(byte horizontalAlignment)
 	{
 		this.horizontalAlignment = horizontalAlignment;
 	}
