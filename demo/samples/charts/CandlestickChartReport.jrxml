@@ -127,7 +127,7 @@
 		</band>
 		</groupFooter>
 	</group>
-	<group name="CountryGroup" isReprintHeaderOnEachPage="true">
+	<group name="CountryGroup" isReprintHeaderOnEachPage="false">
 		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
 		<groupHeader>
 		<band height="200">
