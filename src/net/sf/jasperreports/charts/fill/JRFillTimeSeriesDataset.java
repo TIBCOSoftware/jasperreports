@@ -35,6 +35,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.util.TimeSeriesLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -42,12 +43,10 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -65,7 +64,6 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	private Map seriesMap = null;
 	private Map labelsMap = null;
 	
-	private boolean isIncremented = false;
 	
 	public JRFillTimeSeriesDataset(
 		JRTimeSeriesDataset timeSeriesDataset, 
@@ -90,15 +88,14 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		return timeSeries;
 	}
 	
-	protected void initialize()
+	protected void customInitialize()
 	{
 		seriesNames = null;
 		seriesMap = null;
 		labelsMap = null;
-		isIncremented = false;
 	}
 	
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException 
+	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException 
 	{
 		if(timeSeries != null && timeSeries.length > 0)
 		{
@@ -107,11 +104,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				timeSeries[i].evaluate( calculator );
 			}
 		}
-		isIncremented = false;
 	}
 	
 	
-	protected void increment()
+	protected void customIncrement()
 	{
 		if (timeSeries != null && timeSeries.length > 0)
 		{
@@ -157,15 +153,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				}
 			}
 		}
-		isIncremented = true;
 	}
 	
-	public Dataset getDataset()
+	public Dataset getCustomDataset()
 	{
-		if (isIncremented == false)
-		{
-			increment();
-		}
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		if (seriesNames != null)
 		{
@@ -199,31 +190,6 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
-	/**
-	 * 
-	 */
-	private static class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator 
-	{
-		private Map labelsMap = null;
-		
-		public TimeSeriesLabelGenerator(Map labelsMap)
-		{
-			this.labelsMap = labelsMap;
-		}
-		
-		public String generateLabel(XYDataset dataset, int series, int item)
-		{
-			Comparable seriesName = dataset.getSeriesKey(series);
-			Map labels = (Map)labelsMap.get(seriesName);
-			if(labels != null)
-			{
-				return (String)labels.get(((TimeSeriesCollection)dataset).getSeries(series).getTimePeriod(item));
-			}
-			return super.generateLabel( dataset, series, item );
-		}
-	}
-
-
 	/**
 	 *
 	 */

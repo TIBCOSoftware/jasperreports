@@ -34,6 +34,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.util.XYDatasetLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -41,9 +42,7 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.general.Dataset;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -63,8 +62,6 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	private List seriesNames = null;
 	private Map seriesMap = null;
 	private Map labelsMap = null;
-
-	private boolean isIncremented = false;
 	
 	
 	/**
@@ -102,19 +99,18 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	/**
 	 *
 	 */
-	protected void initialize()
+	protected void customInitialize()
 	{
 		seriesNames = null;
 		seriesMap = null;
 		labelsMap = null;
-		isIncremented = false;
 	}
 
 	
 	/**
 	 *
 	 */
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		if (xySeries != null && xySeries.length > 0)
 		{
@@ -123,14 +119,13 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 				xySeries[i].evaluate(calculator);
 			}
 		}
-		isIncremented = false;
 	}
 
 	
 	/**
 	 *
 	 */
-	protected void increment()
+	protected void customIncrement()
 	{
 		if (xySeries != null && xySeries.length > 0)
 		{
@@ -172,20 +167,14 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 				}
 			}
 		}
-
-		isIncremented = true;
 	}
 
 	
 	/**
 	 *
 	 */
-	public Dataset getDataset()
+	public Dataset getCustomDataset()
 	{
-		if (isIncremented == false)
-		{
-			increment();
-		}
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		if (seriesNames != null)
 		{
@@ -212,31 +201,6 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	 */
 	public XYDatasetLabelGenerator getLabelGenerator(){
 		return new XYDatasetLabelGenerator(labelsMap);	
-	}
-	
-	
-	/**
-	 * 
-	 */
-	private static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator 
-	{
-		private Map labelsMap = null;
-		
-		public XYDatasetLabelGenerator(Map labelsMap)
-		{
-			this.labelsMap = labelsMap;
-		}
-		
-		public String generateLabel(XYDataset dataset, int series, int item)
-		{
-			Comparable seriesName = dataset.getSeriesKey(series);
-			Map labels = (Map)labelsMap.get(seriesName);
-			if(labels != null)
-			{
-				return (String)labels.get(((XYSeriesCollection)dataset).getX(series, item));
-			}
-			return super.generateLabel( dataset, series, item );
-		}
 	}
 	
 	

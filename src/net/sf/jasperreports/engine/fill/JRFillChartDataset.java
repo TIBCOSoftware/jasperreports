@@ -49,6 +49,8 @@ public abstract class JRFillChartDataset implements JRChartDataset
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;
 
+	private boolean isIncremented = true;
+
 	
 	/**
 	 *
@@ -102,22 +104,62 @@ public abstract class JRFillChartDataset implements JRChartDataset
 	/**
 	 *
 	 */
-	protected abstract void initialize();
+	protected void initialize()
+	{
+		customInitialize();
+		isIncremented = false;
+	}
 
 	/**
 	 *
 	 */
-	protected abstract void evaluate(JRCalculator calculator) throws JRExpressionEvalException;
+	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		customEvaluate(calculator);
+		isIncremented = false;
+	}
 
 	/**
 	 *
 	 */
-	protected abstract void increment();
+	protected void increment()
+	{
+		if (!isIncremented)
+		{
+			customIncrement();
+		}
+		isIncremented = true;
+	}
 
 	/**
 	 *
 	 */
-	public abstract Dataset getDataset();
+	public Dataset getDataset()
+	{
+		increment();
+		
+		return getCustomDataset();
+	}
 
+
+	/**
+	 *
+	 */
+	protected abstract void customInitialize();
+
+	/**
+	 *
+	 */
+	protected abstract void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException;
+
+	/**
+	 *
+	 */
+	protected abstract void customIncrement();
+
+	/**
+	 *
+	 */
+	protected abstract Dataset getCustomDataset();
 
 }
