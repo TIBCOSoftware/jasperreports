@@ -168,7 +168,7 @@
 						<zValueExpression>new Double(20.00)</zValueExpression>
 					</xyzSeries>
 				</xyzDataset>
-				<bubblePlot scaleType="rangeAxis">
+				<bubblePlot scaleType="RangeAxis">
 					<plot/>
 				</bubblePlot>
 			</bubbleChart>

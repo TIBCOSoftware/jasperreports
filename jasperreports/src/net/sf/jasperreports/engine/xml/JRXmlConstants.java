@@ -685,10 +685,10 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	public static final String TITLE_POSITION_TOP = "top";
-	public static final String TITLE_POSITION_BOTTOM = "bottom";
-	public static final String TITLE_POSITION_LEFT = "left";
-	public static final String TITLE_POSITION_RIGHT = "right";
+	public static final String TITLE_POSITION_TOP = "Top";
+	public static final String TITLE_POSITION_BOTTOM = "Bottom";
+	public static final String TITLE_POSITION_LEFT = "Left";
+	public static final String TITLE_POSITION_RIGHT = "Right";
 
 	public static Map chartTitlePositionMap = null;
 
@@ -713,8 +713,8 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	private static final String ORIENTATION_HORIZONTAL = "horizontal";
-	private static final String ORIENTATION_VERTICAL = "vertical";
+	private static final String ORIENTATION_HORIZONTAL = "Horizontal";
+	private static final String ORIENTATION_VERTICAL = "Vertical";
 
 	private static Map plotOrientationMap = null;
 
@@ -733,9 +733,9 @@ public class JRXmlConstants
 	}
 
 
-	private static final String SCALE_ON_BOTH_AXES = "bothAxes";
-	private static final String SCALE_ON_DOMAIN_AXIS = "domainAxis";
-	private static final String SCALE_ON_RANGE_AXIS = "rangeAxis";
+	private static final String SCALE_ON_BOTH_AXES = "BothAxes";
+	private static final String SCALE_ON_DOMAIN_AXIS = "DomainAxis";
+	private static final String SCALE_ON_RANGE_AXIS = "RangeAxis";
 
 	private static Map scaleTypeMap = null;
 
@@ -755,15 +755,15 @@ public class JRXmlConstants
 	
 	
 	
-	private static final String TIME_PERIOD_YEAR = "year";
-	private static final String TIME_PERIOD_QUARTER = "quarter";
-	private static final String TIME_PERIOD_MONTH = "month";
-	private static final String TIME_PERIOD_WEEK = "week";
-	private static final String TIME_PERIOD_DAY = "day";
-	private static final String TIME_PERIOD_HOUR = "hour";
-	private static final String TIME_PERIOD_MINUTE = "minute";
-	private static final String TIME_PERIOD_SECOND = "second";
-	private static final String TIME_PERIOD_MILISECOND = "milisecond";
+	private static final String TIME_PERIOD_YEAR = "Year";
+	private static final String TIME_PERIOD_QUARTER = "Quarter";
+	private static final String TIME_PERIOD_MONTH = "Month";
+	private static final String TIME_PERIOD_WEEK = "Week";
+	private static final String TIME_PERIOD_DAY = "Day";
+	private static final String TIME_PERIOD_HOUR = "Hour";
+	private static final String TIME_PERIOD_MINUTE = "Minute";
+	private static final String TIME_PERIOD_SECOND = "Second";
+	private static final String TIME_PERIOD_MILISECOND = "Milisecond";
 	
 	
 	
