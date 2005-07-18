@@ -45,18 +45,21 @@ import org.jfree.data.general.Dataset;
  */
 public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset {
 
-	private DefaultXYZDataset dataset = new DefaultXYZDataset();
-	
 	protected JRFillXyzSeries[] xyzSeries = null;
+
+	private DefaultXYZDataset dataset = null;
 	
 	
-	public JRFillXyzDataset( JRXyzDataset xyzDataset, JRFillObjectFactory factory ){
+	public JRFillXyzDataset(JRXyzDataset xyzDataset, JRFillObjectFactory factory)
+	{
 		super( xyzDataset, factory );
 		
 		JRXyzSeries[] srcXyzSeries = xyzDataset.getSeries();
-		if( srcXyzSeries != null && srcXyzSeries.length > 0 ){
-			xyzSeries = new JRFillXyzSeries[ srcXyzSeries.length ];
-			for( int i = 0; i< xyzSeries.length; i++ ){
+		if(srcXyzSeries != null && srcXyzSeries.length > 0)
+		{
+			xyzSeries = new JRFillXyzSeries[srcXyzSeries.length];
+			for(int i = 0; i < xyzSeries.length; i++)
+			{
 				xyzSeries[i] = (JRFillXyzSeries)factory.getXyzSeries( srcXyzSeries[i]);
 			}
 		}
@@ -71,24 +74,30 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		dataset = new DefaultXYZDataset();
 	}
 	
-	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-		if( xyzSeries != null && xyzSeries.length > 0 ){
-			for( int i = 0; i < xyzSeries.length; i++ ){
+	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException 
+	{
+		if (xyzSeries != null && xyzSeries.length > 0)
+		{
+			for (int i = 0; i < xyzSeries.length; i++)
+			{
 				xyzSeries[i].evaluate( calculator );
 			}
 		}
 	}
 	
-	protected void customIncrement(){
-		if( xyzSeries != null && xyzSeries .length > 0 ){
-			for( int i = 0; i< xyzSeries.length; i++ ){
+	protected void customIncrement()
+	{
+		if (xyzSeries != null && xyzSeries .length > 0)
+		{
+			for (int i = 0; i < xyzSeries.length; i++)
+			{
 				JRFillXyzSeries crtXyzSeries = xyzSeries[i];
-				if( crtXyzSeries.getSeries() != null ){
-					dataset.addValue( crtXyzSeries.getSeries(), 
-									  crtXyzSeries.getXValue(),
-									  crtXyzSeries.getYValue(),
-									  crtXyzSeries.getZValue());
-				}
+				dataset.addValue(
+					crtXyzSeries.getSeries(), 
+					crtXyzSeries.getXValue(),
+					crtXyzSeries.getYValue(),
+					crtXyzSeries.getZValue()
+					);
 			}
 		}
 	}
