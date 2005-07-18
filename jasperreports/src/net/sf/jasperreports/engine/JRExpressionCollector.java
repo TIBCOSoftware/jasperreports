@@ -440,6 +440,7 @@ public class JRExpressionCollector
 		addExpression( timePeriodSeries.getStartDateExpression() );
 		addExpression( timePeriodSeries.getEndDateExpression() );
 		addExpression( timePeriodSeries.getValueExpression() );
+		addExpression( timePeriodSeries.getLabelExpression() );
 	}
 
 	/**
