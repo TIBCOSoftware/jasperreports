@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRXyDataset;
@@ -56,10 +58,11 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	/**
 	 *
 	 */
-	private XYSeriesCollection dataset = new XYSeriesCollection();
-	
 	protected JRFillXySeries[] xySeries = null;
-	protected Map[] labels = null;
+
+	private List seriesNames = null;
+	private Map seriesMap = null;
+	private Map labelsMap = null;
 
 	private boolean isIncremented = false;
 	
@@ -101,16 +104,13 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	 */
 	protected void initialize()
 	{
-		dataset = null;
-		labels = new Map[ getSeries().length ];
-		for( int i = 0; i<labels.length; i++ ){
-			if( getSeries()[i].getLabelExpression() != null ){
-				labels[i] = new HashMap();
-			}
-		}
+		seriesNames = null;
+		seriesMap = null;
+		labelsMap = null;
 		isIncremented = false;
 	}
 
+	
 	/**
 	 *
 	 */
@@ -126,47 +126,54 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		isIncremented = false;
 	}
 
+	
 	/**
 	 *
 	 */
 	protected void increment()
 	{
-		if (dataset == null || dataset.getSeriesCount() == 0)//FIXME NOW too many tests - simplify
+		if (xySeries != null && xySeries.length > 0)
 		{
-			dataset = new XYSeriesCollection();
-			if (xySeries != null && xySeries.length > 0)
+			if (seriesNames == null)
 			{
-				for(int i = 0; i < xySeries.length; i++)
-				{
-					JRFillXySeries crtXySeries = xySeries[i];
-					Comparable seriesName = crtXySeries.getSeries();
-					if (seriesName != null)
-					{
-						dataset.addSeries(new XYSeries(seriesName));
-					}
-				}
+				seriesNames = new ArrayList();
+				seriesMap = new HashMap();
+				labelsMap = new HashMap();
 			}
-		}
 
-		if (dataset.getSeriesCount() > 0 && xySeries != null && xySeries.length > 0)
-		{
 			for(int i = 0; i < xySeries.length; i++)
 			{
 				JRFillXySeries crtXySeries = xySeries[i];
-				XYSeries xySrs = dataset.getSeries(i);
-				if (crtXySeries.getXValue() != null) 
-					xySrs.addOrUpdate(
-						crtXySeries.getXValue(), 
-						crtXySeries.getYValue()
-						);//FIXME NOW verify if condifion
-				if( labels[i] != null ){
-					labels[i].put( crtXySeries.getXValue(), crtXySeries.getLabel() );
+
+				Comparable seriesName = crtXySeries.getSeries();
+				XYSeries xySrs = (XYSeries)seriesMap.get(seriesName);
+				if (xySrs == null)
+				{
+					xySrs =  new XYSeries(seriesName);
+					seriesNames.add(seriesName);
+					seriesMap.put(seriesName, xySrs);
 				}
+				
+				xySrs.addOrUpdate(
+					crtXySeries.getXValue(), 
+					crtXySeries.getYValue()
+					);
+				
+				Map seriesLabels = (Map)labelsMap.get(seriesName);
+				if (seriesLabels == null)
+				{
+					seriesLabels = new HashMap();
+					labelsMap.put(seriesName, seriesLabels);
+				}
+				
+				seriesLabels.put(crtXySeries.getXValue(), crtXySeries.getLabel());
 			}
 		}
+
 		isIncremented = true;
 	}
 
+	
 	/**
 	 *
 	 */
@@ -176,9 +183,19 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		{
 			increment();
 		}
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		if (seriesNames != null)
+		{
+			for(int i = 0; i < seriesNames.size(); i++)
+			{
+				Comparable seriesName = (Comparable)seriesNames.get(i);
+				dataset.addSeries((XYSeries)seriesMap.get(seriesName));
+			}
+		}
 		return dataset;
 	}
 
+	
 	/**
 	 * 
 	 */
@@ -186,11 +203,12 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		return JRChartDataset.XY_DATASET;
 	}
 	
+	
 	/**
 	 * 
 	 */
 	public XYDatasetLabelGenerator getLabelGenerator(){
-		return new XYDatasetLabelGenerator( labels );	
+		return new XYDatasetLabelGenerator(labelsMap);	
 	}
 	
 	
@@ -199,16 +217,17 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	 */
 	private static class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator 
 	{
-		private Map[] labels = null;
+		private Map labelsMap = null;
 		
-		public XYDatasetLabelGenerator( Map[] labels ){
-			this.labels = labels;
+		public XYDatasetLabelGenerator(Map labelsMap){
+			this.labelsMap = labelsMap;
 		}
 		
-		public String generateLabel( XYDataset dataset, int series, int item  ){
-			
-			if( labels[series] != null ){
-				return (String)labels[series].get( ((XYSeriesCollection)dataset).getX( series, item ));
+		public String generateLabel(XYDataset dataset, int series, int item){
+			Comparable seriesName = dataset.getSeriesKey(series);
+			Map labels = (Map)labelsMap.get(seriesName);
+			if(labels != null){
+				return (String)labels.get(((XYSeriesCollection)dataset).getX(series, item));
 			}
 			return super.generateLabel( dataset, series, item );
 		}
