@@ -259,7 +259,7 @@
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle
-	position (top | bottom | left | right) "top"
+	position (Top | Bottom | Left | Right) "Top"
 	color CDATA #IMPLIED
 >
 <!ELEMENT titleExpression (#PCDATA)>
@@ -287,7 +287,7 @@
 <!ELEMENT plot EMPTY>
 <!ATTLIST plot
 	backcolor CDATA #IMPLIED
-	orientation (horizontal | vertical) "vertical"
+	orientation (Horizontal | Vertical) "Vertical"
 	backgroundAlpha NMTOKEN "1"
 	foregroundAlpha NMTOKEN "1"
 >
@@ -365,13 +365,13 @@
 <!ELEMENT xyzSeries (seriesExpression, xValueExpression, yValueExpression, zValueExpression?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
 <!ATTLIST bubblePlot
-	scaleType (bothAxes | domainAxis | rangeAxis) "rangeAxis"
+	scaleType (BothAxes | DomainAxis | RangeAxis) "RangeAxis"
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesDataset (dataset?, timeSeries+)>
 <!ATTLIST timeSeriesDataset
-	timePeriod (year | quarter | month | week | day | hour | minute | second | milisecond ) "day"
+	timePeriod (Year | Quarter | Month | Week | Day | Hour | Minute | Second | Milisecond ) "Day"
 >
 <!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression?)>
 <!ELEMENT timePeriodExpression (#PCDATA)>

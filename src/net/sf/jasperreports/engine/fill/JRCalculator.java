@@ -139,15 +139,11 @@ public abstract class JRCalculator
 	{
 		if (variables != null && variables.length > 0)
 		{
-			JRFillVariable variable = null;
-			Object expressionValue = null;
-			Object newValue = null;
-			
 			for(int i = 0; i < variables.length; i++)
 			{
-				variable = variables[i];
-				expressionValue = evaluate(variable.getExpression());
-				newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
+				JRFillVariable variable = variables[i];
+				Object expressionValue = evaluate(variable.getExpression());
+				Object newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
 
@@ -160,11 +156,9 @@ public abstract class JRCalculator
 
 		if (datasets != null && datasets.length > 0)
 		{
-			JRFillChartDataset dataset = null;
-			
 			for(int i = 0; i < datasets.length; i++)
 			{
-				dataset = datasets[i];
+				JRFillChartDataset dataset = datasets[i];
 				dataset.evaluate(this);
 
 				if (dataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)

@@ -62,9 +62,11 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	
 	private boolean isIncremented = false;
 	
-	public JRFillTimeSeriesDataset( JRTimeSeriesDataset  timeSeriesDataset, 
-									JRFillObjectFactory factory ){
-		
+	public JRFillTimeSeriesDataset(
+		JRTimeSeriesDataset timeSeriesDataset, 
+		JRFillObjectFactory factory 
+		)
+	{
 		super( timeSeriesDataset, factory );
 		
 		JRTimeSeries[] srcTimeSeries = timeSeriesDataset.getSeries();
@@ -106,7 +108,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		if( timeSeries != null && timeSeries.length > 0 ){
 			for( int i = 0; i < timeSeries.length; i++ ){
 				JRFillTimeSeries crtTimeSeries = timeSeries[i];
-				String seriesName = (String)crtTimeSeries.getSeries();
+				String seriesName = (String)crtTimeSeries.getSeries();//FIXME NOW series names should be string?
 				TimeSeries series = dataset.getSeries(seriesName);
 				if( series == null ){
 					series = new TimeSeries(seriesName, getTimePeriod());

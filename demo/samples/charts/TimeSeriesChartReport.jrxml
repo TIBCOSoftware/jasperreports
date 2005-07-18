@@ -153,7 +153,7 @@
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
-				<timeSeriesDataset timePeriod="year">
+				<timeSeriesDataset timePeriod="Year">
 					<dataset resetType="Group" resetGroup="CountryGroup"/>
 					<timeSeries>
 						<seriesExpression>"Freight"</seriesExpression>

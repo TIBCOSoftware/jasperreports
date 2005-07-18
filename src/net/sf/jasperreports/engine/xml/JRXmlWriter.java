@@ -1725,7 +1725,18 @@ public class JRXmlWriter
 
 		// write title
 		if (chart.getTitleExpression() != null) {
-			sb.append("\t\t\t\t<chartTitle>\n");
+			sb.append("\t\t\t\t<chartTitle");
+			if (chart.getTitlePosition() != JRChart.TITLE_POSITION_TOP)
+			{
+				sb.append(" position=\"" + JRXmlConstants.getChartTitlePositionMap().get(new Byte(chart.getTitlePosition())) + "\"");
+			}
+			if (chart.getTitleColor() != null)
+			{
+				sb.append(" color=\"#");
+				sb.append(Integer.toHexString(chart.getTitleColor().getRGB() & colorMask));
+				sb.append("\"");
+			}
+			sb.append(">\n");
 			String titleFont = writeFont(chart.getTitleFont());
 			if (titleFont != null)
 				sb.append("\t\t\t\t\t" + titleFont +"\n");
@@ -1737,7 +1748,14 @@ public class JRXmlWriter
 
 		// write subtitle
 		if (chart.getSubtitleExpression() != null) {
-			sb.append("\t\t\t\t<chartSubitle>\n");
+			sb.append("\t\t\t\t<chartSubitle");
+			if (chart.getTitleColor() != null)
+			{
+				sb.append(" color=\"#");
+				sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));
+				sb.append("\"");
+			}
+			sb.append(">\n");
 			String subtitleFont = writeFont(chart.getSubtitleFont());
 			if (subtitleFont != null)
 				sb.append("\t\t\t\t\t" + subtitleFont +"\n");
