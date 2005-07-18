@@ -89,6 +89,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.category.StackedBarRenderer3D;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
@@ -851,13 +852,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 				);
 		categoryPlot.setRenderer(barRenderer3D);
 
-		renderer = new JCommonDrawableRenderer( chart );
-		
-		// add label generator
 		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
-
-		// set item labels visible 
 		barRenderer3D.setItemLabelsVisible( ((JRFillBar3DPlot)getPlot()).isShowLabels() );
+
+		renderer = new JCommonDrawableRenderer( chart );
 	}
 
 
@@ -899,8 +897,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
-		
-		// set item labels visible
 		categoryRenderer.setItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
 		
 		renderer = new JCommonDrawableRenderer(chart);
@@ -1064,8 +1060,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
-		
-		
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1107,6 +1101,18 @@ public class JRFillChart extends JRFillElement implements JRChart
 				);
 
 		configureChart(chart, evaluation);
+		
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
+
+		StackedBarRenderer3D stackedBarRenderer3D =
+			new StackedBarRenderer3D(
+				((JRFillBar3DPlot)getPlot()).getXOffset(),
+				((JRFillBar3DPlot)getPlot()).getYOffset()
+				);
+		categoryPlot.setRenderer(stackedBarRenderer3D);
+
+		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
+		stackedBarRenderer3D.setItemLabelsVisible( ((JRFillBar3DPlot)getPlot()).isShowLabels() );
 
 		renderer = new JCommonDrawableRenderer(chart);
 	}
@@ -1131,6 +1137,26 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		configureChart(chart, evaluation);
 
+		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
+		//plot.setNoDataMessage("No data to display");
+
+		categoryPlot.getDomainAxis().setTickMarksVisible(
+			((JRFillBarPlot)getPlot()).isShowTickMarks()
+			);
+		categoryPlot.getDomainAxis().setTickLabelsVisible(
+				((JRFillBarPlot)getPlot()).isShowTickLabels()
+				);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(
+				((JRFillBarPlot)getPlot()).isShowTickMarks()
+				);
+		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(
+				((JRFillBarPlot)getPlot()).isShowTickLabels()
+				);
+		
+		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
+		categoryRenderer.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());
+		categoryRenderer.setItemLabelsVisible( ((JRFillBarPlot)getPlot()).isShowLabels() );
+		
 		renderer = new JCommonDrawableRenderer(chart);
 	}
 

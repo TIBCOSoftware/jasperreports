@@ -54,7 +54,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	/**
 	 *
 	 */
-	String series = null;
+	private String series = null;
 	private List elements = new ArrayList();
 	private Date date = null;
 	private Number high = null;
@@ -93,15 +93,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 
 	protected void customIncrement()
 	{
-		HighLowElement element = new HighLowElement();
-		element.setDate(date);
-		element.setHigh(high);
-		element.setLow(low);
-		element.setOpen(open);
-		element.setClose(close);
-		element.setVolume(volume);
-
-		elements.add(element);
+		elements.add(new HighLowElement(date, high, low, open, close, volume));
 	}
 
 
@@ -181,6 +173,25 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		Number open;
 		Number close;
 		Number volume;
+
+
+		public HighLowElement(
+			Date date,
+			Number high,
+			Number low,
+			Number open,
+			Number close,
+			Number volume
+			)
+		{
+			this.date = date;
+			this.high = high;
+			this.low = low;
+			this.open = open;
+			this.close = close;
+			this.volume = volume;
+		}
+
 
 		public Date getDate()
 		{
