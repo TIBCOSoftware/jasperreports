@@ -13,7 +13,7 @@
 	</parameter>
 	<parameter name="SummaryImage" class="java.awt.Image">
 	</parameter>
-	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} AND ShippedDate IS NOT NULL ORDER BY ShipCountry]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>
 	<field name="ShipCountry" class="java.lang.String">
@@ -156,19 +156,21 @@
 				<chart evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
-				<timeSeriesDataset>
+				<timePeriodDataset>
 					<dataset incrementType="None" incrementGroup="YearGroup" resetType="Group" resetGroup="CountryGroup"/>
-					<timeSeries>
+					<timePeriodSeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
-						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
+						<startDateExpression>$F{OrderDate}</startDateExpression>
+						<endDateExpression>$F{ShippedDate}</endDateExpression>
 						<valueExpression>new Double($F{Freight}.doubleValue() / 2d)</valueExpression>
-					</timeSeries>
-					<timeSeries>
+					</timePeriodSeries>
+					<timePeriodSeries>
 						<seriesExpression>"Freight"</seriesExpression>
-						<timePeriodExpression>$F{OrderDate}</timePeriodExpression>
+						<startDateExpression>$F{OrderDate}</startDateExpression>
+						<endDateExpression>$F{ShippedDate}</endDateExpression>
 						<valueExpression>$F{Freight}</valueExpression>
-					</timeSeries>
-				</timeSeriesDataset>
+					</timePeriodSeries>
+				</timePeriodDataset>
 				<barPlot isShowTickMarks="true" isShowTickLabels="true">
 					<plot/>
 				</barPlot>

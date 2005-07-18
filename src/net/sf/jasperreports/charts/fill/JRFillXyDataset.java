@@ -159,14 +159,17 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 					crtXySeries.getYValue()
 					);
 				
-				Map seriesLabels = (Map)labelsMap.get(seriesName);
-				if (seriesLabels == null)
+				if (crtXySeries.getLabelExpression() != null)
 				{
-					seriesLabels = new HashMap();
-					labelsMap.put(seriesName, seriesLabels);
+					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					if (seriesLabels == null)
+					{
+						seriesLabels = new HashMap();
+						labelsMap.put(seriesName, seriesLabels);
+					}
+					
+					seriesLabels.put(crtXySeries.getXValue(), crtXySeries.getLabel());
 				}
-				
-				seriesLabels.put(crtXySeries.getXValue(), crtXySeries.getLabel());
 			}
 		}
 
@@ -219,14 +222,17 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	{
 		private Map labelsMap = null;
 		
-		public XYDatasetLabelGenerator(Map labelsMap){
+		public XYDatasetLabelGenerator(Map labelsMap)
+		{
 			this.labelsMap = labelsMap;
 		}
 		
-		public String generateLabel(XYDataset dataset, int series, int item){
+		public String generateLabel(XYDataset dataset, int series, int item)
+		{
 			Comparable seriesName = dataset.getSeriesKey(series);
 			Map labels = (Map)labelsMap.get(seriesName);
-			if(labels != null){
+			if(labels != null)
+			{
 				return (String)labels.get(((XYSeriesCollection)dataset).getX(series, item));
 			}
 			return super.generateLabel( dataset, series, item );

@@ -148,14 +148,17 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements
 				
 				timePeriodValues.add(stp, crtTimePeriodSeries.getValue());
 				
-				Map seriesLabels = (Map)labelsMap.get(seriesName);
-				if (seriesLabels == null)
+				if (crtTimePeriodSeries.getLabelExpression() != null)
 				{
-					seriesLabels = new HashMap();
-					labelsMap.put(seriesName, seriesLabels);
+					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					if (seriesLabels == null)
+					{
+						seriesLabels = new HashMap();
+						labelsMap.put(seriesName, seriesLabels);
+					}
+					
+					seriesLabels.put(stp, crtTimePeriodSeries.getLabel());
 				}
-				
-				seriesLabels.put(stp, crtTimePeriodSeries.getLabel());
 			}
 		}
 		isIncremented = true;
@@ -202,14 +205,17 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements
 	{
 		private Map labelsMap = null;
 		
-		public TimePeriodDatasetLabelGenerator(Map labelsMap){
+		public TimePeriodDatasetLabelGenerator(Map labelsMap)
+		{
 			this.labelsMap = labelsMap;
 		}
 		
-		public String generateLabel(XYDataset dataset, int series, int item){
+		public String generateLabel(XYDataset dataset, int series, int item)
+		{
 			Comparable seriesName = dataset.getSeriesKey(series);
 			Map labels = (Map)labelsMap.get(seriesName);
-			if(labels != null){
+			if(labels != null)
+			{
 				return (String)labels.get(((TimePeriodValuesCollection)dataset).getSeries(series).getTimePeriod(item));
 			}
 			return super.generateLabel( dataset, series, item );
