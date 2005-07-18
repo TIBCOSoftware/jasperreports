@@ -123,10 +123,8 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 */
 	protected void customIncrement()
 	{
-		if (key != null){
-			dataset.setValue(key, value);//FIXME NOW verify if condifion
-			labels.put( key, label );
-		}
+		dataset.setValue(key, value);
+		labels.put( key, label );
 	}
 
 	/**
