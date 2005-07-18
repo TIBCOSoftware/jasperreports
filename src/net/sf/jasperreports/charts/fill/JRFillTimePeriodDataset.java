@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -46,124 +48,169 @@ import org.jfree.data.time.TimePeriodValues;
 import org.jfree.data.time.TimePeriodValuesCollection;
 import org.jfree.data.xy.XYDataset;
 
+
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTimePeriodDataset {
-	
+public class JRFillTimePeriodDataset extends JRFillChartDataset implements
+		JRTimePeriodDataset
+{
+
 	/**
 	 * 
 	 */
-	private TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
-	protected Map[] labels = null;
 	protected JRFillTimePeriodSeries[] timePeriodSeries = null;
-	
+
+	private List seriesNames = null;
+	private Map seriesMap = null;
+	private Map labelsMap = null;
+
 	private boolean isIncremented = false;
-	
-	
-	public JRFillTimePeriodDataset( JRTimePeriodDataset timePeriodDataset,
-									JRFillObjectFactory factory ){
-	
-		super( timePeriodDataset, factory );
-		
+
+	/**
+	 * 
+	 */
+	public JRFillTimePeriodDataset(
+		JRTimePeriodDataset timePeriodDataset,
+		JRFillObjectFactory factory
+		)
+	{
+		super(timePeriodDataset, factory);
+
 		JRTimePeriodSeries[] srcTimePeriodSeries = timePeriodDataset.getSeries();
-		if( srcTimePeriodSeries != null && srcTimePeriodSeries.length > 0 ){
-			timePeriodSeries = new JRFillTimePeriodSeries[ srcTimePeriodSeries.length ];
-			for( int i = 0; i< timePeriodSeries.length; i++ ){
-				timePeriodSeries[i] = (JRFillTimePeriodSeries)factory.getTimePeriodSeries( srcTimePeriodSeries[i] );
+		if (srcTimePeriodSeries != null && srcTimePeriodSeries.length > 0)
+		{
+			timePeriodSeries = new JRFillTimePeriodSeries[srcTimePeriodSeries.length];
+			for (int i = 0; i < timePeriodSeries.length; i++)
+			{
+				timePeriodSeries[i] = 
+					(JRFillTimePeriodSeries)factory.getTimePeriodSeries(srcTimePeriodSeries[i]);
 			}
 		}
 	}
-	
-	
-	public JRTimePeriodSeries[] getSeries(){
+
+	public JRTimePeriodSeries[] getSeries()
+	{
 		return timePeriodSeries;
 	}
-	
-	protected void initialize(){
-		dataset = new TimePeriodValuesCollection();
-		labels = new Map[getSeries().length];
-		for( int i = 0; i<labels.length; i++ ){
-			if( getSeries()[i].getLabelExpression() != null ){
-				labels[i] = new HashMap();
+
+	protected void initialize()
+	{
+		seriesNames = null;
+		seriesMap = null;
+		labelsMap = null;
+		isIncremented = false;
+	}
+
+	protected void evaluate(JRCalculator calculator)
+			throws JRExpressionEvalException
+	{
+		if (timePeriodSeries != null && timePeriodSeries.length > 0)
+		{
+			for (int i = 0; i < timePeriodSeries.length; i++)
+			{
+				timePeriodSeries[i].evaluate(calculator);
 			}
 		}
 		isIncremented = false;
 	}
-	
-	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
-			for( int i = 0; i< timePeriodSeries.length; i++ ){
-				timePeriodSeries[i].evaluate( calculator );
+
+	protected void increment()
+	{
+		if (timePeriodSeries != null && timePeriodSeries.length > 0)
+		{
+			if (seriesNames == null)
+			{
+				seriesNames = new ArrayList();
+				seriesMap = new HashMap();
+				labelsMap = new HashMap();
 			}
-		}
-		isIncremented = false;
-	}
-	
-	
-	protected void increment(){
-		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
-			for( int i = 0; i < timePeriodSeries.length; i++ ){
+
+			for (int i = 0; i < timePeriodSeries.length; i++)
+			{
 				JRFillTimePeriodSeries crtTimePeriodSeries = timePeriodSeries[i];
-				String seriesName = (String)crtTimePeriodSeries.getSeries();
+
+				Comparable seriesName = crtTimePeriodSeries.getSeries();
+				TimePeriodValues timePeriodValues = (TimePeriodValues)seriesMap.get(seriesName);
+				if (timePeriodValues == null)
+				{
+					timePeriodValues = new TimePeriodValues(seriesName.toString());
+					seriesNames.add(seriesName);
+					seriesMap.put(seriesName, timePeriodValues);
+				}
+
+				SimpleTimePeriod stp = 
+					new SimpleTimePeriod(
+						crtTimePeriodSeries.getStartDate(), 
+						crtTimePeriodSeries.getEndDate()
+						);
 				
-				TimePeriodValues timePeriodValues = null;
-				for( int j = 0; j<dataset.getSeriesCount(); j++ ){
-					TimePeriodValues tmp = dataset.getSeries( j );
-					if( tmp.getKey().equals( seriesName )){
-						timePeriodValues = tmp;
-					}
+				timePeriodValues.add(stp, crtTimePeriodSeries.getValue());
+				
+				Map seriesLabels = (Map)labelsMap.get(seriesName);
+				if (seriesLabels == null)
+				{
+					seriesLabels = new HashMap();
+					labelsMap.put(seriesName, seriesLabels);
 				}
 				
-				if( timePeriodValues == null ){
-					timePeriodValues = new TimePeriodValues( seriesName );
-					dataset.addSeries( timePeriodValues );
-				}
-				
-				SimpleTimePeriod stp = new SimpleTimePeriod( crtTimePeriodSeries.getStartDate(), crtTimePeriodSeries.getEndDate() );
-				if( crtTimePeriodSeries.getStartDate() != null && crtTimePeriodSeries.getEndDate() != null ){
-					timePeriodValues.add( stp,crtTimePeriodSeries.getValue());
-					labels[i].put( stp, crtTimePeriodSeries.getLabel() );
-				}
-				
+				seriesLabels.put(stp, crtTimePeriodSeries.getLabel());
 			}
 		}
 		isIncremented = true;
 	}
 
-	public Dataset getDataset(){
-		if( isIncremented == false ){
+	public Dataset getDataset()
+	{
+		if (isIncremented == false)
+		{
 			increment();
+		}
+		TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
+		if (seriesNames != null)
+		{
+			for(int i = 0; i < seriesNames.size(); i++)
+			{
+				Comparable seriesName = (Comparable)seriesNames.get(i);
+				dataset.addSeries((TimePeriodValues)seriesMap.get(seriesName));
+			}
 		}
 		return dataset;
 	}
 
-	/** 
+	/**
 	 * 
 	 */
-	public byte getDatasetType() {
-		return JRChartDataset.TIMEPERIOD_DATASET;
-	}	
-	
-	public TimePeriodLabelGenerator getLabelGenerator(){
-		return new TimePeriodLabelGenerator( labels );
-	}
-	
-	/** 
-	 * 
-	 */
-	private static class TimePeriodLabelGenerator extends StandardXYItemLabelGenerator 
+	public byte getDatasetType()
 	{
-		private Map[] labels = null;
+		return JRChartDataset.TIMEPERIOD_DATASET;
+	}
+
+	/**
+	 * 
+	 */
+	public TimePeriodDatasetLabelGenerator getLabelGenerator()
+	{
+		return new TimePeriodDatasetLabelGenerator(labelsMap);
+	}
+
+	/**
+	 * 
+	 */
+	private static class TimePeriodDatasetLabelGenerator extends StandardXYItemLabelGenerator 
+	{
+		private Map labelsMap = null;
 		
-		public TimePeriodLabelGenerator( Map[] labels ){
-			this.labels = labels;
+		public TimePeriodDatasetLabelGenerator(Map labelsMap){
+			this.labelsMap = labelsMap;
 		}
 		
-		public String getLabel( XYDataset dataset, int series, int item ){
-			if( labels[series] != null ){
-				return (String)labels[series].get( ((TimePeriodValuesCollection)dataset).getSeries( series ).getTimePeriod( item ));
+		public String generateLabel(XYDataset dataset, int series, int item){
+			Comparable seriesName = dataset.getSeriesKey(series);
+			Map labels = (Map)labelsMap.get(seriesName);
+			if(labels != null){
+				return (String)labels.get(((TimePeriodValuesCollection)dataset).getSeries(series).getTimePeriod(item));
 			}
 			return super.generateLabel( dataset, series, item );
 		}
@@ -171,12 +218,11 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	
 	
 	/**
-	 *
+	 * 
 	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
-
 
 }
