@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -51,14 +53,17 @@ import org.jfree.data.xy.XYDataset;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTimeSeriesDataset {
+public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTimeSeriesDataset 
+{
 
-	private TimeSeriesCollection dataset = new TimeSeriesCollection();
-	
+	/**
+	 * 
+	 */
 	protected JRFillTimeSeries[] timeSeries = null;
-	protected Map[] labels = null;
-	protected Class timeSeriesClass = null;
 	
+	private List seriesNames = null;
+	private Map seriesMap = null;
+	private Map labelsMap = null;
 	
 	private boolean isIncremented = false;
 	
@@ -70,33 +75,35 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		super( timeSeriesDataset, factory );
 		
 		JRTimeSeries[] srcTimeSeries = timeSeriesDataset.getSeries();
-		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
-			timeSeries = new JRFillTimeSeries[ srcTimeSeries.length ];
-			for( int i = 0; i < timeSeries.length; i++ ){
-				timeSeries[i] = (JRFillTimeSeries)factory.getTimeSeries( srcTimeSeries[i] );
+		if( srcTimeSeries != null && srcTimeSeries.length > 0)
+		{
+			timeSeries = new JRFillTimeSeries[srcTimeSeries.length];
+			for (int i = 0; i < timeSeries.length; i++)
+			{
+				timeSeries[i] = (JRFillTimeSeries)factory.getTimeSeries(srcTimeSeries[i]);
 			}
 		}
-		timeSeriesClass = getTimePeriod();
 	}
 	
-	public JRTimeSeries[] getSeries(){
+	public JRTimeSeries[] getSeries()
+	{
 		return timeSeries;
 	}
 	
-	protected void initialize(){
-		dataset = new TimeSeriesCollection();
-		labels = new Map[ getSeries().length ]; //FIXME NOW test for nulls
-		for( int i=0; i<labels.length; i++ ){
-			if( getSeries()[i].getLabelExpression() != null ){
-				labels[i] = new HashMap();
-			}
-		}
+	protected void initialize()
+	{
+		seriesNames = null;
+		seriesMap = null;
+		labelsMap = null;
 		isIncremented = false;
 	}
 	
-	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
-		if( timeSeries != null && timeSeries.length > 0 ){
-			for( int i = 0; i < timeSeries.length; i++ ){
+	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException 
+	{
+		if(timeSeries != null && timeSeries.length > 0)
+		{
+			for (int i = 0; i < timeSeries.length; i++)
+			{
 				timeSeries[i].evaluate( calculator );
 			}
 		}
@@ -104,39 +111,69 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
-	protected void increment(){
-		if( timeSeries != null && timeSeries.length > 0 ){
-			for( int i = 0; i < timeSeries.length; i++ ){
+	protected void increment()
+	{
+		if (timeSeries != null && timeSeries.length > 0)
+		{
+			if (seriesNames == null)
+			{
+				seriesNames = new ArrayList();
+				seriesMap = new HashMap();
+				labelsMap = new HashMap();
+			}
+
+			for (int i = 0; i < timeSeries.length; i++)
+			{
 				JRFillTimeSeries crtTimeSeries = timeSeries[i];
-				String seriesName = (String)crtTimeSeries.getSeries();//FIXME NOW series names should be string?
-				TimeSeries series = dataset.getSeries(seriesName);
-				if( series == null ){
-					series = new TimeSeries(seriesName, getTimePeriod());
-					dataset.addSeries( series );
+				
+				Comparable seriesName = crtTimeSeries.getSeries();
+				TimeSeries series = (TimeSeries)seriesMap.get(seriesName);
+				if(series == null)
+				{
+					series = new TimeSeries(seriesName.toString(), getTimePeriod());
+					seriesNames.add(seriesName);
+					seriesMap.put(seriesName, series);
 				}
 				
-				if( crtTimeSeries.getTimePeriod() != null ){
-					series.addOrUpdate( 
-						RegularTimePeriod.createInstance( 
-								getTimePeriod(),
-								crtTimeSeries.getTimePeriod(),
-								TimeZone.getDefault()
-							),
-						crtTimeSeries.getValue()
-					);
-					if( labels[i] != null ){
-						RegularTimePeriod tp = RegularTimePeriod.createInstance( getTimePeriod(), crtTimeSeries.getTimePeriod(), TimeZone.getDefault() );
-						labels[i].put( tp , crtTimeSeries.getLabel() );
+				RegularTimePeriod tp = 
+					RegularTimePeriod.createInstance(
+						getTimePeriod(), 
+						crtTimeSeries.getTimePeriod(), 
+						TimeZone.getDefault()
+						);
+
+				series.addOrUpdate(tp, crtTimeSeries.getValue());
+
+				if (crtTimeSeries.getLabelExpression() != null)
+				{
+					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					if (seriesLabels == null)
+					{
+						seriesLabels = new HashMap();
+						labelsMap.put(seriesName, seriesLabels);
 					}
+					
+					seriesLabels.put(tp, crtTimeSeries.getLabel());
 				}
 			}
 		}
 		isIncremented = true;
 	}
 	
-	public Dataset getDataset(){
-		if( isIncremented == false ){
+	public Dataset getDataset()
+	{
+		if (isIncremented == false)
+		{
 			increment();
+		}
+		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		if (seriesNames != null)
+		{
+			for(int i = 0; i < seriesNames.size(); i++)
+			{
+				Comparable seriesName = (Comparable)seriesNames.get(i);
+				dataset.addSeries((TimeSeries)seriesMap.get(seriesName));
+			}
 		}
 		return dataset;
 	}
@@ -157,24 +194,30 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
-	public StandardXYItemLabelGenerator getLabelGenerator(){
-		return new TimeSeriesLabelGenerator( labels );
+	public TimeSeriesLabelGenerator getLabelGenerator(){
+		return new TimeSeriesLabelGenerator(labelsMap);
 	}
 	
 	
-	/** 
+	/**
 	 * 
 	 */
-	private static class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator {
-		private Map[] labels = null;
+	private static class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator 
+	{
+		private Map labelsMap = null;
 		
-		public TimeSeriesLabelGenerator( Map[] labels ){
-			this.labels = labels;
+		public TimeSeriesLabelGenerator(Map labelsMap)
+		{
+			this.labelsMap = labelsMap;
 		}
 		
-		public String generateLabel( XYDataset dataset, int series, int item ){
-			if( labels[series] != null ){
-				return (String)labels[series].get(((TimeSeriesCollection)dataset).getSeries( series ).getTimePeriod( item ));
+		public String generateLabel(XYDataset dataset, int series, int item)
+		{
+			Comparable seriesName = dataset.getSeriesKey(series);
+			Map labels = (Map)labelsMap.get(seriesName);
+			if(labels != null)
+			{
+				return (String)labels.get(((TimeSeriesCollection)dataset).getSeries(series).getTimePeriod(item));
 			}
 			return super.generateLabel( dataset, series, item );
 		}
