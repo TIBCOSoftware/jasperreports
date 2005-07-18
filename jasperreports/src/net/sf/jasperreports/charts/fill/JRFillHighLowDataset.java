@@ -54,7 +54,6 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	/**
 	 *
 	 */
-	private DefaultHighLowDataset dataset = null;
 	String series = null;
 	private List elements = new ArrayList();
 	private Date date = null;
@@ -64,8 +63,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	private Number close = null;
 	private Number volume = null;
 
-	private boolean isIncremented = false;
-
+	
 	/**
 	 *
 	 */
@@ -75,14 +73,13 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
-	protected void initialize()
+	protected void customInitialize()
 	{
 		elements = new ArrayList();
-		isIncremented = false;
 	}
 
 
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		series = (String) calculator.evaluate(getSeriesExpression());
 		date = (Date) calculator.evaluate(getDateExpression());
@@ -91,11 +88,10 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		open = (Number) calculator.evaluate(getOpenExpression());
 		close = (Number) calculator.evaluate(getCloseExpression());
 		volume = (Number) calculator.evaluate(getVolumeExpression());
-		isIncremented = false;
 	}
 
 
-	protected void increment()
+	protected void customIncrement()
 	{
 		HighLowElement element = new HighLowElement();
 		element.setDate(date);
@@ -106,17 +102,11 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		element.setVolume(volume);
 
 		elements.add(element);
-		isIncremented = true;
 	}
 
 
-	public Dataset getDataset()
+	public Dataset getCustomDataset()
 	{
-		if (isIncremented == false)
-		{
-			increment();
-		}
-
 		int size = elements.size();
 		Date[] dateArray = new Date[size];
 		double[] highArray = new double[size];
@@ -135,8 +125,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 			volumeArray[i] = bean.getVolume().doubleValue();
 		}
 
-		dataset = new DefaultHighLowDataset(series, dateArray, highArray, lowArray, openArray, closeArray, volumeArray);
-		return dataset;
+		return new DefaultHighLowDataset(series, dateArray, highArray, lowArray, openArray, closeArray, volumeArray);
 	}
 
 

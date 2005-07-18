@@ -49,8 +49,6 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	
 	protected JRFillXyzSeries[] xyzSeries = null;
 	
-	private boolean isIncremented = false;
-	
 	
 	public JRFillXyzDataset( JRXyzDataset xyzDataset, JRFillObjectFactory factory ){
 		super( xyzDataset, factory );
@@ -68,12 +66,12 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		return xyzSeries;
 	}
 	
-	protected void initialize(){
+	protected void customInitialize()
+	{
 		dataset = new DefaultXYZDataset();
-		isIncremented = false;
 	}
 	
-	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
+	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException {
 		if( xyzSeries != null && xyzSeries.length > 0 ){
 			for( int i = 0; i < xyzSeries.length; i++ ){
 				xyzSeries[i].evaluate( calculator );
@@ -81,7 +79,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		}
 	}
 	
-	protected void increment(){
+	protected void customIncrement(){
 		if( xyzSeries != null && xyzSeries .length > 0 ){
 			for( int i = 0; i< xyzSeries.length; i++ ){
 				JRFillXyzSeries crtXyzSeries = xyzSeries[i];
@@ -93,15 +91,9 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 				}
 			}
 		}
-		
-		isIncremented = true;
 	}
 	
-	public Dataset getDataset() {
-		if( isIncremented == false ){
-			increment();
-		}
-		
+	public Dataset getCustomDataset() {
 		return dataset;
 	}
 

@@ -27,11 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.util.PieLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -40,10 +40,8 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 
 
 /**
@@ -62,8 +60,6 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	private Comparable key = null;
 	private Number value = null;
 	private String label = null;
-	
-	private boolean isIncremented = false;
 	
 	
 	/**
@@ -106,47 +102,38 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
-	protected void initialize()
+	protected void customInitialize()
 	{
 		dataset = new DefaultPieDataset();
 		labels = new HashMap();
-		isIncremented = false;
 	}
 
 	/**
 	 *
 	 */
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		key = (Comparable)calculator.evaluate(getKeyExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
-		
-		isIncremented = false;
 	}
 
 	/**
 	 *
 	 */
-	protected void increment()
+	protected void customIncrement()
 	{
 		if (key != null){
 			dataset.setValue(key, value);//FIXME NOW verify if condifion
 			labels.put( key, label );
 		}
-		
-		isIncremented = true;
 	}
 
 	/**
 	 *
 	 */
-	public Dataset getDataset()
+	public Dataset getCustomDataset()
 	{
-		if (isIncremented == false)
-		{
-			increment();
-		}
 		return dataset;
 	}
 
@@ -163,22 +150,6 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		return (getLabelExpression() == null) ? null : new PieLabelGenerator( labels );
 	}
 	
-	private static class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
-	{
-		private Map labels = null;
-		
-		public PieLabelGenerator( Map labels )
-		{
-			this.labels = labels;
-		}
-		
-		public String generateSectionLabel(PieDataset arg0, Comparable arg1)
-		{
-			return (String)labels.get( arg1 );
-		}
-	}
-	
-
 	/**
 	 *
 	 */

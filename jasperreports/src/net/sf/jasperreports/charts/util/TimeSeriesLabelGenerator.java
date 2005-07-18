@@ -27,66 +27,36 @@
  */
 package net.sf.jasperreports.charts.util;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 
 
 /**
- * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class XYZElement implements Serializable {
-
+public class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator 
+{
 	private static final long serialVersionUID = 10000;
 	
-	private Comparable series = null;
-	private List xElements = null;
-	private List yElements = null;
-	private List zElements = null;
+	private Map labelsMap = null;
 	
-	public XYZElement(){
-		xElements = new ArrayList();
-		yElements = new ArrayList();
-		zElements = new ArrayList();
-	}
-
-	public void setSeries( Comparable series ){
-		this.series = series;
-	}
-
-	public Comparable getSeries(){
-		return series;
+	public TimeSeriesLabelGenerator(Map labelsMap)
+	{
+		this.labelsMap = labelsMap;
 	}
 	
-	public void addElement( Number xElement, Number yElement, Number zElement ){
-		xElements.add( xElement );
-		yElements.add( yElement );
-		zElements.add( zElement );
-		
-	}
-
-	
-	public Number getXElement( int index ){
-		return (Number)xElements.get( index );
-	}
-	
-	public Number getYElement( int index ){
-		return (Number)yElements.get( index );
-	}
-	
-	public Number getZElement( int index ){
-		return (Number)zElements.get( index );
-	}
-	
-	
-	public int getCount(){
-		int retVal = 0;
-		if( xElements != null ){
-			retVal = xElements.size();
+	public String generateLabel(XYDataset dataset, int series, int item)
+	{
+		Comparable seriesName = dataset.getSeriesKey(series);
+		Map labels = (Map)labelsMap.get(seriesName);
+		if(labels != null)
+		{
+			return (String)labels.get(((TimeSeriesCollection)dataset).getSeries(series).getTimePeriod(item));
 		}
-		
-		return retVal;
+		return super.generateLabel( dataset, series, item );
 	}
-
 }
