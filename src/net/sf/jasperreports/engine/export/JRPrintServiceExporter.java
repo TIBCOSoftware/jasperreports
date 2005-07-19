@@ -35,9 +35,8 @@ import java.awt.print.PrinterJob;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
@@ -97,14 +96,11 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			printRequestAttributeSet = new HashPrintRequestAttributeSet();
 		}
 
-		AttributeSet attributeSet = new HashAttributeSet();
-		attributeSet.addAll(printRequestAttributeSet);
-
 		printServiceAttributeSet = 
 			(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
-		if (printServiceAttributeSet != null)
+		if (printServiceAttributeSet == null)
 		{
-			attributeSet.addAll(printServiceAttributeSet);
+			printServiceAttributeSet = new HashPrintServiceAttributeSet();
 		}
 
 		//docFlavor = (DocFlavor)parameters.get(JRPrintServiceExporterParameter.DOC_FLAVOR);
@@ -133,7 +129,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		printerJob.setPrintable(this);
 		
 		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
-		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, attributeSet);
+		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
 
 		if (services.length > 0) 
 		{
