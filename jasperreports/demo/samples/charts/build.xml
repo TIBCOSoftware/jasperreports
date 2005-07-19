@@ -65,18 +65,6 @@
 	</target>
 
 	<!--
-		Launches the report viewer to preview the generated report 
-		stored in an XML file.
-	-->
-	<target name="viewXML">
-		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<!--
 		Generates a PDF version of the report 
 		by converting the .jrprint file.
 	-->
@@ -93,6 +81,17 @@
 	<target name="writeXml">
 		<java classname="${class.name}" fork="true">
 			<arg value="-TwriteXml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
+		Launches the design viewer to preview the XML report design.
+	-->
+	<target name="viewDesignXML">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="-XML"/>
+			<arg value="-FBubbleChartReport.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
