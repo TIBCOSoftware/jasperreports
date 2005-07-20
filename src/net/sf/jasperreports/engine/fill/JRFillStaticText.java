@@ -228,5 +228,10 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		xmlWriter.writeStaticText(this);
 	}
 
+		
+	protected void resolveElement (JRPrintElement element, byte evaluation) throws JRException
+	{
+		// nothing
+	}
 
 }

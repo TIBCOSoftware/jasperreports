@@ -31,9 +31,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
@@ -42,13 +44,16 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.base.JRVirtualPrintPage.ObjectIDPair;
+import net.sf.jasperreports.engine.fill.JRBaseFiller.BoundElementMap;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillBand extends JRFillElementGroup implements JRBand
+public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualPrintPage.IdentityDataProvider
 {
 	
 
@@ -85,7 +90,16 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 	 */
 	private boolean isNewPageColumn = false;
 	private Map isNewGroupMap = new HashMap();
+
+	/**
+	 * Map of elements to be resolved at band level.
+	 */
+	protected BoundElementMap boundElements;
 	
+	/**
+	 * Per page map of elements to be resolved at band level.
+	 */
+	protected Map pageToBoundElements;
 
 	/**
 	 *
@@ -753,5 +767,33 @@ public class JRFillBand extends JRFillElementGroup implements JRBand
 		return printBand;
 	}
 
+
+	protected void initBoundElementMap(boolean perPageElements)
+	{
+		if (perPageElements)
+		{
+			pageToBoundElements = new HashMap();
+			boundElements = filler.new BoundElementMap(pageToBoundElements);
+		}
+		else
+		{
+			boundElements = filler.new BoundElementMap();
+		}
+	}
+
+
+	public ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
+	{
+		Set allElements = new HashSet();
+		JRBaseFiller.addElements(allElements, pageToBoundElements, page);
+
+		return JRBaseFiller.createIdentityData(allElements);
+	}
+
+
+	public void setIdentityData(JRVirtualPrintPage page, ObjectIDPair[] identityData)
+	{
+		JRBaseFiller.updateIdentityData(pageToBoundElements, page, boundElements, identityData);
+	}
 
 }

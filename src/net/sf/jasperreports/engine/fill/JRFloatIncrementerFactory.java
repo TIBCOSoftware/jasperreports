@@ -53,7 +53,7 @@ public class JRFloatIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	private JRFloatIncrementerFactory()
+	public JRFloatIncrementerFactory()
 	{
 	}
 
@@ -278,8 +278,8 @@ class JRFloatAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-		Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 		return new Float(sumValue.floatValue() / countValue.floatValue());
 	}
 }
@@ -327,7 +327,7 @@ class JRFloatStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
 		return new Float( Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
@@ -385,8 +385,8 @@ class JRFloatVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 			return
 				new Float(
 					(countValue.floatValue() - 1) * value.floatValue() / countValue.floatValue() +

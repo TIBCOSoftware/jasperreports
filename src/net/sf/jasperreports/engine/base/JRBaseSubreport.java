@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -62,6 +63,11 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	protected JRExpression connectionExpression = null;
 	protected JRExpression dataSourceExpression = null;
 	protected JRExpression expression = null;
+	
+	/**
+	 * Values to be copied from the subreport into the master report.
+	 */
+	protected JRSubreportReturnValue[] returnValues = null;
 
 
 	/**
@@ -99,6 +105,17 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 		connectionExpression = factory.getExpression(subreport.getConnectionExpression());
 		dataSourceExpression = factory.getExpression(subreport.getDataSourceExpression());
+		
+		JRSubreportReturnValue[] subrepReturnValues = subreport.getReturnValues();
+		if (subrepReturnValues != null && subrepReturnValues.length > 0)
+		{
+			this.returnValues = new JRSubreportReturnValue[subrepReturnValues.length];
+			for (int i = 0; i < subrepReturnValues.length; i++)
+			{
+				this.returnValues[i] = factory.getSubreportReturnValue(subrepReturnValues[i]);
+			}
+		}
+		
 		expression = factory.getExpression(subreport.getExpression());
 	}
 		
@@ -187,6 +204,17 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	public void writeXml(JRXmlWriter xmlWriter)
 	{
 		xmlWriter.writeSubreport(this);
+	}
+
+
+	/**
+	 * Returns the list of values to be copied from the subreport into the master.
+	 * 
+	 * @return the list of values to be copied from the subreport into the master.
+	 */
+	public JRSubreportReturnValue[] getReturnValues()
+	{
+		return this.returnValues;
 	}
 
 

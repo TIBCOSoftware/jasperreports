@@ -281,8 +281,8 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-		BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+		BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 		return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
 	}
 }
@@ -330,7 +330,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
 		return new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
@@ -387,8 +387,8 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			BigDecimal countValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			BigDecimal sumValue = (BigDecimal)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+			BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 			return
 				countValue.subtract(JRBigDecimalIncrementerFactory.ONE).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
 					sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(

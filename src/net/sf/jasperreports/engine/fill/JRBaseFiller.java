@@ -58,9 +58,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -72,6 +71,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRQueryExecuter;
@@ -79,7 +79,6 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -91,31 +90,32 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 * Map class to be used for bound elements.
 	 * <p>
-	 * If per page element maps are used, the map will update the page map 
-	 * when adding or clearing the bound element map. 
+	 * If per page element maps are used, the map will update the page map when
+	 * adding or clearing the bound element map.
 	 * 
 	 * @author John Bindel
 	 */
 	public class BoundElementMap extends HashMap
 	{
 		private static final long serialVersionUID = 10000;
-		
+
 		private final Map perPageElements;
 
 		/**
-		 * Used when per page maps are not required.  The map will behave just like
-		 * <code>java.util.HashMap</code>.
+		 * Used when per page maps are not required. The map will behave just
+		 * like <code>java.util.HashMap</code>.
 		 */
 		BoundElementMap()
 		{
 			super();
 			this.perPageElements = null;
 		}
-		
+
 		/**
 		 * Used when per page map is required.
 		 * 
-		 * @param perPageElements	the page map 
+		 * @param perPageElements
+		 *            the page map
 		 */
 		BoundElementMap(Map perPageElements)
 		{
@@ -142,15 +142,16 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 			return super.put(key, value);
 		}
-		
+
 		/**
-		 * If per page map is required, the entry will also be added for the current print page.
+		 * If per page map is required, the entry will also be added for the
+		 * current print page.
 		 */
 		public Object put(Object key, Object value)
 		{
 			if (perPageElements != null)
 			{
-				return put(key, value, printPage);
+				return put(key, value, getMasterPage());
 			}
 			return super.put(key, value);
 		}
@@ -158,7 +159,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		public void clear()
 		{
 			super.clear();
-			
+
 			if (perPageElements != null)
 			{
 				perPageElements.clear();
@@ -173,62 +174,27 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	private class BoundElements implements JRVirtualPrintPage.IdentityDataProvider
 	{
-		// Each of these contains a java.util.Map of identity hash codes (Integer) to image elements.
-		HashMap pageToReportImage;
-		HashMap pageToPageImage;
-		HashMap pageToColumnImage;
-		// Contains a java.util.Map per group of identity hash codes (Integer) to image elements.
-		HashMap pageToGroupImage;
+		// Each of these contains a java.util.Map of identity hash codes
+		// (Integer) to text elements.
+		HashMap pageToReportElements;
 
-		// Each of these contains a java.util.Map of identity hash codes (Integer) to text elements.
-		HashMap pageToReportText;
-		HashMap pageToPageText;
-		HashMap pageToColumnText;
-		// Contains a java.util.Map per group of identity hash codes (Integer) to text elements.
-		HashMap pageToGroupText;
-		
-		// Each of these contains a java.util.Map of identity hash codes (Integer) to chart elements.
-		HashMap pageToReportChart;
-		HashMap pageToPageChart;
-		HashMap pageToColumnChart;
-		// Contains a java.util.Map per group of identity hash codes (Integer) to chart elements.
-		HashMap pageToGroupChart;
+		HashMap pageToPageElements;
+
+		HashMap pageToColumnElements;
+
+		HashMap pageToBandElements;
+
+		// Contains a java.util.Map per group of identity hash codes (Integer)
+		// to text elements.
+		HashMap pageToGroupElements;
 
 		BoundElements()
 		{
-			this.pageToReportImage = new HashMap();
-			this.pageToPageImage = new HashMap();
-			this.pageToColumnImage = new HashMap();
-			this.pageToGroupImage = new HashMap();
-
-			this.pageToReportText = new HashMap();
-			this.pageToPageText = new HashMap();
-			this.pageToColumnText = new HashMap();
-			this.pageToGroupText = new HashMap();
-			
-			this.pageToReportChart = new HashMap();
-			this.pageToPageChart = new HashMap();
-			this.pageToColumnChart = new HashMap();
-			this.pageToGroupChart = new HashMap();
-		}
-
-		private void addElements(Set allElements, Map pageMap, JRVirtualPrintPage page)
-		{
-			Map map = (Map) pageMap.get(page);
-			if (map != null && !map.isEmpty())
-			{
-				Collection elements = map.values();
-				allElements.addAll(elements);
-			}
-		}
-
-		private void addGroupElements(Set allElements, Map groupMap, JRVirtualPrintPage page)
-		{
-			for (Iterator it = groupMap.entrySet().iterator(); it.hasNext(); )
-			{
-				Map.Entry entry = (Map.Entry) it.next();
-				addElements(allElements, (Map) entry.getValue(), page);
-			}
+			this.pageToReportElements = new HashMap();
+			this.pageToPageElements = new HashMap();
+			this.pageToColumnElements = new HashMap();
+			this.pageToBandElements = new HashMap();
+			this.pageToGroupElements = new HashMap();
 		}
 
 		/**
@@ -237,234 +203,263 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		 * All the bound elements on the page are collected and transformed into
 		 * identity objects.
 		 * 
-		 * @param page the page to get the identity data for
+		 * @param page
+		 *            the page to get the identity data for
 		 */
 		public JRVirtualPrintPage.ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
 		{
 			Set allElements = new HashSet();
-			addElements(allElements, pageToReportImage, page);
-			addElements(allElements, pageToPageImage, page);
-			addElements(allElements, pageToColumnImage, page);
-			addGroupElements(allElements, pageToGroupImage, page);
 
-			addElements(allElements, pageToReportText, page);
-			addElements(allElements, pageToPageText, page);
-			addElements(allElements, pageToColumnText, page);
-			addGroupElements(allElements, pageToGroupText, page);
-			
-			addElements(allElements, pageToReportChart, page);
-			addElements(allElements, pageToPageChart, page);
-			addElements(allElements, pageToColumnChart, page);
-			addGroupElements(allElements, pageToGroupChart, page);
+			addElements(allElements, pageToReportElements, page);
+			addElements(allElements, pageToPageElements, page);
+			addElements(allElements, pageToColumnElements, page);
+			addElements(allElements, pageToBandElements, page);
+			addGroupElements(allElements, pageToGroupElements, page);
 
-			JRVirtualPrintPage.ObjectIDPair[] ids;
-
-			if (!allElements.isEmpty())
-			{
-				Object[] objects = allElements.toArray(new Object[allElements.size()]);
-				ids = new JRVirtualPrintPage.ObjectIDPair[objects.length];
-				for (int i = 0; i < objects.length; ++i)
-				{
-					ids[i] = new JRVirtualPrintPage.ObjectIDPair(objects[i]);
-				}
-			}
-			else
-			{
-				ids = null;
-			}
-
-			return ids;
-		}
-
-		private void updateIdentityData(Map pageMap, JRVirtualPrintPage page, BoundElementMap boundElements, JRVirtualPrintPage.ObjectIDPair[] identityData)
-		{
-			Map pageElements = (Map) pageMap.get(page);
-			if (pageElements != null && pageElements.size() > 0)
-			{
-				for (int i = 0; i < identityData.length; ++i)
-				{
-					Object oldObject = pageElements.remove(new Integer(identityData[i].getIdentity()));
-					if (oldObject != null)
-					{
-						Object resolver = boundElements.remove(oldObject);
-						if (resolver != null)
-						{
-							// This will also add the new element into the pageElements map.
-							boundElements.put(identityData[i].getObject(), resolver, page);
-						}
-						else
-						{
-							// Strange.
-						}
-					}
-				}
-			}
-		}
-
-		private void updateGroupIdentityData(Map pageGroupMap, JRVirtualPrintPage page, Map groupMap, JRVirtualPrintPage.ObjectIDPair[] identityData)
-		{
-			for (Iterator it = pageGroupMap.entrySet().iterator(); it.hasNext(); )
-			{
-				Map.Entry entry = (Map.Entry) it.next();
-				updateIdentityData((Map) entry.getValue(), page,
-								   (BoundElementMap) groupMap.get(entry.getKey()),
-								   identityData);
-			}
+			return createIdentityData(allElements);
 		}
 
 		/**
 		 * Sets the identity date for a virtualized page.
 		 * <p>
 		 * The identity data consists of bound elements located on the page.
-		 * Pairs of identity hash code and objects are stored when the page is virtualized.
-		 * When the page gets devirtualized, the original objects are substituted in the bound maps
-		 * based on their identity hash code.
+		 * Pairs of identity hash code and objects are stored when the page is
+		 * virtualized. When the page gets devirtualized, the original objects
+		 * are substituted in the bound maps based on their identity hash code.
 		 * 
-		 * @param page	the virtualized page
-		 * @param identityData	the identity data
+		 * @param page
+		 *            the virtualized page
+		 * @param identityData
+		 *            the identity data
 		 */
 		public void setIdentityData(JRVirtualPrintPage page, JRVirtualPrintPage.ObjectIDPair[] identityData)
 		{
 			// Update the perPageEntries, AND the normal bound maps.
-			updateIdentityData(pageToReportImage, page, reportBoundImages, identityData);
-			updateIdentityData(pageToPageImage, page, pageBoundImages, identityData);
-			updateIdentityData(pageToColumnImage, page, columnBoundImages, identityData);
-			updateGroupIdentityData(pageToGroupImage, page, groupBoundImages, identityData);
-
-			updateIdentityData(pageToReportText, page, reportBoundTexts, identityData);
-			updateIdentityData(pageToPageText, page, pageBoundTexts, identityData);
-			updateIdentityData(pageToColumnText, page, columnBoundTexts, identityData);
-			updateGroupIdentityData(pageToGroupText, page, groupBoundTexts, identityData);
-
-			updateIdentityData(pageToReportChart, page, reportBoundCharts, identityData);
-			updateIdentityData(pageToPageChart, page, pageBoundCharts, identityData);
-			updateIdentityData(pageToColumnChart, page, columnBoundCharts, identityData);
-			updateGroupIdentityData(pageToGroupChart, page, groupBoundCharts, identityData);
+			updateIdentityData(pageToReportElements, page, reportBoundElements, identityData);
+			updateIdentityData(pageToPageElements, page, pageBoundElements, identityData);
+			updateIdentityData(pageToColumnElements, page, columnBoundElements, identityData);
+			updateGroupIdentityData(pageToGroupElements, page, groupBoundElements, identityData);
 		}
 	}
 
-	
 	/**
-	 *
+	 * 
 	 */
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 
 	/**
-	 *
+	 * 
 	 */
-	private JRBaseFiller parentFiller = null;
+	protected JRBaseFiller parentFiller = null;
+
 	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
-	 *
+	 * 
 	 */
 	private boolean isInterrupted = false;
 
 	/**
-	 *
+	 * 
 	 */
 	protected String name = null;
+
 	protected int columnCount = 1;
+
 	protected byte printOrder = JRReport.PRINT_ORDER_VERTICAL;
+
 	protected int pageWidth = 0;
+
 	protected int pageHeight = 0;
+
 	protected byte orientation = JRReport.ORIENTATION_PORTRAIT;
+
 	protected byte whenNoDataType = JRReport.WHEN_NO_DATA_TYPE_NO_PAGES;
+
 	protected int columnWidth = 0;
+
 	protected int columnSpacing = 0;
+
 	protected int leftMargin = 0;
+
 	protected int rightMargin = 0;
+
 	protected int topMargin = 0;
+
 	protected int bottomMargin = 0;
+
 	protected boolean isTitleNewPage = false;
+
 	protected boolean isSummaryNewPage = false;
+
 	protected boolean isFloatColumnFooter = false;
+
 	protected String scriptletClassName = null;
+
 	protected String resourceBundleBaseName = null;
-	
+
 	/**
 	 * the resource missing handling type
 	 */
 	protected byte whenResourceMissingType = JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 	protected JRReportFont defaultFont = null;
+
 	protected JRReportFont[] fonts = null;
+
 	protected JRFillParameter[] parameters = null;
+
 	protected Map parametersMap = null;
+
 	protected JRQuery query = null;
+
 	protected JRFillField[] fields = null;
+
 	protected Map fieldsMap = null;
+
 	protected JRFillVariable[] variables = null;
+
 	protected Map variablesMap = null;
+
 	protected JRFillGroup[] groups = null;
 
 	protected JRFillBand missingFillBand = null;
+
 	protected JRFillBand background = null;
+
 	protected JRFillBand title = null;
+
 	protected JRFillBand pageHeader = null;
+
 	protected JRFillBand columnHeader = null;
+
 	protected JRFillBand detail = null;
+
 	protected JRFillBand columnFooter = null;
+
 	protected JRFillBand pageFooter = null;
+
 	protected JRFillBand lastPageFooter = null;
+
 	protected JRFillBand summary = null;
 
 	protected JRCalculator calculator = null;
+
 	protected Locale locale = null;
+
 	protected ResourceBundle resourceBundle = null;
+
 	protected JRAbstractScriptlet scriptlet = null;
+
 	protected JRDataSource dataSource = null;
+
 	protected JRVirtualizer virtualizer = null;
+
 	protected Integer reportMaxCount = null;
+
 	protected int reportCount = 0;
 
 	protected List formattedTextFields = new ArrayList();
-	
+
 	protected Map loadedImages = null;
+
 	protected Map loadedSubreports = null;
-	
+
 	/**
 	 * All bound elements per page.
 	 */
 	private BoundElements perPageBoundElements = null;
 
-	protected BoundElementMap reportBoundImages = null;
-	protected BoundElementMap pageBoundImages = null;
-	protected BoundElementMap columnBoundImages = null;
-	protected Map groupBoundImages = null;
-
-	protected BoundElementMap reportBoundCharts = null;
-	protected BoundElementMap pageBoundCharts = null;
-	protected BoundElementMap columnBoundCharts = null;
-	protected Map groupBoundCharts = null;
-
-	protected BoundElementMap reportBoundTexts = null;
-	protected BoundElementMap pageBoundTexts = null;
-	protected BoundElementMap columnBoundTexts = null;
-	protected Map groupBoundTexts = null;
+	/**
+	 * Map of elements to be resolved at report level.
+	 */
+	protected BoundElementMap reportBoundElements = null;
 
 	/**
-	 *
+	 * Map of elements to be resolved at page level.
+	 */
+	protected BoundElementMap pageBoundElements = null;
+
+	/**
+	 * Map of elements to be resolved at column level.
+	 */
+	protected BoundElementMap columnBoundElements = null;
+
+	/**
+	 * Maps of elements to be resolved at group levels.
+	 */
+	protected Map groupBoundElements = null;
+
+	/**
+	 * 
 	 */
 	protected JasperPrint jasperPrint = null;
+
 	protected JRPrintPage printPage = null;
+
 	protected int printPageStretchHeight = 0;
 
 	/**
-	 *
+	 * 
 	 */
 	protected boolean isParametersAlreadySet = false;
 
 	protected JRFillChartDataset[] datasets;
 
-	
 	/**
-	 *
+	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
+	 * report.
+	 */
+	protected List bands;
+
+	/**
+	 * Collection of subfillers
+	 */
+	protected Set subfillers;
+
+	private Thread fillingThread;
+
+	private PreparedStatement dataSourceStatement;
+
+	private static class VariableCalculationReq
+	{
+		String variableName;
+
+		byte calculation;
+
+		VariableCalculationReq(String variableName, byte calculation)
+		{
+			this.variableName = variableName;
+			this.calculation = calculation;
+		}
+
+		public boolean equals(Object o)
+		{
+			if (o == null || !(o instanceof VariableCalculationReq))
+			{
+				return false;
+			}
+
+			VariableCalculationReq r = (VariableCalculationReq) o;
+
+			return variableName.equals(r.variableName) && calculation == r.calculation;
+		}
+
+		public int hashCode()
+		{
+			return 31 * calculation + variableName.hashCode();
+		}
+	}
+
+	protected Set variableCalculationReqs;
+
+	/**
+	 * 
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
-		
+
 		/*   */
 		this.parentFiller = parentFiller;
 
@@ -502,7 +497,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		if (jrFonts != null && jrFonts.length > 0)
 		{
 			fonts = new JRReportFont[jrFonts.length];
-			for(int i = 0; i < fonts.length; i++)
+			for (int i = 0; i < fonts.length; i++)
 			{
 				fonts[i] = factory.getReportFont(jrFonts[i]);
 			}
@@ -514,7 +509,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			parameters = new JRFillParameter[jrParameters.length];
 			parametersMap = new HashMap();
-			for(int i = 0; i < parameters.length; i++)
+			for (int i = 0; i < parameters.length; i++)
 			{
 				parameters[i] = factory.getParameter(jrParameters[i]);
 				parametersMap.put(parameters[i].getName(), parameters[i]);
@@ -523,14 +518,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		/*   */
 		query = jasperReport.getQuery();
-		
+
 		/*   */
 		JRField[] jrFields = jasperReport.getFields();
 		if (jrFields != null && jrFields.length > 0)
 		{
 			fields = new JRFillField[jrFields.length];
 			fieldsMap = new HashMap();
-			for(int i = 0; i < fields.length; i++)
+			for (int i = 0; i < fields.length; i++)
 			{
 				fields[i] = factory.getField(jrFields[i]);
 				fieldsMap.put(fields[i].getName(), fields[i]);
@@ -541,13 +536,15 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		JRVariable[] jrVariables = jasperReport.getVariables();
 		if (jrVariables != null && jrVariables.length > 0)
 		{
-			variables = new JRFillVariable[jrVariables.length];
+			List variableList = new ArrayList(jrVariables.length * 3);
+
 			variablesMap = new HashMap();
-			for(int i = 0; i < variables.length; i++)
+			for (int i = 0; i < jrVariables.length; i++)
 			{
-				variables[i] = factory.getVariable(jrVariables[i]);
-				variablesMap.put(variables[i].getName(), variables[i]);
+				addVariable(jrVariables[i], variableList, factory);
 			}
+
+			setVariables(variableList);
 		}
 
 		/*   */
@@ -555,7 +552,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		if (jrGroups != null && jrGroups.length > 0)
 		{
 			groups = new JRFillGroup[jrGroups.length];
-			for(int i = 0; i < groups.length; i++)
+			for (int i = 0; i < groups.length; i++)
 			{
 				groups[i] = factory.getGroup(jrGroups[i]);
 			}
@@ -572,81 +569,82 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
-		
+
 		datasets = factory.getDatasets();
 
-		/*   *
-		resourceBundle = loadResourceBundle(resourceBundleBaseName);
+		checkVariableCalculationReqs(factory);
 
-		/*   *
-		scriptlet = 
-			loadScriptlet(
-				scriptletClass,
-				parametersMap,
-				fieldsMap,
-				variablesMap,
-				groups
-				);
+		/***********************************************************************
+		 * resourceBundle = loadResourceBundle(resourceBundleBaseName);
+		 *  /* * scriptlet = loadScriptlet( scriptletClass, parametersMap,
+		 * fieldsMap, variablesMap, groups );
+		 *  /* * calculator = loadCalculator( jasperReport, parametersMap,
+		 * fieldsMap, variablesMap, variables, groups );
+		 */
 
-		/*   *
-		calculator = 
-			loadCalculator(
-				jasperReport,
-				parametersMap,
-				fieldsMap,
-				variablesMap,
-				variables,
-				groups
-				);
-		*/
-		
 		/*   */
 		scriptlet = createScriptlet();
-		
+
 		/*   */
-		scriptlet.setData(
-			parametersMap,
-			fieldsMap,
-			variablesMap,
-			groups
-			);
+		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
 
 		/*   */
 		calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
 
 		calculator.init(this);
+
+		initBands();
 	}
 
+	private void initBands()
+	{
+		bands = new ArrayList(8 + (groups == null ? 0 : (2 * groups.length)));
+		bands.add(title);
+		bands.add(summary);
+		bands.add(pageHeader);
+		bands.add(pageFooter);
+		bands.add(lastPageFooter);
+		bands.add(columnHeader);
+		bands.add(columnFooter);
+		bands.add(detail);
+
+		if (groups != null && groups.length > 0)
+		{
+			for (int i = 0; i < groups.length; i++)
+			{
+				JRFillGroup group = groups[i];
+				bands.add(group.getGroupHeader());
+				bands.add(group.getGroupFooter());
+			}
+		}
+	}
 
 	/**
-	 *
+	 * 
 	 */
 	public JRStyledTextParser getStyledTextParser()
 	{
 		return styledTextParser;
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	public JRReportFont getDefaultFont()
 	{
 		return defaultFont;
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	protected boolean isSubreport()
 	{
@@ -654,7 +652,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected boolean isInterrupted()
 	{
@@ -662,7 +660,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected void setInterrupted(boolean isInterrupted)
 	{
@@ -670,7 +668,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected JRPrintPage getCurrentPage()
 	{
@@ -678,7 +676,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected JRReportFont[] getFonts()
 	{
@@ -686,7 +684,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected int getCurrentPageStretchHeight()
 	{
@@ -694,19 +692,17 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	protected abstract void setPageHeight(int pageHeight);
-	
 
 	/**
-	 *
+	 * 
 	 */
-	public JasperPrint fill(
-		Map parameterValues, 
-		Connection conn
-		) throws JRException
+	public JasperPrint fill(Map parameterValues, Connection conn) throws JRException
 	{
+		fillingThread = Thread.currentThread();
+
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap();
@@ -715,10 +711,15 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		/*   */
 		setParameters(parameterValues);
 
+		if (parentFiller != null)
+		{
+			parentFiller.registerSubfiller(this);
+		}
+
 		/*   */
 		if (conn == null)
 		{
-			conn = (Connection)parameterValues.get(JRParameter.REPORT_CONNECTION);
+			conn = (Connection) parameterValues.get(JRParameter.REPORT_CONNECTION);
 		}
 		if (conn == null)
 		{
@@ -728,7 +729,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
 		}
-		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_CONNECTION);
+		JRFillParameter parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_CONNECTION);
 		if (parameter != null)
 		{
 			setParameter(parameter, conn);
@@ -740,32 +741,30 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				log.warn("The supplied java.sql.Connection object is null.");
 		}
 
-		PreparedStatement pstmt = null; 
-		
+		PreparedStatement pstmt = null;
+
 		try
 		{
 			JRDataSource ds = null;
 
-			pstmt = 
-				JRQueryExecuter.getStatement(
-					query, 
-					parametersMap, 
-					parameterValues, 
-					conn
-					);
-	
+			pstmt = JRQueryExecuter.getStatement(query, parametersMap, parameterValues, conn);
+
 			if (pstmt != null)
 			{
 				if (reportMaxCount != null)
 				{
 					pstmt.setMaxRows(reportMaxCount.intValue());
 				}
-				
+
+				dataSourceStatement = pstmt;
+
 				ResultSet rs = pstmt.executeQuery();
-		
+
+				dataSourceStatement = null;
+
 				ds = new JRResultSetDataSource(rs);
 			}
-		
+
 			fill(parameterValues, ds);
 		}
 		catch (SQLException e)
@@ -774,6 +773,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 		finally
 		{
+			fillingThread = null;
+			dataSourceStatement = null;
+
 			if (pstmt != null)
 			{
 				try
@@ -785,181 +787,163 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				}
 			}
 		}
-		
+
 		return jasperPrint;
 	}
 
-	
 	/**
-	 *
+	 * 
 	 */
-	protected JasperPrint fill(
-		Map parameterValues,
-		JRDataSource ds
-		) throws JRException
+	protected JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
 	{
-		dataSource = ds;
-		
-		if (parameterValues == null)
+		fillingThread = Thread.currentThread();
+		try
 		{
-			parameterValues = new HashMap();
-		}
+			dataSource = ds;
 
-		/*   */
-		setParameters(parameterValues);
-
-		/*   */
-		if (dataSource == null)
-		{
-			dataSource = (JRDataSource)parameterValues.get(JRParameter.REPORT_DATA_SOURCE);
-		}
-		if (dataSource == null)
-		{
-			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
-		}
-		else
-		{
-			parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
-		}
-		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
-		if (parameter != null)
-		{
-			setParameter(parameter, dataSource);
-		}
-
-		/*   */
-		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_SCRIPTLET);
-		if (parameter != null)
-		{
-			setParameter(parameter, scriptlet);
-		}
-
-		/*   */
-		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
-		if (parameter != null)
-		{
-			setParameter(parameter, parameterValues);
-		}
-
-		
-		jasperPrint.setName(name);
-		jasperPrint.setPageWidth(pageWidth);
-		jasperPrint.setPageHeight(pageHeight);
-		jasperPrint.setOrientation(orientation);
-
-		jasperPrint.setDefaultFont(defaultFont);
-
-		/*   */
-		if (fonts != null && fonts.length > 0)
-		{
-			for(int i = 0; i < fonts.length; i++)
+			if (parameterValues == null)
 			{
-				try
+				parameterValues = new HashMap();
+			}
+
+			/*   */
+			setParameters(parameterValues);
+
+			if (parentFiller != null)
+			{
+				parentFiller.registerSubfiller(this);
+			}
+
+			/*   */
+			if (dataSource == null)
+			{
+				dataSource = (JRDataSource) parameterValues.get(JRParameter.REPORT_DATA_SOURCE);
+			}
+			if (dataSource == null)
+			{
+				parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
+			}
+			else
+			{
+				parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
+			}
+			JRFillParameter parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_DATA_SOURCE);
+			if (parameter != null)
+			{
+				setParameter(parameter, dataSource);
+			}
+
+			/*   */
+			parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
+			parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_SCRIPTLET);
+			if (parameter != null)
+			{
+				setParameter(parameter, scriptlet);
+			}
+
+			/*   */
+			parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
+			parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
+			if (parameter != null)
+			{
+				setParameter(parameter, parameterValues);
+			}
+
+			jasperPrint.setName(name);
+			jasperPrint.setPageWidth(pageWidth);
+			jasperPrint.setPageHeight(pageHeight);
+			jasperPrint.setOrientation(orientation);
+
+			jasperPrint.setDefaultFont(defaultFont);
+
+			/*   */
+			if (fonts != null && fonts.length > 0)
+			{
+				for (int i = 0; i < fonts.length; i++)
 				{
-					jasperPrint.addFont(fonts[i]);
-				}
-				catch(JRException e)
-				{
-					//ignore font duplication exception
+					try
+					{
+						jasperPrint.addFont(fonts[i]);
+					}
+					catch (JRException e)
+					{
+						// ignore font duplication exception
+					}
 				}
 			}
-		}
 
-		for(int i = 0; i < formattedTextFields.size(); i++)
-		{
-			((JRFillTextField)formattedTextFields.get(i)).setFormat();
-		}
-
-		loadedImages = new HashMap();
-		loadedSubreports = new HashMap();
-		
-		if (perPageBoundElements == null)
-		{
-			// per page maps are not used
-			reportBoundImages = new BoundElementMap();
-			pageBoundImages = new BoundElementMap();
-			columnBoundImages = new BoundElementMap();
-			groupBoundImages = new HashMap();
-
-			reportBoundTexts = new BoundElementMap();
-			pageBoundTexts = new BoundElementMap();
-			columnBoundTexts = new BoundElementMap();
-			groupBoundTexts = new HashMap();
-
-			reportBoundCharts = new BoundElementMap();
-			pageBoundCharts = new BoundElementMap();
-			columnBoundCharts = new BoundElementMap();
-			groupBoundCharts = new HashMap();
-
-			if (groups != null && groups.length > 0)
+			for (int i = 0; i < formattedTextFields.size(); i++)
 			{
-				for(int i = 0; i < groups.length; i++)
-				{
-					groupBoundImages.put( groups[i].getName(), new BoundElementMap() );
-					groupBoundTexts.put( groups[i].getName(), new BoundElementMap() );
-					groupBoundCharts.put( groups[i].getName(), new BoundElementMap() );
-				}
-			}		    
-		}
-		else
-		{
-			// per page maps are used
-			reportBoundImages = new BoundElementMap(perPageBoundElements.pageToReportImage);
-			pageBoundImages = new BoundElementMap(perPageBoundElements.pageToPageImage);
-			columnBoundImages = new BoundElementMap(perPageBoundElements.pageToColumnImage);
-			groupBoundImages = new HashMap();
+				((JRFillTextField) formattedTextFields.get(i)).setFormat();
+			}
 
-			reportBoundTexts = new BoundElementMap(perPageBoundElements.pageToReportText);
-			pageBoundTexts = new BoundElementMap(perPageBoundElements.pageToPageText);
-			columnBoundTexts = new BoundElementMap(perPageBoundElements.pageToColumnText);
-			groupBoundTexts = new HashMap();
+			loadedImages = new HashMap();
+			loadedSubreports = new HashMap();
 
-			reportBoundCharts = new BoundElementMap(perPageBoundElements.pageToReportChart);
-			pageBoundCharts = new BoundElementMap(perPageBoundElements.pageToPageChart);
-			columnBoundCharts = new BoundElementMap(perPageBoundElements.pageToColumnChart);
-			groupBoundCharts = new HashMap();
-
-			if (groups != null && groups.length > 0)
+			if (!isPerPageBoundElements())
 			{
-				for(int i = 0; i < groups.length; i++)
+				// per page maps are not used
+				reportBoundElements = new BoundElementMap();
+				pageBoundElements = new BoundElementMap();
+				columnBoundElements = new BoundElementMap();
+				groupBoundElements = new HashMap();
+
+				if (groups != null && groups.length > 0)
 				{
-					String groupName = groups[i].getName();
-					
-					HashMap map = new HashMap();
-					perPageBoundElements.pageToGroupImage.put( groupName, map );
-					groupBoundImages.put(groupName, new BoundElementMap(map) );
-
-					map = new HashMap();
-					perPageBoundElements.pageToGroupText.put( groupName, map );
-					groupBoundTexts.put(groupName, new BoundElementMap(map));
-
-					map = new HashMap();
-					perPageBoundElements.pageToGroupChart.put( groupName, map );
-					groupBoundCharts.put(groupName, new BoundElementMap(map));
+					for (int i = 0; i < groups.length; i++)
+					{
+						groupBoundElements.put(groups[i].getName(), new BoundElementMap());
+					}
 				}
 			}
-		}
-		
-		/*   */
-		reportCount = 0;
+			else
+			{
+				// per page maps are used
+				reportBoundElements = new BoundElementMap(perPageBoundElements.pageToReportElements);
+				pageBoundElements = new BoundElementMap(perPageBoundElements.pageToPageElements);
+				columnBoundElements = new BoundElementMap(perPageBoundElements.pageToColumnElements);
+				groupBoundElements = new HashMap();
 
-		/*   */
-		fillReport();
-		
-		return jasperPrint;
+				if (groups != null && groups.length > 0)
+				{
+					for (int i = 0; i < groups.length; i++)
+					{
+						String groupName = groups[i].getName();
+
+						HashMap map = new HashMap();
+						perPageBoundElements.pageToGroupElements.put(groupName, map);
+						groupBoundElements.put(groupName, new BoundElementMap(map));
+					}
+				}
+			}
+
+			for (Iterator i = bands.iterator(); i.hasNext();)
+			{
+				JRFillBand band = (JRFillBand) i.next();
+				band.initBoundElementMap(perPageBoundElements != null);
+			}
+
+			/*   */
+			reportCount = 0;
+
+			/*   */
+			fillReport();
+
+			return jasperPrint;
+		}
+		finally
+		{
+			fillingThread = null;
+		}
 	}
-	
 
 	/**
-	 *
+	 * 
 	 */
 	protected abstract void fillReport() throws JRException;
 
-
 	/**
-	 *
+	 * 
 	 */
 	protected ResourceBundle loadResourceBundle()
 	{
@@ -972,50 +956,38 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			{
 				try
 				{
-					tmpResourceBundle = 
-						ResourceBundle.getBundle(
-							resourceBundleBaseName,
-							locale,
-							classLoader
-							); 
+					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale, classLoader);
 				}
-				catch(MissingResourceException e)
+				catch (MissingResourceException e)
 				{
-					//if (log.isWarnEnabled())
-					//	log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRClassLoader class. Using JRClassLoader.class.getClassLoader() instead.");
+					// if (log.isWarnEnabled())
+					// log.warn("Failure using
+					// Thread.currentThread().getContextClassLoader() in
+					// JRClassLoader class. Using
+					// JRClassLoader.class.getClassLoader() instead.");
 				}
 			}
-		
+
 			if (tmpResourceBundle == null)
 			{
 				classLoader = JRClassLoader.class.getClassLoader();
-				
+
 				if (classLoader == null)
 				{
-					tmpResourceBundle = 
-						ResourceBundle.getBundle(
-							resourceBundleBaseName,
-							locale
-							);	        
+					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale);
 				}
 				else
 				{
-					tmpResourceBundle = 
-						ResourceBundle.getBundle(
-							resourceBundleBaseName,
-							locale,
-							classLoader
-							); 
+					tmpResourceBundle = ResourceBundle.getBundle(resourceBundleBaseName, locale, classLoader);
 				}
 			}
 		}
-		
+
 		return tmpResourceBundle;
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	protected JRAbstractScriptlet createScriptlet() throws JRException
 	{
@@ -1036,7 +1008,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 			try
 			{
-				tmpScriptlet = (JRAbstractScriptlet)clazz.newInstance();
+				tmpScriptlet = (JRAbstractScriptlet) clazz.newInstance();
 			}
 			catch (Exception e)
 			{
@@ -1052,35 +1024,22 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		return tmpScriptlet;
 	}
 
-
 	/**
-	 *
-	 *
-	protected static JRCalculator loadCalculator(
-		JasperReport jasperReport,
-		Map parametersMap,
-		Map fieldsMap,
-		Map variablesMap,
-		JRFillVariable[] variables,
-		JRFillGroup[] groups
-		) throws JRException
-	{
-		JRCalculator calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
-		
-		calculator.init(
-			parametersMap,
-			fieldsMap,
-			variablesMap,
-			variables,
-			groups
-			);
-		
-		return calculator;
-	}
-
-
-	/**
-	 *
+	 * 
+	 * 
+	 * protected static JRCalculator loadCalculator( JasperReport jasperReport,
+	 * Map parametersMap, Map fieldsMap, Map variablesMap, JRFillVariable[]
+	 * variables, JRFillGroup[] groups ) throws JRException { JRCalculator
+	 * calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
+	 * 
+	 * calculator.init( parametersMap, fieldsMap, variablesMap, variables,
+	 * groups );
+	 * 
+	 * return calculator; }
+	 * 
+	 * 
+	 * /**
+	 * 
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
@@ -1088,12 +1047,12 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			return;
 		}
-		
-		/*   */
-		reportMaxCount = (Integer)parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
 		/*   */
-		locale = (Locale)parameterValues.get(JRParameter.REPORT_LOCALE);
+		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
+
+		/*   */
+		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)
 		{
 			locale = Locale.getDefault();
@@ -1106,14 +1065,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			parameterValues.put(JRParameter.REPORT_LOCALE, locale);
 		}
-		JRFillParameter parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
+		JRFillParameter parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_LOCALE);
 		if (parameter != null)
 		{
 			setParameter(parameter, locale);
 		}
 
 		/*   */
-		resourceBundle = (ResourceBundle)parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		resourceBundle = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		if (resourceBundle == null)
 		{
 			resourceBundle = loadResourceBundle();
@@ -1126,47 +1085,38 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 		}
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		if (parameter != null)
 		{
 			setParameter(parameter, resourceBundle);
 		}
-		
-		
+
 		/* Virtualizer */
-		virtualizer = (JRVirtualizer)parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-		parameter = (JRFillParameter)parametersMap.get(JRParameter.REPORT_VIRTUALIZER);
+		virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
+		parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_VIRTUALIZER);
 		if (parameter != null)
 		{
 			setParameter(parameter, virtualizer);
 		}
-		if (virtualizer != null)
+		if (virtualizer != null || isPerPageBoundElements())
 		{
 			// keep per page element maps
 			perPageBoundElements = new BoundElements();
 		}
 
-
 		/*   */
 		if (parameters != null && parameters.length > 0)
 		{
 			Object value = null;
-			for(int i = 0; i < parameters.length; i++)
+			for (int i = 0; i < parameters.length; i++)
 			{
 				if (parameterValues.containsKey(parameters[i].getName()))
 				{
-					setParameter(
-						parameters[i], 
-						parameterValues.get(parameters[i].getName())
-						);
+					setParameter(parameters[i], parameterValues.get(parameters[i].getName()));
 				}
 				else if (!parameters[i].isSystemDefined())
 				{
-					value = 
-						calculator.evaluate(
-							parameters[i].getDefaultValueExpression(), 
-							JRExpression.EVALUATION_DEFAULT
-							);
+					value = calculator.evaluate(parameters[i].getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
 					if (value != null)
 					{
 						parameterValues.put(parameters[i].getName(), value);
@@ -1179,9 +1129,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		isParametersAlreadySet = true;
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	protected void setParameter(JRFillParameter parameter, Object value) throws JRException
 	{
@@ -1202,17 +1151,16 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 	}
 
-
 	/**
-	 *
+	 * 
 	 */
 	protected boolean next() throws JRException
 	{
 		boolean hasNext = false;
-		
+
 		if (dataSource != null)
 		{
-			hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount++)	&& dataSource.next();
+			hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount++) && dataSource.next();
 
 			if (hasNext)
 			{
@@ -1220,13 +1168,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				if (fields != null && fields.length > 0)
 				{
 					JRFillField field = null;
-					Object objValue = null;
-					for(int i = 0; i < fields.length; i++)
+					for (int i = 0; i < fields.length; i++)
 					{
 						field = fields[i];
-						objValue = dataSource.getFieldValue(field);
 						field.setOldValue(field.getValue());
-						field.setValue(objValue);
+						field.setValue(dataSource.getFieldValue(field));
 					}
 				}
 
@@ -1234,7 +1180,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				if (variables != null && variables.length > 0)
 				{
 					JRFillVariable variable = null;
-					for(int i = 0; i < variables.length; i++)
+					for (int i = 0; i < variables.length; i++)
 					{
 						variable = variables[i];
 						variable.setOldValue(variable.getValue());
@@ -1242,295 +1188,131 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				}
 			}
 		}
-		
+
 		return hasNext;
 	}
-	
-	
-	private void resolveBoundImages(Collection images, Map boundImages, byte evaluation) throws JRException
-	{ 
-		if (images != null && images.size() > 0)
-		{
-			for(Iterator it = images.iterator(); it.hasNext();)
-			{
-				JRPrintImage printImage = (JRPrintImage)it.next();
-				JRFillImage image = (JRFillImage)boundImages.get(printImage);
-				
-				image.evaluateImage(evaluation);
 
-				image.copy(printImage);
+	private void resolveBoundElements(Collection elements, Map boundElements, byte evaluation) throws JRException
+	{
+		if (elements != null && elements.size() > 0)
+		{
+			for (Iterator it = elements.iterator(); it.hasNext();)
+			{
+				JRPrintElement element = (JRPrintElement) it.next();
+				JRFillElement fillElement = (JRFillElement) boundElements.get(element);
+
+				fillElement.resolveElement(element, evaluation);
 			}
 		}
 	}
 
-	private void resolvePerPageBoundImages(Map perPageImages, Map boundImages, byte evaluation) throws JRException
+	private void resolvePerPageBoundElements(Map perPageElements, Map boundElements, byte evaluation) throws JRException
 	{
-		if (perPageImages != null)
+		if (perPageElements != null)
 		{
-			for (Iterator it = perPageImages.entrySet().iterator(); it.hasNext(); )
-			{
-				Map.Entry entry = (Map.Entry) it.next();
-				// Calling getElements() will page in the data for the page.
-				((JRPrintPage) entry.getKey()).getElements();
-				resolveBoundImages(((Map) entry.getValue()).values(), boundImages, evaluation);
-			}
-		}
-
-		boundImages.clear();
-	}
-
-	private void resolveBoundImages(Map boundImages, byte evaluation) throws JRException
-	{ 
-		resolveBoundImages(boundImages.keySet(), boundImages, evaluation);
-
-		boundImages.clear();
-	}
-	
-	/**
-	 *
-	 */
-	protected void resolveReportBoundImages() throws JRException
-	{
-		if (perPageBoundElements != null)
-		{
-			resolvePerPageBoundImages(perPageBoundElements.pageToReportImage, reportBoundImages, JRExpression.EVALUATION_DEFAULT);
-			resolvePerPageBoundCharts(perPageBoundElements.pageToReportChart, reportBoundCharts, JRExpression.EVALUATION_DEFAULT);
-		}
-		else
-		{
-			resolveBoundImages(reportBoundImages, JRExpression.EVALUATION_DEFAULT);
-			resolveBoundCharts(reportBoundCharts, JRExpression.EVALUATION_DEFAULT);
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	protected void resolvePageBoundImages(byte evaluation) throws JRException
-	{
-		if (perPageBoundElements != null)
-		{
-			resolvePerPageBoundImages(perPageBoundElements.pageToPageImage, pageBoundImages, evaluation);
-			resolvePerPageBoundCharts(perPageBoundElements.pageToPageChart, pageBoundCharts, evaluation);
-		}
-		else
-		{
-			resolveBoundImages(pageBoundImages, evaluation);
-			resolveBoundCharts(pageBoundCharts, evaluation);
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	protected void resolveColumnBoundImages(byte evaluation) throws JRException
-	{
-		if (perPageBoundElements != null)
-		{
-			resolvePerPageBoundImages(perPageBoundElements.pageToColumnImage, columnBoundImages, evaluation);
-			resolvePerPageBoundCharts(perPageBoundElements.pageToColumnChart, columnBoundCharts, evaluation);
-		}
-		else
-		{
-			resolveBoundImages(columnBoundImages, evaluation);
-			resolveBoundCharts(columnBoundCharts, evaluation);
-		}
-	}
-	
-	private void resolveBoundCharts(Collection charts, Map boundCharts, byte evaluation) throws JRException
-	{ 
-		if (charts != null && charts.size() > 0)
-		{
-			for(Iterator it = charts.iterator(); it.hasNext();)
-			{
-				JRPrintImage printImage = (JRPrintImage)it.next();
-				JRFillChart chart = (JRFillChart)boundCharts.get(printImage);
-				
-				chart.evaluateImage(evaluation);
-
-				chart.copy(printImage);
-			}
-		}
-	}
-
-	private void resolvePerPageBoundCharts(Map perPageCharts, Map boundCharts, byte evaluation) throws JRException
-	{
-		if (perPageCharts != null)
-		{
-			for (Iterator it = perPageCharts.entrySet().iterator(); it.hasNext(); )
-			{
-				Map.Entry entry = (Map.Entry) it.next();
-				// Calling getElements() will page in the data for the page.
-				((JRPrintPage) entry.getKey()).getElements();
-				resolveBoundCharts(((Map) entry.getValue()).values(), boundCharts, evaluation);
-			}
-		}
-
-		boundCharts.clear();
-	}
-
-	private void resolveBoundCharts(Map boundCharts, byte evaluation) throws JRException
-	{ 
-		resolveBoundCharts(boundCharts.keySet(), boundCharts, evaluation);
-		
-		boundCharts.clear();
-	}
-	
-
-	/**
-	 *
-	 */
-	protected void resolveGroupBoundImages(byte evaluation, boolean isFinal) throws JRException
-	{
-		if (groups != null && groups.length > 0)
-		{
-			for(int i = 0; i < groups.length; i++)
-			{
-				JRFillGroup group = groups[i];
-
-				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
-				{
-					String groupName = group.getName();
-					
-					Map specificGroupBoundImages = (Map)groupBoundImages.get(groupName);
-					Map specificGroupBoundCharts = (Map)groupBoundCharts.get(groupName);
-					if (perPageBoundElements != null)
-					{
-						resolvePerPageBoundImages((Map) perPageBoundElements.pageToGroupImage.get(groupName), specificGroupBoundImages, evaluation);
-						resolvePerPageBoundCharts((Map) perPageBoundElements.pageToGroupChart.get(groupName), specificGroupBoundCharts, evaluation);
-					}
-					else
-					{
-						resolveBoundImages(specificGroupBoundImages, evaluation);
-						resolveBoundCharts(specificGroupBoundCharts, evaluation);
-					}
-				}
-			}
-		}
-	}
-
-	
-	private void resolveBoundTexts(Collection texts, Map boundTexts, byte evaluation) throws JRException
-	{
-		if (texts != null && texts.size() > 0)
-		{
-			for(Iterator it = texts.iterator(); it.hasNext();)
-			{
-				JRPrintText text = (JRPrintText)it.next();
-				JRFillTextField textField = (JRFillTextField)boundTexts.get(text);
-				
-				textField.evaluateText(evaluation);
-
-				textField.chopTextElement(0);
-
-				textField.copy(text);
-			}
-		}
-	}
-
-	private void resolvePerPageBoundTexts(Map perPageTexts, Map boundTexts, byte evaluation) throws JRException
-	{
-		if (perPageTexts != null)
-		{
-			for (Iterator it = perPageTexts.entrySet().iterator(); it.hasNext(); )
+			for (Iterator it = perPageElements.entrySet().iterator(); it.hasNext();)
 			{
 				Map.Entry entry = (Map.Entry) it.next();
 				// Calling getElements() will page in the data for the page.
 				JRPrintPage page = (JRPrintPage) entry.getKey();
 				page.getElements();
-				resolveBoundTexts(((Map) entry.getValue()).values(), boundTexts, evaluation);
+				resolveBoundElements(((Map) entry.getValue()).values(), boundElements, evaluation);
 			}
 		}
-		
-		boundTexts.clear();
+
+		boundElements.clear();
 	}
 
-	private void resolveBoundTexts(Map boundTexts, byte evaluation) throws JRException
-	{ 
-		resolveBoundTexts(boundTexts.keySet(), boundTexts, evaluation);
-		
-		boundTexts.clear();
+	private void resolveBoundElements(Map boundElements, byte evaluation) throws JRException
+	{
+		resolveBoundElements(boundElements.keySet(), boundElements, evaluation);
+
+		boundElements.clear();
 	}
 
 	/**
-	 *
+	 * Resolves elements which are to be evaluated at report level.
 	 */
-	protected void resolveReportBoundTexts() throws JRException
+	protected void resolveReportBoundElements() throws JRException
 	{
-		if (perPageBoundElements != null)
+		if (isPerPageBoundElements())
 		{
-			resolvePerPageBoundTexts(perPageBoundElements.pageToReportText, reportBoundTexts, JRExpression.EVALUATION_DEFAULT);
+			resolvePerPageBoundElements(perPageBoundElements.pageToReportElements, reportBoundElements, JRExpression.EVALUATION_DEFAULT);
 		}
 		else
 		{
-			resolveBoundTexts(reportBoundTexts, JRExpression.EVALUATION_DEFAULT);
+			resolveBoundElements(reportBoundElements, JRExpression.EVALUATION_DEFAULT);
 		}
 	}
 
-
 	/**
-	 *
+	 * Resolves elements which are to be evaluated at page level.
+	 * 
+	 * @param evaluation
+	 *            the evaluation type
 	 */
-	protected void resolvePageBoundTexts(byte evaluation) throws JRException
+	protected void resolvePageBoundElements(byte evaluation) throws JRException
 	{
-		if (perPageBoundElements != null)
+		if (isPerPageBoundElements())
 		{
-			resolvePerPageBoundTexts(perPageBoundElements.pageToPageText, pageBoundTexts, evaluation);
+			resolvePerPageBoundElements(perPageBoundElements.pageToPageElements, pageBoundElements, evaluation);
 		}
 		else
 		{
-			resolveBoundTexts(pageBoundTexts, evaluation);
+			resolveBoundElements(pageBoundElements, evaluation);
 		}
 	}
 
-
 	/**
-	 *
+	 * Resolves elements which are to be evaluated at column level.
+	 * 
+	 * @param evaluation
+	 *            the evaluation type
 	 */
-	protected void resolveColumnBoundTexts(byte evaluation) throws JRException
+	protected void resolveColumnBoundElements(byte evaluation) throws JRException
 	{
-		if (perPageBoundElements != null)
+		if (isPerPageBoundElements())
 		{
-			resolvePerPageBoundTexts(perPageBoundElements.pageToColumnText, columnBoundTexts, evaluation);
+			resolvePerPageBoundElements(perPageBoundElements.pageToColumnElements, columnBoundElements, evaluation);
 		}
 		else
 		{
-			resolveBoundTexts(columnBoundTexts, evaluation);
+			resolveBoundElements(columnBoundElements, evaluation);
 		}
 	}
 
-
 	/**
-	 *
+	 * Resolves elements which are to be evaluated at group level.
+	 * 
+	 * @param evaluation
+	 *            the evaluation type
+	 * @param isFinal
 	 */
-	protected void resolveGroupBoundTexts(byte evaluation, boolean isFinal) throws JRException
+	protected void resolveGroupBoundElements(byte evaluation, boolean isFinal) throws JRException
 	{
 		if (groups != null && groups.length > 0)
 		{
-			for(int i = 0; i < groups.length; i++)
+			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
 
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
 					String groupName = group.getName();
-					Map specificGroupBoundTexts = (Map)groupBoundTexts.get(groupName);
+					Map specificGroupBoundTexts = (Map) groupBoundElements.get(groupName);
 
-					if (perPageBoundElements != null)
+					if (isPerPageBoundElements())
 					{
-						resolvePerPageBoundTexts((Map) perPageBoundElements.pageToGroupText.get(groupName), specificGroupBoundTexts, evaluation);
+						resolvePerPageBoundElements((Map) perPageBoundElements.pageToGroupElements.get(groupName), specificGroupBoundTexts, evaluation);
 					}
 					else
 					{
-						resolveBoundTexts(specificGroupBoundTexts, evaluation);
+						resolveBoundElements(specificGroupBoundTexts, evaluation);
 					}
 				}
 			}
 		}
 	}
-
 
 	protected JRPrintPage newPage()
 	{
@@ -1539,7 +1321,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		if (virtualizer != null)
 		{
 			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizer);
-			virtualPage.addIdentityDataProvider(perPageBoundElements);
+
+			addIdentityDataProviders(virtualPage, this);
+
 			page = virtualPage;
 		}
 		else
@@ -1550,4 +1334,423 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		return page;
 	}
 
+	/**
+	 * Returns the value of a variable.
+	 * 
+	 * @param variableName
+	 *            the variable name
+	 * @return the variable value
+	 * @throws JRException
+	 */
+	protected Object getVariableValue(String variableName) throws JRException
+	{
+		JRFillVariable var = (JRFillVariable) variablesMap.get(variableName);
+		if (var == null)
+		{
+			throw new JRException("No such variable " + variableName);
+		}
+		return var.getValue();
+	}
+
+	/**
+	 * Resloves elements which are to be evaluated at band level.
+	 * 
+	 * @param band
+	 *            the band
+	 * @param evaluation
+	 *            the evaluation type
+	 * @throws JRException
+	 */
+	protected void resolveBandBoundElements(JRFillBand band, byte evaluation) throws JRException
+	{
+		if (isPerPageBoundElements())
+		{
+			resolvePerPageBoundElements(band.pageToBoundElements, band.boundElements, evaluation);
+		}
+		else
+		{
+			resolveBoundElements(band.boundElements, evaluation);
+		}
+	}
+
+	/**
+	 * Creates identity data out of a list of elements.
+	 * 
+	 * @param allElements
+	 *            the elements
+	 * @return the identity data
+	 */
+	protected static JRVirtualPrintPage.ObjectIDPair[] createIdentityData(Set allElements)
+	{
+		JRVirtualPrintPage.ObjectIDPair[] ids;
+
+		if (!allElements.isEmpty())
+		{
+			ids = new JRVirtualPrintPage.ObjectIDPair[allElements.size()];
+
+			int i = 0;
+			for (Iterator it = allElements.iterator(); it.hasNext(); ++i)
+			{
+				ids[i] = new JRVirtualPrintPage.ObjectIDPair(it.next());
+			}
+		}
+		else
+		{
+			ids = null;
+		}
+		return ids;
+	}
+
+	/**
+	 * Collects elements from a map.
+	 * 
+	 * @param allElements
+	 *            the elements are collected here
+	 * @param pageMap
+	 *            the page map
+	 * @param page
+	 *            the page
+	 */
+	protected static void addElements(Set allElements, Map pageMap, JRVirtualPrintPage page)
+	{
+		Map map = (Map) pageMap.get(page);
+		if (map != null && !map.isEmpty())
+		{
+			Collection elements = map.values();
+			allElements.addAll(elements);
+		}
+	}
+
+	/**
+	 * Collects elements from a group map.
+	 * 
+	 * @param allElements
+	 *            the elements are collected here
+	 * @param groupMap
+	 *            the group map
+	 * @param page
+	 *            the page
+	 */
+	protected static void addGroupElements(Set allElements, Map groupMap, JRVirtualPrintPage page)
+	{
+		for (Iterator it = groupMap.entrySet().iterator(); it.hasNext();)
+		{
+			Map.Entry entry = (Map.Entry) it.next();
+			addElements(allElements, (Map) entry.getValue(), page);
+		}
+	}
+
+	/**
+	 * Updates element maps on page devirtualization.
+	 * 
+	 * @param pageMap
+	 *            the page map
+	 * @param page
+	 *            the page
+	 * @param boundElements
+	 *            the bound element map
+	 * @param identityData
+	 *            the identity data
+	 */
+	protected static void updateIdentityData(Map pageMap, JRVirtualPrintPage page, BoundElementMap boundElements, JRVirtualPrintPage.ObjectIDPair[] identityData)
+	{
+		Map pageElements = (Map) pageMap.get(page);
+		if (pageElements != null && pageElements.size() > 0)
+		{
+			for (int i = 0; i < identityData.length; ++i)
+			{
+				Object oldObject = pageElements.remove(new Integer(identityData[i].getIdentity()));
+				if (oldObject != null)
+				{
+					Object resolver = boundElements.remove(oldObject);
+					if (resolver != null)
+					{
+						// This will also add the new element into the
+						// pageElements map.
+						boundElements.put(identityData[i].getObject(), resolver, page);
+					}
+					else
+					{
+						// Strange.
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Updates group element maps on page devirtualization.
+	 * 
+	 * @param pageGroupMap
+	 *            the page map
+	 * @param page
+	 *            the page
+	 * @param groupMap
+	 *            the group map
+	 * @param identityData
+	 *            the identity data
+	 */
+	protected static void updateGroupIdentityData(Map pageGroupMap, JRVirtualPrintPage page, Map groupMap, JRVirtualPrintPage.ObjectIDPair[] identityData)
+	{
+		for (Iterator it = pageGroupMap.entrySet().iterator(); it.hasNext();)
+		{
+			Map.Entry entry = (Map.Entry) it.next();
+			updateIdentityData((Map) entry.getValue(), page, (BoundElementMap) groupMap.get(entry.getKey()), identityData);
+		}
+	}
+
+	private JRFillVariable addVariable(JRVariable parentVariable, List variableList, JRFillObjectFactory factory)
+	{
+		JRFillVariable variable = factory.getVariable(parentVariable);
+
+		byte calculation = variable.getCalculation();
+		switch (calculation)
+		{
+			case JRVariable.CALCULATION_AVERAGE:
+			case JRVariable.CALCULATION_VARIANCE:
+			{
+				JRVariable countVar = createHelperVariable(parentVariable, "_COUNT", JRVariable.CALCULATION_COUNT);
+				JRFillVariable fillCountVar = addVariable(countVar, variableList, factory);
+				variable.setHelperVariable(fillCountVar, JRFillVariable.HELPER_COUNT);
+
+				JRVariable sumVar = createHelperVariable(parentVariable, "_SUM", JRVariable.CALCULATION_SUM);
+				JRFillVariable fillSumVar = addVariable(sumVar, variableList, factory);
+				variable.setHelperVariable(fillSumVar, JRFillVariable.HELPER_SUM);
+
+				break;
+			}
+			case JRVariable.CALCULATION_STANDARD_DEVIATION:
+			{
+				JRVariable varianceVar = createHelperVariable(parentVariable, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				JRFillVariable fillVarianceVar = addVariable(varianceVar, variableList, factory);
+				variable.setHelperVariable(fillVarianceVar, JRFillVariable.HELPER_VARIANCE);
+
+				break;
+			}
+		}
+
+		variableList.add(variable);
+		return variable;
+	}
+
+	private void setVariables(List variableList)
+	{
+		variables = new JRFillVariable[variableList.size()];
+		variables = (JRFillVariable[]) variableList.toArray(variables);
+
+		for (int i = 0; i < variables.length; i++)
+		{
+			variablesMap.put(variables[i].getName(), variables[i]);
+		}
+	}
+
+	private JRVariable createHelperVariable(JRVariable variable, String nameSuffix, byte calculation)
+	{
+		JRDesignVariable helper = new JRDesignVariable();
+		helper.setName(variable.getName() + nameSuffix);
+		helper.setValueClassName(variable.getValueClassName());
+		helper.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
+		helper.setResetType(variable.getResetType());
+		helper.setResetGroup(variable.getResetGroup());
+		helper.setIncrementType(variable.getIncrementType());
+		helper.setIncrementGroup(variable.getIncrementGroup());
+		helper.setCalculation(calculation);
+		helper.setSystemDefined(true);
+		helper.setExpression(variable.getExpression());
+
+		return helper;
+	}
+
+	/**
+	 * Adds a variable calculation request.
+	 * 
+	 * @param variableName
+	 *            the variable name
+	 * @param calculation
+	 *            the calculation type
+	 */
+	protected void addVariableCalculationReq(String variableName, byte calculation)
+	{
+		if (variableCalculationReqs == null)
+		{
+			variableCalculationReqs = new HashSet();
+		}
+
+		variableCalculationReqs.add(new VariableCalculationReq(variableName, calculation));
+	}
+
+	private void checkVariableCalculationReqs(JRFillObjectFactory factory)
+	{
+		if (variableCalculationReqs != null && !variableCalculationReqs.isEmpty())
+		{
+			List variableList = new ArrayList(variables.length * 2);
+
+			for (int i = 0; i < variables.length; i++)
+			{
+				JRFillVariable variable = variables[i];
+				checkVariableCalculationReq(variable, variableList, factory);
+			}
+
+			setVariables(variableList);
+		}
+	}
+
+	private void checkVariableCalculationReq(JRFillVariable variable, List variableList, JRFillObjectFactory factory)
+	{
+		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_AVERAGE) || hasVariableCalculationReq(variable, JRVariable.CALCULATION_VARIANCE))
+		{
+			if (variable.getHelperVariable(JRFillVariable.HELPER_COUNT) == null)
+			{
+				JRVariable countVar = createHelperVariable(variable, "_COUNT", JRVariable.CALCULATION_COUNT);
+				JRFillVariable fillCountVar = factory.getVariable(countVar);
+				checkVariableCalculationReq(fillCountVar, variableList, factory);
+				variable.setHelperVariable(fillCountVar, JRFillVariable.HELPER_COUNT);
+			}
+
+			if (variable.getHelperVariable(JRFillVariable.HELPER_SUM) == null)
+			{
+				JRVariable sumVar = createHelperVariable(variable, "_SUM", JRVariable.CALCULATION_SUM);
+				JRFillVariable fillSumVar = factory.getVariable(sumVar);
+				checkVariableCalculationReq(fillSumVar, variableList, factory);
+				variable.setHelperVariable(fillSumVar, JRFillVariable.HELPER_SUM);
+			}
+		}
+
+		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_STANDARD_DEVIATION))
+		{
+			if (variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE) == null)
+			{
+				JRVariable varianceVar = createHelperVariable(variable, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				JRFillVariable fillVarianceVar = factory.getVariable(varianceVar);
+				checkVariableCalculationReq(fillVarianceVar, variableList, factory);
+				variable.setHelperVariable(fillVarianceVar, JRFillVariable.HELPER_VARIANCE);
+			}
+		}
+
+		variableList.add(variable);
+	}
+
+	private boolean hasVariableCalculationReq(JRVariable var, byte calculation)
+	{
+		return variableCalculationReqs.contains(new VariableCalculationReq(var.getName(), calculation));
+	}
+
+	/**
+	 * Cancells the fill process.
+	 * 
+	 * @throws JRException
+	 */
+	public void cancelFill() throws JRException
+	{
+		PreparedStatement s = dataSourceStatement;
+		if (s != null)
+		{
+			try
+			{
+				s.cancel();
+			}
+			catch (Throwable t)
+			{
+				throw new JRException("Error cancelling SQL statement", t);
+			}
+		}
+		else
+		{
+			Thread t = fillingThread;
+			if (t != null)
+			{
+				t.interrupt();
+			}
+		}
+	}
+
+	
+	private boolean isPerPageBoundElements()
+	{
+		if (parentFiller != null)
+		{
+			return parentFiller.isPerPageBoundElements();
+		}
+
+		return perPageBoundElements != null;
+	}
+
+	
+	protected boolean isUsingVirtualizer()
+	{
+		if (parentFiller != null)
+		{
+			return parentFiller.isUsingVirtualizer();
+		}
+
+		return virtualizer != null;
+	}
+
+	protected void registerSubfiller(JRBaseFiller subfiller)
+	{
+		if (subfillers == null)
+		{
+			subfillers = new HashSet();
+		}
+
+		if (subfillers.add(subfiller) && isUsingVirtualizer())
+		{
+			addIdentityDataProviders((JRVirtualPrintPage) getMasterPage(), subfiller);
+		}
+	}
+
+	protected void unregisterSubfiller(JRBaseFiller subfiller)
+	{
+		if (subfillers.remove(subfiller) && isUsingVirtualizer())
+		{
+			removeIdentityDataProviders((JRVirtualPrintPage) getMasterPage(), subfiller);
+		}
+	}
+
+	private static void addIdentityDataProviders(JRVirtualPrintPage page, JRBaseFiller filler)
+	{
+		page.addIdentityDataProvider(filler.perPageBoundElements);
+		for (Iterator i = filler.bands.iterator(); i.hasNext();)
+		{
+			JRFillBand band = (JRFillBand) i.next();
+			page.addIdentityDataProvider(band);
+		}
+
+		if (filler.subfillers != null)
+		{
+			for (Iterator i = filler.subfillers.iterator(); i.hasNext();)
+			{
+				JRBaseFiller subfiller = (JRBaseFiller) i.next();
+				addIdentityDataProviders(page, subfiller);
+			}
+		}
+	}
+
+	private static void removeIdentityDataProviders(JRVirtualPrintPage page, JRBaseFiller filler)
+	{
+		page.removeIdentityDataProvider(filler.perPageBoundElements);
+		for (Iterator i = filler.bands.iterator(); i.hasNext();)
+		{
+			JRFillBand band = (JRFillBand) i.next();
+			page.removeIdentityDataProvider(band);
+		}
+	}
+
+	protected JRPrintPage getMasterPage()
+	{
+		if (parentFiller != null)
+		{
+			return parentFiller.getMasterPage();
+		}
+
+		return printPage;
+	}
+
+	protected void addPage(JRPrintPage page)
+	{
+		if (!isSubreport())
+		{
+			jasperPrint.addPage(page);
+		}
+	}
 }

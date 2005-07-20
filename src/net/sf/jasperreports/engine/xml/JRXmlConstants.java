@@ -602,6 +602,7 @@ public class JRXmlConstants
 	private static final String EVALUATION_TIME_PAGE = "Page";
 	private static final String EVALUATION_TIME_COLUMN = "Column";
 	private static final String EVALUATION_TIME_GROUP = "Group";
+	private static final String EVALUATION_TIME_BAND = "Band";
 
 	private static Map evaluationTimeMap = null;
 
@@ -615,11 +616,13 @@ public class JRXmlConstants
 			evaluationTimeMap.put(EVALUATION_TIME_PAGE,   new Byte(JRExpression.EVALUATION_TIME_PAGE));
 			evaluationTimeMap.put(EVALUATION_TIME_COLUMN, new Byte(JRExpression.EVALUATION_TIME_COLUMN));
 			evaluationTimeMap.put(EVALUATION_TIME_GROUP,  new Byte(JRExpression.EVALUATION_TIME_GROUP));
+			evaluationTimeMap.put(EVALUATION_TIME_BAND,  new Byte(JRExpression.EVALUATION_TIME_BAND));
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_NOW),    EVALUATION_TIME_NOW);
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_REPORT), EVALUATION_TIME_REPORT);
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_PAGE),   EVALUATION_TIME_PAGE);
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_COLUMN), EVALUATION_TIME_COLUMN);
 			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_GROUP),  EVALUATION_TIME_GROUP);
+			evaluationTimeMap.put(new Byte(JRExpression.EVALUATION_TIME_BAND),  EVALUATION_TIME_BAND);
 		}
 
 		return evaluationTimeMap;

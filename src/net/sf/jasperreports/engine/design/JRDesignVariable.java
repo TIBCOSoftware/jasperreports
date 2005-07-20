@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseVariable;
 
 
@@ -151,30 +150,5 @@ public class JRDesignVariable extends JRBaseVariable
 	{
 		this.incrementGroup = group;
 	}
-		
-	/**
-	 *
-	 */
-	public void setCountVariable(JRVariable countVariable)
-	{
-		this.countVariable = countVariable;
-	}
-
-	/**
-	 *
-	 */
-	public void setSumVariable(JRVariable sumVariable)
-	{
-		this.sumVariable = sumVariable;
-	}
-
-	/**
-	 *
-	 */
-	public void setVarianceVariable(JRVariable varianceVariable)
-	{
-		this.varianceVariable = varianceVariable;
-	}
-		
 
 }

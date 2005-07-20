@@ -573,23 +573,28 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			case JRExpression.EVALUATION_TIME_REPORT :
 			{
-				filler.reportBoundTexts.put(text, this);
+				filler.reportBoundElements.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_PAGE :
 			{
-				filler.pageBoundTexts.put(text, this);
+				filler.pageBoundElements.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_COLUMN :
 			{
-				filler.columnBoundTexts.put(text, this);
+				filler.columnBoundElements.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_GROUP :
 			{
-				Map specificGroupBoundTexts = (Map)filler.groupBoundTexts.get(getEvaluationGroup().getName());
+				Map specificGroupBoundTexts = (Map)filler.groupBoundElements.get(getEvaluationGroup().getName());
 				specificGroupBoundTexts.put(text, this);
+				break;
+			}
+			case JRExpression.EVALUATION_TIME_BAND :
+			{
+				band.boundElements.put(text, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_NOW :
@@ -679,4 +684,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	{
+		evaluateText(evaluation);
+
+		chopTextElement(0);
+
+		copy((JRPrintText) element);
+	}
 }

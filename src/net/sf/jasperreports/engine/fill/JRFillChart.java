@@ -696,24 +696,28 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			case JRExpression.EVALUATION_TIME_REPORT :
 			{
-				filler.reportBoundCharts.put(printImage, this);
+				filler.reportBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_PAGE :
 			{
-				filler.pageBoundCharts.put(printImage, this);
+				filler.pageBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_COLUMN :
 			{
-				filler.columnBoundCharts.put(printImage, this);
+				filler.columnBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_GROUP :
 			{
-				Map specificGroupBoundCharts = (Map)filler.groupBoundCharts.get(getEvaluationGroup().getName());
+				Map specificGroupBoundCharts = (Map)filler.groupBoundElements.get(getEvaluationGroup().getName());
 				specificGroupBoundCharts.put(printImage, this);
 				break;
+			}
+			case JRExpression.EVALUATION_TIME_BAND :
+			{
+				band.boundElements.put(printImage, this);
 			}
 			case JRExpression.EVALUATION_TIME_NOW :
 			default :
@@ -1280,5 +1284,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		renderer = new JCommonDrawableRenderer( chart );
 		
+	}
+
+
+	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	{
+		evaluateImage(evaluation);
+
+		copy((JRPrintImage) element);
 	}
 }

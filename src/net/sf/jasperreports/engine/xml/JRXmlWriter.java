@@ -84,6 +84,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
@@ -1659,6 +1660,15 @@ public class JRXmlWriter
 			sb.append("]]></dataSourceExpression>\n");
 		}
 
+		JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
+		if (returnValues != null && returnValues.length > 0)
+		{
+			for(int i = 0; i < returnValues.length; i++)
+			{
+				writeSubreportReturnValue(returnValues[i]);
+			}
+		}
+
 		if (subreport.getExpression() != null)
 		{
 			sb.append("\t\t\t\t<subreportExpression");
@@ -2698,5 +2708,26 @@ public class JRXmlWriter
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
+	}
+
+
+	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue)
+	{
+		sb.append("\t\t\t\t<returnValue");
+		sb.append(" subreportVariable=\"");
+		sb.append(returnValue.getSubreportVariable());
+		sb.append("\" toVariable=\"");
+		sb.append(returnValue.getToVariable());
+		if (returnValue.getCalculation() != JRVariable.CALCULATION_NOTHING)
+		{
+			sb.append("\" calculation=\"");
+			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(returnValue.getCalculation())));
+		}
+		if (returnValue.getIncrementerFactoryClassName() != null)
+		{
+			sb.append("\" incrementerFactoryClass=\"");
+			sb.append(returnValue.getIncrementerFactoryClassName());
+		}
+		sb.append("\"/>\n");
 	}
 }

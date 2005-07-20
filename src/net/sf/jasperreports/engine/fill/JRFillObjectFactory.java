@@ -91,6 +91,7 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -877,5 +878,22 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		return fillPlot;
 		
+	}
+
+
+	protected JRFillSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
+	{
+		JRFillSubreportReturnValue fillVariable = null;
+
+		if (returnValue != null)
+		{
+			fillVariable = (JRFillSubreportReturnValue) get(returnValue);
+			if (fillVariable == null)
+			{
+				fillVariable = new JRFillSubreportReturnValue(returnValue, this, filler);
+			}
+		}
+
+		return fillVariable;
 	}
 }

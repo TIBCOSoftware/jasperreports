@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPrintElement;
 
 
 /**
@@ -157,4 +159,9 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 	
 	
+	protected void resolveElement (JRPrintElement element, byte evaluation) throws JRException
+	{
+		// nothing
+	}
+
 }

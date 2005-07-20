@@ -31,9 +31,13 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
@@ -51,9 +55,12 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -82,6 +89,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private Connection connection = null;
 	private JRDataSource dataSource = null;
 	private JasperReport jasperReport = null;
+	
+	/**
+	 * Values to be copied from the subreport.
+	 */
+	private JRFillSubreportReturnValue[] returnValues = null;
 
 	/**
 	 *
@@ -96,6 +108,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private Throwable error = null;
 	private Thread fillThread = null;
 	private boolean isRunning = false;
+	
+	/**
+	 * Set of checked reports.
+	 */
+	private Set checkedReports;
 
 
 	/**
@@ -110,6 +127,22 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		super(filler, subreport, factory);
 
 		parameters = subreport.getParameters();
+		JRSubreportReturnValue[] subrepReturnValues = subreport.getReturnValues();
+		if (subrepReturnValues != null)
+		{
+			List returnValuesList = new ArrayList(subrepReturnValues.length * 2);
+			
+			returnValues = new JRFillSubreportReturnValue[subrepReturnValues.length];
+			for (int i = 0; i < subrepReturnValues.length; i++)
+			{
+				addReturnValue(subrepReturnValues[i], returnValuesList, factory);
+			}
+			
+			returnValues = new JRFillSubreportReturnValue[returnValuesList.size()];
+			returnValuesList.toArray(returnValues);
+		}
+		
+		checkedReports = new HashSet();
 	}
 
 
@@ -357,6 +390,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 							}
 						}
 					}
+
+					if (subreportFiller != null)
+					{
+						filler.unregisterSubfiller(subreportFiller);
+					}
 		
 					/*   */
 					switch (jasperReport.getPrintOrder())
@@ -372,6 +410,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 							break;
 						}
 					}
+					
+					checkReturnValues();
 				}
 			}
 		}
@@ -408,7 +448,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		}
 		
 		isRunning = false;
-
+		
 		synchronized (subreportFiller)
 		{
 			//main filler notified that the subreport has finished
@@ -497,6 +537,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
 			}
 			
+			if (!isRunning)
+			{
+				copyValues();
+			}
+			
 			if (error != null)
 			{
 				if (error instanceof RuntimeException)
@@ -533,7 +578,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 
 		return willOverflow;
 	}
-	
+
 
 	/**
 	 *
@@ -570,6 +615,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		// forcing the creation of a new thread and a new subreport filler
 		fillThread = null;
 
+		if (subreportFiller != null)
+		{
+			filler.unregisterSubfiller(subreportFiller);
+		}
+		
 		/*   */
 		switch (jasperReport.getPrintOrder())
 		{
@@ -640,5 +690,133 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		xmlWriter.writeSubreport(this);
 	}
 
+
+	private JRFillSubreportReturnValue addReturnValue (JRSubreportReturnValue parentReturnValue, List returnValueList, JRFillObjectFactory factory)
+	{
+		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);
+		
+		byte calculation = returnValue.getCalculation();
+		switch (calculation)
+		{
+			case JRVariable.CALCULATION_AVERAGE:
+			case JRVariable.CALCULATION_VARIANCE:
+			{
+				JRSubreportReturnValue countVal = createHelperReturnValue(parentReturnValue, "_COUNT", JRVariable.CALCULATION_COUNT);
+				addReturnValue(countVal, returnValueList, factory);
+
+				JRSubreportReturnValue sumVal = createHelperReturnValue(parentReturnValue, "_SUM", JRVariable.CALCULATION_SUM);
+				addReturnValue(sumVal, returnValueList, factory);
+
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+
+				break;
+			}
+			case JRVariable.CALCULATION_STANDARD_DEVIATION:
+			{
+				JRSubreportReturnValue varianceVal = createHelperReturnValue(parentReturnValue, "_VARIANCE", JRVariable.CALCULATION_VARIANCE);
+				addReturnValue(varianceVal, returnValueList, factory);
+				
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+				break;
+			}
+		}
+
+		returnValueList.add(returnValue);
+		return returnValue;
+
+	}
+
+	
+	protected JRSubreportReturnValue createHelperReturnValue(JRSubreportReturnValue returnValue, String nameSuffix, byte calculation)
+	{
+		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
+		helper.setToVariable(returnValue.getToVariable() + nameSuffix);
+		helper.setSubreportVariable(returnValue.getSubreportVariable());
+		helper.setCalculation(calculation);
+		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());
+		
+		return helper;
+	}
+	
+
+	public JRSubreportReturnValue[] getReturnValues()
+	{
+		return this.returnValues;
+	}
+	
+
+	/**
+	 * Copies the values from the subreport to the variables of the master report.
+	 */
+	private void copyValues()
+	{
+		if (returnValues != null && returnValues.length > 0)
+		{
+			for (int i = 0; i < returnValues.length; i++)
+			{
+				try
+				{
+					JRFillVariable variable = (JRFillVariable) filler.variablesMap.get(returnValues[i].getToVariable());
+					Object value = subreportFiller.getVariableValue(returnValues[i].getSubreportVariable());
+					
+					Object newValue = returnValues[i].getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
+					variable.setOldValue(newValue);
+					variable.setValue(newValue);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Verifies the list of copied values against the subreport.
+	 * 
+	 * @throws JRException
+	 */
+	private void checkReturnValues() throws JRException
+	{
+		if (returnValues != null && returnValues.length > 0 && !checkedReports.contains(jasperReport))
+		{
+			for (int i = 0; i < returnValues.length; i++)
+			{
+				JRSubreportReturnValue returnValue = returnValues[i];
+				String subreportVariableName = returnValue.getSubreportVariable();
+				JRVariable subrepVariable = (JRVariable) subreportFiller.variablesMap.get(subreportVariableName);
+				if (subrepVariable == null)
+				{
+					throw new JRException("Subreport variable " + subreportVariableName + " not found.");
+				}
+				
+				JRVariable variable = (JRVariable) filler.variablesMap.get(returnValue.getToVariable());
+				if (returnValue.getCalculation() == JRVariable.CALCULATION_COUNT)
+				{
+					if (!Number.class.isAssignableFrom(variable.getValueClass()))
+					{
+						throw new JRException("Variable " + returnValue.getToVariable() + 
+								" must have a numeric type.");
+					}
+				}
+				else if (!variable.getValueClass().isAssignableFrom(subrepVariable.getValueClass()) &&
+						!(Number.class.isAssignableFrom(variable.getValueClass()) && Number.class.isAssignableFrom(subrepVariable.getValueClass())))
+				{
+					throw new JRException("Variable " + returnValue.getToVariable() + 
+							" is not assignable from subreport variable " + 
+							subreportVariableName);
+				}
+			}
+			
+			checkedReports.add(jasperReport);
+		}
+	}
+	
+	
+	protected void resolveElement (JRPrintElement element, byte evaluation) throws JRException
+	{
+		// nothing
+	}
 
 }

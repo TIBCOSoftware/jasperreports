@@ -70,9 +70,6 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected JRExpression initialValueExpression = null;
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;
-	protected JRVariable countVariable = null;
-	protected JRVariable sumVariable = null;
-	protected JRVariable varianceVariable = null;
 
 
 	/**
@@ -103,9 +100,6 @@ public class JRBaseVariable implements JRVariable, Serializable
 
 		resetGroup = factory.getGroup(variable.getResetGroup());
 		incrementGroup = factory.getGroup(variable.getIncrementGroup());
-		countVariable = factory.getVariable(variable.getCountVariable());
-		sumVariable = factory.getVariable(variable.getSumVariable());
-		varianceVariable = factory.getVariable(variable.getVarianceVariable());
 	}
 		
 
@@ -241,30 +235,6 @@ public class JRBaseVariable implements JRVariable, Serializable
 	public JRGroup getIncrementGroup()
 	{
 		return this.incrementGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRVariable getCountVariable()
-	{
-		return this.countVariable;
-	}
-
-	/**
-	 *
-	 */
-	public JRVariable getSumVariable()
-	{
-		return this.sumVariable;
-	}
-
-	/**
-	 *
-	 */
-	public JRVariable getVarianceVariable()
-	{
-		return this.varianceVariable;
 	}
 
 		

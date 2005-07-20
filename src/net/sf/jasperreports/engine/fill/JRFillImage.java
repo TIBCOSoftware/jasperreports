@@ -548,23 +548,28 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		{
 			case JRExpression.EVALUATION_TIME_REPORT :
 			{
-				this.filler.reportBoundImages.put(printImage, this);
+				this.filler.reportBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_PAGE :
 			{
-				this.filler.pageBoundImages.put(printImage, this);
+				this.filler.pageBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_COLUMN :
 			{
-				this.filler.columnBoundImages.put(printImage, this);
+				this.filler.columnBoundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_GROUP :
 			{
-				Map specificGroupBoundImages = (Map)this.filler.groupBoundImages.get(this.getEvaluationGroup().getName());
+				Map specificGroupBoundImages = (Map)this.filler.groupBoundElements.get(this.getEvaluationGroup().getName());
 				specificGroupBoundImages.put(printImage, this);
+				break;
+			}
+			case JRExpression.EVALUATION_TIME_BAND :
+			{
+				this.band.boundElements.put(printImage, this);
 				break;
 			}
 			case JRExpression.EVALUATION_TIME_NOW :
@@ -617,5 +622,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		xmlWriter.writeImage(this);
 	}
 
+
+	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	{
+		evaluateImage(evaluation);
+
+		copy((JRPrintImage) element);
+	}
 
 }
