@@ -55,8 +55,8 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
@@ -490,6 +490,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			return willOverflow;
 		}
 
+		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY())
+		{
+			setToPrint(false);
+			return true;//willOverflow;
+		}
+			
 		//willOverflow = prepareTextField((JRFillTextField)fillElement, availableStretchHeight);
 		
 		//subreportFiller.setPageHeight(getHeight() + availableStretchHeight);
@@ -499,9 +505,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			if (fillThread == null)
 			{
-				if (!isOverflow || (isOverflow && isPrintWhenDetailOverflows()))
+				if (!isOverflow || (isOverflow && (isPrintWhenDetailOverflows() || !isAlreadyPrinted())))
 				{
-					if (isOverflow)
+					if (isOverflow && isPrintWhenDetailOverflows())
 					{
 						setReprinted(true);
 					}
@@ -814,7 +820,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	}
 	
 	
-	protected void resolveElement (JRPrintElement element, byte evaluation) throws JRException
+	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

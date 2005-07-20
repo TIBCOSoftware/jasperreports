@@ -87,7 +87,7 @@
 					<subreportParameterExpression><![CDATA[$F{City}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum" incrementerFactoryClass="net.sf.jasperreports.engine.fill.JRFloatIncrementerFactory"/>
+				<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum"/>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{ProductsSubreport}]]></subreportExpression>
 			</subreport>
 			<subreport>

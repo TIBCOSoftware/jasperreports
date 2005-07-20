@@ -229,7 +229,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 		
-	protected void resolveElement (JRPrintElement element, byte evaluation) throws JRException
+	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

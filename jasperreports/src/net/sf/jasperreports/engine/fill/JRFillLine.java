@@ -140,5 +140,12 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		xmlWriter.writeLine(this);
 	}
 
+	/**
+	 *
+	 */
+	protected void resolveElement (JRPrintElement element, byte evaluation)
+	{
+		// nothing
+	}
 
 }
