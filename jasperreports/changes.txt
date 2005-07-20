@@ -32,6 +32,9 @@ when it deals with missing resources in the associated resources bundle;
 to allow postponing their expression evaluation until the end of the parent band rendering 
 in order to simplify the use of values returned from subreports;
 
+- support for canceling the report filling process, including the cancellation of the 
+report query execution through JDBC (see the AsynchronousFillHandle class);
+
 - minor bug fixes and improvements;
 
 
