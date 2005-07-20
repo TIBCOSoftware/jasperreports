@@ -26,6 +26,12 @@ when it deals with missing resources in the associated resources bundle;
 
 - support for PDF font registration using properties file;
 
+- simplified support for returning values from subreport;
+
+- new possible value (Band) for the "evaluationTime" property of text fields, images and charts 
+to allow postponing their expression evaluation until the end of the parent band rendering 
+in order to simplify the use of values returned from subreports;
+
 - minor bug fixes and improvements;
 
 
