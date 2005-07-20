@@ -92,6 +92,7 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
@@ -967,6 +968,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseChart;
+	}
+
+	/**
+	 *  
+	 */
+	protected JRBaseSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
+	{
+		JRBaseSubreportReturnValue baseSubreportReturnValue = null;
+		
+		if (returnValue != null)
+		{
+			baseSubreportReturnValue = (JRBaseSubreportReturnValue)get(returnValue);
+			if (baseSubreportReturnValue == null)
+			{
+				baseSubreportReturnValue = new JRBaseSubreportReturnValue(returnValue, this);
+				put(returnValue, baseSubreportReturnValue);
+			}
+		}
+		
+		return baseSubreportReturnValue;
 	}
 
 }

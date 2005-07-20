@@ -54,21 +54,7 @@ public abstract class JRFiller
 		Connection conn
 		) throws JRException
 	{
-		JRBaseFiller filler = null;
-
-		switch (jasperReport.getPrintOrder())
-		{
-			case JRReport.PRINT_ORDER_HORIZONTAL :
-			{
-				filler = new JRHorizontalFiller(jasperReport);
-				break;
-			}
-			case JRReport.PRINT_ORDER_VERTICAL :
-			{
-				filler = new JRVerticalFiller(jasperReport);
-				break;
-			}
-		}
+		JRBaseFiller filler = createFiller(jasperReport);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -94,21 +80,7 @@ public abstract class JRFiller
 		JRDataSource dataSource
 		) throws JRException
 	{
-		JRBaseFiller filler = null;
-
-		switch (jasperReport.getPrintOrder())
-		{
-			case JRReport.PRINT_ORDER_HORIZONTAL :
-			{
-				filler = new JRHorizontalFiller(jasperReport);
-				break;
-			}
-			case JRReport.PRINT_ORDER_VERTICAL :
-			{
-				filler = new JRVerticalFiller(jasperReport);
-				break;
-			}
-		}
+		JRBaseFiller filler = createFiller(jasperReport);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -125,4 +97,23 @@ public abstract class JRFiller
 	}
 
 
+	protected static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException
+	{
+		JRBaseFiller filler = null;
+
+		switch (jasperReport.getPrintOrder())
+		{
+			case JRReport.PRINT_ORDER_HORIZONTAL :
+			{
+				filler = new JRHorizontalFiller(jasperReport);
+				break;
+			}
+			case JRReport.PRINT_ORDER_VERTICAL :
+			{
+				filler = new JRVerticalFiller(jasperReport);
+				break;
+			}
+		}
+		return filler;
+	}
 }

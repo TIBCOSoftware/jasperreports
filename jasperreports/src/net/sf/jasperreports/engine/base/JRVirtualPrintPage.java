@@ -248,11 +248,12 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 				if (identityProviders[idx] == p) {
 					IdentityDataProvider[] newList = new IdentityDataProvider[identityProviders.length - 1];
 					System.arraycopy(identityProviders, 0, newList, 0, idx);
-					int remaining = identityProviders.length - idx;
+					int remaining = identityProviders.length - idx - 1;
 					if (remaining > 0) {
 						System.arraycopy(identityProviders, idx + 1, newList,
 								idx, remaining);
 					}
+					identityProviders = newList;
 					break;
 				}
 			}

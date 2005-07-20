@@ -27,62 +27,46 @@
  */
 package net.sf.jasperreports.engine;
 
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * A value copied from a subreport into a variable of the master report.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRExpression
+public interface JRSubreportReturnValue
 {
 
+	/**
+	 * Returns the name of the subreport variable whose value should be copied.
+	 * 
+	 * @return the name of the subreport variable whose value should be copied.
+	 */
+	public String getSubreportVariable();
 
 	/**
-	 *
+	 * Returns the name of the master report variable where the value should be copied.
+	 * 
+	 * @return the name of the master report variable where the value should be copied.
 	 */
-	public static final byte EVALUATION_TIME_NOW = 1;
-	public static final byte EVALUATION_TIME_REPORT = 2;
-	public static final byte EVALUATION_TIME_PAGE = 3;
-	public static final byte EVALUATION_TIME_COLUMN = 4;
-	public static final byte EVALUATION_TIME_GROUP = 5;
+	public String getToVariable();
+
+	/**
+	 * Returns the calculation type.
+	 * <p>
+	 * When copying the value from the subreport, a formula can be applied such that sum,
+	 * maximum, average and so on can be computed.
+	 * 
+	 * @return the calculation type.
+	 */
+	public byte getCalculation();
 	
 	/**
-	 * The element will be evaluated at band end.
+	 * Returns the incrementer factory class name.
+	 * <p>
+	 * The factory will be used to increment the value of the master report variable
+	 * with the value from the subreport.
+	 * 
+	 * @return the incrementer factory class name.
 	 */
-	public static final byte EVALUATION_TIME_BAND = 6;
-
-
-	/**
-	 *
-	 */
-	public static final byte EVALUATION_OLD = 1;
-	public static final byte EVALUATION_ESTIMATED = 2;
-	public static final byte EVALUATION_DEFAULT = 3;
-
-
-	/**
-	 *
-	 */
-	public Class getValueClass();
-	
-	/**
-	 *
-	 */
-	public String getValueClassName();
-	
-	/**
-	 *
-	 */
-	public int getId();
-			
-	/**
-	 *
-	 */
-	public JRExpressionChunk[] getChunks();
-
-	/**
-	 *
-	 */
-	public String getText();
-
-
+	public String getIncrementerFactoryClassName();
 }

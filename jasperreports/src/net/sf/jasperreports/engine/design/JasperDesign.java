@@ -1085,59 +1085,6 @@ public class JasperDesign extends JRBaseReport
 		{
 			throw new JRException("Duplicate declaration of variable : " + variable.getName());
 		}
-		
-		byte calculation = variable.getCalculation();
-
-		if (
-			calculation == JRVariable.CALCULATION_AVERAGE ||
-			calculation == JRVariable.CALCULATION_VARIANCE
-			)
-		{
-			JRDesignVariable countVariable = new JRDesignVariable();
-			countVariable.setName(variable.getName() + "_COUNT");
-			countVariable.setValueClassName(variable.getValueClassName());
-			countVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
-			countVariable.setResetType(variable.getResetType());
-			countVariable.setResetGroup(variable.getResetGroup());
-			countVariable.setIncrementType(variable.getIncrementType());
-			countVariable.setIncrementGroup(variable.getIncrementGroup());
-			countVariable.setCalculation(JRVariable.CALCULATION_COUNT);
-			countVariable.setSystemDefined(true);
-			countVariable.setExpression(variable.getExpression());
-			addVariable(countVariable);
-			variable.setCountVariable(countVariable);
-
-			JRDesignVariable sumVariable = new JRDesignVariable();
-			sumVariable.setName(variable.getName() + "_SUM");
-			sumVariable.setValueClassName(variable.getValueClassName());
-			sumVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
-			sumVariable.setResetType(variable.getResetType());
-			sumVariable.setResetGroup(variable.getResetGroup());
-			sumVariable.setIncrementType(variable.getIncrementType());
-			sumVariable.setIncrementGroup(variable.getIncrementGroup());
-			sumVariable.setCalculation(JRVariable.CALCULATION_SUM);
-			sumVariable.setSystemDefined(true);
-			sumVariable.setExpression(variable.getExpression());
-			addVariable(sumVariable);
-			variable.setSumVariable(sumVariable);
-		}
-
-		if (calculation == JRVariable.CALCULATION_STANDARD_DEVIATION)
-		{
-			JRDesignVariable varianceVariable = new JRDesignVariable();
-			varianceVariable.setName(variable.getName() + "_VARIANCE");
-			varianceVariable.setValueClassName(variable.getValueClassName());
-			varianceVariable.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
-			varianceVariable.setResetType(variable.getResetType());
-			varianceVariable.setResetGroup(variable.getResetGroup());
-			varianceVariable.setIncrementType(variable.getIncrementType());
-			varianceVariable.setIncrementGroup(variable.getIncrementGroup());
-			varianceVariable.setCalculation(JRVariable.CALCULATION_VARIANCE);
-			varianceVariable.setSystemDefined(true);
-			varianceVariable.setExpression(variable.getExpression());
-			addVariable(varianceVariable);
-			variable.setVarianceVariable(varianceVariable);
-		}
 
 		variablesList.add(variable);
 		variablesMap.put(variable.getName(), variable);
@@ -1162,25 +1109,6 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (variable != null)
 		{
-			removeVariable(variable.getSumVariable());
-			removeVariable(variable.getVarianceVariable());
-
-			byte calculation = variable.getCalculation();
-
-			if (
-				calculation == JRVariable.CALCULATION_AVERAGE ||
-				calculation == JRVariable.CALCULATION_VARIANCE
-				)
-			{
-				removeVariable(variable.getCountVariable());
-				removeVariable(variable.getSumVariable());
-			}
-
-			if (calculation == JRVariable.CALCULATION_STANDARD_DEVIATION)
-			{
-				removeVariable(variable.getVarianceVariable());
-			}
-
 			variablesList.remove(variable);
 			variablesMap.remove(variable.getName());
 		}
@@ -1289,6 +1217,5 @@ public class JasperDesign extends JRBaseReport
 	{
 		return new JRExpressionCollector().collect(this);
 	}
-	
 
 }

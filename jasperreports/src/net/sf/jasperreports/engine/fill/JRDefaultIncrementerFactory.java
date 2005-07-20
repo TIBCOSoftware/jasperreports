@@ -94,6 +94,52 @@ public class JRDefaultIncrementerFactory implements JRIncrementerFactory
 	}
 
 
+	public static JRIncrementerFactory getFactory (Class valueClass)
+	{
+		JRIncrementerFactory factory;
+		
+		if (java.math.BigDecimal.class.equals(valueClass))
+		{
+			factory = JRBigDecimalIncrementerFactory.getInstance();
+		}
+		else if (
+			java.lang.Number.class.equals(valueClass)
+			|| java.lang.Double.class.equals(valueClass)
+			)
+		{
+			factory = JRDoubleIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Float.class.equals(valueClass))
+		{
+			factory = JRFloatIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Long.class.equals(valueClass))
+		{
+			factory = JRLongIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Integer.class.equals(valueClass))
+		{
+			factory = JRIntegerIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Short.class.equals(valueClass))
+		{
+			factory = JRShortIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Byte.class.equals(valueClass))
+		{
+			factory = JRByteIncrementerFactory.getInstance();
+		}
+		else if (java.lang.Comparable.class.isAssignableFrom(valueClass))
+		{
+			factory = JRComparableIncrementerFactory.getInstance();
+		}
+		else
+		{
+			factory = JRDefaultIncrementerFactory.getInstance();
+		}
+		
+		return factory;
+	}
 }
 
 

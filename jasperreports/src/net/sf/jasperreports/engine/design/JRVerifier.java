@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
@@ -1047,6 +1048,30 @@ public class JRVerifier
 				else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
 				{
 					brokenRules.add("Class " + clazz + " not supported for subreport data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.");
+				}
+			}
+			
+			JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
+			if (returnValues != null && returnValues.length > 0)
+			{
+				for (int i = 0; i < returnValues.length; i++)
+				{
+					JRSubreportReturnValue returnValue = returnValues[i];
+					
+					if (returnValue.getSubreportVariable() == null || returnValue.getSubreportVariable().trim().length() == 0)
+					{
+						brokenRules.add("Subreport return value variable name missing.");
+					}
+					
+					if (returnValue.getToVariable() == null || returnValue.getToVariable().trim().length() == 0)
+					{
+						brokenRules.add("Subreport return value to variable name missing.");
+					}
+					
+					if (!jasperDesign.getVariablesMap().containsKey(returnValue.getToVariable()))
+					{
+						brokenRules.add("Subreport return value to variable not found.");
+					}
 				}
 			}
 		}

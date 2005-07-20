@@ -71,5 +71,11 @@ public interface JRSubreport extends JRElement
 	 */
 	public JRExpression getExpression();
 	
+	/**
+	 * Returns the list of subreport copied values.
+	 *
+	 * @return the list of subreport copied values.
+	 */
+	public JRSubreportReturnValue[] getReturnValues();
 
 }

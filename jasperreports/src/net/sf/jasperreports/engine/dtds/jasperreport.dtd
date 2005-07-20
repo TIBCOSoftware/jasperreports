@@ -157,7 +157,7 @@
 	isUsingCache (true | false) "true"
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
-	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
@@ -220,7 +220,7 @@
 <!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
-	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) "false"
@@ -232,7 +232,7 @@
 	class (java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.Number | java.lang.String) "java.lang.String"
 >
 
-<!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, subreportExpression?)>
+<!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, returnValue*, subreportExpression?)>
 <!ATTLIST subreport
 	isUsingCache (true | false) "true"
 >
@@ -242,6 +242,15 @@
 	name NMTOKEN #REQUIRED
 >
 <!ELEMENT subreportParameterExpression (#PCDATA)>
+
+<!ELEMENT returnValue EMPTY>
+<!ATTLIST returnValue
+	subreportVariable NMTOKEN #REQUIRED
+	toVariable NMTOKEN #REQUIRED
+	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance) "Nothing"
+	incrementerFactoryClass NMTOKEN #IMPLIED
+>
+
 <!ELEMENT connectionExpression (#PCDATA)>
 <!ELEMENT dataSourceExpression (#PCDATA)>
 <!ELEMENT subreportExpression (#PCDATA)>
@@ -254,7 +263,7 @@
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
 <!ATTLIST chart
 	isShowLegend (true | false) "true"
-	evaluationTime (Now | Report | Page | Column | Group) "Now"
+	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>

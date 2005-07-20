@@ -50,9 +50,6 @@ public class JRFillVariable implements JRVariable
 	 */
 	private JRGroup resetGroup = null;
 	private JRGroup incrementGroup = null;
-	private JRVariable countVariable = null;
-	private JRVariable sumVariable = null;
-	private JRVariable varianceVariable = null;
 
 	/**
 	 *
@@ -62,6 +59,25 @@ public class JRFillVariable implements JRVariable
 	private Object incrementedValue = null;
 	private Object value = null;
 	private boolean isInitialized = false;
+	
+	/**
+	 * Constant for the count helper variable.
+	 */
+	public static final byte HELPER_COUNT = 0;
+	
+	/**
+	 * Constant for the count sum variable.
+	 */
+	public static final byte HELPER_SUM = 1;
+	
+	/**
+	 * Constant for the count variance variable.
+	 */
+	public static final byte HELPER_VARIANCE = 2;
+	
+	private static final int HELPER_SIZE = 3;
+	
+	private JRFillVariable[] helperVariables;
 
 	/**
 	 *
@@ -83,9 +99,8 @@ public class JRFillVariable implements JRVariable
 		
 		resetGroup = factory.getGroup(variable.getResetGroup());
 		incrementGroup = factory.getGroup(variable.getIncrementGroup());
-		countVariable = factory.getVariable(variable.getCountVariable());
-		sumVariable = factory.getVariable(variable.getSumVariable());
-		varianceVariable = factory.getVariable(variable.getVarianceVariable());
+		
+		helperVariables = new JRFillVariable[HELPER_SIZE];
 	}
 
 
@@ -192,30 +207,6 @@ public class JRFillVariable implements JRVariable
 	{
 		return this.incrementGroup;
 	}
-		
-	/**
-	 *
-	 */
-	public JRVariable getCountVariable()
-	{
-		return this.countVariable;
-	}
-	
-	/**
-	 *
-	 */
-	public JRVariable getSumVariable()
-	{
-		return this.sumVariable;
-	}
-	
-	/**
-	 *
-	 */
-	public JRVariable getVarianceVariable()
-	{
-		return this.varianceVariable;
-	}
 	
 	/**
 	 *
@@ -306,60 +297,47 @@ public class JRFillVariable implements JRVariable
 		if (incrementer == null)
 		{
 			Class incrementerFactoryClass = getIncrementerFactoryClass();
+			
+			JRIncrementerFactory incrementerFactory;
 			if (incrementerFactoryClass == null)
 			{
-				String valueClassName = getValueClassName();
-			
-				if (java.math.BigDecimal.class.getName().equals(valueClassName))
-				{
-					incrementer = JRBigDecimalIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (
-					java.lang.Number.class.getName().equals(valueClassName)
-					|| java.lang.Double.class.getName().equals(valueClassName)
-					)
-				{
-					incrementer = JRDoubleIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Float.class.getName().equals(valueClassName))
-				{
-					incrementer = JRFloatIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Long.class.getName().equals(valueClassName))
-				{
-					incrementer = JRLongIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Integer.class.getName().equals(valueClassName))
-				{
-					incrementer = JRIntegerIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Short.class.getName().equals(valueClassName))
-				{
-					incrementer = JRShortIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Byte.class.getName().equals(valueClassName))
-				{
-					incrementer = JRByteIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else if (java.lang.Comparable.class.isAssignableFrom(getValueClass()))
-				{
-					incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
-				else
-				{
-					incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(getCalculation());
-				}
+				incrementerFactory = JRDefaultIncrementerFactory.getFactory(getValueClass());
 			}
 			else
 			{
-				JRIncrementerFactory incrementerFactory = 
-					JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
-				incrementer = incrementerFactory.getIncrementer(getCalculation());
+				incrementerFactory = JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
 			}
+			
+			incrementer = incrementerFactory.getIncrementer(getCalculation());
 		}
 		
 		return incrementer;
 	}
 
-
+	
+	/**
+	 * Sets a helper variable.
+	 * 
+	 * @param helperVariable the helper variable
+	 * @param type the helper type
+	 * @return the previous helper variable for the type
+	 */
+	public JRFillVariable setHelperVariable(JRFillVariable helperVariable, byte type)
+	{
+		JRFillVariable old = helperVariables[type]; 
+		helperVariables[type] = helperVariable;
+		return old;
+	}
+	
+	
+	/**
+	 * Returns a helper variable.
+	 * 
+	 * @param type the helper type
+	 * @return the helper variable for the specified type
+	 */
+	public JRFillVariable getHelperVariable(byte type)
+	{
+		return helperVariables[type];
+	}
 }

@@ -278,8 +278,8 @@ class JRIntegerAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-		Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 		return new Integer(sumValue.intValue() / countValue.intValue());
 	}
 }
@@ -327,7 +327,7 @@ class JRIntegerStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue((JRFillVariable)variable.getVarianceVariable());
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
 		return new Integer( (int)Math.sqrt(varianceValue.doubleValue()) );
 	}
 }
@@ -384,8 +384,8 @@ class JRIntegerVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			Number countValue = (Number)valueProvider.getValue((JRFillVariable)variable.getCountVariable());
-			Number sumValue = (Number)valueProvider.getValue((JRFillVariable)variable.getSumVariable());
+			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
+			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
 			return
 				new Integer(
 					(countValue.intValue() - 1) * value.intValue() / countValue.intValue() +

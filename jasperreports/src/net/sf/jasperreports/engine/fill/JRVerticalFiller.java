@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 
 
 /**
@@ -135,7 +136,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					scriptlet.callAfterReportInit();
 			
 					printPage = new JRBasePrintPage();
-					jasperPrint.addPage(printPage);
+					addPage(printPage);
 					columnIndex = 0;
 					offsetX = leftMargin;
 					offsetY = topMargin;
@@ -159,7 +160,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				case JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE :
 				{
 					printPage = new JRBasePrintPage();
-					jasperPrint.addPage(printPage);
+					addPage(printPage);
 					break;
 				}
 				case JRReport.WHEN_NO_DATA_TYPE_NO_PAGES :
@@ -191,8 +192,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
 		scriptlet.callAfterReportInit();
 
-		printPage = new JRBasePrintPage();
-		jasperPrint.addPage(printPage);
+		printPage = newPage();
+		addPage(printPage);
 		columnIndex = 0;
 		offsetX = leftMargin;
 		offsetY = topMargin;
@@ -220,8 +221,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillGroupFooters(false);
 
-		resolveGroupBoundImages(JRExpression.EVALUATION_OLD, false);
-		resolveGroupBoundTexts(JRExpression.EVALUATION_OLD, false);
+		resolveGroupBoundElements(JRExpression.EVALUATION_OLD, false);
 		scriptlet.callBeforeGroupInit();
 		calculator.initializeVariables(JRVariable.RESET_TYPE_GROUP);
 		scriptlet.callAfterGroupInit();
@@ -265,12 +265,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 			if (title.willOverflow() && !title.isSplitAllowed() && isSubreport())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -285,12 +282,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	
 			while (title.willOverflow())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -303,14 +297,13 @@ public class JRVerticalFiller extends JRBaseFiller
 				offsetY += printBand.getHeight();
 			}
 
+			resolveBandBoundElements(title, JRExpression.EVALUATION_DEFAULT);
+			
 			if (isTitleNewPage)
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, false);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -336,12 +329,9 @@ public class JRVerticalFiller extends JRBaseFiller
 				pageHeader.getHeight() > columnFooterOffsetY - offsetY
 				)
 			{
-				resolveGroupBoundImages(evaluation, false);
-				resolveColumnBoundImages(evaluation);
-				resolvePageBoundImages(evaluation);
-				resolveGroupBoundTexts(evaluation, false);
-				resolveColumnBoundTexts(evaluation);
-				resolvePageBoundTexts(evaluation);
+				resolveGroupBoundElements(evaluation, false);
+				resolveColumnBoundElements(evaluation);
+				resolvePageBoundElements(evaluation);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -377,12 +367,9 @@ public class JRVerticalFiller extends JRBaseFiller
 				{
 					fillPageFooter(evaluation);
 					
-					resolveGroupBoundImages(evaluation, false);
-					resolveColumnBoundImages(evaluation);
-					resolvePageBoundImages(evaluation);
-					resolveGroupBoundTexts(evaluation, false);
-					resolveColumnBoundTexts(evaluation);
-					resolvePageBoundTexts(evaluation);
+					resolveGroupBoundElements(evaluation, false);
+					resolveColumnBoundElements(evaluation);
+					resolvePageBoundElements(evaluation);
 					scriptlet.callBeforePageInit();
 					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 					scriptlet.callAfterPageInit();
@@ -393,10 +380,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 				else
 				{
-					resolveGroupBoundImages(evaluation, false);
-					resolveColumnBoundImages(evaluation);
-					resolveGroupBoundTexts(evaluation, false);
-					resolveColumnBoundTexts(evaluation);
+					resolveGroupBoundElements(evaluation, false);
+					resolveColumnBoundElements(evaluation);
 					scriptlet.callBeforeColumnInit();
 					calculator.initializeVariables(JRVariable.RESET_TYPE_COLUMN);
 					scriptlet.callAfterColumnInit();
@@ -764,14 +749,10 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 
-		resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-		resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-		resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-		resolveReportBoundImages();
-		resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-		resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-		resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
-		resolveReportBoundTexts();
+		resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+		resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+		resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
+		resolveReportBoundElements();
 	}
 		
 		
@@ -794,12 +775,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 		
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -823,12 +801,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	
 			while (summary.willOverflow())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -840,6 +815,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
 			}
+			
+			resolveBandBoundElements(summary, JRExpression.EVALUATION_DEFAULT);
 		}
 		else
 		{
@@ -873,12 +850,9 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 					fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 
-					resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-					resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-					resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-					resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-					resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-					resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+					resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 					scriptlet.callBeforePageInit();
 					calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 					scriptlet.callAfterPageInit();
@@ -931,12 +905,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			while (summary.willOverflow())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -948,6 +919,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
 			}
+			
+			resolveBandBoundElements(summary, JRExpression.EVALUATION_DEFAULT);
 		}
 		else
 		{
@@ -978,12 +951,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	
 		if (summary != missingFillBand && summary.isToPrint())
 		{
-			resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-			resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-			resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-			resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-			resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-			resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+			resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+			resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 			scriptlet.callBeforePageInit();
 			calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 			scriptlet.callAfterPageInit();
@@ -998,12 +968,9 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 			if (summary.willOverflow() && !summary.isSplitAllowed() && isSubreport())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -1018,12 +985,9 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 			while (summary.willOverflow())
 			{
-				resolveGroupBoundImages(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundImages(JRExpression.EVALUATION_DEFAULT);
-				resolveGroupBoundTexts(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundTexts(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundTexts(JRExpression.EVALUATION_DEFAULT);
+				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 				scriptlet.callBeforePageInit();
 				calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 				scriptlet.callAfterPageInit();
@@ -1035,6 +999,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
 			}
+			
+			resolveBandBoundElements(summary, JRExpression.EVALUATION_DEFAULT);
 		}
 	}
 
@@ -1082,6 +1048,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			//{
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
+				
+			if (isUsingVirtualizer())
+			{
+				((JRVirtualPrintPage) getMasterPage()).removeIdentityDataProvider(((JRBasePrintPage) printPage).createIdentityDataProvider());
+			}
 
 			//signals to the master filler that is has finished the page
 			this.notifyAll();
@@ -1098,6 +1069,12 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		
 		printPage = newPage();
+		
+		if (isSubreport() && isUsingVirtualizer())
+		{
+			((JRVirtualPrintPage) getMasterPage()).addIdentityDataProvider(((JRBasePrintPage) printPage).createIdentityDataProvider());
+		}
+		
 		if (isResetPageNumber)
 		{
 			calculator.getPageNumber().setValue(new Integer(1));
@@ -1113,7 +1090,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			calculator.getPageNumber().getValue()
 			);
 
-		jasperPrint.addPage(printPage);
+		addPage(printPage);
+		
 		columnIndex = 0;
 		offsetX = leftMargin;
 		offsetY = topMargin;
@@ -1127,7 +1105,6 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 		fillBackground();
 	}
-
 
 	/**
 	 *
@@ -1150,12 +1127,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillPageFooter(evalPrevPage);
 		
-		resolveGroupBoundImages(evalPrevPage, false);
-		resolveColumnBoundImages(evalPrevPage);
-		resolvePageBoundImages(evalPrevPage);
-		resolveGroupBoundTexts(evalPrevPage, false);
-		resolveColumnBoundTexts(evalPrevPage);
-		resolvePageBoundTexts(evalPrevPage);
+		resolveGroupBoundElements(evalPrevPage, false);
+		resolveColumnBoundElements(evalPrevPage);
+		resolvePageBoundElements(evalPrevPage);
 		scriptlet.callBeforePageInit();
 		calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
 		scriptlet.callAfterPageInit();
@@ -1191,10 +1165,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			fillColumnFooter(evalPrevPage);
 
-			resolveGroupBoundImages(evalPrevPage, false);
-			resolveColumnBoundImages(evalPrevPage);
-			resolveGroupBoundTexts(evalPrevPage, false);
-			resolveColumnBoundTexts(evalPrevPage);
+			resolveGroupBoundElements(evalPrevPage, false);
+			resolveColumnBoundElements(evalPrevPage);
 			scriptlet.callBeforeColumnInit();
 			calculator.initializeVariables(JRVariable.RESET_TYPE_COLUMN);
 			scriptlet.callAfterColumnInit();
@@ -1243,6 +1215,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
 		}
+		
+		resolveBandBoundElements(band, evaluation);
 	}
 
 
@@ -1274,6 +1248,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
 		}
+		
+		resolveBandBoundElements(band, evaluation);
 	}
 
 
@@ -1288,6 +1264,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
+		
+		resolveBandBoundElements(band, evaluation);
 	}
 
 

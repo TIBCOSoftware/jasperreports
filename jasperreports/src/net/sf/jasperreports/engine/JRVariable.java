@@ -268,25 +268,4 @@ public interface JRVariable
 	 */
 	public JRGroup getIncrementGroup();
 		
-	/**
-	 * Returns the count helper variable used internally for certain calculation types.
-	 * @see JRVariable#CALCULATION_STANDARD_DEVIATION
-	 */
-	public JRVariable getCountVariable();
-
-	/**
-	 * Returns the sum helper variable used internally for certain calculation types.
-	 * @see JRVariable#CALCULATION_AVERAGE
-	 * @see JRVariable#CALCULATION_STANDARD_DEVIATION
-	 */
-	public JRVariable getSumVariable();
-
-	/**
-	 * Returns the sum helper variable used internally for certain calculation types.
-	 * @see JRVariable#CALCULATION_VARIANCE
-	 * @see JRVariable#CALCULATION_STANDARD_DEVIATION
-	 */
-	public JRVariable getVarianceVariable();
-
-		
 }

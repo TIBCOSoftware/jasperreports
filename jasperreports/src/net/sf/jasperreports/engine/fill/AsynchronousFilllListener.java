@@ -25,64 +25,36 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Listener interface for the asynchronous filling method. 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRExpression
+public interface AsynchronousFilllListener
 {
-
+	/**
+	 * Called when the report filling is done. 
+	 * 
+	 * @param jasperPrint the filled report
+	 */
+	void reportFinished(JasperPrint jasperPrint);
 
 	/**
+	 * Called when the report is cancelled.
 	 *
 	 */
-	public static final byte EVALUATION_TIME_NOW = 1;
-	public static final byte EVALUATION_TIME_REPORT = 2;
-	public static final byte EVALUATION_TIME_PAGE = 3;
-	public static final byte EVALUATION_TIME_COLUMN = 4;
-	public static final byte EVALUATION_TIME_GROUP = 5;
-	
-	/**
-	 * The element will be evaluated at band end.
-	 */
-	public static final byte EVALUATION_TIME_BAND = 6;
-
+	void reportCancelled();
 
 	/**
-	 *
+	 * Called when the filling process exits in error.  
+	 * 
+	 * @param t the exception
 	 */
-	public static final byte EVALUATION_OLD = 1;
-	public static final byte EVALUATION_ESTIMATED = 2;
-	public static final byte EVALUATION_DEFAULT = 3;
-
-
-	/**
-	 *
-	 */
-	public Class getValueClass();
-	
-	/**
-	 *
-	 */
-	public String getValueClassName();
-	
-	/**
-	 *
-	 */
-	public int getId();
-			
-	/**
-	 *
-	 */
-	public JRExpressionChunk[] getChunks();
-
-	/**
-	 *
-	 */
-	public String getText();
-
+	void reportFillError(Throwable t);
 
 }

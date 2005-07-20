@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
@@ -299,6 +300,10 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("*/subreport/subreportParameter", JRSubreportParameterFactory.class.getName());
 		digester.addSetNext("*/subreport/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("*/subreport/returnValue", JRSubreportReturnValueFactory.class.getName());
+		digester.addSetNext("*/subreport/returnValue", "addReturnValue", JRSubreportReturnValue.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/subreport/parametersMapExpression", JRExpressionFactory.MapExpressionFactory.class.getName());

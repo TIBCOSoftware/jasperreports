@@ -11,8 +11,10 @@
 	<queryString><![CDATA[SELECT City FROM Address GROUP BY City ORDER BY City]]></queryString>
 	<field name="City" class="java.lang.String">
 	</field>
+	<variable name="ProductTotalPrice" class="java.lang.Float" calculation="System"/>
+	<variable name="CityAddressCount" class="java.lang.Integer" calculation="System"/>
 	<title>
-		<band height="50">
+		<band height="70">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
 				<graphicElement/>
@@ -24,6 +26,13 @@
 				</textElement>
 				<text><![CDATA[Master Report]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="0" y="40" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font reportFont="Arial_Normal" size="18"/>
+				</textElement>
+				<textFieldExpression>"Total order value: " + $V{ProductTotalPrice}</textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -54,6 +63,13 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{City}]]></textFieldExpression>
 			</textField>
+			<textField evaluationTime="Band">
+				<reportElement x="110" y="5" width="200" height="15"/>
+				<textElement>
+					<font reportFont="Arial_Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{CityAddressCount} + " addresses"]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement isPrintRepeatedValues="false" x="110" y="5" width="100" height="15" isPrintWhenDetailOverflows="true"/>
 				<textElement>
@@ -71,6 +87,7 @@
 					<subreportParameterExpression><![CDATA[$F{City}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum" incrementerFactoryClass="net.sf.jasperreports.engine.fill.JRFloatIncrementerFactory"/>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{ProductsSubreport}]]></subreportExpression>
 			</subreport>
 			<subreport>
@@ -79,6 +96,7 @@
 					<subreportParameterExpression><![CDATA[$F{City}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="REPORT_COUNT" toVariable="CityAddressCount"/>
 				<subreportExpression class="java.lang.String"><![CDATA["AddressReport.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

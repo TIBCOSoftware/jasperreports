@@ -800,5 +800,12 @@ public abstract class JRFillElement implements JRElement
 	}
 	*/
 
+	/**
+	 * Resolves an element.
+	 * 
+	 * @param element the element
+	 * @param evaluation the evaluation type
+	 */
+	protected abstract void resolveElement (JRPrintElement element, byte evaluation) throws JRException;
 
 }

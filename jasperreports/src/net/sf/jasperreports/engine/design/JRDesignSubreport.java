@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -36,6 +38,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -62,6 +65,11 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 *
 	 */
 	protected Map parametersMap = new HashMap();
+	
+	/**
+	 * Values to be copied from the subreport into the master report.
+	 */
+	protected List returnValues = new ArrayList();
 
 	/**
 	 *
@@ -229,5 +237,29 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		xmlWriter.writeSubreport(this);
 	}
 
+	
+	/**
+	 * Adds a copied value to the subreport.
+	 * 
+	 * @param returnValue the copied value to be added.
+	 */
+	public void addReturnValue(JRSubreportReturnValue returnValue)
+	{
+		this.returnValues.add(returnValue);
+	}
 
+	
+	/**
+	 * Returns the list of values to be copied from the subreport into the master.
+	 * 
+	 * @return the list of values to be copied from the subreport into the master.
+	 */
+	public JRSubreportReturnValue[] getReturnValues()
+	{
+		JRSubreportReturnValue[] returnValuesArray = new JRSubreportReturnValue[returnValues.size()];
+
+		returnValues.toArray(returnValuesArray);
+
+		return returnValuesArray;
+	}
 }
