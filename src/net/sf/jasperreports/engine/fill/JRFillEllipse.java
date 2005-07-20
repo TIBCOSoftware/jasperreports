@@ -125,5 +125,12 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		xmlWriter.writeEllipse(this);
 	}
 
+	/**
+	 *
+	 */
+	protected void resolveElement (JRPrintElement element, byte evaluation)
+	{
+		// nothing
+	}
 
 }

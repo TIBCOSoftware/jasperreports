@@ -140,5 +140,12 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		xmlWrite.writeRectangle(this);
 	}
 
+	/**
+	 *
+	 */
+	protected void resolveElement (JRPrintElement element, byte evaluation)
+	{
+		// nothing
+	}
 
 }
