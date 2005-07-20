@@ -70,6 +70,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRChart.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRChild.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
