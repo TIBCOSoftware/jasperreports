@@ -322,6 +322,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 						parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
 						parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
 						parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
+						parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
 						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
 					}
 

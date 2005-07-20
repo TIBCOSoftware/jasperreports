@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 
 
@@ -268,6 +269,21 @@ public class JasperDesign extends JRBaseReport
 		parameter = new JRDesignParameter();
 		parameter.setName(JRParameter.REPORT_RESOURCE_BUNDLE);
 		parameter.setValueClass(ResourceBundle.class);
+		parameter.setSystemDefined(true);
+		try 
+		{
+			addParameter(parameter);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		/*   */
+		parameter = new JRDesignParameter();
+		parameter.setName(JRParameter.REPORT_VIRTUALIZER);
+		parameter.setValueClass(JRVirtualizer.class);
 		parameter.setSystemDefined(true);
 		try 
 		{
