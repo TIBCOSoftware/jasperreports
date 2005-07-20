@@ -64,8 +64,16 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
 			<fileset dir="./build/classes">
+				<include name="**/net/sf/jasperreports/charts/util/CategoryLabelGenerator.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/DefaultXYZDataset.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/PieLabelGenerator.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/TimePeriodSeriesLabelGenerator.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/TimeSeriesLabelGenerator.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/XYDatasetLabelGenerator.class"/>
+				<include name="**/net/sf/jasperreports/charts/util/XYZElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAbstractSvgRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRBox.class"/>
@@ -113,6 +121,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
+				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
 				<include name="**/net/sf/jasperreports/view/JRHyperlinkListener.class"/>
