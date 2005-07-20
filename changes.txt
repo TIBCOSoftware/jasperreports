@@ -19,7 +19,8 @@ to the actual report field class is no longer required in the expressions;
 - when using $P{REPORT_SCRIPTLET} in expressions, specific cast to the actual scriptlet
 class is no longer needed;
 
-- new attribute "whenResourceMissingType" for customizing missing resource bundle behaviour;
+- new attribute "whenResourceMissingType" for customizing the behaviour of the engine 
+when it deals with missing resources in the associated resources bundle;
 
 - support for CLOB and BLOB report fields in JRResultSetDataSource;
 
