@@ -999,11 +999,14 @@ public class JRPdfExporter extends JRAbstractExporter
 						int minHeight = Math.min(normalHeight, availableImageHeight);
 					
 						BufferedImage bi = 
-							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_RGB);
+							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g = bi.createGraphics();
-						g.setColor(printImage.getBackcolor());
-						g.fillRect(0, 0, minWidth, minHeight);
+						if (printImage.getMode() == JRElement.MODE_OPAQUE)
+						{
+							g.setColor(printImage.getBackcolor());
+							g.fillRect(0, 0, minWidth, minHeight);
+						}
 						renderer.render(
 							g,
 							new java.awt.Rectangle(
