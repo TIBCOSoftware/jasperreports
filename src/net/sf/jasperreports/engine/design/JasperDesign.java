@@ -296,6 +296,21 @@ public class JasperDesign extends JRBaseReport
 
 
 		/*   */
+		parameter = new JRDesignParameter();
+		parameter.setName(JRParameter.REPORT_PAGINATION);
+		parameter.setValueClass(Boolean.class);
+		parameter.setSystemDefined(true);
+		try 
+		{
+			addParameter(parameter);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+
+		/*   */
 		JRDesignVariable variable = new JRDesignVariable();
 		variable.setName(JRVariable.PAGE_NUMBER);
 		variable.setValueClass(Integer.class);
