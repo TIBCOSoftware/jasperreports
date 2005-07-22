@@ -34,6 +34,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -67,6 +68,7 @@ public class QueryApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
+	private static final String TASK_FILL_NO_PAGINATION = "fillNoPagination";
 	
 	
 	/**
@@ -103,13 +105,18 @@ public class QueryApp
 				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
-			else if (TASK_FILL.equals(taskName))
+			else if (TASK_FILL.equals(taskName) || TASK_FILL_NO_PAGINATION.equals(taskName))
 			{
 				//Preparing parameters
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
 				parameters.put("FilterClause", "'Boston', 'Chicago', 'Oslo'");
 				parameters.put("OrderClause", "City");
+				
+				if (TASK_FILL_NO_PAGINATION.equals(taskName))
+				{
+					parameters.put(JRParameter.REPORT_PAGINATION, Boolean.FALSE);
+				}
 
 				JasperFillManager.fillReportToFile(fileName, parameters, getConnection());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));

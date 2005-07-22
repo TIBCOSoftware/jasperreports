@@ -1119,6 +1119,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		else
 		{
 			usePagination = parentFiller != null ? parentFiller.usePagination : true;
+			parameterValues.put(JRParameter.REPORT_PAGINATION, Boolean.valueOf(usePagination));
 		}
 		
 		if (!usePagination)

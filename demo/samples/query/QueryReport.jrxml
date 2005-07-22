@@ -156,6 +156,7 @@
 	</detail>
 	<pageFooter>
 		<band height="40">
+			<printWhenExpression>$P{REPORT_PAGINATION}</printWhenExpression>
 			<line>
 				<reportElement x="0" y="10" width="515" height="0"/>
 			</line>
