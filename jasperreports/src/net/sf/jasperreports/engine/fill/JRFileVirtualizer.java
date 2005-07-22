@@ -41,11 +41,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
+
+import org.apache.commons.collections.LRUMap;
 
 /**
  * Virtualizes data to the filesystem. When this object is finalized, it removes
@@ -62,29 +64,20 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	 * This class keeps track of how many objects are currently in memory, and
 	 * when there are too many, it pushes the last touched one to disk.
 	 */
-	private static class Cache extends LinkedHashMap {
+	private static class Cache extends LRUMap {
 		private static final long serialVersionUID = 10000;
 
-		private int maxSize;
-
-		private JRFileVirtualizer virt;
+		private final JRFileVirtualizer virt;
 
 		Cache(int maxSize, JRFileVirtualizer virt) {
-			this.maxSize = maxSize;
+			super(maxSize);
+			
 			this.virt = virt;
 		}
 
-		/**
-		 * When the eldest is removed, we page it out to a swap file.
-		 */
-		protected boolean removeEldestEntry(Map.Entry eldest) {
-			boolean rv = (size() > maxSize);
-
-			if (rv) {
-				virt.virtualizeData((JRVirtualizable) eldest.getValue());
-			}
-
-			return rv;
+		protected void processRemovedLRU(Object key, Object value)
+		{
+			virt.virtualizeData((JRVirtualizable) value);
 		}
 	}
 
@@ -179,9 +172,9 @@ public class JRFileVirtualizer implements JRVirtualizer {
 				// unvirtualize
 				filePageIn(o);
 			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
+				throw new JRRuntimeException(ioe);
 			} catch (ClassNotFoundException cnfe) {
-				throw new RuntimeException(cnfe);
+				throw new JRRuntimeException(cnfe);
 			}
 
 			pagedOut.remove(uid);
@@ -206,7 +199,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 				// virtualize
 				filePageOut(o);
 			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
+				throw new JRRuntimeException(ioe);
 			}
 
 			pagedOut.put(uid, o);

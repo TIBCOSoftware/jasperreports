@@ -40,6 +40,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -103,11 +104,11 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			}
 			catch (ClassNotFoundException ex)
 			{
-				throw new RuntimeException("Not able to load JDT classes", ex);
+				throw new JRRuntimeException("Not able to load JDT classes", ex);
 			}
 			catch (NoSuchMethodException ex)
 			{
-				throw new RuntimeException("Not able to load JDT classes", ex);
+				throw new JRRuntimeException("Not able to load JDT classes", ex);
 			}
 		}
 	}
@@ -299,19 +300,19 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 				catch (InvocationTargetException e)
 				{
-					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
 				}
 				catch (IllegalArgumentException e)
 				{
-					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
 				}
 				catch (InstantiationException e)
 				{
-					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
 				}
 				catch (IllegalAccessException e)
 				{
-					throw new RuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
 				}
 				return null;
 			}

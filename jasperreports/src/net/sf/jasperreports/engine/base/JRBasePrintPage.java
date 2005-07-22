@@ -61,6 +61,11 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	
 	private transient IdentityDataProvider identityDataProvider = null;
 
+	
+	public JRBasePrintPage()
+	{
+		
+	}
 
 	/**
 	 *
