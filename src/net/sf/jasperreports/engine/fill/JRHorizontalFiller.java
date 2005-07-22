@@ -734,6 +734,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillSummary() throws JRException
 	{
+		offsetX = leftMargin;
+		
 		if (lastPageFooter == missingFillBand)
 		{
 			if (
