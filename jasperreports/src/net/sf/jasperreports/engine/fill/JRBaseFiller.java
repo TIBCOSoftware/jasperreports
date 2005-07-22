@@ -454,6 +454,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected Set variableCalculationReqs;
 
 	/**
+	 * Whether to use pagination.
+	 * <b>
+	 * If set to <code>false</code> the report will be generated on one long page.
+	 */
+	protected boolean usePagination = true;
+
+	/**
 	 * 
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
@@ -1102,6 +1109,32 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			// keep per page element maps
 			perPageBoundElements = new BoundElements();
+		}
+		
+		Boolean paginationParam = (Boolean) parameterValues.get(JRParameter.REPORT_PAGINATION);
+		if (paginationParam != null)
+		{
+			usePagination = paginationParam.booleanValue();
+		}
+		else
+		{
+			usePagination = parentFiller != null ? parentFiller.usePagination : true;
+		}
+		
+		if (!usePagination)
+		{
+			isTitleNewPage = false;
+			isSummaryNewPage = false;
+			if (groups != null)
+			{
+				for (int i = 0; i < groups.length; i++)
+				{
+					groups[i].setStartNewPage(false);
+					groups[i].setResetPageNumber(false);
+					groups[i].setStartNewColumn(false);
+				}
+			}
+			setPageHeight(Integer.MAX_VALUE);
 		}
 
 		/*   */

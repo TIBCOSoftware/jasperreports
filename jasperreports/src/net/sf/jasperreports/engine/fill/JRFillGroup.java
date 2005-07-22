@@ -108,6 +108,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewColumn(boolean isStart)
 	{
+		this.parent.setStartNewColumn(isStart);
 	}
 		
 	/**
@@ -123,6 +124,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewPage(boolean isStart)
 	{
+		this.parent.setStartNewPage(isStart);
 	}
 		
 	/**
@@ -138,6 +140,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setResetPageNumber(boolean isReset)
 	{
+		this.parent.setResetPageNumber(isReset);
 	}
 		
 	/**

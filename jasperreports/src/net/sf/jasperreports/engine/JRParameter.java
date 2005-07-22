@@ -85,6 +85,14 @@ public interface JRParameter
 	 */
 	public static final String REPORT_VIRTUALIZER = "REPORT_VIRTUALIZER";
 
+	
+	/**
+	 * Whether to use pagination.
+	 * <b>
+	 * If set to <code>false</code> the report will be generated on one long page.
+	 */
+	public static final String REPORT_PAGINATION = "REPORT_PAGINATION";
+
 
 	/**
 	 *

@@ -180,6 +180,11 @@ public class JRVerticalFiller extends JRBaseFiller
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
 		}
+		
+		if (!usePagination)
+		{
+			jasperPrint.setPageHeight(offsetY + bottomMargin);
+		}
 	}
 
 
@@ -649,7 +654,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			columnFooterOffsetY = offsetY;
 		}
 
-		if (!isFloatColumnFooter)
+		if (!isFloatColumnFooter && usePagination)
 		{
 			offsetY = columnFooterOffsetY;
 		}
@@ -672,7 +677,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		offsetX = leftMargin;
 
-		if (!isSubreport())
+		if (!isSubreport() && usePagination)
 		{
 			offsetY = pageHeight - crtPageFooter.getHeight() - bottomMargin;
 		}
