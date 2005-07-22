@@ -794,7 +794,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 * 
 	 */
-	protected JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
+	public JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
 	{
 		fillingThread = Thread.currentThread();
 		try

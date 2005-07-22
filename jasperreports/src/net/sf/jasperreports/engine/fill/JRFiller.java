@@ -97,7 +97,7 @@ public abstract class JRFiller
 	}
 
 
-	protected static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException
+	public static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException
 	{
 		JRBaseFiller filler = null;
 
