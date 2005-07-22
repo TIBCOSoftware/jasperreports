@@ -50,6 +50,17 @@
 	</target>
 
 	<!--
+		Fills the compiled report design with no pagination.
+	-->
+	<target name="fillNoPagination">
+		<java classname="${class.name}" fork="true">
+			<arg value="-TfillNoPagination"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<!--
 		Launches the report viewer to preview the report 
 		stored in the .jrprint file.
 	-->
