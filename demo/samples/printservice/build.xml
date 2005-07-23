@@ -25,7 +25,10 @@
 		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
 		<echo message="**************************************************"/>
 		<condition property="using.jdk.1.4">
+			<or>
 			<equals arg1="${ant.java.version}" arg2="1.4"/>
+			<equals arg1="${ant.java.version}" arg2="1.5"/>
+			</or>
 		</condition>
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
 			<exclude name="**/*.java" unless="using.jdk.1.4"/>
