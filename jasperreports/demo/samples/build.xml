@@ -438,6 +438,17 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Text Export Sample"/>
+		<echo message="==================================="/>
+		<ant dir="text" target="clean" />
+		<ant dir="text" target="javac" />
+		<ant dir="text" target="compile" />
+		<ant dir="text" target="fill" />
+		<ant dir="text" target="pdf" />
+		<ant dir="text" target="text" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Unicode Sample"/>
 		<echo message="==================================="/>
 		<ant dir="unicode" target="clean" />
