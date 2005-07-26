@@ -128,8 +128,8 @@ public class TextApp
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRTextExporterParameter.PAGE_WIDTH, new Integer(80));
-				exporter.setParameter(JRTextExporterParameter.PAGE_HEIGHT, new Integer(100));
+				exporter.setParameter(JRTextExporterParameter.CHARACTER_WIDTH, new Integer(10));
+				exporter.setParameter(JRTextExporterParameter.CHARACTER_HEIGHT, new Integer(10));
 				exporter.exportReport();
 
 				System.err.println("Text creation time : " + (System.currentTimeMillis() - start));

@@ -24,6 +24,18 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * An integer representing the pixel/character horizontal ratio.
+	 */
+	public static final JRTextExporterParameter CHARACTER_WIDTH = new JRTextExporterParameter("Character Width");
+
+
+	/**
+	 * An integer representing the pixel/character horizontal ratio.
+	 */
+	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
+
+
+	/**
 	 * An integer representing the page width in characters.
 	 */
 	public static final JRTextExporterParameter PAGE_WIDTH = new JRTextExporterParameter("Page Width");
