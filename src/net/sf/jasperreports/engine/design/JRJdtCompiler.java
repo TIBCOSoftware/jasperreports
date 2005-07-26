@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -43,6 +44,8 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -147,6 +150,23 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		//Generating expressions class source code
 		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
+
+		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE); 
+		if (isKeepJavaFile)
+		{
+			String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
+
+			File tempDirFile = new File(tempDirStr);
+			if (!tempDirFile.exists() || !tempDirFile.isDirectory())
+			{
+				throw new JRException("Temporary directory not found : " + tempDirStr);
+			}
+		
+			File javaFile = new File(tempDirFile, jasperDesign.getName() + ".java");
+
+			//Creating expression class source file
+			JRSaver.saveClassSource(sourceCode, javaFile);
+		}
 
 		try
 		{

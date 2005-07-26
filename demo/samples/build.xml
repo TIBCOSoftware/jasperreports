@@ -530,6 +530,7 @@
 		<ant dir="subreport" target="clean" />
 		<ant dir="table" target="clean" />
 		<ant dir="tableofcontents" target="clean" />
+		<ant dir="text" target="clean" />
 		<ant dir="unicode" target="clean" />
 		<ant dir="virtualizer" target="clean" />
 		<ant dir="webapp" target="clean" />
