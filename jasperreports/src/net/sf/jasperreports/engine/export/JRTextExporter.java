@@ -40,8 +40,8 @@ import org.xml.sax.SAXException;
  * elements at design time as similar as possible to a grid.
  *
  * @see JRExporterParameter
- * @author Ionut Nedelcu
- * @version $Id
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTextExporter extends JRAbstractExporter
 {
