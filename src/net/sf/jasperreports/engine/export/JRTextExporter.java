@@ -47,6 +47,8 @@ public class JRTextExporter extends JRAbstractExporter
 {
 	protected int pageWidth;
 	protected int pageHeight;
+	protected int characterHeight;
+	protected int characterWidth;
 	protected JRExportProgressMonitor progressMonitor;
 	protected Writer writer;
 	char[][] pageData;
@@ -82,13 +84,42 @@ public class JRTextExporter extends JRAbstractExporter
 			encoding = "ISO-8859-1";
 		}
 
-        pageWidth = ((Integer)parameters.get(JRTextExporterParameter.PAGE_WIDTH)).intValue();
-		if (pageWidth <= 0)
-			throw new JRException("Page width must be greater than 0");
+		Integer characterWidthParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_WIDTH);
+		if (characterWidthParam != null) {
+            characterWidth = characterWidthParam.intValue();
+			if (characterWidth < 0)
+				throw new JRException("Character width must be greater than 0");
+		}
+		else {
+			Integer pageWidthParam = (Integer) parameters.get(JRTextExporterParameter.PAGE_WIDTH);
+			if (pageWidthParam != null) {
+				pageWidth = pageWidthParam.intValue();
+				if (pageWidth <= 0)
+					throw new JRException("Page width must be greater than 0");
+			} else {
+                throw new JRException("Character or page width must be specified");
+			}
+		}
 
-		pageHeight = ((Integer)parameters.get(JRTextExporterParameter.PAGE_HEIGHT)).intValue();
-		if (pageHeight <= 0)
-			throw new JRException("Page height must be greater than 0");
+
+		Integer characterHeightParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_HEIGHT);
+		if (characterHeightParam != null) {
+            characterHeight = characterHeightParam.intValue();
+			if (characterHeight < 0)
+				throw new JRException("Character height must be greater than 0");
+		}
+        else {
+			Integer pageHeightParam = (Integer) parameters.get(JRTextExporterParameter.PAGE_HEIGHT);
+			if (pageHeightParam != null) {
+				pageHeight = pageHeightParam.intValue();
+				if (pageHeight <= 0)
+					throw new JRException("Page height must be greater than 0");
+			}
+			else {
+				throw new JRException("Character or page height must be specified");
+			}
+		}
+
 
 		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
 		if (betweenPagesText == null) {
@@ -213,6 +244,11 @@ public class JRTextExporter extends JRAbstractExporter
 					startPageIndex = 0;
 					endPageIndex = pages.size() - 1;
 				}
+
+				if (characterWidth > 0)
+					pageWidth = jasperPrint.getPageWidth() / characterWidth;
+				if (characterHeight > 0)
+					pageHeight = jasperPrint.getPageHeight() / characterHeight;
 
 				for(int i = startPageIndex; i <= endPageIndex; i++)
 				{
