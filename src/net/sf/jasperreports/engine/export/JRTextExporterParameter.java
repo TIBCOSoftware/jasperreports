@@ -9,8 +9,8 @@ import net.sf.jasperreports.engine.JRExporterParameter;
  * among the export parameters in order to find the selected output type in this order: OUTPUT_STRING_BUFFER, OUTPUT_WRITER,
  * OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
  *
- * @author Ionut Nedelcu
- * @version $Id
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRTextExporterParameter extends JRExporterParameter
 {
