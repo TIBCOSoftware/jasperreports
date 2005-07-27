@@ -233,8 +233,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 
-		titleFont = factory.getFont(chart.getTitleFont());
-		subtitleFont = factory.getFont(chart.getSubtitleFont());
+		if (chart.getTitleFont() != null)
+			titleFont = factory.getFont(chart.getTitleFont());
+
+		if (chart.getSubtitleFont() != null)
+			subtitleFont = factory.getFont(chart.getSubtitleFont());
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 	}
@@ -780,8 +783,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			TextTitle title = chart.getTitle();
 			title.setPaint(getTitleColor());
-			Map attributes = getTitleFont().getNonPdfAttributes();
-			title.setFont(new Font(attributes));
+
+			JRFont font = getTitleFont();
+			if (font != null) {
+				Map attributes = font.getNonPdfAttributes();
+				title.setFont(new Font(attributes));
+			}
 
 		}
 
@@ -790,14 +797,20 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			TextTitle subtitle = new TextTitle(subtitleText);
 			subtitle.setPaint(getSubtitleColor());
-			Map attributes = getSubtitleFont().getNonPdfAttributes();
-			subtitle.setFont(new Font(attributes));
+
+			JRFont font = getSubtitleFont();
+			if (font != null) {
+				Map attributes = font.getNonPdfAttributes();
+				subtitle.setFont(new Font(attributes));
+			}
+
 			chart.addSubtitle(subtitle);
 		}
 		
 		configurePlot(chart.getPlot());
 	}
 
+	
 	/**
 	 *
 	 */
