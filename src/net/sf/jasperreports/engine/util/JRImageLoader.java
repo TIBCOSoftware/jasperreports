@@ -278,7 +278,6 @@ public class JRImageLoader
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
 			//image = null;
 			throw new JRException(e);
 		}
