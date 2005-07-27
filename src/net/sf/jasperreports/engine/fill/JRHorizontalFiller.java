@@ -1094,7 +1094,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 			if (isUsingVirtualizer())
 			{
-				((JRVirtualPrintPage) getMasterPage()).removeIdentityDataProvider(((JRBasePrintPage) printPage).createIdentityDataProvider());
+				JRVirtualPrintPage.IdentityDataProvider provider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
+				((JRVirtualPrintPage) getMasterPage()).removeIdentityDataProvider(provider);
 			}
 
 			//signals to the master filler that is has finished the page
@@ -1115,7 +1116,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		
 		if (isSubreport() && isUsingVirtualizer())
 		{
-			((JRVirtualPrintPage) getMasterPage()).addIdentityDataProvider(((JRBasePrintPage) printPage).createIdentityDataProvider());
+			JRVirtualPrintPage.IdentityDataProvider provider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
+			((JRVirtualPrintPage) getMasterPage()).addIdentityDataProvider(provider);
 		}
 		
 		if (isResetPageNumber)

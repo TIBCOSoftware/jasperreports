@@ -29,15 +29,10 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.base.JRVirtualPrintPage.IdentityDataProvider;
-import net.sf.jasperreports.engine.base.JRVirtualPrintPage.ObjectIDPair;
 
 
 /**
@@ -57,9 +52,6 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	 *
 	 */
 	protected List elements = new ArrayList();
-	
-	
-	private transient IdentityDataProvider identityDataProvider = null;
 
 	
 	public JRBasePrintPage()
@@ -89,49 +81,5 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	public void addElement(JRPrintElement element)
 	{
 		this.elements.add(element);
-	}
-	
-
-	private final class PageIdentityDataProvider implements IdentityDataProvider
-	{
-		public ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
-		{
-			return null;
-		}
-
-		public void setIdentityData(JRVirtualPrintPage page, ObjectIDPair[] identityData)
-		{
-			if (identityData != null && identityData.length > 0)
-			{
-				Map idMap = new HashMap();
-				for (int i = 0; i < identityData.length; i++)
-				{
-					idMap.put(new Integer(identityData[i].getIdentity()), identityData[i].getObject()); 
-				}
-				
-				for (ListIterator i = elements.listIterator(); i.hasNext();)
-				{
-					Object element = i.next();
-					Integer id = new Integer(System.identityHashCode(element));
-					
-					Object idObject = idMap.get(id);
-					if (idObject != null)
-					{
-						i.set(idObject);
-					}
-				}
-			}
-		}
-	}
-	
-	
-	public IdentityDataProvider createIdentityDataProvider ()
-	{
-		if (identityDataProvider == null)
-		{
-			identityDataProvider = new PageIdentityDataProvider(); 
-		}
-
-		return identityDataProvider; 
 	}
 }

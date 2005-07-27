@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -1785,6 +1786,59 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		if (!isSubreport())
 		{
 			jasperPrint.addPage(page);
+		}
+	}
+	
+
+	protected static final class PageIdentityDataProvider implements JRVirtualPrintPage.IdentityDataProvider
+	{
+		private static final Map providers = new HashMap();  
+		
+		private final JRBasePrintPage printPage;
+		
+		protected PageIdentityDataProvider(JRBasePrintPage printPage)
+		{
+			this.printPage = printPage;
+		}
+
+		public JRVirtualPrintPage.ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
+		{
+			return null;
+		}
+
+		public void setIdentityData(JRVirtualPrintPage page, JRVirtualPrintPage.ObjectIDPair[] identityData)
+		{
+			if (identityData != null && identityData.length > 0)
+			{
+				Map idMap = new HashMap();
+				for (int i = 0; i < identityData.length; i++)
+				{
+					idMap.put(new Integer(identityData[i].getIdentity()), identityData[i].getObject()); 
+				}
+				
+				for (ListIterator i = printPage.getElements().listIterator(); i.hasNext();)
+				{
+					Object element = i.next();
+					Integer id = new Integer(System.identityHashCode(element));
+					
+					Object idObject = idMap.get(id);
+					if (idObject != null)
+					{
+						i.set(idObject);
+					}
+				}
+			}
+		}
+		
+		public static JRVirtualPrintPage.IdentityDataProvider getIdentityDataProvider(JRBasePrintPage printPage)
+		{
+			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.get(printPage);
+			if (provider == null)
+			{
+				provider = new PageIdentityDataProvider(printPage);
+				providers.put(printPage, provider);
+			}
+			return provider;
 		}
 	}
 }
