@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.0.1 (2005-0x-xx)
+-----------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.0.0 (2005-07-20)
 -----------------------------------
 - built-in support for charts added; a new chart component was added to simplify the
