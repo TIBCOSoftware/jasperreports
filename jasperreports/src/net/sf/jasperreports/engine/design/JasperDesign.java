@@ -186,7 +186,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -201,7 +201,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -216,7 +216,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -231,7 +231,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -246,7 +246,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -261,7 +261,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -276,7 +276,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -291,7 +291,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -306,7 +306,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -329,7 +329,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -352,7 +352,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -377,7 +377,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -402,7 +402,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 
 
@@ -427,7 +427,7 @@ public class JasperDesign extends JRBaseReport
 		}
 		catch (JRException e)
 		{
-			e.printStackTrace();
+			//never reached
 		}
 	}
 
