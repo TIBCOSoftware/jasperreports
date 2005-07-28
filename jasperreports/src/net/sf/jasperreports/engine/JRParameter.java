@@ -89,9 +89,9 @@ public interface JRParameter
 	/**
 	 * Whether to use pagination.
 	 * <b>
-	 * If set to <code>false</code> the report will be generated on one long page.
+	 * If set to <code>true</code> the report will be generated on one long page.
 	 */
-	public static final String REPORT_PAGINATION = "REPORT_PAGINATION";
+	public static final String IS_IGNORE_PAGINATION = "IS_IGNORE_PAGINATION";
 
 
 	/**

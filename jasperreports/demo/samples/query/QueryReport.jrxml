@@ -156,7 +156,7 @@
 	</detail>
 	<pageFooter>
 		<band height="40">
-			<printWhenExpression>$P{REPORT_PAGINATION}</printWhenExpression>
+			<printWhenExpression>$P{IS_IGNORE_PAGINATION}.booleanValue()?Boolean.FALSE:Boolean.TRUE</printWhenExpression>
 			<line>
 				<reportElement x="0" y="10" width="515" height="0"/>
 			</line>

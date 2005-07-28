@@ -68,7 +68,7 @@ public class QueryApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
-	private static final String TASK_FILL_NO_PAGINATION = "fillNoPagination";
+	private static final String TASK_FILL_IGNORE_PAGINATION = "fillIgnorePagination";
 	
 	
 	/**
@@ -105,7 +105,7 @@ public class QueryApp
 				System.err.println("Compile time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
-			else if (TASK_FILL.equals(taskName) || TASK_FILL_NO_PAGINATION.equals(taskName))
+			else if (TASK_FILL.equals(taskName) || TASK_FILL_IGNORE_PAGINATION.equals(taskName))
 			{
 				//Preparing parameters
 				Map parameters = new HashMap();
@@ -113,9 +113,9 @@ public class QueryApp
 				parameters.put("FilterClause", "'Boston', 'Chicago', 'Oslo'");
 				parameters.put("OrderClause", "City");
 				
-				if (TASK_FILL_NO_PAGINATION.equals(taskName))
+				if (TASK_FILL_IGNORE_PAGINATION.equals(taskName))
 				{
-					parameters.put(JRParameter.REPORT_PAGINATION, Boolean.FALSE);
+					parameters.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 				}
 
 				JasperFillManager.fillReportToFile(fileName, parameters, getConnection());
@@ -227,7 +227,7 @@ public class QueryApp
 	{
 		System.out.println( "QueryApp usage:" );
 		System.out.println( "\tjava QueryApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
 	}
 
 
