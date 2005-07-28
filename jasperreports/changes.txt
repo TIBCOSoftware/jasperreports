@@ -4,6 +4,7 @@ JasperReports Change Log
 
 JasperReports 1.0.1 (2005-0x-xx)
 -----------------------------------
+- support for pagination;
 
 - minor bug fixes and improvements;
 
