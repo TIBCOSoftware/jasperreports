@@ -52,9 +52,9 @@
 	<!--
 		Fills the compiled report design with no pagination.
 	-->
-	<target name="fillNoPagination">
+	<target name="fillIgnorePagination">
 		<java classname="${class.name}" fork="true">
-			<arg value="-TfillNoPagination"/>
+			<arg value="-TfillIgnorePagination"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>

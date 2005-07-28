@@ -165,9 +165,9 @@ public class TextApp
 	 */
 	private static void usage()
 	{
-		System.out.println( "QueryApp usage:" );
-		System.out.println( "\tjava QueryApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill1 | fill2 | fill3 | fill4 | print | text | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "TextApp usage:" );
+		System.out.println( "\tjava TextApp -Ttask -Ffile" );
+		System.out.println( "\tTasks : compile | fill | print | pdf | text" );
 	}
 
 

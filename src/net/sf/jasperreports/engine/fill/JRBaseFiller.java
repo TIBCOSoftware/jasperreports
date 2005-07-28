@@ -459,7 +459,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 * <b>
 	 * If set to <code>false</code> the report will be generated on one long page.
 	 */
-	protected boolean usePagination = true;
+	protected boolean isIgnorePagination = false;
 
 	/**
 	 * 
@@ -1112,18 +1112,18 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			perPageBoundElements = new BoundElements();
 		}
 		
-		Boolean paginationParam = (Boolean) parameterValues.get(JRParameter.REPORT_PAGINATION);
-		if (paginationParam != null)
+		Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
+		if (isIgnorePaginationParam != null)
 		{
-			usePagination = paginationParam.booleanValue();
+			isIgnorePagination = isIgnorePaginationParam.booleanValue();
 		}
 		else
 		{
-			usePagination = parentFiller != null ? parentFiller.usePagination : true;
-			parameterValues.put(JRParameter.REPORT_PAGINATION, Boolean.valueOf(usePagination));
+			isIgnorePagination = parentFiller != null ? parentFiller.isIgnorePagination : false;
+			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf(isIgnorePagination));
 		}
 		
-		if (!usePagination)
+		if (isIgnorePagination)
 		{
 			isTitleNewPage = false;
 			isSummaryNewPage = false;

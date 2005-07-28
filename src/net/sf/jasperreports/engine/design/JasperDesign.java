@@ -158,6 +158,22 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	private static final Object[] BUILT_IN_PARAMETERS = new Object[] 
+	{
+		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class,
+		JRParameter.REPORT_CONNECTION, Connection.class,
+		JRParameter.REPORT_MAX_COUNT, Integer.class,
+		JRParameter.REPORT_DATA_SOURCE, JRDataSource.class,
+		JRParameter.REPORT_SCRIPTLET, JRAbstractScriptlet.class,
+		JRParameter.REPORT_LOCALE, Locale.class,
+		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
+		JRParameter.REPORT_VIRTUALIZER, JRVirtualizer.class,
+		JRParameter.IS_IGNORE_PAGINATION, Boolean.class
+	};
+
+	/**
+	 *
+	 */
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
 	private Map parametersMap = new HashMap();
@@ -176,137 +192,20 @@ public class JasperDesign extends JRBaseReport
 	public JasperDesign()
 	{
 		/*   */
-		JRDesignParameter parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_PARAMETERS_MAP);
-		parameter.setValueClass(java.util.Map.class);
-		parameter.setSystemDefined(true);
-		try 
+		for (int i = 0; i < BUILT_IN_PARAMETERS.length; i++)
 		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_CONNECTION);
-		parameter.setValueClass(Connection.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_MAX_COUNT);
-		parameter.setValueClass(Integer.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_DATA_SOURCE);
-		parameter.setValueClass(JRDataSource.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_SCRIPTLET);
-		parameter.setValueClass(JRAbstractScriptlet.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_LOCALE);
-		parameter.setValueClass(Locale.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_RESOURCE_BUNDLE);
-		parameter.setValueClass(ResourceBundle.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_VIRTUALIZER);
-		parameter.setValueClass(JRVirtualizer.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
-		}
-
-
-		/*   */
-		parameter = new JRDesignParameter();
-		parameter.setName(JRParameter.REPORT_PAGINATION);
-		parameter.setValueClass(Boolean.class);
-		parameter.setSystemDefined(true);
-		try 
-		{
-			addParameter(parameter);
-		}
-		catch (JRException e)
-		{
-			//never reached
+			JRDesignParameter parameter = new JRDesignParameter();
+			parameter.setName((String)BUILT_IN_PARAMETERS[i++]);
+			parameter.setValueClass((Class)BUILT_IN_PARAMETERS[i]);
+			parameter.setSystemDefined(true);
+			try 
+			{
+				addParameter(parameter);
+			}
+			catch (JRException e)
+			{
+				//never reached
+			}
 		}
 
 
