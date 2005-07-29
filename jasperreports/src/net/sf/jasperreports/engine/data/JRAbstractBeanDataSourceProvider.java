@@ -58,6 +58,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	/**
 	 * Creates the provider. Superclasses must pass a valid class that will be
 	 * used to introspect the available bean fields.
+	 * @param beanClass the bean class to be introspected.
 	 */
 	public JRAbstractBeanDataSourceProvider(Class beanClass) {
 		if (beanClass == null)
@@ -94,10 +95,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 				
 				if (!(descriptor instanceof IndexedPropertyDescriptor) && descriptor.getReadMethod() != null) {
 					JRDesignField field = new JRDesignField();
-					String valueClassName = normalizeClass(descriptor.getPropertyType()).getName();
-					if (!isValidFieldClass(valueClassName))
-						valueClassName = Object.class.getName();
-					field.setValueClassName(valueClassName);
+					field.setValueClassName(normalizeClass(descriptor.getPropertyType()).getName());
 					field.setName(descriptor.getName());
 					
 					fields.add(field);
@@ -134,33 +132,5 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		}
 		
 		return clazz;
-	}
-
-	private static boolean isValidFieldClass(String className) {
-		return Arrays.binarySearch(fieldClassNames, className) >= 0; 
-	}
-
-	private static String[] fieldClassNames;
-
-	static {
-		if (fieldClassNames == null) {
-			fieldClassNames = new String[] {
-					java.lang.Object.class.getName(),
-					java.lang.Boolean.class.getName(),
-					java.lang.Byte.class.getName(),
-					java.util.Date.class.getName(),
-					java.sql.Timestamp.class.getName(),
-					java.sql.Time.class.getName(),
-					java.lang.Double.class.getName(),
-					java.lang.Float.class.getName(),
-					java.lang.Integer.class.getName(),
-					java.io.InputStream.class.getName(),
-					java.lang.Long.class.getName(),
-					java.lang.Short.class.getName(),
-					java.math.BigDecimal.class.getName(),
-					java.lang.String.class.getName() };
-
-			Arrays.sort(fieldClassNames);
-		}
 	}
 }
