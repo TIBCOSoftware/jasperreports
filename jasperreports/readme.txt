@@ -6,8 +6,9 @@ JasperReports Library
 1. ANT Build Tool
 -----------------------------
 
-In order to compile the project or to run the samples applications 
-you need to have ANT build tool installed on your system. 
+In order to compile the project or to run the sample applications 
+provided with this distribution, you need to have the ANT build tool 
+installed on your system. 
 You can get a copy of this tool and details about how to use it 
 at this address: http://ant.apache.org/
 
@@ -23,10 +24,10 @@ build.xml file and launching "ant -p" from the command line.
 -----------------------------
 
 In the project's root directory there is a build.xml file that 
-exposes different targets and helps compiling the java source files, 
-the documentation or build the jar files.
+exposes different targets and helps compiling the Java source files, 
+the documentation or build the JAR files.
 Make sure you have the ANT build tool correctly installed on your machine
-and launch "ant -p" from the command line in the JasperReports root directory 
+and then launch "ant -p" from the command line in the JasperReports root directory 
 to see what tasks are available for building up the library from the source files.
 
 
@@ -34,15 +35,15 @@ to see what tasks are available for building up the library from the source file
 3. Run the samples
 -----------------------------
 
-The demo directory contains some JasperReports sample applications 
+The /demo directory contains some JasperReports sample applications 
 and a HypersonicSQL demo database.
 
 
 3.1 HypersonicSQL
 Some of the supplied samples use the HSQL Database Engine Server 
-found in the demo/hsqldb directory. In order to run those samples 
+found in the /demo/hsqldb directory. In order to run those samples 
 you should start the HypersonicSQL server first. 
-There is a build.xml file in the demo/hsqldb directory which contains 
+There is a build.xml file in the /demo/hsqldb directory which contains 
 two ANT targets: "runServer" and "runManager".
 The first is for starting up the HSQL database and the second is for
 lanching the HSQL client application in case you need to view the
