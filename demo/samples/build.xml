@@ -1,4 +1,4 @@
-<project name="JasperReports" default="testAll" basedir=".">
+<project name="Samples" default="testAll" basedir=".">
 
 	<description>Helps testing all the samples at once.</description>
 	

@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="alterdesign" default="javac" basedir=".">
 
 	<property name="class.name" value="AlterDesignApp" />
 	<property name="file.name" value="AlterDesignReport" />
