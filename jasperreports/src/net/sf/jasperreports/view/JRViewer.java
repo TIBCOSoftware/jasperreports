@@ -39,6 +39,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -89,6 +90,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private static final int TYPE_FILE_NAME = 1;
 	private static final int TYPE_INPUT_STREAM = 2;
 	private static final int TYPE_JASPER_PRINT = 3;
+	
+	/**
+	 * The DPI of the generated report.
+	 */
+	public static final int REPORT_RESOLUTION = 72;
 
 	protected float MIN_ZOOM = 0.5f;
 	protected float MAX_ZOOM = 2.5f;
@@ -101,6 +107,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private float zoom = 0f;
+	
+	/**
+	 * the screen resolution.
+	 */
+	private int screenResolution = REPORT_RESOLUTION;
+	
+	/**
+	 * the zoom ration adjusted to the screen resolution.
+	 */
+	private float realZoom = 0f;
 
 	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
 
@@ -122,6 +138,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
+		setScreenDetails();
+		
 		setZooms();
 		
 		initComponents();
@@ -133,10 +151,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		addHyperlinkListener(this);
 	}
 
-	
+
 	/** Creates new form JRViewer */
 	public JRViewer(InputStream is, boolean isXML) throws JRException
 	{
+		setScreenDetails();
+				
 		setZooms();
 		
 		initComponents();
@@ -152,6 +172,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(JasperPrint jrPrint)
 	{
+		setScreenDetails();
+		
 		setZooms();
 		
 		initComponents();
@@ -161,6 +183,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
 
 		addHyperlinkListener(this);
+	}
+
+	
+	private void setScreenDetails()
+	{
+		screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
 	}
 
 	
@@ -241,8 +269,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					{
 						JViewport viewport = (JViewport) container;
 
-						int newX = (int)(anchorIndex.getElement().getX() * zoom);
-						int newY = (int)(anchorIndex.getElement().getY() * zoom);
+						int newX = (int)(anchorIndex.getElement().getX() * realZoom);
+						int newY = (int)(anchorIndex.getElement().getY() * realZoom);
 
 						int maxX = pnlInScroll.getWidth() - viewport.getWidth();
 						int maxY = pnlInScroll.getHeight() - viewport.getHeight();
@@ -1092,6 +1120,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 
 			zoom = 0;//force pageRefresh()
+			realZoom = 0f;
 			setZoomRatio(1);
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
@@ -1309,8 +1338,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		ImageIcon imageIcon = null;
 
 		Dimension dim = new Dimension(
-			(int)(jasperPrint.getPageWidth() * zoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
-			(int)(jasperPrint.getPageHeight() * zoom) + 8
+			(int)(jasperPrint.getPageWidth() * realZoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
+			(int)(jasperPrint.getPageHeight() * realZoom) + 8
 			);
 		pnlPage.setMaximumSize(dim);
 		pnlPage.setMinimumSize(dim);
@@ -1318,7 +1347,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		try
 		{
-			image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, zoom);
+			image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, realZoom);
 			imageIcon = new ImageIcon(image);
 		}
 		catch(Exception e)
@@ -1352,12 +1381,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					link = new JPanel();
 					link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					link.setLocation(
-						(int)(element.getX() * zoom), 
-						(int)(element.getY() * zoom)
+						(int)(element.getX() * realZoom), 
+						(int)(element.getY() * realZoom)
 						);
 					link.setSize(
-						(int)(element.getWidth() * zoom),
-						(int)(element.getHeight() * zoom)
+						(int)(element.getWidth() * realZoom),
+						(int)(element.getHeight() * realZoom)
 						);
 					link.setOpaque(false);
 					
@@ -1486,6 +1515,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			if (zoom != newZoom)
 			{
 				zoom = newZoom;
+				realZoom = zoom * screenResolution / REPORT_RESOLUTION;
 
 				refreshPage();
 			}

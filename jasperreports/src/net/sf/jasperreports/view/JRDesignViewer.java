@@ -37,6 +37,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -108,6 +109,16 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private String reportFileName = null;
 	private JRReport report = null;
 	private float zoom = 1f;
+	
+	/**
+	 * the screen resolution.
+	 */
+	private int screenResolution = JRViewer.REPORT_RESOLUTION;
+	
+	/**
+	 * the zoom ration adjusted to the screen resolution.
+	 */
+	private float realZoom = 0f;
 
 	private int offsetY = 0;
 	private int upColumns = 0;
@@ -134,6 +145,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 
+		setScreenDetails();
+
 		initComponents();
 
 		this.loadReport(fileName, isXML);
@@ -146,6 +159,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 
+		setScreenDetails();
+		
 		initComponents();
 
 		this.loadReport(is, isXML);
@@ -158,10 +173,19 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 
+		setScreenDetails();
+
 		initComponents();
 
 		this.loadReport(report);
 		this.cmbZoom.setSelectedIndex(2);//100%
+	}
+
+	
+	private void setScreenDetails()
+	{
+		screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
+		setZoom(1f);
 	}
 
 	
@@ -460,11 +484,18 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		int index = this.cmbZoom.getSelectedIndex();
-		this.zoom = zooms[index] / 100f;
+		setZoom(zooms[index] / 100f);
 		this.btnZoomIn.setEnabled( (index < this.cmbZoom.getModel().getSize() - 1) );
 		this.btnZoomOut.setEnabled( (index > 0) );
 		this.refreshDesign();
 	}//GEN-LAST:event_cmbZoomActionPerformed
+
+
+	private void setZoom(float zoom)
+	{
+		this.zoom = zoom;
+		this.realZoom = this.zoom * screenResolution / JRViewer.REPORT_RESOLUTION;
+	}
 
 
 	/**
@@ -595,8 +626,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 		ImageIcon imageIcon = null;
 
 		Dimension dim = new Dimension(
-			(int)(report.getPageWidth() * zoom) + 8, //why 8 ? 2 for the balck border, 1 extra for the image and 5 for the shadow panels
-			(int)(offsetY * zoom) + 8
+			(int)(report.getPageWidth() * realZoom) + 8, //why 8 ? 2 for the balck border, 1 extra for the image and 5 for the shadow panels
+			(int)(offsetY * realZoom) + 8
 			);
 		this.pnlPage.setMaximumSize(dim);
 		this.pnlPage.setMinimumSize(dim);
@@ -621,8 +652,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private Image printDesignToImage()
 	{
 		Image designImage = new BufferedImage(
-			(int)(report.getPageWidth() * zoom) + 1,
-			(int)(offsetY * zoom) + 1,
+			(int)(report.getPageWidth() * realZoom) + 1,
+			(int)(offsetY * realZoom) + 1,
 			BufferedImage.TYPE_INT_RGB
 			);
 		Graphics2D grx = (Graphics2D)designImage.getGraphics();
@@ -632,7 +663,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		grx.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
 		AffineTransform atrans = new AffineTransform();
-		atrans.scale(zoom, zoom);
+		atrans.scale(realZoom, realZoom);
 		grx.transform(atrans);
 
 		printDesign(grx);
@@ -649,7 +680,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		Stroke dashedStroke =
 			new BasicStroke(
-				1f / zoom,
+				1f / realZoom,
 				BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_BEVEL,
 				0f,
@@ -1636,7 +1667,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			)
 		{
 			grx.setColor(element.getForecolor());
-			grx.setStroke(new BasicStroke(1f / zoom));
+			grx.setStroke(new BasicStroke(1f / realZoom));
 		
 			grx.drawRect(element.getX(), element.getY(), element.getWidth() - 1, element.getHeight() - 1);
 		}
@@ -1692,7 +1723,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			);
 
 		grx.setColor(subreport.getForecolor());
-		grx.setStroke(new BasicStroke(1f / zoom));
+		grx.setStroke(new BasicStroke(1f / realZoom));
 		grx.drawRect(
 			subreport.getX(), 
 			subreport.getY(), 
@@ -1751,7 +1782,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			);
 
 		grx.setColor(chart.getForecolor());
-		grx.setStroke(new BasicStroke(1f / zoom));
+		grx.setStroke(new BasicStroke(1f / realZoom));
 		grx.drawRect(
 			chart.getX(), 
 			chart.getY(), 
