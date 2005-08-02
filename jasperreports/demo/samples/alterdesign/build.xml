@@ -1,5 +1,7 @@
 <project name="alterdesign" default="javac" basedir=".">
 
+	<description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
+
 	<property name="class.name" value="AlterDesignApp" />
 	<property name="file.name" value="AlterDesignReport" />
 	<property name="classes.dir" value="../../../build/classes" />
