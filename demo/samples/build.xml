@@ -1,5 +1,7 @@
 <project name="JasperReports" default="testAll" basedir=".">
 
+	<description>Helps testing all the samples at once.</description>
+	
 	<target name="testAll" description="Test all the samples.">
 		<echo message=""/>
 		<echo message="***********************************"/>
