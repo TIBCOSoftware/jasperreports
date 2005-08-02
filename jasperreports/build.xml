@@ -1,5 +1,7 @@
 <project name="JasperReports" default="compile" basedir=".">
 
+	<description>Helps build the JasperReports distribution files.</description>
+
 	<property name="version" value="1.0.0"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">

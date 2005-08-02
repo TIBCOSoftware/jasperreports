@@ -1,5 +1,7 @@
 <project name="JasperReports" default="runServer" basedir=".">
 
+	<description>Helps starting up the HypersonicSQL demo database.</description>
+	
 	<target name="runServer" description="Launches the HypersonicSQL database server.">
 		<java classname="org.hsqldb.Server" fork="false">
 			<classpath>
