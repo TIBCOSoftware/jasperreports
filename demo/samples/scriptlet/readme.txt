@@ -7,8 +7,3 @@ system before trying our sample application.
 
 Once you have ANT installed, launch "ant -p" from the command line in this directory
 to learn more about what tasks you could run to build and test the sample.
-
-
-The generated PDF document is encrypted using a 128 bit key. 
-User password: jasper 
-Owner password: reports

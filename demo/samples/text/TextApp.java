@@ -124,7 +124,7 @@ public class TextApp
 				JRTextExporter exporter = new JRTextExporter();
 				File sourceFile = new File(fileName);
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".txt");
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".text");
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
