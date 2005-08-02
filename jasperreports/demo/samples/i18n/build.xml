@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="i18n" default="javac" basedir=".">
 
 	<property name="class.name" value="I18nApp" />
 	<property name="file.name" value="I18nReport" />

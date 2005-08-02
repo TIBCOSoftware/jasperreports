@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="unicode" default="javac" basedir=".">
 
 	<property name="class.name" value="UnicodeApp" />
 	<property name="file.name" value="UnicodeReport" />

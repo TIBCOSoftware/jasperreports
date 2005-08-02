@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="barbecue" default="javac" basedir=".">
 
 	<property name="class.name" value="BarbecueApp" />
 	<property name="file.name" value="BarbecueReport" />

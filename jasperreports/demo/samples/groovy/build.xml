@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="groovy" default="javac" basedir=".">
 
 	<property name="class.name" value="GroovyApp" />
 	<property name="file.name" value="GroovyReport" />

@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="webapp" default="javac" basedir=".">
 
 	<!--
 		Copies the required JAR files from the project's /lib directory

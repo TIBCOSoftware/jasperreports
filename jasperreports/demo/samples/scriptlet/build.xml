@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="scriptlet" default="javac" basedir=".">
 
 	<property name="class.name" value="ScriptletApp" />
 	<property name="file.name" value="ScriptletReport" />

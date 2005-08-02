@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="noxmldesign" default="javac" basedir=".">
 
 	<property name="class.name" value="NoXmlDesignApp" />
 	<property name="file.name" value="NoXmlDesignReport" />
