@@ -1,9 +1,6 @@
 <project name="JasperReports" default="runServer" basedir=".">
 
-	<!--
-		Launches the HypersonicSQL database server.
-	-->
-	<target name="runServer">
+	<target name="runServer" description="Launches the HypersonicSQL database server.">
 		<java classname="org.hsqldb.Server" fork="false">
 			<classpath>
 				<fileset dir="../../lib">
@@ -13,10 +10,7 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the HypersonicSQL manager.
-	-->
-	<target name="runManager">
+	<target name="runManager" description="Launches the HypersonicSQL manager.">
 		<java classname="org.hsqldb.util.DatabaseManager" fork="true">
 			<classpath>
 				<fileset dir="../../lib">

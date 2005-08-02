@@ -2,10 +2,7 @@
 
 	<property name="version" value="1.0.0"/>
 
-	<!--
-		Compiles the java source files of the library.
-	-->
-	<target name="compile">
+	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
 		<condition property="using.jdk.1.4">
 			<or>
@@ -32,10 +29,7 @@
 		</copy>
 	</target>
 
-	<!--
-		Builds the JasperReports JAR file.
-	-->
-	<target name="jar" depends="compile, applet">
+	<target name="jar" depends="compile, applet" description="Builds the JasperReports JAR file.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar">
 			<manifest>
@@ -57,10 +51,7 @@
 		</jar>
 	</target>
 
-	<!--
-		Builds the jasperreports-applet.jar file.
-	-->
-	<target name="applet" depends="compile">
+	<target name="applet" depends="compile" description="Builds the jasperreports-applet.jar file.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
 			<fileset dir="./build/classes">
@@ -132,18 +123,12 @@
 		</jar>
 	</target>
 
-	<!--
-		Deletes all the .class files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the .class files.">
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
 	</target>
 
-	<!--
-		Compiles the library API documentation.
-	-->
-	<target name="docs" depends="compile">
+	<target name="docs" depends="compile" description="Compiles the library API documentation.">
 		<mkdir dir="./docs/api"/> 
 		<delete dir="./docs/api/net"/>
 		<delete>
