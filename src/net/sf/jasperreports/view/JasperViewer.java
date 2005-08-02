@@ -34,6 +34,7 @@
 package net.sf.jasperreports.view;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.io.InputStream;
 
 import net.sf.jasperreports.engine.JRException;
@@ -171,9 +172,26 @@ public class JasperViewer extends javax.swing.JFrame
 		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
 		pack();
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(new java.awt.Dimension(750, 550));
-		setLocation((screenSize.width-750)/2,(screenSize.height-550)/2);
+		
+		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+		java.awt.Dimension screenSize = toolkit.getScreenSize();
+		int screenResolution = toolkit.getScreenResolution();
+		float zoom = ((float) screenResolution) / JRViewer.REPORT_RESOLUTION;
+		
+		int height = (int) (550 * zoom);
+		if (height > screenSize.getHeight())
+		{
+			height = (int) screenSize.getHeight();
+		}		
+		int width = (int) (750 * zoom);
+		if (width > screenSize.getWidth())
+		{
+			width = (int) screenSize.getWidth();
+		}
+		
+		java.awt.Dimension dimension = new java.awt.Dimension(width, height);
+		setSize(dimension);
+		setLocation((screenSize.width-width)/2,(screenSize.height-height)/2);
 	}//GEN-END:initComponents
 
 	/** Exit the Application */
