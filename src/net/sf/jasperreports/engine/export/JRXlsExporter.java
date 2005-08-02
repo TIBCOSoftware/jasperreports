@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -357,12 +358,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			catch(NumberFormatException e)
 			{
-				cell.setCellValue(styledText.getText());
+				cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
 			}
 		}
 		else
 		{
-			cell.setCellValue(styledText.getText());
+			cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
 		}
 		cell.setCellStyle(cellStyle);
 	}

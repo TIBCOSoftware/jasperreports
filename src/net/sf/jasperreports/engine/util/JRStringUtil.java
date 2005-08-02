@@ -181,4 +181,38 @@ public class JRStringUtil
 	}
 
 	
+	/**
+	 * Replaces DOS end of line (CRLF) with Unix end of line (LF).
+	 * 
+	 * @param text the text
+	 * @return the text with CRLF replaced by LF; if no CRLF was found, the same object is returned.
+	 */
+	public static String replaceDosEOL(String text)
+	{
+		if (text == null || text.length() < 2)
+		{
+			return text;
+		}
+		
+		int length = text.length();
+		char[] chars = text.toCharArray();
+		int r = 0;
+		for (int i = 0; i < length; ++i)
+		{
+			char ch = chars[i];
+			if (!(ch == '\r' && i + 1 < length && chars[i + 1] == '\n'))
+			{
+				if (r > 0)
+				{
+					chars[i - r] = ch;
+				}
+			}
+			else
+			{
+				++r;
+			}
+		}
+
+		return r > 0 ? new String(chars, 0, length - r) : text;
+	}
 }
