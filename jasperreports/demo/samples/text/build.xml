@@ -125,7 +125,7 @@
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.txt" />
+			<fileset dir="." includes="**/*.text" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
