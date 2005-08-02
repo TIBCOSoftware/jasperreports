@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="shapes" default="javac" basedir=".">
 
 	<property name="class.name" value="ShapesApp" />
 	<property name="file.name" value="ShapesReport" />

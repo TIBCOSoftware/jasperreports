@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="beanshell" default="javac" basedir=".">
 
 	<property name="class.name" value="BeanShellApp" />
 	<property name="file.name" value="BeanShellReport" />

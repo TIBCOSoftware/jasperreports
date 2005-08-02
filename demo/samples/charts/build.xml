@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="charts" default="javac" basedir=".">
 
 	<property name="class.name" value="ChartsApp" />
 	<property name="classes.dir" value="../../../build/classes" />

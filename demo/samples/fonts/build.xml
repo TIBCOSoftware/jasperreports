@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="fonts" default="javac" basedir=".">
 
 	<property name="class.name" value="FontsApp" />
 	<property name="file.name" value="FontsReport" />

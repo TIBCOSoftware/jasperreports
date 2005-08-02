@@ -1,4 +1,4 @@
-<project name="JasperReports" default="javac" basedir=".">
+<project name="tableofcontents" default="javac" basedir=".">
 
 	<property name="class.name" value="TableOfContentsApp" />
 	<property name="file.name" value="TableOfContentsReport" />
