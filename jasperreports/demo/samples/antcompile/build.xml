@@ -1,8 +1,7 @@
-<project name="JasperReports" default="compile1" basedir=".">
+<project name="antcompile" default="compile1" basedir=".">
 
-	<!--
-		Classpath
-	-->
+	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
+
 	<path id="classpath">
 		<pathelement location="./build/classes"/>
 		<pathelement location="../../../build/classes"/>
@@ -11,27 +10,16 @@
 		</fileset>
 	</path>
 
-	<!--
-		Defines the report design compilation Ant task.
-	-->
 	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 		<classpath refid="classpath"/>
 	</taskdef>
 
-	<!--
-		Compiles the Java source files used in the report designs.
-	-->
-	<target name="javac"> 
+	<target name="javac" description="Compiles the Java source files used in the report designs.">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
 	</target> 
 
-	<!--
-		Compiles report designs specified using the "srcdir" in the <jrc> tag.
-		Generated .jasper files keep their relative location and are placed
-		in directory structure similar to the source files structure.
-	-->
-	<target name="compile1"> 
+	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag. Generated .jasper files keep their relative location and are placed in directory structure similar to the source files structure."> 
 		<mkdir dir="./build/reports"/> 
 		<jrc 
 				srcdir="./reports"
@@ -43,12 +31,7 @@
 		</jrc> 
 	</target> 
 
-	<!--
-		Compiles report designs specified using a <fileset> in the <src> tag.
-		Generated .jasper files lose their relative location and are placed
-		in the same output directory.
-	-->
-	<target name="compile2"> 
+	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag. Generated .jasper files lose their relative location and are placed in the same output directory.">
 		<mkdir dir="./build/reports"/> 
 		<jrc 
 				destdir="./build/reports"
@@ -64,10 +47,7 @@
 		</jrc> 
 	</target> 
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
 	</target>
 
