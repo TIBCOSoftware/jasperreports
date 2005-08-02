@@ -1,9 +1,6 @@
 <project name="JasperReports" default="testAll" basedir=".">
 
-	<!--
-		Tests all the samples.
-	-->
-	<target name="testAll">
+	<target name="testAll" description="Test all the samples.">
 		<echo message=""/>
 		<echo message="***********************************"/>
 		<echo message="* TESTING ALL THE SAMPLES         *"/>
@@ -495,10 +492,7 @@
 	</target>
 
 
-	<!--
-		Clean all the samples.
-	-->
-	<target name="clean">
+	<target name="clean" description="Clean all the samples.">
 		<ant dir="alterdesign" target="clean" />
 		<ant dir="antcompile" target="clean" />
 		<ant dir="barbecue" target="clean" />

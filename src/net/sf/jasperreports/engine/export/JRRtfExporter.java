@@ -312,7 +312,6 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 	protected void createColorAndFontEntries(JRPrintPage page)
-			throws JRException
 	{
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
