@@ -1,4 +1,4 @@
-<project name="JasperReports" default="runServer" basedir=".">
+<project name="HypersonicSQL" default="runServer" basedir=".">
 
 	<description>Helps starting up the HypersonicSQL demo database.</description>
 	
