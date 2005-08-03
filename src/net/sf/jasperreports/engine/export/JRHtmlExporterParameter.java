@@ -140,7 +140,25 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 * A boolean value specifying whether the export engine should use force wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
 	 */
-	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is wrap break word");
+	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
+
+
+	/**
+	 * A String value specifying the unit to use when measuring lengths or font size. 
+	 * This can be one of the supported size units from the CSS specifications like "px" for pixels
+	 * or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels. 
+	 */
+	public static final JRHtmlExporterParameter SIZE_UNIT = new JRHtmlExporterParameter("Size Unit");
+
+	/**
+	 * Possible value for the {@link JRHtmlExporterParameter#SIZE_UNIT} parameter indicated that measurements are made in pixels. 
+	 */
+	public static final String SIZE_UNIT_PIXEL = "px";
+
+	/**
+	 * Possible value for the {@link JRHtmlExporterParameter#SIZE_UNIT} parameter indicated that measurements are made in points. 
+	 */
+	public static final String SIZE_UNIT_POINT = "pt";
 
 
 }
