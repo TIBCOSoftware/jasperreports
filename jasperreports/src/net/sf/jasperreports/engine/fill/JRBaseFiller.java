@@ -152,7 +152,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			if (perPageElements != null)
 			{
-				return put(key, value, getMasterPage());
+				return put(key, value, fillContext.getPrintPage());
 			}
 			return super.put(key, value);
 		}
@@ -362,14 +362,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 	protected List formattedTextFields = new ArrayList();
 
-	protected Map loadedImages = null;
-
 	protected Map loadedSubreports = null;
 
+	protected JRFillContext fillContext;
+	
 	/**
 	 * All bound elements per page.
 	 */
-	private BoundElements perPageBoundElements = null;
+	protected BoundElements perPageBoundElements = null;
 
 	/**
 	 * Map of elements to be resolved at report level.
@@ -455,13 +455,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected Set variableCalculationReqs;
 
 	/**
-	 * Whether to use pagination.
-	 * <b>
-	 * If set to <code>false</code> the report will be generated on one long page.
-	 */
-	protected boolean isIgnorePagination = false;
-
-	/**
 	 * 
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
@@ -470,6 +463,15 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		/*   */
 		this.parentFiller = parentFiller;
+		
+		if (parentFiller == null)
+		{
+			fillContext = new JRFillContext();
+		}
+		else
+		{
+			fillContext = parentFiller.fillContext;
+		}
 
 		/*   */
 		name = jasperReport.getName();
@@ -885,10 +887,9 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				((JRFillTextField) formattedTextFields.get(i)).setFormat();
 			}
 
-			loadedImages = new HashMap();
 			loadedSubreports = new HashMap();
 
-			if (!isPerPageBoundElements())
+			if (!fillContext.isPerPageBoundElements())
 			{
 				// per page maps are not used
 				reportBoundElements = new BoundElementMap();
@@ -1106,7 +1107,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			setParameter(parameter, virtualizer);
 		}
-		if (virtualizer != null || isPerPageBoundElements())
+		
+		if (virtualizer != null)
+		{
+			fillContext.setUsingVirtualizer(true);
+			fillContext.setPerPageBoundElements(true);
+		}
+		
+		if (virtualizer != null || fillContext.isPerPageBoundElements())
 		{
 			// keep per page element maps
 			perPageBoundElements = new BoundElements();
@@ -1115,15 +1123,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
 		if (isIgnorePaginationParam != null)
 		{
-			isIgnorePagination = isIgnorePaginationParam.booleanValue();
+			fillContext.setIgnorePagination(isIgnorePaginationParam.booleanValue());
 		}
 		else
 		{
-			isIgnorePagination = parentFiller != null ? parentFiller.isIgnorePagination : false;
-			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf(isIgnorePagination));
+			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf(fillContext.isIgnorePagination()));
 		}
 		
-		if (isIgnorePagination)
+		if (fillContext.isIgnorePagination())
 		{
 			isTitleNewPage = false;
 			isSummaryNewPage = false;
@@ -1270,7 +1277,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void resolveReportBoundElements() throws JRException
 	{
-		if (isPerPageBoundElements())
+		if (fillContext.isPerPageBoundElements())
 		{
 			resolvePerPageBoundElements(perPageBoundElements.pageToReportElements, reportBoundElements, JRExpression.EVALUATION_DEFAULT);
 		}
@@ -1288,7 +1295,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void resolvePageBoundElements(byte evaluation) throws JRException
 	{
-		if (isPerPageBoundElements())
+		if (fillContext.isPerPageBoundElements())
 		{
 			resolvePerPageBoundElements(perPageBoundElements.pageToPageElements, pageBoundElements, evaluation);
 		}
@@ -1306,7 +1313,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void resolveColumnBoundElements(byte evaluation) throws JRException
 	{
-		if (isPerPageBoundElements())
+		if (fillContext.isPerPageBoundElements())
 		{
 			resolvePerPageBoundElements(perPageBoundElements.pageToColumnElements, columnBoundElements, evaluation);
 		}
@@ -1336,7 +1343,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 					String groupName = group.getName();
 					Map specificGroupBoundTexts = (Map) groupBoundElements.get(groupName);
 
-					if (isPerPageBoundElements())
+					if (fillContext.isPerPageBoundElements())
 					{
 						resolvePerPageBoundElements((Map) perPageBoundElements.pageToGroupElements.get(groupName), specificGroupBoundTexts, evaluation);
 					}
@@ -1398,7 +1405,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 */
 	protected void resolveBandBoundElements(JRFillBand band, byte evaluation) throws JRException
 	{
-		if (isPerPageBoundElements())
+		if (fillContext.isPerPageBoundElements())
 		{
 			resolvePerPageBoundElements(band.pageToBoundElements, band.boundElements, evaluation);
 		}
@@ -1700,27 +1707,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	
-	private boolean isPerPageBoundElements()
-	{
-		if (parentFiller != null)
-		{
-			return parentFiller.isPerPageBoundElements();
-		}
-
-		return perPageBoundElements != null;
-	}
-
-	
-	protected boolean isUsingVirtualizer()
-	{
-		if (parentFiller != null)
-		{
-			return parentFiller.isUsingVirtualizer();
-		}
-
-		return virtualizer != null;
-	}
-
 	protected void registerSubfiller(JRBaseFiller subfiller)
 	{
 		if (subfillers == null)
@@ -1728,17 +1714,17 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			subfillers = new HashSet();
 		}
 
-		if (subfillers.add(subfiller) && isUsingVirtualizer())
+		if (subfillers.add(subfiller) && fillContext.isUsingVirtualizer())
 		{
-			addIdentityDataProviders((JRVirtualPrintPage) getMasterPage(), subfiller);
+			addIdentityDataProviders((JRVirtualPrintPage) fillContext.getPrintPage(), subfiller);
 		}
 	}
 
 	protected void unregisterSubfiller(JRBaseFiller subfiller)
 	{
-		if (subfillers.remove(subfiller) && isUsingVirtualizer())
+		if (subfillers.remove(subfiller) && fillContext.isUsingVirtualizer())
 		{
-			removeIdentityDataProviders((JRVirtualPrintPage) getMasterPage(), subfiller);
+			removeIdentityDataProviders((JRVirtualPrintPage) fillContext.getPrintPage(), subfiller);
 		}
 	}
 
@@ -1771,21 +1757,13 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 	}
 
-	protected JRPrintPage getMasterPage()
-	{
-		if (parentFiller != null)
-		{
-			return parentFiller.getMasterPage();
-		}
-
-		return printPage;
-	}
-
+	
 	protected void addPage(JRPrintPage page)
 	{
 		if (!isSubreport())
 		{
 			jasperPrint.addPage(page);
+			fillContext.setPrintPage(page);
 		}
 	}
 	

@@ -380,16 +380,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				String location = (String)source;
 				if (this.isUsingCache())
 				{
-					if ( this.filler.loadedImages.containsKey(location) )
+					if (this.filler.fillContext.hasLoadedImage(location))
 					{
-						newRenderer = ((JRPrintImage)this.filler.loadedImages.get(location)).getRenderer();
+						newRenderer = this.filler.fillContext.getLoadedImage(location).getRenderer();
 					}
 					else
 					{
 						newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
 						JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
 						img.setRenderer(newRenderer);
-						this.filler.loadedImages.put(location, img);
+						this.filler.fillContext.registerLoadedImage(location, img);
 					}
 				}
 				else

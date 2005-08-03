@@ -181,7 +181,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			//}
 		}
 		
-		if (isIgnorePagination)
+		if (fillContext.isIgnorePagination())
 		{
 			jasperPrint.setPageHeight(offsetY + bottomMargin);
 		}
@@ -654,7 +654,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			columnFooterOffsetY = offsetY;
 		}
 
-		if (!isFloatColumnFooter && !isIgnorePagination)
+		if (!isFloatColumnFooter && !fillContext.isIgnorePagination())
 		{
 			offsetY = columnFooterOffsetY;
 		}
@@ -677,7 +677,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		offsetX = leftMargin;
 
-		if (!isSubreport() && !isIgnorePagination)
+		if (!isSubreport() && !fillContext.isIgnorePagination())
 		{
 			offsetY = pageHeight - crtPageFooter.getHeight() - bottomMargin;
 		}
@@ -1054,10 +1054,10 @@ public class JRVerticalFiller extends JRBaseFiller
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
 				
-			if (isUsingVirtualizer())
+			if (fillContext.isUsingVirtualizer())
 			{
 				JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
-				((JRVirtualPrintPage) getMasterPage()).removeIdentityDataProvider(pageProvider);
+				((JRVirtualPrintPage) fillContext.getPrintPage()).removeIdentityDataProvider(pageProvider);
 			}
 
 			//signals to the master filler that is has finished the page
@@ -1076,10 +1076,10 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		printPage = newPage();
 		
-		if (isSubreport() && isUsingVirtualizer())
+		if (isSubreport() && fillContext.isUsingVirtualizer())
 		{
 			JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
-			((JRVirtualPrintPage) getMasterPage()).addIdentityDataProvider(pageProvider);
+			((JRVirtualPrintPage) fillContext.getPrintPage()).addIdentityDataProvider(pageProvider);
 		}
 		
 		if (isResetPageNumber)
