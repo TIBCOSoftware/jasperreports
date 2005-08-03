@@ -140,6 +140,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isRemoveEmptySpace = false;
 	protected boolean isWhitePageBackground = true;
 	protected String encoding = null;
+	protected String sizeUnit = null;
 
 	/**
 	 *
@@ -258,6 +259,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (isWrapBreakWordParameter != null)
 		{
 			isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
+		}
+		
+		sizeUnit = (String)parameters.get(JRHtmlExporterParameter.SIZE_UNIT);
+		if (sizeUnit == null)
+		{
+			sizeUnit = JRHtmlExporterParameter.SIZE_UNIT_PIXEL;
 		}
 		
 		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
@@ -561,7 +568,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.write("<table width=" + jasperPrint.getPageWidth() + " cellpadding=0 cellspacing=0 border=0\n");
+		writer.write("<table style=\"width: " + jasperPrint.getPageWidth() + sizeUnit + "\" cellpadding=0 cellspacing=0 border=0\n");
 		if (isWhitePageBackground)
 		{
 			writer.write(" bgcolor=white");
@@ -575,7 +582,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + width + " height=1></td>\n");
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + width + sizeUnit + "; height: 1" + sizeUnit + "\"></td>\n");
 		}
 		writer.write("</tr>\n");
 
@@ -601,7 +608,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 							{
 								writer.write(" colspan=" + emptyCellColSpan);
 							}
-							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"></td>\n");
 							emptyCellColSpan = 0;
 							emptyCellWidth = 0;
 						}
@@ -645,7 +652,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						writer.write(" colspan=" + emptyCellColSpan);
 					}
-					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " width=" + emptyCellWidth + " height=" + lastRowHeight + "></td>\n");
+					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"></td>\n");
 				}
 	
 				writer.write("</tr>\n");
@@ -827,7 +834,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write("font-size: ");
 		writer.write(String.valueOf(attributes.get(TextAttribute.SIZE)));
-		writer.write("px;");
+		writer.write(sizeUnit);
+		writer.write(";");
 
 		/*
 		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
@@ -1008,7 +1016,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + gridCell.width + "px; ");
+			styleBuffer.append("width: " + gridCell.width + sizeUnit + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 
@@ -1446,11 +1454,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			case JRImage.SCALE_IMAGE_FILL_FRAME :
 			{
-				writer.write(" width=");
+				writer.write(" style=\"width: ");
 				writer.write(String.valueOf(image.getWidth()));
-
-				writer.write(" height=");
+				writer.write(sizeUnit);
+				writer.write("; height: ");
 				writer.write(String.valueOf(image.getHeight()));
+				writer.write(sizeUnit);
+				writer.write("\"");
 
 				break;
 			}
@@ -1477,13 +1487,17 @@ public class JRHtmlExporter extends JRAbstractExporter
 					
 					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
 					{
-						writer.write(" width=");
+						writer.write(" style=\"width: ");
 						writer.write(String.valueOf(image.getWidth()));
+						writer.write(sizeUnit);
+						writer.write("\"");
 					}
 					else
 					{
-						writer.write(" height=");
+						writer.write(" style=\"height: ");
 						writer.write(String.valueOf(image.getHeight()));
+						writer.write(sizeUnit);
+						writer.write("\"");
 					}
 				}
 			}
@@ -1707,7 +1721,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static void appendBorder(StringBuffer sb, byte pen, Color borderColor, int padding, String side)
+	private void appendBorder(StringBuffer sb, byte pen, Color borderColor, int padding, String side)
 	{
 		String borderStyle = null; 
 		String borderWidth = null; 
@@ -1717,25 +1731,25 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case JRGraphicElement.PEN_DOTTED :
 			{
 				borderStyle = "dashed"; 
-				borderWidth = "1px"; 
+				borderWidth = "1"; 
 				break;
 			}
 			case JRGraphicElement.PEN_4_POINT :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "4px"; 
+				borderWidth = "4"; 
 				break;
 			}
 			case JRGraphicElement.PEN_2_POINT :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "2px"; 
+				borderWidth = "2"; 
 				break;
 			}
 			case JRGraphicElement.PEN_THIN :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "1px"; 
+				borderWidth = "1"; 
 				break;
 			}
 			case JRGraphicElement.PEN_NONE :
@@ -1746,7 +1760,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			default :
 			{
 				borderStyle = "solid"; 
-				borderWidth = "1px"; 
+				borderWidth = "1"; 
 				break;
 			}
 		}
@@ -1763,6 +1777,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append(side);
 			sb.append("-width: ");
 			sb.append(borderWidth);
+			sb.append(sizeUnit);
 			sb.append("; ");
 			
 			sb.append("border-");
@@ -1780,7 +1795,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append(side);
 			sb.append(": ");
 			sb.append(padding);
-			sb.append("px; ");
+			sb.append(sizeUnit);
+			sb.append("; ");
 		}
 	}
 
