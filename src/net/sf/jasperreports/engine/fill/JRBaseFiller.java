@@ -752,6 +752,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try
 		{
@@ -768,7 +769,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 				dataSourceStatement = pstmt;
 
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 
 				dataSourceStatement = null;
 
@@ -785,6 +786,17 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		{
 			fillingThread = null;
 			dataSourceStatement = null;
+
+			if (rs != null)
+			{
+				try
+				{
+					rs.close();
+				}
+				catch (SQLException e)
+				{
+				}
+			}
 
 			if (pstmt != null)
 			{
