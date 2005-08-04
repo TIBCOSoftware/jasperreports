@@ -39,7 +39,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 /**
- * Class used to perform report filling asychronously. 
+ * Class used to perform report filling asychronously.
+ * <p>
+ * An instance of this type can be used as a handle to an asychronous fill process.
+ * The main benefit of this method is that the filling process can be cancelled.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -88,16 +91,39 @@ public class AsynchronousFillHandle
 		lock = this;
 	}
 
+	
+	/**
+	 * Adds a listener to the filling process.
+	 * 
+	 * @param listener the listener to be added
+	 */
 	public void addListener(AsynchronousFilllListener listener)
 	{
 		listeners.add(listener);
 	}
 
+
+	/**
+	 * Removes a listener from the filling process.
+	 * 
+	 * @param listener the listener to be removed
+	 * @return <tt>true</tt> if the listener was found and removed
+	 */
 	public boolean removeListener(AsynchronousFilllListener listener)
 	{
 		return listeners.remove(listener);
 	}
 
+	
+	/**
+	 * Starts the filling process asychronously.
+	 * <p>
+	 * The filling is launched on a new thread and the method exits
+	 * after the thread is started.
+	 * <p>
+	 * When the filling finishes either in success or failure, the listeners
+	 * are notified.  
+	 */
 	public void startFill()
 	{
 		synchronized (lock)
@@ -137,7 +163,11 @@ public class AsynchronousFillHandle
 						{
 							synchronized (lock)
 							{
-								if (!cancelled)
+								if (cancelled)
+								{
+									notifyCancel();
+								}
+								else
 								{
 									notifyError(e);
 								}
@@ -156,6 +186,16 @@ public class AsynchronousFillHandle
 		fillThread.start();
 	}
 
+	
+	/**
+	 * Cancels the fill started by the handle.
+	 * <p>
+	 * The method sends a cancel signal to the filling process.
+	 * When the filling process will end, the listeners will be notified 
+	 * that the filling has been cancelled.
+	 * 
+	 * @throws JRException
+	 */
 	public void cancellFill() throws JRException
 	{
 		synchronized (lock)
@@ -168,8 +208,6 @@ public class AsynchronousFillHandle
 			filler.cancelFill();
 			cancelled = true;
 		}
-
-		notifyCancel();
 	}
 	
 	

@@ -30,7 +30,10 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JasperPrint;
 
 /**
- * Listener interface for the asynchronous filling method. 
+ * Listener interface for the asynchronous filling method.
+ * <p>
+ * The listener is notified when the filling process finishes in success, failure
+ * or by cancellation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -46,7 +49,6 @@ public interface AsynchronousFilllListener
 
 	/**
 	 * Called when the report is cancelled.
-	 *
 	 */
 	void reportCancelled();
 
