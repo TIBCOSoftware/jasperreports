@@ -154,7 +154,7 @@
 	scaleImage (Clip | FillFrame | RetainShape) "RetainShape"
 	hAlign (Left | Center | Right) "Left"
 	vAlign (Top | Middle | Bottom) "Top"
-	isUsingCache (true | false) "true"
+	isUsingCache (true | false) #IMPLIED
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"

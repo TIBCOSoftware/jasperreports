@@ -1097,10 +1097,10 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (!image.isUsingCache())
+		if (image.isOwnUsingCache() != null)
 		{
 			sb.append(" isUsingCache=\"");
-			sb.append(image.isUsingCache());
+			sb.append(image.isOwnUsingCache());
 			sb.append("\"");
 		}
 

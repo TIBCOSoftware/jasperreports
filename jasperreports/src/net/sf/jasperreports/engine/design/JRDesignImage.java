@@ -58,7 +58,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected byte scaleImage = SCALE_IMAGE_RETAIN_SHAPE;
 	protected byte horizontalAlignment = HORIZONTAL_ALIGN_LEFT;
 	protected byte verticalAlignment = VERTICAL_ALIGN_TOP;
-	protected boolean isUsingCache = true;
+	protected Boolean isUsingCache = null;
 	protected boolean isLazy = false;
 	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
@@ -121,6 +121,22 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 *
 	 */
 	public boolean isUsingCache()
+	{
+		if (isUsingCache == null)
+		{
+			if (getExpression() != null)
+			{
+				return String.class.getName().equals(getExpression().getValueClassName());
+			}
+			return true;
+		}
+		return isUsingCache.booleanValue();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnUsingCache()
 	{
 		return isUsingCache;
 	}
@@ -233,6 +249,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 *
 	 */
 	public void setUsingCache(boolean isUsingCache)
+	{
+		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 *
+	 */
+	public void setUsingCache(Boolean isUsingCache)
 	{
 		this.isUsingCache = isUsingCache;
 	}
