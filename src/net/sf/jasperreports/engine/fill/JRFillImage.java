@@ -144,7 +144,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public Boolean isOwnUsingCache()
+	{
+		return ((JRImage)this.parent).isOwnUsingCache();
+	}
+		
+	/**
+	 *
+	 */
 	public void setUsingCache(boolean isUsingCache)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setUsingCache(Boolean isUsingCache)
 	{
 	}
 		

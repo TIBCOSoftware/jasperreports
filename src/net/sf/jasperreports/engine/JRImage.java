@@ -113,21 +113,40 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 		
 	/**
 	 * Indicates if the engine is loading the current image from cache.
+	 * Implementations of this method rely on default values that depend on the type of the image expression
+	 * if a value was not explicitly set of this flag.
 	 * @return true if the image should be loaded from cache, false otherwise
 	 */
 	public boolean isUsingCache();
+
+	/**
+	 * Indicates if the engine is loading the current image from cache.
+	 * Implementations of this method return the actual value for the internal flag that was explicitly 
+	 * set on this image element.
+	 * @return Boolean.TRUE if the image should be loaded from cache, Boolean.FALSE otherwise 
+	 * or null in case the flag was never explicitly set on this image element
+	 */
+	public Boolean isOwnUsingCache();
 
 	/**
 	 * Specifies if the engine should be loading the current image from cache. If set to true, the reporting engine
 	 * will try to recognize previously loaded images using their specified source. For example, it will recognize
 	 * an image if the image source is a file name that it has already loaded, or if it is the same URL.
 	 * <p>
-	 * This caching functionality is available only for image elements that have expressions returning
-	 * <tt>java.lang.String</tt> objects as the image source, representing file names, URLs or classpath
-	 * resources. That's because the engine uses the image source string as the key to recognize that it is the
-	 * same image that it has already cached.
+	 * For image elements that have expressions returning <tt>java.lang.String</tt> objects as the image source, 
+	 * representing file names, URLs or classpath resources, the default value for this flag is true. 
 	 */
 	public void setUsingCache(boolean isUsingCache);
+
+	/**
+	 * Specifies if the engine should be loading the current image from cache. If set to Boolean.TRUE, the reporting engine
+	 * will try to recognize previously loaded images using their specified source. For example, it will recognize
+	 * an image if the image source is a file name that it has already loaded, or if it is the same URL.
+	 * <p>
+	 * If set to null, the engine will rely on some default value which depends on the type of the image expression.
+	 * The cache is turned on by default only for images that have <tt>java.lang.String</tt> objects in their expressions.
+	 */
+	public void setUsingCache(Boolean isUsingCache);
 
 	/**
 	 * Indicates if the images will be loaded lazily or not.
