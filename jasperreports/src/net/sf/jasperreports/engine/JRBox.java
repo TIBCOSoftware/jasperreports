@@ -31,6 +31,8 @@ import java.awt.Color;
 
 
 /**
+ * This is useful for drawing borders around text elements and images. Boxes can have borders and paddings, which can
+ * have different width and colour on each side of the element.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -39,73 +41,73 @@ public interface JRBox
 
 
 	/**
-	 *
+	 * Gets the default border pen size (can be overwritten by individual settings).
 	 */
 	public byte getBorder();
 
 
 	/**
-	 *
+	 * Sets the default border pen size (can be overwritten by individual settings).
 	 */
 	public void setBorder(byte border);
 
 
 	/**
-	 *
+	 * Gets the default border color (can be overwritten by individual settings).
 	 */
 	public Color getBorderColor();
 
 
 	/**
-	 *
+	 * Sets the default border color (can be overwritten by individual settings).
 	 */
 	public void setBorderColor(Color color);
 
 
 	/**
-	 *
+	 * Gets the default padding in pixels (can be overwritten by individual settings).
 	 */
 	public int getPadding();
 
 
 	/**
-	 *
+	 * Sets the default padding in pixels (can be overwritten by individual settings).
 	 */
 	public void setPadding(int padding);
 
 	
 	/**
-	 *
+	 * Gets the top border pen size.
 	 */
 	public byte getTopBorder();
 
 
 	/**
-	 *
+	 * Gets the top border pen size (if the default value was overwritten).
 	 */
 	public Byte getOwnTopBorder();
 	
 
 	/**
-	 *
+	 * Sets the top border pen size.
 	 */
 	public void setTopBorder(byte border);
 
 
 	/**
-	 *
+	 * Gets the top border color.
 	 */
 	public Color getTopBorderColor();
 
 
 	/**
-	 *
+	 * Gets the top border color (if the default value was overwritten).
 	 */
 	public Color getOwnTopBorderColor();
 
 
 	/**
-	 *
+	 * Sets the top border color.
 	 */
 	public void setTopBorderColor(Color color);
 

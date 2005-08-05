@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * Instances of this classes represent various sections in the report template. A report can contain the following
+ * bands: background, title, summary, page header, page footer, last page footer, column header, column footer and detail.
+ * For each group defined in the report, there is a corresponding group header and group footer.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -42,7 +45,7 @@ public interface JRBand extends JRElementGroup
 	public int getHeight();
 
 	/**
-	 *
+	 * Specifies if the band can be splitted between two pages.
 	 */
 	public boolean isSplitAllowed();
 
@@ -52,7 +55,7 @@ public interface JRBand extends JRElementGroup
 	public void setSplitAllowed(boolean isSplitAllowed);
 
 	/**
-	 *
+	 * Returns the boolean expression that specifies if the band will be displayed.
 	 */
 	public JRExpression getPrintWhenExpression();
 

@@ -31,6 +31,9 @@ import java.awt.Color;
 
 
 /**
+ * Implementations of this interface can be used for rendering chart components. Data obtained from the report
+ * datasource can be also displayed in a chart, embedded in the report. There are a lot of chart types, each with
+ * its own dataset and characteristics. This interface only defines the common properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -79,23 +82,23 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	public void setShowLegend(boolean isShowLegend);
 
 	/**
-	 *
+	 * Returns the evaluation time for this chart.
 	 */
 	public byte getEvaluationTime();
 		
 	/**
-	 *
+	 * Gets the evaluation group for this chart (only applies when evaluation time is group).
 	 */
 	public JRGroup getEvaluationGroup();
 		
 	/**
-	 *
+	 * Gets the box around the element.
 	 */
 	public JRBox getBox();
 
 
 	/**
-	 *
+	 * Gets the expression whose evaluation will form the title.
 	 */
 	public JRExpression getTitleExpression();
 
@@ -107,13 +110,13 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 
 
 	/**
-	 *
+	 * Gets the title position relative to the chart.
 	 */
 	public byte getTitlePosition();
 
 
 	/**
-	 *
+	 * Sets the title position relative to the chart.
 	 */
 	public void setTitlePosition(byte titlePosition);
 	
@@ -131,7 +134,7 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 
 	
 	/**
-	 *
+	 * Gets the expression whose evaluation will form the subtitle.
 	 */
 	public JRExpression getSubtitleExpression();
 
@@ -155,19 +158,19 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 
 	
 	/**
-	 *
+	 * Gets the chart dataset. Most chart types have different dataset structures, depending on the chart type.
 	 */
 	public JRChartDataset getDataset();
 
 
 	/**
-	 *
+	 * Gets the chart plot. Plots are used to define various chart visual properties, such as colors and transparency.
 	 */
 	public JRChartPlot getPlot();
 
 
 	/**
-	 *
+	 * Gets the chart type. It must be one of the chart type constants in this class.
 	 */ 
 	public byte getChartType();
 	

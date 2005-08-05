@@ -170,7 +170,9 @@ public class JasperPrint implements Serializable
 
 
 	/**
-	 *
+	 * Returns the page orientation.
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
 	 */
 	public byte getOrientation()
 	{
@@ -178,7 +180,9 @@ public class JasperPrint implements Serializable
 	}
 		
 	/**
-	 *
+	 * Sets the page orientation.
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
 	 */
 	public void setOrientation(byte orientation)
 	{
@@ -186,7 +190,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Returns the default report font.
 	 */
 	public JRReportFont getDefaultFont()
 	{
@@ -194,7 +198,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Sets the default report font.
 	 */
 	public void setDefaultFont(JRReportFont font)
 	{
@@ -211,7 +215,7 @@ public class JasperPrint implements Serializable
 	}
 		
 	/**
-	 *
+	 * Gets an array of report fonts.
 	 */
 	public JRReportFont[] getFonts()
 	{
@@ -223,7 +227,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Gets a list of report fonts.
 	 */
 	public List getFontsList()
 	{
@@ -231,7 +235,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Gets a map of report fonts.
 	 */
 	public Map getFontsMap()
 	{
@@ -239,7 +243,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Adds a new font to the report fonts.
 	 */
 	public void addFont(JRReportFont reportFont) throws JRException
 	{
@@ -287,7 +291,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Returns a list of all pages in the filled report.
 	 */
 	public List getPages()
 	{
@@ -295,7 +299,7 @@ public class JasperPrint implements Serializable
 	}
 		
 	/**
-	 *
+	 * Adds a new page to the document.
 	 */
 	public void addPage(JRPrintPage page)
 	{
@@ -304,7 +308,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Adds a new page to the document, placing it at the specified index.
 	 */
 	public void addPage(int index, JRPrintPage page)
 	{
@@ -313,7 +317,7 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * Removes a page from the document.
 	 */
 	public JRPrintPage removePage(int index)
 	{
