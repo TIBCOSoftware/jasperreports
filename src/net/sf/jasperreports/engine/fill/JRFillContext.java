@@ -61,44 +61,44 @@ public class JRFillContext
 	
 	
 	/**
-	 * Checks whether an image given by location has already been loaded and cached.
+	 * Checks whether an image given by source has already been loaded and cached.
 	 * 
-	 * @param location the location
+	 * @param source the source of the image
 	 * @return whether the image has been cached
 	 * @see #getLoadedImage(String)
 	 * @see #registerLoadedImage(String, JRPrintImage)
 	 */
-	public boolean hasLoadedImage(String location)
+	public boolean hasLoadedImage(Object source)
 	{
-		return loadedImages.containsKey(location); 
+		return loadedImages.containsKey(source); 
 	}
 	
 	
 	/**
 	 * Gets a cached image.
 	 * 
-	 * @param location the location of the image
+	 * @param source the source of the image
 	 * @return the cached image
 	 * @see #registerLoadedImage(String, JRPrintImage)
 	 */
-	public JRPrintImage getLoadedImage(String location)
+	public JRPrintImage getLoadedImage(Object source)
 	{
-		return (JRPrintImage) loadedImages.get(location); 
+		return (JRPrintImage) loadedImages.get(source); 
 	}
 	
 	
 	/**
-	 * Registers an image loaded from a location.
+	 * Registers an image loaded from a source.
 	 * <p>
 	 * The image is cached for further use.
 	 * 
-	 * @param location the location where the image was loaded from
+	 * @param source the source that was used to load the image
 	 * @param image the loaded image
 	 * @see #getLoadedImage(String)
 	 */
-	public void registerLoadedImage(String location, JRPrintImage image)
+	public void registerLoadedImage(Object source, JRPrintImage image)
 	{
-		loadedImages.put(location, image);
+		loadedImages.put(source, image);
 	}
 
 	

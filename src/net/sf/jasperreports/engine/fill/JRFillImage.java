@@ -353,53 +353,50 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		Object source = this.filler.calculator.evaluate(expression, evaluation);
 		if (source != null)
 		{
-			Class expressionClass = expression.getValueClass();
-			
-			if (Image.class.getName().equals(expressionClass.getName()))
+			if (this.isUsingCache() && this.filler.fillContext.hasLoadedImage(source))
 			{
-				Image img = (Image)source;
-				newRenderer = JRImageRenderer.getInstance(img, getOnErrorType());
+				newRenderer = this.filler.fillContext.getLoadedImage(source).getRenderer();
 			}
-			else if (InputStream.class.getName().equals(expressionClass.getName()))
+			else
 			{
-				InputStream is = (InputStream)source;
-				newRenderer = JRImageRenderer.getInstance(is, getOnErrorType());
-			}
-			else if (URL.class.getName().equals(expressionClass.getName()))
-			{
-				URL url = (URL)source;
-				newRenderer = JRImageRenderer.getInstance(url, getOnErrorType());
-			}
-			else if (File.class.getName().equals(expressionClass.getName()))
-			{
-				File file = (File)source;
-				newRenderer = JRImageRenderer.getInstance(file, getOnErrorType());
-			}
-			else if (String.class.getName().equals(expressionClass.getName()))
-			{
-				String location = (String)source;
-				if (this.isUsingCache())
+				Class expressionClass = expression.getValueClass();
+				
+				if (Image.class.getName().equals(expressionClass.getName()))
 				{
-					if (this.filler.fillContext.hasLoadedImage(location))
-					{
-						newRenderer = this.filler.fillContext.getLoadedImage(location).getRenderer();
-					}
-					else
-					{
-						newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
-						JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
-						img.setRenderer(newRenderer);
-						this.filler.fillContext.registerLoadedImage(location, img);
-					}
+					Image img = (Image) source;
+					newRenderer = JRImageRenderer.getInstance(img, getOnErrorType());
 				}
-				else
+				else if (InputStream.class.getName().equals(expressionClass.getName()))
 				{
+					InputStream is = (InputStream) source;
+					newRenderer = JRImageRenderer.getInstance(is, getOnErrorType());
+				}
+				else if (URL.class.getName().equals(expressionClass.getName()))
+				{
+					URL url = (URL) source;
+					newRenderer = JRImageRenderer.getInstance(url, getOnErrorType());
+				}
+				else if (File.class.getName().equals(expressionClass.getName()))
+				{
+					File file = (File) source;
+					newRenderer = JRImageRenderer.getInstance(file, getOnErrorType());
+				}
+				else if (String.class.getName().equals(expressionClass.getName()))
+				{
+					String location = (String) source;
 					newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
 				}
-			}
-			else if (JRRenderable.class.getName().equals(expressionClass.getName()))
-			{
-				newRenderer = (JRRenderable)source;
+				else if (JRRenderable.class.getName().equals(expressionClass.getName()))
+				{
+					newRenderer = (JRRenderable) source;
+				}
+
+				if (this.isUsingCache())
+				{
+					JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
+					img.setRenderer(newRenderer);
+					this.filler.fillContext.registerLoadedImage(source, img);
+				}
 			}
 		}
 
