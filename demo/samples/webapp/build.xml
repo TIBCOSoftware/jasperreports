@@ -1,18 +1,12 @@
 <project name="webapp" default="javac" basedir=".">
 
-	<!--
-		Copies the required JAR files from the project's /lib directory
-	-->
-	<target name="prepare">
+	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../dist" includes="**/jasperreports-*.jar" excludes="**/jasperreports-*-applet.jar"/>
 		</copy>
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/commons-*.jar" />
 		</copy>
-		<!--
-		<copy file="../../../lib/xerces.jar" todir="./WEB-INF/lib"/>
-		-->
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/i*ext*.jar" />
 		</copy>
@@ -24,11 +18,7 @@
 		</copy>
 	</target>
 
-	<!--
-		Compiles the java source files 
-		of the web application.
-	-->
-	<target name="javac" depends="prepare">
+	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="false">
 			<classpath>
 				<pathelement location="./WEB-INF/classes/"/>
@@ -49,10 +39,7 @@
 		</javac>
 	</target>
 
-	<!--
-		Launches the design viewer to preview the XML report design.
-	-->
-	<target name="viewDesignXML">
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-Freports/WebappReport.jrxml"/>
@@ -66,10 +53,7 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the design viewer to preview the compiled report design.
-	-->
-	<target name="viewDesign">
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-Freports/WebappReport.jasper"/>
 			<classpath>
@@ -82,10 +66,7 @@
 		</java>
 	</target>
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="./reports" includes="**/*.jasper" />
@@ -98,10 +79,7 @@
 		<delete dir="./jsp/html/reportPage.html_files" />
 	</target>
 
-	<!--
-		Builds the Web application .war file.
-	-->
-	<target name="war" depends="javac">
+	<target name="war" depends="javac" description="Builds the Web application .war file.">
 		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
 			<fileset dir="." includes="**/*.css" />
 			<fileset dir="." includes="**/*.html" />

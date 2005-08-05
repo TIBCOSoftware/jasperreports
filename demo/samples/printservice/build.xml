@@ -15,11 +15,7 @@
 		</fileset>
 	</path>
 
-	<!--
-		Compiles the java source files 
-		of the test application.
-	-->
-	<target name="javac">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<echo message="**************************************************"/>
 		<echo message="* You need JDK 1.4 or higher to run this sample. *"/>
 		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
@@ -36,11 +32,7 @@
 		</javac>
 	</target>
 
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fill">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -48,21 +40,14 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="view">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Sends the report in the .jrprint file to the printer.
-	-->
-	<target name="print">
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<echo message="**************************************************"/>
 		<echo message="* You need JDK 1.4 or higher to run this sample. *"/>
 		<echo message="* (the current JDK version is ${ant.java.version})               *"/>
@@ -74,10 +59,7 @@
 		</java>
 	</target>
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jrprint" />

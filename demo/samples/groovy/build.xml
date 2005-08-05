@@ -25,22 +25,14 @@
 		</or>
 	</condition>
 
-	<!--
-		Compiles the java source files 
-		of the test application.
-	-->
-	<target name="javac" if="using.jdk.1.4">
+	<target name="javac" if="using.jdk.1.4" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
-	<!--
-		Compiles the XML report designs 
-		and produces the .jasper files.
-	-->
-	<target name="compile" if="using.jdk.1.4">
+	<target name="compile" if="using.jdk.1.4" description="Compiles the XML report designs and produces the .jasper files.">
 		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
@@ -55,11 +47,7 @@
 		</jrc> 
 	</target>
 
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fill" if="using.jdk.1.4">
+	<target name="fill" if="using.jdk.1.4" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
 			<arg value="-F./build/reports/${file.name}.jasper"/>
@@ -67,22 +55,14 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="view" if="using.jdk.1.4">
+	<target name="view" if="using.jdk.1.4" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-F./build/reports/${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the generated report 
-		stored in an XML file.
-	-->
-	<target name="viewXML" if="using.jdk.1.4">
+	<target name="viewXML" if="using.jdk.1.4" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F./build/reports/${file.name}.jrpxml"/>
@@ -90,11 +70,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates a PDF version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="pdf" if="using.jdk.1.4">
+	<target name="pdf" if="using.jdk.1.4" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
 			<arg value="-F./build/reports/${file.name}.jrprint"/>
@@ -102,10 +78,7 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the design viewer to preview the XML report design.
-	-->
-	<target name="viewDesignXML" if="using.jdk.1.4">
+	<target name="viewDesignXML" if="using.jdk.1.4" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F./reports/${file.name}.jrxml"/>
@@ -113,20 +86,14 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the design viewer to preview the compiled report design.
-	-->
-	<target name="viewDesign" if="using.jdk.1.4">
+	<target name="viewDesign" if="using.jdk.1.4" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-F./build/reports/${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="./build" />
 	</target>
 

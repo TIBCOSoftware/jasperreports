@@ -15,21 +15,13 @@
 		</fileset>
 	</path>
 
-	<!--
-		Compiles the java source files 
-		of the test application.
-	-->
-	<target name="javac">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fill">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -37,22 +29,14 @@
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="view">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the generated report 
-		stored in an XML file.
-	-->
-	<target name="viewXML">
+	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-F${file.name}.jrpxml"/>
@@ -60,10 +44,7 @@
 		</java>
 	</target>
 
-	<!--
-		Sends the report in the .jrprint file to the printer.
-	-->
-	<target name="print">
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -71,11 +52,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates a PDF version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="pdf">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -83,11 +60,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xml">
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txml"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -95,11 +68,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates an XML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xmlEmbed">
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-TxmlEmbed"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -107,11 +76,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates an HTML version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="html">
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Thtml"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -119,11 +84,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates an XLS version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="xls">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -131,11 +92,7 @@
 		</java>
 	</target>
 
-	<!--
-		Generates a CSV version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="csv">
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
 			<arg value="-F${file.name}.jrprint"/>
@@ -143,10 +100,7 @@
 		</java>
 	</target>
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jrprint" />

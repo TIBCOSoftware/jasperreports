@@ -14,21 +14,13 @@
 		</fileset>
 	</path>
 
-	<!--
-		Compiles the java source files 
-		of the test application.
-	-->
-	<target name="javac">
+	<target name="javac" description="Compiles the java source files of the test application.">
 		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
-	<!--
-		Compiles the XML report design 
-		and produces the .jasper file.
-	-->
-	<target name="compile">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
@@ -42,53 +34,35 @@
 		</jrc> 
 	</target>
 
-	<!--
-		Fills the compiled report design with data 
-		and produces the .jrprint file.
-	-->
-	<target name="fill">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Launches the report viewer to preview the report 
-		stored in the .jrprint file.
-	-->
-	<target name="view">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-FBubbleChartReport.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Generates a PDF version of the report 
-		by converting the .jrprint file.
-	-->
-	<target name="pdf">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Generates a report design XML file from a .jasper file.
-	-->
-	<target name="writeXml">
+	<target name="writeXml" description="Generates a report design XML file from a .jasper file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-TwriteXml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
-	<!--
-		Launches the design viewer to preview the XML report design.
-	-->
-	<target name="viewDesignXML">
+	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
 			<arg value="-FBubbleChartReport.jrxml"/>
@@ -96,10 +70,7 @@
 		</java>
 	</target>
 
-	<!--
-		Deletes all the generated files.
-	-->
-	<target name="clean">
+	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
