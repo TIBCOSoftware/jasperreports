@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a Jasper report. This interface is inherited by all report implementations
+ * (designs, compiled reports, filled reports). It only contains constants and getters and setters for the most common
+ * report properties and elements.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,41 +40,70 @@ public interface JRReport extends JRDefaultFontProvider
 
 	
 	/**
-	 *
+	 * A constant used to specify that the language used by expressions is Java.
 	 */
 	public static final String LANGUAGE_JAVA = "java";
 
 	/**
-	 *
+	 * Specifies that columns in a report should be filled vertically (fill an entire column and then go to the
+	 * next one).
 	 */
 	public static final byte PRINT_ORDER_VERTICAL = 1;
-	public static final byte PRINT_ORDER_HORIZONTAL = 2;
+
 
 	/**
-	 *
+	 * Specifies that columns in a report should be filled horizontalyy (columns are filled proportionally).
+	 */
+	public static final byte PRINT_ORDER_HORIZONTAL = 2;
+
+
+	/**
+	 * Specifies a portrait orientation. This is used mostly to inform printers of page layouts.
 	 */
 	public static final byte ORIENTATION_PORTRAIT = 1;
+
+
+	/**
+	 * Specifies a landscape orientation. This is used mostly to inform printers of page layouts.
+	 */
 	public static final byte ORIENTATION_LANDSCAPE = 2;
 
 	/**
-	 *
+	 * Specifies that in case of empty datasources, there will be an empty report.
 	 */
 	public static final byte WHEN_NO_DATA_TYPE_NO_PAGES = 1;
+
+
+	/**
+	 * Specifies that in case of empty datasources, there will be a report with just one blank page.
+	 */
 	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
+
+
+	/**
+	 * Specifies that in case of empty datasources, all sections except detail will displayed.
+	 */
 	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
+
 
 	/**
 	 * Return NULL when a resource is missing.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = 1;
+
+
 	/**
 	 * Return empty string when a resource is missing.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = 2;
+
+
 	/**
 	 * Return the key when a resource is missing.
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = 3;
+
+
 	/**
 	 * Throw an exception when a resource is missing.
 	 */
@@ -79,22 +111,24 @@ public interface JRReport extends JRDefaultFontProvider
 
 	
 	/**
-	 *
+	 * Gets the report name.
 	 */
 	public String getName();
 
 	/**
-	 *
+	 * Gets the report language. Should be Java or Groovy.
 	 */
 	public String getLanguage();
 		
 	/**
-	 *
+	 * Gets the number of columns on each page
 	 */
 	public int getColumnCount();
 		
 	/**
-	 *
+	 * Specifies whether columns will be filled horizontally or vertically.
+	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_VERTICAL
+	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_HORIZONTAL
 	 */
 	public byte getPrintOrder();
 		
@@ -114,12 +148,12 @@ public interface JRReport extends JRDefaultFontProvider
 	public byte getOrientation();
 		
 	/**
-	 *
+	 * Specifies the report behaviour in case of empty datasources.
 	 */
 	public byte getWhenNoDataType();
 		
 	/**
-	 *
+	 * Sets the report behaviour in case of empty datasources.
 	 */
 	public void setWhenNoDataType(byte whenNoDataType);
 		
@@ -129,7 +163,7 @@ public interface JRReport extends JRDefaultFontProvider
 	public int getColumnWidth();
 		
 	/**
-	 *
+	 * Specifies the space between columns on the same page.
 	 */
 	public int getColumnSpacing();
 		
@@ -154,17 +188,19 @@ public interface JRReport extends JRDefaultFontProvider
 	public int getBottomMargin();
 		
 	/**
-	 *
+	 * Specifies if the title section will be printed on a separate initial page.
 	 */
 	public boolean isTitleNewPage();
 		
 	/**
-	 *
+	 * Specifies if the summary section will be printed on a separate last page.
 	 */
 	public boolean isSummaryNewPage();
 		
 	/**
-	 *
+	 * Specifie if the column footer section will be printed at the bottom of the column or if it
+	 * will immediately follow the last detail or group footer printed on the current column.
+
 	 */
 	public boolean isFloatColumnFooter();
 		
@@ -174,17 +210,18 @@ public interface JRReport extends JRDefaultFontProvider
 	public String getScriptletClass();
 
 	/**
-	 *
+	 * Gets the base name of the report associated resource bundle.
 	 */
 	public String getResourceBundle();
 
 	/**
-	 *
+	 * Gets an array of report properties names.
 	 */
 	public String[] getPropertyNames();
 
 	/**
-	 *
+	 * Gets a property value
+	 * @param name the property name
 	 */
 	public String getProperty(String name);
 
@@ -199,12 +236,12 @@ public interface JRReport extends JRDefaultFontProvider
 	public void removeProperty(String name);
 
 	/**
-	 *
+	 * Gets an array of imports (needed if report expression require additional classes in order to compile).
 	 */
 	public String[] getImports();
 
 	/**
-	 *
+	 * Gets an array of report fonts.
 	 */
 	public JRReportFont[] getFonts();
 

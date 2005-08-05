@@ -55,6 +55,14 @@ import net.sf.jasperreports.engine.base.JRBaseReport;
 
 
 /**
+ * JasperDesign is used for in-memory representation of a report design. Instances of this class can be easily
+ * created from an XML template and viceversa. It contains all report properties and report elements in their design time
+ * state.
+ * <p>
+ * The main reason for using this class is for modifying report templates at run time. Although using compiled reports
+ * is usually recommended, sometimes people need to dinamically change a report design.
+ *
+ * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -156,7 +164,7 @@ public class JasperDesign extends JRBaseReport
 	private static final long serialVersionUID = 10000;
 
 	/**
-	 *
+	 * An array containing the built-in parameters that can be found and used in any report.
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] 
 	{
@@ -187,7 +195,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
 	 */
 	public JasperDesign()
 	{
@@ -332,7 +340,8 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Sets the report name. It is strongly recommended that the report name matches the .jrxml file name, since report compilers
+	 * usually use this name for the compiled .jasper file.
 	 */
 	public void setName(String name)
 	{
@@ -343,7 +352,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Specifies the language used for report expressions (Java or Groovy). The default is Java.
 	 */
 	public void setLanguage(String language)
 	{
@@ -354,7 +363,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Specifies the number of report columns.
 	 */
 	public void setColumnCount(int columnCount)
 	{
@@ -365,7 +374,9 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
+	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_VERTICAL
+	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_HORIZONTAL
 	 */
 	public void setPrintOrder(byte printOrder)
 	{
@@ -376,7 +387,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets page width (including margins etc.). Default is 595.
 	 */
 	public void setPageWidth(int pageWidth)
 	{
@@ -387,7 +398,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets page height (including margins etc.). Default is 842.
 	 */
 	public void setPageHeight(int pageHeight)
 	{
@@ -399,7 +410,9 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the report orientation.
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
+	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
 	 */
 	public void setOrientation(byte orientation)
 	{
@@ -411,7 +424,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the column width.
 	 */
 	public void setColumnWidth(int columnWidth)
 	{
@@ -423,7 +436,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the spacing between columns.
 	 */
 	public void setColumnSpacing(int columnSpacing)
 	{
@@ -435,7 +448,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the left margin. The working space is calculated by subtracting the margins from the page width.
 	 */
 	public void setLeftMargin(int leftMargin)
 	{
@@ -447,7 +460,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the right margin. The working space is calculated by subtracting the margins from the page width.
 	 */
 	public void setRightMargin(int rightMargin)
 	{
@@ -459,7 +472,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the top margin. The working space is calculated by subtracting the margins from the page height.
 	 */
 	public void setTopMargin(int topMargin)
 	{
@@ -471,7 +484,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the top margin. The working space is calculated by subtracting the margins from the page height.
 	 */
 	public void setBottomMargin(int bottomMargin)
 	{
@@ -483,7 +496,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the background band.
 	 */
 	public void setBackground(JRBand background)
 	{
@@ -494,7 +507,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the title band.
 	 */
 	public void setTitle(JRBand title)
 	{
@@ -505,7 +518,10 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
+	 * Flag used to specify if the title section should be printed on a separate initial page.
 	 *
+	 * @param isTitleNewPage true if the title section should be displayed on a separate initial page, false if
+	 * it will be displayed on the first page along with other sections.
 	 */
 	public void setTitleNewPage(boolean isTitleNewPage)
 	{
@@ -516,7 +532,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the summary band.
 	 */
 	public void setSummary(JRBand summary)
 	{
@@ -527,7 +543,10 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
+	 * Flag used to specify if the summary section should be printed on a separate last page.
 	 *
+	 * @param isSummaryNewPage true if the summary section should be displayed on a separate last page, false if
+	 * it will be displayed on the last page along with other sections, if there is enough space.
 	 */
 	public void setSummaryNewPage(boolean isSummaryNewPage)
 	{
@@ -539,7 +558,8 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Flag used to specify if the column footer section should be printed at the bottom of the column or if it
+	 * should immediately follow the last detail or group footer printed on the current column.
 	 */
 	public void setFloatColumnFooter(boolean isFloatColumnFooter)
 	{
@@ -551,7 +571,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the page header band.
 	 */
 	public void setPageHeader(JRBand pageHeader)
 	{
@@ -562,7 +582,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the page footer band.
 	 */
 	public void setPageFooter(JRBand pageFooter)
 	{
@@ -573,7 +593,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the last page footer band.
 	 */
 	public void setLastPageFooter(JRBand lastPageFooter)
 	{
@@ -585,7 +605,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the column header band.
 	 */
 	public void setColumnHeader(JRBand columnHeader)
 	{
@@ -597,7 +617,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the column footer band.
 	 */
 	public void setColumnFooter(JRBand columnFooter)
 	{
@@ -609,7 +629,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the detail band.
 	 */
 	public void setDetail(JRBand detail)
 	{
@@ -637,7 +657,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Sets the base name of the report associated resource bundle.
 	 */
 	public void setResourceBundle(String resourceBundle)
 	{
@@ -648,7 +668,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Adds an import (needed if report expression require additional classes in order to compile).
 	 */
 	public void addImport(String value)
 	{
@@ -661,7 +681,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Removes an import.
 	 */
 	public void removeImport(String value)
 	{
@@ -684,7 +704,7 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
-	 *
+	 * Gets an array of report level fonts. These fonts can be referenced by text elements.
 	 */
 	public JRReportFont[] getFonts()
 	{
@@ -697,7 +717,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a list of report level fonts. These fonts can be referenced by text elements.
 	 */
 	public List getFontsList()
 	{
@@ -715,7 +735,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Adds a report font, that can be referenced by text elements.
 	 */
 	public void addFont(JRReportFont reportFont) throws JRException
 	{
@@ -735,7 +755,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Removes a report font from the list, based on the font name.
 	 */
 	public JRReportFont removeFont(String propName)
 	{
@@ -746,7 +766,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Removes a report font from the list.
 	 */
 	public JRReportFont removeFont(JRReportFont reportFont)
 	{
@@ -766,7 +786,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Gets an array of report parameters (including built-in ones).
 	 */
 	public JRParameter[] getParameters()
 	{
@@ -779,7 +799,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a list of report parameters (including built-in ones).
 	 */
 	public List getParametersList()
 	{
@@ -788,7 +808,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a map of report parameters (including built-in ones).
 	 */
 	public Map getParametersMap()
 	{
@@ -797,7 +817,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Adds a report parameter.
 	 */
 	public void addParameter(JRParameter parameter) throws JRException
 	{
@@ -812,7 +832,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Removes a report parameter, based on its name.
 	 */
 	public JRParameter removeParameter(String parameterName)
 	{
@@ -823,7 +843,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Removes a report parameter.
 	 */
 	public JRParameter removeParameter(JRParameter parameter)
 	{
@@ -838,7 +858,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Specifies the report query. This is used only when datasource type is JDBC (a <tt>java.sql.Connection</tt>).
 	 */
 	public void setQuery(JRQuery query)
 	{
@@ -888,7 +908,7 @@ public class JasperDesign extends JRBaseReport
 	}
 
 	/**
-	 *
+	 *  Gets an array of report fields.
 	 */
 	public JRField[] getFields()
 	{
@@ -901,7 +921,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets an array of report fields.
 	 */
 	public List getFieldsList()
 	{
@@ -910,7 +930,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a map of report fields.
 	 */
 	public Map getFieldsMap()
 	{
@@ -960,7 +980,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Gets an array of report variables.
 	 */
 	public JRVariable[] getVariables()
 	{
@@ -973,7 +993,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a list of report variables.
 	 */
 	public List getVariablesList()
 	{
@@ -982,7 +1002,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a map of report variables.
 	 */
 	public Map getVariablesMap()
 	{
@@ -1032,7 +1052,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Gets an array of report groups.
 	 */
 	public JRGroup[] getGroups()
 	{
@@ -1045,7 +1065,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a list of report groups.
 	 */
 	public List getGroupsList()
 	{
@@ -1054,7 +1074,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Gets a map of report groups.
 	 */
 	public Map getGroupsMap()
 	{
@@ -1063,7 +1083,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * Adds a new group to the report design. Groups are nested.
 	 */
 	public void addGroup(JRDesignGroup group) throws JRException
 	{
@@ -1125,7 +1145,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * Returns a collection of all report expressions.
 	 */
 	public Collection getExpressions()
 	{
