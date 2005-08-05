@@ -36,13 +36,13 @@ to see what tasks are available for building up the library from the source file
 -----------------------------
 
 The /demo directory contains some JasperReports sample applications 
-and a HypersonicSQL demo database.
+and a HSQLDB demo database.
 
 
-3.1 HypersonicSQL
+3.1 HSQLDB
 Some of the supplied samples use the HSQL Database Engine Server 
 found in the /demo/hsqldb directory. In order to run those samples 
-you should start the HypersonicSQL server first. 
+you should start the HSQLDB server first. 
 There is a build.xml file in the /demo/hsqldb directory which contains 
 two ANT targets: "runServer" and "runManager".
 The first is for starting up the HSQL database and the second is for
