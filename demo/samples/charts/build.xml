@@ -1,5 +1,7 @@
 <project name="charts" default="javac" basedir=".">
 
+	<description>Shows how the chart element could be used to render different types of charts.</description>
+
 	<property name="class.name" value="ChartsApp" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />

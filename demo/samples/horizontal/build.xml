@@ -1,5 +1,7 @@
 <project name="horizontal" default="javac" basedir=".">
 
+	<description>Shows how multi-column report templates could be filled horizontally.</description>
+
 	<property name="class.name" value="HorizontalApp" />
 	<property name="file.name" value="HorizontalReport" />
 	<property name="classes.dir" value="../../../build/classes" />

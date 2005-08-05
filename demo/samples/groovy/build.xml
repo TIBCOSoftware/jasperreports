@@ -1,5 +1,7 @@
 <project name="groovy" default="javac" basedir=".">
 
+	<description>Shows how the Groovy scripting languages could be used inside report templates.</description>
+
 	<property name="class.name" value="GroovyApp" />
 	<property name="file.name" value="GroovyReport" />
 	<property name="classes.dir" value="../../../build/classes" />

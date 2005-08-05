@@ -1,5 +1,7 @@
 <project name="i18n" default="javac" basedir=".">
 
+	<description>Shows how a report could be rendered in different languages.</description>
+
 	<property name="class.name" value="I18nApp" />
 	<property name="file.name" value="I18nReport" />
 	<property name="classes.dir" value="../../../build/classes" />
