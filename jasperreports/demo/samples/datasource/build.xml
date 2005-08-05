@@ -1,5 +1,7 @@
 <project name="datasource" default="javac" basedir=".">
 
+	<description>Shows how custom or JavaBean-based data sources implementation could be used to fill reports.</description>
+
 	<property name="class.name" value="DataSourceApp" />
 	<property name="file.name" value="DataSourceReport" />
 	<property name="classes.dir" value="../../../build/classes" />

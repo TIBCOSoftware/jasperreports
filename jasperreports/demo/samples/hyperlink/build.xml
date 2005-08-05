@@ -1,5 +1,7 @@
 <project name="hyperlink" default="javac" basedir=".">
 
+	<description>Shows how hypelink and anchors could be used in report templates.</description>
+
 	<property name="class.name" value="HyperlinkApp" />
 	<property name="file.name" value="HyperlinkReport" />
 	<property name="classes.dir" value="../../../build/classes" />

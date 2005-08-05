@@ -1,5 +1,7 @@
 <project name="batchexport" default="javac" basedir=".">
 
+	<description>Shows how barcodes multiple reports could be concatenated during export.</description>
+
 	<property name="class.name" value="BatchExportApp" />
 	<property name="file.name" value="BatchExportReport" />
 	<property name="classes.dir" value="../../../build/classes" />

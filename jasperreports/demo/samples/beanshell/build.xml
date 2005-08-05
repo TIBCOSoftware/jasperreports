@@ -1,5 +1,7 @@
 <project name="beanshell" default="javac" basedir=".">
 
+	<description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evalution.</description>
+
 	<property name="class.name" value="BeanShellApp" />
 	<property name="file.name" value="BeanShellReport" />
 	<property name="classes.dir" value="../../../build/classes" />
