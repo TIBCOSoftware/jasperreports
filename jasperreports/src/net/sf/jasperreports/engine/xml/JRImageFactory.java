@@ -90,7 +90,7 @@ public class JRImageFactory extends JRBaseFactory
 		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
-			image.setUsingCache(Boolean.valueOf(isUsingCache).booleanValue());
+			image.setUsingCache(Boolean.valueOf(isUsingCache));
 		}
 
 		String isLazy = atts.getValue(ATTRIBUTE_isLazy);
