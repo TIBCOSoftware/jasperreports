@@ -1,5 +1,7 @@
 <project name="landscape" default="javac" basedir=".">
 
+	<description>Shows how reports can be generated and printed in "Lanscape" page format.</description>
+
 	<property name="class.name" value="LandscapeApp" />
 	<property name="file.name" value="LandscapeReport" />
 	<property name="classes.dir" value="../../../build/classes" />

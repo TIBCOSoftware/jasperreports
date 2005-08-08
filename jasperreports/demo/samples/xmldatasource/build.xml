@@ -1,5 +1,7 @@
 <project name="xmldatasource" default="javac" basedir=".">
 
+	<description>Shows how the built-in XPath-based data source could be used for reporting out of XML data.</description>
+
 	<property name="class.name" value="XmlDataSourceApp" />
 	<property name="file.name" value="CustomersReport" />
 	<property name="classes.dir" value="../../../build/classes" />

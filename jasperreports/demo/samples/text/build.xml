@@ -1,5 +1,7 @@
 <project name="text" default="javac" basedir=".">
 
+	<description>Shows how the pure text exporter could be used to export reports to simple text files.</description>
+
 	<property name="class.name" value="TextApp" />
 	<property name="file.name" value="TextReport" />
 	<property name="classes.dir" value="../../../build/classes" />

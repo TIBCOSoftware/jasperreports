@@ -1,5 +1,7 @@
 <project name="webapp" default="javac" basedir=".">
 
+	<description>Shows how reporting functionality could be added to a Web application.</description>
+
 	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../dist" includes="**/jasperreports-*.jar" excludes="**/jasperreports-*-applet.jar"/>

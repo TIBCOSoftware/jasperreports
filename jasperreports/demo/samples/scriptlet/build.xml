@@ -1,5 +1,7 @@
 <project name="scriptlet" default="javac" basedir=".">
 
+	<description>Shows how the scriptlets could be used to manipulate data during report filling.</description>
+
 	<property name="class.name" value="ScriptletApp" />
 	<property name="file.name" value="ScriptletReport" />
 	<property name="classes.dir" value="../../../build/classes" />

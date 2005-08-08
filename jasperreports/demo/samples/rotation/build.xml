@@ -1,5 +1,7 @@
 <project name="rotation" default="javac" basedir=".">
 
+	<description>Shows how rotated text could be used in report templates.</description>
+
 	<property name="class.name" value="RotationApp" />
 	<property name="file.name" value="RotationReport" />
 	<property name="classes.dir" value="../../../build/classes" />

@@ -1,5 +1,7 @@
 <project name="printservice" default="javac" basedir=".">
 
+	<description>Shows how the Java Print Service API could be used to print reports.</description>
+
 	<property name="class.name" value="PrintServiceApp" />
 	<property name="file.name" value="PrintServiceReport" />
 	<property name="classes.dir" value="../../../build/classes" />
