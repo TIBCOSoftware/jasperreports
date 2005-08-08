@@ -1,5 +1,7 @@
 <project name="noreport" default="javac" basedir=".">
 
+	<description>Shows how final documents can be created without using the reporting engine, but only the API directly.</description>
+
 	<property name="class.name" value="NoReportApp" />
 	<property name="file.name" value="NoReport" />
 	<property name="classes.dir" value="../../../build/classes" />

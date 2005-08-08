@@ -1,5 +1,7 @@
 <project name="styledtext" default="javac" basedir=".">
 
+	<description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+
 	<property name="class.name" value="StyledTextApp" />
 	<property name="file.name" value="StyledTextReport" />
 	<property name="classes.dir" value="../../../build/classes" />

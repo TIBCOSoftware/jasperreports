@@ -1,5 +1,7 @@
 <project name="stretch" default="javac" basedir=".">
 
+	<description>Shows how dynamic text fields can stretch to display their entire content and different ways to put a border around such text fields.</description>
+
 	<property name="class.name" value="StretchApp" />
 	<property name="file.name" value="StretchReport" />
 	<property name="classes.dir" value="../../../build/classes" />

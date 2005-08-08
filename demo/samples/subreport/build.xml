@@ -1,5 +1,7 @@
 <project name="subreport" default="javac" basedir=".">
 
+	<description>Shows how subreport could be used to create complex document layouts..</description>
+
 	<property name="class.name" value="SubreportApp" />
 	<property name="file.name" value="MasterReport" />
 	<property name="classes.dir" value="../../../build/classes" />

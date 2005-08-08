@@ -1,5 +1,7 @@
 <project name="query" default="javac" basedir=".">
 
+	<description>Shows how the report query can be build dynamically using report parameters.</description>
+
 	<property name="class.name" value="QueryApp" />
 	<property name="file.name" value="QueryReport" />
 	<property name="classes.dir" value="../../../build/classes" />

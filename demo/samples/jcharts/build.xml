@@ -1,5 +1,7 @@
 <project name="jcharts" default="javac" basedir=".">
 
+	<description>Shows how third-party charting APIs could be used for rendering charts as images.</description>
+
 	<property name="class.name" value="JChartsApp" />
 	<property name="file.name" value="JChartsReport" />
 	<property name="classes.dir" value="../../../build/classes" />

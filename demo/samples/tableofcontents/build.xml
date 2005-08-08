@@ -1,5 +1,7 @@
 <project name="tableofcontents" default="javac" basedir=".">
 
+	<description>Shows how table-of-contents structures could be created for the generated reports.</description>
+
 	<property name="class.name" value="TableOfContentsApp" />
 	<property name="file.name" value="TableOfContentsReport" />
 	<property name="classes.dir" value="../../../build/classes" />

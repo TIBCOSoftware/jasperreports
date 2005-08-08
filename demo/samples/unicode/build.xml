@@ -1,5 +1,7 @@
 <project name="unicode" default="javac" basedir=".">
 
+	<description>Shows how text in different languages could be used inside reports.</description>
+
 	<property name="class.name" value="UnicodeApp" />
 	<property name="file.name" value="UnicodeReport" />
 	<property name="classes.dir" value="../../../build/classes" />

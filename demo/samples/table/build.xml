@@ -1,5 +1,7 @@
 <project name="table" default="javac" basedir=".">
 
+	<description>Shows how a table structure could be created using simple text elements and their border.</description>
+
 	<property name="class.name" value="TableApp" />
 	<property name="file.name" value="TableReport" />
 	<property name="classes.dir" value="../../../build/classes" />

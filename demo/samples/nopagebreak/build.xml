@@ -1,5 +1,7 @@
 <project name="nopagebreak" default="javac" basedir=".">
 
+	<description>Shows how reports can be designed and exported in a way that hides the existance of page breaks.</description>
+
 	<property name="class.name" value="NoPageBreakApp" />
 	<property name="file.name" value="NoPageBreakReport" />
 	<property name="classes.dir" value="../../../build/classes" />

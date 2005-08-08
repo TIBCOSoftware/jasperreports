@@ -1,5 +1,7 @@
 <project name="noxmldesign" default="javac" basedir=".">
 
+	<description>Shows how report templates can be created using the API and not JRXML files.</description>
+
 	<property name="class.name" value="NoXmlDesignApp" />
 	<property name="file.name" value="NoXmlDesignReport" />
 	<property name="classes.dir" value="../../../build/classes" />

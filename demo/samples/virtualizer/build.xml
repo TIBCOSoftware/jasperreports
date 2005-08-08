@@ -1,5 +1,7 @@
 <project name="virtualizer" default="javac" basedir=".">
 
+	<description>Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.</description>
+
 	<property name="class.name" value="VirtualizerApp" />
 	<property name="file.name" value="VirtualizerReport" />
 	<property name="classes.dir" value="../../../build/classes" />
