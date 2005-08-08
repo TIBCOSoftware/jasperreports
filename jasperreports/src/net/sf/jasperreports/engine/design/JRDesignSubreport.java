@@ -239,9 +239,9 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 
 	
 	/**
-	 * Adds a copied value to the subreport.
+	 * Adds a return value to the subreport.
 	 * 
-	 * @param returnValue the copied value to be added.
+	 * @param returnValue the return value to be added.
 	 */
 	public void addReturnValue(JRSubreportReturnValue returnValue)
 	{
@@ -261,5 +261,28 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		returnValues.toArray(returnValuesArray);
 
 		return returnValuesArray;
+	}
+
+	
+	/**
+	 * Returns the list of values to be copied from the subreport into the master.
+	 * 
+	 * @return list of {@link JRSubreportReturnValue JRSubreportReturnValue} objects
+	 */
+	public List getReturnValuesList()
+	{
+		return returnValues;
+	}
+
+	
+	/**
+	 * Removes a return value from the subreport.
+	 * 
+	 * @param returnValue the return value to be removed
+	 * @return <code>true</code> if the return value was found and removed 
+	 */
+	public boolean removeReturnValue(JRSubreportReturnValue returnValue)
+	{
+		return this.returnValues.remove(returnValue);
 	}
 }
