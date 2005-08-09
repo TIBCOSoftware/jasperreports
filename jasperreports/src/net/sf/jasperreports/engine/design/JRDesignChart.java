@@ -181,6 +181,14 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
+	public void setBox(JRBox box)
+	{
+		this.box = box;
+	}
+
+	/**
+	 *
+	 */
 	public JRFont getTitleFont()
 	{
 		return titleFont;
