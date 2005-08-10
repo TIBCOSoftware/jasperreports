@@ -633,7 +633,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 
 	/**
-	 * @throws IOException 
+	 * @throws JRException 
 	 * @throws IOException 
 	 *
 	 */
