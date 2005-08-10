@@ -245,8 +245,8 @@
 
 <!ELEMENT returnValue EMPTY>
 <!ATTLIST returnValue
-	subreportVariable NMTOKEN #REQUIRED
-	toVariable NMTOKEN #REQUIRED
+	subreportVariable NMTOKEN #IMPLIED
+	toVariable NMTOKEN #IMPLIED
 	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
