@@ -33,11 +33,9 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.geom.Dimension2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,15 +68,17 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 
 
 public class JRRtfExporter extends JRAbstractExporter
 {
-
+	
 	//    private static Log log = LogFactory.getLog(JRRtfExporter.class);
 
 	static int SCALE = 2835; //2835 points per meter
@@ -691,344 +691,203 @@ public class JRRtfExporter extends JRAbstractExporter
 		buf.append("\\par}\n");
 	}
 
-	static String[] hex = new String[] { "00", "01", "02", "03", "04", "05",
-			"06", "07", "08", "09", "0A", "0B", "0C", "0D", "0E", "0F", "10",
-			"11", "12", "13", "14", "15", "16", "17", "18", "19", "1A", "1B",
-			"1C", "1D", "1E", "1F", "20", "21", "22", "23", "24", "25", "26",
-			"27", "28", "29", "2A", "2B", "2C", "2D", "2E", "2F", "30", "31",
-			"32", "33", "34", "35", "36", "37", "38", "39", "3A", "3B", "3C",
-			"3D", "3E", "3F", "40", "41", "42", "43", "44", "45", "46", "47",
-			"48", "49", "4A", "4B", "4C", "4D", "4E", "4F", "50", "51", "52",
-			"53", "54", "55", "56", "57", "58", "59", "5A", "5B", "5C", "5D",
-			"5E", "5F", "60", "61", "62", "63", "64", "65", "66", "67", "68",
-			"69", "6A", "6B", "6C", "6D", "6E", "6F", "70", "71", "72", "73",
-			"74", "75", "76", "77", "78", "79", "7A", "7B", "7C", "7D", "7E",
-			"7F", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
-			"8A", "8B", "8C", "8D", "8E", "8F", "90", "91", "92", "93", "94",
-			"95", "96", "97", "98", "99", "9A", "9B", "9C", "9D", "9E", "9F",
-			"A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "AA",
-			"AB", "AC", "AD", "AE", "AF", "B0", "B1", "B2", "B3", "B4", "B5",
-			"B6", "B7", "B8", "B9", "BA", "BB", "BC", "BD", "BE", "BF", "C0",
-			"C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "CA", "CB",
-			"CC", "CD", "CE", "CF", "D0", "D1", "D2", "D3", "D4", "D5", "D6",
-			"D7", "D8", "D9", "DA", "DB", "DC", "DD", "DE", "DF", "E0", "E1",
-			"E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "EA", "EB", "EC",
-			"ED", "EE", "EF", "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7",
-			"F8", "F9", "FA", "FB", "FC", "FD", "FE", "FF" };
 
-	static String hex4(int val)
+	protected void exportImage(JRPrintImage printImage) throws JRException	
 	{
-		return hex[val & 255] + hex[(val >> 8) & 255] + hex[(val >> 16) & 255]
-				+ hex[(val >> 24) & 255];
-	}
-
-	protected void exportImage(JRPrintImage printImage) throws JRException
-			
-	{
-		int borderOffset = 0;
-		int borderCorrection = 0;
+		
 		int x = twip(printImage.getX());
 		int y = twip(printImage.getY());
-		int h = twip(printImage.getHeight());
-		int w = twip(printImage.getWidth());
-		int adjX1 = 0;
-		int adjX2 = 0;
-		int adjY1 = 0;
-		int adjY2 = 0;
-
+		int width = twip(printImage.getWidth());
+		int height = twip(printImage.getHeight());
+		int imageWidth = 0;
+		int imageHeight = 0;
+		
 		Color fg = printImage.getForecolor();
-		Color bg = printImage.getBackcolor();
-		int adjustment = 0;
-
-		if (printImage.getMode() == JRElement.MODE_OPAQUE)
-		{
-			//            System.out.println("OPAQUE");
-			buf.append("{\\pard").append("\\absw0").append("\\absh0").append(
-					"\\phpg").append("\\posx").append(x).append("\\pvpg")
-					.append("\\posy").append(y);
-			startGraphic("dprect", x, y, w, h);
-			finishGraphic(JRGraphicElement.PEN_NONE, fg, bg, 1);
-			buf.append("\\par}");
+        Color bg = printImage.getBackcolor();
+		
+		if (printImage.getMode() == JRElement.MODE_OPAQUE) {
+			buf.append("{\\pard")
+            .append("\\absw0")
+            .append("\\absh0")
+            .append("\\phpg")
+            .append("\\posx").append(x)
+            .append("\\pvpg")
+            .append("\\posy").append(y);
+          startGraphic("dprect",x,y,width,height);
+          finishGraphic(JRGraphicElement.PEN_NONE,fg,bg,1);
+          buf.append("\\par}");
 		}
-
-		//        System.out.println("printImage.xy="+x+":"+y+" wh="+w+":"+h);
-		JRRenderable renderer = printImage.getRenderer();
-
-		int posx = x;
-		int posy = y;
-
+		
+		
+		int adjX1 = 0;
+		int adjY1 = 0;
+		int adjX2 = 0;
+		int adjY2 = 0;
 		int topPadding = 0;
 		int leftPadding = 0;
-		int bottomPadding = 0;
 		int rightPadding = 0;
-
+		int bottomPadding = 0;
+		
 		JRBox box = printImage.getBox();
-		if (box == null)
-		{
-			adjX1 = adjX2 = adjY1 = adjY2 = getAdjustment(printImage.getPen());
+		if (box == null) {
+			adjX1 = adjX2 = adjY1 = adjY2 = 0;
 		}
-		else
-		{
+		else {
 			adjX1 = getAdjustment(box.getLeftBorder());
-			adjX2 = getAdjustment(box.getRightBorder());
 			adjY1 = getAdjustment(box.getTopBorder());
+			adjX2 = getAdjustment(box.getRightBorder());
 			adjY2 = getAdjustment(box.getBottomBorder());
-			topPadding = box.getTopPadding();
-			leftPadding = box.getLeftPadding();
-			bottomPadding = box.getBottomPadding();
-			rightPadding = box.getRightPadding();
+			
+			leftPadding = twip(box.getLeftPadding());
+			topPadding = twip(box.getTopPadding());
+			rightPadding = twip(box.getRightPadding());
+			bottomPadding = twip(box.getBottomPadding());
 		}
-		posx += twip(leftPadding) + 2 * adjX1 + 20;
-		posy += twip(rightPadding) + 2 * adjY1 + 20;
-		if (posx < 0)
-			posx = 0;
-		if (posy < 0)
-			posy = 0;
-
-		int availableWidth = printImage.getWidth() - leftPadding - rightPadding
-				- 2 * (adjX1 + adjX2) / 20 - 1;
-		availableWidth = (availableWidth < 0) ? 0 : availableWidth;
-
-		int availableHeight = printImage.getHeight() - topPadding
-				- bottomPadding - 2 * (adjY1 + adjY2) / 20 - 1;
-		availableHeight = (availableHeight < 0) ? 0 : availableHeight;
-
-		int actualHeight = availableHeight;
-		int actualWidth = availableWidth;
-
-		int normalHeight = availableHeight;
-		int normalWidth = availableWidth;
-
-		int clippedHeight = availableHeight;
-		int clippedWidth = availableWidth;
-
-		Dimension2D dimension = renderer.getDimension();
-		if (dimension != null)
-		{
-			normalWidth = (int) dimension.getWidth();
-			normalHeight = (int) dimension.getHeight();
-		}
-
-		if (renderer != null && availableWidth > 0 && availableHeight > 0)
-		{
-
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-			{
-
-				int clippedXPos = 0;
-				int clippedYPos = 0;
-				int scaleFactor = 1;
-				switch (printImage.getScaleImage())
-				{
-					default:
-					case JRImage.SCALE_IMAGE_CLIP:
-					{
-						//                        System.out.println("PICTURE CLIP");
-
-						if (normalWidth <= availableWidth)
-						{
-							clippedWidth = normalWidth;
-						}
-						else
-						{
-							clippedWidth = availableWidth;
-							switch (printImage.getHorizontalAlignment())
-							{
-								case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-									clippedXPos = normalWidth - availableWidth;
-									break;
-								case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-									clippedXPos = (normalWidth - availableWidth) / 2;
-									break;
-							}
-						}
-						actualWidth = clippedWidth;
-
-						if (normalHeight <= availableHeight)
-						{
-							clippedHeight = normalHeight;
-						}
-						else
-						{
-							clippedHeight = availableHeight;
-							switch (printImage.getVerticalAlignment())
-							{
-								case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-									clippedYPos = normalHeight
-											- availableHeight;
-									break;
-								case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-									clippedYPos = (normalHeight - availableHeight) / 2;
-									break;
-							}
-						}
-						actualHeight = clippedHeight;
-						break;
+	
+		int leftClip = 0;
+		int topClip = 0;
+		int rightClip = 0;
+		int bottomClip = 0;
+		
+		boolean clipImage = false;
+		JRRenderable renderer = printImage.getRenderer();
+		
+		ByteArrayInputStream bais = null;
+		if (renderer.getType() == JRRenderable.TYPE_IMAGE) {
+			Image img = ((JRImageRenderer)renderer).getImage();
+			bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(img));
+			
+			imageWidth = twip(img.getWidth(null));
+			imageHeight = twip(img.getHeight(null));
+			
+			switch(printImage.getScaleImage()){
+				case JRImage.SCALE_IMAGE_CLIP:
+					topClip = bottomClip = (imageHeight - height + topPadding + bottomPadding) / 2; 
+					rightClip = leftClip = (imageWidth - width + leftPadding + rightPadding) / 2; 
+					clipImage = true;
+					break;
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE:		
+					
+					float boxRatio = 1f;
+					float imageRatio = 1f;
+					
+					if ( width < height) {
+						boxRatio = (float)width / (float)height;	
 					}
-					case JRImage.SCALE_IMAGE_FILL_FRAME:
-					{
-						// System.out.println("PICTURE FILL FRAME");
-						clippedWidth = normalWidth;
-						clippedHeight = normalHeight;
-						actualWidth = availableWidth;
-						actualHeight = availableHeight;
-						break;
+					else {
+						boxRatio = (float)height / (float)width;
 					}
-					case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
-					{
-						// System.out.println("PICTURE RETAIN SHAPE");
-
-						float normalRatio = (float) normalWidth / (float) normalHeight;
-						float availableRatio = (float) availableWidth / (float) availableHeight;
-
-						if (availableRatio > normalRatio)
-						{
-							// Use availableHeight and scale width to fit
-							actualWidth = (int) (availableHeight * normalRatio);
-						}
-						else
-						{
-							// Use availableWidth and scale height to fit
-							actualWidth = availableWidth;
-						}
-						int area = actualWidth * actualHeight;
-						if (area < 20000)
-						{
-							scaleFactor = 2;
-						}
-						actualHeight = (int) (actualWidth / normalRatio);
-						clippedHeight = normalHeight;
-						clippedWidth = normalWidth;
+		
+					imageRatio = (float)imageWidth/(float)imageHeight;
+					
+					if(boxRatio < 1){
+						imageHeight = height;
+						imageWidth = (int)(imageHeight * imageRatio);
 					}
-				}
-				if (actualWidth < availableWidth)
-				{
-					int dif = availableWidth - actualWidth;
-					switch (printImage.getHorizontalAlignment())
-					{
-						case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-							posx += twip(dif);
-							break;
-						case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-							posx += twip(dif / 2);
-							break;
+					else {
+						imageWidth = width;
+						imageHeight = (int)(imageWidth/imageRatio);
 					}
-				}
-				if (actualHeight < availableHeight)
-				{
-					int dif = availableHeight - actualHeight;
-					switch (printImage.getVerticalAlignment())
-					{
-						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-							posy += twip(dif);
-							break;
-						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-							posy += twip(dif / 2);
-							break;
-					}
-				}
-				actualWidth *= scaleFactor;
-				actualHeight *= scaleFactor;
-
-				int adjustedWidth = ((actualWidth + 7) / 8) * 8;
-				int adjustedHeight = actualHeight;
-				int adjustedScale = SCALE;
-				if (adjustedWidth != actualWidth)
-				{
-					float adjustedRatio = (float) adjustedWidth
-							/ (float) actualWidth;
-					adjustedHeight = (int) (adjustedRatio * (float) actualHeight);
-					adjustedScale = (int) (adjustedRatio * (float) SCALE);
-				}
-
-				BufferedImage bi = new BufferedImage(adjustedWidth,
-						adjustedHeight, BufferedImage.TYPE_3BYTE_BGR);
-
-				Graphics2D g = bi.createGraphics();
-				g.setColor(printImage.getBackcolor());
-				g.fillRect(0, 0, adjustedWidth, adjustedHeight);
-
-				Image img = ((JRImageRenderer) renderer).getImage();
-				g.drawImage(img, 0, 0, adjustedWidth, adjustedHeight,
-						clippedXPos, clippedYPos, clippedWidth, clippedHeight,
-						null);
-				renderer.render(g, new java.awt.Rectangle(0, 0, actualWidth,
-						actualHeight));
-
-				g.dispose();
-
-				Raster raster = bi.getData();
-
-				int bitWidth = raster.getWidth();
-
-				int byteWidth = bitWidth;
-				int bitHeight = raster.getHeight();
-				System.out.println("pixels=" + bitWidth + ":" + bitHeight
-						+ " byteWidth=" + byteWidth);
-				buf.append("{\\pard")
-				.append("\\absw0")
-				.append("\\absh0")
-				.append("\\phpg")
-				.append("\\posx").append(posx)
-				.append("\\pvpg")
-				.append("\\posy").append(posy);
-
-				
-
-				buf.append("{\\pict")
-				.append("\\dibitmap0")
-				.append("\\wbmbitspixel24\\wbmplanes1\\wbmwidthbytes")
-				.append(byteWidth)
-
-				// <pictsize>
-				.append("\\picw").append(twip(actualWidth / scaleFactor))
-				.append("\\pich").append(twip(actualHeight / scaleFactor))
-				.append("\n");
-
-				// <data>
-				// Create INFOHEADER
-
-				System.out.println("Adjusted scale: " + adjustedScale);
-				System.out.println("Scale factor: " + scaleFactor);
-				System.out.println("In hex:"
-						+ hex4(adjustedScale * scaleFactor));
-				buf.append("28000000") // biSize: Size of structure
-						.append(hex4(bitWidth)) // biWidth
-						.append(hex4(bitHeight)) // biHeight
-						.append("0100") // biPlanes
-						.append("1800") // biBitCount
-						.append("00000000") // biComperssion (BI_RGB - none)
-						.append(hex4(byteWidth * bitHeight)) // biSizeImage
-						.append(hex4(adjustedScale * scaleFactor)) // biXPelsPerMeter
-						.append(hex4(adjustedScale * scaleFactor)) // biYPelsPerMeter
-						.append("00000000") // biClrUsed (used?)
-						.append("00000000") // biClrImportant (used?)
-						.append("\n");
-				int by = bitHeight;
-				while (by > 0)
-				{
-					by--;
-					int bx = 0;
-					while (bx < bitWidth)
-					{
-						buf.append(hex[raster.getSample(bx, by, 2) & 255])
-								.append(hex[raster.getSample(bx, by, 1) & 255])
-								.append(hex[raster.getSample(bx, by, 0) & 255]);
-						bx++;
-
-					}
-					while (bx < byteWidth)
-					{
-						buf.append("000000");
-						bx++;
-					}
-					buf.append("\n");
-				}
-
-				buf.append("}\\par}\n");
+					
+					break;
+				case JRImage.SCALE_IMAGE_FILL_FRAME:
+					imageWidth = width;
+					imageHeight = height;
+					break;
 			}
-
 		}
+		else if(renderer.getType() == JRRenderable.TYPE_SVG) {
+			renderer = new JRWrappingSvgRenderer(renderer, new Dimension(printImage.getWidth(), printImage.getHeight()), printImage.getBackcolor());
+			bais = new ByteArrayInputStream(renderer.getImageData());
+		}
+		
+		x += (leftPadding + 2 * adjX1);
+		y += (topPadding + 2 * adjY1);
+		
+		imageWidth -= (rightPadding + 2 * adjX2);
+		imageHeight -= (bottomPadding + 2 * adjY2);
+						
+		buf.append("{\\pard")
+		.append("\\phpg")
+		.append("\\posx").append(x)
+		.append("\\pvpg")
+		.append("\\posy").append(y)
+		.append("\\absw").append(width)
+		.append("\\absh").append(height);
+
+		StringBuffer sb = new StringBuffer();
+		switch(printImage.getHorizontalAlignment()){
+			case JRImage.HORIZONTAL_ALIGN_CENTER:
+				buf.append("\\qc");
+				
+				if (clipImage ){
+					sb.append("\\piccropl").append(leftClip)
+					.append("\\piccrop").append(rightClip);
+				}
+				break;
+			case JRImage.HORIZONTAL_ALIGN_LEFT:
+				buf.append("\\ql");
+				if (clipImage ){
+					sb.append("\\piccropr").append(leftClip + rightClip);
+				}
+				break;
+			case JRImage.HORIZONTAL_ALIGN_RIGHT:
+				buf.append("\\qr");
+				if (clipImage ){
+					sb.append("\\piccropl").append(leftClip + rightClip);
+				}
+				break;
+		}
+		
+		
+
+		buf.append("{\\pict")
+		.append("\\jpegblip")
+		.append("\\picwgoal").append(imageWidth)
+		.append("\\pichgoal").append(imageHeight);
+		
+		buf.append( sb.toString());
+		
+		switch(printImage.getVerticalAlignment()){
+			case JRImage.VERTICAL_ALIGN_BOTTOM:
+				if (clipImage) {
+					buf.append("\\piccropt").append(topClip + bottomClip);
+				}
+				break;
+			case JRImage.VERTICAL_ALIGN_MIDDLE:
+				if(clipImage) {
+					buf.append("\\piccropt").append(topClip)
+					.append("\\piccropb").append(bottomClip);
+				}
+				break;
+			case JRImage.VERTICAL_ALIGN_TOP:
+				if(clipImage){
+					buf.append("\\piccropb").append(topClip + bottomClip);
+				}
+		}
+		
+		int count = 0;
+		int current = 0;
+		while((current = bais.read()) != -1) 
+		{
+			String helperStr = Integer.toHexString(current);
+			if (helperStr.length() < 2)
+			{
+				helperStr = "0" + helperStr;
+			}
+			buf.append(helperStr);
+			count++;
+			if (count == 64) 
+			{
+				buf.append("\n");
+				count = 0;
+			}
+		}
+		
+		buf.append("\n}\\par}\n");
+
+
+		
 		if (printImage.getBox() == null)
 		{
 			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
@@ -1036,7 +895,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				buf.append("{\\pard").append("\\absw0").append("\\absh0")
 						.append("\\phpg").append("\\posx").append(x).append(
 								"\\pvpg").append("\\posy").append(y);
-				startGraphic("dprect", x, y, w, h);
+				startGraphic("dprect", x, y, width, height);
 				finishGraphic(printImage);
 				buf.append("\\par}");
 			}
@@ -1050,5 +909,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			buf.append("\\par}");
 		}
 	}
+	
+
 
 }
