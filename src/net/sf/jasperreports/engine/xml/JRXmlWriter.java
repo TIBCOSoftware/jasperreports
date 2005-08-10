@@ -2762,13 +2762,21 @@ public class JRXmlWriter
 	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
 		sb.append("\t\t\t\t<returnValue");
-		sb.append(" subreportVariable=\"");
-		sb.append(returnValue.getSubreportVariable());
-		sb.append("\" toVariable=\"");
-		sb.append(returnValue.getToVariable());
+		if (returnValue.getSubreportVariable() != null)
+		{
+			sb.append(" subreportVariable=\"");
+			sb.append(returnValue.getSubreportVariable());
+			sb.append("\"");
+		}
+		if (returnValue.getToVariable() != null)
+		{
+			sb.append(" toVariable=\"");
+			sb.append(returnValue.getToVariable());
+			sb.append("\"");
+		}
 		if (returnValue.getCalculation() != JRVariable.CALCULATION_NOTHING)
 		{
-			sb.append("\" calculation=\"");
+			sb.append(" calculation=\"");
 			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(returnValue.getCalculation())));
 		}
 		if (returnValue.getIncrementerFactoryClassName() != null)
