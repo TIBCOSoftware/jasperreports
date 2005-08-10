@@ -1734,46 +1734,42 @@ public class JRXmlWriter
 		writeBox(chart.getBox());
 
 		// write title
-		if (chart.getTitleExpression() != null) {
-			sb.append("\t\t\t\t<chartTitle");
-			if (chart.getTitlePosition() != JRChart.TITLE_POSITION_TOP)
-			{
-				sb.append(" position=\"" + JRXmlConstants.getChartTitlePositionMap().get(new Byte(chart.getTitlePosition())) + "\"");
-			}
-			if (chart.getTitleColor() != null)
-			{
-				sb.append(" color=\"#");
-				sb.append(Integer.toHexString(chart.getTitleColor().getRGB() & colorMask));
-				sb.append("\"");
-			}
-			sb.append(">\n");
-			String titleFont = writeFont(chart.getTitleFont());
-			if (titleFont != null)
-				sb.append("\t\t\t\t\t" + titleFont +"\n");
-			sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
-			sb.append(chart.getTitleExpression().getText());
-			sb.append("]]></titleExpression>\n");
-			sb.append("\t\t\t\t</chartTitle>\n");
+		sb.append("\t\t\t\t<chartTitle");
+		if (chart.getTitlePosition() != JRChart.TITLE_POSITION_TOP)
+		{
+			sb.append(" position=\"" + JRXmlConstants.getChartTitlePositionMap().get(new Byte(chart.getTitlePosition())) + "\"");
 		}
+		if (chart.getTitleColor() != null)
+		{
+			sb.append(" color=\"#");
+			sb.append(Integer.toHexString(chart.getTitleColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		sb.append(">\n");
+		String titleFont = writeFont(chart.getTitleFont());
+		if (titleFont != null)
+			sb.append("\t\t\t\t\t" + titleFont +"\n");
+		sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
+		sb.append(chart.getTitleExpression().getText());
+		sb.append("]]></titleExpression>\n");
+		sb.append("\t\t\t\t</chartTitle>\n");
 
 		// write subtitle
-		if (chart.getSubtitleExpression() != null) {
-			sb.append("\t\t\t\t<chartSubtitle");
-			if (chart.getSubtitleColor() != null)
-			{
-				sb.append(" color=\"#");
-				sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));
-				sb.append("\"");
-			}
-			sb.append(">\n");
-			String subtitleFont = writeFont(chart.getSubtitleFont());
-			if (subtitleFont != null)
-				sb.append("\t\t\t\t\t" + subtitleFont +"\n");
-			sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
-			sb.append(chart.getSubtitleExpression().getText());
-			sb.append("]]></subtitleExpression>\n");
-			sb.append("\t\t\t\t</chartSubtitle>\n");
+		sb.append("\t\t\t\t<chartSubtitle");
+		if (chart.getSubtitleColor() != null)
+		{
+			sb.append(" color=\"#");
+			sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));
+			sb.append("\"");
 		}
+		sb.append(">\n");
+		String subtitleFont = writeFont(chart.getSubtitleFont());
+		if (subtitleFont != null)
+			sb.append("\t\t\t\t\t" + subtitleFont +"\n");
+		sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
+		sb.append(chart.getSubtitleExpression().getText());
+		sb.append("]]></subtitleExpression>\n");
+		sb.append("\t\t\t\t</chartSubtitle>\n");
 
 		sb.append("\t\t\t</chart>\n");
 
