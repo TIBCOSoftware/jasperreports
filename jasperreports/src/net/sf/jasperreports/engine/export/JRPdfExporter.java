@@ -862,7 +862,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			printImage.getBackcolor().getBlue()
 			);
 
-		float borderCorrection = 0f;
+		float borderCorrection = 0f;//FIXME NOW border correction could different on all 4 sides of the box
 		float lineWidth = 1f;
 		boolean isLineDotted = false;
 
