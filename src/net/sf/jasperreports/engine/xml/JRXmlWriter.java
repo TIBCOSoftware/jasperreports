@@ -2778,12 +2778,14 @@ public class JRXmlWriter
 		{
 			sb.append(" calculation=\"");
 			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(returnValue.getCalculation())));
+			sb.append("\"");
 		}
 		if (returnValue.getIncrementerFactoryClassName() != null)
 		{
-			sb.append("\" incrementerFactoryClass=\"");
+			sb.append(" incrementerFactoryClass=\"");
 			sb.append(returnValue.getIncrementerFactoryClassName());
-		}
-		sb.append("\"/>\n");
+			sb.append("\"");
+}
+		sb.append("/>\n");
 	}
 }
