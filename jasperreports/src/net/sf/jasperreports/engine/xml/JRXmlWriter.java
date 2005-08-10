@@ -1758,8 +1758,8 @@ public class JRXmlWriter
 
 		// write subtitle
 		if (chart.getSubtitleExpression() != null) {
-			sb.append("\t\t\t\t<chartSubitle");
-			if (chart.getTitleColor() != null)
+			sb.append("\t\t\t\t<chartSubtitle");
+			if (chart.getSubtitleColor() != null)
 			{
 				sb.append(" color=\"#");
 				sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));

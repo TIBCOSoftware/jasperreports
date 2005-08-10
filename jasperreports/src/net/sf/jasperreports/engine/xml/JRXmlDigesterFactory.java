@@ -353,7 +353,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/chart/chartTitle/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext("*/chart/chartTitle/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/chart/chartTitle/titleExpression", "setText", 0);
-		digester.addFactoryCreate("*/chart/chartSubtitle", JRChartFactory.JRChartTitleFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartSubtitle", JRChartFactory.JRChartSubtitleFactory.class.getName());
 		digester.addFactoryCreate("*/chart/chartSubtitle/font", JRFontFactory.class.getName());
 		digester.addSetNext("*/chart/chartSubtitle/font", "setSubtitleFont", JRFont.class.getName());
 		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
