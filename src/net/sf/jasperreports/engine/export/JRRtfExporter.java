@@ -815,26 +815,26 @@ public class JRRtfExporter extends JRAbstractExporter
 		.append("\\absw").append(width)
 		.append("\\absh").append(height);
 
-		StringBuffer sb = new StringBuffer();
+		StringBuffer horizontalAlignment = new StringBuffer();
 		switch(printImage.getHorizontalAlignment()){
 			case JRImage.HORIZONTAL_ALIGN_CENTER:
 				buf.append("\\qc");
 				
 				if (clipImage ){
-					sb.append("\\piccropl").append(leftClip)
+					horizontalAlignment.append("\\piccropl").append(leftClip)
 					.append("\\piccrop").append(rightClip);
 				}
 				break;
 			case JRImage.HORIZONTAL_ALIGN_LEFT:
 				buf.append("\\ql");
 				if (clipImage ){
-					sb.append("\\piccropr").append(leftClip + rightClip);
+					horizontalAlignment.append("\\piccropr").append(leftClip + rightClip);
 				}
 				break;
 			case JRImage.HORIZONTAL_ALIGN_RIGHT:
 				buf.append("\\qr");
 				if (clipImage ){
-					sb.append("\\piccropl").append(leftClip + rightClip);
+					horizontalAlignment.append("\\piccropl").append(leftClip + rightClip);
 				}
 				break;
 		}
@@ -846,7 +846,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		.append("\\picwgoal").append(imageWidth)
 		.append("\\pichgoal").append(imageHeight);
 		
-		buf.append( sb.toString());
+		buf.append( horizontalAlignment.toString());
 		
 		switch(printImage.getVerticalAlignment()){
 			case JRImage.VERTICAL_ALIGN_BOTTOM:
