@@ -1717,7 +1717,7 @@ public class JRXmlWriter
 	 */
 	private void writeChart(JRChart chart)
 	{
-		sb.append("\t\t\t<chart");
+		sb.append("\t\t\t\t<chart");
 
 		if (!chart.isShowLegend())
 			sb.append(" isShowLegend=\"false\"");
@@ -1728,18 +1728,32 @@ public class JRXmlWriter
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
 			sb.append(" evaluationGroup=\"" + chart.getEvaluationGroup().getName() + "\"");
 
+		if (chart.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+		{
+			sb.append(" hyperlinkType=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(chart.getHyperlinkType())));
+			sb.append("\"");
+		}
+
+		if (chart.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
+		{
+			sb.append(" hyperlinkTarget=\"");
+			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(chart.getHyperlinkTarget())));
+			sb.append("\"");
+		}
+
 		sb.append(">\n");
 
 		writeReportElement(chart);
 		writeBox(chart.getBox());
 
 		// write title
-		sb.append("\t\t\t\t<chartTitle");
+		sb.append("\t\t\t\t\t<chartTitle");
 		if (chart.getTitlePosition() != JRChart.TITLE_POSITION_TOP)
 		{
 			sb.append(" position=\"" + JRXmlConstants.getChartTitlePositionMap().get(new Byte(chart.getTitlePosition())) + "\"");
 		}
-		if (chart.getTitleColor() != null)
+		if (chart.getTitleColor().getRGB() != Color.black.getRGB())
 		{
 			sb.append(" color=\"#");
 			sb.append(Integer.toHexString(chart.getTitleColor().getRGB() & colorMask));
@@ -1748,15 +1762,20 @@ public class JRXmlWriter
 		sb.append(">\n");
 		String titleFont = writeFont(chart.getTitleFont());
 		if (titleFont != null)
-			sb.append("\t\t\t\t\t" + titleFont +"\n");
-		sb.append("\t\t\t\t\t<titleExpression><![CDATA[");
-		sb.append(chart.getTitleExpression().getText());
-		sb.append("]]></titleExpression>\n");
-		sb.append("\t\t\t\t</chartTitle>\n");
+		{
+			sb.append("\t\t\t\t\t\t" + titleFont +"\n");
+		}
+		if (chart.getTitleExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<titleExpression><![CDATA[");
+			sb.append(chart.getTitleExpression().getText());
+			sb.append("]]></titleExpression>\n");
+		}
+		sb.append("\t\t\t\t\t</chartTitle>\n");
 
 		// write subtitle
-		sb.append("\t\t\t\t<chartSubtitle");
-		if (chart.getSubtitleColor() != null)
+		sb.append("\t\t\t\t\t<chartSubtitle");
+		if (chart.getSubtitleColor().getRGB() != Color.black.getRGB())
 		{
 			sb.append(" color=\"#");
 			sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));
@@ -1765,13 +1784,46 @@ public class JRXmlWriter
 		sb.append(">\n");
 		String subtitleFont = writeFont(chart.getSubtitleFont());
 		if (subtitleFont != null)
-			sb.append("\t\t\t\t\t" + subtitleFont +"\n");
-		sb.append("\t\t\t\t\t<subtitleExpression><![CDATA[");
-		sb.append(chart.getSubtitleExpression().getText());
-		sb.append("]]></subtitleExpression>\n");
-		sb.append("\t\t\t\t</chartSubtitle>\n");
+		{
+			sb.append("\t\t\t\t\t\t" + subtitleFont +"\n");
+		}
+		if (chart.getSubtitleExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<subtitleExpression><![CDATA[");
+			sb.append(chart.getSubtitleExpression().getText());
+			sb.append("]]></subtitleExpression>\n");
+		}
+		sb.append("\t\t\t\t\t</chartSubtitle>\n");
 
-		sb.append("\t\t\t</chart>\n");
+		if (chart.getAnchorNameExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<anchorNameExpression><![CDATA[");
+			sb.append(chart.getAnchorNameExpression().getText());
+			sb.append("]]></anchorNameExpression>\n");
+		}
+
+		if (chart.getHyperlinkReferenceExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
+			sb.append(chart.getHyperlinkReferenceExpression().getText());
+			sb.append("]]></hyperlinkReferenceExpression>\n");
+		}
+
+		if (chart.getHyperlinkAnchorExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
+			sb.append(chart.getHyperlinkAnchorExpression().getText());
+			sb.append("]]></hyperlinkAnchorExpression>\n");
+		}
+
+		if (chart.getHyperlinkPageExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<hyperlinkPageExpression><![CDATA[");
+			sb.append(chart.getHyperlinkPageExpression().getText());
+			sb.append("]]></hyperlinkPageExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</chart>\n");
 
 	}
 

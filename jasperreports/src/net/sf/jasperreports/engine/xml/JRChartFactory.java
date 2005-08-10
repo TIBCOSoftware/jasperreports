@@ -47,6 +47,8 @@ public class JRChartFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isShowLegend = "isShowLegend";
 	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
 	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 
 
 	/**
@@ -79,6 +81,18 @@ public class JRChartFactory extends JRBaseFactory
 				group.setName(groupName);
 				chart.setEvaluationGroup(group);
 			}
+		}
+
+		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
+		if (hyperlinkType != null)
+		{
+			chart.setHyperlinkType(hyperlinkType.byteValue());
+		}
+
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		if (hyperlinkTarget != null)
+		{
+			chart.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
 		return chart;

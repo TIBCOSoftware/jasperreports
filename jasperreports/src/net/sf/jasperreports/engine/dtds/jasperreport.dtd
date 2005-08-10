@@ -260,11 +260,13 @@
 
 <!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*>
 
-<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?)>
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST chart
 	isShowLegend (true | false) "true"
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
+	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkTarget (Self | Blank) "Self"
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle
@@ -308,7 +310,7 @@
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
-<!ELEMENT categoryDataset (dataset?, categorySeries+)>
+<!ELEMENT categoryDataset (dataset?, categorySeries?)>
 <!ELEMENT categorySeries (seriesExpression, categoryExpression, valueExpression, labelExpression?)>
 <!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
@@ -336,7 +338,7 @@
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 
-<!ELEMENT timePeriodDataset (dataset?, timePeriodSeries+)>
+<!ELEMENT timePeriodDataset (dataset?, timePeriodSeries?)>
 <!ELEMENT timePeriodSeries (seriesExpression, startDateExpression, endDateExpression, valueExpression, labelExpression?)>
 <!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
@@ -353,7 +355,7 @@
 >
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
-<!ELEMENT xyDataset (dataset?, (categorySeries+ | xySeries+))>
+<!ELEMENT xyDataset (dataset?, (categorySeries? | xySeries?))>
 
 <!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
 <!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
@@ -370,7 +372,7 @@
 <!ELEMENT yAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
-<!ELEMENT xyzDataset (dataset?, xyzSeries+)>
+<!ELEMENT xyzDataset (dataset?, xyzSeries?)>
 <!ELEMENT xyzSeries (seriesExpression, xValueExpression, yValueExpression, zValueExpression?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
 <!ATTLIST bubblePlot
@@ -378,7 +380,7 @@
 >
 <!ELEMENT zValueExpression (#PCDATA)>
 
-<!ELEMENT timeSeriesDataset (dataset?, timeSeries+)>
+<!ELEMENT timeSeriesDataset (dataset?, timeSeries?)>
 <!ATTLIST timeSeriesDataset
 	timePeriod (Year | Quarter | Month | Week | Day | Hour | Minute | Second | Milisecond ) "Day"
 >
