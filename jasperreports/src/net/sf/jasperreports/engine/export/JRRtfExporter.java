@@ -603,9 +603,30 @@ public class JRRtfExporter extends JRAbstractExporter
 		// For now, ignore styled text, all modes except MODE_OPAQUE
 		// and ROTATION.
 		//
+		int x = twip(text.getX() + globalOffsetX);
+		int y = twip(text.getY() + globalOffsetY);
+		int width = twip(text.getWidth());
+		int height = twip(text.getHeight());
+		
+		if (text.getMode() == JRElement.MODE_OPAQUE) 
+		{
+			startGraphic("dprect", x, y, width, height);
+			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text.getBackcolor(), 1);
+		}
+		
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
+		
 		JRBox box = text.getBox();
 		if (box != null)
 		{
+			topPadding = text.getBox().getTopPadding();
+			leftPadding = text.getBox().getLeftPadding();
+			bottomPadding = text.getBox().getBottomPadding();
+			rightPadding = text.getBox().getRightPadding();
+
 			exportBox(box, text);
 		}
 
@@ -613,18 +634,19 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		buf.append("{\\pard")
 		.append("\\absw").append(twip(text.getWidth()))
-		.append("\\absh").append(twip(text.getHeight()))
+		.append("\\absh").append(twip(text.getHeight() - topPadding))
 		.append("\\phpg\\posx").append(twip(text.getX()))
-		.append("\\pvpg\\posy").append(twip(text.getY()))
+		.append("\\pvpg\\posy").append(twip(text.getY() + topPadding))
 		.append("\\f").append(getFontIndex(font))
 		.append("\\cf").append(getColorIndex(text.getForecolor()))
-		.append("\\cb").append(getColorIndex(text.getBackcolor()));
-
-		//           .append("\\fi").append(twip(text.getLeadingOffset()));
+		.append("\\cb").append(getColorIndex(text.getBackcolor()))
+		.append("\\cbpat").append(getColorIndex(text.getBackcolor()));
+		//.append("\\fi").append(twip(topPadding));
+		
 		if (box != null)
 		{
-			buf.append("\\li" + twip(box.getLeftPadding()));
-			buf.append("\\ri" + twip(box.getRightPadding()));
+			buf.append("\\li" + twip(leftPadding));
+			buf.append("\\ri" + twip(rightPadding));
 		}
 
 		if (font.isBold())
