@@ -375,8 +375,8 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
-	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_VERTICAL
-	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_HORIZONTAL
+	 * @see net.sf.jasperreports.engine.JRReport PRINT_ORDER_VERTICAL,
+	 * @see net.sf.jasperreports.engine.JRReport PRINT_ORDER_HORIZONTAL
 	 */
 	public void setPrintOrder(byte printOrder)
 	{
@@ -411,8 +411,8 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Sets the report orientation.
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
+	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_PORTRAIT,
+	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_LANDSCAPE
 	 */
 	public void setOrientation(byte orientation)
 	{

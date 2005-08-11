@@ -171,8 +171,8 @@ public class JasperPrint implements Serializable
 
 	/**
 	 * Returns the page orientation.
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
+	 * @see JRReport ORIENTATION_PORTRAIT,
+	 * @see JRReport ORIENTATION_LANDSCAPE
 	 */
 	public byte getOrientation()
 	{
@@ -181,8 +181,8 @@ public class JasperPrint implements Serializable
 		
 	/**
 	 * Sets the page orientation.
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_PORTRAIT
-	 * @see net.sf.jasperreports.engine.JRReport.ORIENTATION_LANDSCAPE
+	 * @see JRReport ORIENTATION_PORTRAIT,
+	 * @see JRReport ORIENTATION_LANDSCAPE
 	 */
 	public void setOrientation(byte orientation)
 	{

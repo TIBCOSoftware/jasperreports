@@ -65,8 +65,8 @@ public class JRFillContext
 	 * 
 	 * @param source the source of the image
 	 * @return whether the image has been cached
-	 * @see #getLoadedImage(String)
-	 * @see #registerLoadedImage(String, JRPrintImage)
+	 * @see #getLoadedImage(Object)
+	 * @see #registerLoadedImage(Object, JRPrintImage)
 	 */
 	public boolean hasLoadedImage(Object source)
 	{
@@ -79,7 +79,7 @@ public class JRFillContext
 	 * 
 	 * @param source the source of the image
 	 * @return the cached image
-	 * @see #registerLoadedImage(String, JRPrintImage)
+	 * @see #registerLoadedImage(Object, JRPrintImage)
 	 */
 	public JRPrintImage getLoadedImage(Object source)
 	{
@@ -94,7 +94,7 @@ public class JRFillContext
 	 * 
 	 * @param source the source that was used to load the image
 	 * @param image the loaded image
-	 * @see #getLoadedImage(String)
+	 * @see #getLoadedImage(Object)
 	 */
 	public void registerLoadedImage(Object source, JRPrintImage image)
 	{
