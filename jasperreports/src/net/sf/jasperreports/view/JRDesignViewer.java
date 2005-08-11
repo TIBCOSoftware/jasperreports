@@ -1357,51 +1357,54 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 		else if (textElement instanceof JRTextField)
 		{
-			if (((JRTextField)textElement).getExpression() != null)
+			JRExpression textExpression = ((JRTextField) textElement).getExpression();
+			if (textExpression != null)
 			{
-				text = ((JRTextField)textElement).getExpression().getText();
+				text = textExpression.getText();
 			}
 		}
 		
-		if (text != null && text.length() > 0)
+		if (text == null)
 		{
-			//text = JRStringUtil.treatNewLineChars(text);
-
-			JRFont font = textElement.getFont();
-			if (font == null)
-			{
-				font = getDefaultFont();
-			}
-
-			Map attributes = new HashMap(); 
-			attributes.putAll(font.getAttributes());
-			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-			if (textElement.getMode() == JRElement.MODE_OPAQUE)
-			{
-				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
-			}
-
-			if (
-				textElement instanceof JRStaticText
-				&& textElement.isStyledText()
-				)
-			{
-				try
-				{
-					styledText = styledTextParser.parse(attributes, text);
-				}
-				catch (SAXException e)
-				{
-					//ignore if invalid styled text and treat like normal text
-				}
-			}
+			text = "";
+		}
 		
-			if (styledText == null)
+		//text = JRStringUtil.treatNewLineChars(text);
+
+		JRFont font = textElement.getFont();
+		if (font == null)
+		{
+			font = getDefaultFont();
+		}
+
+		Map attributes = new HashMap(); 
+		attributes.putAll(font.getAttributes());
+		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+		if (textElement.getMode() == JRElement.MODE_OPAQUE)
+		{
+			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+		}
+
+		if (
+			textElement instanceof JRStaticText
+			&& textElement.isStyledText()
+			)
+		{
+			try
 			{
-				styledText = new JRStyledText();
-				styledText.append(text);
-				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
+				styledText = styledTextParser.parse(attributes, text);
 			}
+			catch (SAXException e)
+			{
+				//ignore if invalid styled text and treat like normal text
+			}
+		}
+	
+		if (styledText == null)
+		{
+			styledText = new JRStyledText();
+			styledText.append(text);
+			styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
 		}
 		
 		return styledText;
