@@ -694,12 +694,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		if (printImage.getMode() == JRElement.MODE_OPAQUE) 
 		{
-			buf.append("{\\pard\\fs0\\absw0\\absh0\\phpg\\pvpg")
-			.append("\\posx").append(x)
-			.append("\\posy").append(y);
 			startGraphic("dprect", x, y, width, height);
 			finishGraphic(JRGraphicElement.PEN_NONE, printImage.getForecolor(), printImage.getBackcolor(), 1);
-			buf.append("\\par}");
 		}
 		
 		int topPadding = 0;
