@@ -4,6 +4,10 @@ JasperReports Change Log
 
 JasperReports 1.0.1 (2005-0x-xx)
 -----------------------------------
+- new RTF exporter;
+
+- support for generating PDF bookmarks;
+
 - support for pagination;
 
 - minor bug fixes and improvements;
