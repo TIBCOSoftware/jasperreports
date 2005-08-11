@@ -404,14 +404,16 @@ public class JRRtfExporter extends JRAbstractExporter
 		finishGraphic(line);
 	}
 
-	protected void exportRectangle(JRPrintRectangle rec)
+	protected void exportRectangle(JRPrintRectangle rect)
 	{
-		int x = twip(rec.getX());
-		int y = twip(rec.getY());
-		int h = twip(rec.getHeight());
-		int w = twip(rec.getWidth());
-		startGraphic("dprect" + (rec.getRadius() > 0 ? "\\dproundr" : ""), x, y, w, h);
-		finishGraphic(rec);
+		startGraphic(
+			"dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""), 
+			twip(rect.getX()), 
+			twip(rect.getY()), 
+			twip(rect.getWidth()),
+			twip(rect.getHeight())
+			);
+		finishGraphic(rect);
 	}
 
 	protected void exportEllipse(JRPrintEllipse ellipse)
@@ -420,16 +422,17 @@ public class JRRtfExporter extends JRAbstractExporter
 			"dpellipse", 
 			twip(ellipse.getX()), 
 			twip(ellipse.getY()), 
-			twip(ellipse.getHeight()), 
-			twip(ellipse.getWidth())
+			twip(ellipse.getWidth()),
+			twip(ellipse.getHeight()) 
 			);
 		finishGraphic(ellipse);
 	}
 
 	protected void startGraphic(String type, int x, int y, int w, int h)
 	{
-		buf.append("{\\*\\do\\dobxpage\\dobypage\\dodhgt")
-		.append(zorder++).append("\\").append(type)
+		buf.append("{\\*\\do\\dobxpage\\dobypage")
+		.append("\\dodhgt").append(zorder++)
+		.append("\\").append(type)
 		.append("\\dpx").append(x)
 		.append("\\dpy").append(y)
 		.append("\\dpxsize").append(w)
@@ -887,31 +890,21 @@ public class JRRtfExporter extends JRAbstractExporter
 			
 			buf.append("\n}\\par}\n");
 		}
-		
+
 		if (printImage.getBox() == null)
 		{
 			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
-				buf.append("{\\pard\\fs0\\absw0\\absh0\\phpg\\posx")
-				.append(x)
-				.append("\\pvpg\\posy")
-				.append(y);
 				startGraphic("dprect", x, y, width, height);
 				finishGraphic(printImage);
-				buf.append("\\par}");
 			}
 		}
 		else
 		{
-			buf.append("{\\pard\\fs0\\absw0\\absh0\\phpg\\posx")
-			.append(x)
-			.append("\\pvpg\\posy")
-			.append(y);
 			exportBox(printImage.getBox(), printImage);
-			buf.append("\\par}");
 		}
 	}
-	
+
 
 
 }
