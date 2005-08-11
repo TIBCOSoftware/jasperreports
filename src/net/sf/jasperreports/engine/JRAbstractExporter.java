@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
@@ -35,7 +36,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xml.sax.SAXException;
+
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
 /**
@@ -61,6 +67,16 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int endPageIndex = 0;
 	protected int globalOffsetX = 0;
 	protected int globalOffsetY = 0;
+
+	/**
+	 *
+	 */
+	protected JRFont defaultFont = null;
+
+	/**
+	 *
+	 */
+	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 
 	/**
@@ -241,6 +257,72 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	protected JRFont getDefaultFont()
+	{
+		if (defaultFont == null)
+		{
+			defaultFont = jasperPrint.getDefaultFont();
+			if (defaultFont == null)
+			{
+				defaultFont = new JRBaseFont();
+			}
+		}
+
+		return defaultFont;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		JRStyledText styledText = null;
+
+		String text = textElement.getText();
+		if (text != null)
+		{
+			JRFont font = textElement.getFont();
+			if (font == null)
+			{
+				font = getDefaultFont();
+			}
+
+			Map attributes = new HashMap(); 
+			attributes.putAll(font.getAttributes());
+			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+			if (textElement.getMode() == JRElement.MODE_OPAQUE)
+			{
+				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
+			}
+
+			if (textElement.isStyledText())
+			{
+				try
+				{
+					styledText = styledTextParser.parse(attributes, text);
+				}
+				catch (SAXException e)
+				{
+					//ignore if invalid styled text and treat like normal text
+				}
+			}
+		
+			if (styledText == null)
+			{
+				styledText = new JRStyledText();
+				styledText.append(text);
+				styledText.addRun(new JRStyledText.Run(attributes, 0, text.length()));
+			}
+		}
+		
+		return styledText;
+	}
+
 
 	/**
 	 *
