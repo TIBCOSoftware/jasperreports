@@ -127,8 +127,8 @@ public interface JRReport extends JRDefaultFontProvider
 		
 	/**
 	 * Specifies whether columns will be filled horizontally or vertically.
-	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_VERTICAL
-	 * @see net.sf.jasperreports.engine.JRReport.PRINT_ORDER_HORIZONTAL
+	 * @see JRReport PRINT_ORDER_VERTICAL,
+	 * @see JRReport PRINT_ORDER_HORIZONTAL
 	 */
 	public byte getPrintOrder();
 		
