@@ -48,6 +48,7 @@ import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -111,6 +112,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
+
+	/**
+	 * The bookmark level for the anchor associated with this chart.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 
 	/**
@@ -577,5 +584,23 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
+	}
+
+
+	/**
+	 * Sets the boomark level for the anchor associated with this chart.
+	 * 
+	 * @param bookmarkLevel the bookmark level (starting from 1)
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created 
+	 */
+	public void setBookmarkLevel(int bookmarkLevel)
+	{
+		this.bookmarkLevel = bookmarkLevel;
 	}
 }

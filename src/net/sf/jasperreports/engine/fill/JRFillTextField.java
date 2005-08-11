@@ -70,7 +70,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
 
-
 	/**
 	 *
 	 */
@@ -624,6 +623,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkReference(getHyperlinkReference());
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
+		text.setBookmarkLevel(getBookmarkLevel());
 	}
 	
 	
@@ -691,5 +691,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		chopTextElement(0);
 
 		copy((JRPrintText) element);
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return ((JRTextField)parent).getBookmarkLevel();
 	}
 }

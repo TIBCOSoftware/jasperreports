@@ -48,6 +48,7 @@ import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -111,6 +112,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
+
+	/**
+	 * The bookmark level for the anchor associated with this chart.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 	
 	/**
 	 *
@@ -220,6 +227,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
+		bookmarkLevel = chart.getBookmarkLevel();
 	}
 		
 
@@ -428,5 +436,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	public void writeXml(JRXmlWriter xmlWriter)
 	{
 		xmlWriter.writeChartTag(this);
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
 	}
 }

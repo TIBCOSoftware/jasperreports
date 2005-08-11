@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -72,6 +73,11 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
 
+	/**
+	 * The bookmark level for the anchor associated with this field.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 	/**
 	 * Initializes the text field properties.
@@ -93,6 +99,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
+		bookmarkLevel = textField.getBookmarkLevel();
 	}
 		
 
@@ -241,4 +248,8 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 
 
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
+	}
 }

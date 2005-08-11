@@ -855,6 +855,11 @@ public class JRVerifier
 					brokenRules.add("Class " + clazz + " not supported for anchor name expression. Use java.lang.String instead.");
 				}
 			}
+			
+			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK && anchor.getBookmarkLevel() < 1)
+			{
+				brokenRules.add("Bookmark level should be " + JRAnchor.NO_BOOKMARK + " or greater than 0");
+			}
 		}
 	}
 		

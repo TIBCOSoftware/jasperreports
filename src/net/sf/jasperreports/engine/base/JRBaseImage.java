@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
@@ -80,6 +81,11 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
 
+	/**
+	 * The bookmark level for the anchor associated with this image.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 	/**
 	 *
@@ -123,6 +129,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		hyperlinkReferenceExpression = factory.getExpression(image.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(image.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(image.getHyperlinkPageExpression());
+		bookmarkLevel = image.getBookmarkLevel();
 	}
 		
 
@@ -348,6 +355,12 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	public void writeXml(JRXmlWriter xmlWriter)
 	{
 		xmlWriter.writeImage(this);
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
 	}
 
 

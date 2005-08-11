@@ -46,5 +46,22 @@ public interface JRPrintAnchor
 	 */
 	public void setAnchorName(String anchorName);
 
+	
+	/**
+	 * Returns the level of the bookmark corresponding to the anchor.
+	 *   
+	 * @return the level of the bookmark corresponding to the anchor (starting from 1)
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created for this anchor
+	 */
+	public int getBookmarkLevel();
+
+
+	/**
+	 * Sets the boomark level for the anchor.
+	 * 
+	 * @param bookmarkLevel the bookmark level (starting from 1)
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created 
+	 */
+	public void setBookmarkLevel(int bookmarkLevel);
 
 }

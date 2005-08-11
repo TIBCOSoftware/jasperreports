@@ -607,6 +607,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkReference(this.getHyperlinkReference());
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
 		printImage.setHyperlinkPage(this.getHyperlinkPage());
+		printImage.setBookmarkLevel(this.getBookmarkLevel());
 	}
 
 
@@ -640,6 +641,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		evaluateImage(evaluation);
 
 		copy((JRPrintImage) element);
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return ((JRImage)this.parent).getBookmarkLevel();
 	}
 
 }

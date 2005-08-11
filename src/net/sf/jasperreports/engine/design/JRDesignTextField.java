@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -71,6 +72,12 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+
+	/**
+	 * The bookmark level for the anchor associated with this field.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 
 	/**
@@ -290,4 +297,20 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 
 
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
+	}
+
+
+	/**
+	 * Sets the boomark level for the anchor associated with this field.
+	 * 
+	 * @param bookmarkLevel the bookmark level (starting from 1)
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created 
+	 */
+	public void setBookmarkLevel(int bookmarkLevel)
+	{
+		this.bookmarkLevel = bookmarkLevel;
+	}
 }
