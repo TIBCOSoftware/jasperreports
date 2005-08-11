@@ -51,11 +51,13 @@ import java.text.AttributedCharacterIterator;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -66,6 +68,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JRPrintAnchor;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -108,6 +111,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class JRPdfExporter extends JRAbstractExporter
 {
 
+	private static final String EMPTY_BOOKMARK_TITLE = "";
 
 	/**
 	 *
@@ -145,7 +149,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected Map loadedImagesMap = null;
 	protected Image pxImage = null;
-
+	
+	private BookmarkStack bookmarkStack;
 
 	/**
 	 *
@@ -312,7 +317,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			document.open();
 
 			pdfContentByte = pdfWriter.getDirectContent();
-			PdfOutline root = pdfContentByte.getRootOutline();
+			
+			initBookmarks();
 
 			PdfWriter imageTesterPdfWriter = 
 				PdfWriter.getInstance(
@@ -340,8 +346,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						
 						if( isCreatingBatchModeBookmarks ){
 							//add a new level to our outline for this report
-							PdfDestination newReport = new PdfDestination(PdfDestination.XYZ, 0, jasperPrint.getPageHeight(), 0);
-							new PdfOutline(root, newReport, jasperPrint.getName(), false);
+							addBookmark(0, jasperPrint.getName(), 0, 0);
 						}
 
 						startPageIndex = 0;
@@ -1156,10 +1161,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			*/
 
 
-			if (printImage.getAnchorName() != null)
-			{
-				chunk.setLocalDestination(printImage.getAnchorName());
-			}
+			setAnchor(chunk, printImage, printImage);
 
 			switch(printImage.getHyperlinkType())
 			{
@@ -1336,10 +1338,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void setHyperlinkInfo(Chunk chunk, JRPrintText text)
 	{
-		if (text.getAnchorName() != null)
-		{
-			chunk.setLocalDestination(text.getAnchorName());
-		}
+		setAnchor(chunk, text, text);
 
 		switch(text.getHyperlinkType())
 		{
@@ -1930,6 +1929,101 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			
 			fontsRegistered = true;
+		}
+	}
+
+	
+	static protected class Bookmark
+	{
+		final PdfOutline pdfOutline;
+		final int level;
+		
+		Bookmark(Bookmark parent, int x, int top, String title)
+		{
+			this(parent, new PdfDestination(PdfDestination.XYZ, x, top, 0), title);
+		}
+		
+		Bookmark(Bookmark parent, PdfDestination destination, String title)
+		{
+			this.pdfOutline = new PdfOutline(parent.pdfOutline, destination, title, false);
+			this.level = parent.level + 1;
+		}
+		
+		Bookmark(PdfOutline pdfOutline, int level)
+		{
+			this.pdfOutline = pdfOutline;
+			this.level = level;
+		}
+	}
+	
+	static protected class BookmarkStack
+	{
+		LinkedList stack;
+		
+		BookmarkStack()
+		{
+			stack = new LinkedList();
+		}
+		
+		void push(Bookmark bookmark)
+		{
+			stack.add(bookmark);
+		}
+		
+		Bookmark pop()
+		{
+			return (Bookmark) stack.removeLast();
+		}
+		
+		Bookmark peek()
+		{
+			return (Bookmark) stack.getLast();
+		}
+	}
+	
+
+	protected void initBookmarks()
+	{
+		bookmarkStack = new BookmarkStack();
+		
+		int rootLevel = isModeBatch && isCreatingBatchModeBookmarks ? -1 : 0;
+		Bookmark bookmark = new Bookmark(pdfContentByte.getRootOutline(), rootLevel);
+		bookmarkStack.push(bookmark);
+	}
+	
+	
+	protected void addBookmark(int level, String title, int x, int y)
+	{
+		Bookmark parent = bookmarkStack.peek();
+		while(parent.level > level - 1)
+		{
+			bookmarkStack.pop();
+			parent = bookmarkStack.peek();
+		}
+		
+		for (int i = parent.level + 1; i < level; ++i)
+		{
+			Bookmark emptyBookmark = new Bookmark(parent, parent.pdfOutline.getPdfDestination(), EMPTY_BOOKMARK_TITLE);
+			bookmarkStack.push(emptyBookmark);
+			parent = emptyBookmark;
+		}
+
+		Bookmark bookmark = new Bookmark(parent, x, jasperPrint.getPageHeight() - y, title);
+		bookmarkStack.push(bookmark);
+	}
+
+	
+	protected void setAnchor(Chunk chunk, JRPrintAnchor anchor, JRPrintElement element)
+	{
+		String anchorName = anchor.getAnchorName();
+		if (anchorName != null)
+		{
+			chunk.setLocalDestination(anchorName);
+			
+			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+			{
+				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), element.getX(), element.getY());
+			}
 		}
 	}
 }

@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpression;
@@ -79,6 +80,12 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+
+	/**
+	 * The bookmark level for the anchor associated with this image.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 
 	/**
@@ -398,5 +405,22 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		xmlWriter.writeImage(this);
 	}
 
+
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
+	}
+
+
+	/**
+	 * Sets the boomark level for the anchor associated with this image.
+	 * 
+	 * @param bookmarkLevel the bookmark level (starting from 1)
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created 
+	 */
+	public void setBookmarkLevel(int bookmarkLevel)
+	{
+		this.bookmarkLevel = bookmarkLevel;
+	}
 
 }

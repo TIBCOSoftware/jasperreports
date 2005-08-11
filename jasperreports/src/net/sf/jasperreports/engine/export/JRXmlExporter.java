@@ -52,6 +52,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -718,6 +719,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 
+		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			writer.write(" bookmarkLevel=\"");
+			writer.write(String.valueOf(image.getBookmarkLevel()));
+			writer.write("\"");
+		}
+
 		writer.write(">\n");
 
 
@@ -904,6 +912,13 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			writer.write(" hyperlinkPage=\"");
 			writer.write(String.valueOf(text.getHyperlinkPage()));
+			writer.write("\"");
+		}
+
+		if (text.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			writer.write(" bookmarkLevel=\"");
+			writer.write(String.valueOf(text.getBookmarkLevel()));
 			writer.write("\"");
 		}
 

@@ -54,10 +54,11 @@
 	onErrorType (Error | Blank | Icon) "Error"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
-	anchorName NMTOKEN #IMPLIED
+	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
-	hyperlinkAnchor NMTOKEN #IMPLIED
+	hyperlinkAnchor CDATA #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
+	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT box EMPTY>
 <!ATTLIST box
@@ -94,10 +95,11 @@
 	leadingOffset NMTOKEN "0"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
-	anchorName NMTOKEN #IMPLIED
+	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
-	hyperlinkAnchor NMTOKEN #IMPLIED
+	hyperlinkAnchor CDATA #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
+	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT font EMPTY>
 <!ATTLIST font

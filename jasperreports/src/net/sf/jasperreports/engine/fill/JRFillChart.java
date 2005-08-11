@@ -743,6 +743,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setHyperlinkReference(getHyperlinkReference());
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 	}
 
 	public byte getChartType()
@@ -1305,5 +1306,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateImage(evaluation);
 
 		copy((JRPrintImage) element);
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return ((JRChart)parent).getBookmarkLevel();
 	}
 }

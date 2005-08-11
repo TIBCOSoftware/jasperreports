@@ -57,6 +57,7 @@ public class JRImageFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
+	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 
 
 	/**
@@ -134,6 +135,12 @@ public class JRImageFactory extends JRBaseFactory
 		{
 			image.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
+		
+		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
+		if (bookmarkLevelAttr != null)
+		{
+			image.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
+		}		
 
 		return image;
 	}

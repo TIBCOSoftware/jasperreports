@@ -54,6 +54,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
+	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 
 
 	/**
@@ -108,6 +109,12 @@ public class JRTextFieldFactory extends JRBaseFactory
 		if (hyperlinkTarget != null)
 		{
 			textField.setHyperlinkTarget(hyperlinkTarget.byteValue());
+		}
+		
+		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
+		if (bookmarkLevelAttr != null)
+		{
+			textField.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
 		}
 
 		return textField;

@@ -58,6 +58,7 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -1145,6 +1146,13 @@ public class JRXmlWriter
 			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
 			sb.append("\"");
 		}
+		
+		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			sb.append(" bookmarkLevel=\"");
+			sb.append(image.getBookmarkLevel());
+			sb.append("\"");
+		}
 
 		sb.append(">\n");
 
@@ -1558,6 +1566,13 @@ public class JRXmlWriter
 			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(textField.getHyperlinkTarget())));
 			sb.append("\"");
 		}
+		
+		if (textField.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			sb.append(" bookmarkLevel=\"");
+			sb.append(textField.getBookmarkLevel());
+			sb.append("\"");
+		}
 
 		sb.append(">\n");
 
@@ -1739,6 +1754,13 @@ public class JRXmlWriter
 		{
 			sb.append(" hyperlinkTarget=\"");
 			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(chart.getHyperlinkTarget())));
+			sb.append("\"");
+		}
+		
+		if (chart.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			sb.append(" bookmarkLevel=\"");
+			sb.append(chart.getBookmarkLevel());
 			sb.append("\"");
 		}
 

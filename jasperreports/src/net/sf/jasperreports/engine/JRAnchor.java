@@ -37,12 +37,23 @@ package net.sf.jasperreports.engine;
  */
 public interface JRAnchor
 {
-
-
+	/**
+	 * Value of the bookmark level that indicates that no bookmark should be created for the anchor.
+	 */
+	public static final int NO_BOOKMARK = 0;
+	
 	/**
 	 * Returns an expression whose value represents the anchor name.
 	 */
 	public JRExpression getAnchorNameExpression();
 
+	
+	/**
+	 * Returns the level of the bookmark corresponding to the anchor.
+	 *   
+	 * @return the level of the bookmark corresponding to the anchor (starting from 1)
+	 * or {@link #NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created for this anchor
+	 */
+	public int getBookmarkLevel();
 
 }

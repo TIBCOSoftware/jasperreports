@@ -161,6 +161,7 @@
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
+	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT imageExpression (#PCDATA)>
 <!ATTLIST imageExpression
@@ -226,6 +227,7 @@
 	isBlankWhenNull (true | false) "false"
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
+	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT textFieldExpression (#PCDATA)>
 <!ATTLIST textFieldExpression
@@ -267,6 +269,7 @@
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
+	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle

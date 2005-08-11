@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -57,6 +58,12 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+
+	/**
+	 * The bookmark level for the anchor associated with this field.
+	 * @see JRAnchor#getBookmarkLevel()
+	 */
+	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
 
 	/**
@@ -359,6 +366,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
+	}
+
+
+	public int getBookmarkLevel()
+	{
+		return bookmarkLevel;
+	}
+
+
+	public void setBookmarkLevel(int bookmarkLevel)
+	{
+		this.bookmarkLevel = bookmarkLevel;
 	}
 		
 }
