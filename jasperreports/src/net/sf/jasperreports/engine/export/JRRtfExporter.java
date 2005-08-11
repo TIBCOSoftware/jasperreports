@@ -35,6 +35,7 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -42,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -72,6 +74,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
@@ -80,8 +83,8 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  */
 public class JRRtfExporter extends JRAbstractExporter
 {
-	
-	static int SCALE = 2835; //2835 points per meter
+
+	static int SCALE = 2835; // 2835 points per meter
 
 	protected int reportIndex = 0;
 
@@ -101,7 +104,6 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	protected Map loadedImagesMap = null;
 
-	
 	protected JRFont getDefaultFont()
 	{
 		if (defaultFont == null)
@@ -152,9 +154,9 @@ public class JRRtfExporter extends JRAbstractExporter
 			colorNdx = colors.size();
 			colors.add(color);
 			colorBuf.append("\\red").append(color.getRed())
-			.append("\\green").append(color.getGreen())
-			.append("\\blue").append(color.getBlue())
-			.append(";");
+					.append("\\green").append(color.getGreen())
+					.append("\\blue").append(color.getBlue())
+					.append(";");
 		}
 		return colorNdx;
 	}
@@ -172,8 +174,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		// Make sure default font is first in list
 		getDefaultFont();
 		getFontIndex(defaultFont);
-		buf = (StringBuffer) parameters
-				.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		buf = (StringBuffer) parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (buf != null)
 		{
 
@@ -181,8 +182,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			return;
 		}
 		buf = new StringBuffer();
-		OutputStream os = (OutputStream) parameters
-				.get(JRExporterParameter.OUTPUT_STREAM);
+		OutputStream os = (OutputStream) parameters.get(JRExporterParameter.OUTPUT_STREAM);
 		if (os != null)
 		{
 
@@ -206,7 +206,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				os = new FileOutputStream(destFile);
 				exportReportToStream(os);
-				
+
 				os.flush();
 			}
 			catch (IOException e)
@@ -309,7 +309,7 @@ public class JRRtfExporter extends JRAbstractExporter
 								+ jasperPrint.getName(), e);
 					}
 				}
-				
+
 			}
 		}
 	}
@@ -327,7 +327,23 @@ public class JRRtfExporter extends JRAbstractExporter
 				getColorIndex(element.getBackcolor());
 				if (element instanceof JRPrintText)
 				{
+					int runLimit = 0;
+					JRStyledText styledText = getStyledText((JRPrintText) element);
+					AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+					while (runLimit < styledText.length()
+							&& (runLimit = iterator.getRunLimit()) <= styledText.length())
+					{
+						Map styledTextAttributes = iterator.getAttributes();
+						JRFont styleFont = new JRBaseFont(styledTextAttributes);
+						getFontIndex(styleFont);
+
+						getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
+						getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
+						iterator.setIndex(runLimit);
+					}
+
 					getFontIndex(((JRPrintText) element).getFont());
+
 				}
 			}
 		}
@@ -373,6 +389,18 @@ public class JRRtfExporter extends JRAbstractExporter
 		int h = twip(line.getHeight());
 		int w = twip(line.getWidth());
 
+		if (w <= 20 || h <= 20)
+		{
+			if (w > 20)
+			{
+				h = 0;
+			}
+			else
+			{
+				w = 0;
+			}
+		}
+
 		startGraphic("dpline", x, y, w, h);
 
 		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
@@ -390,29 +418,17 @@ public class JRRtfExporter extends JRAbstractExporter
 			.append("\\dppty").append(y - h);
 		}
 
-//		.append("{\\pard")
-//		.append("\\absw").append(twip(line.getWidth()))
-//		.append("\\absh-").append(twip(line.getHeight()))
-//		
-//		.append("\\phpg")
-//		.append("\\posx").append(x)
-//		
-//		.append("\\pvpg")
-//		.append("\\posy").append(y)
-//		.append(" ")
-
 		finishGraphic(line);
 	}
 
 	protected void exportRectangle(JRPrintRectangle rect)
 	{
-		startGraphic(
-			"dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""), 
-			twip(rect.getX()), 
-			twip(rect.getY()), 
-			twip(rect.getWidth()),
-			twip(rect.getHeight())
-			);
+		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
+				twip(rect.getX()), 
+				twip(rect.getY()), 
+				twip(rect.getWidth()),
+				twip(rect.getHeight())
+				);
 		finishGraphic(rect);
 	}
 
@@ -421,10 +437,10 @@ public class JRRtfExporter extends JRAbstractExporter
 		startGraphic(
 			"dpellipse", 
 			twip(ellipse.getX()), 
-			twip(ellipse.getY()), 
-			twip(ellipse.getWidth()),
-			twip(ellipse.getHeight()) 
-			);
+			twip(ellipse.getY()),
+			twip(ellipse.getWidth()), 
+			twip(ellipse.getHeight())
+		);
 		finishGraphic(ellipse);
 	}
 
@@ -449,7 +465,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		finishGraphic(
 			elem.getPen(), 
 			elem.getForecolor(), 
-			elem.getBackcolor(),
+			elem.getBackcolor(), 
 			mode
 			);
 	}
@@ -599,54 +615,69 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	protected void exportText(JRPrintText text)
 	{
-		//
-		// For now, ignore styled text, all modes except MODE_OPAQUE
-		// and ROTATION.
-		//
-		int x = twip(text.getX() + globalOffsetX);
-		int y = twip(text.getY() + globalOffsetY);
+		// use styled text
+		JRStyledText styledText = getStyledText(text);
+		if (styledText == null)
+		{
+			return;
+		}
+
+		
+		int x = twip(text.getX());
+		int y = twip(text.getY());
+
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
-		
-		if (text.getMode() == JRElement.MODE_OPAQUE) 
+
+		int verticalAdjustment = 0;
+		switch (text.getVerticalAlignment())
+		{
+			case JRAlignment.VERTICAL_ALIGN_TOP:
+				verticalAdjustment = 0;
+				break;
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+				verticalAdjustment = (int) (height - twip(text.getTextHeight())) / 2;
+				break;
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+				verticalAdjustment = (int) (height - twip(text.getTextHeight()));
+				break;
+		}
+
+		// padding for the text
+		//int topPadding = 0;
+		int leftPadding = 0;
+		//int bottomPadding = 0;
+		int rightPadding = 0;
+
+		if (text.getBox() != null)
+		{
+			//topPadding = twip(text.getBox().getTopPadding());
+			leftPadding = twip(text.getBox().getLeftPadding());
+			//bottomPadding = twip(text.getBox().getBottomPadding());
+			rightPadding = twip(text.getBox().getRightPadding());
+		}
+
+		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
-			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text.getBackcolor(), 1);
-		}
-		
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-		
-		JRBox box = text.getBox();
-		if (box != null)
-		{
-			topPadding = text.getBox().getTopPadding();
-			leftPadding = text.getBox().getLeftPadding();
-			bottomPadding = text.getBox().getBottomPadding();
-			rightPadding = text.getBox().getRightPadding();
-
-			exportBox(box, text);
+			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text
+					.getBackcolor(), 1);
 		}
 
 		JRFont font = text.getFont();
 
-		buf.append("{\\pard")
-		.append("\\absw").append(twip(text.getWidth()))
-		.append("\\absh").append(twip(text.getHeight() - topPadding))
-		.append("\\phpg\\posx").append(twip(text.getX()))
-		.append("\\pvpg\\posy").append(twip(text.getY() + topPadding))
+		buf.append("{\\pard").append("\\absw").append(width)
+		.append("\\absh").append(twip(text.getTextHeight()))
+		.append("\\phpg\\posx").append(x)
+		.append("\\pvpg\\posy").append(y + verticalAdjustment)
 		.append("\\f").append(getFontIndex(font))
 		.append("\\cf").append(getColorIndex(text.getForecolor()))
-		.append("\\cb").append(getColorIndex(text.getBackcolor()))
 		.append("\\cbpat").append(getColorIndex(text.getBackcolor()));
-		//.append("\\fi").append(twip(topPadding));
-		
-		if (box != null)
+
+		if (text.getBox() != null)
 		{
-			buf.append("\\li" + twip(leftPadding));
-			buf.append("\\ri" + twip(rightPadding));
+			buf.append("\\li" + leftPadding);
+			buf.append("\\ri" + rightPadding);
 		}
 
 		if (font.isBold())
@@ -683,69 +714,148 @@ public class JRRtfExporter extends JRAbstractExporter
 			case JRTextElement.LINE_SPACING_SINGLE:
 				break;
 			case JRTextElement.LINE_SPACING_1_1_2:
-				buf.append("\\sl360\\slmulti");
+				buf.append("\\sl360\\slmulti1");
 				break;
 			case JRTextElement.LINE_SPACING_DOUBLE:
-				buf.append("\\sl480\\slmulti");
+				buf.append("\\sl480\\slmulti1");
 				break;
 		}
 
-		//        switch (text.getVerticalAlignment()) {
-		//        case JRTextElement.VERTICAL_ALIGN_TOP: buf.append("\\posyt"); break;
-		//        case JRTextElement.VERTICAL_ALIGN_MIDDLE: buf.append("\\posyc");
-		// break;
-		//        case JRTextElement.VERTICAL_ALIGN_BOTTOM: buf.append("\\posyb");
-		// break;
-		//        }
-
 		buf.append(" ");
-		buf.append(text.getText());
+
+		// styled text
+		String plainText = styledText.getText();
+		int runLimit = 0;
+
+		AttributedCharacterIterator iterator = styledText.getAttributedString()
+				.getIterator();
+		while (runLimit < styledText.length()
+				&& (runLimit = iterator.getRunLimit()) <= styledText.length())
+		{
+
+			Map styledTextAttributes = iterator.getAttributes();
+			JRFont styleFont = new JRBaseFont(styledTextAttributes);
+			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
+			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
+
+			boolean isBold = false;
+			boolean isItalic = false;
+			boolean isUnderline = false;
+			boolean isStrikeThrough = false;
+
+			if (styleFont.isBold())
+			{
+				isBold = true;
+			}
+			if (styleFont.isItalic())
+			{
+				isItalic = true;
+			}
+			if (styleFont.isUnderline())
+			{
+				isUnderline = true;
+			}
+			if (styleFont.isStrikeThrough())
+			{
+				isStrikeThrough = true;
+			}
+
+			int fontSize = styleFont.getSize();
+
+			buf.append("\\fs" + 2 * fontSize + " ");
+			/*
+			 * buf.append("\\cf").append(getColorIndex(styleForeground));
+			 * buf.append("\\cb").append(getColorIndex(styleBackground));
+			 */
+			if (isBold)
+			{
+				buf.append("\\b ");
+			}
+			if (isItalic)
+			{
+				buf.append("\\i ");
+			}
+			if (isUnderline)
+			{
+				buf.append("\\ul ");
+			}
+			if (isStrikeThrough)
+			{
+				buf.append("\\strike ");
+			}
+
+			buf.append("\\cb").append(getColorIndex(styleBackground) + " ");
+			buf.append("\\cf").append(getColorIndex(styleForeground) + " ");
+
+			int s = 0;
+			int e = 0;
+			String str = plainText.substring(iterator.getIndex(), runLimit);
+			String pattern = "\n";
+			String replace = "\\line";
+			StringBuffer result = new StringBuffer();
+
+			while ((e = str.indexOf(pattern, s)) >= 0)
+			{
+				result.append(str.substring(s, e));
+				result.append(replace);
+				s = e + pattern.length();
+			}
+			result.append(str.substring(s));
+
+			buf.append(result.toString());
+
+			/*
+			 * if (isBold) { buf.append("}"); } if (isItalic) { buf.append("}"); }
+			 * if (isUnderline) { buf.append("}"); } if (isStrikeThrough) {
+			 * buf.append("}"); }
+			 */
+			buf.append("\\plain");
+
+			iterator.setIndex(runLimit);
+		}
+
 		buf.append("\\par}\n");
 	}
-
 
 	/**
 	 * 
 	 */
-	protected void exportImage(JRPrintImage printImage) throws JRException	
+	protected void exportImage(JRPrintImage printImage) throws JRException
 	{
 		int x = twip(printImage.getX() + globalOffsetX);
 		int y = twip(printImage.getY() + globalOffsetY);
 		int width = twip(printImage.getWidth());
 		int height = twip(printImage.getHeight());
-		
-		if (printImage.getMode() == JRElement.MODE_OPAQUE) 
+
+		if (printImage.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
-			finishGraphic(JRGraphicElement.PEN_NONE, printImage.getForecolor(), printImage.getBackcolor(), 1);
+			finishGraphic(JRGraphicElement.PEN_NONE, printImage.getForecolor(),
+					printImage.getBackcolor(), 1);
 		}
-		
+
 		int topPadding = 0;
 		int leftPadding = 0;
 		int rightPadding = 0;
 		int bottomPadding = 0;
-		
-		if (printImage.getBox() != null) 
+
+		if (printImage.getBox() != null)
 		{
 			leftPadding = printImage.getBox().getLeftPadding();
 			topPadding = printImage.getBox().getTopPadding();
 			rightPadding = printImage.getBox().getRightPadding();
 			bottomPadding = printImage.getBox().getBottomPadding();
 		}
-	
+
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
 
 		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-		
+
 		JRRenderable renderer = printImage.getRenderer();
-		
-		if (
-			availableImageWidth > 0 
-			&& availableImageHeight > 0 
-			&& renderer != null
-			)
+
+		if (availableImageWidth > 0 && availableImageHeight > 0 && renderer != null)
 		{
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
@@ -753,25 +863,25 @@ public class JRRtfExporter extends JRAbstractExporter
 			Dimension2D dimension = renderer.getDimension();
 			if (dimension != null)
 			{
-				normalWidth = (int)dimension.getWidth();
-				normalHeight = (int)dimension.getHeight();
+				normalWidth = (int) dimension.getWidth();
+				normalHeight = (int) dimension.getHeight();
 			}
-	
+
 			float xalignFactor = 0f;
 			switch (printImage.getHorizontalAlignment())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+				case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
 				{
 					xalignFactor = 1f;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+				case JRAlignment.HORIZONTAL_ALIGN_CENTER:
 				{
 					xalignFactor = 0.5f;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-				default :
+				case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+				default:
 				{
 					xalignFactor = 0f;
 					break;
@@ -781,116 +891,92 @@ public class JRRtfExporter extends JRAbstractExporter
 			float yalignFactor = 0f;
 			switch (printImage.getVerticalAlignment())
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM:
 				{
 					yalignFactor = 1f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE:
 				{
 					yalignFactor = 0.5f;
 					break;
 				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
-				default :
+				case JRAlignment.VERTICAL_ALIGN_TOP:
+				default:
 				{
 					yalignFactor = 0f;
 					break;
 				}
 			}
 
-			BufferedImage bi = 
-				new BufferedImage(
-					availableImageWidth, 
-					availableImageHeight, 
-					BufferedImage.TYPE_INT_RGB
-					);
+			BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
 			Graphics2D grx = bi.createGraphics();
 			grx.setColor(printImage.getBackcolor());
 			grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
-			
+
 			switch (printImage.getScaleImage())
 			{
-				case JRImage.SCALE_IMAGE_CLIP :
+				case JRImage.SCALE_IMAGE_CLIP:
 				{
-					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
-					renderer.render(
-						grx, 
-						new Rectangle(
-							xoffset, 
-							yoffset, 
-							normalWidth, 
-							normalHeight
-							) 
-						);
-	
+					renderer.render(grx, new Rectangle(xoffset, yoffset,
+							normalWidth, normalHeight));
+
 					break;
 				}
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				case JRImage.SCALE_IMAGE_FILL_FRAME:
 				{
-					renderer.render(
-						grx,
-						new Rectangle(
-							0, 
-							0, 
-							availableImageWidth, 
-							availableImageHeight
-							)
-						);
-	
+					renderer.render(grx, new Rectangle(0, 0,
+							availableImageWidth, availableImageHeight));
+
 					break;
 				}
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-				default :
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+				default:
 				{
 					if (printImage.getHeight() > 0)
 					{
-						double ratio = (double)normalWidth / (double)normalHeight;
-						
-						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
+						double ratio = (double) normalWidth / (double) normalHeight;
+
+						if (ratio > (double) availableImageWidth / (double) availableImageHeight)
 						{
-							normalWidth = availableImageWidth; 
-							normalHeight = (int)(availableImageWidth / ratio); 
+							normalWidth = availableImageWidth;
+							normalHeight = (int) (availableImageWidth / ratio);
 						}
 						else
 						{
-							normalWidth = (int)(availableImageHeight * ratio); 
-							normalHeight = availableImageHeight; 
+							normalWidth = (int) (availableImageHeight * ratio);
+							normalHeight = availableImageHeight;
 						}
 
-						int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
-						renderer.render(
-							grx,
-							new Rectangle(
-								xoffset, 
-								yoffset, 
-								normalWidth, 
-								normalHeight
-								) 
-							);
+						renderer.render(grx, new Rectangle(xoffset, yoffset,
+								normalWidth, normalHeight));
 					}
-					
+
 					break;
 				}
 			}
 
 			buf.append("{\\pard\\fs0\\phpg\\pvpg")
-			.append("\\posx").append(twip(printImage.getX() + leftPadding + globalOffsetX))
-			.append("\\posy").append(twip(printImage.getY() + topPadding + globalOffsetY))
+			.append("\\posx")
+			.append(twip(printImage.getX() + leftPadding + globalOffsetX))
+			.append("\\posy")
+			.append(twip(printImage.getY() + topPadding + globalOffsetY))
 			.append("{\\pict\\jpegblip")
 			.append("\\picwgoal").append(twip(availableImageWidth))
 			.append("\\pichgoal").append(twip(availableImageHeight))
-			.append("\n");
-			
+				.append("\n");
+
 			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi));
-			
+
 			int count = 0;
 			int current = 0;
-			while((current = bais.read()) != -1) 
+			while ((current = bais.read()) != -1)
 			{
 				String helperStr = Integer.toHexString(current);
 				if (helperStr.length() < 2)
@@ -899,13 +985,13 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 				buf.append(helperStr);
 				count++;
-				if (count == 64) 
+				if (count == 64)
 				{
 					buf.append("\n");
 					count = 0;
 				}
 			}
-			
+
 			buf.append("\n}\\par}\n");
 		}
 
@@ -922,7 +1008,4 @@ public class JRRtfExporter extends JRAbstractExporter
 			exportBox(printImage.getBox(), printImage);
 		}
 	}
-
-
-
 }
