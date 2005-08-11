@@ -57,7 +57,12 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		super(filler, staticText, factory);
 		
 		//setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
-		setRawText(staticText.getText());
+		String text = staticText.getText();
+		if (text == null)
+		{
+			text = "";
+		}
+		setRawText(text);
 	}
 
 
