@@ -410,7 +410,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		int y = twip(rec.getY());
 		int h = twip(rec.getHeight());
 		int w = twip(rec.getWidth());
-		startGraphic("dprect", x, y, w, h);
+		startGraphic("dprect" + (rec.getRadius() > 0 ? "\\dproundr" : ""), x, y, w, h);
 		finishGraphic(rec);
 	}
 
@@ -489,7 +489,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				buf.append("\\dplinew80");
 				break;
 			case JRGraphicElement.PEN_DOTTED:
-				buf.append("\\dplinedot");
+				buf.append("\\dplinedash");
 				break;
 			case JRGraphicElement.PEN_NONE:
 				buf.append("\\dplinehollow");
