@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.apache.commons.digester.Digester;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
@@ -81,7 +82,8 @@ public class JRXmlLoader
 
 	private Digester digester = null;
 
-	
+	private boolean ignoreConsistencyProblems;
+		
 	/**
 	 *
 	 */
@@ -212,10 +214,19 @@ public class JRXmlLoader
 	}
 
 
+
 	/**
 	 *
 	 */
 	public JasperDesign loadXML(InputStream is) throws JRException
+	{
+		return loadXML(new InputSource(is));
+	}
+
+	/**
+	 *
+	 */
+	public JasperDesign loadXML(InputSource is) throws JRException
 	{
 		try
 		{
@@ -280,7 +291,7 @@ public class JRXmlLoader
 						group = (JRGroup)groupsMap.get(groupName);
 					}
 
-					if (group == null)
+					if (!ignoreConsistencyProblems && group == null)
 					{
 						throw 
 							new JRException(
@@ -306,7 +317,7 @@ public class JRXmlLoader
 						group = (JRGroup)groupsMap.get(groupName);
 					}
 
-					if (group == null)
+					if (!ignoreConsistencyProblems && group == null)
 					{
 						throw 
 							new JRException(
@@ -347,7 +358,7 @@ public class JRXmlLoader
 				group = (JRGroup)groupsMap.get(group.getName());
 			}
 
-			if (group == null)
+			if (!ignoreConsistencyProblems && group == null)
 			{
 				throw new JRException("Unknown reprint group '" + groupName + "' for element.");
 			}
@@ -378,7 +389,7 @@ public class JRXmlLoader
 				group = (JRGroup)groupsMap.get(group.getName());
 			}
 
-			if (group == null)
+			if (!ignoreConsistencyProblems && group == null)
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for image.");
 			}
@@ -409,7 +420,7 @@ public class JRXmlLoader
 				group = (JRGroup)groupsMap.get(group.getName());
 			}
 
-			if (group == null)
+			if (!ignoreConsistencyProblems && group == null)
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for text field.");
 			}
@@ -437,7 +448,7 @@ public class JRXmlLoader
 				group = (JRGroup)groupsMap.get(group.getName());
 			}
 
-			if (group == null)
+			if (!ignoreConsistencyProblems && group == null)
 			{
 				throw new JRException("Unknown evaluation group '" + groupName + "' for chart.");
 			}
@@ -467,7 +478,7 @@ public class JRXmlLoader
 					group = (JRGroup)groupsMap.get(group.getName());
 				}
 
-				if (group == null)
+				if (!ignoreConsistencyProblems && group == null)
 				{
 					throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
 				}
@@ -489,7 +500,7 @@ public class JRXmlLoader
 					group = (JRGroup)groupsMap.get(group.getName());
 				}
 
-				if (group == null)
+				if (!ignoreConsistencyProblems && group == null)
 				{
 					throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
 				}
@@ -509,7 +520,27 @@ public class JRXmlLoader
 	 */
 	public void addError(Exception e)
 	{
-		this.errors.add(e);
+		if(!ignoreConsistencyProblems)
+			this.errors.add(e);
+	}
+	
+	/**
+	 * Returns true if the loader is set to ignore consistency problems
+	 * @return the ignoreConsistencyProblems flag.
+	 */
+	public boolean isIgnoreConsistencyProblems() {
+		return ignoreConsistencyProblems;
+	}
+	
+	/**
+	 * Allows to enable or disable the reporting of consistency problems. Consistency 
+	 * problems are problems in the logical structure of the report such as references
+	 * to missing groups and fonts.
+	 * 
+	 * @param ignoreConsistencyProblems The ignoreConsistencyProblems value to set.
+	 */
+	public void setIgnoreConsistencyProblems(boolean ignoreConsistencyProblems) {
+		this.ignoreConsistencyProblems = ignoreConsistencyProblems;
 	}
 
 }
