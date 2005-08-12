@@ -1938,17 +1938,26 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t\t<categorySeries>\n");
 
-		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(categorySeries.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
+		if (categorySeries.getSeriesExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+			sb.append(categorySeries.getSeriesExpression().getText());
+			sb.append("]]></seriesExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<categoryExpression><![CDATA[");
-		sb.append(categorySeries.getCategoryExpression().getText());
-		sb.append("]]></categoryExpression>\n");
+		if (categorySeries.getCategoryExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<categoryExpression><![CDATA[");
+			sb.append(categorySeries.getCategoryExpression().getText());
+			sb.append("]]></categoryExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(categorySeries.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
+		if (categorySeries.getValueExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+			sb.append(categorySeries.getValueExpression().getText());
+			sb.append("]]></valueExpression>\n");
+		}
 
 		if (categorySeries.getLabelExpression() != null) {
 			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
@@ -1983,21 +1992,34 @@ public class JRXmlWriter
 	 */
 	private void writeXyzSeries( JRXyzSeries series ){
 		sb.append( "\t\t\t\t\t<xyzSeries>\n" );
-		sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
-		sb.append( series.getSeriesExpression().getText() );
-		sb.append("]]></seriesExpression>\n");
 		
-		sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
-		sb.append( series.getXValueExpression().getText() );
-		sb.append( "]]></xValueExpression>\n" );
+		if (series.getSeriesExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
+			sb.append( series.getSeriesExpression().getText() );
+			sb.append("]]></seriesExpression>\n");
+		}
 		
-		sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
-		sb.append( series.getYValueExpression().getText() );
-		sb.append( "]]></yValueExpression>\n" );
+		if (series.getXValueExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
+			sb.append( series.getXValueExpression().getText() );
+			sb.append( "]]></xValueExpression>\n" );
+		}
 		
-		sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
-		sb.append( series.getZValueExpression().getText() );
-		sb.append( "]]></zValueExpression>\n" );
+		if (series.getYValueExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
+			sb.append( series.getYValueExpression().getText() );
+			sb.append( "]]></yValueExpression>\n" );
+		}
+		
+		if (series.getZValueExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
+			sb.append( series.getZValueExpression().getText() );
+			sb.append( "]]></zValueExpression>\n" );
+		}
 		
 		sb.append( "\t\t\t\t\t</xyzSeries>\n" );
 	}
@@ -2010,23 +2032,33 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t\t<xySeries>\n");
 
-		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(xySeries.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
+		if (xySeries.getSeriesExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+			sb.append(xySeries.getSeriesExpression().getText());
+			sb.append("]]></seriesExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<xValueExpression><![CDATA[");
-		sb.append(xySeries.getXValueExpression().getText());
-		sb.append("]]></xValueExpression>\n");
+		if (xySeries.getXValueExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<xValueExpression><![CDATA[");
+			sb.append(xySeries.getXValueExpression().getText());
+			sb.append("]]></xValueExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<yValueExpression><![CDATA[");
-		sb.append(xySeries.getYValueExpression().getText());
-		sb.append("]]></yValueExpression>\n");
+		if (xySeries.getYValueExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<yValueExpression><![CDATA[");
+			sb.append(xySeries.getYValueExpression().getText());
+			sb.append("]]></yValueExpression>\n");
+		}
 		
 		if( xySeries.getLabelExpression() != null ){
 			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
 			sb.append(xySeries.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
 		}
+		
 		sb.append("\t\t\t\t\t</xySeries>\n");
 	}
 
@@ -2063,19 +2095,29 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t\t<timeSeries>\n");
 
-		sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(timeSeries.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
+		if (timeSeries.getSeriesExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
+			sb.append(timeSeries.getSeriesExpression().getText());
+			sb.append("]]></seriesExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
-		sb.append(timeSeries.getTimePeriodExpression().getText());
-		sb.append("]]></timePeriodExpression>\n");
+		if (timeSeries.getTimePeriodExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
+			sb.append(timeSeries.getTimePeriodExpression().getText());
+			sb.append("]]></timePeriodExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(timeSeries.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
+		if (timeSeries.getValueExpression() != null)
+		{
+			sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
+			sb.append(timeSeries.getValueExpression().getText());
+			sb.append("]]></valueExpression>\n");
+		}
 		
-		if( timeSeries.getLabelExpression() != null ){
+		if( timeSeries.getLabelExpression() != null )
+		{
 			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
 			sb.append(timeSeries.getLabelExpression().getText());
 			sb.append("]]></labelExpression>\n");
@@ -2088,21 +2130,33 @@ public class JRXmlWriter
 	private void writeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
 		sb.append( "\t\t\t\t\t<timePeriodSeries>\n" );
 		
-		sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
-		sb.append( timePeriodSeries.getSeriesExpression().getText() );
-		sb.append( "]]></seriesExpression>\n" );
+		if (timePeriodSeries.getSeriesExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
+			sb.append( timePeriodSeries.getSeriesExpression().getText() );
+			sb.append( "]]></seriesExpression>\n" );
+		}
 		
-		sb.append( "\t\t\t\t\t\t<startDateExpression><![CDATA[" );
-		sb.append( timePeriodSeries.getStartDateExpression().getText() );
-		sb.append( "]]></startDateExpression>\n" );
+		if (timePeriodSeries.getStartDateExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<startDateExpression><![CDATA[" );
+			sb.append( timePeriodSeries.getStartDateExpression().getText() );
+			sb.append( "]]></startDateExpression>\n" );
+		}
 		
-		sb.append( "\t\t\t\t\t\t<endDateExpression><![CDATA[" );
-		sb.append( timePeriodSeries.getEndDateExpression().getText() );
-		sb.append( "]]></endDateExpression>\n" );
+		if (timePeriodSeries.getEndDateExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<endDateExpression><![CDATA[" );
+			sb.append( timePeriodSeries.getEndDateExpression().getText() );
+			sb.append( "]]></endDateExpression>\n" );
+		}
 		
-		sb.append( "\t\t\t\t\t\t<valueExpression><![CDATA[" );
-		sb.append( timePeriodSeries.getValueExpression().getText() );
-		sb.append( "]]></valueExpression>\n" );
+		if (timePeriodSeries.getValueExpression() != null)
+		{
+			sb.append( "\t\t\t\t\t\t<valueExpression><![CDATA[" );
+			sb.append( timePeriodSeries.getValueExpression().getText() );
+			sb.append( "]]></valueExpression>\n" );
+		}
 		
 		if( timePeriodSeries.getLabelExpression() != null ){
 			sb.append( "\t\t\t\t\t\t<labelExpression><![CDATA[" );
@@ -2110,9 +2164,42 @@ public class JRXmlWriter
 			sb.append( "]]></labelExpression>\n" );
 		}
 		
-		
 		sb.append( "\t\t\t\t\t</timePeriodSeries>\n" );
 	}
+
+	
+	/**
+	 *
+	 */
+	public void writePieDataset(JRPieDataset dataset)
+	{
+		sb.append("\t\t\t\t<pieDataset>\n");
+
+		writeDataset(dataset);
+
+		if (dataset.getKeyExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
+			sb.append(dataset.getKeyExpression().getText());
+			sb.append("]]></keyExpression>\n");
+		}
+
+		if (dataset.getValueExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
+			sb.append(dataset.getValueExpression().getText());
+			sb.append("]]></valueExpression>\n");
+		}
+
+		if (dataset.getLabelExpression() != null) {
+			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
+			sb.append(dataset.getLabelExpression().getText());
+			sb.append("]]></labelExpression>\n");
+		}
+
+		sb.append("\t\t\t\t</pieDataset>\n");
+	}
+
 
 	/**
 	 *
@@ -2149,29 +2236,9 @@ public class JRXmlWriter
 	public void writePieChart(JRChart chart)
 	{
 		sb.append("\t\t\t<pieChart>\n");
+
 		writeChart(chart);
-
-		// write dataset
-		JRPieDataset dataset = (JRPieDataset) chart.getDataset();
-		sb.append("\t\t\t\t<pieDataset>\n");
-
-		writeDataset(dataset);
-
-		sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
-		sb.append(dataset.getKeyExpression().getText());
-		sb.append("]]></keyExpression>\n");
-
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
-
-		if (dataset.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(dataset.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</pieDataset>\n");
+		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
 		sb.append("\t\t\t\t<piePlot>\n");
@@ -2190,29 +2257,9 @@ public class JRXmlWriter
 	public void writePie3DChart(JRChart chart)
 	{
 		sb.append("\t\t\t<pie3DChart>\n");
+
 		writeChart(chart);
-
-		// write dataset
-		JRPieDataset dataset = (JRPieDataset) chart.getDataset();
-		sb.append("\t\t\t\t<pieDataset>\n");
-
-		writeDataset(dataset);
-
-		sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
-		sb.append(dataset.getKeyExpression().getText());
-		sb.append("]]></keyExpression>\n");
-
-		sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-		sb.append(dataset.getValueExpression().getText());
-		sb.append("]]></valueExpression>\n");
-
-		if (dataset.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(dataset.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</pieDataset>\n");
+		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
 		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
@@ -2480,33 +2527,54 @@ public class JRXmlWriter
 
 		writeDataset(dataset);
 
-		sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
-		sb.append(dataset.getSeriesExpression().getText());
-		sb.append("]]></seriesExpression>\n");
+		if (dataset.getSeriesExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
+			sb.append(dataset.getSeriesExpression().getText());
+			sb.append("]]></seriesExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<dateExpression><![CDATA[");
-		sb.append(dataset.getDateExpression().getText());
-		sb.append("]]></dateExpression>\n");
+		if (dataset.getDateExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<dateExpression><![CDATA[");
+			sb.append(dataset.getDateExpression().getText());
+			sb.append("]]></dateExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<highExpression><![CDATA[");
-		sb.append(dataset.getHighExpression().getText());
-		sb.append("]]></highExpression>\n");
+		if (dataset.getHighExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<highExpression><![CDATA[");
+			sb.append(dataset.getHighExpression().getText());
+			sb.append("]]></highExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<lowExpression><![CDATA[");
-		sb.append(dataset.getLowExpression().getText());
-		sb.append("]]></lowExpression>\n");
+		if (dataset.getLowExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<lowExpression><![CDATA[");
+			sb.append(dataset.getLowExpression().getText());
+			sb.append("]]></lowExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<openExpression><![CDATA[");
-		sb.append(dataset.getOpenExpression().getText());
-		sb.append("]]></openExpression>\n");
+		if (dataset.getOpenExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<openExpression><![CDATA[");
+			sb.append(dataset.getOpenExpression().getText());
+			sb.append("]]></openExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<closeExpression><![CDATA[");
-		sb.append(dataset.getCloseExpression().getText());
-		sb.append("]]></closeExpression>\n");
+		if (dataset.getCloseExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<closeExpression><![CDATA[");
+			sb.append(dataset.getCloseExpression().getText());
+			sb.append("]]></closeExpression>\n");
+		}
 
-		sb.append("\t\t\t\t\t<volumeExpression><![CDATA[");
-		sb.append(dataset.getVolumeExpression().getText());
-		sb.append("]]></volumeExpression>\n");
+		if (dataset.getVolumeExpression() != null)
+		{
+			sb.append("\t\t\t\t\t<volumeExpression><![CDATA[");
+			sb.append(dataset.getVolumeExpression().getText());
+			sb.append("]]></volumeExpression>\n");
+		}
 
 		sb.append("\t\t\t\t</highLowDataset>\n");
 	}
