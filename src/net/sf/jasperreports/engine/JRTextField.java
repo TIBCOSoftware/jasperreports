@@ -38,7 +38,47 @@ package net.sf.jasperreports.engine;
 public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 {
 
+	/**
+	 * Used in the date pattern to specify the default style.
+	 * @see java.text.DateFormat#DEFAULT
+	 */
+	public static final String STANDARD_DATE_FORMAT_DEFAULT = "default";
 
+	/**
+	 * Used in the date pattern to specify the short style.
+	 * @see java.text.DateFormat#SHORT
+	 */
+	public static final String STANDARD_DATE_FORMAT_SHORT = "short";
+
+	/**
+	 * Used in the date pattern to specify the medium style.
+	 * @see java.text.DateFormat#MEDIUM
+	 */
+	public static final String STANDARD_DATE_FORMAT_MEDIUM = "medium";
+
+	/**
+	 * Used in the date pattern to specify the long style.
+	 * @see java.text.DateFormat#LONG
+	 */
+	public static final String STANDARD_DATE_FORMAT_LONG = "long";
+
+	/**
+	 * Used in the date pattern to specify the full style.
+	 * @see java.text.DateFormat#FULL
+	 */
+	public static final String STANDARD_DATE_FORMAT_FULL = "full";
+
+	/**
+	 * Used in the date pattern to specify that the date or time should not be included.
+	 */
+	public static final String STANDARD_DATE_FORMAT_HIDE = "hide";
+
+	/**
+	 * Used in the date format pattern to separate the date and time styles.
+	 */
+	public static final String STANDARD_DATE_FORMAT_SEPARATOR = ",";
+
+	
 	/**
 	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
 	 * @return true if the text field will stretch vertically, false otherwise

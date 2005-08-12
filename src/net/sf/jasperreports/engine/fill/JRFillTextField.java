@@ -32,6 +32,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -636,14 +637,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		Class expressionClass = getExpression().getValueClass();
 		if (java.util.Date.class.isAssignableFrom(expressionClass))
 		{
-			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.locale);
-			if (
-				pattern != null && pattern.trim().length() > 0
-				&& format instanceof SimpleDateFormat
-				)
-			{
-				((SimpleDateFormat)format).applyPattern(pattern);
-			}
+			setDateFormat(pattern);
 		}
 		else if (java.lang.Number.class.isAssignableFrom(expressionClass))
 		{
@@ -658,6 +652,106 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 	}
 
+
+	protected void setDateFormat(String pattern)
+	{
+		int[] dateStyle = null;
+		int[] timeStyle = null;
+		if (pattern != null && pattern.trim().length() > 0)
+		{			
+			int sepIdx = pattern.indexOf(JRTextField.STANDARD_DATE_FORMAT_SEPARATOR);
+			String dateTok = sepIdx < 0 ? pattern : pattern.substring(0, sepIdx);
+			dateStyle = getDateStyle(dateTok);
+			if (dateStyle != null)
+			{
+				if (sepIdx >= 0)
+				{
+					String timeTok = pattern.substring(sepIdx + JRTextField.STANDARD_DATE_FORMAT_SEPARATOR.length());
+					timeStyle = getDateStyle(timeTok);
+				}
+				else
+				{
+					timeStyle = dateStyle;
+				}
+			}
+		}
+		
+		if (dateStyle != null && timeStyle != null)
+		{
+			format = getDateFormat(dateStyle, timeStyle, filler.locale);
+		}
+		else
+		{			
+			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.locale);
+			if (
+				pattern != null && pattern.trim().length() > 0
+				&& format instanceof SimpleDateFormat
+				)
+			{
+				((SimpleDateFormat)format).applyPattern(pattern);
+			}
+		}
+	}
+
+	
+	protected static int[] getDateStyle(String pattern)
+	{
+		if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_DEFAULT))
+		{
+			return new int[]{DateFormat.DEFAULT};
+		}
+		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_SHORT))
+		{
+			return new int[]{DateFormat.SHORT};
+		}
+		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_MEDIUM))
+		{
+			return new int[]{DateFormat.MEDIUM};
+		}
+		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_LONG))
+		{
+			return new int[]{DateFormat.LONG};
+		}
+		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_FULL))
+		{
+			return new int[]{DateFormat.FULL};
+		}
+		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_HIDE))
+		{
+			return new int[0];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	
+	protected static DateFormat getDateFormat(int[] dateStyle, int[] timeStyle, Locale locale)
+	{
+		if (dateStyle.length == 0)
+		{
+			if (timeStyle.length == 0)
+			{
+				return new SimpleDateFormat("");
+			}
+			else
+			{
+				return DateFormat.getTimeInstance(timeStyle[0], locale);
+			}
+		}
+		else
+		{
+			if (timeStyle.length == 0)
+			{
+				return DateFormat.getDateInstance(dateStyle[0], locale);
+			}
+			else
+			{
+				return DateFormat.getDateTimeInstance(dateStyle[0], timeStyle[0], locale);
+			}
+		}
+	}
 
 	/**
 	 *
