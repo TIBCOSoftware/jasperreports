@@ -615,6 +615,8 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	protected void exportText(JRPrintText text)
 	{
+		
+		
 		// use styled text
 		JRStyledText styledText = getStyledText(text);
 		if (styledText == null)
@@ -628,6 +630,21 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
+		
+//		 padding for the text
+		//int topPadding = 0;
+		int leftPadding = 0;
+		//int bottomPadding = 0;
+		int rightPadding = 0;
+
+		if (text.getBox() != null)
+		{
+			//topPadding = twip(text.getBox().getTopPadding());
+			leftPadding = twip(text.getBox().getLeftPadding());
+			//bottomPadding = twip(text.getBox().getBottomPadding());
+			rightPadding = twip(text.getBox().getRightPadding());
+		}
+
 
 		int verticalAdjustment = 0;
 		switch (text.getVerticalAlignment())
@@ -643,20 +660,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				break;
 		}
 
-		// padding for the text
-		//int topPadding = 0;
-		int leftPadding = 0;
-		//int bottomPadding = 0;
-		int rightPadding = 0;
-
-		if (text.getBox() != null)
-		{
-			//topPadding = twip(text.getBox().getTopPadding());
-			leftPadding = twip(text.getBox().getLeftPadding());
-			//bottomPadding = twip(text.getBox().getBottomPadding());
-			rightPadding = twip(text.getBox().getRightPadding());
-		}
-
+		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
@@ -801,14 +805,10 @@ public class JRRtfExporter extends JRAbstractExporter
 				s = e + pattern.length();
 			}
 			result.append(str.substring(s));
-
-			buf.append(result.toString());
-
-			/*
-			 * if (isBold) { buf.append("}"); } if (isItalic) { buf.append("}"); }
-			 * if (isUnderline) { buf.append("}"); } if (isStrikeThrough) {
-			 * buf.append("}"); }
-			 */
+			
+			
+			buf.append(handleUnicodeText(result));
+	
 			buf.append("\\plain");
 
 			iterator.setIndex(runLimit);
@@ -1007,5 +1007,45 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			exportBox(printImage.getBox(), printImage);
 		}
+	}
+		
+	private String handleUnicodeText(StringBuffer source){
+		StringBuffer retVal = new StringBuffer();
+		StringBuffer tempBuffer = new StringBuffer();
+		
+		
+		byte directionality = Character.DIRECTIONALITY_LEFT_TO_RIGHT;
+		boolean hasChanged = false;
+		for(int i = 0; i < source.length(); i++ ){
+			long tempChar = 0;
+			if( (tempChar = (long)source.charAt(i))> 255){
+				if(Character.getDirectionality(source.charAt(i)) != directionality){
+					hasChanged = true;
+					retVal.insert(0, tempBuffer);
+					tempBuffer = new StringBuffer();
+					retVal.insert(0, "\\u" + tempChar + '?');
+				}
+				else {
+					tempBuffer.append("\\u" + tempChar + '?');
+					//retVal.append("\\u" + tempChar + '?');
+					
+				}
+			}
+			else {
+				tempBuffer.append(source.charAt(i));
+				//retVal.append(source.charAt(i));
+			}
+		}
+		
+		if(tempBuffer != null && tempBuffer.length() > 1){
+			if(hasChanged){
+				retVal.insert(0, tempBuffer);
+			}
+			else {
+				retVal.append(tempBuffer);
+			}
+			
+		}
+		return retVal.toString();
 	}
 }
