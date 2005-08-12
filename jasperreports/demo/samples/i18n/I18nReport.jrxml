@@ -47,7 +47,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[msg($R{text.message}, $P{number})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" pattern="full,short">
 				<reportElement positionType="Float" x="20" y="175" width="530" height="28" forecolor="#ff"/>
 				<textElement>
 					<font size="18" isItalic="true" pdfFontName="Helvetica-Oblique"/>
