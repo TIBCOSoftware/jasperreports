@@ -2375,14 +2375,14 @@ public class JRXmlWriter
 		writePlot( plot );
 		
 		if(plot.getTimeAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<timeAxisLabelExpression><[CDATA[" );
-			sb.append( plot.getTimeAxisLabelExpression() );
+			sb.append( "\t\t\t\t\t<timeAxisLabelExpression><![CDATA[" );
+			sb.append( plot.getTimeAxisLabelExpression().getText() );
 			sb.append( "]]></timeAxisLabelExpression>\n" );
 		}
 		
 		if( plot.getValueAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<valueAxisLabelExpression><[CDATA[" );
-			sb.append( plot.getValueAxisLabelExpression() );
+			sb.append( "\t\t\t\t\t<valueAxisLabelExpression><![CDATA[" );
+			sb.append( plot.getValueAxisLabelExpression().getText() );
 			sb.append( "]]></valueAxisLabelExpression>\n" );
 		}
 		
