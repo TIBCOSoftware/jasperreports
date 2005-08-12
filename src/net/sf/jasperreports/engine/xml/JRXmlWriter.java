@@ -2696,7 +2696,7 @@ public class JRXmlWriter
 		if (!plot.isShowLines())
 			sb.append(" isShowLines=\"false\"");
 		if (!plot.isShowShapes())
-			sb.append(" isShowShapess=\"false\"");
+			sb.append(" isShowShapes=\"false\"");
 		sb.append(">\n");
 		writePlot(plot);
 
