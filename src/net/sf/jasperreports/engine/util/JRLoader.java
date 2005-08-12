@@ -478,4 +478,124 @@ public class JRLoader
 	}
 
 
+	/**
+	 * Tries to open an input stream for a location.
+	 * <p>
+	 * The method tries to interpret the location as a file name, a resource name or
+	 * an URL.  If any of these succeed, an input stream is created and returned.
+	 * 
+	 * @param location the location
+	 * @return an input stream if the location is an existing file name, a resource name on
+	 * the classpath or an URL or <code>null</code> otherwise.
+	 * 
+	 * @throws JRException
+	 */
+	public static InputStream getLocationInputStream(String location) throws JRException
+	{
+		InputStream is = null;
+		
+		is = getFileInputStream(location);
+		
+		if (is == null)
+		{
+			is = getResourceInputStream(location);
+		}
+		
+		if (is == null)
+		{
+			is = getURLInputStream(location);
+		}
+		
+		return is;
+	}
+
+
+	/**
+	 * Tries to open a file for reading.
+	 * 
+	 * @param filename the file name
+	 * @return an input stream for the file or <code>null</code> if the file was not found
+	 * @throws JRException
+	 */
+	public static InputStream getFileInputStream(String filename) throws JRException
+	{
+		InputStream is = null;
+		
+		File file = new File(filename);
+		if (file.exists() && file.isFile())
+		{
+			try
+			{
+				is = new FileInputStream(file);
+			}
+			catch (FileNotFoundException e)
+			{
+				throw new JRException("Error opening file " + filename);
+			}
+		}
+		
+		return is;
+	}
+
+
+	/**
+	 * Tries to open an input stream for a resource.
+	 *  
+	 * @param resource the resource name
+	 * @return an input stream for the resource or <code>null</code> if the resource was not found
+	 */
+	public static InputStream getResourceInputStream(String resource)
+	{
+		InputStream is = null;
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
+		if (classLoader != null)
+		{
+			is = classLoader.getResourceAsStream(resource);
+		}
+		
+		if (is == null)
+		{
+			classLoader = JRLoader.class.getClassLoader();
+			if (classLoader != null)
+			{
+				is = classLoader.getResourceAsStream(resource);
+			}
+			
+			if (is == null)
+			{
+				is = JRProperties.class.getResourceAsStream("/" + resource);
+			}
+		}
+
+		return is;
+	}
+
+
+	/**
+	 * Tries to open an input stream for an URL.
+	 * 
+	 * @param spec the string to parse as an URL
+	 * @return an input stream for the URL or null if <code>spec</code> is not a valid URL
+	 * @throws JRException
+	 */
+	public static InputStream getURLInputStream(String spec) throws JRException
+	{
+		InputStream is = null;
+		
+		try
+		{
+			URL url = new URL(spec);
+			is = url.openStream();
+		}
+		catch (MalformedURLException e)
+		{
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error opening URL " + spec);
+		}
+		
+		return is;
+	}
 }

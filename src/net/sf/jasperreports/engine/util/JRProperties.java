@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
@@ -134,26 +135,33 @@ public class JRProperties
 	 */
 	protected static void initProperties()
 	{
-		Properties defaults = getDefaults();
-		String propFile = System.getProperty(PROPERTIES_FILE);
-		if (propFile == null)
+		try
 		{
-			props = loadProperties(DEFAULT_PROPERTIES_FILE, defaults);
-			if (props == null)
+			Properties defaults = getDefaults();
+			String propFile = System.getProperty(PROPERTIES_FILE);
+			if (propFile == null)
 			{
-				props = defaults;
+				props = loadProperties(DEFAULT_PROPERTIES_FILE, defaults);
+				if (props == null)
+				{
+					props = defaults;
+				}
 			}
-		}
-		else
-		{
-			props = loadProperties(propFile, defaults);
-			if (props == null)
+			else
 			{
-				throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
+				props = loadProperties(propFile, defaults);
+				if (props == null)
+				{
+					throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
+				}
 			}
-		}
 
-		loadSystemProperties();
+			loadSystemProperties();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException("Error loading the properties", e);
+		}
 	}
 	
 	protected static void loadSystemProperties()
@@ -199,30 +207,11 @@ public class JRProperties
 	 * @param name the resource name
 	 * @param defaults the default properties
 	 * @return the loaded properties if the resource is found, <code>null</code> otherwise
+	 * @throws JRException 
 	 */
-	public static Properties loadProperties (String name, Properties defaults)
+	public static Properties loadProperties (String name, Properties defaults) throws JRException
 	{
-		InputStream is = null;
-		
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();		
-		if (classLoader != null)
-		{
-			is = classLoader.getResourceAsStream(name);
-		}
-		
-		if (is == null)
-		{
-			classLoader = JRLoader.class.getClassLoader();
-			if (classLoader != null)
-			{
-				is = classLoader.getResourceAsStream(name);
-			}
-			
-			if (is == null)
-			{
-				is = JRProperties.class.getResourceAsStream("/" + name);
-			}
-		}
+		InputStream is = JRLoader.getLocationInputStream(name);
 		
 		Properties properties = null;
 		
@@ -235,7 +224,7 @@ public class JRProperties
 			}
 			catch (IOException e)
 			{
-				throw new JRRuntimeException("Failed to load properties file \"" + name + "\"", e);
+				throw new JRException("Failed to load properties file \"" + name + "\"", e);
 			}
 			finally
 			{
