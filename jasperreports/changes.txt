@@ -6,6 +6,8 @@ JasperReports 1.0.1 (2005-0x-xx)
 -----------------------------------
 - new RTF exporter;
 
+- new TXT exporter;
+
 - support for generating PDF bookmarks;
 
 - support for pagination;
