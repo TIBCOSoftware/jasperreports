@@ -1139,7 +1139,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 		else
 		{
-			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf(fillContext.isIgnorePagination()));
+			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, fillContext.isIgnorePagination() ? Boolean.TRUE : Boolean.FALSE);
 		}
 		
 		if (fillContext.isIgnorePagination())
