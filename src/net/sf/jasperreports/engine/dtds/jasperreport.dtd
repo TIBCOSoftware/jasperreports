@@ -284,7 +284,7 @@
 <!ELEMENT subtitleExpression (#PCDATA)>
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
-<!ELEMENT pieDataset (dataset?, keyExpression, valueExpression, labelExpression?)>
+<!ELEMENT pieDataset (dataset?, keyExpression?, valueExpression?, labelExpression?)>
 <!ELEMENT keyExpression (#PCDATA)>
 <!ELEMENT valueExpression (#PCDATA)>
 <!ELEMENT labelExpression (#PCDATA)>
@@ -314,7 +314,7 @@
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
 <!ELEMENT categoryDataset (dataset?, categorySeries*)>
-<!ELEMENT categorySeries (seriesExpression, categoryExpression, valueExpression, labelExpression?)>
+<!ELEMENT categorySeries (seriesExpression?, categoryExpression?, valueExpression?, labelExpression?)>
 <!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
 
@@ -337,12 +337,12 @@
 
 <!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
 
-<!ELEMENT xySeries (seriesExpression, xValueExpression, yValueExpression, labelExpression?)>
+<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 
 <!ELEMENT timePeriodDataset (dataset?, timePeriodSeries*)>
-<!ELEMENT timePeriodSeries (seriesExpression, startDateExpression, endDateExpression, valueExpression, labelExpression?)>
+<!ELEMENT timePeriodSeries (seriesExpression?, startDateExpression?, endDateExpression?, valueExpression?, labelExpression?)>
 <!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
 
@@ -376,7 +376,7 @@
 
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
 <!ELEMENT xyzDataset (dataset?, xyzSeries*)>
-<!ELEMENT xyzSeries (seriesExpression, xValueExpression, yValueExpression, zValueExpression?)>
+<!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
 <!ATTLIST bubblePlot
 	scaleType (BothAxes | DomainAxis | RangeAxis) "RangeAxis"
@@ -387,7 +387,7 @@
 <!ATTLIST timeSeriesDataset
 	timePeriod (Year | Quarter | Month | Week | Day | Hour | Minute | Second | Milisecond ) "Day"
 >
-<!ELEMENT timeSeries (seriesExpression, timePeriodExpression, valueExpression, labelExpression?)>
+<!ELEMENT timeSeries (seriesExpression?, timePeriodExpression?, valueExpression?, labelExpression?)>
 <!ELEMENT timePeriodExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
@@ -399,7 +399,7 @@
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
-<!ELEMENT highLowDataset (dataset?, seriesExpression, dateExpression, highExpression, lowExpression, openExpression, closeExpression, volumeExpression)>
+<!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?)>
 <!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST highLowPlot
 	isShowCloseTicks (true | false) "true"
