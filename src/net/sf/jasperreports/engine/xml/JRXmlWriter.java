@@ -94,6 +94,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.data.time.Day;
 
 
 /**
@@ -1898,9 +1899,13 @@ public class JRXmlWriter
 	}
 	
 	
-	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset ){
+	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset )
+	{
 		sb.append( "\t\t\t\t<timeSeriesDataset");
-		sb.append( " timePeriod=\"" + JRXmlConstants.getTimePeriodName( dataset.getTimePeriod() ) + "\"" );
+		if (dataset.getTimePeriod() != null && !Day.class.getName().equals(dataset.getTimePeriod().getName()))
+		{
+			sb.append( " timePeriod=\"" + JRXmlConstants.getTimePeriodName( dataset.getTimePeriod() ) + "\"" );
+		}
 		sb.append(">\n" );
 		
 		writeDataset( dataset );
