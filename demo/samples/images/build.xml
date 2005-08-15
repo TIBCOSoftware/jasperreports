@@ -108,6 +108,14 @@
 		</java>
 	</target>
 
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Trtf"/>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
@@ -146,6 +154,7 @@
 			<fileset dir="." includes="**/*.jrprint" />
 			<fileset dir="." includes="**/*.jrpxml" />
 			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.rtf" />
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -59,6 +60,7 @@ public class HyperlinkApp
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
@@ -127,6 +129,24 @@ public class HyperlinkApp
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_RTF.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+				
+				JRRtfExporter exporter = new JRRtfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
@@ -204,7 +224,7 @@ public class HyperlinkApp
 	{
 		System.out.println( "HyperlinkApp usage:" );
 		System.out.println( "\tjava HyperlinkApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | run | csv | writeXml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | run | csv | writeXml" );
 	}
 
 
