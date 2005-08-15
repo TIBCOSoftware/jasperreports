@@ -1,35 +1,3 @@
-/*
- * ============================================================================
- * GNU Lesser General Public License
- * ============================================================================
- *
- * JasperReports - Free Java report-generating library.
- * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
- * JasperSoft Corporation
- * 185, Berry Street, Suite 6200
- * San Francisco CA 94107
- * http://www.jaspersoft.com
- */
-
-/*
- * Contributors:
- * Matt Thompson - mthomp1234@users.sourceforge.net
- */
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -38,11 +6,15 @@ import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,243 +49,205 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
-/**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
- */
 public class JRRtfExporter extends JRAbstractExporter
 {
-
-	static int SCALE = 2835; // 2835 points per meter
-
+	protected JRExportProgressMonitor progressMonitor = null;
+	
+	protected Writer writer = null;
+	protected File destFile = null;
+	
 	protected int reportIndex = 0;
-
-	protected JRFont defaultFont = null;
-
-	protected StringBuffer buf;
-
-	protected StringBuffer fontBuf;
-
-	protected StringBuffer colorBuf;
-
-	protected List fonts;
-
-	protected List colors;
-
-	protected int zorder;
-
-	protected Map loadedImagesMap = null;
-
-	protected JRFont getDefaultFont()
-	{
-		if (defaultFont == null)
-		{
-			defaultFont = jasperPrint.getDefaultFont();
-			if (defaultFont == null)
-			{
-				defaultFont = new JRBaseFont();
-			}
-		}
-
-		return defaultFont;
-	}
-
-	int twip(int points)
-	{
-		return points * 20;
-	}
-
-	int twip(float points)
-	{
-		return (int) (points * 20.0);
-	}
-
-	int twip(double points)
-	{
-		return (int) (points * 20.0);
-	}
-
-	int getFontIndex(JRFont font)
-	{
-		String fontName = font.getFontName();
-		int fontNdx = fonts.indexOf(fontName);
-		if (fontNdx < 0)
-		{
-			fontNdx = fonts.size();
-			fonts.add(fontName);
-			fontBuf.append("{\\f").append(fontNdx).append("\\fnil ").append(fontName).append(";}");
-		}
-		return fontNdx;
-	}
-
-	int getColorIndex(Color color)
-	{
-		int colorNdx = colors.indexOf(color);
-		if (colorNdx < 0)
-		{
-			colorNdx = colors.size();
-			colors.add(color);
-			colorBuf.append("\\red").append(color.getRed())
-					.append("\\green").append(color.getGreen())
-					.append("\\blue").append(color.getBlue())
-					.append(";");
-		}
-		return colorNdx;
-	}
+	
+	StringBuffer colorBuffer = null;
+	StringBuffer fontBuffer = null;
+	protected List colors = null;
+	protected List fonts = null;
+	
+	
+	int zorder = 0;
 
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		zorder = 1;
 		setInput();
 		fonts = new ArrayList();
-		fontBuf = new StringBuffer();
+		fontBuffer = new StringBuffer();
 		colors = new ArrayList();
 		colors.add(null);
-		colorBuf = new StringBuffer(";");
-
-		// Make sure default font is first in list
+		colorBuffer = new StringBuffer(";");
+		
 		getDefaultFont();
 		getFontIndex(defaultFont);
-		buf = (StringBuffer) parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-		if (buf != null)
-		{
-
-			exportReportToStream(null);
-			return;
+		
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		if (sb != null) {
+			StringBuffer buffer = exportReportToBuffer();
+			sb.append(buffer.toString());
 		}
-		buf = new StringBuffer();
-		OutputStream os = (OutputStream) parameters.get(JRExporterParameter.OUTPUT_STREAM);
-		if (os != null)
-		{
-
-			exportReportToStream(os);
-			return;
-		}
-		File destFile = (File) parameters.get(JRExporterParameter.OUTPUT_FILE);
-		if (destFile == null)
-		{
-			String fileName = (String) parameters
-					.get(JRExporterParameter.OUTPUT_FILE_NAME);
-			if (fileName != null)
-			{
-				destFile = new File(fileName);
-			}
-			else
-			{
-				throw new JRException("No output specified for the exporter.");
-			}
-			try
-			{
-				os = new FileOutputStream(destFile);
-				exportReportToStream(os);
-
-				os.flush();
-			}
-			catch (IOException e)
-			{
-				throw new JRException("Error trying to export to file : "
-						+ destFile, e);
-			}
-			finally
-			{
-				if (os != null)
-				{
-					try
-					{
-						os.close();
-					}
-					catch (IOException e)
-					{
-					}
+		else {
+			Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (outWriter != null) {
+				try {
+					writer = outWriter;
+					
+					// export report
+					exportReportToStream();
+				}
+				catch (IOException ex) {
+					throw new JRException("Error writing to writer : " + jasperPrint.getName(), ex);
 				}
 			}
+			else {
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				if(os != null) {
+					try {
+						writer = new OutputStreamWriter(os);
+						
+						// export report
+						exportReportToStream();
+					}
+					catch (Exception ex) {
+						throw new JRException("Error writing to output stream : " + jasperPrint.getName(), ex);
+					}
+				}
+				else {
+					destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					if (destFile == null) {
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						if (fileName != null) {
+							destFile = new File(fileName);
+						}
+						else {
+							throw new JRException("No output specified for the exporter");
+						}
+					}
+					
+					// export report
+					exportReportToFile();
+				}
+			}
+				
 		}
-
 	}
-
-	protected void exportReportToStream(OutputStream os) throws JRException
-	{
-		for (reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
-		{
-			jasperPrint = (JasperPrint) jasperPrintList.get(reportIndex);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected StringBuffer exportReportToBuffer() throws JRException{
+		StringWriter buffer = new StringWriter();
+		writer = buffer;
+		try {
+			exportReportToStream();
+		}
+		catch (IOException ex) {
+			throw new JRException("Error while exporting report to the buffer");
+		}
+		
+		return buffer.getBuffer();
+	}
+	
+	
+	/**
+	 * 
+	 *
+	 */
+	protected void exportReportToStream() throws JRException, IOException {
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
+			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			setPageRange();
+			
 			defaultFont = null;
+			
 			List pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
-			{
+			if (pages != null && pages.size() > 0){
 				startPageIndex = 0;
 				endPageIndex = pages.size() - 1;
 				JRPrintPage page = null;
-				buf.append("{\\rtf1\\ansi\\deff0\n");
-				buf.append("{\\fonttbl ");
-				int fontTableIndex = buf.length(); // insert fonttbl third
-				buf.append("}\n");
-				buf.append("{\\colortbl ");
-				int colorTableIndex = buf.length(); // insert colortbl second
-				buf.append("}\n");
-				buf.append("{\\info{\\nofpages");
-				buf.append(pages.size());
-				buf.append("}}\n");
-
-				// Following is Page formatting control words
-				buf.append("\\viewkind1"); // page layout
-				int pageWidth = twip(jasperPrint.getPageWidth());
-				buf.append("\\paperw");
-				buf.append(pageWidth);
-				buf.append("\\paperh");
-				buf.append(twip(jasperPrint.getPageHeight()));
-
-				// Following is Section formating control words (no margins)
-				buf.append("\\marglsxn0\\margrsxn0\\margtsxn0\\margbsxn0\n");
-				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE)
-				{
-					buf.append("\\lndscpsxn");
-				}
-
-				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-				{
-					if (Thread.currentThread().isInterrupted())
-					{
-						throw new JRException("Current thread interrupted.");
+				writer.write("{\\rtf1\\ansi\\deff0\n");
+				
+				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
+					if (Thread.currentThread().isInterrupted()) {
+						throw new JRException("Current thread interrupted");
 					}
-					page = (JRPrintPage) pages.get(pageIndex);
+					
+					page = (JRPrintPage)pages.get(pageIndex);
 					createColorAndFontEntries(page);
 				}
-				buf.insert(colorTableIndex, colorBuf);
-				buf.insert(fontTableIndex, fontBuf);
+				
+				writer.write("{\\fonttbl ");
+				writer.write(fontBuffer.toString()); 
+				writer.write("}\n");
+				
+				writer.write("{\\colortbl ");
+				writer.write(colorBuffer.toString());
+				writer.write("}\n");
+				
+				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
+				
+				writer.write("\\viewkind1");
+				writer.write("\\paperw" + twip(jasperPrint.getPageWidth()));
+				writer.write("\\paperh" + twip(jasperPrint.getPageHeight()));
+				
+				writer.write("\\marglsxn0");
+				writer.write("\\margrsxn0");
+				writer.write("\\margtsxn0");
+				writer.write("\\margbsxn0");
+				
+				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE) {
+					writer.write("\\lndscpsxn");
+				}
+				
 
-				// Following is Paragraph formatting
-				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-				{
-					buf.append("\n");
-					if (pageIndex != startPageIndex)
-						buf.append("{\\pard\\pagebb\\par}\n");
-					if (Thread.currentThread().isInterrupted())
-					{
-						throw new JRException("Current thread interrupted.");
+				
+				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
+					writer.write("\n");
+					if(pageIndex != startPageIndex) {
+						writer.write("{\\pard\\pagebb\\par}\n");
 					}
-					page = (JRPrintPage) pages.get(pageIndex);
+					if(Thread.currentThread().isInterrupted()){
+						throw new JRException("Current thread intrerrupted");
+					}
+					
+					page = (JRPrintPage)pages.get(pageIndex);
 					exportPage(page);
 				}
-				buf.append("}\n");
-				if (os != null)
-				{
-					try
-					{
-						os.write(buf.toString().getBytes());
-						buf.setLength(0);
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error generating RTF report : "
-								+ jasperPrint.getName(), e);
-					}
+				writer.write("}\n");	
+			}	
+		}
+		writer.flush();
+		
+	}
+	
+	
+	/**
+	 * 
+	 *
+	 */
+	protected void exportReportToFile() throws JRException {
+		try {
+			OutputStream fileOutputStream = new FileOutputStream(destFile);
+			writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+			exportReportToStream();
+		}
+		catch (IOException ex) {
+			throw new JRException("Error writing to the file : " + destFile, ex);
+		}
+		finally {
+			if(writer != null) {
+				try {
+					writer.close();
 				}
-
+				catch(IOException ex) {
+					
+				}
 			}
 		}
 	}
-
+	
+	
 	protected void createColorAndFontEntries(JRPrintPage page)
 	{
 		JRPrintElement element = null;
@@ -341,15 +275,79 @@ public class JRRtfExporter extends JRAbstractExporter
 						getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
 						iterator.setIndex(runLimit);
 					}
-
 					getFontIndex(((JRPrintText) element).getFont());
-
 				}
 			}
 		}
 	}
-
-	protected void exportPage(JRPrintPage page) throws JRException
+	
+	
+	/**
+	 * 
+	 * @param color
+	 * @return
+	 */
+	private int getColorIndex(Color color)
+	{
+		int colorNdx = colors.indexOf(color);
+		if (colorNdx < 0)
+		{
+			colorNdx = colors.size();
+			colors.add(color);
+			colorBuffer.append("\\red").append(color.getRed())
+					.append("\\green").append(color.getGreen())
+					.append("\\blue").append(color.getBlue())
+					.append(";");
+		}
+		return colorNdx;
+	}
+	
+	
+	/**
+	 * 
+	 * @param font
+	 * @return
+	 */
+	private int getFontIndex(JRFont font) {
+		String fontName = font.getFontName();
+		int fontIndex = fonts.indexOf(fontName);
+		
+		if(fontIndex < 0) {
+			fontIndex = fonts.size();
+			fonts.add(fontName);
+			fontBuffer.append("{\\f").append(fontIndex).append("\\fnil ").append(fontName).append(";}");
+		}
+		
+		return fontIndex;
+	}
+	
+	
+	/**
+	 * 
+	 * @param points
+	 * @return
+	 */
+	private int twip(int points) {
+		return points * 20;
+	}
+	
+	
+	/**
+	 * 
+	 * @param points
+	 * @return
+	 */
+	private int twip(float points) {
+		return (int)(points * 20);
+	}
+	
+	
+	/**
+	 * 
+	 * @param page
+	 * @throws JRException
+	 */
+	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
@@ -381,9 +379,206 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @throws IOException
+	 */
+	private void startGraphic(String type, int x, int y, int w, int h) throws IOException {  
+		writer.write("{\\*\\do\\dobxpage\\dobypage");
+		writer.write("\\dodhgt" + zorder++);
+		
+		writer.write("\\" + type);
+		
+		writer.write("\\dpx" + x);
+		writer.write("\\dpy" + y);
+		
+		writer.write("\\dpxsize" + w);
+		writer.write("\\dpysize" + h);
+	}
+	
+	private void finishGraphic(JRPrintGraphicElement element) throws IOException {
+		int mode = 0;
+		if(element.getMode() == JRElement.MODE_OPAQUE) {
+			mode = 1;
+		}
+		
+		finishGraphic( element.getPen(),
+					element.getForecolor(),
+					element.getBackcolor(),
+					mode );
+	}
+	
+	/**
+	 * 
+	 * @param pen
+	 * @param fg
+	 * @param bg
+	 * @param fillPattern
+	 * @throws IOException
+	 */
+	private void finishGraphic(byte pen, Color fg, Color bg, int fillPattern) throws IOException {
+		switch(pen) {
+			case JRGraphicElement.PEN_THIN:
+				writer.write("\\dplinew10");
+				break;
+			case JRGraphicElement.PEN_1_POINT:
+				writer.write("\\dplinew20");
+				break;
+			case JRGraphicElement.PEN_2_POINT:
+				writer.write("\\dplinew40");
+				break;
+			case JRGraphicElement.PEN_4_POINT:
+				writer.write("\\dplinew80");
+				break;
+			case JRGraphicElement.PEN_DOTTED:
+				writer.write("\\dplinedash");
+				break;
+			case JRGraphicElement.PEN_NONE:
+				writer.write("\\dplinehollow");
+				break;
+			default:
+				writer.write("\\dplinew20");
+				break;
+		}
+		
+		writer.write("\\dplinecor" + fg.getRed());
+		writer.write("\\dplinecorb" + fg.getBlue());
+		writer.write("\\dplinecorg" + fg.getGreen());
+		
+		writer.write("\\dpfillfgcr" + fg.getRed());
+		writer.write("\\dplinefgcb" + fg.getBlue());
+		writer.write("\\dpfillfgcg" + fg.getGreen());
+		
+		writer.write("\\dpfillbgcr" + bg.getRed());
+		writer.write("\\dpfillbgcg" + bg.getGreen());
+		writer.write("\\dpfillbgcb" + bg.getBlue());
+		
+		writer.write("\\dpfillpat" + fillPattern);
+		writer.write("}\n");
+	}
 
-	protected void exportLine(JRPrintLine line)
+	
+	protected void exportBox(JRBox box, JRPrintElement element) throws IOException {
+		int x = twip(element.getX());
+		int y = twip(element.getY());
+		int w = twip(element.getWidth());
+		int h = twip(element.getHeight());
+		
+		Color fg = element.getForecolor();
+		Color bg = element.getBackcolor();
+		
+		int rx = x + 20;
+		int ry = y + 20;
+		int rw = w - 20;
+		int rh = h - 20;
+		
+		int flag = 0;
+		
+		if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
+			Color bc = box.getTopBorderColor();
+			byte pen = box.getTopBorder();
+			
+			int a = getAdjustment(box.getTopBorder());
+			if (bc == null) {
+				bc = fg;
+			}
+			startGraphic("dpline", x, y + a, w, 0);
+			finishGraphic(pen, fg, bg, 1);
+			
+			ry = y + a + 20;
+			flag++;
+		}
+		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getLeftBorderColor();
+			byte pen = box.getLeftBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x + a, y, 0, h);
+			finishGraphic(pen, fg, bg, 1);
+
+			rx = x + a + 20;
+			flag++;
+		}
+
+		if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getBottomBorderColor();
+			byte pen = box.getBottomBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x, y + h - a, w, 0);
+			finishGraphic(pen, fg, bg, 1);
+
+			rh = h - a - 20;
+			flag++;
+		}
+
+		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getRightBorderColor();
+			byte pen = box.getRightBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x + w - a, y, 0, h);
+			finishGraphic(pen, fg, bg, 1);
+
+			rw = w - a - 20;
+			flag++;
+		}
+
+		int oldVal = zorder;
+		zorder -= (flag + 1);
+
+		startGraphic("dprect", rx, ry, rw, rh);
+		finishGraphic(JRGraphicElement.PEN_NONE, fg, bg, 1);
+
+		zorder = oldVal;
+	}
+	
+	
+	/**
+	 * 
+	 * @param pen
+	 * @return
+	 */
+	protected int getAdjustment(byte pen)
 	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_THIN:
+				return 0;
+			case JRGraphicElement.PEN_1_POINT:
+				return 10;
+			case JRGraphicElement.PEN_2_POINT:
+				return 20;
+			case JRGraphicElement.PEN_4_POINT:
+				return 40;
+			case JRGraphicElement.PEN_DOTTED:
+				return 0;
+			case JRGraphicElement.PEN_NONE:
+				return 0;
+			default:
+				return 0;
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param line
+	 * @throws IOException
+	 */
+	protected void exportLine(JRPrintLine line) throws IOException {
 		int x = twip(line.getX());
 		int y = twip(line.getY());
 		int h = twip(line.getHeight());
@@ -405,24 +600,29 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 		{
-			buf.append("\\dpptx").append(x)
-			.append("\\dppty").append(y)
-			.append("\\dpptx").append(x + w)
-			.append("\\dppty").append(y + h);
+			writer.write("\\dpptx" + x);
+			writer.write("\\dppty" + y);
+			
+			writer.write("\\dpptx" + (x + w));
+			writer.write("\\dppty" + (y + h));
 		}
 		else
 		{
-			buf.append("\\dpptx").append(x)
-			.append("\\dppty").append(y + h)
-			.append("\\dpptx").append(x + w)
-			.append("\\dppty").append(y - h);
+			writer.write("\\dpptx" + x);
+			writer.write("\\dppty" + (y + h));
+			writer.write("\\dpptx" + (x + w));
+			writer.write("\\dppty" + (y - h));
 		}
 
 		finishGraphic(line);
 	}
-
-	protected void exportRectangle(JRPrintRectangle rect)
-	{
+	
+	
+	/**
+	 * 
+	 * @param rect
+	 */
+	protected void exportRectangle(JRPrintRectangle rect) throws IOException {
 		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
 				twip(rect.getX()), 
 				twip(rect.getY()), 
@@ -431,9 +631,13 @@ public class JRRtfExporter extends JRAbstractExporter
 				);
 		finishGraphic(rect);
 	}
-
-	protected void exportEllipse(JRPrintEllipse ellipse)
-	{
+	
+	
+	/**
+	 * 
+	 * @param ellipse
+	 */
+	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException {
 		startGraphic(
 			"dpellipse", 
 			twip(ellipse.getX()), 
@@ -444,177 +648,12 @@ public class JRRtfExporter extends JRAbstractExporter
 		finishGraphic(ellipse);
 	}
 
-	protected void startGraphic(String type, int x, int y, int w, int h)
-	{
-		buf.append("{\\*\\do\\dobxpage\\dobypage")
-		.append("\\dodhgt").append(zorder++)
-		.append("\\").append(type)
-		.append("\\dpx").append(x)
-		.append("\\dpy").append(y)
-		.append("\\dpxsize").append(w)
-		.append("\\dpysize").append(h);
-	}
-
-	protected void finishGraphic(JRPrintGraphicElement elem)
-	{
-		int mode = 0;
-		if (elem.getMode() == JRElement.MODE_OPAQUE)
-		{
-			mode = 1;
-		}
-		finishGraphic(
-			elem.getPen(), 
-			elem.getForecolor(), 
-			elem.getBackcolor(), 
-			mode
-			);
-	}
-
-	protected int getAdjustment(byte pen)
-	{
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_THIN:
-				return 0;
-			case JRGraphicElement.PEN_1_POINT:
-				return 10;
-			case JRGraphicElement.PEN_2_POINT:
-				return 20;
-			case JRGraphicElement.PEN_4_POINT:
-				return 40;
-			case JRGraphicElement.PEN_DOTTED:
-				return 0;
-			case JRGraphicElement.PEN_NONE:
-				return 0;
-			default:
-				return 0;
-		}
-	}
-
-	protected void finishGraphic(byte pen, Color fg, Color bg, int fillPat)
-	{
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_THIN:
-				buf.append("\\dplinew10");
-				break;
-			case JRGraphicElement.PEN_1_POINT:
-				buf.append("\\dplinew20");
-				break;
-			case JRGraphicElement.PEN_2_POINT:
-				buf.append("\\dplinew40");
-				break;
-			case JRGraphicElement.PEN_4_POINT:
-				buf.append("\\dplinew80");
-				break;
-			case JRGraphicElement.PEN_DOTTED:
-				buf.append("\\dplinedash");
-				break;
-			case JRGraphicElement.PEN_NONE:
-				buf.append("\\dplinehollow");
-				break;
-			default:
-				buf.append("\\dplinew20");
-				break;
-		}
-
-		buf.append("\\dplinecor").append(fg.getRed())
-		.append("\\dplinecog").append(fg.getGreen())
-		.append("\\dplinecob").append(fg.getBlue())
-		.append("\\dpfillfgcr").append(fg.getRed())
-		.append("\\dpfillfgcg").append(fg.getGreen())
-		.append("\\dpfillfgcb").append(fg.getBlue())
-		.append("\\dpfillbgcr").append(bg.getRed())
-		.append("\\dpfillbgcg").append(bg.getGreen())
-		.append("\\dpfillbgcb").append(bg.getBlue())
-		.append("\\dpfillpat").append(fillPat)
-		.append("}\n");
-	}
-
-	protected void exportBox(JRBox box, JRPrintElement element)
-	{
-		int x = twip(element.getX());
-		int y = twip(element.getY());
-		int h = twip(element.getHeight());
-		int w = twip(element.getWidth());
-		Color fg = element.getForecolor();
-		Color bg = element.getBackcolor();
-
-		// adjustments for top, bottom, left, right
-		int rX = x + 20;
-		int rY = y + 20;
-		int rW = w - 20;
-		int rH = h - 20;
-
-		int flag = 0;
-
-		if (box.getTopBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getTopBorderColor();
-			byte pen = box.getTopBorder();
-			int a = getAdjustment(box.getTopBorder());
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x, y + a, w, 0);
-			finishGraphic(pen, fg, bg, 1);
-
-			rY = y + a + 20;
-			flag++;
-		}
-		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getLeftBorderColor();
-			byte pen = box.getLeftBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x + a, y, 0, h);
-			finishGraphic(pen, fg, bg, 1);
-
-			rX = x + a + 20;
-			flag++;
-		}
-
-		if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getBottomBorderColor();
-			byte pen = box.getBottomBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x, y + h - a, w, 0);
-			finishGraphic(pen, fg, bg, 1);
-
-			rH = h - a - 20;
-			flag++;
-		}
-
-		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getRightBorderColor();
-			byte pen = box.getRightBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x + w - a, y, 0, h);
-			finishGraphic(pen, fg, bg, 1);
-
-			rW = w - a - 20;
-			flag++;
-		}
-
-		int oldVal = zorder;
-		zorder -= (flag + 1);
-
-		startGraphic("dprect", rX, rY, rW, rH);
-		finishGraphic(JRGraphicElement.PEN_NONE, fg, bg, 1);
-
-		zorder = oldVal;
-
-	}
-
-	protected void exportText(JRPrintText text)
-	{
+	
+	/**
+	 * 
+	 * @param text
+	 */
+	protected void exportText(JRPrintText text) throws IOException {
 		
 		
 		// use styled text
@@ -624,7 +663,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			return;
 		}
 
-		
 		int x = twip(text.getX());
 		int y = twip(text.getY());
 
@@ -632,16 +670,16 @@ public class JRRtfExporter extends JRAbstractExporter
 		int height = twip(text.getHeight());
 		
 //		 padding for the text
-		//int topPadding = 0;
+		int topPadding = 0;
 		int leftPadding = 0;
-		//int bottomPadding = 0;
+		int bottomPadding = 0;
 		int rightPadding = 0;
 
 		if (text.getBox() != null)
 		{
-			//topPadding = twip(text.getBox().getTopPadding());
+			topPadding = twip(text.getBox().getTopPadding());
 			leftPadding = twip(text.getBox().getLeftPadding());
-			//bottomPadding = twip(text.getBox().getBottomPadding());
+			bottomPadding = twip(text.getBox().getBottomPadding());
 			rightPadding = twip(text.getBox().getRightPadding());
 		}
 
@@ -670,46 +708,49 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		JRFont font = text.getFont();
 
-		buf.append("{\\pard").append("\\absw").append(width)
-		.append("\\absh").append(twip(text.getTextHeight()))
-		.append("\\phpg\\posx").append(x)
-		.append("\\pvpg\\posy").append(y + verticalAdjustment)
-		.append("\\f").append(getFontIndex(font))
-		.append("\\cf").append(getColorIndex(text.getForecolor()))
-		.append("\\cbpat").append(getColorIndex(text.getBackcolor()));
+		writer.write("{\\pard");
+		writer.write("\\absw" + width);
+		writer.write("\\absh" + twip(text.getTextHeight()));
+		
+		writer.write("\\phpg\\posx" + x);
+		writer.write("\\pvpg\\posy" + (y + verticalAdjustment + topPadding + topPadding + bottomPadding));
+		
+		writer.write("\\f" + getFontIndex(font));
+		writer.write("\\cf" + getColorIndex(text.getForecolor()));
+		writer.write("\\cbpat" + getColorIndex(text.getBackcolor()));
 
 		if (text.getBox() != null)
 		{
-			buf.append("\\li" + leftPadding);
-			buf.append("\\ri" + rightPadding);
+			writer.write("\\li" + leftPadding);
+			writer.write("\\ri" + rightPadding);
 		}
 
 		if (font.isBold())
-			buf.append("\\b");
+			writer.write("\\b");
 		if (font.isItalic())
-			buf.append("\\i");
+			writer.write("\\i");
 		if (font.isStrikeThrough())
-			buf.append("\\strike");
+			writer.write("\\strike");
 		if (font.isUnderline())
-			buf.append("\\ul");
-		buf.append("\\fs").append(font.getSize() * 2);
+			writer.write("\\ul");
+		writer.write("\\fs" + (font.getSize() * 2));
 
 		switch (text.getHorizontalAlignment())
 		{
 			case JRAlignment.HORIZONTAL_ALIGN_LEFT:
-				buf.append("\\ql");
+				writer.write("\\ql");
 				break;
 			case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-				buf.append("\\qc");
+				writer.write("\\qc");
 				break;
 			case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-				buf.append("\\qr");
+				writer.write("\\qr");
 				break;
 			case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED:
-				buf.append("\\qj");
+				writer.write("\\qj");
 				break;
 			default:
-				buf.append("\\ql");
+				writer.write("\\ql");
 				break;
 		}
 
@@ -718,14 +759,14 @@ public class JRRtfExporter extends JRAbstractExporter
 			case JRTextElement.LINE_SPACING_SINGLE:
 				break;
 			case JRTextElement.LINE_SPACING_1_1_2:
-				buf.append("\\sl360\\slmulti1");
+				writer.write("\\sl360\\slmulti1");
 				break;
 			case JRTextElement.LINE_SPACING_DOUBLE:
-				buf.append("\\sl480\\slmulti1");
+				writer.write("\\sl480\\slmulti1");
 				break;
 		}
 
-		buf.append(" ");
+		writer.write(" ");
 
 		// styled text
 		String plainText = styledText.getText();
@@ -766,30 +807,30 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			int fontSize = styleFont.getSize();
 
-			buf.append("\\fs" + 2 * fontSize + " ");
+			writer.write("\\fs" + (2 * fontSize) + " ");
 			/*
 			 * buf.append("\\cf").append(getColorIndex(styleForeground));
 			 * buf.append("\\cb").append(getColorIndex(styleBackground));
 			 */
 			if (isBold)
 			{
-				buf.append("\\b ");
+				writer.write("\\b ");
 			}
 			if (isItalic)
 			{
-				buf.append("\\i ");
+				writer.write("\\i ");
 			}
 			if (isUnderline)
 			{
-				buf.append("\\ul ");
+				writer.write("\\ul ");
 			}
 			if (isStrikeThrough)
 			{
-				buf.append("\\strike ");
+				writer.write("\\strike ");
 			}
 
-			buf.append("\\cb").append(getColorIndex(styleBackground) + " ");
-			buf.append("\\cf").append(getColorIndex(styleForeground) + " ");
+			writer.write("\\cb" + getColorIndex(styleBackground) + " ");
+			writer.write("\\cf" + getColorIndex(styleForeground) + " ");
 
 			int s = 0;
 			int e = 0;
@@ -806,21 +847,70 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			result.append(str.substring(s));
 			
-			
-			buf.append(handleUnicodeText(result));
+			writer.write(handleUnicodeText(result));
 	
-			buf.append("\\plain");
+			writer.write("\\plain");
 
 			iterator.setIndex(runLimit);
 		}
 
-		buf.append("\\par}\n");
+		writer.write("\\par}\n");
 	}
-
+	
+	
 	/**
 	 * 
+	 * @param source
+	 * @return
 	 */
-	protected void exportImage(JRPrintImage printImage) throws JRException
+	private String handleUnicodeText(StringBuffer source){
+		StringBuffer retVal = new StringBuffer();
+		StringBuffer tempBuffer = new StringBuffer();
+		
+		
+		byte directionality = Character.DIRECTIONALITY_LEFT_TO_RIGHT;
+		boolean hasChanged = false;
+		for(int i = 0; i < source.length(); i++ ){
+			long tempChar = 0;
+			if( (tempChar = (long)source.charAt(i))> 255){
+				if(Character.getDirectionality(source.charAt(i)) != directionality){
+					hasChanged = true;
+					retVal.insert(0, tempBuffer);
+					tempBuffer = new StringBuffer();
+					retVal.insert(0, "\\u" + tempChar + '?');
+				}
+				else {
+					tempBuffer.append("\\u" + tempChar + '?');
+					//retVal.append("\\u" + tempChar + '?');
+					
+				}
+			}
+			else {
+				tempBuffer.append(source.charAt(i));
+				//retVal.append(source.charAt(i));
+			}
+		}
+		
+		if(tempBuffer != null && tempBuffer.length() > 0){
+			if(hasChanged){
+				retVal.insert(0, tempBuffer);
+			}
+			else {
+				retVal.append(tempBuffer);
+			}
+			
+		}
+		return retVal.toString();
+	}
+	
+	
+	/**
+	 * 
+	 * @param printImage
+	 * @throws JRException
+	 * @throws IOException
+	 */
+	protected void exportImage(JRPrintImage printImage) throws JRException, IOException
 	{
 		int x = twip(printImage.getX() + globalOffsetX);
 		int y = twip(printImage.getY() + globalOffsetY);
@@ -962,15 +1052,17 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 
-			buf.append("{\\pard\\fs0\\phpg\\pvpg")
-			.append("\\posx")
-			.append(twip(printImage.getX() + leftPadding + globalOffsetX))
-			.append("\\posy")
-			.append(twip(printImage.getY() + topPadding + globalOffsetY))
-			.append("{\\pict\\jpegblip")
-			.append("\\picwgoal").append(twip(availableImageWidth))
-			.append("\\pichgoal").append(twip(availableImageHeight))
-				.append("\n");
+			writer.write("{\\pard\\fs0\\phpg\\pvpg");
+			writer.write("\\posx");
+			writer.write(twip(printImage.getX() + leftPadding + globalOffsetX) + "");
+			writer.write("\\posy");
+			writer.write(twip(printImage.getY() + topPadding + globalOffsetY) + "");
+			writer.write("{\\pict\\jpegblip");
+			writer.write("\\picwgoal");
+			writer.write(twip(availableImageWidth) + "");
+			writer.write("\\pichgoal");
+			writer.write(twip(availableImageHeight) + "");
+			writer.write("\n");
 
 			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi));
 
@@ -983,16 +1075,16 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					helperStr = "0" + helperStr;
 				}
-				buf.append(helperStr);
+				writer.write(helperStr);
 				count++;
 				if (count == 64)
 				{
-					buf.append("\n");
+					writer.write("\n");
 					count = 0;
 				}
 			}
 
-			buf.append("\n}\\par}\n");
+			writer.write("\n}\\par}\n");
 		}
 
 		if (printImage.getBox() == null)
@@ -1007,45 +1099,5 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			exportBox(printImage.getBox(), printImage);
 		}
-	}
-		
-	private String handleUnicodeText(StringBuffer source){
-		StringBuffer retVal = new StringBuffer();
-		StringBuffer tempBuffer = new StringBuffer();
-		
-		
-		byte directionality = Character.DIRECTIONALITY_LEFT_TO_RIGHT;
-		boolean hasChanged = false;
-		for(int i = 0; i < source.length(); i++ ){
-			long tempChar = 0;
-			if( (tempChar = (long)source.charAt(i))> 255){
-				if(Character.getDirectionality(source.charAt(i)) != directionality){
-					hasChanged = true;
-					retVal.insert(0, tempBuffer);
-					tempBuffer = new StringBuffer();
-					retVal.insert(0, "\\u" + tempChar + '?');
-				}
-				else {
-					tempBuffer.append("\\u" + tempChar + '?');
-					//retVal.append("\\u" + tempChar + '?');
-					
-				}
-			}
-			else {
-				tempBuffer.append(source.charAt(i));
-				//retVal.append(source.charAt(i));
-			}
-		}
-		
-		if(tempBuffer != null && tempBuffer.length() > 1){
-			if(hasChanged){
-				retVal.insert(0, tempBuffer);
-			}
-			else {
-				retVal.append(tempBuffer);
-			}
-			
-		}
-		return retVal.toString();
 	}
 }
