@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -55,6 +56,7 @@ public class BatchExportApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	
@@ -129,6 +131,23 @@ public class BatchExportApp
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_RTF.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				
+				JRRtfExporter exporter = new JRRtfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				
+				exporter.exportReport();
+
+				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else if (TASK_XLS.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
@@ -190,7 +209,7 @@ public class BatchExportApp
 	{
 		System.out.println( "BatchExportApp usage:" );
 		System.out.println( "\tjava BatchExportApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | pdf | html | xls | csv" );
+		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | csv" );
 	}
 
 

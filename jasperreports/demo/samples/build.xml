@@ -39,6 +39,7 @@
 		<ant dir="barbecue" target="xmlEmbed" />
 		<ant dir="barbecue" target="xml" />
 		<ant dir="barbecue" target="html" />
+		<ant dir="barbecue" target="rtf" />
 		<ant dir="barbecue" target="xls" />
 		<ant dir="barbecue" target="csv" />
 
@@ -52,6 +53,7 @@
 		<ant dir="batchexport" target="fill" />
 		<ant dir="batchexport" target="pdf" />
 		<ant dir="batchexport" target="html" />
+		<ant dir="batchexport" target="rtf" />
 		<ant dir="batchexport" target="xls" />
 		<ant dir="batchexport" target="csv" />
 
@@ -90,6 +92,7 @@
 		<ant dir="datasource" target="xmlEmbed" />
 		<ant dir="datasource" target="xml" />
 		<ant dir="datasource" target="html" />
+		<ant dir="datasource" target="rtf" />
 		<ant dir="datasource" target="xls" />
 		<ant dir="datasource" target="csv" />
 
@@ -105,6 +108,7 @@
 		<ant dir="fonts" target="xmlEmbed" />
 		<ant dir="fonts" target="xml" />
 		<ant dir="fonts" target="html" />
+		<ant dir="fonts" target="rtf" />
 		<ant dir="fonts" target="xls" />
 		<ant dir="fonts" target="csv" />
 
@@ -130,6 +134,7 @@
 		<ant dir="horizontal" target="xmlEmbed" />
 		<ant dir="horizontal" target="xml" />
 		<ant dir="horizontal" target="html" />
+		<ant dir="horizontal" target="rtf" />
 		<ant dir="horizontal" target="xls" />
 		<ant dir="horizontal" target="csv" />
 
@@ -146,6 +151,7 @@
 		<ant dir="hyperlink" target="xmlEmbed" />
 		<ant dir="hyperlink" target="xml" />
 		<ant dir="hyperlink" target="html" />
+		<ant dir="hyperlink" target="rtf" />
 		<ant dir="hyperlink" target="xls" />
 		<ant dir="hyperlink" target="csv" />
 
@@ -159,6 +165,7 @@
 		<ant dir="i18n" target="fillDefault" />
 		<ant dir="i18n" target="pdf" />
 		<ant dir="i18n" target="html" />
+		<ant dir="i18n" target="rtf" />
 		<ant dir="i18n" target="xls" />
 		<ant dir="i18n" target="csv" />
 
@@ -174,6 +181,7 @@
 		<ant dir="images" target="xmlEmbed" />
 		<ant dir="images" target="xml" />
 		<ant dir="images" target="html" />
+		<ant dir="images" target="rtf" />
 		<ant dir="images" target="xls" />
 		<ant dir="images" target="csv" />
 
@@ -189,6 +197,7 @@
 		<ant dir="jasper" target="xmlEmbed" />
 		<ant dir="jasper" target="xml" />
 		<ant dir="jasper" target="html" />
+		<ant dir="jasper" target="rtf" />
 		<ant dir="jasper" target="xls" />
 		<ant dir="jasper" target="csv" />
 
@@ -204,6 +213,7 @@
 		<ant dir="jcharts" target="xmlEmbed" />
 		<ant dir="jcharts" target="xml" />
 		<ant dir="jcharts" target="html" />
+		<ant dir="jcharts" target="rtf" />
 		<ant dir="jcharts" target="xls" />
 		<ant dir="jcharts" target="csv" />
 
@@ -219,6 +229,7 @@
 		<ant dir="jfreechart" target="xmlEmbed" />
 		<ant dir="jfreechart" target="xml" />
 		<ant dir="jfreechart" target="html" />
+		<ant dir="jfreechart" target="rtf" />
 		<ant dir="jfreechart" target="xls" />
 		<ant dir="jfreechart" target="csv" />
 
@@ -234,6 +245,7 @@
 		<ant dir="landscape" target="xmlEmbed" />
 		<ant dir="landscape" target="xml" />
 		<ant dir="landscape" target="html" />
+		<ant dir="landscape" target="rtf" />
 		<ant dir="landscape" target="xls" />
 		<ant dir="landscape" target="csv" />
 
@@ -249,6 +261,7 @@
 		<ant dir="nopagebreak" target="xmlEmbed" />
 		<ant dir="nopagebreak" target="xml" />
 		<ant dir="nopagebreak" target="html" />
+		<ant dir="nopagebreak" target="rtf" />
 		<ant dir="nopagebreak" target="xls" />
 		<ant dir="nopagebreak" target="csv" />
 
@@ -263,6 +276,7 @@
 		<ant dir="noreport" target="xmlEmbed" />
 		<ant dir="noreport" target="xml" />
 		<ant dir="noreport" target="html" />
+		<ant dir="noreport" target="rtf" />
 		<ant dir="noreport" target="xls" />
 		<ant dir="noreport" target="csv" />
 
@@ -279,6 +293,7 @@
 		<ant dir="noxmldesign" target="xmlEmbed" />
 		<ant dir="noxmldesign" target="xml" />
 		<ant dir="noxmldesign" target="html" />
+		<ant dir="noxmldesign" target="rtf" />
 		<ant dir="noxmldesign" target="xls" />
 		<ant dir="noxmldesign" target="csv" />
 
@@ -312,6 +327,7 @@
 		<ant dir="query" target="xmlEmbed" />
 		<ant dir="query" target="xml" />
 		<ant dir="query" target="html" />
+		<ant dir="query" target="rtf" />
 		<ant dir="query" target="xls" />
 		<ant dir="query" target="csv" />
 
@@ -327,6 +343,7 @@
 		<ant dir="rotation" target="xmlEmbed" />
 		<ant dir="rotation" target="xml" />
 		<ant dir="rotation" target="html" />
+		<ant dir="rotation" target="rtf" />
 		<ant dir="rotation" target="xls" />
 		<ant dir="rotation" target="csv" />
 
@@ -342,6 +359,7 @@
 		<ant dir="scriptlet" target="xmlEmbed" />
 		<ant dir="scriptlet" target="xml" />
 		<ant dir="scriptlet" target="html" />
+		<ant dir="scriptlet" target="rtf" />
 		<ant dir="scriptlet" target="xls" />
 		<ant dir="scriptlet" target="csv" />
 
@@ -357,6 +375,7 @@
 		<ant dir="shapes" target="xmlEmbed" />
 		<ant dir="shapes" target="xml" />
 		<ant dir="shapes" target="html" />
+		<ant dir="shapes" target="rtf" />
 		<ant dir="shapes" target="xls" />
 		<ant dir="shapes" target="csv" />
 
@@ -372,6 +391,7 @@
 		<ant dir="stretch" target="xmlEmbed" />
 		<ant dir="stretch" target="xml" />
 		<ant dir="stretch" target="html" />
+		<ant dir="stretch" target="rtf" />
 		<ant dir="stretch" target="xls" />
 		<ant dir="stretch" target="csv" />
 
@@ -387,6 +407,7 @@
 		<ant dir="styledtext" target="xmlEmbed" />
 		<ant dir="styledtext" target="xml" />
 		<ant dir="styledtext" target="html" />
+		<ant dir="styledtext" target="rtf" />
 		<ant dir="styledtext" target="xls" />
 		<ant dir="styledtext" target="csv" />
 
@@ -402,6 +423,7 @@
 		<ant dir="subreport" target="xmlEmbed" />
 		<ant dir="subreport" target="xml" />
 		<ant dir="subreport" target="html" />
+		<ant dir="subreport" target="rtf" />
 		<ant dir="subreport" target="xls" />
 		<ant dir="subreport" target="csv" />
 
@@ -417,6 +439,7 @@
 		<ant dir="table" target="xmlEmbed" />
 		<ant dir="table" target="xml" />
 		<ant dir="table" target="html" />
+		<ant dir="table" target="rtf" />
 		<ant dir="table" target="xls" />
 		<ant dir="table" target="csv" />
 
@@ -432,6 +455,7 @@
 		<ant dir="tableofcontents" target="xmlEmbed" />
 		<ant dir="tableofcontents" target="xml" />
 		<ant dir="tableofcontents" target="html" />
+		<ant dir="tableofcontents" target="rtf" />
 		<ant dir="tableofcontents" target="xls" />
 		<ant dir="tableofcontents" target="csv" />
 
@@ -458,6 +482,7 @@
 		<ant dir="unicode" target="xmlEmbed" />
 		<ant dir="unicode" target="xml" />
 		<ant dir="unicode" target="html" />
+		<ant dir="unicode" target="rtf" />
 		<ant dir="unicode" target="xls" />
 		<ant dir="unicode" target="csv" />
 
@@ -489,6 +514,7 @@
 		<ant dir="xmldatasource" target="xmlEmbed" />
 		<ant dir="xmldatasource" target="xml" />
 		<ant dir="xmldatasource" target="html" />
+		<ant dir="xmldatasource" target="rtf" />
 		<ant dir="xmldatasource" target="xls" />
 		<ant dir="xmldatasource" target="csv" />
 	</target>
