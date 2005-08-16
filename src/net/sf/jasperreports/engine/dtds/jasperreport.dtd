@@ -337,10 +337,6 @@
 
 <!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
 
-<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?)>
-<!ELEMENT xValueExpression (#PCDATA)>
-<!ELEMENT yValueExpression (#PCDATA)>
-
 <!ELEMENT timePeriodDataset (dataset?, timePeriodSeries*)>
 <!ELEMENT timePeriodSeries (seriesExpression?, startDateExpression?, endDateExpression?, valueExpression?, labelExpression?)>
 <!ELEMENT startDateExpression (#PCDATA)>
@@ -359,6 +355,9 @@
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
 <!ELEMENT xyDataset (dataset?, (categorySeries* | xySeries*))>
+<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?)>
+<!ELEMENT xValueExpression (#PCDATA)>
+<!ELEMENT yValueExpression (#PCDATA)>
 
 <!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
 <!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
