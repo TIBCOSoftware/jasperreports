@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
@@ -108,6 +109,7 @@ public class BatchExportApp
 				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				exporter.setParameter(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS, Boolean.TRUE);
 				
 				exporter.exportReport();
 				
