@@ -69,7 +69,12 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	 * may vary depending on the XLS viewer properties or the operating system color scheme.
 	 */
 	public static final JRXlsExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRXlsExporterParameter("Is White Page Background");
-	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
+
+
+	/**
+	 * A boolean value specifying whether the exporter should try to automatically detect cell types based on the cell value.
+	 */
+    public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
 
 
 }
