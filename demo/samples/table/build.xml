@@ -75,6 +75,14 @@
 			<classpath refid="classpath"/>
 		</java>
 	</target>
+	
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Trtf"/>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
 
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">

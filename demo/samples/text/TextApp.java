@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.JRTextExporter;
@@ -63,6 +64,7 @@ public class TextApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_TEXT = "text";
 	private static final String TASK_CSV = "csv";
 
@@ -139,6 +141,24 @@ public class TextApp
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_RTF.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+				
+				JRRtfExporter exporter = new JRRtfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else

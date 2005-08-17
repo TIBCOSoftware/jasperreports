@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
@@ -64,6 +65,8 @@ public class VirtualizerApp
 	private static final String TASK_PRINT = "print";
 
 	private static final String TASK_PDF = "pdf";
+	
+	private static final String TASK_RTF = "rtf";
 
 	private static final String TASK_XML = "xml";
 
@@ -130,6 +133,9 @@ public class VirtualizerApp
 			{
 				exportPDF(outFileName, jasperPrint);
 			}
+			else if (TASK_RTF.equals(taskName)){
+				exportRTF(outFileName, jasperPrint);
+			}
 			else if (TASK_XML.equals(taskName))
 			{
 				exportXML(outFileName, jasperPrint, false);
@@ -145,10 +151,11 @@ public class VirtualizerApp
 			else if (TASK_CSV.equals(taskName))
 			{
 				exportCSV(outFileName, jasperPrint);
-			}
+			}		
 			else if (TASK_EXPORT.equals(taskName))
 			{
 				exportPDF(outFileName + ".pdf", jasperPrint);
+				exportRTF(outFileName + ".rtf", jasperPrint);
 				exportXML(outFileName + ".jrpxml", jasperPrint, false);
 				exportHTML(outFileName + ".html", jasperPrint);
 				exportCSV(outFileName + ".csv", jasperPrint);				
@@ -207,6 +214,17 @@ public class VirtualizerApp
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToPdfFile(jasperPrint, outFileName);
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	private static void exportRTF(String outFileName, JasperPrint jasperPrint) throws JRException {
+		long start = System.currentTimeMillis();
+		JRRtfExporter exporter = new JRRtfExporter();
+
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileName);
+
+		exporter.exportReport();
+		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
 	}
 
 	private static JasperPrint fillReport(String fileName, JRDataSource dataSource, JRFileVirtualizer virtualizer) throws JRException, ClassNotFoundException, SQLException
