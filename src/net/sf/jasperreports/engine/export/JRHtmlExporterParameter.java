@@ -79,7 +79,7 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	/**
 	 * A boolean value specifying whether the images should be stored on disk. The default value is true. If this parameter is
-	 * specified, IMAGES_DIR or IMAGES_DIR_FILE must also be specified and point to a valid directory.
+	 * specified, IMAGES_DIR or IMAGES_DIR_NAME must also be specified and point to a valid directory.
 	 */
 	public static final JRHtmlExporterParameter IS_OUTPUT_IMAGES_TO_DIR = new JRHtmlExporterParameter("Is Output Images to Directory Flag");
 
