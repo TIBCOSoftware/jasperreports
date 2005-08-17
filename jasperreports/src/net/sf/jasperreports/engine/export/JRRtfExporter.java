@@ -1,3 +1,35 @@
+/*
+ * ============================================================================
+ * GNU Lesser General Public License
+ * ============================================================================
+ *
+ * JasperReports - Free Java report-generating library.
+ * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
+ * 
+ * JasperSoft Corporation
+ * 185, Berry Street, Suite 6200
+ * San Francisco CA 94107
+ * http://www.jaspersoft.com
+ */
+
+/*
+ * Contributors:
+ * Matt Thompson - mthomp1234@users.sourceforge.net
+ */
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -48,7 +80,10 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
-
+/**
+ * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @version $Id$
+ */
 public class JRRtfExporter extends JRAbstractExporter
 {
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -64,13 +99,16 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected List fonts = null;
 	
 	
-	int zorder = 0;
+	int zorder = 1;
 
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
-		zorder = 1;
+		if (!isModeBatch) {
+			setPageRange();
+		}
+		
 		setInput();
 		fonts = new ArrayList();
 		fontBuffer = new StringBuffer();
@@ -155,6 +193,18 @@ public class JRRtfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected void exportReportToStream() throws JRException, IOException {
+		
+		writer.write("{\\rtf1\\ansi\\deff0\n");
+		createColorAndFontEntries();
+		writer.write("{\\fonttbl ");
+		writer.write(fontBuffer.toString()); 
+		writer.write("}\n");
+		
+		writer.write("{\\colortbl ");
+		writer.write(colorBuffer.toString());
+		writer.write("}\n");
+		
+		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			setPageRange();
@@ -166,24 +216,9 @@ public class JRRtfExporter extends JRAbstractExporter
 				startPageIndex = 0;
 				endPageIndex = pages.size() - 1;
 				JRPrintPage page = null;
-				writer.write("{\\rtf1\\ansi\\deff0\n");
+
 				
-				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
-					if (Thread.currentThread().isInterrupted()) {
-						throw new JRException("Current thread interrupted");
-					}
-					
-					page = (JRPrintPage)pages.get(pageIndex);
-					createColorAndFontEntries(page);
-				}
 				
-				writer.write("{\\fonttbl ");
-				writer.write(fontBuffer.toString()); 
-				writer.write("}\n");
-				
-				writer.write("{\\colortbl ");
-				writer.write(colorBuffer.toString());
-				writer.write("}\n");
 				
 				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
 				
@@ -214,9 +249,9 @@ public class JRRtfExporter extends JRAbstractExporter
 					page = (JRPrintPage)pages.get(pageIndex);
 					exportPage(page);
 				}
-				writer.write("}\n");	
 			}	
 		}
+		writer.write("}\n");
 		writer.flush();
 		
 	}
@@ -248,34 +283,53 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	
-	protected void createColorAndFontEntries(JRPrintPage page)
-	{
-		JRPrintElement element = null;
-		Collection elements = page.getElements();
-		if (elements != null && elements.size() > 0)
-		{
-			for (Iterator it = elements.iterator(); it.hasNext();)
-			{
-				element = (JRPrintElement) it.next();
-				getColorIndex(element.getForecolor());
-				getColorIndex(element.getBackcolor());
-				if (element instanceof JRPrintText)
-				{
-					int runLimit = 0;
-					JRStyledText styledText = getStyledText((JRPrintText) element);
-					AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-					while (runLimit < styledText.length()
-							&& (runLimit = iterator.getRunLimit()) <= styledText.length())
-					{
-						Map styledTextAttributes = iterator.getAttributes();
-						JRFont styleFont = new JRBaseFont(styledTextAttributes);
-						getFontIndex(styleFont);
 
-						getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
-						getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
-						iterator.setIndex(runLimit);
+	
+	protected void createColorAndFontEntries() throws JRException {
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
+			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			setPageRange();
+			
+			defaultFont = null;
+			
+			List pages = jasperPrint.getPages();
+			if (pages != null && pages.size() > 0){
+				startPageIndex = 0;
+				endPageIndex = pages.size() - 1;
+			}
+			for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
+				if (Thread.currentThread().isInterrupted()) {
+					throw new JRException("Current thread interrupted");
+				}
+				JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+				JRPrintElement element = null;
+				Collection elements = page.getElements();
+				if (elements != null && elements.size() > 0)
+				{
+					for (Iterator it = elements.iterator(); it.hasNext();)
+					{
+						element = (JRPrintElement) it.next();
+						getColorIndex(element.getForecolor());
+						getColorIndex(element.getBackcolor());
+						if (element instanceof JRPrintText)
+						{
+							int runLimit = 0;
+							JRStyledText styledText = getStyledText((JRPrintText) element);
+							AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+							while (runLimit < styledText.length()
+									&& (runLimit = iterator.getRunLimit()) <= styledText.length())
+							{
+								Map styledTextAttributes = iterator.getAttributes();
+								JRFont styleFont = new JRBaseFont(styledTextAttributes);
+								getFontIndex(styleFont);
+
+								getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
+								getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
+								iterator.setIndex(runLimit);
+							}
+							getFontIndex(((JRPrintText) element).getFont());
+						}
 					}
-					getFontIndex(((JRPrintText) element).getFont());
 				}
 			}
 		}
@@ -378,6 +432,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 		}
+		
+		writer.write("\\page\n" );
 	}
 	
 	/**
@@ -391,7 +447,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private void startGraphic(String type, int x, int y, int w, int h) throws IOException {  
 		writer.write("{\\*\\do\\dobxpage\\dobypage");
-		writer.write("\\dodhgt" + zorder++);
+		writer.write("\\dodhgt" + (zorder++));
 		
 		writer.write("\\" + type);
 		
@@ -400,6 +456,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("\\dpxsize" + w);
 		writer.write("\\dpysize" + h);
+		
 	}
 	
 	private void finishGraphic(JRPrintGraphicElement element) throws IOException {
@@ -463,87 +520,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("}\n");
 	}
 
-	
-	protected void exportBox(JRBox box, JRPrintElement element) throws IOException {
-		int x = twip(element.getX());
-		int y = twip(element.getY());
-		int w = twip(element.getWidth());
-		int h = twip(element.getHeight());
-		
-		Color fg = element.getForecolor();
-		Color bg = element.getBackcolor();
-		
-		int rx = x + 20;
-		int ry = y + 20;
-		int rw = w - 20;
-		int rh = h - 20;
-		
-		int flag = 0;
-		
-		if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
-			Color bc = box.getTopBorderColor();
-			byte pen = box.getTopBorder();
-			
-			int a = getAdjustment(box.getTopBorder());
-			if (bc == null) {
-				bc = fg;
-			}
-			startGraphic("dpline", x, y + a, w, 0);
-			finishGraphic(pen, fg, bg, 1);
-			
-			ry = y + a + 20;
-			flag++;
-		}
-		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getLeftBorderColor();
-			byte pen = box.getLeftBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x + a, y, 0, h);
-			finishGraphic(pen, fg, bg, 1);
-
-			rx = x + a + 20;
-			flag++;
-		}
-
-		if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getBottomBorderColor();
-			byte pen = box.getBottomBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x, y + h - a, w, 0);
-			finishGraphic(pen, fg, bg, 1);
-
-			rh = h - a - 20;
-			flag++;
-		}
-
-		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
-		{
-			Color bc = box.getRightBorderColor();
-			byte pen = box.getRightBorder();
-			int a = getAdjustment(pen);
-			if (bc == null)
-				bc = fg;
-			startGraphic("dpline", x + w - a, y, 0, h);
-			finishGraphic(pen, fg, bg, 1);
-
-			rw = w - a - 20;
-			flag++;
-		}
-
-		int oldVal = zorder;
-		zorder -= (flag + 1);
-
-		startGraphic("dprect", rx, ry, rw, rh);
-		finishGraphic(JRGraphicElement.PEN_NONE, fg, bg, 1);
-
-		zorder = oldVal;
-	}
 	
 	
 	/**
@@ -669,55 +645,137 @@ public class JRRtfExporter extends JRAbstractExporter
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
 		
-//		 padding for the text
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-
-		if (text.getBox() != null)
-		{
-			topPadding = twip(text.getBox().getTopPadding());
-			leftPadding = twip(text.getBox().getLeftPadding());
-			bottomPadding = twip(text.getBox().getBottomPadding());
-			rightPadding = twip(text.getBox().getRightPadding());
-		}
-
-
-		int verticalAdjustment = 0;
-		switch (text.getVerticalAlignment())
-		{
-			case JRAlignment.VERTICAL_ALIGN_TOP:
-				verticalAdjustment = 0;
-				break;
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-				verticalAdjustment = (int) (height - twip(text.getTextHeight())) / 2;
-				break;
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-				verticalAdjustment = (int) (height - twip(text.getTextHeight()));
-				break;
-		}
-
-		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
 			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text
 					.getBackcolor(), 1);
 		}
-
-		JRFont font = text.getFont();
-
-		writer.write("{\\pard");
-		writer.write("\\absw" + width);
-		writer.write("\\absh" + twip(text.getTextHeight()));
 		
-		writer.write("\\phpg\\posx" + x);
-		writer.write("\\pvpg\\posy" + (y + verticalAdjustment + topPadding + topPadding + bottomPadding));
+		// padding for the text
+		int topPadding = 0;
+		int leftPadding = 0;
+		int bottomPadding = 0;
+		int rightPadding = 0;
+		
+		int textHeight = twip(text.getTextHeight());
+		
+		if (text.getBox() != null)
+		{
+			
+			topPadding = twip(text.getBox().getTopPadding());
+			leftPadding = twip(text.getBox().getLeftPadding());
+			bottomPadding = twip(text.getBox().getBottomPadding());
+			rightPadding = twip(text.getBox().getRightPadding());
+			
+			JRBox box = text.getBox();
+			Color fg = text.getForecolor();
+			Color bg = text.getBackcolor();
+			
+			if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
+				Color bc = box.getTopBorderColor();
+				byte pen = box.getTopBorder();
+				
+				int a = getAdjustment(box.getTopBorder());
+				if (bc == null) {
+					bc = fg;
+				}
+				startGraphic("dpline", x, y + a, width, 0);
+				finishGraphic(pen, fg, bg, 1);
+				
+				
+				
+			}
+			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+			{
+				
+				Color bc = box.getLeftBorderColor();
+				byte pen = box.getLeftBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x + a, y, 0, height);
+				finishGraphic(pen, fg, bg, 1);
+				
+				
+			}
+			
+			
+			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			{
+				
+				Color bc = box.getBottomBorderColor();
+				byte pen = box.getBottomBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x, y + height - a, width, 0);
+				finishGraphic(pen, fg, bg, 1);
+				
+				
+				
+			}
+			
+
+			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			{
+				
+				Color bc = box.getRightBorderColor();
+				byte pen = box.getRightBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x + width - a, y, 0, height);
+				finishGraphic(pen, fg, bg, 1);
+				
+				
+				
+			}	
+		}
+		int verticalAdjustment = topPadding;
+		switch (text.getVerticalAlignment())
+		{
+			case JRAlignment.VERTICAL_ALIGN_TOP:
+				verticalAdjustment = 0;
+				break;
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+				verticalAdjustment = (int) (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
+				break;
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+				verticalAdjustment = (int) (height - topPadding - bottomPadding - twip(text.getTextHeight()));
+				break;
+		}
+
+		
+		
+		
+		JRFont font = text.getFont();
+		writer.write("{\\*\\do\\dobxpage\\dobypage");
+		writer.write("\\dodhgt" + (zorder++));
+		writer.write("\\dptxbx");
+		writer.write("\\dpx" + (x + 20));
+		writer.write("\\dpxsize" + (width - 20));
+		writer.write("\\dpy" + (y + verticalAdjustment + 20) );
+		writer.write("\\dpysize" + (textHeight - 20));
+		writer.write("\\dpfillpat0"); 
+		writer.write("\\dplinehollow");
+		writer.write("{\\dptxbxtext ");
+		//writer.write("{\\pard");
+		
+
+		
+
+		
+		//writer.write("\\absw" + width);
+		//writer.write("\\absh" + textHeight);
+		
+		//writer.write("\\phpg\\posx" + x);
+		//writer.write("\\pvpg\\posy" + (y + verticalAdjustment));
 		
 		writer.write("\\f" + getFontIndex(font));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
 		writer.write("\\cbpat" + getColorIndex(text.getBackcolor()));
+		
 
 		if (text.getBox() != null)
 		{
@@ -836,7 +894,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			int e = 0;
 			String str = plainText.substring(iterator.getIndex(), runLimit);
 			String pattern = "\n";
-			String replace = "\\line";
+			String replace = "\\line ";
 			StringBuffer result = new StringBuffer();
 
 			while ((e = str.indexOf(pattern, s)) >= 0)
@@ -853,8 +911,10 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			iterator.setIndex(runLimit);
 		}
-
-		writer.write("\\par}\n");
+		
+		writer.write("\\par}}\n");
+		
+		
 	}
 	
 	
@@ -881,13 +941,12 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 				else {
 					tempBuffer.append("\\u" + tempChar + '?');
-					//retVal.append("\\u" + tempChar + '?');
+					
 					
 				}
 			}
 			else {
 				tempBuffer.append(source.charAt(i));
-				//retVal.append(source.charAt(i));
 			}
 		}
 		
@@ -1097,7 +1156,54 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			exportBox(printImage.getBox(), printImage);
+			JRBox box = printImage.getBox();
+			Color fg = printImage.getForecolor();
+			Color bg = printImage.getBackcolor();
+			if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
+				Color bc = box.getTopBorderColor();
+				byte pen = box.getTopBorder();
+				
+				int a = getAdjustment(box.getTopBorder());
+				if (bc == null) {
+					bc = fg;
+				}
+				startGraphic("dpline", x, y + a, width, 0);
+				finishGraphic(pen, fg, bg, 1);
+				
+			}
+			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Color bc = box.getLeftBorderColor();
+				byte pen = box.getLeftBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x + a, y, 0, height);
+				finishGraphic(pen, fg, bg, 1);
+
+			}
+
+			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Color bc = box.getBottomBorderColor();
+				byte pen = box.getBottomBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x, y + height - a, width, 0);
+				finishGraphic(pen, fg, bg, 1);
+			}
+
+			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Color bc = box.getRightBorderColor();
+				byte pen = box.getRightBorder();
+				int a = getAdjustment(pen);
+				if (bc == null)
+					bc = fg;
+				startGraphic("dpline", x + width - a, y, 0, height);
+				finishGraphic(pen, fg, bg, 1);
+			}
 		}
 	}
 }
