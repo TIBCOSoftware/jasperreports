@@ -170,6 +170,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 	}
 	
+	
 	/**
 	 * 
 	 * @return
@@ -216,9 +217,6 @@ public class JRRtfExporter extends JRAbstractExporter
 				startPageIndex = 0;
 				endPageIndex = pages.size() - 1;
 				JRPrintPage page = null;
-
-				
-				
 				
 				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
 				
@@ -239,15 +237,20 @@ public class JRRtfExporter extends JRAbstractExporter
 				
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
 					writer.write("\n");
-					if(pageIndex != startPageIndex) {
+					/*if(pageIndex != startPageIndex) {
 						writer.write("{\\pard\\pagebb\\par}\n");
-					}
+					}*/
 					if(Thread.currentThread().isInterrupted()){
 						throw new JRException("Current thread intrerrupted");
 					}
 					
 					page = (JRPrintPage)pages.get(pageIndex);
-					exportPage(page);
+					
+					boolean lastPageFlag = false;
+					if(pageIndex == endPageIndex ){
+						lastPageFlag = true;
+					}
+					exportPage(page, lastPageFlag);
 				}
 			}	
 		}
@@ -283,8 +286,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	
-
-	
+	/**
+	 * 
+	 * @throws JRException
+	 */
 	protected void createColorAndFontEntries() throws JRException {
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
@@ -401,7 +406,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param page
 	 * @throws JRException
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException, IOException
+	protected void exportPage(JRPrintPage page, boolean lastPage) throws JRException, IOException
 	{
 		JRPrintElement element = null;
 		Collection elements = page.getElements();
@@ -433,7 +438,9 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 		
-		writer.write("\\page\n" );
+		if(lastPage == false){
+			writer.write("\\page\n" );
+		}
 	}
 	
 	/**
@@ -719,7 +726,6 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
 			{
-				
 				Color bc = box.getRightBorderColor();
 				byte pen = box.getRightBorder();
 				int a = getAdjustment(pen);
@@ -727,9 +733,6 @@ public class JRRtfExporter extends JRAbstractExporter
 					bc = fg;
 				startGraphic("dpline", x + width - a, y, 0, height);
 				finishGraphic(pen, fg, bg, 1);
-				
-				
-				
 			}	
 		}
 		int verticalAdjustment = topPadding;
@@ -750,27 +753,36 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		
 		JRFont font = text.getFont();
-		writer.write("{\\*\\do\\dobxpage\\dobypage");
-		writer.write("\\dodhgt" + (zorder++));
-		writer.write("\\dptxbx");
-		writer.write("\\dpx" + (x + 20));
-		writer.write("\\dpxsize" + (width - 20));
-		writer.write("\\dpy" + (y + verticalAdjustment + 20) );
-		writer.write("\\dpysize" + (textHeight - 20));
-		writer.write("\\dpfillpat0"); 
-		writer.write("\\dplinehollow");
-		writer.write("{\\dptxbxtext ");
-		//writer.write("{\\pard");
+		boolean isUnicode = false;
+		for(int i = 0; i < text.getText().length(); i++ ){
+			if((int)(text.getText().charAt(i)) > 255){
+				isUnicode = true;
+			}
+		}
 		
-
+		if(isUnicode) {
+			writer.write("{\\pard");
+			writer.write("\\absw" + (width - 20));
+			writer.write("\\absh" + (textHeight - 20));
 		
-
+			writer.write("\\phpg\\posx" + x + 20);
+			writer.write("\\pvpg\\posy" + (y + verticalAdjustment + 20));
+		}
+		else {
+			writer.write("{\\*\\do\\dobxpage\\dobypage");
+			writer.write("\\dodhgt" + (zorder++));
+			writer.write("\\dptxbx");
+			writer.write("\\dpx" + (x + leftPadding + 20));
+			writer.write("\\dpxsize" + (width - rightPadding - 20));
+			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + 20) );
+			writer.write("\\dpysize" + (textHeight - bottomPadding - 20));
+			writer.write("\\dpfillpat0"); 
+			writer.write("\\dplinehollow");
+			writer.write("{\\dptxbxtext ");
 		
-		//writer.write("\\absw" + width);
-		//writer.write("\\absh" + textHeight);
-		
-		//writer.write("\\phpg\\posx" + x);
-		//writer.write("\\pvpg\\posy" + (y + verticalAdjustment));
+			writer.write("{\\pard");
+		}
+	
 		
 		writer.write("\\f" + getFontIndex(font));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
@@ -912,7 +924,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			iterator.setIndex(runLimit);
 		}
 		
-		writer.write("\\par}}\n");
+		if(isUnicode) {
+			writer.write("\\par}\n");
+		}
+		else {
+			writer.write("\\par}}}\n");
+		}
 		
 		
 	}
@@ -1111,7 +1128,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 
-			writer.write("{\\pard\\fs0\\phpg\\pvpg");
+			/*writer.write("{\\pard\\fs0\\phpg\\pvpg");
 			writer.write("\\posx");
 			writer.write(twip(printImage.getX() + leftPadding + globalOffsetX) + "");
 			writer.write("\\posy");
@@ -1121,8 +1138,25 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(twip(availableImageWidth) + "");
 			writer.write("\\pichgoal");
 			writer.write(twip(availableImageHeight) + "");
+			writer.write("\n");*/
+			
+			writer.write("{\\*\\do\\dobxpage\\dobypage");
+			writer.write("\\dodhgt" + (zorder++));
+			writer.write("\\dptxbx");
+			writer.write("\\dpx" + twip(printImage.getX() + leftPadding + globalOffsetX));
+			writer.write("\\dpxsize" + twip(availableImageWidth));
+			writer.write("\\dpy" + twip(printImage.getY() + topPadding + globalOffsetY) );
+			writer.write("\\dpysize" + twip(availableImageHeight) );
+			writer.write("\\dpfillpat0"); 
+			writer.write("\\dplinehollow");
+			writer.write("{\\dptxbxtext ");
+			writer.write("{\\pict\\jpegblip");
+			writer.write("\\picwgoal");
+			writer.write(twip(availableImageWidth) + "");
+			writer.write("\\pichgoal");
+			writer.write(twip(availableImageHeight) + "");
 			writer.write("\n");
-
+			
 			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi));
 
 			int count = 0;
@@ -1143,7 +1177,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 
-			writer.write("\n}\\par}\n");
+			writer.write("\n}}}\n");
 		}
 
 		if (printImage.getBox() == null)
