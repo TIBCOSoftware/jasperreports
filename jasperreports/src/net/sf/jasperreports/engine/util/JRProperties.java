@@ -42,12 +42,12 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * <p>
  * The following actions are performed:
  * <ul>
- * <li>The default (hardcoded) properties are set.<li>
+ * <li>The default (hardcoded) properties are set.</li>
  * <li>If the system property "net.sf.jasperreports.properties" has been set 
  * then the specified proprties file is loaded.</li>
  * <li>Otherwise "jasperreports.properties" is loaded if found in the classpath.</li>
  * <li>For backward compatibility, system properties like "jasper.reports.compile.xml.validation"
- * are checked and their values are used.  This way of specifying properties is deprecated.<li> 
+ * are checked and their values are used.  This way of specifying properties is deprecated.</li> 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
