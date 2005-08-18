@@ -100,7 +100,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	int zorder = 1;
-
+	boolean isUnicode = false;
+	
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
@@ -220,14 +221,14 @@ public class JRRtfExporter extends JRAbstractExporter
 				
 				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
 				
-				writer.write("\\viewkind1");
+				writer.write("{\\viewkind1");
 				writer.write("\\paperw" + twip(jasperPrint.getPageWidth()));
 				writer.write("\\paperh" + twip(jasperPrint.getPageHeight()));
 				
 				writer.write("\\marglsxn0");
 				writer.write("\\margrsxn0");
 				writer.write("\\margtsxn0");
-				writer.write("\\margbsxn0");
+				writer.write("\\margbsxn0}");
 				
 				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE) {
 					writer.write("\\lndscpsxn");
@@ -318,6 +319,13 @@ public class JRRtfExporter extends JRAbstractExporter
 						getColorIndex(element.getBackcolor());
 						if (element instanceof JRPrintText)
 						{
+							JRPrintText text = (JRPrintText)element;
+							for(int i = 0; i < text.getText().length(); i++ ){
+								if((int)(text.getText().charAt(i)) > 255){
+									isUnicode = true;
+								}
+							}
+							
 							int runLimit = 0;
 							JRStyledText styledText = getStyledText((JRPrintText) element);
 							AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
@@ -439,7 +447,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		
 		if(lastPage == false){
-			writer.write("\\page\n" );
+			if(isUnicode){
+				writer.write("{\\pard\\pagebb\\par}\n" );
+			}
+			else {
+				writer.write("\\page\n");
+			}
+			
 		}
 	}
 	
@@ -463,7 +477,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		writer.write("\\dpxsize" + w);
 		writer.write("\\dpysize" + h);
-		
 	}
 	
 	private void finishGraphic(JRPrintGraphicElement element) throws IOException {
@@ -689,13 +702,10 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 				startGraphic("dpline", x, y + a, width, 0);
 				finishGraphic(pen, fg, bg, 1);
-				
-				
-				
 			}
+			
 			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
 			{
-				
 				Color bc = box.getLeftBorderColor();
 				byte pen = box.getLeftBorder();
 				int a = getAdjustment(pen);
@@ -703,11 +713,8 @@ public class JRRtfExporter extends JRAbstractExporter
 					bc = fg;
 				startGraphic("dpline", x + a, y, 0, height);
 				finishGraphic(pen, fg, bg, 1);
-				
-				
 			}
-			
-			
+		
 			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
 			{
 				
@@ -718,12 +725,8 @@ public class JRRtfExporter extends JRAbstractExporter
 					bc = fg;
 				startGraphic("dpline", x, y + height - a, width, 0);
 				finishGraphic(pen, fg, bg, 1);
-				
-				
-				
 			}
 			
-
 			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
 			{
 				Color bc = box.getRightBorderColor();
@@ -753,20 +756,14 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		
 		JRFont font = text.getFont();
-		boolean isUnicode = false;
-		for(int i = 0; i < text.getText().length(); i++ ){
-			if((int)(text.getText().charAt(i)) > 255){
-				isUnicode = true;
-			}
-		}
 		
 		if(isUnicode) {
 			writer.write("{\\pard");
-			writer.write("\\absw" + (width - 20));
-			writer.write("\\absh" + (textHeight - 20));
+			writer.write("\\absw" + (width));
+			writer.write("\\absh" +  (textHeight));
 		
-			writer.write("\\phpg\\posx" + x + 20);
-			writer.write("\\pvpg\\posy" + (y + verticalAdjustment + 20));
+			writer.write("\\phpg\\posx" + (x));
+			writer.write("\\pvpg\\posy" + (y + verticalAdjustment + topPadding));
 		}
 		else {
 			writer.write("{\\*\\do\\dobxpage\\dobypage");
@@ -774,21 +771,18 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\dptxbx");
 			writer.write("\\dpx" + (x + leftPadding + 20));
 			writer.write("\\dpxsize" + (width - rightPadding - 20));
-			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + 20) );
+			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + 20));
 			writer.write("\\dpysize" + (textHeight - bottomPadding - 20));
 			writer.write("\\dpfillpat0"); 
 			writer.write("\\dplinehollow");
 			writer.write("{\\dptxbxtext ");
-		
 			writer.write("{\\pard");
 		}
 	
-		
 		writer.write("\\f" + getFontIndex(font));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
 		writer.write("\\cbpat" + getColorIndex(text.getBackcolor()));
 		
-
 		if (text.getBox() != null)
 		{
 			writer.write("\\li" + leftPadding);
