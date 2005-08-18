@@ -654,6 +654,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			columnFooterOffsetY = offsetY;
 		}
 
+		int oldOffsetY = offsetY;
 		if (!isFloatColumnFooter && !fillContext.isIgnorePagination())
 		{
 			offsetY = columnFooterOffsetY;
@@ -664,6 +665,11 @@ public class JRVerticalFiller extends JRBaseFiller
 		if (columnFooter.isToPrint())
 		{
 			fillFixedBand(columnFooter, evaluation);
+		}
+		
+		if (isFloatColumnFooter && !fillContext.isIgnorePagination())
+		{
+			offsetY += columnFooterOffsetY - oldOffsetY;
 		}
 	}
 
