@@ -102,6 +102,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	int zorder = 1;
 	boolean isUnicode = false;
 	
+	
+	/**
+	 * Export report in .rtf format
+	 */
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
@@ -173,8 +177,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @return
+	 * Export report in .rtf format
+	 * @return report in .rtf format in a StringBuffer object
 	 */
 	protected StringBuffer exportReportToBuffer() throws JRException{
 		StringWriter buffer = new StringWriter();
@@ -191,8 +195,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 *
+	 * Export report in .rtf format to a stream
+	 * @throws JRException
+	 * @throws IOException
 	 */
 	protected void exportReportToStream() throws JRException, IOException {
 		
@@ -262,8 +267,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 *
+	 * Export report in .rtf format to a file
 	 */
 	protected void exportReportToFile() throws JRException {
 		try {
@@ -288,7 +292,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
+	 * Create color and font entries for the header of .rtf file
 	 * @throws JRException
 	 */
 	protected void createColorAndFontEntries() throws JRException {
@@ -350,9 +354,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param color
-	 * @return
+	 * Return color index from header of the .rtf file
+	 * @param color Color for which the index is required
+	 * @return index of the color from .rtf file header
 	 */
 	private int getColorIndex(Color color)
 	{
@@ -371,9 +375,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param font
-	 * @return
+	 * Return font index from the header of the .rtf file
+	 * @param font Font for which the index is required
+	 * @return index of the fornt from .rtf file header
 	 */
 	private int getFontIndex(JRFont font) {
 		String fontName = font.getFontName();
@@ -390,9 +394,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param points
-	 * @return
+	 * Convert a int value from points to twips (multiply with 20)
+	 * @param points value that needs to be converted
+	 * @return converted value in twips
 	 */
 	private int twip(int points) {
 		return points * 20;
@@ -400,9 +404,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param points
-	 * @return
+	 * Convert a float value to twips (multiply with 20)
+	 * @param points value that need to be converted
+	 * @return converted value in twips
 	 */
 	private int twip(float points) {
 		return (int)(points * 20);
@@ -410,8 +414,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param page
+	 * Exports a report page
+	 * @param page Page that will be exported
 	 * @throws JRException
 	 */
 	protected void exportPage(JRPrintPage page, boolean lastPage) throws JRException, IOException
@@ -458,12 +462,12 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * 
-	 * @param type
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
+	 * Add RTF markup for a graphic element
+	 * @param type Type of the graphic element
+	 * @param x x axis position of the graphic element
+	 * @param y y axis position of the graphic 
+	 * @param w width of the graphic element
+	 * @param h height of the graphic element
 	 * @throws IOException
 	 */
 	private void startGraphic(String type, int x, int y, int w, int h) throws IOException {  
@@ -479,6 +483,11 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\dpysize" + h);
 	}
 	
+	/**
+	 * Add RTF markup for the end of a graphic element
+	 * @param element Element to be closed
+	 * @throws IOException
+	 */
 	private void finishGraphic(JRPrintGraphicElement element) throws IOException {
 		int mode = 0;
 		if(element.getMode() == JRElement.MODE_OPAQUE) {
@@ -492,11 +501,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * 
-	 * @param pen
-	 * @param fg
-	 * @param bg
-	 * @param fillPattern
+	 * Add RTF markup for the end of the graphic element
+	 * @param pen pen dimension
+	 * @param fg foreground color
+	 * @param bg background color
+	 * @param fillPattern fill pattern
 	 * @throws IOException
 	 */
 	private void finishGraphic(byte pen, Color fg, Color bg, int fillPattern) throws IOException {
@@ -543,7 +552,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
+	 * Get border adjustment for graphic elements depending on pen width used
 	 * @param pen
 	 * @return
 	 */
@@ -570,8 +579,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param line
+	 * Draw a line object
+	 * @param line JasperReports line object - JRPrintLine
 	 * @throws IOException
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException {
@@ -615,8 +624,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param rect
+	 * Draw a rectangle
+	 * @param rect JasperReports rectangle object (JRPrintRectangle)
 	 */
 	protected void exportRectangle(JRPrintRectangle rect) throws IOException {
 		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
@@ -630,8 +639,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param ellipse
+	 * Draw a ellipse object
+	 * @param ellipse JasperReports ellipse object (JRPrintElipse)
 	 */
 	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException {
 		startGraphic(
@@ -646,8 +655,8 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	
 	/**
-	 * 
-	 * @param text
+	 * Draw a text box
+	 * @param text JasperReports text object (JRPrintText)
 	 */
 	protected void exportText(JRPrintText text) throws IOException {
 		
@@ -930,9 +939,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param source
-	 * @return
+	 * If the text contains Unicode characters this function will replace
+	 * them with RTF Unicode markups
+	 * @param source source text
+	 * @return text with Unicode charaters replaced 
 	 */
 	private String handleUnicodeText(StringBuffer source){
 		StringBuffer retVal = new StringBuffer();
@@ -975,8 +985,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * 
-	 * @param printImage
+	 * Export a image object 
+	 * @param printImage JasperReports image object (JRPrintImage)
 	 * @throws JRException
 	 * @throws IOException
 	 */
