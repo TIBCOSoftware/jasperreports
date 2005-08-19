@@ -2287,6 +2287,8 @@ public class JRXmlWriter
 	private void writeBarPlot(JRBarPlot plot)
 	{
 		sb.append("\t\t\t\t<barPlot");
+		if (plot.isShowLabels())
+			sb.append(" isShowTickLabels=\"true\"");
 		if (!plot.isShowTickLabels())
 			sb.append(" isShowTickLabels=\"false\"");
 		if (!plot.isShowTickMarks())
@@ -2402,6 +2404,8 @@ public class JRXmlWriter
 	public void writeBar3DPlot(JRBar3DPlot plot)
 	{
 		sb.append("\t\t\t\t<bar3DPlot");
+		if (plot.isShowLabels())
+			sb.append(" isShowLabels=\"true\"");
 		if (plot.getXOffset() != BarRenderer3D.DEFAULT_X_OFFSET)
 			sb.append(" xOffset=\"" + plot.getXOffset() + "\"");
 		if (plot.getYOffset() != BarRenderer3D.DEFAULT_Y_OFFSET)
