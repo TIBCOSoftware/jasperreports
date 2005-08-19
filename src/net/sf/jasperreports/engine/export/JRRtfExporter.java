@@ -226,14 +226,14 @@ public class JRRtfExporter extends JRAbstractExporter
 				
 				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
 				
-				writer.write("{\\viewkind1");
+				writer.write("\\viewkind1");
 				writer.write("\\paperw" + twip(jasperPrint.getPageWidth()));
 				writer.write("\\paperh" + twip(jasperPrint.getPageHeight()));
 				
 				writer.write("\\marglsxn0");
 				writer.write("\\margrsxn0");
 				writer.write("\\margtsxn0");
-				writer.write("\\margbsxn0}");
+				writer.write("\\margbsxn0");
 				
 				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE) {
 					writer.write("\\lndscpsxn");
