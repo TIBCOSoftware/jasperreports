@@ -10,7 +10,6 @@
 	</parameter>
 	<parameter name="BaseDir" class="java.io.File">
 	</parameter>
-	<queryString><![CDATA[SELECT * FROM Address ORDER BY City]]></queryString>
 	<field name="Id" class="java.lang.Integer">
 	</field>
 	<field name="Name" class="java.lang.String">
