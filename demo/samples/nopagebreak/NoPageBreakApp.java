@@ -62,10 +62,10 @@ public class NoPageBreakApp
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
-	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
@@ -245,7 +245,7 @@ public class NoPageBreakApp
 	{
 		System.out.println( "NoPageBreakApp usage:" );
 		System.out.println( "\tjava NoPageBreakApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
 	}
 
 

@@ -225,7 +225,7 @@ public class NoReportApp
 	{
 		System.out.println( "NoReportApp usage:" );
 		System.out.println( "\tjava NoReportApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv" );
 	}
 
 

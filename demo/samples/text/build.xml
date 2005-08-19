@@ -61,14 +61,6 @@
 			<classpath refid="classpath"/>
 		</java>
 	</target>
-	
-	<target name="rtf" description="Generates a RTF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Trtf"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
 
 	<target name="text" description="Generates a pure text version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
@@ -101,7 +93,6 @@
 			<fileset dir="." includes="**/*.jrprint" />
 			<fileset dir="." includes="**/*.text" />
 			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.rtf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
 		<delete dir="${file.name}.html_files" />

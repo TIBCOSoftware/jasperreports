@@ -100,17 +100,17 @@
 		</java>
 	</target>
 
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Txls"/>
+			<arg value="-Trtf"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
-
-	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+	
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Trtf"/>
+			<arg value="-Txls"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
@@ -158,7 +158,6 @@
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.rtf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
 		<delete dir="${file.name}.html_files" />
