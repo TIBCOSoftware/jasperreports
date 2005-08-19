@@ -52,14 +52,14 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 	
 	public boolean isShowShapes(){
-		return ((JRLinePlot)parent).isShowShapes();
+		return ((JRScatterPlot)parent).isShowShapes();
 	}
 	
 	public void setShowShapes( boolean value ){
 	}
 	
 	public boolean isShowLines(){
-		return ((JRLinePlot)parent).isShowLines();
+		return ((JRScatterPlot)parent).isShowLines();
 	}
 	
 	public void setShowLines( boolean value ){
