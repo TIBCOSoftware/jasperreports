@@ -29,6 +29,10 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * This interface represents the abstract representation of a JasperReports data source. All data source types must
+ * implement this interface.
+ * <p>
+ * JasperReports provides default implementations of result set, bean collections and bean arrays data sources.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,12 +41,15 @@ public interface JRDataSource
 
 
 	/**
-	 *
+	 * Tries to position the cursor on the next element in the data source.
+	 * @return true if there is a next record, false otherwise
+	 * @throws JRException if any error occurs while trying to move to the next element
 	 */
 	public boolean next() throws JRException;
 
 	/**
-	 *
+	 * Gets the field value for the current position.
+	 * @return an object containing the field value. The object type must be the field object type.
 	 */
 	public Object getFieldValue(JRField jrField) throws JRException;
 

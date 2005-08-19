@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An interface that provides a default font when none is specified. All classes that might need to return a default font
+ * if one is not specified will implement this interface.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,7 +39,7 @@ public interface JRDefaultFontProvider
 
 	
 	/**
-	 *
+	 * Returns a default font.
 	 */
 	public JRReportFont getDefaultFont();
 

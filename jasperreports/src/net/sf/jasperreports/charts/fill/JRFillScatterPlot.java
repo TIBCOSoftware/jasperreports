@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;

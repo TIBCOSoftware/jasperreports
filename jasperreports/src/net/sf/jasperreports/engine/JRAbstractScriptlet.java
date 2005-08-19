@@ -36,6 +36,9 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
 
 
 /**
+ * Defines an abstract representation of a report scriptlet. Scriptlets are useful when a specific behaviour is needed
+ * in certain moments of the report filling process, such as report, column or group initialization. Scriptlets must implement
+ * the abstract methods that define the behaviour at the specified moments.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -274,61 +277,63 @@ public abstract class JRAbstractScriptlet
 
 
 	/**
-	 *
+	 * Called before the report is initialized.
 	 */
 	public abstract void beforeReportInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called after the report is initialized.
 	 */
 	public abstract void afterReportInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called before each page is initialized.
 	 */
 	public abstract void beforePageInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called after each page is initialized.
 	 */
 	public abstract void afterPageInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called before each column is initialized.
 	 */
 	public abstract void beforeColumnInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called after each column is initialized.
 	 */
 	public abstract void afterColumnInit() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called before a group is initialized.
+	 * @param groupName the group name
 	 */
 	public abstract void beforeGroupInit(String groupName) throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called after a group is initialized.
+	 * @param groupName the group name
 	 */
 	public abstract void afterGroupInit(String groupName) throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called before evaluating each detail.
 	 */
 	public abstract void beforeDetailEval() throws JRScriptletException;
 
 
 	/**
-	 *
+	 * Called after evaluating each detail.
 	 */
 	public abstract void afterDetailEval() throws JRScriptletException;
 
