@@ -584,14 +584,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		checkVariableCalculationReqs(factory);
 
-		/***********************************************************************
-		 * resourceBundle = loadResourceBundle(resourceBundleBaseName);
-		 *  /* * scriptlet = loadScriptlet( scriptletClass, parametersMap,
-		 * fieldsMap, variablesMap, groups );
-		 *  /* * calculator = loadCalculator( jasperReport, parametersMap,
-		 * fieldsMap, variablesMap, variables, groups );
-		 */
-
 		/*   */
 		scriptlet = createScriptlet();
 
@@ -1046,20 +1038,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	}
 
 	/**
-	 * 
-	 * 
-	 * protected static JRCalculator loadCalculator( JasperReport jasperReport,
-	 * Map parametersMap, Map fieldsMap, Map variablesMap, JRFillVariable[]
-	 * variables, JRFillGroup[] groups ) throws JRException { JRCalculator
-	 * calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
-	 * 
-	 * calculator.init( parametersMap, fieldsMap, variablesMap, variables,
-	 * groups );
-	 * 
-	 * return calculator; }
-	 * 
-	 * 
-	 * /**
 	 * 
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
