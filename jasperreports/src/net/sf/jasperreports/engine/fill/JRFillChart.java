@@ -49,16 +49,8 @@ import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillBarPlot;
-import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
-import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
-import net.sf.jasperreports.charts.fill.JRFillLinePlot;
-import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
-import net.sf.jasperreports.charts.fill.JRFillPieDataset;
-import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
-import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
-import net.sf.jasperreports.charts.fill.JRFillXyDataset;
+import net.sf.jasperreports.charts.base.*;
+import net.sf.jasperreports.charts.fill.*;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -90,11 +82,7 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer3D;
-import org.jfree.chart.renderer.xy.CandlestickRenderer;
-import org.jfree.chart.renderer.xy.HighLowRenderer;
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.*;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
@@ -1096,6 +1084,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				false);
 
 		configureChart(chart, evaluation);
+		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)chart.getPlot()).getRenderer();
+
+		JRScatterPlot plot = (JRScatterPlot) getPlot();
+		plotRenderer.setLinesVisible(plot.isShowLines());
+		plotRenderer.setShapesVisible(plot.isShowShapes());
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
