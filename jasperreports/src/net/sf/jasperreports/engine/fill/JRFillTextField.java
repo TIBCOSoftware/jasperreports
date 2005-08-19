@@ -735,22 +735,16 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			{
 				return new SimpleDateFormat("");
 			}
-			else
-			{
-				return DateFormat.getTimeInstance(timeStyle[0], locale);
-			}
+
+			return DateFormat.getTimeInstance(timeStyle[0], locale);
 		}
-		else
+
+		if (timeStyle.length == 0)
 		{
-			if (timeStyle.length == 0)
-			{
-				return DateFormat.getDateInstance(dateStyle[0], locale);
-			}
-			else
-			{
-				return DateFormat.getDateTimeInstance(dateStyle[0], timeStyle[0], locale);
-			}
+			return DateFormat.getDateInstance(dateStyle[0], locale);
 		}
+
+		return DateFormat.getDateTimeInstance(dateStyle[0], timeStyle[0], locale);
 	}
 
 	/**

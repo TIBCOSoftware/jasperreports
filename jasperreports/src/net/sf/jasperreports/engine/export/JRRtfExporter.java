@@ -325,7 +325,7 @@ public class JRRtfExporter extends JRAbstractExporter
 						{
 							JRPrintText text = (JRPrintText)element;
 							for(int i = 0; i < text.getText().length(); i++ ){
-								if((int)(text.getText().charAt(i)) > 255){
+								if((text.getText().charAt(i)) > 255){
 									isUnicode = true;
 								}
 							}
@@ -554,7 +554,6 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Get border adjustment for graphic elements depending on pen width used
 	 * @param pen
-	 * @return
 	 */
 	protected int getAdjustment(byte pen)
 	{
@@ -754,10 +753,10 @@ public class JRRtfExporter extends JRAbstractExporter
 				verticalAdjustment = 0;
 				break;
 			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-				verticalAdjustment = (int) (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
+				verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
 				break;
 			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-				verticalAdjustment = (int) (height - topPadding - bottomPadding - twip(text.getTextHeight()));
+				verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight()));
 				break;
 		}
 
@@ -953,7 +952,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		boolean hasChanged = false;
 		for(int i = 0; i < source.length(); i++ ){
 			long tempChar = 0;
-			if( (tempChar = (long)source.charAt(i))> 255){
+			if( (tempChar = source.charAt(i))> 255){
 				if(Character.getDirectionality(source.charAt(i)) != directionality){
 					hasChanged = true;
 					retVal.insert(0, tempBuffer);
