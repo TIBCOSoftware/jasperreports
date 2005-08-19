@@ -66,7 +66,6 @@ public class TextApp
 	private static final String TASK_PDF = "pdf";
 	private static final String TASK_RTF = "rtf";
 	private static final String TASK_TEXT = "text";
-	private static final String TASK_CSV = "csv";
 
 	
 	/**
