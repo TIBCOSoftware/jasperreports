@@ -66,8 +66,6 @@ public class VirtualizerApp
 
 	private static final String TASK_PDF = "pdf";
 	
-	private static final String TASK_RTF = "rtf";
-
 	private static final String TASK_XML = "xml";
 
 	private static final String TASK_XML_EMBED = "xmlEmbed";
@@ -250,7 +248,7 @@ public class VirtualizerApp
 	{
 		System.out.println("VirtualizerApp usage:");
 		System.out.println("\tjava VirtualizerApp -Ttask -Ffile");
-		System.out.println("\tTasks : print | pdf | xml | xmlEmbed | html | xls | csv | export | view");
+		System.out.println("\tTasks : print | pdf | xml | xmlEmbed | html | csv | export | view");
 	}
 
 }

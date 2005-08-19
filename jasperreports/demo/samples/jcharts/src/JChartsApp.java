@@ -54,11 +54,10 @@ public class JChartsApp
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
-	private static final String TASK_RTF = "rtf";
-	
 	
 	/**
 	 *
@@ -211,7 +210,7 @@ public class JChartsApp
 	{
 		System.out.println( "JChartsApp usage:" );
 		System.out.println( "\tjava JChartsApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
 	}
 
 

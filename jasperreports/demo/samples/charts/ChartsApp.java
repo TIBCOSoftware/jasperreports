@@ -38,8 +38,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -56,7 +54,6 @@ public class ChartsApp
 	 */
 	private static final String TASK_FILL = "fill";
 	private static final String TASK_PDF = "pdf";
-	private static final String TASK_RTF = "rtf";
 	private static final String TASK_HTML = "html";
 	private static final String TASK_WRITE_XML = "writeXml";
 
@@ -118,29 +115,6 @@ public class ChartsApp
 					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
 				}
 
-				System.exit(0);
-			}
-			else if (TASK_RTF.equals(taskName))
-			{
-				for (int i = 0; i < reportNames.length; i++) {
-					long start = System.currentTimeMillis();
-					File sourceFile = new File(reportNames[i] + ".jrprint");
-		
-					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
-				
-					JRRtfExporter exporter = new JRRtfExporter();
-				
-					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
-					exporter.exportReport();
-					
-					System.err.println("RTF "+ reportNames[i] + " creation time : " + (System.currentTimeMillis() - start));
-				}
-
-				
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))

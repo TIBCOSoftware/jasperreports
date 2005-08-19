@@ -220,6 +220,6 @@ public class XmlDataSourceApp
 	{
 		System.out.println( "XmlDataSourceApp usage:" );
 		System.out.println( "\tjava XmlDataSourceApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf |xls | csv | run" );
 	}
 }

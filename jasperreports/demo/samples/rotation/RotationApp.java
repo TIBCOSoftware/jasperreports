@@ -58,6 +58,7 @@ public class RotationApp
 	private static final String TASK_XML = "xml";
 	private static final String TASK_XML_EMBED = "xmlEmbed";
 	private static final String TASK_HTML = "html";
+	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
@@ -125,6 +126,24 @@ public class RotationApp
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_RTF.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+				
+				JRRtfExporter exporter = new JRRtfExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
@@ -196,7 +215,7 @@ public class RotationApp
 	{
 		System.out.println( "RotationApp usage:" );
 		System.out.println( "\tjava RotationApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
 	}
 
 
