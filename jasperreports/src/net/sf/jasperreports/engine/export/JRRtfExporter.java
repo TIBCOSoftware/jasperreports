@@ -672,13 +672,8 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
-		
-		if (text.getMode() == JRElement.MODE_OPAQUE)
-		{
-			startGraphic("dprect", x, y, width, height);
-			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text
-					.getBackcolor(), 1);
-		}
+
+		int textBoxAdjustment = 20;
 		
 		// padding for the text
 		int topPadding = 0;
@@ -695,57 +690,15 @@ public class JRRtfExporter extends JRAbstractExporter
 			leftPadding = twip(text.getBox().getLeftPadding());
 			bottomPadding = twip(text.getBox().getBottomPadding());
 			rightPadding = twip(text.getBox().getRightPadding());
-			
-			JRBox box = text.getBox();
-			Color fg = text.getForecolor();
-			Color bg = text.getBackcolor();
-			
-			if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
-				Color bc = box.getTopBorderColor();
-				byte pen = box.getTopBorder();
-				
-				int a = getAdjustment(box.getTopBorder());
-				if (bc == null) {
-					bc = fg;
-				}
-				startGraphic("dpline", x, y + a, width, 0);
-				finishGraphic(pen, fg, bg, 1);
-			}
-			
-			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
-			{
-				Color bc = box.getLeftBorderColor();
-				byte pen = box.getLeftBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x + a, y, 0, height);
-				finishGraphic(pen, fg, bg, 1);
-			}
-		
-			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
-			{
-				
-				Color bc = box.getBottomBorderColor();
-				byte pen = box.getBottomBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x, y + height - a, width, 0);
-				finishGraphic(pen, fg, bg, 1);
-			}
-			
-			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
-			{
-				Color bc = box.getRightBorderColor();
-				byte pen = box.getRightBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x + width - a, y, 0, height);
-				finishGraphic(pen, fg, bg, 1);
-			}	
 		}
+		
+		if (text.getMode() == JRElement.MODE_OPAQUE)
+		{
+			startGraphic("dprect", x, y, width, height);
+			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text
+					.getBackcolor(), 1);
+		}
+		
 		int verticalAdjustment = topPadding;
 		switch (text.getVerticalAlignment())
 		{
@@ -777,10 +730,10 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage");
 			writer.write("\\dodhgt" + (zorder++));
 			writer.write("\\dptxbx");
-			writer.write("\\dpx" + (x + leftPadding + 20));
-			writer.write("\\dpxsize" + (width - rightPadding - 20));
-			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + 20));
-			writer.write("\\dpysize" + (textHeight - bottomPadding - 20));
+			writer.write("\\dpx" + (x + textBoxAdjustment));
+			writer.write("\\dpxsize" + (width - textBoxAdjustment));
+			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + textBoxAdjustment));
+			writer.write("\\dpysize" + (textHeight - bottomPadding - textBoxAdjustment));
 			writer.write("\\dpfillpat0"); 
 			writer.write("\\dplinehollow");
 			writer.write("{\\dptxbxtext ");
@@ -932,8 +885,9 @@ public class JRRtfExporter extends JRAbstractExporter
 		else {
 			writer.write("\\par}}}\n");
 		}
-		
-		
+		if(text.getBox() != null){
+			exportBox(text.getBox(), x, y, width, height, text.getForecolor(), text.getBackcolor());
+		}	
 	}
 	
 	
@@ -1193,54 +1147,68 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			JRBox box = printImage.getBox();
-			Color fg = printImage.getForecolor();
-			Color bg = printImage.getBackcolor();
-			if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
-				Color bc = box.getTopBorderColor();
-				byte pen = box.getTopBorder();
-				
-				int a = getAdjustment(box.getTopBorder());
-				if (bc == null) {
-					bc = fg;
-				}
-				startGraphic("dpline", x, y + a, width, 0);
-				finishGraphic(pen, fg, bg, 1);
-				
+			exportBox(printImage.getBox(), x, y, width, height, printImage.getForecolor(), printImage.getBackcolor());
+		}
+	}
+	
+	/**
+	 * 
+	 * @param box
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param fg
+	 * @param bg
+	 * @throws IOException
+	 */
+	private void exportBox(JRBox box, int x, int y, int width, int height, Color fg, Color bg) throws IOException{
+		;
+		
+		if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
+			Color bc = box.getTopBorderColor();
+			byte pen = box.getTopBorder();
+			
+			int a = getAdjustment(box.getTopBorder());
+			if (bc == null) {
+				bc = fg;
 			}
-			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
-			{
-				Color bc = box.getLeftBorderColor();
-				byte pen = box.getLeftBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x + a, y, 0, height);
-				finishGraphic(pen, fg, bg, 1);
+			startGraphic("dpline", x, y + a, width, 0);
+			finishGraphic(pen, fg, bg, 1);
+			
+		}
+		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getLeftBorderColor();
+			byte pen = box.getLeftBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x + a, y, 0, height);
+			finishGraphic(pen, fg, bg, 1);
 
-			}
+		}
 
-			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
-			{
-				Color bc = box.getBottomBorderColor();
-				byte pen = box.getBottomBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x, y + height - a, width, 0);
-				finishGraphic(pen, fg, bg, 1);
-			}
+		if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getBottomBorderColor();
+			byte pen = box.getBottomBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x, y + height - a, width, 0);
+			finishGraphic(pen, fg, bg, 1);
+		}
 
-			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
-			{
-				Color bc = box.getRightBorderColor();
-				byte pen = box.getRightBorder();
-				int a = getAdjustment(pen);
-				if (bc == null)
-					bc = fg;
-				startGraphic("dpline", x + width - a, y, 0, height);
-				finishGraphic(pen, fg, bg, 1);
-			}
+		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Color bc = box.getRightBorderColor();
+			byte pen = box.getRightBorder();
+			int a = getAdjustment(pen);
+			if (bc == null)
+				bc = fg;
+			startGraphic("dpline", x + width - a, y, 0, height);
+			finishGraphic(pen, fg, bg, 1);
 		}
 	}
 }
