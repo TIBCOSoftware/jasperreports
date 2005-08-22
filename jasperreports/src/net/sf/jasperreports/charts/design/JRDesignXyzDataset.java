@@ -56,18 +56,38 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	}
 
 
-	public JRXyzSeries[] getSeries(){
+	/**
+	 * 
+	 */
+	public JRXyzSeries[] getSeries()
+	{
 		JRXyzSeries[] xyzSeriesArray = new JRXyzSeries[ xyzSeriesList.size() ];
 		xyzSeriesList.toArray( xyzSeriesArray );
 		
 		return xyzSeriesArray;
 	}
 	
-	public void addXyzSeries( JRXyzSeries xyzSeries ) {
+	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return xyzSeriesList;
+	}
+
+	/**
+	 * 
+	 */
+	public void addXyzSeries( JRXyzSeries xyzSeries ) 
+	{
 		xyzSeriesList.add( xyzSeries );
 	}
 	
-	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) {
+	/**
+	 * 
+	 */
+	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) 
+	{
 		if( xyzSeries != null ){
 			xyzSeriesList.remove( xyzSeries );
 		}
@@ -75,14 +95,12 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 		return xyzSeries;
 	}
 	
-
 	/** 
 	 * 
 	 */
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
 	}
-	
 	
 	/**
 	 *

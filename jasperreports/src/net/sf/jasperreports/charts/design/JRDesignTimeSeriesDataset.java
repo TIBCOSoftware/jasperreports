@@ -50,42 +50,76 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	private List timeSeriesList = new ArrayList();
 	private Class timePeriod = null;
 	
-	public JRDesignTimeSeriesDataset( JRChartDataset dataset ){
+
+	/**
+	 * 
+	 */
+	public JRDesignTimeSeriesDataset( JRChartDataset dataset )
+	{
 		super( dataset );
 	}
 
-	public JRTimeSeries[] getSeries(){
+	/**
+	 * 
+	 */
+	public JRTimeSeries[] getSeries()
+	{
 		JRTimeSeries[] timeSeriesArray = new JRTimeSeries[ timeSeriesList.size() ];
 		timeSeriesList.toArray( timeSeriesArray );
 		
 		return timeSeriesArray;
 	}
 	
-	public void addTimeSeries( JRTimeSeries timeSeries ) {
+	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return timeSeriesList;
+	}
+
+	/**
+	 * 
+	 */
+	public void addTimeSeries( JRTimeSeries timeSeries ) 
+	{
 		timeSeriesList.add( timeSeries );
 	}
 	
-	public JRTimeSeries removeTimeSeries( JRTimeSeries timeSeries ) {
-		if( timeSeries != null && timeSeriesList.contains( timeSeries )){
+	/**
+	 * 
+	 */
+	public JRTimeSeries removeTimeSeries( JRTimeSeries timeSeries ) 
+	{
+		if( timeSeries != null && timeSeriesList.contains( timeSeries ))
+		{
 			timeSeriesList.remove( timeSeries );
 		}
 		
 		return timeSeries;
 	}
 
-
-	public Class getTimePeriod() {
+	/**
+	 * 
+	 */
+	public Class getTimePeriod() 
+	{
 		return timePeriod;
 	}
 	
-	public void setTimePeriod( Class timePeriod ){
+	/**
+	 * 
+	 */
+	public void setTimePeriod( Class timePeriod )
+	{
 		this.timePeriod = timePeriod;
 	}
 
 	/** 
 	 * 
 	 */
-	public byte getDatasetType() {
+	public byte getDatasetType() 
+	{
 		return JRChartDataset.TIMESERIES_DATASET;
 	}
 	

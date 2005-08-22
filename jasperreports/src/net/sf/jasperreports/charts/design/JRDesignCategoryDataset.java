@@ -77,6 +77,15 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	
 
 	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return categorySeriesList;
+	}
+
+	
+	/**
 	 *
 	 */
 	public void addCategorySeries(JRCategorySeries categorySeries)
