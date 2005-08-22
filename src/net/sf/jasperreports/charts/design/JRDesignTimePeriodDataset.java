@@ -49,23 +49,49 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	
 	private List timePeriodSeriesList = new ArrayList();
 	
-	public JRDesignTimePeriodDataset( JRChartDataset dataset ){
+
+	/**
+	 * 
+	 */
+	public JRDesignTimePeriodDataset(JRChartDataset dataset)
+	{
 		super( dataset );
 	}
 	
-	public JRTimePeriodSeries[] getSeries(){
-		JRTimePeriodSeries[] timePeriodSeriesArray = new JRTimePeriodSeries[ timePeriodSeriesList.size() ];
-		timePeriodSeriesList.toArray( timePeriodSeriesArray );
+	/**
+	 * 
+	 */
+	public JRTimePeriodSeries[] getSeries()
+	{
+		JRTimePeriodSeries[] timePeriodSeriesArray = new JRTimePeriodSeries[timePeriodSeriesList.size()];
+		timePeriodSeriesList.toArray(timePeriodSeriesArray);
 		
 		return timePeriodSeriesArray;
 	}
 	
-	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) {
-		timePeriodSeriesList.add( timePeriodSeries );
+	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return timePeriodSeriesList;
+	}
+
+	/**
+	 * 
+	 */
+	public void addTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ) 
+	{
+		timePeriodSeriesList.add(timePeriodSeries);
 	}
 	
-	public JRTimePeriodSeries removeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
-		if( timePeriodSeries != null && timePeriodSeriesList.contains( timePeriodSeries )){
+	/**
+	 * 
+	 */
+	public JRTimePeriodSeries removeTimePeriodSeries(JRTimePeriodSeries timePeriodSeries)
+	{
+		if( timePeriodSeries != null && timePeriodSeriesList.contains( timePeriodSeries ))
+		{
 			timePeriodSeriesList.remove( timePeriodSeries );
 		}
 		
@@ -75,7 +101,8 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	/** 
 	 * 
 	 */
-	public byte getDatasetType() {
+	public byte getDatasetType() 
+	{
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 	

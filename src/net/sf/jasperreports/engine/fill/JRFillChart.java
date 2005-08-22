@@ -1098,9 +1098,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		configureChart(chart, evaluation);
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)chart.getPlot()).getRenderer();
 
-		JRScatterPlot plot = (JRScatterPlot) getPlot();
-		plotRenderer.setLinesVisible(plot.isShowLines());
-		plotRenderer.setShapesVisible(plot.isShowShapes());
+		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
+		plotRenderer.setLinesVisible(scatterPlot.isShowLines());
+		plotRenderer.setShapesVisible(scatterPlot.isShowShapes());
 
 		renderer = new JCommonDrawableRenderer( chart );
 	}
