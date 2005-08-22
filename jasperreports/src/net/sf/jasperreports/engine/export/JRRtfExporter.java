@@ -250,7 +250,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					page = (JRPrintPage)pages.get(pageIndex);
 					
 					boolean lastPageFlag = false;
-					if(pageIndex == endPageIndex ){
+					if(pageIndex == endPageIndex && reportIndex == (jasperPrintList.size() - 1)){
 						lastPageFlag = true;
 					}
 					exportPage(page, lastPageFlag);
