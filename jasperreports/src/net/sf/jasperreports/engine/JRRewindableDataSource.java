@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * This interface represents a data source which can go back to the first element.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,7 +38,7 @@ public interface JRRewindableDataSource extends JRDataSource
 
 
 	/**
-	 *
+	 * Moves back to the first element in the data source.
 	 */
 	public void moveFirst() throws JRException;
 

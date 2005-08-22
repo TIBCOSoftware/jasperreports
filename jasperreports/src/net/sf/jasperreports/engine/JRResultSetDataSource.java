@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
+ * An implementation of a data source that uses a supplied <tt>ResultSet</tt>.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

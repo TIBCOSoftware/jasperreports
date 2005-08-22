@@ -32,6 +32,7 @@ import java.io.PrintWriter;
 
 
 /**
+ * General purpose JasperReports exception.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

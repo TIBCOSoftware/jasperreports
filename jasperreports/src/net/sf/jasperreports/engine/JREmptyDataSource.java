@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * A simple data source implementation that simulates a data source with a given number of virtual records inside.
+ * It is called empty data source because even though it has one or more records inside, all the report fields
+ * are null for all the virtual records of the data source.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

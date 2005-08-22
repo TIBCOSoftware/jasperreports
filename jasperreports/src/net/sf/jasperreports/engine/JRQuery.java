@@ -29,6 +29,11 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * Represents an SQL query used for generation of report data. When using the default SQL connection data source,
+ * an SQL query must also be provided for JasperReports to automatically retrieve the data.
+ * <p>
+ * A very important aspect is that column names in the result set obtained from the query must match the field names
+ * defined in the report template.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -42,7 +47,7 @@ public interface JRQuery
 	public JRQueryChunk[] getChunks();
 
 	/**
-	 *
+	 * Returns the query string.
 	 */
 	public String getText();
 	

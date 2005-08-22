@@ -37,14 +37,36 @@ public interface JRExpression
 
 
 	/**
-	 *
+	 * A constant specifying that an expression should be evaluated at the exact moment in the filling process
+	 * when it is encountered.
 	 */
 	public static final byte EVALUATION_TIME_NOW = 1;
+
+
+	/**
+	 * A constant specifying that an expression should be evaluated at the end of the filling process.
+	 */
 	public static final byte EVALUATION_TIME_REPORT = 2;
+
+
+	/**
+	 * A constant specifying that an expression should be evaluated after each page is filled.
+	 */
 	public static final byte EVALUATION_TIME_PAGE = 3;
+
+
+	/**
+	 * A constant specifying that an expression should be evaluated after each column is filled.
+	 */
 	public static final byte EVALUATION_TIME_COLUMN = 4;
+
+
+	/**
+	 * A constant specifying that an expression should be evaluated after each group break.
+	 */
 	public static final byte EVALUATION_TIME_GROUP = 5;
-	
+
+
 	/**
 	 * The element will be evaluated at band end.
 	 */
@@ -60,12 +82,12 @@ public interface JRExpression
 
 
 	/**
-	 *
+	 * Returns the expression return value class.
 	 */
 	public Class getValueClass();
 	
 	/**
-	 *
+	 * Returns the expression return value class.
 	 */
 	public String getValueClassName();
 	
