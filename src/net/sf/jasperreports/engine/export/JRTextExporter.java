@@ -437,7 +437,7 @@ public class JRTextExporter extends JRAbstractExporter
 		String[] words = new String[tokenCount];
 		int i = 0;
 		while (t.hasMoreTokens())
-			words[i++] = new String(t.nextToken());
+			words[i++] = t.nextToken();
 
 		int emptySpace = width - s.length() + (words.length - 1);
 		int spaceCount = emptySpace / (words.length - 1);
