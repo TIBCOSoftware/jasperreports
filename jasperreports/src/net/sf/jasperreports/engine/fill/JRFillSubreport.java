@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -89,6 +90,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private Connection connection = null;
 	private JRDataSource dataSource = null;
 	private JasperReport jasperReport = null;
+	private JRCalculator calculator = null;
 	
 	/**
 	 * Values to be copied from the subreport.
@@ -203,7 +205,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 
 	/**
 	 *
-	 */
+	 *
 	protected JasperReport getJasperReport()
 	{
 		return jasperReport;
@@ -211,7 +213,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		
 	/**
 	 *
-	 */
+	 *
 	protected void setJasperReport(JasperReport jasperReport)
 	{
 		this.jasperReport = jasperReport;
@@ -299,23 +301,26 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				
 				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
 				{
-					JasperReport jrReport = (JasperReport)source;
-					setJasperReport(jrReport);
+					jasperReport = (JasperReport)source;
+					calculator = null;
 				}
 				else if (expressionClass.equals(java.io.InputStream.class))
 				{
 					InputStream is = (InputStream)source;
-					setJasperReport((JasperReport)JRLoader.loadObject(is));
+					jasperReport = (JasperReport)JRLoader.loadObject(is);
+					calculator = null;
 				}
 				else if (expressionClass.equals(java.net.URL.class))
 				{
 					URL url = (URL)source;
-					setJasperReport((JasperReport)JRLoader.loadObject(url));
+					jasperReport = (JasperReport)JRLoader.loadObject(url);
+					calculator = null;
 				}
 				else if (expressionClass.equals(java.io.File.class))
 				{
 					File file = (File)source;
-					setJasperReport((JasperReport)JRLoader.loadObject(file));
+					jasperReport = (JasperReport)JRLoader.loadObject(file);
+					calculator = null;
 				}
 				else if (expressionClass.equals(java.lang.String.class))
 				{
@@ -324,20 +329,21 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					{
 						if ( filler.loadedSubreports.containsKey(location) )
 						{
-							setJasperReport(
-								(JasperReport)filler.loadedSubreports.get(location)
-								);
+							jasperReport = (JasperReport)filler.loadedSubreports.get(location);
+							calculator = (JRCalculator)filler.loadedCalculators.get(jasperReport);
 						}
 						else
 						{
-							JasperReport jrReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
-							setJasperReport(jrReport);
-							filler.loadedSubreports.put(location, jrReport);
+							jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
+							calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+							filler.loadedSubreports.put(location, jasperReport);
+							filler.loadedCalculators.put(jasperReport, calculator);
 						}
 					}
 					else
 					{
-						setJasperReport((JasperReport)JRLoader.loadObjectFromLocation(location));
+						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
+						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
 					}
 				}
 				
@@ -402,12 +408,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					{
 						case JRReport.PRINT_ORDER_HORIZONTAL :
 						{
-							subreportFiller = new JRHorizontalFiller(jasperReport, filler);
+							subreportFiller = new JRHorizontalFiller(jasperReport, calculator, filler);
 							break;
 						}
 						case JRReport.PRINT_ORDER_VERTICAL :
 						{
-							subreportFiller = new JRVerticalFiller(jasperReport, filler);
+							subreportFiller = new JRVerticalFiller(jasperReport, calculator, filler);
 							break;
 						}
 					}

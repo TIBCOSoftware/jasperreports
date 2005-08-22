@@ -124,7 +124,7 @@ public class JasperCompileManager
 		String destFileName
 		) throws JRException
 	{
-		JasperReport jasperReport = new JRDefaultCompiler().compileReport(jasperDesign);
+		JasperReport jasperReport = JRDefaultCompiler.getInstance().compileReport(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, destFileName);
 	}
@@ -177,7 +177,7 @@ public class JasperCompileManager
 		OutputStream outputStream
 		) throws JRException
 	{
-		JasperReport jasperReport = new JRDefaultCompiler().compileReport(jasperDesign);
+		JasperReport jasperReport = JRDefaultCompiler.getInstance().compileReport(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, outputStream);
 	}
@@ -208,7 +208,7 @@ public class JasperCompileManager
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
-		return new JRDefaultCompiler().compileReport(jasperDesign);
+		return JRDefaultCompiler.getInstance().compileReport(jasperDesign);
 	}
 
 
