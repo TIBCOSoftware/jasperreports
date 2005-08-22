@@ -354,7 +354,7 @@
 >
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
-<!ELEMENT xyDataset (dataset?, (categorySeries* | xySeries*))>
+<!ELEMENT xyDataset (dataset?, xySeries*)>
 <!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
