@@ -75,7 +75,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	protected JRHorizontalFiller(JasperReport jasperReport) throws JRException
 	{
-		this(jasperReport, null);
+		this(jasperReport, null, null);
 	}
 
 	/**
@@ -83,7 +83,17 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	protected JRHorizontalFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
 	{
-		super(jasperReport, parentFiller);
+		super(jasperReport, null, parentFiller);
+
+		setPageHeight(pageHeight);
+	}
+
+	/**
+	 *
+	 */
+	protected JRHorizontalFiller(JasperReport jasperReport, JRCalculator calculator, JRBaseFiller parentFiller) throws JRException
+	{
+		super(jasperReport, calculator, parentFiller);
 
 		setPageHeight(pageHeight);
 	}

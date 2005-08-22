@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -363,6 +364,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected List formattedTextFields = new ArrayList();
 
 	protected Map loadedSubreports = null;
+	protected Map loadedCalculators = null;
 
 	protected JRFillContext fillContext;
 	
@@ -457,7 +459,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 * 
 	 */
-	protected JRBaseFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
+	protected JRBaseFiller(JasperReport jasperReport, JRCalculator initCalculator, JRBaseFiller parentFiller) throws JRException
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 
@@ -591,7 +593,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
 
 		/*   */
-		calculator = new JRDefaultCompiler().loadCalculator(jasperReport);
+		if (initCalculator == null)
+		{
+			calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+		}
+		else
+		{
+			calculator = initCalculator;
+		}
 
 		calculator.init(this);
 
@@ -892,6 +901,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 
 			loadedSubreports = new HashMap();
+			loadedCalculators = new HashMap();
 
 			if (!fillContext.isPerPageBoundElements())
 			{

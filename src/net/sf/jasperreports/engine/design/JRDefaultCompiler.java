@@ -38,10 +38,33 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDefaultCompiler implements JRCompiler
+public final class JRDefaultCompiler implements JRCompiler
 {
 
 
+	/**
+	 *
+	 */
+	private static final JRDefaultCompiler instance = new JRDefaultCompiler();
+
+		
+	/**
+	 *
+	 */
+	private JRDefaultCompiler()
+	{
+	}
+
+		
+	/**
+	 *
+	 */
+	public static JRDefaultCompiler getInstance()
+	{
+		return instance;
+	}
+
+		
 	/**
 	 *
 	 */

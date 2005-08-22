@@ -72,7 +72,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	protected JRVerticalFiller(JasperReport jasperReport) throws JRException
 	{
-		this(jasperReport, null);
+		this(jasperReport, null, null);
 	}
 
 	/**
@@ -80,7 +80,17 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	protected JRVerticalFiller(JasperReport jasperReport, JRBaseFiller parentFiller) throws JRException
 	{
-		super(jasperReport, parentFiller);
+		super(jasperReport, null, parentFiller);
+
+		setPageHeight(pageHeight);
+	}
+
+	/**
+	 *
+	 */
+	protected JRVerticalFiller(JasperReport jasperReport, JRCalculator calculator, JRBaseFiller parentFiller) throws JRException
+	{
+		super(jasperReport, calculator, parentFiller);
 
 		setPageHeight(pageHeight);
 	}
