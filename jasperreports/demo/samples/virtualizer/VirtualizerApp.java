@@ -131,9 +131,6 @@ public class VirtualizerApp
 			{
 				exportPDF(outFileName, jasperPrint);
 			}
-			else if (TASK_RTF.equals(taskName)){
-				exportRTF(outFileName, jasperPrint);
-			}
 			else if (TASK_XML.equals(taskName))
 			{
 				exportXML(outFileName, jasperPrint, false);
@@ -153,7 +150,6 @@ public class VirtualizerApp
 			else if (TASK_EXPORT.equals(taskName))
 			{
 				exportPDF(outFileName + ".pdf", jasperPrint);
-				exportRTF(outFileName + ".rtf", jasperPrint);
 				exportXML(outFileName + ".jrpxml", jasperPrint, false);
 				exportHTML(outFileName + ".html", jasperPrint);
 				exportCSV(outFileName + ".csv", jasperPrint);				
@@ -214,16 +210,7 @@ public class VirtualizerApp
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
-	private static void exportRTF(String outFileName, JasperPrint jasperPrint) throws JRException {
-		long start = System.currentTimeMillis();
-		JRRtfExporter exporter = new JRRtfExporter();
 
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileName);
-
-		exporter.exportReport();
-		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-	}
 
 	private static JasperPrint fillReport(String fileName, JRDataSource dataSource, JRFileVirtualizer virtualizer) throws JRException, ClassNotFoundException, SQLException
 	{

@@ -131,7 +131,6 @@
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
-			<fileset dir="." includes="**/*.rtf" />
 			<fileset dir="tmp" includes="virt*" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
