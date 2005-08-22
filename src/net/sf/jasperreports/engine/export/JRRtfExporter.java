@@ -93,12 +93,17 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	protected int reportIndex = 0;
 	
+	// temporaray list of fonts and colors to be
+	// added to the header or the document
 	StringBuffer colorBuffer = null;
 	StringBuffer fontBuffer = null;
 	protected List colors = null;
 	protected List fonts = null;
 
+	// z order of the graphical objects in .rtf file
 	int zorder = 1;
+	
+	// indicate that report containts Unicode characters with code > 255
 	boolean isUnicode = false;
 	
 	
@@ -200,7 +205,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected void exportReportToStream() throws JRException, IOException {
 		
+		// create the header of the rtf file 
 		writer.write("{\\rtf1\\ansi\\deff0\n");
+		// create font and color tables
 		createColorAndFontEntries();
 		writer.write("{\\fonttbl ");
 		writer.write(fontBuffer.toString()); 
@@ -238,7 +245,6 @@ public class JRRtfExporter extends JRAbstractExporter
 					writer.write("\\lndscpsxn");
 				}
 				
-
 				
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
 					writer.write("\n");
@@ -258,12 +264,11 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		writer.write("}\n");
 		writer.flush();
-		
 	}
 	
 	
 	/**
-	 * Export report in .rtf format to a file
+	 * Export report to a file in the .rtf format 
 	 */
 	protected void exportReportToFile() throws JRException {
 		try {
@@ -288,7 +293,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * Create color and font entries for the header of .rtf file
+	 * Create color and font entries for the header of .rtf file. 
+	 * Each color is represented by values of the red, 
+	 * green and blue components. 
 	 * @throws JRException
 	 */
 	protected void createColorAndFontEntries() throws JRException {
@@ -350,8 +357,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * Return color index from header of the .rtf file
-	 * @param color Color for which the index is required
+	 * Return color index from header of the .rtf file. If a color is not 
+	 * found is automatically added to the header of the rtf file. The
+	 * method is called first when the header of the .rtf file is constructed
+	 * and when a componenent needs a color for foreground or background
+	 * @param color Color for which the index is required. 
 	 * @return index of the color from .rtf file header
 	 */
 	private int getColorIndex(Color color)
@@ -371,7 +381,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * Return font index from the header of the .rtf file
+	 * Return font index from the header of the .rtf file. The method is
+	 * called first when the header of the .rtf document is constructed and when a
+	 * text component needs font informations.
 	 * @param font Font for which the index is required
 	 * @return index of the fornt from .rtf file header
 	 */
@@ -458,7 +470,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * Add RTF markup for a graphic element
+	 * Add a graphic element to the .rtf document
 	 * @param type Type of the graphic element
 	 * @param x x axis position of the graphic element
 	 * @param y y axis position of the graphic 
@@ -480,8 +492,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * Add RTF markup for the end of a graphic element
-	 * @param element Element to be closed
+	 * Add document control words that marks the end of a graphic element
+	 * @param element Graphic element
 	 * @throws IOException
 	 */
 	private void finishGraphic(JRPrintGraphicElement element) throws IOException {
@@ -497,7 +509,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * Add RTF markup for the end of the graphic element
+	 * Add document control words that marks the end of a graphic element
 	 * @param pen pen dimension
 	 * @param fg foreground color
 	 * @param bg background color
@@ -713,7 +725,12 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		
 		JRFont font = text.getFont();
-		
+		/* 
+		 rtf text box does not allow unicode characters
+		 representation so if the report contains
+		 unicode characters above 255 the text box
+		 is replaced by paragraphs
+		 */
 		if(isUnicode) {
 			writer.write("{\\pard");
 			writer.write("\\absw" + (width));
@@ -789,7 +806,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		writer.write(" ");
 
-		// styled text
+		// add parameters in case of styled text element
 		String plainText = styledText.getText();
 		int runLimit = 0;
 
@@ -829,10 +846,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			int fontSize = styleFont.getSize();
 
 			writer.write("\\fs" + (2 * fontSize) + " ");
-			/*
-			 * buf.append("\\cf").append(getColorIndex(styleForeground));
-			 * buf.append("\\cb").append(getColorIndex(styleBackground));
-			 */
+
 			if (isBold)
 			{
 				writer.write("\\b ");
@@ -869,7 +883,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			result.append(str.substring(s));
 			
 			writer.write(handleUnicodeText(result));
-	
+			
+			// reset all styles in the paragraph
 			writer.write("\\plain");
 
 			iterator.setIndex(runLimit);
@@ -888,8 +903,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * If the text contains Unicode characters this function will replace
-	 * them with RTF Unicode markups
+	 * Replace Unicode characters with RTF Unicode control words
 	 * @param source source text
 	 * @return text with Unicode charaters replaced 
 	 */
@@ -911,8 +925,6 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 				else {
 					tempBuffer.append("\\u" + tempChar + '?');
-					
-					
 				}
 			}
 			else {
@@ -927,7 +939,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			else {
 				retVal.append(tempBuffer);
 			}
-			
 		}
 		return retVal.toString();
 	}
@@ -1080,18 +1091,6 @@ public class JRRtfExporter extends JRAbstractExporter
 					break;
 				}
 			}
-
-			/*writer.write("{\\pard\\fs0\\phpg\\pvpg");
-			writer.write("\\posx");
-			writer.write(twip(printImage.getX() + leftPadding + globalOffsetX) + "");
-			writer.write("\\posy");
-			writer.write(twip(printImage.getY() + topPadding + globalOffsetY) + "");
-			writer.write("{\\pict\\jpegblip");
-			writer.write("\\picwgoal");
-			writer.write(twip(availableImageWidth) + "");
-			writer.write("\\pichgoal");
-			writer.write(twip(availableImageHeight) + "");
-			writer.write("\n");*/
 			
 			writer.write("{\\*\\do\\dobxpage\\dobypage");
 			writer.write("\\dodhgt" + (zorder++));
@@ -1147,8 +1146,9 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 	}
 	
+	
 	/**
-	 * 
+	 * Exports a JRBox that represents the border of a JasperReports object
 	 * @param box
 	 * @param x
 	 * @param y
