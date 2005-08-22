@@ -236,7 +236,7 @@
 
 <!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, returnValue*, subreportExpression?)>
 <!ATTLIST subreport
-	isUsingCache (true | false) "true"
+	isUsingCache (true | false) #IMPLIED
 >
 <!ELEMENT parametersMapExpression (#PCDATA)>
 <!ELEMENT subreportParameter (subreportParameterExpression?)>

@@ -1634,10 +1634,10 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t<subreport");
 
-		if (!subreport.isUsingCache())
+		if (subreport.isOwnUsingCache() != null)
 		{
 			sb.append(" isUsingCache=\"");
-			sb.append(subreport.isUsingCache());
+			sb.append(subreport.isOwnUsingCache());
 			sb.append("\"");
 		}
 

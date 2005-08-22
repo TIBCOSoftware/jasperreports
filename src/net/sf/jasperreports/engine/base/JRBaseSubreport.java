@@ -53,7 +53,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected boolean isUsingCache = true;
+	protected Boolean isUsingCache = null;
 
 	/**
 	 *
@@ -88,7 +88,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	{
 		super(subreport, factory);
 		
-		isUsingCache = subreport.isUsingCache();
+		isUsingCache = subreport.isOwnUsingCache();
 
 		parametersMapExpression = factory.getExpression(subreport.getParametersMapExpression());
 
@@ -125,7 +125,16 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 */
 	public boolean isUsingCache()
 	{
-		return this.isUsingCache;
+		if (isUsingCache == null)
+		{
+			JRExpression subreportExpression = getExpression();
+			if (subreportExpression != null)
+			{
+				return String.class.getName().equals(subreportExpression.getValueClassName());
+			}
+			return true;
+		}
+		return isUsingCache.booleanValue();
 	}
 
 
@@ -134,7 +143,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{
-		this.isUsingCache = isUsingCache;
+		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 
@@ -215,6 +224,18 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		return this.returnValues;
+	}
+
+
+	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+
+	public void setUsingCache(Boolean isUsingCache)
+	{
+		this.isUsingCache = isUsingCache;
 	}
 
 
