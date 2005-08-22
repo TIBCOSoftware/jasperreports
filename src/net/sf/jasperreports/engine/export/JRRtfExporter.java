@@ -97,8 +97,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	StringBuffer fontBuffer = null;
 	protected List colors = null;
 	protected List fonts = null;
-	
-	
+
 	int zorder = 1;
 	boolean isUnicode = false;
 	
