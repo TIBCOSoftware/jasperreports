@@ -243,9 +243,6 @@ public class JRRtfExporter extends JRAbstractExporter
 				
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
 					writer.write("\n");
-					/*if(pageIndex != startPageIndex) {
-						writer.write("{\\pard\\pagebb\\par}\n");
-					}*/
 					if(Thread.currentThread().isInterrupted()){
 						throw new JRException("Current thread intrerrupted");
 					}
@@ -534,8 +531,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		
 		writer.write("\\dplinecor" + fg.getRed());
-		writer.write("\\dplinecorb" + fg.getBlue());
-		writer.write("\\dplinecorg" + fg.getGreen());
+		writer.write("\\dplinecob" + fg.getBlue());
+		writer.write("\\dplinecog" + fg.getGreen());
 		
 		writer.write("\\dpfillfgcr" + fg.getRed());
 		writer.write("\\dplinefgcb" + fg.getBlue());
