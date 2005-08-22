@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine;
 
 
 /**
+ * An abstract representation of a report level font. Report fonts are different from normal fonts because they can
+ * be defined once at report level and then simply referenced by many text elements (they can be reused).
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,12 +39,12 @@ public interface JRReportFont extends JRFont
 
 
 	/**
-	 *
+	 * Gets the font unique name.
 	 */
 	public String getName();
 	
 	/**
-	 *
+	 * Gets a flag that specifies if this is the default report font.
 	 */
 	public boolean isDefault();
 	

@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine;
 
 /**
  * An abstract representation of a graphic element representing an ellipse.
-
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

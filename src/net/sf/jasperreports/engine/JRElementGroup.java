@@ -31,6 +31,9 @@ import java.util.List;
 
 
 /**
+ * Groups several report elements. Report elements placed in any report section can be arranged in multiple
+ * nested groups. The only reason you might have for grouping your elements is to be able to customize the
+ * stretch behavior of the report elements.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -39,23 +42,24 @@ public interface JRElementGroup extends JRChild
 
 
 	/**
-	 *
+	 * Gets a list of all direct children elements or elements groups.
 	 */
 	public List getChildren();
 
 	/**
-	 *
+	 * Gets the parent element group.
+	 * @return an instance of this class, or null if this is the root group.
 	 */
 	public JRElementGroup getElementGroup();
 
 	/**
-	 *
+	 * Gets an array containing all the elements and element groups in the hierarchy.
 	 */
 	public JRElement[] getElements();
 
 
 	/**
-	 *
+	 * Gets an element from this group, based on its element key.
 	 */
 	public JRElement getElementByKey(String key);
 
