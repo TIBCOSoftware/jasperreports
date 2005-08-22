@@ -297,53 +297,49 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			Object source = filler.calculator.evaluate(expression, evaluation);
 			if (source != null) // FIXME put some default broken image like in browsers
 			{
-				Class expressionClass = expression.getValueClass();
-				
-				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
+				if (isUsingCache() && filler.loadedSubreports.containsKey(source))
 				{
-					jasperReport = (JasperReport)source;
-					calculator = null;
+					jasperReport = (JasperReport)filler.loadedSubreports.get(source);
+					calculator = (JRCalculator)filler.loadedCalculators.get(jasperReport);
 				}
-				else if (expressionClass.equals(java.io.InputStream.class))
+				else
 				{
-					InputStream is = (InputStream)source;
-					jasperReport = (JasperReport)JRLoader.loadObject(is);
-					calculator = null;
-				}
-				else if (expressionClass.equals(java.net.URL.class))
-				{
-					URL url = (URL)source;
-					jasperReport = (JasperReport)JRLoader.loadObject(url);
-					calculator = null;
-				}
-				else if (expressionClass.equals(java.io.File.class))
-				{
-					File file = (File)source;
-					jasperReport = (JasperReport)JRLoader.loadObject(file);
-					calculator = null;
-				}
-				else if (expressionClass.equals(java.lang.String.class))
-				{
-					String location = (String)source;
+					Class expressionClass = expression.getValueClass();
+					
+					if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
+					{
+						jasperReport = (JasperReport)source;
+					}
+					else if (expressionClass.equals(java.io.InputStream.class))
+					{
+						InputStream is = (InputStream)source;
+						jasperReport = (JasperReport)JRLoader.loadObject(is);
+					}
+					else if (expressionClass.equals(java.net.URL.class))
+					{
+						URL url = (URL)source;
+						jasperReport = (JasperReport)JRLoader.loadObject(url);
+					}
+					else if (expressionClass.equals(java.io.File.class))
+					{
+						File file = (File)source;
+						jasperReport = (JasperReport)JRLoader.loadObject(file);
+					}
+					else if (expressionClass.equals(java.lang.String.class))
+					{
+						String location = (String)source;
+						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
+					}
+					
+					if (jasperReport != null)
+					{
+						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+					}
+					
 					if (isUsingCache())
 					{
-						if ( filler.loadedSubreports.containsKey(location) )
-						{
-							jasperReport = (JasperReport)filler.loadedSubreports.get(location);
-							calculator = (JRCalculator)filler.loadedCalculators.get(jasperReport);
-						}
-						else
-						{
-							jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
-							calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
-							filler.loadedSubreports.put(location, jasperReport);
-							filler.loadedCalculators.put(jasperReport, calculator);
-						}
-					}
-					else
-					{
-						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
-						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+						filler.loadedSubreports.put(source, jasperReport);
+						filler.loadedCalculators.put(jasperReport, calculator);
 					}
 				}
 				
@@ -830,6 +826,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
+	}
+
+
+	public Boolean isOwnUsingCache()
+	{
+		return ((JRSubreport)parent).isOwnUsingCache();
+	}
+
+
+	public void setUsingCache(Boolean isUsingCache)
+	{
 	}
 
 }

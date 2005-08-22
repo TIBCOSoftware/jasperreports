@@ -59,7 +59,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected boolean isUsingCache = true;
+	protected Boolean isUsingCache = null;
 
 	/**
 	 *
@@ -96,7 +96,16 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public boolean isUsingCache()
 	{
-		return this.isUsingCache;
+		if (isUsingCache == null)
+		{
+			JRExpression subreportExpression = getExpression();
+			if (subreportExpression != null)
+			{
+				return String.class.getName().equals(subreportExpression.getValueClassName());
+			}
+			return true;
+		}
+		return isUsingCache.booleanValue();
 	}
 
 	/**
@@ -104,7 +113,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{
-		this.isUsingCache = isUsingCache;
+		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**
@@ -284,5 +293,17 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	public boolean removeReturnValue(JRSubreportReturnValue returnValue)
 	{
 		return this.returnValues.remove(returnValue);
+	}
+
+
+	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+
+	public void setUsingCache(Boolean isUsingCache)
+	{
+		this.isUsingCache = isUsingCache;
 	}
 }

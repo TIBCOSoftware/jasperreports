@@ -56,7 +56,7 @@ public class JRSubreportFactory extends JRBaseFactory
 		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);
 		if (isUsingCache != null && isUsingCache.length() > 0)
 		{
-			subreport.setUsingCache(Boolean.valueOf(isUsingCache).booleanValue());
+			subreport.setUsingCache(Boolean.valueOf(isUsingCache));
 		}
 
 		return subreport;

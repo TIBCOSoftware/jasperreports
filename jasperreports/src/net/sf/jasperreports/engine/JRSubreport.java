@@ -37,12 +37,22 @@ public interface JRSubreport extends JRElement
 
 
 	/**
-	 *
+	 * Indicates if the engine is loading the current subreport from cache.
+	 * Implementations of this method rely on default values that depend on the type of the subreport expression
+	 * if a value was not explicitly set of this flag.
+	 * @return true if the subreport should be loaded from cache, false otherwise
 	 */
 	public boolean isUsingCache();
 
 	/**
-	 *
+	 * Specifies if the engine should be loading the current subreport from cache. If set to true, the reporting engine
+	 * will try to recognize previously loaded subreports using their specified source. For example, it will recognize
+	 * a subreport if the subreport source is a file name that it has already loaded, or if it is the same URL.
+	 * <p>
+	 * For subreports that have expressions returning <tt>java.lang.String</tt> objects as the subreport source, 
+	 * representing file names, URLs or classpath resources, the default value for this flag is true.
+	 * 
+	 * @deprecated use {@link #setUsingCache(Boolean) setUsingCache(Boolean)} instead.
 	 */
 	public void setUsingCache(boolean isUsingCache);
 
@@ -78,4 +88,25 @@ public interface JRSubreport extends JRElement
 	 */
 	public JRSubreportReturnValue[] getReturnValues();
 
+	
+
+	/**
+	 * Indicates if the engine is loading the current subreport from cache.
+	 * Implementations of this method return the actual value for the internal flag that was explicitly 
+	 * set on this subreport.
+	 * @return Boolean.TRUE if the subreport should be loaded from cache, Boolean.FALSE otherwise 
+	 * or null in case the flag was never explicitly set on this subreport element
+	 */
+	public Boolean isOwnUsingCache();
+	
+	
+	/**
+	 * Specifies if the engine should be loading the current subreport from cache. If set to Boolean.TRUE, the reporting engine
+	 * will try to recognize previously loaded subreports using their specified source. For example, it will recognize
+	 * an subreport if the subreport source is a file name that it has already loaded, or if it is the same URL.
+	 * <p>
+	 * If set to null, the engine will rely on some default value which depends on the type of the subreport expression.
+	 * The cache is turned on by default only for subreports that have <tt>java.lang.String</tt> objects in their expressions.
+	 */
+	public void setUsingCache(Boolean isUsingCache);
 }
