@@ -696,9 +696,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			if(height <= 0 ){
 				throw new JRException("Invalid text height");
 			}
-			else {
-				textHeight = height;
-			}
+			textHeight = height;
 		}
 		
 		if (text.getBox() != null)
@@ -1169,7 +1167,6 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @throws IOException
 	 */
 	private void exportBox(JRBox box, int x, int y, int width, int height, Color fg, Color bg) throws IOException{
-		;
 		
 		if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
 			Color bc = box.getTopBorderColor();
