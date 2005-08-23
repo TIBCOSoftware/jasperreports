@@ -664,8 +664,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a text box
 	 * @param text JasperReports text object (JRPrintText)
+	 * @throws JRException 
 	 */
-	protected void exportText(JRPrintText text) throws IOException {
+	protected void exportText(JRPrintText text) throws IOException, JRException {
 		
 		
 		// use styled text
@@ -690,6 +691,15 @@ public class JRRtfExporter extends JRAbstractExporter
 		int rightPadding = 0;
 		
 		int textHeight = twip(text.getTextHeight());
+		
+		if(textHeight <= 0) {
+			if(height <= 0 ){
+				throw new JRException("Invalid text height");
+			}
+			else {
+				textHeight = height;
+			}
+		}
 		
 		if (text.getBox() != null)
 		{
