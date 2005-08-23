@@ -754,7 +754,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\dpx" + (x + textBoxAdjustment));
 			writer.write("\\dpxsize" + (width - textBoxAdjustment));
 			writer.write("\\dpy" + (y + verticalAdjustment + topPadding + textBoxAdjustment));
-			writer.write("\\dpysize" + (textHeight - bottomPadding - textBoxAdjustment));
+			writer.write("\\dpysize" + (textHeight + bottomPadding - textBoxAdjustment));
 			writer.write("\\dpfillpat0"); 
 			writer.write("\\dplinehollow");
 			writer.write("{\\dptxbxtext ");
