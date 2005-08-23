@@ -174,5 +174,11 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 	 */ 
 	public byte getChartType();
 	
-	
+	/**
+	 * Gets a user specified chart customizer class name.
+	 * @see JRChartCustomizer
+ 	 */
+	public String getCustomizerClass();
+
+
 }

@@ -270,6 +270,7 @@
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
+	customizerClass NMTOKEN #IMPLIED
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle

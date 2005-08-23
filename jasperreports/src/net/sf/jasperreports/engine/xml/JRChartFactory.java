@@ -50,6 +50,7 @@ public class JRChartFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
+	private static final String ATTRIBUTE_customizerClass = "customizerClass";
 
 
 	/**
@@ -101,6 +102,11 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			chart.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
 		}		
+
+		String chartCustomizerClass = atts.getValue( ATTRIBUTE_customizerClass );
+		if( chartCustomizerClass != null && chartCustomizerClass.length() > 0 ){
+			chart.setCustomizerClass(chartCustomizerClass);
+		}
 
 		return chart;
 	}
