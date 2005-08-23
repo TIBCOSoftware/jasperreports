@@ -12,6 +12,8 @@ JasperReports 1.0.1 (2005-0x-xx)
 
 - support for pagination;
 
+- chart customizer;
+
 - minor bug fixes and improvements;
 
 
