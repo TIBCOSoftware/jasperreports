@@ -89,7 +89,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 			</textField>
 			<barChart>
-				<chart evaluationTime="Group" evaluationGroup="FirstLetterGroup">
+				<chart evaluationTime="Group" evaluationGroup="FirstLetterGroup" customizerClass="BarChartCustomizer">
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<categoryDataset>

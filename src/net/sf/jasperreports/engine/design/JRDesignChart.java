@@ -99,6 +99,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 
+	protected String customizerClass;
+
 	/**
 	 *
 	 */
@@ -597,10 +599,28 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 * Sets the boomark level for the anchor associated with this chart.
 	 * 
 	 * @param bookmarkLevel the bookmark level (starting from 1)
-	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created 
+	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created
 	 */
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
+
+	/**
+	 *
+	 */
+	public String getCustomizerClass()
+	{
+		return customizerClass;
+	}
+
+	/**
+	 * Sets a user specified chart customizer class name.
+	 * @see net.sf.jasperreports.engine.JRChartCustomizer
+ 	 */
+	public void setCustomizerClass(String customizerClass)
+	{
+		this.customizerClass = customizerClass;
+	}
+
 }

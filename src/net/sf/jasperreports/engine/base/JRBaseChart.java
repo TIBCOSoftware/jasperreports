@@ -99,6 +99,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 
+	protected String customizerClass;
+
 	/**
 	 *
 	 */
@@ -228,6 +230,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
+
+		customizerClass = chart.getCustomizerClass();
 	}
 		
 
@@ -442,5 +446,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getCustomizerClass()
+	{
+		return customizerClass;
 	}
 }

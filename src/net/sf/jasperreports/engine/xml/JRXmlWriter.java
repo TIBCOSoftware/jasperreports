@@ -1765,6 +1765,13 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
+		if (chart.getCustomizerClass() != null)
+		{
+			sb.append(" customizerClass=\"");
+			sb.append(chart.getCustomizerClass());
+			sb.append("\"");
+		}
+		
 		sb.append(">\n");
 
 		writeReportElement(chart);
