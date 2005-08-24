@@ -151,7 +151,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected boolean isWrapBreakWord = false;
 
-	protected Map fontMap;
+	protected Map fontMap = null;
+	
+	
 	/**
 	 *
 	 */
@@ -731,11 +733,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
 		String fontFamily;
-		String familyAttribute = (String)attributes.get(TextAttribute.FAMILY);
-		if (fontMap != null && fontMap.containsKey(familyAttribute))
-			fontFamily = (String) fontMap.get(familyAttribute);
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+		{
+			fontFamily = (String) fontMap.get(fontFamilyAttr);
+		}
 		else
-			fontFamily = familyAttribute;
+		{
+			fontFamily = fontFamilyAttr;
+		}
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
 		writer.write("; ");

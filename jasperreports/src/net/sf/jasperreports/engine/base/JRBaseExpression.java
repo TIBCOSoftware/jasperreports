@@ -61,6 +61,11 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	private JRExpressionChunk[] chunks = null;
 
+	/**
+	 *
+	 */
+	private static int lastId = 0;
+
 
 	/**
 	 *
@@ -92,6 +97,24 @@ public class JRBaseExpression implements JRExpression, Serializable
 		}
 	}
 		
+
+	/**
+	 *
+	 */
+	private static synchronized int getNextId()
+	{ 
+		return lastId++; 
+	}
+
+
+	/**
+	 *
+	 */
+	public void regenerateId()
+	{
+		id = getNextId();
+	}
+
 
 	/**
 	 *

@@ -462,40 +462,35 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFFont getLoadedFont(JRFont font, short forecolor)
 	{
 		HSSFFont cellFont = null;
-
-		if (loadedFonts != null && loadedFonts.size() > 0)
+		
+		String fontName = font.getFontName();
+		if (fontMap != null && fontMap.containsKey(fontName))
 		{
-			HSSFFont cf = null;
-			for (int i = 0; i < loadedFonts.size(); i++)
+			fontName = (String) fontMap.get(fontName);
+		}
+
+		for (int i = 0; i < loadedFonts.size(); i++)
+		{
+			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
+
+			if (
+				cf.getFontName().equals(fontName) &&
+				(cf.getColor() == forecolor) &&
+				(cf.getFontHeightInPoints() == (short)font.getSize()) &&
+				((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
+				(cf.getStrikeout() == font.isStrikeThrough()) &&
+				((cf.getBoldweight() == HSSFFont.BOLDWEIGHT_BOLD)?(font.isBold()):(!font.isBold())) &&
+				(cf.getItalic() == font.isItalic())
+				)
 			{
-				cf = (HSSFFont)loadedFonts.get(i);
-
-				String fontName = font.getFontName();
-				if (fontMap != null && fontMap.containsKey(fontName))
-					fontName = (String) fontMap.get(fontName);
-
-				if (
-					cf.getFontName().equals(fontName) &&
-					(cf.getColor() == forecolor) &&
-					(cf.getFontHeightInPoints() == (short)font.getSize()) &&
-					((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
-					(cf.getStrikeout() == font.isStrikeThrough()) &&
-					((cf.getBoldweight() == HSSFFont.BOLDWEIGHT_BOLD)?(font.isBold()):(!font.isBold())) &&
-					(cf.getItalic() == font.isItalic())
-					)
-				{
-					cellFont = cf;
-					break;
-				}
+				cellFont = cf;
+				break;
 			}
 		}
 		
 		if (cellFont == null)
 		{
 			cellFont = workbook.createFont();
-			String fontName = font.getFontName();
-			if (fontMap != null && fontMap.containsKey(fontName))
-				fontName = (String) fontMap.get(fontName);
 
 			cellFont.setFontName(fontName);
 			cellFont.setColor(forecolor);

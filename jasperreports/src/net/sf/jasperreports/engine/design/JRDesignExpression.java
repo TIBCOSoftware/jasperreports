@@ -68,11 +68,6 @@ public class JRDesignExpression extends JRBaseExpression
 	/**
 	 *
 	 */
-	private static int lastId = 0;
-
-	/**
-	 *
-	 */
 	protected List chunks = new ArrayList();
 
 
@@ -83,16 +78,7 @@ public class JRDesignExpression extends JRBaseExpression
 	{
 		super();
 
-		this.id = getNextId();
-	}
-
-
-	/**
-	 *
-	 */
-	private static synchronized int getNextId()
-	{ 
-		return lastId++; 
+		regenerateId();
 	}
 
 
