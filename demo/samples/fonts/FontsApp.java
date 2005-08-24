@@ -156,10 +156,15 @@ public class FontsApp
 		
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
+				HashMap fontMap = new HashMap();
+				fontMap.put("sansserif", "Arial, Verdana, Tahome");
+				fontMap.put("serif", "Times New Roman");
+				fontMap.put("monospaced", "Courier");
 				JRRtfExporter exporter = new JRRtfExporter();
 				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
 				
 				exporter.exportReport();
 
