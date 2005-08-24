@@ -106,6 +106,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	// indicate that report containts Unicode characters with code > 255
 	boolean isUnicode = false;
 	
+	Map fontMap;
+	
 	
 	/**
 	 * Export report in .rtf format
@@ -124,6 +126,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		colors = new ArrayList();
 		colors.add(null);
 		colorBuffer = new StringBuffer(";");
+		
+		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 		
 		getDefaultFont();
 		getFontIndex(defaultFont);
@@ -354,13 +358,26 @@ public class JRRtfExporter extends JRAbstractExporter
 							{
 								Map styledTextAttributes = iterator.getAttributes();
 								JRFont styleFont = new JRBaseFont(styledTextAttributes);
-								getFontIndex(styleFont);
-
+								
+								// replace fonts with fonts from font map
+								String fontName = styleFont.getFontName();
+								if(fontMap != null && fontMap.containsKey(fontName)){
+									fontName = (String)fontMap.get(fontName);
+								}
+								getFontIndex(fontName);
+								
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
 								iterator.setIndex(runLimit);
 							}
-							getFontIndex(((JRPrintText) element).getFont());
+							
+							// replace fonts with font from fontMap
+							String fontName = ((JRPrintText) element).getFont().getFontName();
+							if(fontMap != null && fontMap.containsKey(fontName)){
+								fontName = (String)fontMap.get(fontName);
+							}
+							getFontIndex(fontName);
+							
 						}
 					}
 				}
@@ -402,6 +419,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	private int getFontIndex(JRFont font) {
 		String fontName = font.getFontName();
+		return getFontIndex(fontName);
+	}
+	
+	private int getFontIndex(String fontName) {
 		int fontIndex = fonts.indexOf(fontName);
 		
 		if(fontIndex < 0) {
@@ -412,7 +433,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		return fontIndex;
 	}
-	
 	
 	/**
 	 * Convert a int value from points to twips (multiply with 20)
@@ -773,8 +793,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\dptxbxtext ");
 			writer.write("{\\pard");
 		}
-	
-		writer.write("\\f" + getFontIndex(font));
+		
+		String fontName = font.getFontName();
+		if(fontMap != null && fontMap.containsKey(fontName)){
+			fontName = (String)fontMap.get(fontName);
+		}
+		writer.write("\\f" + getFontIndex(fontName));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
 		writer.write("\\cbpat" + getColorIndex(text.getBackcolor()));
 		
