@@ -25,23 +25,34 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Michael McMahon - Michael.McMahon@activewire.net
+ */
+
 package net.sf.jasperreports.engine;
 
 import org.jfree.chart.JFreeChart;
 
 /**
- * One sentence class summary.
- * <p>
- * Details. Follow with tags author, version, 
- * see (optional), since, deprecated(optional).
+ * This interface allows users to provide pluggable chart customizers. A class that implements this interface can
+ * be defined and its name must be specified in the report template. At fill time, the corresponding <i>customize()</i>
+ * method of this class will be called, if advanced chart customization is needed.
  * </p>
- *  
+ *
  * @author <a href="mailto:Michael.McMahon@activewire.net">Michael McMahon</a>
- * @version $Revision$
- * @since 1.4
+ * @version $Id$
  */
 public interface JRChartCustomizer {
-    public void customize(JFreeChart chart, JRChart jasperChart);
+
+	/**
+	 * This method is called at fill time, before the chart is rendered.
+ 	 * @param chart the JFreeChart object, which can be accessed and modified
+	 * @param jasperChart the JasperReports version of the chart, containing data that might be needed in
+	 * customization
+	 */
+	public void customize(JFreeChart chart, JRChart jasperChart);
 
 }
 
