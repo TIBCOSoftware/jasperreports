@@ -59,24 +59,24 @@ public class ChartsApp
 
 	private static final String[] reportNames = 
 		{
-		"PieChartReport",
-		"Pie3DChartReport",
+//		"PieChartReport",
+//		"Pie3DChartReport",
 		"BarChartReport",
-		"Bar3DChartReport",
-		"StackedBarChartReport",
-		"StackedBar3DChartReport",
-		"XYBarChartTimePeriodReport",
-		"XYBarChartTimeSeriesReport",
-		"XYBarChartReport",
-		"AreaChartReport",
-		"XYAreaChartReport",
-		"ScatterChartReport",
-		"LineChartReport",
-		"XYLineChartReport",
-		"TimeSeriesChartReport",
-		"BubbleChartReport",
-		"HighLowChartReport",
-		"CandlestickChartReport"
+//		"Bar3DChartReport",
+//		"StackedBarChartReport",
+//		"StackedBar3DChartReport",
+//		"XYBarChartTimePeriodReport",
+//		"XYBarChartTimeSeriesReport",
+//		"XYBarChartReport",
+//		"AreaChartReport",
+//		"XYAreaChartReport",
+//		"ScatterChartReport",
+//		"LineChartReport",
+//		"XYLineChartReport",
+//		"TimeSeriesChartReport",
+//		"BubbleChartReport",
+//		"HighLowChartReport",
+//		"CandlestickChartReport"
 		};
 	
 	/**
@@ -111,6 +111,7 @@ public class ChartsApp
 				for(int i = 0; i < reportNames.length; i++)
 				{
 					long start = System.currentTimeMillis();
+					JasperCompileManager.compileReport(reportNames[i] + ".jrxml");
 					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", parameters, getConnection());
 					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
 				}
