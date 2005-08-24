@@ -26,6 +26,7 @@
  * http://www.jaspersoft.com
  */
 import java.io.File;
+import java.util.HashMap;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -39,6 +40,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -125,7 +127,24 @@ public class FontsApp
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
+//				JasperExportManager.exportReportToHtmlFile(fileName);
+				File sourceFile = new File(fileName);
+
+				/* We need the report name. */
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
+				String destFileName = destFile.toString();
+				JRHtmlExporter exporter = new JRHtmlExporter();
+
+				HashMap fontMap = new HashMap();
+				fontMap.put("sansserif", "Arial, Verdana, Tahome");
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+				exporter.exportReport();
+
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
@@ -157,10 +176,13 @@ public class FontsApp
 				
 				JRXlsExporter exporter = new JRXlsExporter();
 				
+				HashMap fontMap = new HashMap();
+				fontMap.put("sansserif", "Comic Sans MS");
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-				
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
