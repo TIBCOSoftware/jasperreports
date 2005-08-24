@@ -41,6 +41,9 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.FontKey;
+import net.sf.jasperreports.engine.export.PdfFont;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -109,7 +112,26 @@ public class FontsApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile(fileName);
+//				JasperExportManager.exportReportToPdfFile(fileName);
+				File sourceFile = new File(fileName);
+
+				/* We need the report name. */
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
+				String destFileName = destFile.toString();
+				JRPdfExporter exporter = new JRPdfExporter();
+
+				HashMap fontMap = new HashMap();
+				FontKey key = new FontKey("sansserif", false, true);
+				PdfFont font = new PdfFont("COMICBD.TTF", "Cp1252", false);
+				fontMap.put(key, font);
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+				exporter.exportReport();
+
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
@@ -138,7 +160,7 @@ public class FontsApp
 				JRHtmlExporter exporter = new JRHtmlExporter();
 
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial, Verdana, Tahome");
+				fontMap.put("sansserif", "Arial, Verdana, Tahoma");
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
 				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
