@@ -200,4 +200,8 @@ public class JRExporterParameter
 	public static final JRExporterParameter OFFSET_Y = new JRExporterParameter("Offset Y");
 
 
+	/**
+	 * 
+	 */
+	public static final JRExporterParameter FONT_MAP = new JRExporterParameter("Font Map");
 }

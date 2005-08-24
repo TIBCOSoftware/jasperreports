@@ -469,9 +469,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			for (int i = 0; i < loadedFonts.size(); i++)
 			{
 				cf = (HSSFFont)loadedFonts.get(i);
-				
+
+				String fontName = font.getFontName();
+				if (fontMap != null && fontMap.containsKey(fontName))
+					fontName = (String) fontMap.get(fontName);
+
 				if (
-					cf.getFontName().equals(font.getFontName()) &&
+					cf.getFontName().equals(fontName) &&
 					(cf.getColor() == forecolor) &&
 					(cf.getFontHeightInPoints() == (short)font.getSize()) &&
 					((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
@@ -489,7 +493,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (cellFont == null)
 		{
 			cellFont = workbook.createFont();
-			cellFont.setFontName(font.getFontName());
+			String fontName = font.getFontName();
+			if (fontMap != null && fontMap.containsKey(fontName))
+				fontName = (String) fontMap.get(fontName);
+
+			cellFont.setFontName(fontName);
 			cellFont.setColor(forecolor);
 			cellFont.setFontHeightInPoints((short)font.getSize());
 
