@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -93,6 +94,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor = null;
 
 	protected int reportIndex = 0;
+
+	protected Map fontMap;
 
 	/**
 	 * 
@@ -205,6 +208,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
+
+		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 	}
 
 	protected abstract void setBackground();

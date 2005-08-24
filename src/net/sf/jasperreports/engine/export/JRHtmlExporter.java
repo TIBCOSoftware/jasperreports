@@ -151,7 +151,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected boolean isWrapBreakWord = false;
 
-
+	protected Map fontMap;
 	/**
 	 *
 	 */
@@ -274,6 +274,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 				};
 		}
 		
+
+		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
@@ -728,8 +730,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
+		String fontFamily;
+		String familyAttribute = (String)attributes.get(TextAttribute.FAMILY);
+		if (fontMap != null && fontMap.containsKey(familyAttribute))
+			fontFamily = (String) fontMap.get(familyAttribute);
+		else
+			fontFamily = familyAttribute;
 		writer.write("<span style=\"font-family: ");
-		writer.write((String)attributes.get(TextAttribute.FAMILY));
+		writer.write(fontFamily);
 		writer.write("; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
