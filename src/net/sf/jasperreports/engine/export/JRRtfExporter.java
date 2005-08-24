@@ -324,9 +324,22 @@ public class JRRtfExporter extends JRAbstractExporter
 						element = (JRPrintElement) it.next();
 						getColorIndex(element.getForecolor());
 						getColorIndex(element.getBackcolor());
+						
 						if (element instanceof JRPrintText)
 						{
 							JRPrintText text = (JRPrintText)element;
+							
+							// create color indices for box border color
+							JRBox box = text.getBox();
+							if(box != null) {
+								getColorIndex(box.getBorderColor());
+								getColorIndex(box.getTopBorderColor());
+								getColorIndex(box.getBottomBorderColor());
+								getColorIndex(box.getLeftBorderColor());
+								getColorIndex(box.getRightBorderColor());
+							}
+							
+							
 							for(int i = 0; i < text.getText().length(); i++ ){
 								if((text.getText().charAt(i)) > 255){
 									isUnicode = true;
@@ -1177,7 +1190,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				bc = fg;
 			}
 			startGraphic("dpline", x, y + a, width, 0);
-			finishGraphic(pen, fg, bg, 1);
+			finishGraphic(pen, bc, bg, 1);
 			
 		}
 		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
@@ -1188,7 +1201,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			if (bc == null)
 				bc = fg;
 			startGraphic("dpline", x + a, y, 0, height);
-			finishGraphic(pen, fg, bg, 1);
+			finishGraphic(pen, bc, bg, 1);
 
 		}
 
@@ -1200,7 +1213,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			if (bc == null)
 				bc = fg;
 			startGraphic("dpline", x, y + height - a, width, 0);
-			finishGraphic(pen, fg, bg, 1);
+			finishGraphic(pen, bc, bg, 1);
 		}
 
 		if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
@@ -1211,7 +1224,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			if (bc == null)
 				bc = fg;
 			startGraphic("dpline", x + width - a, y, 0, height);
-			finishGraphic(pen, fg, bg, 1);
+			finishGraphic(pen, bc, bg, 1);
 		}
 	}
 }
