@@ -21,7 +21,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="50" width="390" height="40"/>
-				<box bottomPadding="10"/>
 				<textElement/>
 				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="0" y="50" width="150" height="40"/><box border="Thin"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
