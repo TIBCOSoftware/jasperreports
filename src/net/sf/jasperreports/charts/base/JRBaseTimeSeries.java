@@ -45,7 +45,7 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 	protected JRExpression seriesExpression = null;
 	protected JRExpression timePeriodExpression = null;

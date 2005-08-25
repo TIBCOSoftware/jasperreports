@@ -40,7 +40,7 @@ import org.jfree.data.xy.XYZDataset;
  */
 public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset 
 {
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 	
 	/**
 	 * 

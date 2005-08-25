@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignLinePlot extends JRBaseLinePlot {
 
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 
 	public JRDesignLinePlot(JRChartPlot linePlot)

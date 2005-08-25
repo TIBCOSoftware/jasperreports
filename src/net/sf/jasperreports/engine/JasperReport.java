@@ -43,7 +43,7 @@ public class JasperReport extends JRBaseReport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 	/**
 	 *

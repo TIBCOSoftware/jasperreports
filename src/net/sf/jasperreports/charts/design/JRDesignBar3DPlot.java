@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 
 	public JRDesignBar3DPlot(JRChartPlot barPlot)
