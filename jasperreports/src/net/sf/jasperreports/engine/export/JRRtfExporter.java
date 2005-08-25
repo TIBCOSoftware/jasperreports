@@ -95,18 +95,18 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	// temporaray list of fonts and colors to be
 	// added to the header or the document
-	StringBuffer colorBuffer = null;
-	StringBuffer fontBuffer = null;
+	private StringBuffer colorBuffer = null;
+	private StringBuffer fontBuffer = null;
 	protected List colors = null;
 	protected List fonts = null;
 
 	// z order of the graphical objects in .rtf file
-	int zorder = 1;
+	private int zorder = 1;
 	
 	// indicate that report containts Unicode characters with code > 255
-	boolean isUnicode = false;
+	private boolean isUnicode = false;
 	
-	Map fontMap;
+	private Map fontMap = null;
 	
 	
 	/**
