@@ -45,7 +45,7 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 	protected byte resetType = JRVariable.RESET_TYPE_NONE;
 	protected byte incrementType = JRVariable.RESET_TYPE_NONE;

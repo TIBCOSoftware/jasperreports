@@ -48,7 +48,7 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 	/**
 	 *

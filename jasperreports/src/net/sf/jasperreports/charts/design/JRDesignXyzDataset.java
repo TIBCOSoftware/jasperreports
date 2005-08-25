@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
  */
 public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDataset {
 	
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 	
 	private List xyzSeriesList = new ArrayList();
 

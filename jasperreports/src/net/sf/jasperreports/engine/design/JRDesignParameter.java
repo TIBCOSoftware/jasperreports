@@ -43,7 +43,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 
 	/** Mechanism for firing property change events. */
 	private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);

@@ -42,7 +42,7 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
  */
 public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot {
 
-	private static final long serialVersionUID = 10000;
+	private static final long serialVersionUID = 10001;
 	
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;
