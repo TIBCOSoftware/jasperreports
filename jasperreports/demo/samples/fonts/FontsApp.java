@@ -112,22 +112,21 @@ public class FontsApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-//				JasperExportManager.exportReportToPdfFile(fileName);
 				File sourceFile = new File(fileName);
 
-				/* We need the report name. */
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
-				String destFileName = destFile.toString();
+
 				JRPdfExporter exporter = new JRPdfExporter();
 
 				HashMap fontMap = new HashMap();
 				FontKey key = new FontKey("sansserif", false, true);
 				PdfFont font = new PdfFont("COMICBD.TTF", "Cp1252", false);
 				fontMap.put(key, font);
+
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
 
 				exporter.exportReport();
@@ -149,20 +148,21 @@ public class FontsApp
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-//				JasperExportManager.exportReportToHtmlFile(fileName);
 				File sourceFile = new File(fileName);
 
-				/* We need the report name. */
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
-				String destFileName = destFile.toString();
+
 				JRHtmlExporter exporter = new JRHtmlExporter();
 
 				HashMap fontMap = new HashMap();
 				fontMap.put("sansserif", "Arial, Verdana, Tahoma");
+				fontMap.put("serif", "Times New Roman");
+				fontMap.put("monospaced", "Courier, Courier New");
+
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
 
 				exporter.exportReport();
@@ -179,9 +179,10 @@ public class FontsApp
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Arial, Verdana, Tahome");
+				fontMap.put("sansserif", "Arial");
 				fontMap.put("serif", "Times New Roman");
 				fontMap.put("monospaced", "Courier");
+
 				JRRtfExporter exporter = new JRRtfExporter();
 				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -204,7 +205,10 @@ public class FontsApp
 				JRXlsExporter exporter = new JRXlsExporter();
 				
 				HashMap fontMap = new HashMap();
-				fontMap.put("sansserif", "Comic Sans MS");
+				fontMap.put("sansserif", "Arial");
+				fontMap.put("serif", "Times New Roman");
+				fontMap.put("monospaced", "Courier");
+
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
