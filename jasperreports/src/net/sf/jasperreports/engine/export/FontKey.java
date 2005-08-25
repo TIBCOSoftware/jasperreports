@@ -22,29 +22,14 @@ public class FontKey
 		return fontName;
 	}
 
-	public void setFontName(String fontName)
-	{
-		this.fontName = fontName;
-	}
-
 	public boolean isBold()
 	{
 		return isBold;
 	}
 
-	public void setBold(boolean bold)
-	{
-		isBold = bold;
-	}
-
 	public boolean isItalic()
 	{
 		return isItalic;
-	}
-
-	public void setItalic(boolean italic)
-	{
-		isItalic = italic;
 	}
 
 	public boolean equals(Object o)

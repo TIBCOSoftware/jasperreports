@@ -10,9 +10,6 @@ public class PdfFont
 	private String pdfEncoding;
 	private boolean isPdfEmbedded;
 
-	public PdfFont()
-	{
-	}
 	
 	public PdfFont(String pdfFontName, String pdfEncoding, boolean pdfEmbedded)
 	{
@@ -26,19 +23,9 @@ public class PdfFont
 		return pdfFontName;
 	}
 
-	public void setPdfFontName(String pdfFontName)
-	{
-		this.pdfFontName = pdfFontName;
-	}
-
 	public String getPdfEncoding()
 	{
 		return pdfEncoding;
-	}
-
-	public void setPdfEncoding(String pdfEncoding)
-	{
-		this.pdfEncoding = pdfEncoding;
 	}
 
 	public boolean isPdfEmbedded()
@@ -46,8 +33,4 @@ public class PdfFont
 		return isPdfEmbedded;
 	}
 
-	public void setPdfEmbedded(boolean pdfEmbedded)
-	{
-		isPdfEmbedded = pdfEmbedded;
-	}
 }
