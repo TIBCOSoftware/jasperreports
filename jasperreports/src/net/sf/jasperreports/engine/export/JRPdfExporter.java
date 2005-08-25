@@ -1451,13 +1451,11 @@ public class JRPdfExporter extends JRAbstractExporter
 		*/
 
 		Font font = null;
-		String fontName = null;
 		try
 		{
 			FontKey key = new FontKey(jrFont.getFontName(), jrFont.isBold(), jrFont.isItalic());
 			if (fontMap != null && fontMap.containsKey(key)) {
 				PdfFont pdfFont = (PdfFont) fontMap.get(key);
-				fontName = pdfFont.getPdfFontName();
 				font = FontFactory.getFont(
 					pdfFont.getPdfFontName(),
 					pdfFont.getPdfEncoding(),
@@ -1469,7 +1467,6 @@ public class JRPdfExporter extends JRAbstractExporter
 					);
 			}
 			else {
-				fontName = jrFont.getPdfFontName();
 				font = FontFactory.getFont(
 					jrFont.getPdfFontName(),
 					jrFont.getPdfEncoding(),
