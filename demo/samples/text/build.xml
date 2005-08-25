@@ -91,7 +91,7 @@
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.txt" excludesfile="readme.txt"/>
+			<fileset dir="." includes="**/TextReport.txt"/>
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />

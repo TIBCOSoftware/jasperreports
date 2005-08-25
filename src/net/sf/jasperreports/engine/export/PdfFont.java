@@ -11,11 +11,11 @@ public class PdfFont
 	private boolean isPdfEmbedded;
 
 	
-	public PdfFont(String pdfFontName, String pdfEncoding, boolean pdfEmbedded)
+	public PdfFont(String pdfFontName, String pdfEncoding, boolean isPdfEmbedded)
 	{
 		this.pdfFontName = pdfFontName;
 		this.pdfEncoding = pdfEncoding;
-		isPdfEmbedded = pdfEmbedded;
+		this.isPdfEmbedded = isPdfEmbedded;
 	}
 
 	public String getPdfFontName()

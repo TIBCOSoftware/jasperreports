@@ -150,9 +150,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Map loadedImagesMap = null;
 	protected Image pxImage = null;
 	
-	private BookmarkStack bookmarkStack;
+	private BookmarkStack bookmarkStack = null;
 
-	private Map fontMap;
+	private Map fontMap = null;
 	/**
 	 *
 	 */

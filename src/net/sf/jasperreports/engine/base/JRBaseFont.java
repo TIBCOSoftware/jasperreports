@@ -99,6 +99,12 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public JRBaseFont(Map attributes)
 	{
+		String fontNameAttr = (String)attributes.get(TextAttribute.FAMILY);
+		if (fontNameAttr != null)
+		{
+			setFontName(fontNameAttr);
+		}
+		
 		Object bold = attributes.get(TextAttribute.WEIGHT);
 		if (bold != null)
 		{
