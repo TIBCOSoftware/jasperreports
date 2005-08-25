@@ -60,6 +60,8 @@ import org.xml.sax.SAXException;
 
 
 /**
+ * Exports a JasperReports document to CSV format. It has character output type and exports the document to a
+ * grid-based layout.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -70,6 +70,12 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
+ * Exports a JasperReports document to a <tt>Graphics2D</tt> object. Since all font measurement and layout
+ * calculation during report filling is done using AWT, this is considered the perfect exporter, unlike the others,
+ * which are only approximations of the initial document.
+ * <p>
+ * As its name indicates, this exporter is special because it does not produce files or does not send character
+ * or binary data to an output stream.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

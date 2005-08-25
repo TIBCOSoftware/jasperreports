@@ -105,6 +105,18 @@ import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
+ * Exports a JasperReports document to PDF format. It has binary output type and exports the document to
+ * a free-form layout.
+ * <p>
+ * Since classic AWT fonts can be sometimes very different from PDF fonts, a font mapping feature was added.
+ * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "sansserif" can be mapped
+ * to a system specific font, like "Helvetica-BoldOblique". PDF font mapping is a little more complicated, because
+ * for a logical font, PDF cand provide two or more fonts, from the same family but with different styles (like
+ * "Helvetica", "Helvetica-Bold", "Helvetica-BoldOblique"). So every key in the map is a simple bean containing
+ * font family, bold and italic flag, and every value is another bean containing the PDF font name, encoding and
+ * embedding flag.
+ * @see FontKey
+ * @see PdfFont
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
