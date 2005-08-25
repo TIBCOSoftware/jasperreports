@@ -79,6 +79,12 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
+ * Exports a JasperReports document to HTML format. It has character output type and exports the document to a
+ * grid-based layout.
+ * <p>
+ * Since classic AWT fonts can be sometimes very different from HTML fonts, a font mapping feature was added.
+ * By using the {@link JRExporterParameter#FONT_MAP} parameter, a logical font like "sansserif" can be mapped to a
+ * list of HTML specific fonts, like "Arial, Verdana, Tahoma". Both map keys and values are strings.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

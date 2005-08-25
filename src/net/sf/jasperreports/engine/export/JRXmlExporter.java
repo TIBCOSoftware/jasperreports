@@ -83,6 +83,10 @@ import org.w3c.tools.codec.Base64Encoder;
 
 
 /**
+ * Exports a JasperReports document to an XML file that contains the same data as a {@link net.sf.jasperreports.engine.JasperPrint}
+ * object, but in XML format, instead of a serialized class. Such XML files can be parsed back into <tt>JasperPrint</tt>
+ * object using the {@link net.sf.jasperreports.engine.xml.JRPrintXmlLoader} utility class. Their structure is validated
+ * against an internal DTD file called jasperprint.dtd
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
