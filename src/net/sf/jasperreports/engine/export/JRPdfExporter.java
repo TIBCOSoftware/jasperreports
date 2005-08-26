@@ -1721,12 +1721,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 				{
-					verticalOffset = (height - text.getTextHeight()) / 2f;
+					verticalOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
 					break;
 				}
 				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 				{
-					verticalOffset = height - text.getTextHeight();
+					verticalOffset = height - topPadding - bottomPadding - text.getTextHeight();
 					break;
 				}
 				default :
