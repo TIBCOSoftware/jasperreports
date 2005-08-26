@@ -806,7 +806,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		writer.write("\\f" + getFontIndex(fontName));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
-		writer.write("\\cbpat" + getColorIndex(text.getBackcolor()));
+		writer.write("\\cb" + getColorIndex(text.getBackcolor()));
 		
 		if (text.getBox() != null)
 		{
