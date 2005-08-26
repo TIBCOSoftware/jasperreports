@@ -75,7 +75,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
-import net.sf.jasperreports.view.save.JRRtfSaveContributor;
 
 
 /**
@@ -848,7 +847,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		JRSaveContributor rtfSaveContrib = null;
 		try {
 			Class rtfSaveContribClass= JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRRtfSaveContributor");
-			rtfSaveContrib = (JRRtfSaveContributor)rtfSaveContribClass.newInstance();
+			rtfSaveContrib = (JRSaveContributor)rtfSaveContribClass.newInstance();
 			fileChooser.addChoosableFileFilter(rtfSaveContrib);
 		}
 		catch(Exception ex)
