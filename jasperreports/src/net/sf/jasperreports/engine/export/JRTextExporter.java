@@ -86,7 +86,7 @@ public class JRTextExporter extends JRAbstractExporter
 
 		Integer characterWidthParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_WIDTH);
 		if (characterWidthParam != null) {
-            characterWidth = characterWidthParam.intValue();
+			characterWidth = characterWidthParam.intValue();
 			if (characterWidth < 0)
 				throw new JRException("Character width must be greater than 0");
 		}
@@ -97,18 +97,18 @@ public class JRTextExporter extends JRAbstractExporter
 				if (pageWidth <= 0)
 					throw new JRException("Page width must be greater than 0");
 			} else {
-                throw new JRException("Character or page width must be specified");
+				throw new JRException("Character or page width must be specified");
 			}
 		}
 
 
 		Integer characterHeightParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_HEIGHT);
 		if (characterHeightParam != null) {
-            characterHeight = characterHeightParam.intValue();
+			characterHeight = characterHeightParam.intValue();
 			if (characterHeight < 0)
 				throw new JRException("Character height must be greater than 0");
 		}
-        else {
+		else {
 			Integer pageHeightParam = (Integer) parameters.get(JRTextExporterParameter.PAGE_HEIGHT);
 			if (pageHeightParam != null) {
 				pageHeight = pageHeightParam.intValue();
@@ -333,7 +333,7 @@ public class JRTextExporter extends JRAbstractExporter
 		if (allText != null && allText.length() == 0)
 			return;
 
-        // uses an array of string buffers, since the maximum number of rows is already calculated
+		// uses an array of string buffers, since the maximum number of rows is already calculated
 		StringBuffer[] rows = new StringBuffer[rowCount];
 		rows[0] = new StringBuffer();
 		int rowIndex = 0;
@@ -345,7 +345,7 @@ public class JRTextExporter extends JRAbstractExporter
 			String line = lfTokenizer.nextToken();
 			StringTokenizer spaceTokenizer = new StringTokenizer(line, " ", true);
 
-            // divide each text line in words
+			// divide each text line in words
 			while (spaceTokenizer.hasMoreTokens()) {
 				String word = spaceTokenizer.nextToken();
 
@@ -404,7 +404,7 @@ public class JRTextExporter extends JRAbstractExporter
 			int pos = line.length() - 1;
 			while (pos >= 0 && line.charAt(pos) == ' ')
 				pos--;
-            line = line.substring(0, pos + 1);
+			line = line.substring(0, pos + 1);
 			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_RIGHT)
 				xOffset = columnCount - line.length();
 			if (element.getHorizontalAlignment() == JRAlignment.HORIZONTAL_ALIGN_CENTER)
@@ -453,7 +453,7 @@ public class JRTextExporter extends JRAbstractExporter
 			if (i < remainingSpace)
 				justified.append(' ');
 		}
-        justified.append(words[words.length-1]);
+		justified.append(words[words.length-1]);
 
 		return justified.toString();
 	}

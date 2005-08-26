@@ -74,7 +74,7 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	/**
 	 * A boolean value specifying whether the exporter should try to automatically detect cell types based on the cell value.
 	 */
-    public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
+	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
 
 
 }
