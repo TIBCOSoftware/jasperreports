@@ -933,7 +933,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			result.append(str.substring(s));
 			
-			writer.write(handleUnicodeText(result));
+			writer.write(handleUnicodeText(result, text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL));
 			
 			// reset all styles in the paragraph
 			writer.write("\\plain");
@@ -956,42 +956,49 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Replace Unicode characters with RTF Unicode control words
 	 * @param source source text
-	 * @return text with Unicode charaters replaced 
+	 * @return text with Unicode characters replaced 
 	 */
-	private String handleUnicodeText(StringBuffer source){
-		StringBuffer retVal = new StringBuffer();
-		StringBuffer tempBuffer = new StringBuffer();
+	private String handleUnicodeText(StringBuffer source, boolean isRightToLeft)
+	{
+		StringBuffer resultBuffer = new StringBuffer();
+		StringBuffer leftToRightBuffer = new StringBuffer();
 		
-		
-		byte directionality = Character.DIRECTIONALITY_LEFT_TO_RIGHT;
-		boolean hasChanged = false;
-		for(int i = 0; i < source.length(); i++ ){
-			long tempChar = 0;
-			if( (tempChar = source.charAt(i))> 255){
-				if(Character.getDirectionality(source.charAt(i)) != directionality){
-					hasChanged = true;
-					retVal.insert(0, tempBuffer);
-					tempBuffer = new StringBuffer();
-					retVal.insert(0, "\\u" + tempChar + '?');
+		for(int i = 0; i < source.length(); i++ )
+		{
+			long ch = source.charAt(i);
+			if(ch > 255)
+			{
+				if(isRightToLeft)
+				{
+					resultBuffer.insert(0, leftToRightBuffer);
+					leftToRightBuffer = new StringBuffer();
+					
+					resultBuffer.insert(0, "\\u" + ch + '?');
 				}
-				else {
-					tempBuffer.append("\\u" + tempChar + '?');
+				else 
+				{
+					leftToRightBuffer.append("\\u" + ch + '?');
 				}
 			}
-			else {
-				tempBuffer.append(source.charAt(i));
+			else 
+			{
+				leftToRightBuffer.append((char)ch);
 			}
 		}
 		
-		if(tempBuffer != null && tempBuffer.length() > 0){
-			if(hasChanged){
-				retVal.insert(0, tempBuffer);
+		if(leftToRightBuffer != null && leftToRightBuffer.length() > 0)
+		{
+			if(isRightToLeft)
+			{
+				resultBuffer.insert(0, leftToRightBuffer);
 			}
-			else {
-				retVal.append(tempBuffer);
+			else 
+			{
+				resultBuffer.append(leftToRightBuffer);
 			}
 		}
-		return retVal.toString();
+		
+		return resultBuffer.toString();
 	}
 	
 	
