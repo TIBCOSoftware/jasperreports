@@ -2,19 +2,21 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.0.1 (2005-0x-xx)
+JasperReports 1.0.1 (2005-08-26)
 -----------------------------------
-- new RTF exporter;
+- further chart element customization possible using a new JRChartCustomizer interface 
+and the "customizerClass" attribute available for charts;
 
-- new TXT exporter;
+- new RTF and plain text exporters added;
 
-- support for generating PDF bookmarks;
+- new FONT_MAP exporter parameter introduced to allow export-time font mappings and 
+better control of font translation during document export;
 
-- support for pagination;
+- support for generating PDF bookmarks from report anchors using a new "bookmarkLever" 
+attribute available for hyperlink elements;
 
-- chart customizer;
-
-- export time font mappings;
+- new IS_IGNORE_PAGINATION built-in parameter for disabling pagination and allow 
+creating flow-based documents instead of page-based documents;
 
 - minor bug fixes and improvements;
 
