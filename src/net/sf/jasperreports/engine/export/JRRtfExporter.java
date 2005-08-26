@@ -421,7 +421,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * called first when the header of the .rtf document is constructed and when a
 	 * text component needs font informations.
 	 * @param font Font for which the index is required
-	 * @return index of the fornt from .rtf file header
+	 * @return index of the font from .rtf file header
 	 */
 	private int getFontIndex(JRFont font) {
 		String fontName = font.getFontName();

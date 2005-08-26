@@ -130,7 +130,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private JRFont defaultFont = null;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
-	protected TextRenderer simluationTextRenderer = 
+	protected TextRenderer simulationTextRenderer = 
 		new TextRenderer()
 		{
 			public void draw(TextLayout layout) 
@@ -1489,7 +1489,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		grx.setColor(text.getForecolor());
 
 		/*   */
-		simluationTextRenderer.render(
+		simulationTextRenderer.render(
 			grx, 
 			x, 
 			y, 
@@ -1518,7 +1518,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			leftPadding,
 			bottomPadding,
 			rightPadding,
-			simluationTextRenderer.getTextHeight(), 
+			simulationTextRenderer.getTextHeight(), 
 			text.getHorizontalAlignment(), 
 			text.getVerticalAlignment(), 
 			text.getLineSpacing(), 
