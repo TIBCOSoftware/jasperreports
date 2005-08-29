@@ -462,26 +462,14 @@ public class JRStyledTextParser
 				styledText.append("\n");
 
 				int startIndex = styledText.length();
-
-				List runs = styledText.getRuns();
-				for (int j = 0; j < runs.size(); j++)
-				{
-					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
-					if (run.startIndex <= startIndex && run.endIndex > startIndex)
-						run.endIndex++;
-				}
+				resizeRuns(styledText.getRuns(), startIndex, 1);
 
 				parseStyle(styledText, node);
 				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
 
-				if (startIndex < styledText.length())
+				if (startIndex < styledText.length()) {
 					styledText.append("\n");
-				runs = styledText.getRuns();
-				for (int j = 0; j < runs.size(); j++)
-				{
-					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
-					if (run.startIndex <= startIndex && run.endIndex > startIndex)
-						run.endIndex++;
+					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equals(node.getNodeName()))
@@ -489,31 +477,29 @@ public class JRStyledTextParser
 				styledText.append("\n \u2022 ");
 
 				int startIndex = styledText.length();
-
-				List runs = styledText.getRuns();
-				for (int j = 0; j < runs.size(); j++)
-				{
-					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
-					if (run.startIndex <= startIndex && run.endIndex > startIndex - 4)
-						run.endIndex += 4;
-				}
+				resizeRuns(styledText.getRuns(), startIndex, 1);
 
 				parseStyle(styledText, node);
 				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
 
 				styledText.append("\n");
-				runs = styledText.getRuns();
-				for (int j = 0; j < runs.size(); j++)
-				{
-					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
-					if (run.startIndex <= startIndex && run.endIndex > startIndex)
-						run.endIndex++;
-				}
+				resizeRuns(styledText.getRuns(), startIndex, 1);
 			}
 		}
 	}
 
-
+	/**
+	 *
+	 */
+	private void resizeRuns(List runs, int startIndex, int count)
+	{
+		for (int j = 0; j < runs.size(); j++)
+		{
+			JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+			if (run.startIndex <= startIndex && run.endIndex > startIndex - count)
+				run.endIndex += count;
+		}
+	}
 	/**
 	 *
 	 */
