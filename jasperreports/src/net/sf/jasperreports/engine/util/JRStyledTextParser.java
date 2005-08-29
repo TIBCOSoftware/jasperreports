@@ -438,18 +438,20 @@ public class JRStyledTextParser
 						);
 				}
 
-				String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-				String fontFaces = nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue();
-				StringTokenizer t = new StringTokenizer(fontFaces, ",");
-				label:while (t.hasMoreTokens()) {
-					String face = t.nextToken().trim();
-					for (int j = 0; j < fontList.length; j++)
-						if (fontList[j].equals(face)) {
-							styleAttrs.put(TextAttribute.FAMILY, face);
-							break label;
-						}
-				}
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null) {
+					String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+					String fontFaces = nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue();
 
+					StringTokenizer t = new StringTokenizer(fontFaces, ",");
+					label:while (t.hasMoreTokens()) {
+						String face = t.nextToken().trim();
+						for (int j = 0; j < fontList.length; j++)
+							if (fontList[j].equals(face)) {
+								styleAttrs.put(TextAttribute.FAMILY, face);
+								break label;
+							}
+					}
+				}
 				int startIndex = styledText.length();
 
 				parseStyle(styledText, node);
@@ -500,6 +502,8 @@ public class JRStyledTextParser
 				run.endIndex += count;
 		}
 	}
+
+
 	/**
 	 *
 	 */

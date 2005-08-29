@@ -26,6 +26,8 @@
  * http://www.jaspersoft.com
  */
 import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -39,6 +41,10 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.FontKey;
+import net.sf.jasperreports.engine.export.PdfFont;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -108,15 +114,31 @@ public class StyledTextApp
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
+				File sourceFile = new File(fileName);
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
+
+				JRPdfExporter exporter = new JRPdfExporter();
+
+				Map fontMap = new HashMap();
+				fontMap.put(new FontKey("Arial", true, false), new PdfFont("Helvetica-Bold", "Cp1252", false));
+				fontMap.put(new FontKey("Arial", false, true), new PdfFont("Helvetica-Oblique", "Cp1252", false));
+				fontMap.put(new FontKey("Arial", true, true), new PdfFont("Helvetica-BoldOblique", "Cp1252", false));
+				fontMap.put(new FontKey("Comic Sans MS", false, false), new PdfFont("COMICBD.TTF", "Cp1252", false));
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+				exporter.exportReport();
+
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
-		
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
 				JRRtfExporter exporter = new JRRtfExporter();
@@ -143,7 +165,24 @@ public class StyledTextApp
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
+				JasperExportManager.exportReportToPdfFile(fileName);
+
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
+
+				JRHtmlExporter exporter = new JRHtmlExporter();
+
+				Map fontMap = new HashMap();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+				exporter.exportReport();
+
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
