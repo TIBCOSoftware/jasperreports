@@ -43,7 +43,7 @@ public class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	public static JRTextAttribute PDF_FONT_NAME = new JRTextAttribute("PDF_FONT_NAME");
 	public static JRTextAttribute PDF_ENCODING = new JRTextAttribute("PDF_ENCODING");
 	public static JRTextAttribute IS_PDF_EMBEDDED = new JRTextAttribute("IS_PDF_EMBEDDED");
-
+	public static JRTextAttribute HTML_FONT_FACE = new JRTextAttribute("HTML_FONT_FACE");
 	/**
 	 *
 	 */
