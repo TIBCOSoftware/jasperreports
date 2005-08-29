@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.0.2 (2005-0x-xx)
+-----------------------------------
+- support for simple HTML tags inside styled texts;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.0.1 (2005-08-26)
 -----------------------------------
 - further chart element customization possible using a new JRChartCustomizer interface 
