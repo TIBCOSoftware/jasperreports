@@ -5,13 +5,13 @@
 <jasperReport name="StyledTextReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 	<reportFont name="Arial" isDefault="true" fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
 	<title>
-		<band height="600">
+		<band height="640">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#c0c0c0"/>
 				<textElement isStyledText="true">
 					<font size="16"/>
 				</textElement>
-				<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true" pdfFontName="Helvetica-BoldOblique">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true" pdfFontName="Helvetica-BoldOblique">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true" pdfFontName="Helvetica-Oblique">isStyledText</style> boolean attribute available for the <style isBold="true" forecolor="magenta" pdfFontName="Helvetica-Bold">textElement</style> tag to <style forecolor="red" isItalic="true" pdfFontName="Helvetica-Oblique">true</style> and by formatting the text content using nested <style isBold="true" forecolor="green" pdfFontName="Helvetica-Bold">style</style> tags.]]></text>
+				<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true" pdfFontName="Helvetica-BoldOblique">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true" pdfFontName="Helvetica-BoldOblique">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true" pdfFontName="Helvetica-Oblique">isStyledText</style> boolean attribute available for the <style isBold="true" forecolor="magenta" pdfFontName="Helvetica-Bold">textElement</style> tag to <style forecolor="red" isItalic="true" pdfFontName="Helvetica-Oblique">true</style> and by formatting the text content using nested <style isBold="true" forecolor="green" pdfFontName="Helvetica-Bold">style</style> tags and simple HTML tags.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="150" width="555" height="60"/>
@@ -21,7 +21,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["This is a text field element that contains styled text displaying the text-only version of the <style size=\"12\" isBold=\"true\" forecolor=\"black\" pdfFontName=\"Helvetica-Bold\">^<style forecolor=\"#808080\">Jasper</style><style forecolor=\"#990000\">Reports</style></style> logo."]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="220" width="555" height="280" backcolor="#ccffcc"/>
+				<reportElement mode="Opaque" x="0" y="220" width="270" height="320" backcolor="#ccffcc"/>
 				<textElement isStyledText="true">
 					<font size="16"/>
 				</textElement>
@@ -39,22 +39,41 @@ isPdfEmbedded
 <style forecolor="red">forecolor</style>
 <style backcolor="blue" forecolor="white" isBold="true" pdfFontName="Helvetica-Bold">backcolor</style>]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="280" y="220" width="270" height="320" backcolor="#ccffcc"/>
+				<textElement isStyledText="true">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Here is the list with the supported HTML tags :
+
+<font size="12">&amp;lt;font size=&amp;quot;12&amp;quot;&amp;gt;</font>
+<font color="red">&amp;lt;font color=&amp;quot;red&amp;quot;&amp;gt;</font>
+<font face="Comic Sans MS">&amp;lt;font face=&amp;quot;Comic Sans MS&amp;quot;&amp;gt;</font>
+<b>bold</b>
+<i>italic</i>
+<u>underlined</u>
+an empty line follows(&amp;lt;br/&amp;gt;):
+<br/>
+A bulleted list:
+<li>item 1</li>
+]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="0" y="510" width="555" height="20"/>
+				<reportElement x="0" y="550" width="555" height="20"/>
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["ampersand &amp;amp; less &amp;lt; greater &amp;gt; quote &amp;quot;"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="540" width="555" height="20"/>
+				<reportElement x="0" y="580" width="555" height="20"/>
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[ampersand &amp;amp; less &amp;lt; greater &amp;gt; quote &amp;quot;]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Opaque" x="0" y="570" width="555" height="20" forecolor="#ff" backcolor="#ffff00"/>
+				<reportElement mode="Opaque" x="0" y="610" width="555" height="20" forecolor="#ff" backcolor="#ffff00"/>
 				<textElement textAlignment="Center" isStyledText="true"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n"]]></textFieldExpression>
 			</textField>
