@@ -27,13 +27,16 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.Color;
 import java.awt.font.TextAttribute;
+import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -63,7 +66,15 @@ public class JRStyledTextParser
 	private static final String ROOT_START = "<st>";
 	private static final String ROOT_END = "</st>";
 	private static final String NODE_style = "style";
+	private static final String NODE_bold = "b";
+	private static final String NODE_italic = "i";
+	private static final String NODE_underline = "u";
+	private static final String NODE_font = "font";
+	private static final String NODE_br = "br";
+	private static final String NODE_li = "li";
 	private static final String ATTRIBUTE_fontName = "fontName";
+	private static final String ATTRIBUTE_fontFace = "face";
+	private static final String ATTRIBUTE_color = "color";
 	private static final String ATTRIBUTE_size = "size";
 	private static final String ATTRIBUTE_isBold = "isBold";
 	private static final String ATTRIBUTE_isItalic = "isItalic";
@@ -339,6 +350,165 @@ public class JRStyledTextParser
 				parseStyle(styledText, node);
 				
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equals(node.getNodeName()))
+			{
+				Map styleAttrs = new HashMap();
+				styleAttrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equals(node.getNodeName()))
+			{
+				Map styleAttrs = new HashMap();
+				styleAttrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equals(node.getNodeName()))
+			{
+				Map styleAttrs = new HashMap();
+				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_font.equals(node.getNodeName()))
+			{
+				NamedNodeMap nodeAttrs = node.getAttributes();
+
+				Map styleAttrs = new HashMap();
+
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontFace) != null)
+				{
+					styleAttrs.put(
+						JRTextAttribute.HTML_FONT_FACE,
+						nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue()
+						);
+				}
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
+				{
+					styleAttrs.put(
+						TextAttribute.SIZE,
+						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
+						);
+				}
+
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_color) != null)
+				{
+					Color color = null;
+					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_color).getNodeValue();
+					if (colorStr != null && colorStr.length() > 0)
+					{
+						char firstChar = colorStr.charAt(0);
+						if (firstChar == '#')
+						{
+							color = new Color(Integer.parseInt(colorStr.substring(1), 16));
+						}
+						else if ('0' <= firstChar && firstChar <= '9')
+						{
+							color = new Color(Integer.parseInt(colorStr));
+						}
+						else
+						{
+							if (JRXmlConstants.getColorMap().containsKey(colorStr))
+							{
+								color = (Color)JRXmlConstants.getColorMap().get(colorStr);
+							}
+							else
+							{
+								color = Color.black;
+							}
+						}
+					}
+					styleAttrs.put(
+						TextAttribute.FOREGROUND,
+						color
+						);
+				}
+
+				String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+				String fontFaces = nodeAttrs.getNamedItem(ATTRIBUTE_fontFace).getNodeValue();
+				StringTokenizer t = new StringTokenizer(fontFaces, ",");
+				label:while (t.hasMoreTokens()) {
+					String face = t.nextToken().trim();
+					for (int j = 0; j < fontList.length; j++)
+						if (fontList[j].equals(face)) {
+							styleAttrs.put(TextAttribute.FAMILY, face);
+							break label;
+						}
+				}
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_br.equals(node.getNodeName()))
+			{
+				styledText.append("\n");
+
+				int startIndex = styledText.length();
+
+				List runs = styledText.getRuns();
+				for (int j = 0; j < runs.size(); j++)
+				{
+					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+					if (run.startIndex <= startIndex && run.endIndex > startIndex)
+						run.endIndex++;
+				}
+
+				parseStyle(styledText, node);
+				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
+
+				if (startIndex < styledText.length())
+					styledText.append("\n");
+				runs = styledText.getRuns();
+				for (int j = 0; j < runs.size(); j++)
+				{
+					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+					if (run.startIndex <= startIndex && run.endIndex > startIndex)
+						run.endIndex++;
+				}
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equals(node.getNodeName()))
+			{
+				styledText.append("\n \u2022 ");
+
+				int startIndex = styledText.length();
+
+				List runs = styledText.getRuns();
+				for (int j = 0; j < runs.size(); j++)
+				{
+					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+					if (run.startIndex <= startIndex && run.endIndex > startIndex - 4)
+						run.endIndex += 4;
+				}
+
+				parseStyle(styledText, node);
+				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
+
+				styledText.append("\n");
+				runs = styledText.getRuns();
+				for (int j = 0; j < runs.size(); j++)
+				{
+					JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+					if (run.startIndex <= startIndex && run.endIndex > startIndex)
+						run.endIndex++;
+				}
 			}
 		}
 	}
