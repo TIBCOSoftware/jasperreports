@@ -894,6 +894,14 @@ public class JRRtfExporter extends JRAbstractExporter
 				isStrikeThrough = true;
 			}
 
+			fontName = styleFont.getFontName();
+			if(fontMap != null && fontMap.containsKey(fontName)){
+				fontName = (String)fontMap.get(fontName);
+			}
+			
+			int fontIndex = getFontIndex(fontName); 
+			writer.write("\\f" + fontIndex);
+			
 			int fontSize = styleFont.getSize();
 
 			writer.write("\\fs" + (2 * fontSize) + " ");
