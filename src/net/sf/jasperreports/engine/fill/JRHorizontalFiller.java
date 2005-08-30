@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
-import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 
 
 /**
@@ -192,6 +191,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 			//{
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
+				
+			if (fillContext.isUsingVirtualizer())
+			{
+				removePageIdentityDataProvider();
+			}
 		}
 		
 		if (fillContext.isIgnorePagination())
@@ -1104,8 +1108,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 			if (fillContext.isUsingVirtualizer())
 			{
-				JRVirtualPrintPage.IdentityDataProvider provider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
-				((JRVirtualPrintPage) fillContext.getPrintPage()).removeIdentityDataProvider(provider);
+				removePageIdentityDataProvider();
 			}
 
 			//signals to the master filler that is has finished the page
@@ -1126,8 +1129,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		
 		if (isSubreport() && fillContext.isUsingVirtualizer())
 		{
-			JRVirtualPrintPage.IdentityDataProvider provider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
-			((JRVirtualPrintPage) fillContext.getPrintPage()).addIdentityDataProvider(provider);
+			addPageIdentityDataProvider();
 		}
 		
 		if (isResetPageNumber)

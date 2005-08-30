@@ -419,6 +419,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	 * Collection of subfillers
 	 */
 	protected Set subfillers;
+	
+	private List identityPages;
 
 	private Thread fillingThread;
 
@@ -951,6 +953,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 			/*   */
 			fillReport();
+
+			if (parentFiller != null)
+			{
+				parentFiller.unregisterSubfiller(this);
+			}
 
 			return jasperPrint;
 		}
@@ -1716,7 +1723,11 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 		if (subfillers.add(subfiller) && fillContext.isUsingVirtualizer())
 		{
-			addIdentityDataProviders((JRVirtualPrintPage) fillContext.getPrintPage(), subfiller);
+			subfiller.identityPages = new ArrayList();
+			
+			JRVirtualPrintPage masterPrintPage = (JRVirtualPrintPage) fillContext.getPrintPage();
+			subfiller.identityPages.add(masterPrintPage);
+			addIdentityDataProviders(masterPrintPage, subfiller);
 		}
 	}
 
@@ -1724,7 +1735,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	{
 		if (subfillers.remove(subfiller) && fillContext.isUsingVirtualizer())
 		{
-			removeIdentityDataProviders((JRVirtualPrintPage) fillContext.getPrintPage(), subfiller);
+			removeIdentityDataProviders(subfiller);
 		}
 	}
 
@@ -1742,18 +1753,30 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			for (Iterator i = filler.subfillers.iterator(); i.hasNext();)
 			{
 				JRBaseFiller subfiller = (JRBaseFiller) i.next();
+				
+				subfiller.identityPages.add(page);
 				addIdentityDataProviders(page, subfiller);
 			}
 		}
 	}
 
-	private static void removeIdentityDataProviders(JRVirtualPrintPage page, JRBaseFiller filler)
+	private void removeIdentityDataProviders(JRBaseFiller filler)
 	{
-		page.removeIdentityDataProvider(filler.perPageBoundElements);
-		for (Iterator i = filler.bands.iterator(); i.hasNext();)
+		if (filler.identityPages != null)
 		{
-			JRFillBand band = (JRFillBand) i.next();
-			page.removeIdentityDataProvider(band);
+			for (Iterator it = filler.identityPages.iterator(); it.hasNext();)
+			{
+				JRVirtualPrintPage page = (JRVirtualPrintPage) it.next();
+				
+				page.removeIdentityDataProvider(filler.perPageBoundElements);
+				for (Iterator i = filler.bands.iterator(); i.hasNext();)
+				{
+					JRFillBand band = (JRFillBand) i.next();
+					page.removeIdentityDataProvider(band);
+				}
+			}
+			
+			filler.identityPages = null;
 		}
 	}
 
@@ -1817,6 +1840,29 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 				providers.put(printPage, provider);
 			}
 			return provider;
+		}
+		
+		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRBasePrintPage printPage)
+		{
+			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
+			return provider;
+		}
+	}
+
+	
+	protected void addPageIdentityDataProvider()
+	{
+		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
+		((JRVirtualPrintPage) fillContext.getPrintPage()).addIdentityDataProvider(pageProvider);
+	}
+
+	
+	protected void removePageIdentityDataProvider()
+	{
+		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.removeIdentityDataProvider((JRBasePrintPage) printPage);
+		if (pageProvider != null)
+		{
+			((JRVirtualPrintPage) fillContext.getPrintPage()).removeIdentityDataProvider(pageProvider);
 		}
 	}
 }
