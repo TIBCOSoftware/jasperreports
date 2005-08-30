@@ -978,7 +978,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				if(isRightToLeft)
 				{
-					resultBuffer.insert(0, leftToRightBuffer);
+					resultBuffer.insert(0, leftToRightBuffer.toString());
 					leftToRightBuffer = new StringBuffer();
 					
 					resultBuffer.insert(0, "\\u" + ch + '?');
@@ -998,11 +998,11 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			if(isRightToLeft)
 			{
-				resultBuffer.insert(0, leftToRightBuffer);
+				resultBuffer.insert(0, leftToRightBuffer.toString());
 			}
 			else 
 			{
-				resultBuffer.append(leftToRightBuffer);
+				resultBuffer.append(leftToRightBuffer.toString());
 			}
 		}
 		
