@@ -818,7 +818,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				}
 			}
 			
-			checkedReports.add(jasperReport);
+			if (isUsingCache())
+				checkedReports.add(jasperReport);
 		}
 	}
 	
