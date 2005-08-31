@@ -312,23 +312,19 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					}
 					else if (expressionClass.equals(java.io.InputStream.class))
 					{
-						InputStream is = (InputStream)source;
-						jasperReport = (JasperReport)JRLoader.loadObject(is);
+						jasperReport = (JasperReport)JRLoader.loadObject((InputStream)source);
 					}
 					else if (expressionClass.equals(java.net.URL.class))
 					{
-						URL url = (URL)source;
-						jasperReport = (JasperReport)JRLoader.loadObject(url);
+						jasperReport = (JasperReport)JRLoader.loadObject((URL)source);
 					}
 					else if (expressionClass.equals(java.io.File.class))
 					{
-						File file = (File)source;
-						jasperReport = (JasperReport)JRLoader.loadObject(file);
+						jasperReport = (JasperReport)JRLoader.loadObject((File)source);
 					}
 					else if (expressionClass.equals(java.lang.String.class))
 					{
-						String location = (String)source;
-						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation(location);
+						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source);
 					}
 					
 					if (jasperReport != null)
