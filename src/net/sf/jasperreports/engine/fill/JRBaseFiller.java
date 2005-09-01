@@ -364,7 +364,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected List formattedTextFields = new ArrayList();
 
 	protected Map loadedSubreports = null;
-	protected Map loadedCalculators = null;
 
 	protected JRFillContext fillContext;
 	
@@ -903,7 +902,6 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 
 			loadedSubreports = new HashMap();
-			loadedCalculators = new HashMap();
 
 			if (!fillContext.isPerPageBoundElements())
 			{
