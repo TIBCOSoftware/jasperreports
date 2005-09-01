@@ -97,6 +97,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected Map fontMap = null;
 
+	private int skippedRows = 0;
+	
 	
 	/**
 	 * 
@@ -452,21 +454,22 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			setColumnWidth((short)(i - 1), (short)(width * 43));
 		}
 
-		JRPrintElement element = null;
+		skippedRows = 0;
 		for(int y = 0; y < grid.length; y++)
 		{
+			int rowIndex = y - skippedRows;
+			
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
 				int lastRowHeight = grid[y][0].height;
 				
-				setRowHeight(y, lastRowHeight);
+				setRowHeight(rowIndex, lastRowHeight);
 	
-				int x = 0;
-				for(x = 0; x < grid[y].length; x++)
+				for(int x = 0; x < grid[y].length; x++)
 				{
-					setCell(x, y);
+					setCell(x, rowIndex);
 	
 					if(grid[y][x].element != null)
 					{
@@ -481,27 +484,27 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 	
-						element = grid[y][x].element;
+						JRPrintElement element = grid[y][x].element;
 	
 						if (element instanceof JRPrintLine)
 						{
-							exportLine((JRPrintLine)element, grid[y][x], x, y);
+							exportLine((JRPrintLine)element, grid[y][x], x, rowIndex);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, grid[y][x], x, y);
+							exportRectangle(element, grid[y][x], x, rowIndex);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, grid[y][x], x, y);
+							exportRectangle(element, grid[y][x], x, rowIndex);
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							exportImage((JRPrintImage) element, grid[y][x], x, y);
+							exportImage((JRPrintImage) element, grid[y][x], x, rowIndex);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							exportText((JRPrintText)element, grid[y][x], x, y);
+							exportText((JRPrintText)element, grid[y][x], x, rowIndex);
 						}
 
 						x += grid[y][x].colSpan - 1;
@@ -510,7 +513,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					{
 						emptyCellColSpan++;
 						emptyCellWidth += grid[y][x].width;
-						addBlankCell(x, y);
+						addBlankCell(x, rowIndex);
 					}
 				}
 	
@@ -525,13 +528,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			}
 			else
 			{
-				setRowHeight(y, 0);
-
-				for(int x = 0; x < grid[y].length; x++)
-				{
-					addBlankCell(x, y);
-					setCell(x, y);
-				}
+				skippedRows++;
+//				setRowHeight(y, 0);
+//
+//				for(int x = 0; x < grid[y].length; x++)
+//				{
+//					addBlankCell(x, y);
+//					setCell(x, y);
+//				}
 			}
 		}
 		
@@ -713,17 +717,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected abstract void setColumnWidth (short index, short width);
 
-	protected abstract void setRowHeight(int y, int lastRowHeight) throws JRException;
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 
-	protected abstract void setCell(int x, int y);
+	protected abstract void setCell(int colIndex, int rowIndex);
 
-	protected abstract void addBlankCell(int x, int y) throws JRException;
+	protected abstract void addBlankCell(int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportText(JRPrintText text, JRExporterGridCell cell, int x, int y) throws JRException;
+	protected abstract void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int x, int y) throws JRException;
+	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportRectangle(JRPrintElement element, JRExporterGridCell cell, int x, int y) throws JRException;
+	protected abstract void exportRectangle(JRPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int x, int y) throws JRException;
+	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 }
