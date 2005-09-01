@@ -113,9 +113,10 @@ public class StyledTextApp
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile(fileName);
 				File sourceFile = new File(fileName);
+				
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+				
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
 
 				JRPdfExporter exporter = new JRPdfExporter();
@@ -138,7 +139,9 @@ public class StyledTextApp
 			else if (TASK_RTF.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
+				
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
 				JRRtfExporter exporter = new JRRtfExporter();
@@ -165,24 +168,7 @@ public class StyledTextApp
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile(fileName);
-
-				File sourceFile = new File(fileName);
-
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
-
-				JRHtmlExporter exporter = new JRHtmlExporter();
-
-				Map fontMap = new HashMap();
-
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
-
-				exporter.exportReport();
-
+				JasperExportManager.exportReportToHtmlFile(fileName, true);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}

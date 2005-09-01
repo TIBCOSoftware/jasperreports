@@ -90,7 +90,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private Connection connection = null;
 	private JRDataSource dataSource = null;
 	private JasperReport jasperReport = null;
-	private JRCalculator calculator = null;
+
+	private Map loadedCalculators = null;
 	
 	/**
 	 * Values to be copied from the subreport.
@@ -144,6 +145,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			returnValuesList.toArray(returnValues);
 		}
 		
+		loadedCalculators = new HashMap();
 		checkedReports = new HashSet();
 	}
 
@@ -201,22 +203,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	public JRExpression getExpression()
 	{
 		return ((JRSubreport)parent).getExpression();
-	}
-
-	/**
-	 *
-	 *
-	protected JasperReport getJasperReport()
-	{
-		return jasperReport;
-	}
-		
-	/**
-	 *
-	 *
-	protected void setJasperReport(JasperReport jasperReport)
-	{
-		this.jasperReport = jasperReport;
 	}
 
 	/**
@@ -297,10 +283,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			Object source = filler.calculator.evaluate(expression, evaluation);
 			if (source != null) // FIXME put some default broken image like in browsers
 			{
+				JRCalculator calculator = null;
+				
 				if (isUsingCache() && filler.loadedSubreports.containsKey(source))
 				{
 					jasperReport = (JasperReport)filler.loadedSubreports.get(source);
-					calculator = (JRCalculator)filler.loadedCalculators.get(jasperReport);
+					calculator = (JRCalculator)loadedCalculators.get(jasperReport);
+
+					if (calculator == null)
+					{
+						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+						loadedCalculators.put(jasperReport, calculator);
+					}
 				}
 				else
 				{
@@ -335,7 +329,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					if (isUsingCache())
 					{
 						filler.loadedSubreports.put(source, jasperReport);
-						filler.loadedCalculators.put(jasperReport, calculator);
+						loadedCalculators.put(jasperReport, calculator);
 					}
 				}
 				
