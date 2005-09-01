@@ -168,7 +168,7 @@ public class StyledTextApp
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile(fileName, true);
+				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
