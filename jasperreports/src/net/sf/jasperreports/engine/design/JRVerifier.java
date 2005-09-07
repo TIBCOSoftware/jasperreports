@@ -443,9 +443,7 @@ public class JRVerifier
 					brokenRules.add("Parameter name missing.");
 				}
 
-				Class valueClass = parameter.getValueClass();
-
-				if (valueClass == null)
+				if (parameter.getValueClassName() == null)
 				{
 					brokenRules.add("Class not set for parameter : " + parameter.getName());
 				}
@@ -455,7 +453,7 @@ public class JRVerifier
 					if (expression != null)
 					{
 						if (
-							!valueClass.isAssignableFrom(
+							!parameter.getValueClass().isAssignableFrom(
 								expression.getValueClass()
 								)
 							)
