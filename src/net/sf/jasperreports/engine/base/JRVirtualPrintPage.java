@@ -65,7 +65,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = 10001;
+		private static final long serialVersionUID = 10002;
 
 		private final Object o;
 
@@ -112,7 +112,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 				ObjectIDPair[] identityData);
 	}
 
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	private static final Random random = new Random(System.currentTimeMillis());
 

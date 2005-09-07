@@ -45,7 +45,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

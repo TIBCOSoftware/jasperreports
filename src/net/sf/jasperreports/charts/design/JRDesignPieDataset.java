@@ -46,7 +46,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;

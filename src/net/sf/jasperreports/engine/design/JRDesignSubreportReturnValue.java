@@ -42,7 +42,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	/**
 	 * Sets the subreport variable name.

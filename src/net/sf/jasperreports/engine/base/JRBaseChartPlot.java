@@ -46,7 +46,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 	
 	protected Color backcolor = null;
 	protected PlotOrientation orientation = PlotOrientation.VERTICAL;

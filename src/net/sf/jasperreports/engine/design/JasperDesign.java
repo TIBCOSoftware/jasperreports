@@ -161,7 +161,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	/**
 	 * An array containing the built-in parameters that can be found and used in any report.

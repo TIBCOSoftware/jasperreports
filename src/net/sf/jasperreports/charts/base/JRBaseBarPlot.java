@@ -46,7 +46,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

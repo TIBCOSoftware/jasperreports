@@ -48,7 +48,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	/**
 	 *

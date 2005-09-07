@@ -44,7 +44,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	protected JRExpression seriesExpression;
 	protected JRExpression dateExpression;

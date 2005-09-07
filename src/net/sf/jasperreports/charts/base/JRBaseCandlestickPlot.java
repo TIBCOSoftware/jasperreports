@@ -44,7 +44,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

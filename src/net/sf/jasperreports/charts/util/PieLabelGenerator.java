@@ -40,7 +40,7 @@ import org.jfree.data.general.PieDataset;
  */
 public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 {
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 	
 	private Map labels = null;
 	

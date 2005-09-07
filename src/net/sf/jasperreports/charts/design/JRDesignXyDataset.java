@@ -49,7 +49,7 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	private List xySeriesList = new ArrayList();
 

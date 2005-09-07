@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 	
 	protected JRExpression seriesExpression = null;
 	protected JRExpression xValueExpression = null;

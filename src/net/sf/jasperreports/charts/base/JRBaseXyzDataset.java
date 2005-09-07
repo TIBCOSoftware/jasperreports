@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset {
 	
-	public static final long serialVersionUID = 10001;
+	public static final long serialVersionUID = 10002;
 	
 	protected JRXyzSeries[] xyzSeries = null;
 	
