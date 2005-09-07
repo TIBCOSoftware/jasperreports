@@ -2,9 +2,12 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.0.2 (2005-0x-xx)
+JasperReports 1.0.2 (2005-09-07)
 -----------------------------------
-- support for simple HTML tags inside styled texts;
+- fixes the bug introduced in the 1.0.1 version related to the subreports caching
+(see http://sourceforge.net/tracker/index.php?func=detail&aid=1277217&group_id=36382&atid=416703);
+
+- support for simple HTML tags like <b>, <u>, <i>, <font> and <li> inside styled texts;
 
 - minor bug fixes and improvements;
 
