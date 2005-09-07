@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignScatterPlot extends JRBaseScatterPlot {
 
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 
 	public JRDesignScatterPlot(JRChartPlot scattedPlot)

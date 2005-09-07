@@ -39,7 +39,7 @@ import org.jfree.data.category.CategoryDataset;
  */
 public class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator 
 {
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 	
 	private Map labelsMap = null;
 	

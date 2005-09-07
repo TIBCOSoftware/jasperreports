@@ -44,7 +44,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	/**
 	 * The name of the subreport variable to be copied.

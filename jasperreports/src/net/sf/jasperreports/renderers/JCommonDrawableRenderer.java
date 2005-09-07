@@ -59,7 +59,7 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;
+	private static final long serialVersionUID = 10002;
 
 	/**
 	 *
