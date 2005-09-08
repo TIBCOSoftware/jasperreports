@@ -142,6 +142,8 @@ public class JRPrinterAWT implements Printable
 		PageFormat pageFormat = printJob.defaultPage();
 		Paper paper = pageFormat.getPaper();
 
+		printJob.setJobName("JasperReports - " + jasperPrint.getName());
+		
 		switch (jasperPrint.getOrientation())
 		{
 			case JRReport.ORIENTATION_LANDSCAPE :
