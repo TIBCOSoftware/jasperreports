@@ -219,6 +219,17 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" JExcelAPI Sample"/>
+		<echo message="==================================="/>
+		<ant dir="jexcelapi" target="clean" />
+		<ant dir="jexcelapi" target="javac" />
+		<ant dir="jexcelapi" target="compile" />
+		<ant dir="jexcelapi" target="fill" />
+		<ant dir="jexcelapi" target="pdf" />
+		<ant dir="jexcelapi" target="xls" />
+		
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" JFreeChart Sample"/>
 		<echo message="==================================="/>
 		<ant dir="jfreechart" target="clean" />
@@ -536,6 +547,7 @@
 		<ant dir="images" target="clean" />
 		<ant dir="jasper" target="clean" />
 		<ant dir="jcharts" target="clean" />
+		<ant dir="jexcelapi" target="clean"/>
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
 		<ant dir="nopagebreak" target="clean" />
