@@ -139,7 +139,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{
