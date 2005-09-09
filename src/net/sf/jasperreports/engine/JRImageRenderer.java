@@ -38,6 +38,7 @@ import java.lang.ref.SoftReference;
 import java.net.URL;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
 /**
@@ -58,6 +59,7 @@ public class JRImageRenderer implements JRRenderable
 	private byte[] imageData = null;
 	private String imageLocation = null;
 	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
+	private byte imageType = JRImage.TYPE_UNKNOWN;
 
 	/**
 	 *
@@ -72,6 +74,11 @@ public class JRImageRenderer implements JRRenderable
 	{
 		this.imageData = imageData;
 		this.onErrorType = onErrorType;
+		
+		if(imageData != null) {
+			imageType = JRTypeSniffer.getImageType(imageData);
+		}
+			
 	}
 
 
@@ -283,7 +290,13 @@ public class JRImageRenderer implements JRRenderable
 	{
 		return TYPE_IMAGE;
 	}
-
+	
+	
+	public byte getImageType() {
+		return imageType;
+	}
+	
+	
 
 	/**
 	 *
