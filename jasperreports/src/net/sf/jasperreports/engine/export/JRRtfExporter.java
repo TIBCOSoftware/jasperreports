@@ -375,15 +375,7 @@ public class JRRtfExporter extends JRAbstractExporter
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
 								iterator.setIndex(runLimit);
-							}
-							
-							// replace fonts with font from fontMap
-							String fontName = ((JRPrintText) element).getFont().getFontName();
-							if(fontMap != null && fontMap.containsKey(fontName)){
-								fontName = (String)fontMap.get(fontName);
-							}
-							getFontIndex(fontName);
-							
+							}	
 						}
 					}
 				}
@@ -771,7 +763,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		
 		
-		JRFont font = text.getFont();
+		
 		/* 
 		 rtf text box does not allow unicode characters
 		 representation so if the report contains
@@ -800,29 +792,13 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\pard");
 		}
 		
-		String fontName = font.getFontName();
-		if(fontMap != null && fontMap.containsKey(fontName)){
-			fontName = (String)fontMap.get(fontName);
-		}
-		writer.write("\\f" + getFontIndex(fontName));
-		writer.write("\\cf" + getColorIndex(text.getForecolor()));
-		writer.write("\\cb" + getColorIndex(text.getBackcolor()));
+		
 		
 		if (text.getBox() != null)
 		{
 			writer.write("\\li" + leftPadding);
 			writer.write("\\ri" + rightPadding);
 		}
-
-		if (font.isBold())
-			writer.write("\\b");
-		if (font.isItalic())
-			writer.write("\\i");
-		if (font.isStrikeThrough())
-			writer.write("\\strike");
-		if (font.isUnderline())
-			writer.write("\\ul");
-		writer.write("\\fs" + (font.getSize() * 2));
 
 		switch (text.getHorizontalAlignment())
 		{
@@ -894,7 +870,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				isStrikeThrough = true;
 			}
 
-			fontName = styleFont.getFontName();
+			String fontName = styleFont.getFontName();
 			if(fontMap != null && fontMap.containsKey(fontName)){
 				fontName = (String)fontMap.get(fontName);
 			}
