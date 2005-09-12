@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine.util;
 import net.sf.jasperreports.engine.JRImage;
 
 /**
- * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @author George Stojanoff (gstojanoff@jaspersoft.com), Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
 public class JRTypeSniffer
