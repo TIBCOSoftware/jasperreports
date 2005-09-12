@@ -517,7 +517,9 @@ public class JRCsvExporter extends JRAbstractExporter
 				}
 				else if ("\n".equals(token))
 				{
-					sbuffer.append(" ");
+					//sbuffer.append(" ");
+					putQuotes = true;
+					sbuffer.append("\n");
 				}
 				else
 				{
