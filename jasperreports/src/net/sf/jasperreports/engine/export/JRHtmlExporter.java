@@ -511,13 +511,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 					/*   */
 					exportPage(page);
 				
-					if (betweenPagesHtml == null)
+					if (pageIndex < endPageIndex)
 					{
-						writer.write("<br>\n<br>\n");
-					}
-					else
-					{
-						writer.write(betweenPagesHtml);
+						if (betweenPagesHtml == null)
+						{
+							writer.write("<br>\n<br>\n");
+						}
+						else
+						{
+							writer.write(betweenPagesHtml);
+						}
 					}
 
 					writer.write("\n");
