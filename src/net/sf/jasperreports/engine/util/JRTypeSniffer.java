@@ -35,9 +35,14 @@ import net.sf.jasperreports.engine.JRImage;
  */
 public class JRTypeSniffer
 {
-	/**
-	 * 
-	 */
+	 /**
+     * Sniffs an incoming byte array to see if the first 3 characters
+     * are GIF. This is also known as the GIF signiture. See
+     * http://www.dcs.ed.ac.uk/home/mxr/gfx/2d/GIF87a.txt for more details
+     * Note: Perhaps we should be checking for the more restive string GIF87a but
+     *       I am not sure if older GIF images are sill out there in use on the web.
+     * Note: This method only really needs the first 3 bytes.
+     */
 	public static boolean isGIF(byte[] data) {
 		// chech if the image data length is less than 3 bytes
 		if(data.length < 3) {
@@ -54,9 +59,11 @@ public class JRTypeSniffer
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	  /**
+     * Sniffs an incoming byte array to see if the starting value is 0xffd8
+     * which is the "header" for JPEG data
+     * Note: This method only really needs the first 2 bytes.
+     */
 	public static boolean isJPEG(byte[] data) {
 		// check if the image data length is less than 2 bytes
 		if(data.length < 2) {
@@ -71,9 +78,15 @@ public class JRTypeSniffer
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	 /**
+     * Sniffs an incoming byte array to see if the first eight
+     * bytes are the following (decimal) values:
+     * 137 80 78 71 13 10 26 10
+     * which is the "signature" for PNG data
+     * See http://www.w3.org/TR/PNG/#5PNG-file-signature
+     * for more details.
+     * Note: This method only really needs the first 8 bytes.
+     */
 	public static boolean isPNG(byte[] data) {
 		if(data.length < 8) {
 			return false;
@@ -94,8 +107,13 @@ public class JRTypeSniffer
 	}
 	
 	/**
-	 * 
-	 */
+     * Sniffs an incoming byte array to see if the starting value is 0x4949
+     * (little endian) or 0x4D4D (big endian) which is the "header" for TIFF data
+     * The TIFF standards supports both endians.
+     * See http://palimpsest.stanford.edu/bytopic/imaging/std/tiff5.html
+     * for more details.
+     * Note: This method only really needs the first 2 bytes.
+     */
 	public static boolean isTIFF(byte[] data) {
 		if(data.length < 2) {
 			return false;
