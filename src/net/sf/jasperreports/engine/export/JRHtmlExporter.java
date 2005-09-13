@@ -125,6 +125,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	private static int imageId = 0;
+
+	/**
+	 *
+	 */
 	protected File imagesDir = null;
 	protected String imagesURI = null;
 	protected boolean isOutputImagesToDir = false;
@@ -1334,7 +1339,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					String imageName = "img_" + String.valueOf(imageNameToImageDataMap.size());
+					String imageName = "img" + getNextImageId();
 					imageNameToImageDataMap.put(imageName, renderer.getImageData());
 		
 					imagePath = imagesURI + imageName;
@@ -1743,5 +1748,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 	}
 
+	
+	private synchronized int getNextImageId(){
+		return imageId++;
+	}
 
 }

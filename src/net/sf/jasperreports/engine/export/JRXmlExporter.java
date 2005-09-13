@@ -116,7 +116,11 @@ public class JRXmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-
+	
+	/**
+	 * 
+	 */
+	private static int imageId = 0;
 
 	/**
 	 *
@@ -795,7 +799,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					}
 					else
 					{
-						imageSource = "img_" + String.valueOf(imageNameToImageDataMap.size());
+						imageSource = "img_" + getNextImageId();
 						imageNameToImageDataMap.put(imageSource, renderer.getImageData());
 						
 						imageSource = new File(imagesDir, imageSource).getPath();
@@ -1184,4 +1188,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		return ("000000" + hexa).substring(hexa.length());
 	}
 
+	private synchronized int getNextImageId(){
+		return imageId++;
+	}
 }
