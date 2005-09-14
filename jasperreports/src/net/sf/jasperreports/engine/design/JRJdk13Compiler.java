@@ -29,7 +29,12 @@ package net.sf.jasperreports.engine.design;
 
 //import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -42,6 +47,11 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 public class JRJdk13Compiler extends JRAbstractClassCompiler
 {
 
+
+	/**
+	 *  
+	 */
+	static final Log log = LogFactory.getLog(JRJdk13Compiler.class);
 
 	/**
 	 *
@@ -59,36 +69,48 @@ public class JRJdk13Compiler extends JRAbstractClassCompiler
 		source[1] = "-classpath";
 		source[2] = classpath;
 		
-		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		String errors = null;
+		
+		
 
 		try 
 		{
 			Class clazz = JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
 			Object compiler = clazz.newInstance();
-			//Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class, PrintWriter.class});
-			Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class});
-
-			int result = ((Integer)compileMethod.invoke(compiler, new Object[] {source})).intValue();
-			if(result != MODERN_COMPILER_SUCCESS)
+			
+			try 
 			{
-				errors = "See error messages above.";
+				Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class, PrintWriter.class});
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				int result = ((Integer)compileMethod.invoke(compiler, new Object[] {source, new PrintWriter(baos)})).intValue();
+				
+				if (result != MODERN_COMPILER_SUCCESS)
+				{
+					errors = baos.toString();
+				}
+				else 
+				{
+					String noerrors = baos.toString();
+					if (log.isInfoEnabled())
+						log.info(noerrors);
+				}
+			} 
+			catch (NoSuchMethodException ex)
+			{
+				Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class});
+
+				int result = ((Integer)compileMethod.invoke(compiler, new Object[] {source})).intValue();
+				if (result != MODERN_COMPILER_SUCCESS)
+				{
+					errors = "See error messages above.";
+				}
 			}
 		}
 		catch (Exception e)
 		{
 			throw new JRException("Error compiling report java source file : " + sourceFile, e);
 		}
-
-		/*
-		if( baos.toString().indexOf("error") != -1 )
-		{
-			return baos.toString();
-		}
-		*/
 		
 		return errors;
 	}
-
-
 }
