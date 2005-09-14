@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.base.JRBasePrintPage;
 
 
 /**
@@ -147,7 +146,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
 					scriptlet.callAfterReportInit();
 			
-					printPage = new JRBasePrintPage();
+					printPage = newPage();
 					addPage(printPage);
 					columnIndex = 0;
 					offsetX = leftMargin;
@@ -171,7 +170,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 				case JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE :
 				{
-					printPage = new JRBasePrintPage();
+					printPage = newPage();
 					addPage(printPage);
 					break;
 				}
