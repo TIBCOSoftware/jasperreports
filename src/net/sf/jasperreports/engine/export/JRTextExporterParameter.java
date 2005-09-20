@@ -44,7 +44,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 	/**
 	 * An integer representing the page height in characters.
 	 */
-	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Width");
+	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Height");
 
 
 	/**
