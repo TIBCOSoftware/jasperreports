@@ -1189,7 +1189,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			}
 			else
 			{
-				throw new JRException("Incompatible value assigned to parameter " + parameter.getName() + " : " + name);
+				throw 
+					new JRException(
+						"Incompatible " 
+						+ value.getClass().getName() 
+						+ " value assigned to parameter " 
+						+ parameter.getName() 
+						+ " in the " + name + " report."
+						);
 			}
 		}
 		else
