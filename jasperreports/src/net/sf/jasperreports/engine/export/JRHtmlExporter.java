@@ -1749,7 +1749,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 	
-	private synchronized int getNextImageId(){
+	/**
+	 *
+	 */
+	private static synchronized int getNextImageId(){
 		return imageId++;
 	}
 
