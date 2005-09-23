@@ -1188,7 +1188,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		return ("000000" + hexa).substring(hexa.length());
 	}
 
-	private synchronized int getNextImageId(){
+	/**
+	 * 
+	 */
+	private static synchronized int getNextImageId(){
 		return imageId++;
 	}
+
 }
