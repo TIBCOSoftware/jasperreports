@@ -186,8 +186,18 @@ public class JRProperties
 		defaults.setProperty(COMPILER_XML_VALIDATION, String.valueOf(true));
 		defaults.setProperty(COMPILER_KEEP_JAVA_FILE, String.valueOf(false));
 		defaults.setProperty(EXPORT_XML_VALIDATION, String.valueOf(true));
-		defaults.setProperty(COMPILER_TEMP_DIR, System.getProperty("user.dir"));
-		defaults.setProperty(COMPILER_CLASSPATH, System.getProperty("java.class.path"));
+		
+		String userDir = System.getProperty("user.dir");
+		if (userDir != null)
+		{
+			defaults.setProperty(COMPILER_TEMP_DIR, userDir);
+		}
+		
+		String classPath = System.getProperty("java.class.path");
+		if (classPath != null)
+		{
+			defaults.setProperty(COMPILER_CLASSPATH, classPath);
+		}
 		
 		return defaults;
 	}
