@@ -31,14 +31,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.SecureClassLoader;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRClassLoader extends SecureClassLoader
+public class JRClassLoader extends ClassLoader
 {
 
 	/**
@@ -249,7 +248,7 @@ public class JRClassLoader extends SecureClassLoader
 				bytecodes, 
 				0, 
 				bytecodes.length,
-				JRClassLoader.class.getProtectionDomain().getCodeSource()
+				JRClassLoader.class.getProtectionDomain()
 				);
 
 		return clazz;
