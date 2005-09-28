@@ -351,7 +351,7 @@ public class JRStyledTextParser
 				
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equalsIgnoreCase(node.getNodeName()))
 			{
 				Map styleAttrs = new HashMap();
 				styleAttrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -362,7 +362,7 @@ public class JRStyledTextParser
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equalsIgnoreCase(node.getNodeName()))
 			{
 				Map styleAttrs = new HashMap();
 				styleAttrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
@@ -373,7 +373,7 @@ public class JRStyledTextParser
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equalsIgnoreCase(node.getNodeName()))
 			{
 				Map styleAttrs = new HashMap();
 				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
@@ -384,7 +384,7 @@ public class JRStyledTextParser
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_font.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_font.equalsIgnoreCase(node.getNodeName()))
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
@@ -459,7 +459,7 @@ public class JRStyledTextParser
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_br.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_br.equalsIgnoreCase(node.getNodeName()))
 			{
 				styledText.append("\n");
 
@@ -474,7 +474,7 @@ public class JRStyledTextParser
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equals(node.getNodeName()))
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
 				styledText.append("\n \u2022 ");
 
