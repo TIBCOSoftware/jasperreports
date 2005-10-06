@@ -1489,6 +1489,12 @@ public class JRPdfExporter extends JRAbstractExporter
 					forecolor
 					);
 			}
+			
+			// check if FontFactory didn't find the font
+			if (font.getBaseFont() == null && font.family() == Font.UNDEFINED)
+			{
+				font = null;
+			}
 		}
 		catch(Exception e)
 		{
