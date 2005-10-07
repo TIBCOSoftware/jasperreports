@@ -25,62 +25,68 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.engine;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRRenderable extends Serializable
+public class JRPrintElementIndex
 {
 
 
 	/**
 	 *
 	 */
-	public static final byte TYPE_IMAGE = 0;
-	public static final byte TYPE_SVG = 1;
+	private int reportIndex = 0;
+	private int pageIndex = 0;
+	private List elementIndexes = null;
 
 
 	/**
 	 *
 	 */
-	public String getId();
-
-	/**
-	 *
-	 */
-	public byte getType();
-
-	/**
-	 *
-	 */
-	public Dimension2D getDimension() throws JRException;
-
-
-	/**
-	 *
-	 */
-	public byte[] getImageData() throws JRException;
+	public JRPrintElementIndex(
+		int reportIndex,
+		int pageIndex,
+		Integer[] elementIndexes
+		)
+	{
+		this.reportIndex = reportIndex;
+		this.pageIndex = pageIndex;
+		this.elementIndexes = Arrays.asList(elementIndexes);
+	}
 
 
 	/**
 	 *
 	 */
-	public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException;
+	public int getReportIndex()
+	{
+		return this.reportIndex;
+	}
+		
 
+	/**
+	 *
+	 */
+	public int getPageIndex()
+	{
+		return this.pageIndex;
+	}
+		
 
+	/**
+	 *
+	 */
+	public Integer[] getElementIndexes()
+	{
+		return (Integer[]) elementIndexes.toArray(new Integer[elementIndexes.size()]);
+	}
+
+	
 }

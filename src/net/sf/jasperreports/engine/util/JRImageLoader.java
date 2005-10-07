@@ -128,6 +128,15 @@ public class JRImageLoader
 	 */
 	public static byte[] loadImageDataFromLocation(String location) throws JRException
 	{
+		return loadImageDataFromLocation(location, null);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
 		try
 		{
 			URL url = new URL(location);
@@ -143,29 +152,33 @@ public class JRImageLoader
 			return loadImageDataFromFile(file);
 		}
 
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
 		URL url = null;
+
 		if (classLoader != null)
 		{
 			url = classLoader.getResource(location);
 		}
+
 		if (url == null)
 		{
-			//if (!wasWarning)
-			//{
-			//	if (log.isWarnEnabled())
-			//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRImageLoader class. Using JRImageLoader.class.getClassLoader() instead.");
-			//	wasWarning = true;
-			//}
-			classLoader = JRImageLoader.class.getClassLoader();
-			if (classLoader == null)
-			{
-				url = JRImageLoader.class.getResource("/" + location);
-			}
-			else
+			classLoader = Thread.currentThread().getContextClassLoader();
+			
+			if (classLoader != null)
 			{
 				url = classLoader.getResource(location);
+			}
+			
+			if (url == null)
+			{
+				classLoader = JRImageLoader.class.getClassLoader();
+				if (classLoader == null)
+				{
+					url = JRImageLoader.class.getResource("/" + location);
+				}
+				else
+				{
+					url = classLoader.getResource(location);
+				}
 			}
 		}
 

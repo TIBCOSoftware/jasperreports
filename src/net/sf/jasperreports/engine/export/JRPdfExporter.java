@@ -176,7 +176,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				pxImage = 
 					Image.getInstance(
-						JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF")
+						JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF", null)
 						);
 			}
 			catch(Exception e)
@@ -200,6 +200,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		
 		/*   */
 		setOffset();
+
+		/*   */
+		setClassLoader();
 
 		/*   */
 		setInput();
@@ -285,6 +288,9 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 
 
@@ -1507,7 +1513,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName());
+				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName(), classLoader);
 			}
 			catch(JRException e)
 			{

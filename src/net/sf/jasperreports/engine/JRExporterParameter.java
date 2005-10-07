@@ -204,4 +204,12 @@ public class JRExporterParameter
 	 * 
 	 */
 	public static final JRExporterParameter FONT_MAP = new JRExporterParameter("Font Map");
+
+
+	/**
+	 * 
+	 */
+	public static final JRExporterParameter CLASS_LOADER = new JRExporterParameter("Class Loader");
+
+
 }

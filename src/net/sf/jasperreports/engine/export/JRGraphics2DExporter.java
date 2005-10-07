@@ -113,6 +113,9 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		setOffset();
 
 		/*   */
+		setClassLoader();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -135,6 +138,9 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 
 		exportReportToGraphics2D();
+
+		/*   */
+		resetClassLoader();
 	}
 		
 

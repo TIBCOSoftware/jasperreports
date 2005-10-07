@@ -399,7 +399,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				else if (String.class.getName().equals(expressionClass.getName()))
 				{
 					String location = (String) source;
-					newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy());
+					newRenderer = JRImageRenderer.getInstance(location, getOnErrorType(), isLazy(), filler.reportClassLoader);
 				}
 				else if (JRRenderable.class.getName().equals(expressionClass.getName()))
 				{

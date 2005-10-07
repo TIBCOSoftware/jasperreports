@@ -96,7 +96,7 @@ public class JRClassLoader extends ClassLoader
 
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	public static Class loadClassFromFile(String className, File file) throws IOException
 	{
@@ -184,7 +184,7 @@ public class JRClassLoader extends ClassLoader
 
 
 	/**
-	 *
+	 * @deprecated To be removed in future versions.
 	 */
 	protected Class loadClass(String className, File file) throws IOException
 	{

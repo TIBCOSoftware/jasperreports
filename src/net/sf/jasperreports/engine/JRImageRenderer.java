@@ -45,13 +45,18 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRImageRenderer implements JRRenderable
+public class JRImageRenderer extends JRAbstractRenderer
 {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 10002;
+
+	/**
+	 *
+	 */
+	private static ThreadLocal threadLocalClassLoader = new ThreadLocal();
 
 	/**
 	 *
@@ -89,6 +94,24 @@ public class JRImageRenderer implements JRRenderable
 	{
 		this.imageLocation = imageLocation;
 		this.onErrorType = onErrorType;
+	}
+
+
+	/**
+	 *
+	 */
+	public static ClassLoader getClassLoader()
+	{
+		return (ClassLoader)threadLocalClassLoader.get();
+	}
+
+
+	/**
+	 *
+	 */
+	public static void setClassLoader(ClassLoader classLoader)
+	{
+		threadLocalClassLoader.set(classLoader);
 	}
 
 
@@ -137,6 +160,15 @@ public class JRImageRenderer implements JRRenderable
 	 */
 	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy) throws JRException
 	{
+		return getInstance(imageLocation, onErrorType, isLazy, getClassLoader());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader) throws JRException
+	{
 		if (imageLocation == null)
 		{
 			return null;
@@ -149,7 +181,7 @@ public class JRImageRenderer implements JRRenderable
 
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation), onErrorType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation, classLoader), onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -317,7 +349,7 @@ public class JRImageRenderer implements JRRenderable
 		{
 			try
 			{
-				imageData = JRImageLoader.loadImageDataFromLocation(imageLocation);
+				imageData = JRImageLoader.loadImageDataFromLocation(imageLocation, getClassLoader());
 			}
 			catch (JRException e)
 			{

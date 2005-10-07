@@ -128,6 +128,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		setOffset();
 
 		/*   */
+		setClassLoader();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -183,6 +186,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 
 	protected void setParameters()
@@ -365,6 +371,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				grid[j][i] =
 					new JRExporterGridCell(
 						null,
+						null,
 						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
 						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
 						1,
@@ -429,6 +436,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						grid[y1][x1] = 
 							new JRExporterGridCell(
 									element,
+									null,//unused in XLS export
 									element.getWidth(),
 									element.getHeight(),
 									x2 - x1,

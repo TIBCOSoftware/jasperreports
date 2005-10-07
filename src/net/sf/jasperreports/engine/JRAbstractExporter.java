@@ -67,6 +67,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int endPageIndex = 0;
 	protected int globalOffsetX = 0;
 	protected int globalOffsetY = 0;
+	protected ClassLoader classLoader = null;
+	private ClassLoader oldImageRendererClassLoader = null;
 
 	/**
 	 *
@@ -139,6 +141,32 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	protected void setClassLoader()
+	{
+		classLoader = (ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER);
+		if (classLoader != null)
+		{
+			oldImageRendererClassLoader = JRImageRenderer.getClassLoader();
+			JRImageRenderer.setClassLoader(classLoader);
+		}
+	}
+		
+
+	/**
+	 *
+	 */
+	protected void resetClassLoader()
+	{
+		if (classLoader != null)
+		{
+			JRImageRenderer.setClassLoader(oldImageRendererClassLoader);
+		}
+	}
+		
 
 	/**
 	 *

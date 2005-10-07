@@ -413,6 +413,7 @@ public class JRCsvExporter extends JRAbstractExporter
 				grid[j][i] = 
 					new JRExporterGridCell(
 						null,
+						null,
 						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
 						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
 						1,

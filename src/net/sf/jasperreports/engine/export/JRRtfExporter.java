@@ -126,7 +126,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			setPageRange();
 		}
 		
+		/*   */
+		setClassLoader();
+
+		/*   */
 		setInput();
+		
 		fonts = new ArrayList();
 		fontBuffer = new StringBuffer();
 		colors = new ArrayList();
@@ -185,8 +190,10 @@ public class JRRtfExporter extends JRAbstractExporter
 					exportReportToFile();
 				}
 			}
-				
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 	
 	
