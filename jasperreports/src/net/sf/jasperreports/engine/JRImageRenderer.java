@@ -64,7 +64,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	private byte[] imageData = null;
 	private String imageLocation = null;
 	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
-	private byte imageType = JRImage.TYPE_UNKNOWN;
+	private byte imageType = IMAGE_TYPE_UNKNOWN;
 
 	/**
 	 *
@@ -80,7 +80,8 @@ public class JRImageRenderer extends JRAbstractRenderer
 		this.imageData = imageData;
 		this.onErrorType = onErrorType;
 		
-		if(imageData != null) {
+		if(imageData != null) 
+		{
 			imageType = JRTypeSniffer.getImageType(imageData);
 		}
 			

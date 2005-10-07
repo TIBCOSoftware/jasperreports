@@ -74,31 +74,6 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public static final byte ON_ERROR_TYPE_ICON = 3;
 	
-	/**
-	 * A constant used for specifying that the image is of unknown type 
-	 */
-	public static final byte TYPE_UNKNOWN = 0;
-	
-	/**
-	 * A constant used for specifying that the image is of GIF type
-	 */
-	public static final byte TYPE_GIF = 1;
-	
-	/**
-	 * A constant used for specifying that the image is of the JPEG type
-	 */
-	public static final byte TYPE_JPEG = 2;
-	
-	/**
-	 * A constant used for specifying that the image is of the PNG type
-	 */
-	public static final byte TYPE_PNG = 3;
-	
-	/**
-	 * A constant used for specifying that the image is of the TIFF type
-	 */
-	public static final byte TYPE_TIFF = 4; 
-
 
 	/**
 	 * Gets the image scale type.

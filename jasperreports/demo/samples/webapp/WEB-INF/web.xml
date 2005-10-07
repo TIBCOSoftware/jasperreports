@@ -21,7 +21,7 @@
 	</servlet>
 	<servlet>
 		<servlet-name>ImageServlet</servlet-name>
-		<servlet-class>servlets.ImageServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>JasperPrintServlet</servlet-name>

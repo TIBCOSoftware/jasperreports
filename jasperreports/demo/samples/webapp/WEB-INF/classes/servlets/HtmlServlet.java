@@ -31,6 +31,7 @@ import datasource.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.*;
 import net.sf.jasperreports.engine.export.*;
+import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
 import java.io.*;
 import java.util.*;
@@ -80,13 +81,15 @@ public class HtmlServlet extends HttpServlet
 						
 			JRHtmlExporter exporter = new JRHtmlExporter();
 		
-			Map imagesMap = new HashMap();
-			request.getSession().setAttribute("IMAGES_MAP", imagesMap);
+			String jasperPrintSessionAttr = "jrprinttempattr";
+			request.getSession().setAttribute(jasperPrintSessionAttr, jasperPrint);
 			
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, out);
-			exporter.setParameter(JRHtmlExporterParameter.IMAGES_MAP, imagesMap);
-			exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?image=");
+			exporter.setParameter(
+				JRHtmlExporterParameter.IMAGES_URI, 
+				"image?" + ImageServlet.JASPER_PRINT_REQUEST_PARAMETER + "=" + jasperPrintSessionAttr + "&image="
+				);
 			
 			exporter.exportReport();
 		}
