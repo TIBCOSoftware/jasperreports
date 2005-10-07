@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/itext-1.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-digester-1.7.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

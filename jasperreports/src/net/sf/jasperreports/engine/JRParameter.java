@@ -85,7 +85,13 @@ public interface JRParameter
 	 */
 	public static final String REPORT_VIRTUALIZER = "REPORT_VIRTUALIZER";
 
-	
+	/**
+	 * A <tt>java.lang.ClassLoader</tt> instance to be used during the report filling process to load resources such 
+	 * as images, fonts and subreport templates.
+	 */
+	public static final String REPORT_CLASS_LOADER = "REPORT_CLASS_LOADER";
+
+
 	/**
 	 * Whether to use pagination.
 	 * <b>

@@ -357,6 +357,8 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 	protected JRVirtualizer virtualizer = null;
 
+	protected ClassLoader reportClassLoader = null;
+
 	protected Integer reportMaxCount = null;
 
 	protected int reportCount = 0;
@@ -1063,7 +1065,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		/*   */
-		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
+		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);//FIXME NOW why not setParameter()
 
 		/*   */
 		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
@@ -1125,6 +1127,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			perPageBoundElements = new BoundElements();
 		}
 		
+		/*   */
+		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
+		parameter = (JRFillParameter) parametersMap.get(JRParameter.REPORT_CLASS_LOADER);
+		if (parameter != null)
+		{
+			setParameter(parameter, reportClassLoader);
+		}
+
 		Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
 		if (isIgnorePaginationParam != null)
 		{

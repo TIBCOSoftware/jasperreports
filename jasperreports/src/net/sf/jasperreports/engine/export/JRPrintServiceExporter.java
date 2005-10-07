@@ -78,6 +78,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		setOffset();
 
 		/*   */
+		setClassLoader();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -88,6 +91,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, progressMonitor);
 		exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
 		exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
+		exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 
 		printRequestAttributeSet = 
 			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
@@ -176,6 +180,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		{
 			throw new JRException("No suitable print service found.");
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 
 

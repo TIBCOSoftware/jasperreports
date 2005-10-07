@@ -220,6 +220,15 @@ public class JRLoader
 	 */
 	public static Object loadObjectFromLocation(String location) throws JRException
 	{
+		return loadObjectFromLocation(location, null);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
 		try
 		{
 			URL url = new URL(location);
@@ -235,29 +244,33 @@ public class JRLoader
 			return loadObject(file);
 		}
 
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
 		URL url = null;
+		
 		if (classLoader != null)
 		{
 			url = classLoader.getResource(location);
 		}
+		
 		if (url == null)
 		{
-			//if (!wasWarning)
-			//{
-			//	if (log.isWarnEnabled())
-			//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRLoader class. Using JRLoader.class.getClassLoader() instead.");
-			//	wasWarning = true;
-			//}
-			classLoader = JRLoader.class.getClassLoader();
-			if (classLoader == null)
+			classLoader = Thread.currentThread().getContextClassLoader();
+
+			if (classLoader != null)
 			{
-				url = JRLoader.class.getResource("/" + location);
-			}
-			else
-			{				
 				url = classLoader.getResource(location);
+			}
+			
+			if (url == null)
+			{
+				classLoader = JRLoader.class.getClassLoader();
+				if (classLoader == null)
+				{
+					url = JRLoader.class.getResource("/" + location);
+				}
+				else
+				{				
+					url = classLoader.getResource(location);
+				}
 			}
 		}
 
@@ -427,6 +440,15 @@ public class JRLoader
 	 */
 	public static byte[] loadBytesFromLocation(String location) throws JRException
 	{
+		return loadBytesFromLocation(location, null);
+	}
+
+		
+	/**
+	 *
+	 */
+	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
 		try
 		{
 			URL url = new URL(location);
@@ -444,7 +466,6 @@ public class JRLoader
 
 		URL url = null;
 		
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
 		{
 			url = classLoader.getResource(location);
@@ -452,20 +473,24 @@ public class JRLoader
 		
 		if (url == null)
 		{
-			//if (!wasWarning)
-			//{
-			//	if (log.isWarnEnabled())
-			//		log.warn("Failure using Thread.currentThread().getContextClassLoader() in JRLoader class. Using JRLoader.class.getClassLoader() instead.");
-			//	wasWarning = true;
-			//}
-			classLoader = JRLoader.class.getClassLoader();
-			if (classLoader == null)
-			{
-				url = JRLoader.class.getResource("/" + location);
-			}
-			else
+			classLoader = Thread.currentThread().getContextClassLoader();
+
+			if (classLoader != null)
 			{
 				url = classLoader.getResource(location);
+			}
+
+			if (url == null)
+			{
+				classLoader = JRLoader.class.getClassLoader();
+				if (classLoader == null)
+				{
+					url = JRLoader.class.getResource("/" + location);
+				}
+				else
+				{
+					url = classLoader.getResource(location);
+				}
 			}
 		}
 

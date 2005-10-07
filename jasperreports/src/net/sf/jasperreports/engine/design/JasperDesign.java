@@ -176,6 +176,7 @@ public class JasperDesign extends JRBaseReport
 		JRParameter.REPORT_LOCALE, Locale.class,
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
 		JRParameter.REPORT_VIRTUALIZER, JRVirtualizer.class,
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.IS_IGNORE_PAGINATION, Boolean.class
 	};
 

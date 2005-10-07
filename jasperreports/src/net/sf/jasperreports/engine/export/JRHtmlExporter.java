@@ -48,12 +48,12 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -72,6 +73,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -119,13 +121,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
 	protected Map imageNameToImageDataMap = null;
+	protected List imagesToProcess = null;
+	protected boolean isPxImageLoaded = false;
 
 	protected int reportIndex = 0;
-
-	/**
-	 *
-	 */
-	private static int imageId = 0;
+	protected int pageIndex = 0;
 
 	/**
 	 *
@@ -174,6 +174,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		/*   */
 		setOffset();
+
+		/*   */
+		setClassLoader();
 
 		/*   */
 		setInput();
@@ -229,12 +232,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		
 		rendererToImagePathMap = new HashMap();
+		imagesToProcess = new ArrayList();
+		isPxImageLoaded = false;
 
+		//backward compatibility with the IMAGE_MAP parameter
 		imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-		if (imageNameToImageDataMap == null)
-		{
-			imageNameToImageDataMap = new HashMap();
-		}
+//		if (imageNameToImageDataMap == null)
+//		{
+//			imageNameToImageDataMap = new HashMap();
+//		}
+		//END - backward compatibility with the IMAGE_MAP parameter
 		
 		Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
 		if (isWrapBreakWordParameter != null)
@@ -419,20 +426,72 @@ public class JRHtmlExporter extends JRAbstractExporter
 				throw new JRException("The images directory was not specified for the exporter.");
 			}
 
-			Collection imageNames = imageNameToImageDataMap.keySet();
-			if (imageNames != null && imageNames.size() > 0)
+			if (isPxImageLoaded || (imagesToProcess != null && imagesToProcess.size() > 0))
 			{
 				if (!imagesDir.exists())
 				{
 					imagesDir.mkdir();
 				}
 	
-				for(Iterator it = imageNames.iterator(); it.hasNext();)
+				if (isPxImageLoaded)
 				{
-					String imageName = (String)it.next();
-					byte[] imageData = (byte[])imageNameToImageDataMap.get(imageName);
+					JRRenderable pxRenderer = 
+						JRImageRenderer.getInstance(
+							"net/sf/jasperreports/engine/images/pixel.GIF",
+							JRImage.ON_ERROR_TYPE_ERROR
+							);
+					byte[] imageData = pxRenderer.getImageData();
 
-					File imageFile = new File(imagesDir, imageName);
+					File imageFile = new File(imagesDir, "px");
+					FileOutputStream fos = null;
+
+					try
+					{
+						fos = new FileOutputStream(imageFile);
+						fos.write(imageData, 0, imageData.length);
+					}
+					catch (IOException e)
+					{
+						throw new JRException("Error writing to image file : " + imageFile, e);
+					}
+					finally
+					{
+						if (fos != null)
+						{
+							try
+							{
+								fos.close();
+							}
+							catch(IOException e)
+							{
+							}
+						}
+					}
+				}
+
+				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+				{
+					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+					
+					JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
+					JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());//FIXME J2EE more robust
+					JRPrintImage image = (JRPrintImage)page.getElements().get(
+							imageIndex.getElementIndexes()[0].intValue() 
+									);
+					JRRenderable renderer = image.getRenderer();
+					if (renderer.getType() == JRRenderable.TYPE_SVG)
+					{
+						renderer = 
+							new JRWrappingSvgRenderer(
+								renderer, 
+								new Dimension(image.getWidth(), image.getHeight()),
+								image.getBackcolor()
+								);
+					}
+					
+					byte[] imageData = renderer.getImageData();
+
+					File imageFile = new File(imagesDir, getImageName(imageIndex));
 					FileOutputStream fos = null;
 
 					try
@@ -460,6 +519,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 
 
@@ -502,7 +564,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 
 				JRPrintPage page = null;
-				for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
 					if (Thread.currentThread().isInterrupted())
 					{
@@ -516,7 +578,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					/*   */
 					exportPage(page);
 				
-					if (pageIndex < endPageIndex)
+					if (reportIndex < jasperPrintList.size() - 1 || pageIndex < endPageIndex)
 					{
 						if (betweenPagesHtml == null)
 						{
@@ -1317,21 +1379,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer))
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
-				imagePath = (String)rendererToImagePathMap.get(renderer);
+				imagePath = (String)rendererToImagePathMap.get(renderer.getId());
 			}
 			else
 			{
-				if (renderer.getType() == JRRenderable.TYPE_SVG)
-				{
-					renderer = 
-						new JRWrappingSvgRenderer(
-							renderer, 
-							new Dimension(image.getWidth(), image.getHeight()),
-							image.getBackcolor()
-							);
-				}
+//				if (renderer.getType() == JRRenderable.TYPE_SVG)
+//				{
+//					renderer = 
+//						new JRWrappingSvgRenderer(
+//							renderer, 
+//							new Dimension(image.getWidth(), image.getHeight()),
+//							image.getBackcolor()
+//							);
+//				}
 				
 				if (image.isLazy())
 				{
@@ -1339,13 +1401,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					String imageName = "img" + getNextImageId();
-					imageNameToImageDataMap.put(imageName, renderer.getImageData());
-		
+					JRPrintElementIndex imageIndex = 
+						new JRPrintElementIndex(
+								reportIndex,
+								pageIndex,
+								gridCell.elementIndex
+								);					
+					imagesToProcess.add(imageIndex);
+
+					String imageName = getImageName(imageIndex);
 					imagePath = imagesURI + imageName;
+
+					//backward compatibility with the IMAGE_MAP parameter
+					if (imageNameToImageDataMap != null)
+					{
+						imageNameToImageDataMap.put(imageName, renderer.getImageData());
+					}
+					//END - backward compatibility with the IMAGE_MAP parameter
 				}
 
-				rendererToImagePathMap.put(renderer, imagePath);
+				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 		}
 		else
@@ -1540,6 +1615,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				grid[j][i] = 
 					new JRExporterGridCell(
 						null,
+						null,
 						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
 						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
 						1,
@@ -1617,6 +1693,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						grid[y1][x1] = 
 							new JRExporterGridCell(
 								element,
+								new Integer[]{new Integer(i)},
 								element.getWidth(),
 								element.getHeight(),
 								x2 - x1,
@@ -1634,16 +1711,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void loadPxImage() throws JRException
 	{
-		if (!imageNameToImageDataMap.containsKey("px"))
+		isPxImageLoaded = true;
+		//backward compatibility with the IMAGE_MAP parameter
+		if (imageNameToImageDataMap != null && !imageNameToImageDataMap.containsKey("px"))
 		{
 			JRRenderable pxRenderer = 
 				JRImageRenderer.getInstance(
 					"net/sf/jasperreports/engine/images/pixel.GIF",
 					JRImage.ON_ERROR_TYPE_ERROR
 					);
-			rendererToImagePathMap.put(pxRenderer, imagesURI + "px");
+			rendererToImagePathMap.put(pxRenderer.getId(), imagesURI + "px");
 			imageNameToImageDataMap.put("px", pxRenderer.getImageData());
 		}
+		//END - backward compatibility with the IMAGE_MAP parameter
 	}
 	
 	
@@ -1748,12 +1828,40 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	
+
 	/**
 	 *
 	 */
-	private static synchronized int getNextImageId(){
-		return imageId++;
+	public static String getImageName(JRPrintElementIndex printElementIndex)
+	{
+		return 
+			"img_" + printElementIndex.getReportIndex() 
+			+ "_" + printElementIndex.getPageIndex() 
+			+ "_" + printElementIndex.getElementIndexes()[0];
+	}
+
+	/**
+	 *
+	 */
+	public static JRPrintElementIndex getPrintElementIndex(String imageName)
+	{
+		StringTokenizer tkzer = new StringTokenizer(imageName, "_");
+		
+		if (!"img".equals(tkzer.nextElement()))
+		{
+			throw new JRRuntimeException("Invalid image name: " + imageName);
+		}
+		
+		int reportIndex = Integer.parseInt(tkzer.nextToken());
+		int pageIndex = Integer.parseInt(tkzer.nextToken());
+		Integer elementIndex = Integer.valueOf(tkzer.nextToken());
+
+		return
+			new JRPrintElementIndex(
+				reportIndex,
+				pageIndex,
+				new Integer[]{elementIndex}
+				);					
 	}
 
 }

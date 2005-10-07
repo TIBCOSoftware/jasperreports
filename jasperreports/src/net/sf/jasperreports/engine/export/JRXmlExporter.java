@@ -133,6 +133,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		setOffset();
 
 		/*   */
+		setClassLoader();
+
+		/*   */
 		setInput();
 
 		/*   */
@@ -215,6 +218,9 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		/*   */
+		resetClassLoader();
 	}
 
 

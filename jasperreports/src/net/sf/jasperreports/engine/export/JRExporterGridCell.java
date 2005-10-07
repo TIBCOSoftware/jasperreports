@@ -45,6 +45,7 @@ public class JRExporterGridCell
 	public static final JRExporterGridCell OCCUPIED_CELL = 
 		new JRExporterGridCell(
 			new JRBasePrintElement(),
+			null,
 			0,
 			0,
 			1,
@@ -56,6 +57,7 @@ public class JRExporterGridCell
 	 *
 	 */
 	public JRPrintElement element = null; 
+	public Integer[] elementIndex = null;
 	public int width = 0;
 	public int height = 0;
 	public int colSpan = 0;
@@ -63,7 +65,7 @@ public class JRExporterGridCell
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRExporterGridCell
 	(
@@ -74,7 +76,32 @@ public class JRExporterGridCell
 		int rowSpan
 	)
 	{
+		this(
+			element,
+			null,
+			width,
+			height,
+			colSpan,
+			rowSpan
+			);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExporterGridCell
+	(
+		JRPrintElement element, 
+		Integer[] elementIndex,
+		int width, 
+		int height,
+		int colSpan, 
+		int rowSpan
+	)
+	{
 		this.element = element;
+		this.elementIndex = elementIndex;
 		this.width = width;
 		this.height = height;
 		this.colSpan = colSpan;
