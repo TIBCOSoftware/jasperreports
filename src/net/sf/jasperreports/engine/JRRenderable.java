@@ -54,6 +54,39 @@ public interface JRRenderable extends Serializable
 	public static final byte TYPE_IMAGE = 0;
 	public static final byte TYPE_SVG = 1;
 
+	/**
+	 * A constant used for specifying that the image is of unknown type 
+	 */
+	public static final byte IMAGE_TYPE_UNKNOWN = 0;
+	
+	/**
+	 * A constant used for specifying that the image is of GIF type
+	 */
+	public static final byte IMAGE_TYPE_GIF = 1;
+	
+	/**
+	 * A constant used for specifying that the image is of the JPEG type
+	 */
+	public static final byte IMAGE_TYPE_JPEG = 2;
+	
+	/**
+	 * A constant used for specifying that the image is of the PNG type
+	 */
+	public static final byte IMAGE_TYPE_PNG = 3;
+	
+	/**
+	 * A constant used for specifying that the image is of the TIFF type
+	 */
+	public static final byte IMAGE_TYPE_TIFF = 4; 
+
+	/**
+	 * image mime type constants
+	 */
+	public static final String MIME_TYPE_GIF  = "image/gif";
+	public static final String MIME_TYPE_JPEG = "image/jpeg";
+	public static final String MIME_TYPE_PNG  = "image/png";
+	public static final String MIME_TYPE_TIFF = "image/tiff";
+	
 
 	/**
 	 *
@@ -64,6 +97,11 @@ public interface JRRenderable extends Serializable
 	 *
 	 */
 	public byte getType();
+
+	/**
+	 *
+	 */
+	public byte getImageType();
 
 	/**
 	 *

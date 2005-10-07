@@ -61,6 +61,15 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
+	public byte getImageType()
+	{
+		return IMAGE_TYPE_JPEG;
+	}
+
+
+	/**
+	 *
+	 */
 	public Dimension2D getDimension()
 	{
 		return null;

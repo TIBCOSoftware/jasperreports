@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
 /**
@@ -78,6 +79,7 @@ public class ImageServlet extends HttpServlet
 		) throws IOException, ServletException
 	{
 		byte[] imageData = null;
+		String imageMimeType = null;
 
 		String imageName = request.getParameter(IMAGE_NAME_REQUEST_PARAMETER);
 		if ("px".equals(imageName))
@@ -138,6 +140,8 @@ public class ImageServlet extends HttpServlet
 						image.getBackcolor()
 						);
 			}
+
+			imageMimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());
 			
 			try
 			{
@@ -151,7 +155,11 @@ public class ImageServlet extends HttpServlet
 
 		if (imageData != null && imageData.length > 0)
 		{
-			response.setContentLength(imageData.length);
+            if (imageMimeType != null) 
+            {
+                response.setHeader("Content-Type", imageMimeType);
+            }
+            response.setContentLength(imageData.length);
 			ServletOutputStream ouputStream = response.getOutputStream();
 			ouputStream.write(imageData, 0, imageData.length);
 			ouputStream.flush();
