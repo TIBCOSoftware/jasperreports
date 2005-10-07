@@ -115,10 +115,10 @@ public class ImageServlet extends HttpServlet
 			List jasperPrintList = (List)request.getSession().getAttribute(jasperPrintListSessionAttr);
 			if (jasperPrintList == null)
 			{
+				jasperPrintList = new ArrayList();
 				JasperPrint jasperPrint = (JasperPrint)request.getSession().getAttribute(jasperPrintSessionAttr);
 				if (jasperPrint != null)
 				{
-					jasperPrintList = new ArrayList();
 					jasperPrintList.add(jasperPrint);
 				}
 			}
