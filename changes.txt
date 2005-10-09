@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.0.3 (2005-10-09)
+-----------------------------------
+- J2EE module;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.0.2 (2005-09-07)
 -----------------------------------
 - fixes the bug introduced in the 1.0.1 version related to the subreports caching
