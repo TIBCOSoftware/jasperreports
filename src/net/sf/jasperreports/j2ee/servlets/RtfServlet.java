@@ -40,14 +40,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * @version $Id
  */
-public class PdfServlet extends HttpServlet
+public class RtfServlet extends HttpServlet
 {
 
 
@@ -69,12 +68,12 @@ public class PdfServlet extends HttpServlet
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(ServletHelper.BUFFERED_OUTPUT_REQUEST_PARAMETER));
 		if (isBuffered.booleanValue())
 		{
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRRtfExporter exporter = new JRRtfExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-			
+
 			try 
 			{
 				exporter.exportReport();
@@ -88,7 +87,8 @@ public class PdfServlet extends HttpServlet
 			
 			if (bytes != null && bytes.length > 0)
 			{
-				response.setContentType("application/pdf");
+				response.setContentType("application/rtf");
+				response.setHeader("Content-Disposition", "inline; filename=\"file.rtf\"");
 				response.setContentLength(bytes.length);
 				ServletOutputStream ouputStream = response.getOutputStream();
 
@@ -124,9 +124,10 @@ public class PdfServlet extends HttpServlet
 		}
 		else
 		{
-			response.setContentType("application/pdf");
+			response.setContentType("application/rtf");
+			response.setHeader("Content-Disposition", "inline; filename=\"file.rtf\"");
 
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRRtfExporter exporter = new JRRtfExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
 			OutputStream ouputStream = response.getOutputStream();
@@ -156,5 +157,6 @@ public class PdfServlet extends HttpServlet
 		}
 	}
 
-
+	
 }
+
