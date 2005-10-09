@@ -42,7 +42,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	protected JRExpression xAxisLabelExpression = null;
 	protected JRExpression yAxisLabelExpression = null;

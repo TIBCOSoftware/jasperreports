@@ -40,7 +40,7 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	/**
 	 *

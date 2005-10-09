@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

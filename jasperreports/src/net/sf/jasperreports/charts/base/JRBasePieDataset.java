@@ -46,7 +46,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;

@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class XYZElement implements Serializable {
 
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	private Comparable series = null;
 	private List xElements = null;

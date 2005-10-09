@@ -74,7 +74,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	/**
 	 *

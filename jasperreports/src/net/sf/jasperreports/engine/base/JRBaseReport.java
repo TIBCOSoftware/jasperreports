@@ -55,7 +55,7 @@ public class JRBaseReport implements JRReport, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	/**
 	 *

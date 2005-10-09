@@ -45,7 +45,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	protected JRExpression seriesExpression;
 	protected JRExpression dateExpression;
