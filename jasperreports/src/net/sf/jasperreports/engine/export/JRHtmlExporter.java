@@ -474,7 +474,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
 					
 					JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-					JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());//FIXME J2EE more robust
+					JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
 					JRPrintImage image = (JRPrintImage)page.getElements().get(
 							imageIndex.getElementIndexes()[0].intValue() 
 									);
