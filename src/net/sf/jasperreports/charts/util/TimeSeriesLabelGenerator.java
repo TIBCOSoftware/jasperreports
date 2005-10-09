@@ -40,7 +40,7 @@ import org.jfree.data.xy.XYDataset;
  */
 public class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator 
 {
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	private Map labelsMap = null;
 	

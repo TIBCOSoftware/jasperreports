@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	protected JRExpression categoryAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

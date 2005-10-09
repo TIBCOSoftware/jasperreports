@@ -65,7 +65,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	 * when there are too many, it pushes the last touched one to disk.
 	 */
 	private static class Cache extends LRUMap {
-		private static final long serialVersionUID = 10002;
+		private static final long serialVersionUID = 10003;
 
 		private final JRFileVirtualizer virt;
 

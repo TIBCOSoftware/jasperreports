@@ -43,7 +43,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	private JRTimeSeries[] timeSeries = null;
 	private Class timePeriod;

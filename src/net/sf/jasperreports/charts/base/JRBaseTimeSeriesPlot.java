@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSeriesPlot {
 
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 	
 	protected JRExpression timeAxisLabelExpression = null;
 	protected JRExpression valueAxisLabelExpression = null;

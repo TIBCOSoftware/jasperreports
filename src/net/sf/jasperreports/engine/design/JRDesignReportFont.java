@@ -41,7 +41,7 @@ public class JRDesignReportFont extends JRDesignFont implements JRReportFont
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10002;
+	private static final long serialVersionUID = 10003;
 
 	/**
 	 *
