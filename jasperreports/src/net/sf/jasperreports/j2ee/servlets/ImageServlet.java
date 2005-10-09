@@ -29,7 +29,6 @@ package net.sf.jasperreports.j2ee.servlets;
 
 import java.awt.Dimension;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -100,27 +99,11 @@ public class ImageServlet extends HttpServlet
 		}
 		else
 		{
-			String jasperPrintListSessionAttr = request.getParameter(JASPER_PRINT_LIST_REQUEST_PARAMETER);
-			if (jasperPrintListSessionAttr == null)
-			{
-				jasperPrintListSessionAttr = DEFAULT_JASPER_PRINT_LIST_SESSION_ATTRIBUTE;
-			}
-
-			String jasperPrintSessionAttr = request.getParameter(JASPER_PRINT_REQUEST_PARAMETER);
-			if (jasperPrintSessionAttr == null)
-			{
-				jasperPrintSessionAttr = DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE;
-			}
+			List jasperPrintList = ServletHelper.getJasperPrintList(request);
 			
-			List jasperPrintList = (List)request.getSession().getAttribute(jasperPrintListSessionAttr);
 			if (jasperPrintList == null)
 			{
-				jasperPrintList = new ArrayList();
-				JasperPrint jasperPrint = (JasperPrint)request.getSession().getAttribute(jasperPrintSessionAttr);
-				if (jasperPrint != null)
-				{
-					jasperPrintList.add(jasperPrint);
-				}
+				throw new ServletException("No JasperPrint documents found on the HTTP session.");
 			}
 			
 			JRPrintElementIndex imageIndex = JRHtmlExporter.getPrintElementIndex(imageName);
