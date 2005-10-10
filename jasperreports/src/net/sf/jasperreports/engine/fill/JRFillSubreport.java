@@ -318,7 +318,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					}
 					else if (expressionClass.equals(java.lang.String.class))
 					{
-						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader);//FIXME NOW put class loader in fill context?
+						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader);//FIXME J2EE put class loader in fill context?
 					}
 					
 					if (jasperReport != null)
@@ -348,7 +348,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 						parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
 						parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
 						parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
-						parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);//FIXME NOW why not let go?
+						parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);//FIXME J2EE why not let go?
 						parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
 						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
 					}
