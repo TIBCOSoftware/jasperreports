@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.0.3 (2005-10-1x)
+JasperReports 1.0.3 (2005-10-10)
 -----------------------------------
 - new J2EE module added to the core library including servlets for image
 delivery in HTML format, PDF, XLS and RTF generation;
