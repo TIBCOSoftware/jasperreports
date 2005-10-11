@@ -1075,7 +1075,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 		if (locale == null)
 		{
-			parameterValues.remove(JRParameter.REPORT_LOCALE);
+			parameterValues.remove(JRParameter.REPORT_LOCALE);//FIXME NOW why remove? check all
 		}
 		else
 		{
