@@ -27,16 +27,29 @@
  */
 package servlets;
 
-import datasource.*;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.util.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.j2ee.servlets.ImageServlet;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.j2ee.servlets.ImageServlet;
+import datasource.WebappDataSource;
 
 
 /**
@@ -81,15 +94,11 @@ public class HtmlServlet extends HttpServlet
 						
 			JRHtmlExporter exporter = new JRHtmlExporter();
 		
-			String jasperPrintSessionAttr = "jrprinttempattr";
-			request.getSession().setAttribute(jasperPrintSessionAttr, jasperPrint);
+			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 			
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, out);
-			exporter.setParameter(
-				JRHtmlExporterParameter.IMAGES_URI, 
-				"image?" + ImageServlet.JASPER_PRINT_REQUEST_PARAMETER + "=" + jasperPrintSessionAttr + "&image="
-				);
+			exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?image=");
 			
 			exporter.exportReport();
 		}

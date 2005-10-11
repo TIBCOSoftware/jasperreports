@@ -33,11 +33,12 @@
 <%@ page import="net.sf.jasperreports.engine.*" %>
 <%@ page import="net.sf.jasperreports.engine.util.*" %>
 <%@ page import="net.sf.jasperreports.engine.export.*" %>
+<%@ page import="net.sf.jasperreports.j2ee.servlets.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 
 <%
-	JasperPrint jasperPrint = (JasperPrint)session.getAttribute("JASPER_PRINT");
+	JasperPrint jasperPrint = (JasperPrint)session.getAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE);
 	
 	if (request.getParameter("reload") != null || jasperPrint == null)
 	{
@@ -58,7 +59,7 @@
 				new WebappDataSource()
 				);
 				
-		session.setAttribute("JASPER_PRINT", jasperPrint);
+		session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 	}
 	
 	JRHtmlExporter exporter = new JRHtmlExporter();
@@ -91,13 +92,9 @@
 	
 	StringBuffer sbuffer = new StringBuffer();
 
-	Map imagesMap = new HashMap();
-	session.setAttribute("IMAGES_MAP", imagesMap);
-
 	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 	exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, sbuffer);
-	exporter.setParameter(JRHtmlExporterParameter.IMAGES_MAP, imagesMap);
-	exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image.jsp?image=");
+	exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "../servlets/image?image=");
 	exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
 	exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
 	exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
