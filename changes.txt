@@ -2,9 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.0.3 (2005-10-09)
+JasperReports 1.0.3 (2005-10-1x)
 -----------------------------------
-- J2EE module;
+- new J2EE module added to the core library including servlets for image
+delivery in HTML format, PDF, XLS and RTF generation;
+
+- new REPORT_CLASS_LOADER built-in fill time parameter and new CLASS_LOADER export time 
+parameter to allow extending the way resources such as images, fonts and subreports 
+are located at runtime;
+
+- support for detecting the image type inside JRRenderable instances using an image type sniffer;
 
 - minor bug fixes and improvements;
 
