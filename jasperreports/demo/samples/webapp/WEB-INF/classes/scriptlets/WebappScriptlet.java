@@ -27,7 +27,8 @@
  */
 package scriptlets;
 
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
 
 
 /**
