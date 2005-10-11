@@ -79,5 +79,11 @@ public interface JRVirtualizer
 	 * Called when the virtual object should be paged-out.
 	 */
 	void virtualizeData(JRVirtualizable o);
-
+	
+	/**
+	 * Called when we are done with the virtualizer and wish to
+	 * cleanup any resources it has.
+	 */
+	void cleanup();
+	
 }

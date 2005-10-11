@@ -155,7 +155,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 			return Integer.toString(System.identityHashCode(printObject)) + "_"
 					+ (printObject.getPages().size()) + "_"
 					+ Integer.toString(counter++) + "_"
-					+ Integer.toString((short) random.nextInt());
+					+ Integer.toString(random.nextInt());
 		}
 	}
 
