@@ -25,30 +25,20 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Panel;
-import java.awt.Toolkit;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -152,7 +142,10 @@ public class VirtualizerApp
 				exportPDF(outFileName + ".pdf", jasperPrint);
 				exportXML(outFileName + ".jrpxml", jasperPrint, false);
 				exportHTML(outFileName + ".html", jasperPrint);
-				exportCSV(outFileName + ".csv", jasperPrint);				
+				exportCSV(outFileName + ".csv", jasperPrint);
+				
+				// manually cleaning up
+				virtualizer.cleanup();
 			}
 			else if (TASK_VIEW.equals(taskName))
 			{
@@ -212,7 +205,7 @@ public class VirtualizerApp
 	
 
 
-	private static JasperPrint fillReport(String fileName, JRDataSource dataSource, JRFileVirtualizer virtualizer) throws JRException, ClassNotFoundException, SQLException
+	private static JasperPrint fillReport(String fileName, JRDataSource dataSource, JRFileVirtualizer virtualizer) throws JRException
 	{
 		long start = System.currentTimeMillis();
 

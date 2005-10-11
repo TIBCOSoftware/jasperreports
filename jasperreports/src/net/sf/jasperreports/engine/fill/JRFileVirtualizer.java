@@ -48,6 +48,8 @@ import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 
 import org.apache.commons.collections.LRUMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Virtualizes data to the filesystem. When this object is finalized, it removes
@@ -59,6 +61,8 @@ import org.apache.commons.collections.LRUMap;
  * @version $Id$
  */
 public class JRFileVirtualizer implements JRVirtualizer {
+	
+	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 
 	/**
 	 * This class keeps track of how many objects are currently in memory, and
@@ -207,15 +211,8 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	}
 
 	protected void finalize() throws Throwable {
-		// Remove all paged-out swap files.
-		for (Iterator it = pagedOut.entrySet().iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry) it.next();
-			try {
-				fileDispose((JRVirtualizable) entry.getValue());
-			} catch (Exception e) {
-				// Do nothing because we want to try to remove all swap files.
-			}
-		}
+		cleanup();
+		
 		super.finalize();
 	}
 
@@ -283,5 +280,36 @@ public class JRFileVirtualizer implements JRVirtualizer {
 		String filename = makeFilename(o);
 		File file = new File(directory, filename);
 		file.delete();
+	}
+	
+	
+	/**
+	 * Called when we are done with the virtualizer and wish to
+	 * cleanup any resources it has.
+	 */
+	public void cleanup()
+	{
+		// Remove all paged-out swap files.
+		for (Iterator it = pagedOut.entrySet().iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			try {
+				fileDispose((JRVirtualizable) entry.getValue());
+				it.remove();
+			} catch (Exception e) {
+				log.error("Error cleaning up virtualizer.", e);
+				// Do nothing because we want to try to remove all swap files.
+			}
+		}
+
+		for (Iterator it = pagedIn.entrySet().iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			try {
+				fileDispose((JRVirtualizable) entry.getValue());
+				it.remove();
+			} catch (Exception e) {
+				log.error("Error cleaning up virtualizer.", e);
+				// Do nothing because we want to try to remove all swap files.
+			}
+		}
 	}
 }
