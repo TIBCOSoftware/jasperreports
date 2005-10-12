@@ -66,6 +66,7 @@
 				<include name="**/net/sf/jasperreports/charts/util/XYZElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAbstractRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractSvgRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAnchor.class"/>
