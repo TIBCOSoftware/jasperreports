@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -52,7 +53,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	protected int radius = 0;
+	protected Integer radius;
 
 
 	/**
@@ -67,7 +68,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	{
 		super(rectangle, factory);
 
-		radius = rectangle.getRadius();
+		radius = rectangle.getOwnRadius();
 	}
 
 
@@ -76,6 +77,11 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 */
 	public int getRadius()
 	{
+		return JRStyleResolver.getRadius(this);
+	}
+
+	public Integer getOwnRadius()
+	{
 		return this.radius;
 	}
 
@@ -83,6 +89,14 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 *
 	 */
 	public void setRadius(int radius)
+	{
+		this.radius = new Integer(radius);
+	}
+
+	/**
+	 *
+	 */
+	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
 	}

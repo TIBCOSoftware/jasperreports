@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -103,6 +104,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected Map rendererToImagePathMap = null;
 	protected Map imageNameToImageDataMap = null;
 	protected Map fontsMap = new HashMap();
+	protected Map stylesMap = new HashMap();
 
 	/**
 	 *
@@ -363,6 +365,16 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 		}
 
+		JRStyle[] styles = jasperPrint.getStyles();
+		if (styles != null && styles.length > 0)
+		{
+			for(int i = 0; i < styles.length; i++)
+			{
+				stylesMap.put(styles[i].getName(), styles[i]);
+				exportStyle(styles[i]);
+			}
+		}
+
 		List pages = jasperPrint.getPages();
 		if (pages != null && pages.size() > 0)
 		{
@@ -389,8 +401,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
-	 *
 	 */
 	protected void exportReportFont(JRReportFont font) throws IOException
 	{
@@ -409,7 +419,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		writer.write("\"");
 
 		writer.write(" size=\"");
-		writer.write(String.valueOf(font.getSize()));
+		writer.write(String.valueOf(font.getFontSize()));
 		writer.write("\"");
 
 		writer.write(" isBold=\"");
@@ -438,6 +448,62 @@ public class JRXmlExporter extends JRAbstractExporter
 
 		writer.write(" isPdfEmbedded=\"");
 		writer.write(String.valueOf(font.isPdfEmbedded()));
+		writer.write("\"");
+
+		writer.write("/>\n");
+	}
+
+
+	/**
+	 * @throws IOException 
+	 */
+	protected void exportStyle(JRStyle style) throws IOException
+	{
+		//FIXME STYLE
+		writer.write("\t<style");
+
+		writer.write(" name=\"");
+		writer.write(style.getName());
+		writer.write("\"");
+
+		writer.write(" isDefault=\"");
+		writer.write(String.valueOf(style.isDefault()));
+		writer.write("\"");
+
+		writer.write(" fontName=\"");
+		writer.write(style.getFontName());
+		writer.write("\"");
+
+		writer.write(" fontSize=\"");
+		writer.write(String.valueOf(style.getFontSize()));
+		writer.write("\"");
+
+		writer.write(" isBold=\"");
+		writer.write(String.valueOf(style.isBold()));
+		writer.write("\"");
+
+		writer.write(" isItalic=\"");
+		writer.write(String.valueOf(style.isItalic()));
+		writer.write("\"");
+
+		writer.write(" isUnderline=\"");
+		writer.write(String.valueOf(style.isUnderline()));
+		writer.write("\"");
+
+		writer.write(" isStrikeThrough=\"");
+		writer.write(String.valueOf(style.isStrikeThrough()));
+		writer.write("\"");
+
+		writer.write(" pdfFontName=\"");
+		writer.write(style.getPdfFontName());
+		writer.write("\"");
+
+		writer.write(" pdfEncoding=\"");
+		writer.write(style.getPdfEncoding());
+		writer.write("\"");
+
+		writer.write(" isPdfEmbedded=\"");
+		writer.write(String.valueOf(style.isPdfEmbedded()));
 		writer.write("\"");
 
 		writer.write("/>\n");
@@ -939,9 +1005,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		writer.write(">\n");
 
 		exportReportElement(text);
-		exportBox(text.getBox());
+		exportBox(text);
 
-		String font = exportFont(text.getFont());
+		String font = exportFont(text);//FIXME STYLE test minimum XML output
 		if (font != null)
 		{
 			writer.write("\t\t\t" + font + "\n");
@@ -1119,10 +1185,10 @@ public class JRXmlExporter extends JRAbstractExporter
 				tmpBuffer.append("\"");
 			}
 
-			if (font.getOwnSize() != null)
+			if (font.getOwnFontSize() != null)
 			{
 				tmpBuffer.append(" size=\"");
-				tmpBuffer.append(font.getOwnSize());
+				tmpBuffer.append(font.getOwnFontSize());
 				tmpBuffer.append("\"");
 			}
 

@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -53,6 +54,23 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	 */
 	protected byte direction = DIRECTION_TOP_DOWN;
 
+
+	/**
+	 *
+	 */
+	public JRDesignLine()
+	{
+		super(null);
+	}
+		
+	/**
+	 *
+	 */
+	public JRDesignLine(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+		
 
 	/**
 	 *

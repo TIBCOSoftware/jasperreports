@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
 
 import org.xml.sax.Attributes;
@@ -51,7 +52,9 @@ public class JRPrintRectangleFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBasePrintRectangle rectangle = new JRBasePrintRectangle();
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+
+		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(jasperPrint.getDefaultStyleProvider());
 		
 		String radius = atts.getValue(ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)

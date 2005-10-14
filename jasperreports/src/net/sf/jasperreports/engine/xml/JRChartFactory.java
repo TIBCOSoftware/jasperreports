@@ -112,7 +112,7 @@ public class JRChartFactory extends JRBaseFactory
 	}
 
 
-	/**
+	/**                                        	
 	 *
 	 */
 	public static class JRChartTitleFactory extends JRBaseFactory

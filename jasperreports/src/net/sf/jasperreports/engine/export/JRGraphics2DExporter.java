@@ -569,18 +569,10 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		int y = text.getY() + globalOffsetY;
 		int width = text.getWidth();
 		int height = text.getHeight();
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-		
-		if (text.getBox() != null)
-		{
-			topPadding = text.getBox().getTopPadding();
-			leftPadding = text.getBox().getLeftPadding();
-			bottomPadding = text.getBox().getBottomPadding();
-			rightPadding = text.getBox().getRightPadding();
-		}
+		int topPadding = text.getTopPadding();
+		int leftPadding = text.getLeftPadding();
+		int bottomPadding = text.getBottomPadding();
+		int rightPadding = text.getRightPadding();
 		
 		double angle = 0;
 		
@@ -663,7 +655,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		/*   */
 		exportBox(
-			text.getBox(),
+			text,
 			text
 			);
 	}

@@ -951,37 +951,34 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("; ");
 		}
 
-		if (text.getBox() != null)
-		{
-			appendBorder(
-				styleBuffer, 
-				text.getBox().getTopBorder(),
-				text.getBox().getTopBorderColor() == null ? text.getForecolor() : text.getBox().getTopBorderColor(),
-				text.getBox().getTopPadding(),
-				"top"
-				);
-			appendBorder(
-				styleBuffer, 
-				text.getBox().getLeftBorder(),
-				text.getBox().getLeftBorderColor() == null ? text.getForecolor() : text.getBox().getLeftBorderColor(),
-				text.getBox().getLeftPadding(),
-				"left"
-				);
-			appendBorder(
-				styleBuffer, 
-				text.getBox().getBottomBorder(),
-				text.getBox().getBottomBorderColor() == null ? text.getForecolor() : text.getBox().getBottomBorderColor(),
-				text.getBox().getBottomPadding(),
-				"bottom"
-				);
-			appendBorder(
-				styleBuffer, 
-				text.getBox().getRightBorder(),
-				text.getBox().getRightBorderColor() == null ? text.getForecolor() : text.getBox().getRightBorderColor(),
-				text.getBox().getRightPadding(),
-				"right"
-				);
-		}
+		appendBorder(
+			styleBuffer, 
+			text.getTopBorder(),
+			text.getTopBorderColor() == null ? text.getForecolor() : text.getTopBorderColor(),
+			text.getTopPadding(),
+			"top"
+			);
+		appendBorder(
+			styleBuffer, 
+			text.getLeftBorder(),
+			text.getLeftBorderColor() == null ? text.getForecolor() : text.getLeftBorderColor(),
+			text.getLeftPadding(),
+			"left"
+			);
+		appendBorder(
+			styleBuffer, 
+			text.getBottomBorder(),
+			text.getBottomBorderColor() == null ? text.getForecolor() : text.getBottomBorderColor(),
+			text.getBottomPadding(),
+			"bottom"
+			);
+		appendBorder(
+			styleBuffer, 
+			text.getRightBorder(),
+			text.getRightBorderColor() == null ? text.getForecolor() : text.getRightBorderColor(),
+			text.getRightPadding(),
+			"right"
+			);
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 

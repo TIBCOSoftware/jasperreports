@@ -32,6 +32,7 @@ import java.util.Collection;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -64,8 +65,9 @@ public class JRTextFieldFactory extends JRBaseFactory
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Collection groupEvaluatedTextFields = xmlLoader.getGroupEvaluatedTextFields();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		JRDesignTextField textField = new JRDesignTextField();
+		JRDesignTextField textField = new JRDesignTextField(jasperDesign);
 
 		String isStretchWithOverflow = atts.getValue(ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)

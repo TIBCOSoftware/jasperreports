@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -49,35 +51,38 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 *
 	 */
-	protected byte pen = PEN_1_POINT;
-	protected byte fill = FILL_SOLID;
+	protected Byte pen;
+	protected Byte fill;
 
 
 	/**
 	 *
 	 */
-	protected JRDesignGraphicElement()
+	protected JRDesignGraphicElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
-		super();
-		
-		this.mode = MODE_OPAQUE;
+		super(defaultStyleProvider);
 	}
 		
+
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_OPAQUE);
+	}
 
 	/**
 	 *
 	 */
 	public byte getPen()
 	{
-		return this.pen;
+		return JRStyleResolver.getPen(this, PEN_1_POINT);
 	}
-		
-	/**
-	 *
-	 */
-	public byte getFill()
+
+	public Byte getOwnPen()
 	{
-		return this.fill;
+		return this.pen;
 	}
 
 	/**
@@ -85,16 +90,44 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public void setPen(byte pen)
 	{
+		this.pen = new Byte(pen);
+	}
+
+	/**
+	 *
+	 */
+	public void setPen(Byte pen)
+	{
 		this.pen = pen;
 	}
-		
+
+	/**
+	 *
+	 */
+	public byte getFill()
+	{
+		return JRStyleResolver.getFill(this, FILL_SOLID);
+	}
+
+	public Byte getOwnFill()
+	{
+		return this.fill;
+	}
+
 	/**
 	 *
 	 */
 	public void setFill(byte fill)
 	{
+		this.fill = new Byte(fill);
+	}
+
+	/**
+	 *
+	 */
+	public void setFill(Byte fill)
+	{
 		this.fill = fill;
 	}
-	
 
 }

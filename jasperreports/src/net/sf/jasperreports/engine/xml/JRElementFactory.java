@@ -29,9 +29,12 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Map;
 
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -62,6 +65,7 @@ public class JRElementFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_printWhenGroupChanges = "printWhenGroupChanges";
 	private static final String ATTRIBUTE_forecolor = "forecolor";
 	private static final String ATTRIBUTE_backcolor = "backcolor";
+	private static final String ATTRIBUTE_style = "style";
 
 
 	/**
@@ -70,6 +74,7 @@ public class JRElementFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		Collection groupReprintedElements = xmlLoader.getGroupReprintedElements();
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
@@ -97,7 +102,7 @@ public class JRElementFactory extends JRBaseFactory
 		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			element.setMode(mode.byteValue());
+			element.setMode(mode);
 		}
 		
 		String x = atts.getValue(ATTRIBUTE_x);
@@ -169,10 +174,10 @@ public class JRElementFactory extends JRBaseFactory
 				{
 					element.setForecolor((Color)JRXmlConstants.getColorMap().get(forecolor));
 				}
-				else
-				{
-					element.setForecolor(Color.black);
-				}
+//				else
+//				{
+//					element.setForecolor(Color.black);
+//				}
 			}
 		}
 
@@ -194,11 +199,23 @@ public class JRElementFactory extends JRBaseFactory
 				{
 					element.setBackcolor((Color)JRXmlConstants.getColorMap().get(backcolor));
 				}
-				else
-				{
-					element.setBackcolor(Color.white);
-				}
+//				else
+//				{
+//					element.setBackcolor(Color.white);
+//				}
 			}
+		}
+
+		if (atts.getValue(ATTRIBUTE_style) != null)
+		{
+			Map stylesMap = jasperDesign.getStylesMap();
+
+			if ( !stylesMap.containsKey(atts.getValue(ATTRIBUTE_style)) )
+			{
+				xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+			}
+
+			element.setStyle((JRStyle) stylesMap.get(atts.getValue(ATTRIBUTE_style)));
 		}
 
 		return element;

@@ -76,31 +76,31 @@ public class JRReportFontFactory extends JRBaseFactory
 		String isBold = atts.getValue(ATTRIBUTE_isBold);
 		if (isBold != null && isBold.length() > 0)
 		{
-			reportFont.setBold(Boolean.valueOf(isBold).booleanValue());
+			reportFont.setBold(Boolean.valueOf(isBold));
 		}
 
 		String isItalic = atts.getValue(ATTRIBUTE_isItalic);
 		if (isItalic != null && isItalic.length() > 0)
 		{
-			reportFont.setItalic(Boolean.valueOf(isItalic).booleanValue());
+			reportFont.setItalic(Boolean.valueOf(isItalic));
 		}
 
 		String isUnderline = atts.getValue(ATTRIBUTE_isUnderline);
 		if (isUnderline != null && isUnderline.length() > 0)
 		{
-			reportFont.setUnderline(Boolean.valueOf(isUnderline).booleanValue());
+			reportFont.setUnderline(Boolean.valueOf(isUnderline));
 		}
 
 		String isStrikeThrough = atts.getValue(ATTRIBUTE_isStrikeThrough);
 		if (isStrikeThrough != null && isStrikeThrough.length() > 0)
 		{
-			reportFont.setStrikeThrough(Boolean.valueOf(isStrikeThrough).booleanValue());
+			reportFont.setStrikeThrough(Boolean.valueOf(isStrikeThrough));
 		}
 
 		String size = atts.getValue(ATTRIBUTE_size);
 		if (size != null && size.length() > 0)
 		{
-			reportFont.setSize(Integer.parseInt(size));
+			reportFont.setFontSize(Integer.parseInt(size));
 		}
 
 		reportFont.setPdfFontName(atts.getValue(ATTRIBUTE_pdfFontName));
@@ -109,7 +109,7 @@ public class JRReportFontFactory extends JRBaseFactory
 		String isPdfEmbedded = atts.getValue(ATTRIBUTE_isPdfEmbedded);
 		if (isPdfEmbedded != null && isPdfEmbedded.length() > 0)
 		{
-			reportFont.setPdfEmbedded(Boolean.valueOf(isPdfEmbedded).booleanValue());
+			reportFont.setPdfEmbedded(Boolean.valueOf(isPdfEmbedded));
 		}
 
 		return reportFont;

@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintLine;
 
 import org.xml.sax.Attributes;
@@ -51,7 +52,9 @@ public class JRPrintLineFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBasePrintLine line = new JRBasePrintLine();
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+
+		JRBasePrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
 
 		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(ATTRIBUTE_direction));
 		if (direction != null)

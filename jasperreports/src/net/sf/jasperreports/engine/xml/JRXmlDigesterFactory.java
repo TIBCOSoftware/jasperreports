@@ -74,15 +74,15 @@ import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
@@ -145,6 +145,10 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
 		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("jasperReport/style", JRStyleFactory.class.getName());
+		digester.addSetNext("jasperReport/style", "addStyle", JRStyle.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperReport/parameter", JRParameterFactory.class.getName());
@@ -247,7 +251,7 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/box", JRBoxFactory.class.getName());
-		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
+//		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageExpression", JRImageExpressionFactory.class.getName());
@@ -257,7 +261,7 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("*/staticText", JRStaticTextFactory.class.getName());
 		digester.addSetNext("*/staticText", "addElement", JRDesignElement.class.getName());
-		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule();
+		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(new String[]{"text", "reportElement", "box", "textElement"}, new String[]{"text"});
 		textRule.setTrimData(false);
 		textRule.setAllowUnknownChildElements(true);
 		digester.addRule("*/staticText", textRule);
@@ -268,7 +272,7 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/textElement/font", JRFontFactory.class.getName());
-		digester.addSetNext("*/textElement/font", "setFont", JRFont.class.getName());
+//		digester.addSetNext("*/textElement/font", "setFont", JRFont.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/textField", JRTextFieldFactory.class.getName());

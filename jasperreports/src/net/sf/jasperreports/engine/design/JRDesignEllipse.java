@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -47,6 +48,15 @@ public class JRDesignEllipse extends JRDesignGraphicElement implements JREllipse
 	 */
 	private static final long serialVersionUID = 10003;
 
+
+	/**
+	 *
+	 */
+	public JRDesignEllipse(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+		
 
 	/**
 	 *

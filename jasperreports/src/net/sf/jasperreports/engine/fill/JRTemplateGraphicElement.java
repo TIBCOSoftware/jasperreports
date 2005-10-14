@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -46,22 +48,25 @@ public class JRTemplateGraphicElement extends JRTemplateElement
 	/**
 	 *
 	 */
-	private byte pen = JRGraphicElement.PEN_1_POINT;
-	private byte fill = JRGraphicElement.FILL_SOLID;
+	private Byte pen = null;
+	private Byte fill = null;
 
 
 	/**
 	 *
 	 */
-	protected JRTemplateGraphicElement()
+	protected JRTemplateGraphicElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
+		super(defaultStyleProvider);
 	}
 
 	/**
 	 *
 	 */
-	protected JRTemplateGraphicElement(JRGraphicElement graphicElement)
+	protected JRTemplateGraphicElement(JRDefaultStyleProvider defaultStyleProvider, JRGraphicElement graphicElement)
 	{
+		super(defaultStyleProvider);
+
 		setGraphicElement(graphicElement);
 	}
 
@@ -82,13 +87,29 @@ public class JRTemplateGraphicElement extends JRTemplateElement
 	 */
 	public byte getPen()
 	{
-		return this.pen;
+		return JRStyleResolver.getPen(this, JRGraphicElement.PEN_1_POINT);
+	}
+		
+	/**
+	 *
+	 */
+	public Byte getOwnPen()
+	{
+		return pen;
 	}
 		
 	/**
 	 *
 	 */
 	protected void setPen(byte pen)
+	{
+		this.pen = new Byte(pen);
+	}
+		
+	/**
+	 *
+	 */
+	protected void setPen(Byte pen)
 	{
 		this.pen = pen;
 	}
@@ -98,13 +119,29 @@ public class JRTemplateGraphicElement extends JRTemplateElement
 	 */
 	public byte getFill()
 	{
-		return this.fill;
+		return JRStyleResolver.getFill(this, JRGraphicElement.FILL_SOLID);
+	}
+		
+	/**
+	 *
+	 */
+	public Byte getOwnFill()
+	{
+		return fill;
 	}
 		
 	/**
 	 *
 	 */
 	protected void setFill(byte fill)
+	{
+		this.fill = new Byte(fill);
+	}
+	
+	/**
+	 *
+	 */
+	protected void setFill(Byte fill)
 	{
 		this.fill = fill;
 	}

@@ -48,12 +48,12 @@ public class JRTimeSeriesPlotFactory extends JRBaseFactory {
 		
 		String isShowShapes = attrs.getValue( ATTRIBUTE_isShowShapes );
 		if( isShowShapes != null && isShowShapes.length() > 0 ){
-			plot.setShowShapes( new Boolean( isShowShapes ).booleanValue());
+			plot.setShowShapes(Boolean.valueOf(isShowShapes).booleanValue());
 		}
 		
 		String isShowLines = attrs.getValue( ATTRIBUTE_isShowLines );
 		if( isShowLines != null && isShowLines.length() > 0 ){
-			plot.setShowLines( new Boolean( isShowLines ).booleanValue() );
+			plot.setShowLines(Boolean.valueOf(isShowLines).booleanValue() );
 		}
 		
 		return plot;

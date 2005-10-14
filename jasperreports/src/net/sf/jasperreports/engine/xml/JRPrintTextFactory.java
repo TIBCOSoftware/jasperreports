@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 
 import org.xml.sax.Attributes;
@@ -66,7 +67,9 @@ public class JRPrintTextFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBasePrintText text = new JRBasePrintText();
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+
+		JRBasePrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
@@ -107,7 +110,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
-			text.setStyledText(Boolean.valueOf(isStyledText).booleanValue());
+			text.setStyledText(Boolean.valueOf(isStyledText).booleanValue());//FIXME STYLE why primitive
 		}
 
 		String lineSpacingFactor = atts.getValue(ATTRIBUTE_lineSpacingFactor);

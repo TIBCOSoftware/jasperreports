@@ -80,7 +80,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	{
 		if (template == null)
 		{
-			template = new JRTemplateLine((JRLine)this.parent);
+			template = new JRTemplateLine(filler.getJasperPrint().getDefaultStyleProvider(), (JRLine)this.parent);
 		}
 		
 		return (JRTemplateLine)template;

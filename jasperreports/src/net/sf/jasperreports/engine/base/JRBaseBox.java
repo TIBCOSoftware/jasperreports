@@ -31,7 +31,9 @@ import java.awt.Color;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -52,7 +54,7 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
-	protected byte border = JRGraphicElement.PEN_NONE;
+	protected Byte border = null;
 	protected Byte topBorder = null;
 	protected Byte leftBorder = null;
 	protected Byte bottomBorder = null;
@@ -62,7 +64,7 @@ public class JRBaseBox implements JRBox, Serializable
 	protected Color leftBorderColor = null;
 	protected Color bottomBorderColor = null;
 	protected Color rightBorderColor = null;
-	protected int padding = 0;
+	protected Integer padding = null;
 	protected Integer topPadding = null;
 	protected Integer leftPadding = null;
 	protected Integer bottomPadding = null;
@@ -81,7 +83,31 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public JRStyle getStyle()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public byte getBorder()
+	{
+		return JRStyleResolver.getBorder(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBorder()
 	{
 		return border;
 	}
@@ -91,6 +117,14 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public void setBorder(byte border)
 	{
+		this.border = new Byte(border);
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
 		this.border = border;
 	}
 
@@ -99,9 +133,14 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public Color getBorderColor()
 	{
-		return borderColor;
+		return JRStyleResolver.getBorderColor(this, Color.black);
 	}
 
+	public Color getOwnBorderColor()
+	{
+		return borderColor;
+	}
+	
 	/**
 	 *
 	 */
@@ -115,13 +154,26 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public int getPadding()
 	{
+		return JRStyleResolver.getPadding(this);
+	}
+
+	public Integer getOwnPadding()
+	{
 		return padding;
+	}
+	
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+		this.padding = new Integer(padding);
 	}
 
 	/**
 	 *
 	 */
-	public void setPadding(int padding)
+	public void setPadding(Integer padding)
 	{
 		this.padding = padding;
 	}
@@ -131,11 +183,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public byte getTopBorder()
 	{
-		if (topBorder == null)
-		{
-			return border;
-		}
-		return topBorder.byteValue();
+		return JRStyleResolver.getTopBorder(this);
 	}
 
 	/**
@@ -157,13 +205,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setTopBorder(Byte topBorder)
+	{
+		this.topBorder = topBorder;
+	}
+
+	/**
+	 *
+	 */
 	public Color getTopBorderColor()
 	{
-		if (topBorderColor == null)
-		{
-			return borderColor;
-		}
-		return topBorderColor;
+		return JRStyleResolver.getTopBorderColor(this, Color.black);
 	}
 
 	/**
@@ -187,11 +239,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public int getTopPadding()
 	{
-		if (topPadding == null)
-		{
-			return padding;
-		}
-		return topPadding.intValue();
+		return JRStyleResolver.getTopPadding(this);
 	}
 
 	/**
@@ -213,13 +261,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setTopPadding(Integer topPadding)
+	{
+		this.topPadding = topPadding;
+	}
+
+	/**
+	 *
+	 */
 	public byte getLeftBorder()
 	{
-		if (leftBorder == null)
-		{
-			return border;
-		}
-		return leftBorder.byteValue();
+		return JRStyleResolver.getLeftBorder(this);
 	}
 
 	/**
@@ -241,13 +293,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+		this.leftBorder = leftBorder;
+	}
+
+	/**
+	 *
+	 */
 	public Color getLeftBorderColor()
 	{
-		if (leftBorderColor == null)
-		{
-			return borderColor;
-		}
-		return leftBorderColor;
+		return JRStyleResolver.getLeftBorderColor(this, Color.black);
 	}
 
 	/**
@@ -271,11 +327,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public int getLeftPadding()
 	{
-		if (leftPadding == null)
-		{
-			return padding;
-		}
-		return leftPadding.intValue();
+		return JRStyleResolver.getLeftPadding(this);
 	}
 
 	/**
@@ -297,13 +349,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+		this.leftPadding = leftPadding;
+	}
+
+	/**
+	 *
+	 */
 	public byte getBottomBorder()
 	{
-		if (bottomBorder == null)
-		{
-			return border;
-		}
-		return bottomBorder.byteValue();
+		return JRStyleResolver.getBottomBorder(this);
 	}
 
 	/**
@@ -325,13 +381,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+		this.bottomBorder = bottomBorder;
+	}
+
+	/**
+	 *
+	 */
 	public Color getBottomBorderColor()
 	{
-		if (bottomBorderColor == null)
-		{
-			return borderColor;
-		}
-		return bottomBorderColor;
+		return JRStyleResolver.getBottomBorderColor(this, Color.black);
 	}
 
 	/**
@@ -355,11 +415,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public int getBottomPadding()
 	{
-		if (bottomPadding == null)
-		{
-			return padding;
-		}
-		return bottomPadding.intValue();
+		return JRStyleResolver.getBottomPadding(this);
 	}
 
 	/**
@@ -381,13 +437,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+		this.bottomPadding = bottomPadding;
+	}
+
+	/**
+	 *
+	 */
 	public byte getRightBorder()
 	{
-		if (rightBorder == null)
-		{
-			return border;
-		}
-		return rightBorder.byteValue();
+		return JRStyleResolver.getRightBorder(this);
 	}
 
 	/**
@@ -409,13 +469,17 @@ public class JRBaseBox implements JRBox, Serializable
 	/**
 	 *
 	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+		this.rightBorder = rightBorder;
+	}
+
+	/**
+	 *
+	 */
 	public Color getRightBorderColor()
 	{
-		if (rightBorderColor == null)
-		{
-			return borderColor;
-		}
-		return rightBorderColor;
+		return JRStyleResolver.getRightBorderColor(this, Color.black);
 	}
 
 	/**
@@ -439,11 +503,7 @@ public class JRBaseBox implements JRBox, Serializable
 	 */
 	public int getRightPadding()
 	{
-		if (rightPadding == null)
-		{
-			return padding;
-		}
-		return rightPadding.intValue();
+		return JRStyleResolver.getRightPadding(this);
 	}
 
 	/**
@@ -460,6 +520,14 @@ public class JRBaseBox implements JRBox, Serializable
 	public void setRightPadding(int rightPadding)
 	{
 		this.rightPadding = new Integer(rightPadding);
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+		this.rightPadding = rightPadding;
 	}
 
 

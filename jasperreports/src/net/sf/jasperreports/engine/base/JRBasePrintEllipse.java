@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 
 
@@ -41,5 +42,13 @@ public class JRBasePrintEllipse extends JRBasePrintGraphicElement implements JRP
 	 *
 	 */
 	private static final long serialVersionUID = 10003;
+
+	/**
+	 *
+	 */
+	public JRBasePrintEllipse(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
 
 }

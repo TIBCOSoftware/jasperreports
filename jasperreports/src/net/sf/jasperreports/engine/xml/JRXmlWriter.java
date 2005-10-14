@@ -57,7 +57,6 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -84,9 +83,10 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
@@ -116,6 +116,7 @@ public class JRXmlWriter
 	 */
 	private StringBuffer sb = null;
 	private Map fontsMap = new HashMap();
+	private Map stylesMap = new HashMap();
 
 	/**
 	 * This color mask is used to delete the alpha byte from a 32-bit RGB component
@@ -381,6 +382,17 @@ public class JRXmlWriter
 		}
 
 		/*   */
+		JRStyle[] styles = report.getStyles();
+		if (styles != null && styles.length > 0)
+		{
+			for(int i = 0; i < styles.length; i++)
+			{
+				stylesMap.put(styles[i].getName(), styles[i]);
+				writeStyle(styles[i]);
+			}
+		}
+
+		/*   */
 		JRParameter[] parameters = report.getParameters();
 		if (parameters != null && parameters.length > 0)
 		{
@@ -522,7 +534,7 @@ public class JRXmlWriter
 		sb.append("\"");
 
 		sb.append(" size=\"");
-		sb.append(font.getSize());
+		sb.append(font.getFontSize());
 		sb.append("\"");
 
 		sb.append(" isBold=\"");
@@ -552,6 +564,308 @@ public class JRXmlWriter
 		sb.append(" isPdfEmbedded=\"");
 		sb.append(font.isPdfEmbedded());
 		sb.append("\"");
+
+		sb.append("/>\n");
+	}
+
+
+	/**
+	 *
+	 */
+	private void writeStyle(JRStyle style)
+	{
+		sb.append("\t<style");
+
+		sb.append(" name=\"");
+		sb.append(style.getName());
+		sb.append("\"");
+
+		sb.append(" isDefault=\"");
+		sb.append(style.isDefault());
+		sb.append("\"");
+
+		if (style.getStyle() != null)
+		{
+			JRStyle baseStyle = 
+				(JRStyle)stylesMap.get(
+						style.getStyle().getName()
+					);
+			if(baseStyle != null)
+			{
+				sb.append(" style=\"");
+				sb.append(style.getStyle().getName());
+				sb.append("\"");
+			}
+			else
+			{
+				throw 
+					new JRRuntimeException(
+						"Referenced report style not found : " 
+						+ style.getStyle().getName()
+						);
+			}
+		}
+	
+		if (style.getOwnMode() != null)
+		{
+			sb.append(" mode=\"");
+			sb.append((String)JRXmlConstants.getModeMap().get(style.getOwnMode()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnForecolor() != null)
+		{
+			sb.append(" forecolor=\"#");
+			sb.append(Integer.toHexString(style.getOwnForecolor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+
+		if (style.getOwnBackcolor() != null)
+		{
+			sb.append(" backcolor=\"#");
+			sb.append(Integer.toHexString(style.getOwnBackcolor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+
+
+		if (style.getOwnPen() != null)
+		{
+			sb.append(" pen=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnPen()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnFill() != null)
+		{
+			sb.append(" fill=\"");
+			sb.append((String)JRXmlConstants.getFillMap().get(style.getOwnFill()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnRadius() != null)
+		{
+			sb.append(" radius=\"");
+			sb.append(style.getOwnRadius());
+			sb.append("\"");
+		}
+
+		if (style.getOwnScaleImage() != null)
+		{
+			sb.append(" scaleImage=\"");
+			sb.append((String)JRXmlConstants.getScaleImageMap().get(style.getOwnScaleImage()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnHorizontalAlignment() != null)
+		{
+			sb.append(" hAlign=\"");
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(style.getOwnHorizontalAlignment()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnVerticalAlignment() != null)
+		{
+			sb.append(" vAlign=\"");
+			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(style.getOwnVerticalAlignment()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnRotation() != null)
+		{
+			sb.append(" rotation=\"");
+			sb.append((String)JRXmlConstants.getRotationMap().get(style.getOwnRotation()));
+			sb.append("\"");
+		}
+
+		if (style.getOwnLineSpacing() != null)
+		{
+			sb.append(" lineSpacing=\"");
+			sb.append((String)JRXmlConstants.getLineSpacingMap().get(style.getOwnLineSpacing()));
+			sb.append("\"");
+		}
+
+		if (style.isOwnStyledText() != null)
+		{
+			sb.append(" isStyledText=\"");
+			sb.append(style.isOwnStyledText());
+			sb.append("\"");
+		}
+
+		if (style.getOwnPattern() != null)
+		{
+			sb.append(" pattern=\"");
+			sb.append(style.getOwnPattern());
+			sb.append("\"");
+		}
+
+		if (style.isOwnBlankWhenNull() != null)
+		{
+			sb.append(" isBlankWhenNull=\"");
+			sb.append(style.isOwnBlankWhenNull());
+			sb.append("\"");
+		}
+
+		if (style.getOwnBorder() == null)
+		{
+			sb.append(" border=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnBorder()));
+			sb.append("\"");
+		}
+		if (style.getOwnBorderColor() != null)
+		{
+			sb.append(" borderColor=\"#");
+			sb.append(Integer.toHexString(style.getOwnBorderColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		if (style.getOwnPadding() != null)
+		{
+			sb.append(" padding=\"");
+			sb.append(style.getOwnPadding());
+			sb.append("\"");
+		}
+	
+
+		if (style.getOwnTopBorder() != null)
+		{
+			sb.append(" topBorder=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnTopBorder()));
+			sb.append("\"");
+		}
+		if (style.getOwnTopBorderColor() != null)
+		{
+			sb.append(" topBorderColor=\"#");
+			sb.append(Integer.toHexString(style.getOwnTopBorderColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		if (style.getOwnTopPadding() != null)
+		{
+			sb.append(" topPadding=\"");
+			sb.append(style.getOwnTopPadding());
+			sb.append("\"");
+		}
+
+		
+		if (style.getOwnLeftBorder() != null)
+		{
+			sb.append(" leftBorder=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnLeftBorder()));
+			sb.append("\"");
+		}
+		if (style.getOwnLeftBorderColor() != null)
+		{
+			sb.append(" leftBorderColor=\"#");
+			sb.append(Integer.toHexString(style.getOwnLeftBorderColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		if (style.getOwnLeftPadding() != null)
+		{
+			sb.append(" leftPadding=\"");
+			sb.append(style.getOwnLeftPadding());
+			sb.append("\"");
+		}
+
+		
+		if (style.getOwnBottomBorder() != null)
+		{
+			sb.append(" bottomBorder=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnBottomBorder()));
+			sb.append("\"");
+		}
+		if (style.getOwnBottomBorderColor() != null)
+		{
+			sb.append(" bottomBorderColor=\"#");
+			sb.append(Integer.toHexString(style.getOwnBottomBorderColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		if (style.getOwnBottomPadding() != null)
+		{
+			sb.append(" bottomPadding=\"");
+			sb.append(style.getOwnBottomPadding());
+			sb.append("\"");
+		}
+
+		
+		if (style.getOwnRightBorder() != null)
+		{
+			sb.append(" rightBorder=\"");
+			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnRightBorder()));
+			sb.append("\"");
+		}
+		if (style.getOwnRightBorderColor() != null)
+		{
+			sb.append(" rightBorderColor=\"#");
+			sb.append(Integer.toHexString(style.getOwnRightBorderColor().getRGB() & colorMask));
+			sb.append("\"");
+		}
+		if (style.getOwnRightPadding() != null)
+		{
+			sb.append(" rightPadding=\"");
+			sb.append(style.getOwnRightPadding());
+			sb.append("\"");
+		}
+
+		if (style.getOwnFontName() != null)
+		{
+			sb.append(" fontName=\"");
+			sb.append(style.getOwnFontName());
+			sb.append("\"");
+		}
+
+		if (style.getOwnFontSize() != null)
+		{
+			sb.append(" fontSize=\"");
+			sb.append(style.getOwnFontSize());
+			sb.append("\"");
+		}
+
+		if (style.isOwnBold() != null)
+		{
+			sb.append(" isBold=\"");
+			sb.append(style.isOwnBold());
+			sb.append("\"");
+		}
+
+		if (style.isOwnItalic() != null)
+		{
+			sb.append(" isItalic=\"");
+			sb.append(style.isOwnItalic());
+			sb.append("\"");
+		}
+
+		if (style.isOwnUnderline() != null)
+		{
+			sb.append(" isUnderline=\"");
+			sb.append(style.isOwnUnderline());
+			sb.append("\"");
+		}
+
+		if (style.isOwnStrikeThrough() != null)
+		{
+			sb.append(" isStrikeThrough=\"");
+			sb.append(style.isOwnStrikeThrough());
+			sb.append("\"");
+		}
+
+		if (style.getOwnPdfFontName() != null)
+		{
+			sb.append(" pdfFontName=\"");
+			sb.append(style.getOwnPdfFontName());
+			sb.append("\"");
+		}
+
+		if (style.getOwnPdfEncoding() != null)
+		{
+			sb.append(" pdfEncoding=\"");
+			sb.append(style.getOwnPdfEncoding());
+			sb.append("\"");
+		}
+
+		if (style.isOwnPdfEmbedded() != null)
+		{
+			sb.append(" isPdfEmbedded=\"");
+			sb.append(style.isOwnPdfEmbedded());
+			sb.append("\"");
+		}
 
 		sb.append("/>\n");
 	}
@@ -915,17 +1229,10 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (
-			(element instanceof JRLine && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JRRectangle && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JREllipse && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JRImage && element.getMode() != JRElement.MODE_TRANSPARENT) ||
-			(element instanceof JRTextElement && element.getMode() != JRElement.MODE_TRANSPARENT) ||
-			(element instanceof JRSubreport && element.getMode() != JRElement.MODE_TRANSPARENT)
-			)
+		if (element.getOwnMode() != null)
 		{
 			sb.append(" mode=\"");
-			sb.append((String)JRXmlConstants.getModeMap().get(new Byte(element.getMode())));
+			sb.append((String)JRXmlConstants.getModeMap().get(element.getOwnMode()));
 			sb.append("\"");
 		}
 
@@ -973,17 +1280,17 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (element.getForecolor().getRGB() != Color.black.getRGB())
+		if (element.getOwnForecolor() != null)
 		{
 			sb.append(" forecolor=\"#");
-			sb.append(Integer.toHexString(element.getForecolor().getRGB() & colorMask));
+			sb.append(Integer.toHexString(element.getOwnForecolor().getRGB() & colorMask));
 			sb.append("\"");
 		}
 
-		if (element.getBackcolor().getRGB() != Color.white.getRGB())
+		if (element.getOwnBackcolor() != null)
 		{
 			sb.append(" backcolor=\"#");
-			sb.append(Integer.toHexString(element.getBackcolor().getRGB() & colorMask));
+			sb.append(Integer.toHexString(element.getOwnBackcolor().getRGB() & colorMask));
 			sb.append("\"");
 		}
 
@@ -1011,22 +1318,17 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t<graphicElement");
 
-		if (
-			(element instanceof JRLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JRRectangle && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JREllipse && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JRImage && element.getPen() != JRGraphicElement.PEN_NONE)
-			)
+		if (element.getOwnPen() != null)
 		{
 			sb.append(" pen=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(new Byte(element.getPen())));
+			sb.append((String)JRXmlConstants.getPenMap().get(element.getOwnPen()));
 			sb.append("\"");
 		}
 
-		if (element.getFill() != JRGraphicElement.FILL_SOLID)
+		if (element.getOwnFill() != null)
 		{
 			sb.append(" fill=\"");
-			sb.append((String)JRXmlConstants.getFillMap().get(new Byte(element.getFill())));
+			sb.append((String)JRXmlConstants.getFillMap().get(element.getOwnFill()));
 			sb.append("\"");
 		}
 
@@ -1041,10 +1343,10 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t<rectangle");
 
-		if (rectangle.getRadius() != 0)
+		if (rectangle.getOwnRadius() != null)
 		{
 			sb.append(" radius=\"");
-			sb.append(rectangle.getRadius());
+			sb.append(rectangle.getOwnRadius());
 			sb.append("\"");
 		}
 
@@ -1078,24 +1380,24 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t<image");
 
-		if (image.getScaleImage() != JRImage.SCALE_IMAGE_RETAIN_SHAPE)
+		if (image.getOwnScaleImage() != null)
 		{
 			sb.append(" scaleImage=\"");
-			sb.append((String)JRXmlConstants.getScaleImageMap().get(new Byte(image.getScaleImage())));
+			sb.append((String)JRXmlConstants.getScaleImageMap().get(image.getOwnScaleImage()));
 			sb.append("\"");
 		}
 
-		if (image.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
+		if (image.getOwnHorizontalAlignment() != null)
 		{
 			sb.append(" hAlign=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(image.getHorizontalAlignment())));
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(image.getOwnHorizontalAlignment()));
 			sb.append("\"");
 		}
 
-		if (image.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
+		if (image.getOwnVerticalAlignment() != null)
 		{
 			sb.append(" vAlign=\"");
-			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(image.getVerticalAlignment())));
+			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(image.getOwnVerticalAlignment()));
 			sb.append("\"");
 		}
 
@@ -1158,7 +1460,7 @@ public class JRXmlWriter
 		sb.append(">\n");
 
 		writeReportElement(image);
-		writeBox(image.getBox());
+		writeBox(image);
 		writeGraphicElement(image);
 
 		if (image.getExpression() != null)
@@ -1212,116 +1514,113 @@ public class JRXmlWriter
 	 */
 	private void writeBox(JRBox box)
 	{
-		if (box != null)
+		StringBuffer tmpBuffer = new StringBuffer();
+
+		if (box.getBorder() != JRGraphicElement.PEN_NONE)
 		{
-			StringBuffer tmpBuffer = new StringBuffer();
+			tmpBuffer.append(" border=\"");
+			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getBorder())));
+			tmpBuffer.append("\"");
+		}
+		if (box.getBorderColor() != null)
+		{
+			tmpBuffer.append(" borderColor=\"#");
+			tmpBuffer.append(Integer.toHexString(box.getBorderColor().getRGB() & colorMask));
+			tmpBuffer.append("\"");
+		}
+		if (box.getPadding() > 0)
+		{
+			tmpBuffer.append(" padding=\"");
+			tmpBuffer.append(box.getPadding());
+			tmpBuffer.append("\"");
+		}
+	
 
-			if (box.getBorder() != JRGraphicElement.PEN_NONE)
-			{
-				tmpBuffer.append(" border=\"");
-				tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getBorder())));
-				tmpBuffer.append("\"");
-			}
-			if (box.getBorderColor() != null)
-			{
-				tmpBuffer.append(" borderColor=\"#");
-				tmpBuffer.append(Integer.toHexString(box.getBorderColor().getRGB() & colorMask));
-				tmpBuffer.append("\"");
-			}
-			if (box.getPadding() > 0)
-			{
-				tmpBuffer.append(" padding=\"");
-				tmpBuffer.append(box.getPadding());
-				tmpBuffer.append("\"");
-			}
+		if (box.getOwnTopBorder() != null)
+		{
+			tmpBuffer.append(" topBorder=\"");
+			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnTopBorder().byteValue())));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnTopBorderColor() != null)
+		{
+			tmpBuffer.append(" topBorderColor=\"#");
+			tmpBuffer.append(Integer.toHexString(box.getOwnTopBorderColor().getRGB() & colorMask));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnTopPadding() != null)
+		{
+			tmpBuffer.append(" topPadding=\"");
+			tmpBuffer.append(box.getOwnTopPadding());
+			tmpBuffer.append("\"");
+		}
+
 		
+		if (box.getOwnLeftBorder() != null)
+		{
+			tmpBuffer.append(" leftBorder=\"");
+			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnLeftBorder().byteValue())));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnLeftBorderColor() != null)
+		{
+			tmpBuffer.append(" leftBorderColor=\"#");
+			tmpBuffer.append(Integer.toHexString(box.getOwnLeftBorderColor().getRGB() & colorMask));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnLeftPadding() != null)
+		{
+			tmpBuffer.append(" leftPadding=\"");
+			tmpBuffer.append(box.getOwnLeftPadding());
+			tmpBuffer.append("\"");
+		}
 
-			if (box.getOwnTopBorder() != null)
-			{
-				tmpBuffer.append(" topBorder=\"");
-				tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnTopBorder().byteValue())));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnTopBorderColor() != null)
-			{
-				tmpBuffer.append(" topBorderColor=\"#");
-				tmpBuffer.append(Integer.toHexString(box.getOwnTopBorderColor().getRGB() & colorMask));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnTopPadding() != null)
-			{
-				tmpBuffer.append(" topPadding=\"");
-				tmpBuffer.append(box.getOwnTopPadding());
-				tmpBuffer.append("\"");
-			}
+		
+		if (box.getOwnBottomBorder() != null)
+		{
+			tmpBuffer.append(" bottomBorder=\"");
+			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnBottomBorder().byteValue())));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnBottomBorderColor() != null)
+		{
+			tmpBuffer.append(" bottomBorderColor=\"#");
+			tmpBuffer.append(Integer.toHexString(box.getOwnBottomBorderColor().getRGB() & colorMask));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnBottomPadding() != null)
+		{
+			tmpBuffer.append(" bottomPadding=\"");
+			tmpBuffer.append(box.getOwnBottomPadding());
+			tmpBuffer.append("\"");
+		}
 
-			
-			if (box.getOwnLeftBorder() != null)
-			{
-				tmpBuffer.append(" leftBorder=\"");
-				tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnLeftBorder().byteValue())));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnLeftBorderColor() != null)
-			{
-				tmpBuffer.append(" leftBorderColor=\"#");
-				tmpBuffer.append(Integer.toHexString(box.getOwnLeftBorderColor().getRGB() & colorMask));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnLeftPadding() != null)
-			{
-				tmpBuffer.append(" leftPadding=\"");
-				tmpBuffer.append(box.getOwnLeftPadding());
-				tmpBuffer.append("\"");
-			}
+		
+		if (box.getOwnRightBorder() != null)
+		{
+			tmpBuffer.append(" rightBorder=\"");
+			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnRightBorder().byteValue())));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnRightBorderColor() != null)
+		{
+			tmpBuffer.append(" rightBorderColor=\"#");
+			tmpBuffer.append(Integer.toHexString(box.getOwnRightBorderColor().getRGB() & colorMask));
+			tmpBuffer.append("\"");
+		}
+		if (box.getOwnRightPadding() != null)
+		{
+			tmpBuffer.append(" rightPadding=\"");
+			tmpBuffer.append(box.getOwnRightPadding());
+			tmpBuffer.append("\"");
+		}
 
-			
-			if (box.getOwnBottomBorder() != null)
-			{
-				tmpBuffer.append(" bottomBorder=\"");
-				tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnBottomBorder().byteValue())));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnBottomBorderColor() != null)
-			{
-				tmpBuffer.append(" bottomBorderColor=\"#");
-				tmpBuffer.append(Integer.toHexString(box.getOwnBottomBorderColor().getRGB() & colorMask));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnBottomPadding() != null)
-			{
-				tmpBuffer.append(" bottomPadding=\"");
-				tmpBuffer.append(box.getOwnBottomPadding());
-				tmpBuffer.append("\"");
-			}
-
-			
-			if (box.getOwnRightBorder() != null)
-			{
-				tmpBuffer.append(" rightBorder=\"");
-				tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnRightBorder().byteValue())));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnRightBorderColor() != null)
-			{
-				tmpBuffer.append(" rightBorderColor=\"#");
-				tmpBuffer.append(Integer.toHexString(box.getOwnRightBorderColor().getRGB() & colorMask));
-				tmpBuffer.append("\"");
-			}
-			if (box.getOwnRightPadding() != null)
-			{
-				tmpBuffer.append(" rightPadding=\"");
-				tmpBuffer.append(box.getOwnRightPadding());
-				tmpBuffer.append("\"");
-			}
-
-			
-			if (tmpBuffer.length() > 0)
-			{
-				sb.append("\t\t\t\t<box");
-				sb.append(tmpBuffer.toString());
-				sb.append("/>\n");
-			}
+		
+		if (tmpBuffer.length() > 0)
+		{
+			sb.append("\t\t\t\t<box");
+			sb.append(tmpBuffer.toString());
+			sb.append("/>\n");
 		}
 	}
 
@@ -1334,7 +1633,7 @@ public class JRXmlWriter
 		sb.append("\t\t\t<staticText>\n");
 
 		writeReportElement(staticText);
-		writeBox(staticText.getBox());
+		writeBox(staticText);
 		writeTextElement(staticText);
 
 		if (staticText.getText() != null)
@@ -1355,42 +1654,42 @@ public class JRXmlWriter
 	{
 		sb.append("\t\t\t\t<textElement");
 
-		if (textElement.getHorizontalAlignment() != JRAlignment.HORIZONTAL_ALIGN_LEFT)
+		if (textElement.getOwnHorizontalAlignment() != null)
 		{
 			sb.append(" textAlignment=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(new Byte(textElement.getHorizontalAlignment())));
+			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(textElement.getOwnHorizontalAlignment()));
 			sb.append("\"");
 		}
 
-		if (textElement.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
+		if (textElement.getOwnVerticalAlignment() != null)
 		{
 			sb.append(" verticalAlignment=\"");
-			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(new Byte(textElement.getVerticalAlignment())));
+			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(textElement.getOwnVerticalAlignment()));
 			sb.append("\"");
 		}
 
-		if (textElement.getRotation() != JRTextElement.ROTATION_NONE)
+		if (textElement.getOwnRotation() != null)
 		{
 			sb.append(" rotation=\"");
-			sb.append((String)JRXmlConstants.getRotationMap().get(new Byte(textElement.getRotation())));
+			sb.append((String)JRXmlConstants.getRotationMap().get(textElement.getOwnRotation()));
 			sb.append("\"");
 		}
 
-		if (textElement.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+		if (textElement.getOwnLineSpacing() != null)
 		{
 			sb.append(" lineSpacing=\"");
-			sb.append((String)JRXmlConstants.getLineSpacingMap().get(new Byte(textElement.getLineSpacing())));
+			sb.append((String)JRXmlConstants.getLineSpacingMap().get(textElement.getOwnLineSpacing()));
 			sb.append("\"");
 		}
 
-		if (textElement.isStyledText())
+		if (textElement.isOwnStyledText() != null)
 		{
 			sb.append(" isStyledText=\"");
-			sb.append(textElement.isStyledText());
+			sb.append(textElement.isOwnStyledText());
 			sb.append("\"");
 		}
 
-		String font = writeFont(textElement.getFont());
+		String font = writeFont(textElement);
 		if (font != null)
 		{
 			sb.append(">\n");
@@ -1446,10 +1745,10 @@ public class JRXmlWriter
 				tmpBuffer.append("\"");
 			}
 
-			if (font.getOwnSize() != null)
+			if (font.getOwnFontSize() != null)
 			{
 				tmpBuffer.append(" size=\"");
-				tmpBuffer.append(font.getOwnSize());
+				tmpBuffer.append(font.getOwnFontSize());
 				tmpBuffer.append("\"");
 			}
 
@@ -1540,17 +1839,17 @@ public class JRXmlWriter
 			sb.append("\"");
 		}
 
-		if (textField.getPattern() != null)
+		if (textField.getOwnPattern() != null)
 		{
 			sb.append(" pattern=\"");
-			sb.append(textField.getPattern());
+			sb.append(textField.getOwnPattern());
 			sb.append("\"");
 		}
 
-		if (textField.isBlankWhenNull())
+		if (textField.isOwnBlankWhenNull() != null)
 		{
 			sb.append(" isBlankWhenNull=\"");
-			sb.append(textField.isBlankWhenNull());
+			sb.append(textField.isOwnBlankWhenNull());
 			sb.append("\"");
 		}
 
@@ -1578,7 +1877,7 @@ public class JRXmlWriter
 		sb.append(">\n");
 
 		writeReportElement(textField);
-		writeBox(textField.getBox());
+		writeBox(textField);
 		writeTextElement(textField);
 
 		if (textField.getExpression() != null)
@@ -1775,7 +2074,7 @@ public class JRXmlWriter
 		sb.append(">\n");
 
 		writeReportElement(chart);
-		writeBox(chart.getBox());
+		writeBox(chart);
 
 		// write title
 		sb.append("\t\t\t\t\t<chartTitle");

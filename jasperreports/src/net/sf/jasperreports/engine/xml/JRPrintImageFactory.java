@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 
 import org.xml.sax.Attributes;
@@ -62,7 +63,9 @@ public class JRPrintImageFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBasePrintImage image = new JRBasePrintImage();
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+
+		JRBasePrintImage image = new JRBasePrintImage(jasperPrint.getDefaultStyleProvider());
 
 		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)

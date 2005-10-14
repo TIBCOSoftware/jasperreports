@@ -29,8 +29,10 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -50,13 +52,36 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	/**
 	 *
 	 */
-	protected int radius = 0;
+	protected Integer radius;
 
 
 	/**
 	 *
 	 */
+	public JRDesignRectangle()
+	{
+		super(null);
+	}
+		
+
+	/**
+	 *
+	 */
+	public JRDesignRectangle(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+		
+
+	/**
+	 *
+	 */
 	public int getRadius()
+	{
+		return JRStyleResolver.getRadius(this);
+	}
+
+	public Integer getOwnRadius()
 	{
 		return this.radius;
 	}
@@ -65,6 +90,14 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	 *
 	 */
 	public void setRadius(int radius)
+	{
+		this.radius = new Integer(radius);
+	}
+
+	/**
+	 *
+	 */
+	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
 	}

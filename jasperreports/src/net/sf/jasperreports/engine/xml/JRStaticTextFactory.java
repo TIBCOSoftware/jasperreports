@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -45,7 +46,9 @@ public class JRStaticTextFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignStaticText staticText = new JRDesignStaticText();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		JRDesignStaticText staticText = new JRDesignStaticText(jasperDesign);
 
 		return staticText;
 	}

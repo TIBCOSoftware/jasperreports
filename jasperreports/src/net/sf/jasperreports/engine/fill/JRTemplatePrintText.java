@@ -27,10 +27,14 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRReportFont;
 
 
 /**
@@ -64,8 +68,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * @see JRAnchor#getBookmarkLevel()
 	 */
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
-
-
+	
 	/**
 	 *
 	 */
@@ -127,7 +130,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTemplateText)template).getHorizontalAlignment();
+		return getHorizontalAlignment();
 	}
 		
 	/**
@@ -145,10 +148,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)template).getHorizontalAlignment();
 	}
 		
+	public Byte getOwnHorizontalAlignment()
+	{
+		return null;
+	}
+
 	/**
 	 *
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
 	}
 		
@@ -163,7 +178,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
+	public Byte getOwnVerticalAlignment()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public void setVerticalAlignment(byte verticalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
 	{
 	}
 		
@@ -175,10 +205,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)template).getRotation();
 	}
 		
+	public Byte getOwnRotation()
+	{
+		return null;
+	}
+
 	/**
 	 *
 	 */
 	public void setRotation(byte rotation)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(Byte rotation)
 	{
 	}
 		
@@ -222,10 +264,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)template).getLineSpacing();
 	}
 		
+	public Byte getOwnLineSpacing()
+	{
+		return null;
+	}
+
 	/**
 	 *
 	 */
 	public void setLineSpacing(byte lineSpacing)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setLineSpacing(Byte lineSpacing)
 	{
 	}
 		
@@ -237,6 +291,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)template).isStyledText();
 	}
 		
+	public Boolean isOwnStyledText()
+	{
+		return null;
+	}
+
 	/**
 	 *
 	 */
@@ -247,28 +306,35 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	public JRBox getBox()
+	public void setStyledText(Boolean isStyledText)
 	{
-		return ((JRTemplateText)template).getBox();
 	}
 		
 	/**
-	 *
+	 * @deprecated
+	 */
+	public JRBox getBox()
+	{
+		return (JRTemplateText)template;
+	}
+		
+	/**
+	 * @deprecated
 	 */
 	public void setBox(JRBox box)
 	{
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRFont getFont()
 	{
-		return ((JRTemplateText)template).getFont();
+		return (JRTemplateText)template;
 	}
 		
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setFont(JRFont font)
 	{
@@ -379,5 +445,725 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
-		
+
+	/**
+	 *
+	 */
+	public byte getBorder()
+	{
+		return ((JRTemplateText)template).getBorder();
+	}
+
+	public Byte getOwnBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBorderColor()
+	{
+		return ((JRTemplateText)template).getBorderColor();
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color borderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getPadding()
+	{
+		return ((JRTemplateText)template).getPadding();
+	}
+
+	public Integer getOwnPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getTopBorder()
+	{
+		return ((JRTemplateText)template).getTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnTopBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTopBorderColor()
+	{
+		return ((JRTemplateText)template).getTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTopBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorderColor(Color topBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return ((JRTemplateText)template).getTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getLeftBorder()
+	{
+		return ((JRTemplateText)template).getLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		return ((JRTemplateText)template).getLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return ((JRTemplateText)template).getLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		return ((JRTemplateText)template).getBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		return ((JRTemplateText)template).getBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return ((JRTemplateText)template).getBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		return ((JRTemplateText)template).getRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		return ((JRTemplateText)template).getRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return ((JRTemplateText)template).getRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRReportFont getReportFont()
+	{
+		return ((JRTemplateText)template).getReportFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setReportFont(JRReportFont reportFont)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getFontName()
+	{
+		return ((JRTemplateText)template).getFontName();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnFontName()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setFontName(String fontName)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isBold()
+	{
+		return ((JRTemplateText)template).isBold();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnBold()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBold(boolean isBold)
+	{
+	}
+
+	/**
+	 * Alternative setBold method which allows also to reset
+	 * the "own" isBold property.
+	 */
+	public void setBold(Boolean isBold)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isItalic()
+	{
+		return ((JRTemplateText)template).isItalic();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnItalic()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setItalic(boolean isItalic)
+	{
+	}
+
+	/**
+	 * Alternative setItalic method which allows also to reset
+	 * the "own" isItalic property.
+	 */
+	public void setItalic(Boolean isItalic)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public boolean isUnderline()
+	{
+		return ((JRTemplateText)template).isUnderline();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnUnderline()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setUnderline(boolean isUnderline)
+	{
+	}
+
+	/**
+	 * Alternative setUnderline method which allows also to reset
+	 * the "own" isUnderline property.
+	 */
+	public void setUnderline(Boolean isUnderline)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public boolean isStrikeThrough()
+	{
+		return ((JRTemplateText)template).isStrikeThrough();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnStrikeThrough()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setStrikeThrough(boolean isStrikeThrough)
+	{
+		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 * Alternative setStrikeThrough method which allows also to reset
+	 * the "own" isStrikeThrough property.
+	 */
+	public void setStrikeThrough(Boolean isStrikeThrough)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getFontSize()
+	{
+		return ((JRTemplateText)template).getFontSize();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnFontSize()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setFontSize(int fontSize)
+	{
+	}
+
+	/**
+	 * Alternative setSize method which allows also to reset
+	 * the "own" size property.
+	 */
+	public void setFontSize(Integer fontSize)
+	{
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public int getSize()
+	{
+		return getFontSize();
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public Integer getOwnSize()
+	{
+		return null;
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public void setSize(int size)
+	{
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public void setSize(Integer size)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getPdfFontName()
+	{
+		return ((JRTemplateText)template).getPdfFontName();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnPdfFontName()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfFontName(String pdfFontName)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public String getPdfEncoding()
+	{
+		return ((JRTemplateText)template).getPdfEncoding();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnPdfEncoding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfEncoding(String pdfEncoding)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isPdfEmbedded()
+	{
+		return ((JRTemplateText)template).isPdfEmbedded();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnPdfEmbedded()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfEmbedded(boolean isPdfEmbedded)
+	{
+	}
+
+	/**
+	 * Alternative setPdfEmbedded method which allows also to reset
+	 * the "own" isPdfEmbedded property.
+	 */
+	public void setPdfEmbedded(Boolean isPdfEmbedded)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(Integer padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public Map getAttributes()
+	{
+		return ((JRTemplateText)template).getAttributes();
+	}
+	
 }

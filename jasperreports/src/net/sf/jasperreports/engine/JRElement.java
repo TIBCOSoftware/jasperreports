@@ -37,7 +37,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElement extends JRChild
+public interface JRElement extends JRChild, JRStyleContainer
 {
 
 
@@ -112,7 +112,7 @@ public interface JRElement extends JRChild
 	 * @return a byte value representing one of the strech type constants in this class
 	 */
 	public byte getStretchType();
-		
+
 	/**
 	 * Sets the stretch type for the element.
 	 * @param stretchType a byte value that must be one of the stretch type constants in this class
@@ -141,6 +141,8 @@ public interface JRElement extends JRChild
 	 */
 	public byte getMode();
 	
+	public Byte getOwnMode();
+
 	/**
 	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
@@ -148,6 +150,8 @@ public interface JRElement extends JRChild
 	 * by default, and so are the subreport elements.
 	 */
 	public void setMode(byte mode);
+	
+	public void setMode(Byte mode);
 	
 	/**
 	 * Gets the the section relative horizontal offset of the element top left corner.
@@ -231,6 +235,11 @@ public interface JRElement extends JRChild
 	/**
 	 *
 	 */
+	public Color getOwnForecolor();
+
+	/**
+	 *
+	 */
 	public void setForecolor(Color forecolor);
 	
 	/**
@@ -238,6 +247,11 @@ public interface JRElement extends JRChild
 	 */
 	public Color getBackcolor();
 	
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor();
+
 	/**
 	 *
 	 */

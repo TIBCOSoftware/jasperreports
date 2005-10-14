@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -104,6 +105,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private JRBaseFiller subreportFiller = null;
 	private JRPrintPage printPage = null;
 	private JRReportFont[] subreportFonts = null;
+	private JRStyle[] subreportStyles = null;
 
 	/**
 	 *
@@ -212,7 +214,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	{
 		if (template == null)
 		{
-			JRDesignRectangle rectangle = new JRDesignRectangle();
+			JRDesignRectangle rectangle = new JRDesignRectangle(null);//FIXME STYLE
 
 			rectangle.setKey(getKey());
 			rectangle.setPositionType(getPositionType());
@@ -230,7 +232,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			rectangle.setBackcolor(getBackcolor());
 			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
-			template = new JRTemplateRectangle(rectangle);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 		}
 		
 		return (JRTemplateRectangle)template;
@@ -243,6 +245,15 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected JRReportFont[] getFonts()
 	{
 		return subreportFonts;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRStyle[] getStyles()
+	{
+		return subreportStyles;
 	}
 
 
@@ -527,6 +538,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				{
 					printPage = null;
 					subreportFonts = null;
+					subreportStyles = null;
 					setStretchHeight(getHeight());
 					setToPrint(false);
 					
@@ -568,6 +580,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 
 			printPage = subreportFiller.getCurrentPage();
 			subreportFonts = subreportFiller.getFonts();
+			subreportStyles = subreportFiller.getStyles();
 			setStretchHeight(subreportFiller.getCurrentPageStretchHeight());
 
 			//if the subreport fill thread has not finished, 

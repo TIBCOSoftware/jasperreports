@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -97,7 +99,22 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public Byte getOwnScaleImage()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public void setScaleImage(byte scaleImage)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setScaleImage(Byte scaleImage)
 	{
 	}
 
@@ -112,7 +129,22 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public Byte getOwnHorizontalAlignment()
+	{
+		return null;
+	}
+		
+	/**
+	 *
+	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
 	}
 		
@@ -127,7 +159,22 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public Byte getOwnVerticalAlignment()
+	{
+		return null;
+	}
+		
+	/**
+	 *
+	 */
 	public void setVerticalAlignment(byte verticalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
 	{
 	}
 		
@@ -162,7 +209,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRBox getBox()
 	{
@@ -170,7 +217,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box)
 	{
@@ -282,5 +329,412 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		this.bookmarkLevel = bookmarkLevel;
 	}
 	
+
+	/**
+	 *
+	 */
+	public byte getBorder()
+	{
+		return ((JRTemplateText)template).getBorder();
+	}
+
+	public Byte getOwnBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBorderColor()
+	{
+		return ((JRTemplateText)template).getBorderColor();
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color borderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getPadding()
+	{
+		return ((JRTemplateText)template).getPadding();
+	}
+
+	public Integer getOwnPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getTopBorder()
+	{
+		return ((JRTemplateText)template).getTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnTopBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTopBorderColor()
+	{
+		return ((JRTemplateText)template).getTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTopBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorderColor(Color topBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return ((JRTemplateText)template).getTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getLeftBorder()
+	{
+		return ((JRTemplateText)template).getLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		return ((JRTemplateText)template).getLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return ((JRTemplateText)template).getLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		return ((JRTemplateText)template).getBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		return ((JRTemplateText)template).getBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return ((JRTemplateText)template).getBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		return ((JRTemplateText)template).getRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		return ((JRTemplateText)template).getRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return ((JRTemplateText)template).getRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(Integer padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+	}
+
 
 }

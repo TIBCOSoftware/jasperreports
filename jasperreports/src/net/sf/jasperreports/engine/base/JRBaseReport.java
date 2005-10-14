@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -93,6 +94,8 @@ public class JRBaseReport implements JRReport, Serializable
 	protected Set importsSet = null;
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
+	protected JRStyle defaultStyle = null;
+	protected JRStyle[] styles = null;
 	protected JRParameter[] parameters = null;
 	protected JRQuery query = null;
 	protected JRField[] fields = null;
@@ -175,6 +178,20 @@ public class JRBaseReport implements JRReport, Serializable
 			for(int i = 0; i < fonts.length; i++)
 			{
 				fonts[i] = factory.getReportFont(jrFonts[i]);
+			}
+		}
+
+		/*   */
+		defaultStyle = factory.getStyle(report.getDefaultStyle());
+
+		/*   */
+		JRStyle[] jrStyles = report.getStyles();
+		if (jrStyles != null && jrStyles.length > 0)
+		{
+			styles = new JRStyle[jrStyles.length];
+			for(int i = 0; i < styles.length; i++)
+			{
+				styles[i] = factory.getStyle(jrStyles[i]);
 			}
 		}
 
@@ -459,7 +476,7 @@ public class JRBaseReport implements JRReport, Serializable
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRReportFont getDefaultFont()
 	{
@@ -467,11 +484,27 @@ public class JRBaseReport implements JRReport, Serializable
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRReportFont[] getFonts()
 	{
 		return fonts;
+	}
+
+	/**
+	 *
+	 */
+	public JRStyle getDefaultStyle()
+	{
+		return defaultStyle;
+	}
+
+	/**
+	 *
+	 */
+	public JRStyle[] getStyles()
+	{
+		return styles;
 	}
 
 	/**

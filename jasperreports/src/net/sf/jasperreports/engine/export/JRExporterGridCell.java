@@ -44,7 +44,7 @@ public class JRExporterGridCell
 	 */
 	public static final JRExporterGridCell OCCUPIED_CELL = 
 		new JRExporterGridCell(
-			new JRBasePrintElement(),
+			new JRBasePrintElement(null),
 			null,
 			0,
 			0,

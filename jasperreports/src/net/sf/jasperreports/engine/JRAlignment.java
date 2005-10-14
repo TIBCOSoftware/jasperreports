@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRAlignment
+public interface JRAlignment extends JRStyleContainer
 {
 
 	/**
@@ -61,11 +61,15 @@ public interface JRAlignment
 	 */
 	public byte getHorizontalAlignment();
 
+	public Byte getOwnHorizontalAlignment();
+
 	/**
 	 * Sets the text horizontal alignment.
 	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment);
+
+	public void setHorizontalAlignment(Byte horizontalAlignment);
 
 	/**
 	 * Gets the text vertical alignment.
@@ -73,10 +77,14 @@ public interface JRAlignment
 	 */
 	public byte getVerticalAlignment();
 		
+	public Byte getOwnVerticalAlignment();
+
 	/**
 	 * Gets the text vertical alignment.
 	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link JRAlignment}
 	 */
 	public void setVerticalAlignment(byte verticalAlignment);
 		
+	public void setVerticalAlignment(Byte verticalAlignment);
+	
 }

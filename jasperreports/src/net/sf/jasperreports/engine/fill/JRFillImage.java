@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.InputStream;
@@ -96,6 +97,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getScaleImage();
 	}
 		
+	public Byte getOwnScaleImage()
+	{
+		return ((JRImage)this.parent).getOwnScaleImage();
+	}
+
 	/**
 	 *
 	 */
@@ -111,10 +117,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getHorizontalAlignment();
 	}
 		
+	public Byte getOwnHorizontalAlignment()
+	{
+		return ((JRImage)this.parent).getOwnHorizontalAlignment();
+	}
+
 	/**
 	 *
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
 	}
 		
@@ -126,10 +144,22 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getVerticalAlignment();
 	}
 		
+	public Byte getOwnVerticalAlignment()
+	{
+		return ((JRImage)this.parent).getOwnVerticalAlignment();
+	}
+
 	/**
 	 *
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
 	{
 	}
 		
@@ -210,11 +240,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRBox getBox()
 	{
-		return ((JRImage)parent).getBox();
+		return this;
 	}
 
 	/**
@@ -322,7 +352,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		if (template == null)
 		{
-			template = new JRTemplateImage((JRImage)this.parent);
+			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRImage)this.parent);
 		}
 		
 		return (JRTemplateImage)template;
@@ -647,6 +677,412 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public int getBookmarkLevel()
 	{
 		return ((JRImage)this.parent).getBookmarkLevel();
+	}
+
+	/**
+	 *
+	 */
+	public byte getBorder()
+	{
+		return ((JRBox)parent).getBorder();
+	}
+
+	public Byte getOwnBorder()
+	{
+		return ((JRBox)parent).getOwnBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBorderColor()
+	{
+		return ((JRBox)parent).getBorderColor();
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return ((JRBox)parent).getOwnBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color borderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getPadding()
+	{
+		return ((JRBox)parent).getPadding();
+	}
+
+	public Integer getOwnPadding()
+	{
+		return ((JRBox)parent).getOwnPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getTopBorder()
+	{
+		return ((JRBox)parent).getTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnTopBorder()
+	{
+		return ((JRBox)parent).getOwnTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTopBorderColor()
+	{
+		return ((JRBox)parent).getTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTopBorderColor()
+	{
+		return ((JRBox)parent).getOwnTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorderColor(Color topBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return ((JRBox)parent).getTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding()
+	{
+		return ((JRBox)parent).getOwnTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getLeftBorder()
+	{
+		return ((JRBox)parent).getLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return ((JRBox)parent).getOwnLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		return ((JRBox)parent).getLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return ((JRBox)parent).getOwnLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return ((JRBox)parent).getLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return ((JRBox)parent).getOwnLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		return ((JRBox)parent).getBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return ((JRBox)parent).getOwnBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		return ((JRBox)parent).getBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return ((JRBox)parent).getOwnBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return ((JRBox)parent).getBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return ((JRBox)parent).getOwnBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		return ((JRBox)parent).getRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return ((JRBox)parent).getOwnRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		return ((JRBox)parent).getRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return ((JRBox)parent).getOwnRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return ((JRBox)parent).getRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return ((JRBox)parent).getOwnRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(Integer padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
 	}
 
 }

@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.xml;
 
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.design.JRDesignChart;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -40,7 +41,9 @@ import org.xml.sax.Attributes;
 public class JRXyAreaChartFactory extends JRBaseFactory {
 
 	public Object createObject( Attributes atts ){
-		JRDesignChart chart = new JRDesignChart(JRChart.CHART_TYPE_XYAREA);
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		JRDesignChart chart = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYAREA);
 
 		return chart;
 	}

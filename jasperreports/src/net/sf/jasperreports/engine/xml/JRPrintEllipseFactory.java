@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintEllipse;
 
 import org.xml.sax.Attributes;
@@ -45,7 +46,9 @@ public class JRPrintEllipseFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBasePrintEllipse ellipse = new JRBasePrintEllipse();
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+
+		JRBasePrintEllipse ellipse = new JRBasePrintEllipse(jasperPrint.getDefaultStyleProvider());
 		
 		return ellipse;
 	}

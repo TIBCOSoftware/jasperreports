@@ -30,7 +30,9 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
 
 
 /**
@@ -55,7 +57,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	private int y = 0;
 	private int height = 0;
 
-
+	
 	/**
 	 *
 	 */
@@ -67,6 +69,29 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return template.getDefaultStyleProvider();
+	}
+	
+	/**
+	 *
+	 */
+	public JRStyle getStyle()
+	{
+		return template.getStyle();
+	}
+	
+	/**
+	 *
+	 */
+	public void setStyle(JRStyle style)
+	{
+	}
+	
+	/**
+	 *
+	 */
 	public byte getMode()
 	{
 		return this.template.getMode();
@@ -75,7 +100,22 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
+	public Byte getOwnMode()
+	{
+		return null;
+	}
+	
+	/**
+	 *
+	 */
 	public void setMode(byte mode)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public void setMode(Byte mode)
 	{
 	}
 	
@@ -153,6 +193,14 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
+	public Color getOwnForecolor()
+	{
+		return null;
+	}
+	
+	/**
+	 *
+	 */
 	public void setForecolor(Color color)
 	{
 	}
@@ -163,6 +211,14 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	public Color getBackcolor()
 	{
 		return this.template.getBackcolor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor()
+	{
+		return null;
 	}
 
 	/**

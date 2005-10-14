@@ -37,7 +37,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChart extends JRElement, JRAnchor, JRHyperlink
+public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 {
 
 
@@ -93,6 +93,7 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink
 		
 	/**
 	 * Gets the box around the element.
+	 * @deprecated
 	 */
 	public JRBox getBox();
 

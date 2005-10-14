@@ -34,7 +34,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextElement extends JRElement, JRAlignment
+public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont
 {
 
 
@@ -107,41 +107,53 @@ public interface JRTextElement extends JRElement, JRAlignment
 	 */
 	public byte getRotation();
 		
+	public Byte getOwnRotation();
+
 	/**
 	 * Sets the text rotation.
 	 * @param rotation a value representing one of the rotation constants in this class
 	 */
 	public void setRotation(byte rotation);
 		
+	public void setRotation(Byte rotation);
+	
 	/**
 	 * Gets the line spacing.
 	 * @return a value representing one of the line spacing constants in this class
 	 */
 	public byte getLineSpacing();
 
+	public Byte getOwnLineSpacing();
 	/**
 	 * Sets the line spacing.
 	 * @param lineSpacing a value representing one of the line spacing constants in this class
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
+	public void setLineSpacing(Byte lineSpacing);
+	
 	/**
 	 * Returns true if the text can contain style tags.
 	 */
 	public boolean isStyledText();
 
+	public Boolean isOwnStyledText();
 	/**
 	 * Specifies whether the text can contain style tags.
 	 */
 	public void setStyledText(boolean isStyledText);
 		
+	public void setStyledText(Boolean isStyledText);
+	
 	/**
 	 * Returns an object containing all border and padding properties for this text element
+	 * @deprecated
 	 */
 	public JRBox getBox();
 
 	/**
 	 * Returns an object containing all font properties for this text element
+	 * @deprecated
 	 */
 	public JRFont getFont();
 

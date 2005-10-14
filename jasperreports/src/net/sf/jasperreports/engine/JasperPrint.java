@@ -59,17 +59,19 @@ public class JasperPrint implements Serializable
 {
 	
 	/**
-	 * A small class for implementing just the font provider functionality.
+	 * A small class for implementing just the style provider functionality.
 	 */
-	private static class DefaultFontProvider implements JRDefaultFontProvider, Serializable
+	private static class DefaultStyleProvider implements JRDefaultStyleProvider, Serializable
 	{
 		private static final long serialVersionUID = 10003;
 		
 		private JRReportFont defaultFont;
+		private JRStyle defaultStyle;
 
-		DefaultFontProvider(JRReportFont font)
+		DefaultStyleProvider(JRReportFont font, JRStyle style)
 		{
 			this.defaultFont = font;
+			this.defaultStyle = style;
 		}
 
 		public JRReportFont getDefaultFont()
@@ -80,6 +82,16 @@ public class JasperPrint implements Serializable
 		void setDefaultFont(JRReportFont font)
 		{
 			this.defaultFont = font;
+		}
+
+		public JRStyle getDefaultStyle()
+		{
+			return this.defaultStyle;
+		}
+
+		void setDefaultStyle(JRStyle style)
+		{
+			this.defaultStyle = style;
 		}
 	}
 
@@ -99,11 +111,13 @@ public class JasperPrint implements Serializable
 
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
+	private Map stylesMap = new HashMap();
+	private List stylesList = new ArrayList();
 
 	private List pages = new ArrayList();
 
 	private transient Map anchorIndexes = null;
-	private DefaultFontProvider defaultFontProvider = null;
+	private DefaultStyleProvider defaultStyleProvider = null;
 
 
 	/**
@@ -111,7 +125,7 @@ public class JasperPrint implements Serializable
 	 */
 	public JasperPrint()
 	{
-		defaultFontProvider = new DefaultFontProvider(null);
+		defaultStyleProvider = new DefaultStyleProvider(null, null);
 	}
 
 	/**
@@ -194,7 +208,7 @@ public class JasperPrint implements Serializable
 	 */
 	public JRReportFont getDefaultFont()
 	{
-		return this.defaultFontProvider.getDefaultFont();
+		return defaultStyleProvider.getDefaultFont();
 	}
 
 	/**
@@ -202,7 +216,7 @@ public class JasperPrint implements Serializable
 	 */
 	public void setDefaultFont(JRReportFont font)
 	{
-		this.defaultFontProvider.setDefaultFont(font);
+		defaultStyleProvider.setDefaultFont(font);
 	}
 
 	/**
@@ -211,11 +225,12 @@ public class JasperPrint implements Serializable
 	 */
 	public JRDefaultFontProvider getDefaultFontProvider()
 	{
-		return this.defaultFontProvider;
+		return defaultStyleProvider;
 	}
 		
 	/**
 	 * Gets an array of report fonts.
+	 * @deprecated
 	 */
 	public JRReportFont[] getFonts()
 	{
@@ -228,6 +243,7 @@ public class JasperPrint implements Serializable
 
 	/**
 	 * Gets a list of report fonts.
+	 * @deprecated
 	 */
 	public List getFontsList()
 	{
@@ -236,6 +252,7 @@ public class JasperPrint implements Serializable
 
 	/**
 	 * Gets a map of report fonts.
+	 * @deprecated
 	 */
 	public Map getFontsMap()
 	{
@@ -244,8 +261,9 @@ public class JasperPrint implements Serializable
 
 	/**
 	 * Adds a new font to the report fonts.
+	 * @deprecated
 	 */
-	public void addFont(JRReportFont reportFont) throws JRException
+	public synchronized void addFont(JRReportFont reportFont) throws JRException
 	{
 		if (this.fontsMap.containsKey(reportFont.getName()))
 		{
@@ -262,9 +280,9 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
-	public JRReportFont removeFont(String fontName)
+	public synchronized JRReportFont removeFont(String fontName)
 	{
 		return this.removeFont(
 			(JRReportFont)this.fontsMap.get(fontName)
@@ -272,9 +290,9 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
-	public JRReportFont removeFont(JRReportFont reportFont)
+	public synchronized JRReportFont removeFont(JRReportFont reportFont)
 	{
 		if (reportFont != null)
 		{
@@ -291,6 +309,107 @@ public class JasperPrint implements Serializable
 	}
 
 	/**
+	 * Returns the default report style.
+	 */
+	public JRStyle getDefaultStyle()
+	{
+		return defaultStyleProvider.getDefaultStyle();
+	}
+
+	/**
+	 * Sets the default report style.
+	 */
+	public synchronized void setDefaultStyle(JRStyle style)
+	{
+		defaultStyleProvider.setDefaultStyle(style);
+	}
+
+	/**
+	 * When we want to virtualize pages, we want a style provider that
+	 * is <i>not</i> the print object itself.
+	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()//FIXME STYLE does this work with subreports?
+	{
+		return defaultStyleProvider;
+	}
+		
+	/**
+	 * Gets an array of report styles.
+	 */
+	public JRStyle[] getStyles()
+	{
+		JRStyle[] stylesArray = new JRStyle[stylesList.size()];
+		
+		stylesList.toArray(stylesArray);
+
+		return stylesArray;
+	}
+
+	/**
+	 * Gets a list of report styles.
+	 */
+	public List getStylesList()
+	{
+		return this.stylesList;
+	}
+
+	/**
+	 * Gets a map of report styles.
+	 */
+	public Map getStylesMap()
+	{
+		return this.stylesMap;
+	}
+
+	/**
+	 * Adds a new style to the report styles.
+	 */
+	public synchronized void addStyle(JRStyle style) throws JRException
+	{
+		if (stylesMap.containsKey(style.getName()))
+		{
+			throw new JRException("Duplicate declaration of report style : " + style.getName());
+		}
+
+		stylesList.add(style);
+		stylesMap.put(style.getName(), style);
+		
+		if (style.isDefault())
+		{
+			this.setDefaultStyle(style);
+		}
+	}
+
+	/**
+	 *
+	 */
+	public synchronized JRStyle removeStyle(String styleName)
+	{
+		return removeStyle(
+			(JRStyle)stylesMap.get(styleName)
+			);
+	}
+
+	/**
+	 *
+	 */
+	public synchronized JRStyle removeStyle(JRStyle style)
+	{
+		if (style != null)
+		{
+			if (style.isDefault())
+			{
+				setDefaultStyle(null);
+			}
+
+			stylesList.remove(style);
+			stylesMap.remove(style.getName());
+		}
+		
+		return style;
+	}
+
+	/**
 	 * Returns a list of all pages in the filled report.
 	 */
 	public List getPages()
@@ -301,7 +420,7 @@ public class JasperPrint implements Serializable
 	/**
 	 * Adds a new page to the document.
 	 */
-	public void addPage(JRPrintPage page)
+	public synchronized void addPage(JRPrintPage page)
 	{
 		this.anchorIndexes = null;
 		this.pages.add(page);
@@ -310,7 +429,7 @@ public class JasperPrint implements Serializable
 	/**
 	 * Adds a new page to the document, placing it at the specified index.
 	 */
-	public void addPage(int index, JRPrintPage page)
+	public synchronized void addPage(int index, JRPrintPage page)
 	{
 		this.anchorIndexes = null;
 		this.pages.add(index, page);
@@ -319,7 +438,7 @@ public class JasperPrint implements Serializable
 	/**
 	 * Removes a page from the document.
 	 */
-	public JRPrintPage removePage(int index)
+	public synchronized JRPrintPage removePage(int index)
 	{
 		this.anchorIndexes = null;
 		return (JRPrintPage)this.pages.remove(index);
@@ -328,7 +447,7 @@ public class JasperPrint implements Serializable
 	/**
 	 *
 	 */
-	public Map getAnchorIndexes()
+	public synchronized Map getAnchorIndexes()
 	{
 		if (this.anchorIndexes == null)
 		{

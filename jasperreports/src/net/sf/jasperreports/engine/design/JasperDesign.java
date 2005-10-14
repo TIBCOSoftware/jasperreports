@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseReport;
@@ -125,6 +126,9 @@ public class JasperDesign extends JRBaseReport
 	/** Bean property name for default font. */
 	public static final String DEFAULT_FONT_PROPERTY = "defaultFont";
 
+	/** Bean property name for default style. */
+	public static final String DEFAULT_STYLE_PROPERTY = "defaultStyle";
+
 	/** Bean property name for title. */
 	public static final String TITLE_PROPERTY = "title";
 
@@ -193,6 +197,8 @@ public class JasperDesign extends JRBaseReport
 	private List variablesList = new ArrayList();
 	private Map groupsMap = new HashMap();
 	private List groupsList = new ArrayList();
+	private Map stylesMap = new HashMap();
+	private List stylesList = new ArrayList();
 
 
 	/**
@@ -694,7 +700,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setDefaultFont(JRReportFont font)
 	{
@@ -706,6 +712,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Gets an array of report level fonts. These fonts can be referenced by text elements.
+	 * @deprecated
 	 */
 	public JRReportFont[] getFonts()
 	{
@@ -719,6 +726,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Gets a list of report level fonts. These fonts can be referenced by text elements.
+	 * @deprecated
 	 */
 	public List getFontsList()
 	{
@@ -727,7 +735,7 @@ public class JasperDesign extends JRBaseReport
 	
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public Map getFontsMap()
 	{
@@ -737,6 +745,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Adds a report font, that can be referenced by text elements.
+	 * @deprecated
 	 */
 	public void addFont(JRReportFont reportFont) throws JRException
 	{
@@ -757,6 +766,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Removes a report font from the list, based on the font name.
+	 * @deprecated
 	 */
 	public JRReportFont removeFont(String propName)
 	{
@@ -768,6 +778,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Removes a report font from the list.
+	 * @deprecated
 	 */
 	public JRReportFont removeFont(JRReportFont reportFont)
 	{
@@ -786,6 +797,99 @@ public class JasperDesign extends JRBaseReport
 	}
 
 
+	/**
+	 *
+	 */
+	public void setDefaultStyle(JRStyle style)
+	{
+		Object oldValue = this.defaultStyle;
+		this.defaultStyle = style;
+		getPropertyChangeSupport().firePropertyChange(DEFAULT_STYLE_PROPERTY, oldValue, this.defaultStyle);
+	}
+		
+
+	/**
+	 * Gets an array of report level styles. These styles can be referenced by report elements.
+	 */
+	public JRStyle[] getStyles()
+	{
+		JRStyle[] stylesArray = new JRStyle[stylesList.size()];
+
+		stylesList.toArray(stylesArray);
+
+		return stylesArray;
+	}
+
+
+	/**
+	 * Gets a list of report level styles. These styles can be referenced by report elements.
+	 */
+	public List getStylesList()
+	{
+		return stylesList;
+	}
+
+
+	/**
+	 *
+	 */
+	public Map getStylesMap()
+	{
+		return stylesMap;
+	}
+
+
+	/**
+	 * Adds a report style, that can be referenced by report elements.
+	 */
+	public void addStyle(JRStyle style) throws JRException
+	{
+		if (stylesMap.containsKey(style.getName()))
+		{
+			throw new JRException("Duplicate declaration of report style : " + style.getName());
+		}
+
+		stylesList.add(style);
+		stylesMap.put(style.getName(), style);
+		
+		if (style.isDefault())
+		{
+			setDefaultStyle(style);
+		}
+	}
+
+
+	/**
+	 * Removes a report style from the list, based on the style name.
+	 */
+	public JRStyle removeStyle(String styleName)
+	{
+		return removeStyle(
+			(JRStyle)stylesMap.get(styleName)
+			);
+	}
+
+
+	/**
+	 * Removes a report style from the list.
+	 */
+	public JRStyle removeStyle(JRStyle style)
+	{
+		if (style != null)
+		{
+			if (style.isDefault())
+			{
+				setDefaultStyle(null);
+			}
+
+			stylesList.remove(style);
+			stylesMap.remove(style.getName());
+		}
+
+		return style;
+	}
+
+	
 	/**
 	 * Gets an array of report parameters (including built-in ones).
 	 */
@@ -1152,5 +1256,6 @@ public class JasperDesign extends JRBaseReport
 	{
 		return new JRExpressionCollector().collect(this);
 	}
+
 
 }

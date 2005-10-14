@@ -30,10 +30,13 @@ package net.sf.jasperreports.engine.base;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -56,10 +59,10 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 *
 	 */
 	protected String key = null;
-	protected byte positionType = POSITION_TYPE_FLOAT;
-	protected byte stretchType = STRETCH_TYPE_NO_STRETCH;
+	protected byte positionType;
+	protected byte stretchType;
 	protected boolean isPrintRepeatedValues = true;
-	protected byte mode = MODE_OPAQUE;
+	protected Byte mode;
 	protected int x = 0;
 	protected int y = 0;
 	protected int width = 0;
@@ -67,8 +70,8 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	protected boolean isRemoveLineWhenBlank = false;
 	protected boolean isPrintInFirstWholeBand = false;
 	protected boolean isPrintWhenDetailOverflows = false;
-	protected Color forecolor = Color.black;
-	protected Color backcolor = Color.white;
+	protected Color forecolor = null;
+	protected Color backcolor = null;
 
 	/**
 	 *
@@ -77,14 +80,18 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	protected JRGroup printWhenGroupChanges = null;
 	protected JRElementGroup elementGroup = null;
 
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle parentStyle;
+
 
 	/**
-	 * Empty constructor.
+	 *
 	 */
-	protected JRBaseElement()
+	protected JRBaseElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
+		this.defaultStyleProvider = defaultStyleProvider;
 	}
-		
+
 
 	/**
 	 * Initializes basic properties of the element.
@@ -96,12 +103,16 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	protected JRBaseElement(JRElement element, JRBaseObjectFactory factory)
 	{
 		factory.put(element, this);
-		
+
+		defaultStyleProvider = factory.getDefaultStyleProvider();
+
+		parentStyle = factory.getStyle(element.getStyle());
+
 		key = element.getKey();
 		positionType = element.getPositionType();
 		stretchType = element.getStretchType();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
-		mode = element.getMode();
+		mode = element.getOwnMode();
 		x = element.getX();
 		y = element.getY();
 		width = element.getWidth();
@@ -109,14 +120,34 @@ public abstract class JRBaseElement implements JRElement, Serializable
 		isRemoveLineWhenBlank = element.isRemoveLineWhenBlank();
 		isPrintInFirstWholeBand = element.isPrintInFirstWholeBand();
 		isPrintWhenDetailOverflows = element.isPrintWhenDetailOverflows();
-		forecolor = element.getForecolor();
-		backcolor = element.getBackcolor();
+		forecolor = element.getOwnForecolor();
+		backcolor = element.getOwnBackcolor();
 
 		printWhenExpression = factory.getExpression(element.getPrintWhenExpression());
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
 		elementGroup = factory.getElementGroup(element.getElementGroup());
 	}
-		
+
+
+	/**
+	 *
+	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return defaultStyleProvider;
+	}
+
+	/**
+	 *
+	 */
+	protected JRStyle getBaseStyle()
+	{
+		if (parentStyle != null)
+			return parentStyle;
+		if (defaultStyleProvider != null)
+			return defaultStyleProvider.getDefaultStyle();
+		return null;
+	}
 
 	/**
 	 *
@@ -131,7 +162,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public byte getPositionType()
 	{
-		return this.positionType;
+		return positionType;
 	}
 
 	/**
@@ -147,9 +178,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public byte getStretchType()
 	{
-		return this.stretchType;
+		return stretchType;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -157,7 +188,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.stretchType = stretchType;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -165,7 +196,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.isPrintRepeatedValues;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -173,23 +204,39 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.isPrintRepeatedValues = isPrintRepeatedValues;
 	}
-		
+
 	/**
 	 *
 	 */
 	public byte getMode()
 	{
-		return this.mode;
+		return JRStyleResolver.getMode(this, MODE_OPAQUE);
 	}
-	
+
+	/**
+	 *
+	 */
+	public Byte getOwnMode()
+	{
+		return mode;
+	}
+
 	/**
 	 *
 	 */
 	public void setMode(byte mode)
 	{
+		this.mode = new Byte(mode);
+	}
+
+	/**
+	 *
+	 */
+	public void setMode(Byte mode)
+	{
 		this.mode = mode;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -197,7 +244,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.x;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -205,7 +252,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.x = x;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -213,7 +260,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.y;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -221,7 +268,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.width;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -229,7 +276,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.width = width;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -237,7 +284,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.height;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -245,7 +292,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.isRemoveLineWhenBlank;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -253,7 +300,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.isRemoveLineWhenBlank = isRemoveLine;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -261,7 +308,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.isPrintInFirstWholeBand;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -269,7 +316,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.isPrintInFirstWholeBand = isPrint;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -277,7 +324,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.isPrintWhenDetailOverflows;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -285,15 +332,23 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.isPrintWhenDetailOverflows = isPrint;
 	}
-	
+
 	/**
 	 *
 	 */
 	public Color getForecolor()
 	{
-		return this.forecolor;
+		return JRStyleResolver.getForecolor(this);
 	}
-	
+
+	/**
+	 *
+	 */
+	public Color getOwnForecolor()
+	{
+		return forecolor;
+	}
+
 	/**
 	 *
 	 */
@@ -301,13 +356,21 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		this.forecolor = forecolor;
 	}
-	
+
 	/**
 	 *
 	 */
 	public Color getBackcolor()
 	{
-		return this.backcolor;
+		return JRStyleResolver.getBackcolor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor()
+	{
+		return backcolor;
 	}
 
 	/**
@@ -325,7 +388,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.printWhenExpression;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -333,7 +396,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.printWhenGroupChanges;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -341,6 +404,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	{
 		return this.elementGroup;
 	}
-	
 
+	public JRStyle getStyle()
+	{
+		return parentStyle;
+	}
 }

@@ -347,15 +347,11 @@ public class JRRtfExporter extends JRAbstractExporter
 							JRPrintText text = (JRPrintText)element;
 							
 							// create color indices for box border color
-							JRBox box = text.getBox();
-							if(box != null) {
-								getColorIndex(box.getBorderColor());
-								getColorIndex(box.getTopBorderColor());
-								getColorIndex(box.getBottomBorderColor());
-								getColorIndex(box.getLeftBorderColor());
-								getColorIndex(box.getRightBorderColor());
-							}
-							
+							getColorIndex(text.getBorderColor());
+							getColorIndex(text.getTopBorderColor());
+							getColorIndex(text.getBottomBorderColor());
+							getColorIndex(text.getLeftBorderColor());
+							getColorIndex(text.getRightBorderColor());
 							
 							for(int i = 0; i < text.getText().length(); i++ ){
 								if((text.getText().charAt(i)) > 255){
@@ -382,7 +378,15 @@ public class JRRtfExporter extends JRAbstractExporter
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
 								getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
 								iterator.setIndex(runLimit);
-							}	
+							}
+							
+							// replace fonts with font from fontMap
+							String fontName = ((JRPrintText) element).getFontName();
+							if(fontMap != null && fontMap.containsKey(fontName)){
+								fontName = (String)fontMap.get(fontName);
+							}
+							getFontIndex(fontName);
+							
 						}
 					}
 				}
@@ -722,12 +726,6 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		int textBoxAdjustment = 20;
 		
-		// padding for the text
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-		
 		int textHeight = twip(text.getTextHeight());
 		
 		if(textHeight <= 0) {
@@ -737,14 +735,11 @@ public class JRRtfExporter extends JRAbstractExporter
 			textHeight = height;
 		}
 		
-		if (text.getBox() != null)
-		{
-			
-			topPadding = twip(text.getBox().getTopPadding());
-			leftPadding = twip(text.getBox().getLeftPadding());
-			bottomPadding = twip(text.getBox().getBottomPadding());
-			rightPadding = twip(text.getBox().getRightPadding());
-		}
+		// padding for the text
+		int topPadding = twip(text.getTopPadding());
+		int leftPadding = twip(text.getLeftPadding());
+		int bottomPadding = twip(text.getBottomPadding());
+		int rightPadding = twip(text.getRightPadding());
 		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -799,13 +794,35 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\pard");
 		}
 		
+		JRFont font = text;//.getFont();
+
+		String fontName = font.getFontName();
+		if(fontMap != null && fontMap.containsKey(fontName)){
+			fontName = (String)fontMap.get(fontName);
+		}
+		writer.write("\\f" + getFontIndex(fontName));
+		writer.write("\\cf" + getColorIndex(text.getForecolor()));
+		writer.write("\\cb" + getColorIndex(text.getBackcolor()));
 		
-		
-		if (text.getBox() != null)
+		if (leftPadding > 0)
 		{
 			writer.write("\\li" + leftPadding);
+		}
+
+		if (rightPadding > 0)
+		{
 			writer.write("\\ri" + rightPadding);
 		}
+
+		if (font.isBold())
+			writer.write("\\b");
+		if (font.isItalic())
+			writer.write("\\i");
+		if (font.isStrikeThrough())
+			writer.write("\\strike");
+		if (font.isUnderline())
+			writer.write("\\ul");
+		writer.write("\\fs" + (font.getFontSize() * 2));
 
 		switch (text.getHorizontalAlignment())
 		{
@@ -877,7 +894,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				isStrikeThrough = true;
 			}
 
-			String fontName = styleFont.getFontName();
+			fontName = styleFont.getFontName();
 			if(fontMap != null && fontMap.containsKey(fontName)){
 				fontName = (String)fontMap.get(fontName);
 			}
@@ -885,7 +902,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			int fontIndex = getFontIndex(fontName); 
 			writer.write("\\f" + fontIndex);
 			
-			int fontSize = styleFont.getSize();
+			int fontSize = styleFont.getFontSize();
 
 			writer.write("\\fs" + (2 * fontSize) + " ");
 
@@ -938,9 +955,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		else {
 			writer.write("\\par}}}\n");
 		}
-		if(text.getBox() != null){
-			exportBox(text.getBox(), x, y, width, height, text.getForecolor(), text.getBackcolor());
-		}	
+
+		exportBox(text, x, y, width, height, text.getForecolor(), text.getBackcolor());
 	}
 	
 	
