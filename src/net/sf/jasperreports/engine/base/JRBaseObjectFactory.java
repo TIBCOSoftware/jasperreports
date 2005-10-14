@@ -76,6 +76,7 @@ import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
@@ -91,9 +92,10 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRSubreportParameter;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -109,15 +111,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	private JRBaseReport report = null;
+	private JRDefaultStyleProvider defaultStyleProvider = null;
 
 
 	/**
 	 *
 	 */
-	protected JRBaseObjectFactory(JRBaseReport baseReport)
+	protected JRBaseObjectFactory(JRDefaultStyleProvider defaultStyleProvider)
 	{
-		this.report = baseReport;
+		this.defaultStyleProvider = defaultStyleProvider;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return defaultStyleProvider;
 	}
 
 
@@ -145,6 +156,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public JRStyle getStyle(JRStyle style)
+	{
+		JRBaseStyle baseStyle = null;
+		
+		if (style != null)
+		{
+			baseStyle = (JRBaseStyle)get(style);
+			if (baseStyle == null)
+			{
+				baseStyle = new JRBaseStyle(style, this);
+				put(style, baseStyle);
+			}
+		}
+		
+		return baseStyle;
+	}
+
+
+	/**
+	 *
+	 */
 	public JRFont getFont(JRFont font)
 	{
 		JRBaseFont baseFont = null;
@@ -156,7 +188,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			{
 				baseFont = 
 					new JRBaseFont(
-						report, 
+						defaultStyleProvider, 
 						getReportFont(font.getReportFont()), 
 						font
 						);

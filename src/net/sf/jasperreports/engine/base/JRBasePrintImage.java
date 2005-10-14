@@ -27,15 +27,18 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import net.sf.jasperreports.engine.JRAlignment;
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -55,12 +58,12 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 *
 	 */
 	protected JRRenderable renderer = null;
-	protected byte scaleImage = JRImage.SCALE_IMAGE_RETAIN_SHAPE;
-	protected byte horizontalAlignment = JRAlignment.HORIZONTAL_ALIGN_LEFT;
-	protected byte verticalAlignment = JRAlignment.VERTICAL_ALIGN_TOP;
+	protected Byte scaleImage = null;
+	protected Byte horizontalAlignment = null;
+	protected Byte verticalAlignment = null;
 	protected boolean isLazy = false;
 	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
-	protected JRBox box = null;
+	//protected JRBox box = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -74,19 +77,51 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
+	/**
+	 *
+	 */
+	protected Byte border;
+	protected Byte topBorder = null;
+	protected Byte leftBorder = null;
+	protected Byte bottomBorder = null;
+	protected Byte rightBorder = null;
+	protected Color borderColor = null;
+	protected Color topBorderColor = null;
+	protected Color leftBorderColor = null;
+	protected Color bottomBorderColor = null;
+	protected Color rightBorderColor = null;
+	protected Integer padding;
+	protected Integer topPadding = null;
+	protected Integer leftPadding = null;
+	protected Integer bottomPadding = null;
+	protected Integer rightPadding = null;
+
+	
+	/**
+	 *
+	 */
+	public JRBasePrintImage(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+
 
 	/**
 	 *
 	 */
-	public JRBasePrintImage()
+	public byte getMode()
 	{
-		super();
-		
-		this.mode = JRElement.MODE_TRANSPARENT;
-		this.pen = JRGraphicElement.PEN_NONE;
+		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
 	}
-
-
+		
+	/**
+	 *
+	 */
+	public byte getPen()
+	{
+		return JRStyleResolver.getPen(this, JRGraphicElement.PEN_NONE);
+	}
+		
 	/**
 	 *
 	 */
@@ -108,6 +143,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getScaleImage()
 	{
+		return JRStyleResolver.getScaleImage(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnScaleImage()
+	{
 		return scaleImage;
 	}
 
@@ -115,6 +158,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 *
 	 */
 	public void setScaleImage(byte scaleImage)
+	{
+		this.scaleImage = new Byte(scaleImage);
+	}
+
+	/**
+	 *
+	 */
+	public void setScaleImage(Byte scaleImage)
 	{
 		this.scaleImage = scaleImage;
 	}
@@ -124,6 +175,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHorizontalAlignment()
 	{
+		return JRStyleResolver.getHorizontalAlignment(this);
+	}
+		
+	/**
+	 *
+	 */
+	public Byte getOwnHorizontalAlignment()
+	{
 		return horizontalAlignment;
 	}
 		
@@ -131,6 +190,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 *
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
+	{
+		this.horizontalAlignment = new Byte(horizontalAlignment);
+	}
+
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
 		this.horizontalAlignment = horizontalAlignment;
 	}
@@ -140,6 +207,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getVerticalAlignment()
 	{
+		return JRStyleResolver.getVerticalAlignment(this);
+	}
+		
+	/**
+	 *
+	 */
+	public Byte getOwnVerticalAlignment()
+	{
 		return verticalAlignment;
 	}
 		
@@ -147,6 +222,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 *
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
+	{
+		this.verticalAlignment = new Byte(verticalAlignment);
+	}
+
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
 	{
 		this.verticalAlignment = verticalAlignment;
 	}
@@ -184,19 +267,33 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRBox getBox()
 	{
-		return box;
+		return this;
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box)
 	{
-		this.box = box;
+		border = box.getOwnBorder();
+		topBorder = box.getOwnTopBorder();
+		leftBorder = box.getOwnLeftBorder();
+		bottomBorder = box.getOwnBottomBorder();
+		rightBorder = box.getOwnRightBorder();
+		borderColor = box.getOwnBorderColor();
+		topBorderColor = box.getOwnTopBorderColor();
+		leftBorderColor = box.getOwnLeftBorderColor();
+		bottomBorderColor = box.getOwnBottomBorderColor();
+		rightBorderColor = box.getOwnRightBorderColor();
+		padding = box.getOwnPadding();
+		topPadding = box.getOwnTopPadding();
+		leftPadding = box.getOwnLeftPadding();
+		bottomPadding = box.getOwnBottomPadding();
+		rightPadding = box.getOwnRightPadding();
 	}
 
 	/**
@@ -315,5 +412,437 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.bookmarkLevel = bookmarkLevel;
 	}
 	
+
+	/**
+	 *
+	 */
+	public byte getBorder()
+	{
+		return JRStyleResolver.getBorder(this);
+	}
+
+	public Byte getOwnBorder()
+	{
+		return border;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border)
+	{
+		this.border = new Byte(border);
+	}
+
+	/**
+	 *
+	 */
+	public Color getBorderColor()
+	{
+		return JRStyleResolver.getBorderColor(this, getForecolor());
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return borderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color borderColor)
+	{
+		this.borderColor = borderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getPadding()
+	{
+		return JRStyleResolver.getPadding(this);
+	}
+
+	public Integer getOwnPadding()
+	{
+		return padding;
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+		this.padding = new Integer(padding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getTopBorder()
+	{
+		return JRStyleResolver.getTopBorder(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnTopBorder()
+	{
+		return topBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(byte topBorder)
+	{
+		this.topBorder = new Byte(topBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getTopBorderColor()
+	{
+		return JRStyleResolver.getTopBorderColor(this, getForecolor());
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTopBorderColor()
+	{
+		return topBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorderColor(Color topBorderColor)
+	{
+		this.topBorderColor = topBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return JRStyleResolver.getTopPadding(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding()
+	{
+		return topPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int topPadding)
+	{
+		this.topPadding = new Integer(topPadding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getLeftBorder()
+	{
+		return JRStyleResolver.getLeftBorder(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return leftBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+		this.leftBorder = new Byte(leftBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return leftBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+		this.leftBorderColor = leftBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return JRStyleResolver.getLeftPadding(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return leftPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+		this.leftPadding = new Integer(leftPadding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		return JRStyleResolver.getBottomBorder(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return bottomBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+		this.bottomBorder = new Byte(bottomBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return bottomBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+		this.bottomBorderColor = bottomBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return JRStyleResolver.getBottomPadding(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return bottomPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+		this.bottomPadding = new Integer(bottomPadding);
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		return JRStyleResolver.getRightBorder(this);
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return rightBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+		this.rightBorder = new Byte(rightBorder);
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		return JRStyleResolver.getRightBorderColor(this, getForecolor());
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return rightBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+		this.rightBorderColor = rightBorderColor;
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return JRStyleResolver.getRightPadding(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return rightPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+		this.rightPadding = new Integer(rightPadding);
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
+		this.border = border;
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(Integer padding)
+	{
+		this.padding = padding;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+		this.topBorder = topBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+		this.topPadding = topPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+		this.leftBorder = leftBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+		this.leftPadding = leftPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+		this.bottomBorder = bottomBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+		this.bottomPadding = bottomPadding;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+		this.rightBorder = rightBorder;
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+		this.rightPadding = rightPadding;
+	}
+
 
 }

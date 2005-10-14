@@ -59,7 +59,7 @@ public class JRBar3DPlotFactory extends JRBaseFactory {
 		
 		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
 		if( isShowLabels != null && isShowLabels.length() > 0 ){
-			plot.setShowLabels( new Boolean( isShowLabels ).booleanValue());
+			plot.setShowLabels(Boolean.valueOf(isShowLabels).booleanValue());
 		}
 
 		return plot;

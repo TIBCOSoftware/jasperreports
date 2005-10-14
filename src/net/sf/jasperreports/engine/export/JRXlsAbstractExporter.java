@@ -286,7 +286,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 								element = (JRPrintElement)it.next();
 								allPages.addElement(element);
 							
-								alterYElement = new JRBasePrintElement();
+								alterYElement = new JRBasePrintElement(null);
 								alterYElement.setY(element.getY() + globalOffsetY + jasperPrint.getPageHeight() * pageIndex);
 								alterYAllPages.addElement(alterYElement);
 							}

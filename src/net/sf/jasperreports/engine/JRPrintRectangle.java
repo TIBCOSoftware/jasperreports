@@ -44,7 +44,17 @@ public interface JRPrintRectangle extends JRPrintGraphicElement
 	/**
 	 *
 	 */
+	public Integer getOwnRadius();
+
+	/**
+	 *
+	 */
 	public void setRadius(int radius);
+
+	/**
+	 *
+	 */
+	public void setRadius(Integer radius);
 
 
 }

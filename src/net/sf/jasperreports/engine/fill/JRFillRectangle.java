@@ -66,6 +66,11 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		return ((JRRectangle)this.parent).getRadius();
 	}
 		
+	public Integer getOwnRadius()
+	{
+		return ((JRRectangle)this.parent).getOwnRadius();
+	}
+
 	/**
 	 *
 	 */
@@ -76,11 +81,18 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
+	public void setRadius(Integer radius)
+	{
+	}
+
+	/**
+	 *
+	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
 		if (template == null)
 		{
-			template = new JRTemplateRectangle((JRRectangle)this.parent);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRRectangle)this.parent);
 		}
 		
 		return (JRTemplateRectangle)template;

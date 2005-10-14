@@ -37,24 +37,36 @@ public interface JRPrintGraphicElement extends JRPrintElement
 
 
 	/**
-	 *
+	 * Indicates the pen type used for this element.
+	 * @return one of the pen constants in this class
 	 */
 	public byte getPen();
 
+	public Byte getOwnPen();
+
 	/**
-	 *
+	 * Sets the pen type that will used for this element.
+	 * @param pen one of the pen constants in this class
 	 */
 	public void setPen(byte pen);
+
+	public void setPen(Byte pen);
 		
 	/**
-	 *
+	 * Indicates the fill type used for this element.
+	 * @return one of the pen constants in this class
 	 */
 	public byte getFill();
 
+	public Byte getOwnFill();
+	
 	/**
-	 *
+	 * Sets the fill type used for this element.
+	 * @param fill one of the pen constants in this class
 	 */
 	public void setFill(byte fill);
+	
+	public void setFill(Byte fill);
 		
-
+	
 }

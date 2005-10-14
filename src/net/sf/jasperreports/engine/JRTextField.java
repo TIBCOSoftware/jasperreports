@@ -104,6 +104,8 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	 */
 	public String getPattern();
 		
+	public String getOwnPattern();
+
 	/**
 	 * Sets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates
 	 * and a <tt>DecimalFormat</tt> for numeric text fields. The pattern format must follow one of these two classes
@@ -118,11 +120,15 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	 */
 	public boolean isBlankWhenNull();
 
+	public Boolean isOwnBlankWhenNull();
+
 	/**
 	 * Specifies whether an empty string sholuld be displayed if the field's expression evaluates to <code>null</code>.
 	 * @param isBlank true if an empty string will be displayed instead of null values, false otherwise
 	 */
 	public void setBlankWhenNull(boolean isBlank);
+
+	public void setBlankWhenNull(Boolean isBlank);
 
 	/**
 	 * Gets the evaluation group for this text field. Used only when evaluation time is group.

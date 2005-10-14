@@ -63,7 +63,22 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	/**
 	 *
 	 */
+	public Byte getOwnPen()
+	{
+		return null;
+	}
+		
+	/**
+	 *
+	 */
 	public void setPen(byte pen)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setPen(Byte pen)
 	{
 	}
 		
@@ -78,7 +93,22 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	/**
 	 *
 	 */
+	public Byte getOwnFill()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public void setFill(byte fill)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setFill(Byte fill)
 	{
 	}
 		

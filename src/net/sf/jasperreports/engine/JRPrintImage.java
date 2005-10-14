@@ -39,7 +39,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink
+public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRAlignment, JRBox
 {
 
 
@@ -61,7 +61,17 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
+	public Byte getOwnScaleImage();
+
+	/**
+	 *
+	 */
 	public void setScaleImage(byte scaleImage);
+	
+	/**
+	 *
+	 */
+	public void setScaleImage(Byte scaleImage);
 	
 	/**
 	 *
@@ -71,7 +81,17 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
+	public Byte getOwnHorizontalAlignment();
+		
+	/**
+	 *
+	 */
 	public void setHorizontalAlignment(byte horizontalAlignment);
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment);
 		
 	/**
 	 *
@@ -81,7 +101,17 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
+	public Byte getOwnVerticalAlignment();
+		
+	/**
+	 *
+	 */
 	public void setVerticalAlignment(byte verticalAlignment);
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment);
 		
 	/**
 	 *

@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.JRBox;
 
 import org.xml.sax.Attributes;
 
@@ -67,7 +67,7 @@ public class JRBoxFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRBaseBox box = new JRBaseBox();//FIXME design box?
+		JRBox box = (JRBox) digester.peek();
 
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_border));
 		if (border != null)
@@ -75,7 +75,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setBorder(border.byteValue());
 		}
 
-		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), Color.black);
+		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			box.setBorderColor(borderColor);

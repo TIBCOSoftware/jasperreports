@@ -36,7 +36,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBox
+public interface JRBox extends JRStyleContainer
 {
 
 
@@ -45,11 +45,14 @@ public interface JRBox
 	 */
 	public byte getBorder();
 
+	public Byte getOwnBorder();
 
 	/**
 	 * Sets the default border pen size (can be overwritten by individual settings).
 	 */
 	public void setBorder(byte border);
+
+	public void setBorder(Byte border);
 
 
 	/**
@@ -57,6 +60,7 @@ public interface JRBox
 	 */
 	public Color getBorderColor();
 
+	public Color getOwnBorderColor();
 
 	/**
 	 * Sets the default border color (can be overwritten by individual settings).
@@ -69,11 +73,14 @@ public interface JRBox
 	 */
 	public int getPadding();
 
+	public Integer getOwnPadding();
 
 	/**
 	 * Sets the default padding in pixels (can be overwritten by individual settings).
 	 */
 	public void setPadding(int padding);
+
+	public void setPadding(Integer padding);
 
 	
 	/**
@@ -92,6 +99,8 @@ public interface JRBox
 	 * Sets the top border pen size.
 	 */
 	public void setTopBorder(byte border);
+
+	public void setTopBorder(Byte border);
 
 
 	/**
@@ -129,6 +138,8 @@ public interface JRBox
 	 */
 	public void setTopPadding(int padding);
 
+	public void setTopPadding(Integer padding);
+
 	
 	/**
 	 *
@@ -146,6 +157,8 @@ public interface JRBox
 	 *
 	 */
 	public void setLeftBorder(byte border);
+
+	public void setLeftBorder(Byte border);
 
 
 	/**
@@ -183,6 +196,8 @@ public interface JRBox
 	 */
 	public void setLeftPadding(int padding);
 
+	public void setLeftPadding(Integer padding);
+
 	
 	/**
 	 *
@@ -200,6 +215,8 @@ public interface JRBox
 	 *
 	 */
 	public void setBottomBorder(byte border);
+
+	public void setBottomBorder(Byte border);
 
 
 	/**
@@ -237,6 +254,8 @@ public interface JRBox
 	 */
 	public void setBottomPadding(int padding);
 
+	public void setBottomPadding(Integer padding);
+
 	
 	/**
 	 *
@@ -254,6 +273,8 @@ public interface JRBox
 	 *
 	 */
 	public void setRightBorder(byte border);
+
+	public void setRightBorder(Byte border);
 
 
 	/**
@@ -290,6 +311,8 @@ public interface JRBox
 	 *
 	 */
 	public void setRightPadding(int padding);
+
+	public void setRightPadding(Integer padding);
 
 	
 }

@@ -52,8 +52,8 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRDefaultFontProvider;
 import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -86,7 +87,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseFiller implements JRDefaultFontProvider
+public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaultFontProvider
 {
 
 	/**
@@ -309,6 +310,10 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 
 	protected JRReportFont[] fonts = null;
 
+	protected JRStyle defaultStyle = null;
+
+	protected JRStyle[] styles = null;
+
 	protected JRFillParameter[] parameters = null;
 
 	protected Map parametersMap = null;
@@ -519,6 +524,20 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 		}
 
 		/*   */
+		defaultStyle = factory.getStyle(jasperReport.getDefaultStyle());
+
+		/*   */
+		JRStyle[] jrStyles = jasperReport.getStyles();
+		if (jrStyles != null && jrStyles.length > 0)
+		{
+			styles = new JRStyle[jrStyles.length];
+			for (int i = 0; i < styles.length; i++)
+			{
+				styles[i] = factory.getStyle(jrStyles[i]);
+			}
+		}
+
+		/*   */
 		JRParameter[] jrParameters = jasperReport.getParameters();
 		if (jrParameters != null && jrParameters.length > 0)
 		{
@@ -660,6 +679,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	/**
 	 * 
 	 */
+	public JRStyle getDefaultStyle()
+	{
+		return defaultStyle;
+	}
+
+	/**
+	 * 
+	 */
 	protected boolean isSubreport()
 	{
 		return (parentFiller != null);
@@ -695,6 +722,14 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 	protected JRReportFont[] getFonts()
 	{
 		return fonts;
+	}
+
+	/**
+	 * 
+	 */
+	protected JRStyle[] getStyles()
+	{
+		return styles;
 	}
 
 	/**
@@ -880,7 +915,7 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 			jasperPrint.setPageHeight(pageHeight);
 			jasperPrint.setOrientation(orientation);
 
-			jasperPrint.setDefaultFont(defaultFont);
+			jasperPrint.setDefaultFont(defaultFont);//FIXME STYLE investigate this
 
 			/*   */
 			if (fonts != null && fonts.length > 0)
@@ -890,6 +925,24 @@ public abstract class JRBaseFiller implements JRDefaultFontProvider
 					try
 					{
 						jasperPrint.addFont(fonts[i]);
+					}
+					catch (JRException e)
+					{
+						// ignore font duplication exception
+					}
+				}
+			}
+
+			jasperPrint.setDefaultStyle(defaultStyle);//FIXME STYLE investigate this
+
+			/*   */
+			if (styles != null && styles.length > 0)
+			{
+				for (int i = 0; i < styles.length; i++)
+				{
+					try
+					{
+						jasperPrint.addStyle(styles[i]);
 					}
 					catch (JRException e)
 					{

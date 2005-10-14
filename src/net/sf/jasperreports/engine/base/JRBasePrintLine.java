@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintLine;
 
@@ -48,6 +49,15 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	 *
 	 */
 	protected byte direction = JRLine.DIRECTION_TOP_DOWN;
+
+
+	/**
+	 *
+	 */
+	public JRBasePrintLine(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
 
 
 	/**

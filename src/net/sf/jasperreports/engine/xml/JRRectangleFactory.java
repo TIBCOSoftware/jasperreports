@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -51,7 +52,9 @@ public class JRRectangleFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignRectangle rectangle = new JRDesignRectangle();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		JRDesignRectangle rectangle = new JRDesignRectangle(jasperDesign);
 		
 		String radius = atts.getValue(ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)

@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink
+public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRBox, JRFont
 {
 
 
@@ -86,22 +86,22 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 *
 	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 *
-	 */
 	public byte getRotation();
 		
 	/**
 	 *
 	 */
+	public Byte getOwnRotation();
+		
+	/**
+	 *
+	 */
 	public void setRotation(byte rotation);
+		
+	/**
+	 *
+	 */
+	public void setRotation(Byte rotation);
 		
 	/**
 	 *
@@ -131,7 +131,17 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 *
 	 */
+	public Byte getOwnLineSpacing();
+		
+	/**
+	 *
+	 */
 	public void setLineSpacing(byte lineSpacing);
+		
+	/**
+	 *
+	 */
+	public void setLineSpacing(Byte lineSpacing);
 		
 	/**
 	 *
@@ -141,25 +151,35 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 *
 	 */
+	public Boolean isOwnStyledText();
+		
+	/**
+	 *
+	 */
 	public void setStyledText(boolean isStyledText);
 		
 	/**
 	 *
 	 */
+	public void setStyledText(Boolean isStyledText);
+		
+	/**
+	 * @deprecated
+	 */
 	public JRBox getBox();
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box);
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRFont getFont();
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setFont(JRFont font);
 		

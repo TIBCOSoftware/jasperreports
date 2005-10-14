@@ -34,10 +34,15 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintElement
+public interface JRPrintElement extends JRStyleContainer
 {
 
 
+	/**
+	 *
+	 */
+	public void setStyle(JRStyle style);
+	
 	/**
 	 *
 	 */
@@ -46,7 +51,17 @@ public interface JRPrintElement
 	/**
 	 *
 	 */
+	public Byte getOwnMode();
+	
+	/**
+	 *
+	 */
 	public void setMode(byte mode);
+	
+	/**
+	 *
+	 */
+	public void setMode(Byte mode);
 	
 	/**
 	 *
@@ -96,12 +111,22 @@ public interface JRPrintElement
 	/**
 	 *
 	 */
+	public Color getOwnForecolor();
+	
+	/**
+	 *
+	 */
 	public void setForecolor(Color color);
 	
 	/**
 	 *
 	 */
 	public Color getBackcolor();
+
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor();
 
 	/**
 	 *

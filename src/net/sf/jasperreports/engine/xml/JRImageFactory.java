@@ -32,6 +32,7 @@ import java.util.Collection;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -67,8 +68,9 @@ public class JRImageFactory extends JRBaseFactory
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Collection groupEvaluatedImages = xmlLoader.getGroupEvaluatedImages();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		JRDesignImage image = new JRDesignImage();
+		JRDesignImage image = new JRDesignImage(jasperDesign);
 
 		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)

@@ -74,7 +74,6 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.design.JRDesignFont;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
@@ -1105,18 +1104,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 				);
 		}
 
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-		
-		if (jrImage.getBox() != null)
-		{
-			topPadding = jrImage.getBox().getTopPadding();
-			leftPadding = jrImage.getBox().getLeftPadding();
-			bottomPadding = jrImage.getBox().getBottomPadding();
-			rightPadding = jrImage.getBox().getRightPadding();
-		}
+		int topPadding = jrImage.getTopPadding();
+		int leftPadding = jrImage.getLeftPadding();
+		int bottomPadding = jrImage.getBottomPadding();
+		int rightPadding = jrImage.getRightPadding();
 		
 		int availableImageWidth = jrImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
@@ -1314,7 +1305,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 			}
 		}
 		
-		if (jrImage.getBox() == null)
+		if (
+				jrImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
+				jrImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
+				jrImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
+				jrImage.getRightBorder() == JRGraphicElement.PEN_NONE
+				)
 		{
 			Stroke stroke = getStroke(jrImage.getPen());
 			if (stroke != null)
@@ -1335,7 +1331,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		{
 			/*   */
 			printBox(
-				jrImage.getBox(),
+				jrImage,
 				jrImage,
 				grx
 				);
@@ -1371,14 +1367,14 @@ public class JRDesignViewer extends javax.swing.JPanel
 		
 		//text = JRStringUtil.treatNewLineChars(text);
 
-		JRFont font = textElement.getFont();
-		if (font == null)
-		{
-			font = getDefaultFont();
-		}
+//		JRFont font = textElement.getFont();FIXME STYLE test this
+//		if (font == null)
+//		{
+//			font = getDefaultFont();
+//		}
 
 		Map attributes = new HashMap(); 
-		attributes.putAll(font.getAttributes());
+		attributes.putAll(textElement.getAttributes());
 		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
 		if (textElement.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -1429,18 +1425,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 		int y = text.getY();
 		int width = text.getWidth();
 		int height = text.getHeight();
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
 		
-		if (text.getBox() != null)
-		{
-			topPadding = text.getBox().getTopPadding();
-			leftPadding = text.getBox().getLeftPadding();
-			bottomPadding = text.getBox().getBottomPadding();
-			rightPadding = text.getBox().getRightPadding();
-		}
+		int topPadding = text.getTopPadding();
+		int leftPadding = text.getLeftPadding();
+		int bottomPadding = text.getBottomPadding();
+		int rightPadding = text.getRightPadding();
 		
 		double angle = 0;
 		
@@ -1530,7 +1519,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		/*   */
 		printBox(
-			text.getBox(),
+			text,
 			text,
 			grx
 			);
@@ -1797,7 +1786,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	/**
 	 *
-	 */
+	 *
 	private JRFont getDefaultFont()
 	{
 		if (defaultFont == null)

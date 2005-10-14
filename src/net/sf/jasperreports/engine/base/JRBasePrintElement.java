@@ -30,8 +30,11 @@ package net.sf.jasperreports.engine.base;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -50,7 +53,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	protected byte mode = JRElement.MODE_OPAQUE;
+	protected Byte mode = null;
 	protected int x = 0;
 	protected int y = 0;
 	protected int width = 0;
@@ -58,19 +61,71 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	protected Color forecolor = Color.black;
 	protected Color backcolor = Color.white;
 
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle style = null;
+
+	
+	/**
+	 *
+	 */
+	public JRBasePrintElement(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		this.defaultStyleProvider = defaultStyleProvider;
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return defaultStyleProvider;
+	}
+	
+	/**
+	 *
+	 */
+	public JRStyle getStyle()
+	{
+		return style;
+	}
+	
+	/**
+	 *
+	 */
+	public void setStyle(JRStyle style)
+	{
+		this.style = style;
+	}
 
 	/**
 	 *
 	 */
 	public byte getMode()
 	{
-		return this.mode;
+		return JRStyleResolver.getMode(this, JRElement.MODE_OPAQUE);
+	}
+	
+	/**
+	 *
+	 */
+	public Byte getOwnMode()
+	{
+		return mode;
 	}
 	
 	/**
 	 *
 	 */
 	public void setMode(byte mode)
+	{
+		this.mode = new Byte(mode);
+	}
+	
+	/**
+	 *
+	 */
+	public void setMode(Byte mode)
 	{
 		this.mode = mode;
 	}
@@ -144,7 +199,15 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getForecolor()
 	{
-		return this.forecolor;
+		return JRStyleResolver.getForecolor(this);
+	}
+	
+	/**
+	 *
+	 */
+	public Color getOwnForecolor()
+	{
+		return forecolor;
 	}
 	
 	/**
@@ -160,7 +223,15 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getBackcolor()
 	{
-		return this.backcolor;
+		return JRStyleResolver.getBackcolor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor()
+	{
+		return backcolor;
 	}
 
 	/**

@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -55,6 +56,23 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	 */
 	protected String text = null;
 
+
+	/**
+	 *
+	 */
+	public JRDesignStaticText()
+	{
+		super(null);
+	}
+		
+	/**
+	 *
+	 */
+	public JRDesignStaticText(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+		
 
 	/**
 	 *

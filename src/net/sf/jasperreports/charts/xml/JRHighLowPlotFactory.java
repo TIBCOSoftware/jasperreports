@@ -55,12 +55,12 @@ public class JRHighLowPlotFactory extends JRBaseFactory
 
 		String isShowOpenTicks = atts.getValue(ATTRIBUTE_isShowOpenTicks);
 		if (isShowOpenTicks != null && isShowOpenTicks.length() > 0) {
-			plot.setShowOpenTicks(new Boolean(isShowOpenTicks).booleanValue());
+			plot.setShowOpenTicks(Boolean.valueOf(isShowOpenTicks).booleanValue());
 		}
 
 		String isShowCloseTicks = atts.getValue(ATTRIBUTE_isShowCloseTicks);
 		if (isShowCloseTicks != null && isShowCloseTicks.length() > 0) {
-			plot.setShowCloseTicks(new Boolean(isShowCloseTicks).booleanValue());
+			plot.setShowCloseTicks(Boolean.valueOf(isShowCloseTicks).booleanValue());
 		}
 
 		return plot;

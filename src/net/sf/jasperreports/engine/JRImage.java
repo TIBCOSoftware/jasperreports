@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlignment
+public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlignment, JRBox
 {
 
 
@@ -81,6 +81,8 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public byte getScaleImage();
 
+	public Byte getOwnScaleImage();
+
 	/**
 	 * Sets the image scale type.
 	 * @param scaleImage one of the scale constants in this class
@@ -92,6 +94,8 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 * @return one of the alignment values defined in {@link JRAlignment}
 	 */
 	public byte getHorizontalAlignment();
+
+	public Byte getOwnHorizontalAlignment();
 
 	/**
 	 * Sets the horizontal alignment of the element.
@@ -105,6 +109,8 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public byte getVerticalAlignment();
 		
+	public Byte getOwnVerticalAlignment();
+
 	/**
 	 * Sets the vertical alignment of the element.
 	 * @param verticalAlignment one of the alignment values defined in {@link JRAlignment}
@@ -193,6 +199,7 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	
 	/**
 	 * Returns an object containing all border and padding properties for this text element
+	 * @deprecated
 	 */
 	public JRBox getBox();
 

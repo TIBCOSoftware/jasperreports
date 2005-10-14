@@ -62,7 +62,22 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	/**
 	 *
 	 */
+	public Integer getOwnRadius()
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public void setRadius(int radius)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRadius(Integer radius)
 	{
 	}
 

@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRReport extends JRDefaultFontProvider
+public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 {
 
 	
@@ -244,6 +244,11 @@ public interface JRReport extends JRDefaultFontProvider
 	 * Gets an array of report fonts.
 	 */
 	public JRReportFont[] getFonts();
+
+	/**
+	 * Gets an array of report styles.
+	 */
+	public JRStyle[] getStyles();
 
 	/**
 	 *

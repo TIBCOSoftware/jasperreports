@@ -65,7 +65,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	{
 		if (template == null)
 		{
-			template = new JRTemplateEllipse((JREllipse)this.parent);
+			template = new JRTemplateEllipse(filler.getJasperPrint().getDefaultStyleProvider(), (JREllipse)this.parent);
 		}
 		
 		return (JRTemplateEllipse)template;

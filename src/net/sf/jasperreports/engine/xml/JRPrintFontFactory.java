@@ -67,7 +67,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 
-		JRDesignFont font = null;
+		JRDesignFont font = null;//FIXME STYLES
 
 		if (atts.getValue(ATTRIBUTE_reportFont) != null)
 		{
@@ -90,19 +90,19 @@ public class JRPrintFontFactory extends JRBaseFactory
 			font.setFontName(atts.getValue(ATTRIBUTE_fontName));
 
 		if (atts.getValue(ATTRIBUTE_isBold) != null)
-			font.setBold(Boolean.valueOf(atts.getValue(ATTRIBUTE_isBold)).booleanValue());
+			font.setBold(Boolean.valueOf(atts.getValue(ATTRIBUTE_isBold)));
 
 		if (atts.getValue(ATTRIBUTE_isItalic) != null)
-			font.setItalic(Boolean.valueOf(atts.getValue(ATTRIBUTE_isItalic)).booleanValue());
+			font.setItalic(Boolean.valueOf(atts.getValue(ATTRIBUTE_isItalic)));
 
 		if (atts.getValue(ATTRIBUTE_isUnderline) != null)
-			font.setUnderline(Boolean.valueOf(atts.getValue(ATTRIBUTE_isUnderline)).booleanValue());
+			font.setUnderline(Boolean.valueOf(atts.getValue(ATTRIBUTE_isUnderline)));
 
 		if (atts.getValue(ATTRIBUTE_isStrikeThrough) != null)
-			font.setStrikeThrough(Boolean.valueOf(atts.getValue(ATTRIBUTE_isStrikeThrough)).booleanValue());
+			font.setStrikeThrough(Boolean.valueOf(atts.getValue(ATTRIBUTE_isStrikeThrough)));
 
 		if (atts.getValue(ATTRIBUTE_size) != null)
-			font.setSize(Integer.parseInt(atts.getValue(ATTRIBUTE_size)));
+			font.setFontSize(Integer.parseInt(atts.getValue(ATTRIBUTE_size)));
 
 		if (atts.getValue(ATTRIBUTE_pdfFontName) != null)
 			font.setPdfFontName(atts.getValue(ATTRIBUTE_pdfFontName));
@@ -111,7 +111,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 			font.setPdfEncoding(atts.getValue(ATTRIBUTE_pdfEncoding));
 
 		if (atts.getValue(ATTRIBUTE_isPdfEmbedded) != null)
-			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(ATTRIBUTE_isPdfEmbedded)).booleanValue());
+			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(ATTRIBUTE_isPdfEmbedded)));
 
 		return font;
 	}

@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -48,18 +49,16 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	/**
 	 *
 	 */
-	protected byte pen = PEN_1_POINT;
-	protected byte fill = FILL_SOLID;
+	protected Byte pen;
+	protected Byte fill;
 
 
 	/**
 	 * Constructs an empty graphic element. By default graphic elements are opaque.
-	 */
+	 *
 	protected JRBaseGraphicElement()
 	{
 		super();
-		
-		this.mode = MODE_OPAQUE;
 	}
 		
 
@@ -75,8 +74,8 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	{
 		super(graphicElement, factory);
 		
-		pen = graphicElement.getPen();
-		fill = graphicElement.getFill();
+		pen = graphicElement.getOwnPen();
+		fill = graphicElement.getOwnFill();
 	}
 		
 
@@ -85,13 +84,26 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public byte getPen()
 	{
+		return JRStyleResolver.getPen(this, PEN_1_POINT);
+	}
+		
+	public Byte getOwnPen()
+	{
 		return this.pen;
+	}
+
+	/**
+	 *
+	 */
+	public void setPen(byte pen)
+	{
+		this.pen = new Byte(pen);
 	}
 		
 	/**
 	 *
 	 */
-	public void setPen(byte pen)
+	public void setPen(Byte pen)
 	{
 		this.pen = pen;
 	}
@@ -101,13 +113,26 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public byte getFill()
 	{
-		return this.fill;
+		return JRStyleResolver.getFill(this, FILL_SOLID);
 	}
 
+	public Byte getOwnFill()
+	{
+		return this.fill;
+	}
+	
 	/**
 	 *
 	 */
 	public void setFill(byte fill)
+	{
+		this.fill = new Byte(fill);
+	}
+	
+	/**
+	 *
+	 */
+	public void setFill(Byte fill)
 	{
 		this.fill = fill;
 	}

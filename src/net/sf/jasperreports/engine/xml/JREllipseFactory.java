@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignEllipse;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -45,7 +46,9 @@ public class JREllipseFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignEllipse ellipse = new JRDesignEllipse();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		JRDesignEllipse ellipse = new JRDesignEllipse(jasperDesign);
 		
 		return ellipse;
 	}

@@ -93,13 +93,10 @@ public class TextMeasurer
 		width = fillTextElement.getWidth();
 		height = fillTextElement.getHeight();
 		
-		if (fillTextElement.getBox() != null)
-		{
-			topPadding = fillTextElement.getBox().getTopPadding();
-			leftPadding = fillTextElement.getBox().getLeftPadding();
-			bottomPadding = fillTextElement.getBox().getBottomPadding();
-			rightPadding = fillTextElement.getBox().getRightPadding();
-		}
+		topPadding = fillTextElement.getTopPadding();
+		leftPadding = fillTextElement.getLeftPadding();
+		bottomPadding = fillTextElement.getBottomPadding();
+		rightPadding = fillTextElement.getRightPadding();
 
 		switch (fillTextElement.getRotation())
 		{
@@ -290,7 +287,7 @@ public class TextMeasurer
 							lineStartPosition, 
 							lineStartPosition + layout.getCharacterCount()
 							).getIterator(),
-						fillTextElement.getFont().getSize()
+						fillTextElement.getFontSize()
 						);
 						
 				if (lines == 1)

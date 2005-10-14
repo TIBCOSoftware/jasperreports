@@ -130,6 +130,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return ((JRTextField)parent).getPattern();
 	}
 		
+	public String getOwnPattern()
+	{
+		return ((JRTextField)parent).getOwnPattern();
+	}
+
 	/**
 	 *
 	 */
@@ -148,7 +153,22 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	public Boolean isOwnBlankWhenNull()
+	{
+		return ((JRTextField)parent).isOwnBlankWhenNull();
+	}
+
+	/**
+	 *
+	 */
 	public void setBlankWhenNull(boolean isBlank)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBlankWhenNull(Boolean isBlank)
 	{
 	}
 
@@ -257,7 +277,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		if (template == null)
 		{
-			template = new JRTemplateText((JRTextField)parent, getFont());
+			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent);
 		}
 		
 		return (JRTemplateText)template;

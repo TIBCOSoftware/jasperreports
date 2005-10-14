@@ -27,7 +27,9 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -45,7 +47,16 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	/**
 	 *
 	 */
-	protected int radius = 0;
+	protected Integer radius = null;
+
+
+	/**
+	 *
+	 */
+	public JRBasePrintRectangle(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
 
 
 	/**
@@ -53,13 +64,29 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	 */
 	public int getRadius()
 	{
-		return this.radius;
+		return JRStyleResolver.getRadius(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRadius()
+	{
+		return radius;
 	}
 
 	/**
 	 *
 	 */
 	public void setRadius(int radius)
+	{
+		this.radius = new Integer(radius);
+	}
+
+	/**
+	 *
+	 */
+	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
 	}

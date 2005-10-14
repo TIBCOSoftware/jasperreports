@@ -27,9 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 
 
@@ -48,6 +50,16 @@ public abstract class JRDesignElement extends JRBaseElement
 	 *
 	 */
 	private static final long serialVersionUID = 10003;
+
+
+	/**
+	 *
+	 */
+	protected JRDesignElement(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+
 
 	/**
 	 * Sets the unique identifier for the element.
@@ -101,5 +113,8 @@ public abstract class JRDesignElement extends JRBaseElement
 		this.elementGroup = elementGroup;
 	}
 	
-
+	public void setStyle(JRStyle style)
+	{
+		this.parentStyle = style;
+	}
 }

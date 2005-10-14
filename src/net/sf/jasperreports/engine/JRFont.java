@@ -41,15 +41,29 @@ import java.util.Map;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRFont
+public interface JRFont extends JRStyleContainer
 {
 
+	public static final String DEFAULT_FONT_NAME = "sansserif";
+	public static final boolean DEFAULT_FONT_BOLD = false;
+	public static final boolean DEFAULT_FONT_ITALIC = false;
+	public static final boolean DEFAULT_FONT_UNDERLINE = false;
+	public static final boolean DEFAULT_FONT_STRIKETHROUGH = false;
+	public static final int DEFAULT_FONT_SIZE = 10;
+	public static final String DEFAULT_PDF_FONT_NAME = "Helvetica";
+	public static final String DEFAULT_PDF_ENCODING = "Cp1252";
+	public static final boolean DEFAULT_PDF_EMBEDDED = false;
 
 	/**
 	 *
 	 */
 	public JRReportFont getReportFont();
 	
+	/**
+	 *
+	 */
+	public void setReportFont(JRReportFont reportFont);
+
 	/**
 	 *
 	 */
@@ -83,6 +97,11 @@ public interface JRFont
 	/**
 	 *
 	 */
+	public void setBold(Boolean isBold);
+	
+	/**
+	 *
+	 */
 	public boolean isItalic();
 	
 	/**
@@ -94,6 +113,11 @@ public interface JRFont
 	 *
 	 */
 	public void setItalic(boolean isItalic);
+	
+	/**
+	 *
+	 */
+	public void setItalic(Boolean isItalic);
 	
 	/**
 	 *
@@ -113,6 +137,11 @@ public interface JRFont
 	/**
 	 *
 	 */
+	public void setUnderline(Boolean isUnderline);
+	
+	/**
+	 *
+	 */
 	public boolean isStrikeThrough();
 	
 	/**
@@ -128,17 +157,47 @@ public interface JRFont
 	/**
 	 *
 	 */
+	public void setStrikeThrough(Boolean isStrikeThrough);
+
+	/**
+	 * @deprecated
+	 */
 	public int getSize();
 	
 	/**
-	 *
+	 * @deprecated
 	 */
 	public Integer getOwnSize();
 	
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setSize(int size);
+
+	/**
+	 * @deprecated
+	 */
+	public void setSize(Integer size);
+
+	/**
+	 *
+	 */
+	public int getFontSize();
+	
+	/**
+	 *
+	 */
+	public Integer getOwnFontSize();
+	
+	/**
+	 *
+	 */
+	public void setFontSize(int fontSize);
+
+	/**
+	 *
+	 */
+	public void setFontSize(Integer fontSize);
 
 	/**
 	 *
@@ -188,14 +247,8 @@ public interface JRFont
 	/**
 	 *
 	 */
-	public boolean isCachingAttributes();
-
-	/**
-	 *
-	 */
-	public Map getNonPdfAttributes();
-
-
+	public void setPdfEmbedded(Boolean isPdfEmbedded);
+	
 	/**
 	 *
 	 */

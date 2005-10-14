@@ -30,11 +30,13 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 //import java.text.Format;
@@ -59,7 +61,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected boolean isStretchWithOverflow = false;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected String pattern = null;
-	protected boolean isBlankWhenNull = false;
+	protected Boolean isBlankWhenNull = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
@@ -83,6 +85,23 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
+	public JRDesignTextField()
+	{
+		super(null);
+	}
+		
+	/**
+	 *
+	 */
+	public JRDesignTextField(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
+	}
+		
+
+	/**
+	 *
+	 */
 	public boolean isStretchWithOverflow()
 	{
 		return this.isStretchWithOverflow;
@@ -101,6 +120,11 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public String getPattern()
 	{
+		return JRStyleResolver.getPattern(this);
+	}
+
+	public String getOwnPattern()
+	{
 		return this.pattern;
 	}
 		
@@ -109,7 +133,15 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public boolean isBlankWhenNull()
 	{
-		return this.isBlankWhenNull;
+		return JRStyleResolver.isBlankWhenNull(this);
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnBlankWhenNull()
+	{
+		return isBlankWhenNull;
 	}
 
 	/**
@@ -204,6 +236,14 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 *
 	 */
 	public void setBlankWhenNull(boolean isBlank)
+	{
+		this.isBlankWhenNull = isBlank ? Boolean.TRUE : Boolean.FALSE;
+	}
+
+	/**
+	 *
+	 */
+	public void setBlankWhenNull(Boolean isBlank)
 	{
 		this.isBlankWhenNull = isBlank;
 	}

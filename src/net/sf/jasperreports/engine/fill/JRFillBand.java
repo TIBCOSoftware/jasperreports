@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage.ObjectIDPair;
 import net.sf.jasperreports.engine.fill.JRBaseFiller.BoundElementMap;
@@ -740,6 +741,22 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 									catch(JRException e)
 									{
 										//ignore font duplication exception
+									}
+								}
+							}
+							
+							JRStyle[] styles = subreport.getStyles();
+							if (styles != null)
+							{
+								for(int j = 0; j < styles.length; j++)
+								{
+									try
+									{
+										filler.getJasperPrint().addStyle(styles[j]);
+									}
+									catch(JRException e)
+									{
+										//ignore style duplication exception
 									}
 								}
 							}

@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignLine;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -51,7 +52,9 @@ public class JRLineFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JRDesignLine line = new JRDesignLine();
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		JRDesignLine line = new JRDesignLine(jasperDesign);
 
 		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(ATTRIBUTE_direction));
 		if (direction != null)

@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -60,7 +62,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	private JRFont font = null;
+//	private JRFont font = null;
 
 	private boolean isLeftToRight = true;
 	private TextMeasurer textMeasurer = null;
@@ -88,7 +90,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		super(filler, textElement, factory);
 
 		/*   */
-		font = factory.getFont(textElement.getFont());
+//		font = factory.getFont(textElement.getFont());
 		
 		/*   */
 		textMeasurer = new TextMeasurer(this);
@@ -105,7 +107,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		return ((JRTextElement)parent).getHorizontalAlignment();
 	}
-		
+
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
 	 */
@@ -121,10 +123,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return ((JRTextElement)parent).getHorizontalAlignment();
 	}
 		
+	public Byte getOwnHorizontalAlignment()
+	{
+		return ((JRTextElement)parent).getOwnHorizontalAlignment();
+	}
+
 	/**
 	 *
 	 */
 	public void setHorizontalAlignment(byte horizontalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
 	}
 		
@@ -136,10 +150,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return ((JRTextElement)parent).getVerticalAlignment();
 	}
 		
+	public Byte getOwnVerticalAlignment()
+	{
+		return ((JRTextElement)parent).getOwnVerticalAlignment();
+	}
+
 	/**
 	 *
 	 */
 	public void setVerticalAlignment(byte verticalAlignment)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalAlignment(Byte verticalAlignment)
 	{
 	}
 		
@@ -151,10 +177,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return ((JRTextElement)parent).getRotation();
 	}
 		
+	public Byte getOwnRotation()
+	{
+		return ((JRTextElement)parent).getOwnRotation();
+	}
+
 	/**
 	 *
 	 */
 	public void setRotation(byte rotation)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setRotation(Byte rotation)
 	{
 	}
 		
@@ -166,10 +204,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return ((JRTextElement)parent).getLineSpacing();
 	}
 		
+	public Byte getOwnLineSpacing()
+	{
+		return ((JRTextElement)parent).getOwnLineSpacing();
+	}
+
 	/**
 	 *
 	 */
 	public void setLineSpacing(byte lineSpacing)
+	{
+	}
+		
+	/**
+	 *
+	 */
+	public void setLineSpacing(Byte lineSpacing)
 	{
 	}
 		
@@ -181,6 +231,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return ((JRTextElement)parent).isStyledText();
 	}
 		
+	public Boolean isOwnStyledText()
+	{
+		return ((JRTextElement)parent).isOwnStyledText();
+	}
+
 	/**
 	 *
 	 */
@@ -191,17 +246,24 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	public void setStyledText(Boolean isStyledText)
+	{
+	}
+		
+	/**
+	 * @deprecated
+	 */
 	public JRBox getBox()
 	{
-		return ((JRTextElement)parent).getBox();
+		return this;
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRFont getFont()
 	{
-		return font;
+		return this;
 	}
 
 	
@@ -506,4 +568,720 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 		};
 
+	/**
+	 *
+	 */
+	public byte getBorder()
+	{
+		return ((JRBox)parent).getBorder();
+	}
+
+	public Byte getOwnBorder()
+	{
+		return ((JRBox)parent).getOwnBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBorderColor()
+	{
+		return ((JRBox)parent).getBorderColor();
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return ((JRBox)parent).getOwnBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setBorderColor(Color borderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getPadding()
+	{
+		return ((JRBox)parent).getPadding();
+	}
+
+	public Integer getOwnPadding()
+	{
+		return ((JRBox)parent).getOwnPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(int padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getTopBorder()
+	{
+		return ((JRBox)parent).getTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnTopBorder()
+	{
+		return ((JRBox)parent).getOwnTopBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTopBorderColor()
+	{
+		return ((JRBox)parent).getTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTopBorderColor()
+	{
+		return ((JRBox)parent).getOwnTopBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorderColor(Color topBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return ((JRBox)parent).getTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTopPadding()
+	{
+		return ((JRBox)parent).getOwnTopPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(int topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getLeftBorder()
+	{
+		return ((JRBox)parent).getLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnLeftBorder()
+	{
+		return ((JRBox)parent).getOwnLeftBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getLeftBorderColor()
+	{
+		return ((JRBox)parent).getLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnLeftBorderColor()
+	{
+		return ((JRBox)parent).getOwnLeftBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return ((JRBox)parent).getLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftPadding()
+	{
+		return ((JRBox)parent).getOwnLeftPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(int leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getBottomBorder()
+	{
+		return ((JRBox)parent).getBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnBottomBorder()
+	{
+		return ((JRBox)parent).getOwnBottomBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getBottomBorderColor()
+	{
+		return ((JRBox)parent).getBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBottomBorderColor()
+	{
+		return ((JRBox)parent).getOwnBottomBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return ((JRBox)parent).getBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnBottomPadding()
+	{
+		return ((JRBox)parent).getOwnBottomPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(int bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public byte getRightBorder()
+	{
+		return ((JRBox)parent).getRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public Byte getOwnRightBorder()
+	{
+		return ((JRBox)parent).getOwnRightBorder();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getRightBorderColor()
+	{
+		return ((JRBox)parent).getRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnRightBorderColor()
+	{
+		return ((JRBox)parent).getOwnRightBorderColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return ((JRBox)parent).getRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightPadding()
+	{
+		return ((JRBox)parent).getOwnRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(int rightPadding)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public JRReportFont getReportFont()
+	{
+		return ((JRFont)parent).getReportFont();
+	}
+
+	public void setReportFont(JRReportFont reportFont)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public String getFontName()
+	{
+		return ((JRFont)parent).getFontName();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnFontName()
+	{
+		return ((JRFont)parent).getOwnFontName();
+	}
+
+	/**
+	 *
+	 */
+	public void setFontName(String fontName)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isBold()
+	{
+		return ((JRFont)parent).isBold();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnBold()
+	{
+		return ((JRFont)parent).isOwnBold();
+	}
+
+	/**
+	 *
+	 */
+	public void setBold(boolean isBold)
+	{
+	}
+
+	/**
+	 * Alternative setBold method which allows also to reset
+	 * the "own" isBold property.
+	 */
+	public void setBold(Boolean isBold)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isItalic()
+	{
+		return ((JRFont)parent).isItalic();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnItalic()
+	{
+		return ((JRFont)parent).isOwnItalic();
+	}
+
+	/**
+	 *
+	 */
+	public void setItalic(boolean isItalic)
+	{
+	}
+
+	/**
+	 * Alternative setItalic method which allows also to reset
+	 * the "own" isItalic property.
+	 */
+	public void setItalic(Boolean isItalic)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public boolean isUnderline()
+	{
+		return ((JRFont)parent).isUnderline();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnUnderline()
+	{
+		return ((JRFont)parent).isOwnUnderline();
+	}
+
+	/**
+	 *
+	 */
+	public void setUnderline(boolean isUnderline)
+	{
+	}
+
+	/**
+	 * Alternative setUnderline method which allows also to reset
+	 * the "own" isUnderline property.
+	 */
+	public void setUnderline(Boolean isUnderline)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public boolean isStrikeThrough()
+	{
+		return ((JRFont)parent).isStrikeThrough();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnStrikeThrough()
+	{
+		return ((JRFont)parent).isOwnStrikeThrough();
+	}
+
+	/**
+	 *
+	 */
+	public void setStrikeThrough(boolean isStrikeThrough)
+	{
+	}
+
+	/**
+	 * Alternative setStrikeThrough method which allows also to reset
+	 * the "own" isStrikeThrough property.
+	 */
+	public void setStrikeThrough(Boolean isStrikeThrough)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public int getFontSize()
+	{
+		return ((JRFont)parent).getFontSize();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnFontSize()
+	{
+		return ((JRFont)parent).getOwnFontSize();
+	}
+
+	/**
+	 *
+	 */
+	public void setFontSize(int size)
+	{
+	}
+
+	/**
+	 * Alternative setSize method which allows also to reset
+	 * the "own" size property.
+	 */
+	public void setFontSize(Integer size)
+	{
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public int getSize()
+	{
+		return getFontSize();
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public Integer getOwnSize()
+	{
+		return getOwnFontSize();
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public void setSize(int size)
+	{
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public void setSize(Integer size)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getPdfFontName()
+	{
+		return ((JRFont)parent).getPdfFontName();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnPdfFontName()
+	{
+		return ((JRFont)parent).getOwnPdfFontName();
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfFontName(String pdfFontName)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public String getPdfEncoding()
+	{
+		return ((JRFont)parent).getPdfEncoding();
+	}
+
+	/**
+	 *
+	 */
+	public String getOwnPdfEncoding()
+	{
+		return ((JRFont)parent).getOwnPdfEncoding();
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfEncoding(String pdfEncoding)
+	{
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isPdfEmbedded()
+	{
+		return ((JRFont)parent).isPdfEmbedded();
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isOwnPdfEmbedded()
+	{
+		return ((JRFont)parent).isOwnPdfEmbedded();
+	}
+
+	/**
+	 *
+	 */
+	public void setPdfEmbedded(boolean isPdfEmbedded)
+	{
+		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 * Alternative setPdfEmbedded method which allows also to reset
+	 * the "own" isPdfEmbedded property.
+	 */
+	public void setPdfEmbedded(Boolean isPdfEmbedded)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBorder(Byte border)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setPadding(Integer padding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopBorder(Byte topBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setTopPadding(Integer topPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftBorder(Byte leftBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setLeftPadding(Integer leftPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomBorder(Byte bottomBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setBottomPadding(Integer bottomPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightBorder(Byte rightBorder)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public void setRightPadding(Integer rightPadding)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Map getAttributes()
+	{
+		return ((JRTextElement)parent).getAttributes();
+	}
 }
