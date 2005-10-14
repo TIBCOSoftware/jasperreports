@@ -103,7 +103,7 @@ public class AlterDesignApp
 				rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
 				JRReportFont reportFont = jasperReport.getFonts()[0];
-				reportFont.setSize(16);
+				reportFont.setFontSize(16);
 				reportFont.setItalic(true);
 
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
