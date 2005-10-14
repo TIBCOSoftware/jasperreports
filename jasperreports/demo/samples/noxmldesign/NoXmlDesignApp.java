@@ -305,7 +305,7 @@ public class NoXmlDesignApp
 		//Fonts
 		JRDesignStyle normalStyle = new JRDesignStyle();
 		normalStyle.setName("Arial_Normal");
-//		FIXME STYLE normalStyle.setDefault(true);
+		normalStyle.setDefault(true);
 		normalStyle.setFontName("Arial");
 		normalStyle.setFontSize(12);
 		normalStyle.setPdfFontName("Helvetica");
@@ -315,7 +315,6 @@ public class NoXmlDesignApp
 
 		JRDesignStyle boldStyle = new JRDesignStyle();
 		boldStyle.setName("Arial_Bold");
-		//FIXME STYLE boldStyle.setDefault(false);
 		boldStyle.setFontName("Arial");
 		boldStyle.setFontSize(12);
 		boldStyle.setBold(true);
@@ -326,7 +325,6 @@ public class NoXmlDesignApp
 
 		JRDesignStyle italicStyle = new JRDesignStyle();
 		italicStyle.setName("Arial_Italic");
-//		FIXME STYLE italicStyle.setDefault(false);
 		italicStyle.setFontName("Arial");
 		italicStyle.setFontSize(12);
 		italicStyle.setItalic(true);
