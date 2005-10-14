@@ -512,7 +512,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
