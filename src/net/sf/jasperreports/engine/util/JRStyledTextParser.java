@@ -184,7 +184,7 @@ public class JRStyledTextParser
 	/**
 	 *
 	 */
-	private void parseStyle(JRStyledText styledText, Node parentNode)
+	private void parseStyle(JRStyledText styledText, Node parentNode) throws SAXException
 	{
 		NodeList nodeList = parentNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -206,7 +206,7 @@ public class JRStyledTextParser
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.FAMILY, 
+						TextAttribute.FAMILY,
 						nodeAttrs.getNamedItem(ATTRIBUTE_fontName).getNodeValue()
 						);
 				}
@@ -214,51 +214,51 @@ public class JRStyledTextParser
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_isBold) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.WEIGHT, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isBold).getNodeValue()).booleanValue() 
-							? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
+						TextAttribute.WEIGHT,
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isBold).getNodeValue()).booleanValue()
+						? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
 						);
 				}
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_isItalic) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.POSTURE, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isItalic).getNodeValue()).booleanValue() 
-							? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
+						TextAttribute.POSTURE,
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isItalic).getNodeValue()).booleanValue()
+						? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
 						);
 				}
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.UNDERLINE, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline).getNodeValue()).booleanValue() 
-							? TextAttribute.UNDERLINE_ON : null
+						TextAttribute.UNDERLINE,
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline).getNodeValue()).booleanValue()
+						? TextAttribute.UNDERLINE_ON : null
 						);
 				}
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.STRIKETHROUGH, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough).getNodeValue()).booleanValue() 
-							? TextAttribute.STRIKETHROUGH_ON : null
+						TextAttribute.STRIKETHROUGH,
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough).getNodeValue()).booleanValue()
+						? TextAttribute.STRIKETHROUGH_ON : null
 						);
 				}
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
 					styleAttrs.put(
-						TextAttribute.SIZE, 
-						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue()) 
+						TextAttribute.SIZE,
+						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
 						);
 				}
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_pdfFontName) != null)
 				{
 					styleAttrs.put(
-						JRTextAttribute.PDF_FONT_NAME, 
+						JRTextAttribute.PDF_FONT_NAME,
 						nodeAttrs.getNamedItem(ATTRIBUTE_pdfFontName).getNodeValue()
 						);
 				}
@@ -266,7 +266,7 @@ public class JRStyledTextParser
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_pdfEncoding) != null)
 				{
 					styleAttrs.put(
-						JRTextAttribute.PDF_ENCODING, 
+						JRTextAttribute.PDF_ENCODING,
 						nodeAttrs.getNamedItem(ATTRIBUTE_pdfEncoding).getNodeValue()
 						);
 				}
@@ -274,11 +274,11 @@ public class JRStyledTextParser
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_isPdfEmbedded) != null)
 				{
 					styleAttrs.put(
-						JRTextAttribute.IS_PDF_EMBEDDED, 
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isPdfEmbedded).getNodeValue()) 
+						JRTextAttribute.IS_PDF_EMBEDDED,
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isPdfEmbedded).getNodeValue())
 						);
 				}
-				
+
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_forecolor) != null)
 				{
 					Color color = null;
@@ -307,11 +307,11 @@ public class JRStyledTextParser
 						}
 					}
 					styleAttrs.put(
-						TextAttribute.FOREGROUND, 
-						color 
+						TextAttribute.FOREGROUND,
+						color
 						);
 				}
-				
+
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_backcolor) != null)
 				{
 					Color color = null;
@@ -340,15 +340,15 @@ public class JRStyledTextParser
 						}
 					}
 					styleAttrs.put(
-						TextAttribute.BACKGROUND, 
-						color 
+						TextAttribute.BACKGROUND,
+						color
 						);
 				}
-				
+
 				int startIndex = styledText.length();
 
 				parseStyle(styledText, node);
-				
+
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equalsIgnoreCase(node.getNodeName()))
@@ -486,6 +486,11 @@ public class JRStyledTextParser
 
 				styledText.append("\n");
 				resizeRuns(styledText.getRuns(), startIndex, 1);
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE)
+			{
+				String nodeName = "<" + node.getNodeName() + ">";
+				throw new SAXException("Tag " + nodeName + " is not a valid styled text tag.");
 			}
 		}
 	}
