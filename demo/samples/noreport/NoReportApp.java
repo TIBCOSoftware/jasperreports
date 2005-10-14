@@ -242,7 +242,7 @@ public class NoReportApp
 		//Fonts
 		JRDesignStyle normalStyle = new JRDesignStyle();
 		normalStyle.setName("Arial_Normal");
-		//FIXME STYLE normalStyle.setDefault(true);
+		normalStyle.setDefault(true);
 		normalStyle.setFontName("Arial");
 		normalStyle.setFontSize(8);
 		normalStyle.setPdfFontName("Helvetica");
@@ -252,7 +252,6 @@ public class NoReportApp
 
 		JRDesignStyle boldStyle = new JRDesignStyle();
 		boldStyle.setName("Arial_Bold");
-		//FIXME STYLE boldStyle.setDefault(false);
 		boldStyle.setFontName("Arial");
 		boldStyle.setFontSize(8);
 		boldStyle.setBold(true);
@@ -263,7 +262,6 @@ public class NoReportApp
 
 		JRDesignStyle italicStyle = new JRDesignStyle();
 		italicStyle.setName("Arial_Italic");
-		//FIXME STYLE italicStyle.setDefault(false);
 		italicStyle.setFontName("Arial");
 		italicStyle.setFontSize(8);
 		italicStyle.setItalic(true);
