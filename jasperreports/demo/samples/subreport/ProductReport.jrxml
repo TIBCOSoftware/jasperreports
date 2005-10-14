@@ -9,11 +9,11 @@
 	<parameter name="City" class="java.lang.String">
 	</parameter>
 	<queryString><![CDATA[SELECT Product.ID AS ID, Product.Name AS Name, 
-		Position.Quantity AS QUantity, Position.Price AS Price 
-		FROM Position, Product, Document, Address 
-		WHERE Position.DocumentID = Document.ID AND
+		Positions.Quantity AS QUantity, Positions.Price AS Price
+		FROM Positions, Product, Document, Address
+		WHERE Positions.DocumentID = Document.ID AND
 		Document.AddressID = Address.ID AND
-		Position.ProductID = Product.ID AND
+		Positions.ProductID = Product.ID AND
 		Address.City = $P{City}
 		ORDER BY Product.ID]]></queryString>
 	<field name="Id" class="java.lang.Integer">
