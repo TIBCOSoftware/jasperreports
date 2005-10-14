@@ -55,8 +55,8 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	 */
 	private Byte mode = null;
 	private int width = 0;
-	private Color forecolor = Color.black;
-	private Color backcolor = Color.white;
+	private Color forecolor = null;
+	private Color backcolor = null;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle = null;

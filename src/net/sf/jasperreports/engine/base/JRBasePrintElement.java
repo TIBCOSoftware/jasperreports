@@ -58,8 +58,8 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	protected int y = 0;
 	protected int width = 0;
 	protected int height = 0;
-	protected Color forecolor = Color.black;
-	protected Color backcolor = Color.white;
+	protected Color forecolor = null;
+	protected Color backcolor = null;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style = null;
