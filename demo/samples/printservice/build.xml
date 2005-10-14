@@ -28,7 +28,7 @@
 			<equals arg1="${ant.java.version}" arg2="1.5"/>
 			</or>
 		</condition>
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/*.java" unless="using.jdk.1.4"/>
 			<classpath refid="classpath"/>
 		</javac>

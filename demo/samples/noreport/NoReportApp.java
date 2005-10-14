@@ -30,6 +30,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRImage;
@@ -38,7 +39,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
@@ -46,8 +46,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintLine;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.design.JRDesignFont;
-import net.sf.jasperreports.engine.design.JRDesignReportFont;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -241,48 +240,48 @@ public class NoReportApp
 		jasperPrint.setPageHeight(842);
 		
 		//Fonts
-		JRDesignReportFont normalFont = new JRDesignReportFont();
-		normalFont.setName("Arial_Normal");
-		normalFont.setDefault(true);
-		normalFont.setFontName("Arial");
-		normalFont.setSize(8);
-		normalFont.setPdfFontName("Helvetica");
-		normalFont.setPdfEncoding("Cp1252");
-		normalFont.setPdfEmbedded(false);
-		jasperPrint.addFont(normalFont);
+		JRDesignStyle normalStyle = new JRDesignStyle();
+		normalStyle.setName("Arial_Normal");
+		//FIXME STYLE normalStyle.setDefault(true);
+		normalStyle.setFontName("Arial");
+		normalStyle.setFontSize(8);
+		normalStyle.setPdfFontName("Helvetica");
+		normalStyle.setPdfEncoding("Cp1252");
+		normalStyle.setPdfEmbedded(false);
+		jasperPrint.addStyle(normalStyle);
 
-		JRDesignReportFont boldFont = new JRDesignReportFont();
-		boldFont.setName("Arial_Bold");
-		boldFont.setDefault(false);
-		boldFont.setFontName("Arial");
-		boldFont.setSize(8);
-		boldFont.setBold(true);
-		boldFont.setPdfFontName("Helvetica-Bold");
-		boldFont.setPdfEncoding("Cp1252");
-		boldFont.setPdfEmbedded(false);
-		jasperPrint.addFont(boldFont);
+		JRDesignStyle boldStyle = new JRDesignStyle();
+		boldStyle.setName("Arial_Bold");
+		//FIXME STYLE boldStyle.setDefault(false);
+		boldStyle.setFontName("Arial");
+		boldStyle.setFontSize(8);
+		boldStyle.setBold(true);
+		boldStyle.setPdfFontName("Helvetica-Bold");
+		boldStyle.setPdfEncoding("Cp1252");
+		boldStyle.setPdfEmbedded(false);
+		jasperPrint.addStyle(boldStyle);
 
-		JRDesignReportFont italicFont = new JRDesignReportFont();
-		italicFont.setName("Arial_Italic");
-		italicFont.setDefault(false);
-		italicFont.setFontName("Arial");
-		italicFont.setSize(8);
-		italicFont.setItalic(true);
-		italicFont.setPdfFontName("Helvetica-Oblique");
-		italicFont.setPdfEncoding("Cp1252");
-		italicFont.setPdfEmbedded(false);
-		jasperPrint.addFont(italicFont);
+		JRDesignStyle italicStyle = new JRDesignStyle();
+		italicStyle.setName("Arial_Italic");
+		//FIXME STYLE italicStyle.setDefault(false);
+		italicStyle.setFontName("Arial");
+		italicStyle.setFontSize(8);
+		italicStyle.setItalic(true);
+		italicStyle.setPdfFontName("Helvetica-Oblique");
+		italicStyle.setPdfEncoding("Cp1252");
+		italicStyle.setPdfEmbedded(false);
+		jasperPrint.addStyle(italicStyle);
 		
 		JRPrintPage page = new JRBasePrintPage();
 
-		JRPrintLine line = new JRBasePrintLine();
+		JRPrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
 		line.setX(40);
 		line.setY(50);
 		line.setWidth(515);
 		line.setHeight(0);
 		page.addElement(line);
 		
-		JRPrintImage image = new JRBasePrintImage();
+		JRPrintImage image = new JRBasePrintImage(jasperPrint.getDefaultStyleProvider());
 		image.setX(45);
 		image.setY(55);
 		image.setWidth(165);
@@ -295,48 +294,42 @@ public class NoReportApp
 			);
 		page.addElement(image);
 
-		JRPrintText text = new JRBasePrintText();
+		JRPrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 		text.setX(210);
 		text.setY(55);
 		text.setWidth(345);
 		text.setHeight(30);
-		text.setTextAlignment(JRTextElement.TEXT_ALIGN_RIGHT);
+		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
 		text.setLineSpacingFactor(1.3133681f);
 		text.setLeadingOffset(-4.955078f);
-		JRDesignFont font = new JRDesignFont();
-		font.setReportFont(boldFont);
-		font.setSize(18);
-		text.setFont(font);
+		text.setStyle(boldStyle);
+		text.setFontSize(18);
 		text.setText("JasperReports Project Description");
 		page.addElement(text);
 
-		text = new JRBasePrintText();
+		text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 		text.setX(210);
 		text.setY(85);
 		text.setWidth(325);
 		text.setHeight(15);
-		text.setTextAlignment(JRTextElement.TEXT_ALIGN_RIGHT);
+		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_RIGHT);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
-		font = new JRDesignFont();
-		font.setReportFont(italicFont);
-		font.setSize(12);
-		text.setFont(font);
+		text.setStyle(italicStyle);
+		text.setFontSize(12);
 		text.setText((new SimpleDateFormat("EEE, MMM d, yyyy")).format(new Date()));
 		page.addElement(text);
 
-		text = new JRBasePrintText();
+		text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 		text.setX(40);
 		text.setY(150);
 		text.setWidth(515);
 		text.setHeight(200);
-		text.setTextAlignment(JRTextElement.TEXT_ALIGN_JUSTIFIED);
+		text.setHorizontalAlignment(JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
-		font = new JRDesignFont();
-		font.setReportFont(normalFont);
-		font.setSize(14);
-		text.setFont(font);
+		text.setStyle(normalStyle);
+		text.setFontSize(14);
 		text.setText(
 			"JasperReports is a powerful report-generating tool that has the ability to deliver rich content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
 			"It is entirely written in Java and can be used in a variety of Java enabled applications, including J2EE or Web applications, to generate dynamic content.\n\n" +

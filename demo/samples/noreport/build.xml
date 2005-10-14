@@ -18,7 +18,7 @@
 	</path>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="true">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
