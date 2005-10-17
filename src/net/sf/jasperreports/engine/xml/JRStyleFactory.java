@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
@@ -71,8 +72,6 @@ public class JRStyleFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRDesignStyle style = new JRDesignStyle();
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
 		// get style name
 		style.setName(atts.getValue(ATTRIBUTE_name));
@@ -86,11 +85,34 @@ public class JRStyleFactory extends JRBaseFactory
 		// get parent style
 		if (atts.getValue(ATTRIBUTE_style) != null)
 		{
-			Map stylesMap = jasperDesign.getStylesMap();
+			JRXmlLoader xmlLoader = null;
+			JRPrintXmlLoader printXmlLoader = null;
+			Map stylesMap = null;
+
+			Object loader = digester.peek(digester.getCount() - 1);
+			if (loader instanceof JRXmlLoader)
+			{
+				xmlLoader = (JRXmlLoader)loader;
+				JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+				stylesMap = jasperDesign.getStylesMap();
+			}
+			else
+			{
+				printXmlLoader = (JRPrintXmlLoader)loader;
+				JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
+				stylesMap = jasperPrint.getStylesMap();
+			}
 
 			if ( !stylesMap.containsKey(atts.getValue(ATTRIBUTE_style)) )
 			{
-				xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+				if (printXmlLoader == null)
+				{
+					xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+				}
+				else
+				{
+					printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+				}
 			}
 
 			style.setParentStyle((JRStyle) stylesMap.get(atts.getValue(ATTRIBUTE_style)));
