@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -120,7 +122,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeRectangle(this);
 	}

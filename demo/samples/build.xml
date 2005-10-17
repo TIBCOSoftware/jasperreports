@@ -79,6 +79,20 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Crosstabs Sample"/>
+		<echo message="==================================="/>
+		<ant dir="crosstabs" target="clean" />
+		<ant dir="crosstabs" target="javac" />
+		<ant dir="crosstabs" target="compile" />
+		<ant dir="crosstabs" target="fill" />
+		<ant dir="crosstabs" target="pdf" />
+		<ant dir="crosstabs" target="html" />
+		<ant dir="crosstabs" target="xls" />
+		<ant dir="crosstabs" target="xmlEmbed" />
+		<ant dir="crosstabs" target="xml" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Data Source Sample"/>
 		<echo message="==================================="/>
 		<ant dir="datasource" target="clean" />
@@ -538,6 +552,7 @@
 		<ant dir="batchexport" target="clean" />
 		<ant dir="beanshell" target="clean" />
 		<ant dir="charts" target="clean" />
+		<ant dir="crosstabs" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="groovy" target="clean" />

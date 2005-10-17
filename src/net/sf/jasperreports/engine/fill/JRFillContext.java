@@ -27,9 +27,11 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 
@@ -49,6 +51,8 @@ public class JRFillContext
 	private boolean perPageBoundElements = false;
 	private JRPrintPage printPage = null;
 	private boolean ignorePagination = false;
+	private PreparedStatement runningStatement;
+
 
 	
 	/**
@@ -198,5 +202,55 @@ public class JRFillContext
 	public boolean isIgnorePagination()
 	{
 		return ignorePagination;
+	}
+	
+	
+	/**
+	 * Sets the running DB statement.
+	 * <p>
+	 * This method is called before firing the query.
+	 * 
+	 * @param runningStatement the running DB statement
+	 */
+	public synchronized void setRunningStatement(PreparedStatement runningStatement)
+	{
+		this.runningStatement = runningStatement;
+	}
+	
+	
+	/**
+	 * Clears the running DB statement.
+	 * <p>
+	 * This method is called after the query has ended.
+	 *
+	 */
+	public synchronized void clearRunningStatement()
+	{
+		this.runningStatement = null;
+	}
+	
+	
+	/**
+	 * Cancels the running DB statement.
+	 * 
+	 * @return <code>true</code> iff there is a running DB statement and it has been cancelled.
+	 * @throws JRException
+	 */
+	public synchronized boolean cancelRunningStatement() throws JRException
+	{
+		if (runningStatement != null)
+		{
+			try
+			{
+				runningStatement.cancel();
+				return true;
+			}
+			catch (Throwable t)
+			{
+				throw new JRException("Error cancelling SQL statement", t);
+			}
+		}
+		
+		return false;
 	}
 }

@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JREllipse;
@@ -95,6 +97,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse());
 		printEllipse.setX(this.getX());
 		printEllipse.setY(this.getRelativeY());
+		printEllipse.setWidth(getWidth());
 		printEllipse.setHeight(this.getStretchHeight());
 		
 		return printEllipse;
@@ -120,7 +123,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeEllipse(this);
 	}

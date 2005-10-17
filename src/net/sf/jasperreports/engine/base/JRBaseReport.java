@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
@@ -78,14 +80,6 @@ public class JRBaseReport implements JRReport, Serializable
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
 	protected boolean isFloatColumnFooter = false;
-	protected String scriptletClass = null;
-	protected String resourceBundle = null;
-	
-	/**
-	 * The resource missing handling type.
-	 * 
-	 */
-	protected byte whenResourceMissingType = WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 	/**
 	 *
@@ -96,11 +90,17 @@ public class JRBaseReport implements JRReport, Serializable
 	protected JRReportFont[] fonts = null;
 	protected JRStyle defaultStyle = null;
 	protected JRStyle[] styles = null;
-	protected JRParameter[] parameters = null;
-	protected JRQuery query = null;
-	protected JRField[] fields = null;
-	protected JRVariable[] variables = null;
-	protected JRGroup[] groups = null;
+	
+	/**
+	 * The main dataset of the report.
+	 */
+	protected JRDataset mainDataset;
+	
+	/**
+	 * Sub datasets of the report.
+	 */
+	protected JRDataset[] datasets;
+	
 	protected JRBand background = null;
 	protected JRBand title = null;
 	protected JRBand pageHeader = null;
@@ -120,9 +120,12 @@ public class JRBaseReport implements JRReport, Serializable
 	}
 	
 	/**
-	 *
+	 * Constructs a copy of a report.
+	 * 
+	 * @param report the original report
+	 * @param expressionCollector expression collector used to provide new expression IDs
 	 */
-	public JRBaseReport(JRReport report)
+	public JRBaseReport(JRReport report, JRExpressionCollector expressionCollector)
 	{
 		/*   */
 		name = report.getName();
@@ -142,9 +145,6 @@ public class JRBaseReport implements JRReport, Serializable
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
 		isFloatColumnFooter = report.isFloatColumnFooter();
-		scriptletClass = report.getScriptletClass();
-		resourceBundle = report.getResourceBundle();
-		whenResourceMissingType = report.getWhenResourceMissingType();
 
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -165,7 +165,7 @@ public class JRBaseReport implements JRReport, Serializable
 		}
 
 		/*   */
-		JRBaseObjectFactory factory = new JRBaseObjectFactory(this);
+		JRBaseObjectFactory factory = new JRBaseObjectFactory(this, expressionCollector);
 		
 		/*   */
 		defaultFont = factory.getReportFont(report.getDefaultFont());
@@ -194,55 +194,19 @@ public class JRBaseReport implements JRReport, Serializable
 				styles[i] = factory.getStyle(jrStyles[i]);
 			}
 		}
-
-		/*   */
-		JRParameter[] jrParameters = report.getParameters();
-		if (jrParameters != null && jrParameters.length > 0)
-		{
-			parameters = new JRParameter[jrParameters.length];
-			for(int i = 0; i < parameters.length; i++)
-			{
-				parameters[i] = factory.getParameter(jrParameters[i]);
-			}
-		}
-
-		/*   */
-		query = factory.getQuery(report.getQuery());
 		
-		/*   */
-		JRField[] jrFields = report.getFields();
-		if (jrFields != null && jrFields.length > 0)
+		mainDataset = factory.getDataset(report.getMainDataset());
+		
+		JRDataset[] datasetArray = report.getDatasets();
+		if (datasetArray != null && datasetArray.length > 0)
 		{
-			fields = new JRField[jrFields.length];
-			for(int i = 0; i < fields.length; i++)
+			datasets = new JRDataset[datasetArray.length];
+			for (int i = 0; i < datasets.length; i++)
 			{
-				fields[i] = factory.getField(jrFields[i]);
+				datasets[i] = factory.getDataset(datasetArray[i]);
 			}
 		}
 
-		/*   */
-		JRVariable[] jrVariables = report.getVariables();
-		if (jrVariables != null && jrVariables.length > 0)
-		{
-			variables = new JRVariable[jrVariables.length];
-			for(int i = 0; i < variables.length; i++)
-			{
-				variables[i] = factory.getVariable(jrVariables[i]);
-			}
-		}
-
-		/*   */
-		JRGroup[] jrGroups = report.getGroups();
-		if (jrGroups != null && jrGroups.length > 0)
-		{
-			groups = new JRGroup[jrGroups.length];
-			for(int i = 0; i < groups.length; i++)
-			{
-				groups[i] = factory.getGroup(jrGroups[i]);
-			}
-		}
-
-		/*   */
 		background = factory.getBand(report.getBackground());
 		title = factory.getBand(report.getTitle());
 		pageHeader = factory.getBand(report.getPageHeader());
@@ -254,7 +218,13 @@ public class JRBaseReport implements JRReport, Serializable
 		summary = factory.getBand(report.getSummary());
 	}
 
+	
+	public JRBaseReport(JRReport report)
+	{
+		this(report, null);
+	}
 
+	
 	/**
 	 *
 	 */
@@ -404,7 +374,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getScriptletClass()
 	{
-		return scriptletClass;
+		return mainDataset.getScriptletClass();
 	}
 
 	/**
@@ -412,7 +382,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getResourceBundle()
 	{
-		return resourceBundle;
+		return mainDataset.getResourceBundle();
 	}
 
 	/**
@@ -508,11 +478,11 @@ public class JRBaseReport implements JRReport, Serializable
 	}
 
 	/**
-	 *
+	 * Gets an array of report parameters (including built-in ones).
 	 */
 	public JRParameter[] getParameters()
 	{
-		return parameters;
+		return mainDataset.getParameters();
 	}
 
 	/**
@@ -520,23 +490,23 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRQuery getQuery()
 	{
-		return query;
+		return mainDataset.getQuery();
 	}
 
 	/**
-	 *
+	 *  Gets an array of report fields.
 	 */
 	public JRField[] getFields()
 	{
-		return fields;
+		return mainDataset.getFields();
 	}
 
 	/**
-	 *
+	 * Gets an array of report variables.
 	 */
 	public JRVariable[] getVariables()
 	{
-		return variables;
+		return mainDataset.getVariables();
 	}
 
 	/**
@@ -544,7 +514,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRGroup[] getGroups()
 	{
-		return groups;
+		return mainDataset.getGroups();
 	}
 
 	/**
@@ -625,7 +595,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public byte getWhenResourceMissingType()
 	{
-		return whenResourceMissingType;
+		return mainDataset.getWhenResourceMissingType();
 	}
 		
 	/**
@@ -633,7 +603,18 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
-		this.whenResourceMissingType = whenResourceMissingType;
+		mainDataset.setWhenResourceMissingType(whenResourceMissingType);
 	}
 
+	
+	public JRDataset getMainDataset()
+	{
+		return mainDataset;
+	}
+
+	
+	public JRDataset[] getDatasets()
+	{
+		return datasets;
+	}
 }

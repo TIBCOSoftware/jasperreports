@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -434,7 +435,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeImage(this);
 	}

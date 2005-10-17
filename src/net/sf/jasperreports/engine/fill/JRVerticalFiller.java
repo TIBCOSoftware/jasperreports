@@ -86,9 +86,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, JRCalculator calculator, JRBaseFiller parentFiller) throws JRException
+	protected JRVerticalFiller(JasperReport jasperReport, JREvaluator evaluator, JRBaseFiller parentFiller) throws JRException
 	{
-		super(jasperReport, calculator, parentFiller);
+		super(jasperReport, evaluator, parentFiller);
 
 		setPageHeight(pageHeight);
 	}

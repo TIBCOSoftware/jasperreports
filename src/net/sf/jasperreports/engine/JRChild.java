@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -49,7 +51,7 @@ public interface JRChild
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter writer);
+	public void writeXml(JRXmlWriter writer) throws IOException;
 
 	
 }

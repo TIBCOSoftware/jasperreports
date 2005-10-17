@@ -27,9 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.fill.JRCalculator;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
+import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -125,15 +127,12 @@ public final class JRDefaultCompiler implements JRCompiler
 				throw new JRException("Could not instantiate report compiler : " + compiler, e);
 			}
 		}
-
+		
 		return jrCompiler.compileReport(jasperDesign);
 	}
 
-	
-	/**
-	 *
-	 */
-	public JRCalculator loadCalculator(JasperReport jasperReport) throws JRException
+
+	private JRCompiler getCompiler(JasperReport jasperReport) throws JRException
 	{
 		JRCompiler compiler = null;
 		
@@ -182,8 +181,32 @@ public final class JRDefaultCompiler implements JRCompiler
 		{
 			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
 		}
+		return compiler;
+	}
+
+	
+	/**
+	 *
+	 */
+	public JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
+	{
+		JRCompiler compiler = getCompiler(jasperReport);
 		
-		return compiler.loadCalculator(jasperReport);
+		return compiler.loadEvaluator(jasperReport, dataset);
+	}
+
+
+	public JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
+	{
+		JRCompiler compiler = getCompiler(jasperReport);
+		
+		return compiler.loadEvaluator(jasperReport, crosstab);
+	}
+
+
+	public JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
+	{
+		return loadEvaluator(jasperReport, jasperReport.getMainDataset());
 	}
 
 

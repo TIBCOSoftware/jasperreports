@@ -27,24 +27,15 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage.ObjectIDPair;
 import net.sf.jasperreports.engine.fill.JRBaseFiller.BoundElementMap;
@@ -54,7 +45,7 @@ import net.sf.jasperreports.engine.fill.JRBaseFiller.BoundElementMap;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualPrintPage.IdentityDataProvider
+public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirtualPrintPage.IdentityDataProvider
 {
 	
 
@@ -63,33 +54,13 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 	 */
 	private JRBand parent = null;
 
-	/**
-	 *
-	 */
-	protected JRBaseFiller filler = null;
-
-	/**
-	 *
-	 */
-	private JRFillElement[] ySortedElements = null;
-	private JRFillElement[] stretchElements = null;
-	private JRFillElement[] bandBottomElements = null;
-	private JRFillElement[] removableElements = null;
-	private boolean willOverflow = false;
-	private boolean isOverflow = false;
 	private boolean isPrintWhenTrue = true;
-	
-	/**
-	 *
-	 */
-	private int stretchHeight = 0;
-	private int firstY = 0;
-	private boolean isFirstYFound = false;
 
 	/**
 	 *
 	 */
 	private boolean isNewPageColumn = false;
+	private boolean isFirstWholeOnPageColumn = false;
 	private Map isNewGroupMap = new HashMap();
 
 	/**
@@ -111,108 +82,19 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 		JRFillObjectFactory factory
 		)
 	{
-		super(band, factory);
+		super(filler, band, factory);
 
 		this.parent = band;
-		this.filler = filler;
 		
 		if (this.elements != null && this.elements.length > 0)
 		{
-			List sortedElemsList = new ArrayList();
-			List stretchElemsList = new ArrayList();
-			List bandBottomElemsList = new ArrayList();
-			List removableElemsList = new ArrayList();
 			for(int i = 0; i < this.elements.length; i++)
 			{
 				this.elements[i].setBand(this);
-
-				this.elements[i].setBandBottomY(
-					this.getHeight() - this.elements[i].getY() - this.elements[i].getHeight()
-					);
-				
-				sortedElemsList.add(this.elements[i]);
-				
-				if (this.elements[i].getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
-				{
-					bandBottomElemsList.add(elements[i]);
-				}
-
-				if (this.elements[i].getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
-				{
-					stretchElemsList.add(elements[i]);
-				}
-				
-				if (this.elements[i].isRemoveLineWhenBlank())
-				{
-					removableElemsList.add(elements[i]);
-				}
-			}
-
-			/*   */
-			Collections.sort(sortedElemsList, new JRYComparator());
-			this.ySortedElements = new JRFillElement[this.elements.length];
-			sortedElemsList.toArray(this.ySortedElements);
-
-			/*   */
-			this.stretchElements = new JRFillElement[stretchElemsList.size()];
-			stretchElemsList.toArray(this.stretchElements);
-
-			/*   */
-			this.bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
-			bandBottomElemsList.toArray(this.bandBottomElements);
-
-			/*   */
-			this.removableElements = new JRFillElement[removableElemsList.size()];
-			removableElemsList.toArray(this.removableElements);
-		}
-		
-		/*   */
-		this.setDependentElements();
-	}
-
-		
-	/**
-	 *
-	 */
-	private void setDependentElements()
-	{
-		if (ySortedElements != null && ySortedElements.length > 0)
-		{
-			JRFillElement iElem = null;
-			JRFillElement jElem = null;
-			int left = 0;
-			int right = 0;
-			for(int i = 0; i < ySortedElements.length - 1; i++)
-			{
-				iElem = ySortedElements[i];
-
-				for(int j = i + 1; j < ySortedElements.length; j++)
-				{
-					jElem = ySortedElements[j];
-					
-					left = Math.min(iElem.getX(), jElem.getX());
-					right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
-					
-					if (
-						jElem.getPositionType() == JRElement.POSITION_TYPE_FLOAT &&
-						iElem.getY() + iElem.getHeight() <= jElem.getY() &&
-						iElem.getWidth() + jElem.getWidth() > right - left // FIXME band bottom elements should not have dependent elements
-						)
-					{
-						iElem.addDependantElement(jElem);
-					}
-				}
-
-				/*
-				if (iElem.getParent().getElementGroup() != null) //parent might be null
-				{
-					iElem.setGroupElements(
-						iElem.getParent().getElementGroup().getElements()
-						);
-				}
-				*/
 			}
 		}
+		
+		initElements();
 	}
 
 
@@ -233,7 +115,18 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 		return this.isNewPageColumn;
 	}
 
+	
+	/**
+	 * Decides whether this band is the for whole band on the page/column.
+	 * 
+	 * @return whether this band is the for whole band on the page/column
+	 */
+	protected boolean isFirstWholeOnPageColumn()
+	{
+		return isFirstWholeOnPageColumn;
+	}
 
+	
 	/**
 	 *
 	 */
@@ -289,14 +182,6 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 	{
 		return (this.parent != null ? this.parent.getPrintWhenExpression() : null);
 	}
-	
-	/**
-	 *
-	 */
-	protected boolean willOverflow()
-	{
-		return this.willOverflow;
-	}
 
 	/**
 	 *
@@ -332,30 +217,6 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 			(!this.isPrintWhenExpressionNull() && 
 			this.isPrintWhenTrue()));
 	}
-	
-	/**
-	 *
-	 */
-	protected void evaluate(byte evaluation) throws JRException
-	{
-		//this.evaluatePrintWhenExpression(evaluation);
-
-		//if (
-		//	(this.isPrintWhenExpressionNull() ||
-		//	(!this.isPrintWhenExpressionNull() && 
-		//	this.isPrintWhenTrue()))
-		//	)
-		//{
-			JRElement[] allElements = this.getElements();
-			if (allElements != null && allElements.length > 0)
-			{
-				for(int i = 0; i < allElements.length; i++)
-				{
-					((JRFillElement)allElements[i]).evaluate(evaluation);
-				}
-			}
-		//}
-	}
 
 
 	/**
@@ -370,7 +231,7 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 		JRExpression expression = this.getPrintWhenExpression();
 		if (expression != null)
 		{
-			Boolean printWhenExpressionValue = (Boolean)this.filler.calculator.evaluate(expression, evaluation);
+			Boolean printWhenExpressionValue = (Boolean)this.filler.evaluateExpression(expression, evaluation);
 			if (printWhenExpressionValue == null)
 			{
 				isPrintTrue = false;
@@ -437,10 +298,13 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 
 			throw new JRFillInterruptedException();
 		}
-
-		this.isOverflow = this.willOverflow;
-		this.firstY = 0;
-		this.isFirstYFound = false;
+		
+		initFill();
+		
+		if (isNewPageColumn && !isOverflow)
+		{
+			isFirstWholeOnPageColumn = true;
+		}
 		
 		this.resetElements();
 
@@ -452,335 +316,13 @@ public class JRFillBand extends JRFillElementGroup implements JRBand, JRVirtualP
 
 		this.removeBlankElements();
 		
+		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		this.isNewPageColumn = false;
 		this.isNewGroupMap = new HashMap();
 
-		return this.fillElements();
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected void rewind() throws JRException
-	{
-		if (ySortedElements != null && ySortedElements.length > 0)
-		{
-			for(int i = 0; i < ySortedElements.length; i++)
-			{
-				JRFillElement element = ySortedElements[i];
-
-				element.rewind();
-
-				element.setAlreadyPrinted(false);
-			}
-		}
-		
-		this.willOverflow = false;
-	}
-
-
-	/**
-	 *
-	 */
-	private void resetElements()
-	{
-		if (ySortedElements != null && ySortedElements.length > 0)
-		{
-			for(int i = 0; i < ySortedElements.length; i++)
-			{
-				JRFillElement element = ySortedElements[i];
-
-				element.reset();
-				
-				if (!this.isOverflow)
-				{
-					element.setAlreadyPrinted(false);
-				}
-			}
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void prepareElements(
-		int availableStretchHeight,
-		boolean isOverflowAllowed
-		)
-	{
-		boolean tmpWillOverflow = false;
-
-		int maxBandStretch = 0;
-		int bandStretch = 0;
-
-		firstY = isOverflow ? getHeight() : 0;
-
-		if (ySortedElements != null && ySortedElements.length > 0)
-		{
-			for(int i = 0; i < ySortedElements.length; i++)
-			{
-				JRFillElement element = ySortedElements[i];
-
-				tmpWillOverflow = element.prepare(availableStretchHeight, this.isOverflow) || tmpWillOverflow;
-
-				element.moveDependantElements();
-
-				if (element.isToPrint())
-				{
-					if (this.isOverflow)
-					{
-						if (element.isReprinted())
-						{
-							this.firstY = 0;
-						}
-						else if (!this.isFirstYFound)
-						{
-							this.firstY = element.getY();
-						}
-						
-						this.isFirstYFound = true;
-					}
-
-					bandStretch = element.getRelativeY() + element.getStretchHeight() - this.getHeight() + element.getBandBottomY();
-					if (bandStretch > maxBandStretch)
-					{
-						maxBandStretch = bandStretch;
-					}
-				}
-			}
-		}
-
-		if (maxBandStretch > availableStretchHeight)
-		{
-			tmpWillOverflow = true;
-		}
-		
-		if (tmpWillOverflow)
-		{
-			this.stretchHeight = this.getHeight() + availableStretchHeight;
-		}
-		else
-		{
-			this.stretchHeight = this.getHeight() + maxBandStretch;
-		}
-
-		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
-	}
-
-
-	/**
-	 *
-	 */
-	private void stretchElements()
-	{
-		if (stretchElements != null && stretchElements.length > 0)
-		{
-			for(int i = 0; i < stretchElements.length; i++)
-			{
-				JRFillElement element = stretchElements[i];
-				
-				element.stretchElement(this.stretchHeight - this.getHeight());
-				
-				element.moveDependantElements();
-			}
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void moveBandBottomElements()
-	{
-		//if (!this.willOverflow)
-		//{
-			if (bandBottomElements != null && bandBottomElements.length > 0)
-			{
-				for(int i = 0; i < bandBottomElements.length; i++)
-				{
-					JRFillElement element = bandBottomElements[i];
-
-					element.setRelativeY(
-						element.getY() + this.stretchHeight - this.getHeight()
-						);
-
-					// band bottom elements do not print if there will be an overflow
-					element.setToPrint(element.isToPrint() && !this.willOverflow);
-				}
-			}
-		//}
-	}
-
-
-	/**
-	 *
-	 */
-	private void removeBlankElements()
-	{
-		JRElement[] remElems = this.removableElements;
-		if (remElems != null && remElems.length > 0)
-		{
-			JRElement[] elems = this.ySortedElements;
-			
-			JRFillElement iElem = null;
-			JRFillElement jElem = null;
-
-			int top = 0;
-			int bottom = 0;
-			boolean isToRemove = true;
-			
-			for(int i = 0; i < remElems.length; i++)
-			{
-				iElem = (JRFillElement)remElems[i];
-
-				if (
-					!iElem.isToPrint() && 
-					iElem.getRelativeY() + iElem.getStretchHeight() <= this.stretchHeight &&
-					iElem.getRelativeY() >= this.firstY
-					)
-				{
-					isToRemove = true;
-					
-					for(int j = 0; j < elems.length; j++)
-					{
-						jElem = (JRFillElement)elems[j];
-						
-						if (iElem != jElem && jElem.isToPrint())
-						{
-							top = 
-								Math.min(iElem.getRelativeY(), jElem.getRelativeY());
-							bottom = 
-								Math.max(
-									iElem.getRelativeY() + iElem.getHeight(), 
-									jElem.getRelativeY() + jElem.getStretchHeight()
-									);
-							
-							if (iElem.getHeight() + jElem.getStretchHeight() > bottom - top)
-							{
-								isToRemove = false;
-								break;
-							}
-						}
-					}
-					
-					if (isToRemove)
-					{
-						for(int j = 0; j < elems.length; j++)
-						{
-							jElem = (JRFillElement)elems[j];
-							
-							if (jElem.getRelativeY() >= iElem.getRelativeY() + iElem.getHeight())
-							{
-								jElem.setRelativeY(jElem.getRelativeY() - iElem.getHeight());
-							}
-						}
-						
-						this.stretchHeight = this.stretchHeight - iElem.getHeight();
-					}
-				}
-			}
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private JRPrintBand fillElements() throws JRException
-	{
 		JRPrintBand printBand = new JRPrintBand();
-
-		//int maxStretch = 0;
-		//int stretch = 0;
-		JRElement[] allElements = this.getElements();
-		if (allElements != null && allElements.length > 0)
-		{
-			for(int i = 0; i < allElements.length; i++)
-			{
-				JRFillElement element = (JRFillElement)allElements[i];
-				
-				element.setRelativeY(element.getRelativeY() - this.firstY);
-
-				if (element.getRelativeY() + element.getStretchHeight() > this.stretchHeight)
-				{
-					element.setToPrint(false);
-				}
-				
-				element.setAlreadyPrinted(element.isToPrint() || element.isAlreadyPrinted());
-				
-				if (element.isToPrint())
-				{
-					JRPrintElement printElement = element.fill();
-					//printElement.setY(printElement.getY() - this.firstY);
-
-					if (printElement != null)
-					{
-						//FIXME not all elements affect height
-						//stretch = printElement.getY() + this.firstY + printElement.getHeight() - element.getY() - element.getHeight();
-						//if (stretch > maxStretch)
-						//{
-						//	maxStretch = stretch;
-						//}
-						printBand.addElement(printElement);
-						
-						if (element instanceof JRFillSubreport)
-						{
-							JRFillSubreport subreport = (JRFillSubreport)element;
-							
-							JRReportFont[] fonts = subreport.getFonts();
-							if (fonts != null)
-							{
-								for(int j = 0; j < fonts.length; j++)
-								{
-									try
-									{
-										filler.getJasperPrint().addFont(fonts[j]);
-									}
-									catch(JRException e)
-									{
-										//ignore font duplication exception
-									}
-								}
-							}
-							
-							JRStyle[] styles = subreport.getStyles();
-							if (styles != null)
-							{
-								for(int j = 0; j < styles.length; j++)
-								{
-									try
-									{
-										filler.getJasperPrint().addStyle(styles[j]);
-									}
-									catch(JRException e)
-									{
-										//ignore style duplication exception
-									}
-								}
-							}
-							
-							Collection printElements = subreport.getPrintElements();
-							if (printElements != null && printElements.size() > 0)
-							{
-								for(Iterator it = printElements.iterator(); it.hasNext();)
-								{
-									printElement = (JRPrintElement)it.next();
-									printElement.setX(element.getX() + printElement.getX());
-									printElement.setY(element.getRelativeY() + printElement.getY());
-									printBand.addElement(printElement);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		this.fillElements(printBand);
 		
-		//printBand.setHeight(this.getHeight() + maxStretch - this.firstY);
-		printBand.setHeight(this.stretchHeight - this.firstY);
-
 		return printBand;
 	}
 

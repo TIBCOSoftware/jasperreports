@@ -28,100 +28,81 @@
 package net.sf.jasperreports.compilers;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
+import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JRCompiler;
-import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.design.JRAbstractCompiler;
+import net.sf.jasperreports.engine.design.JRCompilationUnit;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.fill.JREvaluator;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBshCompiler implements JRCompiler
+public class JRBshCompiler extends JRAbstractCompiler
 {
 
 
-	/**
-	 *
-	 */
-	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
+	public JRBshCompiler()
 	{
-		JasperReport jasperReport = null;
-		
-		if (!JRReport.LANGUAGE_JAVA.equals(jasperDesign.getLanguage()))
+		super(false);
+	}
+
+
+	protected JREvaluator loadEvaluator(Serializable compileData, String unitName) throws JRException
+	{
+		return new JRBshEvaluator((String) compileData);
+	}
+
+
+	protected void checkLanguage(String language) throws JRException
+	{
+		if (!JRReport.LANGUAGE_JAVA.equals(language))
 		{
 			throw 
 				new JRException(
-					"Language \"" + jasperDesign.getLanguage() 
+					"Language \"" + language 
 					+ "\" not supported by this report compiler.\n"
 					+ "Expecting \"java\" instead."
 					);
 		}
-		
-		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report design not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			throw new JRException(sbuffer.toString());
-		}
-		else
-		{
-			//Report design OK
-
-			//Generating BeanShell script for report expressions
-			String bshScript = JRBshGenerator.generateScript(jasperDesign);
-			
-			boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE);
-	
-			if (isKeepJavaFile) 
-			{
-				String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
-	
-				File tempDirFile = new File(tempDirStr);
-				if (!tempDirFile.exists() || !tempDirFile.isDirectory())
-				{
-					throw new JRException("Temporary directory not found : " + tempDirStr);
-				}
-			
-				File javaFile = new File(tempDirFile, jasperDesign.getName() + ".bsh");
-				
-				JRSaver.saveClassSource(bshScript, javaFile);
-			}
-			
-			jasperReport = 
-				new JasperReport(
-					jasperDesign,
-					getClass().getName(),
-					bshScript
-					);
-
-			/*   */
-			verifyScript(jasperDesign, bshScript);
-		}
-
-		return jasperReport;
 	}
 
-	
-	/**
-	 *
-	 */
-	private void verifyScript(JasperDesign jasperDesign, String bshScript) throws JRException
+
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRBshGenerator.generateScript(jasperDesign, dataset, expressionCollector);
+	}
+
+
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRBshGenerator.generateScript(jasperDesign, crosstab, expressionCollector);
+	}
+
+
+	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
+	{
+		verifyScripts(units);
+
+		for (int i = 0; i < units.length; i++)
+		{
+			String script = units[i].getSourceCode();
+			units[i].setCompileData(script);
+		}		
+		
+		return null;
+	}
+
+
+	private void verifyScripts(JRCompilationUnit[] units) throws JRException
 	{
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		
@@ -138,19 +119,21 @@ public class JRBshCompiler implements JRCompiler
 		ClassLoader oldContextClassLoader = Thread.currentThread().getContextClassLoader();
 		Thread.currentThread().setContextClassLoader(classLoader);
 
-		JRBshCalculator bshCalculator = new JRBshCalculator(bshScript);
-		bshCalculator.verify(jasperDesign.getExpressions());
+		for (int i = 0; i < units.length; i++)
+		{
+			String script = units[i].getSourceCode();
+			
+			JRBshEvaluator bshEvaluator = new JRBshEvaluator(script);
+			bshEvaluator.verify(units[i].getExpressions());
+		}
 
 		Thread.currentThread().setContextClassLoader(oldContextClassLoader);
 	}
 
 
-	/**
-	 *
-	 */
-	public JRCalculator loadCalculator(JasperReport jasperReport) throws JRException
+	protected String getSourceFileName(String unitName)
 	{
-		return new JRBshCalculator((String)jasperReport.getCompileData());
+		return unitName + ".bsh";
 	}
 
 

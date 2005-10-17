@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -250,7 +251,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeSubreport(this);
 	}

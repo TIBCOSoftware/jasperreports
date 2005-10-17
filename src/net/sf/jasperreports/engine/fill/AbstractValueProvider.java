@@ -42,9 +42,9 @@ public abstract class AbstractValueProvider
 	private static AbstractValueProvider currentValueProvider = 
 		new AbstractValueProvider()
 		{
-			public Object getValue(JRFillVariable variable)
+			public Object getValue(JRCalculable calculable)
 			{
-				return variable.getValue();
+				return calculable.getValue();
 			}
 		};
 
@@ -54,9 +54,9 @@ public abstract class AbstractValueProvider
 	private static AbstractValueProvider estimatedValueProvider = 
 		new AbstractValueProvider()
 		{
-			public Object getValue(JRFillVariable variable)
+			public Object getValue(JRCalculable calculable)
 			{
-				return variable.getEstimatedValue();
+				return ((JRFillVariable) calculable).getEstimatedValue();
 			}
 		};
 
@@ -82,7 +82,7 @@ public abstract class AbstractValueProvider
 	/**
 	 *
 	 */
-	public abstract Object getValue(JRFillVariable variable);
+	public abstract Object getValue(JRCalculable calculable);
 
 
 }

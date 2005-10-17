@@ -39,10 +39,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -89,15 +85,6 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected Writer writer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-
-	/**
-	 *
-	 */
-	protected JRExporterGridCell grid[][] = null;
-	protected boolean isRowUsed[] = null;
-	protected boolean isColUsed[] = null;
-	protected List xCuts = null;
-	protected List yCuts = null;
 
 	
 	/**
@@ -280,7 +267,14 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		layoutGrid(page);
+		JRGridLayout layout = new JRGridLayout(page.getElements(), null, 
+				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(), globalOffsetX, globalOffsetY,
+				JRGridLayout.TEXT_EXPORTER,
+				true, false, false, null);
+		
+		JRExporterGridCell[][] grid = layout.getGrid();
+		boolean[] isRowUsed = layout.getIsRowNotEmpty();
+		boolean[] isColUsed = layout.getIsColumnNotEmpty();
 
 		StringBuffer rowbuffer = null;
 		
@@ -346,106 +340,6 @@ public class JRCsvExporter extends JRAbstractExporter
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	protected void layoutGrid(JRPrintPage page)
-	{
-		xCuts = new ArrayList();
-		yCuts = new ArrayList();
-
-		xCuts.add(new Integer(0));
-		xCuts.add(new Integer(jasperPrint.getPageWidth()));
-		yCuts.add(new Integer(0));
-		yCuts.add(new Integer(jasperPrint.getPageHeight()));
-
-		Integer x = null;
-		Integer y = null;
-		
-		Collection elems = page.getElements();
-		for(Iterator it = elems.iterator(); it.hasNext();)
-		{
-			JRPrintElement element = ((JRPrintElement)it.next());
-			
-			if (element instanceof JRPrintText)
-			{
-				x = new Integer(element.getX() + globalOffsetX);
-				if (!xCuts.contains(x))
-				{
-					xCuts.add(x);
-				}
-				x = new Integer(element.getX() + globalOffsetX + element.getWidth());
-				if (!xCuts.contains(x))
-				{
-					xCuts.add(x);
-				}
-				y = new Integer(element.getY() + globalOffsetY);
-				if (!yCuts.contains(y))
-				{
-					yCuts.add(y);
-				}
-				y = new Integer(element.getY() + globalOffsetY + element.getHeight());
-				if (!yCuts.contains(y))
-				{
-					yCuts.add(y);
-				}
-			}
-		}
-
-		Collections.sort(xCuts);
-		Collections.sort(yCuts);
-		
-		int xCellCount = xCuts.size() - 1;
-		int yCellCount = yCuts.size() - 1;
-
-		grid = new JRExporterGridCell[yCellCount][xCellCount];
-		isRowUsed = new boolean[yCellCount];
-		isColUsed = new boolean[xCellCount];
-				
-		for(int j = 0; j < yCellCount; j++)
-		{ 
-			for(int i = 0; i < xCellCount; i++)
-			{ 
-				grid[j][i] = 
-					new JRExporterGridCell(
-						null,
-						null,
-						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
-						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
-						1,
-						1
-						);
-			}
-		}
-
-		int x1 = 0;
-		int y1 = 0;
-		int x2 = 0;
-		int y2 = 0;
-		for(Iterator it = elems.iterator(); it.hasNext();)
-		{
-			JRPrintElement element = ((JRPrintElement)it.next());
-			
-			if (element instanceof JRPrintText)
-			{
-				x1 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX));
-				y1 = yCuts.indexOf(new Integer(element.getY() + globalOffsetY));
-				x2 = xCuts.indexOf(new Integer(element.getX() + globalOffsetX + element.getWidth()));
-				y2 = yCuts.indexOf(new Integer(element.getY() + globalOffsetY + element.getHeight()));
-				
-				grid[y1][x1].element = element;
-				grid[y1][x1].width = element.getWidth();
-				grid[y1][x1].height = element.getHeight();
-				grid[y1][x1].colSpan = x2 - x1;
-				grid[y1][x1].rowSpan = y2 - y1;
-				
-				isRowUsed[y1] = true;
-				isColUsed[x1] = true;
-			}
 		}
 	}
 	

@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -34,7 +35,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRByteIncrementerFactory implements JRIncrementerFactory
+public class JRByteIncrementerFactory extends JRAbstractExtendedIncrementerFactory
 {
 
 
@@ -70,9 +71,9 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	public JRIncrementer getIncrementer(byte calculation)
+	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
 	{
-		JRIncrementer incrementer = null;
+		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
@@ -94,7 +95,7 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 			case JRVariable.CALCULATION_LOWEST :
 			case JRVariable.CALCULATION_HIGHEST :
 			{
-				incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRComparableIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
@@ -109,9 +110,10 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
+			case JRVariable.CALCULATION_FIRST :
 			default :
 			{
-				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 		}
@@ -126,7 +128,7 @@ public class JRByteIncrementerFactory implements JRIncrementerFactory
 /**
  *
  */
-class JRByteCountIncrementer implements JRIncrementer
+class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -152,7 +154,7 @@ class JRByteCountIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -176,13 +178,43 @@ class JRByteCountIncrementer implements JRIncrementer
 
 		return new Byte((byte)(value.byteValue() + 1));
 	}
+
+	
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		Number value = (Number)calculable.getIncrementedValue();
+		Number combineValue = (Number) calculableValue.getValue();
+
+		if (combineValue == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return JRByteIncrementerFactory.ZERO;
+			}
+
+			return value;
+		}
+
+		if (value == null || calculable.isInitialized())
+		{
+			value = JRByteIncrementerFactory.ZERO;
+		}
+
+		return new Byte((byte) (value.byteValue() + combineValue.byteValue()));
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRByteSumIncrementer implements JRIncrementer
+class JRByteSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -208,7 +240,7 @@ class JRByteSumIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -233,13 +265,19 @@ class JRByteSumIncrementer implements JRIncrementer
 
 		return new Byte((byte)(value.byteValue() + newValue.byteValue()));
 	}
+
+	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRByteAverageIncrementer implements JRIncrementer
+class JRByteAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -265,7 +303,7 @@ class JRByteAverageIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -278,9 +316,15 @@ class JRByteAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 		return new Byte((byte)(sumValue.byteValue() / countValue.byteValue()));
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
 	}
 }
 
@@ -288,7 +332,7 @@ class JRByteAverageIncrementer implements JRIncrementer
 /**
  *
  */
-class JRByteStandardDeviationIncrementer implements JRIncrementer
+class JRByteStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -314,7 +358,7 @@ class JRByteStandardDeviationIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -327,8 +371,14 @@ class JRByteStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
 		return new Byte( (byte)Math.sqrt(varianceValue.doubleValue()) );
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
 	}
 }
 
@@ -336,7 +386,7 @@ class JRByteStandardDeviationIncrementer implements JRIncrementer
 /**
  *
  */
-class JRByteVarianceIncrementer implements JRIncrementer
+class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -362,7 +412,7 @@ class JRByteVarianceIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -384,8 +434,8 @@ class JRByteVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
 				new Byte((byte)(
 					(countValue.byteValue() - 1) * value.byteValue() / countValue.byteValue() +
@@ -394,5 +444,51 @@ class JRByteVarianceIncrementer implements JRIncrementer
 					(countValue.byteValue() - 1)
 					));
 		}
+	}
+
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		Number value = (Number)calculable.getIncrementedValue();
+		
+		if (calculableValue.getValue() == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return null;
+			}
+
+			return value;
+		}
+		else if (value == null || calculable.isInitialized())
+		{
+			return new Byte(((Number) calculableValue.getIncrementedValue()).byteValue());
+		}
+
+		float v1 = value.floatValue();
+		float c1 = ((Number) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT))).floatValue();
+		float s1 = ((Number) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_SUM))).floatValue();
+
+		float v2 = ((Number) calculableValue.getIncrementedValue()).floatValue();
+		float c2 = ((Number) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_COUNT))).floatValue();
+		float s2 = ((Number) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_SUM))).floatValue();
+
+		c1 -= c2;
+		s1 -= s2;
+		
+		float c = c1 + c2;
+
+		return new Byte((byte) (
+				c1 / c * v1 +
+				c2 / c * v2 +
+				c2 / c1 * s1 / c * s1 / c +
+				c1 / c2 * s2 / c * s2 / c -
+				2 * s1 / c * s2 /c
+				));
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
 	}
 }

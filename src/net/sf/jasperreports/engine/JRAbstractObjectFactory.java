@@ -47,6 +47,7 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
 
 
 /**
@@ -229,4 +230,9 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRChart getChart(JRChart chart);
+
+	
+	public abstract JRCrosstab getCrosstab(JRCrosstab crosstab);
+	
+	public abstract JRFrame getFrame(JRFrame frame);
 }

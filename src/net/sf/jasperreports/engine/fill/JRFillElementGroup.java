@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -282,7 +283,7 @@ public class JRFillElementGroup implements JRElementGroup
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeElementGroup(this);
 	}

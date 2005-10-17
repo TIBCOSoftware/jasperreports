@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRException;
@@ -110,7 +112,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		boolean willOverflow = false;
 
@@ -136,7 +138,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 			)
 		{
 			if (
-				( !isPrintInFirstWholeBand() || !getBand().isNewPageColumn() ) &&
+				( !isPrintInFirstWholeBand() || !getBand().isFirstWholeOnPageColumn()) &&
 				( getPrintWhenGroupChanges() == null || !getBand().isNewGroup(getPrintWhenGroupChanges()) ) &&
 				( !isOverflow || !isPrintWhenDetailOverflows() )
 				)
@@ -189,6 +191,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text = new JRTemplatePrintText(getJRTemplateText());
 		text.setX(getX());
 		text.setY(getRelativeY());
+		text.setWidth(getWidth());
 		if (getRotation() == ROTATION_NONE)
 		{
 			text.setHeight(getStretchHeight());
@@ -228,7 +231,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeStaticText(this);
 	}

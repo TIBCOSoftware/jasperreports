@@ -496,15 +496,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
-	{
-		return filler.calculator.evaluate(expression, evaluation);
-	}
-
-
-	/**
-	 *
-	 */
 	protected void rewind()
 	{
 	}
@@ -538,6 +529,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void evaluateImage(byte evaluation) throws JRException
 	{
+		evaluateDatasetRun(evaluation);
+		
 		JFreeChart chart;
 		switch(chartType) {
 			case CHART_TYPE_AREA:
@@ -597,10 +590,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		renderer = new JCommonDrawableRenderer( chart );
 
-		anchorName = (String)filler.calculator.evaluate(getAnchorNameExpression(), evaluation);
-		hyperlinkReference = (String)filler.calculator.evaluate(getHyperlinkReferenceExpression(), evaluation);
-		hyperlinkAnchor = (String)filler.calculator.evaluate(getHyperlinkAnchorExpression(), evaluation);
-		hyperlinkPage = (Integer)filler.calculator.evaluate(getHyperlinkPageExpression(), evaluation);
+		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
+		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
+		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 	}
 
 
@@ -713,6 +706,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		printImage.setX(getX());
 		printImage.setY(getRelativeY());
+		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
 
 		switch (getEvaluationTime())
@@ -1753,4 +1747,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 	}
 
+
+
+	private void evaluateDatasetRun(byte evaluation) throws JRException
+	{
+		((JRFillChartDataset) dataset).evaluateDatasetRun(evaluation);
+	}
 }

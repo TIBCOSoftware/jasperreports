@@ -28,7 +28,9 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -79,10 +81,13 @@ import net.sf.jasperreports.charts.fill.JRFillXyzSeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -98,6 +103,19 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.crosstab.JRCellContents;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
+import net.sf.jasperreports.engine.fill.crosstab.JRFillCrosstabCell;
+import net.sf.jasperreports.engine.fill.crosstab.JRFillCrosstabColumnGroup;
+import net.sf.jasperreports.engine.fill.crosstab.JRFillCrosstabMeasure;
+import net.sf.jasperreports.engine.fill.crosstab.JRFillCrosstabParameter;
+import net.sf.jasperreports.engine.fill.crosstab.JRFillCrosstabRowGroup;
 
 
 /**
@@ -112,10 +130,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 *
 	 */
 	private JRBaseFiller filler = null;
+	private JRFillExpressionEvaluator evaluator;
+	private JRFillCrosstab crosstab;
 
 	private JRFont defaultFont = null;
 
-	private List datasets = new ArrayList();
+	private List chartDatasets = new ArrayList();
+	private Map chartDatasetMap = new HashMap();
 
 
 	/**
@@ -124,15 +145,72 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	protected JRFillObjectFactory(JRBaseFiller filler)
 	{
 		this.filler = filler;
+		this.evaluator = filler.calculator;
 	}
 
 
 	/**
 	 *
 	 */
+	public JRFillObjectFactory(JRBaseFiller filler, JRFillExpressionEvaluator expressionEvaluator)
+	{
+		this.filler = filler;
+		this.evaluator = expressionEvaluator;
+	}
+
+	
+	public JRFillObjectFactory(JRBaseFiller filler, JRFillCrosstab crosstab)
+	{
+		this(filler, crosstab.getExpressionEvaluator());
+		
+		this.crosstab = crosstab;
+	}
+	
+	
+	public JRFillCrosstab getCrosstab()
+	{
+		return crosstab;
+	}
+
+	
+	protected JRFillExpressionEvaluator getExpressionEvaluator()
+	{
+		return evaluator;
+	}
+
+	/**
+	 *
+	 */
 	protected JRFillChartDataset[] getDatasets()
 	{
-		return (JRFillChartDataset[]) datasets.toArray(new JRFillChartDataset[datasets.size()]);
+		return (JRFillChartDataset[]) chartDatasets.toArray(new JRFillChartDataset[chartDatasets.size()]);
+	}
+
+	
+	protected JRFillChartDataset[] getChartDatasets(JRDataset dataset)
+	{
+		JRFillChartDataset[] chartDatasetsArray;
+		List chartDatasetsList;
+		if (dataset.isMainDataset())
+		{
+			chartDatasetsList = chartDatasets;
+		}
+		else
+		{
+			chartDatasetsList = (List) chartDatasetMap.get(dataset.getName());
+		}
+		
+		if (chartDatasetsList == null || chartDatasetsList.size() == 0)
+		{
+			chartDatasetsArray = new JRFillChartDataset[0];
+		}
+		else
+		{
+			chartDatasetsArray = new JRFillChartDataset[chartDatasetsList.size()];
+			chartDatasetsList.toArray(chartDatasetsArray);
+		}
+		
+		return chartDatasetsArray;
 	}
 
 
@@ -258,7 +336,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRFillVariable getVariable(JRVariable variable)
+	public JRFillVariable getVariable(JRVariable variable)
 	{
 		JRFillVariable fillVariable = null;
 
@@ -506,7 +584,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillPieDataset == null)
 			{
 				fillPieDataset = new JRFillPieDataset(pieDataset, this);
-				datasets.add(fillPieDataset);
+				addChartDataset(fillPieDataset);
 			}
 		}
 
@@ -567,7 +645,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillCategoryDataset == null)
 			{
 				fillCategoryDataset = new JRFillCategoryDataset(categoryDataset, this);
-				datasets.add(fillCategoryDataset);
+				addChartDataset(fillCategoryDataset);
 			}
 		}
 
@@ -580,7 +658,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillXyzDataset = (JRFillXyzDataset)get( xyzDataset );
 			if( fillXyzDataset == null ){
 				fillXyzDataset = new JRFillXyzDataset( xyzDataset, this );
-				datasets.add( fillXyzDataset );
+				addChartDataset(fillXyzDataset);
 			}
 		}
 
@@ -602,7 +680,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillXyDataset == null)
 			{
 				fillXyDataset = new JRFillXyDataset(xyDataset, this);
-				datasets.add(fillXyDataset);
+				addChartDataset(fillXyDataset);
 			}
 		}
 
@@ -622,7 +700,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			
 			if( fillTimeSeriesDataset == null ){
 				fillTimeSeriesDataset = new JRFillTimeSeriesDataset( timeSeriesDataset, this );
-				datasets.add( fillTimeSeriesDataset );
+				addChartDataset(fillTimeSeriesDataset);
 			}
 		}
 		
@@ -635,7 +713,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillTimePeriodDataset = (JRFillTimePeriodDataset)get( timePeriodDataset );
 			if( fillTimePeriodDataset == null ){
 				fillTimePeriodDataset = new JRFillTimePeriodDataset( timePeriodDataset, this );
-				datasets.add( fillTimePeriodDataset );
+				addChartDataset(fillTimePeriodDataset);
 			}
 		}
 		return fillTimePeriodDataset;
@@ -850,7 +928,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillHighLowDataset == null)
 			{
 				fillHighLowDataset = new JRFillHighLowDataset(highLowDataset, this);
-				datasets.add(fillHighLowDataset);
+				addChartDataset(fillHighLowDataset);
 			}
 		}
 
@@ -907,17 +985,227 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	protected JRFillSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
-		JRFillSubreportReturnValue fillVariable = null;
+		JRFillSubreportReturnValue fillReturnValue = null;
 
 		if (returnValue != null)
 		{
-			fillVariable = (JRFillSubreportReturnValue) get(returnValue);
-			if (fillVariable == null)
+			fillReturnValue = (JRFillSubreportReturnValue) get(returnValue);
+			if (fillReturnValue == null)
 			{
-				fillVariable = new JRFillSubreportReturnValue(returnValue, this, filler);
+				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, filler);
 			}
 		}
 
-		return fillVariable;
+		return fillReturnValue;
+	}
+
+
+	public JRCrosstab getCrosstab(JRCrosstab crosstabElement)
+	{
+		JRFillCrosstab fillCrosstab = null;
+		
+		if (crosstabElement != null)
+		{
+			fillCrosstab = (JRFillCrosstab) get(crosstabElement);
+			if (fillCrosstab == null)
+			{
+				fillCrosstab = new JRFillCrosstab(filler, crosstabElement, this);
+			}
+		}
+		
+		return fillCrosstab;
+	}
+
+
+	public JRFillCrosstab.JRFillCrosstabDataset getCrosstabDataset(JRCrosstabDataset dataset, JRFillCrosstab fillCrosstab)
+	{
+		JRFillCrosstab.JRFillCrosstabDataset fillDataset = null;
+
+		if (dataset != null)
+		{
+			fillDataset = (JRFillCrosstab.JRFillCrosstabDataset)get(dataset);
+			if (fillDataset == null)
+			{
+				fillDataset = fillCrosstab.new JRFillCrosstabDataset(dataset, this);
+				addChartDataset(fillDataset);
+			}
+		}
+
+		return fillDataset;
+	}
+	
+	
+	public JRFillDataset getDataset(JRDataset dataset)
+	{
+		JRFillDataset fillDataset = null;
+		
+		if (dataset != null)
+		{
+			fillDataset = (JRFillDataset) get(dataset);
+			if (fillDataset == null)
+			{
+				fillDataset = new JRFillDataset(filler, dataset, this);
+			}
+		}
+		
+		return fillDataset;
+	}
+
+
+	private void addChartDataset(JRFillChartDataset chartDataset)
+	{
+		List chartDatasetsList;
+		JRDatasetRun datasetRun = chartDataset.getDatasetRun();
+		if (datasetRun == null)
+		{
+			chartDatasetsList = chartDatasets;
+		}
+		else
+		{
+			String datasetName = datasetRun.getDatasetName();
+			chartDatasetsList = (List) chartDatasetMap.get(datasetName);
+			if (chartDatasetsList == null)
+			{
+				chartDatasetsList = new ArrayList();
+				chartDatasetMap.put(datasetName, chartDatasetsList);
+			}
+		}
+		chartDatasetsList.add(chartDataset);
+	}
+
+
+	public JRFillDatasetRun getDatasetRun(JRDatasetRun datasetRun)
+	{
+		JRFillDatasetRun fillDatasetRun = null;
+		
+		if (datasetRun != null)
+		{
+			fillDatasetRun = (JRFillDatasetRun) get(datasetRun);
+			if (fillDatasetRun == null)
+			{
+				fillDatasetRun = new JRFillDatasetRun(filler, datasetRun, this);
+			}
+		}
+		
+		return fillDatasetRun;
+	}
+
+
+	public JRFillCrosstabParameter getCrosstabParameter(JRCrosstabParameter parameter)
+	{
+		JRFillCrosstabParameter fillParameter = null;
+
+		if (parameter != null)
+		{
+			fillParameter = (JRFillCrosstabParameter) get(parameter);
+			if (fillParameter == null)
+			{
+				fillParameter = new JRFillCrosstabParameter(parameter, this);
+			}
+		}
+
+		return fillParameter;
+	}
+	
+	
+	public JRFillCellContents getCell(JRCellContents cell)
+	{
+		JRFillCellContents fillCell = null;
+
+		if (cell != null)
+		{
+			fillCell = (JRFillCellContents) get(cell);
+			if (fillCell == null)
+			{
+				fillCell = new JRFillCellContents(filler, cell, this);
+			}
+		}
+
+		return fillCell;
+	}
+	
+	
+	public JRFillCrosstabRowGroup getCrosstabRowGroup(JRCrosstabRowGroup group)
+	{
+		JRFillCrosstabRowGroup fillGroup = null;
+
+		if (group != null)
+		{
+			fillGroup = (JRFillCrosstabRowGroup) get(group);
+			if (fillGroup == null)
+			{
+				fillGroup = new JRFillCrosstabRowGroup(group, this);
+			}
+		}
+
+		return fillGroup;
+	}
+	
+	
+	public JRFillCrosstabColumnGroup getCrosstabColumnGroup(JRCrosstabColumnGroup group)
+	{
+		JRFillCrosstabColumnGroup fillGroup = null;
+
+		if (group != null)
+		{
+			fillGroup = (JRFillCrosstabColumnGroup) get(group);
+			if (fillGroup == null)
+			{
+				fillGroup = new JRFillCrosstabColumnGroup(group, this);
+			}
+		}
+
+		return fillGroup;
+	}
+	
+	
+	public JRFillCrosstabCell getCrosstabCell(JRCrosstabCell cell)
+	{
+		JRFillCrosstabCell fillCell = null;
+
+		if (cell != null)
+		{
+			fillCell = (JRFillCrosstabCell) get(cell);
+			if (fillCell == null)
+			{
+				fillCell = new JRFillCrosstabCell(cell, this);
+			}
+		}
+
+		return fillCell;
+	}
+	
+	
+	public JRFillCrosstabMeasure getCrosstabMeasure(JRCrosstabMeasure measure)
+	{
+		JRFillCrosstabMeasure fillMeasure = null;
+
+		if (measure != null)
+		{
+			fillMeasure = (JRFillCrosstabMeasure) get(measure);
+			if (fillMeasure == null)
+			{
+				fillMeasure = new JRFillCrosstabMeasure(measure, this);
+			}
+		}
+
+		return fillMeasure;
+	}
+
+
+	public JRFrame getFrame(JRFrame frame)
+	{
+		JRFillFrame fillFrame = null;
+		
+		if (frame != null)
+		{
+			fillFrame = (JRFillFrame) get(frame);
+			if (fillFrame == null)
+			{
+				fillFrame = new JRFillFrame(filler, frame, this);
+			}
+		}
+		
+		return fillFrame;
 	}
 }

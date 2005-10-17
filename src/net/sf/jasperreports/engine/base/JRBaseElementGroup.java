@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,8 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -111,18 +114,18 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	public JRElement[] getElements()
+	public static JRElement[] getElements(List children)
 	{
 		JRElement[] elements = null;
 		
-		if (this.children != null)
+		if (children != null)
 		{
 			List allElements = new ArrayList();
 			Object child = null;
 			JRElement[] childElementArray = null;
-			for(int i = 0; i < this.children.size(); i++)
+			for(int i = 0; i < children.size(); i++)
 			{
-				child = this.children.get(i);
+				child = children.get(i);
 				if (child instanceof JRElement)
 				{
 					allElements.add(child);
@@ -144,26 +147,39 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 		return elements;
 	}
 
+	
+	public JRElement[] getElements()
+	{
+		return getElements(children);
+	}
+	
 
 	/**
 	 *
 	 */
-	public JRElement getElementByKey(String key)
+	public static JRElement getElementByKey(JRElement[] elements, String key)
 	{
 		JRElement element = null;
 		
 		if (key != null)
 		{
-			JRElement[] elements = this.getElements();
-			
 			if (elements != null)
 			{
 				int i = 0;
 				while (element == null && i < elements.length)
 				{
-					if (key.equals(elements[i].getKey()))
+					JRElement elem = elements[i];
+					if (key.equals(elem.getKey()))
 					{
-						element = elements[i];
+						element = elem;
+					}
+					else if (elem instanceof JRFrame)
+					{
+						element = ((JRFrame) elem).getElementByKey(key);
+					}
+					else if (elem instanceof JRCrosstab)
+					{
+						element = ((JRCrosstab) elem).getElementByKey(key);
 					}
 					i++;
 				}
@@ -173,7 +189,13 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 		return element;
 	}
 
+	
+	public JRElement getElementByKey(String key)
+	{
+		return getElementByKey(getElements(), key);
+	}
 
+	
 	/**
 	 *
 	 */
@@ -186,7 +208,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeElementGroup(this);
 	}

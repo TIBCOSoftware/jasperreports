@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.Map;
 
@@ -159,53 +158,15 @@ public class JRElementFactory extends JRBaseFactory
 		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
-			char firstChar = forecolor.charAt(0);
-			if (firstChar == '#')
-			{
-				element.setForecolor(new Color(Integer.parseInt(forecolor.substring(1), 16)));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				element.setForecolor(new Color(Integer.parseInt(forecolor)));
-			}
-			else
-			{
-				if (JRXmlConstants.getColorMap().containsKey(forecolor))
-				{
-					element.setForecolor((Color)JRXmlConstants.getColorMap().get(forecolor));
-				}
-//				else
-//				{
-//					element.setForecolor(Color.black);
-//				}
-			}
+			element.setForecolor(getColor(forecolor, null));
 		}
 
 		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			char firstChar = backcolor.charAt(0);
-			if (firstChar == '#')
-			{
-				element.setBackcolor(new Color(Integer.parseInt(backcolor.substring(1), 16)));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				element.setBackcolor(new Color(Integer.parseInt(backcolor)));
-			}
-			else
-			{
-				if (JRXmlConstants.getColorMap().containsKey(backcolor))
-				{
-					element.setBackcolor((Color)JRXmlConstants.getColorMap().get(backcolor));
-				}
-//				else
-//				{
-//					element.setBackcolor(Color.white);
-//				}
-			}
+			element.setBackcolor(getColor(backcolor, null));
 		}
-
+		
 		if (atts.getValue(ATTRIBUTE_style) != null)
 		{
 			Map stylesMap = jasperDesign.getStylesMap();
@@ -220,6 +181,4 @@ public class JRElementFactory extends JRBaseFactory
 
 		return element;
 	}
-	
-
 }

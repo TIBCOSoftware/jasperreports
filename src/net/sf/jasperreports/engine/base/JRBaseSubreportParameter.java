@@ -66,10 +66,13 @@ public class JRBaseSubreportParameter implements JRSubreportParameter, Serializa
 	 */
 	protected JRBaseSubreportParameter(JRSubreportParameter subreportParameter, JRBaseObjectFactory factory)
 	{
-		factory.put(subreportParameter, this);
+		if (factory != null)
+		{
+			factory.put(subreportParameter, this);
+		}
 
 		name = subreportParameter.getName();
-		expression = subreportParameter.getExpression();
+		expression = factory.getExpression(subreportParameter.getExpression());
 	}
 		
 

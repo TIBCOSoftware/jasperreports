@@ -32,16 +32,11 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.text.MessageFormat;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -49,7 +44,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRCalculator
+public class JRCalculator implements JRFillExpressionEvaluator
 {
 
 
@@ -63,55 +58,48 @@ public abstract class JRCalculator
 	protected JRFillGroup[] groups = null;
 	protected JRFillChartDataset[] datasets = null;
 
-	private JRFillParameter resourceBundle = null;
 	private JRFillVariable pageNumber = null;
 	private JRFillVariable columnNumber = null;
 	
-	protected JRBaseFiller filler;
+	/**
+	 * The expression evaluator
+	 */
+	private final JREvaluator evaluator;
 
 
 	/**
-	 *
+	 * Creates a calculator using an expression evaluator.
+	 * 
+	 * @param evaluator the expression evaluator
 	 */
-	protected JRCalculator()
+	protected JRCalculator(JREvaluator evaluator)
 	{
+		this.evaluator = evaluator;
 	}
 
 
 	/**
-	 *
+	 * Initializes the calculator.
+	 * 
+	 * @param dataset the dataset this calculator is used for
+	 * @throws JRException
 	 */
-	protected void init(JRBaseFiller parentFiller) throws JRException
+	protected void init(JRFillDataset dataset) throws JRException
 	{
-		filler = parentFiller;
-		
-		parsm = filler.parametersMap;
-		fldsm = filler.fieldsMap;
-		varsm = filler.variablesMap;
-		variables = filler.variables;
-		groups = filler.groups;
-		datasets = filler.datasets;
+		parsm = dataset.parametersMap;
+		fldsm = dataset.fieldsMap;
+		varsm = dataset.variablesMap;
+		variables = dataset.variables;
+		groups = dataset.groups;
+		datasets = dataset.chartDatasets;
 
-		resourceBundle = (JRFillParameter)parsm.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		pageNumber = (JRFillVariable)varsm.get(JRVariable.PAGE_NUMBER);
 		columnNumber = (JRFillVariable)varsm.get(JRVariable.COLUMN_NUMBER);
 		
-		customizedInit(
-			parsm,
-			fldsm,
-			varsm
-			);
+		JRFillParameter resourceBundle = (JRFillParameter) parsm.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		byte whenResourceMissingType = dataset.getWhenResourceMissingType();
+		evaluator.init(parsm, fldsm,varsm, resourceBundle, whenResourceMissingType);
 	}
-
-
-	/**
-	 *
-	 */
-	protected abstract void customizedInit(
-		Map parametersMap,
-		Map fieldsMap,
-		Map variablesMap
-		) throws JRException;
 
 
 	/**
@@ -158,12 +146,12 @@ public abstract class JRCalculator
 		{
 			for(int i = 0; i < datasets.length; i++)
 			{
-				JRFillChartDataset dataset = datasets[i];
-				dataset.evaluate(this);
+				JRFillChartDataset chartDataset = datasets[i];
+				chartDataset.evaluate(this);
 
-				if (dataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				if (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
 				{
-					dataset.increment();
+					chartDataset.increment();
 				}
 			}
 		}
@@ -326,9 +314,9 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void incrementDataset(JRFillChartDataset dataset, byte incrementType)
+	private void incrementDataset(JRFillChartDataset chartDataset, byte incrementType)
 	{
-		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		if (chartDataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
 		{
 			boolean toIncrement = false;
 			switch (incrementType)
@@ -342,21 +330,21 @@ public abstract class JRCalculator
 				{
 					toIncrement = 
 						(
-						dataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
-						dataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						chartDataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
+						chartDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
 						);
 					break;
 				}
 				case JRVariable.RESET_TYPE_COLUMN :
 				{
-					toIncrement = (dataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					toIncrement = (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
 					break;
 				}
 				case JRVariable.RESET_TYPE_GROUP :
 				{
-					if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					if (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
 					{
-						JRFillGroup group = (JRFillGroup)dataset.getIncrementGroup();
+						JRFillGroup group = (JRFillGroup)chartDataset.getIncrementGroup();
 						toIncrement = group.hasChanged();
 					}
 					break;
@@ -369,7 +357,7 @@ public abstract class JRCalculator
 
 			if (toIncrement)
 			{
-				dataset.increment();
+				chartDataset.increment();
 			}
 		}
 		else
@@ -446,7 +434,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	private void initializeDataset(JRFillChartDataset dataset, byte resetType)
+	private void initializeDataset(JRFillChartDataset chartDataset, byte resetType)
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 //		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)
@@ -463,21 +451,21 @@ public abstract class JRCalculator
 				{
 					toInitialize = 
 						(
-						dataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
-						dataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
+						chartDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
+						chartDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
 						);
 					break;
 				}
 				case JRVariable.RESET_TYPE_COLUMN :
 				{
-					toInitialize = (dataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+					toInitialize = (chartDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
 					break;
 				}
 				case JRVariable.RESET_TYPE_GROUP :
 				{
-					if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+					if (chartDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
 					{
-						JRFillGroup group = (JRFillGroup)dataset.getResetGroup();
+						JRFillGroup group = (JRFillGroup)chartDataset.getResetGroup();
 						toInitialize = group.hasChanged();
 					}
 					break;
@@ -495,7 +483,7 @@ public abstract class JRCalculator
 //					);
 //				dataset.setInitialized(true);
 //				dataset.setIncrementedValue(null);
-				dataset.initialize();
+				chartDataset.initialize();
 			}
 //		}FIXME NOW verify that reset type none does not make any sense
 //		else
@@ -511,7 +499,7 @@ public abstract class JRCalculator
 	/**
 	 *
 	 */
-	protected Object evaluate(
+	public Object evaluate(
 		JRExpression expression,
 		byte evaluationType
 		) throws JRException
@@ -547,25 +535,7 @@ public abstract class JRCalculator
 	 */
 	public Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
 	{
-		Object value = null;
-		
-		try
-		{
-			value = evaluateOld(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
-		}
-		
-		return value;
+		return evaluator.evaluateOld(expression);
 	}
 
 
@@ -574,25 +544,7 @@ public abstract class JRCalculator
 	 */
 	public Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
 	{
-		Object value = null;
-		
-		try
-		{
-			value = evaluateEstimated(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
-		}
-		
-		return value;
+		return evaluator.evaluateEstimated(expression);
 	}
 
 
@@ -601,129 +553,6 @@ public abstract class JRCalculator
 	 */
 	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
 	{
-		Object value = null;
-		
-		try
-		{
-			value = evaluate(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
-		}
-		
-		return value;
+		return evaluator.evaluate(expression);
 	}
-
-
-	/**
-	 *
-	 */
-	protected abstract Object evaluateOld(int id) throws Throwable;
-
-
-	/**
-	 *
-	 */
-	protected abstract Object evaluateEstimated(int id) throws Throwable;
-
-
-	/**
-	 *
-	 */
-	protected abstract Object evaluate(int id) throws Throwable;
-
-
-	/**
-	 *
-	 */
-	public String str(String key)
-	{
-		String str = null;
-		
-		try
-		{
-			str = ((ResourceBundle)resourceBundle.getValue()).getString(key);
-		}
-		catch (NullPointerException e)
-		{
-			str = handleMissingResource(key, e);
-		}
-		catch (MissingResourceException e)
-		{
-			str = handleMissingResource(key, e);
-		}
-
-		return str;
-	}
-
-	/**
-	 *
-	 */
-	public String msg(String pattern, Object arg0)
-	{
-		return MessageFormat.format(pattern, new Object[]{arg0});
-	}
-
-	/**
-	 *
-	 */
-	public String msg(String pattern, Object arg0, Object arg1)
-	{
-		return MessageFormat.format(pattern, new Object[]{arg0, arg1});
-	}
-
-	/**
-	 *
-	 */
-	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
-	{
-		return MessageFormat.format(pattern, new Object[]{arg0, arg1, arg2});
-	}
-
-	/**
-	 * Handles the case when a resource is missing.
-	 * 
-	 * @param key the resource key
-	 * @param e the exception
-	 * @return the value to use for the resource 
-	 * @throws JRRuntimeException when the resource missing handling type is Error
-	 */
-	protected String handleMissingResource(String key, Exception e) throws JRRuntimeException
-	{
-		String str;
-		switch (filler.whenResourceMissingType)
-		{
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_EMPTY:
-			{
-				str = "";
-				break;
-			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_KEY:
-			{
-				str = key;
-				break;
-			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR:
-			{
-				throw new JRRuntimeException("Resource nout found for key \"" + key + "\".", e);
-			}
-			case JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL:
-			default:
-			{
-				str = null;
-				break;
-			}
-		}
-		
-		return str;
-	}
-
 }

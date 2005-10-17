@@ -55,6 +55,14 @@ public class JRParameterFactory extends JRBaseFactory
 	{
 		JRDesignParameter parameter = new JRDesignParameter();
 		
+		setParameterAttributes(parameter, atts);
+
+		return parameter;
+	}
+
+
+	protected void setParameterAttributes(JRDesignParameter parameter, Attributes atts)
+	{
 		parameter.setName(atts.getValue(ATTRIBUTE_name));
 		
 		if (atts.getValue(ATTRIBUTE_class) != null)
@@ -67,8 +75,6 @@ public class JRParameterFactory extends JRBaseFactory
 		{
 			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());
 		}
-
-		return parameter;
 	}
 	
 

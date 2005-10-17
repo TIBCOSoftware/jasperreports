@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
@@ -932,52 +933,60 @@ public class JRDesignViewer extends javax.swing.JPanel
 	{
 		if (band != null)
 		{
-			JRElement element = null;
-			JRElement[] elements = band.getElements();
-			if (elements != null && elements.length > 0)
+			printElements(band.getElements(), grx);
+		}
+	}
+
+
+	protected void printElements(JRElement[] elements, Graphics2D grx)
+	{
+		if (elements != null && elements.length > 0)
+		{
+			for(int i = 0; i < elements.length; i++)
 			{
-				for(int i = 0; i < elements.length; i++)
+				JRElement element = elements[i];
+
+				if (element instanceof JRLine)
 				{
-					element = elements[i];
-	
-					if (element instanceof JRLine)
-					{
-						printLine((JRLine)element, grx);
-					}
-					else if (element instanceof JRRectangle)
-					{
-						printRectangle((JRRectangle)element, grx);
-					}
-					else if (element instanceof JREllipse)
-					{
-						printEllipse((JREllipse)element, grx);
-					}
-					else if (element instanceof JRImage)
-					{
-						printImage((JRImage)element, grx);
-					}
-					else if (element instanceof JRStaticText)
-					{
-						printText((JRTextElement)element, grx);
-					}
-					else if (element instanceof JRTextField)
-					{
-						printText((JRTextElement)element, grx);
-					}
-					else if (element instanceof JRSubreport)
-					{
-						printSubreport((JRSubreport)element, grx);
-					}
-					else if (element instanceof JRChart)
-					{
-						printChart((JRChart)element, grx);
-					}
+					printLine((JRLine)element, grx);
+				}
+				else if (element instanceof JRRectangle)
+				{
+					printRectangle((JRRectangle)element, grx);
+				}
+				else if (element instanceof JREllipse)
+				{
+					printEllipse((JREllipse)element, grx);
+				}
+				else if (element instanceof JRImage)
+				{
+					printImage((JRImage)element, grx);
+				}
+				else if (element instanceof JRStaticText)
+				{
+					printText((JRTextElement)element, grx);
+				}
+				else if (element instanceof JRTextField)
+				{
+					printText((JRTextElement)element, grx);
+				}
+				else if (element instanceof JRSubreport)
+				{
+					printSubreport((JRSubreport)element, grx);
+				}
+				else if (element instanceof JRChart)
+				{
+					printChart((JRChart)element, grx);
+				}
+				else if (element instanceof JRFrame)
+				{
+					printFrame((JRFrame) element, grx);
 				}
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -1781,6 +1790,42 @@ public class JRDesignViewer extends javax.swing.JPanel
 			chart.getWidth() - 1,
 			chart.getHeight() - 1
 			);
+	}
+	
+	
+	private void printFrame(JRFrame frame, Graphics2D grx)
+	{
+		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		{
+			grx.setColor(frame.getBackcolor());
+
+			grx.fillRect(frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight());
+		}
+		
+		int topPadding;
+		int leftPadding;
+		if (frame.getBox() == null)
+		{
+			topPadding = leftPadding = 0;
+		}
+		else
+		{
+			topPadding = frame.getBox().getTopPadding();
+			leftPadding = frame.getBox().getLeftPadding();
+		}
+
+		AffineTransform transform = grx.getTransform();
+		try
+		{
+			grx.translate(frame.getX() + leftPadding, frame.getY() + topPadding);
+			printElements(frame.getElements(), grx);
+		}
+		finally
+		{
+			grx.setTransform(transform);
+		}
+		
+		printBox(frame.getBox(), frame, grx);
 	}
 
 

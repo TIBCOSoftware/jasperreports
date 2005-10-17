@@ -43,6 +43,9 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.crosstab.JRCellContents;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.fill.crosstab.calculation.BucketDefinition;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
@@ -494,6 +497,7 @@ public class JRXmlConstants
 	private static final String CALCULATION_STANDARD_DEVIATION = "StandardDeviation";
 	private static final String CALCULATION_VARIANCE = "Variance";
 	private static final String CALCULATION_SYSTEM = "System";
+	private static final String CALCULATION_FIRST = "First";
 
 	private static Map calculationMap = null;
 
@@ -511,6 +515,7 @@ public class JRXmlConstants
 			calculationMap.put(CALCULATION_STANDARD_DEVIATION, new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION));
 			calculationMap.put(CALCULATION_VARIANCE,           new Byte(JRVariable.CALCULATION_VARIANCE));
 			calculationMap.put(CALCULATION_SYSTEM,             new Byte(JRVariable.CALCULATION_SYSTEM));
+			calculationMap.put(CALCULATION_FIRST,             new Byte(JRVariable.CALCULATION_FIRST));
 			calculationMap.put(new Byte(JRVariable.CALCULATION_NOTHING),            CALCULATION_NOTHING);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_COUNT),              CALCULATION_COUNT);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_SUM),                CALCULATION_SUM);
@@ -520,6 +525,7 @@ public class JRXmlConstants
 			calculationMap.put(new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION), CALCULATION_STANDARD_DEVIATION);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_VARIANCE),           CALCULATION_VARIANCE);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
+			calculationMap.put(new Byte(JRVariable.CALCULATION_FIRST),             CALCULATION_FIRST);
 		}
 
 		return calculationMap;
@@ -862,4 +868,123 @@ public class JRXmlConstants
 		return whenResourceMissingTypeMap;
 	}
 
+	
+	private static final String CROSSTAB_BUCKET_ORDER_ASCENDING = "Ascending";
+	private static final String CROSSTAB_BUCKET_ORDER_DESCENDING = "Descending";
+	
+	private static Map crosstabBucketOrderMap = null;
+	
+	public static Map getCrosstabBucketOrderMap()
+	{
+		if (crosstabBucketOrderMap == null)
+		{
+			crosstabBucketOrderMap = new HashMap();
+			crosstabBucketOrderMap.put(CROSSTAB_BUCKET_ORDER_ASCENDING, new Byte(BucketDefinition.ORDER_ASCENDING));
+			crosstabBucketOrderMap.put(CROSSTAB_BUCKET_ORDER_DESCENDING, new Byte(BucketDefinition.ORDER_DESCENDING));
+			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_ASCENDING), CROSSTAB_BUCKET_ORDER_ASCENDING);
+			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_DESCENDING), CROSSTAB_BUCKET_ORDER_DESCENDING);
+		}
+		
+		return crosstabBucketOrderMap;
+	}
+	
+	
+	private static final String CROSSTAB_PERCENTAGE_NONE = "None";
+	private static final String CROSSTAB_PERCENTAGE_GRAND_TOTAL = "GrandTotal";
+	
+	private static Map crosstabPercentageMap = null;
+	
+	
+	public static Map getCrosstabPercentageMap()
+	{
+		if (crosstabPercentageMap == null)
+		{
+			crosstabPercentageMap = new HashMap();
+			crosstabPercentageMap.put(CROSSTAB_PERCENTAGE_NONE, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE));
+			crosstabPercentageMap.put(CROSSTAB_PERCENTAGE_GRAND_TOTAL, new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL));
+			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), CROSSTAB_PERCENTAGE_NONE);
+			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL), CROSSTAB_PERCENTAGE_GRAND_TOTAL);
+		}
+		
+		return crosstabPercentageMap;
+	}
+	
+	
+	private static final String CROSSTAB_TOTAL_POSITION_NONE = "None";
+	private static final String CROSSTAB_TOTAL_POSITION_START = "Start";
+	private static final String CROSSTAB_TOTAL_POSITION_END = "End";
+	
+	private static Map crosstabTotalPositionMap = null;
+	
+	
+	public static Map getCrosstabTotalPositionMap()
+	{
+		if (crosstabTotalPositionMap == null)
+		{
+			crosstabTotalPositionMap = new HashMap();
+			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_NONE, new Byte(BucketDefinition.TOTAL_POSITION_NONE));
+			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_START, new Byte(BucketDefinition.TOTAL_POSITION_START));
+			crosstabTotalPositionMap.put(CROSSTAB_TOTAL_POSITION_END, new Byte(BucketDefinition.TOTAL_POSITION_END));
+			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_NONE), CROSSTAB_TOTAL_POSITION_NONE);
+			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_START), CROSSTAB_TOTAL_POSITION_START);
+			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_END), CROSSTAB_TOTAL_POSITION_END);
+		}
+		
+		return crosstabTotalPositionMap;
+	}
+	
+	
+	private static final String CROSSTAB_ROW_POSITION_TOP = "Top";
+	private static final String CROSSTAB_ROW_POSITION_MIDDLE = "Middle";
+	private static final String CROSSTAB_ROW_POSITION_BOTTOM = "Bottom";
+	private static final String CROSSTAB_ROW_POSITION_STRETCH = "Stretch";
+	
+	private static Map crosstabRowPositionMap = null;
+	
+	
+	public static Map getCrosstabRowPositionMap()
+	{
+		if (crosstabRowPositionMap == null)
+		{
+			crosstabRowPositionMap = new HashMap();
+			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_TOP, new Byte(JRCellContents.POSITION_Y_TOP));
+			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_MIDDLE, new Byte(JRCellContents.POSITION_Y_MIDDLE));
+			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_BOTTOM, new Byte(JRCellContents.POSITION_Y_BOTTOM));
+			crosstabRowPositionMap.put(CROSSTAB_ROW_POSITION_STRETCH, new Byte(JRCellContents.POSITION_Y_STRETCH));
+			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_TOP), CROSSTAB_ROW_POSITION_TOP);
+			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_MIDDLE), CROSSTAB_ROW_POSITION_MIDDLE);
+			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), CROSSTAB_ROW_POSITION_BOTTOM);
+			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_STRETCH), CROSSTAB_ROW_POSITION_STRETCH);
+		}
+		
+		return crosstabRowPositionMap;
+	}
+	
+	
+	private static final String CROSSTAB_COLUMN_POSITION_LEFT = "Left";
+	private static final String CROSSTAB_COLUMN_POSITION_CENTER = "Center";
+	private static final String CROSSTAB_COLUMN_POSITION_RIGHT = "Right";
+	private static final String CROSSTAB_COLUMN_POSITION_STRETCH = "Stretch";
+	
+	private static Map crosstabColumnPositionMap = null;
+	
+	
+	public static Map getCrosstabColumnPositionMap()
+	{
+		if (crosstabColumnPositionMap == null)
+		{
+			crosstabColumnPositionMap = new HashMap();
+			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_LEFT, new Byte(JRCellContents.POSITION_X_LEFT));
+			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_CENTER, new Byte(JRCellContents.POSITION_X_CENTER));
+			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_RIGHT, new Byte(JRCellContents.POSITION_X_RIGHT));
+			crosstabColumnPositionMap.put(CROSSTAB_COLUMN_POSITION_STRETCH, new Byte(JRCellContents.POSITION_X_STRETCH));
+			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_LEFT), CROSSTAB_COLUMN_POSITION_LEFT);
+			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_CENTER), CROSSTAB_COLUMN_POSITION_CENTER);
+			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_RIGHT), CROSSTAB_COLUMN_POSITION_RIGHT);
+			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_STRETCH), CROSSTAB_COLUMN_POSITION_STRETCH);
+		}
+		
+		return crosstabColumnPositionMap;
+	}
+	
 }

@@ -76,13 +76,17 @@ import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -91,6 +95,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -98,6 +103,24 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCellContents;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstab;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabBucket;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabCell;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabColumnGroup;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabDataset;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabMeasure;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabParameter;
+import net.sf.jasperreports.engine.base.crosstab.JRBaseCrosstabRowGroup;
+import net.sf.jasperreports.engine.crosstab.JRCellContents;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabBucket;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
 
 
 /**
@@ -112,6 +135,11 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 *
 	 */
 	private JRDefaultStyleProvider defaultStyleProvider = null;
+	
+	/**
+	 * Expression collector used to retrieve generated expression IDs.
+	 */
+	private JRExpressionCollector expressionCollector;
 
 
 	/**
@@ -120,6 +148,19 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseObjectFactory(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		this.defaultStyleProvider = defaultStyleProvider;
+	}
+
+
+	/**
+	 * Constructs a base object factory.
+	 * 
+	 * @param defaultStyleProvider the default style provider
+	 * @param expressionCollector the expression collector used as expression ID provider
+	 */
+	protected JRBaseObjectFactory(JRDefaultStyleProvider defaultStyleProvider, JRExpressionCollector expressionCollector)
+	{
+		this.defaultStyleProvider = defaultStyleProvider;
+		this.expressionCollector = expressionCollector;
 	}
 
 
@@ -283,7 +324,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseVariable getVariable(JRVariable variable)
+	public JRBaseVariable getVariable(JRVariable variable)
 	{
 		JRBaseVariable baseVariable = null;
 		
@@ -312,7 +353,17 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			baseExpression = (JRBaseExpression)get(expression);
 			if (baseExpression == null)
 			{
-				baseExpression = new JRBaseExpression(expression, this);
+				Integer expressionId = null;
+				if (expressionCollector != null)
+				{
+					expressionId = expressionCollector.getExpressionId(expression);
+					if (expressionId == null)
+					{
+						throw new JRRuntimeException("Expression ID not found.");
+					}
+				}
+				
+				baseExpression = new JRBaseExpression(expression, this, expressionId);
 			}
 		}
 		
@@ -1022,4 +1073,207 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseSubreportReturnValue;
 	}
 
+
+	public JRBaseCrosstabDataset getCrosstabDataset(JRCrosstabDataset crosstabDataset)
+	{
+		JRBaseCrosstabDataset baseCrosstabDataset = null;
+
+		if (crosstabDataset != null)
+		{
+			baseCrosstabDataset = (JRBaseCrosstabDataset) get(crosstabDataset);
+			if (baseCrosstabDataset == null)
+			{
+				baseCrosstabDataset = new JRBaseCrosstabDataset(crosstabDataset, this);
+			}
+		}
+		
+		return baseCrosstabDataset;
+	}
+
+
+	public JRBaseCrosstabRowGroup getCrosstabRowGroup(JRCrosstabRowGroup group)
+	{
+		JRBaseCrosstabRowGroup baseCrosstabRowGroup = null;
+
+		if (group != null)
+		{
+			baseCrosstabRowGroup = (JRBaseCrosstabRowGroup) get(group);
+			if (baseCrosstabRowGroup == null)
+			{
+				baseCrosstabRowGroup = new JRBaseCrosstabRowGroup(group, this);
+			}
+		}
+
+		return baseCrosstabRowGroup;
+	}
+
+
+	public JRBaseCrosstabColumnGroup getCrosstabColumnGroup(JRCrosstabColumnGroup group)
+	{
+		JRBaseCrosstabColumnGroup baseCrosstabDataset = null;
+
+		if (group != null)
+		{
+			baseCrosstabDataset = (JRBaseCrosstabColumnGroup) get(group);
+			if (baseCrosstabDataset == null)
+			{
+				baseCrosstabDataset = new JRBaseCrosstabColumnGroup(group, this);
+			}
+		}
+
+		return baseCrosstabDataset;
+	}
+
+
+	public JRBaseCrosstabBucket getCrosstabBucket(JRCrosstabBucket bucket)
+	{
+		JRBaseCrosstabBucket baseCrosstabBucket = null;
+
+		if (bucket != null)
+		{
+			baseCrosstabBucket = (JRBaseCrosstabBucket) get(bucket);
+			if (baseCrosstabBucket == null)
+			{
+				baseCrosstabBucket = new JRBaseCrosstabBucket(bucket, this);
+			}
+		}
+
+		return baseCrosstabBucket;
+	}
+
+
+	public JRBaseCrosstabMeasure getCrosstabMeasure(JRCrosstabMeasure measure)
+	{
+		JRBaseCrosstabMeasure baseCrosstabMeasure = null;
+
+		if (measure != null)
+		{
+			baseCrosstabMeasure = (JRBaseCrosstabMeasure) get(measure);
+			if (baseCrosstabMeasure == null)
+			{
+				baseCrosstabMeasure = new JRBaseCrosstabMeasure(measure, this);
+			}
+		}
+
+		return baseCrosstabMeasure;
+	}
+
+
+	public JRCrosstab getCrosstab(JRCrosstab crosstab)
+	{
+		JRBaseCrosstab baseCrosstab = null;
+
+		if (crosstab != null)
+		{
+			baseCrosstab = (JRBaseCrosstab) get(crosstab);
+			if (baseCrosstab == null)
+			{
+				baseCrosstab = new JRBaseCrosstab(crosstab, this);
+			}
+		}
+
+		return baseCrosstab;
+	}
+
+
+	public JRBaseDataset getDataset(JRDataset dataset)
+	{
+		JRBaseDataset baseDataset = null;
+		
+		if (dataset != null)
+		{
+			baseDataset = (JRBaseDataset)get(dataset);
+			if (baseDataset == null)
+			{
+				baseDataset = new JRBaseDataset(dataset, this);
+			}
+		}
+		
+		return baseDataset;
+	}
+
+
+	public JRBaseDatasetRun getDatasetRun(JRDatasetRun datasetRun)
+	{
+		JRBaseDatasetRun baseDatasetRun = null;
+		
+		if (datasetRun != null)
+		{
+			baseDatasetRun = (JRBaseDatasetRun)get(datasetRun);
+			if (baseDatasetRun == null)
+			{
+				baseDatasetRun = new JRBaseDatasetRun(datasetRun, this);
+			}
+		}
+		
+		return baseDatasetRun;
+	}
+	
+
+	public JRBaseCellContents getCell(JRCellContents cell)
+	{
+		JRBaseCellContents baseCell = null;
+		
+		if (cell != null)
+		{
+			baseCell = (JRBaseCellContents)get(cell);
+			if (baseCell == null)
+			{
+				baseCell = new JRBaseCellContents(cell, this);
+			}
+		}
+		
+		return baseCell;
+	}
+
+
+	public JRCrosstabCell getCrosstabCell(JRCrosstabCell cell)
+	{
+		JRBaseCrosstabCell baseCell = null;
+		
+		if (cell != null)
+		{
+			baseCell = (JRBaseCrosstabCell)get(cell);
+			if (baseCell == null)
+			{
+				baseCell = new JRBaseCrosstabCell(cell, this);
+			}
+		}
+		
+		return baseCell;
+	}
+
+
+	public JRBaseCrosstabParameter getCrosstabParameter(JRCrosstabParameter parameter)
+	{
+		JRBaseCrosstabParameter baseParameter = null;
+
+		if (parameter != null)
+		{
+			baseParameter = (JRBaseCrosstabParameter) get(parameter);
+			if (baseParameter == null)
+			{
+				baseParameter = new JRBaseCrosstabParameter(parameter, this);
+			}
+		}
+
+		return baseParameter;
+	}
+
+
+	public JRFrame getFrame(JRFrame frame)
+	{
+		JRBaseFrame baseFrame = null;
+		
+		if (frame != null)
+		{
+			baseFrame = (JRBaseFrame) get(frame);
+			if (baseFrame == null)
+			{
+				baseFrame = new JRBaseFrame(frame, this);
+			}
+		}
+		
+		return baseFrame;
+	}
 }

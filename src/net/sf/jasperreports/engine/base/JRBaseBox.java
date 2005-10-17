@@ -32,6 +32,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -78,8 +79,102 @@ public class JRBaseBox implements JRBox, Serializable
 	{
 		super();
 	}
-		
+	
 
+	/**
+	 * Creates a clone of a box object.
+	 * 
+	 * @param box the object to be cloned
+	 */
+	public JRBaseBox(JRBox box)
+	{
+		border = box.getOwnBorder();
+		borderColor = box.getOwnBorderColor();
+		padding = box.getOwnPadding();
+		
+		topBorder = box.getOwnTopBorder();
+		topBorderColor = box.getOwnTopBorderColor();
+		topPadding = box.getOwnTopPadding();
+		
+		leftBorder = box.getOwnLeftBorder();
+		leftBorderColor = box.getOwnLeftBorderColor();
+		leftPadding = box.getOwnLeftPadding();
+		
+		bottomBorder = box.getOwnBottomBorder();
+		bottomBorderColor = box.getOwnBottomBorderColor();
+		bottomPadding = box.getOwnBottomPadding();
+		
+		rightBorder = box.getOwnRightBorder();
+		rightBorderColor = box.getOwnRightBorderColor();
+		rightPadding = box.getOwnRightPadding();
+	}
+	
+
+	/**
+	 * Creates a copy of a box object by keeping only some of the border sides.
+	 * 
+	 * @param box the object to be cloned
+	 * @param left whether to keep the left border
+	 * @param right whether to keep the right border
+	 * @param top whether to keep the top border
+	 * @param bottom whether to keep the bottom border
+	 * @param complementaryBox complementary box
+	 */
+	public JRBaseBox(JRBox box, boolean left, boolean right, boolean top, boolean bottom, JRBox complementaryBox)
+	{
+		if (left && box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+		{
+			leftBorder = new Byte(box.getLeftBorder());
+			leftBorderColor = box.getLeftBorderColor();
+			leftPadding = new Integer(box.getLeftPadding());
+		}
+		else if (complementaryBox != null)
+		{
+			leftBorder = new Byte(complementaryBox.getLeftBorder());
+			leftBorderColor = complementaryBox.getLeftBorderColor();
+			leftPadding = new Integer(complementaryBox.getLeftPadding());
+		}
+		
+		if (right && box.getRightBorder() != JRGraphicElement.PEN_NONE)
+		{
+			rightBorder = new Byte(box.getRightBorder());
+			rightBorderColor = box.getRightBorderColor();
+			rightPadding = new Integer(box.getRightPadding());
+		}
+		else if (complementaryBox != null)
+		{
+			rightBorder = new Byte(complementaryBox.getRightBorder());
+			rightBorderColor = complementaryBox.getRightBorderColor();
+			rightPadding = new Integer(complementaryBox.getRightPadding());
+		}
+		
+		if (top && box.getTopBorder() != JRGraphicElement.PEN_NONE)
+		{
+			topBorder = new Byte(box.getTopBorder());
+			topBorderColor = box.getTopBorderColor();
+			topPadding = new Integer(box.getTopPadding());
+		}
+		else if (complementaryBox != null)
+		{
+			topBorder = new Byte(complementaryBox.getTopBorder());
+			topBorderColor = complementaryBox.getTopBorderColor();
+			topPadding = new Integer(complementaryBox.getTopPadding());
+		}
+		
+		if (bottom && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+		{
+			bottomBorder = new Byte(box.getBottomBorder());
+			bottomBorderColor = box.getBottomBorderColor();
+			bottomPadding = new Integer(box.getBottomPadding());
+		}
+		else if (complementaryBox != null)
+		{
+			bottomBorder = new Byte(complementaryBox.getBottomBorder());
+			bottomBorderColor = complementaryBox.getBottomBorderColor();
+			bottomPadding = new Integer(complementaryBox.getBottomPadding());
+		}
+	}
+	
 	/**
 	 *
 	 */

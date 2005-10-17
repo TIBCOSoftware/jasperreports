@@ -31,9 +31,15 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -64,6 +70,8 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
@@ -71,6 +79,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -90,7 +99,27 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.crosstab.JRCellContents;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabBucket;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
+import net.sf.jasperreports.engine.fill.crosstab.calculation.BucketDefinition;
+import net.sf.jasperreports.engine.util.XmlWriter;
+import net.sf.jasperreports.engine.xml.crosstab.JRCellContentsFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabBucketFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabCellFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabColumnGroupFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabDatasetFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabGroupFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabMeasureFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabRowGroupFactory;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -114,14 +143,9 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private StringBuffer sb = null;
+	private XmlWriter writer;
 	private Map fontsMap = new HashMap();
 	private Map stylesMap = new HashMap();
-
-	/**
-	 * This color mask is used to delete the alpha byte from a 32-bit RGB component
-	 */
-	private static final int colorMask = Integer.parseInt("00FFFFFF", 16);
 
 
 	/**
@@ -140,7 +164,17 @@ public class JRXmlWriter
 	public static String writeReport(JRReport report, String encoding)
 	{
 		JRXmlWriter writer = new JRXmlWriter(report, encoding);
-		return writer.writeReport();
+		StringWriter buffer = new StringWriter();
+		try
+		{
+			writer.writeReport(buffer);
+		}
+		catch (IOException e)
+		{
+			// doesn't actually happen
+			throw new JRRuntimeException("Error writing report design.", e);
+		}
+		return buffer.toString();
 	}
 
 
@@ -152,17 +186,15 @@ public class JRXmlWriter
 		String destFileName,
 		String encoding
 		) throws JRException
-	{
-		String xmlString = JRXmlWriter.writeReport(report, encoding);
-		
+	{		
 		FileOutputStream fos = null;
 
 		try
 		{
-			byte[] bytes = xmlString.getBytes(encoding);
 			fos = new FileOutputStream(destFileName);
-			fos.write(bytes, 0, bytes.length);
-			fos.flush();
+			Writer out = new OutputStreamWriter(fos, encoding);
+			JRXmlWriter writer = new JRXmlWriter(report, encoding);
+			writer.writeReport(out);
 		}
 		catch (IOException e)
 		{
@@ -193,12 +225,11 @@ public class JRXmlWriter
 		String encoding
 		) throws JRException
 	{
-		String xmlString = JRXmlWriter.writeReport(report, encoding);
-
 		try
 		{
-			byte[] bytes = xmlString.getBytes(encoding);
-			outputStream.write(bytes, 0, bytes.length);
+			Writer out = new OutputStreamWriter(outputStream, encoding);
+			JRXmlWriter writer = new JRXmlWriter(report, encoding);
+			writer.writeReport(out);
 		}
 		catch (Exception e)
 		{
@@ -210,131 +241,34 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	protected String writeReport()
+	protected void writeReport(Writer out) throws IOException
 	{
-		sb = new StringBuffer();
+		writer = new XmlWriter(out);
 		
-		sb.append("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n");
-		sb.append("<!DOCTYPE jasperReport PUBLIC \"-//JasperReports//DTD Report Design//EN\" \"http://jasperreports.sourceforge.net/dtds/jasperreport.dtd\">\n");
-		sb.append("\n");
+		writer.writeProlog(encoding);
+		writer.writePublicDoctype("jasperReport", "-//JasperReports//DTD Report Design//EN", "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd");
 
-		sb.append("<jasperReport name=\"");
-		sb.append(report.getName());
-		sb.append("\"");
-
-		if(report.getLanguage() != JRReport.LANGUAGE_JAVA)
-		{
-			sb.append(" language=\"");
-			sb.append(report.getLanguage());
-			sb.append("\"");
-		}
-
-		if(report.getColumnCount() != 1)
-		{
-			sb.append(" columnCount=\"");
-			sb.append(report.getColumnCount());
-			sb.append("\"");
-		}
-
-		if(report.getPrintOrder() != JRReport.PRINT_ORDER_VERTICAL)
-		{
-			sb.append(" printOrder=\"");
-			sb.append((String)JRXmlConstants.getPrintOrderMap().get(new Byte(report.getPrintOrder())));
-			sb.append("\"");
-		}
-
-		sb.append(" pageWidth=\"");
-		sb.append(report.getPageWidth());
-		sb.append("\"");
-
-		sb.append(" pageHeight=\"");
-		sb.append(report.getPageHeight());
-		sb.append("\"");
-		
-		if(report.getOrientation() != JRReport.ORIENTATION_PORTRAIT)
-		{
-			sb.append(" orientation=\"");
-			sb.append((String)JRXmlConstants.getOrientationMap().get(new Byte(report.getOrientation())));
-			sb.append("\"");
-		}
-
-		if(report.getWhenNoDataType() != JRReport.WHEN_NO_DATA_TYPE_NO_PAGES)
-		{
-			sb.append(" whenNoDataType=\"");
-			sb.append((String)JRXmlConstants.getWhenNoDataTypeMap().get(new Byte(report.getWhenNoDataType())));
-			sb.append("\"");
-		}
-
-		sb.append(" columnWidth=\"");
-		sb.append(report.getColumnWidth());
-		sb.append("\"");
-		
-		if(report.getColumnSpacing() != 0)
-		{
-			sb.append(" columnSpacing=\"");
-			sb.append(report.getColumnSpacing());
-			sb.append("\"");
-		}
-
-		sb.append(" leftMargin=\"");
-		sb.append(report.getLeftMargin());
-		sb.append("\"");
-		
-		sb.append(" rightMargin=\"");
-		sb.append(report.getRightMargin());
-		sb.append("\"");
-		
-		sb.append(" topMargin=\"");
-		sb.append(report.getTopMargin());
-		sb.append("\"");
-		
-		sb.append(" bottomMargin=\"");
-		sb.append(report.getBottomMargin());
-		sb.append("\"");
-		
-		if(report.isTitleNewPage())
-		{
-			sb.append(" isTitleNewPage=\"");
-			sb.append(report.isTitleNewPage());
-			sb.append("\"");
-		}
-
-		if(report.isSummaryNewPage())
-		{
-			sb.append(" isSummaryNewPage=\"");
-			sb.append(report.isSummaryNewPage());
-			sb.append("\"");
-		}
-
-		if(report.isFloatColumnFooter())
-		{
-			sb.append(" isFloatColumnFooter=\"");
-			sb.append(report.isFloatColumnFooter());
-			sb.append("\"");
-		}
-
-		if(report.getScriptletClass() != null)
-		{
-			sb.append(" scriptletClass=\"");
-			sb.append(report.getScriptletClass());
-			sb.append("\"");
-		}
-
-		if(report.getResourceBundle() != null)
-		{
-			sb.append(" resourceBundle=\"");
-			sb.append(report.getResourceBundle());
-			sb.append("\"");
-		}
-
-		if(report.getWhenResourceMissingType() != JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL)
-		{
-			sb.append(" whenResourceMissingType=\"");
-			sb.append((String)JRXmlConstants.getWhenResourceMissingTypeMap().get(new Byte(report.getWhenResourceMissingType())));
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.startElement("jasperReport");
+		writer.addAttribute("name", report.getName());
+		writer.addAttribute("language", report.getLanguage(), JRReport.LANGUAGE_JAVA);
+		writer.addAttribute("columnCount", report.getColumnCount(), 1);
+		writer.addAttribute("printOrder", report.getPrintOrder(), JRXmlConstants.getPrintOrderMap(), JRReport.PRINT_ORDER_VERTICAL);
+		writer.addAttribute("pageWidth", report.getPageWidth());
+		writer.addAttribute("pageHeight", report.getPageHeight());
+		writer.addAttribute("orientation", report.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
+		writer.addAttribute("whenNoDataType", report.getWhenNoDataType(), JRXmlConstants.getWhenNoDataTypeMap(), JRReport.WHEN_NO_DATA_TYPE_NO_PAGES);
+		writer.addAttribute("columnWidth", report.getColumnWidth());
+		writer.addAttribute("columnSpacing", report.getColumnSpacing(), 0);
+		writer.addAttribute("leftMargin", report.getLeftMargin());
+		writer.addAttribute("rightMargin", report.getRightMargin());
+		writer.addAttribute("topMargin", report.getTopMargin());
+		writer.addAttribute("bottomMargin", report.getBottomMargin());
+		writer.addAttribute("isTitleNewPage", report.isTitleNewPage(), false);
+		writer.addAttribute("isSummaryNewPage", report.isSummaryNewPage(), false);
+		writer.addAttribute("isFloatColumnFooter", report.isFloatColumnFooter(), false);
+		writer.addAttribute("scriptletClass", report.getScriptletClass());
+		writer.addAttribute("resourceBundle", report.getResourceBundle());
+		writer.addAttribute("whenResourceMissingType", report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -345,11 +279,10 @@ public class JRXmlWriter
 				String value = report.getProperty(propertyNames[i]);
 				if (value != null)
 				{
-					sb.append("\t<property name=\"");
-					sb.append(propertyNames[i]);
-					sb.append("\" value=\"");
-					sb.append(JRStringUtil.xmlEncode(value));
-					sb.append("\"/>\n");
+					writer.startElement("property");
+					writer.addAttribute("name", propertyNames[i]);
+					writer.addEncodedAttribute("value", value);
+					writer.closeElement();
 				}
 			}
 		}
@@ -363,9 +296,9 @@ public class JRXmlWriter
 				String value = imports[i];
 				if (value != null)
 				{
-					sb.append("\t<import value=\"");
-					sb.append(JRStringUtil.xmlEncode(value));
-					sb.append("\"/>\n");
+					writer.startElement("import");
+					writer.addEncodedAttribute("value", value);
+					writer.closeElement();
 				}
 			}
 		}
@@ -392,197 +325,115 @@ public class JRXmlWriter
 			}
 		}
 
-		/*   */
-		JRParameter[] parameters = report.getParameters();
-		if (parameters != null && parameters.length > 0)
+		JRDataset[] datasets = report.getDatasets();
+		if (datasets != null && datasets.length > 0)
 		{
-			for(int i = 0; i < parameters.length; i++)
+			for (int i = 0; i < datasets.length; ++i)
 			{
-				if (!parameters[i].isSystemDefined())
-				{
-					writeParameter(parameters[i]);
-				}
+				writeDataset(datasets[i]);
 			}
 		}
 
-		/*   */
-		if(report.getQuery() != null)
-		{
-			writeQuery(report.getQuery());
-		}
-
-		/*   */
-		JRField[] fields = report.getFields();
-		if (fields != null && fields.length > 0)
-		{
-			for(int i = 0; i < fields.length; i++)
-			{
-				writeField(fields[i]);
-			}
-		}
-
-		/*   */
-		JRVariable[] variables = report.getVariables();
-		if (variables != null && variables.length > 0)
-		{
-			for(int i = 0; i < variables.length; i++)
-			{
-				if (!variables[i].isSystemDefined())
-				{
-					writeVariable(variables[i]);
-				}
-			}
-		}
-
-		/*   */
-		JRGroup[] groups = report.getGroups();
-		if (groups != null && groups.length > 0)
-		{
-			for(int i = 0; i < groups.length; i++)
-			{
-				writeGroup(groups[i]);
-			}
-		}
-
+		writeDatasetContents(report.getMainDataset());
 		
 		if (report.getBackground() != null)
 		{
-			sb.append("\t<background>\n");
+			writer.startElement("background");
 			writeBand(report.getBackground());
-			sb.append("\t</background>\n");
+			writer.closeElement();
 		}
 
 		if (report.getTitle() != null)
 		{
-			sb.append("\t<title>\n");
+			writer.startElement("title");
 			writeBand(report.getTitle());
-			sb.append("\t</title>\n");
+			writer.closeElement();
 		}
 
 		if (report.getPageHeader() != null)
 		{
-			sb.append("\t<pageHeader>\n");
+			writer.startElement("pageHeader");
 			writeBand(report.getPageHeader());
-			sb.append("\t</pageHeader>\n");
+			writer.closeElement();
 		}
 
 		if (report.getColumnHeader() != null)
 		{
-			sb.append("\t<columnHeader>\n");
+			writer.startElement("columnHeader");
 			writeBand(report.getColumnHeader());
-			sb.append("\t</columnHeader>\n");
+			writer.closeElement();
 		}
 
 		if (report.getDetail() != null)
 		{
-			sb.append("\t<detail>\n");
+			writer.startElement("detail");
 			writeBand(report.getDetail());
-			sb.append("\t</detail>\n");
+			writer.closeElement();
 		}
 
 		if (report.getColumnFooter() != null)
 		{
-			sb.append("\t<columnFooter>\n");
+			writer.startElement("columnFooter");
 			writeBand(report.getColumnFooter());
-			sb.append("\t</columnFooter>\n");
+			writer.closeElement();
 		}
 
 		if (report.getPageFooter() != null)
 		{
-			sb.append("\t<pageFooter>\n");
+			writer.startElement("pageFooter");
 			writeBand(report.getPageFooter());
-			sb.append("\t</pageFooter>\n");
+			writer.closeElement();
 		}
 
 		if (report.getLastPageFooter() != null)
 		{
-			sb.append("\t<lastPageFooter>\n");
+			writer.startElement("lastPageFooter");
 			writeBand(report.getLastPageFooter());
-			sb.append("\t</lastPageFooter>\n");
+			writer.closeElement();
 		}
 
 		if (report.getSummary() != null)
 		{
-			sb.append("\t<summary>\n");
+			writer.startElement("summary");
 			writeBand(report.getSummary());
-			sb.append("\t</summary>\n");
+			writer.closeElement();
 		}
 
-		sb.append("</jasperReport>\n");
-
-		return sb.toString();
+		writer.closeElement();
+		
+		out.flush();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeReportFont(JRReportFont font)
+	private void writeReportFont(JRReportFont font) throws IOException
 	{
-		sb.append("\t<reportFont");
-
-		sb.append(" name=\"");
-		sb.append(font.getName());
-		sb.append("\"");
-
-		sb.append(" isDefault=\"");
-		sb.append(font.isDefault());
-		sb.append("\"");
-
-		sb.append(" fontName=\"");
-		sb.append(font.getFontName());
-		sb.append("\"");
-
-		sb.append(" size=\"");
-		sb.append(font.getFontSize());
-		sb.append("\"");
-
-		sb.append(" isBold=\"");
-		sb.append(font.isBold());
-		sb.append("\"");
-
-		sb.append(" isItalic=\"");
-		sb.append(font.isItalic());
-		sb.append("\"");
-
-		sb.append(" isUnderline=\"");
-		sb.append(font.isUnderline());
-		sb.append("\"");
-
-		sb.append(" isStrikeThrough=\"");
-		sb.append(font.isStrikeThrough());
-		sb.append("\"");
-
-		sb.append(" pdfFontName=\"");
-		sb.append(font.getPdfFontName());
-		sb.append("\"");
-
-		sb.append(" pdfEncoding=\"");
-		sb.append(font.getPdfEncoding());
-		sb.append("\"");
-
-		sb.append(" isPdfEmbedded=\"");
-		sb.append(font.isPdfEmbedded());
-		sb.append("\"");
-
-		sb.append("/>\n");
+		writer.startElement("reportFont");
+		writer.addAttribute("name", font.getName());
+		writer.addAttribute("isDefault", font.isDefault());
+		writer.addAttribute("fontName", font.getFontName());
+		writer.addAttribute("size", font.getFontSize());
+		writer.addAttribute("isBold", font.isBold());
+		writer.addAttribute("isItalic", font.isItalic());
+		writer.addAttribute("isUnderline", font.isUnderline());
+		writer.addAttribute("isStrikeThrough", font.isStrikeThrough());
+		writer.addAttribute("pdfFontName", font.getPdfFontName());
+		writer.addAttribute("pdfEncoding", font.getPdfEncoding());
+		writer.addAttribute("isPdfEmbedded", font.isPdfEmbedded());
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeStyle(JRStyle style)
+	private void writeStyle(JRStyle style) throws IOException
 	{
-		sb.append("\t<style");
-
-		sb.append(" name=\"");
-		sb.append(style.getName());
-		sb.append("\"");
-
-		sb.append(" isDefault=\"");
-		sb.append(style.isDefault());
-		sb.append("\"");
+		writer.startElement("style");
+		writer.addAttribute("name", style.getName());
+		writer.addAttribute("isDefault", style.isDefault());
 
 		if (style.getStyle() != null)
 		{
@@ -592,9 +443,7 @@ public class JRXmlWriter
 					);
 			if(baseStyle != null)
 			{
-				sb.append(" style=\"");
-				sb.append(style.getStyle().getName());
-				sb.append("\"");
+				writer.addAttribute("style", style.getStyle().getName());
 			}
 			else
 			{
@@ -606,534 +455,168 @@ public class JRXmlWriter
 			}
 		}
 	
-		if (style.getOwnMode() != null)
-		{
-			sb.append(" mode=\"");
-			sb.append((String)JRXmlConstants.getModeMap().get(style.getOwnMode()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnForecolor() != null)
-		{
-			sb.append(" forecolor=\"#");
-			sb.append(Integer.toHexString(style.getOwnForecolor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-
-		if (style.getOwnBackcolor() != null)
-		{
-			sb.append(" backcolor=\"#");
-			sb.append(Integer.toHexString(style.getOwnBackcolor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-
-
-		if (style.getOwnPen() != null)
-		{
-			sb.append(" pen=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnPen()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnFill() != null)
-		{
-			sb.append(" fill=\"");
-			sb.append((String)JRXmlConstants.getFillMap().get(style.getOwnFill()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnRadius() != null)
-		{
-			sb.append(" radius=\"");
-			sb.append(style.getOwnRadius());
-			sb.append("\"");
-		}
-
-		if (style.getOwnScaleImage() != null)
-		{
-			sb.append(" scaleImage=\"");
-			sb.append((String)JRXmlConstants.getScaleImageMap().get(style.getOwnScaleImage()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnHorizontalAlignment() != null)
-		{
-			sb.append(" hAlign=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(style.getOwnHorizontalAlignment()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnVerticalAlignment() != null)
-		{
-			sb.append(" vAlign=\"");
-			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(style.getOwnVerticalAlignment()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnRotation() != null)
-		{
-			sb.append(" rotation=\"");
-			sb.append((String)JRXmlConstants.getRotationMap().get(style.getOwnRotation()));
-			sb.append("\"");
-		}
-
-		if (style.getOwnLineSpacing() != null)
-		{
-			sb.append(" lineSpacing=\"");
-			sb.append((String)JRXmlConstants.getLineSpacingMap().get(style.getOwnLineSpacing()));
-			sb.append("\"");
-		}
-
-		if (style.isOwnStyledText() != null)
-		{
-			sb.append(" isStyledText=\"");
-			sb.append(style.isOwnStyledText());
-			sb.append("\"");
-		}
-
-		if (style.getOwnPattern() != null)
-		{
-			sb.append(" pattern=\"");
-			sb.append(style.getOwnPattern());
-			sb.append("\"");
-		}
-
-		if (style.isOwnBlankWhenNull() != null)
-		{
-			sb.append(" isBlankWhenNull=\"");
-			sb.append(style.isOwnBlankWhenNull());
-			sb.append("\"");
-		}
-
-		if (style.getOwnBorder() == null)
-		{
-			sb.append(" border=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnBorder()));
-			sb.append("\"");
-		}
-		if (style.getOwnBorderColor() != null)
-		{
-			sb.append(" borderColor=\"#");
-			sb.append(Integer.toHexString(style.getOwnBorderColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		if (style.getOwnPadding() != null)
-		{
-			sb.append(" padding=\"");
-			sb.append(style.getOwnPadding());
-			sb.append("\"");
-		}
-	
-
-		if (style.getOwnTopBorder() != null)
-		{
-			sb.append(" topBorder=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnTopBorder()));
-			sb.append("\"");
-		}
-		if (style.getOwnTopBorderColor() != null)
-		{
-			sb.append(" topBorderColor=\"#");
-			sb.append(Integer.toHexString(style.getOwnTopBorderColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		if (style.getOwnTopPadding() != null)
-		{
-			sb.append(" topPadding=\"");
-			sb.append(style.getOwnTopPadding());
-			sb.append("\"");
-		}
-
+		writer.addAttribute("mode", style.getOwnMode(), JRXmlConstants.getModeMap());
+		writer.addAttribute("forecolor", style.getOwnForecolor());
+		writer.addAttribute("backcolor", style.getOwnBackcolor());
+		writer.addAttribute("pen", style.getOwnPen(), JRXmlConstants.getPenMap());
+		writer.addAttribute("fill", style.getOwnFill(), JRXmlConstants.getFillMap());
+		writer.addAttribute("radius", style.getOwnRadius());
+		writer.addAttribute("scaleImage", style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		writer.addAttribute("hAlign", style.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		writer.addAttribute("vAlign", style.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
+		writer.addAttribute("rotation", style.getOwnRotation(), JRXmlConstants.getRotationMap());
+		writer.addAttribute("lineSpacing", style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		writer.addAttribute("isStyledText", style.isOwnStyledText());
+		writer.addAttribute("pattern", style.getOwnPattern());
+		writer.addAttribute("isBlankWhenNull", style.isOwnBlankWhenNull());
 		
-		if (style.getOwnLeftBorder() != null)
-		{
-			sb.append(" leftBorder=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnLeftBorder()));
-			sb.append("\"");
-		}
-		if (style.getOwnLeftBorderColor() != null)
-		{
-			sb.append(" leftBorderColor=\"#");
-			sb.append(Integer.toHexString(style.getOwnLeftBorderColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		if (style.getOwnLeftPadding() != null)
-		{
-			sb.append(" leftPadding=\"");
-			sb.append(style.getOwnLeftPadding());
-			sb.append("\"");
-		}
-
+		writer.addAttribute("border", style.getOwnBorder(), JRXmlConstants.getPenMap());
+		writer.addAttribute("borderColor", style.getOwnBorderColor());
+		writer.addAttribute("padding", style.getOwnPadding());
 		
-		if (style.getOwnBottomBorder() != null)
-		{
-			sb.append(" bottomBorder=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnBottomBorder()));
-			sb.append("\"");
-		}
-		if (style.getOwnBottomBorderColor() != null)
-		{
-			sb.append(" bottomBorderColor=\"#");
-			sb.append(Integer.toHexString(style.getOwnBottomBorderColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		if (style.getOwnBottomPadding() != null)
-		{
-			sb.append(" bottomPadding=\"");
-			sb.append(style.getOwnBottomPadding());
-			sb.append("\"");
-		}
-
+		writer.addAttribute("topBorder", style.getOwnTopBorder(), JRXmlConstants.getPenMap());
+		writer.addAttribute("topBorderColor", style.getOwnTopBorderColor());
+		writer.addAttribute("topPadding", style.getOwnTopPadding());
 		
-		if (style.getOwnRightBorder() != null)
-		{
-			sb.append(" rightBorder=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(style.getOwnRightBorder()));
-			sb.append("\"");
-		}
-		if (style.getOwnRightBorderColor() != null)
-		{
-			sb.append(" rightBorderColor=\"#");
-			sb.append(Integer.toHexString(style.getOwnRightBorderColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		if (style.getOwnRightPadding() != null)
-		{
-			sb.append(" rightPadding=\"");
-			sb.append(style.getOwnRightPadding());
-			sb.append("\"");
-		}
+		writer.addAttribute("leftBorder", style.getOwnLeftBorder(), JRXmlConstants.getPenMap());
+		writer.addAttribute("leftBorderColor", style.getOwnLeftBorderColor());
+		writer.addAttribute("leftPadding", style.getOwnLeftPadding());
+		
+		writer.addAttribute("bottomBorder", style.getOwnBottomBorder(), JRXmlConstants.getPenMap());
+		writer.addAttribute("bottomBorderColor", style.getOwnBottomBorderColor());
+		writer.addAttribute("bottomPadding", style.getOwnBottomPadding());
+		
+		writer.addAttribute("rightBorder", style.getOwnRightBorder(), JRXmlConstants.getPenMap());
+		writer.addAttribute("rightBorderColor", style.getOwnRightBorderColor());
+		writer.addAttribute("rightPadding", style.getOwnRightPadding());
 
-		if (style.getOwnFontName() != null)
-		{
-			sb.append(" fontName=\"");
-			sb.append(style.getOwnFontName());
-			sb.append("\"");
-		}
+		writer.addAttribute("fontName", style.getOwnFontName());
+		writer.addAttribute("fontSize", style.getOwnFontSize());
+		writer.addAttribute("isBold", style.isOwnBold());
+		writer.addAttribute("isItalic", style.isOwnItalic());
+		writer.addAttribute("isUnderline", style.isOwnUnderline());
+		writer.addAttribute("isStrikeThrough", style.isOwnStrikeThrough());
+		writer.addAttribute("pdfFontName", style.getOwnPdfFontName());
+		writer.addAttribute("pdfEncoding", style.getOwnPdfEncoding());
+		writer.addAttribute("isPdfEmbedded", style.isOwnPdfEmbedded());
 
-		if (style.getOwnFontSize() != null)
-		{
-			sb.append(" fontSize=\"");
-			sb.append(style.getOwnFontSize());
-			sb.append("\"");
-		}
-
-		if (style.isOwnBold() != null)
-		{
-			sb.append(" isBold=\"");
-			sb.append(style.isOwnBold());
-			sb.append("\"");
-		}
-
-		if (style.isOwnItalic() != null)
-		{
-			sb.append(" isItalic=\"");
-			sb.append(style.isOwnItalic());
-			sb.append("\"");
-		}
-
-		if (style.isOwnUnderline() != null)
-		{
-			sb.append(" isUnderline=\"");
-			sb.append(style.isOwnUnderline());
-			sb.append("\"");
-		}
-
-		if (style.isOwnStrikeThrough() != null)
-		{
-			sb.append(" isStrikeThrough=\"");
-			sb.append(style.isOwnStrikeThrough());
-			sb.append("\"");
-		}
-
-		if (style.getOwnPdfFontName() != null)
-		{
-			sb.append(" pdfFontName=\"");
-			sb.append(style.getOwnPdfFontName());
-			sb.append("\"");
-		}
-
-		if (style.getOwnPdfEncoding() != null)
-		{
-			sb.append(" pdfEncoding=\"");
-			sb.append(style.getOwnPdfEncoding());
-			sb.append("\"");
-		}
-
-		if (style.isOwnPdfEmbedded() != null)
-		{
-			sb.append(" isPdfEmbedded=\"");
-			sb.append(style.isOwnPdfEmbedded());
-			sb.append("\"");
-		}
-
-		sb.append("/>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeParameter(JRParameter parameter)
+	private void writeParameter(JRParameter parameter) throws IOException
 	{
-		sb.append("\t<parameter");
+		writer.startElement("parameter");
+		writer.addAttribute("name", parameter.getName());
+		writer.addAttribute("class", parameter.getValueClassName());
+		writer.addAttribute("isForPrompting", parameter.isForPrompting(), true);
 
-		sb.append(" name=\"");
-		sb.append(parameter.getName());
-		sb.append("\"");
+		writer.writeCDATAElement("parameterDescription", parameter.getDescription());
+		writer.writeCDATAElement("parameterDescription", parameter.getDescription());
+		writer.writeExpression("defaultValueExpression", parameter.getDefaultValueExpression(), false);
 
-		sb.append(" class=\"");
-		sb.append(parameter.getValueClassName());
-		sb.append("\"");
-
-		if (!parameter.isForPrompting())
-		{
-			sb.append(" isForPrompting=\"");
-			sb.append(parameter.isForPrompting());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
-
-		if (parameter.getDescription() != null)
-		{
-			sb.append("\t\t<parameterDescription><![CDATA[");
-			sb.append(parameter.getDescription());
-			sb.append("]]></parameterDescription>\n");
-		}
-
-		if (parameter.getDefaultValueExpression() != null)
-		{
-			sb.append("\t\t<defaultValueExpression><![CDATA[");
-			sb.append(parameter.getDefaultValueExpression().getText());
-			sb.append("]]></defaultValueExpression>\n");
-		}
-
-		sb.append("\t</parameter>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeQuery(JRQuery query)
+	private void writeQuery(JRQuery query) throws IOException
 	{
-		sb.append("\t<queryString><![CDATA[");
-
-		sb.append(query.getText());
-
-		sb.append("]]></queryString>\n");
+		writer.writeCDATAElement("queryString", query.getText());
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeField(JRField field)
+	private void writeField(JRField field) throws IOException
 	{
-		sb.append("\t<field");
+		writer.startElement("field");
+		writer.addAttribute("name", field.getName());
+		writer.addAttribute("class", field.getValueClassName());
 
-		sb.append(" name=\"");
-		sb.append(field.getName());
-		sb.append("\"");
-
-		sb.append(" class=\"");
-		sb.append(field.getValueClassName());
-		sb.append("\"");
-
-		sb.append(">\n");
-
-		if (field.getDescription() != null)
-		{
-			sb.append("\t\t<fieldDescription><![CDATA[");
-			sb.append(field.getDescription());
-			sb.append("]]></fieldDescription>\n");
-		}
-
-		sb.append("\t</field>\n");
+		writer.writeCDATAElement("fieldDescription", field.getDescription());
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeVariable(JRVariable variable)
+	private void writeVariable(JRVariable variable) throws IOException
 	{
-		sb.append("\t<variable");
-
-		sb.append(" name=\"");
-		sb.append(variable.getName());
-		sb.append("\"");
-
-		sb.append(" class=\"");
-		sb.append(variable.getValueClassName());
-		sb.append("\"");
-
-		if (variable.getResetType() != JRVariable.RESET_TYPE_REPORT)
-		{
-			sb.append(" resetType=\"");
-			sb.append((String)JRXmlConstants.getResetTypeMap().get(new Byte(variable.getResetType())));
-			sb.append("\"");
-		}
-
+		writer.startElement("variable");
+		writer.addAttribute("name", variable.getName());
+		writer.addAttribute("class", variable.getValueClassName());
+		writer.addAttribute("resetType", variable.getResetType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_REPORT);
 		if (variable.getResetGroup() != null)
 		{
-			sb.append(" resetGroup=\"");
-			sb.append(variable.getResetGroup().getName());
-			sb.append("\"");
+			writer.addAttribute("resetGroup", variable.getResetGroup().getName());
 		}
-
-		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
-		{
-			sb.append(" incrementType=\"");
-			sb.append((String)JRXmlConstants.getResetTypeMap().get(new Byte(variable.getIncrementType())));
-			sb.append("\"");
-		}
-
+		writer.addAttribute("incrementType", variable.getIncrementType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_NONE);
 		if (variable.getIncrementGroup() != null)
 		{
-			sb.append(" incrementGroup=\"");
-			sb.append(variable.getIncrementGroup().getName());
-			sb.append("\"");
+			writer.addAttribute("incrementGroup", variable.getIncrementGroup().getName());
 		}
+		writer.addAttribute("calculation", variable.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute("incrementerFactoryClass", variable.getIncrementerFactoryClassName());
 
-		if (variable.getCalculation() != JRVariable.CALCULATION_NOTHING)
-		{
-			sb.append(" calculation=\"");
-			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(variable.getCalculation())));
-			sb.append("\"");
-		}
-
-		if (variable.getIncrementerFactoryClassName() != null)
-		{
-			sb.append(" incrementerFactoryClass=\"");
-			sb.append(variable.getIncrementerFactoryClassName());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
-
-		if (variable.getExpression() != null)
-		{
-			sb.append("\t\t<variableExpression><![CDATA[");
-			sb.append(variable.getExpression().getText());
-			sb.append("]]></variableExpression>\n");
-		}
-
-		if (variable.getInitialValueExpression() != null)
-		{
-			sb.append("\t\t<initialValueExpression><![CDATA[");
-			sb.append(variable.getInitialValueExpression().getText());
-			sb.append("]]></initialValueExpression>\n");
-		}
-
-		sb.append("\t</variable>\n");
+		writer.writeExpression("variableExpression", variable.getExpression(), false);
+		writer.writeExpression("initialValueExpression", variable.getInitialValueExpression(), false);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeGroup(JRGroup group)
+	private void writeGroup(JRGroup group) throws IOException
 	{
-		sb.append("\t<group");
+		writer.startElement("group");
+		writer.addAttribute("name", group.getName());
+		writer.addAttribute("isStartNewColumn", group.isStartNewColumn(), false);
+		writer.addAttribute("isStartNewPage", group.isStartNewPage(), false);
+		writer.addAttribute("isResetPageNumber", group.isResetPageNumber(), false);
+		writer.addAttribute("isReprintHeaderOnEachPage", group.isReprintHeaderOnEachPage(), false);
+		writer.addAttributePositive("minHeightToStartNewPage", group.getMinHeightToStartNewPage());
 
-		sb.append(" name=\"");
-		sb.append(group.getName());
-		sb.append("\"");
-
-		if (group.isStartNewColumn())
-		{
-			sb.append(" isStartNewColumn=\"");
-			sb.append(group.isStartNewColumn());
-			sb.append("\"");
-		}
-
-		if (group.isStartNewPage())
-		{
-			sb.append(" isStartNewPage=\"");
-			sb.append(group.isStartNewPage());
-			sb.append("\"");
-		}
-
-		if (group.isResetPageNumber())
-		{
-			sb.append(" isResetPageNumber=\"");
-			sb.append(group.isResetPageNumber());
-			sb.append("\"");
-		}
-
-		if (group.isReprintHeaderOnEachPage())
-		{
-			sb.append(" isReprintHeaderOnEachPage=\"");
-			sb.append(group.isReprintHeaderOnEachPage());
-			sb.append("\"");
-		}
-
-		if (group.getMinHeightToStartNewPage() > 0)
-		{
-			sb.append(" minHeightToStartNewPage=\"");
-			sb.append(group.getMinHeightToStartNewPage());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
-
-		if (group.getExpression() != null)
-		{
-			sb.append("\t\t<groupExpression><![CDATA[");
-			sb.append(group.getExpression().getText());
-			sb.append("]]></groupExpression>\n");
-		}
+		writer.writeExpression("groupExpression", group.getExpression(), false);
 
 		if (group.getGroupHeader() != null)
 		{
-			sb.append("\t\t<groupHeader>\n");
+			writer.startElement("groupHeader");
 			writeBand(group.getGroupHeader());
-			sb.append("\t\t</groupHeader>\n");
+			writer.closeElement();
 		}
 
 		if (group.getGroupFooter() != null)
 		{
-			sb.append("\t\t<groupFooter>\n");
+			writer.startElement("groupFooter");
 			writeBand(group.getGroupFooter());
-			sb.append("\t\t</groupFooter>\n");
+			writer.closeElement();
 		}
 
-		sb.append("\t</group>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeBand(JRBand band)
+	private void writeBand(JRBand band) throws IOException
 	{
-		sb.append("\t\t<band");
+		writer.startElement("band");
+		writer.addAttributePositive("height", band.getHeight());
+		writer.addAttribute("isSplitAllowed", band.isSplitAllowed(), true);
 
-		if (band.getHeight() > 0)
-		{
-			sb.append(" height=\"");
-			sb.append(band.getHeight());
-			sb.append("\"");
-		}
-
-		if (!band.isSplitAllowed())
-		{
-			sb.append(" isSplitAllowed=\"");
-			sb.append(band.isSplitAllowed());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
-
-		/*   */
-		if (band.getPrintWhenExpression() != null)
-		{
-			sb.append("\t\t\t<printWhenExpression><![CDATA[");
-			sb.append(band.getPrintWhenExpression().getText());
-			sb.append("]]></printWhenExpression>\n");
-		}
+		writer.writeExpression("printWhenExpression", band.getPrintWhenExpression(), false);
 
 		/*   */
 		List children = band.getChildren();
@@ -1145,16 +628,16 @@ public class JRXmlWriter
 			}
 		}
 
-		sb.append("\t\t</band>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeElementGroup(JRElementGroup elementGroup)
+	public void writeElementGroup(JRElementGroup elementGroup) throws IOException
 	{
-		sb.append("\t\t\t<elementGroup>\n");
+		writer.startElement("elementGroup");
 
 		/*   */
 		List children = elementGroup.getChildren();
@@ -1167,460 +650,172 @@ public class JRXmlWriter
 			}
 		}
 
-		sb.append("\t\t\t</elementGroup>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeLine(JRLine line)
+	public void writeLine(JRLine line) throws IOException
 	{
-		sb.append("\t\t\t<line");
-
-		if (line.getDirection() != JRLine.DIRECTION_TOP_DOWN)
-		{
-			sb.append(" direction=\"");
-			sb.append((String)JRXmlConstants.getDirectionMap().get(new Byte(line.getDirection())));
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.startElement("line");
+		writer.addAttribute("direction", line.getDirection(), JRXmlConstants.getDirectionMap(), JRLine.DIRECTION_TOP_DOWN);
 
 		writeReportElement(line);
 		writeGraphicElement(line);
 
-		sb.append("\t\t\t</line>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeReportElement(JRElement element)
+	private void writeReportElement(JRElement element) throws IOException
 	{
-		sb.append("\t\t\t\t<reportElement");
-
-		if (element.getKey() != null)
+		writer.startElement("reportElement");
+		writer.addAttribute("key", element.getKey());
+		JRStyle style = element.getStyle();
+		if (style != null)
 		{
-			sb.append(" key=\"");
-			sb.append(element.getKey());
-			sb.append("\"");
+			writer.addAttribute("style", style.getName());
 		}
+		writer.addAttribute("positionType", element.getPositionType(), JRXmlConstants.getPositionTypeMap(), JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP);
+		writer.addAttribute("stretchType", element.getStretchType(), JRXmlConstants.getStretchTypeMap(), JRElement.STRETCH_TYPE_NO_STRETCH);
+		writer.addAttribute("isPrintRepeatedValues", element.isPrintRepeatedValues(), true);
+		writer.addAttribute("mode", element.getOwnMode(), JRXmlConstants.getModeMap());
 
-		if (element.getPositionType() != JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP)
-		{
-			sb.append(" positionType=\"");
-			sb.append((String)JRXmlConstants.getPositionTypeMap().get(new Byte(element.getPositionType())));
-			sb.append("\"");
-		}
-
-		if (element.getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
-		{
-			sb.append(" stretchType=\"");
-			sb.append((String)JRXmlConstants.getStretchTypeMap().get(new Byte(element.getStretchType())));
-			sb.append("\"");
-		}
-
-		if (!element.isPrintRepeatedValues())
-		{
-			sb.append(" isPrintRepeatedValues=\"");
-			sb.append(element.isPrintRepeatedValues());
-			sb.append("\"");
-		}
-
-		if (element.getOwnMode() != null)
-		{
-			sb.append(" mode=\"");
-			sb.append((String)JRXmlConstants.getModeMap().get(element.getOwnMode()));
-			sb.append("\"");
-		}
-
-		sb.append(" x=\"");
-		sb.append(element.getX());
-		sb.append("\"");
-
-		sb.append(" y=\"");
-		sb.append(element.getY());
-		sb.append("\"");
-
-		sb.append(" width=\"");
-		sb.append(element.getWidth());
-		sb.append("\"");
-
-		sb.append(" height=\"");
-		sb.append(element.getHeight());
-		sb.append("\"");
-
-		if (element.isRemoveLineWhenBlank())
-		{
-			sb.append(" isRemoveLineWhenBlank=\"");
-			sb.append(element.isRemoveLineWhenBlank());
-			sb.append("\"");
-		}
-
-		if (element.isPrintInFirstWholeBand())
-		{
-			sb.append(" isPrintInFirstWholeBand=\"");
-			sb.append(element.isPrintInFirstWholeBand());
-			sb.append("\"");
-		}
-
-		if (element.isPrintWhenDetailOverflows())
-		{
-			sb.append(" isPrintWhenDetailOverflows=\"");
-			sb.append(element.isPrintWhenDetailOverflows());
-			sb.append("\"");
-		}
+		writer.addAttribute("x", element.getX());
+		writer.addAttribute("y", element.getY());
+		writer.addAttribute("width", element.getWidth());
+		writer.addAttribute("height", element.getHeight());
+		writer.addAttribute("isRemoveLineWhenBlank", element.isRemoveLineWhenBlank(), false);
+		writer.addAttribute("isPrintInFirstWholeBand", element.isPrintInFirstWholeBand(), false);
+		writer.addAttribute("isPrintWhenDetailOverflows", element.isPrintWhenDetailOverflows(), false);
 
 		if (element.getPrintWhenGroupChanges() != null)
 		{
-			sb.append(" printWhenGroupChanges=\"");
-			sb.append(element.getPrintWhenGroupChanges().getName());
-			sb.append("\"");
+			writer.addAttribute("printWhenGroupChanges", element.getPrintWhenGroupChanges().getName());
 		}
-
-		if (element.getOwnForecolor() != null)
-		{
-			sb.append(" forecolor=\"#");
-			sb.append(Integer.toHexString(element.getOwnForecolor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-
-		if (element.getOwnBackcolor() != null)
-		{
-			sb.append(" backcolor=\"#");
-			sb.append(Integer.toHexString(element.getOwnBackcolor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-
-		if (element.getPrintWhenExpression() != null)
-		{
-			sb.append(">\n");
-			
-			sb.append("\t\t\t\t\t<printWhenExpression><![CDATA[");
-			sb.append(element.getPrintWhenExpression().getText());
-			sb.append("]]></printWhenExpression>\n");
-
-			sb.append("\t\t\t\t</reportElement>\n");
-		}
-		else
-		{
-			sb.append("/>\n");
-		}
+		
+		writer.addAttribute("forecolor", element.getOwnForecolor());
+		writer.addAttribute("backcolor", element.getOwnBackcolor());
+		
+		writer.writeExpression("printWhenExpression", element.getPrintWhenExpression(), false);
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeGraphicElement(JRGraphicElement element)
+	private void writeGraphicElement(JRGraphicElement element) throws IOException
 	{
-		sb.append("\t\t\t\t<graphicElement");
-
-		if (element.getOwnPen() != null)
-		{
-			sb.append(" pen=\"");
-			sb.append((String)JRXmlConstants.getPenMap().get(element.getOwnPen()));
-			sb.append("\"");
-		}
-
-		if (element.getOwnFill() != null)
-		{
-			sb.append(" fill=\"");
-			sb.append((String)JRXmlConstants.getFillMap().get(element.getOwnFill()));
-			sb.append("\"");
-		}
-
-		sb.append("/>\n");
+		writer.startElement("graphicElement");
+		writer.addAttribute("pen", element.getOwnPen(), JRXmlConstants.getPenMap());
+		writer.addAttribute("fill", element.getOwnFill(), JRXmlConstants.getFillMap());
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeRectangle(JRRectangle rectangle)
+	public void writeRectangle(JRRectangle rectangle) throws IOException
 	{
-		sb.append("\t\t\t<rectangle");
-
-		if (rectangle.getOwnRadius() != null)
-		{
-			sb.append(" radius=\"");
-			sb.append(rectangle.getOwnRadius());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.startElement("rectangle");
+		writer.addAttribute("radius", rectangle.getOwnRadius());
 
 		writeReportElement(rectangle);
 		writeGraphicElement(rectangle);
 
-		sb.append("\t\t\t</rectangle>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeEllipse(JREllipse ellipse)
+	public void writeEllipse(JREllipse ellipse) throws IOException
 	{
-		sb.append("\t\t\t<ellipse>\n");
+		writer.startElement("ellipse");
 
 		writeReportElement(ellipse);
 		writeGraphicElement(ellipse);
 
-		sb.append("\t\t\t</ellipse>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeImage(JRImage image)
+	public void writeImage(JRImage image) throws IOException
 	{
-		sb.append("\t\t\t<image");
-
-		if (image.getOwnScaleImage() != null)
-		{
-			sb.append(" scaleImage=\"");
-			sb.append((String)JRXmlConstants.getScaleImageMap().get(image.getOwnScaleImage()));
-			sb.append("\"");
-		}
-
-		if (image.getOwnHorizontalAlignment() != null)
-		{
-			sb.append(" hAlign=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(image.getOwnHorizontalAlignment()));
-			sb.append("\"");
-		}
-
-		if (image.getOwnVerticalAlignment() != null)
-		{
-			sb.append(" vAlign=\"");
-			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(image.getOwnVerticalAlignment()));
-			sb.append("\"");
-		}
-
-		if (image.isOwnUsingCache() != null)
-		{
-			sb.append(" isUsingCache=\"");
-			sb.append(image.isOwnUsingCache());
-			sb.append("\"");
-		}
-
-		if (image.isLazy())
-		{
-			sb.append(" isLazy=\"");
-			sb.append(image.isLazy());
-			sb.append("\"");
-		}
-
-		if (image.getOnErrorType() != JRImage.ON_ERROR_TYPE_ERROR)
-		{
-			sb.append(" onErrorType=\"");
-			sb.append((String)JRXmlConstants.getOnErrorTypeMap().get(new Byte(image.getOnErrorType())));
-			sb.append("\"");
-		}
-
-		if (image.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
-		{
-			sb.append(" evaluationTime=\"");
-			sb.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(image.getEvaluationTime())));
-			sb.append("\"");
-		}
+		writer.startElement("image");
+		writer.addAttribute("scaleImage", image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		writer.addAttribute("hAlign", image.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		writer.addAttribute("vAlign", image.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
+		writer.addAttribute("isUsingCache", image.isOwnUsingCache());
+		writer.addAttribute("isLazy", image.isLazy(), false);
+		writer.addAttribute("onErrorType", image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
+		writer.addAttribute("evaluationTime", image.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
 
 		if (image.getEvaluationGroup() != null)
 		{
-			sb.append(" evaluationGroup=\"");
-			sb.append(image.getEvaluationGroup().getName());
-			sb.append("\"");
+			writer.addAttribute("evaluationGroup", image.getEvaluationGroup().getName());
 		}
 
-		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
-		{
-			sb.append(" hyperlinkType=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(image.getHyperlinkType())));
-			sb.append("\"");
-		}
-
-		if (image.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
-		{
-			sb.append(" hyperlinkTarget=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(image.getHyperlinkTarget())));
-			sb.append("\"");
-		}
-		
-		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
-		{
-			sb.append(" bookmarkLevel=\"");
-			sb.append(image.getBookmarkLevel());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.addAttribute("hyperlinkType", image.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkTarget", image.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute("bookmarkLevel", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(image);
 		writeBox(image);
 		writeGraphicElement(image);
 
-		if (image.getExpression() != null)
-		{
-			sb.append("\t\t\t\t<imageExpression");
-	
-			sb.append(" class=\"");
-			sb.append(image.getExpression().getValueClassName());//FIXME class is mandatory in verifier
-			sb.append("\"");
-	
-			sb.append("><![CDATA[");
-	
-			sb.append(image.getExpression().getText());
-			sb.append("]]></imageExpression>\n");
-		}
-
-		if (image.getAnchorNameExpression() != null)
-		{
-			sb.append("\t\t\t\t<anchorNameExpression><![CDATA[");
-			sb.append(image.getAnchorNameExpression().getText());
-			sb.append("]]></anchorNameExpression>\n");
-		}
-
-		if (image.getHyperlinkReferenceExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
-			sb.append(image.getHyperlinkReferenceExpression().getText());
-			sb.append("]]></hyperlinkReferenceExpression>\n");
-		}
-
-		if (image.getHyperlinkAnchorExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
-			sb.append(image.getHyperlinkAnchorExpression().getText());
-			sb.append("]]></hyperlinkAnchorExpression>\n");
-		}
-
-		if (image.getHyperlinkPageExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
-			sb.append(image.getHyperlinkPageExpression().getText());
-			sb.append("]]></hyperlinkPageExpression>\n");
-		}
-
-		sb.append("\t\t\t</image>\n");
+		//FIXME class is mandatory in verifier
+		
+		writer.writeExpression("imageExpression", image.getExpression(), true);
+		writer.writeExpression("anchorNameExpression", image.getAnchorNameExpression(), false);
+		writer.writeExpression("hyperlinkReferenceExpression", image.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression("hyperlinkAnchorExpression", image.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression("hyperlinkPageExpression", image.getHyperlinkPageExpression(), false);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeBox(JRBox box)
+	private void writeBox(JRBox box) throws IOException
 	{
-		StringBuffer tmpBuffer = new StringBuffer();
+		if (box != null)
+		{
+			writer.startElement("box");
+			writer.addAttribute("border", box.getOwnBorder(), JRXmlConstants.getPenMap());//FIXME STYLE
+			writer.addAttribute("borderColor", box.getOwnBorderColor());
+			writer.addAttribute("padding", box.getOwnPadding());
 
-		if (box.getBorder() != JRGraphicElement.PEN_NONE)
-		{
-			tmpBuffer.append(" border=\"");
-			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getBorder())));
-			tmpBuffer.append("\"");
-		}
-		if (box.getBorderColor() != null)
-		{
-			tmpBuffer.append(" borderColor=\"#");
-			tmpBuffer.append(Integer.toHexString(box.getBorderColor().getRGB() & colorMask));
-			tmpBuffer.append("\"");
-		}
-		if (box.getPadding() > 0)
-		{
-			tmpBuffer.append(" padding=\"");
-			tmpBuffer.append(box.getPadding());
-			tmpBuffer.append("\"");
-		}
-	
+			writer.addAttribute("topBorder", box.getOwnTopBorder(), JRXmlConstants.getPenMap());
+			writer.addAttribute("topBorderColor", box.getOwnTopBorderColor());
+			writer.addAttribute("topPadding", box.getOwnTopPadding());
 
-		if (box.getOwnTopBorder() != null)
-		{
-			tmpBuffer.append(" topBorder=\"");
-			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnTopBorder().byteValue())));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnTopBorderColor() != null)
-		{
-			tmpBuffer.append(" topBorderColor=\"#");
-			tmpBuffer.append(Integer.toHexString(box.getOwnTopBorderColor().getRGB() & colorMask));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnTopPadding() != null)
-		{
-			tmpBuffer.append(" topPadding=\"");
-			tmpBuffer.append(box.getOwnTopPadding());
-			tmpBuffer.append("\"");
-		}
+			writer.addAttribute("leftBorder", box.getOwnLeftBorder(), JRXmlConstants.getPenMap());
+			writer.addAttribute("leftBorderColor", box.getOwnLeftBorderColor());
+			writer.addAttribute("leftPadding", box.getOwnLeftPadding());
 
-		
-		if (box.getOwnLeftBorder() != null)
-		{
-			tmpBuffer.append(" leftBorder=\"");
-			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnLeftBorder().byteValue())));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnLeftBorderColor() != null)
-		{
-			tmpBuffer.append(" leftBorderColor=\"#");
-			tmpBuffer.append(Integer.toHexString(box.getOwnLeftBorderColor().getRGB() & colorMask));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnLeftPadding() != null)
-		{
-			tmpBuffer.append(" leftPadding=\"");
-			tmpBuffer.append(box.getOwnLeftPadding());
-			tmpBuffer.append("\"");
-		}
+			writer.addAttribute("bottomBorder", box.getOwnBottomBorder(), JRXmlConstants.getPenMap());
+			writer.addAttribute("bottomBorderColor", box.getOwnBottomBorderColor());
+			writer.addAttribute("bottomPadding", box.getOwnBottomPadding());
 
-		
-		if (box.getOwnBottomBorder() != null)
-		{
-			tmpBuffer.append(" bottomBorder=\"");
-			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnBottomBorder().byteValue())));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnBottomBorderColor() != null)
-		{
-			tmpBuffer.append(" bottomBorderColor=\"#");
-			tmpBuffer.append(Integer.toHexString(box.getOwnBottomBorderColor().getRGB() & colorMask));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnBottomPadding() != null)
-		{
-			tmpBuffer.append(" bottomPadding=\"");
-			tmpBuffer.append(box.getOwnBottomPadding());
-			tmpBuffer.append("\"");
-		}
-
-		
-		if (box.getOwnRightBorder() != null)
-		{
-			tmpBuffer.append(" rightBorder=\"");
-			tmpBuffer.append((String)JRXmlConstants.getPenMap().get(new Byte(box.getOwnRightBorder().byteValue())));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnRightBorderColor() != null)
-		{
-			tmpBuffer.append(" rightBorderColor=\"#");
-			tmpBuffer.append(Integer.toHexString(box.getOwnRightBorderColor().getRGB() & colorMask));
-			tmpBuffer.append("\"");
-		}
-		if (box.getOwnRightPadding() != null)
-		{
-			tmpBuffer.append(" rightPadding=\"");
-			tmpBuffer.append(box.getOwnRightPadding());
-			tmpBuffer.append("\"");
-		}
-
-		
-		if (tmpBuffer.length() > 0)
-		{
-			sb.append("\t\t\t\t<box");
-			sb.append(tmpBuffer.toString());
-			sb.append("/>\n");
+			writer.addAttribute("rightBorder", box.getOwnRightBorder(), JRXmlConstants.getPenMap());
+			writer.addAttribute("rightBorderColor", box.getOwnRightBorderColor());
+			writer.addAttribute("rightPadding", box.getOwnRightPadding());
+			
+			writer.closeElement(true);
 		}
 	}
 
@@ -1628,94 +823,46 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	public void writeStaticText(JRStaticText staticText)
+	public void writeStaticText(JRStaticText staticText) throws IOException
 	{
-		sb.append("\t\t\t<staticText>\n");
+		writer.startElement("staticText");
 
 		writeReportElement(staticText);
 		writeBox(staticText);
 		writeTextElement(staticText);
 
-		if (staticText.getText() != null)
-		{
-			sb.append("\t\t\t\t<text><![CDATA[");
-			sb.append(staticText.getText());
-			sb.append("]]></text>\n");
-		}
+		writer.writeCDATAElement("text", staticText.getText());
 
-		sb.append("\t\t\t</staticText>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeTextElement(JRTextElement textElement)
+	private void writeTextElement(JRTextElement textElement) throws IOException
 	{
-		sb.append("\t\t\t\t<textElement");
+		writer.startElement("textElement");
+		writer.addAttribute("textAlignment", textElement.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		writer.addAttribute("verticalAlignment", textElement.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
+		writer.addAttribute("rotation", textElement.getOwnRotation(), JRXmlConstants.getRotationMap());
+		writer.addAttribute("lineSpacing", textElement.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		writer.addAttribute("isStyledText", textElement.isOwnStyledText());
 
-		if (textElement.getOwnHorizontalAlignment() != null)
-		{
-			sb.append(" textAlignment=\"");
-			sb.append((String)JRXmlConstants.getHorizontalAlignMap().get(textElement.getOwnHorizontalAlignment()));
-			sb.append("\"");
-		}
-
-		if (textElement.getOwnVerticalAlignment() != null)
-		{
-			sb.append(" verticalAlignment=\"");
-			sb.append((String)JRXmlConstants.getVerticalAlignMap().get(textElement.getOwnVerticalAlignment()));
-			sb.append("\"");
-		}
-
-		if (textElement.getOwnRotation() != null)
-		{
-			sb.append(" rotation=\"");
-			sb.append((String)JRXmlConstants.getRotationMap().get(textElement.getOwnRotation()));
-			sb.append("\"");
-		}
-
-		if (textElement.getOwnLineSpacing() != null)
-		{
-			sb.append(" lineSpacing=\"");
-			sb.append((String)JRXmlConstants.getLineSpacingMap().get(textElement.getOwnLineSpacing()));
-			sb.append("\"");
-		}
-
-		if (textElement.isOwnStyledText() != null)
-		{
-			sb.append(" isStyledText=\"");
-			sb.append(textElement.isOwnStyledText());
-			sb.append("\"");
-		}
-
-		String font = writeFont(textElement);
-		if (font != null)
-		{
-			sb.append(">\n");
-
-			sb.append("\t\t\t\t\t" + font + "\n");
-			
-			sb.append("\t\t\t\t</textElement>\n");
-		}
-		else
-		{
-			sb.append("/>\n");
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private String writeFont(JRFont font)
-	{
-		String fontChunk = null;
+		writeFont(textElement);
 		
+		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	private void writeFont(JRFont font) throws IOException
+	{
 		if (font != null)
 		{
-			StringBuffer tmpBuffer = new StringBuffer();
-
+			writer.startElement("font");
 			if (font.getReportFont() != null)
 			{
 				JRFont baseFont = 
@@ -1724,9 +871,7 @@ public class JRXmlWriter
 						);
 				if(baseFont != null)
 				{
-					tmpBuffer.append(" reportFont=\"");
-					tmpBuffer.append(font.getReportFont().getName());
-					tmpBuffer.append("\"");
+					writer.addAttribute("reportFont", font.getReportFont().getName());
 				}
 				else
 				{
@@ -1738,218 +883,67 @@ public class JRXmlWriter
 				}
 			}
 		
-			if (font.getOwnFontName() != null)
-			{
-				tmpBuffer.append(" fontName=\"");
-				tmpBuffer.append(font.getOwnFontName());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.getOwnFontSize() != null)
-			{
-				tmpBuffer.append(" size=\"");
-				tmpBuffer.append(font.getOwnFontSize());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.isOwnBold() != null)
-			{
-				tmpBuffer.append(" isBold=\"");
-				tmpBuffer.append(font.isOwnBold());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.isOwnItalic() != null)
-			{
-				tmpBuffer.append(" isItalic=\"");
-				tmpBuffer.append(font.isOwnItalic());
-				tmpBuffer.append("\"");
-			}
-	
-			if (font.isOwnUnderline() != null)
-			{
-				tmpBuffer.append(" isUnderline=\"");
-				tmpBuffer.append(font.isOwnUnderline());
-				tmpBuffer.append("\"");
-			}
-	
-			if (font.isOwnStrikeThrough() != null)
-			{
-				tmpBuffer.append(" isStrikeThrough=\"");
-				tmpBuffer.append(font.isOwnStrikeThrough());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.getOwnPdfFontName() != null)
-			{
-				tmpBuffer.append(" pdfFontName=\"");
-				tmpBuffer.append(font.getOwnPdfFontName());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.getOwnPdfEncoding() != null)
-			{
-				tmpBuffer.append(" pdfEncoding=\"");
-				tmpBuffer.append(font.getOwnPdfEncoding());
-				tmpBuffer.append("\"");
-			}
-
-			if (font.isOwnPdfEmbedded() != null)
-			{
-				tmpBuffer.append(" isPdfEmbedded=\"");
-				tmpBuffer.append(font.isOwnPdfEmbedded());
-				tmpBuffer.append("\"");
-			}
-
-			if (tmpBuffer.length() > 0)
-			{
-				fontChunk = "<font" + tmpBuffer.toString() + "/>";
-			}
+			writer.addAttribute("fontName", font.getOwnFontName());
+			writer.addAttribute("size", font.getOwnFontSize());
+			writer.addAttribute("isBold", font.isOwnBold());
+			writer.addAttribute("isItalic", font.isOwnItalic());
+			writer.addAttribute("isUnderline", font.isOwnUnderline());
+			writer.addAttribute("isStrikeThrough", font.isOwnStrikeThrough());
+			writer.addAttribute("pdfFontName", font.getOwnPdfFontName());
+			writer.addAttribute("pdfEncoding", font.getOwnPdfEncoding());
+			writer.addAttribute("isPdfEmbedded", font.isOwnPdfEmbedded());
+			writer.closeElement(true);
 		}
-		
-		return fontChunk;
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeTextField(JRTextField textField)
+	public void writeTextField(JRTextField textField) throws IOException
 	{
-		sb.append("\t\t\t<textField");
-
-		if (textField.isStretchWithOverflow())
-		{
-			sb.append(" isStretchWithOverflow=\"");
-			sb.append(textField.isStretchWithOverflow());
-			sb.append("\"");
-		}
-
-		if (textField.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
-		{
-			sb.append(" evaluationTime=\"");
-			sb.append((String)JRXmlConstants.getEvaluationTimeMap().get(new Byte(textField.getEvaluationTime())));
-			sb.append("\"");
-		}
+		writer.startElement("textField");
+		writer.addAttribute("isStretchWithOverflow", textField.isStretchWithOverflow(), false);
+		writer.addAttribute("evaluationTime", textField.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
 
 		if (textField.getEvaluationGroup() != null)
 		{
-			sb.append(" evaluationGroup=\"");
-			sb.append(textField.getEvaluationGroup().getName());
-			sb.append("\"");
+			writer.addAttribute("evaluationGroup", textField.getEvaluationGroup().getName());
 		}
 
-		if (textField.getOwnPattern() != null)
-		{
-			sb.append(" pattern=\"");
-			sb.append(textField.getOwnPattern());
-			sb.append("\"");
-		}
-
-		if (textField.isOwnBlankWhenNull() != null)
-		{
-			sb.append(" isBlankWhenNull=\"");
-			sb.append(textField.isOwnBlankWhenNull());
-			sb.append("\"");
-		}
-
-		if (textField.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
-		{
-			sb.append(" hyperlinkType=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(textField.getHyperlinkType())));
-			sb.append("\"");
-		}
-
-		if (textField.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
-		{
-			sb.append(" hyperlinkTarget=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(textField.getHyperlinkTarget())));
-			sb.append("\"");
-		}
+		writer.addAttribute("pattern", textField.getOwnPattern());
+		writer.addAttribute("isBlankWhenNull", textField.isOwnBlankWhenNull());
 		
-		if (textField.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
-		{
-			sb.append(" bookmarkLevel=\"");
-			sb.append(textField.getBookmarkLevel());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.addAttribute("hyperlinkType", textField.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkTarget", textField.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute("bookmarkLevel", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		writeReportElement(textField);
 		writeBox(textField);
 		writeTextElement(textField);
 
-		if (textField.getExpression() != null)
-		{
-			sb.append("\t\t\t\t<textFieldExpression");
-	
-			sb.append(" class=\"");
-			sb.append(textField.getExpression().getValueClassName());
-			sb.append("\"");
-	
-			sb.append("><![CDATA[");
-	
-			sb.append(textField.getExpression().getText());
-			sb.append("]]></textFieldExpression>\n");
-		}
-
-		if (textField.getAnchorNameExpression() != null)
-		{
-			sb.append("\t\t\t\t<anchorNameExpression><![CDATA[");
-			sb.append(textField.getAnchorNameExpression().getText());
-			sb.append("]]></anchorNameExpression>\n");
-		}
-
-		if (textField.getHyperlinkReferenceExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
-			sb.append(textField.getHyperlinkReferenceExpression().getText());
-			sb.append("]]></hyperlinkReferenceExpression>\n");
-		}
-
-		if (textField.getHyperlinkAnchorExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
-			sb.append(textField.getHyperlinkAnchorExpression().getText());
-			sb.append("]]></hyperlinkAnchorExpression>\n");
-		}
-
-		if (textField.getHyperlinkPageExpression() != null)
-		{
-			sb.append("\t\t\t\t<hyperlinkPageExpression><![CDATA[");
-			sb.append(textField.getHyperlinkPageExpression().getText());
-			sb.append("]]></hyperlinkPageExpression>\n");
-		}
+		writer.writeExpression("textFieldExpression", textField.getExpression(), true);
 		
-		sb.append("\t\t\t</textField>\n");
+		writer.writeExpression("anchorNameExpression", textField.getAnchorNameExpression(), false);
+		writer.writeExpression("hyperlinkReferenceExpression", textField.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression("hyperlinkAnchorExpression", textField.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression("hyperlinkPageExpression", textField.getHyperlinkPageExpression(), false);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeSubreport(JRSubreport subreport)
+	public void writeSubreport(JRSubreport subreport) throws IOException
 	{
-		sb.append("\t\t\t<subreport");
-
-		if (subreport.isOwnUsingCache() != null)
-		{
-			sb.append(" isUsingCache=\"");
-			sb.append(subreport.isOwnUsingCache());
-			sb.append("\"");
-		}
-
-		sb.append(">\n");
+		writer.startElement("subreport");
+		writer.addAttribute("isUsingCache", subreport.isOwnUsingCache());
 
 		writeReportElement(subreport);
 
-		if (subreport.getParametersMapExpression() != null)
-		{
-			sb.append("\t\t\t\t<parametersMapExpression><![CDATA[");
-			sb.append(subreport.getParametersMapExpression().getText());
-			sb.append("]]></parametersMapExpression>\n");
-		}
+		writer.writeExpression("parametersMapExpression", subreport.getParametersMapExpression(), false);
 
 		/*   */
 		JRSubreportParameter[] parameters = subreport.getParameters();
@@ -1961,19 +955,8 @@ public class JRXmlWriter
 			}
 		}
 
-		if (subreport.getConnectionExpression() != null)
-		{
-			sb.append("\t\t\t\t<connectionExpression><![CDATA[");
-			sb.append(subreport.getConnectionExpression().getText());
-			sb.append("]]></connectionExpression>\n");
-		}
-
-		if (subreport.getDataSourceExpression() != null)
-		{
-			sb.append("\t\t\t\t<dataSourceExpression><![CDATA[");
-			sb.append(subreport.getDataSourceExpression().getText());
-			sb.append("]]></dataSourceExpression>\n");
-		}
+		writer.writeExpression("connectionExpression", subreport.getConnectionExpression(), false);
+		writer.writeExpression("dataSourceExpression", subreport.getDataSourceExpression(), false);
 
 		JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
 		if (returnValues != null && returnValues.length > 0)
@@ -1984,212 +967,115 @@ public class JRXmlWriter
 			}
 		}
 
-		if (subreport.getExpression() != null)
-		{
-			sb.append("\t\t\t\t<subreportExpression");
-	
-			sb.append(" class=\"");
-			sb.append(subreport.getExpression().getValueClassName());
-			sb.append("\"");
-	
-			sb.append("><![CDATA[");
-	
-			sb.append(subreport.getExpression().getText());
-			sb.append("]]></subreportExpression>\n");
-		}
-
-		sb.append("\t\t\t</subreport>\n");
+		writer.writeExpression("subreportExpression", subreport.getExpression(), true);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	private void writeSubreportParameter(JRSubreportParameter subreportParameter)
+	private void writeSubreportParameter(JRSubreportParameter subreportParameter) throws IOException
 	{
-		sb.append("\t\t\t\t<subreportParameter");
+		writer.startElement("subreportParameter");
+		writer.addAttribute("name", subreportParameter.getName());
 
-		sb.append(" name=\"");
-		sb.append(subreportParameter.getName());
-		sb.append("\"");
-
-		sb.append(">\n");
-
-		if (subreportParameter.getExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<subreportParameterExpression><![CDATA[");
-			sb.append(subreportParameter.getExpression().getText());
-			sb.append("]]></subreportParameterExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</subreportParameter>\n");
+		writer.writeExpression("subreportParameterExpression", subreportParameter.getExpression(), false);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	private void writeChart(JRChart chart)
+	private void writeChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t\t<chart");
-
-		if (!chart.isShowLegend())
-			sb.append(" isShowLegend=\"false\"");
-
-		if (chart.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
-			sb.append(" evaluationTime=\"" + JRXmlConstants.getEvaluationTimeMap().get(new Byte(chart.getEvaluationTime())) + "\"");
+		writer.startElement("chart");
+		writer.addAttribute("isShowLegend", chart.isShowLegend(), true);
+		writer.addAttribute("evaluationTime", chart.getEvaluationTime(), JRXmlConstants.getEvaluationTimeMap(), JRExpression.EVALUATION_TIME_NOW);
 
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_GROUP)
-			sb.append(" evaluationGroup=\"" + chart.getEvaluationGroup().getName() + "\"");
-
-		if (chart.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
-			sb.append(" hyperlinkType=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTypeMap().get(new Byte(chart.getHyperlinkType())));
-			sb.append("\"");
-		}
-
-		if (chart.getHyperlinkTarget() != JRHyperlink.HYPERLINK_TARGET_SELF)
-		{
-			sb.append(" hyperlinkTarget=\"");
-			sb.append((String)JRXmlConstants.getHyperlinkTargetMap().get(new Byte(chart.getHyperlinkTarget())));
-			sb.append("\"");
+			writer.addAttribute("evaluationGroup", chart.getEvaluationGroup().getName());
 		}
 		
-		if (chart.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
-		{
-			sb.append(" bookmarkLevel=\"");
-			sb.append(chart.getBookmarkLevel());
-			sb.append("\"");
-		}
-
-		if (chart.getCustomizerClass() != null)
-		{
-			sb.append(" customizerClass=\"");
-			sb.append(chart.getCustomizerClass());
-			sb.append("\"");
-		}
-		
-		sb.append(">\n");
+		writer.addAttribute("hyperlinkType", chart.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkTarget", chart.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+		writer.addAttribute("bookmarkLevel", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		writer.addAttribute("customizerClass", chart.getCustomizerClass());
 
 		writeReportElement(chart);
 		writeBox(chart);
 
 		// write title
-		sb.append("\t\t\t\t\t<chartTitle");
-		if (chart.getTitlePosition() != JRChart.TITLE_POSITION_TOP)
-		{
-			sb.append(" position=\"" + JRXmlConstants.getChartTitlePositionMap().get(new Byte(chart.getTitlePosition())) + "\"");
-		}
-		if (chart.getTitleColor().getRGB() != Color.black.getRGB())
-		{
-			sb.append(" color=\"#");
-			sb.append(Integer.toHexString(chart.getTitleColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		sb.append(">\n");
-		String titleFont = writeFont(chart.getTitleFont());
-		if (titleFont != null)
-		{
-			sb.append("\t\t\t\t\t\t" + titleFont +"\n");
-		}
+		writer.startElement("chartTitle");
+		writer.addAttribute("position", chart.getTitlePosition(), JRXmlConstants.getChartTitlePositionMap(), JRChart.TITLE_POSITION_TOP);
+		writer.addAttribute("color", chart.getTitleColor(), Color.black);
+		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
 		{
-			sb.append("\t\t\t\t\t\t<titleExpression><![CDATA[");
-			sb.append(chart.getTitleExpression().getText());
-			sb.append("]]></titleExpression>\n");
+			writer.writeExpression("titleExpression", chart.getTitleExpression(), false);
 		}
-		sb.append("\t\t\t\t\t</chartTitle>\n");
+		writer.closeElement();
 
 		// write subtitle
-		sb.append("\t\t\t\t\t<chartSubtitle");
-		if (chart.getSubtitleColor().getRGB() != Color.black.getRGB())
-		{
-			sb.append(" color=\"#");
-			sb.append(Integer.toHexString(chart.getSubtitleColor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-		sb.append(">\n");
-		String subtitleFont = writeFont(chart.getSubtitleFont());
-		if (subtitleFont != null)
-		{
-			sb.append("\t\t\t\t\t\t" + subtitleFont +"\n");
-		}
+		writer.startElement("chartSubtitle");
+		writer.addAttribute("color", chart.getSubtitleColor());
+		writeFont(chart.getSubtitleFont());
 		if (chart.getSubtitleExpression() != null)
 		{
-			sb.append("\t\t\t\t\t\t<subtitleExpression><![CDATA[");
-			sb.append(chart.getSubtitleExpression().getText());
-			sb.append("]]></subtitleExpression>\n");
+			writer.writeExpression("subtitleExpression", chart.getSubtitleExpression(), false);
 		}
-		sb.append("\t\t\t\t\t</chartSubtitle>\n");
+		writer.closeElement();
+		
+		writer.writeExpression("anchorNameExpression", chart.getAnchorNameExpression(), false);
+		writer.writeExpression("hyperlinkReferenceExpression", chart.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression("hyperlinkAnchorExpression", chart.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression("hyperlinkPageExpression", chart.getHyperlinkPageExpression(), false);
 
-		if (chart.getAnchorNameExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<anchorNameExpression><![CDATA[");
-			sb.append(chart.getAnchorNameExpression().getText());
-			sb.append("]]></anchorNameExpression>\n");
-		}
-
-		if (chart.getHyperlinkReferenceExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<hyperlinkReferenceExpression><![CDATA[");
-			sb.append(chart.getHyperlinkReferenceExpression().getText());
-			sb.append("]]></hyperlinkReferenceExpression>\n");
-		}
-
-		if (chart.getHyperlinkAnchorExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<hyperlinkAnchorExpression><![CDATA[");
-			sb.append(chart.getHyperlinkAnchorExpression().getText());
-			sb.append("]]></hyperlinkAnchorExpression>\n");
-		}
-
-		if (chart.getHyperlinkPageExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<hyperlinkPageExpression><![CDATA[");
-			sb.append(chart.getHyperlinkPageExpression().getText());
-			sb.append("]]></hyperlinkPageExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</chart>\n");
-
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param dataset
 	 */
-	private void writeDataset(JRChartDataset dataset)
+	private void writeChartDataset(JRChartDataset dataset) throws IOException
 	{
-		sb.append("\t\t\t\t\t<dataset");
-
-		if (dataset.getResetType() != JRVariable.RESET_TYPE_REPORT)
-			sb.append(" resetType=\"" + JRXmlConstants.getResetTypeMap().get(new Byte(dataset.getResetType())) + "\"");
+		writer.startElement("dataset");
+		writer.addAttribute("resetType", dataset.getResetType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_REPORT);
 
 		if (dataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
-			sb.append(" resetGroup=\"" + dataset.getResetGroup().getName() + "\"");
-
-		if (dataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
-			sb.append(" incrementType=\"" + JRXmlConstants.getResetTypeMap().get(new Byte(dataset.getIncrementType())) + "\"");
+		{
+			writer.addAttribute("resetGroup", dataset.getResetGroup().getName());
+		}
+		writer.addAttribute("incrementType", dataset.getIncrementType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_NONE);
 
 		if (dataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
-			sb.append(" incrementGroup=\"" + dataset.getIncrementGroup().getName() + "\"");
+		{
+			writer.addAttribute("incrementGroup", dataset.getIncrementGroup().getName());
+		}
 
-		sb.append("/>\n");
+		JRDatasetRun datasetRun = dataset.getDatasetRun();
+		if (datasetRun != null)
+		{
+			writeDatasetRun(datasetRun);
+		}
+
+		writer.closeElement();		
 	}
 
 
 	/**
 	 *
-	 * @param dataset
 	 */
-	private void writeCategoryDataSet(JRCategoryDataset dataset)
+	private void writeCategoryDataSet(JRCategoryDataset dataset) throws IOException
 	{
-		sb.append("\t\t\t\t<categoryDataset>\n");
+		writer.startElement("categoryDataset");
 
-		writeDataset(dataset);
+		writeChartDataset(dataset);
 
 		/*   */
 		JRCategorySeries[] categorySeries = dataset.getSeries();
@@ -2201,188 +1087,125 @@ public class JRXmlWriter
 			}
 		}
 
-		sb.append("\t\t\t\t</categoryDataset>\n");
+		writer.closeElement();
 	}
 	
 	
-	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset )
+	private void writeTimeSeriesDataset(JRTimeSeriesDataset dataset) throws IOException
 	{
-		sb.append( "\t\t\t\t<timeSeriesDataset");
+		writer.startElement("timeSeriesDataset");
 		if (dataset.getTimePeriod() != null && !Day.class.getName().equals(dataset.getTimePeriod().getName()))
 		{
-			sb.append( " timePeriod=\"" + JRXmlConstants.getTimePeriodName( dataset.getTimePeriod() ) + "\"" );
+			writer.addAttribute("timePeriod", JRXmlConstants.getTimePeriodName(dataset.getTimePeriod()));
 		}
-		sb.append(">\n" );
 		
-		writeDataset( dataset );
+		writeChartDataset( dataset );
 		
 		JRTimeSeries[] timeSeries = dataset.getSeries();
-		if( timeSeries != null && timeSeries.length > 0 ){
-			for( int i = 0; i < timeSeries.length; i++ ){
+		if( timeSeries != null && timeSeries.length > 0 )
+		{
+			for( int i = 0; i < timeSeries.length; i++ )
+		{
 				writeTimeSeries( timeSeries[i] );
 			}
 		}
-		sb.append( "\t\t\t\t</timeSeriesDataset>\n" );
-		
+
+		writer.closeElement();
 	}
 	
 	
-	private void writeTimePeriodDataset( JRTimePeriodDataset dataset ){
-		sb.append( "\t\t\t\t<timePeriodDataset>\n");
-		writeDataset( dataset );
+	private void writeTimePeriodDataset(JRTimePeriodDataset dataset) throws IOException
+	{
+		writer.startElement("timePeriodDataset");
+		writeChartDataset(dataset);
 		
 		JRTimePeriodSeries[] timePeriodSeries = dataset.getSeries();
-		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
-			for( int i = 0; i < timePeriodSeries.length; i++ ){
-				writeTimePeriodSeries( timePeriodSeries[i] );
+		if( timePeriodSeries != null && timePeriodSeries.length > 0 )
+		{
+			for( int i = 0; i < timePeriodSeries.length; i++ )
+			{
+				writeTimePeriodSeries(timePeriodSeries[i]);
 			}
 		}
-		sb.append( "\t\t\t\t</timePeriodDataset>\n" );
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param categorySeries
 	 */
-	private void writeCategorySeries(JRCategorySeries categorySeries)
+	private void writeCategorySeries(JRCategorySeries categorySeries) throws IOException
 	{
-		sb.append("\t\t\t\t\t<categorySeries>\n");
+		writer.startElement("categorySeries");
 
-		if (categorySeries.getSeriesExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-			sb.append(categorySeries.getSeriesExpression().getText());
-			sb.append("]]></seriesExpression>\n");
-		}
+		writer.writeExpression("seriesExpression", categorySeries.getSeriesExpression(), false);
+		writer.writeExpression("categoryExpression", categorySeries.getCategoryExpression(), false);
+		writer.writeExpression("valueExpression", categorySeries.getValueExpression(), false);
+		writer.writeExpression("labelExpression", categorySeries.getLabelExpression(), false);
 
-		if (categorySeries.getCategoryExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<categoryExpression><![CDATA[");
-			sb.append(categorySeries.getCategoryExpression().getText());
-			sb.append("]]></categoryExpression>\n");
-		}
-
-		if (categorySeries.getValueExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-			sb.append(categorySeries.getValueExpression().getText());
-			sb.append("]]></valueExpression>\n");
-		}
-
-		if (categorySeries.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(categorySeries.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t\t</categorySeries>\n");
+		writer.closeElement();
 	}
 
 	/**
 	 * 
-	 * @param dataset
 	 */
-	private void writeXyzDataset( JRXyzDataset dataset ){
-		sb.append( "\t\t\t\t<xyzDataset>\n" );
-		writeDataset( dataset );
+	private void writeXyzDataset(JRXyzDataset dataset) throws IOException
+	{
+		writer.startElement("xyzDataset");
+		writeChartDataset(dataset);
 		
 		JRXyzSeries[] series = dataset.getSeries();
-		if( series != null && series.length > 0 ){
-			for( int i = 0; i < series.length; i++ ){
-				writeXyzSeries( series[i] ); 
+		if( series != null && series.length > 0 )
+		{
+			for( int i = 0; i < series.length; i++ )
+			{
+				writeXyzSeries(series[i]); 
 			}
 		}
-		sb.append( "\t\t\t\t</xyzDataset>\n" );
+
+		writer.closeElement();
 	}
 	
 	
 	/**
 	 * 
-	 * @param series
 	 */
-	private void writeXyzSeries( JRXyzSeries series ){
-		sb.append( "\t\t\t\t\t<xyzSeries>\n" );
+	private void writeXyzSeries(JRXyzSeries series) throws IOException
+	{
+		writer.startElement("xyzSeries");
 		
-		if (series.getSeriesExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
-			sb.append( series.getSeriesExpression().getText() );
-			sb.append("]]></seriesExpression>\n");
-		}
-		
-		if (series.getXValueExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<xValueExpression><![CDATA[" );
-			sb.append( series.getXValueExpression().getText() );
-			sb.append( "]]></xValueExpression>\n" );
-		}
-		
-		if (series.getYValueExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<yValueExpression><![CDATA[" );
-			sb.append( series.getYValueExpression().getText() );
-			sb.append( "]]></yValueExpression>\n" );
-		}
-		
-		if (series.getZValueExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<zValueExpression><![CDATA[" );
-			sb.append( series.getZValueExpression().getText() );
-			sb.append( "]]></zValueExpression>\n" );
-		}
-		
-		sb.append( "\t\t\t\t\t</xyzSeries>\n" );
+		writer.writeExpression("seriesExpression", series.getSeriesExpression(), false);
+		writer.writeExpression("xValueExpression", series.getXValueExpression(), false);
+		writer.writeExpression("yValueExpression", series.getYValueExpression(), false);
+		writer.writeExpression("zValueExpression", series.getZValueExpression(), false);
+
+		writer.closeElement();
 	}
 
 	/**
 	 *
-	 * @param xySeries
 	 */
-	private void writeXySeries(JRXySeries xySeries)
+	private void writeXySeries(JRXySeries xySeries) throws IOException
 	{
-		sb.append("\t\t\t\t\t<xySeries>\n");
+		writer.startElement("xySeries");
 
-		if (xySeries.getSeriesExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-			sb.append(xySeries.getSeriesExpression().getText());
-			sb.append("]]></seriesExpression>\n");
-		}
+		writer.writeExpression("seriesExpression", xySeries.getSeriesExpression(), false);
+		writer.writeExpression("xValueExpression", xySeries.getXValueExpression(), false);
+		writer.writeExpression("yValueExpression", xySeries.getYValueExpression(), false);
+		writer.writeExpression("labelExpression", xySeries.getLabelExpression(), false);
 
-		if (xySeries.getXValueExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<xValueExpression><![CDATA[");
-			sb.append(xySeries.getXValueExpression().getText());
-			sb.append("]]></xValueExpression>\n");
-		}
-
-		if (xySeries.getYValueExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<yValueExpression><![CDATA[");
-			sb.append(xySeries.getYValueExpression().getText());
-			sb.append("]]></yValueExpression>\n");
-		}
-		
-		if( xySeries.getLabelExpression() != null ){
-			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(xySeries.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-		
-		sb.append("\t\t\t\t\t</xySeries>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param dataset
 	 */
-	private void writeXyDataset(JRXyDataset dataset)
+	private void writeXyDataset(JRXyDataset dataset) throws IOException
 	{
-		sb.append("\t\t\t\t<xyDataset>\n");
+		writer.startElement("xyDataset");
 
-		writeDataset(dataset);
+		writeChartDataset(dataset);
 
 		/*   */
 		JRXySeries[] xySeries = dataset.getSeries();
@@ -2394,682 +1217,433 @@ public class JRXmlWriter
 			}
 		}
 
-		sb.append("\t\t\t\t</xyDataset>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param timeSeries
 	 */
-	private void writeTimeSeries(JRTimeSeries timeSeries)
+	private void writeTimeSeries(JRTimeSeries timeSeries) throws IOException
 	{
-		sb.append("\t\t\t\t\t<timeSeries>\n");
+		writer.startElement("timeSeries");
 
-		if (timeSeries.getSeriesExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<seriesExpression><![CDATA[");
-			sb.append(timeSeries.getSeriesExpression().getText());
-			sb.append("]]></seriesExpression>\n");
-		}
-
-		if (timeSeries.getTimePeriodExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<timePeriodExpression><![CDATA[");
-			sb.append(timeSeries.getTimePeriodExpression().getText());
-			sb.append("]]></timePeriodExpression>\n");
-		}
-
-		if (timeSeries.getValueExpression() != null)
-		{
-			sb.append("\t\t\t\t\t\t<valueExpression><![CDATA[");
-			sb.append(timeSeries.getValueExpression().getText());
-			sb.append("]]></valueExpression>\n");
-		}
+		writer.writeExpression("seriesExpression", timeSeries.getSeriesExpression(), false);
+		writer.writeExpression("timePeriodExpression", timeSeries.getTimePeriodExpression(), false);
+		writer.writeExpression("valueExpression", timeSeries.getValueExpression(), false);
+		writer.writeExpression("labelExpression", timeSeries.getLabelExpression(), false);
 		
-		if( timeSeries.getLabelExpression() != null )
-		{
-			sb.append("\t\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(timeSeries.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t\t</timeSeries>\n");
+		writer.closeElement();
 	}
 	
 	
-	private void writeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
-		sb.append( "\t\t\t\t\t<timePeriodSeries>\n" );
+	private void writeTimePeriodSeries(JRTimePeriodSeries timePeriodSeries) throws IOException
+	{
+		writer.startElement("timePeriodSeries");
 		
-		if (timePeriodSeries.getSeriesExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<seriesExpression><![CDATA[" );
-			sb.append( timePeriodSeries.getSeriesExpression().getText() );
-			sb.append( "]]></seriesExpression>\n" );
-		}
+		writer.writeExpression("seriesExpression", timePeriodSeries.getSeriesExpression(), false);
+		writer.writeExpression("startDateExpression", timePeriodSeries.getStartDateExpression(), false);
+		writer.writeExpression("endDateExpression", timePeriodSeries.getEndDateExpression(), false);
+		writer.writeExpression("valueExpression", timePeriodSeries.getValueExpression(), false);
+		writer.writeExpression("labelExpression", timePeriodSeries.getLabelExpression(), false);
 		
-		if (timePeriodSeries.getStartDateExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<startDateExpression><![CDATA[" );
-			sb.append( timePeriodSeries.getStartDateExpression().getText() );
-			sb.append( "]]></startDateExpression>\n" );
-		}
-		
-		if (timePeriodSeries.getEndDateExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<endDateExpression><![CDATA[" );
-			sb.append( timePeriodSeries.getEndDateExpression().getText() );
-			sb.append( "]]></endDateExpression>\n" );
-		}
-		
-		if (timePeriodSeries.getValueExpression() != null)
-		{
-			sb.append( "\t\t\t\t\t\t<valueExpression><![CDATA[" );
-			sb.append( timePeriodSeries.getValueExpression().getText() );
-			sb.append( "]]></valueExpression>\n" );
-		}
-		
-		if( timePeriodSeries.getLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t\t<labelExpression><![CDATA[" );
-			sb.append( timePeriodSeries.getLabelExpression().getText() );
-			sb.append( "]]></labelExpression>\n" );
-		}
-		
-		sb.append( "\t\t\t\t\t</timePeriodSeries>\n" );
+		writer.closeElement();
 	}
 
 	
 	/**
 	 *
 	 */
-	public void writePieDataset(JRPieDataset dataset)
+	public void writePieDataset(JRPieDataset dataset) throws IOException
 	{
-		sb.append("\t\t\t\t<pieDataset>\n");
+		writer.startElement("pieDataset");
 
-		writeDataset(dataset);
+		writeChartDataset(dataset);
 
-		if (dataset.getKeyExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<keyExpression><![CDATA[");
-			sb.append(dataset.getKeyExpression().getText());
-			sb.append("]]></keyExpression>\n");
-		}
+		writer.writeExpression("keyExpression", dataset.getKeyExpression(), false);
+		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
+		writer.writeExpression("labelExpression", dataset.getLabelExpression(), false);
+		
+		writer.closeElement();
+	}
 
-		if (dataset.getValueExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<valueExpression><![CDATA[");
-			sb.append(dataset.getValueExpression().getText());
-			sb.append("]]></valueExpression>\n");
-		}
-
-		if (dataset.getLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<labelExpression><![CDATA[");
-			sb.append(dataset.getLabelExpression().getText());
-			sb.append("]]></labelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</pieDataset>\n");
+	/**
+	 *
+	 */
+	private void writePlot(JRChartPlot plot) throws IOException
+	{
+		writer.startElement("plot");
+		writer.addAttribute("backcolor", plot.getBackcolor());
+		writer.addAttribute("orientation", plot.getOrientation(), JRXmlConstants.getPlotOrientationMap(), PlotOrientation.VERTICAL);
+		writer.addAttribute("backgroundAlpha", plot.getBackgroundAlpha(), 1.0f);
+		writer.addAttribute("foregroundAlpha", plot.getForegroundAlpha(), 1.0f);
+		
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param plot
 	 */
-	private void writePlot(JRChartPlot plot)
+	public void writePieChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t\t\t<plot");
-
-		if (plot.getBackcolor() != null)
-		{
-			sb.append(" backcolor=\"#");
-			sb.append(Integer.toHexString(plot.getBackcolor().getRGB() & colorMask));
-			sb.append("\"");
-		}
-
-		if (!plot.getOrientation().equals(PlotOrientation.VERTICAL))
-			sb.append(" orientation=\"" + JRXmlConstants.getPlotOrientationMap().get(PlotOrientation.HORIZONTAL)+ "\"");
-
-		if (plot.getBackgroundAlpha() != 1.0f)
-			sb.append(" backgroundAlpha=\"" + plot.getBackgroundAlpha() + "\"");
-
-		if (plot.getForegroundAlpha() != 1.0f)
-			sb.append(" foregroundAlpha=\"" + plot.getForegroundAlpha() + "\"");
-
-		sb.append("/>\n");
-	}
-
-
-	/**
-	 *
-	 * @param chart
-	 */
-	public void writePieChart(JRChart chart)
-	{
-		sb.append("\t\t\t<pieChart>\n");
-
+		writer.startElement("pieChart");
 		writeChart(chart);
 		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
-		sb.append("\t\t\t\t<piePlot>\n");
+		writer.startElement("piePlot");
 		writePlot(chart.getPlot());
-		sb.append("\t\t\t\t</piePlot>\n");
+		writer.closeElement();
 
-		sb.append("\t\t\t</pieChart>\n");
-
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writePie3DChart(JRChart chart)
+	public void writePie3DChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<pie3DChart>\n");
-
+		writer.startElement("pie3DChart");
 		writeChart(chart);
 		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
 		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
-		sb.append("\t\t\t\t<pie3DPlot");
-		if (plot.getDepthFactor() != JRPie3DPlot.DEPTH_FACTOR_DEFAULT)
-			sb.append(" depthFactor=\"" + String.valueOf(plot.getDepthFactor()) + "\"");
-		sb.append(">\n");
+		writer.startElement("pie3DPlot");
+		writer.addAttribute("depthFactor", plot.getDepthFactor(), JRPie3DPlot.DEPTH_FACTOR_DEFAULT);
 		writePlot(chart.getPlot());
-		sb.append("\t\t\t\t</pie3DPlot>\n");
+		writer.closeElement();
 
-		sb.append("\t\t\t</pie3DChart>\n");
-
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param plot
 	 */
-	private void writeBarPlot(JRBarPlot plot)
+	private void writeBarPlot(JRBarPlot plot) throws IOException
 	{
-		sb.append("\t\t\t\t<barPlot");
-		if (plot.isShowLabels())
-			sb.append(" isShowTickLabels=\"true\"");
-		if (!plot.isShowTickLabels())
-			sb.append(" isShowTickLabels=\"false\"");
-		if (!plot.isShowTickMarks())
-			sb.append(" isShowTickMarks=\"false\"");
-		sb.append(">\n");
+		writer.startElement("barPlot");
+		writer.addAttribute("isShowLabels", plot.isShowLabels(), false);
+		writer.addAttribute("isShowTickLabels", plot.isShowTickLabels(), true);
+		writer.addAttribute("isShowTickMarks", plot.isShowTickMarks(), true);
 		writePlot(plot);
 
-		if (plot.getCategoryAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
-			sb.append(plot.getCategoryAxisLabelExpression().getText());
-			sb.append("]]></categoryAxisLabelExpression>\n");
-		}
+		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</barPlot>\n");
+		writer.closeElement();
 	}
 	
 	
 	/**
 	 * 
 	 */
-	private void writeBubblePlot( JRBubblePlot plot ){
-		sb.append( "\t\t\t\t<bubblePlot scaleType=\"" );
-		
-		Map scaleTypeMap = JRXmlConstants.getScaleTypeMap();
-		sb.append( scaleTypeMap.get( new Integer( plot.getScaleType() )));
-		
-		sb.append( "\">\n" );
-		writePlot( plot );
-		if( plot.getXAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<xAxisLabelExpression><![CDATA[" );
-			sb.append( plot.getXAxisLabelExpression().getText() );
-			sb.append( "]]></xAxisLabelExpression>\n" );
-		}
-		
-		if( plot.getYAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<yAxisLabelExpression><![CDATA[" );
-			sb.append( plot.getYAxisLabelExpression().getText() );
-			sb.append( "]]></yAxisLabelExpression>\n" );
-		}
-		
-		sb.append( "\t\t\t\t</bubblePlot>\n" );
+	private void writeBubblePlot(JRBubblePlot plot) throws IOException
+	{
+		writer.startElement("bubblePlot");
+		writer.addAttribute("scaleType", plot.getScaleType(), JRXmlConstants.getScaleTypeMap());
+		writePlot(plot);
+		writer.writeExpression("xAxisLabelExpression", plot.getXAxisLabelExpression(), false);
+		writer.writeExpression("yAxisLabelExpression", plot.getYAxisLabelExpression(), false);
+
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param plot
 	 */
-	private void writeLinePlot(JRLinePlot plot)
+	private void writeLinePlot(JRLinePlot plot) throws IOException
 	{
-		sb.append("\t\t\t\t<linePlot");
-		if (!plot.isShowLines())
-			sb.append(" isShowLines=\"false\"");
-		if (!plot.isShowShapes())
-			sb.append(" isShowShapes=\"false\"");
-		sb.append(">\n");
+		writer.startElement("linePlot");
+		writer.addAttribute("isShowLines", plot.isShowLines(), true);
+		writer.addAttribute("isShowShapes", plot.isShowShapes(), true);
+
 		writePlot(plot);
 
-		if (plot.getCategoryAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
-			sb.append(plot.getCategoryAxisLabelExpression().getText());
-			sb.append("]]></categoryAxisLabelExpression>\n");
-		}
+		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</linePlot>\n");
+		writer.closeElement();
 	}
 	
 	
-	private void writeTimeSeriesPlot( JRTimeSeriesPlot plot ){
-		sb.append( "\t\t\t\t<timeSeriesPlot" );
-		if( !plot.isShowLines() ){
-			sb.append( " isShowLines=\"false\" " );
-		}
-		if( !plot.isShowShapes() ){
-			sb.append( "isShowShapes=\"false\" ");
-		}
-		sb.append( ">\n" );
+	private void writeTimeSeriesPlot(JRTimeSeriesPlot plot) throws IOException
+	{
+		writer.startElement("timeSeriesPlot");
+		writer.addAttribute("isShowLines", plot.isShowLines(), true);
+		writer.addAttribute("isShowShapes", plot.isShowShapes(), true);
 		
 		writePlot( plot );
 		
-		if(plot.getTimeAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<timeAxisLabelExpression><![CDATA[" );
-			sb.append( plot.getTimeAxisLabelExpression().getText() );
-			sb.append( "]]></timeAxisLabelExpression>\n" );
-		}
-		
-		if( plot.getValueAxisLabelExpression() != null ){
-			sb.append( "\t\t\t\t\t<valueAxisLabelExpression><![CDATA[" );
-			sb.append( plot.getValueAxisLabelExpression().getText() );
-			sb.append( "]]></valueAxisLabelExpression>\n" );
-		}
-		
-		sb.append( "\t\t\t\t</timeSeriesPlot>\n" );
+		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param plot
 	 */
-	public void writeBar3DPlot(JRBar3DPlot plot)
+	public void writeBar3DPlot(JRBar3DPlot plot) throws IOException
 	{
-		sb.append("\t\t\t\t<bar3DPlot");
-		if (plot.isShowLabels())
-			sb.append(" isShowLabels=\"true\"");
-		if (plot.getXOffset() != BarRenderer3D.DEFAULT_X_OFFSET)
-			sb.append(" xOffset=\"" + plot.getXOffset() + "\"");
-		if (plot.getYOffset() != BarRenderer3D.DEFAULT_Y_OFFSET)
-			sb.append(" yOffset=\"" + plot.getYOffset() + "\"");
-		sb.append(">\n");
+		writer.startElement("bar3DPlot");
+		writer.addAttribute("isShowLabels", plot.isShowLabels(), false);
+		writer.addAttribute("xOffset", plot.getXOffset(), BarRenderer3D.DEFAULT_X_OFFSET);
+		writer.addAttribute("yOffset", plot.getYOffset(), BarRenderer3D.DEFAULT_Y_OFFSET);
+
 		writePlot(plot);
 
-		if (plot.getCategoryAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
-			sb.append(plot.getCategoryAxisLabelExpression().getText());
-			sb.append("]]></categoryAxisLabelExpression>\n");
-		}
+		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</bar3DPlot>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeBarChart(JRChart chart)
+	public void writeBarChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<barChart>\n");
+		writer.startElement("barChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
-		sb.append("\t\t\t</barChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeBar3DChart(JRChart chart)
+	public void writeBar3DChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<bar3DChart>\n");
+		writer.startElement("bar3DChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeBar3DPlot((JRBar3DPlot) chart.getPlot());
 
-		sb.append("\t\t\t</bar3DChart>\n");
+		writer.closeElement();
 	}
 	
 	
 	/**
 	 * 
-	 * @param chart
 	 */
-	public void writeBubbleChart( JRChart chart ){
-		sb.append( "\t\t\t<bubbleChart>\n" );
-		writeChart( chart );
-		writeXyzDataset( (JRXyzDataset)chart.getDataset() );
-		writeBubblePlot( (JRBubblePlot)chart.getPlot());
-		sb.append( "\t\t\t</bubbleChart>\n" );
+	public void writeBubbleChart(JRChart chart) throws IOException
+	{
+		writer.startElement("bubbleChart");
+		writeChart(chart);
+		writeXyzDataset((JRXyzDataset) chart.getDataset());
+		writeBubblePlot((JRBubblePlot) chart.getPlot());
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeStackedBarChart(JRChart chart)
+	public void writeStackedBarChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<stackedBarChart>\n");
+		writer.startElement("stackedBarChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
-		sb.append("\t\t\t</stackedBarChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeStackedBar3DChart(JRChart chart)
+	public void writeStackedBar3DChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<stackedBar3DChart>\n");
+		writer.startElement("stackedBar3DChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeBar3DPlot((JRBar3DPlot) chart.getPlot());
-
-		sb.append("\t\t\t</stackedBar3DChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeLineChart(JRChart chart)
+	public void writeLineChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<lineChart>\n");
+		writer.startElement("lineChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeLinePlot((JRLinePlot) chart.getPlot());
-
-		sb.append("\t\t\t</lineChart>\n");
+		writer.closeElement();
 	}
 	
 	
-	public void writeTimeSeriesChart( JRChart chart ){
-		sb.append( "\t\t\t<timeSeriesChart>\n" );
-		writeChart( chart );
-		writeTimeSeriesDataset( (JRTimeSeriesDataset)chart.getDataset() );
-		writeTimeSeriesPlot( (JRTimeSeriesPlot)chart.getPlot() );
-		sb.append( "\t\t\t</timeSeriesChart>\n" );
+	public void writeTimeSeriesChart(JRChart chart) throws IOException
+	{
+		writer.startElement("timeSeriesChart");
+		writeChart(chart);
+		writeTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
+		writeTimeSeriesPlot((JRTimeSeriesPlot)chart.getPlot());
+		writer.closeElement();
 	}
 
-	public void writeHighLowDataset(JRHighLowDataset dataset)
+	public void writeHighLowDataset(JRHighLowDataset dataset) throws IOException
 	{
-		sb.append("\t\t\t\t<highLowDataset>\n");
+		writer.startElement("highLowDataset");
 
-		writeDataset(dataset);
+		writeChartDataset(dataset);
 
-		if (dataset.getSeriesExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<seriesExpression><![CDATA[");
-			sb.append(dataset.getSeriesExpression().getText());
-			sb.append("]]></seriesExpression>\n");
-		}
+		writer.writeExpression("seriesExpression", dataset.getSeriesExpression(), false);
+		writer.writeExpression("dateExpression", dataset.getDateExpression(), false);
+		writer.writeExpression("highExpression", dataset.getHighExpression(), false);
+		writer.writeExpression("lowExpression", dataset.getLowExpression(), false);
+		writer.writeExpression("openExpression", dataset.getOpenExpression(), false);
+		writer.writeExpression("closeExpression", dataset.getCloseExpression(), false);
+		writer.writeExpression("volumeExpression", dataset.getVolumeExpression(), false);
 
-		if (dataset.getDateExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<dateExpression><![CDATA[");
-			sb.append(dataset.getDateExpression().getText());
-			sb.append("]]></dateExpression>\n");
-		}
-
-		if (dataset.getHighExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<highExpression><![CDATA[");
-			sb.append(dataset.getHighExpression().getText());
-			sb.append("]]></highExpression>\n");
-		}
-
-		if (dataset.getLowExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<lowExpression><![CDATA[");
-			sb.append(dataset.getLowExpression().getText());
-			sb.append("]]></lowExpression>\n");
-		}
-
-		if (dataset.getOpenExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<openExpression><![CDATA[");
-			sb.append(dataset.getOpenExpression().getText());
-			sb.append("]]></openExpression>\n");
-		}
-
-		if (dataset.getCloseExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<closeExpression><![CDATA[");
-			sb.append(dataset.getCloseExpression().getText());
-			sb.append("]]></closeExpression>\n");
-		}
-
-		if (dataset.getVolumeExpression() != null)
-		{
-			sb.append("\t\t\t\t\t<volumeExpression><![CDATA[");
-			sb.append(dataset.getVolumeExpression().getText());
-			sb.append("]]></volumeExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</highLowDataset>\n");
+		writer.closeElement();
 	}
 
 
-	public void writeHighLowChart(JRChart chart)
+	public void writeHighLowChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<highLowChart>\n");
+		writer.startElement("highLowChart");
 
 		writeChart(chart);
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRHighLowPlot plot = (JRHighLowPlot) chart.getPlot();
-		sb.append("\t\t\t\t<highLowPlot");
-		if (!plot.isShowOpenTicks())
-			sb.append(" isShowOpenTicks=\"false\"");
-		if (!plot.isShowCloseTicks())
-			sb.append(" isShowCloseTicks=\"false\"");
-		sb.append(">\n");
+		writer.startElement("highLowPlot");
+		writer.addAttribute("isShowOpenTicks", plot.isShowOpenTicks(), true);
+		writer.addAttribute("isShowCloseTicks", plot.isShowCloseTicks(), true);
+
 		writePlot(plot);
 
-		if (plot.getTimeAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<timeAxisLabelExpression><![CDATA[");
-			sb.append(plot.getTimeAxisLabelExpression().getText());
-			sb.append("]]></timeAxisLabelExpression>\n");
-		}
+		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</highLowPlot>\n");
-
-		sb.append("\t\t\t</highLowChart>\n");
+		writer.closeElement();
+		writer.closeElement();
 	}
 
 
-	public void writeCandlestickChart(JRChart chart)
+	public void writeCandlestickChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<candlestickChart>\n");
+		writer.startElement("candlestickChart");
 
 		writeChart(chart);
 		writeHighLowDataset((JRHighLowDataset) chart.getDataset());
 
 		JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-		sb.append("\t\t\t\t<candlestickPlot");
-		if (!plot.isShowVolume())
-			sb.append(" isShowVolume=\"false\"");
-		sb.append(">\n");
+		writer.startElement("candlestickPlot");
+		writer.addAttribute("isShowVolume", plot.isShowVolume(), true);
+
 		writePlot(plot);
 
-		if (plot.getTimeAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<timeAxisLabelExpression><![CDATA[");
-			sb.append(plot.getTimeAxisLabelExpression().getText());
-			sb.append("]]></timeAxisLabelExpression>\n");
-		}
+		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</candlestickPlot>\n");
-
-		sb.append("\t\t\t</candlestickChart>\n");
+		writer.closeElement();
+		writer.closeElement();
 	}
 
 	/**
 	 *
-	 * @param plot
 	 */
-	private void writeAreaPlot(JRAreaPlot plot)
+	private void writeAreaPlot(JRAreaPlot plot) throws IOException
 	{
-		sb.append("\t\t\t\t<areaPlot>\n");
+		writer.startElement("areaPlot");
 		writePlot(plot);
 
-		if (plot.getCategoryAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<categoryAxisLabelExpression><![CDATA[");
-			sb.append(plot.getCategoryAxisLabelExpression().getText());
-			sb.append("]]></categoryAxisLabelExpression>\n");
-		}
+		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
 
-		if (plot.getValueAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<valueAxisLabelExpression><![CDATA[");
-			sb.append(plot.getValueAxisLabelExpression().getText());
-			sb.append("]]></valueAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</areaPlot>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeAreaChart(JRChart chart)
+	public void writeAreaChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<areaChart>\n");
+		writer.startElement("areaChart");
 
 		writeChart(chart);
 		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
 		writeAreaPlot((JRAreaPlot) chart.getPlot());
 
-		sb.append("\t\t\t</areaChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param plot
 	 */
-	private void writeScatterPlot(JRScatterPlot plot)
+	private void writeScatterPlot(JRScatterPlot plot) throws IOException
 	{
-		sb.append("\t\t\t\t<scatterPlot");
-		if (!plot.isShowLines())
-			sb.append(" isShowLines=\"false\"");
-		if (!plot.isShowShapes())
-			sb.append(" isShowShapes=\"false\"");
-		sb.append(">\n");
+		writer.startElement("scatterPlot");
+		writer.addAttribute("isShowLines", plot.isShowLines(), true);
+		writer.addAttribute("isShowShapes", plot.isShowShapes(), true);
+
 		writePlot(plot);
 
-		if (plot.getXAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<xAxisLabelExpression><![CDATA[");
-			sb.append(plot.getXAxisLabelExpression().getText());
-			sb.append("]]></xAxisLabelExpression>\n");
-		}
+		writer.writeExpression("xAxisLabelExpression", plot.getXAxisLabelExpression(), false);
+		writer.writeExpression("yAxisLabelExpression", plot.getYAxisLabelExpression(), false);
 
-		if (plot.getYAxisLabelExpression() != null) {
-			sb.append("\t\t\t\t\t<yAxisLabelExpression><![CDATA[");
-			sb.append(plot.getYAxisLabelExpression().getText());
-			sb.append("]]></yAxisLabelExpression>\n");
-		}
-
-		sb.append("\t\t\t\t</scatterPlot>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeScatterChart(JRChart chart)
+	public void writeScatterChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<scatterChart>\n");
+		writer.startElement("scatterChart");
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
 		writeScatterPlot((JRScatterPlot) chart.getPlot());
 
-		sb.append("\t\t\t</scatterChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeXyAreaChart(JRChart chart)
+	public void writeXyAreaChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<xyAreaChart>\n");
+		writer.startElement("xyAreaChart");
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
 		writeAreaPlot((JRAreaPlot) chart.getPlot());
 
-		sb.append("\t\t\t</xyAreaChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
-	 * @param chart
 	 */
-	public void writeXyBarChart(JRChart chart)
+	public void writeXyBarChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<xyBarChart>\n");
+		writer.startElement("xyBarChart");
 
 		writeChart(chart);
 		JRChartDataset dataset = chart.getDataset();
@@ -3084,30 +1658,28 @@ public class JRXmlWriter
 			writeXyDataset( (JRXyDataset)dataset );
 		}
 		
-	
-		
 		writeBarPlot((JRBarPlot) chart.getPlot());
 
-		sb.append("\t\t\t</xyBarChart>\n");
+		writer.closeElement();
 	}
 
 
 	/**
 	 *
 	 */
-	public void writeXyLineChart(JRChart chart)
+	public void writeXyLineChart(JRChart chart) throws IOException
 	{
-		sb.append("\t\t\t<xyLineChart>\n");
+		writer.startElement("xyLineChart");
 
 		writeChart(chart);
 		writeXyDataset((JRXyDataset) chart.getDataset());
 		writeLinePlot((JRLinePlot) chart.getPlot());
 
-		sb.append("\t\t\t</xyLineChart>\n");
+		writer.closeElement();
 	}
 
 
-	public void writeChartTag(JRChart chart)
+	public void writeChartTag(JRChart chart) throws IOException
 	{
 		switch(chart.getChartType()) {
 			case JRChart.CHART_TYPE_AREA:
@@ -3164,33 +1736,355 @@ public class JRXmlWriter
 	}
 
 
-	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue)
+	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue) throws IOException
 	{
-		sb.append("\t\t\t\t<returnValue");
-		if (returnValue.getSubreportVariable() != null)
+		writer.startElement("returnValue");
+		writer.addAttribute("subreportVariable", returnValue.getSubreportVariable());
+		writer.addAttribute("toVariable", returnValue.getToVariable());
+		writer.addAttribute("calculation", returnValue.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute("incrementerFactoryClass", returnValue.getIncrementerFactoryClassName());
+		writer.closeElement();
+	}
+
+
+	public void writeCrosstab(JRCrosstab crosstab) throws IOException
+	{
+		writer.startElement("crosstab");
+		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_name, crosstab.getName());
+		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatColumnHeaders, crosstab.isRepeatColumnHeaders(), true);
+		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatRowHeaders, crosstab.isRepeatRowHeaders(), true);
+		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_columnBreakOffset, crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
+		
+		writeReportElement(crosstab);
+		
+		JRCrosstabParameter[] parameters = crosstab.getParameters();
+		if (parameters != null)
 		{
-			sb.append(" subreportVariable=\"");
-			sb.append(returnValue.getSubreportVariable());
-			sb.append("\"");
+			for (int i = 0; i < parameters.length; i++)
+			{
+				writeCrosstabParameter(parameters[i]);
+			}
 		}
-		if (returnValue.getToVariable() != null)
+		
+		writer.writeExpression("parametersMapExpression", crosstab.getParametersMapExpression(), false);
+		
+		writeCrosstabDataset(crosstab);
+		
+		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
+		for (int i = 0; i < rowGroups.length; i++)
 		{
-			sb.append(" toVariable=\"");
-			sb.append(returnValue.getToVariable());
-			sb.append("\"");
+			writeCrosstabRowGroup(rowGroups[i]);
 		}
-		if (returnValue.getCalculation() != JRVariable.CALCULATION_NOTHING)
+		
+		JRCrosstabColumnGroup[] columnGroups = crosstab.getColumnGroups();
+		for (int i = 0; i < columnGroups.length; i++)
 		{
-			sb.append(" calculation=\"");
-			sb.append((String)JRXmlConstants.getCalculationMap().get(new Byte(returnValue.getCalculation())));
-			sb.append("\"");
+			writeCrosstabColumnGroup(columnGroups[i]);
 		}
-		if (returnValue.getIncrementerFactoryClassName() != null)
+		
+		JRCrosstabMeasure[] measures = crosstab.getMeasures();
+		for (int i = 0; i < measures.length; i++)
 		{
-			sb.append(" incrementerFactoryClass=\"");
-			sb.append(returnValue.getIncrementerFactoryClassName());
-			sb.append("\"");
-}
-		sb.append("/>\n");
+			writeCrosstabMeasure(measures[i]);
+		}
+		
+		if (crosstab instanceof JRDesignCrosstab)
+		{
+			List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+			for (Iterator it = cellsList.iterator(); it.hasNext();)
+			{
+				JRCrosstabCell cell = (JRCrosstabCell) it.next();
+				writeCrosstabCell(cell);
+			}
+		}
+		else
+		{
+			JRCrosstabCell[][] cells = crosstab.getCells();
+			Set cellsSet = new HashSet();
+			for (int i = cells.length - 1; i >= 0 ; --i)
+			{
+				for (int j = cells[i].length - 1; j >= 0 ; --j)
+				{
+					JRCrosstabCell cell = cells[i][j];
+					if (cell != null && cellsSet.add(cell))
+					{
+						writeCrosstabCell(cell);
+					}
+				}
+			}
+		}
+		
+		writeCrosstabWhenNoDataCell(crosstab);
+		
+		writer.closeElement();
+	}
+
+
+	private void writeCrosstabDataset(JRCrosstab crosstab) throws IOException
+	{
+		JRCrosstabDataset dataset = crosstab.getDataset();
+		writer.startElement("crosstabDataset");
+		writer.addAttribute(JRCrosstabDatasetFactory.ATTRIBUTE_isDataPreSorted, dataset.isDataPreSorted(), false);		
+		writeChartDataset(dataset);
+		writer.closeElement();
+	}
+
+
+	private void writeCrosstabWhenNoDataCell(JRCrosstab crosstab) throws IOException
+	{
+		JRCellContents whenNoDataCell = crosstab.getWhenNoDataCell();
+		if (whenNoDataCell != null)
+		{
+			writer.startElement("whenNoDataCell");
+			writeCellContents(whenNoDataCell);
+			writer.closeElement();
+		}
+	}
+	
+	
+	protected void writeCrosstabRowGroup(JRCrosstabRowGroup group) throws IOException
+	{
+		writer.startElement("rowGroup");
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_name, group.getName());
+		writer.addAttribute(JRCrosstabRowGroupFactory.ATTRIBUTE_width, group.getWidth());
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_totalPosition, group.getTotalPosition(), JRXmlConstants.getCrosstabTotalPositionMap(), BucketDefinition.TOTAL_POSITION_NONE);
+		writer.addAttribute(JRCrosstabRowGroupFactory.ATTRIBUTE_headerPosition, group.getPosition(), JRXmlConstants.getCrosstabRowPositionMap(), JRCellContents.POSITION_Y_TOP);
+
+		writeBucket(group.getBucket());
+		
+		JRCellContents header = group.getHeader();
+		if (header != null)
+		{
+			writer.startElement("crosstabRowHeader");
+			writeCellContents(header);
+			writer.closeElement();
+		}
+		
+		JRCellContents totalHeader = group.getTotalHeader();
+		if (totalHeader != null)
+		{
+			writer.startElement("crosstabTotalRowHeader");
+			writeCellContents(totalHeader);
+			writer.closeElement();
+		}
+		
+		writer.closeElement();
+		
+	}
+	
+	
+	protected void writeCrosstabColumnGroup(JRCrosstabColumnGroup group) throws IOException
+	{
+		writer.startElement("columnGroup");
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_name, group.getName());
+		writer.addAttribute(JRCrosstabColumnGroupFactory.ATTRIBUTE_height, group.getHeight());
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_totalPosition, group.getTotalPosition(), JRXmlConstants.getCrosstabTotalPositionMap(), BucketDefinition.TOTAL_POSITION_NONE);
+		writer.addAttribute(JRCrosstabColumnGroupFactory.ATTRIBUTE_headerPosition, group.getPosition(), JRXmlConstants.getCrosstabColumnPositionMap(), JRCellContents.POSITION_X_LEFT);
+
+		writeBucket(group.getBucket());
+		
+		JRCellContents header = group.getHeader();
+		if (header != null)
+		{
+			writer.startElement("crosstabColumnHeader");
+			writeCellContents(header);
+			writer.closeElement();
+		}
+		
+		JRCellContents totalHeader = group.getTotalHeader();
+		if (totalHeader != null)
+		{
+			writer.startElement("crosstabTotalColumnHeader");
+			writeCellContents(totalHeader);
+			writer.closeElement();
+		}
+		
+		writer.closeElement();
+		
+	}
+
+
+	protected void writeBucket(JRCrosstabBucket bucket) throws IOException
+	{
+		writer.startElement("bucket");
+		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), JRXmlConstants.getCrosstabBucketOrderMap(), BucketDefinition.ORDER_ASCENDING);
+		writer.writeExpression("bucketExpression", bucket.getExpression(), true);
+		writer.writeExpression("comparatorExpression", bucket.getComparatorExpression(), false);		
+		writer.closeElement();
+	}
+
+
+	protected void writeCrosstabMeasure(JRCrosstabMeasure measure) throws IOException
+	{
+		writer.startElement("measure");
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_name, measure.getName());
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, measure.getValueClassName());
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_calculation, measure.getCalculation(), JRXmlConstants.getCalculationMap(), JRVariable.CALCULATION_NOTHING);
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_percentageOf, measure.getPercentageOfType(), JRXmlConstants.getCrosstabPercentageMap(), JRCrosstabMeasure.PERCENTAGE_TYPE_NONE);
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_percentageCalculatorClass, measure.getPercentageCalculatorClassName());
+		writer.writeExpression("measureExpression", measure.getValueExpression(), false);
+		writer.closeElement();
+	}
+
+
+	protected void writeCrosstabCell(JRCrosstabCell cell) throws IOException
+	{
+		writer.startElement("crosstabCell");
+		writer.addAttribute(JRCrosstabCellFactory.ATTRIBUTE_width, cell.getWidth());
+		writer.addAttribute(JRCrosstabCellFactory.ATTRIBUTE_height, cell.getHeight());
+		writer.addAttribute(JRCrosstabCellFactory.ATTRIBUTE_rowTotalGroup, cell.getRowTotalGroup());
+		writer.addAttribute(JRCrosstabCellFactory.ATTRIBUTE_columnTotalGroup, cell.getColumnTotalGroup());
+		
+		writeCellContents(cell.getContents());
+		
+		writer.closeElement();
+	}
+
+
+	protected void writeCellContents(JRCellContents contents) throws IOException
+	{
+		if (contents != null)
+		{
+			writer.startElement("cellContents");
+			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_backcolor, contents.getBackcolor());
+			
+			writeBox(contents.getBox());
+			
+			List children = contents.getChildren();
+			if (children != null)
+			{
+				for (Iterator it = children.iterator(); it.hasNext();)
+				{
+					JRChild element = (JRChild) it.next();
+					element.writeXml(this);
+				}
+			}
+			
+			writer.closeElement();
+		}
+	}
+
+
+	protected void writeCrosstabParameter(JRCrosstabParameter parameter) throws IOException
+	{
+		writer.startElement("crosstabParameter");
+		writer.addAttribute("name", parameter.getName());
+		writer.addAttribute("class", parameter.getValueClassName(), "java.lang.String");
+		writer.writeExpression("parameterValueExpression", parameter.getExpression(), false);
+		writer.closeElement();
+	}
+
+
+	public void writeDataset(JRDataset dataset) throws IOException
+	{
+		writer.startElement("subDataset");
+		writer.addAttribute("name", dataset.getName());
+		writer.addAttribute("scriptletClass", dataset.getScriptletClass());
+		writer.addAttribute("resourceBundle", dataset.getResourceBundle());
+		writer.addAttribute("whenResourceMissingType", dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		
+		writeDatasetContents(dataset);
+		
+		writer.closeElement();
+	}
+	
+	protected void writeDatasetContents(JRDataset dataset) throws IOException
+	{
+		/*   */
+		JRParameter[] parameters = dataset.getParameters();
+		if (parameters != null && parameters.length > 0)
+		{
+			for(int i = 0; i < parameters.length; i++)
+			{
+				if (!parameters[i].isSystemDefined())
+				{
+					writeParameter(parameters[i]);
+				}
+			}
+		}
+
+		/*   */
+		if(dataset.getQuery() != null)
+		{
+			writeQuery(dataset.getQuery());
+		}
+
+		/*   */
+		JRField[] fields = dataset.getFields();
+		if (fields != null && fields.length > 0)
+		{
+			for(int i = 0; i < fields.length; i++)
+			{
+				writeField(fields[i]);
+			}
+		}
+
+		/*   */
+		JRVariable[] variables = dataset.getVariables();
+		if (variables != null && variables.length > 0)
+		{
+			for(int i = 0; i < variables.length; i++)
+			{
+				if (!variables[i].isSystemDefined())
+				{
+					writeVariable(variables[i]);
+				}
+			}
+		}
+
+		/*   */
+		JRGroup[] groups = dataset.getGroups();
+		if (groups != null && groups.length > 0)
+		{
+			for(int i = 0; i < groups.length; i++)
+			{
+				writeGroup(groups[i]);
+			}
+		}
+	}
+	
+	
+	protected void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
+	{
+		writer.startElement("datasetRun");
+		writer.addAttribute("subDataset", datasetRun.getDatasetName());
+		
+		writer.writeExpression("parametersMapExpression", datasetRun.getParametersMapExpression(), false);
+
+		/*   */
+		JRSubreportParameter[] parameters = datasetRun.getParameters();
+		if (parameters != null && parameters.length > 0)
+		{
+			for(int i = 0; i < parameters.length; i++)
+			{
+				writeSubreportParameter(parameters[i]);
+			}
+		}
+
+		writer.writeExpression("connectionExpression", datasetRun.getConnectionExpression(), false);
+		writer.writeExpression("dataSourceExpression", datasetRun.getDataSourceExpression(), false);
+
+		writer.closeElement();
+	}
+	
+	
+	public void writeFrame(JRFrame frame) throws IOException
+	{
+		writer.startElement(JRFrameFactory.TAG_FRAME);
+		
+		writeReportElement(frame);
+		writeBox(frame.getBox());
+		
+		List children = frame.getChildren();
+		if (children != null)
+		{
+			for (Iterator it = children.iterator(); it.hasNext();)
+			{
+				JRChild element = (JRChild) it.next();
+				element.writeXml(this);
+			}
+		}
+		
+		writer.closeElement();
 	}
 }

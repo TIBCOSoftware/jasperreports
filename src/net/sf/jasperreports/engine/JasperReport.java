@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.base.JRBaseReport;
 
 
@@ -46,30 +48,46 @@ public class JasperReport extends JRBaseReport
 	private static final long serialVersionUID = 10003;
 
 	/**
-	 *
+	 * The name of the compiler class used to compile this report.
+	 * The compiler is used to instantiate expression evaluators.
 	 */
 	private String compilerClass = null;
-	private Object compileData = null;
+	
+	/**
+	 * Expression evaluators compiled data.
+	 */
+	private Serializable compileData = null;
 
 
 	/**
-	 *
+	 * Constructs a report by specifying the template report and compile information.
+	 * 
+	 * @param report the report template
+	 * @param compilerClass the name of the class used to compile the report
+	 * @param compileData the report/main dataset compile data
+	 * @param expressionCollector instance used to collect expressions from the report design
+	 * <p>
+	 * The collector is used to fetch the generated expression IDs.
 	 */
 	public JasperReport(
 		JRReport report,
 		String compilerClass, 
-		Object compileData
+		Serializable compileData,
+		JRExpressionCollector expressionCollector
 		)
 	{
-		super(report);
+		super(report, expressionCollector);
 		
 		this.compilerClass = compilerClass;
 		this.compileData = compileData;
 	}
 
-
 	/**
-	 *
+	 * Returns the name of the compiler class used to compile this report.
+	 * <p>
+	 * The compiler is used to instantiate expression evaluators.
+	 * 
+	 * @return the name of the compiler class used to compile this report
 	 */
 	public String getCompilerClass()
 	{
@@ -78,12 +96,14 @@ public class JasperReport extends JRBaseReport
 
 
 	/**
-	 *
+	 * Returns data resulted from the expression evaluators compilation.
+	 * <p>
+	 * This data is used to create expression evaluators for report filling.
+	 * 
+	 * @return expression evaluators compiled data
 	 */
-	public Object getCompileData()
+	public Serializable getCompileData()
 	{
 		return this.compileData;
 	}
-
-
 }

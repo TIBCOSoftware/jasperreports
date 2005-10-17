@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRJdk13Compiler extends JRAbstractClassCompiler
+public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 {
 
 
@@ -62,12 +62,15 @@ public class JRJdk13Compiler extends JRAbstractClassCompiler
 	/**
 	 *
 	 */
-	public String compileClass(File sourceFile, String classpath) throws JRException
+	public String compileClasses(File[] sourceFiles, String classpath) throws JRException
 	{
-		String[] source = new String[3];
-		source[0] = sourceFile.getPath();
-		source[1] = "-classpath";
-		source[2] = classpath;
+		String[] source = new String[sourceFiles.length + 2];
+		for (int i = 0; i < sourceFiles.length; i++)
+		{
+			source[i] = sourceFiles[i].getPath();
+		}
+		source[sourceFiles.length] = "-classpath";
+		source[sourceFiles.length + 1] = classpath;
 		
 		String errors = null;
 		
@@ -107,7 +110,13 @@ public class JRJdk13Compiler extends JRAbstractClassCompiler
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error compiling report java source file : " + sourceFile, e);
+			StringBuffer files = new StringBuffer();
+			for (int i = 0; i < sourceFiles.length; ++i)
+			{
+				files.append(sourceFiles[i].getPath());
+				files.append(' ');
+			}
+			throw new JRException("Error compiling report java source files : " + files, e);
 		}
 		
 		return errors;

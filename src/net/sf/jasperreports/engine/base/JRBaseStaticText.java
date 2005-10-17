@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -101,7 +103,7 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter writer)
+	public void writeXml(JRXmlWriter writer) throws IOException
 	{
 		writer.writeStaticText(this);
 	}
