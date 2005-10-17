@@ -335,7 +335,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public byte getBorder()
 	{
-		return ((JRTemplateText)template).getBorder();
+		return ((JRTemplateImage)template).getBorder();
 	}
 
 	public Byte getOwnBorder()
@@ -355,7 +355,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getBorderColor()
 	{
-		return ((JRTemplateText)template).getBorderColor();
+		return ((JRTemplateImage)template).getBorderColor();
 	}
 
 	public Color getOwnBorderColor()
@@ -375,7 +375,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public int getPadding()
 	{
-		return ((JRTemplateText)template).getPadding();
+		return ((JRTemplateImage)template).getPadding();
 	}
 
 	public Integer getOwnPadding()
@@ -395,7 +395,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public byte getTopBorder()
 	{
-		return ((JRTemplateText)template).getTopBorder();
+		return ((JRTemplateImage)template).getTopBorder();
 	}
 
 	/**
@@ -418,7 +418,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getTopBorderColor()
 	{
-		return ((JRTemplateText)template).getTopBorderColor();
+		return ((JRTemplateImage)template).getTopBorderColor();
 	}
 
 	/**
@@ -441,7 +441,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public int getTopPadding()
 	{
-		return ((JRTemplateText)template).getTopPadding();
+		return ((JRTemplateImage)template).getTopPadding();
 	}
 
 	/**
@@ -464,7 +464,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public byte getLeftBorder()
 	{
-		return ((JRTemplateText)template).getLeftBorder();
+		return ((JRTemplateImage)template).getLeftBorder();
 	}
 
 	/**
@@ -487,7 +487,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getLeftBorderColor()
 	{
-		return ((JRTemplateText)template).getLeftBorderColor();
+		return ((JRTemplateImage)template).getLeftBorderColor();
 	}
 
 	/**
@@ -510,7 +510,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public int getLeftPadding()
 	{
-		return ((JRTemplateText)template).getLeftPadding();
+		return ((JRTemplateImage)template).getLeftPadding();
 	}
 
 	/**
@@ -533,7 +533,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public byte getBottomBorder()
 	{
-		return ((JRTemplateText)template).getBottomBorder();
+		return ((JRTemplateImage)template).getBottomBorder();
 	}
 
 	/**
@@ -556,7 +556,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getBottomBorderColor()
 	{
-		return ((JRTemplateText)template).getBottomBorderColor();
+		return ((JRTemplateImage)template).getBottomBorderColor();
 	}
 
 	/**
@@ -579,7 +579,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public int getBottomPadding()
 	{
-		return ((JRTemplateText)template).getBottomPadding();
+		return ((JRTemplateImage)template).getBottomPadding();
 	}
 
 	/**
@@ -602,7 +602,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public byte getRightBorder()
 	{
-		return ((JRTemplateText)template).getRightBorder();
+		return ((JRTemplateImage)template).getRightBorder();
 	}
 
 	/**
@@ -625,7 +625,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getRightBorderColor()
 	{
-		return ((JRTemplateText)template).getRightBorderColor();
+		return ((JRTemplateImage)template).getRightBorderColor();
 	}
 
 	/**
@@ -648,7 +648,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public int getRightPadding()
 	{
-		return ((JRTemplateText)template).getRightPadding();
+		return ((JRTemplateImage)template).getRightPadding();
 	}
 
 	/**
