@@ -26,8 +26,6 @@
  * http://www.jaspersoft.com
  */
 
-import java.io.File;
-
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
