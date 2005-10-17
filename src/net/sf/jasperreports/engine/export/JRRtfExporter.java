@@ -1029,18 +1029,10 @@ public class JRRtfExporter extends JRAbstractExporter
 					printImage.getBackcolor(), 1);
 		}
 
-		int topPadding = 0;
-		int leftPadding = 0;
-		int rightPadding = 0;
-		int bottomPadding = 0;
-
-		if (printImage.getBox() != null)
-		{
-			leftPadding = printImage.getBox().getLeftPadding();
-			topPadding = printImage.getBox().getTopPadding();
-			rightPadding = printImage.getBox().getRightPadding();
-			bottomPadding = printImage.getBox().getBottomPadding();
-		}
+		int leftPadding = printImage.getLeftPadding();
+		int topPadding = printImage.getTopPadding();
+		int rightPadding = printImage.getRightPadding();
+		int bottomPadding = printImage.getBottomPadding();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1197,7 +1189,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\n}}}\n");
 		}
 
-		if (printImage.getBox() == null)
+		if (
+			printImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			)
 		{
 			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
@@ -1207,7 +1204,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			exportBox(printImage.getBox(), x, y, width, height, printImage.getForecolor(), printImage.getBackcolor());
+			exportBox(printImage, x, y, width, height, printImage.getForecolor(), printImage.getBackcolor());
 		}
 	}
 	

@@ -809,7 +809,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 
 		exportReportElement(image);
-		exportBox(image.getBox());
+		exportBox(image);
 		exportGraphicElement(image);
 		
 

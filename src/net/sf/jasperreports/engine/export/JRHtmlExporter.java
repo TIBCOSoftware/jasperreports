@@ -1235,37 +1235,34 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("; ");
 		}
 
-		if (image.getBox() != null)
-		{
-			appendBorder(
-				styleBuffer, 
-				image.getBox().getTopBorder(),
-				image.getBox().getTopBorderColor() == null ? image.getForecolor() : image.getBox().getTopBorderColor(),
-				image.getBox().getTopPadding(),
-				"top"
-				);
-			appendBorder(
-				styleBuffer, 
-				image.getBox().getLeftBorder(),
-				image.getBox().getLeftBorderColor() == null ? image.getForecolor() : image.getBox().getLeftBorderColor(),
-				image.getBox().getLeftPadding(),
-				"left"
-				);
-			appendBorder(
-				styleBuffer, 
-				image.getBox().getBottomBorder(),
-				image.getBox().getBottomBorderColor() == null ? image.getForecolor() : image.getBox().getBottomBorderColor(),
-				image.getBox().getBottomPadding(),
-				"bottom"
-				);
-			appendBorder(
-				styleBuffer, 
-				image.getBox().getRightBorder(),
-				image.getBox().getRightBorderColor() == null ? image.getForecolor() : image.getBox().getRightBorderColor(),
-				image.getBox().getRightPadding(),
-				"right"
-				);
-		}
+		appendBorder(
+			styleBuffer, 
+			image.getTopBorder(),
+			image.getTopBorderColor() == null ? image.getForecolor() : image.getTopBorderColor(),
+			image.getTopPadding(),
+			"top"
+			);
+		appendBorder(
+			styleBuffer, 
+			image.getLeftBorder(),
+			image.getLeftBorderColor() == null ? image.getForecolor() : image.getLeftBorderColor(),
+			image.getLeftPadding(),
+			"left"
+			);
+		appendBorder(
+			styleBuffer, 
+			image.getBottomBorder(),
+			image.getBottomBorderColor() == null ? image.getForecolor() : image.getBottomBorderColor(),
+			image.getBottomPadding(),
+			"bottom"
+			);
+		appendBorder(
+			styleBuffer, 
+			image.getRightBorder(),
+			image.getRightBorderColor() == null ? image.getForecolor() : image.getRightBorderColor(),
+			image.getRightPadding(),
+			"right"
+			);
 
 		if (styleBuffer.length() > 0)
 		{
