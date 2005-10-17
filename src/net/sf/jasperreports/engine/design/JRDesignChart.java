@@ -506,7 +506,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignBar3DPlot(plot);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				//FIXME NOW why only one dataset?    
+				//FIXME CHARTS why only one dataset?    
 				//dataset = new JRDesignTimeSeriesDataset( dataset );
 				plot = new JRDesignTimeSeriesPlot( plot );
 				break;

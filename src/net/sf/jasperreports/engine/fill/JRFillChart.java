@@ -890,7 +890,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				);
 		categoryPlot.setRenderer(barRenderer3D);
 
-		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
+		barRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME CHARTS what to do when missing labelExpression
 		barRenderer3D.setItemLabelsVisible( ((JRFillBar3DPlot)getPlot()).isShowLabels() );
 
 		return chart;
@@ -1154,7 +1154,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				);
 		categoryPlot.setRenderer(stackedBarRenderer3D);
 
-		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME NOW what to do when missing labelExpression
+		stackedBarRenderer3D.setBaseItemLabelGenerator(((JRFillCategoryDataset)getDataset()).getLabelGenerator());//FIXME CHARTS what to do when missing labelExpression
 		stackedBarRenderer3D.setItemLabelsVisible( ((JRFillBar3DPlot)getPlot()).isShowLabels() );
 
 		return chart;
