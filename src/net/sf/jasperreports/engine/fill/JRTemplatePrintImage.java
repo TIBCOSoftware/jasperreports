@@ -101,7 +101,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return null;
+		return ((JRTemplateImage)this.template).getOwnScaleImage();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnHorizontalAlignment()
 	{
-		return null;
+		return ((JRTemplateImage)this.template).getOwnHorizontalAlignment();
 	}
 		
 	/**
@@ -161,7 +161,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return null;
+		return ((JRTemplateImage)this.template).getOwnVerticalAlignment();
 	}
 		
 	/**
@@ -340,7 +340,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 
 	public Byte getOwnBorder()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnBorder();
 	}
 
 	/**
@@ -360,7 +360,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 
 	public Color getOwnBorderColor()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnBorderColor();
 	}
 
 	/**
@@ -380,7 +380,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 
 	public Integer getOwnPadding()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnPadding();
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnTopBorder()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnTopBorder();
 	}
 
 	/**
@@ -426,7 +426,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getOwnTopBorderColor()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnTopBorderColor();
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Integer getOwnTopPadding()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnTopPadding();
 	}
 
 	/**
@@ -472,7 +472,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnLeftBorder()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnLeftBorder();
 	}
 
 	/**
@@ -495,7 +495,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getOwnLeftBorderColor()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnLeftBorderColor();
 	}
 
 	/**
@@ -518,7 +518,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Integer getOwnLeftPadding()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnLeftPadding();
 	}
 
 	/**
@@ -541,7 +541,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnBottomBorder()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnBottomBorder();
 	}
 
 	/**
@@ -564,7 +564,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getOwnBottomBorderColor()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnBottomBorderColor();
 	}
 
 	/**
@@ -587,7 +587,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Integer getOwnBottomPadding()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnBottomPadding();
 	}
 
 	/**
@@ -610,7 +610,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnRightBorder()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnRightBorder();
 	}
 
 	/**
@@ -633,7 +633,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Color getOwnRightBorderColor()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnRightBorderColor();
 	}
 
 	/**
@@ -656,7 +656,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Integer getOwnRightPadding()
 	{
-		return null;
+		return ((JRTemplateImage)template).getOwnRightPadding();
 	}
 
 	/**

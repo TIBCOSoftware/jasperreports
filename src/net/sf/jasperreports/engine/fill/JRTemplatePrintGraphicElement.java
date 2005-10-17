@@ -65,7 +65,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Byte getOwnPen()
 	{
-		return null;
+		return ((JRTemplateGraphicElement)this.template).getOwnPen();
 	}
 		
 	/**
@@ -95,7 +95,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Byte getOwnFill()
 	{
-		return null;
+		return ((JRTemplateGraphicElement)this.template).getOwnFill();
 	}
 
 	/**
