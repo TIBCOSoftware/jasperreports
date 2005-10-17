@@ -29,6 +29,8 @@ package net.sf.jasperreports.charts.util;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -40,7 +42,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator 
 {
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map labelsMap = null;
 	

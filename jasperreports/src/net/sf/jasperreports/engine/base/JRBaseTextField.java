@@ -32,6 +32,7 @@ import java.io.IOException;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
@@ -54,7 +55,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

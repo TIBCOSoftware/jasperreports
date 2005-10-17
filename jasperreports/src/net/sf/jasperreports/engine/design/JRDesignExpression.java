@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
 
@@ -63,7 +64,7 @@ public class JRDesignExpression extends JRBaseExpression
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

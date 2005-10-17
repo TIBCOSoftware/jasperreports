@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
@@ -65,7 +66,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = 10003;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		private final Object o;
 
@@ -112,7 +113,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 				ObjectIDPair[] identityData);
 	}
 
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private static final Random random = new Random(System.currentTimeMillis());
 

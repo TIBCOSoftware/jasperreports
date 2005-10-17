@@ -28,7 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * Frame information shared by multiple print frame objects.
@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public class JRTemplateFrame extends JRTemplateElement
 {
-	private static final long serialVersionUID = JRProperties.VERSION_SERIAL_UID;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private JRBox box;
 

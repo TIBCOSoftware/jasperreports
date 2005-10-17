@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 
@@ -46,7 +47,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
@@ -46,7 +47,7 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected byte resetType = JRVariable.RESET_TYPE_NONE;
 	protected byte incrementType = JRVariable.RESET_TYPE_NONE;

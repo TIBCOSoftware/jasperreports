@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQuery;
 
@@ -46,7 +47,7 @@ public class JRDesignQuery extends JRBaseQuery
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

@@ -29,10 +29,10 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Base implementation of the {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} interface.
@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 {
-	private static final long serialVersionUID = JRProperties.VERSION_SERIAL_UID;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected String datasetName;
 	protected JRExpression parametersMapExpression;

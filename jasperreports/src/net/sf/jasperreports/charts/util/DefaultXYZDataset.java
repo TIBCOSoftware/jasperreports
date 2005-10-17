@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 import org.jfree.data.xy.AbstractXYZDataset;
 import org.jfree.data.xy.XYZDataset;
 
@@ -40,7 +42,7 @@ import org.jfree.data.xy.XYZDataset;
  */
 public class DefaultXYZDataset extends  AbstractXYZDataset implements XYZDataset 
 {
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/**
 	 * 

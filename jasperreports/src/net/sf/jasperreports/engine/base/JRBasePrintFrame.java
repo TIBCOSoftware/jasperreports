@@ -31,10 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.fill.JRPrintFrame;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.fill.JRPrintFrame JRPrintFrame}.
@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 {
-	private static final long serialVersionUID = JRProperties.VERSION_SERIAL_UID;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private List elements;
 	private JRBox box;

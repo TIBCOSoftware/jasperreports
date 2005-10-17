@@ -560,7 +560,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
-		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);//FIXME NOW why not setParameter()
+		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
 		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)

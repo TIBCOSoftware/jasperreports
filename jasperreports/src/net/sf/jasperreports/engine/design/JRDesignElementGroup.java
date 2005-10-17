@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 
@@ -42,7 +43,7 @@ public class JRDesignElementGroup extends JRBaseElementGroup
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
 	/**

@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
@@ -37,7 +38,7 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public class JRDesignLinePlot extends JRBaseLinePlot {
 
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
 	public JRDesignLinePlot(JRChartPlot linePlot)

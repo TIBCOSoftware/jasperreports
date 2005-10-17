@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -44,7 +45,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 * The name of the subreport variable to be copied.

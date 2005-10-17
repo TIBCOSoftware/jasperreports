@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultFontProvider;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -43,7 +44,7 @@ public class JRDesignFont extends JRBaseFont
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
 	/**

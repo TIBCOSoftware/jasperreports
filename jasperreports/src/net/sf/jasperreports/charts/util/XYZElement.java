@@ -31,6 +31,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -38,7 +40,7 @@ import java.util.List;
  */
 public class XYZElement implements Serializable {
 
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Comparable series = null;
 	private List xElements = null;

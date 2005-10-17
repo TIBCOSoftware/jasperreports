@@ -31,6 +31,7 @@ import java.awt.font.TextAttribute;
 import java.io.Serializable;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultFontProvider;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
@@ -52,7 +53,7 @@ public class JRBaseFont implements JRFont, Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

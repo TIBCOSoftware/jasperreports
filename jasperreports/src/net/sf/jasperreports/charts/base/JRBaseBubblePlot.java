@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
@@ -42,7 +43,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
  */
 public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected JRExpression xAxisLabelExpression = null;
 	protected JRExpression yAxisLabelExpression = null;

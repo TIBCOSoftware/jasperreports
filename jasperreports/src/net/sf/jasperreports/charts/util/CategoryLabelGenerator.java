@@ -29,6 +29,8 @@ package net.sf.jasperreports.charts.util;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.data.category.CategoryDataset;
 
@@ -39,7 +41,7 @@ import org.jfree.data.category.CategoryDataset;
  */
 public class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator 
 {
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map labelsMap = null;
 	

@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
 
@@ -43,7 +44,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/** Mechanism for firing property change events. */
 	private PropertyChangeSupport propSupport = new PropertyChangeSupport(this);
