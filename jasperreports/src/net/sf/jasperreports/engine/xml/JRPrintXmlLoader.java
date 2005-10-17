@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -205,6 +206,10 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("jasperPrint/reportFont", "addFont", JRReportFont.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("jasperPrint/style", JRStyleFactory.class.getName());
+		digester.addSetNext("jasperPrint/style", "addStyle", JRStyle.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("jasperPrint/page", JRPrintPageFactory.class.getName());
 		digester.addSetNext("jasperPrint/page", "addPage", JRPrintPage.class.getName());
 
@@ -241,7 +246,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("*/text", JRPrintTextFactory.class.getName());
 		digester.addSetNext("*/text", "addElement", JRPrintElement.class.getName());
-		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule("textContent", "text");
+		SetNestedPropertiesRule textRule = new SetNestedPropertiesRule(new String[]{"textContent", "reportElement", "box", "font"}, new String[]{"text"});
 		textRule.setTrimData(false);
 		textRule.setAllowUnknownChildElements(true);
 		digester.addRule("*/text", textRule);
