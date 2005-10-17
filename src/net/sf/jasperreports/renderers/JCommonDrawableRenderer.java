@@ -38,6 +38,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
+import net.sf.jasperreports.engine.JRConstants;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItemSource;
@@ -59,7 +60,7 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

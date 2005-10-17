@@ -28,40 +28,16 @@
 package net.sf.jasperreports.engine;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractRenderer implements JRRenderable
+public interface JRConstants
 {
 
 	/**
-	 *
+	 * Value used as <code>serialVersionUID</code> for the current version.
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	private String id = null;
+	public static final long SERIAL_VERSION_UID = 10100;
 	
-	
-	/**
-	 *
-	 */
-	public JRAbstractRenderer()
-	{
-		id = System.currentTimeMillis() + "-" + Math.random();
-	}
-	
-
-	/**
-	 *
-	 */
-	public String getId()
-	{
-		return id;
-	}
-
 }

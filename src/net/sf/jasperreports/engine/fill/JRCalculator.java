@@ -362,7 +362,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		}
 		else
 		{
-			//FIXME NOW dataset.increment();
+			//FIXME CHARTS dataset.increment();
 		}
 	}
 
@@ -485,7 +485,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 //				dataset.setIncrementedValue(null);
 				chartDataset.initialize();
 			}
-//		}FIXME NOW verify that reset type none does not make any sense
+//		}FIXME CHARTS verify that reset type none does not make any sense
 //		else
 //		{
 //			dataset.setValue(

@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -40,7 +41,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	
 	/**

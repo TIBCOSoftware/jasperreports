@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -86,7 +87,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	public class BoundElementMap extends HashMap
 	{
-		private static final long serialVersionUID = 10003;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		private final Map perPageElements;
 

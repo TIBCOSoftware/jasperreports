@@ -31,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.fill.JRPrintFrame JRPrintFrame} that uses
@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPrintFrame, JRPrintElementContainer
 {
-	private static final long serialVersionUID = JRProperties.VERSION_SERIAL_UID;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected JRTemplateFrame templateFrame;
 	private List elements;

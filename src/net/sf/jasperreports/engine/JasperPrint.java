@@ -63,7 +63,7 @@ public class JasperPrint implements Serializable
 	 */
 	private static class DefaultStyleProvider implements JRDefaultStyleProvider, Serializable
 	{
-		private static final long serialVersionUID = 10003;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		private JRReportFont defaultFont;
 		private JRStyle defaultStyle;
@@ -99,7 +99,7 @@ public class JasperPrint implements Serializable
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

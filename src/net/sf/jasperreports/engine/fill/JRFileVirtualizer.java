@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
@@ -69,7 +70,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 	 * when there are too many, it pushes the last touched one to disk.
 	 */
 	private static class Cache extends LRUMap {
-		private static final long serialVersionUID = 10003;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		private final JRFileVirtualizer virt;
 

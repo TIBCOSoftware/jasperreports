@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -45,7 +46,6 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset} to be used for report desing.
@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public class JRDesignDataset extends JRBaseDataset
 {
-	private static final long serialVersionUID = JRProperties.VERSION_SERIAL_UID;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 * Parameters mapped by name.

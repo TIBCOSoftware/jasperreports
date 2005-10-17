@@ -30,6 +30,8 @@ package net.sf.jasperreports.charts.util;
 import java.io.Serializable;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.PieDataset;
 
@@ -40,7 +42,7 @@ import org.jfree.data.general.PieDataset;
  */
 public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 {
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map labels = null;
 	

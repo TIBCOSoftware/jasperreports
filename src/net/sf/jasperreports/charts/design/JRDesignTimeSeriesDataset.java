@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 
@@ -45,7 +46,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private List timeSeriesList = new ArrayList();
 	private Class timePeriod = null;

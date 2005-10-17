@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
 
 
@@ -51,7 +52,7 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10003;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *
