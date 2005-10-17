@@ -28,7 +28,10 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
+import java.util.Map;
 
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
 
 import org.xml.sax.Attributes;
@@ -52,6 +55,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_height = "height";
 	private static final String ATTRIBUTE_forecolor = "forecolor";
 	private static final String ATTRIBUTE_backcolor = "backcolor";
+	private static final String ATTRIBUTE_style = "style";
 
 
 	/**
@@ -59,6 +63,8 @@ public class JRPrintElementFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
+		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
+		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 		JRBasePrintElement element = (JRBasePrintElement)digester.peek();
 
 		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
@@ -115,6 +121,18 @@ public class JRPrintElementFactory extends JRBaseFactory
 			{
 				element.setBackcolor(new Color(Integer.parseInt(backcolor)));
 			}
+		}
+
+		if (atts.getValue(ATTRIBUTE_style) != null)
+		{
+			Map stylesMap = jasperPrint.getStylesMap();
+
+			if ( !stylesMap.containsKey(atts.getValue(ATTRIBUTE_style)) )
+			{
+				printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+			}
+
+			element.setStyle((JRStyle) stylesMap.get(atts.getValue(ATTRIBUTE_style)));
 		}
 
 		return element;

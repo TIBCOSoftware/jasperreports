@@ -150,7 +150,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 	public Byte getOwnHorizontalAlignment()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnHorizontalAlignment();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnVerticalAlignment();
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 	public Byte getOwnRotation()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnRotation();
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 	public Byte getOwnLineSpacing()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnLineSpacing();
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 	public Boolean isOwnStyledText()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnStyledText();
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public Byte getOwnBorder()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnBorder();
 	}
 
 	/**
@@ -476,7 +476,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public Color getOwnBorderColor()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnBorderColor();
 	}
 
 	/**
@@ -496,7 +496,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public Integer getOwnPadding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnPadding();
 	}
 
 	/**
@@ -519,7 +519,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Byte getOwnTopBorder()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnTopBorder();
 	}
 
 	/**
@@ -542,7 +542,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Color getOwnTopBorderColor()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnTopBorderColor();
 	}
 
 	/**
@@ -565,7 +565,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnTopPadding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnTopPadding();
 	}
 
 	/**
@@ -588,7 +588,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Byte getOwnLeftBorder()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnLeftBorder();
 	}
 
 	/**
@@ -611,7 +611,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Color getOwnLeftBorderColor()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnLeftBorderColor();
 	}
 
 	/**
@@ -634,7 +634,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnLeftPadding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnLeftPadding();
 	}
 
 	/**
@@ -657,7 +657,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Byte getOwnBottomBorder()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnBottomBorder();
 	}
 
 	/**
@@ -680,7 +680,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Color getOwnBottomBorderColor()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnBottomBorderColor();
 	}
 
 	/**
@@ -703,7 +703,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnBottomPadding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnBottomPadding();
 	}
 
 	/**
@@ -726,7 +726,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Byte getOwnRightBorder()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnRightBorder();
 	}
 
 	/**
@@ -749,7 +749,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Color getOwnRightBorderColor()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnRightBorderColor();
 	}
 
 	/**
@@ -772,7 +772,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnRightPadding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnRightPadding();
 	}
 
 	/**
@@ -810,7 +810,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getOwnFontName()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnFontName();
 	}
 
 	/**
@@ -834,7 +834,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Boolean isOwnBold()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnBold();
 	}
 
 	/**
@@ -866,7 +866,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Boolean isOwnItalic()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnItalic();
 	}
 
 	/**
@@ -897,7 +897,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Boolean isOwnUnderline()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnUnderline();
 	}
 
 	/**
@@ -928,7 +928,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Boolean isOwnStrikeThrough()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnStrikeThrough();
 	}
 
 	/**
@@ -960,7 +960,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnFontSize()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnFontSize();
 	}
 
 	/**
@@ -991,7 +991,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Integer getOwnSize()
 	{
-		return null;
+		return getOwnFontSize();
 	}
 
 	/**
@@ -1021,7 +1021,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getOwnPdfFontName()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnPdfFontName();
 	}
 
 	/**
@@ -1045,7 +1045,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public String getOwnPdfEncoding()
 	{
-		return null;
+		return ((JRTemplateText)template).getOwnPdfEncoding();
 	}
 
 	/**
@@ -1069,7 +1069,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public Boolean isOwnPdfEmbedded()
 	{
-		return null;
+		return ((JRTemplateText)template).isOwnPdfEmbedded();
 	}
 
 	/**
