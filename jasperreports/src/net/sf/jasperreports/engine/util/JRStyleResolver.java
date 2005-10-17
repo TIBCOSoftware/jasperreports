@@ -247,7 +247,7 @@ public class JRStyleResolver
 	public static byte getPen(JRGraphicElement element, byte defaultPen)
 	{
 		if (element.getOwnPen() != null)
-			element.getOwnPen();
+			return element.getOwnPen().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getPen() != null)
 			return baseStyle.getPen().byteValue();
@@ -260,7 +260,7 @@ public class JRStyleResolver
 	public static byte getPen(JRPrintGraphicElement element, byte defaultPen)
 	{
 		if (element.getOwnPen() != null)
-			element.getOwnPen();
+			return element.getOwnPen().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getPen() != null)
 			return baseStyle.getPen().byteValue();
@@ -273,7 +273,7 @@ public class JRStyleResolver
 	public static byte getPen(JRTemplateGraphicElement element, byte defaultPen)
 	{
 		if (element.getOwnPen() != null)
-			element.getOwnPen();
+			return element.getOwnPen().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getPen() != null)
 			return baseStyle.getPen().byteValue();
@@ -299,7 +299,7 @@ public class JRStyleResolver
 	public static byte getFill(JRGraphicElement element, byte defaultFill)
 	{
 		if (element.getOwnFill() != null)
-			element.getOwnFill();
+			return element.getOwnFill().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getFill() != null)
 			return baseStyle.getFill().byteValue();
@@ -312,7 +312,7 @@ public class JRStyleResolver
 	public static byte getFill(JRPrintGraphicElement element, byte defaultFill)
 	{
 		if (element.getOwnFill() != null)
-			element.getOwnFill();
+			return element.getOwnFill().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getFill() != null)
 			return baseStyle.getFill().byteValue();
@@ -325,7 +325,7 @@ public class JRStyleResolver
 	public static byte getFill(JRTemplateGraphicElement element, byte defaultFill)
 	{
 		if (element.getOwnFill() != null)
-			element.getOwnFill();
+			return element.getOwnFill().byteValue();
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null && baseStyle.getFill() != null)
 			return baseStyle.getFill().byteValue();
