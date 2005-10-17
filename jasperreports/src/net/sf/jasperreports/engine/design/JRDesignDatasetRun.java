@@ -133,7 +133,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 * Sets the sub dataset name.
 	 * 
 	 * @param datasetName the sub dataset name
-	 * @see net.sf.jasperreports.engine.JRDatasetRun#getDatasetName()()
+	 * @see net.sf.jasperreports.engine.JRDatasetRun#getDatasetName()
 	 */
 	public void setDatasetName(String datasetName)
 	{
