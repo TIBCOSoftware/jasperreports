@@ -102,7 +102,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Byte getOwnMode()
 	{
-		return null;
+		return this.template.getOwnMode();
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getOwnForecolor()
 	{
-		return null;
+		return this.template.getOwnForecolor();
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getOwnBackcolor()
 	{
-		return null;
+		return this.template.getOwnBackcolor();
 	}
 
 	/**
