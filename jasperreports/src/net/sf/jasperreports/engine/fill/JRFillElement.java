@@ -60,6 +60,7 @@ public abstract class JRFillElement implements JRElement
 	 *
 	 */
 	protected JRBaseFiller filler = null;
+	protected JRFillExpressionEvaluator expressionEvaluator = null;
 
 	/**
 	 *
@@ -85,6 +86,14 @@ public abstract class JRFillElement implements JRElement
 	private int stretchHeight = 0;
 	private int bandBottomY = 0;
 
+	private int x;
+	private int y;
+	private int width;
+	private int height;
+	
+	// default for all static elements
+	private boolean isValueRepeating = true;
+	
 	/**
 	 *
 	 *
@@ -105,10 +114,16 @@ public abstract class JRFillElement implements JRElement
 
 		this.parent = element;
 		this.filler = filler;
+		this.expressionEvaluator = factory.getExpressionEvaluator();
 
 		/*   */
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
 		elementGroup = (JRFillElementGroup)factory.getElementGroup(element.getElementGroup());
+		
+		x = element.getX();
+		y = element.getY();
+		width = element.getWidth();
+		height = element.getHeight();
 	}
 
 
@@ -209,7 +224,7 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public int getX()
 	{
-		return this.parent.getX();
+		return x;
 	}
 
 	/**
@@ -217,6 +232,15 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public void setX(int x)
 	{
+		this.x = x;
+	}
+	
+	/**
+	 *
+	 */
+	public void setY(int y)
+	{
+		this.y = y;
 	}
 
 	/**
@@ -224,7 +248,7 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public int getY()
 	{
-		return this.parent.getY();
+		return y;
 	}
 
 	/**
@@ -232,7 +256,7 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public int getWidth()
 	{
-		return this.parent.getWidth();
+		return width;
 	}
 
 	/**
@@ -240,6 +264,15 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public void setWidth(int width)
 	{
+		this.width = width;
+	}
+	
+	/**
+	 *
+	 */
+	public void setHeight(int height)
+	{
+		this.height = height;
 	}
 
 	/**
@@ -247,7 +280,7 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public int getHeight()
 	{
-		return this.parent.getHeight();
+		return height;
 	}
 
 	/**
@@ -566,8 +599,8 @@ public abstract class JRFillElement implements JRElement
 	 */
 	protected void reset()
 	{
-		relativeY = parent.getY();
-		stretchHeight = parent.getHeight();
+		relativeY = y;
+		stretchHeight = height;
 
 		if (elementGroup != null)
 		{
@@ -598,7 +631,7 @@ public abstract class JRFillElement implements JRElement
 		if (expression != null)
 		{
 			isExprNull = false;
-			Boolean printWhenExpressionValue = (Boolean)filler.calculator.evaluate(expression, evaluation);
+			Boolean printWhenExpressionValue = (Boolean) evaluateExpression(expression, evaluation);
 			if (printWhenExpressionValue == null)
 			{
 				isExprTrue = false;
@@ -632,7 +665,7 @@ public abstract class JRFillElement implements JRElement
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		if (
 			this.isPrintWhenExpressionNull() ||
@@ -852,4 +885,47 @@ public abstract class JRFillElement implements JRElement
 	 */
 	protected abstract void resolveElement (JRPrintElement element, byte evaluation) throws JRException;
 
+
+	/**
+	 * Evaluates an expression.
+	 * 
+	 * @param expression the expression
+	 * @param evaluation the evaluation type
+	 * @return the evaluation result
+	 * @throws JRException
+	 */
+	protected final Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
+	{
+		return expressionEvaluator.evaluate(expression, evaluation);
+	}
+
+
+	/**
+	 * Decides whether the value for this element is repeating.
+	 * <p>
+	 * Dynamic elements should call {@link #setValueRepeating(boolean) setValueRepeating(boolean)} on
+	 * {@link #evaluate(byte) evaluate(byte)}.  Static elements don't have to do anything, this method
+	 * will return <code>true</code> by default.
+	 * 
+	 * @return whether the value for this element is repeating
+	 * @see #setValueRepeating(boolean)
+	 */
+	protected boolean isValueRepeating()
+	{
+		return isValueRepeating;
+	}
+
+
+	/**
+	 * Sets the repeating flag for this element.
+	 * <p>
+	 * This method should be called by dynamic elements on {@link #evaluate(byte) evaluate(byte)}.
+	 * 
+	 * @param isValueRepeating whether the value of the element is repeating
+	 * @see #isValueRepeating()
+	 */
+	protected void setValueRepeating(boolean isValueRepeating)
+	{
+		this.isValueRepeating = isValueRepeating;
+	}
 }

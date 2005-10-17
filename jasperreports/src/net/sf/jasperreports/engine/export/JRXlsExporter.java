@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -50,9 +51,12 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
+import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
+import org.apache.commons.collections.ReferenceMap;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -75,6 +79,8 @@ import org.apache.poi.hssf.util.Region;
  */
 public class JRXlsExporter extends JRXlsAbstractExporter
 {
+
+	private static Map hssfColorsCache = new ReferenceMap();
 
 	/**
 	 *
@@ -154,8 +160,37 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void addBlankCell(int colIndex, int rowIndex)
+	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
+		cell = row.createCell((short) colIndex);
+		
+		short mode = backgroundMode;
+		short backcolor = whiteIndex;
+		if (gridCell.getBackcolor() != null)
+		{
+			mode = HSSFCellStyle.SOLID_FOREGROUND;
+			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+		}
+		
+		short forecolor = blackIndex;
+		if (gridCell.getForecolor() != null)
+		{
+			forecolor = getNearestColor(gridCell.getForecolor()).getIndex();
+		}
+
+		HSSFCellStyle cellStyle = 
+			getLoadedCellStyle(
+				mode,
+				backcolor,
+				forecolor,
+				HSSFCellStyle.ALIGN_LEFT, 
+				HSSFCellStyle.VERTICAL_TOP,
+				(short)0, 
+				getLoadedFont(getDefaultFont(), forecolor),
+				null, gridCell
+				);
+		
+		cell.setCellStyle(cellStyle);
 	}
 
 	/**
@@ -163,11 +198,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
-		{
-			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.rowSpan - 1), (short)(colIndex + gridCell.colSpan - 1)));
-		}
-
 		short forecolor = getNearestColor(line.getForecolor()).getIndex();
 
 		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
@@ -176,19 +206,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			getLoadedCellStyle(
 				HSSFCellStyle.SOLID_FOREGROUND,
 				forecolor, 
+				forecolor,
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP, 
 				(short)0,
 				cellFont,
-				HSSFCellStyle.BORDER_NONE,
-				forecolor,
-				HSSFCellStyle.BORDER_NONE,
-				forecolor,
-				HSSFCellStyle.BORDER_NONE,
-				forecolor,
-				HSSFCellStyle.BORDER_NONE,
-				forecolor
+				null, gridCell
 				);
+		
+		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
 		cell = row.createCell((short)colIndex);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
@@ -202,11 +228,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
-		{
-			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.rowSpan - 1), (short)(colIndex + gridCell.colSpan - 1)));
-		}
-
 		short forecolor = getNearestColor(element.getForecolor()).getIndex();
 
 		short mode = backgroundMode;
@@ -216,26 +237,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(element.getBackcolor()).getIndex();
 		}
+		else if (gridCell.getBackcolor() != null)
+		{
+			mode = HSSFCellStyle.SOLID_FOREGROUND;
+			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+		}
 
 		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
 
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
 				mode,
-				backcolor, 
+				backcolor,
+				forecolor,
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0, 
 				cellFont,
-				HSSFCellStyle.BORDER_NONE,
-				backcolor,
-				HSSFCellStyle.BORDER_NONE,
-				backcolor,
-				HSSFCellStyle.BORDER_NONE,
-				backcolor,
-				HSSFCellStyle.BORDER_NONE,
-				backcolor
+				null, gridCell
 				);
+		
+		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
 		cell = row.createCell((short)colIndex);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
@@ -279,46 +301,49 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getNearestColor(textElement.getBackcolor()).getIndex();
 		}
-
-		short topBorder = getBorder(textElement.getTopBorder()); 
-		short topBorderColor = 
-			getNearestColor(
-				textElement.getTopBorderColor() == null ? textElement.getForecolor() : textElement.getTopBorderColor()
-				).getIndex();
-		short leftBorder = getBorder(textElement.getLeftBorder()); 
-		short leftBorderColor = 
-			getNearestColor(
-				textElement.getLeftBorderColor() == null ? textElement.getForecolor() : textElement.getLeftBorderColor()
-				).getIndex();
-		short bottomBorder = getBorder(textElement.getBottomBorder()); 
-		short bottomBorderColor = 
-			getNearestColor(
-				textElement.getBottomBorderColor() == null ? textElement.getForecolor() : textElement.getBottomBorderColor()
-				).getIndex();
-		short rightBorder = getBorder(textElement.getRightBorder()); 
-		short rightBorderColor = 
-			getNearestColor(
-				textElement.getRightBorderColor() == null ? textElement.getForecolor() : textElement.getRightBorderColor()
-				).getIndex();
+		else if (gridCell.getBackcolor() != null)
+		{
+			mode = HSSFCellStyle.SOLID_FOREGROUND;
+			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+		}
 		
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
 				mode,
 				backcolor, 
+				forecolor,
 				horizontalAlignment, 
 				verticalAlignment,
 				rotation, 
 				cellFont,
-				topBorder,
-				topBorderColor,
-				leftBorder,
-				leftBorderColor,
-				bottomBorder,
-				bottomBorderColor,
-				rightBorder,
-				rightBorderColor
+				textElement, gridCell
 				);
 
+		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
+
+		cell = row.createCell((short)colIndex);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		if (isAutoDetectCellType)
+		{
+			try
+			{
+				cell.setCellValue(Double.parseDouble(styledText.getText()));
+			}
+			catch(NumberFormatException e)
+			{
+				cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
+			}
+		}
+		else
+		{
+			cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
+		}
+		cell.setCellStyle(cellStyle);
+	}
+
+
+	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
+	{
 		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
 		{
 			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.rowSpan - 1), (short)(colIndex + gridCell.colSpan - 1)));
@@ -341,25 +366,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 			}
 		}
-
-		cell = row.createCell((short)colIndex);
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-		if (isAutoDetectCellType)
-		{
-			try
-			{
-				cell.setCellValue(Double.parseDouble(styledText.getText()));
-			}
-			catch(NumberFormatException e)
-			{
-				cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
-			}
-		}
-		else
-		{
-			cell.setCellValue(JRStringUtil.replaceDosEOL(styledText.getText()));
-		}
-		cell.setCellStyle(cellStyle);
 	}
 
 	private short getHorizontalAlignment(TextAlignHolder alignment)
@@ -407,43 +413,46 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				return 0;
 		}
 	}
-
+	
 	/**
 	 *
 	 */
 	protected static HSSFColor getNearestColor(Color awtColor)
 	{
-		HSSFColor color = null;
+		HSSFColor color = (HSSFColor) hssfColorsCache.get(awtColor);
 
-		Map triplets = HSSFColor.getTripletHash();
-		if (triplets != null)
+		if (color == null)
 		{
-			Collection keys = triplets.keySet();
-			if (keys != null && keys.size() > 0)
+			Map triplets = HSSFColor.getTripletHash();
+			if (triplets != null)
 			{
-				Object key = null;
-				HSSFColor crtColor = null;
-				short[] rgb = null;
-				int diff = 0;
-				int minDiff = 999;
-				for(Iterator it = keys.iterator(); it.hasNext();)
+				Collection keys = triplets.keySet();
+				if (keys != null && keys.size() > 0)
 				{
-					key = it.next();
-
-					crtColor = (HSSFColor)triplets.get(key);
-					rgb = crtColor.getTriplet();
-
-					diff = Math.abs(rgb[0] - awtColor.getRed()) +
-						Math.abs(rgb[1] - awtColor.getGreen()) +
-						Math.abs(rgb[2] - awtColor.getBlue());
-
-					if (diff < minDiff)
+					Object key = null;
+					HSSFColor crtColor = null;
+					short[] rgb = null;
+					int diff = 0;
+					int minDiff = 999;
+					for (Iterator it = keys.iterator(); it.hasNext();)
 					{
-						minDiff = diff;
-						color = crtColor;
+						key = it.next();
+
+						crtColor = (HSSFColor) triplets.get(key);
+						rgb = crtColor.getTriplet();
+
+						diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
+
+						if (diff < minDiff)
+						{
+							minDiff = diff;
+							color = crtColor;
+						}
 					}
 				}
 			}
+			
+			hssfColorsCache.put(awtColor, color);
 		}
 
 		return color;
@@ -592,6 +601,75 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return cellStyle;
 	}
 
+	protected HSSFCellStyle getLoadedCellStyle(
+			short mode, 
+			short backcolor, 
+			short forecolor,
+			short horizontalAlignment, 
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRBox box,
+			JRExporterGridCell gridCell
+			)
+	{
+		short topBorder = HSSFCellStyle.BORDER_NONE;
+		short topBorderColor = backcolor;
+		short leftBorder = HSSFCellStyle.BORDER_NONE;
+		short leftBorderColor = backcolor;
+		short bottomBorder = HSSFCellStyle.BORDER_NONE;
+		short bottomBorderColor = backcolor;
+		short rightBorder = HSSFCellStyle.BORDER_NONE;
+		short rightBorderColor = backcolor;
+		
+		if (gridCell != null && gridCell.getBox() != null)
+		{
+			JRBox gridBox = gridCell.getBox();
+			short gridForecolor = gridCell.getForecolor() == null ? blackIndex : getNearestColor(gridCell.getForecolor()).getIndex();
+			
+			topBorder = getBorder(gridBox.getTopBorder());
+			topBorderColor = gridBox.getTopBorderColor() == null ? gridForecolor : getNearestColor(gridBox.getTopBorderColor()).getIndex();
+			leftBorder = getBorder(gridBox.getLeftBorder());
+			leftBorderColor = gridBox.getLeftBorderColor() == null ? gridForecolor : getNearestColor(gridBox.getLeftBorderColor()).getIndex();
+			bottomBorder = getBorder(gridBox.getBottomBorder());
+			bottomBorderColor = gridBox.getBottomBorderColor() == null ? gridForecolor : getNearestColor(gridBox.getBottomBorderColor()).getIndex();
+			rightBorder = getBorder(gridBox.getRightBorder());
+			rightBorderColor = gridBox.getRightBorderColor() == null ? gridForecolor : getNearestColor(gridBox.getRightBorderColor()).getIndex();	
+		}
+		
+		if (box != null)
+		{
+			if (topBorder == HSSFCellStyle.BORDER_NONE)
+			{
+				topBorder = getBorder(box.getTopBorder()); 
+				topBorderColor = box.getTopBorderColor() == null ? forecolor : getNearestColor(box.getTopBorderColor()).getIndex();
+			}
+			
+			if (leftBorder == HSSFCellStyle.BORDER_NONE)
+			{
+				leftBorder = getBorder(box.getLeftBorder()); 
+				leftBorderColor = box.getLeftBorderColor() == null ? forecolor : getNearestColor(box.getLeftBorderColor()).getIndex();
+			}
+			
+			if (bottomBorder == HSSFCellStyle.BORDER_NONE)
+			{
+				bottomBorder = getBorder(box.getBottomBorder()); 
+				bottomBorderColor = box.getBottomBorderColor() == null ? forecolor : getNearestColor(box.getBottomBorderColor()).getIndex();
+			}
+			
+			if (rightBorder == HSSFCellStyle.BORDER_NONE)
+			{
+				rightBorder = getBorder(box.getRightBorder()); 
+				rightBorderColor = box.getRightBorderColor() == null ? forecolor : getNearestColor(box.getRightBorderColor()).getIndex();
+			}
+		}
+
+		return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, 
+				topBorder, topBorderColor, 
+				leftBorder, leftBorderColor, 
+				bottomBorder, bottomBorderColor,
+				rightBorder, rightBorderColor);
+	}
 
 	/**
 	 *
@@ -643,8 +721,39 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		//nothing
 	}
 
-	protected boolean isToExport(JRPrintElement element)
+	protected ExporterElements getExporterElements()
 	{
-		return !(element instanceof JRPrintImage);
+		return JRGridLayout.NO_IMAGES_EXPORTER;
+	}
+
+
+	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y) throws JRException
+	{		
+		short mode = backgroundMode;
+		short backcolor = whiteIndex;
+		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		{
+			mode = HSSFCellStyle.SOLID_FOREGROUND;
+			backcolor = getNearestColor(frame.getBackcolor()).getIndex();
+		}
+		
+		short forecolor = getNearestColor(frame.getForecolor()).getIndex();
+
+		HSSFCellStyle cellStyle = 
+			getLoadedCellStyle(
+				mode,
+				backcolor,
+				forecolor,
+				HSSFCellStyle.ALIGN_LEFT, 
+				HSSFCellStyle.VERTICAL_TOP,
+				(short)0, 
+				getLoadedFont(getDefaultFont(), forecolor),
+				frame.getBox(), null
+				);
+
+		createMergeRegion(gridCell, x, y, cellStyle);
+
+		cell = row.createCell((short)x);		
+		cell.setCellStyle(cellStyle);
 	}
 }

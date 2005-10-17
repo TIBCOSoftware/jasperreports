@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillVariable implements JRVariable
+public class JRFillVariable implements JRVariable, JRCalculable
 {
 
 
@@ -59,23 +59,6 @@ public class JRFillVariable implements JRVariable
 	private Object incrementedValue = null;
 	private Object value = null;
 	private boolean isInitialized = false;
-	
-	/**
-	 * Constant for the count helper variable.
-	 */
-	public static final byte HELPER_COUNT = 0;
-	
-	/**
-	 * Constant for the count sum variable.
-	 */
-	public static final byte HELPER_SUM = 1;
-	
-	/**
-	 * Constant for the count variance variable.
-	 */
-	public static final byte HELPER_VARIANCE = 2;
-	
-	private static final int HELPER_SIZE = 3;
 	
 	private JRFillVariable[] helperVariables;
 
@@ -100,7 +83,7 @@ public class JRFillVariable implements JRVariable
 		resetGroup = factory.getGroup(variable.getResetGroup());
 		incrementGroup = factory.getGroup(variable.getIncrementGroup());
 		
-		helperVariables = new JRFillVariable[HELPER_SIZE];
+		helperVariables = new JRFillVariable[JRCalculable.HELPER_SIZE];
 	}
 
 
@@ -336,7 +319,7 @@ public class JRFillVariable implements JRVariable
 	 * @param type the helper type
 	 * @return the helper variable for the specified type
 	 */
-	public JRFillVariable getHelperVariable(byte type)
+	public JRCalculable getHelperVariable(byte type)
 	{
 		return helperVariables[type];
 	}

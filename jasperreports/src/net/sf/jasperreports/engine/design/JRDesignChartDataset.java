@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -47,6 +48,11 @@ public abstract class JRDesignChartDataset extends JRBaseChartDataset
 	 */
 	private static final long serialVersionUID = 10003;
 
+	
+	public JRDesignChartDataset()
+	{
+		super();
+	}
 
 	/**
 	 *
@@ -105,4 +111,15 @@ public abstract class JRDesignChartDataset extends JRBaseChartDataset
 		return -1;
 	}
 	
+	
+	/**
+	 * Sets the sub dataset run for this dataset.
+	 * 
+	 * @param datasetRun the dataset run
+	 * @see JRChartDataset#getDatasetRun()
+	 */
+	public void setDatasetRun(JRDatasetRun datasetRun)
+	{
+		this.datasetRun = datasetRun;
+	}
 }

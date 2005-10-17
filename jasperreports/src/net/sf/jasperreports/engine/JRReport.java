@@ -89,25 +89,25 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	/**
 	 * Return NULL when a resource is missing.
 	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = 1;
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = JRDataset.WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 
 	/**
 	 * Return empty string when a resource is missing.
 	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = 2;
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_EMPTY;
 
 
 	/**
 	 * Return the key when a resource is missing.
 	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = 3;
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_KEY;
 
 
 	/**
 	 * Throw an exception when a resource is missing.
 	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = 4;
+	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = JRDataset.WHEN_RESOURCE_MISSING_TYPE_ERROR;
 
 	
 	/**
@@ -330,4 +330,22 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	 * @param whenResourceMissingType the resource missing handling type
 	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType);
+
+	
+	/**
+	 * Returns the main report dataset.
+	 * <p>
+	 * The main report dataset consists of all parameters, fields, variables and groups of the report.
+	 * 
+	 * @return the main report dataset
+	 */
+	public JRDataset getMainDataset();
+	
+	
+	/**
+	 * Returns the datasets of this report.
+	 * 
+	 * @return the datasets of this report
+	 */
+	public JRDataset[] getDatasets();
 }

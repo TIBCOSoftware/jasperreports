@@ -54,7 +54,6 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	 *
 	 */
 	private Byte mode = null;
-	private int width = 0;
 	private Color forecolor = null;
 	private Color backcolor = null;
 
@@ -87,7 +86,6 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 		parentStyle = element.getStyle();
 		
 		mode = element.getOwnMode();
-		width = element.getWidth();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
 	}
@@ -150,22 +148,6 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected void setMode(Byte mode)
 	{
 		this.mode = mode;
-	}
-	
-	/**
-	 *
-	 */
-	public int getWidth()
-	{
-		return this.width;
-	}
-	
-	/**
-	 *
-	 */
-	protected void setWidth(int width)
-	{
-		this.width = width;
 	}
 	
 	/**

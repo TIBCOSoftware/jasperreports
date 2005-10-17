@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -34,7 +35,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRLongIncrementerFactory implements JRIncrementerFactory
+public class JRLongIncrementerFactory extends JRAbstractExtendedIncrementerFactory
 {
 
 
@@ -70,9 +71,9 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	public JRIncrementer getIncrementer(byte calculation)
+	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
 	{
-		JRIncrementer incrementer = null;
+		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
@@ -94,7 +95,7 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 			case JRVariable.CALCULATION_LOWEST :
 			case JRVariable.CALCULATION_HIGHEST :
 			{
-				incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRComparableIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
@@ -109,9 +110,10 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
+			case JRVariable.CALCULATION_FIRST :
 			default :
 			{
-				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 		}
@@ -126,7 +128,7 @@ public class JRLongIncrementerFactory implements JRIncrementerFactory
 /**
  *
  */
-class JRLongCountIncrementer implements JRIncrementer
+class JRLongCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -152,7 +154,7 @@ class JRLongCountIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -176,13 +178,43 @@ class JRLongCountIncrementer implements JRIncrementer
 
 		return new Long(value.longValue() + 1);
 	}
+
+	
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		Number value = (Number)calculable.getIncrementedValue();
+		Number combineValue = (Number) calculableValue.getValue();
+
+		if (combineValue == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return JRLongIncrementerFactory.ZERO;
+			}
+
+			return value;
+		}
+
+		if (value == null || calculable.isInitialized())
+		{
+			value = JRLongIncrementerFactory.ZERO;
+		}
+
+		return new Long(value.longValue() + combineValue.longValue());
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRLongIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRLongSumIncrementer implements JRIncrementer
+class JRLongSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -208,7 +240,7 @@ class JRLongSumIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -233,13 +265,19 @@ class JRLongSumIncrementer implements JRIncrementer
 
 		return new Long(value.longValue() + newValue.longValue());
 	}
+
+	
+	public Object initialValue()
+	{
+		return JRLongIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRLongAverageIncrementer implements JRIncrementer
+class JRLongAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -265,7 +303,7 @@ class JRLongAverageIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -278,9 +316,15 @@ class JRLongAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 		return new Long(sumValue.longValue() / countValue.longValue());
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRLongIncrementerFactory.ZERO;
 	}
 }
 
@@ -288,7 +332,7 @@ class JRLongAverageIncrementer implements JRIncrementer
 /**
  *
  */
-class JRLongStandardDeviationIncrementer implements JRIncrementer
+class JRLongStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -314,7 +358,7 @@ class JRLongStandardDeviationIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -327,8 +371,14 @@ class JRLongStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
 		return new Long( (long)Math.sqrt(varianceValue.doubleValue()) );
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRLongIncrementerFactory.ZERO;
 	}
 }
 
@@ -336,7 +386,7 @@ class JRLongStandardDeviationIncrementer implements JRIncrementer
 /**
  *
  */
-class JRLongVarianceIncrementer implements JRIncrementer
+class JRLongVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -362,7 +412,7 @@ class JRLongVarianceIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -384,8 +434,8 @@ class JRLongVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
 				new Long(
 					(countValue.longValue() - 1) * value.longValue() / countValue.longValue() +
@@ -394,5 +444,53 @@ class JRLongVarianceIncrementer implements JRIncrementer
 					(countValue.longValue() - 1)
 					);
 		}
+	}
+
+	
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		Number value = (Number)calculable.getIncrementedValue();
+		
+		if (calculableValue.getValue() == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return null;
+			}
+
+			return value;
+		}
+		else if (value == null || calculable.isInitialized())
+		{
+			return new Long(((Number) calculableValue.getIncrementedValue()).longValue());
+		}
+
+		double v1 = value.doubleValue();
+		double c1 = ((Number) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT))).doubleValue();
+		double s1 = ((Number) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_SUM))).doubleValue();
+
+		double v2 = ((Number) calculableValue.getIncrementedValue()).doubleValue();
+		double c2 = ((Number) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_COUNT))).doubleValue();
+		double s2 = ((Number) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_SUM))).doubleValue();
+
+		c1 -= c2;
+		s1 -= s2;
+		
+		double c = c1 + c2;
+
+		return new Long(
+				(long) (
+				c1 / c * v1 +
+				c2 / c * v2 +
+				c2 / c1 * s1 / c * s1 / c +
+				c1 / c2 * s2 / c * s2 / c -
+				2 * s1 / c * s2 /c
+				));
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRLongIncrementerFactory.ZERO;
 	}
 }

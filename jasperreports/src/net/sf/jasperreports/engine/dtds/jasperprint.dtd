@@ -64,7 +64,7 @@
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
 >
-<!ELEMENT page (line | rectangle | ellipse | image | text)*>
+<!ELEMENT page (line | rectangle | ellipse | image | text | frame)*>
 <!ELEMENT line (reportElement?, graphicElement?)>
 <!ATTLIST line
 	direction (TopDown | BottomUp) "TopDown"
@@ -159,3 +159,4 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 <!ELEMENT textContent (#PCDATA)>
+<!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame)*)>

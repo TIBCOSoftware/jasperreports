@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -51,6 +52,13 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	protected byte incrementType = JRVariable.RESET_TYPE_NONE;
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;
+	
+	protected JRDatasetRun datasetRun;
+
+	
+	protected JRBaseChartDataset()
+	{
+	}
 
 	
 	/**
@@ -63,6 +71,7 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 			incrementType = dataset.getIncrementType();
 			resetGroup = dataset.getResetGroup();
 			incrementGroup = dataset.getIncrementGroup();
+			datasetRun = new JRBaseDatasetRun(dataset.getDatasetRun(), null);
 		}
 	}
 
@@ -78,6 +87,8 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 		incrementType = dataset.getIncrementType();
 		resetGroup = factory.getGroup(dataset.getResetGroup());
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+		
+		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 	}
 
 	
@@ -111,6 +122,12 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	public JRGroup getIncrementGroup()
 	{
 		return incrementGroup;
+	}
+
+
+	public JRDatasetRun getDatasetRun()
+	{
+		return datasetRun;
 	}
 		
 }

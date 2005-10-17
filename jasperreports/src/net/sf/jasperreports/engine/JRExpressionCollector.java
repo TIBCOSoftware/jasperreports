@@ -27,8 +27,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -51,6 +55,15 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.engine.crosstab.JRCellContents;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabBucket;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
 
 
 /**
@@ -63,9 +76,37 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private Collection expressions = new HashSet();
+	private List expressions = new ArrayList();
+	private Map expressionIds = new HashMap();
 
+	/**
+	 * Collectors for sub datasets indexed by dataset name.
+	 */
+	private Map datasetCollectors;
 
+	/**
+	 * Collectors for crosstabs.
+	 */
+	private Map crosstabCollectors;
+
+	/**
+	 * Constructs a collector instance.
+	 */
+	public JRExpressionCollector()
+	{
+		this(true);
+	}
+	
+	
+	private JRExpressionCollector(boolean isMain)
+	{
+		if (isMain)
+		{
+			datasetCollectors = new HashMap();
+			crosstabCollectors = new HashMap();
+		}
+	}
+	
 	/**
 	 *
 	 */
@@ -73,19 +114,167 @@ public class JRExpressionCollector
 	{
 		if (expression != null)
 		{
-			expressions.add(expression);
+			if (!expressionIds.containsKey(expression))
+			{
+				expressionIds.put(expression, new Integer(expressions.size()));
+				expressions.add(expression);
+			}
 		}
 	}
 
+
+	private JRExpressionCollector getCollector(JRChartDataset chartDataset)
+	{
+		JRExpressionCollector collector;
+		
+		JRDatasetRun datasetRun = chartDataset.getDatasetRun();
+		if (datasetRun == null)
+		{
+			collector = this;
+		}
+		else
+		{
+			collector = getDatasetCollector(datasetRun.getDatasetName());
+		}
+		
+		return collector;
+	}
+
+	
+	private JRExpressionCollector getDatasetCollector(String datasetName)
+	{
+		JRExpressionCollector collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
+		if (collector == null)
+		{
+			collector = new JRExpressionCollector(false);
+			datasetCollectors.put(datasetName, collector);
+		}
+		return collector;
+	}
+
+	private JRExpressionCollector getCollector(JRDataset dataset)
+	{
+		JRExpressionCollector collector;
+		
+		if (dataset.isMainDataset() || datasetCollectors == null)
+		{
+			collector = this;
+		}
+		else
+		{
+			collector = getDatasetCollector(dataset.getName());
+		}
+		
+		return collector;
+	}
+
+	
+	private JRExpressionCollector getCollector(JRCrosstab crosstab)
+	{
+		String name = crosstab.getName();
+		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(name);
+		if (collector == null)
+		{
+			collector = new JRExpressionCollector(false);
+			crosstabCollectors.put(name, collector);
+		}
+		return collector;
+	}
+	
+	
+	/**
+	 * Returns the collected expressions.
+	 * 
+	 * @return the collected expressions
+	 */
+	public List getExpressions()
+	{
+		return expressions;
+	}
+
+	
+	/**
+	 * Returns the expressions collected for a dataset.
+	 * 
+	 * @param dataset the dataset
+	 * @return the expressions
+	 */
+	public List getExpressions(JRDataset dataset)
+	{
+		return getCollector(dataset).getExpressions();
+	}
+
+	
+	/**
+	 * Returns the expressions collected for a crosstab.
+	 * 
+	 * @param crosstab the crosstab
+	 * @return the expressions
+	 */
+	public List getExpressions(JRCrosstab crosstab)
+	{
+		return getCollector(crosstab).getExpressions();
+	}
+
+
+	public Integer getExpressionId(JRExpression expression)
+	{
+		return (Integer) expressionIds.get(expression);
+	}
+
+	
+	private void collectIds()
+	{
+		for (Iterator it = datasetCollectors.values().iterator(); it.hasNext();)
+		{
+			JRExpressionCollector datasetCollector = (JRExpressionCollector) it.next();
+			
+			collectIds(datasetCollector);
+		}
+		
+		for (Iterator it = crosstabCollectors.values().iterator(); it.hasNext();)
+		{
+			JRExpressionCollector datasetCollector = (JRExpressionCollector) it.next();
+			
+			collectIds(datasetCollector);
+		}
+	}
+
+
+	private void collectIds(JRExpressionCollector datasetCollector)
+	{
+		for (Iterator iter = datasetCollector.expressionIds.entrySet().iterator(); iter.hasNext();)
+		{
+			Map.Entry entry = (Map.Entry) iter.next();
+			Object key = entry.getKey();
+			
+			if (expressionIds.containsKey(key))
+			{
+				throw new JRRuntimeException("Same expression found in different datasets.");
+			}
+			
+			expressionIds.put(key, entry.getValue());
+		}
+	}
+
+	
 	/**
 	 *
 	 */
 	public Collection collect(JRReport report)
 	{
-		collect(report.getParameters());
-		collect(report.getVariables());
-		collect(report.getGroups());
+		collect(report.getMainDataset());
 
+		JRDataset[] datasets = report.getDatasets();
+		if (datasets != null && datasets.length > 0)
+		{
+			for (int i = 0; i < datasets.length; i++)
+			{
+				JRExpressionCollector collector = getCollector(datasets[i]);
+				collector.collect(datasets[i]);
+			}
+		}
+		
 		collect(report.getBackground());
 		collect(report.getTitle());
 		collect(report.getPageHeader());
@@ -96,9 +285,12 @@ public class JRExpressionCollector
 		collect(report.getLastPageFooter());
 		collect(report.getSummary());
 		
+		collectIds();
+		
 		return expressions;
 	}
-		
+
+
 	/**
 	 *
 	 */
@@ -290,9 +482,12 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRPieDataset pieDataset)
 	{
-		addExpression(pieDataset.getKeyExpression());
-		addExpression(pieDataset.getValueExpression());
-		addExpression(pieDataset.getLabelExpression());
+		collect((JRChartDataset) pieDataset);
+		
+		JRExpressionCollector collector = getCollector(pieDataset);
+		collector.addExpression(pieDataset.getKeyExpression());
+		collector.addExpression(pieDataset.getValueExpression());
+		collector.addExpression(pieDataset.getLabelExpression());
 	}
 
 	/**
@@ -300,12 +495,15 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRCategoryDataset categoryDataset)
 	{
+		collect((JRChartDataset) categoryDataset);
+		
 		JRCategorySeries[] categorySeries = categoryDataset.getSeries();
 		if (categorySeries != null && categorySeries.length > 0)
 		{
+			JRExpressionCollector collector = getCollector(categoryDataset);
 			for(int j = 0; j < categorySeries.length; j++)
 			{
-				collect(categorySeries[j]);
+				collector.collect(categorySeries[j]);
 			}
 		}
 	}
@@ -315,12 +513,15 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRXyDataset xyDataset)
 	{
+		collect((JRChartDataset) xyDataset);
+		
 		JRXySeries[] xySeries = xyDataset.getSeries();
 		if (xySeries != null && xySeries.length > 0)
 		{
+			JRExpressionCollector collector = getCollector(xyDataset);
 			for(int j = 0; j < xySeries.length; j++)
 			{
-				collect(xySeries[j]);
+				collector.collect(xySeries[j]);
 			}
 		}
 	}
@@ -329,10 +530,13 @@ public class JRExpressionCollector
 	 * 
 	 */
 	public void collect( JRTimeSeriesDataset timeSeriesDataset ){
+		collect((JRChartDataset) timeSeriesDataset);
+		
 		JRTimeSeries[] timeSeries = timeSeriesDataset.getSeries();
 		if( timeSeries != null && timeSeries.length > 0 ){
+			JRExpressionCollector collector = getCollector(timeSeriesDataset);
 			for( int i = 0; i <  timeSeries.length; i++ ){
-				collect( timeSeries[i] );
+				collector.collect(timeSeries[i]);
 			}
 		}
 	}
@@ -341,10 +545,13 @@ public class JRExpressionCollector
 	 * 
 	 */
 	public void collect( JRTimePeriodDataset timePeriodDataset ){
+		collect((JRChartDataset) timePeriodDataset);
+		
 		JRTimePeriodSeries[] timePeriodSeries = timePeriodDataset.getSeries();
 		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
+			JRExpressionCollector collector = getCollector(timePeriodDataset);
 			for( int i = 0; i < timePeriodSeries.length; i++ ){
-				collect( timePeriodSeries[i] );
+				collector.collect(timePeriodSeries[i]);
 			}
 		}
 	}
@@ -435,24 +642,27 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
-	private void collect( JRTimePeriodSeries timePeriodSeries ){
-		addExpression( timePeriodSeries.getSeriesExpression() );
-		addExpression( timePeriodSeries.getStartDateExpression() );
-		addExpression( timePeriodSeries.getEndDateExpression() );
-		addExpression( timePeriodSeries.getValueExpression() );
-		addExpression( timePeriodSeries.getLabelExpression() );
+	private void collect(JRTimePeriodSeries timePeriodSeries ){
+		addExpression(timePeriodSeries.getSeriesExpression());
+		addExpression(timePeriodSeries.getStartDateExpression());
+		addExpression(timePeriodSeries.getEndDateExpression());
+		addExpression(timePeriodSeries.getValueExpression());
+		addExpression(timePeriodSeries.getLabelExpression());
 	}
 
 	/**
 	 *
 	 */
 	public void collect(JRXyzDataset xyzDataset) {
+		collect((JRChartDataset) xyzDataset);
+		
 		JRXyzSeries[] xyzSeries = xyzDataset.getSeries();
 		if (xyzSeries != null && xyzSeries.length > 0)
 		{
+			JRExpressionCollector collector = getCollector(xyzDataset);
 			for(int j = 0; j < xyzSeries.length; j++)
 			{
-				collect(xyzSeries[j]);
+				collector.collect(xyzSeries[j]);
 			}
 		}
 		
@@ -492,13 +702,16 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRHighLowDataset highLowDataset)
 	{
-		addExpression(highLowDataset.getSeriesExpression());
-		addExpression(highLowDataset.getDateExpression());
-		addExpression(highLowDataset.getHighExpression());
-		addExpression(highLowDataset.getLowExpression());
-		addExpression(highLowDataset.getOpenExpression());
-		addExpression(highLowDataset.getCloseExpression());
-		addExpression(highLowDataset.getVolumeExpression());
+		collect((JRChartDataset) highLowDataset);
+		
+		JRExpressionCollector collector = getCollector(highLowDataset);
+		collector.addExpression(highLowDataset.getSeriesExpression());
+		collector.addExpression(highLowDataset.getDateExpression());
+		collector.addExpression(highLowDataset.getHighExpression());
+		collector.addExpression(highLowDataset.getLowExpression());
+		collector.addExpression(highLowDataset.getOpenExpression());
+		collector.addExpression(highLowDataset.getCloseExpression());
+		collector.addExpression(highLowDataset.getVolumeExpression());
 	}
 
 	/**
@@ -510,4 +723,157 @@ public class JRExpressionCollector
 		addExpression(candlestickPlot.getValueAxisLabelExpression());
 	}
 
+	
+	/**
+	 * Collects expressions from a crosstab.
+	 * 
+	 * @param crosstab the crosstab
+	 */
+	public void collect(JRCrosstab crosstab)
+	{
+		JRCrosstabDataset dataset = crosstab.getDataset();
+		collect(dataset);
+		
+		JRExpressionCollector datasetCollector = getCollector(dataset);
+		JRExpressionCollector crosstabCollector = getCollector(crosstab);
+		
+		addExpression(crosstab.getParametersMapExpression());
+		
+		JRCrosstabParameter[] parameters = crosstab.getParameters();
+		if (parameters != null)
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				addExpression(parameters[i].getExpression());
+			}
+		}
+		
+		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
+		if (rowGroups != null)
+		{
+			for (int i = 0; i < rowGroups.length; i++)
+			{
+				JRCrosstabRowGroup rowGroup = rowGroups[i];
+				JRCrosstabBucket bucket = rowGroup.getBucket();
+				datasetCollector.addExpression(bucket.getExpression());
+				datasetCollector.addExpression(bucket.getComparatorExpression());
+				crosstabCollector.collect(rowGroup.getHeader());
+				crosstabCollector.collect(rowGroup.getTotalHeader());
+			}
+		}
+		
+		JRCrosstabColumnGroup[] colGroups = crosstab.getColumnGroups();
+		if (colGroups != null)
+		{
+			for (int i = 0; i < colGroups.length; i++)
+			{
+				JRCrosstabColumnGroup columnGroup = colGroups[i];
+				datasetCollector.addExpression(columnGroup.getBucket().getExpression());
+				datasetCollector.addExpression(columnGroup.getBucket().getComparatorExpression());
+				crosstabCollector.collect(columnGroup.getHeader());
+				crosstabCollector.collect(columnGroup.getTotalHeader());
+			}
+		}
+		
+		JRCrosstabMeasure[] measures = crosstab.getMeasures();
+		if (measures != null)
+		{
+			for (int i = 0; i < measures.length; i++)
+			{
+				datasetCollector.addExpression(measures[i].getValueExpression());
+			}
+		}
+		
+		JRCrosstabCell[][] cells = crosstab.getCells();
+		if (cells != null)
+		{
+			for (int i = 0; i < cells.length; ++i)
+			{
+				for (int j = 0; j < cells[i].length; j++)
+				{
+					if (cells[i][j] != null)
+					{
+						crosstabCollector.collect(cells[i][j].getContents());
+					}
+				}
+			}
+		}
+	}
+
+	
+	/**
+	 * Collects expressions from a dataset.
+	 * 
+	 * @param dataset the dataset
+	 * @return collected expressions
+	 */
+	public Collection collect(JRDataset dataset)
+	{
+		JRExpressionCollector collector = getCollector(dataset);
+		collector.collect(dataset.getParameters());
+		collector.collect(dataset.getVariables());
+		collector.collect(dataset.getGroups());
+		
+		return expressions;
+	}
+
+	
+	/**
+	 * Collects expressions from a chart dataset.
+	 * 
+	 * @param dataset the chart dataset
+	 */
+	protected void collect(JRChartDataset dataset)
+	{
+		collect(dataset.getDatasetRun());
+	}
+
+
+	private void collect(JRDatasetRun datasetRun)
+	{
+		if (datasetRun != null)
+		{
+			addExpression(datasetRun.getParametersMapExpression());
+			addExpression(datasetRun.getConnectionExpression());
+			addExpression(datasetRun.getDataSourceExpression());
+			
+			JRSubreportParameter[] parameters = datasetRun.getParameters();
+			if (parameters != null && parameters.length > 0)
+			{
+				for (int i = 0; i < parameters.length; i++)
+				{
+					addExpression(parameters[i].getExpression());
+				}
+			}
+		}
+	}
+	
+	
+	protected void collect(JRCellContents cell)
+	{
+		if (cell != null)
+		{
+			JRElement[] elements = cell.getElements();
+			if (elements != null && elements.length > 0)
+			{
+				for(int i = 0; i < elements.length; i++)
+				{
+					elements[i].collectExpressions(this);
+				}
+			}
+		}
+	}
+	
+	
+	public void collect(JRFrame frame)
+	{
+		JRElement[] elements = frame.getElements();
+		if (elements != null)
+		{
+			for (int i = 0; i < elements.length; i++)
+			{
+				elements[i].collectExpressions(this);
+			}
+		}
+	}
 }

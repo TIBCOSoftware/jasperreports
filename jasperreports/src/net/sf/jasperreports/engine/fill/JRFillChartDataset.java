@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 
 import org.jfree.data.general.Dataset;
@@ -51,7 +53,8 @@ public abstract class JRFillChartDataset implements JRChartDataset
 
 	private boolean isIncremented = true;
 
-	
+	protected JRFillDatasetRun datasetRun;
+
 	/**
 	 *
 	 */
@@ -66,6 +69,8 @@ public abstract class JRFillChartDataset implements JRChartDataset
 		
 		resetGroup = factory.getGroup(dataset.getResetGroup());
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+		
+		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 	}
 
 
@@ -162,4 +167,18 @@ public abstract class JRFillChartDataset implements JRChartDataset
 	 */
 	protected abstract Dataset getCustomDataset();
 
+
+	public JRDatasetRun getDatasetRun()
+	{
+		return datasetRun;
+	}
+	
+	
+	public void evaluateDatasetRun(byte evaluation) throws JRException
+	{
+		if (datasetRun != null)
+		{
+			datasetRun.evaluate(this, evaluation);
+		}
+	}
 }

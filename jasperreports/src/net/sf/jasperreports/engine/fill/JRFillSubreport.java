@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
@@ -92,7 +93,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private JRDataSource dataSource = null;
 	private JasperReport jasperReport = null;
 
-	private Map loadedCalculators = null;
+	private Map loadedEvaluators = null;
 	
 	/**
 	 * Values to be copied from the subreport.
@@ -147,7 +148,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			returnValuesList.toArray(returnValues);
 		}
 		
-		loadedCalculators = new HashMap();
+		loadedEvaluators = new HashMap();
 		checkedReports = new HashSet();
 	}
 
@@ -291,20 +292,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			)
 		{
 			JRExpression expression = getExpression();
-			Object source = filler.calculator.evaluate(expression, evaluation);
+			Object source = evaluateExpression(expression, evaluation);
 			if (source != null) // FIXME put some default broken image like in browsers
 			{
-				JRCalculator calculator = null;
+				JREvaluator evaluator = null;
 				
 				if (isUsingCache() && filler.loadedSubreports.containsKey(source))
 				{
 					jasperReport = (JasperReport)filler.loadedSubreports.get(source);
-					calculator = (JRCalculator)loadedCalculators.get(jasperReport);
+					evaluator = (JREvaluator)loadedEvaluators.get(jasperReport);
 
-					if (calculator == null)
+					if (evaluator == null)
 					{
-						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
-						loadedCalculators.put(jasperReport, calculator);
+						evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
+						loadedEvaluators.put(jasperReport, evaluator);
 					}
 				}
 				else
@@ -334,81 +335,27 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					
 					if (jasperReport != null)
 					{
-						calculator = JRDefaultCompiler.getInstance().loadCalculator(jasperReport);
+						evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
 					}
 					
 					if (isUsingCache())
 					{
 						filler.loadedSubreports.put(source, jasperReport);
-						loadedCalculators.put(jasperReport, calculator);
+						loadedEvaluators.put(jasperReport, evaluator);
 					}
 				}
 				
 				if (jasperReport != null)
 				{
 					/*   */
-					expression = getParametersMapExpression();
-					parameterValues = (Map)filler.calculator.evaluate(expression, evaluation);
-					
-					if (parameterValues != null)
-					{
-						//parameterValues.remove(JRParameter.REPORT_LOCALE);
-						parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
-						parameterValues.remove(JRParameter.REPORT_CONNECTION);
-						parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
-						parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
-						parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
-						parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
-						//parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);
-						parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
-						parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
-					}
-
-					/*   */
 					expression = getConnectionExpression();
-					connection = (Connection)filler.calculator.evaluate(expression, evaluation);
+					connection = (Connection) evaluateExpression(expression, evaluation);
 			
 					/*   */
 					expression = getDataSourceExpression();
-					dataSource = (JRDataSource)filler.calculator.evaluate(expression, evaluation);
+					dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
 					
-					/*   */
-					JRSubreportParameter[] subreportParameters = getParameters();
-					if (subreportParameters != null && subreportParameters.length > 0)
-					{
-						if (parameterValues == null)
-						{
-							parameterValues = new HashMap();
-						}
-						Object parameterValue = null;
-						for(int i = 0; i < subreportParameters.length; i++)
-						{
-							expression = subreportParameters[i].getExpression();
-							parameterValue = filler.calculator.evaluate(expression, evaluation);
-							if (parameterValue == null)
-							{
-								parameterValues.remove(subreportParameters[i].getName());
-							}
-							else
-							{
-								parameterValues.put(subreportParameters[i].getName(), parameterValue);
-							}
-						}
-					}
-
-					/*   */
-					if (parameterValues != null)
-					{
-						if (!parameterValues.containsKey(JRParameter.REPORT_LOCALE))
-						{
-							parameterValues.put(JRParameter.REPORT_LOCALE, filler.locale);
-						}
-
-						if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
-						{
-							parameterValues.put(JRParameter.REPORT_CLASS_LOADER, filler.reportClassLoader);
-						}
-					}
+					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation);
 
 					if (subreportFiller != null)
 					{
@@ -420,12 +367,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					{
 						case JRReport.PRINT_ORDER_HORIZONTAL :
 						{
-							subreportFiller = new JRHorizontalFiller(jasperReport, calculator, filler);
+							subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, filler);
 							break;
 						}
 						case JRReport.PRINT_ORDER_VERTICAL :
 						{
-							subreportFiller = new JRVerticalFiller(jasperReport, calculator, filler);
+							subreportFiller = new JRVerticalFiller(jasperReport, evaluator, filler);
 							break;
 						}
 					}
@@ -434,6 +381,66 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				}
 			}
 		}
+	}
+
+
+	public static Map getParameterValues(JRBaseFiller filler, JRExpression parametersMapExpression, JRSubreportParameter[] subreportParameters, byte evaluation) throws JRException
+	{
+		Map parameterValues = null;
+		if (parametersMapExpression != null)
+		{
+			parameterValues = (Map) filler.evaluateExpression(parametersMapExpression, evaluation);
+		}		
+		
+		if (parameterValues != null)
+		{
+			//parameterValues.remove(JRParameter.REPORT_LOCALE);
+			parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+			parameterValues.remove(JRParameter.REPORT_CONNECTION);
+			parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
+			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
+			parameterValues.remove(JRParameter.REPORT_SCRIPTLET);
+			parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
+			//parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);
+			parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
+			parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
+		}
+		
+		if (parameterValues == null)
+		{
+			parameterValues = new HashMap();
+		}
+		
+		/*   */
+		if (subreportParameters != null && subreportParameters.length > 0)
+		{
+			Object parameterValue = null;
+			for(int i = 0; i < subreportParameters.length; i++)
+			{
+				JRExpression expression = subreportParameters[i].getExpression();
+				parameterValue = filler.evaluateExpression(expression, evaluation);
+				if (parameterValue == null)
+				{
+					parameterValues.remove(subreportParameters[i].getName());
+				}
+				else
+				{
+					parameterValues.put(subreportParameters[i].getName(), parameterValue);
+				}
+			}
+		}
+		
+		if (!parameterValues.containsKey(JRParameter.REPORT_LOCALE))
+		{
+			parameterValues.put(JRParameter.REPORT_LOCALE, filler.getLocale());
+		}
+
+		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
+		{
+			parameterValues.put(JRParameter.REPORT_CLASS_LOADER, filler.reportClassLoader);
+		}
+		
+		return parameterValues;
 	}
 
 
@@ -493,7 +500,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		boolean willOverflow = false;
 
@@ -687,6 +694,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
+		printRectangle.setWidth(getWidth());
 		printRectangle.setHeight(getStretchHeight());
 		
 		return printRectangle;
@@ -712,7 +720,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeSubreport(this);
 	}
@@ -783,7 +791,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			{
 				try
 				{
-					JRFillVariable variable = (JRFillVariable) filler.variablesMap.get(returnValues[i].getToVariable());
+					JRFillVariable variable = filler.getVariable(returnValues[i].getToVariable());
 					Object value = subreportFiller.getVariableValue(returnValues[i].getSubreportVariable());
 					
 					Object newValue = returnValues[i].getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
@@ -812,13 +820,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			{
 				JRSubreportReturnValue returnValue = returnValues[i];
 				String subreportVariableName = returnValue.getSubreportVariable();
-				JRVariable subrepVariable = (JRVariable) subreportFiller.variablesMap.get(subreportVariableName);
+				JRVariable subrepVariable = subreportFiller.getVariable(subreportVariableName);
 				if (subrepVariable == null)
 				{
 					throw new JRException("Subreport variable " + subreportVariableName + " not found.");
 				}
 				
-				JRVariable variable = (JRVariable) filler.variablesMap.get(returnValue.getToVariable());
+				JRVariable variable = filler.getVariable(returnValue.getToVariable());
 				if (returnValue.getCalculation() == JRVariable.CALCULATION_COUNT)
 				{
 					if (!Number.class.isAssignableFrom(variable.getValueClass()))

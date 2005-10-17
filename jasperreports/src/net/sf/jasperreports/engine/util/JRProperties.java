@@ -55,6 +55,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRProperties
 {
 	/**
+	 * Value used as <code>serialVersionUID</code> for the current version.
+	 */
+	public static final long VERSION_SERIAL_UID = 10000;
+	
+	/**
 	 * The default properties file.
 	 */
 	protected static final String DEFAULT_PROPERTIES_FILE = "jasperreports.properties";

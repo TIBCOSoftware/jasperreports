@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRException;
@@ -110,6 +112,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		printLine = new JRTemplatePrintLine(this.getJRTemplateLine());
 		printLine.setX(this.getX());
 		printLine.setY(this.getRelativeY());
+		printLine.setWidth(getWidth());
 		printLine.setHeight(this.getStretchHeight());
 		
 		return printLine;
@@ -135,7 +138,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeLine(this);
 	}

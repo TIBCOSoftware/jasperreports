@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 
 
@@ -126,7 +127,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		boolean willOverflow = false;
 
@@ -152,7 +153,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 			)
 		{
 			if (
-				( !this.isPrintInFirstWholeBand() || !this.getBand().isNewPageColumn() ) &&
+				( !this.isPrintInFirstWholeBand() || !this.getBand().isFirstWholeOnPageColumn() ) &&
 				( this.getPrintWhenGroupChanges() == null || !this.getBand().isNewGroup(this.getPrintWhenGroupChanges()) ) &&
 				( !isOverflow || !this.isPrintWhenDetailOverflows() )
 				)

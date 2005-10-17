@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.math.BigDecimal;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -36,7 +37,7 @@ import net.sf.jasperreports.engine.JRVariable;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
+public class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncrementerFactory
 {
 
 
@@ -73,9 +74,9 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 	/**
 	 *
 	 */
-	public JRIncrementer getIncrementer(byte calculation)
+	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
 	{
-		JRIncrementer incrementer = null;
+		JRExtendedIncrementer incrementer = null;
 
 		switch (calculation)
 		{
@@ -97,7 +98,7 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 			case JRVariable.CALCULATION_LOWEST :
 			case JRVariable.CALCULATION_HIGHEST :
 			{
-				incrementer = JRComparableIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRComparableIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
@@ -112,9 +113,10 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
+			case JRVariable.CALCULATION_FIRST :
 			default :
 			{
-				incrementer = JRDefaultIncrementerFactory.getInstance().getIncrementer(calculation);
+				incrementer = JRDefaultIncrementerFactory.getInstance().getExtendedIncrementer(calculation);
 				break;
 			}
 		}
@@ -129,7 +131,7 @@ public class JRBigDecimalIncrementerFactory implements JRIncrementerFactory
 /**
  *
  */
-class JRBigDecimalCountIncrementer implements JRIncrementer
+class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -155,7 +157,7 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -179,13 +181,43 @@ class JRBigDecimalCountIncrementer implements JRIncrementer
 
 		return value.add(JRBigDecimalIncrementerFactory.ONE);
 	}
+
+	
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		BigDecimal value = (BigDecimal)calculable.getIncrementedValue();
+		BigDecimal combineValue = (BigDecimal) calculableValue.getValue();
+
+		if (combineValue == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return JRBigDecimalIncrementerFactory.ZERO;
+			}
+
+			return value;
+		}
+
+		if (value == null || calculable.isInitialized())
+		{
+			value = JRBigDecimalIncrementerFactory.ZERO;
+		}
+
+		return value.add(combineValue);
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRBigDecimalSumIncrementer implements JRIncrementer
+class JRBigDecimalSumIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -211,7 +243,7 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -236,13 +268,19 @@ class JRBigDecimalSumIncrementer implements JRIncrementer
 
 		return value.add(newValue);
 	}
+
+	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
+	}
 }
 
 
 /**
  *
  */
-class JRBigDecimalAverageIncrementer implements JRIncrementer
+class JRBigDecimalAverageIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -268,7 +306,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -281,9 +319,15 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 			}
 			return variable.getValue();
 		}
-		BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-		BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+		BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 		return sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP);
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
 	}
 }
 
@@ -291,7 +335,7 @@ class JRBigDecimalAverageIncrementer implements JRIncrementer
 /**
  *
  */
-class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
+class JRBigDecimalStandardDeviationIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -317,7 +361,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -330,8 +374,14 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 			}
 			return variable.getValue(); 
 		}
-		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_VARIANCE));
+		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
 		return new BigDecimal( Math.sqrt(varianceValue.doubleValue()) );
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
 	}
 }
 
@@ -339,7 +389,7 @@ class JRBigDecimalStandardDeviationIncrementer implements JRIncrementer
 /**
  *
  */
-class JRBigDecimalVarianceIncrementer implements JRIncrementer
+class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 {
 	/**
 	 *
@@ -365,7 +415,7 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 	 *
 	 */
 	public Object increment(
-		JRFillVariable variable, 
+		JRCalculable variable, 
 		Object expressionValue,
 		AbstractValueProvider valueProvider
 		)
@@ -387,8 +437,8 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 		}
 		else
 		{
-			BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_COUNT));
-			BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRFillVariable.HELPER_SUM));
+			BigDecimal countValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+			BigDecimal sumValue = (BigDecimal)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
 				countValue.subtract(JRBigDecimalIncrementerFactory.ONE).multiply(value).divide(countValue, BigDecimal.ROUND_HALF_UP).add(
 					sumValue.divide(countValue, BigDecimal.ROUND_HALF_UP).subtract(newValue).multiply(
@@ -396,5 +446,54 @@ class JRBigDecimalVarianceIncrementer implements JRIncrementer
 						).divide(countValue.subtract(JRBigDecimalIncrementerFactory.ONE), BigDecimal.ROUND_HALF_UP)
 					);
 		}
+	}
+
+	
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	{
+		BigDecimal value = (BigDecimal)calculable.getIncrementedValue();
+		
+		if (calculableValue.getValue() == null)
+		{
+			if (calculable.isInitialized())
+			{
+				return null;
+			}
+
+			return value;
+		}
+		else if (value == null || calculable.isInitialized())
+		{
+			return (BigDecimal) calculableValue.getIncrementedValue();
+		}
+
+		BigDecimal v1 = value;
+		BigDecimal c1 = (BigDecimal) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		BigDecimal s1 = (BigDecimal) valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_SUM));
+
+		BigDecimal v2 = (BigDecimal) calculableValue.getIncrementedValue();
+		BigDecimal c2 = (BigDecimal) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_COUNT));
+		BigDecimal s2 = (BigDecimal) valueProvider.getValue(calculableValue.getHelperVariable(JRCalculable.HELPER_SUM));
+
+		c1 = c1.subtract(c2);
+		s1 = s1.subtract(s2);
+		
+		BigDecimal c = c1.add(c2);
+		
+		BigDecimal x1 = s1.divide(c, BigDecimal.ROUND_HALF_UP);
+		BigDecimal x2 = s2.divide(c, BigDecimal.ROUND_HALF_UP);
+		BigDecimal x3 = x1.multiply(x2);
+		
+		return c1.divide(c, BigDecimal.ROUND_HALF_UP).multiply(v1)
+			.add(c2.divide(c, BigDecimal.ROUND_HALF_UP).multiply(v2))
+			.add(c2.divide(c1, BigDecimal.ROUND_HALF_UP).multiply(x1).multiply(x1))
+			.add(c1.divide(c2, BigDecimal.ROUND_HALF_UP).multiply(x2).multiply(x2))
+			.subtract(x3).subtract(x3);
+	}
+
+	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
 	}
 }

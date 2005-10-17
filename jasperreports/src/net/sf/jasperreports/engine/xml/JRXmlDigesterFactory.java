@@ -74,6 +74,8 @@ import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
@@ -83,13 +85,35 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
+import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCellContents;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstabBucket;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstabCell;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstabColumnGroup;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstabRowGroup;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.xml.crosstab.JRCellContentsFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabBucketExpressionFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabBucketFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabCellFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabChartDatasetFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabColumnGroupFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabDatasetFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabMeasureExpressionFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabMeasureFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabParameterFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabParameterValueExpressionFactory;
+import net.sf.jasperreports.engine.xml.crosstab.JRCrosstabRowGroupFactory;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.SetNestedPropertiesRule;
@@ -145,53 +169,53 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
 		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
-
+		
 		/*   */
 		digester.addFactoryCreate("jasperReport/style", JRStyleFactory.class.getName());
 		digester.addSetNext("jasperReport/style", "addStyle", JRStyle.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/parameter", JRParameterFactory.class.getName());
-		digester.addSetNext("jasperReport/parameter", "addParameter", JRParameter.class.getName());
-		digester.addCallMethod("jasperReport/parameter/parameterDescription", "setDescription", 0);
+		digester.addFactoryCreate("*/parameter", JRParameterFactory.class.getName());
+		digester.addSetNext("*/parameter", "addParameter", JRParameter.class.getName());
+		digester.addCallMethod("*/parameter/parameterDescription", "setDescription", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/parameter/defaultValueExpression", JRDefaultValueExpressionFactory.class.getName());
-		digester.addSetNext("jasperReport/parameter/defaultValueExpression", "setDefaultValueExpression", JRExpression.class.getName());
-		digester.addCallMethod("jasperReport/parameter/defaultValueExpression", "setText", 0);
+		digester.addFactoryCreate("*/parameter/defaultValueExpression", JRDefaultValueExpressionFactory.class.getName());
+		digester.addSetNext("*/parameter/defaultValueExpression", "setDefaultValueExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/parameter/defaultValueExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/queryString", JRQueryFactory.class.getName());
-		digester.addSetNext("jasperReport/queryString", "setQuery", JRQuery.class.getName());
-		digester.addCallMethod("jasperReport/queryString", "setText", 0);
+		digester.addFactoryCreate("*/queryString", JRQueryFactory.class.getName());
+		digester.addSetNext("*/queryString", "setQuery", JRQuery.class.getName());
+		digester.addCallMethod("*/queryString", "setText", 0);
   		
 		/*   */
-		digester.addFactoryCreate("jasperReport/field", JRFieldFactory.class.getName());
-		digester.addSetNext("jasperReport/field", "addField", JRField.class.getName());
-		digester.addCallMethod("jasperReport/field/fieldDescription", "setDescription", 0);
+		digester.addFactoryCreate("*/field", JRFieldFactory.class.getName());
+		digester.addSetNext("*/field", "addField", JRField.class.getName());
+		digester.addCallMethod("*/field/fieldDescription", "setDescription", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable", JRVariableFactory.class.getName());
-		digester.addSetNext("jasperReport/variable", "addVariable", JRDesignVariable.class.getName());
+		digester.addFactoryCreate("*/variable", JRVariableFactory.class.getName());
+		digester.addSetNext("*/variable", "addVariable", JRDesignVariable.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable/variableExpression", JRVariableExpressionFactory.class.getName());
-		digester.addSetNext("jasperReport/variable/variableExpression", "setExpression", JRExpression.class.getName());
-		digester.addCallMethod("jasperReport/variable/variableExpression", "setText", 0);
+		digester.addFactoryCreate("*/variable/variableExpression", JRVariableExpressionFactory.class.getName());
+		digester.addSetNext("*/variable/variableExpression", "setExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/variable/variableExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/variable/initialValueExpression", JRInitialValueExpressionFactory.class.getName());
-		digester.addSetNext("jasperReport/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
-		digester.addCallMethod("jasperReport/variable/initialValueExpression", "setText", 0);
+		digester.addFactoryCreate("*/variable/initialValueExpression", JRInitialValueExpressionFactory.class.getName());
+		digester.addSetNext("*/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/variable/initialValueExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/group", JRGroupFactory.class.getName());
-		digester.addSetNext("jasperReport/group", "addGroup", JRDesignGroup.class.getName());
+		digester.addFactoryCreate("*/group", JRGroupFactory.class.getName());
+		digester.addSetNext("*/group", "addGroup", JRDesignGroup.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/group/groupExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
-		digester.addSetNext("jasperReport/group/groupExpression", "setExpression", JRExpression.class.getName());
-		digester.addCallMethod("jasperReport/group/groupExpression", "setText", 0);
+		digester.addFactoryCreate("*/group/groupExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
+		digester.addSetNext("*/group/groupExpression", "setExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/group/groupExpression", "setText", 0);
 
 		/*   */
 		digester.addFactoryCreate("jasperReport/background/band", JRBandFactory.class.getName());
@@ -302,32 +326,36 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/subreport", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportParameter", JRSubreportParameterFactory.class.getName());
-		digester.addSetNext("*/subreport/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
+		digester.addFactoryCreate("*/subreportParameter", JRSubreportParameterFactory.class.getName());
+		digester.addSetNext("*/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/subreport/returnValue", JRSubreportReturnValueFactory.class.getName());
 		digester.addSetNext("*/subreport/returnValue", "addReturnValue", JRSubreportReturnValue.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/parametersMapExpression", JRExpressionFactory.MapExpressionFactory.class.getName());
-		digester.addSetNext("*/subreport/parametersMapExpression", "setParametersMapExpression", JRExpression.class.getName());
-		digester.addCallMethod("*/subreport/parametersMapExpression", "setText", 0);
+		digester.addFactoryCreate("*/parametersMapExpression", JRExpressionFactory.MapExpressionFactory.class.getName());
+		digester.addSetNext("*/parametersMapExpression", "setParametersMapExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/parametersMapExpression", "setText", 0);
 
 		/*   */
 		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
 		digester.addSetNext("*/subreport/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportParameter/subreportParameterExpression", "setText", 0);
+		
+		digester.addFactoryCreate("*/datasetRun/subreportParameter/subreportParameterExpression", JRDatasetRunParameterFactory.class.getName());
+		digester.addSetNext("*/datasetRun/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/datasetRun/subreportParameter/subreportParameterExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/connectionExpression", JRExpressionFactory.ConnectionExpressionFactory.class.getName());
-		digester.addSetNext("*/subreport/connectionExpression", "setConnectionExpression", JRExpression.class.getName());
-		digester.addCallMethod("*/subreport/connectionExpression", "setText", 0);
+		digester.addFactoryCreate("*/connectionExpression", JRExpressionFactory.ConnectionExpressionFactory.class.getName());
+		digester.addSetNext("*/connectionExpression", "setConnectionExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/connectionExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/dataSourceExpression", JRExpressionFactory.DataSourceExpressionFactory.class.getName());
-		digester.addSetNext("*/subreport/dataSourceExpression", "setDataSourceExpression", JRExpression.class.getName());
-		digester.addCallMethod("*/subreport/dataSourceExpression", "setText", 0);
+		digester.addFactoryCreate("*/dataSourceExpression", JRExpressionFactory.DataSourceExpressionFactory.class.getName());
+		digester.addSetNext("*/dataSourceExpression", "setDataSourceExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/dataSourceExpression", "setText", 0);
 
 		/*   */
 		digester.addFactoryCreate("*/subreport/subreportExpression", JRSubreportExpressionFactory.class.getName());
@@ -339,6 +367,12 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/elementGroup", "addElementGroup", JRDesignElementGroup.class.getName());
 
 		addChartRules(digester);
+
+		addDatasetRules(digester);
+		
+		addCrosstabRules(digester);
+		
+		addFrameRules(digester);
 	}
 
 
@@ -348,6 +382,9 @@ public class JRXmlDigesterFactory
 	private static void addChartRules(Digester digester)
 	{
 		digester.addFactoryCreate("*/dataset", JRChartDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/dataset/datasetRun", JRDatasetRunFactory.class.getName());
+		digester.addSetNext("*/dataset/datasetRun", "setDatasetRun", JRDatasetRun.class.getName());
+		
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());
@@ -647,6 +684,91 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/candlestickPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/candlestickPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/valueAxisLabelExpression", "setText", 0 );
+	}
+
+
+	private static void addDatasetRules(Digester digester)
+	{
+		digester.addFactoryCreate("jasperReport/subDataset", JRDatasetFactory.class.getName());
+		digester.addSetNext("jasperReport/subDataset", "addDataset", JRDesignDataset.class.getName());
+	}
+
+
+	private static void addCrosstabRules(Digester digester)
+	{
+		digester.addFactoryCreate("*/crosstab", JRCrosstabFactory.class.getName());
+		digester.addSetNext("*/crosstab", "addElement", JRDesignElement.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/crosstabParameter", JRCrosstabParameterFactory.class.getName());
+		digester.addSetNext("*/crosstab/crosstabParameter", "addParameter", JRCrosstabParameter.class.getName());
+
+		digester.addFactoryCreate("*/crosstab/crosstabParameter/parameterValueExpression", JRCrosstabParameterValueExpressionFactory.class.getName());
+		digester.addSetNext("*/crosstab/crosstabParameter/parameterValueExpression", "setExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/crosstab/crosstabParameter/parameterValueExpression", "setText", 0);
+
+		digester.addFactoryCreate("*/crosstab/crosstabDataset", JRCrosstabDatasetFactory.class.getName());
+		digester.addSetNext("*/crosstab/crosstabDataset", "setDataset", JRCrosstabDataset.class.getName());
+		digester.addFactoryCreate("*/crosstab/crosstabDataset/dataset", JRCrosstabChartDatasetFactory.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/rowGroup", JRCrosstabRowGroupFactory.class.getName());		
+		digester.addSetNext("*/crosstab/rowGroup", "addRowGroup", JRDesignCrosstabRowGroup.class.getName());		
+		
+		digester.addFactoryCreate("*/crosstab/rowGroup/crosstabRowHeader/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/rowGroup/crosstabRowHeader/cellContents", "setHeader", JRDesignCellContents.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/rowGroup/crosstabTotalRowHeader/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/rowGroup/crosstabTotalRowHeader/cellContents", "setTotalHeader", JRDesignCellContents.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/columnGroup", JRCrosstabColumnGroupFactory.class.getName());		
+		digester.addSetNext("*/crosstab/columnGroup", "addColumnGroup", JRDesignCrosstabColumnGroup.class.getName());		
+		
+		digester.addFactoryCreate("*/crosstab/columnGroup/crosstabColumnHeader/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/columnGroup/crosstabColumnHeader/cellContents", "setHeader", JRDesignCellContents.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/columnGroup/crosstabTotalColumnHeader/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/columnGroup/crosstabTotalColumnHeader/cellContents", "setTotalHeader", JRDesignCellContents.class.getName());
+		
+		digester.addFactoryCreate("*/bucket", JRCrosstabBucketFactory.class.getName());		
+		digester.addSetNext("*/bucket", "setBucket", JRDesignCrosstabBucket.class.getName());
+		
+		digester.addFactoryCreate("*/bucket/bucketExpression", JRCrosstabBucketExpressionFactory.class.getName());
+		digester.addSetNext("*/bucket/bucketExpression", "setExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/bucket/bucketExpression", "setText", 0);
+		
+		digester.addFactoryCreate("*/bucket/comparatorExpression", JRExpressionFactory.ComparatorExpressionFactory.class.getName());
+		digester.addSetNext("*/bucket/comparatorExpression", "setComparatorExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/bucket/comparatorExpression", "setText", 0);
+
+		digester.addFactoryCreate("*/crosstab/measure", JRCrosstabMeasureFactory.class.getName());		
+		digester.addSetNext("*/crosstab/measure", "addMeasure", JRCrosstabMeasure.class.getName());		
+		
+		digester.addFactoryCreate("*/crosstab/measure/measureExpression", JRCrosstabMeasureExpressionFactory.class.getName());
+		digester.addSetNext("*/crosstab/measure/measureExpression", "setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/crosstab/measure/measureExpression", "setText", 0);
+		
+		digester.addFactoryCreate("*/crosstab/crosstabCell", JRCrosstabCellFactory.class.getName());
+		digester.addSetNext("*/crosstab/crosstabCell", "addCell", JRDesignCrosstabCell.class.getName());
+		digester.addFactoryCreate("*/crosstab/crosstabCell/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/crosstabCell/cellContents", "setContents", JRDesignCellContents.class.getName());
+		
+		digester.addFactoryCreate("*/crosstab/whenNoDataCell/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext("*/crosstab/whenNoDataCell/cellContents", "setWhenNoDataCell", JRDesignCellContents.class.getName());
+		
+		//TODO style?
+		digester.addFactoryCreate("*/cellContents/box", JRBaseBoxFactory.class.getName());
+		digester.addSetNext("*/cellContents/box", "setBox", JRBox.class.getName());
+	}
+
+
+	private static void addFrameRules(Digester digester)
+	{
+		String framePattern = "*/" + JRFrameFactory.TAG_FRAME;
+		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
+		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
+		
+		//TODO style?
+		digester.addFactoryCreate("*/frame/box", JRBaseBoxFactory.class.getName());
+		digester.addSetNext("*/frame/box", "setBox", JRBox.class.getName());
 	}
 	
 	

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="SubDatasetChartReport" language="java" pageWidth="595" pageHeight="842" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<reportFont name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<subDataset name="Country_Orders">
+		<parameter name="Country" class="java.lang.String">
+		</parameter>
+		<queryString><![CDATA[
+			SELECT OrderDate, Freight 
+			FROM Orders 
+			WHERE 
+				ShipCountry = $P{Country} AND 
+				OrderDate != null
+			ORDER BY OrderDate
+		]]></queryString>
+		<field name="OrderDate" class="java.sql.Timestamp">
+		</field>
+		<field name="Freight" class="java.lang.Double">
+		</field>
+		<variable name="OrderMonth" class="java.util.Date">
+			<variableExpression>ChartsApp.truncateToMonth($F{OrderDate})</variableExpression>
+		</variable>
+		<variable name="FreightSum" class="java.lang.Double" resetType="Group" resetGroup="MonthGroup" calculation="Sum">
+			<variableExpression>$F{Freight}</variableExpression>
+		</variable>
+		<group name="MonthGroup">
+			<groupExpression>$V{OrderMonth}</groupExpression>			
+		</group>
+	</subDataset>
+	<queryString><![CDATA[
+		SELECT DISTINCT ShipCountry 
+		FROM Orders 
+		ORDER BY ShipCountry
+	]]></queryString>
+	<field name="ShipCountry" class="java.lang.String">
+	</field>
+	<title>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35"/>
+				<box topBorder="Thin" leftBorder="None" bottomBorder="None" rightBorder="None"/>
+				<textElement textAlignment="Center">
+					<font reportFont="Comic_Bold" size="22"/>
+				</textElement>
+				<text><![CDATA[Sub Dataset Chart Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="230">
+			<line>
+				<reportElement x="0" y="19" width="550" height="1"/>
+				<graphicElement/>
+			</line>
+			<textField>
+				<reportElement x="10" y="2" width="100" height="16"/>
+				<textElement>
+					<font reportFont="Arial_Bold" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
+			</textField>
+			<timeSeriesChart>
+				<chart>
+					<reportElement positionType="Float" x="0" y="25" width="550" height="190"/>
+				</chart>
+				<timeSeriesDataset timePeriod="Month">
+					<dataset incrementType="Group" incrementGroup="MonthGroup">
+						<datasetRun subDataset="Country_Orders">
+							<subreportParameter name="Country">
+								<subreportParameterExpression><![CDATA[$F{ShipCountry}]]></subreportParameterExpression>
+							</subreportParameter>
+						</datasetRun>
+					</dataset>
+					<timeSeries>
+						<seriesExpression><![CDATA["Freight"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$V{OrderMonth}]]></timePeriodExpression>
+						<valueExpression><![CDATA[$V{FreightSum}]]></valueExpression>
+						<labelExpression><![CDATA[]]></labelExpression>
+					</timeSeries>
+					<timeSeries>
+						<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$V{OrderMonth}]]></timePeriodExpression>
+						<valueExpression><![CDATA[new Double($V{FreightSum}.doubleValue() / 2d)]]></valueExpression>
+						<labelExpression><![CDATA[]]></labelExpression>
+					</timeSeries>
+				</timeSeriesDataset>
+				<timeSeriesPlot isShowLines="true" isShowShapes="true">
+					<plot/>
+				</timeSeriesPlot>
+			</timeSeriesChart>
+		 </band>		
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="5" width="555" height="25"/>
+				<graphicElement/>
+			</rectangle>
+			<textField>
+				<reportElement x="200" y="10" width="75" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="275" y="10" width="5" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="10" width="75" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

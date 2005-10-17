@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, import*, reportFont*, style*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
 	language NMTOKEN "java"
@@ -19,7 +19,7 @@
 	isSummaryNewPage (true | false) "false"
 	isFloatColumnFooter (true | false) "false"
 	scriptletClass NMTOKEN #IMPLIED
-	resourceBundle NMTOKEN #IMPLIED
+	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 >
 
@@ -94,6 +94,14 @@
 	isBlankWhenNull (true | false) #IMPLIED
 >
 
+<!ELEMENT subDataset (parameter*, queryString?, field*, variable*, group*)>
+<!ATTLIST subDataset
+	name NMTOKEN #REQUIRED
+	scriptletClass NMTOKEN #IMPLIED
+	resourceBundle CDATA #IMPLIED
+	whenResourceMissingType (Null | Empty | Key | Error) "Null"
+>
+
 <!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
 <!ATTLIST parameter
 	name CDATA #REQUIRED
@@ -120,7 +128,7 @@
 	resetGroup CDATA #IMPLIED
 	incrementType (None | Report | Page | Column | Group) "None"
 	incrementGroup CDATA #IMPLIED
-	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System) "Nothing"
+	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
 <!ELEMENT variableExpression (#PCDATA)>
@@ -149,7 +157,7 @@
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
 
-<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*)>
+<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*)>
 <!ATTLIST band
 	height NMTOKEN "0"
 	isSplitAllowed (true | false) "true"
@@ -295,7 +303,7 @@
 <!ATTLIST returnValue
 	subreportVariable NMTOKEN #IMPLIED
 	toVariable NMTOKEN #IMPLIED
-	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance) "Nothing"
+	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
 
@@ -306,7 +314,7 @@
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
 
-<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup)*>
+<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*>
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST chart
@@ -337,12 +345,17 @@
 <!ELEMENT labelExpression (#PCDATA)>
 <!ELEMENT piePlot (plot)>
 
-<!ELEMENT dataset EMPTY>
+<!ELEMENT dataset (datasetRun?)>
 <!ATTLIST dataset
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
 	incrementType (None | Report | Page | Column | Group) "None"
 	incrementGroup CDATA #IMPLIED
+>
+
+<!ELEMENT datasetRun (parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?)>
+<!ATTLIST datasetRun
+	subDataset NMTOKEN #REQUIRED
 >
 
 <!ELEMENT plot EMPTY>
@@ -463,3 +476,90 @@
 <!ATTLIST candlestickPlot
 	isShowVolume (true | false) "true"
 >
+
+
+<!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
+<!ATTLIST crosstab
+	name NMTOKEN #REQUIRED
+	isRepeatColumnHeaders (true | false) "true"
+	isRepeatRowHeaders (true | false) "true"
+	columnBreakOffset NMTOKEN "10"
+>
+
+<!ELEMENT crosstabParameter (parameterValueExpression?)>
+<!ATTLIST crosstabParameter
+	name CDATA #REQUIRED
+	class NMTOKEN "java.lang.String"
+>
+
+<!ELEMENT parameterValueExpression (#PCDATA)>
+
+<!ELEMENT crosstabDataset (dataset)>
+<!ATTLIST crosstabDataset
+	isDataPreSorted (true | false) "false"
+>
+
+<!ELEMENT rowGroup (bucket, crosstabRowHeader?, crosstabTotalRowHeader?)>
+<!ATTLIST rowGroup
+	name NMTOKEN #REQUIRED
+	width NMTOKEN #REQUIRED
+	totalPosition (Start | End | None) "None"
+	headerPosition (Top | Middle | Bottom | Stretch) "Top"
+>
+
+<!ELEMENT crosstabRowHeader (cellContents?)>
+
+<!ELEMENT crosstabTotalRowHeader (cellContents?)>
+
+<!ELEMENT columnGroup (bucket, crosstabColumnHeader?, crosstabTotalColumnHeader?)>
+<!ATTLIST columnGroup
+	name NMTOKEN #REQUIRED
+	height NMTOKEN #REQUIRED
+	totalPosition (Start | End | None) "None"
+	headerPosition (Left | Center | Right | Stretch) "Left"
+>
+
+<!ELEMENT crosstabColumnHeader (cellContents?)>
+
+<!ELEMENT crosstabTotalColumnHeader (cellContents?)>
+
+<!ELEMENT bucket (bucketExpression, comparatorExpression?)>
+<!ATTLIST bucket
+	order (Ascending | Descending) "Ascending"
+>
+
+<!ELEMENT bucketExpression (#PCDATA)>
+<!ATTLIST bucketExpression
+	class NMTOKEN #REQUIRED
+>
+
+<!ELEMENT comparatorExpression (#PCDATA)>
+
+<!ELEMENT measure (measureExpression)>
+<!ATTLIST measure
+	name NMTOKEN #REQUIRED
+	class NMTOKEN #REQUIRED
+	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
+	incrementerFactoryClass NMTOKEN #IMPLIED
+	percentageOf (None | GrandTotal) "None"
+	percentageCalculatorClass NMTOKEN #IMPLIED
+>
+
+<!ELEMENT measureExpression (#PCDATA)>
+
+<!ELEMENT crosstabCell (cellContents?)>
+<!ATTLIST crosstabCell
+	width NMTOKEN #IMPLIED
+	height NMTOKEN #IMPLIED
+	rowTotalGroup NMTOKEN #IMPLIED
+	columnTotalGroup NMTOKEN #IMPLIED
+>
+
+<!ELEMENT cellContents (box?, (line | rectangle | ellipse | image | staticText | textField | elementGroup | frame)*)>
+<!ATTLIST cellContents
+	backcolor CDATA #IMPLIED
+>
+
+<!ELEMENT whenNoDataCell (cellContents)>
+
+<!ELEMENT frame (reportElement, box?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*)>

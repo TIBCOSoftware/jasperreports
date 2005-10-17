@@ -254,8 +254,17 @@ public class JRPrintXmlLoader implements ErrorHandler
 		/*   */
 		digester.addFactoryCreate("*/text/font", JRPrintFontFactory.class.getName());
 		digester.addSetNext("*/text/font", "setFont", JRFont.class.getName());
+		
+		addFrameRules(digester);
 
 		return digester;
+	}
+
+
+	private void addFrameRules(JRXmlDigester digester)
+	{
+		digester.addFactoryCreate("*/frame", JRPrintFrameFactory.class.getName());
+		digester.addSetNext("*/frame", "addElement", JRPrintElement.class.getName());
 	}
 
 

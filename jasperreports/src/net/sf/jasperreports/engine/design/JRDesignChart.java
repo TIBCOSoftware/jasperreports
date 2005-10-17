@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
 import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
@@ -555,7 +556,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		switch(chartType) {
 			case CHART_TYPE_AREA:

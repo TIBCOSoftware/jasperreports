@@ -28,114 +28,98 @@
 package net.sf.jasperreports.engine.design;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRSaver;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler implements JRClassCompiler
+public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler implements JRMultiClassCompiler
 {
 
 
-	/**
-	 *
-	 */
-	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
+	protected JRAbstractClassCompiler()
 	{
-		JasperReport jasperReport = null;
+		super(true);
+	}
+
+
+	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
+	{
+		File[] sources = new File[units.length];
+		for (int i = 0; i < sources.length; i++)
+		{
+			sources[i] = units[i].getSourceFile();
+		}
 		
-		if (!JRReport.LANGUAGE_JAVA.equals(jasperDesign.getLanguage()))
+		File[] classFiles = new File[units.length];
+		for (int i = 0; i < classFiles.length; i++)
+		{
+			classFiles[i] = new File(tempDirFile, units[i].getName() + ".class");
+		}
+		
+		try
+		{
+			String errors = compileClasses(sources, classpath);
+
+			if (errors == null)
+			{
+				for (int i = 0; i < units.length; i++)
+				{
+					byte[] classBytes = JRLoader.loadBytes(classFiles[i]);
+					units[i].setCompileData(classBytes);
+				}
+			}
+			
+			return errors;
+		}
+		finally
+		{
+			for (int i = 0; i < classFiles.length; i++)
+			{
+				if (classFiles[i].exists())
+				{
+					classFiles[i].delete();
+				}
+			}
+		}
+	}
+
+
+	protected void checkLanguage(String language) throws JRException
+	{		
+		if (!JRReport.LANGUAGE_JAVA.equals(language))
 		{
 			throw 
 				new JRException(
-					"Language \"" + jasperDesign.getLanguage() 
+					"Language \"" + language 
 					+ "\" not supported by this report compiler.\n"
 					+ "Expecting \"java\" instead."
 					);
 		}
-		
-		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report design not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			throw new JRException(sbuffer.toString());
-		}
-
-		//Report design OK
-
-		//Generating expressions class source code
-		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
-
-		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE); 
-
-		String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
-
-		File tempDirFile = new File(tempDirStr);
-		if (!tempDirFile.exists() || !tempDirFile.isDirectory())
-		{
-			throw new JRException("Temporary directory not found : " + tempDirStr);
-		}
-	
-		File javaFile = new File(tempDirFile, jasperDesign.getName() + ".java");
-		File classFile = new File(tempDirFile, jasperDesign.getName() + ".class");
-
-		//Creating expression class source file
-		JRSaver.saveClassSource(sourceCode, javaFile);
-
-		String classpath = JRProperties.getProperty(JRProperties.COMPILER_CLASSPATH);
-
-		try
-		{
-			//Compiling expression class source file
-			String compileErrors = compileClass(javaFile, classpath);
-			if (compileErrors != null)
-			{
-				throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
-			}
-
-			//Reading class byte codes from compiled class file
-			jasperReport = 
-				new JasperReport(
-					jasperDesign,
-					getClass().getName(),
-					JRLoader.loadBytes(classFile)
-					);
-		}
-		catch (JRException e)
-		{
-			throw e;
-		}
-		catch (Exception e)
-		{
-			throw new JRException("Error compiling report design.", e);
-		}
-		finally
-		{
-			if (!isKeepJavaFile)
-			{
-				javaFile.delete();
-			}
-			classFile.delete();
-		}
-
-		return jasperReport;
 	}
 
 	
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRClassGenerator.generateClass(jasperDesign, dataset, expressionCollector);
+	}
+
+	
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRClassGenerator.generateClass(jasperDesign, crosstab, expressionCollector);
+	}
+
+
+	protected String getSourceFileName(String unitName)
+	{
+		return unitName + ".java";
+	}
 }

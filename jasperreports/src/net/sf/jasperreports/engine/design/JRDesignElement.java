@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -58,6 +59,8 @@ public abstract class JRDesignElement extends JRBaseElement
 	protected JRDesignElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
+		
+		positionType = JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP;
 	}
 
 

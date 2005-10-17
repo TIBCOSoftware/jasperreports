@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.sql.Connection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
@@ -150,6 +151,16 @@ public class JRExpressionFactory
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Map.class.getName() );
+			return expression;
+		}
+	}
+
+	public static class ComparatorExpressionFactory extends JRBaseFactory
+	{
+		public Object createObject(Attributes attrs)
+		{
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setValueClassName(Comparator.class.getName());
 			return expression;
 		}
 	}

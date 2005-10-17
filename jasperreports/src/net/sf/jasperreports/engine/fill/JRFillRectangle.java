@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRException;
@@ -122,6 +124,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		printRectangle = new JRTemplatePrintRectangle(this.getJRTemplateRectangle());
 		printRectangle.setX(this.getX());
 		printRectangle.setY(this.getRelativeY());
+		printRectangle.setWidth(getWidth());
 		printRectangle.setHeight(this.getStretchHeight());
 		
 		return printRectangle;
@@ -147,7 +150,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWrite)
+	public void writeXml(JRXmlWriter xmlWrite) throws IOException
 	{
 		xmlWrite.writeRectangle(this);
 	}

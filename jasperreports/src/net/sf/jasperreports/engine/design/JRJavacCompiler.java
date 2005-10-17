@@ -38,20 +38,23 @@ import net.sf.jasperreports.engine.JRException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRJavacCompiler extends JRAbstractClassCompiler
+public class JRJavacCompiler extends JRAbstractMultiClassCompiler
 {
 
 
 	/**
 	 *
 	 */
-	public String compileClass(File sourceFile, String classpath) throws JRException 
+	public String compileClasses(File[] sourceFiles, String classpath) throws JRException 
 	{
-		String[] source = new String[4];
+		String[] source = new String[sourceFiles.length + 3];
 		source[0] = "javac";
 		source[1] = "-classpath";
 		source[2] = classpath;
-		source[3] = sourceFile.getPath();
+		for (int i = 0; i < sourceFiles.length; i++)
+		{
+			source[i + 3] = sourceFiles[i].getPath();
+		}
 		
 		try 
 		{
@@ -81,7 +84,13 @@ public class JRJavacCompiler extends JRAbstractClassCompiler
 		}
 		catch (Exception e) 
 		{
-			throw new JRException("Error compiling report java source file : " + sourceFile, e);
+			StringBuffer files = new StringBuffer();
+			for (int i = 0; i < sourceFiles.length; ++i)
+			{
+				files.append(sourceFiles[i].getPath());
+				files.append(' ');
+			}
+			throw new JRException("Error compiling report java source files : " + files, e);
 		}
 	}
 

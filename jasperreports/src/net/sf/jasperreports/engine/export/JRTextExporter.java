@@ -18,6 +18,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -284,12 +285,7 @@ public class JRTextExporter extends JRAbstractExporter
 			Arrays.fill(pageData[i], ' ');
 		}
 
-
-		for (int i = 0; i < elements.size();i++) {
-			Object element = elements.get(i);
-			if (element instanceof JRPrintText)
-				exportText((JRPrintText) element);
-		}
+		exportElements(elements);
 
 		for (int i = 0; i < pageHeight; i++) {
 			writer.write(pageData[i]);
@@ -305,6 +301,32 @@ public class JRTextExporter extends JRAbstractExporter
 	}
 
 
+	protected void exportElements(List elements)
+	{
+		for (int i = 0; i < elements.size();i++)
+		{
+			Object element = elements.get(i);
+			if (element instanceof JRPrintText)
+			{
+				exportText((JRPrintText) element);
+			}
+			else if (element instanceof JRPrintFrame)
+			{
+				JRPrintFrame frame = (JRPrintFrame) element;
+				setFrameElementsOffset(frame, false);
+				try
+				{
+					exportElements(frame.getElements());
+				}
+				finally
+				{
+					restoreElementOffsets();
+				}
+			}
+		}
+	}
+
+
 	/**
 	 * Renders a text and places it in the output matrix.
 	 */
@@ -312,8 +334,8 @@ public class JRTextExporter extends JRAbstractExporter
 	{
 		int rowCount = calculateYCoord(element.getHeight());
 		int columnCount = calculateXCoord(element.getWidth());
-		int x = calculateXCoord(element.getX() + globalOffsetX);
-		int y = calculateYCoord(element.getY() + globalOffsetY);
+		int x = calculateXCoord(element.getX() + getOffsetX());
+		int y = calculateYCoord(element.getY() + getOffsetY());
 
 		String allText;
 		JRStyledText styledText = getStyledText(element);

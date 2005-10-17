@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
@@ -67,7 +68,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 *
 	 */
 	private JRRenderable renderer = null;
-	private boolean isValueRepeating = false;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -395,7 +395,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		JRRenderable newRenderer = null;
 		
-		Object source = this.filler.calculator.evaluate(expression, evaluation);
+		Object source = evaluateExpression(expression, evaluation);
 		if (source != null)
 		{
 			if (this.isUsingCache() && this.filler.fillContext.hasLoadedImage(source))
@@ -445,14 +445,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			}
 		}
 
-		this.isValueRepeating = (this.renderer == newRenderer);
+		setValueRepeating(this.renderer == newRenderer);
 	
 		this.renderer = newRenderer;
 		
-		this.anchorName = (String)this.filler.calculator.evaluate(this.getAnchorNameExpression(), evaluation);
-		this.hyperlinkReference = (String)this.filler.calculator.evaluate(this.getHyperlinkReferenceExpression(), evaluation);
-		this.hyperlinkAnchor = (String)this.filler.calculator.evaluate(this.getHyperlinkAnchorExpression(), evaluation);
-		this.hyperlinkPage = (Integer)this.filler.calculator.evaluate(this.getHyperlinkPageExpression(), evaluation);
+		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
+		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
+		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);
+		this.hyperlinkPage = (Integer) evaluateExpression(this.getHyperlinkPageExpression(), evaluation);
 	}
 	
 
@@ -498,11 +498,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				isToPrint && 
 				this.isPrintWhenExpressionNull() &&
 				!this.isPrintRepeatedValues() &&
-				this.isValueRepeating
+				isValueRepeating()
 				)
 			{
 				if (
-					( !this.isPrintInFirstWholeBand() || !this.getBand().isNewPageColumn() ) &&
+					( !this.isPrintInFirstWholeBand() || !this.getBand().isFirstWholeOnPageColumn() ) &&
 					( this.getPrintWhenGroupChanges() == null || !this.getBand().isNewGroup(this.getPrintWhenGroupChanges()) ) &&
 					( !isOverflow || !this.isPrintWhenDetailOverflows() )
 					)
@@ -584,6 +584,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		printImage.setX(this.getX());
 		printImage.setY(this.getRelativeY());
+		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
 
 		switch (this.getEvaluationTime())
@@ -660,7 +661,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeImage(this);
 	}

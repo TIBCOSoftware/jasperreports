@@ -94,7 +94,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 			JRIncrementerFactory incrementerFactory;
 			if (incrementerFactoryClassName == null)
 			{
-				JRVariable toVariable = (JRFillVariable) filler.variablesMap.get(getToVariable());
+				JRVariable toVariable = filler.getVariable(getToVariable());
 				incrementerFactory = JRDefaultIncrementerFactory.getFactory(toVariable.getValueClass());
 			}
 			else

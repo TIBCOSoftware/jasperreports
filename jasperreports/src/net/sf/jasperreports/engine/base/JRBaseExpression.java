@@ -76,14 +76,26 @@ public class JRBaseExpression implements JRExpression, Serializable
 	
 	
 	/**
-	 *
+	 * Creates a copy of an expression.
+	 * 
+	 * @param expression the original expression
+	 * @param factory the base object factory
+	 * @param expressionId if not null, the created expression will use it as ID
+	 * instead of the original expressions's ID 
 	 */
-	protected JRBaseExpression(JRExpression expression, JRBaseObjectFactory factory)
+	protected JRBaseExpression(JRExpression expression, JRBaseObjectFactory factory, Integer expressionId)
 	{
 		factory.put(expression, this);
 		
 		valueClassName = expression.getValueClassName();
-		id = expression.getId();
+		if (expressionId == null)
+		{
+			id = expression.getId();
+		}
+		else
+		{
+			id = expressionId.intValue();
+		}
 		
 		/*   */
 		JRExpressionChunk[] jrChunks = expression.getChunks();
@@ -95,6 +107,18 @@ public class JRBaseExpression implements JRExpression, Serializable
 				chunks[i] = factory.getExpressionChunk(jrChunks[i]);
 			}
 		}
+	}
+
+	
+	/**
+	 * Creates a copy of an expression.
+	 * 
+	 * @param expression the original expression
+	 * @param factory the base object factory
+	 */
+	protected JRBaseExpression(JRExpression expression, JRBaseObjectFactory factory)
+	{
+		this(expression, factory, null);
 	}
 		
 

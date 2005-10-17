@@ -33,10 +33,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -74,7 +76,21 @@ public abstract class JRAbstractExporter implements JRExporter
 	 *
 	 */
 	protected JRFont defaultFont = null;
+	
+	private LinkedList elementOffsetStack;
+	private int elementOffsetX;
+	private int elementOffsetY;
 
+	
+	protected JRAbstractExporter()
+	{
+		elementOffsetStack = new LinkedList();
+		
+		elementOffsetX = globalOffsetX;
+		elementOffsetY = globalOffsetY;
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -139,6 +155,9 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			globalOffsetY = offsetY.intValue();
 		}
+		
+		elementOffsetX = globalOffsetX;
+		elementOffsetY = globalOffsetY;
 	}
 	
 
@@ -358,6 +377,90 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected void setOutput()
 	{
 	}
-	
 
+
+	/**
+	 * Returns the X axis offset used for element export.
+	 * <p>
+	 * This method should be used istead of {@link #globalOffsetX globalOffsetX} when
+	 * exporting elements.
+	 * 
+	 * @return the X axis offset
+	 */
+	protected int getOffsetX()
+	{
+		return elementOffsetX;
+	}
+
+
+	/**
+	 * Returns the Y axis offset used for element export.
+	 * <p>
+	 * This method should be used istead of {@link #globalOffsetY globalOffsetY} when
+	 * exporting elements.
+	 * 
+	 * @return the Y axis offset
+	 */
+	protected int getOffsetY()
+	{
+		return elementOffsetY;
+	}
+
+	
+	/**
+	 * Sets the offsets for exporting elements from a {@link JRPrintFrame frame}.
+	 * <p>
+	 * After the frame elements are exported, a call to {@link #restoreElementOffsets() popElementOffsets} is required
+	 * so that the previous offsets are resored.
+	 * 
+	 * @param frame
+	 * @param relative
+	 * @see #getOffsetX()
+	 * @see #getOffsetY()
+	 * @see #restoreElementOffsets()
+	 */
+	protected void setFrameElementsOffset(JRPrintFrame frame, boolean relative)
+	{	
+		if (relative)
+		{
+			setElementOffsets(0, 0);
+		}
+		else
+		{
+			int topPadding;
+			int leftPadding;
+			if (frame.getBox() == null)
+			{
+				topPadding = leftPadding = 0;
+			}
+			else
+			{
+				topPadding = frame.getBox().getTopPadding();
+				leftPadding = frame.getBox().getLeftPadding();
+			}
+
+			setElementOffsets(getOffsetX() + frame.getX() + leftPadding, getOffsetY() + frame.getY() + topPadding);
+		}
+	}
+	
+	
+	private void setElementOffsets(int offsetX, int offsetY)
+	{
+		elementOffsetStack.addLast(new int[]{elementOffsetX, elementOffsetY});
+		
+		elementOffsetX = offsetX;
+		elementOffsetY = offsetY;
+	}
+
+	
+	/**
+	 * Restores offsets after a call to 
+	 * {@link #setFrameElementsOffset(JRPrintFrame, boolean) setFrameElementsOffset}.
+	 */
+	protected void restoreElementOffsets()
+	{
+		int[] offsets = (int[]) elementOffsetStack.removeLast();
+		elementOffsetX = offsets[0];
+		elementOffsetY = offsets[1];
+	}
 }

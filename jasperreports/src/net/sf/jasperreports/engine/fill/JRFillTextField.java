@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -65,7 +66,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	private Format format = null;
-	private boolean isValueRepeating = false;
 	private String anchorName = null;
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
@@ -316,7 +316,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
-		Object textFieldValue = filler.calculator.evaluate(getExpression(), evaluation);
+		Object textFieldValue = evaluateExpression(getExpression(), evaluation);
 
 		if (textFieldValue == null)
 		{
@@ -346,22 +346,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		setTextStart(0);
 		setTextEnd(0);
 
-		if (
-			(oldRawText == null && newRawText == null) ||
-			(oldRawText != null && oldRawText.equals(newRawText))
-			)
-		{
-			isValueRepeating = true;
-		}
-		else
-		{
-			isValueRepeating = false;
-		}
+		setValueRepeating(
+				(oldRawText == null && newRawText == null) ||
+				(oldRawText != null && oldRawText.equals(newRawText))
+			);
 
-		anchorName = (String)filler.calculator.evaluate(getAnchorNameExpression(), evaluation);
-		hyperlinkReference = (String)filler.calculator.evaluate(getHyperlinkReferenceExpression(), evaluation);
-		hyperlinkAnchor = (String)filler.calculator.evaluate(getHyperlinkAnchorExpression(), evaluation);
-		hyperlinkPage = (Integer)filler.calculator.evaluate(getHyperlinkPageExpression(), evaluation);
+		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
+		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
+		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 	}
 
 
@@ -371,7 +364,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected boolean prepare(
 		int availableStretchHeight,
 		boolean isOverflow
-		)
+		) throws JRException
 	{
 		boolean willOverflow = false;
 
@@ -440,7 +433,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					isToPrint &&
 					isPrintWhenExpressionNull() &&
 					!isPrintRepeatedValues() &&
-					isValueRepeating
+					isValueRepeating()
 					)
 				{
 					isToPrint = false; // FIXME, shouldn't we test for the first whole band and the other exceptions to the rule?
@@ -451,11 +444,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				if (
 					isPrintWhenExpressionNull() &&
 					!isPrintRepeatedValues() &&
-					isValueRepeating
+					isValueRepeating()
 					)
 				{
 					if (
-						( !isPrintInFirstWholeBand() || !getBand().isNewPageColumn() ) &&
+						( !isPrintInFirstWholeBand() || !getBand().isFirstWholeOnPageColumn() ) &&
 						( getPrintWhenGroupChanges() == null || !getBand().isNewGroup(getPrintWhenGroupChanges()) )
 						)
 					{
@@ -579,6 +572,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text = new JRTemplatePrintText(getJRTemplateText());
 		text.setX(getX());
 		text.setY(getRelativeY());
+		text.setWidth(getWidth());
 		if (getRotation() == ROTATION_NONE)
 		{
 			text.setHeight(getStretchHeight());
@@ -663,7 +657,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			if (pattern != null && pattern.trim().length() > 0)
 			{
-				format = NumberFormat.getNumberInstance(filler.locale);
+				format = NumberFormat.getNumberInstance(filler.getLocale());
 				if (format instanceof DecimalFormat)
 				{
 					((DecimalFormat)format).applyPattern(pattern);
@@ -698,11 +692,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		if (dateStyle != null && timeStyle != null)
 		{
-			format = getDateFormat(dateStyle, timeStyle, filler.locale);
+			format = getDateFormat(dateStyle, timeStyle, filler.getLocale());
 		}
 		else
 		{			
-			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.locale);
+			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.getLocale());
 			if (
 				pattern != null && pattern.trim().length() > 0
 				&& format instanceof SimpleDateFormat
@@ -786,7 +780,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter)
+	public void writeXml(JRXmlWriter xmlWriter) throws IOException
 	{
 		xmlWriter.writeTextField(this);
 	}

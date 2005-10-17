@@ -68,7 +68,13 @@ public class JRBoxFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRBox box = (JRBox) digester.peek();
+		setBoxAttributes(atts, box);
+		return box;
+	}
 
+
+	public static void setBoxAttributes(Attributes atts, JRBox box)
+	{
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_border));
 		if (border != null)
 		{
@@ -158,8 +164,6 @@ public class JRBoxFactory extends JRBaseFactory
 		{
 			box.setRightPadding(Integer.parseInt(padding));
 		}
-
-		return box;
 	}
 	
 

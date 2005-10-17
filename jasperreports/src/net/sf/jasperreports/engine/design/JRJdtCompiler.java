@@ -33,19 +33,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRSaver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,6 +84,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 	public JRJdtCompiler ()
 	{
+		super(false);
+		
 		classLoader = getClassLoader();
 		
 		try
@@ -114,103 +113,21 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				throw new JRRuntimeException("Not able to load JDT classes", ex);
 			}
 		}
-	}
+	}	
+	
 	
 	/**
 	 *
 	 */
-	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
-	{
-		JasperReport jasperReport = null;
-		
-		if (!JRReport.LANGUAGE_JAVA.equals(jasperDesign.getLanguage()))
-		{
-			throw 
-				new JRException(
-					"Language \"" + jasperDesign.getLanguage() 
-					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"java\" instead."
-					);
-		}
-		
-		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report design not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			throw new JRException(sbuffer.toString());
-		}
-
-		//Report design OK
-
-		//Generating expressions class source code
-		String sourceCode = JRClassGenerator.generateClass(jasperDesign);
-
-		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE); 
-		if (isKeepJavaFile)
-		{
-			String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
-
-			File tempDirFile = new File(tempDirStr);
-			if (!tempDirFile.exists() || !tempDirFile.isDirectory())
-			{
-				throw new JRException("Temporary directory not found : " + tempDirStr);
-			}
-		
-			File javaFile = new File(tempDirFile, jasperDesign.getName() + ".java");
-
-			//Creating expression class source file
-			JRSaver.saveClassSource(sourceCode, javaFile);
-		}
-
-		try
-		{
-			ClassFile[] classFiles = new ClassFile[1];
-			//Compiling expression class source file
-			String compileErrors = compileClass(sourceCode, jasperDesign.getName(), classFiles);
-			if (compileErrors != null)
-			{
-				throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
-			}
-
-			//Reading class byte codes from compiled class file
-			jasperReport = 
-				new JasperReport(
-					jasperDesign,
-					JRJavacCompiler.class.getName(),
-					classFiles[0].getBytes()
-					);
-		}
-		catch (JRException e)
-		{
-			throw e;
-		}
-		catch (Exception e)
-		{
-			throw new JRException("Error compiling report design.", e);
-		}
-
-		return jasperReport;
-	}
-
-	
-	/**
-	 *
-	 */
-	private String compileClass(final String sourceCode, final String targetClassName, final ClassFile[] classFiles)
+	protected String compileUnits(final JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		final StringBuffer problemBuffer = new StringBuffer();
 
 
 		class CompilationUnit implements ICompilationUnit 
 		{
-			private String srcCode;
-			private String className;
+			protected String srcCode;
+			protected String className;
 
 			public CompilationUnit(String srcCode, String className) 
 			{
@@ -268,15 +185,36 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				return findType(result);
 			}
 
+			private int getClassIndex(String className)
+			{
+				int classIdx;
+				for (classIdx = 0; classIdx < units.length; ++classIdx)
+				{
+					if (className.equals(units[classIdx].getName()))
+					{
+						break;
+					}
+				}
+				
+				if (classIdx >= units.length)
+				{
+					classIdx = -1;
+				}
+
+				return classIdx;
+			}
+			
 			private NameEnvironmentAnswer findType(String className) 
 			{
 				try 
 				{
-					if (className.equals(targetClassName)) 
+					int classIdx = getClassIndex(className);
+					
+					if (classIdx >= 0)
 					{
 						ICompilationUnit compilationUnit = 
 							new CompilationUnit(
-								sourceCode, className);
+								units[classIdx].getSourceCode(), className);
 						if (is2ArgsConstr)
 						{
 							return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit2Args.newInstance(new Object[] { compilationUnit, null });
@@ -284,6 +222,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 						return (NameEnvironmentAnswer) constrNameEnvAnsCompUnit.newInstance(new Object[] { compilationUnit });
 					}
+					
 					String resourceName = className.replace('.', '/') + ".class";
 					InputStream is = getResource(resourceName);
 					if (is != null) 
@@ -339,10 +278,12 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 			private boolean isPackage(String result) 
 			{
-				if (result.equals(targetClassName)) 
+				int classIdx = getClassIndex(result);
+				if (classIdx >= 0) 
 				{
 					return false;
 				}
+				
 				String resourceName = result.replace('.', '/') + ".class";
 				InputStream is = getResource(resourceName);
 				return is == null;
@@ -405,8 +346,21 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				public void acceptResult(CompilationResult result) 
 				{
+					String className = ((CompilationUnit) result.getCompilationUnit()).className;
+					
+					int classIdx;
+					for (classIdx = 0; classIdx < units.length; ++classIdx)
+					{
+						if (className.equals(units[classIdx].getName()))
+						{
+							break;
+						}
+					}
+					
 					if (result.hasErrors()) 
 					{
+						String sourceCode = units[classIdx].getSourceCode();
+						
 						IProblem[] problems = result.getErrors();
 						for (int i = 0; i < problems.length; i++) 
 						{
@@ -421,7 +375,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 									problem.getSourceStart() >= 0
 									&& problem.getSourceEnd() >= 0
 									)
-								{
+								{									
 									int problemStartIndex = sourceCode.lastIndexOf("\n", problem.getSourceStart()) + 1;
 									int problemEndIndex = sourceCode.indexOf("\n", problem.getSourceEnd());
 									if (problemEndIndex < 0)
@@ -467,14 +421,17 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 						ClassFile[] resultClassFiles = result.getClassFiles();
 						for (int i = 0; i < resultClassFiles.length; i++) 
 						{
-							classFiles[0] = resultClassFiles[i];
+							units[classIdx].setCompileData(resultClassFiles[i].getBytes());
 						}
 					}
 				}
 			};
 
-		ICompilationUnit[] compilationUnits = new ICompilationUnit[1];
-		compilationUnits[0] = new CompilationUnit(sourceCode, targetClassName);
+		ICompilationUnit[] compilationUnits = new ICompilationUnit[units.length];
+		for (int i = 0; i < compilationUnits.length; i++)
+		{
+			compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
+		}
 
 		Compiler compiler = 
 			new Compiler(env, policy, settings, requestor, problemFactory);
@@ -527,6 +484,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		return classLoader.getResourceAsStream(resourceName);
 	}
 	
+	
 	protected Class loadClass (String className) throws ClassNotFoundException
 	{
 		if (classLoader == null)
@@ -534,5 +492,36 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			return Class.forName(className);
 		}
 		return classLoader.loadClass(className);
+	}
+
+	
+	protected void checkLanguage(String language) throws JRException
+	{		
+		if (!JRReport.LANGUAGE_JAVA.equals(language))
+		{
+			throw 
+				new JRException(
+					"Language \"" + language 
+					+ "\" not supported by this report compiler.\n"
+					+ "Expecting \"java\" instead."
+					);
+		}
+	}
+
+	
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRClassGenerator.generateClass(jasperDesign, dataset, expressionCollector);
+	}
+
+	
+	protected String generateSourceCode(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector) throws JRException
+	{
+		return JRClassGenerator.generateClass(jasperDesign, crosstab, expressionCollector);
+	}
+
+	protected String getSourceFileName(String unitName)
+	{
+		return unitName + ".java";
 	}
 }

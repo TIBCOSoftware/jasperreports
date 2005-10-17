@@ -188,6 +188,12 @@ public interface JRVariable
 	 * to conserve the value users have calculated, from one iteration in the data source to the next.
 	 */
 	public static final byte CALCULATION_SYSTEM = 8;
+	
+	
+	/**
+	 * The variable keeps the first value and does not increment it on subsequent iterations.
+	 */
+	public static final byte CALCULATION_FIRST = 9;
 
 
 
