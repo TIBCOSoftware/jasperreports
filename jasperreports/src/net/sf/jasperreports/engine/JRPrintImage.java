@@ -134,12 +134,12 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setOnErrorType(byte onErrorType);
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public JRBox getBox();
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box);
 

@@ -927,18 +927,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfContentByte.fillStroke();
 		}
 
-		int topPadding = 0;
-		int leftPadding = 0;
-		int bottomPadding = 0;
-		int rightPadding = 0;
-		
-		if (printImage.getBox() != null)
-		{
-			topPadding = printImage.getBox().getTopPadding();
-			leftPadding = printImage.getBox().getLeftPadding();
-			bottomPadding = printImage.getBox().getBottomPadding();
-			rightPadding = printImage.getBox().getRightPadding();
-		}
+		int topPadding = printImage.getTopPadding();
+		int leftPadding = printImage.getLeftPadding();
+		int bottomPadding = printImage.getBottomPadding();
+		int rightPadding = printImage.getRightPadding();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
@@ -1260,7 +1252,12 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 
 
-		if (printImage.getBox() == null)
+		if (
+			printImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
+			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			)
 		{
 			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
@@ -1295,7 +1292,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			/*   */
 			exportBox(
-				printImage.getBox(),
+				printImage,
 				printImage
 				);
 		}

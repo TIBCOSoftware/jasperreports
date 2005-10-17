@@ -1306,11 +1306,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 		
 		if (
-				jrImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
-				jrImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
-				jrImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
-				jrImage.getRightBorder() == JRGraphicElement.PEN_NONE
-				)
+			jrImage.getTopBorder() == JRGraphicElement.PEN_NONE &&
+			jrImage.getLeftBorder() == JRGraphicElement.PEN_NONE &&
+			jrImage.getBottomBorder() == JRGraphicElement.PEN_NONE &&
+			jrImage.getRightBorder() == JRGraphicElement.PEN_NONE
+			)
 		{
 			Stroke stroke = getStroke(jrImage.getPen());
 			if (stroke != null)
