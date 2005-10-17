@@ -756,7 +756,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected void copy(JRPrintImage printImage)//FIXME NOW do hyperlinks work for evaluationTime != now?
+	protected void copy(JRPrintImage printImage)
 	{
 		printImage.setRenderer(getRenderer());
 		printImage.setAnchorName(getAnchorName());
