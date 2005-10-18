@@ -2073,7 +2073,7 @@ public class JRXmlWriter
 		writer.startElement(JRFrameFactory.TAG_FRAME);
 		
 		writeReportElement(frame);
-		writeBox(frame.getBox());
+		writeBox(frame);
 		
 		List children = frame.getChildren();
 		if (children != null)

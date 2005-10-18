@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,7 +52,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 public class JRFillFrame extends JRFillElement implements JRFrame
 {
 	protected final JRFrame parentFrame;
-	protected final JRBox box;
 	
 	/**
 	 * Element container used for filling.
@@ -93,7 +93,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		super(filler, frame, factory);
 		
 		parentFrame = frame;
-		box = frame.getBox();
 		
 		frameContainer = new JRFillFrameElements(factory);
 		
@@ -171,17 +170,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		first = !isOverflow || !filling;
 				
-		int topPadding = 0;
-		int bottomPadding = 0;
-		if (box != null)
-		{
-			if (first)
-			{
-				topPadding = box.getTopPadding();
-			}
-			
-			bottomPadding = box.getBottomPadding();
-		}
+		int topPadding = first ? getTopPadding() : 0;
+		int bottomPadding = getBottomPadding();
 		
 		int stretchHeight = availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
 		
@@ -231,7 +221,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			{				
 				if (bottomTemplateFrame == null)
 				{
-					JRBox bottomBox = new JRBaseBox(box, true, true, true, false, null);
+					JRBox bottomBox = new JRBaseBox(this, true, true, true, false, null);
 					
 					bottomTemplateFrame = new JRTemplateFrame(this);
 					bottomTemplateFrame.setBox(bottomBox);
@@ -250,7 +240,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			{
 				if (topBottomTemplateFrame == null)
 				{
-					JRBox topBottomBox = new JRBaseBox(box, true, true, false, false, null);
+					JRBox topBottomBox = new JRBaseBox(this, true, true, false, false, null);
 					
 					topBottomTemplateFrame = new JRTemplateFrame(this);
 					topBottomTemplateFrame.setBox(topBottomBox);
@@ -262,7 +252,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			{
 				if (topTemplateFrame == null)
 				{
-					JRBox topBox = new JRBaseBox(box, true, true, false, true, null);
+					JRBox topBox = new JRBaseBox(this, true, true, false, true, null);
 					
 					topTemplateFrame = new JRTemplateFrame(this);
 					topTemplateFrame.setBox(topBox);
@@ -278,11 +268,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		// nothing
-	}
-
-	public JRBox getBox()
-	{
-		return box;
 	}
 
 	public JRElement[] getElements()
@@ -332,5 +317,257 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		{
 			return JRFillFrame.this.getHeight();
 		}
+	}
+	
+	//box
+
+	public byte getBorder()
+	{
+		return parentFrame.getBorder();
+	}
+
+	public Byte getOwnBorder()
+	{
+		return parentFrame.getOwnBorder();
+	}
+
+	public void setBorder(byte border)
+	{
+	}
+
+	public Color getBorderColor()
+	{
+		return parentFrame.getBorderColor();
+	}
+
+	public Color getOwnBorderColor()
+	{
+		return parentFrame.getOwnBorderColor();
+	}
+
+	public void setBorderColor(Color borderColor)
+	{
+	}
+
+	public int getPadding()
+	{
+		return parentFrame.getPadding();
+	}
+
+	public Integer getOwnPadding()
+	{
+		return parentFrame.getOwnPadding();
+	}
+
+	public void setPadding(int padding)
+	{
+	}
+
+	public byte getTopBorder()
+	{
+		return parentFrame.getTopBorder();
+	}
+
+	public Byte getOwnTopBorder()
+	{
+		return parentFrame.getOwnTopBorder();
+	}
+
+	public void setTopBorder(byte topBorder)
+	{
+	}
+
+	public Color getTopBorderColor()
+	{
+		return parentFrame.getTopBorderColor();
+	}
+
+	public Color getOwnTopBorderColor()
+	{
+		return parentFrame.getOwnTopBorderColor();
+	}
+
+	public void setTopBorderColor(Color topBorderColor)
+	{
+	}
+
+	public int getTopPadding()
+	{
+		return parentFrame.getTopPadding();
+	}
+
+	public Integer getOwnTopPadding()
+	{
+		return parentFrame.getOwnTopPadding();
+	}
+
+	public void setTopPadding(int topPadding)
+	{
+	}
+
+	public byte getLeftBorder()
+	{
+		return parentFrame.getLeftBorder();
+	}
+
+	public Byte getOwnLeftBorder()
+	{
+		return parentFrame.getOwnLeftBorder();
+	}
+
+	public void setLeftBorder(byte leftBorder)
+	{
+	}
+
+	public Color getLeftBorderColor()
+	{
+		return parentFrame.getLeftBorderColor();
+	}
+
+	public Color getOwnLeftBorderColor()
+	{
+		return parentFrame.getOwnLeftBorderColor();
+	}
+
+	public void setLeftBorderColor(Color leftBorderColor)
+	{
+	}
+
+	public int getLeftPadding()
+	{
+		return parentFrame.getLeftPadding();
+	}
+
+	public Integer getOwnLeftPadding()
+	{
+		return parentFrame.getOwnLeftPadding();
+	}
+
+	public void setLeftPadding(int leftPadding)
+	{
+	}
+
+	public byte getBottomBorder()
+	{
+		return parentFrame.getBottomBorder();
+	}
+
+	public Byte getOwnBottomBorder()
+	{
+		return parentFrame.getOwnBottomBorder();
+	}
+
+	public void setBottomBorder(byte bottomBorder)
+	{
+	}
+
+	public Color getBottomBorderColor()
+	{
+		return parentFrame.getBottomBorderColor();
+	}
+
+	public Color getOwnBottomBorderColor()
+	{
+		return parentFrame.getOwnBottomBorderColor();
+	}
+
+	public void setBottomBorderColor(Color bottomBorderColor)
+	{
+	}
+
+	public int getBottomPadding()
+	{
+		return parentFrame.getBottomPadding();
+	}
+
+	public Integer getOwnBottomPadding()
+	{
+		return parentFrame.getOwnBottomPadding();
+	}
+
+	public void setBottomPadding(int bottomPadding)
+	{
+	}
+
+	public byte getRightBorder()
+	{
+		return parentFrame.getRightBorder();
+	}
+
+	public Byte getOwnRightBorder()
+	{
+		return parentFrame.getOwnRightBorder();
+	}
+
+	public void setRightBorder(byte rightBorder)
+	{
+	}
+
+	public Color getRightBorderColor()
+	{
+		return parentFrame.getRightBorderColor();
+	}
+
+	public Color getOwnRightBorderColor()
+	{
+		return parentFrame.getOwnRightBorderColor();
+	}
+
+	public void setRightBorderColor(Color rightBorderColor)
+	{
+	}
+
+	public int getRightPadding()
+	{
+		return parentFrame.getRightPadding();
+	}
+
+	public Integer getOwnRightPadding()
+	{
+		return parentFrame.getOwnRightPadding();
+	}
+
+	public void setRightPadding(int rightPadding)
+	{
+	}
+
+	public void setBorder(Byte border)
+	{
+	}
+
+	public void setPadding(Integer padding)
+	{
+	}
+
+	public void setTopBorder(Byte topBorder)
+	{
+	}
+
+	public void setTopPadding(Integer topPadding)
+	{
+	}
+
+	public void setLeftBorder(Byte leftBorder)
+	{
+	}
+
+	public void setLeftPadding(Integer leftPadding)
+	{
+	}
+
+	public void setBottomBorder(Byte bottomBorder)
+	{
+	}
+
+	public void setBottomPadding(Integer bottomPadding)
+	{
+	}
+
+	public void setRightBorder(Byte rightBorder)
+	{
+	}
+
+	public void setRightPadding(Integer rightPadding)
+	{
 	}
 }

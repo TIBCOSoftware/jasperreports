@@ -2104,9 +2104,6 @@ public class JRPdfExporter extends JRAbstractExporter
 			restoreElementOffsets();
 		}
 		
-		if (frame.getBox() != null)
-		{
-			exportBox(frame.getBox(), frame);
-		}
+		exportBox(frame, frame);
 	}
 }

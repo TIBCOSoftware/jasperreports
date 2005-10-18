@@ -1682,7 +1682,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		StringBuffer styleBuffer = new StringBuffer();
 		appendBackcolorStyle(frame, styleBuffer);
-		appendBorderStyle(frame, frame.getBox(), styleBuffer);
+		appendBorderStyle(frame, frame, styleBuffer);
 
 		if (styleBuffer.length() > 0)
 		{

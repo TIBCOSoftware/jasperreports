@@ -427,17 +427,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 		else
 		{
-			int topPadding;
-			int leftPadding;
-			if (frame.getBox() == null)
-			{
-				topPadding = leftPadding = 0;
-			}
-			else
-			{
-				topPadding = frame.getBox().getTopPadding();
-				leftPadding = frame.getBox().getLeftPadding();
-			}
+			int topPadding = frame.getTopPadding();
+			int leftPadding = frame.getLeftPadding();
 
 			setElementOffsets(getOffsetX() + frame.getX() + leftPadding, getOffsetY() + frame.getY() + topPadding);
 		}

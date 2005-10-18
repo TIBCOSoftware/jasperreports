@@ -45,12 +45,6 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRFrame extends JRElement, JRElementGroup
+public interface JRFrame extends JRElement, JRElementGroup, JRBox
 {
-	/**
-	 * Returns the border of the frame.
-	 * 
-	 * @return the border of the frame
-	 */
-	public JRBox getBox();
 }

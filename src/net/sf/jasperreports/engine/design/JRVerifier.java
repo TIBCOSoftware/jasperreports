@@ -1968,19 +1968,10 @@ public class JRVerifier
 		JRElement[] elements = frame.getElements();
 		if (elements != null && elements.length > 0)
 		{
-			int topPadding = 0;
-			int leftPadding = 0;
-			int bottomPadding = 0;
-			int rightPadding = 0;
-			
-			JRBox box = frame.getBox();
-			if (box != null)
-			{
-				topPadding = box.getTopPadding();
-				leftPadding = box.getLeftPadding();
-				bottomPadding = box.getBottomPadding();
-				rightPadding = box.getRightPadding();
-			}
+			int topPadding = frame.getTopPadding();
+			int leftPadding = frame.getLeftPadding();
+			int bottomPadding = frame.getBottomPadding();
+			int rightPadding = frame.getRightPadding();
 			
 			int avlblWidth = frame.getWidth() - leftPadding - rightPadding;
 			int avlblHeight = frame.getHeight() - topPadding - bottomPadding;

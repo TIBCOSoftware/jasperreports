@@ -1242,10 +1242,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					frame.getBackcolor(), 1);
 		}
 		exportElements(frame.getElements(), frame.getX() , frame.getY());
-		if(frame.getBox() != null) {
-			exportBox(frame.getBox(), x, y, width, height, frame.getForecolor(), frame.getBackcolor());
-		}
-		
+		exportBox(frame, x, y, width, height, frame.getForecolor(), frame.getBackcolor());		
 	}
 	
 	

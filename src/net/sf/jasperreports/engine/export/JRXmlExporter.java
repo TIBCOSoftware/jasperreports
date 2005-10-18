@@ -818,7 +818,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		try
 		{
 			exportReportElement(frame);
-			exportBox(frame.getBox());
+			exportBox(frame);
 			exportElements(frame.getElements());
 
 			xmlWriter.closeElement();
