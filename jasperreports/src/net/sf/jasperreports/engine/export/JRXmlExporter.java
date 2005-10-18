@@ -32,7 +32,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -51,14 +50,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -76,7 +72,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.XmlWriter;
@@ -413,19 +408,75 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	protected void exportStyle(JRStyle style) throws IOException
 	{
-		//FIXME STYLE
 		xmlWriter.startElement("style");
 		xmlWriter.addAttribute("name", style.getName());
 		xmlWriter.addAttribute("isDefault", style.isDefault());
-		xmlWriter.addAttribute("fontName", style.getFontName());
-		xmlWriter.addAttribute("fontSize", style.getFontSize());
-		xmlWriter.addAttribute("isBold", style.isBold());
-		xmlWriter.addAttribute("isItalic", style.isItalic());
-		xmlWriter.addAttribute("isUnderline", style.isUnderline());
-		xmlWriter.addAttribute("isStrikeThrough", style.isStrikeThrough());
-		xmlWriter.addAttribute("pdfFontName", style.getPdfFontName());
-		xmlWriter.addAttribute("pdfEncoding", style.getPdfEncoding());
-		xmlWriter.addAttribute("isPdfEmbedded", style.isPdfEmbedded());
+
+		if (style.getStyle() != null)
+		{
+			JRStyle baseStyle = 
+				(JRStyle)stylesMap.get(
+						style.getStyle().getName()
+					);
+			if(baseStyle != null)
+			{
+				xmlWriter.addAttribute("style", style.getStyle().getName());
+			}
+			else
+			{
+				throw 
+					new JRRuntimeException(
+						"Referenced report style not found : " 
+						+ style.getStyle().getName()
+						);
+			}
+		}
+	
+		xmlWriter.addAttribute("mode", style.getOwnMode(), JRXmlConstants.getModeMap());
+		xmlWriter.addAttribute("forecolor", style.getOwnForecolor());
+		xmlWriter.addAttribute("backcolor", style.getOwnBackcolor());
+		xmlWriter.addAttribute("pen", style.getOwnPen(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("fill", style.getOwnFill(), JRXmlConstants.getFillMap());
+		xmlWriter.addAttribute("radius", style.getOwnRadius());
+		xmlWriter.addAttribute("scaleImage", style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		xmlWriter.addAttribute("hAlign", style.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		xmlWriter.addAttribute("vAlign", style.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
+		xmlWriter.addAttribute("rotation", style.getOwnRotation(), JRXmlConstants.getRotationMap());
+		xmlWriter.addAttribute("lineSpacing", style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		xmlWriter.addAttribute("isStyledText", style.isOwnStyledText());
+		//xmlWriter.addAttribute("pattern", style.getOwnPattern());
+		//xmlWriter.addAttribute("isBlankWhenNull", style.isOwnBlankWhenNull());
+		
+		xmlWriter.addAttribute("border", style.getOwnBorder(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("borderColor", style.getOwnBorderColor());
+		xmlWriter.addAttribute("padding", style.getOwnPadding());
+		
+		xmlWriter.addAttribute("topBorder", style.getOwnTopBorder(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("topBorderColor", style.getOwnTopBorderColor());
+		xmlWriter.addAttribute("topPadding", style.getOwnTopPadding());
+		
+		xmlWriter.addAttribute("leftBorder", style.getOwnLeftBorder(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("leftBorderColor", style.getOwnLeftBorderColor());
+		xmlWriter.addAttribute("leftPadding", style.getOwnLeftPadding());
+		
+		xmlWriter.addAttribute("bottomBorder", style.getOwnBottomBorder(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("bottomBorderColor", style.getOwnBottomBorderColor());
+		xmlWriter.addAttribute("bottomPadding", style.getOwnBottomPadding());
+		
+		xmlWriter.addAttribute("rightBorder", style.getOwnRightBorder(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("rightBorderColor", style.getOwnRightBorderColor());
+		xmlWriter.addAttribute("rightPadding", style.getOwnRightPadding());
+
+		xmlWriter.addAttribute("fontName", style.getOwnFontName());
+		xmlWriter.addAttribute("fontSize", style.getOwnFontSize());
+		xmlWriter.addAttribute("isBold", style.isOwnBold());
+		xmlWriter.addAttribute("isItalic", style.isOwnItalic());
+		xmlWriter.addAttribute("isUnderline", style.isOwnUnderline());
+		xmlWriter.addAttribute("isStrikeThrough", style.isOwnStrikeThrough());
+		xmlWriter.addAttribute("pdfFontName", style.getOwnPdfFontName());
+		xmlWriter.addAttribute("pdfEncoding", style.getOwnPdfEncoding());
+		xmlWriter.addAttribute("isPdfEmbedded", style.isOwnPdfEmbedded());
+
 		xmlWriter.closeElement();
 	}
 
@@ -490,7 +541,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException
@@ -507,70 +557,43 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement("reportElement");
-
-		if (
-			(element instanceof JRPrintLine && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JRPrintRectangle && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JRPrintEllipse && element.getMode() != JRElement.MODE_OPAQUE) ||
-			(element instanceof JRPrintImage && element.getMode() != JRElement.MODE_TRANSPARENT) ||
-			(element instanceof JRPrintText && element.getMode() != JRElement.MODE_TRANSPARENT) ||
-			(element instanceof JRPrintFrame && element.getMode() != JRElement.MODE_TRANSPARENT)
-			)
-		{
-			xmlWriter.addAttribute("mode", element.getMode(), JRXmlConstants.getModeMap());
-		}
-
+		xmlWriter.addAttribute("mode", element.getOwnMode(), JRXmlConstants.getModeMap());
 		xmlWriter.addAttribute("x", element.getX() + getOffsetX());
 		xmlWriter.addAttribute("y", element.getY() + getOffsetY());
 		xmlWriter.addAttribute("width", element.getWidth());
 		xmlWriter.addAttribute("height", element.getHeight());
-		xmlWriter.addAttribute("forecolor", element.getForecolor(), Color.black);
-		xmlWriter.addAttribute("backcolor", element.getBackcolor(), Color.white);
-
+		xmlWriter.addAttribute("forecolor", element.getOwnForecolor());
+		xmlWriter.addAttribute("backcolor", element.getOwnBackcolor());
 		xmlWriter.closeElement();
 	}
 
 
 	/**
-	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
 	protected void exportGraphicElement(JRPrintGraphicElement element) throws IOException
 	{
 		xmlWriter.startElement("graphicElement");
-		
-		if (
-			(element instanceof JRPrintLine && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JRPrintRectangle && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JRPrintEllipse && element.getPen() != JRGraphicElement.PEN_1_POINT) ||
-			(element instanceof JRPrintImage && element.getPen() != JRGraphicElement.PEN_NONE)
-			)
-		{
-			xmlWriter.addAttribute("pen", element.getPen(), JRXmlConstants.getPenMap());
-		}
-
-		xmlWriter.addAttribute("fill", element.getFill(), JRXmlConstants.getFillMap(), JRGraphicElement.FILL_SOLID);
-
+		xmlWriter.addAttribute("pen", element.getOwnPen(), JRXmlConstants.getPenMap());
+		xmlWriter.addAttribute("fill", element.getOwnFill(), JRXmlConstants.getFillMap());
 		xmlWriter.closeElement();
 	}
 
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle) throws IOException
 	{
 		xmlWriter.startElement("rectangle");
-		xmlWriter.addAttribute("radius", rectangle.getRadius(), 0);
+		xmlWriter.addAttribute("radius", rectangle.getOwnRadius());
 
 		exportReportElement(rectangle);
 		exportGraphicElement(rectangle);
@@ -580,7 +603,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 
 	/**
-	 * @throws IOException 
 	 * @throws IOException 
 	 *
 	 */
@@ -603,9 +625,9 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportImage(JRPrintImage image) throws JRException, IOException
 	{
 		xmlWriter.startElement("image");
-		xmlWriter.addAttribute("scaleImage", image.getScaleImage(), JRXmlConstants.getScaleImageMap(), JRImage.SCALE_IMAGE_RETAIN_SHAPE);
-		xmlWriter.addAttribute("hAlign", image.getHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap(), JRAlignment.HORIZONTAL_ALIGN_LEFT);
-		xmlWriter.addAttribute("vAlign", image.getVerticalAlignment(), JRXmlConstants.getVerticalAlignMap(), JRAlignment.VERTICAL_ALIGN_TOP);
+		xmlWriter.addAttribute("scaleImage", image.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
+		xmlWriter.addAttribute("hAlign", image.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		xmlWriter.addAttribute("vAlign", image.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
 		xmlWriter.addAttribute("isLazy", image.isLazy(), false);
 		xmlWriter.addAttribute("onErrorType", image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
 		xmlWriter.addAttribute("hyperlinkType", image.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
@@ -695,18 +717,13 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportText(JRPrintText text) throws IOException
 	{
 		xmlWriter.startElement("text");
-		xmlWriter.addAttribute("textAlignment", text.getHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap(), JRAlignment.HORIZONTAL_ALIGN_LEFT);
-
-		if (text.getVerticalAlignment() != JRAlignment.VERTICAL_ALIGN_TOP)
-		{
-			xmlWriter.addAttribute("verticalAlignment", text.getVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
-			xmlWriter.addAttribute("textHeight", text.getTextHeight());
-		}
-
-		xmlWriter.addAttribute("rotation", text.getRotation(), JRXmlConstants.getRotationMap(), JRTextElement.ROTATION_NONE);
+		xmlWriter.addAttribute("textAlignment", text.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
+		xmlWriter.addAttribute("verticalAlignment", text.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
+		xmlWriter.addAttribute("textHeight", text.getTextHeight());
+		xmlWriter.addAttribute("rotation", text.getOwnRotation(), JRXmlConstants.getRotationMap());
 		xmlWriter.addAttribute("runDirection", text.getRunDirection(), JRXmlConstants.getRunDirectionMap(), JRPrintText.RUN_DIRECTION_LTR);
-		xmlWriter.addAttribute("lineSpacing", text.getLineSpacing(), JRXmlConstants.getLineSpacingMap(), JRTextElement.LINE_SPACING_SINGLE);
-		xmlWriter.addAttribute("isStyledText", text.isStyledText(), false);
+		xmlWriter.addAttribute("lineSpacing", text.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
+		xmlWriter.addAttribute("isStyledText", text.isOwnStyledText());
 		xmlWriter.addAttribute("lineSpacingFactor", text.getLineSpacingFactor());
 		xmlWriter.addAttribute("leadingOffset", text.getLeadingOffset());
 		xmlWriter.addAttribute("hyperlinkType", text.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
@@ -741,27 +758,27 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			xmlWriter.startElement("box");
 
-			xmlWriter.addAttribute("border", box.getBorder(), JRXmlConstants.getPenMap(), JRGraphicElement.PEN_NONE);
-			xmlWriter.addAttribute("borderColor", box.getBorderColor());			
-			xmlWriter.addAttributePositive("padding", box.getPadding());
-			
+			xmlWriter.addAttribute("border", box.getOwnBorder(), JRXmlConstants.getPenMap());
+			xmlWriter.addAttribute("borderColor", box.getOwnBorderColor());			
+			xmlWriter.addAttribute("padding", box.getOwnPadding());
+		
 			xmlWriter.addAttribute("topBorder", box.getOwnTopBorder(), JRXmlConstants.getPenMap());
 			xmlWriter.addAttribute("topBorderColor", box.getOwnTopBorderColor());
 			xmlWriter.addAttribute("topPadding", box.getOwnTopPadding());
-			
+		
 			xmlWriter.addAttribute("leftBorder", box.getOwnLeftBorder(), JRXmlConstants.getPenMap());
 			xmlWriter.addAttribute("leftBorderColor", box.getOwnLeftBorderColor());
 			xmlWriter.addAttribute("leftPadding", box.getOwnLeftPadding());
-			
+		
 			xmlWriter.addAttribute("bottomBorder", box.getOwnBottomBorder(), JRXmlConstants.getPenMap());
 			xmlWriter.addAttribute("bottomBorderColor", box.getOwnBottomBorderColor());
 			xmlWriter.addAttribute("bottomPadding", box.getOwnBottomPadding());
 
-			
+		
 			xmlWriter.addAttribute("rightBorder", box.getOwnRightBorder(), JRXmlConstants.getPenMap());
 			xmlWriter.addAttribute("rightBorderColor", box.getOwnRightBorderColor());
 			xmlWriter.addAttribute("rightPadding", box.getOwnRightPadding());
-			
+		
 			xmlWriter.closeElement(true);
 		}
 	}

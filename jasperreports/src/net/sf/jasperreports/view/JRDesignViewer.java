@@ -1381,12 +1381,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 		
 		//text = JRStringUtil.treatNewLineChars(text);
 
-//		JRFont font = textElement.getFont();FIXME STYLE test this
-//		if (font == null)
-//		{
-//			font = getDefaultFont();
-//		}
-
 		Map attributes = new HashMap(); 
 		attributes.putAll(textElement.getAttributes());
 		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
@@ -1881,24 +1875,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 		}
 		
 		printBox(frame, frame, grx);
-	}
-
-
-	/**
-	 *
-	 *
-	private JRFont getDefaultFont()
-	{
-		if (defaultFont == null)
-		{
-			defaultFont = report.getDefaultFont();
-			if (defaultFont == null)
-			{
-				defaultFont = new JRDesignFont();
-			}
-		}
-		
-		return defaultFont;
 	}
 
 
