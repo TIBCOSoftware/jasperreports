@@ -733,7 +733,6 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
-	 * @throws IOException 
 	 *
 	 */
 	private void exportBox(JRBox box) throws IOException

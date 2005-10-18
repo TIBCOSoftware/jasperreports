@@ -123,7 +123,7 @@ public class JRStyleFactory extends JRBaseFactory
 		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			style.setMode(mode);//FIXME STYLE change all
+			style.setMode(mode);
 		}
 
 		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
