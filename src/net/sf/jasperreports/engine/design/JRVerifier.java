@@ -151,6 +151,9 @@ public class JRVerifier
 	protected Collection verifyDesign()
 	{
 		/*   */
+		jasperDesign.preprocess();//FIXME either calculate twice or use change listeners
+		
+		/*   */
 		verifyDesignAttributes();
 
 		/*   */

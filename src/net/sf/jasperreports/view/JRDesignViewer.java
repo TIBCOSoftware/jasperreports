@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.crosstab.JRCrosstab;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
@@ -978,6 +979,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 				{
 					printChart((JRChart)element, grx);
 				}
+				else if (element instanceof JRCrosstab)
+				{
+					printCrosstab((JRCrosstab)element, grx);
+				}
 				else if (element instanceof JRFrame)
 				{
 					printFrame((JRFrame) element, grx);
@@ -1789,6 +1794,65 @@ public class JRDesignViewer extends javax.swing.JPanel
 			chart.getY(), 
 			chart.getWidth() - 1,
 			chart.getHeight() - 1
+			);
+	}
+	
+	
+	/**
+	 *
+	 */
+	private void printCrosstab(JRCrosstab crosstab, Graphics2D grx)
+	{
+		if (crosstab.getMode() == JRElement.MODE_OPAQUE)
+		{
+			grx.setColor(crosstab.getBackcolor());
+
+			grx.fillRect(
+				crosstab.getX(), 
+				crosstab.getY(), 
+				crosstab.getWidth(),
+				crosstab.getHeight()
+				);
+		}
+
+		Image image = null;
+		try
+		{
+			image = JRImageLoader.getImage(JRImageLoader.CROSSTAB_IMAGE);
+		}
+		catch (JRException e)
+		{
+			e.printStackTrace();
+		}
+
+		grx.setClip(
+			crosstab.getX(), 
+			crosstab.getY(), 
+			crosstab.getWidth(), 
+			crosstab.getHeight()
+			);
+		grx.drawImage(
+			image, 
+			crosstab.getX() + 2, 
+			crosstab.getY() + 2, 
+			image.getWidth(null), 
+			image.getHeight(null), 
+			this
+			);
+		grx.setClip(
+			- report.getLeftMargin(), 
+			0, 
+			report.getPageWidth(), 
+			report.getPageHeight()
+			);
+
+		grx.setColor(crosstab.getForecolor());
+		grx.setStroke(new BasicStroke(1f / realZoom));
+		grx.drawRect(
+			crosstab.getX(), 
+			crosstab.getY(), 
+			crosstab.getWidth() - 1,
+			crosstab.getHeight() - 1
 			);
 	}
 	

@@ -61,13 +61,16 @@ public class JRImageLoader
 	public static final byte NO_IMAGE = 1;
 	public static final byte SUBREPORT_IMAGE = 2;
 	public static final byte CHART_IMAGE = 3;
+	public static final byte CROSSTAB_IMAGE = 4;
 
 	private static final String str_NO_IMAGE = "net/sf/jasperreports/engine/images/noimage.GIF";
 	private static final String str_SUBREPORT_IMAGE = "net/sf/jasperreports/engine/images/subreport.GIF";
 	private static final String str_CHART_IMAGE = "net/sf/jasperreports/engine/images/chart.GIF";
+	private static final String str_CROSSTAB_IMAGE = "net/sf/jasperreports/engine/images/crosstab.GIF";
 	private static Image img_NO_IMAGE = null;
 	private static Image img_SUBREPORT_IMAGE = null;
 	private static Image img_CHART_IMAGE = null;
+	private static Image img_CROSSTAB_IMAGE = null;
 
 	/**
 	 *
@@ -268,6 +271,15 @@ public class JRImageLoader
 					img_CHART_IMAGE = loadImage(str_CHART_IMAGE);
 				}
 				image = img_CHART_IMAGE;
+				break;
+			}
+			case CROSSTAB_IMAGE:
+			{
+				if (img_CROSSTAB_IMAGE == null)
+				{
+					img_CROSSTAB_IMAGE = loadImage(str_CROSSTAB_IMAGE);
+				}
+				image = img_CROSSTAB_IMAGE;
 				break;
 			}
 		}
