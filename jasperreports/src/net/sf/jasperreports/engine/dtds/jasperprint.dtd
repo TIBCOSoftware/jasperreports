@@ -71,6 +71,7 @@
 >
 <!ELEMENT reportElement EMPTY>
 <!ATTLIST reportElement
+	style NMTOKEN #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
 	x NMTOKEN #REQUIRED
 	y NMTOKEN #REQUIRED
