@@ -742,7 +742,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		exportReportElement(text);
 		exportBox(text);
 
-		exportFont(text);//FIXME STYLE test minimum XML output
+		exportFont(text);
 
 		if (text.getText() != null)
 		{
