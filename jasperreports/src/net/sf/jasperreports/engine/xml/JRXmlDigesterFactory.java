@@ -765,10 +765,6 @@ public class JRXmlDigesterFactory
 		String framePattern = "*/" + JRFrameFactory.TAG_FRAME;
 		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
 		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
-		
-		//TODO style?
-		digester.addFactoryCreate("*/frame/box", JRBaseBoxFactory.class.getName());
-		digester.addSetNext("*/frame/box", "setBox", JRBox.class.getName());
 	}
 	
 	

@@ -219,18 +219,8 @@ public class JRGridLayout
 
 	protected void createFrameCuts(JRPrintFrame frame, int x0, int y0)
 	{
-		int topPadding;
-		int leftPadding;
-		JRBox frameBox = frame.getBox();
-		if (frameBox == null)
-		{
-			topPadding = leftPadding = 0;
-		}
-		else
-		{
-			topPadding = frameBox.getTopPadding();
-			leftPadding = frameBox.getLeftPadding();
-		}
+		int topPadding = frame.getTopPadding();
+		int leftPadding = frame.getLeftPadding();
 
 		createCuts(frame.getElements(), null, x0 + leftPadding, y0 + topPadding);
 	}
@@ -337,6 +327,14 @@ public class JRGridLayout
 					element.getHeight(), 
 					x2 - x1, 
 					y2 - y1);
+			
+			JRBox cellBox = null;
+			if (element instanceof JRBox)
+			{
+				cellBox = (JRBox) element;
+			}
+			
+			grid[y1][x1].setBox(cellBox);
 		}
 	}
 
@@ -365,18 +363,8 @@ public class JRGridLayout
 
 	protected void setFrameGridElements(JRPrintFrame frame, int x0, int y0, int elementIndex, Integer[] parentIndexes)
 	{
-		int topPadding;
-		int leftPadding;
-		JRBox frameBox = frame.getBox();
-		if (frameBox == null)
-		{
-			topPadding = leftPadding = 0;
-		}
-		else
-		{
-			topPadding = frameBox.getTopPadding();
-			leftPadding = frameBox.getLeftPadding();
-		}
+		int topPadding = frame.getTopPadding();
+		int leftPadding = frame.getLeftPadding();
 
 		setGridElements(frame.getElements(), null, x0 + leftPadding, y0 + topPadding, getElementIndex(elementIndex, parentIndexes));
 	}
@@ -385,7 +373,6 @@ public class JRGridLayout
 	protected void setFrameCellsStyle(JRPrintFrame frame, int x1, int x2, int y1, int y2)
 	{
 		Color backcolor = frame.getMode() == JRElement.MODE_OPAQUE ? frame.getBackcolor() : null;
-		JRBox box = frame.getBox();
 		
 		for (int yi = y1; yi < y2; ++yi)
 		{	
@@ -406,32 +393,28 @@ public class JRGridLayout
 					cell.setForecolor(frame.getForecolor());
 				}
 				
-				if (box != null)
-				{
-					boolean left = xi == x1;
-					boolean right = xi == x2 - cell.colSpan;
-					boolean top = yi == y1;
-					boolean bottom = yi == y2 - cell.rowSpan;
+				boolean left = xi == x1;
+				boolean right = xi == x2 - cell.colSpan;
+				boolean top = yi == y1;
+				boolean bottom = yi == y2 - cell.rowSpan;
 					
-					if (left || right || top || bottom)
+				if (left || right || top || bottom)
+				{
+					JRBox cellBox = cell.getBox();
+					Object key = new BoxKey(frame, cellBox, left, right, top, bottom);
+					JRBox modBox = (JRBox) boxesCache.get(key);
+					if (modBox == null)
 					{
-						JRBox cellBox = cell.getBox();
-						Object key = new BoxKey(box, cellBox, left, right, top, bottom);
-						JRBox modBox = (JRBox) boxesCache.get(key);
-						if (modBox == null)
-						{
-							modBox = new JRBaseBox(box, left, right, top, bottom, cellBox);
-							boxesCache.put(key, modBox);
-						}
-						
-						cell.setBox(modBox);
+						modBox = new JRBaseBox(frame, left, right, top, bottom, cellBox);
+						boxesCache.put(key, modBox);
 					}
+					
+					cell.setBox(modBox);
 				}
 			}
 		}
 	}
-
-
+	
 	/**
 	 * Returns the constructed element grid.
 	 * 

@@ -61,8 +61,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected List loadedFonts = new ArrayList();
 
-	protected List loadedCellStyles = new ArrayList();
-
 	/**
 	 * 
 	 */

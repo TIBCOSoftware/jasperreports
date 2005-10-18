@@ -1802,17 +1802,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.fillRect(frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight());
 		}
 		
-		int topPadding;
-		int leftPadding;
-		if (frame.getBox() == null)
-		{
-			topPadding = leftPadding = 0;
-		}
-		else
-		{
-			topPadding = frame.getBox().getTopPadding();
-			leftPadding = frame.getBox().getLeftPadding();
-		}
+		int topPadding = frame.getTopPadding();
+		int leftPadding = frame.getLeftPadding();
 
 		AffineTransform transform = grx.getTransform();
 		try
@@ -1825,7 +1816,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setTransform(transform);
 		}
 		
-		printBox(frame.getBox(), frame, grx);
+		printBox(frame, frame, grx);
 	}
 
 

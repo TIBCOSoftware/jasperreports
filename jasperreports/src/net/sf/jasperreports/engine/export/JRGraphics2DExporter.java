@@ -871,7 +871,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			restoreElementOffsets();
 		}
 		
-		exportBox(frame.getBox(), frame);
+		exportBox(frame, frame);
 	}
 
 }
