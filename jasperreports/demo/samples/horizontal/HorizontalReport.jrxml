@@ -224,7 +224,7 @@
 	<pageHeader>
 		<band height="45">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="535" height="40" backcolor="#FFDDDD"/>
+				<reportElement mode="Opaque" x="0" y="0" width="535" height="40"/>
 				<box border="1Point"/>
 				<staticText>
 					<reportElement x="0" y="0" width="535" height="25"/>
