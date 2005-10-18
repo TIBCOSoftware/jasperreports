@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
 import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
 import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
 import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
+import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 
 
 /**
@@ -784,16 +785,38 @@ public class JRExpressionCollector
 			}
 		}
 		
-		JRCrosstabCell[][] cells = crosstab.getCells();
-		if (cells != null)
+		collectCrosstabCells(crosstab, crosstabCollector);
+	}
+
+
+	private void collectCrosstabCells(JRCrosstab crosstab, JRExpressionCollector crosstabCollector)
+	{
+		if (crosstab instanceof JRDesignCrosstab)
 		{
-			for (int i = 0; i < cells.length; ++i)
+			List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+			
+			if (cellsList != null)
 			{
-				for (int j = 0; j < cells[i].length; j++)
+				for (Iterator iter = cellsList.iterator(); iter.hasNext();)
 				{
-					if (cells[i][j] != null)
+					JRCrosstabCell cell = (JRCrosstabCell) iter.next();
+					crosstabCollector.collect(cell.getContents());					
+				}
+			}
+		}
+		else
+		{
+			JRCrosstabCell[][] cells = crosstab.getCells();
+			if (cells != null)
+			{
+				for (int i = 0; i < cells.length; ++i)
+				{
+					for (int j = 0; j < cells[i].length; j++)
 					{
-						crosstabCollector.collect(cells[i][j].getContents());
+						if (cells[i][j] != null)
+						{
+							crosstabCollector.collect(cells[i][j].getContents());
+						}
 					}
 				}
 			}
