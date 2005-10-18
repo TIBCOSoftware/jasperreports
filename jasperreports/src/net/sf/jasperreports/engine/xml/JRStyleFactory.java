@@ -156,19 +156,19 @@ public class JRStyleFactory extends JRBaseFactory
 		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
-			style.setScaleImage(scaleImage.byteValue());
+			style.setScaleImage(scaleImage);
 		}
 
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
-			style.setHorizontalAlignment(horizontalAlignment.byteValue());
+			style.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
-			style.setVerticalAlignment(verticalAlignment.byteValue());
+			style.setVerticalAlignment(verticalAlignment);
 		}
 
 
@@ -274,7 +274,7 @@ public class JRStyleFactory extends JRBaseFactory
 		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
-			style.setLineSpacing(lineSpacing.byteValue());
+			style.setLineSpacing(lineSpacing);
 		}
 
 		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
@@ -288,7 +288,7 @@ public class JRStyleFactory extends JRBaseFactory
 		String isBlankWhenNull = atts.getValue(ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
-			style.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull).booleanValue());
+			style.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
 		if (atts.getValue(ATTRIBUTE_fontName) != null)

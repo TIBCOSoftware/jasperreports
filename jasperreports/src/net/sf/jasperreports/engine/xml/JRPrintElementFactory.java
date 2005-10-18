@@ -70,7 +70,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{
-			element.setMode(mode.byteValue());
+			element.setMode(mode);
 		}
 		
 		String x = atts.getValue(ATTRIBUTE_x);

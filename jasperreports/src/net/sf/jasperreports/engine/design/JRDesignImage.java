@@ -164,6 +164,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+		this.scaleImage = scaleImage;
+	}
+
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment()
 	{
 		return JRStyleResolver.getHorizontalAlignment(this);

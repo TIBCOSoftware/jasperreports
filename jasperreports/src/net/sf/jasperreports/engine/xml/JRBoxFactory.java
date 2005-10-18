@@ -78,7 +78,7 @@ public class JRBoxFactory extends JRBaseFactory
 		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_border));
 		if (border != null)
 		{
-			box.setBorder(border.byteValue());
+			box.setBorder(border);
 		}
 
 		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), null);
@@ -96,7 +96,7 @@ public class JRBoxFactory extends JRBaseFactory
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_topBorder));
 		if (border != null)
 		{
-			box.setTopBorder(border.byteValue());
+			box.setTopBorder(border);
 		}
 
 		borderColor = getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
@@ -114,7 +114,7 @@ public class JRBoxFactory extends JRBaseFactory
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_leftBorder));
 		if (border != null)
 		{
-			box.setLeftBorder(border.byteValue());
+			box.setLeftBorder(border);
 		}
 
 		borderColor = getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
@@ -132,7 +132,7 @@ public class JRBoxFactory extends JRBaseFactory
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_bottomBorder));
 		if (border != null)
 		{
-			box.setBottomBorder(border.byteValue());
+			box.setBottomBorder(border);
 		}
 
 		borderColor = getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
@@ -150,7 +150,7 @@ public class JRBoxFactory extends JRBaseFactory
 		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_rightBorder));
 		if (border != null)
 		{
-			box.setRightBorder(border.byteValue());
+			box.setRightBorder(border);
 		}
 
 		borderColor = getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
