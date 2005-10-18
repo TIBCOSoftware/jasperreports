@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -479,23 +480,26 @@ public class JRRtfExporter extends JRAbstractExporter
 				element = (JRPrintElement) it.next();
 				if (element instanceof JRPrintLine)
 				{
-					exportLine((JRPrintLine) element);
+					exportLine((JRPrintLine) element, 0, 0);
 				}
 				else if (element instanceof JRPrintRectangle)
 				{
-					exportRectangle((JRPrintRectangle) element);
+					exportRectangle((JRPrintRectangle) element, 0, 0);
 				}
 				else if (element instanceof JRPrintEllipse)
 				{
-					exportEllipse((JRPrintEllipse) element);
+					exportEllipse((JRPrintEllipse) element, 0, 0);
 				}
 				else if (element instanceof JRPrintImage)
 				{
-					exportImage((JRPrintImage) element);
+					exportImage((JRPrintImage) element, 0, 0);
 				}
 				else if (element instanceof JRPrintText)
 				{
-					exportText((JRPrintText) element);
+					exportText((JRPrintText) element, 0, 0);
+				}
+				else if (element instanceof JRPrintFrame) {
+					exportFrame((JRPrintFrame)element, 0, 0);
 				}
 			}
 		}
@@ -630,11 +634,15 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a line object
 	 * @param line JasperReports line object - JRPrintLine
+	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
+	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws IOException
 	 */
-	protected void exportLine(JRPrintLine line) throws IOException {
+	protected void exportLine(JRPrintLine line, int offsetx, int offsety) throws IOException {
 		int x = twip(line.getX());
+		x += offsetx;
 		int y = twip(line.getY());
+		y+= offsety;
 		int h = twip(line.getHeight());
 		int w = twip(line.getWidth());
 
@@ -675,11 +683,13 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a rectangle
 	 * @param rect JasperReports rectangle object (JRPrintRectangle)
+	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
+	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 */
-	protected void exportRectangle(JRPrintRectangle rect) throws IOException {
+	protected void exportRectangle(JRPrintRectangle rect, int offsetx, int offsety) throws IOException {
 		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
-				twip(rect.getX()), 
-				twip(rect.getY()), 
+				twip(rect.getX() + offsetx), 
+				twip(rect.getY() + offsety), 
 				twip(rect.getWidth()),
 				twip(rect.getHeight())
 				);
@@ -690,12 +700,14 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a ellipse object
 	 * @param ellipse JasperReports ellipse object (JRPrintElipse)
+	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
+	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 */
-	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException {
+	protected void exportEllipse(JRPrintEllipse ellipse, int offsetx, int offsety) throws IOException {
 		startGraphic(
 			"dpellipse", 
-			twip(ellipse.getX()), 
-			twip(ellipse.getY()),
+			twip(ellipse.getX() + offsetx), 
+			twip(ellipse.getY() + offsety),
 			twip(ellipse.getWidth()), 
 			twip(ellipse.getHeight())
 		);
@@ -706,9 +718,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a text box
 	 * @param text JasperReports text object (JRPrintText)
+	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
+	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws JRException 
 	 */
-	protected void exportText(JRPrintText text) throws IOException, JRException {
+	protected void exportText(JRPrintText text, int offsetx, int offsety) throws IOException, JRException {
 		
 		
 		// use styled text
@@ -718,8 +732,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			return;
 		}
 
-		int x = twip(text.getX());
-		int y = twip(text.getY());
+		int x = twip(text.getX() + offsetx);
+		int y = twip(text.getY() + offsety);
 
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
@@ -1012,10 +1026,12 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Export a image object 
 	 * @param printImage JasperReports image object (JRPrintImage)
+	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
+	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws JRException
 	 * @throws IOException
 	 */
-	protected void exportImage(JRPrintImage printImage) throws JRException, IOException
+	protected void exportImage(JRPrintImage printImage, int offsetx, int offsety) throws JRException, IOException
 	{
 		int x = twip(printImage.getX() + globalOffsetX);
 		int y = twip(printImage.getY() + globalOffsetY);
@@ -1152,9 +1168,9 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage");
 			writer.write("\\dodhgt" + (zorder++));
 			writer.write("\\dptxbx");
-			writer.write("\\dpx" + twip(printImage.getX() + leftPadding + globalOffsetX));
+			writer.write("\\dpx" + twip(printImage.getX() + leftPadding + globalOffsetX + offsetx));
 			writer.write("\\dpxsize" + twip(availableImageWidth));
-			writer.write("\\dpy" + twip(printImage.getY() + topPadding + globalOffsetY) );
+			writer.write("\\dpy" + twip(printImage.getY() + topPadding + globalOffsetY + offsety ));
 			writer.write("\\dpysize" + twip(availableImageHeight) );
 			writer.write("\\dpfillpat0"); 
 			writer.write("\\dplinehollow");
@@ -1208,6 +1224,57 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 	}
 	
+	/**
+	 * 
+	 * @param frame
+	 * @throws JRException
+	 */
+	protected void exportFrame(JRPrintFrame frame, int offsetx, int offsety) throws JRException, IOException {
+		int x = twip(frame.getX() + offsetx);
+		int y = twip(frame.getY() + offsety);
+		int width = twip(frame.getWidth());
+		int height = twip(frame.getHeight());
+		
+		if (frame.getMode() == JRElement.MODE_OPAQUE)
+		{
+			startGraphic("dprect", x, y, width, height);
+			finishGraphic(JRGraphicElement.PEN_NONE, frame.getForecolor(),
+					frame.getBackcolor(), 1);
+		}
+		exportElements(frame.getElements(), frame.getX() , frame.getY());
+		if(frame.getBox() != null) {
+			exportBox(frame.getBox(), x, y, width, height, frame.getForecolor(), frame.getBackcolor());
+		}
+		
+	}
+	
+	
+	protected void exportElements(Collection elements, int offsetx, int offsety) throws JRException, IOException {
+		if (elements != null && elements.size() > 0) {
+			JRPrintElement element;
+			for (Iterator it = elements.iterator(); it.hasNext();) {
+				element = (JRPrintElement)it.next();
+				if (element instanceof JRPrintLine) {
+					exportLine((JRPrintLine)element, offsetx, offsety);
+				}
+				else if (element instanceof JRPrintRectangle) {
+					exportRectangle((JRPrintRectangle)element, offsetx, offsety);
+				}
+				else if (element instanceof JRPrintEllipse) {
+					exportEllipse((JRPrintEllipse)element, offsetx, offsety);
+				}
+				else if (element instanceof JRPrintImage) {
+					exportImage((JRPrintImage)element, offsetx, offsety);
+				}
+				else if (element instanceof JRPrintText) {
+					exportText((JRPrintText)element, offsetx, offsety);
+				}
+				else if (element instanceof JRPrintFrame) {
+					exportFrame((JRPrintFrame)element, offsetx, offsety);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Exports a JRBox that represents the border of a JasperReports object
