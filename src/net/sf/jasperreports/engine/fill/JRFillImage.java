@@ -112,6 +112,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment()
 	{
 		return ((JRImage)this.parent).getHorizontalAlignment();

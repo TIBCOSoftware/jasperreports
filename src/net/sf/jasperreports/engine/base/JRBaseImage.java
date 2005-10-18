@@ -210,6 +210,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public void setScaleImage(Byte scaleImage)
+	{
+		this.scaleImage = scaleImage;
+	}
+
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment()
 	{
 		return JRStyleResolver.getHorizontalAlignment(this);

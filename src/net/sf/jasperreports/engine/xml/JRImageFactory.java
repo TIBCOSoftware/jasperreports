@@ -75,19 +75,19 @@ public class JRImageFactory extends JRBaseFactory
 		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
-			image.setScaleImage(scaleImage.byteValue());
+			image.setScaleImage(scaleImage);
 		}
 
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
-			image.setHorizontalAlignment(horizontalAlignment.byteValue());
+			image.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
-			image.setVerticalAlignment(verticalAlignment.byteValue());
+			image.setVerticalAlignment(verticalAlignment);
 		}
 
 		String isUsingCache = atts.getValue(ATTRIBUTE_isUsingCache);

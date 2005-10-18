@@ -149,7 +149,7 @@ public abstract class JRFillElement implements JRElement
 	 */
 	public byte getPositionType()
 	{
-		return this.parent.getPositionType();//FIXME STYLE optimize this by consolidating style properties
+		return this.parent.getPositionType();//FIXME optimize this by consolidating style properties
 	}
 
 	/**

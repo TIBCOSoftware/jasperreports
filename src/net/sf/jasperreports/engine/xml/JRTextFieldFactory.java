@@ -98,7 +98,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		String isBlankWhenNull = atts.getValue(ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
-			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull).booleanValue());
+			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
 		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));

@@ -57,13 +57,13 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_pen));
 		if (pen != null)
 		{
-			graphicElement.setPen(pen.byteValue());
+			graphicElement.setPen(pen);
 		}
 
 		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(ATTRIBUTE_fill));
 		if (fill != null)
 		{
-			graphicElement.setFill(fill.byteValue());
+			graphicElement.setFill(fill);
 		}
 
 		return graphicElement;

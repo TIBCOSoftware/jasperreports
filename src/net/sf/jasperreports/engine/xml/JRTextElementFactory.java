@@ -60,31 +60,31 @@ public class JRTextElementFactory extends JRBaseFactory
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			textElement.setHorizontalAlignment(horizontalAlignment.byteValue());
+			textElement.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
-			textElement.setVerticalAlignment(verticalAlignment.byteValue());
+			textElement.setVerticalAlignment(verticalAlignment);
 		}
 
 		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
-			textElement.setRotation(rotation.byteValue());
+			textElement.setRotation(rotation);
 		}
 
 		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
-			textElement.setLineSpacing(lineSpacing.byteValue());
+			textElement.setLineSpacing(lineSpacing);
 		}
 
 		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
-			textElement.setStyledText(Boolean.valueOf(isStyledText).booleanValue());
+			textElement.setStyledText(Boolean.valueOf(isStyledText));
 		}
 
 		return textElement;

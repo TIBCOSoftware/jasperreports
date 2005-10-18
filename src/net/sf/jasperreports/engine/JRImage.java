@@ -89,34 +89,8 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public void setScaleImage(byte scaleImage);
 
-	/**
-	 * Gets the horizontal alignment of the element.
-	 * @return one of the alignment values defined in {@link JRAlignment}
-	 */
-	public byte getHorizontalAlignment();
+	public void setScaleImage(Byte scaleImage);
 
-	public Byte getOwnHorizontalAlignment();
-
-	/**
-	 * Sets the horizontal alignment of the element.
-	 * @param horizontalAlignment one of the alignment values defined in {@link JRAlignment}
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment);
-
-	/**
-	 * Gets the vertical alignment of the element.
-	 * @return one of the alignment values defined in {@link JRAlignment}
-	 */
-	public byte getVerticalAlignment();
-		
-	public Byte getOwnVerticalAlignment();
-
-	/**
-	 * Sets the vertical alignment of the element.
-	 * @param verticalAlignment one of the alignment values defined in {@link JRAlignment}
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
 	/**
 	 * Indicates if the engine is loading the current image from cache.
 	 * Implementations of this method rely on default values that depend on the type of the image expression

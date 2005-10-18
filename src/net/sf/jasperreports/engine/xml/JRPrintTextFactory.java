@@ -74,19 +74,19 @@ public class JRPrintTextFactory extends JRBaseFactory
 		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
-			text.setHorizontalAlignment(horizontalAlignment.byteValue());
+			text.setHorizontalAlignment(horizontalAlignment);
 		}
 
 		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
-			text.setVerticalAlignment(verticalAlignment.byteValue());
+			text.setVerticalAlignment(verticalAlignment);
 		}
 
 		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
-			text.setRotation(rotation.byteValue());
+			text.setRotation(rotation);
 		}
 
 		Byte runDirection = (Byte)JRXmlConstants.getRunDirectionMap().get(atts.getValue(ATTRIBUTE_runDirection));
@@ -104,13 +104,13 @@ public class JRPrintTextFactory extends JRBaseFactory
 		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
-			text.setLineSpacing(lineSpacing.byteValue());
+			text.setLineSpacing(lineSpacing);
 		}
 
 		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
-			text.setStyledText(Boolean.valueOf(isStyledText).booleanValue());//FIXME STYLE why primitive
+			text.setStyledText(Boolean.valueOf(isStyledText));
 		}
 
 		String lineSpacingFactor = atts.getValue(ATTRIBUTE_lineSpacingFactor);
