@@ -88,7 +88,7 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
-	public static byte getMode(JRElement element, byte defaultMode)//FIXME make interface(s) for reducing number of similar mode methods
+	public static byte getMode(JRElement element, byte defaultMode)//FIXME STYLES make interface(s) for reducing number of similar mode methods
 	{
 		if (element.getOwnMode() != null) 
 			return element.getOwnMode().byteValue();

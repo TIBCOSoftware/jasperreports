@@ -29,9 +29,9 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignFont;
 
 import org.xml.sax.Attributes;
 
@@ -64,10 +64,9 @@ public class JRPrintFontFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
+		JRPrintText element = (JRPrintText) digester.peek();
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-
-		JRDesignFont font = null;//FIXME STYLES
 
 		if (atts.getValue(ATTRIBUTE_reportFont) != null)
 		{
@@ -78,42 +77,37 @@ public class JRPrintFontFactory extends JRBaseFactory
 				printXmlLoader.addError(new Exception("Unknown report font : " + atts.getValue(ATTRIBUTE_reportFont)));
 			}
 
-			font = new JRDesignFont();
-			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(ATTRIBUTE_reportFont)));
-		}
-		else
-		{
-			font = new JRDesignFont(jasperPrint.getDefaultFontProvider());
+			element.setReportFont((JRReportFont)fontsMap.get(atts.getValue(ATTRIBUTE_reportFont)));
 		}
 
 		if (atts.getValue(ATTRIBUTE_fontName) != null)
-			font.setFontName(atts.getValue(ATTRIBUTE_fontName));
+			element.setFontName(atts.getValue(ATTRIBUTE_fontName));
 
 		if (atts.getValue(ATTRIBUTE_isBold) != null)
-			font.setBold(Boolean.valueOf(atts.getValue(ATTRIBUTE_isBold)));
+			element.setBold(Boolean.valueOf(atts.getValue(ATTRIBUTE_isBold)));
 
 		if (atts.getValue(ATTRIBUTE_isItalic) != null)
-			font.setItalic(Boolean.valueOf(atts.getValue(ATTRIBUTE_isItalic)));
+			element.setItalic(Boolean.valueOf(atts.getValue(ATTRIBUTE_isItalic)));
 
 		if (atts.getValue(ATTRIBUTE_isUnderline) != null)
-			font.setUnderline(Boolean.valueOf(atts.getValue(ATTRIBUTE_isUnderline)));
+			element.setUnderline(Boolean.valueOf(atts.getValue(ATTRIBUTE_isUnderline)));
 
 		if (atts.getValue(ATTRIBUTE_isStrikeThrough) != null)
-			font.setStrikeThrough(Boolean.valueOf(atts.getValue(ATTRIBUTE_isStrikeThrough)));
+			element.setStrikeThrough(Boolean.valueOf(atts.getValue(ATTRIBUTE_isStrikeThrough)));
 
 		if (atts.getValue(ATTRIBUTE_size) != null)
-			font.setFontSize(Integer.parseInt(atts.getValue(ATTRIBUTE_size)));
+			element.setFontSize(Integer.parseInt(atts.getValue(ATTRIBUTE_size)));
 
 		if (atts.getValue(ATTRIBUTE_pdfFontName) != null)
-			font.setPdfFontName(atts.getValue(ATTRIBUTE_pdfFontName));
+			element.setPdfFontName(atts.getValue(ATTRIBUTE_pdfFontName));
 
 		if (atts.getValue(ATTRIBUTE_pdfEncoding) != null)
-			font.setPdfEncoding(atts.getValue(ATTRIBUTE_pdfEncoding));
+			element.setPdfEncoding(atts.getValue(ATTRIBUTE_pdfEncoding));
 
 		if (atts.getValue(ATTRIBUTE_isPdfEmbedded) != null)
-			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(ATTRIBUTE_isPdfEmbedded)));
+			element.setPdfEmbedded(Boolean.valueOf(atts.getValue(ATTRIBUTE_isPdfEmbedded)));
 
-		return font;
+		return element;
 	}
 	
 
