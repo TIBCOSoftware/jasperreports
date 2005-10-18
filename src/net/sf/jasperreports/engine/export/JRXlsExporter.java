@@ -280,15 +280,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			return;
 		}
 
-		JRFont font = textElement;//.getFont();FIXME STYLE test this
-//		if (font == null)
-//		{
-//			font = getDefaultFont();
-//		}
-
 		short forecolor = getNearestColor(textElement.getForecolor()).getIndex();
 
-		HSSFFont cellFont = getLoadedFont(font, forecolor);
+		HSSFFont cellFont = getLoadedFont(textElement, forecolor);
 
 		TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
 		short horizontalAlignment = getHorizontalAlignment(textAlignHolder);

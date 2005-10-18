@@ -795,7 +795,7 @@ public class JRXmlWriter
 		if (box != null)
 		{
 			writer.startElement("box");
-			writer.addAttribute("border", box.getOwnBorder(), JRXmlConstants.getPenMap());//FIXME STYLE
+			writer.addAttribute("border", box.getOwnBorder(), JRXmlConstants.getPenMap());
 			writer.addAttribute("borderColor", box.getOwnBorderColor());
 			writer.addAttribute("padding", box.getOwnPadding());
 
