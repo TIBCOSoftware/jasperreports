@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
@@ -848,7 +849,11 @@ public class JRVerifier
 
 	protected void verifyElement(JRElement element)
 	{
-		if (element instanceof JRTextField)
+		if (element instanceof JRStaticText)
+		{
+			verifyStaticText((JRStaticText)element);
+		}
+		else if (element instanceof JRTextField)
 		{
 			verifyTextField((JRTextField)element);
 		}
@@ -899,9 +904,18 @@ public class JRVerifier
 	/**
 	 *
 	 */
+	private void verifyStaticText(JRStaticText staticText)
+	{
+		verifyFont(staticText);
+	}
+		
+
+	/**
+	 *
+	 */
 	private void verifyTextField(JRTextField textField)
 	{
-		verifyFont(textField);//FIXME STYLE verify font in static text too
+		verifyFont(textField);
 		verifyAnchor(textField);
 		verifyHyperlink(textField);
 
@@ -1723,7 +1737,11 @@ public class JRVerifier
 								+ element.getHeight() + ", available height=" + avlblHeight + ".");
 					}
 					
-					if (element instanceof JRTextField)
+					if (element instanceof JRStaticText)
+					{
+						verifyStaticText((JRStaticText)element);
+					}
+					else if (element instanceof JRTextField)
 					{
 						JRTextField textField = (JRTextField) element;
 						
