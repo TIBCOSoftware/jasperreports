@@ -562,6 +562,11 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement("reportElement");
+		JRStyle style = element.getStyle();
+		if (style != null)
+		{
+			xmlWriter.addAttribute("style", style.getName());
+		}
 		xmlWriter.addAttribute("mode", element.getOwnMode(), JRXmlConstants.getModeMap());
 		xmlWriter.addAttribute("x", element.getX() + getOffsetX());
 		xmlWriter.addAttribute("y", element.getY() + getOffsetY());
