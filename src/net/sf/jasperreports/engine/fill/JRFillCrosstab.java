@@ -1036,6 +1036,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return measures;
 	}
 
+	
+	/**
+	 * Fill-time crosstab input dataset implementation.
+	 *  
+	 * @author Lucian Chirita (lucianc@users.sourceforge.net)
+	 */
 	public class JRFillCrosstabDataset extends JRFillChartDataset implements JRCrosstabDataset
 	{
 		private Object[] bucketValues;
