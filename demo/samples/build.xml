@@ -87,6 +87,7 @@
 		<ant dir="crosstabs" target="fill" />
 		<ant dir="crosstabs" target="pdf" />
 		<ant dir="crosstabs" target="html" />
+		<ant dir="crosstabs" target="rtf" />
 		<ant dir="crosstabs" target="xls" />
 		<ant dir="crosstabs" target="xmlEmbed" />
 		<ant dir="crosstabs" target="xml" />
