@@ -41,7 +41,7 @@ import org.jfree.chart.JFreeChart;
  * method of this class will be called, if advanced chart customization is needed.
  * </p>
  *
- * @author <a href="mailto:Michael.McMahon@activewire.net">Michael McMahon</a>
+ * @author Michael McMahon (Michael.McMahon@activewire.net)
  * @version $Id$
  */
 public interface JRChartCustomizer {
