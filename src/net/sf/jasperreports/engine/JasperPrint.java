@@ -328,7 +328,7 @@ public class JasperPrint implements Serializable
 	 * When we want to virtualize pages, we want a style provider that
 	 * is <i>not</i> the print object itself.
 	 */
-	public JRDefaultStyleProvider getDefaultStyleProvider()//FIXME STYLE does this work with subreports?
+	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
