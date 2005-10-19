@@ -31,7 +31,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 
@@ -55,11 +54,6 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		
 		this.templateFrame = templateFrame;
 		elements = new ArrayList();
-	}
-
-	public JRBox getBox()
-	{
-		return templateFrame.getBox();
 	}
 
 	public List getElements()

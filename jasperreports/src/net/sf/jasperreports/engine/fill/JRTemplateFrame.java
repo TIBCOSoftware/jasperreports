@@ -44,8 +44,6 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private JRBox box;
-
 	
 	/**
 	 * Creates a template frame for a crosstab cell.
@@ -76,17 +74,6 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 		super(frame);
 		
 		setBox(frame);
-	}
-
-	
-	/**
-	 * Returns the border of this template frame.
-	 * 
-	 * @return the border of this template frame
-	 */
-	public JRBox getBox()
-	{
-		return box;
 	}
 
 	
