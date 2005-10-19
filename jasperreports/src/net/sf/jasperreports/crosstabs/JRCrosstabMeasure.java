@@ -137,7 +137,7 @@ public interface JRCrosstabMeasure
 	 * 	<li>{@link #PERCENTAGE_TYPE_GRAND_TOTAL PERCENTAGE_TYPE_GRAND_TOTAL}</li>
 	 * </ul>
 	 * <p>
-	 * If percentage calculation is required, the value class should be one of the build-in supported
+	 * If percentage calculation is required, the value class should be one of the built-in supported
 	 * percentage types or the percentage calculator class should be specified.
 	 * 
 	 * @return the percentage calculation type

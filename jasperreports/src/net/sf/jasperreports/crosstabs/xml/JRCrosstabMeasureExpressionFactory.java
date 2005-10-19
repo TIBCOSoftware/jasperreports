@@ -28,6 +28,7 @@
 package net.sf.jasperreports.crosstabs.xml;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabMeasure;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -44,7 +45,14 @@ public class JRCrosstabMeasureExpressionFactory extends JRBaseFactory
 		JRDesignCrosstabMeasure measure = (JRDesignCrosstabMeasure) digester.peek();
 
 		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClassName(measure.getValueClassName());
+		if (measure.getCalculation() == JRVariable.CALCULATION_COUNT)
+		{
+			expression.setValueClassName(Object.class.getName());
+		}
+		else
+		{
+			expression.setValueClassName(measure.getValueClassName());
+		}
 
 		return expression;
 	}
