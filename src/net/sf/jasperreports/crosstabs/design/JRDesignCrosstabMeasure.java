@@ -68,6 +68,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	public void setCalculation(byte calculation)
 	{
 		this.calculation = calculation;
+		setExpressionClass();
 	}
 
 	
@@ -80,6 +81,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	public void setValueExpression(JRExpression expression)
 	{
 		this.expression = expression;
+		setExpressionClass();
 	}
 
 	
@@ -144,7 +146,20 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	{
 		this.valueClassName = valueClassName;
 		this.valueClass = null;
-		designVariable.setValueClassName(valueClassName);
+		setExpressionClass();
+	}
+
+
+	protected void setExpressionClass()
+	{
+		if (calculation == JRVariable.CALCULATION_COUNT)
+		{
+			designVariable.setValueClassName(Object.class.getName());
+		}
+		else
+		{
+			designVariable.setValueClassName(valueClassName);
+		}
 	}
 
 }
