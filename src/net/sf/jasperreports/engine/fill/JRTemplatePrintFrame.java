@@ -33,9 +33,11 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintElementContainer;
+import net.sf.jasperreports.engine.JRPrintFrame;
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.fill.JRPrintFrame JRPrintFrame} that uses
+ * Implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame} that uses
  * {@link net.sf.jasperreports.engine.fill.JRTemplateFrame template frames} for keeping common data. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

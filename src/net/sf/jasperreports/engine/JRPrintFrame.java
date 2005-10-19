@@ -25,61 +25,28 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintElementContainer;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * A print elements container.
+ * <p>
+ * This is the print result of a {@link net.sf.jasperreports.engine.JRFrame frame} element or a
+ * {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} cell.
+ * <p>
+ * The coordinates of elements inside a print frame are relative to the frame and not the page.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintBand implements JRPrintElementContainer
+public interface JRPrintFrame extends JRPrintElement, JRBox
 {
-	
-
 	/**
-	 *
+	 * Returns the list of print elements contained in the frame.
+	 * 
+	 * @return the list of sub print elements
 	 */
-	private int height = 0;
-	private List elements = new ArrayList();
-
-	
-	/**
-	 *
-	 */
-	public int getHeight()
-	{
-		return this.height;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHeight(int height)
-	{
-		this.height = height;
-	}
-
-	/**
-	 *
-	 */
-	public List getElements()
-	{
-		return this.elements;
-	}
-	
-	/**
-	 *
-	 */
-	public void addElement(JRPrintElement element)
-	{
-		this.elements.add(element);
-	}
-		
-
+	public List getElements();
 }

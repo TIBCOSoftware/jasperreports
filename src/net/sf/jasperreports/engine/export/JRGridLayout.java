@@ -38,10 +38,10 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBaseBox;
-import net.sf.jasperreports.engine.fill.JRPrintFrame;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
