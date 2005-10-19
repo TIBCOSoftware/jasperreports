@@ -35,11 +35,11 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
- * Base implementation of {@link net.sf.jasperreports.engine.fill.JRPrintFrame JRPrintFrame}.
+ * Base implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$

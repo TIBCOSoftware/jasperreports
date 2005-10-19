@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -73,7 +74,6 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.XmlWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 

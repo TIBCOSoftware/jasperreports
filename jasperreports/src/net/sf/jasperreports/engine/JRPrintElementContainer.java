@@ -25,61 +25,51 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintElementContainer;
-
+import net.sf.jasperreports.engine.fill.JRFillElementContainer;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Print element container interface.
+ * <p>
+ * An instance of this type is used by {@link net.sf.jasperreports.engine.fill.JRFillElementContainer JRFillElementContainer}
+ * to collect the generated print elements.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintBand implements JRPrintElementContainer
+public interface JRPrintElementContainer
 {
+	/**
+	 * Returns the height of the container.
+	 * 
+	 * @return the height of the container
+	 */
+	public int getHeight();
 	
-
-	/**
-	 *
-	 */
-	private int height = 0;
-	private List elements = new ArrayList();
-
-	
-	/**
-	 *
-	 */
-	public int getHeight()
-	{
-		return this.height;
-	}
-		
-	/**
-	 *
-	 */
-	public void setHeight(int height)
-	{
-		this.height = height;
-	}
-
-	/**
-	 *
-	 */
-	public List getElements()
-	{
-		return this.elements;
-	}
 	
 	/**
-	 *
+	 * Sets the height of the container.
+	 * 
+	 * @param height the height
 	 */
-	public void addElement(JRPrintElement element)
-	{
-		this.elements.add(element);
-	}
-		
+	public void setHeight(int height);
 
+	
+	/**
+	 * Returns the list of {@link JRPrintElement elements} of the container.
+	 * 
+	 * @return the list of elements
+	 */
+	public List getElements();
+	
+	
+	/**
+	 * Adds an element to the container.
+	 * 
+	 * @param element the element to add
+	 */
+	public void addElement(JRPrintElement element);
 }

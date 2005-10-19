@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -77,7 +78,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.fill.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
