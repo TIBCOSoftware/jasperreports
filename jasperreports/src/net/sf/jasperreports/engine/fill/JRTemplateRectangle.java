@@ -29,7 +29,9 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -66,11 +68,36 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
+	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRSubreport subreport)
+	{
+		super(defaultStyleProvider);
+		
+		setSubreport(subreport);
+	}
+
+
+	/**
+	 *
+	 */
 	protected void setRectangle(JRRectangle rectangle)
 	{
 		super.setGraphicElement(rectangle);
 
 		setRadius(rectangle.getRadius());
+	}
+
+
+	/**
+	 *
+	 */
+	protected void setSubreport(JRSubreport subreport)
+	{
+		super.setElement(subreport);
+
+		setMode(subreport.getMode());//don't want to inherit mode because of different defaults
+		
+		setPen(JRGraphicElement.PEN_NONE);
+		setFill(JRGraphicElement.FILL_SOLID);
 	}
 
 
