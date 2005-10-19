@@ -30,6 +30,7 @@ package net.sf.jasperreports.compilers;
 import java.io.File;
 import java.io.Serializable;
 
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRReport;
@@ -37,7 +38,6 @@ import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 
