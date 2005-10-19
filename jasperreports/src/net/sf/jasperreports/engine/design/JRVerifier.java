@@ -36,6 +36,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
+import net.sf.jasperreports.crosstabs.JRCrosstabCell;
+import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
+import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
+import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
+import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
+import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
+import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
@@ -64,20 +77,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.crosstab.JRCellContents;
-import net.sf.jasperreports.engine.crosstab.JRCrosstab;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabBucket;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabGroup;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
-import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
-import net.sf.jasperreports.engine.fill.crosstab.JRPercentageCalculator;
-import net.sf.jasperreports.engine.fill.crosstab.JRPercentageCalculatorFactory;
 
 
 /**

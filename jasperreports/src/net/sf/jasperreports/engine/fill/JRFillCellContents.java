@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -37,7 +38,6 @@ import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseBox;
-import net.sf.jasperreports.engine.crosstab.JRCellContents;
 
 import org.apache.commons.collections.ReferenceMap;
 
