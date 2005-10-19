@@ -689,9 +689,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	protected JRPrintElement fill()
 	{
-		JRPrintRectangle printRectangle = null;
+		JRPrintRectangle printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
 
-		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
 		printRectangle.setWidth(getWidth());
