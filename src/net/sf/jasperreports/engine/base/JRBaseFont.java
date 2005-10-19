@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 
@@ -54,11 +53,6 @@ public class JRBaseFont implements JRFont, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 *
-	private static JRFont defaultFont = null;
 
 	/**
 	 *
@@ -79,9 +73,6 @@ public class JRBaseFont implements JRFont, Serializable
 	protected String pdfFontName = null;
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
-
-	protected boolean isCachingAttributes = false;
-	protected transient Map attributes = null;//FIXME STYLE caching does not make sense if parent modification
 
 
 	/**
@@ -184,8 +175,6 @@ public class JRBaseFont implements JRFont, Serializable
 		pdfFontName = font.getOwnPdfFontName();
 		pdfEncoding = font.getOwnPdfEncoding();
 		isPdfEmbedded = font.isOwnPdfEmbedded();
-		
-		//isCachingAttributes = font.isCachingAttributes();
 	}
 		
 
@@ -251,7 +240,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setFontName(String fontName)
 	{
 		this.fontName = fontName;
-		attributes = null;
 	}
 	
 
@@ -286,7 +274,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setBold(Boolean isBold)
 	{
 		this.isBold = isBold;
-		this.attributes = null;
 	}
 
 	
@@ -321,7 +308,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setItalic(Boolean isItalic) 
 	{
 		this.isItalic = isItalic;
-		this.attributes = null;
 	}
 	
 	/**
@@ -355,7 +341,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setUnderline(Boolean isUnderline) 
 	{
 		this.isUnderline = isUnderline;
-		this.attributes = null;
 	}
 
 	/**
@@ -389,7 +374,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setStrikeThrough(Boolean isStrikeThrough) 
 	{
 		this.isStrikeThrough = isStrikeThrough;
-		this.attributes = null;
 	}
 
 	/**
@@ -423,7 +407,6 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setFontSize(Integer fontSize) 
 	{
 		this.fontSize = fontSize;
-		this.attributes = null;
 	}
 
 	/**
@@ -539,97 +522,7 @@ public class JRBaseFont implements JRFont, Serializable
 	public void setPdfEmbedded(Boolean isPdfEmbedded) 
 	{
 		this.isPdfEmbedded = isPdfEmbedded;
-		this.attributes = null;
 	}
 
-	/**
-	 *
-	 */
-	public boolean isCachingAttributes()
-	{
-		return isCachingAttributes;
-	}
-
-	/**
-	 *
-	 */
-	public void setCachingAttributes(boolean isCachingAttributes)
-	{
-		this.isCachingAttributes = isCachingAttributes;
-		attributes = null;
-	}
-
-
-	/**
-	 *
-	 */
-	public Map getAttributes()
-	{
-		if (attributes == null || !isCachingAttributes)
-		{
-			attributes = JRFontUtil.getNonPdfAttributes(this);
-
-			attributes.put(JRTextAttribute.PDF_FONT_NAME, getPdfFontName());
-			attributes.put(JRTextAttribute.PDF_ENCODING, getPdfEncoding());
-
-			if (isPdfEmbedded())
-			{
-				attributes.put(JRTextAttribute.IS_PDF_EMBEDDED, Boolean.TRUE);
-			}
-		}
-		
-		return attributes;
-	}
-	
-
-	/**
-	 *
-	 *
-	private JRFont getBaseFont()
-	{
-		JRFont baseFont = null;
-
-		if (reportFont != null)
-		{
-			baseFont = reportFont;
-		}
-		else if (
-			defaultFontProvider != null 
-			&& defaultFontProvider.getDefaultFont() != null
-			)
-		{
-			baseFont = defaultFontProvider.getDefaultFont();
-		}
-		else
-		{
-			baseFont = getDefaultFont();
-		}
-		
-		return baseFont;
-	}
-	
-
-	/**
-	 *
-	 *
-	public static JRFont getDefaultFont()
-	{
-		if (defaultFont == null)
-		{
-			defaultFont = new JRBaseFont();
-			defaultFont.setFontName(DEFAULT_FONT_NAME);
-			defaultFont.setBold(DEFAULT_FONT_BOLD);
-			defaultFont.setItalic(DEFAULT_FONT_ITALIC);
-			defaultFont.setUnderline(DEFAULT_FONT_UNDERLINE);
-			defaultFont.setStrikeThrough(DEFAULT_FONT_STRIKETHROUGH);
-			defaultFont.setSize(DEFAULT_FONT_SIZE);
-			defaultFont.setPdfFontName(DEFAULT_PDF_FONT_NAME);
-			defaultFont.setPdfEncoding(DEFAULT_PDF_ENCODING);
-			defaultFont.setPdfEmbedded(DEFAULT_PDF_EMBEDDED);
-		}
-		
-		return defaultFont;
-	}
-	*/
 	
 }

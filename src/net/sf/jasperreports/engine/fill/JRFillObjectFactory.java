@@ -227,7 +227,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillFont == null)
 			{
 				fillFont = new JRBaseReportFont(font);
-				fillFont.setCachingAttributes(true);
 				put(font, fillFont);
 			}
 		}
@@ -249,7 +248,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			if (fillStyle == null)
 			{
 				fillStyle = new JRBaseStyle(style, this);
-				//fillStyle.setCachingAttributes(true);FIXME STYLE
 				put(style, fillStyle);
 			}
 		}
@@ -276,7 +274,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 						getReportFont(font.getReportFont()),
 						font
 						);
-				fillFont.setCachingAttributes(true);
 				put(font, fillFont);
 			}
 		}

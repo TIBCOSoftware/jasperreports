@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
@@ -1156,15 +1155,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
-	}
-
-
-	/**
-	 *
-	 */
-	public Map getAttributes()
-	{
-		return ((JRTemplateText)template).getAttributes();
 	}
 	
 }

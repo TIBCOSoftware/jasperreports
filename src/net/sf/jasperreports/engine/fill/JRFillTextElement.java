@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.logging.Log;
@@ -62,8 +63,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-//	private JRFont font = null;
-
 	private boolean isLeftToRight = true;
 	private TextMeasurer textMeasurer = null;
 	private float lineSpacingFactor = 0;
@@ -89,9 +88,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super(filler, textElement, factory);
 
-		/*   */
-//		font = factory.getFont(textElement.getFont());
-		
 		/*   */
 		createTextMeasurer();
 
@@ -281,11 +277,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		if (styledTextAttributes == null)
 		{
 			styledTextAttributes = new HashMap(); 
-			styledTextAttributes.putAll(getAttributes());
-			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-			if (getMode() == JRElement.MODE_OPAQUE)
+			JRFontUtil.setAttributes(styledTextAttributes, (JRTextElement)parent);
+			styledTextAttributes.put(TextAttribute.FOREGROUND, parent.getForecolor());
+			if (parent.getMode() == JRElement.MODE_OPAQUE)
 			{
-				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
+				styledTextAttributes.put(TextAttribute.BACKGROUND, parent.getBackcolor());
 			}
 		}
 		
@@ -1286,11 +1282,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public Map getAttributes()
-	{
-		return ((JRTextElement)parent).getAttributes();
-	}
-
 	public void setHeight(int height)
 	{
 		super.setHeight(height);

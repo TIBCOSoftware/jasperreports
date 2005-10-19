@@ -27,8 +27,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.util.Map;
-
 
 /**
  * An abstract representation of a font. Fonts in JasperReports are very complex because of the library portability
@@ -248,11 +246,5 @@ public interface JRFont extends JRStyleContainer
 	 *
 	 */
 	public void setPdfEmbedded(Boolean isPdfEmbedded);
-	
-	/**
-	 *
-	 */
-	public Map getAttributes();
-	
 
 }

@@ -28,8 +28,6 @@
 package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
@@ -38,7 +36,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -96,14 +93,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	protected String pdfFontName = null;
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
-
-	protected transient Map attributes = null;
-
-	/**
-	 *
-	 */
-//	protected JRBox box = null;
-//	protected JRFont font = null;
 
 
 	/**
@@ -1113,22 +1102,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
-	}
-
-
-	/**
-	 *
-	 */
-	public Map getAttributes()
-	{
-		if (attributes == null)
-		{
-			attributes = new HashMap();
-
-			JRFontUtil.setAttributes(attributes, this);
-		}
-
-		return attributes;
 	}
 
 
