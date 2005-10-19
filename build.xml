@@ -74,6 +74,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRChart.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRChild.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRDefaultStyleProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRException.class"/>
@@ -82,6 +83,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRExpression.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRExpressionChunk.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRFrame.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRGraphicElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImage.class"/>
@@ -93,12 +95,16 @@
 				<include name="**/net/sf/jasperreports/engine/JRReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRuntimeException.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRStyle.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRStyleContainer.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRSubreport.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextField.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRExportProgressMonitor.class"/>
@@ -111,9 +117,11 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRStyleResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>

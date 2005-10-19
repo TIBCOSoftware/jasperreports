@@ -40,12 +40,9 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
@@ -106,13 +103,8 @@ public class ImageServlet extends HttpServlet
 				throw new ServletException("No JasperPrint documents found on the HTTP session.");
 			}
 			
-			JRPrintElementIndex imageIndex = JRHtmlExporter.getPrintElementIndex(imageName);
+			JRPrintImage image = JRHtmlExporter.getImage(jasperPrintList, imageName);
 			
-			JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-			JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
-			JRPrintImage image = (JRPrintImage)page.getElements().get(
-					imageIndex.getElementIndexes()[0].intValue() 
-							);
 			JRRenderable renderer = image.getRenderer();
 			if (renderer.getType() == JRRenderable.TYPE_SVG)
 			{
