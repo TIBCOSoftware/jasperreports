@@ -281,7 +281,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		if (styledTextAttributes == null)
 		{
 			styledTextAttributes = new HashMap(); 
-			styledTextAttributes.putAll(getFont().getAttributes());
+			styledTextAttributes.putAll(getAttributes());
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
 			if (getMode() == JRElement.MODE_OPAQUE)
 			{
