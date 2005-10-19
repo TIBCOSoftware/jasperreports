@@ -744,7 +744,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			jasperPrint.setPageHeight(pageHeight);
 			jasperPrint.setOrientation(orientation);
 
-			jasperPrint.setDefaultFont(defaultFont);//FIXME STYLE investigate this
+			jasperPrint.setDefaultFont(defaultFont);
 
 			/*   */
 			if (fonts != null && fonts.length > 0)
@@ -762,7 +762,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 				}
 			}
 
-			jasperPrint.setDefaultStyle(defaultStyle);//FIXME STYLE investigate this
+			jasperPrint.setDefaultStyle(defaultStyle);
 
 			/*   */
 			if (styles != null && styles.length > 0)
