@@ -97,21 +97,24 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 */
 	protected void setBox(JRBox box)
 	{
-		border = box.getOwnBorder();
-		topBorder = box.getOwnTopBorder();
-		leftBorder = box.getOwnLeftBorder();
-		bottomBorder = box.getOwnBottomBorder();
-		rightBorder = box.getOwnRightBorder();
-		borderColor = box.getOwnBorderColor();
-		topBorderColor = box.getOwnTopBorderColor();
-		leftBorderColor = box.getOwnLeftBorderColor();
-		bottomBorderColor = box.getOwnBottomBorderColor();
-		rightBorderColor = box.getOwnRightBorderColor();
-		padding = box.getOwnPadding();
-		topPadding = box.getOwnTopPadding();
-		leftPadding = box.getOwnLeftPadding();
-		bottomPadding = box.getOwnBottomPadding();
-		rightPadding = box.getOwnRightPadding();
+		if (box != null)
+		{
+			border = box.getOwnBorder();
+			topBorder = box.getOwnTopBorder();
+			leftBorder = box.getOwnLeftBorder();
+			bottomBorder = box.getOwnBottomBorder();
+			rightBorder = box.getOwnRightBorder();
+			borderColor = box.getOwnBorderColor();
+			topBorderColor = box.getOwnTopBorderColor();
+			leftBorderColor = box.getOwnLeftBorderColor();
+			bottomBorderColor = box.getOwnBottomBorderColor();
+			rightBorderColor = box.getOwnRightBorderColor();
+			padding = box.getOwnPadding();
+			topPadding = box.getOwnTopPadding();
+			leftPadding = box.getOwnLeftPadding();
+			bottomPadding = box.getOwnBottomPadding();
+			rightPadding = box.getOwnRightPadding();
+		}
 	}
 	
 	
