@@ -466,9 +466,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				{
 					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
 					
-					JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-					JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
-					JRPrintImage image = getImage(imageIndex, page);
+					JRPrintImage image = getImage(jasperPrintList, imageIndex);
 					JRRenderable renderer = image.getRenderer();
 					if (renderer.getType() == JRRenderable.TYPE_SVG)
 					{
@@ -516,8 +514,17 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected JRPrintImage getImage(JRPrintElementIndex imageIndex, JRPrintPage page)
+	public static JRPrintImage getImage(List jasperPrintList, String imageName)
 	{
+		return getImage(jasperPrintList, getPrintElementIndex(imageName));
+	}
+
+
+	public static JRPrintImage getImage(List jasperPrintList, JRPrintElementIndex imageIndex)
+	{
+		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
+		
 		Integer[] elementIndexes = imageIndex.getElementIndexes();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
 		
@@ -1666,13 +1673,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		int reportIndex = Integer.parseInt(tkzer.nextToken());
 		int pageIndex = Integer.parseInt(tkzer.nextToken());
-		Integer elementIndex = Integer.valueOf(tkzer.nextToken());
+		
+		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
+		int c = 0;
+		while (tkzer.hasMoreTokens())
+		{
+			elementIndexes[c++] = Integer.valueOf(tkzer.nextToken());
+		}
 
 		return
 			new JRPrintElementIndex(
 				reportIndex,
 				pageIndex,
-				new Integer[]{elementIndex}
+				elementIndexes
 				);					
 	}
 
