@@ -2,6 +2,18 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.1.0 (2005-10-xx)
+-----------------------------------
+- support for crosstabs;
+
+- support for styles;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.0.3 (2005-10-10)
 -----------------------------------
 - new J2EE module added to the core library including servlets for image

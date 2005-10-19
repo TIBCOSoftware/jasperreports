@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -62,7 +61,6 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
-import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -215,25 +213,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	{
 		if (template == null)
 		{
-			JRDesignRectangle rectangle = new JRDesignRectangle(null);//FIXME STYLE
-
-			rectangle.setKey(getKey());
-			rectangle.setPositionType(getPositionType());
-			//rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
-			rectangle.setMode(getMode());
-			rectangle.setX(getX());
-			rectangle.setY(getY());
-			rectangle.setWidth(getWidth());
-			rectangle.setHeight(getHeight());
-			rectangle.setRemoveLineWhenBlank(isRemoveLineWhenBlank());
-			rectangle.setPrintInFirstWholeBand(isPrintInFirstWholeBand());
-			rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
-			rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
-			rectangle.setForecolor(getForecolor());
-			rectangle.setBackcolor(getBackcolor());
-			rectangle.setPen(JRGraphicElement.PEN_NONE);
-
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRSubreport)parent);
 		}
 		
 		return (JRTemplateRectangle)template;
