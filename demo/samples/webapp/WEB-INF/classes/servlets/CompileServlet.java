@@ -61,7 +61,7 @@ public class CompileServlet extends HttpServlet
 
 		JRProperties.setProperty(
 			JRProperties.COMPILER_CLASSPATH, 
-			context.getRealPath("/WEB-INF/lib/jasperreports-1.0.3.jar") +
+			context.getRealPath("/WEB-INF/lib/jasperreports-1.1.0.jar") +
 			System.getProperty("path.separator") + 
 			context.getRealPath("/WEB-INF/classes/")
 			);
