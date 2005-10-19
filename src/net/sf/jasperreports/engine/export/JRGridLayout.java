@@ -57,7 +57,7 @@ public class JRGridLayout
 		boolean isToExport(JRPrintElement element);
 	}
 	
-	public static final ExporterElements UNIVERSTAL_EXPORTER = new ExporterElements()
+	public static final ExporterElements UNIVERSAL_EXPORTER = new ExporterElements()
 		{
 			public boolean isToExport(JRPrintElement element)
 			{

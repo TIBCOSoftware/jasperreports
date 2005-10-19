@@ -1505,7 +1505,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = new JRGridLayout(page.getElements(), null,
 				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
-				globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSTAL_EXPORTER, false, true, true, null);
+				globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, null);
 		return layout;
 	}
 	
@@ -1695,7 +1695,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		JRGridLayout layout = new JRGridLayout(frame.getElements(), null, 
 				frame.getWidth(), frame.getHeight(), 0, 0, 
-				JRGridLayout.UNIVERSTAL_EXPORTER, false, true, true, gridCell.elementIndex);
+				JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
 		exportGrid(layout, false);
 		
 		writer.write("</td>\n");
