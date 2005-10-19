@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -1382,7 +1383,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		//text = JRStringUtil.treatNewLineChars(text);
 
 		Map attributes = new HashMap(); 
-		attributes.putAll(textElement.getAttributes());
+		JRFontUtil.setAttributes(attributes, textElement);
 		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
 		if (textElement.getMode() == JRElement.MODE_OPAQUE)
 		{

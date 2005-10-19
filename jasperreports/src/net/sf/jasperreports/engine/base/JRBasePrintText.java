@@ -28,8 +28,6 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
@@ -40,7 +38,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -70,8 +67,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected float textHeight = 0;
 	protected Byte lineSpacing = null;
 	protected Boolean isStyledText = null;
-	//protected JRBox box = null;
-	//protected JRFont font = null;
 	protected String anchorName = null;
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
@@ -114,8 +109,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected String pdfFontName = null;
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
-	
-	protected transient Map attributes = null;//FIXME STYLE optimize cache for print elements
 
 	
 	/**
@@ -1301,18 +1294,4 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		this.rightPadding = rightPadding;
 	}
 
-	/**
-	 *
-	 */
-	public Map getAttributes()
-	{
-		if (attributes == null)
-		{
-			attributes = new HashMap();
-			JRFontUtil.setAttributes(attributes, this);
-		}
-
-		return attributes;
-	}
-	
 }

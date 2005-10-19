@@ -28,8 +28,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
@@ -43,7 +41,6 @@ import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -70,8 +67,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Boolean isStyledText = null;
 	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	//private JRBox box = null;
-	//private JRFont font = null;
 
 	/**
 	 *
@@ -102,8 +97,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected String pdfFontName = null;
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
-	
-	protected transient Map attributes = null;
 	
 	
 	/**
@@ -1113,22 +1106,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
-	}
-
-
-	/**
-	 *
-	 */
-	public Map getAttributes()
-	{
-		if (attributes == null)
-		{
-			attributes = new HashMap();
-			
-			JRFontUtil.setAttributes(attributes, this);
-		}
-
-		return attributes;
 	}
 
 	/**

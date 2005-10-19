@@ -39,6 +39,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRPrintFrame;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -334,7 +335,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		if (text != null)
 		{
 			Map attributes = new HashMap(); 
-			attributes.putAll(textElement.getAttributes());
+			attributes.putAll(JRFontUtil.setAttributes(attributes, textElement));
 			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
 			if (textElement.getMode() == JRElement.MODE_OPAQUE)
 			{
