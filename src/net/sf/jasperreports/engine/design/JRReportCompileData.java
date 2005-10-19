@@ -31,10 +31,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.crosstab.JRCrosstab;
 
 /**
  * Structure used to hold a report's expression evaluator compile data.

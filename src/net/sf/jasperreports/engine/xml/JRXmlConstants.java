@@ -31,6 +31,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
@@ -43,9 +46,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.crosstab.JRCellContents;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
-import net.sf.jasperreports.engine.fill.crosstab.calculation.BucketDefinition;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;

@@ -55,16 +55,16 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.engine.crosstab.JRCellContents;
-import net.sf.jasperreports.engine.crosstab.JRCrosstab;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabBucket;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabCell;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabColumnGroup;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabDataset;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabMeasure;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabParameter;
-import net.sf.jasperreports.engine.crosstab.JRCrosstabRowGroup;
-import net.sf.jasperreports.engine.design.crosstab.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
+import net.sf.jasperreports.crosstabs.JRCrosstabCell;
+import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
+import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
+import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
+import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
+import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 
 
 /**
