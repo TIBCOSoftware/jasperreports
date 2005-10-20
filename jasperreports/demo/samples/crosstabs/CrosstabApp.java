@@ -68,6 +68,11 @@ public class CrosstabApp
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
 	
+	private static final String[] reportNames = {
+		"Orders",
+		"Products",
+		"Shipments"
+	};
 	
 	/**
 	 *
@@ -88,110 +93,139 @@ public class CrosstabApp
 		{
 			if ( args[k].startsWith("-T") )
 				taskName = args[k].substring(2);
-			if ( args[k].startsWith("-F") )
-				fileName = args[k].substring(2);
+		
 			
 			k++;	
 		}
 
 		try
 		{
-			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
-				JasperFillManager.fillReportToFile(fileName, null, getConnection());
-				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", null, getConnection());
+					System.err.println("Report: " + reportNames[i] + " Filling time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperPrintManager.printReport(reportNames[i] + ".jrprint", true);
+					System.err.println("Report" + reportNames[i] + "Printing time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
-				JasperExportManager.exportReportToPdfFile(fileName);
-				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToPdfFile(reportNames[i] + ".jrprint");
+					System.err.println("Report " + reportNames[i] + " PDF creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_XML.equals(taskName))
 			{
-				JasperExportManager.exportReportToXmlFile(fileName, false);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", false);
+					System.err.println("Report " + reportNames[i] + " XML creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
-				JasperExportManager.exportReportToXmlFile(fileName, true);
-				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", true);
+					System.err.println("Report " + reportNames[i] + " XML creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
-				JasperExportManager.exportReportToHtmlFile(fileName);
-				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
+					System.err.println("Report " + reportNames[i] + " HTML creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
-				File sourceFile = new File(fileName);
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
 		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
 				
-				JRRtfExporter exporter = new JRRtfExporter();
+					JRRtfExporter exporter = new JRRtfExporter();
 				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				
-				exporter.exportReport();
+					exporter.exportReport();
 
-				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report " + reportNames[i] + " RTF creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
-				File sourceFile = new File(fileName);
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
 		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
 				
-				JRXlsExporter exporter = new JRXlsExporter();
+					JRXlsExporter exporter = new JRXlsExporter();
 				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+					exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 				
-				exporter.exportReport();
+					exporter.exportReport();
 
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report " + reportNames[i] + " XLS creation time : " + (System.currentTimeMillis() - start));
+				}
+				
 				System.exit(0);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
-				File sourceFile = new File(fileName);
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
 		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
 				
-				JRCsvExporter exporter = new JRCsvExporter();
+					JRCsvExporter exporter = new JRCsvExporter();
 				
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				
-				exporter.exportReport();
+					exporter.exportReport();
 
-				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report " + reportNames[i] + " CSV creation time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
-				JasperRunManager.runReportToPdfFile(fileName, null, getConnection());
-				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
+				for(int i = 0; i< reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					JasperRunManager.runReportToPdfFile(reportNames[i] + ".jrprint", null, getConnection());
+					System.err.println("Report " + reportNames[i] + " PDF running time : " + (System.currentTimeMillis() - start));
+				}
 				System.exit(0);
 			}
 			else
@@ -219,7 +253,7 @@ public class CrosstabApp
 	private static void usage()
 	{
 		System.out.println( "CrosstabApp usage:" );
-		System.out.println( "\tjava CrosstabApp -Ttask -Ffile" );
+		System.out.println( "\tjava CrosstabApp -Ttask" );
 		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
 	}
 
