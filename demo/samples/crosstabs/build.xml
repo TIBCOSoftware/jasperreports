@@ -3,7 +3,6 @@
 	<description>Crosstab and subdataset sample.</description>
 
 	<property name="class.name" value="CrosstabApp" />
-	<property name="file.name" value="Shipments" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -40,22 +39,19 @@
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tfill"/>
-			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewXML" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrpxml"/>
+			<arg value="-XML"/>>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -63,7 +59,6 @@
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tprint"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -71,7 +66,6 @@
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tpdf"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -79,7 +73,6 @@
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txml"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -87,7 +80,6 @@
 	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-TxmlEmbed"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -95,7 +87,6 @@
 	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -103,7 +94,6 @@
 	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Trtf"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -111,7 +101,6 @@
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -119,7 +108,6 @@
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -127,32 +115,16 @@
 	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Trun"/>
-			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
-
-	<target name="viewDesignXML" description="Launches the design viewer to preview the XML report design.">
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-XML"/>
-			<arg value="-F${file.name}.jrxml"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-F${file.name}.jasper"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
+	
 	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
+			<fileset dir="." includes="**/*.jrxml" />
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.rtf" />
 			<fileset dir="." includes="**/*.xls" />
