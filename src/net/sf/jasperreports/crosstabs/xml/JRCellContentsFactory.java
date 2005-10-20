@@ -27,8 +27,6 @@
  */
 package net.sf.jasperreports.crosstabs.xml;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -50,7 +48,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		String backcolor = attributes.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			cell.setBackcolor(getColor(backcolor, Color.white));
+			cell.setBackcolor(getColor(backcolor, null));
 		}
 		
 		return cell;
