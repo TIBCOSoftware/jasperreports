@@ -33,9 +33,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
 
 /**
@@ -69,7 +69,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.JRDatasetRun#getParameters()
 	 */
-	public void addParameter(JRSubreportParameter parameter) throws JRException
+	public void addParameter(JRDatasetParameter parameter) throws JRException
 	{
 		if (parametersMap.containsKey(parameter.getName()))
 		{
@@ -87,9 +87,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 * @param parameterName the parameter name
 	 * @return the removed parameter value
 	 */
-	public JRSubreportParameter removeParameter(String parameterName)
+	public JRDatasetParameter removeParameter(String parameterName)
 	{
-		JRSubreportParameter param = (JRSubreportParameter) parametersMap.remove(parameterName);
+		JRDatasetParameter param = (JRDatasetParameter) parametersMap.remove(parameterName);
 		if (param != null)
 		{
 			parametersList.remove(param);
@@ -105,9 +105,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 * @param parameter the parameter value
 	 * @return the paramter value
 	 */
-	public JRSubreportParameter removeParameter(JRSubreportParameter parameter)
+	public JRDatasetParameter removeParameter(JRDatasetParameter parameter)
 	{
-		JRSubreportParameter param = (JRSubreportParameter) parametersMap.remove(parameter.getName());
+		JRDatasetParameter param = (JRDatasetParameter) parametersMap.remove(parameter.getName());
 		if (param != null)
 		{
 			parametersList.remove(parameter);
@@ -164,9 +164,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 		this.parametersMapExpression = parametersMapExpression;
 	}
 
-	public JRSubreportParameter[] getParameters()
+	public JRDatasetParameter[] getParameters()
 	{
-		JRSubreportParameter[] params = new JRSubreportParameter[parametersList.size()];
+		JRDatasetParameter[] params = new JRDatasetParameter[parametersList.size()];
 		parametersList.toArray(params);
 		return params;
 	}

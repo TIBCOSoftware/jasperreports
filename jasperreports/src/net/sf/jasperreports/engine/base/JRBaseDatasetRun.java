@@ -30,9 +30,9 @@ package net.sf.jasperreports.engine.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRSubreportParameter;
 
 /**
  * Base implementation of the {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} interface.
@@ -46,7 +46,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 
 	protected String datasetName;
 	protected JRExpression parametersMapExpression;
-	protected JRSubreportParameter[] parameters;
+	protected JRDatasetParameter[] parameters;
 	protected JRExpression connectionExpression;
 	protected JRExpression dataSourceExpression;
 	
@@ -77,19 +77,19 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		connectionExpression = factory.getExpression(datasetRun.getConnectionExpression());
 		dataSourceExpression = factory.getExpression(datasetRun.getDataSourceExpression());
 		
-		JRSubreportParameter[] datasetParams = datasetRun.getParameters();
+		JRDatasetParameter[] datasetParams = datasetRun.getParameters();
 		if (datasetParams != null && datasetParams.length > 0)
 		{
-			parameters = new JRBaseSubreportParameter[datasetParams.length];
+			parameters = new JRBaseDatasetParameter[datasetParams.length];
 			for (int i = 0; i < parameters.length; i++)
 			{
 				if (factory != null)
 				{
-					parameters[i] = factory.getSubreportParameter(datasetParams[i]);
+					parameters[i] = factory.getDatasetParameter(datasetParams[i]);
 				}
 				else
 				{
-					parameters[i] = new JRBaseSubreportParameter(datasetParams[i], null);
+					parameters[i] = new JRBaseDatasetParameter(datasetParams[i], null);
 				}
 			}
 		}
@@ -105,7 +105,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		return parametersMapExpression;
 	}
 
-	public JRSubreportParameter[] getParameters()
+	public JRDatasetParameter[] getParameters()
 	{
 		return parameters;
 	}

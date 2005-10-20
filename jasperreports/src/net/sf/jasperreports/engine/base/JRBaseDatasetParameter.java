@@ -25,13 +25,75 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.base;
+
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetParameter;
+import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Base read-only implementation of {@link net.sf.jasperreports.engine.JRDatasetParameter JRDatasetParameter}.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRSubreportParameter extends JRDatasetParameter
+public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 {
+
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	/**
+	 *
+	 */
+	protected String name = null;
+	protected JRExpression expression = null;
+
+
+	/**
+	 *
+	 */
+	protected JRBaseDatasetParameter()
+	{
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected JRBaseDatasetParameter(JRDatasetParameter datasetParameter, JRBaseObjectFactory factory)
+	{
+		if (factory != null)
+		{
+			factory.put(datasetParameter, this);
+		}
+
+		name = datasetParameter.getName();
+		expression = factory.getExpression(datasetParameter.getExpression());
+	}
+		
+
+	/**
+	 *
+	 */
+	public String getName()
+	{
+		return this.name;
+	}
+		
+	/**
+	 *
+	 */
+	public JRExpression getExpression()
+	{
+		return this.expression;
+	}
+
+
 }

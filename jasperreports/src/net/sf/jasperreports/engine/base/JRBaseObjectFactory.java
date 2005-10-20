@@ -95,6 +95,7 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -605,6 +606,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			{
 				baseSubreportParameter = new JRBaseSubreportParameter(subreportParameter, this);
 				put(subreportParameter, baseSubreportParameter);
+			}
+		}
+		
+		return baseSubreportParameter;
+	}
+
+
+	protected JRBaseDatasetParameter getDatasetParameter(JRDatasetParameter datasetParameter)
+	{
+		JRBaseDatasetParameter baseSubreportParameter = null;
+		
+		if (datasetParameter != null)
+		{
+			baseSubreportParameter = (JRBaseDatasetParameter) get(datasetParameter);
+			if (baseSubreportParameter == null)
+			{
+				baseSubreportParameter = new JRBaseDatasetParameter(datasetParameter, this);
+				put(datasetParameter, baseSubreportParameter);
 			}
 		}
 		

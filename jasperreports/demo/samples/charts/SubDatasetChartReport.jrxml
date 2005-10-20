@@ -68,9 +68,9 @@
 				<timeSeriesDataset timePeriod="Month">
 					<dataset incrementType="Group" incrementGroup="MonthGroup">
 						<datasetRun subDataset="Country_Orders">
-							<subreportParameter name="Country">
-								<subreportParameterExpression><![CDATA[$F{ShipCountry}]]></subreportParameterExpression>
-							</subreportParameter>
+							<datasetParameter name="Country">
+								<datasetParameterExpression><![CDATA[$F{ShipCountry}]]></datasetParameterExpression>
+							</datasetParameter>
 						</datasetRun>
 					</dataset>
 					<timeSeries>

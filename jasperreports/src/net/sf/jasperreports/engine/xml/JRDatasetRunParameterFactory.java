@@ -27,15 +27,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRSubreportParameter;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.JRDesignDatasetParameter;
 
 import org.xml.sax.Attributes;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -43,37 +38,22 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunParameterFactory extends JRBaseFactory
 {
-	public Object createObject(Attributes attributes)
-	{
-		String valueClassName = Object.class.getName();
-		
-		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperDesign design = (JasperDesign) digester.peek(digester.getCount() - 2);
-		JRDatasetRun datasetRun = (JRDatasetRun) digester.peek(1);
-		
-		JRDesignDataset dataset = (JRDesignDataset) design.getDatasetMap().get(datasetRun.getDatasetName());
-		if (dataset == null)
-		{
-			xmlLoader.addError(new JRException("Unknown sub dataset " + datasetRun.getDatasetName()));
-		}
-		else
-		{
-			JRSubreportParameter runParameter = (JRSubreportParameter) digester.peek();
-			JRParameter param = (JRParameter) dataset.getParametersMap().get(runParameter.getName());
-			
-			if (param == null)
-			{
-				xmlLoader.addError(new JRException("Unknown parameter " + runParameter.getName() + " in sub dataset " + datasetRun.getDatasetName()));
-			}
-			else
-			{
-				valueClassName = param.getValueClassName();
-			}
-		}
+	public static final String TAG_DATASET_PARAMETER = "datasetParameter";
+	
+	public static final String ATTRIBUTE_name = "name";
 
-		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClassName(valueClassName);
+
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		JRDesignDatasetParameter datasetParameter = new JRDesignDatasetParameter();
 		
-		return expression;
+		datasetParameter.setName(atts.getValue(ATTRIBUTE_name));
+
+		return datasetParameter;
 	}
+	
+
 }

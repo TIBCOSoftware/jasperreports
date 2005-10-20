@@ -28,15 +28,14 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.base.JRBaseSubreportParameter;
+import net.sf.jasperreports.engine.JRSubreportParameter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignSubreportParameter extends JRBaseSubreportParameter
+public class JRDesignSubreportParameter extends JRDesignDatasetParameter implements JRSubreportParameter
 {
 
 
@@ -44,22 +43,5 @@ public class JRDesignSubreportParameter extends JRBaseSubreportParameter
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-	
-	/**
-	 *
-	 */
-	public void setExpression(JRExpression expression)
-	{
-		this.expression = expression;
-	}
-
 
 }

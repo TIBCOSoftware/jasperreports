@@ -43,6 +43,7 @@ import java.util.Set;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -335,7 +336,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					expression = getDataSourceExpression();
 					dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
 					
-					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation);
+					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, false);
 
 					if (subreportFiller != null)
 					{
@@ -364,7 +365,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	}
 
 
-	public static Map getParameterValues(JRBaseFiller filler, JRExpression parametersMapExpression, JRSubreportParameter[] subreportParameters, byte evaluation) throws JRException
+	public static Map getParameterValues(JRBaseFiller filler, JRExpression parametersMapExpression, JRDatasetParameter[] subreportParameters, byte evaluation, boolean ignoreNullExpressions) throws JRException
 	{
 		Map parameterValues = null;
 		if (parametersMapExpression != null)
@@ -398,14 +399,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			for(int i = 0; i < subreportParameters.length; i++)
 			{
 				JRExpression expression = subreportParameters[i].getExpression();
-				parameterValue = filler.evaluateExpression(expression, evaluation);
-				if (parameterValue == null)
+				if (expression != null || !ignoreNullExpressions)
 				{
-					parameterValues.remove(subreportParameters[i].getName());
-				}
-				else
-				{
-					parameterValues.put(subreportParameters[i].getName(), parameterValue);
+					parameterValue = filler.evaluateExpression(expression, evaluation);
+					if (parameterValue == null)
+					{
+						parameterValues.remove(subreportParameters[i].getName());
+					}
+					else
+					{
+						parameterValues.put(subreportParameters[i].getName(), parameterValue);
+					}
 				}
 			}
 		}

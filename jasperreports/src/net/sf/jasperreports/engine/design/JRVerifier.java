@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementDataset;
@@ -1850,12 +1851,12 @@ public class JRVerifier
 			}
 		}
 
-		JRSubreportParameter[] parameters = datasetRun.getParameters();
+		JRDatasetParameter[] parameters = datasetRun.getParameters();
 		if (parameters != null && parameters.length > 0)
 		{
 			for(int index = 0; index < parameters.length; index++)
 			{
-				JRSubreportParameter parameter = parameters[index];
+				JRDatasetParameter parameter = parameters[index];
 
 				String paramName = parameter.getName();
 				if (paramName == null || paramName.trim().length() == 0)

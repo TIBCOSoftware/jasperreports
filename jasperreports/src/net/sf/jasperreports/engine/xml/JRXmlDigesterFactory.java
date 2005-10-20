@@ -96,6 +96,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFact
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
@@ -326,8 +327,8 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/subreport", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/subreportParameter", JRSubreportParameterFactory.class.getName());
-		digester.addSetNext("*/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
+		digester.addFactoryCreate("*/subreport/subreportParameter", JRSubreportParameterFactory.class.getName());
+		digester.addSetNext("*/subreport/subreportParameter", "addParameter", JRSubreportParameter.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/subreport/returnValue", JRSubreportReturnValueFactory.class.getName());
@@ -342,10 +343,6 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
 		digester.addSetNext("*/subreport/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportParameter/subreportParameterExpression", "setText", 0);
-		
-		digester.addFactoryCreate("*/datasetRun/subreportParameter/subreportParameterExpression", JRDatasetRunParameterFactory.class.getName());
-		digester.addSetNext("*/datasetRun/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
-		digester.addCallMethod("*/datasetRun/subreportParameter/subreportParameterExpression", "setText", 0);
 
 		/*   */
 		digester.addFactoryCreate("*/connectionExpression", JRExpressionFactory.ConnectionExpressionFactory.class.getName());
@@ -382,8 +379,6 @@ public class JRXmlDigesterFactory
 	private static void addChartRules(Digester digester)
 	{
 		digester.addFactoryCreate("*/dataset", JRChartDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/dataset/datasetRun", JRDatasetRunFactory.class.getName());
-		digester.addSetNext("*/dataset/datasetRun", "setDatasetRun", JRDatasetRun.class.getName());
 		
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
 
@@ -689,8 +684,22 @@ public class JRXmlDigesterFactory
 
 	private static void addDatasetRules(Digester digester)
 	{
-		digester.addFactoryCreate("jasperReport/subDataset", JRDatasetFactory.class.getName());
-		digester.addSetNext("jasperReport/subDataset", "addDataset", JRDesignDataset.class.getName());
+		String subDatasetPattern = "jasperReport/" + JRDatasetFactory.TAG_SUB_DATASET;
+		digester.addFactoryCreate(subDatasetPattern, JRDatasetFactory.class.getName());
+		digester.addSetNext(subDatasetPattern, "addDataset", JRDesignDataset.class.getName());
+		
+		String datasetRunPattern = "*/dataset/" + JRDatasetRunFactory.TAG_DATASET_RUN;
+		digester.addFactoryCreate(datasetRunPattern, JRDatasetRunFactory.class.getName());
+		digester.addSetNext(datasetRunPattern, "setDatasetRun", JRDatasetRun.class.getName());
+		
+		String datasetParamPattern = datasetRunPattern + "/" + JRDatasetRunParameterFactory.TAG_DATASET_PARAMETER;
+		digester.addFactoryCreate(datasetParamPattern, JRDatasetRunParameterFactory.class.getName());
+		digester.addSetNext(datasetParamPattern, "addParameter", JRDatasetParameter.class.getName());
+		
+		String datasetParamExprPattern = datasetParamPattern + "/" + JRDatasetRunParameterExpressionFactory.TAG_DATASET_PARAMETER_EXPRESSION;
+		digester.addFactoryCreate(datasetParamExprPattern, JRDatasetRunParameterExpressionFactory.class.getName());
+		digester.addSetNext(datasetParamExprPattern, "setExpression", JRExpression.class.getName());
+		digester.addCallMethod(datasetParamExprPattern, "setText", 0);
 	}
 
 

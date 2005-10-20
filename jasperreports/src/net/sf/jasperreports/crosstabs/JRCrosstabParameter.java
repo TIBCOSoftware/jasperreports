@@ -27,8 +27,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRSubreportParameter;
 
 /**
  * Crosstab paramters interface.
@@ -43,6 +43,6 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParameters()
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParametersMapExpression()
  */
-public interface JRCrosstabParameter extends JRParameter, JRSubreportParameter
+public interface JRCrosstabParameter extends JRParameter, JRDatasetParameter
 {
 }

@@ -27,11 +27,27 @@
  */
 package net.sf.jasperreports.engine;
 
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Dataset parameter value interface.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRSubreportParameter extends JRDatasetParameter
+public interface JRDatasetParameter
 {
+
+	/**
+	 * Returns the name of the dataset parameter.
+	 * 
+	 * @return the name of the dataset parameter
+	 */
+	public String getName();
+
+	/**
+	 * Returns the value expression.
+	 * 
+	 * @return the value expression
+	 */
+	public JRExpression getExpression();
+
 }

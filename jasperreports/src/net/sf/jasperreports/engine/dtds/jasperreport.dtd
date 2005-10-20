@@ -353,10 +353,17 @@
 	incrementGroup CDATA #IMPLIED
 >
 
-<!ELEMENT datasetRun (parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?)>
+<!ELEMENT datasetRun (parametersMapExpression?, datasetParameter*, (connectionExpression | dataSourceExpression)?)>
 <!ATTLIST datasetRun
 	subDataset NMTOKEN #REQUIRED
 >
+
+<!ELEMENT datasetParameter (datasetParameterExpression?)>
+<!ATTLIST datasetParameter
+	name NMTOKEN #REQUIRED
+>
+
+<!ELEMENT datasetParameterExpression (#PCDATA)>
 
 <!ELEMENT plot EMPTY>
 <!ATTLIST plot

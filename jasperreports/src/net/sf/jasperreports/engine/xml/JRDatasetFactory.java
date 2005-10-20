@@ -37,10 +37,12 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetFactory extends JRBaseFactory
 {
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
-	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
-	private static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
+	public static final String TAG_SUB_DATASET = "subDataset";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
+	public static final String ATTRIBUTE_resourceBundle = "resourceBundle";
+	public static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
 
 	
 	public Object createObject(Attributes attributes)

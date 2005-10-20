@@ -860,7 +860,7 @@ public class JRExpressionCollector
 			addExpression(datasetRun.getConnectionExpression());
 			addExpression(datasetRun.getDataSourceExpression());
 			
-			JRSubreportParameter[] parameters = datasetRun.getParameters();
+			JRDatasetParameter[] parameters = datasetRun.getParameters();
 			if (parameters != null && parameters.length > 0)
 			{
 				for (int i = 0; i < parameters.length; i++)
