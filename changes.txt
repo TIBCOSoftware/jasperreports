@@ -4,11 +4,16 @@ JasperReports Change Log
 
 JasperReports 1.1.0 (2005-10-xx)
 -----------------------------------
-- new dataset concept;
+- support for report styles that can be referenced by elements to inherit 
+visual properties such as font, color, border, etc; report fonts are now deprecated;
 
-- support for crosstabs;
+- new frame element added to support grouping other report element together;
 
-- support for styles;
+- new dataset concept that comprises parameter, field, variable and group 
+declarations and represents a mixture between a data source and a subreport 
+to help iterating through data for chart and crosstab generation;
+
+- support for crosstabs added using a specialized component;
 
 - minor bug fixes and improvements;
 
