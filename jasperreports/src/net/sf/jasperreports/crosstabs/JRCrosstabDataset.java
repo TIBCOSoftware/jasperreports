@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.crosstabs;
 
-import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  * Input dataset interface used by crosstabs.
@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCrosstabDataset extends JRChartDataset
+public interface JRCrosstabDataset extends JRElementDataset
 {
 	/**
 	 * Returns whether the crosstab data is pre-sorted according to the

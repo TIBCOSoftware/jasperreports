@@ -25,42 +25,96 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.base.JRBaseElementDataset;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
-import org.jfree.data.general.Dataset;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillChartDataset extends JRFillElementDataset implements JRChartDataset
+public abstract class JRDesignElementDataset extends JRBaseElementDataset
 {
+
+
 	/**
 	 *
 	 */
-	protected JRFillChartDataset(
-		JRChartDataset dataset, 
-		JRFillObjectFactory factory
-		)
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	
+	public JRDesignElementDataset()
+	{
+		super();
+	}
+
+	/**
+	 *
+	 */
+	public JRDesignElementDataset(JRElementDataset dataset)
+	{
+		super(dataset);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRDesignElementDataset(JRElementDataset dataset, JRBaseObjectFactory factory)
 	{
 		super(dataset, factory);
 	}
 
-	/**
-	 *
-	 */
-	public Dataset getDataset()
-	{
-		increment();
-		
-		return getCustomDataset();
-	}
 
 	/**
 	 *
 	 */
-	protected abstract Dataset getCustomDataset();
+	public void setResetType(byte resetType)
+	{
+		this.resetType = resetType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementType(byte incrementType)
+	{
+		this.incrementType = incrementType;
+	}
+		
+	/**
+	 *
+	 */
+	public void setResetGroup(JRGroup group)
+	{
+		this.resetGroup = group;
+	}
+		
+	/**
+	 *
+	 */
+	public void setIncrementGroup(JRGroup group)
+	{
+		this.incrementGroup = group;
+	}
+	
+	
+	/**
+	 * Sets the sub dataset run for this dataset.
+	 * 
+	 * @param datasetRun the dataset run
+	 * @see JRChartDataset#getDatasetRun()
+	 */
+	public void setDatasetRun(JRDatasetRun datasetRun)
+	{
+		this.datasetRun = datasetRun;
+	}
 }

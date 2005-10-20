@@ -27,25 +27,50 @@
  */
 package net.sf.jasperreports.engine;
 
-
 /**
- * Datasets are used to represent the actual data needed to generate a chart. The dataset structure may vary with each chart type. This
- * is the superinterface for all datasets and contains common dataset properties.
+ * Element datasets are used to represent the report data needed to generate a chart or crosstab.
+ * The dataset structure may vary with each chart type or crosstab.
+ * This is the superinterface for all datasets and contains common dataset properties.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChartDataset extends JRElementDataset
+public interface JRElementDataset
 {
-	public static final byte PIE_DATASET = 1;
-	public static final byte CATEGORY_DATASET = 2;
-	public static final byte XY_DATASET = 3;
-	public static final byte XYZ_DATASET = 4;
-	public static final byte TIMEPERIOD_DATASET = 5;
-	public static final byte TIMESERIES_DATASET = 6;
-	public static final byte HIGHLOW_DATASET = 7;
-	
+
 	/**
-	 * Gets the dataset type. Must be one of the dataset type constants defined in this class.
+	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
+	 * @return one of the reset constants in {@link JRVariable}
 	 */
-	public byte getDatasetType();
+	public byte getResetType();
+
+	/**
+	 * Gets the selected reset group in case of reset type group.
+	 */
+	public JRGroup getResetGroup();
+
+	/**
+	 * Returns the increment type. This specifies dataset values increment step.
+	 * @return one of the reset constants in {@link JRVariable}, since the increment type uses the same
+	 * constants as the reset type.
+	 */
+	public byte getIncrementType();
+
+	/**
+	 * Gets the selected increment group in case of increment type group.
+	 */
+	public JRGroup getIncrementGroup();
+
+	/**
+	 *  
+	 */
+	public void collectExpressions(JRExpressionCollector collector);
+
+	/**
+	 * Returns the sub dataset run for this chart dataset.
+	 * 
+	 * @return the sub dataset run for this chart dataset
+	 */
+	public JRDatasetRun getDatasetRun();
+
 }

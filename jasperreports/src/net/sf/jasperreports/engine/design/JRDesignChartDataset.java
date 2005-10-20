@@ -29,9 +29,6 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
@@ -40,7 +37,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRDesignChartDataset extends JRBaseChartDataset
+public abstract class JRDesignChartDataset extends JRDesignElementDataset implements JRChartDataset
 {
 
 
@@ -72,55 +69,10 @@ public abstract class JRDesignChartDataset extends JRBaseChartDataset
 		super(dataset, factory);
 	}
 
-
-	/**
-	 *
-	 */
-	public void setResetType(byte resetType)
-	{
-		this.resetType = resetType;
-	}
-		
-	/**
-	 *
-	 */
-	public void setIncrementType(byte incrementType)
-	{
-		this.incrementType = incrementType;
-	}
-		
-	/**
-	 *
-	 */
-	public void setResetGroup(JRGroup group)
-	{
-		this.resetGroup = group;
-	}
-		
-	/**
-	 *
-	 */
-	public void setIncrementGroup(JRGroup group)
-	{
-		this.incrementGroup = group;
-	}
-
 	/**
 	 * 
 	 */
 	public byte getDatasetType() {
 		return -1;
-	}
-	
-	
-	/**
-	 * Sets the sub dataset run for this dataset.
-	 * 
-	 * @param datasetRun the dataset run
-	 * @see JRChartDataset#getDatasetRun()
-	 */
-	public void setDatasetRun(JRDatasetRun datasetRun)
-	{
-		this.datasetRun = datasetRun;
 	}
 }

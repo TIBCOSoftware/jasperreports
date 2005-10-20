@@ -126,15 +126,15 @@ public class JRFillDataset implements JRDataset
 	protected Set variableCalculationReqs;
 
 	/**
-	 * The chart datasets.
+	 * The element datasets.
 	 */
-	protected JRFillChartDataset[] chartDatasets;
+	protected JRFillElementDataset[] elementDatasets;
 	
 	/**
-	 * Used to save the original chart datasets when
-	 * {@link #filterChartDatasets(JRFillChartDataset) filterChartDatasets} is called.
+	 * Used to save the original element datasets when
+	 * {@link #filterElementDatasets(JRFillElementDataset) filterElementDatasets} is called.
 	 */
-	protected JRFillChartDataset[] origChartDatasets;
+	protected JRFillElementDataset[] origElementDatasets;
 
 	/**
 	 * The dataset groups.
@@ -468,41 +468,41 @@ public class JRFillDataset implements JRDataset
 
 
 	/**
-	 * Initializes the chart datasets.
+	 * Initializes the element datasets.
 	 * 
 	 * @param factory the fill object factory used by the filler
 	 */
-	protected void initChartDatasets(JRFillObjectFactory factory)
+	protected void initElementDatasets(JRFillObjectFactory factory)
 	{
-		chartDatasets = factory.getChartDatasets(this);
+		elementDatasets = factory.getElementDatasets(this);
 	}
 
 
 	/**
-	 * Filters the chart dataset, leaving only one.
+	 * Filters the element datasets, leaving only one.
 	 * <p>
 	 * This method is used when a dataset is instantiated by a chart or crosstab.
 	 * 
-	 * @param chartDataset the chart dataset that should remain
+	 * @param elementDataset the element dataset that should remain
 	 */
-	protected void filterChartDatasets(JRFillChartDataset chartDataset)
+	protected void filterElementDatasets(JRFillElementDataset elementDataset)
 	{
-		origChartDatasets = chartDatasets;
-		chartDatasets = new JRFillChartDataset[]{chartDataset};
+		origElementDatasets = elementDatasets;
+		elementDatasets = new JRFillElementDataset[]{elementDataset};
 	}
 	
 	
 	/**
-	 * Restores the original chart datasets.
+	 * Restores the original element datasets.
 	 * <p>
-	 * This method should be called after {@link #filterChartDatasets(JRFillChartDataset) filterChartDatasets}.
+	 * This method should be called after {@link #filterElementDatasets(JRFillElementDataset) filterElementDatasets}.
 	 */
-	protected void restoreChartDatasets()
+	protected void restoreElementDatasets()
 	{
-		if (origChartDatasets != null)
+		if (origElementDatasets != null)
 		{
-			chartDatasets = origChartDatasets;
-			origChartDatasets = null;
+			elementDatasets = origElementDatasets;
+			origElementDatasets = null;
 		}
 	}
 	
