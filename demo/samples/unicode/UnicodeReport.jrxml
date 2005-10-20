@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="UnicodeReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
@@ -63,14 +62,14 @@
 			</staticText>
 			<textField>
 				<reportElement x="100" y="500" width="350" height="50"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="22" pdfFontName="ARIAL.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ArabicText}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="600" width="350" height="50"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="22" pdfFontName="ARIAL.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{HebrewText}]]></textFieldExpression>
