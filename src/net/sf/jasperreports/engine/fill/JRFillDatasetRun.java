@@ -31,12 +31,12 @@ import java.sql.Connection;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRScriptletException;
-import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -53,7 +53,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 	private JRExpression parametersMapExpression;
 
-	private JRSubreportParameter[] parameters;
+	private JRDatasetParameter[] parameters;
 
 	private JRExpression connectionExpression;
 
@@ -90,7 +90,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
-		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation);
+		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation, false);
 
 		dataset.setParameters(parameterValues);
 		dataset.setParameterValues(parameterValues);
@@ -206,7 +206,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		return parametersMapExpression;
 	}
 
-	public JRSubreportParameter[] getParameters()
+	public JRDatasetParameter[] getParameters()
 	{
 		return parameters;
 	}

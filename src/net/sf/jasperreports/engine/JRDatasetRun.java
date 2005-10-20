@@ -60,7 +60,7 @@ public interface JRDatasetRun
 	 * 
 	 * @return the list of parameter values
 	 */
-	public JRSubreportParameter[] getParameters();
+	public JRDatasetParameter[] getParameters();
 
 	
 	/**

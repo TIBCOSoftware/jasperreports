@@ -91,6 +91,7 @@ import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementDataset;
@@ -983,6 +984,17 @@ public class JRXmlWriter
 		writer.addAttribute("name", subreportParameter.getName());
 
 		writer.writeExpression("subreportParameterExpression", subreportParameter.getExpression(), false);
+		
+		writer.closeElement();
+	}
+
+
+	private void writeDatasetParameter(JRDatasetParameter datasetParameter) throws IOException
+	{
+		writer.startElement(JRDatasetRunParameterFactory.TAG_DATASET_PARAMETER);
+		writer.addAttribute(JRDatasetRunParameterFactory.ATTRIBUTE_name, datasetParameter.getName());
+
+		writer.writeExpression(JRDatasetRunParameterExpressionFactory.TAG_DATASET_PARAMETER_EXPRESSION, datasetParameter.getExpression(), false);
 		
 		writer.closeElement();
 	}
@@ -1978,11 +1990,11 @@ public class JRXmlWriter
 
 	public void writeDataset(JRDataset dataset) throws IOException
 	{
-		writer.startElement("subDataset");
-		writer.addAttribute("name", dataset.getName());
-		writer.addAttribute("scriptletClass", dataset.getScriptletClass());
-		writer.addAttribute("resourceBundle", dataset.getResourceBundle());
-		writer.addAttribute("whenResourceMissingType", dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		writer.startElement(JRDatasetFactory.TAG_SUB_DATASET);
+		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_name, dataset.getName());
+		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
+		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
+		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		
 		writeDatasetContents(dataset);
 		
@@ -2047,18 +2059,18 @@ public class JRXmlWriter
 	
 	protected void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
 	{
-		writer.startElement("datasetRun");
-		writer.addAttribute("subDataset", datasetRun.getDatasetName());
+		writer.startElement(JRDatasetRunFactory.TAG_DATASET_RUN);
+		writer.addAttribute(JRDatasetRunFactory.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
 		
 		writer.writeExpression("parametersMapExpression", datasetRun.getParametersMapExpression(), false);
 
 		/*   */
-		JRSubreportParameter[] parameters = datasetRun.getParameters();
+		JRDatasetParameter[] parameters = datasetRun.getParameters();
 		if (parameters != null && parameters.length > 0)
 		{
 			for(int i = 0; i < parameters.length; i++)
 			{
-				writeSubreportParameter(parameters[i]);
+				writeDatasetParameter(parameters[i]);
 			}
 		}
 

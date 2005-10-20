@@ -25,13 +25,43 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.design;
+
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.base.JRBaseDatasetParameter;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Implementation of {@link net.sf.jasperreports.engine.JRDatasetParameter JRDatasetParameter} used at design time.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRSubreportParameter extends JRDatasetParameter
+public class JRDesignDatasetParameter extends JRBaseDatasetParameter
 {
+
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	/**
+	 *
+	 */
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	/**
+	 *
+	 */
+	public void setExpression(JRExpression expression)
+	{
+		this.expression = expression;
+	}
+
+
 }

@@ -27,10 +27,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.Serializable;
-
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 
 
@@ -38,7 +35,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseSubreportParameter implements JRSubreportParameter, Serializable
+public class JRBaseSubreportParameter extends JRBaseDatasetParameter implements JRSubreportParameter
 {
 
 
@@ -47,18 +44,13 @@ public class JRBaseSubreportParameter implements JRSubreportParameter, Serializa
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 *
-	 */
-	protected String name = null;
-	protected JRExpression expression = null;
-
 
 	/**
 	 *
 	 */
 	protected JRBaseSubreportParameter()
 	{
+		super();
 	}
 	
 	
@@ -67,31 +59,7 @@ public class JRBaseSubreportParameter implements JRSubreportParameter, Serializa
 	 */
 	protected JRBaseSubreportParameter(JRSubreportParameter subreportParameter, JRBaseObjectFactory factory)
 	{
-		if (factory != null)
-		{
-			factory.put(subreportParameter, this);
-		}
-
-		name = subreportParameter.getName();
-		expression = factory.getExpression(subreportParameter.getExpression());
+		super(subreportParameter, factory);
 	}
-		
-
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getExpression()
-	{
-		return this.expression;
-	}
-
-
+	
 }

@@ -337,7 +337,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			comparator = (Comparator) evaluateExpression(comparatorExpression, evaluation);
 		}
 
-		return new BucketDefinition(bucket.getExpression().getValueClass(), comparator, bucket.getOrder(), group.getTotalPosition());
+		byte totalPosition = group.getTotalPosition();
+		if (group.getTotalHeader() == null)
+		{
+			totalPosition = BucketDefinition.TOTAL_POSITION_NONE;
+		}
+		return new BucketDefinition(bucket.getExpression().getValueClass(), comparator, bucket.getOrder(), totalPosition);
 	}
 
 	private MeasureDefinition createServiceMeasure(JRFillCrosstabMeasure measure)
@@ -409,7 +414,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected void initEvaluator(byte evaluation) throws JRException
 	{
-		Map parameterValues = JRFillSubreport.getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation);
+		Map parameterValues = JRFillSubreport.getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, true);
 
 		for (int i = 0; i < parameters.length; i++)
 		{
