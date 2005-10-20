@@ -234,7 +234,7 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
-		<echo message=" JExcelAPI Sample"/>
+		<echo message=" JExcelApi Sample"/>
 		<echo message="==================================="/>
 		<ant dir="jexcelapi" target="clean" />
 		<ant dir="jexcelapi" target="javac" />
