@@ -56,7 +56,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	protected Map varsm = null;
 	protected JRFillVariable[] variables = null;
 	protected JRFillGroup[] groups = null;
-	protected JRFillChartDataset[] datasets = null;
+	protected JRFillElementDataset[] datasets = null;
 
 	private JRFillVariable pageNumber = null;
 	private JRFillVariable columnNumber = null;
@@ -91,7 +91,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		varsm = dataset.variablesMap;
 		variables = dataset.variables;
 		groups = dataset.groups;
-		datasets = dataset.chartDatasets;
+		datasets = dataset.elementDatasets;
 
 		pageNumber = (JRFillVariable)varsm.get(JRVariable.PAGE_NUMBER);
 		columnNumber = (JRFillVariable)varsm.get(JRVariable.COLUMN_NUMBER);
@@ -146,12 +146,12 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		{
 			for(int i = 0; i < datasets.length; i++)
 			{
-				JRFillChartDataset chartDataset = datasets[i];
-				chartDataset.evaluate(this);
+				JRFillElementDataset elementDataset = datasets[i];
+				elementDataset.evaluate(this);
 
-				if (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
+				if (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_NONE)
 				{
-					chartDataset.increment();
+					elementDataset.increment();
 				}
 			}
 		}
@@ -314,9 +314,9 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void incrementDataset(JRFillChartDataset chartDataset, byte incrementType)
+	private void incrementDataset(JRFillElementDataset elementDataset, byte incrementType)
 	{
-		if (chartDataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+		if (elementDataset.getIncrementType() != JRVariable.RESET_TYPE_NONE)
 		{
 			boolean toIncrement = false;
 			switch (incrementType)
@@ -330,21 +330,21 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				{
 					toIncrement = 
 						(
-						chartDataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
-						chartDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
+						elementDataset.getIncrementType() == JRVariable.RESET_TYPE_PAGE || 
+						elementDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN
 						);
 					break;
 				}
 				case JRVariable.RESET_TYPE_COLUMN :
 				{
-					toIncrement = (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
+					toIncrement = (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_COLUMN);
 					break;
 				}
 				case JRVariable.RESET_TYPE_GROUP :
 				{
-					if (chartDataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
+					if (elementDataset.getIncrementType() == JRVariable.RESET_TYPE_GROUP)
 					{
-						JRFillGroup group = (JRFillGroup)chartDataset.getIncrementGroup();
+						JRFillGroup group = (JRFillGroup)elementDataset.getIncrementGroup();
 						toIncrement = group.hasChanged();
 					}
 					break;
@@ -357,7 +357,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 
 			if (toIncrement)
 			{
-				chartDataset.increment();
+				elementDataset.increment();
 			}
 		}
 		else
@@ -434,7 +434,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	private void initializeDataset(JRFillChartDataset chartDataset, byte resetType)
+	private void initializeDataset(JRFillElementDataset elementDataset, byte resetType)
 	{
 		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
 //		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)
@@ -451,21 +451,21 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				{
 					toInitialize = 
 						(
-						chartDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
-						chartDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
+						elementDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
+						elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
 						);
 					break;
 				}
 				case JRVariable.RESET_TYPE_COLUMN :
 				{
-					toInitialize = (chartDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+					toInitialize = (elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
 					break;
 				}
 				case JRVariable.RESET_TYPE_GROUP :
 				{
-					if (chartDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+					if (elementDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
 					{
-						JRFillGroup group = (JRFillGroup)chartDataset.getResetGroup();
+						JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
 						toInitialize = group.hasChanged();
 					}
 					break;
@@ -483,7 +483,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 //					);
 //				dataset.setInitialized(true);
 //				dataset.setIncrementedValue(null);
-				chartDataset.initialize();
+				elementDataset.initialize();
 			}
 //		}FIXME CHARTS verify that reset type none does not make any sense
 //		else

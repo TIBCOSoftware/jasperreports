@@ -28,10 +28,9 @@
 package net.sf.jasperreports.crosstabs.base;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.base.JRBaseChartDataset;
+import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -40,7 +39,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCrosstabDataset extends JRBaseChartDataset implements JRCrosstabDataset
+public class JRBaseCrosstabDataset extends JRBaseElementDataset implements JRCrosstabDataset
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -51,11 +50,6 @@ public class JRBaseCrosstabDataset extends JRBaseChartDataset implements JRCross
 		super(dataset, factory);
 		
 		dataPreSorted = dataset.isDataPreSorted();
-	}
-
-	public byte getDatasetType()
-	{
-		return JRChartDataset.CROSSTAB;
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)

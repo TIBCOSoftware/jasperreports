@@ -135,8 +135,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	private JRFont defaultFont = null;
 
-	private List chartDatasets = new ArrayList();
-	private Map chartDatasetMap = new HashMap();
+	private List elementDatasets = new ArrayList();
+	private Map elementDatasetMap = new HashMap();
 
 
 	/**
@@ -183,34 +183,34 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	protected JRFillChartDataset[] getDatasets()
 	{
-		return (JRFillChartDataset[]) chartDatasets.toArray(new JRFillChartDataset[chartDatasets.size()]);
+		return (JRFillChartDataset[]) elementDatasets.toArray(new JRFillChartDataset[elementDatasets.size()]);
 	}
 
 	
-	protected JRFillChartDataset[] getChartDatasets(JRDataset dataset)
+	protected JRFillElementDataset[] getElementDatasets(JRDataset dataset)
 	{
-		JRFillChartDataset[] chartDatasetsArray;
-		List chartDatasetsList;
+		JRFillElementDataset[] elementDatasetsArray;
+		List elementDatasetsList;
 		if (dataset.isMainDataset())
 		{
-			chartDatasetsList = chartDatasets;
+			elementDatasetsList = elementDatasets;
 		}
 		else
 		{
-			chartDatasetsList = (List) chartDatasetMap.get(dataset.getName());
+			elementDatasetsList = (List) elementDatasetMap.get(dataset.getName());
 		}
 		
-		if (chartDatasetsList == null || chartDatasetsList.size() == 0)
+		if (elementDatasetsList == null || elementDatasetsList.size() == 0)
 		{
-			chartDatasetsArray = new JRFillChartDataset[0];
+			elementDatasetsArray = new JRFillElementDataset[0];
 		}
 		else
 		{
-			chartDatasetsArray = new JRFillChartDataset[chartDatasetsList.size()];
-			chartDatasetsList.toArray(chartDatasetsArray);
+			elementDatasetsArray = new JRFillElementDataset[elementDatasetsList.size()];
+			elementDatasetsList.toArray(elementDatasetsArray);
 		}
 		
-		return chartDatasetsArray;
+		return elementDatasetsArray;
 	}
 
 
@@ -1049,25 +1049,25 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	private void addChartDataset(JRFillChartDataset chartDataset)
+	private void addChartDataset(JRFillElementDataset elementDataset)
 	{
-		List chartDatasetsList;
-		JRDatasetRun datasetRun = chartDataset.getDatasetRun();
+		List elementDatasetsList;
+		JRDatasetRun datasetRun = elementDataset.getDatasetRun();
 		if (datasetRun == null)
 		{
-			chartDatasetsList = chartDatasets;
+			elementDatasetsList = elementDatasets;
 		}
 		else
 		{
 			String datasetName = datasetRun.getDatasetName();
-			chartDatasetsList = (List) chartDatasetMap.get(datasetName);
-			if (chartDatasetsList == null)
+			elementDatasetsList = (List) elementDatasetMap.get(datasetName);
+			if (elementDatasetsList == null)
 			{
-				chartDatasetsList = new ArrayList();
-				chartDatasetMap.put(datasetName, chartDatasetsList);
+				elementDatasetsList = new ArrayList();
+				elementDatasetMap.put(datasetName, elementDatasetsList);
 			}
 		}
-		chartDatasetsList.add(chartDataset);
+		elementDatasetsList.add(elementDataset);
 	}
 
 

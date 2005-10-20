@@ -30,7 +30,7 @@ package net.sf.jasperreports.crosstabs.design;
 import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.design.JRDesignChartDataset;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
 /**
  * Input crosstab dataset implementation to be used at design time.
@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.design.JRDesignChartDataset;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignCrosstabDataset extends JRDesignChartDataset implements JRCrosstabDataset
+public class JRDesignCrosstabDataset extends JRDesignElementDataset implements JRCrosstabDataset
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	

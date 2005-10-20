@@ -124,11 +124,11 @@ public class JRExpressionCollector
 	}
 
 
-	private JRExpressionCollector getCollector(JRChartDataset chartDataset)
+	private JRExpressionCollector getCollector(JRElementDataset elementDataset)
 	{
 		JRExpressionCollector collector;
 		
-		JRDatasetRun datasetRun = chartDataset.getDatasetRun();
+		JRDatasetRun datasetRun = elementDataset.getDatasetRun();
 		if (datasetRun == null)
 		{
 			collector = this;
@@ -483,7 +483,7 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRPieDataset pieDataset)
 	{
-		collect((JRChartDataset) pieDataset);
+		collect((JRElementDataset) pieDataset);
 		
 		JRExpressionCollector collector = getCollector(pieDataset);
 		collector.addExpression(pieDataset.getKeyExpression());
@@ -496,7 +496,7 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRCategoryDataset categoryDataset)
 	{
-		collect((JRChartDataset) categoryDataset);
+		collect((JRElementDataset) categoryDataset);
 		
 		JRCategorySeries[] categorySeries = categoryDataset.getSeries();
 		if (categorySeries != null && categorySeries.length > 0)
@@ -514,7 +514,7 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRXyDataset xyDataset)
 	{
-		collect((JRChartDataset) xyDataset);
+		collect((JRElementDataset) xyDataset);
 		
 		JRXySeries[] xySeries = xyDataset.getSeries();
 		if (xySeries != null && xySeries.length > 0)
@@ -531,7 +531,7 @@ public class JRExpressionCollector
 	 * 
 	 */
 	public void collect( JRTimeSeriesDataset timeSeriesDataset ){
-		collect((JRChartDataset) timeSeriesDataset);
+		collect((JRElementDataset) timeSeriesDataset);
 		
 		JRTimeSeries[] timeSeries = timeSeriesDataset.getSeries();
 		if( timeSeries != null && timeSeries.length > 0 ){
@@ -546,7 +546,7 @@ public class JRExpressionCollector
 	 * 
 	 */
 	public void collect( JRTimePeriodDataset timePeriodDataset ){
-		collect((JRChartDataset) timePeriodDataset);
+		collect((JRElementDataset) timePeriodDataset);
 		
 		JRTimePeriodSeries[] timePeriodSeries = timePeriodDataset.getSeries();
 		if( timePeriodSeries != null && timePeriodSeries.length > 0 ){
@@ -655,7 +655,7 @@ public class JRExpressionCollector
 	 *
 	 */
 	public void collect(JRXyzDataset xyzDataset) {
-		collect((JRChartDataset) xyzDataset);
+		collect((JRElementDataset) xyzDataset);
 		
 		JRXyzSeries[] xyzSeries = xyzDataset.getSeries();
 		if (xyzSeries != null && xyzSeries.length > 0)
@@ -703,7 +703,7 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRHighLowDataset highLowDataset)
 	{
-		collect((JRChartDataset) highLowDataset);
+		collect((JRElementDataset) highLowDataset);
 		
 		JRExpressionCollector collector = getCollector(highLowDataset);
 		collector.addExpression(highLowDataset.getSeriesExpression());
@@ -842,11 +842,11 @@ public class JRExpressionCollector
 
 	
 	/**
-	 * Collects expressions from a chart dataset.
+	 * Collects expressions from an element dataset.
 	 * 
-	 * @param dataset the chart dataset
+	 * @param dataset the element dataset
 	 */
-	protected void collect(JRChartDataset dataset)
+	protected void collect(JRElementDataset dataset)
 	{
 		collect(dataset.getDatasetRun());
 	}

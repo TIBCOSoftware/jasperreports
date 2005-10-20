@@ -502,7 +502,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
 
-		mainDataset.initChartDatasets(factory);		
+		mainDataset.initElementDatasets(factory);		
 		initDatasets(factory);
 
 		mainDataset.checkVariableCalculationReqs(factory);
@@ -1495,7 +1495,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		{
 			JRFillDataset dataset = (JRFillDataset) it.next();
 			dataset.inheritFromMain();
-			dataset.initChartDatasets(factory);
+			dataset.initElementDatasets(factory);
 		}
 	}
 	

@@ -84,11 +84,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 	/**
 	 * Instantiates and iterates the sub dataset for a chart dataset evaluation.
 	 * 
-	 * @param chartDataset the chart dataset
+	 * @param elementDataset the chart dataset
 	 * @param evaluation the evaluation type
 	 * @throws JRException
 	 */
-	public void evaluate(JRFillChartDataset chartDataset, byte evaluation) throws JRException
+	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
 		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation);
 
@@ -125,7 +125,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 				throw new JRException("Cannot instantiate data set.");
 			}
 			
-			dataset.filterChartDatasets(chartDataset);
+			dataset.filterElementDatasets(elementDataset);
 			
 			dataset.initScriptlet();
 			dataset.initCalculator();
@@ -135,7 +135,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		finally
 		{
 			dataset.closeStatement();
-			dataset.restoreChartDatasets();
+			dataset.restoreElementDatasets();
 		}
 	}
 

@@ -53,10 +53,10 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -1338,7 +1338,7 @@ public class JRVerifier
 		}
 		else
 		{
-			verifyChartDataset(dataset);
+			verifyElementDataset(dataset);
 		}
 		
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
@@ -1690,7 +1690,7 @@ public class JRVerifier
 
 	private void verifyChart(JRChart chart)
 	{
-		verifyChartDataset(chart.getDataset());
+		verifyElementDataset(chart.getDataset());
 	}
 
 
@@ -1788,7 +1788,7 @@ public class JRVerifier
 	}
 
 
-	private void verifyChartDataset(JRChartDataset dataset)
+	private void verifyElementDataset(JRElementDataset dataset)
 	{
 		JRDatasetRun datasetRun = dataset.getDatasetRun();
 		

@@ -27,20 +27,15 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.Serializable;
-
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
+public abstract class JRBaseChartDataset extends JRBaseElementDataset implements JRChartDataset
 {
 
 
@@ -49,16 +44,10 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected byte resetType = JRVariable.RESET_TYPE_NONE;
-	protected byte incrementType = JRVariable.RESET_TYPE_NONE;
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
-	
-	protected JRDatasetRun datasetRun;
-
 	
 	protected JRBaseChartDataset()
 	{
+		super();
 	}
 
 	
@@ -67,13 +56,7 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	 */
 	protected JRBaseChartDataset(JRChartDataset dataset)
 	{
-		if (dataset != null) {
-			resetType = dataset.getResetType();
-			incrementType = dataset.getIncrementType();
-			resetGroup = dataset.getResetGroup();
-			incrementGroup = dataset.getIncrementGroup();
-			datasetRun = new JRBaseDatasetRun(dataset.getDatasetRun(), null);
-		}
+		super(dataset);
 	}
 
 
@@ -82,53 +65,6 @@ public abstract class JRBaseChartDataset implements JRChartDataset, Serializable
 	 */
 	protected JRBaseChartDataset(JRChartDataset dataset, JRBaseObjectFactory factory)
 	{
-		factory.put(dataset, this);
-
-		resetType = dataset.getResetType();
-		incrementType = dataset.getIncrementType();
-		resetGroup = factory.getGroup(dataset.getResetGroup());
-		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
-		
-		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
+		super(dataset, factory);
 	}
-
-	
-	/**
-	 *
-	 */
-	public byte getResetType()
-	{
-		return this.resetType;
-	}
-		
-	/**
-	 *
-	 */
-	public byte getIncrementType()
-	{
-		return this.incrementType;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getResetGroup()
-	{
-		return resetGroup;
-	}
-		
-	/**
-	 *
-	 */
-	public JRGroup getIncrementGroup()
-	{
-		return incrementGroup;
-	}
-
-
-	public JRDatasetRun getDatasetRun()
-	{
-		return datasetRun;
-	}
-		
 }

@@ -60,7 +60,6 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -1043,7 +1042,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	 *  
 	 * @author Lucian Chirita (lucianc@users.sourceforge.net)
 	 */
-	public class JRFillCrosstabDataset extends JRFillChartDataset implements JRCrosstabDataset
+	public class JRFillCrosstabDataset extends JRFillElementDataset implements JRCrosstabDataset
 	{
 		private Object[] bucketValues;
 
@@ -1095,11 +1094,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		protected Dataset getCustomDataset()
 		{
 			return null;
-		}
-
-		public byte getDatasetType()
-		{
-			return JRChartDataset.CROSSTAB;
 		}
 
 		public void collectExpressions(JRExpressionCollector collector)

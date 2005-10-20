@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
@@ -1042,7 +1043,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private void writeChartDataset(JRChartDataset dataset) throws IOException
+	private void writeElementDataset(JRElementDataset dataset) throws IOException
 	{
 		writer.startElement("dataset");
 		writer.addAttribute("resetType", dataset.getResetType(), JRXmlConstants.getResetTypeMap(), JRVariable.RESET_TYPE_REPORT);
@@ -1075,7 +1076,7 @@ public class JRXmlWriter
 	{
 		writer.startElement("categoryDataset");
 
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 
 		/*   */
 		JRCategorySeries[] categorySeries = dataset.getSeries();
@@ -1099,7 +1100,7 @@ public class JRXmlWriter
 			writer.addAttribute("timePeriod", JRXmlConstants.getTimePeriodName(dataset.getTimePeriod()));
 		}
 		
-		writeChartDataset( dataset );
+		writeElementDataset( dataset );
 		
 		JRTimeSeries[] timeSeries = dataset.getSeries();
 		if( timeSeries != null && timeSeries.length > 0 )
@@ -1117,7 +1118,7 @@ public class JRXmlWriter
 	private void writeTimePeriodDataset(JRTimePeriodDataset dataset) throws IOException
 	{
 		writer.startElement("timePeriodDataset");
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 		
 		JRTimePeriodSeries[] timePeriodSeries = dataset.getSeries();
 		if( timePeriodSeries != null && timePeriodSeries.length > 0 )
@@ -1152,7 +1153,7 @@ public class JRXmlWriter
 	private void writeXyzDataset(JRXyzDataset dataset) throws IOException
 	{
 		writer.startElement("xyzDataset");
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 		
 		JRXyzSeries[] series = dataset.getSeries();
 		if( series != null && series.length > 0 )
@@ -1205,7 +1206,7 @@ public class JRXmlWriter
 	{
 		writer.startElement("xyDataset");
 
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 
 		/*   */
 		JRXySeries[] xySeries = dataset.getSeries();
@@ -1258,7 +1259,7 @@ public class JRXmlWriter
 	{
 		writer.startElement("pieDataset");
 
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 
 		writer.writeExpression("keyExpression", dataset.getKeyExpression(), false);
 		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
@@ -1504,7 +1505,7 @@ public class JRXmlWriter
 	{
 		writer.startElement("highLowDataset");
 
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 
 		writer.writeExpression("seriesExpression", dataset.getSeriesExpression(), false);
 		writer.writeExpression("dateExpression", dataset.getDateExpression(), false);
@@ -1825,7 +1826,7 @@ public class JRXmlWriter
 		JRCrosstabDataset dataset = crosstab.getDataset();
 		writer.startElement("crosstabDataset");
 		writer.addAttribute(JRCrosstabDatasetFactory.ATTRIBUTE_isDataPreSorted, dataset.isDataPreSorted(), false);		
-		writeChartDataset(dataset);
+		writeElementDataset(dataset);
 		writer.closeElement();
 	}
 
