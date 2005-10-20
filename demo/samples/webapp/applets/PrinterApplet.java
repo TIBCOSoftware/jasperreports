@@ -25,13 +25,15 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.util.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URL;
 
-import java.io.*;
-import java.net.*;
-import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
+
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -115,7 +117,7 @@ public class PrinterApplet extends javax.swing.JApplet
 
 	}//GEN-END:initComponents
 
-	private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+	protected void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
 		// Add your handling code here:
 		if (url != null)
 		{
@@ -149,7 +151,7 @@ public class PrinterApplet extends javax.swing.JApplet
 		}
 	}//GEN-LAST:event_btnViewActionPerformed
 
-	private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+	protected void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
 		// Add your handling code here:
 		if (url != null)
 		{
@@ -169,7 +171,9 @@ public class PrinterApplet extends javax.swing.JApplet
 			}
 			
 			if (jasperPrint != null)
-			{
+			{				
+				final JasperPrint print = jasperPrint;
+				
 				Thread thread = new Thread
 					(
 						new Runnable()
@@ -178,7 +182,7 @@ public class PrinterApplet extends javax.swing.JApplet
 							{
 								try 
 								{
-									JasperPrintManager.printReport(jasperPrint, true);
+									JasperPrintManager.printReport(print, true);
 								}
 								catch (Exception e) 
 								{

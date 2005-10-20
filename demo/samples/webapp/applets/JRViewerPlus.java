@@ -25,11 +25,12 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
-import java.awt.BorderLayout;
-import javax.swing.*;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRViewer;
 
 
 /**
@@ -84,7 +85,7 @@ public class JRViewerPlus extends JRViewer
 	/**
 	 *
 	 */
-	private void btnPlusActionPerformed(java.awt.event.ActionEvent evt)
+	protected void btnPlusActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		JOptionPane.showMessageDialog(this, "I just wanted to let you know that you can extend the JRViewer to customize it.\n The button you have pushed was added this way.");
 	}
