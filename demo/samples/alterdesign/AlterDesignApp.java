@@ -31,7 +31,7 @@ import java.io.File;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -102,9 +102,9 @@ public class AlterDesignApp
 				rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
 				rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
-				JRReportFont reportFont = jasperReport.getFonts()[0];
-				reportFont.setFontSize(16);
-				reportFont.setItalic(true);
+				JRStyle style = jasperReport.getStyles()[0];
+				style.setFontSize(16);
+				style.setItalic(true);
 
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
 				
