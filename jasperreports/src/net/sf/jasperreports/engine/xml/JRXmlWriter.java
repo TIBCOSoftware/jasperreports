@@ -120,7 +120,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.util.XmlWriter;
+import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -144,7 +144,7 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private XmlWriter writer;
+	private JRXmlWriteHelper writer;
 	private Map fontsMap = new HashMap();
 	private Map stylesMap = new HashMap();
 
@@ -244,7 +244,7 @@ public class JRXmlWriter
 	 */
 	protected void writeReport(Writer out) throws IOException
 	{
-		writer = new XmlWriter(out);
+		writer = new JRXmlWriteHelper(out);
 		
 		writer.writeProlog(encoding);
 		writer.writePublicDoctype("jasperReport", "-//JasperReports//DTD Report Design//EN", "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd");
