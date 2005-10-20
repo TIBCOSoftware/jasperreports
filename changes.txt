@@ -4,6 +4,8 @@ JasperReports Change Log
 
 JasperReports 1.1.0 (2005-10-xx)
 -----------------------------------
+- new dataset concept;
+
 - support for crosstabs;
 
 - support for styles;
