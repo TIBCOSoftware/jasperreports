@@ -29,8 +29,6 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
-import net.sf.jasperreports.engine.fill.JRFillElementContainer;
-
 /**
  * Print element container interface.
  * <p>

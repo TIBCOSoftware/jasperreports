@@ -25,11 +25,9 @@
  * San Francisco CA 94107
  * http://www.jaspersoft.com
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.*;
-
-import java.awt.BorderLayout;
-import javax.swing.*;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRViewer;
 
 
 /**
