@@ -94,7 +94,8 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_DATA_SOURCE, JRDataSource.class, 
 		JRParameter.REPORT_SCRIPTLET, JRAbstractScriptlet.class, 
 		JRParameter.REPORT_LOCALE, Locale.class, 
-		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class };
+		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
 
 
 	
@@ -103,7 +104,6 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS_MAIN = new Object[] { 
 		JRParameter.REPORT_VIRTUALIZER, JRVirtualizer.class, 
-		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.IS_IGNORE_PAGINATION, Boolean.class };
 
 	

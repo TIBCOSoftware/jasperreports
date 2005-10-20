@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -415,6 +416,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	protected void initEvaluator(byte evaluation) throws JRException
 	{
 		Map parameterValues = JRFillSubreport.getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, true);
+		
+		ResourceBundle resBdl = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (resBdl == null)
+		{
+			JRFillParameter resourceBundleParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_RESOURCE_BUNDLE);
+			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundleParam.getValue());
+		}
+		
+		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 
 		for (int i = 0; i < parameters.length; i++)
 		{
@@ -423,11 +433,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 
 		JRFillParameter resourceBundleParam = (JRFillParameter) parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		if (resourceBundleParam == null)
-		{
-			resourceBundleParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		}
-
 		crosstabEvaluator.init(parametersMap, variablesMap, resourceBundleParam, filler.getWhenResourceMissingType());
 	}
 

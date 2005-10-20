@@ -33,7 +33,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -54,6 +56,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -87,6 +90,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected Map cellsMap;
 	protected JRDesignCrosstabCell[][] crossCells;
 	protected JRDesignCellContents whenNoDataCell;
+	
+	
+	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
+		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
+		JRParameter.REPORT_LOCALE, Locale.class, 
+		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
 
 	
 	/**
@@ -110,6 +120,27 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		cellsMap = new HashMap();
 		cellsList = new ArrayList();
+		
+		addBuiltinParameters();
+	}
+
+	private void addBuiltinParameters()
+	{
+		for (int i = 0; i < BUILT_IN_PARAMETERS.length; i++)
+		{
+			JRDesignCrosstabParameter parameter = new JRDesignCrosstabParameter();
+			parameter.setName((String) BUILT_IN_PARAMETERS[i++]);
+			parameter.setValueClass((Class) BUILT_IN_PARAMETERS[i]);
+			parameter.setSystemDefined(true);
+			try
+			{
+				addParameter(parameter);
+			}
+			catch (JRException e)
+			{
+				// never reached
+			}
+		}
 	}
 	
 	
