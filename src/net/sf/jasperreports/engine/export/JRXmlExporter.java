@@ -74,7 +74,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.util.XmlWriter;
+import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.w3c.tools.codec.Base64Encoder;
@@ -95,7 +95,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected XmlWriter xmlWriter = null;
+	protected JRXmlWriteHelper xmlWriter = null;
 	protected String encoding = null;
 	
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -325,7 +325,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
-		xmlWriter = new XmlWriter(writer);
+		xmlWriter = new JRXmlWriteHelper(writer);
 		
 		xmlWriter.writeProlog(encoding);
 		xmlWriter.writePublicDoctype("jasperPrint", "-//JasperReports//DTD Report Design//EN", dtdLocation);
