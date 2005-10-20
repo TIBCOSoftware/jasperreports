@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="AddressReport" pageWidth="175" pageHeight="842" columnWidth="175" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<parameter name="City" class="java.lang.String">
 	</parameter>
 	<queryString><![CDATA[SELECT * FROM Address WHERE City = $P{City}]]></queryString>
@@ -20,17 +19,12 @@
 	<title>
 		<band height="14">
 			<staticText>
-				<reportElement x="0" y="2" width="60" height="10"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="0" y="2" width="60" height="10" style="Arial_Italic"/>
 				<text><![CDATA[Title]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="2" width="175" height="10"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="0" y="2" width="175" height="10" style="Arial_Bold"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["Addresses in " + $P{City}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -42,10 +36,7 @@
 				<graphicElement pen="Thin"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080" style="Arial_Italic"/>
 				<text><![CDATA[Page Header]]></text>
 			</staticText>
 		</band>
@@ -57,24 +48,16 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="2" width="20" height="10" backcolor="#ccffff"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="2" width="20" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="20" y="2" width="85" height="10" backcolor="#ccffff"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="20" y="2" width="85" height="10" backcolor="#ccffff" style="Arial_Bold"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="105" y="2" width="70" height="10" backcolor="#ccffff"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="105" y="2" width="70" height="10" backcolor="#ccffff" style="Arial_Bold"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -105,10 +88,7 @@
 				<graphicElement pen="Thin"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="2" width="60" height="10"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="0" y="2" width="60" height="10" style="Arial_Italic"/>
 				<text><![CDATA[Column Footer]]></text>
 			</staticText>
 		</band>
@@ -120,24 +100,16 @@
 				<graphicElement pen="Thin"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="0" y="2" width="60" height="10" forecolor="#8080" style="Arial_Italic"/>
 				<text><![CDATA[Page Footer]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="2" width="50" height="10" forecolor="#8080"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="100" y="2" width="50" height="10" forecolor="#8080" style="Arial_Italic"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="150" y="2" width="20" height="10" forecolor="#8080"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="150" y="2" width="20" height="10" forecolor="#8080" style="Arial_Italic"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -149,24 +121,17 @@
 				<graphicElement pen="Thin"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="2" width="100" height="10" backcolor="#33cccc"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="2" width="100" height="10" backcolor="#33cccc" style="Arial_Italic"/>
 				<text><![CDATA[Summary]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="100" y="2" width="50" height="10" backcolor="#33cccc"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="100" y="2" width="50" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Count :]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="150" y="2" width="25" height="10" backcolor="#33cccc"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="150" y="2" width="25" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
