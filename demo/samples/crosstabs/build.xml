@@ -131,8 +131,12 @@
 			<fileset dir="." includes="**/*.csv" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
+		<delete dir="Orders.jrpxml_files" />
+		<delete dir="Orders.html_files" />
+		<delete dir="Products.jrpxml_files" />
+		<delete dir="Products.html_files" />
+		<delete dir="Shipments.jrpxml_files" />
+		<delete dir="Shipments.html_files" />
 	</target>
 
 </project>
