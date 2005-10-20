@@ -847,7 +847,7 @@ public class BucketingService
 	protected void createCrosstab() throws JRException
 	{
 		CollectedList[] collectedHeaders = new CollectedList[BucketingService.DIMENSIONS];
-		collectedHeaders[DIMENSION_ROW] = createHeadersList(DIMENSION_ROW, bucketValueMap, 0);
+		collectedHeaders[DIMENSION_ROW] = createHeadersList(DIMENSION_ROW, bucketValueMap, 0, false);
 		
 		BucketListMap collectedCols;
 		if (allBuckets[0].computeTotal())
@@ -864,7 +864,7 @@ public class BucketingService
 			collectedCols = createCollectBucketMap(buckets[DIMENSION_ROW].length);
 			collectCols(collectedCols, bucketValueMap);
 		}
-		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, collectedCols, 0);
+		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, collectedCols, 0, false);
 
 		colHeaders = createHeaders(BucketingService.DIMENSION_COLUMN, collectedHeaders);
 		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders);
@@ -904,7 +904,7 @@ public class BucketingService
 	}
 	
 	
-	protected CollectedList createHeadersList(byte dimension, BucketMap bucketMap, int level)
+	protected CollectedList createHeadersList(byte dimension, BucketMap bucketMap, int level, boolean total)
 	{
 		CollectedList headers = new CollectedList();
 
@@ -913,8 +913,9 @@ public class BucketingService
 			Map.Entry entry = (Map.Entry) it.next();
 			Bucket bucketValue = (Bucket) entry.getKey();
 
+			boolean totalBucket = bucketValue.isTotal();
 			byte totalPosition = allBuckets[bucketMap.level].getTotalPosition();
-			boolean createHeader = !bucketValue.isTotal() || totalPosition != BucketDefinition.TOTAL_POSITION_NONE;
+			boolean createHeader = !totalBucket || total || totalPosition != BucketDefinition.TOTAL_POSITION_NONE;
 
 			if (createHeader)
 			{
@@ -922,7 +923,7 @@ public class BucketingService
 				if (level + 1 < buckets[dimension].length)
 				{
 					BucketMap nextMap = (BucketMap) entry.getValue();
-					nextHeaders = createHeadersList(dimension, nextMap, level + 1);
+					nextHeaders = createHeadersList(dimension, nextMap, level + 1, total || totalBucket);
 				}
 				else
 				{
@@ -931,7 +932,7 @@ public class BucketingService
 				}
 				nextHeaders.key = bucketValue;
 
-				if (bucketValue.isTotal())
+				if (totalBucket)
 				{
 					if (totalPosition == BucketDefinition.TOTAL_POSITION_START)
 					{
