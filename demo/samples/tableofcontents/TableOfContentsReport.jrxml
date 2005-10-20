@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="TableOfContentsReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryNewPage="true" scriptletClass="HeadingsScriptlet">
-	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
 	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID < 12000 ORDER BY ShipCountry]]></queryString>
@@ -30,10 +29,8 @@
 		<groupFooter>
 		<band height="60">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="175" y="20" width="165" height="15"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement x="175" y="20" width="165" height="15" style="Arial_Italic"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
 					" orders on this report."]]></textFieldExpression>
@@ -56,17 +53,11 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="10" width="170" height="15" backcolor="#c0c0c0"/>
-				<textElement>
-					<font reportFont="Arial_Italic"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="10" width="170" height="15" backcolor="#c0c0c0" style="Arial_Italic"/>
 				<text><![CDATA[Countries Starting With Letter :]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="170" y="10" width="345" height="15" backcolor="#c0c0c0"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="170" y="10" width="345" height="15" backcolor="#c0c0c0" style="Arial_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]]></anchorNameExpression>
 			</textField>
@@ -88,10 +79,7 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement x="0" y="4" width="515" height="15"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="0" y="4" width="515" height="15" style="Arial_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{ShipCountryNumber}) + ". " + String.valueOf($F{ShipCountry})]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["ShipCountryGroup_" + $V{ShipCountryNumber}]]></anchorNameExpression>
 			</textField>
@@ -104,17 +92,13 @@
 				<graphicElement/>
 			</line>
 			<staticText>
-				<reportElement x="400" y="1" width="60" height="15"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="400" y="1" width="60" height="15" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Count :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="460" y="1" width="30" height="15"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="460" y="1" width="30" height="15" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ShipCountryGroup_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -127,24 +111,16 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#ffffff" backcolor="#333333"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#ffffff" backcolor="#333333"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#ffffff" backcolor="#333333"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<text><![CDATA[City]]></text>
 			</staticText>
 		</band>

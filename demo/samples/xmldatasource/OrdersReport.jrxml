@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="OrdersReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<parameter name="City" class="java.lang.String">
 	</parameter>
 	<field name="Id" class="java.lang.String">
@@ -30,31 +29,22 @@
 				<graphicElement/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="2" width="48" height="10" backcolor="#ccffff"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="2" width="48" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="54" y="2" width="87" height="10" backcolor="#ccffff"/>
-				<textElement textAlignment="Center">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="54" y="2" width="87" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[Order Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="146" y="2" width="108" height="10" backcolor="#ccffff"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="146" y="2" width="108" height="10" backcolor="#ccffff" style="Arial_Bold"/>
 				<text><![CDATA[Ship City]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#ccffff"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Freight]]></text>
 			</staticText>
 		</band>
@@ -90,24 +80,18 @@
 				<graphicElement pen="Thin"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="160" y="2" width="67" height="10" backcolor="#33cccc"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="160" y="2" width="67" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#33cccc"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="259" y="2" width="92" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{TotalFreight}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="227" y="2" width="27" height="10" backcolor="#33cccc"/>
-				<textElement textAlignment="Right">
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="227" y="2" width="27" height="10" backcolor="#33cccc" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>

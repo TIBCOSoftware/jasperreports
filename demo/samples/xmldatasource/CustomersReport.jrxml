@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="CustomersReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
-	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Arial_Italic" isDefault="false" fontName="Arial" size="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<field name="CustomerID" class="java.lang.String">
 		<fieldDescription><![CDATA[CustomerID]]></fieldDescription>
 	</field>
@@ -19,9 +18,9 @@
 				<graphicElement/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30"/>
+				<reportElement x="0" y="10" width="515" height="30" style="Arial_Normal"/>
 				<textElement textAlignment="Center">
-					<font reportFont="Arial_Normal" size="22"/>
+					<font size="22"/>
 				</textElement>
 				<text><![CDATA[Customer Orders Report]]></text>
 			</staticText>
@@ -34,10 +33,7 @@
 				<graphicElement pen="None"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#ffffff" backcolor="#333333"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
 				<text><![CDATA[Customer Order List]]></text>
 			</staticText>
 			<line>
@@ -49,17 +45,11 @@
 	<detail>
 		<band height="50">
 			<textField>
-				<reportElement x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" style="Arial_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{CustomerID}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement isPrintRepeatedValues="false" x="404" y="5" width="100" height="15" isPrintWhenDetailOverflows="true"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement isPrintRepeatedValues="false" x="404" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" style="Arial_Bold"/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<line>
@@ -72,10 +62,7 @@
 				<subreportExpression class="java.lang.String"><![CDATA["OrdersReport.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement x="109" y="5" width="291" height="15" isPrintWhenDetailOverflows="true"/>
-				<textElement>
-					<font reportFont="Arial_Bold"/>
-				</textElement>
+				<reportElement x="109" y="5" width="291" height="15" isPrintWhenDetailOverflows="true" style="Arial_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{CompanyName}]]></textFieldExpression>
 			</textField>
 		</band>
