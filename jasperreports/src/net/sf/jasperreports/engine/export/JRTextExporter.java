@@ -54,6 +54,7 @@ public class JRTextExporter extends JRAbstractExporter
 	protected Writer writer;
 	char[][] pageData;
 	protected String betweenPagesText;
+	protected String lineSeparator;
 
 	/**
 	 *
@@ -125,6 +126,11 @@ public class JRTextExporter extends JRAbstractExporter
 		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
 		if (betweenPagesText == null) {
 			betweenPagesText = "\n\n";
+		}
+
+		lineSeparator = (String) parameters.get(JRTextExporterParameter.LINE_SEPARATOR);
+		if (lineSeparator == null) {
+			lineSeparator = "\n";
 		}
 
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
@@ -289,7 +295,7 @@ public class JRTextExporter extends JRAbstractExporter
 
 		for (int i = 0; i < pageHeight; i++) {
 			writer.write(pageData[i]);
-			writer.write("\n");
+			writer.write(lineSeparator);
 		}
 
 		writer.write(betweenPagesText);
@@ -361,8 +367,8 @@ public class JRTextExporter extends JRAbstractExporter
 		int rowIndex = 0;
 		int rowPosition = 0;
 
-		// first search for \n, because it causes immediate line break
-		StringTokenizer lfTokenizer = new StringTokenizer(allText, "\n");
+		// first search for the line separator
+		StringTokenizer lfTokenizer = new StringTokenizer(allText, lineSeparator);
 		label:while (lfTokenizer.hasMoreTokens()) {
 			String line = lfTokenizer.nextToken();
 			StringTokenizer spaceTokenizer = new StringTokenizer(line, " ", true);

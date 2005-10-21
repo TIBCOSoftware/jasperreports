@@ -53,4 +53,11 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 */
 	public static final JRTextExporterParameter BETWEEN_PAGES_TEXT = new JRTextExporterParameter("Between Pages Text");
 
+
+	/**
+	 * A string representing the separator between two lines of text. This parameter is useful since line separators can
+	 * vary from one operating system to another. The default value is "\n".
+	 */
+	public static final JRTextExporterParameter LINE_SEPARATOR = new JRTextExporterParameter("Line Separator");
+
 }
