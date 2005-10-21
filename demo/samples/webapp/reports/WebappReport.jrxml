@@ -63,13 +63,9 @@
 	</group>
 	<title>
 		<band height="50">
-			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-				<graphicElement/>
-			</line>
 			<frame>
-				<reportElement x="0" y="5" width="515" height="40" backcolor="#E0E0E0"/>
-				<box border="1Point"/>
+				<reportElement x="0" y="0" width="515" height="40" backcolor="#E0E0E0"/>
+				<box topBorder="1Point"/>
 				<image scaleImage="Clip" hyperlinkType="Reference">
 					<reportElement x="5" y="5" width="165" height="30"/>
 					<graphicElement/>

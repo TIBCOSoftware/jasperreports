@@ -15,6 +15,9 @@ to help iterating through data for chart and crosstab generation;
 
 - support for crosstabs added using a specialized component;
 
+- new XLS exporter implementation that uses the JExcelApi open source library is
+available as a sample; contributed by Manuel Paul (Rat & Tat Beratungsgesellschaft mbH);
+
 - minor bug fixes and improvements;
 
 
