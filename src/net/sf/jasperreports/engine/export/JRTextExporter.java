@@ -368,7 +368,7 @@ public class JRTextExporter extends JRAbstractExporter
 		int rowIndex = 0;
 		int rowPosition = 0;
 
-		// first search for the line separator
+		// first search for \n, because it causes immediate line break
 		StringTokenizer lfTokenizer = new StringTokenizer(allText, "\n");
 		label:while (lfTokenizer.hasMoreTokens()) {
 			String line = lfTokenizer.nextToken();
