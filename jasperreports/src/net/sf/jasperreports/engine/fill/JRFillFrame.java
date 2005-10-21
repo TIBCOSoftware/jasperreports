@@ -84,8 +84,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	private boolean first;
 	
 	private int fillHeight;
-	private boolean fillElements;
-	private boolean onlyBottomPadding;
+	private boolean fillBottomPadding;
 	
 	/**
 	 * Whether the frame has started filling and not ended.
@@ -123,7 +122,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		}
 		
 		filling = false;
-		onlyBottomPadding = false;
 	}
 
 	protected void rewind() throws JRException
@@ -131,7 +129,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		frameContainer.rewind();
 		
 		filling = false;
-		onlyBottomPadding = false;
 	}
 
 	protected boolean prepare(int availableStretchHeight, boolean isOverflow) throws JRException
@@ -143,7 +140,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			return false;
 		}
 		
-		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY())
+		first = !isOverflow || !filling;
+		int topPadding = first ? getTopPadding() : 0;
+		int bottomPadding = getBottomPadding();		
+		
+		if (availableStretchHeight < getRelativeY() - getY() - getBandBottomY() - topPadding)
 		{
 			setToPrint(false);
 			return true;
@@ -174,51 +175,35 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			}
 		}
 		
-		first = !isOverflow || !filling;
-		
-		int bottomPadding = getBottomPadding();
-		if (onlyBottomPadding)
-		{
-			fillHeight = bottomPadding;
-			setStretchHeight(bottomPadding);
-			filling = false;
-			fillElements = false;
-			
-			return false;
-		}
-				
-		int topPadding = first ? getTopPadding() : 0;
-		
 		int stretchHeight = availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
 		
 		frameContainer.initFill();
 		frameContainer.resetElements();
 		frameContainer.prepareElements(stretchHeight + bottomPadding, true);
 		
-		onlyBottomPadding = false;
 		boolean willOverflow = frameContainer.willOverflow();
-		if (!willOverflow)
+		if (willOverflow)
+		{
+			setStretchHeight(getHeight() + stretchHeight);
+			fillHeight = getHeight() + stretchHeight;
+		}
+		else
 		{
 			int neededStretch = frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding;
 			if (neededStretch <= getHeight() + stretchHeight)
 			{
 				setStretchHeight(neededStretch);
 				fillHeight = neededStretch;
+				fillBottomPadding = true;
 			}
-			else //will overflow because of the bottom padding
+			else //don't overflow because of the bottom padding
 			{
-				willOverflow = true;
-				onlyBottomPadding = true;
+				setStretchHeight(getHeight() + stretchHeight);
+				fillHeight = getHeight() + stretchHeight;
+				fillBottomPadding = false;
 			}
-		}
-		
-		if (willOverflow)
-		{
-			setStretchHeight(getHeight() + stretchHeight);
-			fillHeight = getHeight() + stretchHeight;
 		}
 
-		fillElements = true;
 		filling = willOverflow;
 
 		return willOverflow;
@@ -235,10 +220,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		printFrame.setY(getRelativeY());
 		printFrame.setWidth(getWidth());
 		
-		if (fillElements)
-		{
-			frameContainer.fillElements(printFrame);
-		}
+		frameContainer.fillElements(printFrame);
 		
 		printFrame.setHeight(fillHeight);
 		
@@ -251,7 +233,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		if (first)
 		{
-			if (filling) //remove the bottom border
+			if (filling || !fillBottomPadding) //remove the bottom border
 			{				
 				if (bottomTemplateFrame == null)
 				{
@@ -270,7 +252,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		}
 		else
 		{
-			if (filling) //remove the top and bottom borders
+			if (filling || !fillBottomPadding) //remove the top and bottom borders
 			{
 				if (topBottomTemplateFrame == null)
 				{
