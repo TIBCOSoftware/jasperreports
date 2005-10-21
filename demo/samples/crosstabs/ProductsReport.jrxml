@@ -132,6 +132,16 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
+				
+				<whenNoDataCell>
+					<cellContents>
+						<staticText>
+							<reportElement x="0" y="0" width="250" height="25"/>
+							<text>No data</text>
+						</staticText>
+					</cellContents>
+				</whenNoDataCell>
+				
 			</crosstab>
 		</band>
 	</detail>
