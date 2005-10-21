@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.1.0 (2005-10-xx)
+JasperReports 1.1.0 (2005-10-21)
 -----------------------------------
 - support for report styles that can be referenced by elements to inherit 
 visual properties such as font, color, border, etc; report fonts are now deprecated;
