@@ -56,6 +56,7 @@ public class JRTextExporter extends JRAbstractExporter
 	protected String betweenPagesText;
 	protected String lineSeparator;
 
+	protected static final String systemLineSeparator = System.getProperty("line.separator");
 	/**
 	 *
 	 */
@@ -125,12 +126,12 @@ public class JRTextExporter extends JRAbstractExporter
 
 		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
 		if (betweenPagesText == null) {
-			betweenPagesText = "\n\n";
+			betweenPagesText = systemLineSeparator + systemLineSeparator;
 		}
 
 		lineSeparator = (String) parameters.get(JRTextExporterParameter.LINE_SEPARATOR);
 		if (lineSeparator == null) {
-			lineSeparator = "\n";
+			lineSeparator = systemLineSeparator;
 		}
 
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
@@ -368,7 +369,7 @@ public class JRTextExporter extends JRAbstractExporter
 		int rowPosition = 0;
 
 		// first search for the line separator
-		StringTokenizer lfTokenizer = new StringTokenizer(allText, lineSeparator);
+		StringTokenizer lfTokenizer = new StringTokenizer(allText, "\n");
 		label:while (lfTokenizer.hasMoreTokens()) {
 			String line = lfTokenizer.nextToken();
 			StringTokenizer spaceTokenizer = new StringTokenizer(line, " ", true);
