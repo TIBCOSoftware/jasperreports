@@ -50,6 +50,7 @@ import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -157,6 +158,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected Map fontMap = null;
 	
+	private LinkedList backcolorStack;
+	private Color backcolor;
+
+	public JRHtmlExporter()
+	{
+		backcolorStack = new LinkedList();
+		backcolor = null;
+	}
 	
 	/**
 	 *
@@ -652,6 +661,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		writer.write(">\n");
 		
+		if (whitePageBackground)
+		{
+			setBackcolor(Color.white);
+		}
+		
 		writer.write("<tr>\n");
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
@@ -738,6 +752,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 		
+		if (whitePageBackground)
+		{
+			restoreBackcolor();
+		}
+		
 		writer.write("</table>\n");
 	}
 
@@ -788,7 +807,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writeCellTDStart(gridCell);
 		
 		if (
-			element.getBackcolor().getRGB() != Color.white.getRGB() 
+			(backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()) 
 			&& element.getMode() == JRElement.MODE_OPAQUE
 			)
 		{
@@ -855,11 +874,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("; ");
 		}
 
-		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (backcolor != null)
+		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (runBackcolor != null)
 		{
 			writer.write("background-color: #");
-			String hexa = Integer.toHexString(backcolor.getRGB() & colorMask).toUpperCase();
+			String hexa = Integer.toHexString(runBackcolor.getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			writer.write(hexa);
 			writer.write("; ");
@@ -1161,16 +1180,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	private void appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
+	private Color appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
 	{
-		if (element.getMode() == JRElement.MODE_OPAQUE && element.getBackcolor().getRGB() != Color.white.getRGB())
+		if (element.getMode() == JRElement.MODE_OPAQUE && (backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()))
 		{
 			styleBuffer.append("background-color: #");
 			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			styleBuffer.append(hexa);
 			styleBuffer.append("; ");
+			
+			return element.getBackcolor();
 		}
+		
+		return null;
 	}
 
 
@@ -1694,7 +1717,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writeCellTDStart(gridCell);
 		
 		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(frame, styleBuffer);
+		Color frameBackcolor = appendBackcolorStyle(frame, styleBuffer);
 		appendBorderStyle(frame, frame, styleBuffer);
 
 		if (styleBuffer.length() > 0)
@@ -1706,12 +1729,38 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		writer.write(">\n");
 		
-		JRGridLayout layout = new JRGridLayout(frame.getElements(), null, 
-				frame.getWidth(), frame.getHeight(), 0, 0, 
-				JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
-		exportGrid(layout, false);
+		if (frameBackcolor != null)
+		{
+			setBackcolor(frameBackcolor);
+		}
+		try
+		{
+			JRGridLayout layout = new JRGridLayout(frame.getElements(), null, frame.getWidth(), frame.getHeight(), 0, 0, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
+			exportGrid(layout, false);
+		}
+		finally
+		{
+			if (frameBackcolor != null)
+			{
+				restoreBackcolor();
+			}
+		}
 		
 		writer.write("</td>\n");
+	}
+	
+	
+	protected void setBackcolor(Color color)
+	{
+		backcolorStack.addLast(backcolor);
+		
+		backcolor = color;
+	}
+
+	
+	protected void restoreBackcolor()
+	{
+		backcolor = (Color) backcolorStack.removeLast();
 	}
 
 }
