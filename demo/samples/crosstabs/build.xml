@@ -143,10 +143,10 @@
 		</delete>
 		<delete dir="OrdersReport.jrpxml_files" />
 		<delete dir="OrdersReport.html_files" />
-		<delete dir="OrdersReport.jrpxml_files" />
-		<delete dir="OrdersReport.html_files" />
-		<delete dir="OrdersReport.jrpxml_files" />
-		<delete dir="OrdersReport.html_files" />
+		<delete dir="ProductsReport.jrpxml_files" />
+		<delete dir="ProductsReport.html_files" />
+		<delete dir="ShipmentsReport.jrpxml_files" />
+		<delete dir="ShipmentsReport.html_files" />
 	</target>
 
 </project>

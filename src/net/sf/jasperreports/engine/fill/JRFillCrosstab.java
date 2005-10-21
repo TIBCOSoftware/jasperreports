@@ -339,10 +339,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 
 		byte totalPosition = group.getTotalPosition();
-		if (group.getTotalHeader() == null)
-		{
-			totalPosition = BucketDefinition.TOTAL_POSITION_NONE;
-		}
 		return new BucketDefinition(bucket.getExpression().getValueClass(), comparator, bucket.getOrder(), totalPosition);
 	}
 

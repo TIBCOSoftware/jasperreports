@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -552,5 +553,10 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	{
 		this.rightPadding = rightPadding;
 	}
-
+	
+	
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+	}
 }

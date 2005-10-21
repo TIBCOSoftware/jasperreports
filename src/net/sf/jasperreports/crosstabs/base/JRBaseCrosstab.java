@@ -296,14 +296,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 			for (int i = 0; element == null && i < groups.length; i++)
 			{
 				JRCellContents header = groups[i].getHeader();
-				if (header != null)
-				{
-					element = header.getElementByKey(key);
-				}
+				element = header.getElementByKey(key);
 				
-				JRCellContents totalHeader = groups[i].getTotalHeader();
-				if (element == null && totalHeader != null)
+				if (element == null)
 				{
+					JRCellContents totalHeader = groups[i].getTotalHeader();
 					element = totalHeader.getElementByKey(key);
 				}
 			}

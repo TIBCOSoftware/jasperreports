@@ -47,6 +47,7 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public JRDesignCrosstabCell()
 	{
+		contents = new JRDesignCellContents();
 	}
 	
 	
@@ -70,6 +71,11 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell
 	 */
 	public void setContents(JRDesignCellContents contents)
 	{
+		if (contents == null)
+		{
+			contents = new JRDesignCellContents();
+		}
+		
 		this.contents = contents;
 	}
 
