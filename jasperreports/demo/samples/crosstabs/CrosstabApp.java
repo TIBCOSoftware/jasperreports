@@ -69,9 +69,9 @@ public class CrosstabApp
 	private static final String TASK_RUN = "run";
 	
 	private static final String[] reportNames = {
-		"Orders",
-		"Products",
-		"Shipments"
+		"OrdersReport",
+		"ProductsReport",
+		"ShipmentsReport"
 	};
 	
 	/**
@@ -105,7 +105,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", null, getConnection());
-					System.err.println("Report: " + reportNames[i] + " Filling time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -114,7 +114,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperPrintManager.printReport(reportNames[i] + ".jrprint", true);
-					System.err.println("Report" + reportNames[i] + "Printing time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". Printing time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -123,7 +123,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperExportManager.exportReportToPdfFile(reportNames[i] + ".jrprint");
-					System.err.println("Report " + reportNames[i] + " PDF creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". PDF creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -132,7 +132,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", false);
-					System.err.println("Report " + reportNames[i] + " XML creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". XML creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -141,7 +141,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", true);
-					System.err.println("Report " + reportNames[i] + " XML creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". XML creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -150,7 +150,7 @@ public class CrosstabApp
 				for(int i = 0; i < reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
-					System.err.println("Report " + reportNames[i] + " HTML creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". HTML creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -171,7 +171,7 @@ public class CrosstabApp
 				
 					exporter.exportReport();
 
-					System.err.println("Report " + reportNames[i] + " RTF creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". RTF creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -193,7 +193,7 @@ public class CrosstabApp
 				
 					exporter.exportReport();
 
-					System.err.println("Report " + reportNames[i] + " XLS creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". XLS creation time : " + (System.currentTimeMillis() - start));
 				}
 				
 				System.exit(0);
@@ -215,7 +215,7 @@ public class CrosstabApp
 				
 					exporter.exportReport();
 
-					System.err.println("Report " + reportNames[i] + " CSV creation time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". CSV creation time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
@@ -224,7 +224,7 @@ public class CrosstabApp
 				for(int i = 0; i< reportNames.length; i++) {
 					long start = System.currentTimeMillis();
 					JasperRunManager.runReportToPdfFile(reportNames[i] + ".jrprint", null, getConnection());
-					System.err.println("Report " + reportNames[i] + " PDF running time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". PDF running time : " + (System.currentTimeMillis() - start));
 				}
 				System.exit(0);
 			}
