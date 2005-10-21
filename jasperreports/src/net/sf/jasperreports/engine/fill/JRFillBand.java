@@ -355,4 +355,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 		JRBaseFiller.updateIdentityData(pageToBoundElements, page, boundElements, identityData);
 	}
 
+
+	protected int getContainerHeight()
+	{
+		return getHeight();
+	}
+
 }

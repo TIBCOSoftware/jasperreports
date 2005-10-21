@@ -132,7 +132,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			for(int i = 0; i < this.elements.length; i++)
 			{
 				this.elements[i].setBandBottomY(
-					this.getHeight() - this.elements[i].getY() - this.elements[i].getHeight()
+					this.getContainerHeight() - this.elements[i].getY() - this.elements[i].getHeight()
 					);
 			}
 		}
@@ -260,7 +260,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		int maxBandStretch = 0;
 		int bandStretch = 0;
 
-		firstY = isOverflow ? getHeight() : 0;
+		firstY = isOverflow ? getContainerHeight() : 0;
 
 		if (ySortedElements != null && ySortedElements.length > 0)
 		{
@@ -288,7 +288,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 						this.isFirstYFound = true;
 					}
 
-					bandStretch = element.getRelativeY() + element.getStretchHeight() - this.getHeight() + element.getBandBottomY();
+					bandStretch = element.getRelativeY() + element.getStretchHeight() - getContainerHeight() + element.getBandBottomY();
 					if (bandStretch > maxBandStretch)
 					{
 						maxBandStretch = bandStretch;
@@ -304,11 +304,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		
 		if (tmpWillOverflow)
 		{
-			this.stretchHeight = this.getHeight() + availableStretchHeight;
+			this.stretchHeight = getContainerHeight() + availableStretchHeight;
 		}
 		else
 		{
-			this.stretchHeight = this.getHeight() + maxBandStretch;
+			this.stretchHeight = getContainerHeight() + maxBandStretch;
 		}
 
 		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
@@ -326,7 +326,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = stretchElements[i];
 				
-				element.stretchElement(this.stretchHeight - this.getHeight());
+				element.stretchElement(this.stretchHeight - getContainerHeight());
 				
 				element.moveDependantElements();
 			}
@@ -354,7 +354,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					JRFillElement element = bandBottomElements[i];
 
 					element.setRelativeY(
-						element.getY() + this.stretchHeight - this.getHeight()
+						element.getY() + this.stretchHeight - getContainerHeight()
 						);
 
 					// band bottom elements do not print if there will be an overflow
@@ -576,5 +576,5 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 * 
 	 * @return the height of the element container
 	 */
-	protected abstract int getHeight();
+	protected abstract int getContainerHeight();
 }

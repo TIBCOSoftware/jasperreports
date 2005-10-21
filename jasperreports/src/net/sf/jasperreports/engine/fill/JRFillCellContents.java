@@ -339,9 +339,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		printCell.setX(x);
 		printCell.setY(y);
 		printCell.setWidth(width);
-		printCell.setHeight(height);
 		
 		fillElements(printCell);
+		
+		printCell.setHeight(height);
 		
 		return printCell;
 	}
@@ -429,5 +430,18 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			return hashCode;
 		}
+	}
+
+	protected int getContainerHeight()
+	{
+		int topPadding = 0;
+		int bottomPadding = 0;
+		if (box != null)
+		{
+			topPadding = box.getTopPadding();
+			bottomPadding = box.getBottomPadding();
+		}
+		
+		return getHeight() - topPadding - bottomPadding;
 	}
 }

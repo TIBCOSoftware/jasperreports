@@ -329,7 +329,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			initElements();
 		}
 
-		protected int getHeight()
+		protected int getContainerHeight()
 		{
 			return JRFillFrame.this.getHeight() - getTopPadding() - getBottomPadding();
 		}
