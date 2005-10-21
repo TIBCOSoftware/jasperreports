@@ -48,6 +48,9 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		variable = designVariable = new JRDesignVariable();
 		designVariable.setCalculation(JRVariable.CALCULATION_SYSTEM);
 		designVariable.setSystemDefined(true);
+		
+		header = new JRDesignCellContents();
+		totalHeader = new JRDesignCellContents();
 	}
 	
 	
@@ -96,6 +99,11 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setHeader(JRDesignCellContents header)
 	{
+		if (header == null)
+		{
+			header = new JRDesignCellContents();
+		}
+		
 		this.header = header;
 	}
 
@@ -108,6 +116,11 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	 */
 	public void setTotalHeader(JRDesignCellContents totalHeader)
 	{
+		if (totalHeader == null)
+		{
+			totalHeader = new JRDesignCellContents();
+		}
+		
 		this.totalHeader = totalHeader;
 	}
 }

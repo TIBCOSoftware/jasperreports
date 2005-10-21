@@ -92,6 +92,8 @@ public interface JRCrosstabGroup
 	 * 	<li>the height of a non-last row group header is the sum of the next group header's height and
 	 * the next group total header's height (0 if the next group doesn't have a total header)</li>  
 	 * </ul>
+	 * <p>
+	 * Should never return null, but empty cell contents instead.
 	 * 
 	 * @return the group header cell
 	 */
@@ -106,6 +108,8 @@ public interface JRCrosstabGroup
 	 * 	<li>the width is the sum the widths of this and subsequent row groups</li>
 	 * 	<li>the height is the height of the base cell for this total row</li>
 	 * </ul>
+	 * <p>
+	 * Should never return null, but empty cell contents instead.
 	 * 
 	 * @return the group total header cell
 	 */

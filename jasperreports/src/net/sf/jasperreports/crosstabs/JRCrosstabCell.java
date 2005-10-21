@@ -80,6 +80,8 @@ public interface JRCrosstabCell
 	
 	/**
 	 * Returns the cell contents.
+	 * <p>
+	 * Should never return null, but empty cell contents instead.
 	 * 
 	 * @return the cell contents
 	 */

@@ -1866,23 +1866,16 @@ public class JRXmlWriter
 		writeBucket(group.getBucket());
 		
 		JRCellContents header = group.getHeader();
-		if (header != null)
-		{
-			writer.startElement("crosstabRowHeader");
-			writeCellContents(header);
-			writer.closeElement();
-		}
-		
-		JRCellContents totalHeader = group.getTotalHeader();
-		if (totalHeader != null)
-		{
-			writer.startElement("crosstabTotalRowHeader");
-			writeCellContents(totalHeader);
-			writer.closeElement();
-		}
-		
+		writer.startElement("crosstabRowHeader");
+		writeCellContents(header);
 		writer.closeElement();
 		
+		JRCellContents totalHeader = group.getTotalHeader();
+		writer.startElement("crosstabTotalRowHeader");
+		writeCellContents(totalHeader);
+		writer.closeElement();
+		
+		writer.closeElement();		
 	}
 	
 	
@@ -1897,23 +1890,16 @@ public class JRXmlWriter
 		writeBucket(group.getBucket());
 		
 		JRCellContents header = group.getHeader();
-		if (header != null)
-		{
-			writer.startElement("crosstabColumnHeader");
-			writeCellContents(header);
-			writer.closeElement();
-		}
-		
-		JRCellContents totalHeader = group.getTotalHeader();
-		if (totalHeader != null)
-		{
-			writer.startElement("crosstabTotalColumnHeader");
-			writeCellContents(totalHeader);
-			writer.closeElement();
-		}
-		
+		writer.startElement("crosstabColumnHeader");
+		writeCellContents(header);
 		writer.closeElement();
 		
+		JRCellContents totalHeader = group.getTotalHeader();
+		writer.startElement("crosstabTotalColumnHeader");
+		writeCellContents(totalHeader);
+		writer.closeElement();
+		
+		writer.closeElement();		
 	}
 
 

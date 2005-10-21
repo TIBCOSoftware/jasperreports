@@ -414,4 +414,9 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 	{
 		this.rightPadding = rightPadding;
 	}
+	
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
 }

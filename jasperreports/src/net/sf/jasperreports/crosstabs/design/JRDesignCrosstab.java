@@ -817,13 +817,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		{
 			JRDesignCrosstabCell crosstabCell = (JRDesignCrosstabCell) it.next();
 			JRDesignCellContents contents = (JRDesignCellContents) crosstabCell.getContents();
-
-			if (contents == null)
-			{
-				contents = new JRDesignCellContents();
-				crosstabCell.setContents(contents);
-			}
-
 			
 			String rowTotalGroup = crosstabCell.getRowTotalGroup();
 			int rowGroupIndex = rowTotalGroup == null ? rowGroupIndex = rowGroups.size() : ((Integer) rowGroupsMap.get(rowTotalGroup)).intValue();
@@ -997,23 +990,17 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 
 			JRDesignCellContents header = (JRDesignCellContents) group.getHeader();
-			if (header != null)
-			{
-				header.setHeight(heightSum);
-				header.setWidth(group.getWidth());
-			}
+			header.setHeight(heightSum);
+			header.setWidth(group.getWidth());
 
 			if (group.hasTotal())
 			{
 				JRDesignCellContents totalHeader = (JRDesignCellContents) group.getTotalHeader();
-				if (totalHeader != null)
+				totalHeader.setWidth(widthSum);
+				JRDesignCrosstabCell totalCell = crossCells[i][columnGroups.size()];
+				if (totalCell != null)
 				{
-					totalHeader.setWidth(widthSum);
-					JRDesignCrosstabCell totalCell = crossCells[i][columnGroups.size()];
-					if (totalCell != null)
-					{
-						totalHeader.setHeight(totalCell.getContents().getHeight());
-					}
+					totalHeader.setHeight(totalCell.getContents().getHeight());
 				}
 			}
 		}
@@ -1033,23 +1020,17 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 
 			JRDesignCellContents header = (JRDesignCellContents) group.getHeader();
-			if (header != null)
-			{
-				header.setHeight(group.getHeight());
-				header.setWidth(widthSum);
-			}
+			header.setHeight(group.getHeight());
+			header.setWidth(widthSum);
 
 			if (group.hasTotal())
 			{
 				JRDesignCellContents totalHeader = (JRDesignCellContents) group.getTotalHeader();
-				if (totalHeader != null)
+				totalHeader.setHeight(heightSum);
+				JRDesignCrosstabCell totalCell = crossCells[rowGroups.size()][i];
+				if (totalCell != null)
 				{
-					totalHeader.setHeight(heightSum);
-					JRDesignCrosstabCell totalCell = crossCells[rowGroups.size()][i];
-					if (totalCell != null)
-					{
-						totalHeader.setWidth(totalCell.getContents().getWidth());
-					}
+					totalHeader.setWidth(totalCell.getContents().getWidth());
 				}
 			}
 		}
