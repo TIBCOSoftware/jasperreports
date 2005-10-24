@@ -45,6 +45,8 @@ public class JRFillCrosstabParameter extends JRFillParameter implements JRCrosst
 	public JRFillCrosstabParameter(JRCrosstabParameter parameter, JRFillObjectFactory factory)
 	{
 		super(parameter, factory);
+		
+		parentParameter = parameter;
 	}
 	
 	public JRExpression getExpression()
