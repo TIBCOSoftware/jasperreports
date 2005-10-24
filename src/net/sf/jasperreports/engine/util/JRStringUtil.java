@@ -33,6 +33,7 @@
 package net.sf.jasperreports.engine.util;
 
 
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -46,28 +47,69 @@ public class JRStringUtil
 	 */
 	public static String xmlEncode(String text)
 	{
-		if (text != null)
+		int length = text.length();
+		if (text != null && length > 0)
 		{
-			StringBuffer ret = new StringBuffer();
+			StringBuffer ret = new StringBuffer(length * 12 / 10);
 
-			for (int i = 0; i < text.length(); i ++)
+			int last = 0;
+			for (int i = 0; i < length; i ++)
 			{
-				switch (text.charAt(i))
+				char c = text.charAt(i);
+				switch (c)
 				{
 		//			case ' ' : ret.append("&nbsp;"); break;
-					case '&' : ret.append("&amp;"); break;
-					case '>' : ret.append("&gt;"); break;
-					case '<' : ret.append("&lt;"); break;
-					case '\"' : ret.append("&quot;"); break;
+					case '&' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&amp;");
+						break;
+					case '>' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&gt;");
+						break;
+					case '<' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&lt;");
+						break;
+					case '\"' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&quot;");
+						break;
 
-					default : ret.append(text.substring(i, i + 1)); break;
+					default :
+						break;
 				}
 			}
 
+			if (last < length)
+			{
+				ret.append(text.substring(last));
+			}
+			
 			return ret.toString();
 		}
 
-		return null;
+		return text;
 	}
 
 
@@ -76,41 +118,101 @@ public class JRStringUtil
 	 */
 	public static String htmlEncode(String text)
 	{
-		if (text != null)
+		int length = text.length();
+		if (text != null && length > 0)
 		{
-			StringBuffer ret = new StringBuffer();
+			StringBuffer ret = new StringBuffer(length * 12 / 10);
 
 			boolean isEncodeSpace = true;
-			for (int i = 0; i < text.length(); i ++)
+			int last = 0;
+			for (int i = 0; i < length; i ++)
 			{
-				switch (text.charAt(i))
+				char c = text.charAt(i);
+				switch (c)
 				{
 					case ' ' : 
 						if (isEncodeSpace)
 						{
+							if (last < i)
+							{
+								ret.append(text.substring(last, i));
+							}
+							last = i + 1;
+							
 							ret.append("&nbsp;");
 							isEncodeSpace = false;
 						}
 						else
 						{
-							ret.append(" ");
 							isEncodeSpace = true;
 						}
 						break;
-					case '&' : ret.append("&amp;"); isEncodeSpace = false; break;
-					case '>' : ret.append("&gt;"); isEncodeSpace = false; break;
-					case '<' : ret.append("&lt;"); isEncodeSpace = false; break;
-					case '\"' : ret.append("&quot;"); isEncodeSpace = false; break;
-					case '\n' : ret.append("<br>"); isEncodeSpace = false; break;
+					case '&' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&amp;");
+						isEncodeSpace = false;
+						break;
+					case '>' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&gt;");
+						isEncodeSpace = false;
+						break;
+					case '<' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&lt;");
+						isEncodeSpace = false;
+						break;
+					case '\"' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&quot;");
+						isEncodeSpace = false;
+						break;
+					case '\n' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("<br>");
+						isEncodeSpace = false;
+						break;
 
-					default : ret.append(text.substring(i, i + 1)); isEncodeSpace = false; break;
+					default :
+						isEncodeSpace = false;
+					break;
 				}
+			}
+
+			if (last < length)
+			{
+				ret.append(text.substring(last));
 			}
 
 			return ret.toString();
 		}
 
-		return null;
+		return text;
 	}
 
 
@@ -169,11 +271,13 @@ public class JRStringUtil
 			if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
 			{
 				result = false;
+				break;
 			}
 			
 			if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
 			{
 				result = false;
+				break;
 			}
 		}
 		
