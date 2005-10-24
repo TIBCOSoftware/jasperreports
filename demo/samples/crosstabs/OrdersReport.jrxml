@@ -8,10 +8,21 @@
 	<field name="ShipCountry" class="java.lang.String"/>
 	<field name="Freight" class="java.lang.Float"/>
 	<field name="OrderDate" class="java.sql.Timestamp"/>
+	<title>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="782" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" size="12"/>
+				</textElement>
+				<text>CROSSTAB : Number of orders and latest order date by country and freight range.</text>
+			</staticText>
+		</band>
+	</title>
 	<summary>
-		<band height="300">
+		<band height="60">
 			<crosstab name="Test" isRepeatColumnHeaders="false">
-				<reportElement x="0" y="0" width="782" height="260" mode="Opaque"/>
+				<reportElement x="0" y="0" width="782" height="60" mode="Opaque"/>
 				<crosstabDataset>
 					<dataset/>
 				</crosstabDataset>
