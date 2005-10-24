@@ -2,8 +2,8 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="SubDatasetChartReport" language="java" pageWidth="595" pageHeight="842" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<reportFont name="Arial_Bold" isDefault="false" fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<reportFont name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<subDataset name="Country_Orders">
 		<parameter name="Country" class="java.lang.String">
 		</parameter>
@@ -39,10 +39,10 @@
 	<title>
 		<band height="50">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="35"/>
+				<reportElement style="Comic_Bold" x="0" y="0" width="555" height="35"/>
 				<box topBorder="Thin" leftBorder="None" bottomBorder="None" rightBorder="None"/>
 				<textElement textAlignment="Center">
-					<font reportFont="Comic_Bold" size="22"/>
+					<font size="22"/>
 				</textElement>
 				<text><![CDATA[Sub Dataset Chart Report]]></text>
 			</staticText>
@@ -55,9 +55,9 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement x="10" y="2" width="100" height="16"/>
+				<reportElement style="Arial_Bold" x="10" y="2" width="100" height="16"/>
 				<textElement>
-					<font reportFont="Arial_Bold" size="12"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 			</textField>
