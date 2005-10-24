@@ -1139,7 +1139,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	public JRCrosstabParameter[] getParameters()
 	{
-		return parentCrosstab.getParameters();
+		return parameters;
 	}
 
 	public JRExpression getParametersMapExpression()
