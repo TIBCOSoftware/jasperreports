@@ -49,7 +49,7 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected byte resetType = JRVariable.RESET_TYPE_NONE;
+	protected byte resetType = JRVariable.RESET_TYPE_REPORT;
 	protected byte incrementType = JRVariable.RESET_TYPE_NONE;
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;

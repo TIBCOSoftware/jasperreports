@@ -73,7 +73,6 @@ import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
-import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
@@ -85,7 +84,6 @@ import net.sf.jasperreports.crosstabs.xml.JRCellContentsFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabBucketExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabBucketFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabCellFactory;
-import net.sf.jasperreports.crosstabs.xml.JRCrosstabChartDatasetFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabColumnGroupFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabDatasetFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabFactory;
@@ -378,7 +376,7 @@ public class JRXmlDigesterFactory
 	 */
 	private static void addChartRules(Digester digester)
 	{
-		digester.addFactoryCreate("*/dataset", JRChartDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/dataset", JRElementDatasetFactory.class.getName());
 		
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
 
@@ -716,8 +714,6 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("*/crosstab/crosstabParameter/parameterValueExpression", "setText", 0);
 
 		digester.addFactoryCreate("*/crosstab/crosstabDataset", JRCrosstabDatasetFactory.class.getName());
-		digester.addSetNext("*/crosstab/crosstabDataset", "setDataset", JRCrosstabDataset.class.getName());
-		digester.addFactoryCreate("*/crosstab/crosstabDataset/dataset", JRCrosstabChartDatasetFactory.class.getName());
 		
 		digester.addFactoryCreate("*/crosstab/rowGroup", JRCrosstabRowGroupFactory.class.getName());		
 		digester.addSetNext("*/crosstab/rowGroup", "addRowGroup", JRDesignCrosstabRowGroup.class.getName());		

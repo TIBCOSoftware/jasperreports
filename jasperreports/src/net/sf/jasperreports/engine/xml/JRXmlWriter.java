@@ -1077,7 +1077,7 @@ public class JRXmlWriter
 			writeDatasetRun(datasetRun);
 		}
 
-		writer.closeElement();		
+		writer.closeElement(true);
 	}
 
 
@@ -1775,7 +1775,10 @@ public class JRXmlWriter
 		{
 			for (int i = 0; i < parameters.length; i++)
 			{
-				writeCrosstabParameter(parameters[i]);
+				if (!parameters[i].isSystemDefined())
+				{
+					writeCrosstabParameter(parameters[i]);
+				}
 			}
 		}
 		
@@ -1839,7 +1842,7 @@ public class JRXmlWriter
 		writer.startElement("crosstabDataset");
 		writer.addAttribute(JRCrosstabDatasetFactory.ATTRIBUTE_isDataPreSorted, dataset.isDataPreSorted(), false);		
 		writeElementDataset(dataset);
-		writer.closeElement();
+		writer.closeElement(true);
 	}
 
 
