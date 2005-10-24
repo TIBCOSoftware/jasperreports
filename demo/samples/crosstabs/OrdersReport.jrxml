@@ -11,9 +11,9 @@
 	<title>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="782" height="20"/>
+				<reportElement x="0" y="0" width="782" height="20" style="Arial_Bold"/>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true" size="12"/>
+					<font size="12"/>
 				</textElement>
 				<text>Number of orders and latest order date by country and freight range.</text>
 			</staticText>
@@ -34,10 +34,8 @@
 						<cellContents>
 							<box borderColor="black" bottomBorder="1Point" rightBorder="1Point" leftBorder="1Point"/>
 							<textField>
-								<reportElement x="5" y="0" width="75" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font isBold="true"/>
-								</textElement>
+								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{CountryRow}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -46,9 +44,9 @@
 						<cellContents>
 							<box borderColor="black" border="1Point"/>
 							<staticText>
-								<reportElement x="5" y="0" width="75" height="20"/>
+								<reportElement x="5" y="0" width="75" height="20" style="Arial_Bold"/>
 								<textElement verticalAlignment="Middle">
-									<font isBold="true" size="12"/>
+									<font size="12"/>
 								</textElement>
 								<text>TOTAL</text>
 							</staticText>
@@ -63,10 +61,8 @@
 						<cellContents>
 							<box borderColor="black" topBorder="1Point" rightBorder="1Point" bottomBorder="1Point"/>
 							<textField>
-								<reportElement x="0" y="0" width="60" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font isBold="true"/>
-								</textElement>
+								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -75,9 +71,9 @@
 						<cellContents>
 							<box borderColor="black" border="1Point"/>
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="20"/>
+								<reportElement x="0" y="0" width="60" height="20" style="Arial_Bold"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font isBold="true" size="12"/>
+									<font size="12"/>
 								</textElement>
 								<text>TOTAL</text>
 							</staticText>
@@ -109,11 +105,14 @@
 					<cellContents backcolor="yellow">
 						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point" topBorder="1Point"/>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="20"/>
-							<textElement textAlignment="Center" verticalAlignment="Middle">
-								<font isBold="true"/>
-							</textElement>
+							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp">$V{MaxDate}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -121,17 +120,13 @@
 					<cellContents backcolor="green">
 						<box borderColor="black" bottomBorder="1Point" leftBorder="1Point" rightBorder="1Point"/>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10"/>
-							<textElement textAlignment="Center" verticalAlignment="Middle">
-								<font isBold="true"/>
-							</textElement>
+							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
 						</textField>
 						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10"/>
-							<textElement textAlignment="Center" verticalAlignment="Middle">
-								<font isBold="true"/>
-							</textElement>
+							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.sql.Timestamp">$V{MaxDate}</textFieldExpression>
 						</textField>
 					</cellContents>
@@ -140,11 +135,14 @@
 					<cellContents backcolor="gray">
 						<box borderColor="black" bottomBorder="1Point" rightBorder="1Point"/>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="20"/>
-							<textElement textAlignment="Center" verticalAlignment="Middle">
-								<font isBold="true"/>
-							</textElement>
+							<reportElement x="0" y="0" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Integer">$V{OrderCount}</textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement x="0" y="10" width="60" height="10" style="Arial_Bold"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp">$V{MaxDate}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
