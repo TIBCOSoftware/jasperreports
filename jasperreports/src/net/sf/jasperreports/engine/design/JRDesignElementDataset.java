@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
@@ -111,7 +110,7 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 * Sets the sub dataset run for this dataset.
 	 * 
 	 * @param datasetRun the dataset run
-	 * @see JRChartDataset#getDatasetRun()
+	 * @see JRElementDataset#getDatasetRun()
 	 */
 	public void setDatasetRun(JRDatasetRun datasetRun)
 	{
