@@ -15,7 +15,7 @@
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" size="12"/>
 				</textElement>
-				<text>CROSSTAB : Number of orders and latest order date by country and freight range.</text>
+				<text>Number of orders and latest order date by country and freight range.</text>
 			</staticText>
 		</band>
 	</title>
