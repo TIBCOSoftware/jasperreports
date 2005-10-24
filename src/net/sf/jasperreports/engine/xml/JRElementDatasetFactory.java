@@ -48,6 +48,14 @@ public class JRElementDatasetFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_incrementType = "incrementType";
 	private static final String ATTRIBUTE_incrementGroup = "incrementGroup";
 
+	public Object createObject(Attributes atts)
+	{
+		JRDesignElementDataset dataset = (JRDesignElementDataset) digester.peek();
+
+		setDatasetAtts(atts, dataset);
+
+		return dataset;
+	}
 
 	protected void setDatasetAtts(Attributes atts, JRDesignElementDataset dataset)
 	{

@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.crosstabs.xml;
 
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabDataset;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -42,7 +43,8 @@ public class JRCrosstabDatasetFactory extends JRBaseFactory
 
 	public Object createObject(Attributes atts)
 	{
-		JRDesignCrosstabDataset dataset = new JRDesignCrosstabDataset();
+		JRDesignCrosstab crosstab = (JRDesignCrosstab) digester.peek();
+		JRDesignCrosstabDataset dataset = crosstab.getDesignDataset();
 		
 		String sortedAttr = atts.getValue(ATTRIBUTE_isDataPreSorted);
 		if (sortedAttr != null && sortedAttr.length() > 0)

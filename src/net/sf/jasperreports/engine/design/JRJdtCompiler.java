@@ -161,28 +161,28 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			public NameEnvironmentAnswer findType(char[][] compoundTypeName) 
 			{
-				String result = "";
+				StringBuffer result = new StringBuffer();
 				String sep = "";
 				for (int i = 0; i < compoundTypeName.length; i++) {
-					result += sep;
-					result += new String(compoundTypeName[i]);
+					result.append(sep);
+					result.append(compoundTypeName[i]);
 					sep = ".";
 				}
-				return findType(result);
+				return findType(result.toString());
 			}
 
 			public NameEnvironmentAnswer findType(char[] typeName, char[][] packageName) 
 			{
-				String result = "";
+				StringBuffer result = new StringBuffer();
 				String sep = "";
 				for (int i = 0; i < packageName.length; i++) {
-					result += sep;
-					result += new String(packageName[i]);
+					result.append(sep);
+					result.append(packageName[i]);
 					sep = ".";
 				}
-				result += sep;
-				result += new String(typeName);
-				return findType(result);
+				result.append(sep);
+				result.append(typeName);
+				return findType(result.toString());
 			}
 
 			private int getClassIndex(String className)
@@ -291,29 +291,27 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 			public boolean isPackage(char[][] parentPackageName, char[] packageName) 
 			{
-				String result = "";
+				StringBuffer result = new StringBuffer();
 				String sep = "";
 				if (parentPackageName != null) 
 				{
 					for (int i = 0; i < parentPackageName.length; i++) 
 					{
-						result += sep;
-						String str = new String(parentPackageName[i]);
-						result += str;
+						result.append(sep);
+						result.append(parentPackageName[i]);
 						sep = ".";
 					}
 				}
-				String str = new String(packageName);
-				if (Character.isUpperCase(str.charAt(0))) 
+				if (Character.isUpperCase(packageName[0])) 
 				{
-					if (!isPackage(result)) 
+					if (!isPackage(result.toString())) 
 					{
 						return false;
 					}
 				}
-				result += sep;
-				result += str;
-				return isPackage(result);
+				result.append(sep);
+				result.append(packageName);
+				return isPackage(result.toString());
 			}
 
 			public void cleanup() 

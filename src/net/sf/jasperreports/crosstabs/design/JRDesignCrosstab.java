@@ -76,7 +76,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected List parametersList;
 	protected Map parametersMap;
 	protected JRExpression parametersMapExpression;
-	protected JRCrosstabDataset dataset;
+	protected JRDesignCrosstabDataset dataset;
 	protected List rowGroups;
 	protected List columnGroups;
 	protected List measures;
@@ -122,6 +122,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		cellsList = new ArrayList();
 		
 		addBuiltinParameters();
+		
+		dataset = new JRDesignCrosstabDataset();
 	}
 
 	private void addBuiltinParameters()
@@ -158,6 +160,17 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 
 	public JRCrosstabDataset getDataset()
+	{
+		return dataset;
+	}
+
+	
+	/**
+	 * Returns the crosstab dataset object to be used for report designing.
+	 * 
+	 * @return the crosstab dataset design object
+	 */
+	public JRDesignCrosstabDataset getDesignDataset()
 	{
 		return dataset;
 	}
@@ -216,7 +229,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @param dataset the dataset
 	 * @see JRCrosstab#getDataset()
 	 */
-	public void setDataset(JRCrosstabDataset dataset)
+	public void setDataset(JRDesignCrosstabDataset dataset)
 	{
 		this.dataset = dataset;
 	}
