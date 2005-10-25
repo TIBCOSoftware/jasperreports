@@ -51,9 +51,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignChart;
-import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -473,7 +473,7 @@ public class JRXmlLoader
 	{
 		for(Iterator it = groupBoundDatasets.iterator(); it.hasNext();)
 		{
-			JRDesignChartDataset dataset = (JRDesignChartDataset)it.next();
+			JRDesignElementDataset dataset = (JRDesignElementDataset) it.next();
 			
 			JRDatasetRun datasetRun = dataset.getDatasetRun();
 			Map groupsMap;
