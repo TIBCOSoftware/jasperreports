@@ -83,8 +83,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	 */
 	private boolean first;
 	
-	private int fillHeight;
-	private boolean fillBottomPadding;
+	private boolean fillBottomBorder;
 	
 	/**
 	 * Whether the frame has started filling and not ended.
@@ -185,7 +184,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		if (willOverflow)
 		{
 			setStretchHeight(getHeight() + stretchHeight);
-			fillHeight = getHeight() + stretchHeight;
+			fillBottomBorder = false;
 		}
 		else
 		{
@@ -193,20 +192,27 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			if (neededStretch <= getHeight() + stretchHeight)
 			{
 				setStretchHeight(neededStretch);
-				fillHeight = neededStretch;
-				fillBottomPadding = true;
+				fillBottomBorder = true;
 			}
 			else //don't overflow because of the bottom padding
 			{
 				setStretchHeight(getHeight() + stretchHeight);
-				fillHeight = getHeight() + stretchHeight;
-				fillBottomPadding = false;
+				fillBottomBorder = false;
 			}
 		}
 
 		filling = willOverflow;
 
 		return willOverflow;
+	}
+
+	protected void setStretchHeight(int stretchHeight)
+	{
+		super.setStretchHeight(stretchHeight);
+		
+		int topPadding = first ? getTopPadding() : 0;
+		int bottomPadding = getBottomPadding();		
+		frameContainer.setStretchHeight(stretchHeight + frameContainer.getFirstY() - topPadding - bottomPadding);
 	}
 
 	protected JRPrintElement fill() throws JRException
@@ -222,7 +228,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer.fillElements(printFrame);
 		
-		printFrame.setHeight(fillHeight);
+		printFrame.setHeight(getStretchHeight());
 		
 		return printFrame;
 	}
@@ -233,8 +239,12 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		if (first)
 		{
-			if (filling || !fillBottomPadding) //remove the bottom border
+			if (fillBottomBorder)
 			{				
+				boxTemplate = templateFrame;
+			}
+			else //remove the bottom border
+			{
 				if (bottomTemplateFrame == null)
 				{
 					JRBox bottomBox = new JRBaseBox(this, true, true, true, false, null);
@@ -245,26 +255,10 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 				
 				boxTemplate = bottomTemplateFrame;
 			}
-			else
-			{
-				boxTemplate = templateFrame;
-			}
 		}
 		else
 		{
-			if (filling || !fillBottomPadding) //remove the top and bottom borders
-			{
-				if (topBottomTemplateFrame == null)
-				{
-					JRBox topBottomBox = new JRBaseBox(this, true, true, false, false, null);
-					
-					topBottomTemplateFrame = new JRTemplateFrame(this);
-					topBottomTemplateFrame.setBox(topBottomBox);
-				}
-				
-				boxTemplate = topBottomTemplateFrame;
-			}
-			else //remove the top border
+			if (fillBottomBorder) //remove the top border
 			{
 				if (topTemplateFrame == null)
 				{
@@ -275,6 +269,18 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 				}
 				
 				boxTemplate = topTemplateFrame;
+			}
+			else //remove the top and bottom borders
+			{
+				if (topBottomTemplateFrame == null)
+				{
+					JRBox topBottomBox = new JRBaseBox(this, true, true, false, false, null);
+					
+					topBottomTemplateFrame = new JRTemplateFrame(this);
+					topBottomTemplateFrame.setBox(topBottomBox);
+				}
+				
+				boxTemplate = topBottomTemplateFrame;
 			}
 		}
 		

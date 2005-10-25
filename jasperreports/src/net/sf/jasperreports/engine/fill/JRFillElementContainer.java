@@ -314,6 +314,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
 	}
 
+	protected void setStretchHeight(int stretchHeight)
+	{
+		if (stretchHeight > this.stretchHeight)
+		{
+			this.stretchHeight = stretchHeight;
+		}
+	}
 
 	/**
 	 *
