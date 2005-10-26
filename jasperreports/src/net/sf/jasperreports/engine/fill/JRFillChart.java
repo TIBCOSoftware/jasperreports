@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -114,6 +115,11 @@ import org.jfree.data.xy.XYZDataset;
 public class JRFillChart extends JRFillElement implements JRChart
 {
 
+
+	/**
+	 *
+	 */
+	private static final Color TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
 
 	/**
 	 *
@@ -792,7 +798,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	private void configureChart(JFreeChart chart, byte evaluation) throws JRException
 	{
-		chart.setBackgroundPaint(getBackcolor());
+		if (getMode() == JRElement.MODE_OPAQUE)
+		{
+			chart.setBackgroundPaint(getBackcolor());
+		}
+		else
+		{
+			chart.setBackgroundPaint(TRANSPARENT_PAINT);
+		}
 
 		if (chart.getTitle() != null)
 		{
@@ -831,9 +844,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	private void configurePlot(Plot p)
 	{
-		p.setOutlinePaint(getBackcolor());
+		p.setOutlinePaint(TRANSPARENT_PAINT);
 
-		if (getPlot().getBackcolor() != null)
+		if (getPlot().getBackcolor() == null)
+		{
+			p.setBackgroundPaint(TRANSPARENT_PAINT);
+		}
+		else
 		{
 			p.setBackgroundPaint(getPlot().getBackcolor());
 		}

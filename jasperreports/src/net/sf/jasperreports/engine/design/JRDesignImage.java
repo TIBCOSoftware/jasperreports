@@ -390,7 +390,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box)
 	{

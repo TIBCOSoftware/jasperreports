@@ -1142,17 +1142,20 @@ public class JRPdfExporter extends JRAbstractExporter
 				PdfTemplate template = pdfContentByte.createTemplate(availableImageWidth, availableImageHeight);
 				Graphics2D g = template.createGraphicsShapes(availableImageWidth, availableImageHeight);
 				
+				if (printImage.getMode() == JRElement.MODE_OPAQUE)
+				{
+					g.setColor(printImage.getBackcolor());
+					g.fillRect(0, 0, 
+						normalWidth <= availableImageWidth ? (int) normalWidth : availableImageWidth, 
+						normalHeight <= availableImageHeight ? (int) normalHeight : availableImageHeight);
+				}
+
 				Rectangle2D rectangle = new Rectangle2D.Double(
 						(xoffset > 0 ? 0 : xoffset), 
 						(yoffset > 0 ? 0 : yoffset), 
 						normalWidth, 
 						normalHeight);
 				
-				g.setColor(printImage.getBackcolor());
-				g.fillRect(0, 0, 
-						normalWidth <= availableImageWidth ? (int) normalWidth : availableImageWidth, 
-						normalHeight <= availableImageHeight ? (int) normalHeight : availableImageHeight);
-
 				renderer.render(g, rectangle);
 				g.dispose();
 				
