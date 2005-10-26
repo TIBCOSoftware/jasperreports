@@ -99,7 +99,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRBox box = null;
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
 
@@ -209,15 +208,29 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public JRBox getBox()
 	{
-		return box;
+		return this;
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setBox(JRBox box)
 	{
-		this.box = box;
+		border = box.getOwnBorder();
+		topBorder = box.getOwnTopBorder();
+		leftBorder = box.getOwnLeftBorder();
+		bottomBorder = box.getOwnBottomBorder();
+		rightBorder = box.getOwnRightBorder();
+		borderColor = box.getOwnBorderColor();
+		topBorderColor = box.getOwnTopBorderColor();
+		leftBorderColor = box.getOwnLeftBorderColor();
+		bottomBorderColor = box.getOwnBottomBorderColor();
+		rightBorderColor = box.getOwnRightBorderColor();
+		padding = box.getOwnPadding();
+		topPadding = box.getOwnTopPadding();
+		leftPadding = box.getOwnLeftPadding();
+		bottomPadding = box.getOwnBottomPadding();
+		rightPadding = box.getOwnRightPadding();
 	}
 
 	/**
@@ -648,6 +661,14 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		this.customizerClass = customizerClass;
 	}
 
+
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
 
 	/**
 	 *

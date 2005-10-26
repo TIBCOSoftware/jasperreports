@@ -500,6 +500,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
+
+	/**
+	 *
+	 */
 	public byte getBorder()
 	{
 		return JRStyleResolver.getBorder(this);
