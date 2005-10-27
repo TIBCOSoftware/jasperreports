@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.renderers.JCommonDrawableRenderer;
@@ -254,10 +255,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 		customizerClass = chart.getCustomizerClass();
 		if (customizerClass != null && customizerClass.length() > 0) {
 			try {
-				Class myClass = Class.forName(customizerClass);
+				Class myClass = JRClassLoader.loadClassForName(customizerClass);
 				chartCustomizer = (JRChartCustomizer) myClass.newInstance();
 			} catch (Exception e) {
-				throw new JRRuntimeException(e.getMessage());
+				throw new JRRuntimeException("Could not create chart customizer instance.", e);
 			}
 		}
 	}
