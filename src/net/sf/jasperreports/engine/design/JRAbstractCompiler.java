@@ -184,7 +184,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			JasperReport jasperReport = 
 				new JasperReport(
 					jasperDesign,
-					getClass().getName(),
+					getCompilerClass(),
 					reportCompileData,
 					expressionCollector
 					);
@@ -206,6 +206,12 @@ public abstract class JRAbstractCompiler implements JRCompiler
 				deleteSourceFiles(units);
 			}
 		}
+	}
+
+
+	protected String getCompilerClass()
+	{
+		return getClass().getName();
 	}
 
 	

@@ -522,4 +522,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	{
 		return unitName + ".java";
 	}
+
+
+	protected String getCompilerClass()
+	{
+		return JRJavacCompiler.class.getName();
+	}
 }
