@@ -40,7 +40,7 @@ package net.sf.jasperreports.engine;
  * and the XLS exporter includes the frame sub elements into the grid.
  * <p>
  * For elements inside a frame, the coordinates, positionType and stretchType
- * properties and relative to the frame instead of the band. 
+ * properties are relative to the frame instead of the band. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
