@@ -624,6 +624,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		private boolean[] rowBreakable;
 		private int[] columnXOffsets;
 		
+		private boolean noDataCellPrinted;
+		
 		private int startRowIndex;
 		private int startColumnIndex;
 		private int lastColumnIndex;
@@ -661,6 +663,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			startRowIndex = 0;
 			startColumnIndex = 0;
 			lastColumnIndex = 0;
+			noDataCellPrinted = false;
 		}
 
 		protected void setRowHeadersXOffsets()
@@ -761,7 +764,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		
 		protected boolean ended()
 		{
-			return !hasData || (startRowIndex >= rowHeadersData[0].length && startColumnIndex >= columnHeadersData[0].length);
+			return hasData ? (startRowIndex >= rowHeadersData[0].length && startColumnIndex >= columnHeadersData[0].length) : noDataCellPrinted;
 		}
 		
 		protected void fillVerticalCrosstab(int availableHeight) throws JRException
@@ -940,7 +943,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		
 		protected void fillNoDataCell(int availableHeight) throws JRException
 		{
-			if (whenNoDataCell != null)
+			if (whenNoDataCell == null)
+			{
+				noDataCellPrinted = true;
+			}
+			else
 			{
 				if (availableHeight < whenNoDataCell.getHeight())
 				{
@@ -948,7 +955,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				}
 				else
 				{
-					
+					whenNoDataCell.evaluate(JRExpression.EVALUATION_DEFAULT);
 					whenNoDataCell.prepare(availableHeight - whenNoDataCell.getHeight());
 					
 					willOverflow = whenNoDataCell.willOverflow();
@@ -964,6 +971,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 						addPrintRow(noDataRow);
 						
 						yOffset += whenNoDataCell.getPrintHeight();
+						noDataCellPrinted = true;
 					}
 				}
 			}
