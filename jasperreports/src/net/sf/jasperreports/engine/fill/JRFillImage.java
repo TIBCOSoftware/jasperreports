@@ -89,8 +89,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
+	protected JRFillImage(JRFillImage image, JRFillCloneFactory factory)
+	{
+		super(image, factory);
+
+		evaluationGroup = image.evaluationGroup;
+	}
+
+
 	/**
-	 *
+	 * 
 	 */
 	public byte getScaleImage()
 	{
@@ -1091,6 +1099,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillImage(this, factory);
 	}
 
 }

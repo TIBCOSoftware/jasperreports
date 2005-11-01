@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
  * <ul>
  * 	<li>subreports, crosstabs and charts are not allowed</li>
  * 	<li>delayed evaluation for text fields and images is not allowed</li>
- * 	<li>cells have fixed size and cannot stretch/overflow</li>
+ * 	<li>cells cannot split on multiple pages</li>
  * </ul>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

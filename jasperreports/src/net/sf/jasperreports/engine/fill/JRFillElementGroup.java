@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillElementGroup implements JRElementGroup
+public class JRFillElementGroup implements JRElementGroup, JRCloneable
 {
 
 
@@ -70,36 +70,57 @@ public class JRFillElementGroup implements JRElementGroup
 	 *
 	 */
 	protected JRFillElementGroup(
-		JRElementGroup elementGrp, 
-		JRFillObjectFactory factory
-		)
+			JRElementGroup elementGrp, 
+			JRFillObjectFactory factory
+			)
+		{
+			factory.put(elementGrp, this);
+
+			if (elementGrp != null)
+			{
+				/*   */
+				List list = elementGrp.getChildren();
+				if (list != null && list.size() > 0)
+				{
+					for(int i = 0; i < list.size(); i++)
+					{
+						JRChild child = (JRChild)list.get(i);
+						child = child.getCopy(factory);
+						children.add(child);
+					}
+				}
+		
+				/*   */
+				this.getElements();
+		
+				this.elementGroup = factory.getElementGroup(elementGrp.getElementGroup());
+			}
+		}
+
+	
+	protected JRFillElementGroup(JRFillElementGroup elementGrp, JRFillCloneFactory factory)
 	{
 		factory.put(elementGrp, this);
 
-		if (elementGrp != null)
+		List list = elementGrp.getChildren();
+		if (list != null)
 		{
-			/*   */
-			List list = elementGrp.getChildren();
-			if (list != null && list.size() > 0)
+			for (int i = 0; i < list.size(); i++)
 			{
-				for(int i = 0; i < list.size(); i++)
-				{
-					JRChild child = (JRChild)list.get(i);
-					child = child.getCopy(factory);
-					children.add(child);
-				}
+				JRCloneable child = (JRCloneable) list.get(i);
+				JRCloneable clone = child.createClone(factory);
+				children.add(clone);
 			}
-	
-			/*   */
-			this.getElements();
-	
-			this.elementGroup = factory.getElementGroup(elementGrp.getElementGroup());
 		}
+
+		getElements();
+
+		elementGroup = (JRFillElementGroup) factory.getClone((JRFillElementGroup) elementGrp.getElementGroup());
 	}
 
 
 	/**
-	 *
+	 * 
 	 */
 	public List getChildren()
 	{
@@ -289,4 +310,8 @@ public class JRFillElementGroup implements JRElementGroup
 	}
 
 
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillElementGroup(this, factory);
+	}
 }

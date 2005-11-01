@@ -60,8 +60,14 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
+	protected JRFillLine(JRFillLine line, JRFillCloneFactory factory)
+	{
+		super(line, factory);
+	}
+
+
 	/**
-	 *
+	 * 
 	 */
 	public byte getDirection()
 	{
@@ -149,6 +155,12 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillLine(this, factory);
 	}
 
 }

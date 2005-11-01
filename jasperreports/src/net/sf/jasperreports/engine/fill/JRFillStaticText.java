@@ -51,14 +51,28 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 *
 	 */
 	protected JRFillStaticText(
-		JRBaseFiller filler,
-		JRStaticText staticText, 
-		JRFillObjectFactory factory
-		)
+			JRBaseFiller filler,
+			JRStaticText staticText, 
+			JRFillObjectFactory factory
+			)
+		{
+			super(filler, staticText, factory);
+			
+			//setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
+			String text = staticText.getText();
+			if (text == null)
+			{
+				text = "";
+			}
+			setRawText(text);
+		}
+
+
+	protected JRFillStaticText(JRFillStaticText staticText, JRFillCloneFactory factory)
 	{
-		super(filler, staticText, factory);
-		
-		//setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
+		super(staticText, factory);
+
+		// setRawText(JRStringUtil.treatNewLineChars(staticText.getText()));
 		String text = staticText.getText();
 		if (text == null)
 		{
@@ -69,7 +83,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 
 	/**
-	 *
+	 * 
 	 */
 	public void setText(String text)
 	{
@@ -240,6 +254,12 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillStaticText(this, factory);
 	}
 
 }

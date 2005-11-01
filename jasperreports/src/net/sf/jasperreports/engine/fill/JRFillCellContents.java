@@ -28,6 +28,9 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -36,8 +39,8 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -48,10 +51,13 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, Cloneable
+public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRCloneable
 {
-	protected static final Map transformedContentsCache = new ReferenceMap();
-	protected static final Map boxContentsCache = new ReferenceMap();
+	private final Map transformedContentsCache;
+	private final Map boxContentsCache;
+	private final JRClonePool clonePool;
+	
+	private JRFillCellContents original;
 	
 	private final JRFillCrosstab crosstab;
 	private final JRCellContents parentCell;
@@ -60,7 +66,11 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private int height;
 	private int width;
-	private int span;
+	
+	private int x;
+	private int y;
+	private int verticalSpan;
+	private byte verticalPositionType = JRCellContents.POSITION_Y_TOP;
 	
 	private JRTemplateFrame template;
 
@@ -79,6 +89,33 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		initElements();
 		
 		createTemplate();
+		
+		transformedContentsCache = new ReferenceMap();
+		boxContentsCache = new HashMap();
+		clonePool = new JRClonePool(this, true, true);
+	}
+
+	protected JRFillCellContents(JRFillCellContents cellContents, JRFillCloneFactory factory)
+	{
+		super(cellContents, factory);
+		
+		crosstab = cellContents.crosstab;
+		parentCell = cellContents.parentCell;
+		
+		box = cellContents.box;
+		
+		width = cellContents.width;
+		height = cellContents.height;
+		
+		initElements();
+		
+		template = cellContents.template;
+		
+		transformedContentsCache = new ReferenceMap();
+		boxContentsCache = new HashMap();
+		clonePool = new JRClonePool(this, true, true);
+		
+		verticalPositionType = cellContents.verticalPositionType;
 	}
 
 	protected void createTemplate()
@@ -126,24 +163,11 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	
-	public void setSpan(int span)
+	public JRFillCellContents getBoxContents(boolean left, boolean top)
 	{
-		this.span = span;
-	}
-	
-	
-	public int getSpan()
-	{
-		return span;
-	}
-	
-	
-	public static JRFillCellContents getBoxContents(JRFillCellContents contents, boolean left, boolean top)
-	{
-		JRBox box = contents.getBox();
 		if (box == null)
 		{
-			return contents;
+			return this;
 		}
 		
 		boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
@@ -151,78 +175,60 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		if (!(copyLeft || copyTop))
 		{
-			return contents;
+			return this;
 		}
 		
-		Object key = new BoxContents(contents, copyLeft, copyTop);
+		Object key = new BoxContents(copyLeft, copyTop);
 		JRFillCellContents boxContents = (JRFillCellContents) boxContentsCache.get(key);
 		if (boxContents == null)
 		{
-			try
+			boxContents = (JRFillCellContents) createClone();
+			
+			JRBaseBox newBox = new JRBaseBox(box);
+			
+			if (copyLeft)
 			{
-				boxContents = (JRFillCellContents) contents.clone();
-				
-				JRBaseBox newBox = new JRBaseBox(box);
-				
-				if (copyLeft)
-				{
-					newBox.setLeftBorder(box.getRightBorder());
-					newBox.setLeftBorderColor(box.getRightBorderColor());
-				}
-				
-				if (copyTop)
-				{
-					newBox.setTopBorder(box.getBottomBorder());
-					newBox.setTopBorderColor(box.getBottomBorderColor());
-				}
-				
-				boxContents.setBox(newBox);
-				
-				boxContentsCache.put(key, boxContents);
-			}
-			catch (CloneNotSupportedException e)
-			{
-				// doesn't happen
-				throw new JRRuntimeException(e);
+				newBox.setLeftBorder(box.getRightBorder());
+				newBox.setLeftBorderColor(box.getRightBorderColor());
 			}
 			
+			if (copyTop)
+			{
+				newBox.setTopBorder(box.getBottomBorder());
+				newBox.setTopBorderColor(box.getBottomBorderColor());
+			}
+			
+			boxContents.setBox(newBox);
+			
+			boxContentsCache.put(key, boxContents);
 		}
 		
 		return boxContents;
 	}
 	
 	
-	public static JRFillCellContents getTransformedContents(
-			JRBaseFiller filler,
-			JRFillCrosstab crosstab,
-			JRFillCellContents contents, 
+	public JRFillCellContents getTransformedContents(
 			int newWidth, int newHeight,
 			byte xPosition, byte yPosition) throws JRException
 	{
-		if ((contents.getHeight() == newHeight) && 
-				(contents.getWidth() == newWidth))
+		if ((getHeight() == newHeight) && 
+				(getWidth() == newWidth))
 		{
-			return contents;
+			return this;
 		}
 		
-		if (newHeight < contents.getHeight() || newWidth < contents.getWidth())
+		if (newHeight < getHeight() || newWidth < getWidth())
 		{
 			throw new JRException("Cannot shrink cell contents.");
 		}
 		
-		Object key = new StretchedContents(contents, newWidth, newHeight, xPosition, yPosition);
+		Object key = new StretchedContents(newWidth, newHeight, xPosition, yPosition);
 		
 		JRFillCellContents transformedCell = (JRFillCellContents) transformedContentsCache.get(key);
 		if (transformedCell == null)
 		{
-			JRFillObjectFactory factory = new JRFillObjectFactory(filler, crosstab);
-			transformedCell = factory.getCell(contents.parentCell);
-			filler.setTextFieldsFormats();
-			
-			transformedCell.setWidth(contents.getWidth());
-			transformedCell.setHeight(contents.getHeight());
+			transformedCell = (JRFillCellContents) createClone();
 			transformedCell.transform(newWidth, newHeight, xPosition, yPosition);
-			
 			transformedCell.setElementsBandBottomY();
 			
 			transformedContentsCache.put(key, transformedCell);
@@ -319,21 +325,21 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			}
 		}
 	}
-
 	
-	protected JRPrintFrame fill(int availableStretchHeight, int x, int y) throws JRException
+	
+	protected void prepare(int availableStretchHeight) throws JRException
 	{
 		initFill();
-		
-		this.resetElements();
+		resetElements();
+		prepareElements(availableStretchHeight, true);
+	}
 
-		this.prepareElements(availableStretchHeight, false);
-
-		this.stretchElements();
-
-		this.moveBandBottomElements();
-
-		this.removeBlankElements();
+	
+	protected JRPrintFrame fill() throws JRException
+	{
+		stretchElements();
+		moveBandBottomElements();
+		removeBlankElements();
 
 		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(template);
 		printCell.setX(x);
@@ -342,27 +348,76 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		fillElements(printCell);
 		
-		printCell.setHeight(height);
+		verticallyPositionElements(printCell);
+		
+		printCell.setHeight(getPrintHeight());
 		
 		return printCell;
 	}
 
 	
+	protected void verticallyPositionElements(JRTemplatePrintFrame printCell)
+	{
+		int positionOffset;
+		
+		switch (verticalPositionType)
+		{
+			case JRCellContents.POSITION_Y_MIDDLE:
+				positionOffset = (getStretchHeight() - getContainerHeight()) / 2;
+				break;
+			case JRCellContents.POSITION_Y_BOTTOM:
+				positionOffset = getStretchHeight() - getContainerHeight();
+				break;
+			default:
+				positionOffset = 0;
+				break;
+		}
+		
+		if (positionOffset != 0)
+		{
+			List printElements = printCell.getElements();
+			
+			int positionY = getStretchHeight() - positionOffset;
+			boolean outside = false;
+			for (Iterator it = printElements.iterator(); !outside && it.hasNext();)
+			{
+				JRPrintElement element = (JRPrintElement) it.next();
+				outside = element.getY() > positionY;
+			}
+			
+			if (!outside)
+			{
+				for (Iterator it = printElements.iterator(); it.hasNext();)
+				{
+					JRPrintElement element = (JRPrintElement) it.next();
+					element.setY(element.getY() + positionOffset);
+				}
+			}
+		}
+	}
+
+	protected int getPrintHeight()
+	{
+		return getStretchHeight() + getTopPadding() + getBottomPadding();
+	}
+
+	protected void stretchTo(int stretchHeight)
+	{
+		setStretchHeight(stretchHeight - getTopPadding() - getBottomPadding());
+	}
+	
 	protected static class BoxContents
 	{
-		final JRFillCellContents contents;
 		final boolean left;
 		final boolean top;
 		final int hashCode;
 		
-		public BoxContents(JRFillCellContents contents, boolean left, boolean top)
+		public BoxContents(boolean left, boolean top)
 		{
-			this.contents = contents;
 			this.left = left;
 			this.top = top;
 			
-			int hash = contents.hashCode();
-			hash = 31*hash + (left ? 1231 : 1237);
+			int hash = left ? 1231 : 1237;
 			hash = 31*hash + (top ? 1231 : 1237);
 			hashCode = hash;
 		}
@@ -376,7 +431,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			
 			BoxContents b = (BoxContents) obj;
 			
-			return b.contents.equals(contents) && 
+			return  
 				b.left == left && b.top == top;
 		}
 
@@ -388,24 +443,21 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	protected static class StretchedContents
 	{
-		final JRFillCellContents contents;
 		final int newHeight;
 		final int newWidth;
 		final int hashCode;
 		final byte xPosition;
 		final byte yPosition;
 		
-		StretchedContents(JRFillCellContents contents,
+		StretchedContents(
 				int newWidth, int newHeight, byte xPosition, byte yPosition)
 		{
-			this.contents = contents;
 			this.newHeight = newHeight;
 			this.newWidth = newWidth;
 			this.xPosition = xPosition;
 			this.yPosition = yPosition;
 			
-			int hash = contents.hashCode();
-			hash = 31*hash + newHeight;
+			int hash = newHeight;
 			hash = 31*hash + newWidth;
 			hash = 31*hash + xPosition;
 			hash = 31*hash + yPosition;
@@ -421,7 +473,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			
 			StretchedContents s = (StretchedContents) o;
 			
-			return s.contents.equals(contents) && 
+			return  
 				s.newHeight == newHeight && s.newWidth == newWidth &&
 				s.xPosition == xPosition && s.yPosition == yPosition;
 		}
@@ -434,14 +486,64 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	protected int getContainerHeight()
 	{
-		int topPadding = 0;
-		int bottomPadding = 0;
-		if (box != null)
-		{
-			topPadding = box.getTopPadding();
-			bottomPadding = box.getBottomPadding();
-		}
-		
-		return getHeight() - topPadding - bottomPadding;
+		return getHeight() - getTopPadding() - getBottomPadding();
+	}
+	
+	protected int getTopPadding()
+	{
+		return box == null ? 0 : box.getTopPadding();
+	}
+	
+	protected int getBottomPadding()
+	{
+		return box == null ? 0 : box.getBottomPadding();
+	}
+
+	public JRCloneable createClone()
+	{
+		JRFillCloneFactory factory = new JRFillCloneFactory();
+		return createClone(factory);
+	}
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillCellContents(this, factory);
+	}
+	
+	public JRFillCellContents getWorkingClone()
+	{
+		JRFillCellContents clone = (JRFillCellContents) clonePool.getClone();
+		clone.original = this;
+		return clone;
+	}
+	
+	public void releaseWorkingClone()
+	{
+		original.clonePool.releaseClone(this);
+	}
+
+	public void setX(int x)
+	{
+		this.x = x;
+	}
+
+	public void setY(int y)
+	{
+		this.y = y;
+	}
+
+	public int getVerticalSpan()
+	{
+		return verticalSpan;
+	}
+
+	public void setVerticalSpan(int span)
+	{
+		verticalSpan = span;
+	}
+
+	public void setVerticalPositionType(byte positionType)
+	{
+		this.verticalPositionType = positionType;
 	}
 }

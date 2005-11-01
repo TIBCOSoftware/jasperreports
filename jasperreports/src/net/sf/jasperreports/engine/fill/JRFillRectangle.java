@@ -60,8 +60,14 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
+	protected JRFillRectangle(JRFillRectangle rectangle, JRFillCloneFactory factory)
+	{
+		super(rectangle, factory);
+	}
+
+
 	/**
-	 *
+	 * 
 	 */
 	public int getRadius()
 	{
@@ -161,6 +167,12 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillRectangle(this, factory);
 	}
 
 }

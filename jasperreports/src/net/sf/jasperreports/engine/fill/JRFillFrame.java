@@ -101,6 +101,20 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		templateFrame = new JRTemplateFrame(this);
 	}
 
+	protected JRFillFrame(JRFillFrame frame, JRFillCloneFactory factory)
+	{
+		super(frame, factory);
+		
+		parentFrame = frame.parentFrame;
+		
+		frameContainer = new JRFillFrameElements(frame.frameContainer, factory);
+		
+		templateFrame = frame.templateFrame;
+		bottomTemplateFrame = frame.bottomTemplateFrame;
+		topTemplateFrame = frame.topTemplateFrame;
+		topBottomTemplateFrame = frame.topBottomTemplateFrame;
+	}
+
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		reset();
@@ -322,6 +336,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	{
 		return JRBaseElementGroup.getElementByKey(getElements(), key);
 	}
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillFrame(this, factory);
+	}
 	
 
 	/**
@@ -332,6 +351,12 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		JRFillFrameElements(JRFillObjectFactory factory)
 		{
 			super(JRFillFrame.this.filler, parentFrame, factory);
+			initElements();
+		}
+
+		JRFillFrameElements(JRFillFrameElements frameElements, JRFillCloneFactory factory)
+		{
+			super(frameElements, factory);
 			initElements();
 		}
 

@@ -1771,4 +1771,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		((JRFillChartDataset) dataset).evaluateDatasetRun(evaluation);
 	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		//not needed
+		return null;
+	}
 }

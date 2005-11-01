@@ -849,4 +849,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	{
 	}
 
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		//not needed
+		return null;
+	}
+
 }
