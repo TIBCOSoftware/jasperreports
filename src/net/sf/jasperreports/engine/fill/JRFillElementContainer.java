@@ -65,11 +65,18 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	private int firstY = 0;
 	private boolean isFirstYFound = false;
 	
-	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup elementGrp, JRFillObjectFactory factory)
+	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup container, JRFillObjectFactory factory)
 	{
-		super(elementGrp, factory);
+		super(container, factory);
 		
 		this.filler = filler;
+	}
+	
+	protected JRFillElementContainer(JRFillElementContainer container, JRFillCloneFactory factory)
+	{
+		super(container, factory);
+		
+		this.filler = container.filler;
 	}
 
 

@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.JRStyle;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillElement implements JRElement
+public abstract class JRFillElement implements JRElement, JRCloneable
 {
 
 
@@ -105,30 +105,51 @@ public abstract class JRFillElement implements JRElement
 	 *
 	 */
 	protected JRFillElement(
-		JRBaseFiller filler,
-		JRElement element,
-		JRFillObjectFactory factory
-		)
+			JRBaseFiller filler,
+			JRElement element,
+			JRFillObjectFactory factory
+			)
+		{
+			factory.put(element, this);
+
+			this.parent = element;
+			this.filler = filler;
+			this.expressionEvaluator = factory.getExpressionEvaluator();
+
+			/*   */
+			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+			elementGroup = (JRFillElementGroup)factory.getElementGroup(element.getElementGroup());
+			
+			x = element.getX();
+			y = element.getY();
+			width = element.getWidth();
+			height = element.getHeight();
+		}
+
+	
+	protected JRFillElement(JRFillElement element, JRFillCloneFactory factory)
 	{
 		factory.put(element, this);
 
-		this.parent = element;
-		this.filler = filler;
-		this.expressionEvaluator = factory.getExpressionEvaluator();
+		this.parent = element.parent;
+		this.filler = element.filler;
+		this.expressionEvaluator = element.expressionEvaluator;
 
 		/*   */
-		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
-		elementGroup = (JRFillElementGroup)factory.getElementGroup(element.getElementGroup());
-		
+		printWhenGroupChanges = element.printWhenGroupChanges;
+		elementGroup = (JRFillElementGroup) factory.getClone((JRFillElementGroup) element.getElementGroup());
+
 		x = element.getX();
 		y = element.getY();
 		width = element.getWidth();
 		height = element.getHeight();
+		
+		this.template = element.template;
 	}
 
 
 	/**
-	 *
+	 * 
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{

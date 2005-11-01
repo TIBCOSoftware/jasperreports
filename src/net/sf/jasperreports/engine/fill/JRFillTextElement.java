@@ -90,15 +90,28 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		/*   */
 		createTextMeasurer();
+		createTextChopper();
+	}
+	
 
-		/*   */
-		textChopper = isStyledText() ? styledTextChopper : simpleTextChopper;
+	protected JRFillTextElement(JRFillTextElement textElement, JRFillCloneFactory factory)
+	{
+		super(textElement, factory);
+
+		createTextMeasurer();
+		createTextChopper();
 	}
 
 
 	private void createTextMeasurer()
 	{
 		textMeasurer = new TextMeasurer(this);
+	}
+
+
+	private void createTextChopper()
+	{
+		textChopper = isStyledText() ? styledTextChopper : simpleTextChopper;
 	}
 
 

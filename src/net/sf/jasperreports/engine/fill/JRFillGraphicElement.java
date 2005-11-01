@@ -50,6 +50,15 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	{
 		super(filler, graphicElement, factory);
 	}
+
+
+	protected JRFillGraphicElement(
+		JRFillGraphicElement graphicElement, 
+		JRFillCloneFactory factory
+		)
+	{
+		super(graphicElement, factory);
+	}
 	
 
 	/**

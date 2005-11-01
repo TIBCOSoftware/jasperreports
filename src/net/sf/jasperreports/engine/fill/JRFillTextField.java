@@ -98,9 +98,18 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 	}
 
+	
+	protected JRFillTextField(JRFillTextField textField, JRFillCloneFactory factory)
+	{
+		super(textField, factory);
+
+		this.format = textField.format;
+		this.evaluationGroup = textField.evaluationGroup;
+	}
+
 
 	/**
-	 *
+	 * 
 	 */
 	public boolean isStretchWithOverflow()
 	{
@@ -799,5 +808,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	public int getBookmarkLevel()
 	{
 		return ((JRTextField)parent).getBookmarkLevel();
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillTextField(this, factory);
 	}
 }

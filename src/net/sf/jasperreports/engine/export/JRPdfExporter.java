@@ -2072,6 +2072,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
+			//TODO border correction
+			
 			int x = frame.getX() + getOffsetX();
 			int y = frame.getY() + getOffsetY();
 			

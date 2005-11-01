@@ -60,8 +60,14 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 
+	protected JRFillEllipse(JRFillEllipse ellipse, JRFillCloneFactory factory)
+	{
+		super(ellipse, factory);
+	}
+
+
 	/**
-	 *
+	 * 
 	 */
 	protected JRTemplateEllipse getJRTemplateEllipse()
 	{
@@ -134,6 +140,12 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
+	}
+
+
+	public JRCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new JRFillEllipse(this, factory);
 	}
 
 }
