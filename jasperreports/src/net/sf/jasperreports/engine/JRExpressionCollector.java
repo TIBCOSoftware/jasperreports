@@ -785,6 +785,8 @@ public class JRExpressionCollector
 			}
 		}
 		
+		crosstabCollector.collect(crosstab.getWhenNoDataCell());
+		
 		collectCrosstabCells(crosstab, crosstabCollector);
 	}
 
