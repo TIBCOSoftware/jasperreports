@@ -75,7 +75,7 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	public JCommonDrawableRenderer(Drawable drawable) 
 	{
 		this.drawable = drawable;
-		LegendTitle legend = ((JFreeChart)drawable).getLegend();
+		LegendTitle legend = ((JFreeChart)drawable).getLegend();//FIXME CHARTS make the cast only if it is a chart
 		if (legend != null)
 		{
 			legendItemSources = legend.getSources();
