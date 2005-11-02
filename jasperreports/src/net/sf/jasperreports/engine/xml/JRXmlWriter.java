@@ -517,7 +517,6 @@ public class JRXmlWriter
 		writer.addAttribute("isForPrompting", parameter.isForPrompting(), true);
 
 		writer.writeCDATAElement("parameterDescription", parameter.getDescription());
-		writer.writeCDATAElement("parameterDescription", parameter.getDescription());
 		writer.writeExpression("defaultValueExpression", parameter.getDefaultValueExpression(), false);
 
 		writer.closeElement();
