@@ -485,7 +485,7 @@
 >
 
 
-<!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
+<!ELEMENT crosstab (reportElement, parametersMapExpression?, crosstabParameter*, crosstabDataset?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
 <!ATTLIST crosstab
 	name NMTOKEN #REQUIRED
 	isRepeatColumnHeaders (true | false) "true"
