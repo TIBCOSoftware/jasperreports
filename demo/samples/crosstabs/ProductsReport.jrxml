@@ -34,7 +34,7 @@
 				</textElement>
 				<textFieldExpression>"Number of orders by product and customer in " + $F{City}</textFieldExpression>
 			</textField>
-			<crosstab name="Test1" isRepeatColumnHeaders="false">
+			<crosstab isRepeatColumnHeaders="false">
 				<reportElement x="0" y="20" width="782" height="70" mode="Opaque"/>
 				<crosstabParameter name="CityParam" class="java.lang.String">
 					<parameterValueExpression>$F{City}</parameterValueExpression>

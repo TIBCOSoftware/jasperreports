@@ -139,7 +139,7 @@ public class JRClassGenerator
 	{
 		this(jrDesign, expressionCollector,
 				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				JRAbstractCompiler.getUnitName(jrDesign, crosstab), expressionCollector.getExpressions(crosstab), true);
+				JRAbstractCompiler.getUnitName(jrDesign, crosstab, expressionCollector), expressionCollector.getExpressions(crosstab), true);
 	}
 
 

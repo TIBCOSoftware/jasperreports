@@ -1762,7 +1762,6 @@ public class JRXmlWriter
 	public void writeCrosstab(JRCrosstab crosstab) throws IOException
 	{
 		writer.startElement("crosstab");
-		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_name, crosstab.getName());
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatColumnHeaders, crosstab.isRepeatColumnHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatRowHeaders, crosstab.isRepeatRowHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_columnBreakOffset, crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);

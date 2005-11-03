@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -100,7 +101,26 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 */
 	public static String getUnitName(JRReport report, JRCrosstab crosstab)
 	{
-		return report.getName() + "_CROSSTAB_" + crosstab.getName();
+		return report.getName() + "_CROSSTAB_" + crosstab.getId();
+	}
+
+	
+	/**
+	 * Returns the name of the expression evaluator unit for a crosstab of a report.
+	 * 
+	 * @param report the report
+	 * @param crosstab the crosstab
+	 * @param expressionCollector used to retrieve the crosstab Id
+	 * @return the generated expression evaluator unit name
+	 */
+	public static String getUnitName(JRReport report, JRCrosstab crosstab, JRExpressionCollector expressionCollector)
+	{
+		Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
+		if (crosstabId == null)
+		{
+			throw new JRRuntimeException("Crosstab ID not found.");
+		}
+		return report.getName() + "_CROSSTAB_" + crosstabId;
 	}
 
 	
@@ -177,7 +197,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			for (ListIterator it = crosstabs.listIterator(); it.hasNext();)
 			{
 				JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
-				reportCompileData.setCrosstabCompileData(crosstab, units[datasets.size() + it.nextIndex()].getCompileData());
+				Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
+				reportCompileData.setCrosstabCompileData(crosstabId.intValue(), units[datasets.size() + it.nextIndex()].getCompileData());
 			}
 
 			// creating the report
@@ -244,7 +265,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, File saveSourceDir) throws JRException
 	{		
-		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab);
+		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab, expressionCollector);
 		
 		String sourceCode = generateSourceCode(jasperDesign, crosstab, expressionCollector);
 		

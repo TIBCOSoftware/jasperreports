@@ -21,7 +21,7 @@
 	</title>
 	<summary>
 		<band height="60">
-			<crosstab name="Test" isRepeatColumnHeaders="false">
+			<crosstab isRepeatColumnHeaders="false">
 				<reportElement x="0" y="0" width="782" height="60" mode="Opaque"/>
 				<crosstabDataset>
 					<dataset/>

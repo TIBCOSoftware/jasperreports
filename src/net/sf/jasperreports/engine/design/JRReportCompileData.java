@@ -110,12 +110,12 @@ public class JRReportCompileData implements Serializable
 	/**
 	 * Sets the compile data for a crosstab.
 	 * 
-	 * @param crosstab the crosstab
+	 * @param crosstabId the generated crosstab Id, which will be used to retreive the crosstab compile data at fill time.
 	 * @param compileData the compile data
 	 */
-	public void setCrosstabCompileData(JRCrosstab crosstab, Serializable compileData)
+	public void setCrosstabCompileData(int crosstabId, Serializable compileData)
 	{
-		crosstabCompileData.put(crosstab.getName(), compileData);
+		crosstabCompileData.put(new Integer(crosstabId), compileData);
 	}
 	
 	
@@ -166,10 +166,10 @@ public class JRReportCompileData implements Serializable
 	 */
 	public Serializable getCrosstabCompileData(JRCrosstab crosstab) throws JRException
 	{
-		Serializable compileData = (Serializable) crosstabCompileData.get(crosstab.getName());
+		Serializable compileData = (Serializable) crosstabCompileData.get(new Integer(crosstab.getId()));
 		if (compileData == null)
 		{
-			throw new JRException("Compile data for crosstab " + crosstab.getName() + " not found in the report.");
+			throw new JRException("Compile data for crosstab not found in the report.");
 		}
 		
 		return compileData;

@@ -61,7 +61,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected String name;
+	protected int id;
 	protected JRCrosstabParameter[] parameters;
 	protected JRExpression parametersMapExpression;
 	protected JRCrosstabDataset dataset;
@@ -74,11 +74,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
 	
-	public JRBaseCrosstab(JRCrosstab crosstab, JRBaseObjectFactory factory)
+	public JRBaseCrosstab(JRCrosstab crosstab, JRBaseObjectFactory factory, int id)
 	{
 		super(crosstab, factory);
 		
-		this.name = crosstab.getName();
+		this.id = id;
 		
 		this.columnBreakOffset = crosstab.getColumnBreakOffset();
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
@@ -165,9 +165,9 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		}
 	}
 	
-	public String getName()
+	public int getId()
 	{
-		return name;
+		return id;
 	}
 
 	public JRCrosstabDataset getDataset()

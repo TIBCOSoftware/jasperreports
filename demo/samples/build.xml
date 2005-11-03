@@ -11,6 +11,31 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Crosstabs Sample"/>
+		<echo message="==================================="/>
+		<ant dir="crosstabs" target="clean" />
+		<ant dir="crosstabs" target="javac" />
+		<ant dir="crosstabs" target="compile" />
+		<ant dir="crosstabs" target="fill" />
+		<ant dir="crosstabs" target="pdf" />
+		<ant dir="crosstabs" target="html" />
+		<ant dir="crosstabs" target="rtf" />
+		<ant dir="crosstabs" target="xls" />
+		<ant dir="crosstabs" target="xmlEmbed" />
+		<ant dir="crosstabs" target="xml" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
+		<echo message=" Charts Sample"/>
+		<echo message="==================================="/>
+		<ant dir="charts" target="clean" />
+		<ant dir="charts" target="javac" />
+		<ant dir="charts" target="compile" />
+		<ant dir="charts" target="fill" />
+		<ant dir="charts" target="pdf" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Alter Design Sample"/>
 		<echo message="==================================="/>
 		<ant dir="alterdesign" target="clean" />
@@ -66,31 +91,6 @@
 		<ant dir="beanshell" target="compile" />
 		<ant dir="beanshell" target="fill" />
 		<ant dir="beanshell" target="pdf" />
-
-		<echo message=""/>
-		<echo message="==================================="/>
-		<echo message=" Charts Sample"/>
-		<echo message="==================================="/>
-		<ant dir="charts" target="clean" />
-		<ant dir="charts" target="javac" />
-		<ant dir="charts" target="compile" />
-		<ant dir="charts" target="fill" />
-		<ant dir="charts" target="pdf" />
-
-		<echo message=""/>
-		<echo message="==================================="/>
-		<echo message=" Crosstabs Sample"/>
-		<echo message="==================================="/>
-		<ant dir="crosstabs" target="clean" />
-		<ant dir="crosstabs" target="javac" />
-		<ant dir="crosstabs" target="compile" />
-		<ant dir="crosstabs" target="fill" />
-		<ant dir="crosstabs" target="pdf" />
-		<ant dir="crosstabs" target="html" />
-		<ant dir="crosstabs" target="rtf" />
-		<ant dir="crosstabs" target="xls" />
-		<ant dir="crosstabs" target="xmlEmbed" />
-		<ant dir="crosstabs" target="xml" />
 
 		<echo message=""/>
 		<echo message="==================================="/>

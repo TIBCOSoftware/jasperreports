@@ -1324,18 +1324,12 @@ public class JRVerifier
 
 	private void verifyCrosstab(JRDesignCrosstab crosstab)
 	{
-		String name = crosstab.getName();
-		if (name == null || name.length() == 0)
-		{
-			brokenRules.add("Crosstab name missing");
-		}
-		
 		verifyParameters(crosstab);
 		
 		JRCrosstabDataset dataset = crosstab.getDataset();
 		if (dataset == null)
 		{
-			brokenRules.add("Crosstab " + name + " dataset missing.");
+			brokenRules.add("Crosstab dataset missing.");
 		}
 		else
 		{
@@ -1345,7 +1339,7 @@ public class JRVerifier
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		if (rowGroups == null || rowGroups.length == 0)
 		{
-			brokenRules.add("Crosstab " + name + " should have at least one row group.");
+			brokenRules.add("Crosstab should have at least one row group.");
 		}
 		else
 		{
@@ -1358,7 +1352,7 @@ public class JRVerifier
 		JRCrosstabColumnGroup[] colGroups = crosstab.getColumnGroups();
 		if (colGroups == null || colGroups.length == 0)
 		{
-			brokenRules.add("Crosstab " + name + " should have at least one column group.");
+			brokenRules.add("Crosstab should have at least one column group.");
 		}
 		else
 		{
@@ -1371,7 +1365,7 @@ public class JRVerifier
 		JRCrosstabMeasure[] measures = crosstab.getMeasures();
 		if (measures == null || measures.length == 0)
 		{
-			brokenRules.add("Crosstab " + name + " should have at least one measure.");
+			brokenRules.add("Crosstab should have at least one measure.");
 		}
 		else
 		{
@@ -1399,7 +1393,7 @@ public class JRVerifier
 
 			if (clazz == null)
 			{
-				brokenRules.add("Class not set for crosstab " + crosstab.getName() + " parameters map expression.");
+				brokenRules.add("Class not set for crosstab parameters map expression.");
 			}
 			else if (!java.util.Map.class.isAssignableFrom(clazz))
 			{
@@ -1417,7 +1411,7 @@ public class JRVerifier
 				String paramName = parameter.getName();
 				if (paramName == null || paramName.length() == 0)
 				{
-					brokenRules.add("Missing parameter name for crosstab " + crosstab.getName());
+					brokenRules.add("Missing parameter name for crosstab.");
 				}
 				
 				JRExpression expression = parameter.getExpression();
