@@ -256,7 +256,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Could not load evaluator for crosstab " + getName(), e);
+			throw new JRRuntimeException("Could not load evaluator for crosstab.", e);
 		}
 	}
 
@@ -513,9 +513,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		writer.writeCrosstab(this);
 	}
 
-	public String getName()
+	public int getId()
 	{
-		return parentCrosstab.getName();
+		return parentCrosstab.getId();
 	}
 
 	public JRCrosstabDataset getDataset()
@@ -1373,7 +1373,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			int contentsHeight = stretchContents ? rowHeight : contents.getHeight();
 			
 			int cellAvailableStretch = availableHeight - headerY - contentsHeight;
-			boolean headerOverflow = cellAvailableStretch < 0;
+			boolean headerOverflow = cellAvailableStretch < 0 || rowHeight < contents.getHeight();
 			
 			if (!headerOverflow)
 			{
@@ -1563,7 +1563,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			int contentsHeight = stretchContents ? headerHeight : contents.getHeight();
 			
 			int cellAvailableStretch = availableHeight - headerY - contentsHeight;
-			boolean headerOverflow = cellAvailableStretch < 0;
+			boolean headerOverflow = cellAvailableStretch < 0 || headerHeight < contents.getHeight();
 			if (!headerOverflow)
 			{
 				setGroupVariables(rowGroups, cell.getBucketValues());

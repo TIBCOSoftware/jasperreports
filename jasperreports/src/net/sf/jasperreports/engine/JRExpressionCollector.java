@@ -79,6 +79,7 @@ public class JRExpressionCollector
 	 */
 	private List expressions = new ArrayList();
 	private Map expressionIds = new HashMap();
+	private Map crosstabIds = new HashMap();
 
 	/**
 	 * Collectors for sub datasets indexed by dataset name.
@@ -172,12 +173,11 @@ public class JRExpressionCollector
 	
 	private JRExpressionCollector getCollector(JRCrosstab crosstab)
 	{
-		String name = crosstab.getName();
-		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(name);
+		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
 		if (collector == null)
 		{
 			collector = new JRExpressionCollector(false);
-			crosstabCollectors.put(name, collector);
+			crosstabCollectors.put(crosstab, collector);
 		}
 		return collector;
 	}
@@ -221,6 +221,12 @@ public class JRExpressionCollector
 	public Integer getExpressionId(JRExpression expression)
 	{
 		return (Integer) expressionIds.get(expression);
+	}
+
+
+	public Integer getCrosstabId(JRCrosstab crosstab)
+	{
+		return (Integer) crosstabIds.get(crosstab);
 	}
 
 	
@@ -732,6 +738,8 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRCrosstab crosstab)
 	{
+		createCrosstabId(crosstab);
+		
 		JRCrosstabDataset dataset = crosstab.getDataset();
 		collect(dataset);
 		
@@ -788,6 +796,12 @@ public class JRExpressionCollector
 		crosstabCollector.collect(crosstab.getWhenNoDataCell());
 		
 		collectCrosstabCells(crosstab, crosstabCollector);
+	}
+
+
+	private void createCrosstabId(JRCrosstab crosstab)
+	{
+		crosstabIds.put(crosstab, new Integer(crosstabIds.size()));
 	}
 
 

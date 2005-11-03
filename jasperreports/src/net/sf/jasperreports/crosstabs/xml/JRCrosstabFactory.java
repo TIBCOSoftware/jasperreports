@@ -41,7 +41,6 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabFactory extends JRBaseFactory
 {
-	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_columnBreakOffset = "columnBreakOffset";
 	public static final String ATTRIBUTE_isRepeatColumnHeaders = "isRepeatColumnHeaders";
 	public static final String ATTRIBUTE_isRepeatRowHeaders = "isRepeatRowHeaders";
@@ -51,8 +50,6 @@ public class JRCrosstabFactory extends JRBaseFactory
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		
 		JRDesignCrosstab crosstab = new JRDesignCrosstab(jasperDesign);
-		
-		crosstab.setName(atts.getValue(ATTRIBUTE_name));
 		
 		String columnBreakOffsetAttr = atts.getValue(ATTRIBUTE_columnBreakOffset);
 		if (columnBreakOffsetAttr != null && columnBreakOffsetAttr.length() > 0)

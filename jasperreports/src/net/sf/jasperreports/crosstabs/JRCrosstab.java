@@ -45,11 +45,13 @@ public interface JRCrosstab extends JRElement
 	public static final int DEFAULT_COLUMN_BREAK_OFFSET = 10;
 	
 	/**
-	 * Returns the name of the crosstab.
+	 * Returns the ID of the crosstab.
+	 * <p>
+	 * The ID is generated when the report is compiled and is used internally.
 	 * 
-	 * @return the name of the crosstab
+	 * @return the ID of the crosstab
 	 */
-	public String getName();
+	public int getId();
 	
 	/**
 	 * Returns the input dataset of the crosstab.

@@ -72,7 +72,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected String name;
 	protected List parametersList;
 	protected Map parametersMap;
 	protected JRExpression parametersMapExpression;
@@ -154,9 +153,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		this(null);
 	}
 	
-	public String getName()
+	
+	/**
+	 * The ID of the crosstab is only generated at compile time.
+	 */
+	public int getId()
 	{
-		return name;
+		return 0;
 	}
 
 	public JRCrosstabDataset getDataset()
@@ -209,17 +212,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void writeXml(JRXmlWriter writer) throws IOException
 	{
 		writer.writeCrosstab(this);
-	}
-
-	
-	/**
-	 * Sets the crosstab name.
-	 * 
-	 * @param name the name
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 	
 	
