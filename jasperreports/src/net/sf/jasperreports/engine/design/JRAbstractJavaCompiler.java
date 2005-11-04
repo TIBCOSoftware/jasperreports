@@ -33,6 +33,9 @@
 package net.sf.jasperreports.engine.design;
 
 import java.io.Serializable;
+import java.util.Map;
+
+import org.apache.commons.collections.ReferenceMap;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JREvaluator;
@@ -50,7 +53,12 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	// Reference to the loaded class class in a per thread map
 	private static ThreadLocal classFromBytesRef = new ThreadLocal();
 
+	/**
+	 * 
+	 */
+	private static Map classCache = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.SOFT);
 
+	
 	protected JRAbstractJavaCompiler(boolean needsSourceFiles)
 	{
 		super(needsSourceFiles);
@@ -63,12 +71,14 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 
 		try
 		{
-			Class clazz = 
-				JRClassLoader.loadClassFromBytes(
-					className, 
-					(byte[]) compileData
-					);
-					
+			Class clazz = getClassFromCache(className);
+			if (clazz == null)
+			{
+				clazz = JRClassLoader.loadClassFromBytes(className, (byte[]) compileData);
+				putClassInCache(className, clazz);
+			}
+			
+			//TODO multiple classes per thread?
 			classFromBytesRef.set(clazz);
 		
 			evaluator = (JREvaluator) clazz.newInstance();
@@ -81,4 +91,15 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		return evaluator;
 	}
 
+	
+	protected static synchronized Class getClassFromCache(String className)
+	{
+		return (Class) classCache.get(className);
+	}
+	
+	
+	protected static synchronized void putClassInCache(String className, Class loadedClass)
+	{
+		classCache.put(className, loadedClass);
+	}
 }

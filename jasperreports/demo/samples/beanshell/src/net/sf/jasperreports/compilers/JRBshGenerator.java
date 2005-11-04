@@ -40,16 +40,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.design.JRAbstractCompiler;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -59,27 +55,21 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class JRBshGenerator
 {
+
+	private static Map fieldPrefixMap = null;
+	private static Map variablePrefixMap = null;
+	private static Map methodSuffixMap = null;
 	
 	
 	/**
 	 *
 	 */
-	protected JasperDesign jasperDesign = null;
-	protected JRExpressionCollector expressionCollector;
+	protected final JRSourceCompileTask sourceTask;
 
 	protected Map parametersMap;
 	protected Map fieldsMap;
 	protected Map variablesMap;
 	protected JRVariable[] variables;
-	
-	protected String unitName;
-	protected List expressions;
-	
-	protected boolean onlyDefaultEvaluation;
-
-	private static Map fieldPrefixMap = null;
-	private static Map variablePrefixMap = null;
-	private static Map methodSuffixMap = null;
 
 	static
 	{
@@ -100,57 +90,23 @@ public class JRBshGenerator
 	}
 	
 
-	protected JRBshGenerator(JasperDesign jrDesign, JRExpressionCollector expressionCollector,
-			Map parametersMap, Map fieldsMap, Map variablesMap, JRVariable[] variables,
-			String unitName, List expressions, boolean onlyDefaultEvaluation)
+	protected JRBshGenerator(JRSourceCompileTask sourceTask)
 	{
-		jasperDesign = jrDesign;
-		this.expressionCollector = expressionCollector;
+		this.sourceTask = sourceTask;
 		
-		this.parametersMap = parametersMap;
-		this.fieldsMap = fieldsMap;
-		this.variablesMap = variablesMap;
-		this.variables = variables;
-		
-		this.unitName = unitName;
-		this.expressions = expressions;
-		
-		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
-	}
-
-	
-	protected JRBshGenerator(JasperDesign jrDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector)
-	{
-		this(jrDesign, expressionCollector,
-				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
-				JRAbstractCompiler.getUnitName(jrDesign, dataset), expressionCollector.getExpressions(dataset), false);
-	}
-
-
-	protected JRBshGenerator(JasperDesign jrDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector)
-	{
-		this(jrDesign, expressionCollector,
-				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				JRAbstractCompiler.getUnitName(jrDesign, crosstab, expressionCollector), expressionCollector.getExpressions(crosstab), true);
+		this.parametersMap = sourceTask.getParametersMap();
+		this.fieldsMap = sourceTask.getFieldsMap();
+		this.variablesMap = sourceTask.getVariablesMap();
+		this.variables = sourceTask.getVariables();
 	}
 
 
 	/**
 	 *
 	 */
-	public static String generateScript(JasperDesign jrDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector)
+	public static String generateScript(JRSourceCompileTask sourceTask)
 	{
-		JRBshGenerator generator = new JRBshGenerator(jrDesign, dataset, expressionCollector);
-		return generator.generateScript();
-	}
-
-
-	/**
-	 *
-	 */
-	public static String generateScript(JasperDesign jrDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector)
-	{
-		JRBshGenerator generator = new JRBshGenerator(jrDesign, crosstab, expressionCollector);
+		JRBshGenerator generator = new JRBshGenerator(sourceTask);
 		return generator.generateScript();
 	}
 	
@@ -167,8 +123,9 @@ public class JRBshGenerator
 		sb.append("\n");
 		sb.append("\n");
 
+		List expressions = sourceTask.getExpressions();
 		sb.append(generateMethod(JRExpression.EVALUATION_DEFAULT, expressions));
-		if (onlyDefaultEvaluation)
+		if (sourceTask.isOnlyDefaultEvaluation())
 		{
 			List empty = new ArrayList();
 			sb.append(generateMethod(JRExpression.EVALUATION_OLD, empty));
@@ -205,7 +162,7 @@ public class JRBshGenerator
 		sb.append("\n");
 		
 		/*   */
-		String[] imports = jasperDesign.getImports();
+		String[] imports = sourceTask.getImports();
 		if (imports != null && imports.length > 0)
 		{
 			for (int i = 0; i < imports.length; i++)
@@ -399,7 +356,7 @@ public class JRBshGenerator
 				expression = (JRExpression)it.next();
 				
 				sb.append("            case ");
-				sb.append(expressionCollector.getExpressionId(expression));
+				sb.append(sourceTask.getExpressionId(expression));
 				sb.append(" :\n");
 				sb.append("            {\n");
 				sb.append("                value = (");
