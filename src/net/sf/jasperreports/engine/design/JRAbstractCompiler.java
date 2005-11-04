@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
@@ -54,6 +55,9 @@ import net.sf.jasperreports.engine.util.JRSaver;
  */
 public abstract class JRAbstractCompiler implements JRCompiler
 {
+	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
+	private static final Random random = new Random();
+	
 	private final boolean needsSourceFiles;
 
 	/**
@@ -76,7 +80,12 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 * @param dataset the dataset
 	 * @return the generated expression evaluator unit name
 	 */
-	public static String getUnitName(JRReport report, JRDataset dataset)
+	public static String getUnitName(JasperReport report, JRDataset dataset)
+	{
+		return getUnitName(report, dataset, report.getCompileNameSuffix());
+	}
+
+	protected static String getUnitName(JRReport report, JRDataset dataset, String nameSuffix)
 	{
 		String className;
 		if (dataset.isMainDataset())
@@ -88,9 +97,10 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			className = report.getName() + "_" + dataset.getName();
 		}
 		
+		className += nameSuffix;
+		
 		return className;
 	}
-
 	
 	/**
 	 * Returns the name of the expression evaluator unit for a crosstab of a report.
@@ -99,30 +109,27 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 * @param crosstab the crosstab
 	 * @return the generated expression evaluator unit name
 	 */
-	public static String getUnitName(JRReport report, JRCrosstab crosstab)
+	public static String getUnitName(JasperReport report, JRCrosstab crosstab)
 	{
-		return report.getName() + "_CROSSTAB_" + crosstab.getId();
+		return getUnitName(report, crosstab.getId(), report.getCompileNameSuffix());
 	}
 
 	
-	/**
-	 * Returns the name of the expression evaluator unit for a crosstab of a report.
-	 * 
-	 * @param report the report
-	 * @param crosstab the crosstab
-	 * @param expressionCollector used to retrieve the crosstab Id
-	 * @return the generated expression evaluator unit name
-	 */
-	public static String getUnitName(JRReport report, JRCrosstab crosstab, JRExpressionCollector expressionCollector)
+	protected static String getUnitName(JRReport report, JRCrosstab crosstab, JRExpressionCollector expressionCollector, String nameSuffix)
 	{
 		Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
 		if (crosstabId == null)
 		{
 			throw new JRRuntimeException("Crosstab ID not found.");
 		}
-		return report.getName() + "_CROSSTAB_" + crosstabId;
+		
+		return getUnitName(report, crosstabId.intValue(), nameSuffix);
 	}
 
+	protected static String getUnitName(JRReport report, int crosstabId, String nameSuffix)
+	{
+		return report.getName() + "_CROSSTAB" + crosstabId + nameSuffix;
+	}
 	
 	public final JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
@@ -136,6 +143,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		// verify the report design
 		verifyDesign(jasperDesign, expressionCollector);
 
+		String nameSuffix = createNameSuffix();
+		
 		// check if saving source files is required
 		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE);
 		File tempDirFile = null;
@@ -156,21 +165,21 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		JRCompilationUnit[] units = new JRCompilationUnit[datasets.size() + crosstabs.size() + 1];
 		
 		// generating source code for the main report dataset
-		units[0] = createCompileUnit(jasperDesign, jasperDesign.getMainDesignDataset(), expressionCollector, tempDirFile);
+		units[0] = createCompileUnit(jasperDesign, jasperDesign.getMainDesignDataset(), expressionCollector, tempDirFile, nameSuffix);
 
 		int sourcesCount = 1;
 		for (Iterator it = datasets.iterator(); it.hasNext(); ++sourcesCount)
 		{
 			JRDesignDataset dataset = (JRDesignDataset) it.next();
 			// generating source code for a sub dataset
-			units[sourcesCount] = createCompileUnit(jasperDesign, dataset, expressionCollector, tempDirFile);
+			units[sourcesCount] = createCompileUnit(jasperDesign, dataset, expressionCollector, tempDirFile, nameSuffix);
 		}
 		
 		for (Iterator it = crosstabs.iterator(); it.hasNext(); ++sourcesCount)
 		{
 			JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 			// generating source code for a sub dataset
-			units[sourcesCount] = createCompileUnit(jasperDesign, crosstab, expressionCollector, tempDirFile);
+			units[sourcesCount] = createCompileUnit(jasperDesign, crosstab, expressionCollector, tempDirFile, nameSuffix);
 		}
 		
 		String classpath = JRProperties.getProperty(JRProperties.COMPILER_CLASSPATH);
@@ -207,7 +216,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 					jasperDesign,
 					getCompilerClass(),
 					reportCompileData,
-					expressionCollector
+					expressionCollector,
+					nameSuffix
 					);
 			
 			return jasperReport;
@@ -227,6 +237,12 @@ public abstract class JRAbstractCompiler implements JRCompiler
 				deleteSourceFiles(units);
 			}
 		}
+	}
+
+
+	private static String createNameSuffix()
+	{
+		return "_" + System.currentTimeMillis() + "_" + random.nextInt(NAME_SUFFIX_RANDOM_MAX);
 	}
 
 
@@ -252,22 +268,24 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		}
 	}
 	
-	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, File saveSourceDir) throws JRException
+	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, File saveSourceDir, String nameSuffix) throws JRException
 	{		
-		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, dataset);
+		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, dataset, nameSuffix);
 		
-		String sourceCode = generateSourceCode(jasperDesign, dataset, expressionCollector);
+		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, dataset, expressionCollector, unitName);
+		String sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
 		return new JRCompilationUnit(unitName, sourceCode, sourceFile, expressionCollector.getExpressions(dataset));
 	}
 	
-	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, File saveSourceDir) throws JRException
+	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, File saveSourceDir, String nameSuffix) throws JRException
 	{		
-		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab, expressionCollector);
+		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab, expressionCollector, nameSuffix);
 		
-		String sourceCode = generateSourceCode(jasperDesign, crosstab, expressionCollector);
+		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, crosstab, expressionCollector, unitName);
+		String sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
@@ -339,27 +357,13 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	
 	/**
-	 * Generates expression evaluator code for a dataset of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param dataset the dataset
-	 * @param expressionCollector the collector used to collect report expressions
+	 * Generates expression evaluator code.
+	 *
+	 * @param sourceTask the source code generation information
 	 * @return generated expression evaluator code
 	 * @throws JRException
 	 */
-	protected abstract String generateSourceCode(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector) throws JRException;
-
-	
-	/**
-	 * Generates expression evaluator code for a crosstab of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param crosstab the crosstab
-	 * @param expressionCollector the collector used to collect report expressions
-	 * @return generated expression evaluator code
-	 * @throws JRException
-	 */
-	protected abstract String generateSourceCode(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector) throws JRException;
+	protected abstract String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;
 
 	
 	/**

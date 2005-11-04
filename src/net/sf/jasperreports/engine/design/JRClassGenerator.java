@@ -43,11 +43,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
@@ -89,72 +87,22 @@ public class JRClassGenerator
 		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "Estimated");
 		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");		
 	}
-	
-	
-	/**
-	 *
-	 */
-	protected JasperDesign jasperDesign = null;
 
-	protected JRExpressionCollector expressionCollector;
-
+	protected final JRSourceCompileTask sourceTask;
+	
 	protected Map parametersMap;
 	protected Map fieldsMap;
 	protected Map variablesMap;
 	protected JRVariable[] variables;
 	
-	protected String unitName;
-	protected List expressions;
-	
-	protected boolean onlyDefaultEvaluation;
-
-	protected JRClassGenerator(JasperDesign jrDesign, JRExpressionCollector expressionCollector,
-			Map parametersMap, Map fieldsMap, Map variablesMap, JRVariable[] variables,
-			String unitName, List expressions, boolean onlyDefaultEvaluation)
+	protected JRClassGenerator(JRSourceCompileTask sourceTask)
 	{
-		jasperDesign = jrDesign;
-		this.expressionCollector = expressionCollector;
+		this.sourceTask = sourceTask;
 		
-		this.parametersMap = parametersMap;
-		this.fieldsMap = fieldsMap;
-		this.variablesMap = variablesMap;
-		this.variables = variables;
-		
-		this.unitName = unitName;
-		this.expressions = expressions;
-		
-		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
-	}
-
-	
-	protected JRClassGenerator(JasperDesign jrDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector)
-	{
-		this(jrDesign, expressionCollector,
-				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
-				JRAbstractCompiler.getUnitName(jrDesign, dataset), expressionCollector.getExpressions(dataset), false);
-	}
-
-
-	protected JRClassGenerator(JasperDesign jrDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector)
-	{
-		this(jrDesign, expressionCollector,
-				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				JRAbstractCompiler.getUnitName(jrDesign, crosstab, expressionCollector), expressionCollector.getExpressions(crosstab), true);
-	}
-
-
-	/**
-	 * Generates Java source code for evaluating the expressions of a dataset.
-	 * 
-	 * @param jrDesign the report
-	 * @param dataset the dataset
-	 * @return the source code
-	 * @throws JRException
-	 */
-	public static String generateClass(JasperDesign jrDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector) throws JRException
-	{
-		JRClassGenerator generator = new JRClassGenerator(jrDesign, dataset, expressionCollector);
-		return generator.generateClass();
+		parametersMap = sourceTask.getParametersMap();
+		fieldsMap = sourceTask.getFieldsMap();
+		variablesMap = sourceTask.getVariablesMap();
+		variables = sourceTask.getVariables();
 	}
 
 	
@@ -166,9 +114,9 @@ public class JRClassGenerator
 	 * @return the source code
 	 * @throws JRException
 	 */
-	public static String generateClass(JasperDesign jrDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector) throws JRException
+	public static String generateClass(JRSourceCompileTask sourceTask) throws JRException
 	{
-		JRClassGenerator generator = new JRClassGenerator(jrDesign, crosstab, expressionCollector);
+		JRClassGenerator generator = new JRClassGenerator(sourceTask);
 		return generator.generateClass();
 	}
 	
@@ -189,8 +137,9 @@ public class JRClassGenerator
 		}
 		generateInitVarsMethod(sb);
 
+		List expressions = sourceTask.getExpressions();
 		sb.append(generateMethod(JRExpression.EVALUATION_DEFAULT, expressions));
-		if (onlyDefaultEvaluation)
+		if (sourceTask.isOnlyDefaultEvaluation())
 		{
 			List empty = new ArrayList();
 			sb.append(generateMethod(JRExpression.EVALUATION_OLD, empty));
@@ -251,7 +200,7 @@ public class JRClassGenerator
 		sb.append("\n");
 		
 		/*   */
-		String[] imports = jasperDesign.getImports();
+		String[] imports = sourceTask.getImports();
 		if (imports != null && imports.length > 0)
 		{
 			for (int i = 0; i < imports.length; i++)
@@ -269,7 +218,7 @@ public class JRClassGenerator
 		sb.append(" *\n");
 		sb.append(" */\n");
 		sb.append("public class ");
-		sb.append(unitName);
+		sb.append(sourceTask.getUnitName());
 		sb.append(" extends JREvaluator\n");
 		sb.append("{\n"); 
 		sb.append("\n");
@@ -547,7 +496,7 @@ public class JRClassGenerator
 			expression = (JRExpression)it.next();
 			
 			sb.append("            case "); 
-			sb.append(expressionCollector.getExpressionId(expression)); 
+			sb.append(sourceTask.getExpressionId(expression)); 
 			sb.append(" : \n");
 			sb.append("            {\n");
 			sb.append("                value = (");

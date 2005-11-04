@@ -52,6 +52,11 @@ public class JasperReport extends JRBaseReport
 	 * The compiler is used to instantiate expression evaluators.
 	 */
 	private String compilerClass = null;
+
+	/**
+	 * Unique string generated at compile time to distinguish between distinct compilations of reports having the same name.
+	 */
+	private String compileNameSuffix;
 	
 	/**
 	 * Expression evaluators compiled data.
@@ -66,6 +71,7 @@ public class JasperReport extends JRBaseReport
 	 * @param compilerClass the name of the class used to compile the report
 	 * @param compileData the report/main dataset compile data
 	 * @param expressionCollector instance used to collect expressions from the report design
+	 * @param compileNameSuffix unique string used to distinguish between distinct compilations of reports having the same name
 	 * <p>
 	 * The collector is used to fetch the generated expression IDs.
 	 */
@@ -73,13 +79,15 @@ public class JasperReport extends JRBaseReport
 		JRReport report,
 		String compilerClass, 
 		Serializable compileData,
-		JRExpressionCollector expressionCollector
+		JRExpressionCollector expressionCollector,
+		String compileNameSuffix
 		)
 	{
 		super(report, expressionCollector);
 		
 		this.compilerClass = compilerClass;
 		this.compileData = compileData;
+		this.compileNameSuffix = compileNameSuffix;
 	}
 
 	/**
@@ -105,5 +113,17 @@ public class JasperReport extends JRBaseReport
 	public Serializable getCompileData()
 	{
 		return this.compileData;
+	}
+
+	/**
+	 * Returns the suffix of the class/unit names generated at report compilation.
+	 * <p>
+	 * This is used to distinguish between disctinct compilations of reports having the same name.
+	 * 
+	 * @return the suffix of the class/unit names generated at report compilation
+	 */
+	public String getCompileNameSuffix()
+	{
+		return compileNameSuffix;
 	}
 }
