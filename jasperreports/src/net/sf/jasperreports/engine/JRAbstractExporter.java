@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -81,6 +82,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	private int elementOffsetX;
 	private int elementOffsetY;
 
+	private Map penBoxes;
+
 	
 	protected JRAbstractExporter()
 	{
@@ -88,6 +91,8 @@ public abstract class JRAbstractExporter implements JRExporter
 		
 		elementOffsetX = globalOffsetX;
 		elementOffsetY = globalOffsetY;
+		
+		penBoxes = new HashMap();
 	}
 	
 	
@@ -326,7 +331,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected JRStyledText getStyledText(JRPrintText textElement)
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
 		JRStyledText styledText = null;
 
@@ -336,7 +341,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			Map attributes = new HashMap(); 
 			attributes.putAll(JRFontUtil.setAttributes(attributes, textElement));
 			attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-			if (textElement.getMode() == JRElement.MODE_OPAQUE)
+			if (setBackcolor && textElement.getMode() == JRElement.MODE_OPAQUE)
 			{
 				attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
 			}
@@ -364,7 +369,13 @@ public abstract class JRAbstractExporter implements JRExporter
 		return styledText;
 	}
 
+	
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		return getStyledText(textElement, true);
+	}
 
+	
 	/**
 	 *
 	 */
@@ -447,5 +458,22 @@ public abstract class JRAbstractExporter implements JRExporter
 		int[] offsets = (int[]) elementOffsetStack.removeLast();
 		elementOffsetX = offsets[0];
 		elementOffsetY = offsets[1];
+	}
+
+	
+	protected JRBox getBox(JRPrintGraphicElement element)
+	{
+		byte pen = element.getPen();
+		Object key = new Byte(pen);
+		JRBox box = (JRBox) penBoxes.get(key);
+		
+		if (box == null)
+		{
+			box = new JRBaseBox(pen, element.getForecolor());
+			
+			penBoxes.put(key, box);
+		}
+		
+		return box;
 	}
 }

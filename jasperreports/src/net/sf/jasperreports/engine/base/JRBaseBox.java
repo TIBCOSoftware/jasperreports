@@ -81,6 +81,12 @@ public class JRBaseBox implements JRBox, Serializable
 		super();
 	}
 	
+	
+	public JRBaseBox(byte pen, Color color)
+	{
+		setBorder(pen);
+		setBorderColor(color);
+	}
 
 	/**
 	 * Creates a clone of a box object.
