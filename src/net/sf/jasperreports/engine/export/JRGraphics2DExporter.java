@@ -93,7 +93,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 	protected TextRenderer textRenderer = new TextRenderer();
 
-
 	/**
 	 *
 	 */
@@ -262,6 +261,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		{
 			grx.setStroke(stroke);
 			
+			grx.translate(.5, .5);
+			
 			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 			{
 				grx.drawLine(
@@ -280,6 +281,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					line.getY() + getOffsetY()
 					);
 			}
+			
+			grx.translate(-.5, -.5);
 		}
 	}
 
@@ -292,36 +295,87 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		if (rectangle.getMode() == JRElement.MODE_OPAQUE)
 		{
 			grx.setColor(rectangle.getBackcolor());
-			grx.fillRoundRect(
-				rectangle.getX() + getOffsetX(), 
-				rectangle.getY() + getOffsetY(), 
-				rectangle.getWidth(),
-				rectangle.getHeight(),
-				2 * rectangle.getRadius(),
-				2 * rectangle.getRadius()
-				);
+			if (rectangle.getRadius() > 0)
+			{
+				grx.fillRoundRect(
+						rectangle.getX() + getOffsetX(), 
+						rectangle.getY() + getOffsetY(), 
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+			}
+			else
+			{
+				grx.fillRect(
+						rectangle.getX() + getOffsetX(), 
+						rectangle.getY() + getOffsetY(), 
+						rectangle.getWidth(),
+						rectangle.getHeight()
+						);
+			}
 		}
 
 		grx.setColor(rectangle.getForecolor());
 
-		Stroke stroke = getStroke(rectangle.getPen());
+		byte pen = rectangle.getPen();
+		Stroke stroke = getStroke(pen);
 
 		if (stroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(pen);
+			int sizeAdjust = getRectangleSizeAdjust(pen);
+			
+			AffineTransform transform = grx.getTransform();
+			
+			grx.translate(rectangle.getX() + getOffsetX() + cornerOffset, rectangle.getY() + getOffsetY() + cornerOffset);
+			if (pen == JRGraphicElement.PEN_THIN)
+			{
+				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
+			}
+			
 			grx.setStroke(stroke);
 			
-			grx.drawRoundRect(
-				rectangle.getX() + getOffsetX(), 
-				rectangle.getY() + getOffsetY(), 
-				rectangle.getWidth() - 1,
-				rectangle.getHeight() - 1,
-				2 * rectangle.getRadius(),
-				2 * rectangle.getRadius()
-				);
+			if (rectangle.getRadius() > 0)
+			{
+				grx.drawRoundRect(
+						0, 
+						0, 
+						rectangle.getWidth() - sizeAdjust,
+						rectangle.getHeight() - sizeAdjust,
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+			}
+			else
+			{
+				grx.drawRect(
+						0, 
+						0, 
+						rectangle.getWidth() - sizeAdjust,
+						rectangle.getHeight() - sizeAdjust
+						);
+			}
+
+			grx.setTransform(transform);
 		}
 	}
 
-
+	
+	private static int getRectangleSizeAdjust(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_1_POINT:
+			case JRGraphicElement.PEN_DOTTED:
+				return 1;
+			default:
+				return 0;
+		}
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -340,18 +394,32 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 
 		grx.setColor(ellipse.getForecolor());
 
-		Stroke stroke = getStroke(ellipse.getPen());
+		byte pen = ellipse.getPen();
+		Stroke stroke = getStroke(pen);
 
 		if (stroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(pen);
+			int sizeAdjust = getRectangleSizeAdjust(pen);
+			
+			AffineTransform transform = grx.getTransform();
+			
+			grx.translate(ellipse.getX() + getOffsetX() + cornerOffset, ellipse.getY() + getOffsetY() + cornerOffset);
+			if (pen == JRGraphicElement.PEN_THIN)
+			{
+				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
+			}
+			
 			grx.setStroke(stroke);
 			
 			grx.drawOval(
-				ellipse.getX() + getOffsetX(), 
-				ellipse.getY() + getOffsetY(), 
-				ellipse.getWidth() - 1,
-				ellipse.getHeight() - 1
+				0, 
+				0, 
+				ellipse.getWidth() - sizeAdjust,
+				ellipse.getHeight() - sizeAdjust
 				);
+			
+			grx.setTransform(transform);
 		}
 	}
 
@@ -533,38 +601,24 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			printImage.getRightBorder() == JRGraphicElement.PEN_NONE
 			)
 		{
-			Stroke stroke = getStroke(printImage.getPen());
-			if (stroke != null)
+			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
-				grx.setColor(printImage.getForecolor());
-				
-				grx.setStroke(stroke);
-		
-				grx.drawRect(
-					printImage.getX() + getOffsetX(), 
-					printImage.getY() + getOffsetY(), 
-					printImage.getWidth() - 1,
-					printImage.getHeight() - 1
-					);
+				exportBox(getBox(printImage), printImage);
 			}
 		}
 		else
 		{
-			/*   */
-			exportBox(
-				printImage,
-				printImage
-				);
+			exportBox(printImage, printImage);
 		}
 	}
-
+	
 
 	/**
 	 *
 	 */
 	protected void exportText(JRPrintText text)
 	{
-		JRStyledText styledText = getStyledText(text);
+		JRStyledText styledText = getStyledText(text, false);
 		
 		if (styledText == null)
 		{
@@ -678,128 +732,90 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		Stroke leftStroke = null;
 		Stroke bottomStroke = null;
 		Stroke rightStroke = null;
+		
 		if (box != null)
 		{
-			topStroke = getStroke(box.getTopBorder());
-			leftStroke = getStroke(box.getLeftBorder());
-			bottomStroke = getStroke(box.getBottomBorder());
-			rightStroke = getStroke(box.getRightBorder());
+			topStroke = getBorderStroke(box.getTopBorder());
+			leftStroke = getBorderStroke(box.getLeftBorder());
+			bottomStroke = getBorderStroke(box.getBottomBorder());
+			rightStroke = getBorderStroke(box.getRightBorder());
 		}
 
 		if (topStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getTopBorder());
+			
 			grx.setStroke(topStroke);
 			grx.setColor(box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor());
 	
-			if (topStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY(), 
-					element.getX() + getOffsetX() + element.getWidth(),
-					element.getY() + getOffsetY()
-					);
-				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY(), 
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY()
-					);
-			}
+			grx.translate(0, cornerOffset);
+			grx.drawLine(
+				element.getX() + getOffsetX(), 
+				element.getY() + getOffsetY(), 
+				element.getX() + getOffsetX() + element.getWidth(),
+				element.getY() + getOffsetY()
+				);
+			grx.translate(0, -cornerOffset);
 		}
 
 		if (leftStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getLeftBorder());
+			
 			grx.setStroke(leftStroke);
 			grx.setColor(box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor());
 	
-			if (leftStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY(), 
-					element.getX() + getOffsetX(),
-					element.getY() + getOffsetY() + element.getHeight()
-					);
-				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY(), 
-					element.getX() + getOffsetX(),
-					element.getY() + getOffsetY() + element.getHeight() - 1
-					);
-			}
+			grx.translate(cornerOffset, 0);
+			grx.drawLine(
+				element.getX() + getOffsetX(), 
+				element.getY() + getOffsetY(), 
+				element.getX() + getOffsetX(),
+				element.getY() + getOffsetY() + element.getHeight()
+				);
+			grx.translate(-cornerOffset, 0);
 		}
 
 		if (bottomStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getBottomBorder());
+			
 			grx.setStroke(bottomStroke);
 			grx.setColor(box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor());
 	
-			if (bottomStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY() + element.getHeight() - 1,
-					element.getX() + getOffsetX() + element.getWidth(),
-					element.getY() + getOffsetY() + element.getHeight() - 1
-					);
-				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(
-					element.getX() + getOffsetX(), 
-					element.getY() + getOffsetY() + element.getHeight() - 1,
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY() + element.getHeight() - 1
-					);
-			}
+			grx.translate(0, -cornerOffset);
+			grx.drawLine(
+				element.getX() + getOffsetX(), 
+				element.getY() + getOffsetY() + element.getHeight(),
+				element.getX() + getOffsetX() + element.getWidth(),
+				element.getY() + getOffsetY() + element.getHeight()
+				);
+			grx.translate(0, cornerOffset);
 		}
 
 		if (rightStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getRightBorder());
+			
 			grx.setStroke(rightStroke);
 			grx.setColor(box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor());
 	
-			if (rightStroke == STROKE_THIN)
-			{
-				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY(),
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY() + element.getHeight()
-					);
-				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY(),
-					element.getX() + getOffsetX() + element.getWidth() - 1,
-					element.getY() + getOffsetY() + element.getHeight() - 1
-					);
-			}
+			grx.translate(-cornerOffset, 0);
+			grx.drawLine(
+				element.getX() + getOffsetX() + element.getWidth(),
+				element.getY() + getOffsetY(),
+				element.getX() + getOffsetX() + element.getWidth(),
+				element.getY() + getOffsetY() + element.getHeight()
+				);
+			grx.translate(cornerOffset, 0);
 		}
 	}
-
 
 	/**
 	 * 
 	 */
 	private static final double THIN_CORNER_OFFSET = 0.25d;
+	private static final double ONE_POINT_CORNER_OFFSET = 0.5d;
+	
 	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
 	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
 	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
@@ -807,9 +823,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	private static final Stroke STROKE_DOTTED = 
 		new BasicStroke(
 			1f,
+			BasicStroke.CAP_SQUARE,
+			BasicStroke.JOIN_MITER,
+			10f,
+			new float[]{5f, 3f},
+			0f
+			);
+	
+	private static final Stroke BORDER_STROKE_THIN = new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	private static final Stroke BORDER_STROKE_1_POINT = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	private static final Stroke BORDER_STROKE_DOTTED = 
+		new BasicStroke(
+			1f,
 			BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_BEVEL,
-			0f,
+			BasicStroke.JOIN_MITER,
+			10f,
 			new float[]{5f, 3f},
 			0f
 			);
@@ -848,7 +876,59 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 		}
 	}
+
+	private static Stroke getBorderStroke(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return BORDER_STROKE_DOTTED;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				return STROKE_4_POINT;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				return STROKE_2_POINT;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				return null;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				return BORDER_STROKE_THIN;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				return BORDER_STROKE_1_POINT;
+			}
+		}
+	}
 	
+
+	private static double getBorderCornerOffset(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_THIN :
+			{
+				return THIN_CORNER_OFFSET;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return ONE_POINT_CORNER_OFFSET;
+			}
+			default :
+			{
+				return 0;
+			}
+		}
+	}
 	
 	protected void exportFrame(JRPrintFrame frame) throws JRException
 	{		

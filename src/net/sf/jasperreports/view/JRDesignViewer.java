@@ -1021,6 +1021,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 		{
 			grx.setStroke(stroke);
 			
+			grx.translate(.5, .5);
+			
 			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 			{
 				grx.drawLine(
@@ -1039,9 +1041,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 					line.getY()
 					);
 			}
+			
+			grx.translate(-.5, -.5);
 		}
 	}
-
 
 	/**
 	 *
@@ -1052,32 +1055,104 @@ public class JRDesignViewer extends javax.swing.JPanel
 		{
 			grx.setColor(rectangle.getBackcolor());
 
-			grx.fillRoundRect(
-				rectangle.getX(), 
-				rectangle.getY(), 
-				rectangle.getWidth(),
-				rectangle.getHeight(),
-				2 * rectangle.getRadius(),
-				2 * rectangle.getRadius()
-				);
+			if (rectangle.getRadius() > 0)
+			{
+				grx.fillRoundRect(
+						rectangle.getX(), 
+						rectangle.getY(), 
+						rectangle.getWidth(),
+						rectangle.getHeight(),
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+			}
+			else
+			{
+				grx.fillRect(
+						rectangle.getX(), 
+						rectangle.getY(), 
+						rectangle.getWidth(),
+						rectangle.getHeight()
+						);
+			}
 		}
 
 		grx.setColor(rectangle.getForecolor());
 
-		Stroke stroke = getStroke(rectangle.getPen());
+		byte pen = rectangle.getPen();
+		Stroke stroke = getStroke(pen);
 
 		if (stroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(pen);
+			int sizeAdjust = getRectangleSizeAdjust(pen);
+			
+			AffineTransform transform = grx.getTransform();
+			
+			grx.translate(rectangle.getX() + cornerOffset, rectangle.getY() + cornerOffset);
+			if (pen == JRGraphicElement.PEN_THIN)
+			{
+				grx.scale((rectangle.getWidth() - .5) / rectangle.getWidth(), (rectangle.getHeight() - .5) / rectangle.getHeight());
+			}
+			
 			grx.setStroke(stroke);
 	
-			grx.drawRoundRect(
-				rectangle.getX(), 
-				rectangle.getY(), 
-				rectangle.getWidth() - 1,
-				rectangle.getHeight() - 1,
-				2 * rectangle.getRadius(),
-				2 * rectangle.getRadius()
-				);
+			if (rectangle.getRadius() > 0)
+			{
+				grx.drawRoundRect(
+						0, 
+						0, 
+						rectangle.getWidth() - sizeAdjust,
+						rectangle.getHeight() - sizeAdjust,
+						2 * rectangle.getRadius(),
+						2 * rectangle.getRadius()
+						);
+			}
+			else
+			{
+				grx.drawRect(
+						0, 
+						0, 
+						rectangle.getWidth() - sizeAdjust,
+						rectangle.getHeight() - sizeAdjust
+						);
+			}
+			
+			grx.setTransform(transform);
+		}
+	}
+	
+
+	private static double getBorderCornerOffset(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_THIN :
+			{
+				return THIN_CORNER_OFFSET;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return ONE_POINT_CORNER_OFFSET;
+			}
+			default :
+			{
+				return 0;
+			}
+		}
+	}
+
+	
+	private static int getRectangleSizeAdjust(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_1_POINT:
+			case JRGraphicElement.PEN_DOTTED:
+				return 1;
+			default:
+				return 0;
 		}
 	}
 
@@ -1101,18 +1176,32 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 		grx.setColor(ellipse.getForecolor());
 
-		Stroke stroke = getStroke(ellipse.getPen());
+		byte pen = ellipse.getPen();
+		Stroke stroke = getStroke(pen);
 
 		if (stroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(pen);
+			int sizeAdjust = getRectangleSizeAdjust(pen);
+			
+			AffineTransform transform = grx.getTransform();
+			
+			grx.translate(ellipse.getX() + cornerOffset, ellipse.getY() + cornerOffset);
+			if (pen == JRGraphicElement.PEN_THIN)
+			{
+				grx.scale((ellipse.getWidth() - .5) / ellipse.getWidth(), (ellipse.getHeight() - .5) / ellipse.getHeight());
+			}
+			
 			grx.setStroke(stroke);
 	
 			grx.drawOval(
-				ellipse.getX(), 
-				ellipse.getY(), 
-				ellipse.getWidth() - 1,
-				ellipse.getHeight() - 1
+				0, 
+				0, 
+				ellipse.getWidth() - sizeAdjust,
+				ellipse.getHeight() - sizeAdjust
 				);
+			
+			grx.setTransform(transform);
 		}
 	}
 
@@ -1334,19 +1423,10 @@ public class JRDesignViewer extends javax.swing.JPanel
 			jrImage.getRightBorder() == JRGraphicElement.PEN_NONE
 			)
 		{
-			Stroke stroke = getStroke(jrImage.getPen());
-			if (stroke != null)
+			if (jrImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
-				grx.setColor(jrImage.getForecolor());
-				
-				grx.setStroke(stroke);
-		
-				grx.drawRect(
-					jrImage.getX(), 
-					jrImage.getY(), 
-					jrImage.getWidth() - 1,
-					jrImage.getHeight() - 1
-					);
+				JRBox box = new JRBaseBox(jrImage.getPen(), jrImage.getForecolor());
+				printBox(box, jrImage, grx);
 			}
 		}
 		else
@@ -1392,10 +1472,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 		Map attributes = new HashMap(); 
 		JRFontUtil.setAttributes(attributes, textElement);
 		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
-		if (textElement.getMode() == JRElement.MODE_OPAQUE)
-		{
-			attributes.put(TextAttribute.BACKGROUND, textElement.getBackcolor());
-		}
 
 		if (
 			textElement instanceof JRStaticText
@@ -1553,78 +1629,58 @@ public class JRDesignViewer extends javax.swing.JPanel
 		Stroke rightStroke = null;
 		if (box != null)
 		{
-			topStroke = getStroke(box.getTopBorder());
-			leftStroke = getStroke(box.getLeftBorder());
-			bottomStroke = getStroke(box.getBottomBorder());
-			rightStroke = getStroke(box.getRightBorder());
+			topStroke = getBorderStroke(box.getTopBorder());
+			leftStroke = getBorderStroke(box.getLeftBorder());
+			bottomStroke = getBorderStroke(box.getBottomBorder());
+			rightStroke = getBorderStroke(box.getRightBorder());
 		}
 
 		if (topStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getTopBorder());
+			
 			grx.setStroke(topStroke);
 			grx.setColor(box.getTopBorderColor() == null ? defaultBorderColor : box.getTopBorderColor());
 	
-			if (topStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(x, y, x + width, y);
-				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(x, y, x + width - 1, y);
-			}
+			grx.translate(0, cornerOffset);
+			grx.drawLine(x, y, x + width, y);
+			grx.translate(0, -cornerOffset);
 		}
 
 		if (leftStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getLeftBorder());
+			
 			grx.setStroke(leftStroke);
 			grx.setColor(box.getLeftBorderColor() == null ? defaultBorderColor : box.getLeftBorderColor());
 	
-			if (leftStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(x, y, x, y + height);
-				grx.translate(THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(x, y, x, y + height - 1);
-			}
+			grx.translate(cornerOffset, 0);
+			grx.drawLine(x, y, x, y + height);
+			grx.translate(-cornerOffset, 0);
 		}
 
 		if (bottomStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getBottomBorder());
+			
 			grx.setStroke(bottomStroke);
 			grx.setColor(box.getBottomBorderColor() == null ? defaultBorderColor : box.getBottomBorderColor());
 	
-			if (bottomStroke == STROKE_THIN)
-			{
-				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-				grx.drawLine(x, y + height - 1, x + width, y + height - 1); 
-				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(x, y + height - 1, x + width - 1, y + height - 1);
-			}
+			grx.translate(0, -cornerOffset);
+			grx.drawLine(x, y + height, x + width, y + height); 
+			grx.translate(0, cornerOffset);
 		}
 
 		if (rightStroke != null)
 		{
+			double cornerOffset = getBorderCornerOffset(box.getRightBorder());
+			
 			grx.setStroke(rightStroke);
 			grx.setColor(box.getRightBorderColor() == null ? defaultBorderColor : box.getRightBorderColor());
 	
-			if (rightStroke == STROKE_THIN)
-			{
-				grx.translate(THIN_CORNER_OFFSET, -THIN_CORNER_OFFSET);
-				grx.drawLine(x + width - 1, y, x + width - 1, y + height);
-				grx.translate(-THIN_CORNER_OFFSET, THIN_CORNER_OFFSET);
-			}
-			else
-			{
-				grx.drawLine(x + width - 1, y, x + width - 1, y + height - 1);
-			}
+			grx.translate(-cornerOffset, 0);
+			grx.drawLine(x + width, y, x + width, y + height);
+			grx.translate(cornerOffset, 0);
 		}
 
 		if (
@@ -1637,7 +1693,39 @@ public class JRDesignViewer extends javax.swing.JPanel
 			grx.setColor(defaultBorderColor);
 			grx.setStroke(new BasicStroke(1f / realZoom));
 		
-			grx.drawRect(x, y, width - 1, height - 1);
+			grx.drawRect(x, y, width, height);
+		}
+	}
+
+	private static Stroke getBorderStroke(byte pen)
+	{
+		switch (pen)
+		{
+			case JRGraphicElement.PEN_DOTTED :
+			{
+				return BORDER_STROKE_DOTTED;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				return STROKE_4_POINT;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				return STROKE_2_POINT;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				return null;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				return BORDER_STROKE_THIN;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				return BORDER_STROKE_1_POINT;
+			}
 		}
 	}
 
@@ -1980,6 +2068,8 @@ public class JRDesignViewer extends javax.swing.JPanel
 	 * 
 	 */
 	private static final double THIN_CORNER_OFFSET = 0.25d;
+	private static final double ONE_POINT_CORNER_OFFSET = 0.5d;
+	
 	private static final Stroke STROKE_THIN = new BasicStroke(0.5f);
 	private static final Stroke STROKE_1_POINT = new BasicStroke(1f);
 	private static final Stroke STROKE_2_POINT = new BasicStroke(2f);
@@ -1987,9 +2077,21 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private static final Stroke STROKE_DOTTED = 
 		new BasicStroke(
 			1f,
+			BasicStroke.CAP_SQUARE,
+			BasicStroke.JOIN_MITER,
+			10f,
+			new float[]{5f, 3f},
+			0f
+			);
+	
+	private static final Stroke BORDER_STROKE_THIN = new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	private static final Stroke BORDER_STROKE_1_POINT = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	private static final Stroke BORDER_STROKE_DOTTED = 
+		new BasicStroke(
+			1f,
 			BasicStroke.CAP_BUTT,
-			BasicStroke.JOIN_BEVEL,
-			0f,
+			BasicStroke.JOIN_MITER,
+			10f,
 			new float[]{5f, 3f},
 			0f
 			);
