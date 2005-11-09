@@ -518,7 +518,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextHeight(textMeasurer.getTextHeight());
 		if (getRotation() == ROTATION_NONE)
 		{
-			setStretchHeight((int)Math.ceil(getTextHeight()) + getTopPadding() + getBottomPadding());
+			setStretchHeight((int)getTextHeight() + getTopPadding() + getBottomPadding());
 		}
 		else
 		{
