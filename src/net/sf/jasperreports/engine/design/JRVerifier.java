@@ -518,15 +518,20 @@ public class JRVerifier
 					JRExpression expression = parameter.getDefaultValueExpression();
 					if (expression != null)
 					{
-						if (
-							!parameter.getValueClass().isAssignableFrom(
-								expression.getValueClass()
-								)
-							)
-						{
-							brokenRules.add("The parameter default value expression class is not compatible with the parameter's class : " + parameter.getName());
-						}
-					}
+                        if (expression.getValueClass() == null) {
+                            brokenRules.add("No value class defined for the expression in parameter: "+parameter.getName());
+                        }
+                        else {
+                            if (
+	    						!parameter.getValueClass().isAssignableFrom(
+		    						expression.getValueClass()
+			    					)
+				    			)
+					    	{
+						    	brokenRules.add("The parameter default value expression class is not compatible with the parameter's class : " + parameter.getName());
+    						}
+                        }
+                    }
 				}
 			}
 		}
