@@ -590,17 +590,22 @@ public class JRVerifier
 					JRExpression expression = variable.getExpression();
 					if (expression != null)
 					{
-						if (
-							variable.getCalculation() != JRVariable.CALCULATION_COUNT 
-							&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM
-							&& !valueClass.isAssignableFrom(
-								expression.getValueClass()
-								)
-							)
-						{
-							brokenRules.add("The variable expression class is not compatible with the variable's class : " + variable.getName());
-						}
-					}
+                        if (expression.getValueClass() == null) {
+                            brokenRules.add("No value class for the expression has been set in variable: "+variable.getName());
+                        }
+                        else {
+                            if (
+    							variable.getCalculation() != JRVariable.CALCULATION_COUNT
+							    && variable.getCalculation() != JRVariable.CALCULATION_SYSTEM
+						    	&& !valueClass.isAssignableFrom(
+					    			expression.getValueClass()
+				    				)
+			    				)
+	    					{
+		    					brokenRules.add("The variable expression class is not compatible with the variable's class : " + variable.getName());
+    						}
+                        }
+                    }
 					
 					if (variable.getInitialValueExpression() != null)
 					{
