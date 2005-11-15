@@ -502,7 +502,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		String columnTotalGroup = cell.getColumnTotalGroup();
 		if (columnTotalGroup != null && !columnGroupsMap.containsKey(columnTotalGroup))
 		{
-			throw new JRException("Row group " + rowTotalGroup + " does not exist.");
+			throw new JRException("Row group " + columnTotalGroup + " does not exist.");
 		}
 		
 		Object cellKey = new Pair(rowTotalGroup, columnTotalGroup);
