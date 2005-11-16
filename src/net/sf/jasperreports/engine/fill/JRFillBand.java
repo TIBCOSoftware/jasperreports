@@ -299,6 +299,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 			throw new JRFillInterruptedException();
 		}
 		
+		filler.setBandOverFlowAllowed(isOverflowAllowed);
+		
 		initFill();
 		
 		if (isNewPageColumn && !isOverflow)
