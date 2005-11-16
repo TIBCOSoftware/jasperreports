@@ -402,13 +402,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected JasperReport jasperReport;
 
+	private boolean bandOverFlowAllowed;
+	
 	/**
 	 * 
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
 	{
-		//TODO luci evaluator caching
-		
 		JRGraphEnvInitializer.initializeGraphEnv();
 		
 		this.jasperReport = jasperReport;
@@ -833,20 +833,39 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			/*   */
 			fillReport();
 
-			if (parentFiller != null)
-			{
-				parentFiller.unregisterSubfiller(this);
-			}
-
 			return jasperPrint;
 		}
 		finally
 		{
+			if (parentFiller != null)
+			{
+				parentFiller.unregisterSubfiller(this);
+			}
+			
 			fillingThread = null;
+			
+			//kill the subreport filler threads
+			killSubfillerThreads();
 		}
 	}
 
 
+	private void killSubfillerThreads()
+	{
+		if (subfillers != null && !subfillers.isEmpty())
+		{
+			for (Iterator it = subfillers.iterator(); it.hasNext();)
+			{
+				JRBaseFiller subfiller = (JRBaseFiller) it.next();
+				if (subfiller.fillingThread != null)
+				{
+					subfiller.fillingThread.interrupt();
+				}
+			}
+		}
+	}
+
+	
 	protected void setTextFieldsFormats()
 	{
 		for (int i = 0; i < formattedTextFields.size(); i++)
@@ -1514,5 +1533,31 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	protected JasperReport getJasperReport()
 	{
 		return jasperReport;
+	}
+
+
+	protected boolean isBandOverFlowAllowed()
+	{
+		return bandOverFlowAllowed;
+	}
+
+
+	protected void setBandOverFlowAllowed(boolean splittableBand)
+	{
+		this.bandOverFlowAllowed = splittableBand;
+	}
+	
+	protected int getMasterColumnCount()
+	{
+		JRBaseFiller filler = parentFiller;
+		int colCount = 1;
+		
+		while (filler != null)
+		{
+			colCount *= filler.columnCount;
+			filler = filler.parentFiller;
+		}
+		
+		return colCount;
 	}
 }

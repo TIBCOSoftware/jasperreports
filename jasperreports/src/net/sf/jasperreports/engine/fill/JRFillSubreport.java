@@ -522,7 +522,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 						setReprinted(true);
 					}
 					
-					fillThread = new Thread(this);
+					fillThread = new Thread(this, subreportFiller.getJasperReport().getName() + " subreport filler");
 					fillThread.start();
 				}
 				else

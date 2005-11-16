@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 
@@ -346,9 +347,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		if (pageHeader.isToPrint())
 		{
-			while (
-				pageHeader.getHeight() > columnFooterOffsetY - offsetY
-				)
+			int reattempts = getMasterColumnCount();
+			if (isCreatingNewPage)
+			{
+				--reattempts;
+			}
+			
+			boolean filled = fillBandNoOverflow(pageHeader, evaluation);
+			
+			for (int i = 0; !filled && i < reattempts; ++i)
 			{
 				resolveGroupBoundElements(evaluation, false);
 				resolveColumnBoundElements(evaluation);
@@ -358,14 +365,47 @@ public class JRHorizontalFiller extends JRBaseFiller
 				scriptlet.callAfterPageInit();
 		
 				addPage(false);
+				
+				filled = fillBandNoOverflow(pageHeader, evaluation);
 			}
-	
-			fillPageBand(pageHeader, evaluation);
+			
+			if (!filled)
+			{
+				throw new JRRuntimeException("Infinite loop creating new page due to page header overflow.");
+			}
 		}
 
 		columnHeaderOffsetY = offsetY;
 		
 		isNewPage = true;
+	}
+
+	
+	private boolean fillBandNoOverflow(JRFillBand band, byte evaluation) throws JRException
+	{
+		int availableStretch = columnFooterOffsetY - offsetY - band.getHeight();
+		boolean overflow = availableStretch < 0;
+		
+		if (!overflow)
+		{
+			band.evaluate(evaluation);					
+			JRPrintBand printBand = band.fill(availableStretch);
+			
+			overflow = band.willOverflow();
+			if (overflow)
+			{
+				band.rewind();
+			}
+			else
+			{
+				fillBand(printBand);
+				offsetY += printBand.getHeight();
+				
+				resolveBandBoundElements(band, evaluation);
+			}
+		}
+		
+		return !overflow;
 	}
 
 
@@ -382,9 +422,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 		
 			if (columnHeader.isToPrint())
 			{
-				while (
-					columnHeader.getHeight() > columnFooterOffsetY - offsetY
-					)
+				int reattempts = getMasterColumnCount();
+				if (isCreatingNewPage)
+				{
+					--reattempts;
+				}
+				
+				boolean fits = columnHeader.getHeight() <= columnFooterOffsetY - offsetY;
+				for (int i = 0; !fits && i < reattempts; ++i)
 				{
 					fillPageFooter(evaluation);
 				
@@ -398,8 +443,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 					addPage(false);
 		
 					fillPageHeader(evaluation);
+					
+					fits = columnHeader.getHeight() <= columnFooterOffsetY - offsetY;
 				}
 
+				if (!fits)
+				{
+					throw new JRRuntimeException("Infinite loop creating new page due to column header size.");
+				}
+				
 				offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 				offsetY = columnHeaderOffsetY;
 			
@@ -412,7 +464,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					);
 				*/
 
-				fillColumnBand(columnHeader, evaluation);
+				fillFixedBand(columnHeader, evaluation);
 			}
 		}
 
@@ -1097,6 +1149,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{ 
 		if (isSubreport())
 		{
+			if (!parentFiller.isBandOverFlowAllowed())
+			{
+				throw new JRRuntimeException("Subreport overflowed on a band that does not support overflow.");
+			}
+			
 			//if (
 			//	columnIndex == 0 ||
 			//	(columnIndex > 0 && printPageStretchHeight < offsetY + bottomMargin)
