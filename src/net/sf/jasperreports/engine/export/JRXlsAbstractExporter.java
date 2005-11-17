@@ -316,7 +316,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			{
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
-				int lastRowHeight = grid[y][0].height;
+				int lastRowHeight = JRGridLayout.getRowHeight(grid, y);
 				
 				setRowHeight(rowIndex, lastRowHeight);
 	
