@@ -684,7 +684,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
-				int lastRowHeight = grid[y][0].height;
+				int lastRowHeight = JRGridLayout.getRowHeight(grid, y);
 		
 				for(int x = 0; x < grid[y].length; x++)
 				{

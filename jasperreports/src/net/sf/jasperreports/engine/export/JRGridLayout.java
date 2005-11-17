@@ -481,6 +481,49 @@ public class JRGridLayout
 	}
 	
 	
+	public static int getRowHeight(JRExporterGridCell[][] grid, int rowIdx)
+	{
+		JRExporterGridCell[] row = grid[rowIdx];
+		
+		if (row[0].rowSpan == 1 && row[0] != JRExporterGridCell.OCCUPIED_CELL) //quick exit
+		{
+			return row[0].height;
+		}
+		
+		int rowHeight = 0;
+		int minSpanIdx = 0;
+		
+		int colCount = row.length;
+		
+		int col;
+		for (col = 0; col < colCount; ++col)
+		{
+			JRExporterGridCell cell = row[col];
+			
+			if (cell != JRExporterGridCell.OCCUPIED_CELL)
+			{
+				if (cell.rowSpan == 1)
+				{
+					rowHeight = cell.height;
+					break;
+				}
+
+				if (cell.rowSpan < row[minSpanIdx].rowSpan)
+				{
+					minSpanIdx = col;
+				}
+			}
+		}
+		
+		if (col >= colCount) //no cell with rowSpan = 1 was found, getting the height of the cell with min rowSpan
+		{
+			rowHeight = row[minSpanIdx].height;
+		}
+		
+		return rowHeight;
+	}
+
+	
 	protected static class SortedList extends ArrayList
 	{
 		public boolean add(Object o)
