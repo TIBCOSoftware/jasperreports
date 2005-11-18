@@ -164,19 +164,14 @@ class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 	{
 		BigDecimal value = (BigDecimal)variable.getIncrementedValue();
 
-		if (expressionValue == null)
-		{
-			if (variable.isInitialized())
-			{
-				return JRBigDecimalIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || variable.isInitialized())
 		{
 			value = JRBigDecimalIncrementerFactory.ZERO;
+		}
+
+		if (expressionValue == null)
+		{
+			return value;
 		}
 
 		return value.add(JRBigDecimalIncrementerFactory.ONE);
@@ -188,19 +183,14 @@ class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 		BigDecimal value = (BigDecimal)calculable.getIncrementedValue();
 		BigDecimal combineValue = (BigDecimal) calculableValue.getValue();
 
-		if (combineValue == null)
-		{
-			if (calculable.isInitialized())
-			{
-				return JRBigDecimalIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || calculable.isInitialized())
 		{
 			value = JRBigDecimalIncrementerFactory.ZERO;
+		}
+
+		if (combineValue == null)
+		{
+			return value;
 		}
 
 		return value.add(combineValue);

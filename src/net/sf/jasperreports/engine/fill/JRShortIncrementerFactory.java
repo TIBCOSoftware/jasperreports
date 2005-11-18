@@ -161,19 +161,14 @@ class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
-		if (expressionValue == null)
-		{
-			if (variable.isInitialized())
-			{
-				return JRShortIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || variable.isInitialized())
 		{
 			value = JRShortIncrementerFactory.ZERO;
+		}
+
+		if (expressionValue == null)
+		{
+			return value;
 		}
 
 		return new Short((short)(value.shortValue() + 1));
@@ -185,19 +180,14 @@ class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 		Number value = (Number)calculable.getIncrementedValue();
 		Number combineValue = (Number) calculableValue.getValue();
 
-		if (combineValue == null)
-		{
-			if (calculable.isInitialized())
-			{
-				return JRShortIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || calculable.isInitialized())
 		{
 			value = JRShortIncrementerFactory.ZERO;
+		}
+
+		if (combineValue == null)
+		{
+			return value;
 		}
 
 		return new Short((short) (value.shortValue() + combineValue.shortValue()));
