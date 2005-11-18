@@ -81,6 +81,7 @@ public class JRBaseReport implements JRReport, Serializable
 	protected boolean isTitleNewPage = false;
 	protected boolean isSummaryNewPage = false;
 	protected boolean isFloatColumnFooter = false;
+	protected boolean ignorePagination = false;
 
 	/**
 	 *
@@ -146,6 +147,7 @@ public class JRBaseReport implements JRReport, Serializable
 		isTitleNewPage = report.isTitleNewPage();
 		isSummaryNewPage = report.isSummaryNewPage();
 		isFloatColumnFooter = report.isFloatColumnFooter();
+		ignorePagination = report.isIgnorePagination();
 
 		/*   */
 		String[] propertyNames = report.getPropertyNames();
@@ -617,5 +619,11 @@ public class JRBaseReport implements JRReport, Serializable
 	public JRDataset[] getDatasets()
 	{
 		return datasets;
+	}
+
+	
+	public boolean isIgnorePagination()
+	{
+		return ignorePagination;
 	}
 }

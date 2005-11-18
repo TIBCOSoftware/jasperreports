@@ -1148,4 +1148,16 @@ public class JasperDesign extends JRBaseReport
 			}
 		}
 	}
+	
+	
+	/**
+	 * Sets the value of the ignore pagination flag.
+	 * 
+	 * @param ignorePagination whether to ignore pagination when generating the report 
+	 * @see net.sf.jasperreports.engine.JRReport#isIgnorePagination()
+	 */
+	public void setIgnorePagination(boolean ignorePagination)
+	{
+		this.ignorePagination = ignorePagination;
+	}
 }
