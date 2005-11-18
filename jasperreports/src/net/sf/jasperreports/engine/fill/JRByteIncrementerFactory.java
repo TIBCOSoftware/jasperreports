@@ -161,19 +161,14 @@ class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
-		if (expressionValue == null)
-		{
-			if (variable.isInitialized())
-			{
-				return JRByteIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || variable.isInitialized())
 		{
 			value = JRByteIncrementerFactory.ZERO;
+		}
+
+		if (expressionValue == null)
+		{
+			return value;
 		}
 
 		return new Byte((byte)(value.byteValue() + 1));
@@ -185,19 +180,14 @@ class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 		Number value = (Number)calculable.getIncrementedValue();
 		Number combineValue = (Number) calculableValue.getValue();
 
-		if (combineValue == null)
-		{
-			if (calculable.isInitialized())
-			{
-				return JRByteIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || calculable.isInitialized())
 		{
 			value = JRByteIncrementerFactory.ZERO;
+		}
+
+		if (combineValue == null)
+		{
+			return value;
 		}
 
 		return new Byte((byte) (value.byteValue() + combineValue.byteValue()));

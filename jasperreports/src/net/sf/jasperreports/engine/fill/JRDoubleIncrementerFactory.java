@@ -161,19 +161,14 @@ class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
-		if (expressionValue == null)
-		{
-			if (variable.isInitialized())
-			{
-				return JRDoubleIncrementerFactory.ZERO;
-			}
-		
-			return value;
-		}
-
 		if (value == null || variable.isInitialized())
 		{
 			value = JRDoubleIncrementerFactory.ZERO;
+		}
+
+		if (expressionValue == null)
+		{
+			return value;
 		}
 
 		return new Double(value.doubleValue() + 1);
@@ -185,19 +180,14 @@ class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
 		Number value = (Number)calculable.getIncrementedValue();
 		Number combineValue = (Number) calculableValue.getValue();
 
-		if (combineValue == null)
-		{
-			if (calculable.isInitialized())
-			{
-				return JRDoubleIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || calculable.isInitialized())
 		{
 			value = JRDoubleIncrementerFactory.ZERO;
+		}
+
+		if (combineValue == null)
+		{
+			return value;
 		}
 
 		return new Double(value.doubleValue() + combineValue.doubleValue());

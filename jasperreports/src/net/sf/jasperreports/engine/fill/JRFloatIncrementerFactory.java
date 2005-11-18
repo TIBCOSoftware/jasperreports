@@ -161,19 +161,14 @@ class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 	{
 		Number value = (Number)variable.getIncrementedValue();
 
-		if (expressionValue == null)
-		{
-			if (variable.isInitialized())
-			{
-				return JRFloatIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || variable.isInitialized())
 		{
 			value = JRFloatIncrementerFactory.ZERO;
+		}
+
+		if (expressionValue == null)
+		{
+			return value;
 		}
 
 		return new Float(value.floatValue() + 1);
@@ -185,19 +180,14 @@ class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 		Number value = (Number)calculable.getIncrementedValue();
 		Number combineValue = (Number) calculableValue.getValue();
 
-		if (combineValue == null)
-		{
-			if (calculable.isInitialized())
-			{
-				return JRFloatIncrementerFactory.ZERO;
-			}
-
-			return value;
-		}
-
 		if (value == null || calculable.isInitialized())
 		{
 			value = JRFloatIncrementerFactory.ZERO;
+		}
+
+		if (combineValue == null)
+		{
+			return value;
 		}
 
 		return new Float(value.floatValue() + combineValue.floatValue());
