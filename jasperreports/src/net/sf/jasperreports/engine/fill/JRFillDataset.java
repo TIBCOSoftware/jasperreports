@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
@@ -872,14 +873,47 @@ public class JRFillDataset implements JRDataset
 	 * 
 	 * @param variableName the variable name
 	 * @return the variable value
-	 * @throws JRException
 	 */
-	protected Object getVariableValue(String variableName) throws JRException
+	public Object getVariableValue(String variableName)
 	{
 		JRFillVariable var = (JRFillVariable) variablesMap.get(variableName);
 		if (var == null)
 		{
-			throw new JRException("No such variable " + variableName);
+			throw new JRRuntimeException("No such variable " + variableName);
+		}
+		return var.getValue();
+	}
+
+	
+	/**
+	 * Returns the value of a parameter.
+	 * 
+	 * @param variableName the parameter name
+	 * @return the parameter value
+	 */
+	public Object getParameterValue(String parameterName)
+	{
+		JRFillParameter param = (JRFillParameter) parametersMap.get(parameterName);
+		if (param == null)
+		{
+			throw new JRRuntimeException("No such parameter " + parameterName);
+		}
+		return param.getValue();
+	}
+
+	
+	/**
+	 * Returns the value of a field.
+	 * 
+	 * @param fieldName the field name
+	 * @return the field value
+	 */
+	public Object getFieldValue(String fieldName)
+	{
+		JRFillField var = (JRFillField) fieldsMap.get(fieldName);
+		if (var == null)
+		{
+			throw new JRRuntimeException("No such field " + fieldName);
 		}
 		return var.getValue();
 	}

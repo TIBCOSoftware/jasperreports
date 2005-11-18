@@ -1205,4 +1205,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		return fillFrame;
 	}
+	
+	
+	protected JRBaseFiller getFiller()
+	{
+		return filler;
+	}
 }

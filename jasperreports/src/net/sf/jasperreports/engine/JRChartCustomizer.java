@@ -40,6 +40,9 @@ import org.jfree.chart.JFreeChart;
  * be defined and its name must be specified in the report template. At fill time, the corresponding <i>customize()</i>
  * method of this class will be called, if advanced chart customization is needed.
  * </p>
+ * If values of report parameters, variables or fields are needed in the customization, the customizer implementation
+ * should extend {@link net.sf.jasperreports.engine.JRAbstractChartCustomizer JRAbstractChartCustomizer}
+ * to gain access to such values.
  *
  * @author Michael McMahon (Michael.McMahon@activewire.net)
  * @version $Id$

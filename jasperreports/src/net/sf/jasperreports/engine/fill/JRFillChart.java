@@ -59,6 +59,7 @@ import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
+import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
@@ -138,7 +139,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRGroup evaluationGroup = null;
 
-	protected JRChartDataset dataset = null;
+	protected JRFillChartDataset dataset = null;
 	protected JRChartPlot plot = null;
 
 	protected JRRenderable renderer = null;
@@ -166,78 +167,78 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		switch(chartType) {
 			case CHART_TYPE_AREA:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_BAR:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_BAR3D:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_BUBBLE:
-				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getXyzDataset((JRXyzDataset) chart.getDataset());
 				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
 				break;
 			case CHART_TYPE_CANDLESTICK:
-				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getCandlestickPlot((JRCandlestickPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_HIGHLOW:
-				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getHighLowPlot((JRHighLowPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_LINE:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
 			case CHART_TYPE_PIE:
-				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
 				break;
 			case CHART_TYPE_PIE3D:
-				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_SCATTER:
-				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_STACKEDBAR:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_STACKEDBAR3D:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_TIMESERIES:
-				dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
 				plot = factory.getTimeSeriesPlot((JRTimeSeriesPlot)chart.getPlot());
 				break;
 			case CHART_TYPE_XYAREA:
-				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_XYBAR:
 				switch (chart.getDataset().getDatasetType()){
 					case JRChartDataset.TIMESERIES_DATASET:
-						dataset = factory.getTimeSeriesDataset( (JRTimeSeriesDataset)chart.getDataset() );
+						dataset = (JRFillChartDataset) factory.getTimeSeriesDataset( (JRTimeSeriesDataset)chart.getDataset() );
 						break;
 					case JRChartDataset.TIMEPERIOD_DATASET:
-						dataset = factory.getTimePeriodDataset((JRTimePeriodDataset) chart.getDataset() );
+						dataset = (JRFillChartDataset) factory.getTimePeriodDataset((JRTimePeriodDataset) chart.getDataset() );
 						break;
 					case JRChartDataset.XY_DATASET:
-						dataset = factory.getXyDataset( (JRXyDataset)chart.getDataset() );
+						dataset = (JRFillChartDataset) factory.getXyDataset( (JRXyDataset)chart.getDataset() );
 						break;
 				}
 				
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_XYLINE:
-				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
+				dataset = (JRFillChartDataset) factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
 			default:
@@ -259,6 +260,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				chartCustomizer = (JRChartCustomizer) myClass.newInstance();
 			} catch (Exception e) {
 				throw new JRRuntimeException("Could not create chart customizer instance.", e);
+			}
+			
+			if (chartCustomizer instanceof JRAbstractChartCustomizer)
+			{
+				((JRAbstractChartCustomizer) chartCustomizer).init(filler, this);
 			}
 		}
 	}
@@ -593,7 +599,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 
 		if (chartCustomizer != null)
+		{
 			chartCustomizer.customize(chart, this);
+		}
 
 		renderer = new JCommonDrawableRenderer( chart );
 
@@ -867,7 +875,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		JFreeChart chart = ChartFactory.createAreaChart( (String)evaluateExpression(getTitleExpression(), evaluation ),
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
 				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				(CategoryDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -885,7 +893,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					(String)evaluateExpression( getTitleExpression(), evaluation ),
 					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
 					(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
-					(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+					(CategoryDataset)dataset.getDataset(),
 					getPlot().getOrientation(),
 					isShowLegend(),
 					true,
@@ -914,7 +922,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JFreeChart evaluateBarImage(byte evaluation) throws JRException
 	{
-		CategoryDataset categoryDataset = (CategoryDataset)((JRFillChartDataset) dataset).getDataset();
+		CategoryDataset categoryDataset = (CategoryDataset)dataset.getDataset();
 		JFreeChart chart =
 			ChartFactory.createBarChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
@@ -959,7 +967,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression(), evaluation ),
 				(String)evaluateExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression(), evaluation ),
-				 (XYZDataset)((JRFillChartDataset)dataset).getDataset(),
+				 (XYZDataset)dataset.getDataset(),
 				 getPlot().getOrientation(),
 				 isShowLegend(),
 				 true,
@@ -988,7 +996,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRCandlestickPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(DefaultHighLowDataset)((JRFillChartDataset)dataset).getDataset(),
+				(DefaultHighLowDataset)dataset.getDataset(),
 				isShowLegend()
 				);
 
@@ -1014,7 +1022,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getTimeAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRHighLowPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(DefaultHighLowDataset)((JRFillChartDataset)dataset).getDataset(),
+				(DefaultHighLowDataset)dataset.getDataset(),
 				isShowLegend()
 				);
 
@@ -1034,7 +1042,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				(CategoryDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -1060,7 +1068,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		JFreeChart chart =
 			ChartFactory.createPieChart3D(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
-				(PieDataset)((JRFillChartDataset)dataset).getDataset(),
+				(PieDataset)dataset.getDataset(),
 				isShowLegend(),
 				true,
 				false
@@ -1092,7 +1100,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		JFreeChart chart =
 			ChartFactory.createPieChart(
 				(String)evaluateExpression(getTitleExpression(), evaluation),
-				(PieDataset)((JRFillChartDataset)dataset).getDataset(),
+				(PieDataset)dataset.getDataset(),
 				isShowLegend(),
 				true,
 				false
@@ -1121,7 +1129,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression( ((JRScatterPlot)getPlot()).getXAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression(), evaluation ),
-				(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+				(XYDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -1148,7 +1156,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				(CategoryDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -1183,7 +1191,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression(getTitleExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-				(CategoryDataset)((JRFillChartDataset)dataset).getDataset(),
+				(CategoryDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -1221,7 +1229,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			(String)evaluateExpression(getTitleExpression(), evaluation ),
 			(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation ),
 			(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
-			(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+			(XYDataset)dataset.getDataset(),
 			getPlot().getOrientation(),
 			isShowLegend(),
 			true,
@@ -1239,7 +1247,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JFreeChart evaluateXYBarImage(byte evaluation) throws JRException
 	{
-		IntervalXYDataset tmpDataset = (IntervalXYDataset)((JRFillChartDataset)dataset).getDataset();
+		IntervalXYDataset tmpDataset = (IntervalXYDataset)dataset.getDataset();
 		
 		boolean isDate = true;
 		if( dataset.getDatasetType() == JRChartDataset.XY_DATASET ){
@@ -1299,7 +1307,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression( getTitleExpression(), evaluation),
 				(String)evaluateExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
 				(String)evaluateExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression(), evaluation ),
-				(XYDataset)((JRFillChartDataset)dataset).getDataset(),
+				(XYDataset)dataset.getDataset(),
 				getPlot().getOrientation(),
 				isShowLegend(),
 				true,
@@ -1320,7 +1328,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				(String)evaluateExpression( getTitleExpression(), evaluation ),
 				timeAxisLabel,
 				valueAxisLabel,
-				(TimeSeriesCollection)((JRFillChartDataset)dataset).getDataset(),
+				(TimeSeriesCollection)dataset.getDataset(),
 				isShowLegend(),
 				true,
 				false );
@@ -1769,7 +1777,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	private void evaluateDatasetRun(byte evaluation) throws JRException
 	{
-		((JRFillChartDataset) dataset).evaluateDatasetRun(evaluation);
+		dataset.evaluateDatasetRun(evaluation);
 	}
 
 
