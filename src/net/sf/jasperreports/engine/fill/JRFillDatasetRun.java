@@ -220,4 +220,9 @@ public class JRFillDatasetRun implements JRDatasetRun
 	{
 		return dataSourceExpression;
 	}
+	
+	protected JRFillDataset getDataset()
+	{
+		return dataset;
+	}
 }

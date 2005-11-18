@@ -1560,4 +1560,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		
 		return colCount;
 	}
+	
+	
+	public JRFillDataset getMainDataset()
+	{
+		return mainDataset;
+	}
 }

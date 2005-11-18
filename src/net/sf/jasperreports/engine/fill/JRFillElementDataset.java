@@ -45,6 +45,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	 *
 	 */
 	protected JRElementDataset parent = null;
+	private final JRBaseFiller filler;
 
 	protected JRGroup resetGroup = null;
 	protected JRGroup incrementGroup = null;
@@ -64,6 +65,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		factory.put(dataset, this);
 
 		parent = dataset;
+		filler = factory.getFiller();
 		
 		resetGroup = factory.getGroup(dataset.getResetGroup());
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
@@ -163,5 +165,20 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		{
 			datasetRun.evaluate(this, evaluation);
 		}
+	}
+	
+	public JRFillDataset getInputDataset()
+	{
+		JRFillDataset inputDataset;
+		if (datasetRun != null)
+		{
+			inputDataset = datasetRun.getDataset();
+		}
+		else
+		{
+			inputDataset = filler.mainDataset;
+		}
+		
+		return inputDataset;
 	}
 }
