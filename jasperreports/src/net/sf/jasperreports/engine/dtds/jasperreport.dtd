@@ -21,6 +21,7 @@
 	scriptletClass NMTOKEN #IMPLIED
 	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
+	isIgnorePagination (true | false) "false"
 >
 
 <!ELEMENT property EMPTY>

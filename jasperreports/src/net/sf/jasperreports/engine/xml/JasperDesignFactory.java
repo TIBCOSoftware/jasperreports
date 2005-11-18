@@ -63,6 +63,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
 	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
 	private static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
+	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
 
 
 	/**
@@ -173,6 +174,12 @@ public class JasperDesignFactory extends JRBaseFactory
 		if (whenResourceMissingType != null)
 		{
 			jasperDesign.setWhenResourceMissingType(whenResourceMissingType.byteValue());
+		}
+
+		String isIgnorePagination = atts.getValue(ATTRIBUTE_isIgnorePagination);
+		if (isIgnorePagination != null && isIgnorePagination.length() > 0)
+		{
+			jasperDesign.setIgnorePagination(Boolean.valueOf(isIgnorePagination).booleanValue());
 		}
 
 		return jasperDesign;

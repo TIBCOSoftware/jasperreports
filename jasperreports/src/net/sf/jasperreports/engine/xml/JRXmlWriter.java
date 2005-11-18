@@ -271,6 +271,7 @@ public class JRXmlWriter
 		writer.addAttribute("scriptletClass", report.getScriptletClass());
 		writer.addAttribute("resourceBundle", report.getResourceBundle());
 		writer.addAttribute("whenResourceMissingType", report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		writer.addAttribute(JasperDesignFactory.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 		
 		/*   */
 		String[] propertyNames = report.getPropertyNames();

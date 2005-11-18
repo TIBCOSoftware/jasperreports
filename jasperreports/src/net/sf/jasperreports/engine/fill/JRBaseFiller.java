@@ -913,14 +913,19 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
 		setParameter(JRParameter.REPORT_CLASS_LOADER, reportClassLoader);
 
-		Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
-		if (isIgnorePaginationParam != null)
+		if (parentFiller == null)//pagination is driven by the master
 		{
-			fillContext.setIgnorePagination(isIgnorePaginationParam.booleanValue());
-		}
-		else
-		{
-			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, fillContext.isIgnorePagination() ? Boolean.TRUE : Boolean.FALSE);
+			Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
+			if (isIgnorePaginationParam != null)
+			{
+				fillContext.setIgnorePagination(isIgnorePaginationParam.booleanValue());
+			}
+			else
+			{
+				boolean ignorePagination = jasperReport.isIgnorePagination();
+				fillContext.setIgnorePagination(ignorePagination);
+				parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
+			}
 		}
 		
 		if (fillContext.isIgnorePagination())

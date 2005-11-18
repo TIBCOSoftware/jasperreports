@@ -348,4 +348,17 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	 * @return the datasets of this report
 	 */
 	public JRDataset[] getDatasets();
+	
+	
+	/**
+	 * Decides whether to use pagination when filling the report.
+	 * <p>
+	 * If set to <code>true</code> the report will be generated on one long page.
+	 * <p>
+	 * The design attribute can be overridden at fill time by the {@link JRParameter#IS_IGNORE_PAGINATION IS_IGNORE_PAGINATION}
+	 * parameter.
+	 * 
+	 * @return whether to use pagination when filling the report
+	 */
+	public boolean isIgnorePagination();
 }
