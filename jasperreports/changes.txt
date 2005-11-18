@@ -2,6 +2,18 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.1.1 (2005-11-xx)
+-----------------------------------
+- support for crosstab cell stretch;
+
+- abstract chart customizer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.1.0 (2005-10-21)
 -----------------------------------
 - support for report styles that can be referenced by elements to inherit 
