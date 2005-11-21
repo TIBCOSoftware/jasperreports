@@ -33,14 +33,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +70,8 @@ import org.eclipse.jdt.internal.compiler.problem.DefaultProblemFactory;
  */
 public class JRJdtCompiler extends JRAbstractJavaCompiler
 {
-
+	private static final String JDT_PROPERTIES_PREFIX = "org.eclipse.jdt.core.";
+	
 	/**
 	 *  
 	 */
@@ -85,26 +91,32 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		super(false);
 		
 		classLoader = getClassLoader();
-		
-		try
+
+		boolean success;
+		try //TODO remove support for pre 3.1 jdt
 		{
-			constrNameEnvAnsBin = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class});
-			constrNameEnvAnsCompUnit = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class});
-			is2ArgsConstr = false;
+			Class classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
+			constrNameEnvAnsBin2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class, classAccessRestriction});
+			constrNameEnvAnsCompUnit2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class, classAccessRestriction});
+			is2ArgsConstr = true;
+			success = true;
 		}
 		catch (NoSuchMethodException e)
 		{
-			// trying 3.1 classes
+			success = false;
+		}
+		catch (ClassNotFoundException ex)
+		{
+			success = false;
+		}
+		
+		if (!success)
+		{
 			try
 			{
-				Class classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
-				constrNameEnvAnsBin2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class, classAccessRestriction});
-				constrNameEnvAnsCompUnit2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class, classAccessRestriction});
-				is2ArgsConstr = true;
-			}
-			catch (ClassNotFoundException ex)
-			{
-				throw new JRRuntimeException("Not able to load JDT classes", ex);
+				constrNameEnvAnsBin = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class});
+				constrNameEnvAnsCompUnit = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class});
+				is2ArgsConstr = false;
 			}
 			catch (NoSuchMethodException ex)
 			{
@@ -321,18 +333,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final IErrorHandlingPolicy policy = 
 			DefaultErrorHandlingPolicies.proceedWithAllProblems();
 
-		final Map settings = new HashMap();
-		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
-		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
-		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
-//		if (ctxt.getOptions().getJavaEncoding() != null) 
-//		{
-//			settings.put(CompilerOptions.OPTION_Encoding, ctxt.getOptions().getJavaEncoding());
-//		}
-//		if (ctxt.getOptions().getClassDebugInfo()) 
-//		{
-//			settings.put(CompilerOptions.OPTION_LocalVariableAttribute, CompilerOptions.GENERATE);
-//		}
+		final Map settings = getJdtSettings();
 
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
@@ -439,6 +440,50 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		}
 
 		return null;  
+	}
+
+
+	protected Map getJdtSettings()
+	{
+		final Map settings = new HashMap();
+		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
+		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
+		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
+//		if (ctxt.getOptions().getJavaEncoding() != null) 
+//		{
+//			settings.put(CompilerOptions.OPTION_Encoding, ctxt.getOptions().getJavaEncoding());
+//		}
+//		if (ctxt.getOptions().getClassDebugInfo()) 
+//		{
+//			settings.put(CompilerOptions.OPTION_LocalVariableAttribute, CompilerOptions.GENERATE);
+//		}
+		
+		List properties = JRProperties.getProperties(JDT_PROPERTIES_PREFIX);
+		for (Iterator it = properties.iterator(); it.hasNext();)
+		{
+			JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) it.next();
+			String propVal = property.getValue();
+			if (propVal != null && propVal.length() > 0)
+			{
+				settings.put(property.getKey(), propVal);
+			}
+		}
+		
+		Properties systemProps = System.getProperties();
+		for (Enumeration it = systemProps.propertyNames(); it.hasMoreElements();)
+		{
+			String propName = (String) it.nextElement();
+			if (propName.startsWith(JDT_PROPERTIES_PREFIX))
+			{
+				String propVal = systemProps.getProperty(propName);
+				if (propVal != null && propVal.length() > 0)
+				{
+					settings.put(propName, propVal);
+				}
+			}
+		}
+		
+		return settings;
 	}
 
 	

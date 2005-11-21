@@ -218,6 +218,13 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Java 1.5 Sample"/>
+		<echo message="==================================="/>
+		<ant dir="java1.5" target="clean" />
+		<ant dir="java1.5" target="testSample" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" jCharts Sample"/>
 		<echo message="==================================="/>
 		<ant dir="jcharts" target="clean" />
@@ -562,6 +569,7 @@
 		<ant dir="i18n" target="clean" />
 		<ant dir="images" target="clean" />
 		<ant dir="jasper" target="clean" />
+		<ant dir="java1.5" target="clean" />
 		<ant dir="jcharts" target="clean" />
 		<ant dir="jexcelapi" target="clean"/>
 		<ant dir="jfreechart" target="clean" />

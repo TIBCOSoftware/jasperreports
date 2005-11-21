@@ -333,13 +333,20 @@ public class JRProperties
 	 */
 	public static class PropertySuffix
 	{
+		protected final String key;
 		protected final String suffix;
 		protected final String value;
 		
-		public PropertySuffix (String suffix, String value)
+		public PropertySuffix (String key, String suffix, String value)
 		{
+			this.key = key;
 			this.suffix = suffix;
 			this.value = value;
+		}
+		
+		public String getKey()
+		{
+			return key;
 		}
 		
 		public String getSuffix ()
@@ -370,7 +377,7 @@ public class JRProperties
 			{
 				String suffix = name.substring(prefixLength);
 				String value = props.getProperty(name);
-				values.add(new PropertySuffix(suffix, value));
+				values.add(new PropertySuffix(name, suffix, value));
 			}
 		}
 		return values;
