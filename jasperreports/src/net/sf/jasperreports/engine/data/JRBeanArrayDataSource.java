@@ -30,8 +30,6 @@ package net.sf.jasperreports.engine.data;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -89,33 +87,7 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	 */
 	public Object getFieldValue(JRField field) throws JRException
 	{
-		Object value = null;
-		
-		Object bean = data[this.index];
-
-		if (bean != null)
-		{
-			String propertyName = propertyNameProvider.getPropertyName(field);
-			
-			try
-			{
-				value = PropertyUtils.getProperty(bean, propertyName);
-			}
-			catch (java.lang.IllegalAccessException e)
-			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
-			}
-			catch (java.lang.reflect.InvocationTargetException e)
-			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
-			}
-			catch (java.lang.NoSuchMethodException e)
-			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
-			}
-		}
-
-		return value;
+		return getFieldValue(data[this.index], field);
 	}
 
 	
