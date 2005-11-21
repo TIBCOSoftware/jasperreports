@@ -133,13 +133,18 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		printerJob.setPrintable(this);
 		
 		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
-		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
+		PrintService selectedService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
+		if (selectedService == null) {
+			PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
+			if (services.length > 0)
+				selectedService = services[0];
+		}
 
-		if (services.length > 0) 
+		if (selectedService != null)
 		{
 			try 
 			{
-				printerJob.setPrintService(services[0]);
+				printerJob.setPrintService(selectedService);
 
 				if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
 				{
