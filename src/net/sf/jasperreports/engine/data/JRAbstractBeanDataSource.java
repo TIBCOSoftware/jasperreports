@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
@@ -87,5 +90,34 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 		public String getPropertyName(JRField field);
 	}
 
+	
+	protected Object getFieldValue(Object bean, JRField field) throws JRException
+	{
+		Object value = null;
+		
+		if (bean != null)
+		{
+			String propertyName = propertyNameProvider.getPropertyName(field);
+			
+			try
+			{
+				value = PropertyUtils.getProperty(bean, propertyName);
+			}
+			catch (java.lang.IllegalAccessException e)
+			{
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+			}
+			catch (java.lang.reflect.InvocationTargetException e)
+			{
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+			}
+			catch (java.lang.NoSuchMethodException e)
+			{
+				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+			}
+		}
+
+		return value;
+	}
 
 }
