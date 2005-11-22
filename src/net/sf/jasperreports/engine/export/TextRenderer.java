@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
@@ -45,6 +46,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class TextRenderer
 {
+	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
 	private Graphics2D grx = null;
 	private int x = 0;
@@ -253,7 +255,7 @@ public class TextRenderer
 					).getIterator();
 		}
 
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, grx.getFontRenderContext());
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);
 	
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{

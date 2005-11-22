@@ -36,6 +36,7 @@ import java.text.AttributedString;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -49,7 +50,7 @@ public class TextMeasurer
 	/**
 	 *
 	 */
-	private static FontRenderContext FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
+	private static final FontRenderContext FONT_RENDER_CONTEXT = TextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 
 	/**
 	 * 
