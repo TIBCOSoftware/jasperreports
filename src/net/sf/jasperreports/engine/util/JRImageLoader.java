@@ -306,7 +306,18 @@ public class JRImageLoader
 			//image = null;
 			throw new JRException(e);
 		}
-		
+
+		try
+		{
+			if(traker.isErrorID(0)) {
+				throw new JRException("Image failed to load.");
+			}
+		}
+		catch (JRException e)
+		{
+			throw e;
+		}
+
 		return image;
 	}
 
