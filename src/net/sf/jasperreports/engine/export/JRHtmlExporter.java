@@ -1466,16 +1466,28 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(" border=");
 		writer.write(String.valueOf(borderWidth));
+		
+		int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
+		if (imageWidth < 0)
+		{
+			imageWidth = 0;
+		}
+		
+		int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
+		if (imageHeight < 0)
+		{
+			imageHeight = 0;
+		}
 
 		switch (scaleImage)
 		{
 			case JRImage.SCALE_IMAGE_FILL_FRAME :
 			{
 				writer.write(" style=\"width: ");
-				writer.write(String.valueOf(image.getWidth()));
+				writer.write(String.valueOf(imageWidth));
 				writer.write(sizeUnit);
 				writer.write("; height: ");
-				writer.write(String.valueOf(image.getHeight()));
+				writer.write(String.valueOf(imageHeight));
 				writer.write(sizeUnit);
 				writer.write("\"");
 
@@ -1485,8 +1497,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 			default :
 			{
-				double normalWidth = image.getWidth();
-				double normalHeight = image.getHeight();
+				double normalWidth = imageWidth;
+				double normalHeight = imageHeight;
 				
 				if (!image.isLazy())
 				{
@@ -1498,21 +1510,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 				}
 		
-				if (image.getHeight() > 0)
+				if (imageHeight > 0)
 				{
 					double ratio = normalWidth / normalHeight;
 					
-					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
+					if( ratio > (double)imageWidth / (double)imageHeight )
 					{
 						writer.write(" style=\"width: ");
-						writer.write(String.valueOf(image.getWidth()));
+						writer.write(String.valueOf(imageWidth));
 						writer.write(sizeUnit);
 						writer.write("\"");
 					}
 					else
 					{
 						writer.write(" style=\"height: ");
-						writer.write(String.valueOf(image.getHeight()));
+						writer.write(String.valueOf(imageHeight));
 						writer.write(sizeUnit);
 						writer.write("\"");
 					}
