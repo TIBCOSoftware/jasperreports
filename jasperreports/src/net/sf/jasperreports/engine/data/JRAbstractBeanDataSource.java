@@ -115,6 +115,14 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
 			}
+			catch (IllegalArgumentException e)
+			{
+				//FIXME replace with NestedNullException when upgrading to BeanUtils 1.7
+				if (!e.getMessage().startsWith("Null property value for ")) 
+				{
+					throw e;
+				}
+			}
 		}
 
 		return value;
