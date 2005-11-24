@@ -39,7 +39,7 @@ import org.jfree.chart.JFreeChart;
  * This interface allows users to provide pluggable chart customizers. A class that implements this interface can
  * be defined and its name must be specified in the report template. At fill time, the corresponding <i>customize()</i>
  * method of this class will be called, if advanced chart customization is needed.
- * </p>
+ * <p/>
  * If values of report parameters, variables or fields are needed in the customization, the customizer implementation
  * should extend {@link net.sf.jasperreports.engine.JRAbstractChartCustomizer JRAbstractChartCustomizer}
  * to gain access to such values.
