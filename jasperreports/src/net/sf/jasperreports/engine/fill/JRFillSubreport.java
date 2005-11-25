@@ -509,18 +509,25 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		//willOverflow = prepareTextField((JRFillTextField)fillElement, availableStretchHeight);
 		
 		//subreportFiller.setPageHeight(getHeight() + availableStretchHeight);
+		
+		boolean notFilling = fillThread == null;
+		boolean toPrint = !isOverflow || isPrintWhenDetailOverflows() || !isAlreadyPrinted();
+		boolean reprinted = isOverflow && isPrintWhenDetailOverflows();
+		
+		if (notFilling && toPrint && reprinted)
+		{
+			rewind();
+		}
+		
 		subreportFiller.setPageHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
 
 		synchronized (subreportFiller)
 		{
-			if (fillThread == null)
+			if (notFilling)
 			{
-				if (!isOverflow || (isOverflow && (isPrintWhenDetailOverflows() || !isAlreadyPrinted())))
+				if (toPrint)
 				{
-					if (isOverflow && isPrintWhenDetailOverflows())
-					{
-						setReprinted(true);
-					}
+					setReprinted(reprinted);
 					
 					fillThread = new Thread(this, subreportFiller.getJasperReport().getName() + " subreport filler");
 					fillThread.start();
