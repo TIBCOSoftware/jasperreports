@@ -2,11 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.1.1 (2005-11-xx)
+JasperReports 1.1.1 (2005-11-28)
 -----------------------------------
-- support for crosstab cell stretch;
+- support for crosstab cell vertical stretch;
 
-- abstract chart customizer;
+- access to report data from chart customizer implementations by
+extending new JRAbstractChartCustomizer class;
+
+- support for Java 1.5 in the JDT-based report compiler;
+
+- new "isIgnorePagination" attribute available at report template level;
 
 - minor bug fixes and improvements;
 
