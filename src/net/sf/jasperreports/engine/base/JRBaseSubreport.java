@@ -141,7 +141,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{

@@ -161,7 +161,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	}
 		
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{

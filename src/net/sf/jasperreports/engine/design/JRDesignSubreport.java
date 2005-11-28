@@ -120,7 +120,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{
