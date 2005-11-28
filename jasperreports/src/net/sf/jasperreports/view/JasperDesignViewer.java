@@ -21,8 +21,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
  * 
  * JasperSoft Corporation
- * 185, Berry Street, Suite 6200
- * San Francisco CA 94107
+ * 303 Second Street, Suite 450 North
+ * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
 package net.sf.jasperreports.view;
