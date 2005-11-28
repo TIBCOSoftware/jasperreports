@@ -66,9 +66,6 @@ import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -231,11 +228,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			updateGroupIdentityData(pageToGroupElements, page, groupBoundElements, identityData);
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 
 	/**
 	 * 
@@ -1142,9 +1134,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 * @param variableName
 	 *            the variable name
 	 * @return the variable value
-	 * @throws JRException
 	 */
-	protected Object getVariableValue(String variableName) throws JRException
+	protected Object getVariableValue(String variableName)
 	{
 		return mainDataset.getVariableValue(variableName);
 	}

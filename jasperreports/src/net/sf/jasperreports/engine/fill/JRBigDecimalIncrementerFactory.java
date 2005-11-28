@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.math.BigDecimal;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -178,7 +177,7 @@ class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
-	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		BigDecimal value = (BigDecimal)calculable.getIncrementedValue();
 		BigDecimal combineValue = (BigDecimal) calculableValue.getValue();
@@ -439,7 +438,7 @@ class JRBigDecimalVarianceIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
-	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		BigDecimal value = (BigDecimal)calculable.getIncrementedValue();
 		

@@ -69,7 +69,6 @@ import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
@@ -135,8 +134,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 
 	private int downX = 0;
 	private int downY = 0;
-
-	private JRFont defaultFont = null;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
 	protected TextRenderer simulationTextRenderer = 

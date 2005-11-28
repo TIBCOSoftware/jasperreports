@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -192,7 +191,7 @@ class JRDefaultNothingIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 
-	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		if (!calculableValue.isInitialized())
 		{
@@ -251,7 +250,7 @@ class JRDefaultSystemIncrementer extends JRAbstractExtendedIncrementer
 		return variable.getValue();
 	}
 
-	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		return calculable.getValue();
 	}
@@ -280,7 +279,7 @@ class JRDefaultFirstIncrementer extends JRAbstractExtendedIncrementer
 		return null;
 	}
 
-	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		if (!calculable.isInitialized())
 		{
@@ -295,7 +294,7 @@ class JRDefaultFirstIncrementer extends JRAbstractExtendedIncrementer
 		return null;
 	}
 
-	public Object increment(JRCalculable calculable, Object expressionValue, AbstractValueProvider valueProvider) throws JRException
+	public Object increment(JRCalculable calculable, Object expressionValue, AbstractValueProvider valueProvider)
 	{
 		if (calculable.isInitialized())
 		{
