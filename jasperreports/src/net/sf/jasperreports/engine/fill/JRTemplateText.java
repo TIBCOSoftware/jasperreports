@@ -914,7 +914,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getFontSize()}.
 	 */
 	public int getSize()
 	{
@@ -922,7 +922,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getOwnFontSize()}.
 	 */
 	public Integer getOwnSize()
 	{
@@ -930,7 +930,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(int)}.
 	 */
 	public void setSize(int size)
 	{
@@ -938,7 +938,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
 	 */
 	public void setSize(Integer size)
 	{

@@ -158,22 +158,22 @@ public interface JRFont extends JRStyleContainer
 	public void setStrikeThrough(Boolean isStrikeThrough);
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getFontSize()}.
 	 */
 	public int getSize();
 	
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getOwnFontSize()}.
 	 */
 	public Integer getOwnSize();
 	
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(int)}.
 	 */
 	public void setSize(int size);
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
 	 */
 	public void setSize(Integer size);
 

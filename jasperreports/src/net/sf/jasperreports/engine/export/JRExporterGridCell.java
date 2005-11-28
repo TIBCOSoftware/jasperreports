@@ -73,7 +73,7 @@ public class JRExporterGridCell
 
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #JRExporterGridCell(JRPrintElement, Integer[], int, int, int, int)}.
 	 */
 	public JRExporterGridCell
 	(

@@ -987,7 +987,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getFontSize()}.
 	 */
 	public int getSize()
 	{
@@ -995,7 +995,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #getOwnFontSize()}.
 	 */
 	public Integer getOwnSize()
 	{
@@ -1003,7 +1003,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(int)}.
 	 */
 	public void setSize(int size)
 	{
@@ -1011,7 +1011,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
 	 */
 	public void setSize(Integer size)
 	{
