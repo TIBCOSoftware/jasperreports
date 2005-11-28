@@ -888,7 +888,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * Returns the value of a parameter.
 	 * 
-	 * @param variableName the parameter name
+	 * @param parameterName the parameter name
 	 * @return the parameter value
 	 */
 	public Object getParameterValue(String parameterName)
