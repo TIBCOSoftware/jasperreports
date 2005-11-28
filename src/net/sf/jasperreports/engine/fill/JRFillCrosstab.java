@@ -442,7 +442,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return willOverflow;
 	}
 
-	protected JRPrintElement fill() throws JRException
+	protected JRPrintElement fill()
 	{
 		JRPrintRectangle printRectangle = null;
 
@@ -483,7 +483,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return (JRTemplateRectangle) template;
 	}
 
-	protected void rewind() throws JRException
+	protected void rewind()
 	{
 		crosstabFiller.initCrosstab();
 	}
@@ -493,7 +493,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		return crosstabFiller.getPrintElements();
 	}
 
-	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

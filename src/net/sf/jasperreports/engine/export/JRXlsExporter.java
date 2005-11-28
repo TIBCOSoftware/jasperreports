@@ -692,7 +692,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y)
 	{		
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;

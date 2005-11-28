@@ -129,7 +129,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	/**
 	 *
 	 */
-	protected String compileUnits(final JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
+	protected String compileUnits(final JRCompilationUnit[] units, String classpath, File tempDirFile)
 	{
 		final StringBuffer problemBuffer = new StringBuffer();
 

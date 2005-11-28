@@ -301,7 +301,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return boxTemplate;
 	}
 
-	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
