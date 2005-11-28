@@ -107,10 +107,9 @@ public class JRClassGenerator
 
 	
 	/**
-	 * Generates Java source code for evaluating the expressions of a crosstab.
-	 * 
-	 * @param jrDesign the report
-	 * @param crosstab the crosstab
+	 * Generates Java source code for evaluating the expressions of a report/dataset/crosstab.
+	 *
+	 * @param sourceTask the source task containing data required to generate the source file
 	 * @return the source code
 	 * @throws JRException
 	 */
