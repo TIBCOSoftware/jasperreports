@@ -255,7 +255,7 @@ public class TextRenderer
 					).getIterator();
 		}
 
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
 	
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{
@@ -272,7 +272,7 @@ public class TextRenderer
 					startIndex, 
 					startIndex + layout.getCharacterCount()
 					);
-			layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
+			layout = new TextLayout(tmpText.getIterator(), LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
 			//eugene fix - end
 
 			drawPosY += layout.getLeading() + floatLineSpacing * layout.getAscent();
