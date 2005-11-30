@@ -235,18 +235,20 @@ public class I18nApp
 	 */
 	private static Locale chooseLocale()
 	{
-		Locale[] locales = 
-			new Locale[]
+		LocaleWrapper[] locales = 
+			new LocaleWrapper[]
 			{
-				Locale.GERMANY,
-				Locale.US,
-				Locale.FRANCE,
-				new Locale("pt", "PT"),
-				new Locale("ro", "RO")
+				new LocaleWrapper(new Locale("cs")),
+				new LocaleWrapper(Locale.GERMANY),
+				new LocaleWrapper(Locale.US),
+				new LocaleWrapper(Locale.FRANCE),
+				new LocaleWrapper(new Locale("pt", "PT")),
+				new LocaleWrapper(new Locale("ro")),
+				new LocaleWrapper(new Locale("sk"))
 			};
 									  
-		return 
-			(Locale)JOptionPane.showInputDialog(
+		LocaleWrapper locale = 
+			(LocaleWrapper)JOptionPane.showInputDialog(
 				null,
 				"Choose the locale",
 				"Locale",
@@ -255,8 +257,12 @@ public class I18nApp
 				locales,
 				null
 				);
+		
+		if (locale != null)
+			return locale.getLocale();
+		
+		return null;
 	}
-
 
 	/**
 	 *
@@ -269,4 +275,24 @@ public class I18nApp
 	}
 
 
+}
+
+class LocaleWrapper
+{
+	Locale locale = null;
+	
+	public LocaleWrapper(Locale locale)
+	{
+		this.locale = locale;
+	}
+	
+	public Locale getLocale()
+	{
+		return locale;
+	}
+	
+	public String toString()
+	{
+		return locale.toString() + " - " + locale.getDisplayName(locale);
+	}
 }
