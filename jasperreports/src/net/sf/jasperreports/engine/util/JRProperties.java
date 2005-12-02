@@ -36,7 +36,6 @@ import java.util.Properties;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 /**
@@ -210,7 +209,7 @@ public class JRProperties
 		}
 		
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL, JRJdbcQueryExecuterFactory.class.getName());
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + JRHibernateQueryExecuterFactory.QUERY_LANGUAGE_HQL, JRHibernateQueryExecuterFactory.class.getName());
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "hql", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
 
 		return defaults;
 	}
