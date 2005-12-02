@@ -95,7 +95,7 @@
 	isBlankWhenNull (true | false) #IMPLIED
 >
 
-<!ELEMENT subDataset (parameter*, queryString?, field*, variable*, group*)>
+<!ELEMENT subDataset (property*, parameter*, queryString?, field*, variable*, group*)>
 <!ATTLIST subDataset
 	name NMTOKEN #REQUIRED
 	scriptletClass NMTOKEN #IMPLIED
@@ -113,6 +113,9 @@
 <!ELEMENT defaultValueExpression (#PCDATA)>
 
 <!ELEMENT queryString (#PCDATA)>
+<!ATTLIST queryString
+	language NMTOKEN "sql"
+>
 
 <!ELEMENT field (fieldDescription?)>
 <!ATTLIST field

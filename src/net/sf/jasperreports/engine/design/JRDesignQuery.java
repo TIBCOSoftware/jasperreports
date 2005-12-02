@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -42,12 +44,17 @@ import net.sf.jasperreports.engine.base.JRBaseQuery;
  */
 public class JRDesignQuery extends JRBaseQuery
 {
+	/** Property change support mechanism. */
+	private transient PropertyChangeSupport propSupport;
 
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+
+	public static final String PROPERTY_LANGUAGE = "language";
 
 	/**
 	 *
@@ -224,4 +231,63 @@ public class JRDesignQuery extends JRBaseQuery
 	}
 			
 
+	/**
+	 * Sets the query language.
+	 * 
+	 * @param language the query language
+	 * @see net.sf.jasperreports.engine.JRQuery#getLanguage()
+	 */
+	public void setLanguage(String language)
+	{
+		String oldValue = this.language;
+		this.language = language;
+		getPropertyChangeSupport().firePropertyChange(PROPERTY_LANGUAGE, oldValue, this.language);
+	}
+
+	
+	/**
+	 * Get the property change support object for this class.  Because the
+	 * property change support object has to be transient, it may need to be
+	 * created.
+	 * 
+	 * @return the property change support object.
+	 */
+	protected PropertyChangeSupport getPropertyChangeSupport()
+	{
+		if (propSupport == null)
+		{
+			propSupport = new PropertyChangeSupport(this);
+		}
+		return propSupport;
+	}
+
+	/**
+	 * Add a property listener to listen to all properties of this class.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().addPropertyChangeListener(l);
+	}
+
+	/**
+	 * Add a property listener to receive property change events for only one specific
+	 * property.
+	 * @param propName The property to listen to.
+	 * @param l The property listener to add.
+	 */
+	public void addPropertyChangeListener(String propName, PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().addPropertyChangeListener(propName, l);
+	}
+
+	/**
+	 * Remove a property change listener.  This will remove any listener that was added
+	 * through either of the addPropertyListener methods.
+	 * @param l The listener to remove.
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().removePropertyChangeListener(l);
+	}
 }

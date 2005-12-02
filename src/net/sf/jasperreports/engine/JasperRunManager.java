@@ -73,6 +73,39 @@ public class JasperRunManager
 		return destFileName;
 	}
 
+
+	/**
+	 * Fills a report and saves it directly into a PDF file. 
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param sourceFileName the name of the compiled report file
+	 * @param parameters the parameters map
+	 * @return the name of the generated PDF file
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static String runReportToPdfFile(
+		String sourceFileName, 
+		Map parameters 
+		) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/*   */
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+
+		/*   */
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
+		String destFileName = destFile.toString();
+
+		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		
+		return destFileName;
+	}
+
 	
 	/**
 	 * Fills a report and saves it directly into a PDF file. 
@@ -87,6 +120,29 @@ public class JasperRunManager
 	{
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+
+		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a PDF file. 
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param destFileName PDF destination file name
+	 * @param parameters     report parameters map
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static void runReportToPdfFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
 
 		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
 	}
@@ -109,6 +165,29 @@ public class JasperRunManager
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 	}
 
+
+	/**
+	 * Fills a report and sends it directly to an OutputStream in PDF format. 
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param inputStream compiled report input stream
+	 * @param outputStream PDF output stream
+	 * @param parameters parameters map
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static void runReportToPdfStream(
+		InputStream inputStream, 
+		OutputStream outputStream, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters);
+
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+	}
+
 	
 	/**
 	 * Fills a report and returns byte array object containing the report in PDF format.
@@ -122,6 +201,28 @@ public class JasperRunManager
 	{
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in PDF format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @return binary PDF output
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static byte[] runReportToPdf(
+		String sourceFileName, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
 
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
@@ -143,6 +244,28 @@ public class JasperRunManager
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
 
+
+	/**
+	 * Fills a report and returns byte array object containing the report in PDF format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param parameters   report parameters map
+	 * @return binary PDF output
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static byte[] runReportToPdf(
+		InputStream inputStream, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters);
+
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+
 	
 	/**
 	 * Fills a report and returns byte array object containing the report in PDF format.
@@ -156,6 +279,28 @@ public class JasperRunManager
 	{
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in PDF format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param jasperReport the compiled report
+	 * @param parameters the parameters map
+	 * @return binary PDF output
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static byte[] runReportToPdf(
+		JasperReport jasperReport, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
 
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
@@ -304,6 +449,39 @@ public class JasperRunManager
 		return destFileName;
 	}
 
+
+	/**
+	 * Fills a report and saves it directly into a HTML file. 
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param sourceFileName the name of the compiled report file
+	 * @param parameters the parameters map
+	 * @return the name of the generated HTML file
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static String runReportToHtmlFile(
+		String sourceFileName, 
+		Map parameters 
+		) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/*   */
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+
+		/*   */
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
+		String destFileName = destFile.toString();
+
+		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		
+		return destFileName;
+	}
+
 	
 	/**
 	 * Fills a report and saves it directly into a HTML file. 
@@ -318,6 +496,29 @@ public class JasperRunManager
 	{
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+
+		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a HTML file. 
+	 * The intermediate JasperPrint object is not saved on disk.
+	 * 
+	 * @param sourceFileName source file containing the compile report design
+	 * @param destFileName name of the destination HTML file
+	 * @param parameters     report parameters map
+	 * @throws JRException
+	 * @see JRFiller#fillReport(JasperReport, Map)
+	 */
+	public static void runReportToHtmlFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map parameters 
+		) throws JRException
+	{
+		/*   */
+		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
 
 		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
 	}

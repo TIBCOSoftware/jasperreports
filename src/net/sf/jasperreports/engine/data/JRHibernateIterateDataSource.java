@@ -25,36 +25,44 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.design.JRDesignQuery;
+import java.util.Iterator;
 
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Hibernate data source that uses <code>org.hibernate.Query.iterate()</code>.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRQueryFactory extends JRBaseFactory
+public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	public static final String ATTRIBUTE_language = "language";
-
-	/**
-	 *
-	 */
-	public Object createObject(Attributes atts)
+	private Iterator iterator;
+	
+	public JRHibernateIterateDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
-		JRDesignQuery query = new JRDesignQuery();
-
-		String language = atts.getValue(ATTRIBUTE_language);
-		if (language != null)
-		{
-			query.setLanguage(language);
-		}
+		super(queryExecuter, useFieldDescription, false);
 		
-		return query;
+		moveFirst();
 	}
-			
 
+	public boolean next() throws JRException
+	{
+		if (iterator != null && iterator.hasNext())
+		{
+			setCurrentRowValue(iterator.next());
+			return true;
+		}
+
+		return false;
+	}
+
+	public void moveFirst()
+	{
+		iterator = queryExecuter.iterate();
+	}
 }

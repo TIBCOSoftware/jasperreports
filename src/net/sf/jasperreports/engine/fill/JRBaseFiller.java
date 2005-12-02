@@ -361,11 +361,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	protected int printPageStretchHeight = 0;
 
 	/**
-	 * 
-	 */
-	protected boolean isParametersAlreadySet = false;
-
-	/**
 	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
 	 * report.
 	 */
@@ -670,56 +665,55 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected abstract void setPageHeight(int pageHeight);
 
-	/**
-	 * 
-	 */
+	
 	public JasperPrint fill(Map parameterValues, Connection conn) throws JRException
 	{
-		fillingThread = Thread.currentThread();
-
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap();
 		}
 
-		/*   */
-		setParameters(parameterValues);
-
-		if (parentFiller != null)
-		{
-			parentFiller.registerSubfiller(this);
-		}
-
-		/*   */
-		try
-		{
-			JRDataSource ds = mainDataset.createDataSource(parameterValues, conn);
-			fill(parameterValues, ds);
-		}
-		finally
-		{
-			fillingThread = null;
-			
-			mainDataset.closeStatement();
-		}
-
-
-		return jasperPrint;
+		setConnectionParameterValue(parameterValues, conn);
+		
+		return fill(parameterValues);
 	}
 
-	/**
-	 * 
-	 */
+
+	protected void setConnectionParameterValue(Map parameterValues, Connection conn)
+	{
+		mainDataset.setConnectionParameterValue(parameterValues, conn);
+	}
+
+	
 	public JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
 	{
+		if (parameterValues == null)
+		{
+			parameterValues = new HashMap();
+		}
+
+		setDatasourceParameterValue(parameterValues, ds);
+		
+		return fill(parameterValues);
+	}
+
+
+	protected void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
+	{
+		mainDataset.setDatasourceParameterValue(parameterValues, ds);
+	}
+	
+	
+	public JasperPrint fill(Map parameterValues) throws JRException
+	{
+		if (parameterValues == null)
+		{
+			parameterValues = new HashMap();
+		}
+
 		fillingThread = Thread.currentThread();
 		try
 		{
-			if (parameterValues == null)
-			{
-				parameterValues = new HashMap();
-			}
-
 			/*   */
 			setParameters(parameterValues);
 
@@ -727,9 +721,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			{
 				parentFiller.registerSubfiller(this);
 			}
-
-			/*   */
-			mainDataset.setDatasource(parameterValues, ds);
 
 			jasperPrint.setName(name);
 			jasperPrint.setPageWidth(pageWidth);
@@ -829,6 +820,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		}
 		finally
 		{
+			mainDataset.closeDatasource();
+			
 			if (parentFiller != null)
 			{
 				parentFiller.unregisterSubfiller(this);
@@ -878,16 +871,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
-		if (isParametersAlreadySet)
-		{
-			return;
-		}
-		
-		mainDataset.setParameters(parameterValues);
-		
 		/* Virtualizer */
 		virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-		setParameter(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 		
 		if (virtualizer != null)
 		{
@@ -903,8 +888,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		
 		/*   */
 		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
-		setParameter(JRParameter.REPORT_CLASS_LOADER, reportClassLoader);
 
+		setIgnorePagination(parameterValues);
+		
+		mainDataset.setParameterValues(parameterValues);
+	}
+
+
+	private void setIgnorePagination(Map parameterValues)
+	{
 		if (parentFiller == null)//pagination is driven by the master
 		{
 			Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
@@ -918,6 +910,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 				fillContext.setIgnorePagination(ignorePagination);
 				parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
 			}
+		}
+		else
+		{
+			boolean ignorePagination = fillContext.isIgnorePagination();
+			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
 		}
 		
 		if (fillContext.isIgnorePagination())
@@ -935,10 +932,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			}
 			setPageHeight(Integer.MAX_VALUE);
 		}
-
-		mainDataset.setParameterValues(parameterValues);
-
-		isParametersAlreadySet = true;
 	}
 	
 	
@@ -1309,7 +1302,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	public void cancelFill() throws JRException
 	{
-		if (!fillContext.cancelRunningStatement())
+		if (!fillContext.cancelRunningQuery())
 		{
 			Thread t = fillingThread;
 			if (t != null)
@@ -1339,7 +1332,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 
 	protected void unregisterSubfiller(JRBaseFiller subfiller)
 	{
-		if (subfillers.remove(subfiller) && fillContext.isUsingVirtualizer())
+		if (subfillers != null && subfillers.remove(subfiller) && fillContext.isUsingVirtualizer())
 		{
 			removeIdentityDataProviders(subfiller);
 		}
@@ -1497,6 +1490,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			{
 				JRFillDataset fillDataset = factory.getDataset(datasets[i]);	
 				fillDataset.createCalculator(jasperReport);
+				fillDataset.initScriptlet();
 				
 				datasetMap.put(datasets[i].getName(), fillDataset);
 			}

@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
@@ -36,6 +38,8 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRVariable;
+
+import org.apache.commons.collections.SequencedHashMap;
 
 /**
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
@@ -58,6 +62,8 @@ public class JRBaseDataset implements JRDataset, Serializable
 	protected String resourceBundle = null;
 	protected byte whenResourceMissingType = WHEN_RESOURCE_MISSING_TYPE_NULL;
 	
+	protected Map propertiesMap = new SequencedHashMap();
+	
 	
 	protected JRBaseDataset(boolean isMain)
 	{
@@ -72,6 +78,16 @@ public class JRBaseDataset implements JRDataset, Serializable
 		scriptletClass = dataset.getScriptletClass();
 		resourceBundle = dataset.getResourceBundle();
 		whenResourceMissingType = dataset.getWhenResourceMissingType();
+
+		/*   */
+		String[] propertyNames = dataset.getPropertyNames();
+		if (propertyNames != null && propertyNames.length > 0)
+		{
+			for(int i = 0; i < propertyNames.length; i++)
+			{
+				setProperty(propertyNames[i], dataset.getProperty(propertyNames[i]));
+			}
+		}
 
 		query = factory.getQuery(dataset.getQuery());
 
@@ -197,5 +213,31 @@ public class JRBaseDataset implements JRDataset, Serializable
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
 		this.whenResourceMissingType = whenResourceMissingType;
+	}
+
+
+	public String[] getPropertyNames()
+	{
+		Set names = propertiesMap.keySet(); 
+		String[] namesArray = new String[names.size()];
+		return (String[]) names.toArray(namesArray);
+	}
+
+
+	public String getProperty(String propName)
+	{
+		return (String)propertiesMap.get(propName);
+	}
+
+	
+	public void setProperty(String propName, String value)
+	{
+		propertiesMap.put(propName, value);
+	}
+
+	
+	public void removeProperty(String propName)
+	{
+		propertiesMap.remove(propName);
 	}
 }

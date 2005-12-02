@@ -151,4 +151,38 @@ public interface JRDataset
 	 * @param whenResourceMissingType the resource missing handling type
 	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType);
+
+
+	/**
+	 * Returns the names of this dataset's properties.
+	 *  
+	 * @return the names of this dataset's properties
+	 */
+	public String[] getPropertyNames();
+
+
+	/**
+	 * Returns the value of a property.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public String getProperty(String name);
+
+	
+	/**
+	 * Adds/sets a property value to the dataset.
+	 * 
+	 * @param name the name of the property
+	 * @param value the value of the property
+	 */
+	public void setProperty(String name, String value);
+
+	
+	/**
+	 * Removes a proeprty from the dataset.
+	 * 
+	 * @param name the property name
+	 */
+	public void removeProperty(String name);
 }

@@ -121,6 +121,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -273,22 +274,7 @@ public class JRXmlWriter
 		writer.addAttribute("whenResourceMissingType", report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		writer.addAttribute(JasperDesignFactory.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 		
-		/*   */
-		String[] propertyNames = report.getPropertyNames();
-		if (propertyNames != null && propertyNames.length > 0)
-		{
-			for(int i = 0; i < propertyNames.length; i++)
-			{
-				String value = report.getProperty(propertyNames[i]);
-				if (value != null)
-				{
-					writer.startElement("property");
-					writer.addAttribute("name", propertyNames[i]);
-					writer.addEncodedAttribute("value", value);
-					writer.closeElement();
-				}
-			}
-		}
+		writeProperties(report.getMainDataset());
 
 		/*   */
 		String[] imports = report.getImports();
@@ -405,6 +391,26 @@ public class JRXmlWriter
 		writer.closeElement();
 		
 		out.flush();
+	}
+
+
+	private void writeProperties(JRDataset dataset) throws IOException
+	{
+		String[] propertyNames = dataset.getPropertyNames();
+		if (propertyNames != null && propertyNames.length > 0)
+		{
+			for(int i = 0; i < propertyNames.length; i++)
+			{
+				String value = dataset.getProperty(propertyNames[i]);
+				if (value != null)
+				{
+					writer.startElement("property");
+					writer.addAttribute("name", propertyNames[i]);
+					writer.addEncodedAttribute("value", value);
+					writer.closeElement();
+				}
+			}
+		}
 	}
 
 
@@ -529,7 +535,10 @@ public class JRXmlWriter
 	 */
 	private void writeQuery(JRQuery query) throws IOException
 	{
-		writer.writeCDATAElement("queryString", query.getText());
+		writer.startElement("queryString");
+		writer.addAttribute(JRQueryFactory.ATTRIBUTE_language, query.getLanguage(), JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL);
+		writer.writeCDATA(query.getText());
+		writer.closeElement();
 	}
 
 
@@ -1983,6 +1992,8 @@ public class JRXmlWriter
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
+		
+		writeProperties(dataset);
 		
 		writeDatasetContents(dataset);
 		

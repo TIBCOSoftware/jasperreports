@@ -67,13 +67,7 @@ public class AsynchronousFillHandle
 			JRDataSource dataSource
 			) throws JRException
 	{
-		this.jasperReport = jasperReport;
-		this.parameters = parameters;
-		this.dataSource = dataSource;
-		this.conn = null;
-		this.filler = JRFiller.createFiller(jasperReport);
-		this.listeners = new ArrayList();
-		lock = this;
+		this(jasperReport, parameters, dataSource, null);
 	}
 	
 	protected AsynchronousFillHandle (
@@ -82,9 +76,27 @@ public class AsynchronousFillHandle
 			Connection conn
 			) throws JRException
 	{
+		this(jasperReport, parameters, null, conn);
+	}
+	
+	protected AsynchronousFillHandle (
+			JasperReport jasperReport,
+			Map parameters
+			) throws JRException
+	{
+		this(jasperReport, parameters, null, null);
+	}
+	
+	protected AsynchronousFillHandle (
+			JasperReport jasperReport,
+			Map parameters,
+			JRDataSource dataSource,
+			Connection conn
+			) throws JRException
+	{
 		this.jasperReport = jasperReport;
 		this.parameters = parameters;
-		this.dataSource = null;
+		this.dataSource = dataSource;
 		this.conn = conn;
 		this.filler = JRFiller.createFiller(jasperReport);
 		this.listeners = new ArrayList();
@@ -152,9 +164,13 @@ public class AsynchronousFillHandle
 							{
 								print = filler.fill(parameters, conn);
 							}
-							else
+							else if (dataSource != null)
 							{
 								print = filler.fill(parameters, dataSource);
+							}
+							else
+							{
+								print = filler.fill(parameters);
 							}
 							
 							notifyFinish(print);
@@ -278,6 +294,25 @@ public class AsynchronousFillHandle
 		) throws JRException
 	{
 		AsynchronousFillHandle filler = new AsynchronousFillHandle(jasperReport, parameters, conn);
+		
+		return filler;
+	}
+
+
+	/**
+	 * Creates an asychronous filling handle.
+	 * 
+	 * @param jasperReport the report
+	 * @param parameters the parameter map
+	 * @return the handle
+	 * @throws JRException
+	 */
+	public static AsynchronousFillHandle createHandle(
+		JasperReport jasperReport,
+		Map parameters
+		) throws JRException
+	{
+		AsynchronousFillHandle filler = new AsynchronousFillHandle(jasperReport, parameters);
 		
 		return filler;
 	}

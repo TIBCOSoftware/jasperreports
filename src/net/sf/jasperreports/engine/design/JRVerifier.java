@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -79,6 +80,8 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
+import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 
 /**
@@ -92,7 +95,6 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private static String[] queryParameterClassNames = null;
 	private static String[] textFieldClassNames = null;
 	private static String[] imageClassNames = null;
 	private static String[] subreportClassNames = null;
@@ -347,6 +349,25 @@ public class JRVerifier
 		JRQuery query = dataset.getQuery();
 		if (query != null)
 		{
+			String language = query.getLanguage();
+			JRQueryExecuterFactory queryExecuterFactory = null;
+			if (language == null || language.length() == 0)
+			{
+				brokenRules.add("Query language not set.");
+			}
+			else
+			{
+				try
+				{
+					queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(query.getLanguage());
+				}
+				catch (JRException e1)
+				{
+					brokenRules.add("Query executer factory for " + language + " cannot be created.");
+				}
+			}
+			
+			
 			JRQueryChunk[] chunks = query.getChunks();
 			if (chunks != null && chunks.length > 0)
 			{
@@ -364,9 +385,9 @@ public class JRVerifier
 							{
 								brokenRules.add("Query parameter not found : " + queryChunk.getText());
 							}
-							else 
+							else if (queryExecuterFactory != null)
 							{
-								if (Arrays.binarySearch(getQueryParameterClassNames(), parameter.getValueClassName()) < 0)
+								if (!queryExecuterFactory.supportsQueryParameterType(parameter.getValueClassName()))
 								{
 									brokenRules.add("Parameter type not supported in query : " + queryChunk.getText() + " class " + parameter.getValueClassName());
 								}
@@ -1220,37 +1241,6 @@ public class JRVerifier
 				}
 			}
 		}
-	}
-		
-
-	/**
-	 *
-	 */
-	private static synchronized String[] getQueryParameterClassNames()
-	{
-		if (queryParameterClassNames == null)
-		{
-			queryParameterClassNames = new String[]
-			{
-				java.lang.Object.class.getName(),
-				java.lang.Boolean.class.getName(),
-				java.lang.Byte.class.getName(),
-				java.lang.Double.class.getName(),
-				java.lang.Float.class.getName(),
-				java.lang.Integer.class.getName(),
-				java.lang.Long.class.getName(),
-				java.lang.Short.class.getName(),
-				java.math.BigDecimal.class.getName(),
-				java.lang.String.class.getName(),
-				java.util.Date.class.getName(),
-				java.sql.Timestamp.class.getName(),
-				java.sql.Time.class.getName()
-			};
-
-			Arrays.sort(queryParameterClassNames);
-		}
-		
-		return queryParameterClassNames;
 	}
 
 

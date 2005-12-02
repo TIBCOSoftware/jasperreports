@@ -29,13 +29,19 @@ package net.sf.jasperreports.engine;
 
 
 /**
- * Represents an SQL query used for generation of report data. When using the default SQL connection data source,
+ * Represents a query used for generation of report data.
+ * <p/>
+ * Based on the query language, query executer implementations are used to retrieve the data and
+ * create a {@link net.sf.jasperreports.engine.JRDataSource JRDataSource} to be used by the filling process.
+ * <p/>
+ * When using the default SQL connection data source,
  * an SQL query must also be provided for JasperReports to automatically retrieve the data.
- * <p>
- * A very important aspect is that column names in the result set obtained from the query must match the field names
+ * For SQL queries, a very important aspect is that column names in the result set obtained from the query must match the field names
  * defined in the report template.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see net.sf.jasperreports.engine.query.JRQueryExecuterFactory
  */
 public interface JRQuery
 {
@@ -52,4 +58,15 @@ public interface JRQuery
 	public String getText();
 	
 
+	/**
+	 * Returns the query language.
+	 * <p/>
+	 * Based on the query language, a corresponding
+	 * {@link net.sf.jasperreports.engine.query.JRQueryExecuterFactory JRQueryExecuterFactory} is used to create
+	 * a {@link net.sf.jasperreports.engine.query.JRQueryExecuter JRQueryExecuter} instance.  The query executer
+	 * is responsible for executing the query and creating a {@link JRDataSource JRDataSource} from the result.
+	 * 
+	 * @return the query language
+	 */
+	public String getLanguage();
 }

@@ -95,6 +95,40 @@ public abstract class JRFiller
 		
 		return jasperPrint;
 	}
+	
+
+	/**
+	 * Fills a report.
+	 * <p/>
+	 * The data source used to fill the report is determined in the following way:
+	 * <ul>
+	 * 	<li>If a non-null value of the {@link net.sf.jasperreports.engine.JRParameter#REPORT_DATA_SOURCE REPORT_DATA_SOURCE}
+	 * has been specified, it will be used as data source.</li>
+	 * 	<li>Otherwise, if the report has a query then a data source will be created based on the query and connection
+	 * parameter values.</li>
+	 * 	<li>Otherwise, the report will be filled without a data source.</li>
+	 * </ul>
+	 * 
+	 * @param jasperReport the report
+	 * @param parameters the fill parameters
+	 * @return the filled report
+	 * @throws JRException
+	 */
+	public static JasperPrint fillReport(JasperReport jasperReport, Map parameters) throws JRException
+	{
+		JRBaseFiller filler = createFiller(jasperReport);
+
+		try
+		{
+			JasperPrint jasperPrint = filler.fill(parameters);
+
+			return jasperPrint;
+		}
+		catch (JRFillInterruptedException e)
+		{
+			throw new JRException("The report filling thread was interrupted.");
+		}
+	}
 
 
 	public static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException

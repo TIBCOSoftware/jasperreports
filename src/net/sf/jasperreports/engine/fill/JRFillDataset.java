@@ -28,9 +28,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,17 +48,15 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.query.JRQueryExecuter;
+import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRQueryExecuter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -69,8 +64,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JRFillDataset implements JRDataset
 {
-	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
-	
 	/**
 	 * The filler that created this object.
 	 */
@@ -90,6 +83,9 @@ public class JRFillDataset implements JRDataset
 	 * The dataset query.
 	 */
 	protected JRQuery query = null;
+	
+	private boolean useDatasourceParamValue;
+	private boolean useConnectionParamValue;
 	
 	/**
 	 * The dataset parameter.
@@ -156,16 +152,6 @@ public class JRFillDataset implements JRDataset
 	 * The scriptlet class name.
 	 */
 	protected String scriptletClassName = null;
-	
-	/**
-	 * The scriptlet class.
-	 */
-	protected Class scriptletClass = null;
-
-	/**
-	 * The value of the {@link JRParameter#REPORT_MAX_COUNT max count} parameter.
-	 */
-	protected Integer reportMaxCount = null;
 
 	/**
 	 * The data source. 
@@ -198,11 +184,11 @@ public class JRFillDataset implements JRDataset
 	protected JRAbstractScriptlet scriptlet = null;
 
 	/**
-	 * The statement used to fire the query.
+	 * The value of the {@link JRParameter#REPORT_MAX_COUNT max count} parameter.
 	 */
-	protected PreparedStatement dataSourceStatement;
+	protected Integer reportMaxCount = null;
 
-	private ResultSet dataSourceResultSet;
+	private JRQueryExecuter queryExecuter;
 
 	
 	/**
@@ -437,29 +423,21 @@ public class JRFillDataset implements JRDataset
 
 		if (scriptletClassName != null)
 		{
-			if (scriptletClass == null)
-			{
-				try
-				{
-					scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);
-				}
-				catch (ClassNotFoundException e)
-				{
-					throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
-				}
-			}
-
 			try
 			{
+				Class scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
 				tmpScriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
+			}
+			catch (ClassNotFoundException e)
+			{
+				throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
 			}
 			catch (Exception e)
 			{
 				throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
 			}
 		}
-
-		if (tmpScriptlet == null)
+		else
 		{
 			tmpScriptlet = new JRDefaultScriptlet();
 		}
@@ -557,51 +535,55 @@ public class JRFillDataset implements JRDataset
 	 * Reads built-in parameter values from the value map.
 	 * 
 	 * @param parameterValues the parameter values
-	 * @throws JRException
+	 * @throws JRException 
 	 */
-	protected void setParameters(Map parameterValues) throws JRException
+	protected void setParameterValues(Map parameterValues) throws JRException
 	{
+		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
+		
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
 		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)
 		{
 			locale = Locale.getDefault();
-		}
-		if (locale == null)
-		{
-			parameterValues.remove(JRParameter.REPORT_LOCALE);//FIXME NOW why remove? check all
-		}
-		else
-		{
 			parameterValues.put(JRParameter.REPORT_LOCALE, locale);
 		}
-		setParameter(JRParameter.REPORT_LOCALE, locale);		
 		
 		resourceBundle = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		if (resourceBundle == null)
 		{
 			resourceBundle = loadResourceBundle();
-		}
-		if (resourceBundle == null)
-		{
-			parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
-		}
-		else
-		{
 			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
 		}
-		setParameter(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+		
+		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
+		
+		setFillParameterValues(parameterValues);
+		
+		setDatasource();
 	}
 	
 	
+	private void setDatasource() throws JRException
+	{
+		queryExecuter = null;
+		
+		dataSource = (JRDataSource) getParameterValue(JRParameter.REPORT_DATA_SOURCE);
+		if (!useDatasourceParamValue && (useConnectionParamValue || dataSource == null))
+		{
+			dataSource = createQueryDatasource();
+		}
+	}
+
+
 	/**
 	 * Sets the parameter values from the values map.
 	 * 
 	 * @param parameterValues the values map
 	 * @throws JRException
 	 */
-	protected void setParameterValues(Map parameterValues) throws JRException
+	private void setFillParameterValues(Map parameterValues) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
 		{
@@ -628,138 +610,78 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * Creates the data source from a connection.
 	 * 
-	 * @param parameterValues the parameterValues
-	 * @param conn the connection
 	 * @return the data source to be used
 	 * @throws JRException
 	 */
-	protected JRDataSource createDataSource(Map parameterValues, Connection conn) throws JRException
+	private JRDataSource createQueryDatasource() throws JRException
 	{
-		if (conn == null)
+		if (query == null)
 		{
-			conn = (Connection) parameterValues.get(JRParameter.REPORT_CONNECTION);
+			return null;
 		}
-		if (conn == null)
-		{
-			parameterValues.remove(JRParameter.REPORT_CONNECTION);
-		}
-		else
-		{
-			parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
-		}
-		setParameter(JRParameter.REPORT_CONNECTION, conn);
-
-		if (conn == null)
-		{
-			if (log.isWarnEnabled())
-				log.warn("The supplied java.sql.Connection object is null.");
-		}
-
-		PreparedStatement pstmt = null;
 
 		try
 		{
-			JRDataSource ds = null;
-
-			pstmt = JRQueryExecuter.getStatement(query, parametersMap, parameterValues, conn);
-
-			if (pstmt != null)
-			{
-				if (reportMaxCount != null)
-				{
-					pstmt.setMaxRows(reportMaxCount.intValue());
-				}
-
-				dataSourceStatement = pstmt;
-				filler.fillContext.setRunningStatement(dataSourceStatement);
-
-				dataSourceResultSet = pstmt.executeQuery();
-				ds = new JRResultSetDataSource(dataSourceResultSet);
-			}
+			JRQueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(query.getLanguage());
+			queryExecuter = queryExecuterFactory.createQueryExecuter(parent, parametersMap);
+			filler.fillContext.setRunningQueryExecuter(queryExecuter);
 			
-			return ds;
-		}
-		catch (SQLException e)
-		{
-			throw new JRException("Error executing SQL statement for report : " + filler.name, e);
+			return queryExecuter.createDatasource();
 		}
 		finally
 		{
-			filler.fillContext.clearRunningStatement();
+			filler.fillContext.clearRunningQueryExecuter();
 		}
 	}
 
 
+	protected void init()
+	{
+		useDatasourceParamValue = false;
+		useConnectionParamValue = false;
+	}
+	
+	
 	/**
 	 * Sets the data source to be used.
 	 * 
 	 * @param parameterValues the parameter values
 	 * @param ds the data source
-	 * @throws JRException
 	 */
-	protected void setDatasource(Map parameterValues, JRDataSource ds) throws JRException
+	protected void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
 	{
-		dataSource = ds;
+		useDatasourceParamValue = true;
 		
-		if (dataSource == null)
+		if (ds != null)
 		{
-			dataSource = (JRDataSource) parameterValues.get(JRParameter.REPORT_DATA_SOURCE);
+			parameterValues.put(JRParameter.REPORT_DATA_SOURCE, ds);
 		}
-		if (dataSource == null)
-		{
-			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
-		}
-		else
-		{
-			parameterValues.put(JRParameter.REPORT_DATA_SOURCE, dataSource);
-		}
-		setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
+	}
 
-		/*   */
-		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
-		setParameter(JRParameter.REPORT_SCRIPTLET, scriptlet);
 
-		/*   */
-		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
-		setParameter(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
+	/**
+	 * Sets the JDBC connection to be used.
+	 * 
+	 * @param parameterValues the parameter values
+	 * @param conn the connection
+	 */
+	protected void setConnectionParameterValue(Map parameterValues, Connection conn)
+	{
+		useConnectionParamValue = true;
+		
+		if (conn != null)
+		{
+			parameterValues.put(JRParameter.REPORT_CONNECTION, conn);
+		}
 	}
 	
 	
-	/**
-	 * Closes the statement used to fire the query.
-	 */
-	protected void closeStatement()
+	protected void closeDatasource()
 	{
-		if (dataSourceResultSet != null)
+		if (queryExecuter != null)
 		{
-			try
-			{
-				dataSourceResultSet.close();
-			}
-			catch (SQLException e)
-			{
-				log.error("Error while closing result set.", e);
-			}
-			finally
-			{
-				dataSourceResultSet = null;
-			}
-		}
-		
-		if (dataSourceStatement != null)
-		{
-			try
-			{
-				dataSourceStatement.close();
-			}
-			catch (SQLException e)
-			{
-				log.error("Error while closing statement.", e);
-			}
-			finally
-			{
-				dataSourceStatement = null;
-			}
+			queryExecuter.close();
+			queryExecuter = null;
 		}
 	}
 
@@ -888,7 +810,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * Returns the value of a parameter.
 	 * 
-	 * @param parameterName the parameter name
+	 * @param variableName the parameter name
 	 * @return the parameter value
 	 */
 	public Object getParameterValue(String parameterName)
@@ -1049,6 +971,11 @@ public class JRFillDataset implements JRDataset
 		return parameters;
 	}
 
+	public Map getParametersMap()
+	{
+		return parametersMap;
+	}
+
 	public JRQuery getQuery()
 	{
 		return query;
@@ -1089,5 +1016,29 @@ public class JRFillDataset implements JRDataset
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
 		this.whenResourceMissingType = whenResourceMissingType;
+	}
+
+
+	public String[] getPropertyNames()
+	{
+		return parent.getPropertyNames();
+	}
+
+
+	public String getProperty(String name)
+	{
+		return parent.getProperty(name);
+	}
+
+
+	public void setProperty(String name, String value)
+	{
+		// nothing
+	}
+
+
+	public void removeProperty(String name)
+	{
+		// nothing
 	}
 }

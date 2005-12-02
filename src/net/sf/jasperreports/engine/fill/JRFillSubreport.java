@@ -441,12 +441,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		{
 			if (getConnectionExpression() != null)
 			{
-				subreportFiller.fill(parameterValues, connection);
+				subreportFiller.setConnectionParameterValue(parameterValues, connection);
 			}
-			else
+			else if (getDataSourceExpression() != null)
 			{
-				subreportFiller.fill(parameterValues, dataSource);
+				subreportFiller.setDatasourceParameterValue(parameterValues, dataSource);
 			}
+			
+			subreportFiller.fill(parameterValues);
 		}
 		catch(JRFillInterruptedException e)
 		{
@@ -640,10 +642,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		// forcing the creation of a new thread and a new subreport filler
 		fillThread = null;
 
-		if (subreportFiller != null)
-		{
-			filler.unregisterSubfiller(subreportFiller);
-		}
+		filler.unregisterSubfiller(subreportFiller);
 		
 		/*   */
 		switch (jasperReport.getPrintOrder())
@@ -660,11 +659,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			}
 		}
 
-		if (getConnectionExpression() == null)
+		if (getConnectionExpression() == null && dataSource != null)
 		{
 			if(dataSource instanceof JRRewindableDataSource)
 			{
-				((JRRewindableDataSource)dataSource).moveFirst();
+				((JRRewindableDataSource) dataSource).moveFirst();
 			}
 			else
 			{

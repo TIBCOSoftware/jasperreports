@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -781,7 +780,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Specifies the report query. This is used only when datasource type is JDBC (a <tt>java.sql.Connection</tt>).
 	 */
-	public void setQuery(JRQuery query)
+	public void setQuery(JRDesignQuery query)
 	{
 		Object oldValue = mainDesignDataset.getQuery();
 		mainDesignDataset.setQuery(query);

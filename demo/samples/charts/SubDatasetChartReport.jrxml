@@ -12,7 +12,7 @@
 			FROM Orders 
 			WHERE 
 				ShipCountry = $P{Country} AND 
-				OrderDate != null
+				OrderDate IS NOT NULL
 			ORDER BY OrderDate
 		]]></queryString>
 		<field name="OrderDate" class="java.sql.Timestamp">
