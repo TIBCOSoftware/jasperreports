@@ -30,6 +30,7 @@
  * Contributors:
  * Ryan Johnson - delscovich@users.sourceforge.net
  * Carlton Moore - cmoore79@users.sourceforge.net
+ *  Petr Michalek - pmichalek@users.sourceforge.net
  */
 package net.sf.jasperreports.view;
 
