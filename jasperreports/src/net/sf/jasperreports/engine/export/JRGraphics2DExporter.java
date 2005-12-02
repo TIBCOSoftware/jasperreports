@@ -155,6 +155,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		grx.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
 		AffineTransform atrans = new AffineTransform();
+		atrans.translate(globalOffsetX, globalOffsetY);
 		atrans.scale(zoom, zoom);
 		grx.transform(atrans);
 
@@ -163,12 +164,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		{
 			Shape oldClipShape = grx.getClip();
 	
-			grx.setClip(
-				0, 
-				0, 
-				jasperPrint.getPageWidth(), 
-				jasperPrint.getPageHeight()
-				);
+			grx.clip(new Rectangle(0, 0, jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
 	
 			try
 			{
@@ -519,27 +515,33 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
-					grx.setClip(
-						printImage.getX() + leftPadding + getOffsetX(), 
-						printImage.getY() + topPadding + getOffsetY(), 
-						availableImageWidth, 
-						availableImageHeight
-						);
-					renderer.render(
-						grx, 
+					Shape oldClipShape = grx.getClip();
+
+					grx.clip(
 						new Rectangle(
-							printImage.getX() + leftPadding + getOffsetX() + xoffset, 
-							printImage.getY() + topPadding + getOffsetY() + yoffset, 
-							normalWidth, 
-							normalHeight
-							) 
+							printImage.getX() + leftPadding + getOffsetX(), 
+							printImage.getY() + topPadding + getOffsetY(), 
+							availableImageWidth, 
+							availableImageHeight
+							)
 						);
-					grx.setClip(
-						0, 
-						0, 
-						jasperPrint.getPageWidth(), 
-						jasperPrint.getPageHeight()
-						);
+					
+					try
+					{
+						renderer.render(
+							grx, 
+							new Rectangle(
+								printImage.getX() + leftPadding + getOffsetX() + xoffset, 
+								printImage.getY() + topPadding + getOffsetY() + yoffset, 
+								normalWidth, 
+								normalHeight
+								) 
+							);
+					}
+					finally
+					{
+						grx.setClip(oldClipShape);
+					}
 	
 					break;
 				}
