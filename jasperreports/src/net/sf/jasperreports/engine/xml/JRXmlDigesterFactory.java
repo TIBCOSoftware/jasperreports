@@ -100,7 +100,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
@@ -110,6 +109,7 @@ import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -157,9 +157,9 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport", "setJasperDesign", JasperDesign.class.getName());
 
 		/*   */
-		digester.addCallMethod("jasperReport/property", "setProperty", 2);
-		digester.addCallParam("jasperReport/property", 0, "name");
-		digester.addCallParam("jasperReport/property", 1, "value");
+		digester.addCallMethod("*/property", "setProperty", 2);
+		digester.addCallParam("*/property", 0, "name");
+		digester.addCallParam("*/property", 1, "value");
 
 		/*   */
 		digester.addCallMethod("jasperReport/import", "addImport", 1);
@@ -185,7 +185,7 @@ public class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/queryString", JRQueryFactory.class.getName());
-		digester.addSetNext("*/queryString", "setQuery", JRQuery.class.getName());
+		digester.addSetNext("*/queryString", "setQuery", JRDesignQuery.class.getName());
 		digester.addCallMethod("*/queryString", "setText", 0);
   		
 		/*   */

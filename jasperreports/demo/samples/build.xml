@@ -139,6 +139,22 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Hibernate Sample"/>
+		<echo message="==================================="/>
+		<ant dir="hibernate" target="clean" />
+		<ant dir="hibernate" target="javac" />
+		<ant dir="hibernate" target="compile" />
+		<ant dir="hibernate" target="fill" />
+		<ant dir="hibernate" target="pdf" />
+		<ant dir="hibernate" target="xmlEmbed" />
+		<ant dir="hibernate" target="xml" />
+		<ant dir="hibernate" target="html" />
+		<ant dir="hibernate" target="rtf" />
+		<ant dir="hibernate" target="xls" />
+		<ant dir="hibernate" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Horizontal Sample"/>
 		<echo message="==================================="/>
 		<ant dir="horizontal" target="clean" />
@@ -564,6 +580,7 @@
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="groovy" target="clean" />
+		<ant dir="hibernate" target="clean" />
 		<ant dir="horizontal" target="clean" />
 		<ant dir="hyperlink" target="clean" />
 		<ant dir="i18n" target="clean" />

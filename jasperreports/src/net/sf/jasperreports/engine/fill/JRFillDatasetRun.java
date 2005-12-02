@@ -36,8 +36,10 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 /**
  * Class used to instantiate sub datasets.
@@ -92,50 +94,50 @@ public class JRFillDatasetRun implements JRDatasetRun
 	{
 		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation, false);
 
-		dataset.setParameters(parameterValues);
-		dataset.setParameterValues(parameterValues);
-
 		try
 		{
 			if (dataSourceExpression != null)
 			{
 				JRDataSource dataSource = (JRDataSource) filler.evaluateExpression(dataSourceExpression, evaluation);
-
-				dataset.setDatasource(parameterValues, dataSource);
+				dataset.setDatasourceParameterValue(parameterValues, dataSource);
 			}
-			else if (dataset.getQuery() != null)
+			else if (connectionExpression != null)
 			{
-				Connection connection = null;
-
-				if (connectionExpression != null)
-				{
-					connection = (Connection) filler.evaluateExpression(connectionExpression, evaluation);
-				}
-				else
-				{
-					JRFillParameter connParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
-					connection = (Connection) connParam.getValue();
-				}
-
-				JRDataSource dataSource = dataset.createDataSource(parameterValues, connection);
-				dataset.setDatasource(parameterValues, dataSource);
+				Connection connection = (Connection) filler.evaluateExpression(connectionExpression, evaluation);
+				dataset.setConnectionParameterValue(parameterValues, connection);
 			}
-			else
-			{
-				throw new JRException("Cannot instantiate data set.");
-			}
+
+			copyConnectionParameter(parameterValues);
+			
+			dataset.setParameterValues(parameterValues);
 			
 			dataset.filterElementDatasets(elementDataset);
 			
-			dataset.initScriptlet();
 			dataset.initCalculator();
 
 			iterate();
 		}
 		finally
 		{
-			dataset.closeStatement();
+			dataset.closeDatasource();
 			dataset.restoreElementDatasets();
+		}
+	}
+
+	protected void copyConnectionParameter(Map parameterValues)
+	{
+		JRQuery query = dataset.getQuery();
+		if (query != null)
+		{
+			String language = query.getLanguage();
+			if (connectionExpression == null && 
+					language.equals(JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL) &&
+					!parameterValues.containsKey(JRParameter.REPORT_CONNECTION))
+			{
+				JRFillParameter connParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
+				Connection connection = (Connection) connParam.getValue();
+				parameterValues.put(JRParameter.REPORT_CONNECTION, connection);
+			}
 		}
 	}
 

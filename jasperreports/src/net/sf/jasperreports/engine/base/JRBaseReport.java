@@ -29,9 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
@@ -86,7 +84,6 @@ public class JRBaseReport implements JRReport, Serializable
 	/**
 	 *
 	 */
-	protected Map propertiesMap = null;
 	protected Set importsSet = null;
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
@@ -148,16 +145,6 @@ public class JRBaseReport implements JRReport, Serializable
 		isSummaryNewPage = report.isSummaryNewPage();
 		isFloatColumnFooter = report.isFloatColumnFooter();
 		ignorePagination = report.isIgnorePagination();
-
-		/*   */
-		String[] propertyNames = report.getPropertyNames();
-		if (propertyNames != null && propertyNames.length > 0)
-		{
-			for(int i = 0; i < propertyNames.length; i++)
-			{
-				setProperty(propertyNames[i], report.getProperty(propertyNames[i]));
-			}
-		}
 
 		/*   */
 		String[] imports = report.getImports();
@@ -393,12 +380,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String[] getPropertyNames()
 	{
-		if (propertiesMap != null)
-		{
-			Set names = propertiesMap.keySet(); 
-			return (String[])names.toArray(new String[names.size()]);
-		}
-		return null;
+		return mainDataset.getPropertyNames();
 	}
 
 	/**
@@ -406,11 +388,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getProperty(String propName)
 	{
-		if (propertiesMap != null)
-		{
-			return (String)propertiesMap.get(propName);
-		}
-		return null;
+		return mainDataset.getProperty(propName);
 	}
 
 	/**
@@ -418,11 +396,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void setProperty(String propName, String value)
 	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new HashMap();
-		}
-		propertiesMap.put(propName, value);
+		mainDataset.setProperty(propName, value);
 	}
 
 	/**
@@ -430,10 +404,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void removeProperty(String propName)
 	{
-		if (propertiesMap != null)
-		{
-			propertiesMap.remove(propName);
-		}
+		mainDataset.removeProperty(propName);
 	}
 
 	/**

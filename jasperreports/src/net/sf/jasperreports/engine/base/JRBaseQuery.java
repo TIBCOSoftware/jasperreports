@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
+import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 
 /**
@@ -51,6 +52,8 @@ public class JRBaseQuery implements JRQuery, Serializable
 	 *
 	 */
 	private JRQueryChunk[] chunks = null;
+	
+	protected String language = JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL;
 
 
 	/**
@@ -78,6 +81,8 @@ public class JRBaseQuery implements JRQuery, Serializable
 				chunks[i] = factory.getQueryChunk(jrChunks[i]);
 			}
 		}
+		
+		language = query.getLanguage();
 	}
 		
 
@@ -133,6 +138,12 @@ public class JRBaseQuery implements JRQuery, Serializable
 		}
 		
 		return text;
+	}
+
+
+	public String getLanguage()
+	{
+		return language;
 	}
 	
 

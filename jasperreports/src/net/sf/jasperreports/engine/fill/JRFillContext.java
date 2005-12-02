@@ -27,13 +27,13 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.query.JRQueryExecuter;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -51,7 +51,7 @@ public class JRFillContext
 	private boolean perPageBoundElements = false;
 	private JRPrintPage printPage = null;
 	private boolean ignorePagination = false;
-	private PreparedStatement runningStatement;
+	private JRQueryExecuter queryExecuter;
 
 
 	
@@ -206,49 +206,41 @@ public class JRFillContext
 	
 	
 	/**
-	 * Sets the running DB statement.
+	 * Sets the running query executer.
 	 * <p>
 	 * This method is called before firing the query.
 	 * 
-	 * @param runningStatement the running DB statement
+	 * @param queryExecuter the running query executer
 	 */
-	public synchronized void setRunningStatement(PreparedStatement runningStatement)
+	public synchronized void setRunningQueryExecuter(JRQueryExecuter queryExecuter)
 	{
-		this.runningStatement = runningStatement;
+		this.queryExecuter = queryExecuter;
 	}
 	
 	
 	/**
-	 * Clears the running DB statement.
+	 * Clears the running query executer.
 	 * <p>
 	 * This method is called after the query has ended.
 	 *
 	 */
-	public synchronized void clearRunningStatement()
+	public synchronized void clearRunningQueryExecuter()
 	{
-		this.runningStatement = null;
+		this.queryExecuter = null;
 	}
 	
 	
 	/**
-	 * Cancels the running DB statement.
+	 * Cancels the running query.
 	 * 
-	 * @return <code>true</code> iff there is a running DB statement and it has been cancelled.
+	 * @return <code>true</code> iff there is a running query and it has been cancelled.
 	 * @throws JRException
 	 */
-	public synchronized boolean cancelRunningStatement() throws JRException
+	public synchronized boolean cancelRunningQuery() throws JRException
 	{
-		if (runningStatement != null)
+		if (queryExecuter != null)
 		{
-			try
-			{
-				runningStatement.cancel();
-				return true;
-			}
-			catch (Throwable t)
-			{
-				throw new JRException("Error cancelling SQL statement", t);
-			}
+			return queryExecuter.cancelQuery();
 		}
 		
 		return false;

@@ -36,6 +36,8 @@ import java.util.Properties;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -62,7 +64,7 @@ public class JRProperties
 	/**
 	 * The prefix used by all properties.
 	 */
-	protected static final String PROPERTY_PREFIX = "net.sf.jasperreports.";
+	public static final String PROPERTY_PREFIX = "net.sf.jasperreports.";
 	
 	/**
 	 * The name of the system property that specifies the properties file name.
@@ -120,7 +122,15 @@ public class JRProperties
 	 * Prefix of properties that specify font directories for the PDF exporter.
 	 */
 	public static final String PDF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.pdf.fontdir.";
-
+	
+	/**
+	 * Prefix for query executer factory properties.
+	 * <p/>
+	 * To obtain query executer factories, a property having the query language appended to this prefix is used 
+	 * to get the query executer factory name.
+	 */
+	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
+	
 	protected static Properties props;
 	
 	protected static Properties savedProps;
@@ -199,6 +209,9 @@ public class JRProperties
 			defaults.setProperty(COMPILER_CLASSPATH, classPath);
 		}
 		
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL, JRJdbcQueryExecuterFactory.class.getName());
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + JRHibernateQueryExecuterFactory.QUERY_LANGUAGE_HQL, JRHibernateQueryExecuterFactory.class.getName());
+
 		return defaults;
 	}
 
@@ -270,7 +283,18 @@ public class JRProperties
 	 */
 	public static boolean getBooleanProperty (String key)
 	{
-		return Boolean.valueOf(props.getProperty(key)).booleanValue();
+		return asBoolean(props.getProperty(key));
+	}
+
+	/**
+	 * Converts a <code>String</code> value into a <code>boolean</code>.
+	 * 
+	 * @param value the value
+	 * @return the value as a <code>boolean</code>
+	 */
+	public static boolean asBoolean(String value)
+	{
+		return Boolean.valueOf(value).booleanValue();
 	}
 	
 	/**

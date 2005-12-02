@@ -27,8 +27,12 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -42,10 +46,12 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
+import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset} to be used for report desing.
@@ -83,6 +89,14 @@ public class JRDesignDataset extends JRBaseDataset
 	protected Map groupsMap = new HashMap();
 	protected List groupsList = new ArrayList();
 
+	private PropertyChangeListener queryLanguageChangeListener = new PropertyChangeListener()
+	{
+		public void propertyChange(PropertyChangeEvent evt)
+		{
+			queryLanguageChanged((String) evt.getOldValue(), (String) evt.getNewValue());
+		}
+	};
+	
 	
 	/**
 	 * An array containing the built-in parameters that can be found and used in any report dataset.
@@ -355,12 +369,21 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	/**
 	 * Sets the dataset query.
+	 * 
 	 * @param query the query
 	 * @see net.sf.jasperreports.engine.JRDataset#getQuery()
 	 */
-	public void setQuery(JRQuery query)
+	public void setQuery(JRDesignQuery query)
 	{
+		String oldLanguage = null;
+		if (this.query != null)
+		{
+			((JRDesignQuery) this.query).removePropertyChangeListener(queryLanguageChangeListener);
+			oldLanguage = this.query.getLanguage();
+		}
 		this.query = query;
+		query.addPropertyChangeListener(queryLanguageChangeListener);
+		queryLanguageChanged(oldLanguage, this.query.getLanguage());
 	}
 
 	
@@ -656,5 +679,67 @@ public class JRDesignDataset extends JRBaseDataset
 	public void setResourceBundle(String resourceBundle)
 	{
 		this.resourceBundle = resourceBundle;
+	}
+	
+	
+	protected void queryLanguageChanged(String oldLanguage, String newLanguage)
+	{
+		try
+		{
+			if (oldLanguage != null)
+			{
+				JRQueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(oldLanguage);
+				Object[] builtinParameters = queryExecuterFactory.getBuiltinParameters();
+				if (builtinParameters != null)
+				{
+					removeBuiltinParameters(builtinParameters);
+				}
+			}
+
+			if (newLanguage != null)
+			{
+				JRQueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(newLanguage);
+				Object[] builtinParameters = queryExecuterFactory.getBuiltinParameters();
+				if (builtinParameters != null)
+				{
+					addBuiltinParameters(builtinParameters);
+					sortSystemParamsFirst();
+				}
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	
+	private void sortSystemParamsFirst()
+	{
+		Collections.sort(parametersList, new Comparator()
+				{
+					public int compare(Object o1, Object o2)
+					{
+						JRParameter p1 = (JRParameter) o1;
+						JRParameter p2 = (JRParameter) o2;
+						boolean s1 = p1.isSystemDefined();
+						boolean s2 = p2.isSystemDefined();
+						
+						return s1 ? (s2 ? 0 : -1) : (s2 ? 1 : 0);
+					}
+				});
+	}
+
+	private void removeBuiltinParameters(Object[] builtinParameters)
+	{
+		for (int i = 0; i < builtinParameters.length; i += 2)
+		{
+			String parameterName = (String) builtinParameters[i];
+			JRParameter parameter = (JRParameter) parametersMap.get(parameterName);
+			if (parameter.isSystemDefined())
+			{
+				removeParameter(parameter);
+			}
+		}
 	}
 }

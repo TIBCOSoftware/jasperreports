@@ -25,36 +25,45 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.design.JRDesignQuery;
+import org.hibernate.ScrollableResults;
 
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Hibernate data source that uses <code>org.hibernate.Query.scroll()</code>.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRQueryFactory extends JRBaseFactory
+public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	public static final String ATTRIBUTE_language = "language";
+	private ScrollableResults scrollableResults;
 
-	/**
-	 *
-	 */
-	public Object createObject(Attributes atts)
+	public JRHibernateScrollDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
-		JRDesignQuery query = new JRDesignQuery();
+		super(queryExecuter, useFieldDescription, true);
 
-		String language = atts.getValue(ATTRIBUTE_language);
-		if (language != null)
+		scrollableResults = queryExecuter.scroll();
+	}
+
+	public boolean next() throws JRException
+	{
+		if (scrollableResults != null && scrollableResults.next())
 		{
-			query.setLanguage(language);
+			setCurrentRowValue(scrollableResults.get());
+			return true;
 		}
 		
-		return query;
+		return false;
 	}
-			
 
+	public void moveFirst()
+	{
+		queryExecuter.closeScrollableResults();
+		scrollableResults = queryExecuter.scroll();
+	}
 }

@@ -46,39 +46,37 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	 *
 	 */
 	protected PropertyNameProvider propertyNameProvider = null;
-	
+
+	protected static final PropertyNameProvider FIELD_NAME_PROPERTY_NAME_PROVIDER =
+		new PropertyNameProvider()
+		{
+			public String getPropertyName(JRField field) 
+			{
+				return field.getName();
+			}
+		};
+
+	protected static final PropertyNameProvider FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER =
+		new PropertyNameProvider()
+		{
+			public String getPropertyName(JRField field) 
+			{
+				if (field.getDescription() == null)
+				{
+					return field.getName();
+				}
+				return field.getDescription();
+			}
+		};
 
 	/**
 	 *
 	 */
 	public JRAbstractBeanDataSource(boolean isUseFieldDescription)
 	{
-		if (isUseFieldDescription)
-		{
-			propertyNameProvider = 
-				new PropertyNameProvider()
-				{
-					public String getPropertyName(JRField field) 
-					{
-						if (field.getDescription() == null)
-						{
-							return field.getName();
-						}
-						return field.getDescription();
-					}
-				};
-		}
-		else
-		{
-			propertyNameProvider = 
-				new PropertyNameProvider()
-				{
-					public String getPropertyName(JRField field) 
-					{
-						return field.getName();
-					}
-				};
-		}
+		propertyNameProvider = isUseFieldDescription ? 
+				FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER : 
+				FIELD_NAME_PROPERTY_NAME_PROVIDER;
 	}
 	
 
@@ -90,15 +88,17 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 		public String getPropertyName(JRField field);
 	}
 
-	
 	protected Object getFieldValue(Object bean, JRField field) throws JRException
+	{
+		return getBeanProperty(bean, getPropertyName(field));
+	}
+	
+	protected static Object getBeanProperty(Object bean, String propertyName) throws JRException
 	{
 		Object value = null;
 		
 		if (bean != null)
 		{
-			String propertyName = propertyNameProvider.getPropertyName(field);
-			
 			try
 			{
 				value = PropertyUtils.getProperty(bean, propertyName);
@@ -128,4 +128,9 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 		return value;
 	}
 
+
+	protected String getPropertyName(JRField field)
+	{
+		return propertyNameProvider.getPropertyName(field);
+	}
 }
