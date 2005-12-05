@@ -361,4 +361,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	 * @return whether to use pagination when filling the report
 	 */
 	public boolean isIgnorePagination();
+	
+	
+	/**
+	 * Returns this report's properties map.
+	 *  
+	 * @return this report's properties map
+	 */
+	public JRPropertiesMap getPropertiesMap();	
 }

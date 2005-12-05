@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Query executer factory for SQL queries.
@@ -43,7 +44,13 @@ import net.sf.jasperreports.engine.JRException;
  * @see net.sf.jasperreports.engine.query.JRJdbcQueryExecuter
  */
 public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
-{
+{	
+	/**
+	 * Property specifying whether field descriptions should be used to determine the mapping between the fields
+	 * and the query return values.
+	 */
+	public static final String PROPERTY_JDBC_FETCH_SIZE = JRProperties.PROPERTY_PREFIX + "jdbc.fetch.size";
+
 	/**
 	 * SQL query language.
 	 */

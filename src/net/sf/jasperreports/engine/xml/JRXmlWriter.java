@@ -108,6 +108,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
@@ -274,7 +275,7 @@ public class JRXmlWriter
 		writer.addAttribute("whenResourceMissingType", report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		writer.addAttribute(JasperDesignFactory.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 		
-		writeProperties(report.getMainDataset());
+		writeProperties(report.getPropertiesMap());
 
 		/*   */
 		String[] imports = report.getImports();
@@ -394,14 +395,14 @@ public class JRXmlWriter
 	}
 
 
-	private void writeProperties(JRDataset dataset) throws IOException
+	private void writeProperties(JRPropertiesMap propertiesMap) throws IOException
 	{
-		String[] propertyNames = dataset.getPropertyNames();
+		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
 		{
 			for(int i = 0; i < propertyNames.length; i++)
 			{
-				String value = dataset.getProperty(propertyNames[i]);
+				String value = propertiesMap.getProperty(propertyNames[i]);
 				if (value != null)
 				{
 					writer.startElement("property");
@@ -1993,7 +1994,7 @@ public class JRXmlWriter
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		
-		writeProperties(dataset);
+		writeProperties(dataset.getPropertiesMap());
 		
 		writeDatasetContents(dataset);
 		
