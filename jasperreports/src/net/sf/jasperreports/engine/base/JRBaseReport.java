@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -380,7 +381,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String[] getPropertyNames()
 	{
-		return mainDataset.getPropertyNames();
+		return mainDataset.getPropertiesMap().getPropertyNames();
 	}
 
 	/**
@@ -388,7 +389,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public String getProperty(String propName)
 	{
-		return mainDataset.getProperty(propName);
+		return mainDataset.getPropertiesMap().getProperty(propName);
 	}
 
 	/**
@@ -396,7 +397,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void setProperty(String propName, String value)
 	{
-		mainDataset.setProperty(propName, value);
+		mainDataset.getPropertiesMap().setProperty(propName, value);
 	}
 
 	/**
@@ -404,7 +405,7 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void removeProperty(String propName)
 	{
-		mainDataset.removeProperty(propName);
+		mainDataset.getPropertiesMap().removeProperty(propName);
 	}
 
 	/**
@@ -596,5 +597,10 @@ public class JRBaseReport implements JRReport, Serializable
 	public boolean isIgnorePagination()
 	{
 		return ignorePagination;
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return mainDataset.getPropertiesMap();
 	}
 }

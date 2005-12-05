@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Properties;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
@@ -284,6 +285,17 @@ public class JRProperties
 	{
 		return asBoolean(props.getProperty(key));
 	}
+	
+	/**
+	 * Returns a property as an integer value.
+	 * 
+	 * @param key the key
+	 * @return the property value as an integer
+	 */
+	public static int getIntegerProperty (String key)
+	{
+		return asInteger(props.getProperty(key));
+	}
 
 	/**
 	 * Converts a <code>String</code> value into a <code>boolean</code>.
@@ -294,6 +306,17 @@ public class JRProperties
 	public static boolean asBoolean(String value)
 	{
 		return Boolean.valueOf(value).booleanValue();
+	}
+
+	/**
+	 * Converts a <code>String</code> value into a <code>int</code>.
+	 * 
+	 * @param value the value
+	 * @return the value as a <code>int</code>
+	 */
+	public static int asInteger(String value)
+	{
+		return Integer.parseInt(value);
 	}
 	
 	/**
@@ -404,5 +427,61 @@ public class JRProperties
 			}
 		}
 		return values;
+	}
+
+	/**
+	 * Returns the value of a property, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @return the property value
+	 */
+	public static String getProperty (JRPropertiesMap propertiesMap, String key)
+	{
+		String value = null;
+		if (propertiesMap != null)
+		{
+			value = propertiesMap.getProperty(key);
+		}
+		
+		if (value == null)
+		{
+			value = props.getProperty(key);
+		}
+		
+		return value;
+	}
+
+	/**
+	 * Returns the value of a property as a boolean, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static boolean getBooleanProperty (JRPropertiesMap propertiesMap, String key, boolean defaultValue)
+	{
+		String value = getProperty(propertiesMap, key);
+		
+		return value == null ? defaultValue : asBoolean(value);
+	}
+
+	/**
+	 * Returns the value of a property as an integer, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static int getIntegerProperty (JRPropertiesMap propertiesMap, String key, int defaultValue)
+	{
+		String value = getProperty(propertiesMap, key);
+		
+		return value == null ? defaultValue : asInteger(value);
 	}
 }

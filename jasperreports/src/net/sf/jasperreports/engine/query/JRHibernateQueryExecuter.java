@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
@@ -140,17 +141,21 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	{
 		JRDataSource resDatasource;
 		
-		String runType = getProperty(JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
+		JRPropertiesMap datasetProperties = dataset.getPropertiesMap();
 		
-		String useFieldDescriptionsProp = getProperty(JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS);
-		boolean useFieldDescriptions = useFieldDescriptionsProp == null ? true : JRProperties.asBoolean(useFieldDescriptionsProp);
+		String runType = JRProperties.getProperty(datasetProperties, 
+				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
+		boolean useFieldDescriptions = JRProperties.getBooleanProperty(datasetProperties, 
+				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE,
+				true);
 		
 		if (runType == null || runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST))
 		{
 			try
 			{
-				String pageSizeProp = getProperty(JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE);
-				int pageSize = pageSizeProp == null ? 0 : Integer.parseInt(pageSizeProp);
+				int pageSize = JRProperties.getIntegerProperty(datasetProperties, 
+						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE,
+						0);
 
 				resDatasource = new JRHibernateListDataSource(this, useFieldDescriptions, pageSize);
 			}
@@ -181,24 +186,6 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 
 	
 	/**
-	 * Returns the value of a property, checking first the dataset and then the global properties.
-	 * 
-	 * @param key the property name
-	 * @return the property value
-	 */
-	protected String getProperty(String key)
-	{
-		String runType = dataset.getProperty(key);
-		if (runType == null)
-		{
-			runType = JRProperties.getProperty(key);
-		}
-		
-		return runType;
-	}
-
-	
-	/**
 	 * Creates the Hibernate query object.
 	 * <p/>
 	 * If the value of the {@link JRHibernateQueryExecuterFactory#PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION}
@@ -218,6 +205,14 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			query = session.createFilter(filterCollection, queryString);
 		}
 		query.setReadOnly(true);
+		
+		int fetchSize = JRProperties.getIntegerProperty(dataset.getPropertiesMap(),
+				JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
+				0);
+		if (fetchSize > 0)
+		{
+			query.setFetchSize(fetchSize);
+		}
 		
 		setParameters();
 	}

@@ -742,4 +742,16 @@ public class JRDesignDataset extends JRBaseDataset
 			}
 		}
 	}
+	
+	
+	/**
+	 * Adds/sets a property value.
+	 * 
+	 * @param name the name of the property
+	 * @param value the value of the property
+	 */
+	public void setProperty(String propName, String value)
+	{
+		getPropertiesMap().setProperty(propName, value);
+	}
 }

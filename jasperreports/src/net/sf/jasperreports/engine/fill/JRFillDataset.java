@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
@@ -1019,26 +1020,8 @@ public class JRFillDataset implements JRDataset
 	}
 
 
-	public String[] getPropertyNames()
+	public JRPropertiesMap getPropertiesMap()
 	{
-		return parent.getPropertyNames();
-	}
-
-
-	public String getProperty(String name)
-	{
-		return parent.getProperty(name);
-	}
-
-
-	public void setProperty(String name, String value)
-	{
-		// nothing
-	}
-
-
-	public void removeProperty(String name)
-	{
-		// nothing
+		return parent.getPropertiesMap();
 	}
 }
