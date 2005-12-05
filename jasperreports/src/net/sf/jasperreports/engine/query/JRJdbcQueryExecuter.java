@@ -129,7 +129,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	{
 		String queryString = getQueryString();
 		
-		if (queryString != null && queryString.trim().length() > 0)
+		if (connection != null && queryString != null && queryString.trim().length() > 0)
 		{
 			try
 			{
