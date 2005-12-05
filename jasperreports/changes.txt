@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.x.x (200x-xx-xx)
+-----------------------------------
+- support for other query languates including HQL implementation;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.1.1 (2005-11-28)
 -----------------------------------
 - support for crosstab cell vertical stretch;
