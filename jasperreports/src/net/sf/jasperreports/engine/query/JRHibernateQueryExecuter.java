@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateScrollDataSource;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -252,7 +253,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 */
 	protected void setParameter(JRFillParameter parameter)
 	{
-		String parameterName = parameter.getName();
+		String hqlParamName = getHqlParameterName(parameter.getName());
 		Class clazz = parameter.getValueClass();
 		Object parameterValue = parameter.getValue();
 		
@@ -260,21 +261,21 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		if (type != null)
 		{
-			query.setParameter(parameterName, parameterValue, type);
+			query.setParameter(hqlParamName, parameterValue, type);
 		}
 		else if (Collection.class.isAssignableFrom(clazz))
 		{
-			query.setParameterList(parameterName, (Collection) parameterValue);
+			query.setParameterList(hqlParamName, (Collection) parameterValue);
 		}
 		else
 		{
 			if (session.getSessionFactory().getClassMetadata(clazz) != null) //param type is a hibernate mapped entity
 			{
-				query.setEntity(parameterName, parameterValue);
+				query.setEntity(hqlParamName, parameterValue);
 			}
 			else //let hibernate try to guess the type
 			{
-				query.setParameter(parameterName, parameterValue);
+				query.setParameter(hqlParamName, parameterValue);
 			}
 		}
 	}
@@ -323,7 +324,12 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 
 	protected String getParameterReplacement(String parameterName)
 	{
-		return ':' + parameterName;
+		return ':' + getHqlParameterName(parameterName);
+	}
+
+	protected String getHqlParameterName(String parameterName)
+	{
+		return JRStringUtil.getLiteral(parameterName);
 	}
 	
 	
