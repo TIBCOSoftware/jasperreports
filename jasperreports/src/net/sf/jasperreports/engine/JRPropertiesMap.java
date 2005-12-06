@@ -94,7 +94,7 @@ public class JRPropertiesMap implements Serializable
 	/**
 	 * Returns the value of a property.
 	 * 
-	 * @param name the name of the property
+	 * @param propName the name of the property
 	 * @return the value
 	 */
 	public String getProperty(String propName)
@@ -106,7 +106,7 @@ public class JRPropertiesMap implements Serializable
 	/**
 	 * Adds/sets a property value.
 	 * 
-	 * @param name the name of the property
+	 * @param propName the name of the property
 	 * @param value the value of the property
 	 */
 	public void setProperty(String propName, String value)
@@ -118,7 +118,7 @@ public class JRPropertiesMap implements Serializable
 	/**
 	 * Removes a property.
 	 * 
-	 * @param name the property name
+	 * @param propName the property name
 	 */	
 	public void removeProperty(String propName)
 	{

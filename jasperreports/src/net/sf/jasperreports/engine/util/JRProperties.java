@@ -37,7 +37,6 @@ import java.util.Properties;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -209,8 +208,12 @@ public class JRProperties
 			defaults.setProperty(COMPILER_CLASSPATH, classPath);
 		}
 		
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL, JRJdbcQueryExecuterFactory.class.getName());
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "sql", "net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "SQL", "net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory");
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "hql", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "HQL", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "xPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "XPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
 
 		return defaults;
 	}

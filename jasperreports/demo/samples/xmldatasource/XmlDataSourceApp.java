@@ -28,6 +28,10 @@
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.w3c.dom.Document;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -41,7 +45,9 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRXmlUtils;
 
 
 /**
@@ -97,8 +103,11 @@ public class XmlDataSourceApp
 			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
-				JasperFillManager.fillReportToFile(fileName, null,
-					new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
+				Map params = new HashMap();
+				Document document = JRXmlUtils.parse(new File("northwind.xml"));
+				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+				
+				JasperFillManager.fillReportToFile(fileName, params);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
@@ -189,8 +198,11 @@ public class XmlDataSourceApp
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
-				JasperRunManager.runReportToPdfFile(fileName, null,
-					new JRXmlDataSource(new BufferedInputStream(new FileInputStream("northwind.xml")), "/Northwind/Customers"));
+				Map params = new HashMap();
+				Document document = JRXmlUtils.parse(new File("northwind.xml"));
+				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+				
+				JasperRunManager.runReportToPdfFile(fileName, params);
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}

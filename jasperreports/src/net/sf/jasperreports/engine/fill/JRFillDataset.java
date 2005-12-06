@@ -574,6 +574,7 @@ public class JRFillDataset implements JRDataset
 		if (!useDatasourceParamValue && (useConnectionParamValue || dataSource == null))
 		{
 			dataSource = createQueryDatasource();
+			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
 		}
 	}
 
