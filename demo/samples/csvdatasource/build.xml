@@ -2,8 +2,8 @@
 
 	<description>Shows how custom or JavaBean-based data sources implementation could be used to fill reports.</description>
 
-	<property name="class.name" value="CSVDataSourceApp" />
-	<property name="file.name" value="DataSourceReport" />
+	<property name="class.name" value="CsvDataSourceApp" />
+	<property name="file.name" value="CsvDataSourceReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
