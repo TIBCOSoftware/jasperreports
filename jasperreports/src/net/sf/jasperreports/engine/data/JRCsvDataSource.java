@@ -117,6 +117,7 @@ public class JRCsvDataSource implements JRDataSource
 		int startFieldPos = 0;
 		boolean insideQuotes = false;
 		boolean hadQuotes = false;
+		boolean misplacedQuote = false;
 		char c;
 		fields = new Vector();
 
@@ -128,8 +129,12 @@ public class JRCsvDataSource implements JRDataSource
 			c = row.charAt(pos);
 			if (c == '"') {
 				if (!insideQuotes) {
-					insideQuotes = true;
-					hadQuotes = true;
+					if (!hadQuotes) {  // if hadQuotes is true, the field contains a bad string, like "fo"o"
+						insideQuotes = true;
+						hadQuotes = true;
+					}
+					else
+						misplacedQuote = true;
 				}
 				else {
 					if (pos+1 < row.length() && row.charAt(pos+1) == '"')
@@ -141,7 +146,11 @@ public class JRCsvDataSource implements JRDataSource
 
 			if (c == fieldDelimiter && !insideQuotes) {
 				String field = row.substring(startFieldPos, pos);
-				if (hadQuotes) {
+				if (misplacedQuote) {
+					misplacedQuote = false;
+					field = "";
+				}
+				else if (hadQuotes) {
 					field = field.trim();
 					if (field.startsWith("\"") && field.endsWith("\"")) {
 						field = field.substring(1, field.length() - 1);
@@ -158,7 +167,7 @@ public class JRCsvDataSource implements JRDataSource
 
 			pos++;
 			if ((pos == row.length()) && insideQuotes) {
-				row = row.concat(getRow());
+				row = row + recordDelimiter + getRow();
 			}
 		}
 
@@ -166,7 +175,9 @@ public class JRCsvDataSource implements JRDataSource
 		if (field == null || field.length() == 0)
 			return true;
 
-		if (hadQuotes) {
+		if (misplacedQuote)
+			field = "";
+		else if (hadQuotes) {
 			field = field.trim();
 			if (field.startsWith("\"") && field.endsWith("\"")) {
 				field = field.substring(1, field.length() - 1);
@@ -203,7 +214,7 @@ public class JRCsvDataSource implements JRDataSource
 						if (temp[i] != recordDelimiter.charAt(i))
 							isDelimiter = false;
 					}
-					
+
 					if (isDelimiter)
 						return row.toString();
 
