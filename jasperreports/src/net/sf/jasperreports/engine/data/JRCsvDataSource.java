@@ -1,17 +1,17 @@
 package net.sf.jasperreports.engine.data;
 
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
 import java.io.File;
-import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Vector;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRDataSource;
 
 import org.apache.commons.beanutils.ConvertUtils;
 
@@ -32,7 +32,7 @@ public class JRCsvDataSource implements JRDataSource
 
 	private Reader reader;
 	private char buffer[] = new char[1024];
-	private int pos;
+	private int position;
 	private int bufSize;
 
 
@@ -203,11 +203,11 @@ public class JRCsvDataSource implements JRDataSource
 						if (temp[i] != recordDelimiter.charAt(i))
 							isDelimiter = false;
 					}
+					
 					if (isDelimiter)
 						return row.toString();
-					else {
-						row.append(temp, 0, i);
-					}
+
+					row.append(temp, 0, i);
 				}
 
 				row.append(c);
@@ -221,21 +221,20 @@ public class JRCsvDataSource implements JRDataSource
 
 	/**
 	 * Reads a character from the stream.
-	 * @return
 	 * @throws IOException if any I/O error occurs
 	 * @throws JRException if end of stream has been reached
 	 */
 	private char getChar() throws IOException, JRException
 	{
 		// end of buffer, fill a new buffer
-		if (pos + 1 > bufSize) {
+		if (position + 1 > bufSize) {
 			bufSize = reader.read(buffer);
-			pos = 0;
+			position = 0;
 			if (bufSize == -1)
 				throw new JRException("No more chars");
 		}
 
-		return buffer[pos++];
+		return buffer[position++];
 	}
 }
 
