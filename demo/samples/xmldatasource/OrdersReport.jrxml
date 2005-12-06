@@ -5,8 +5,8 @@
 	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<parameter name="City" class="java.lang.String">
-	</parameter>
+	<parameter name="CustomerID" class="java.lang.String"/>
+	<queryString language="xPath"><![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]></queryString>
 	<field name="Id" class="java.lang.String">
 		<fieldDescription><![CDATA[OrderID]]></fieldDescription>
 	</field>

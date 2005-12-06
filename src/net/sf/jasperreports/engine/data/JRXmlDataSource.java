@@ -34,18 +34,15 @@ package net.sf.jasperreports.engine.data;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
+import net.sf.jasperreports.engine.util.JRXmlUtils;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.xpath.CachedXPathAPI;
@@ -54,7 +51,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * XML data source implementation that allows to access the data from a xml
@@ -147,7 +143,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	// current node index
 	private int currentNodeIndex = - 1;
 
-	// XPath API façade
+	// XPath API fa?ade
 	private CachedXPathAPI xpathAPI = new CachedXPathAPI();
 	
 	// -----------------------------------------------------------------
@@ -199,7 +195,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public JRXmlDataSource(InputStream in, String selectExpression)
 			throws JRException {
-		this(parse(new InputSource(in)), selectExpression);
+		this(JRXmlUtils.parse(new InputSource(in)), selectExpression);
 	}
 
 	/**
@@ -221,7 +217,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public JRXmlDataSource(String uri, String selectExpression)
 			throws JRException {
-		this(parse(new InputSource(uri)), selectExpression);
+		this(JRXmlUtils.parse(uri), selectExpression);
 	}
 
 	/**
@@ -242,43 +238,11 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public JRXmlDataSource(File file, String selectExpression)
 			throws JRException {
-		this(parse(file), selectExpression);
+		this(JRXmlUtils.parse(file), selectExpression);
 	}
 	
 	// -----------------------------------------------------------------
 	// Implementation
-
-	private static Document parse(InputSource is) throws JRException {
-		try {
-			return createDocumentBuilder().parse(is);
-		} catch (SAXException e) {
-			throw new JRException("Failed to parse the xml document", e);
-		} catch (IOException e) {
-			throw new JRException("Failed to parse the xml document", e);
-		}
-	}
-
-	private static Document parse(File file) throws JRException {
-		try {
-			return createDocumentBuilder().parse(file);
-		} catch (SAXException e) {
-			throw new JRException("Failed to parse the xml document", e);
-		} catch (IOException e) {
-			throw new JRException("Failed to parse the xml document", e);
-		}
-	}
-
-	private static DocumentBuilder createDocumentBuilder() throws JRException {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setValidating(false);
-		dbf.setIgnoringComments(true);
-
-		try {
-			return dbf.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			throw new JRException("Failed to create a document builder factory", e);
-		}
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -375,13 +339,8 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public JRXmlDataSource subDataSource(String selectExpr)
 			throws JRException {
-		if(currentNode == null)
-			throw new JRException("No node available. Iterate or rewind the data source.");
-		
 		// create a new document from the current node
-		Document doc = createDocumentBuilder().newDocument();
-		Node node = doc.importNode(currentNode, true);
-		doc.appendChild(node);
+		Document doc = subDocument();
 		return new JRXmlDataSource(doc, selectExpr);
 	}
 
@@ -399,6 +358,26 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		return subDataSource(".");
 	}
 
+	
+	/**
+	 * Creates a document using the current node as root.
+	 * 
+	 * @return a document having the current node as root
+	 * @throws JRException
+	 */
+	public Document subDocument() throws JRException
+	{
+		if(currentNode == null)
+		{
+			throw new JRException("No node available. Iterate or rewind the data source.");
+		}
+		
+		// create a new document from the current node
+		Document doc = JRXmlUtils.createDocument(currentNode);
+		return doc;
+	}
+	
+	
 	/**
 	 * Creates a sub data source using as root document the document used by "this" data source.
 	 * An additional XPath expression specifies the select criteria applied to
