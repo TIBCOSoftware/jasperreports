@@ -94,6 +94,22 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" CSV Data Source Sample"/>
+		<echo message="==================================="/>
+		<ant dir="csvdatasource" target="clean" />
+		<ant dir="csvdatasource" target="javac" />
+		<ant dir="csvdatasource" target="compile" />
+		<ant dir="csvdatasource" target="fill" />
+		<ant dir="csvdatasource" target="pdf" />
+		<ant dir="csvdatasource" target="xmlEmbed" />
+		<ant dir="csvdatasource" target="xml" />
+		<ant dir="csvdatasource" target="html" />
+		<ant dir="csvdatasource" target="rtf" />
+		<ant dir="csvdatasource" target="xls" />
+		<ant dir="csvdatasource" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Data Source Sample"/>
 		<echo message="==================================="/>
 		<ant dir="datasource" target="clean" />
@@ -577,6 +593,7 @@
 		<ant dir="beanshell" target="clean" />
 		<ant dir="charts" target="clean" />
 		<ant dir="crosstabs" target="clean" />
+		<ant dir="csvdatasource" target="clean" />
 		<ant dir="datasource" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="groovy" target="clean" />
