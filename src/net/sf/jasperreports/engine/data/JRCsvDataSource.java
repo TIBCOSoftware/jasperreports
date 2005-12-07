@@ -148,6 +148,7 @@ public class JRCsvDataSource implements JRDataSource
 				String field = row.substring(startFieldPos, pos);
 				if (misplacedQuote) {
 					misplacedQuote = false;
+					hadQuotes = false;
 					field = "";
 				}
 				else if (hadQuotes) {
