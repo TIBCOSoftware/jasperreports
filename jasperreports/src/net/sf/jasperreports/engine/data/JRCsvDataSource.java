@@ -8,12 +8,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Vector;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
-import org.apache.commons.beanutils.ConvertUtils;
 
 
 /**
@@ -26,9 +28,11 @@ import org.apache.commons.beanutils.ConvertUtils;
  */
 public class JRCsvDataSource implements JRDataSource
 {
-	private Vector fields;
+	private DateFormat dateFormat = new SimpleDateFormat();
 	private char fieldDelimiter = ',';
-	private String recordDelimiter;
+	private String recordDelimiter = "\n";
+
+	private Vector fields;
 
 	private Reader reader;
 	private char buffer[] = new char[1024];
@@ -38,39 +42,31 @@ public class JRCsvDataSource implements JRDataSource
 
 	/**
 	 * @param stream an input stream containing CSV data
-	 * @param fieldDelimiter a character representing the field delimiter (usually comma)
-	 * @param recordDelimiter a string representing the record delimiter (usually \r\n or \n, depending on the operating
 	 * system)
 	 */
-	public JRCsvDataSource(InputStream stream, char fieldDelimiter, String recordDelimiter)
+	public JRCsvDataSource(InputStream stream)
 	{
-		this(new InputStreamReader(stream), fieldDelimiter, recordDelimiter);
+		this(new InputStreamReader(stream));
 	}
 
 	/**
 	 * Builds a datasource instance.
 	 * @param file a file containing CSV data
-	 * @param fieldDelimiter a character representing the field delimiter (usually comma)
-	 * @param recordDelimiter a string representing the record delimiter (usually \r\n or \n, depending on the operating
 	 * system)
 	 */
-	public JRCsvDataSource(File file, char fieldDelimiter, String recordDelimiter) throws FileNotFoundException
+	public JRCsvDataSource(File file) throws FileNotFoundException
 	{
-		this(new FileReader(file), fieldDelimiter, recordDelimiter);
+		this(new FileReader(file));
 	}
 
 
 	/**
 	 * Builds a datasource instance.
 	 * @param reader a <tt>Reader</tt> instance, for reading the stream
-	 * @param fieldDelimiter a character representing the field delimiter (usually comma)
-	 * @param recordDelimiter a string representing the record delimiter (usually \r\n or \n, depending on the operating
 	 * system)
 	 */
-	public JRCsvDataSource(Reader reader, char fieldDelimiter, String recordDelimiter)
+	public JRCsvDataSource(Reader reader)
 	{
-		this.fieldDelimiter = fieldDelimiter;
-		this.recordDelimiter = recordDelimiter;
 		this.reader = reader;
 	}
 
@@ -98,9 +94,53 @@ public class JRCsvDataSource implements JRDataSource
 			int columnIndex = Integer.parseInt(fieldName.substring(7));
 			if (fields.size() > columnIndex) {
 				String fieldValue = (String) fields.get(columnIndex);
-				if (Number.class.isAssignableFrom(jrField.getValueClass()))
+				Class valueClass = jrField.getValueClass();
+				if (Number.class.isAssignableFrom(valueClass))
 					fieldValue = fieldValue.trim();
-				return ConvertUtils.convert(fieldValue, jrField.getValueClass());
+
+				try {
+					if (valueClass.equals(String.class)) {
+						return fieldValue;
+					}
+					else if (valueClass.equals(Boolean.class)) {
+						return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
+					}
+					else if (valueClass.equals(Byte.class)) {
+						return new Byte(fieldValue);
+					}
+					else if (valueClass.equals(Integer.class)) {
+						return new Integer(fieldValue);
+					}
+					else if (valueClass.equals(Long.class)) {
+						return new Long(fieldValue);
+					}
+					else if (valueClass.equals(Short.class)) {
+						return new Short(fieldValue);
+					}
+					else if (valueClass.equals(Double.class)) {
+						return new Double(fieldValue);
+					}
+					else if (valueClass.equals(Float.class)) {
+						return new Float(fieldValue);
+					}
+					else if (valueClass.equals(BigDecimal.class)) {
+						return new BigDecimal(fieldValue);
+					}
+					else if (valueClass.equals(java.util.Date.class)) {
+						return dateFormat.parse(fieldValue);
+					}
+					else if (valueClass.equals(java.sql.Timestamp.class)) {
+						return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
+					}
+					else if (valueClass.equals(java.sql.Time.class)) {
+						return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+					}
+					else
+						throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+				} catch (Exception e) {
+					throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+				}
+
 			}
 		}
 
@@ -127,15 +167,19 @@ public class JRCsvDataSource implements JRDataSource
 
 		while (pos < row.length()) {
 			c = row.charAt(pos);
+
 			if (c == '"') {
+				// already inside a text containing quotes
 				if (!insideQuotes) {
-					if (!hadQuotes) {  // if hadQuotes is true, the field contains a bad string, like "fo"o"
+					if (!hadQuotes) {
 						insideQuotes = true;
 						hadQuotes = true;
 					}
-					else
+					else // the field contains a bad string, like "fo"o", instead of "fo""o"
 						misplacedQuote = true;
 				}
+				// found a quote when already inside quotes, expecting two consecutive quotes, otherwise it means
+				// it's a closing quote
 				else {
 					if (pos+1 < row.length() && row.charAt(pos+1) == '"')
 						pos++;
@@ -143,14 +187,16 @@ public class JRCsvDataSource implements JRDataSource
 						insideQuotes = false;
 				}
 			}
-
+			// field delimiter found, copy the field contents to the field array
 			if (c == fieldDelimiter && !insideQuotes) {
 				String field = row.substring(startFieldPos, pos);
+				// if an illegal quote was found, the entire field is considered illegal
 				if (misplacedQuote) {
 					misplacedQuote = false;
 					hadQuotes = false;
 					field = "";
 				}
+				// if the field was between quotes, remove them and turn any escaped quotes inside the text into normal quotes
 				else if (hadQuotes) {
 					field = field.trim();
 					if (field.startsWith("\"") && field.endsWith("\"")) {
@@ -167,11 +213,14 @@ public class JRCsvDataSource implements JRDataSource
 			}
 
 			pos++;
+			// if the record delimiter was found inside a quoted field, it is not an actual record delimiter,
+			// so another line should be read
 			if ((pos == row.length()) && insideQuotes) {
 				row = row + recordDelimiter + getRow();
 			}
 		}
 
+		// end of row was reached, so the final characters form the last field in the record
 		String field = row.substring(startFieldPos, pos);
 		if (field == null || field.length() == 0)
 			return true;
@@ -205,11 +254,13 @@ public class JRCsvDataSource implements JRDataSource
 			try {
 				c = getChar();
 
+				// searches for the first character of the record delimiter
 				if (c == recordDelimiter.charAt(0)) {
 					int i;
 					char[] temp = new char[recordDelimiter.length()];
 					temp[0] = c;
 					boolean isDelimiter = true;
+					// checks if the following characters in the stream form the record delimiter
 					for (i = 1; i < recordDelimiter.length() && isDelimiter; i++) {
 						temp[i] = getChar();
 						if (temp[i] != recordDelimiter.charAt(i))
@@ -247,6 +298,63 @@ public class JRCsvDataSource implements JRDataSource
 		}
 
 		return buffer[position++];
+	}
+
+
+	/**
+	 * Gets the date format that will be used to parse date fields
+	 */
+	public DateFormat getDateFormat()
+	{
+		return dateFormat;
+	}
+
+
+	/**
+	 * Sets the desired date format to be used for parsing date fields
+	 */
+	public void setDateFormat(DateFormat dateFormat)
+	{
+		this.dateFormat = dateFormat;
+	}
+
+
+	/**
+	 * Returns the field delimiter character.
+	 */
+	public char getFieldDelimiter()
+	{
+		return fieldDelimiter;
+	}
+
+
+	/**
+	 * Sets the field delimiter character. The default is comma. If characters such as comma or quotes are specified,
+	 * the results can be unpredictable.
+	 * @param fieldDelimiter
+	 */
+	public void setFieldDelimiter(char fieldDelimiter)
+	{
+		this.fieldDelimiter = fieldDelimiter;
+	}
+
+
+	/**
+	 * Returns the record delimiter string.
+	 */
+	public String getRecordDelimiter()
+	{
+		return recordDelimiter;
+	}
+
+
+	/**
+	 * Sets the record delimiter string. The default is line feed (\n).
+	 * @param recordDelimiter
+	 */
+	public void setRecordDelimiter(String recordDelimiter)
+	{
+		this.recordDelimiter = recordDelimiter;
 	}
 }
 
