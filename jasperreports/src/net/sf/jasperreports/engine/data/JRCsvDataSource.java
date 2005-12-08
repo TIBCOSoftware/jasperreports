@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Vector;
+import java.util.HashMap;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -23,6 +24,11 @@ import net.sf.jasperreports.engine.JRField;
  * fields inside a row are separated by a field delimiter character. Fields containing delimiter characters can be
  * placed inside quotes. If fields contain quotes themselves, these are duplicated (example: <i>"John ""Doe"""<i> will be
  * displayed as <i>John "Doe"</i>).
+ * <p>
+ * Since CSV does not specify column names, the default naming convention is to name report fields COLUMN_x and map each
+ * column with the field found at index x in each row (these indices start with 0). To avoid this situation, users can
+ * either specify a collection of column names or set a flag to read the column names from the first row of the CSV file.
+ *
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id
  */
@@ -31,28 +37,29 @@ public class JRCsvDataSource implements JRDataSource
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
+	private HashMap columnNames = new HashMap();
+	private boolean useFirstRowAsHeader;
 
 	private Vector fields;
-
 	private Reader reader;
 	private char buffer[] = new char[1024];
 	private int position;
 	private int bufSize;
+	private boolean processingStarted;
 
 
 	/**
 	 * @param stream an input stream containing CSV data
-	 * system)
 	 */
 	public JRCsvDataSource(InputStream stream)
 	{
 		this(new InputStreamReader(stream));
 	}
 
+
 	/**
 	 * Builds a datasource instance.
 	 * @param file a file containing CSV data
-	 * system)
 	 */
 	public JRCsvDataSource(File file) throws FileNotFoundException
 	{
@@ -63,7 +70,6 @@ public class JRCsvDataSource implements JRDataSource
 	/**
 	 * Builds a datasource instance.
 	 * @param reader a <tt>Reader</tt> instance, for reading the stream
-	 * system)
 	 */
 	public JRCsvDataSource(Reader reader)
 	{
@@ -77,9 +83,20 @@ public class JRCsvDataSource implements JRDataSource
 	public boolean next() throws JRException
 	{
 		try {
+			if (!processingStarted) {
+				if (useFirstRowAsHeader) {
+					parseRow();
+					for (int i = 0; i < fields.size(); i++) {
+						String name = (String) fields.get(i);
+						this.columnNames.put(name, new Integer(i));
+					}
+				}
+				processingStarted = true;
+			}
+
 			return parseRow();
 		} catch (IOException e) {
-			throw new JRException(e.getMessage());
+			throw new JRException(e);
 		}
 	}
 
@@ -90,58 +107,63 @@ public class JRCsvDataSource implements JRDataSource
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		String fieldName = jrField.getName();
-		if (fieldName.startsWith("COLUMN_")) {
-			int columnIndex = Integer.parseInt(fieldName.substring(7));
-			if (fields.size() > columnIndex) {
-				String fieldValue = (String) fields.get(columnIndex);
-				Class valueClass = jrField.getValueClass();
-				if (Number.class.isAssignableFrom(valueClass))
-					fieldValue = fieldValue.trim();
 
-				try {
-					if (valueClass.equals(String.class)) {
-						return fieldValue;
-					}
-					else if (valueClass.equals(Boolean.class)) {
-						return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
-					}
-					else if (valueClass.equals(Byte.class)) {
-						return new Byte(fieldValue);
-					}
-					else if (valueClass.equals(Integer.class)) {
-						return new Integer(fieldValue);
-					}
-					else if (valueClass.equals(Long.class)) {
-						return new Long(fieldValue);
-					}
-					else if (valueClass.equals(Short.class)) {
-						return new Short(fieldValue);
-					}
-					else if (valueClass.equals(Double.class)) {
-						return new Double(fieldValue);
-					}
-					else if (valueClass.equals(Float.class)) {
-						return new Float(fieldValue);
-					}
-					else if (valueClass.equals(BigDecimal.class)) {
-						return new BigDecimal(fieldValue);
-					}
-					else if (valueClass.equals(java.util.Date.class)) {
-						return dateFormat.parse(fieldValue);
-					}
-					else if (valueClass.equals(java.sql.Timestamp.class)) {
-						return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
-					}
-					else if (valueClass.equals(java.sql.Time.class)) {
-						return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
-					}
-					else
-						throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
-				} catch (Exception e) {
-					throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+		Integer columnIndex = (Integer) columnNames.get(fieldName);
+		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
+			columnIndex = Integer.getInteger(fieldName.substring(7));
+		}
+		if (columnIndex == null)
+			throw new JRException("Unknown column name : " + fieldName);
+
+		if (fields.size() > columnIndex.intValue()) {
+			String fieldValue = (String) fields.get(columnIndex.intValue());
+			Class valueClass = jrField.getValueClass();
+			if (Number.class.isAssignableFrom(valueClass))
+				fieldValue = fieldValue.trim();
+
+			try {
+				if (valueClass.equals(String.class)) {
+					return fieldValue;
 				}
-
+				else if (valueClass.equals(Boolean.class)) {
+					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
+				}
+				else if (valueClass.equals(Byte.class)) {
+					return new Byte(fieldValue);
+				}
+				else if (valueClass.equals(Integer.class)) {
+					return new Integer(fieldValue);
+				}
+				else if (valueClass.equals(Long.class)) {
+					return new Long(fieldValue);
+				}
+				else if (valueClass.equals(Short.class)) {
+					return new Short(fieldValue);
+				}
+				else if (valueClass.equals(Double.class)) {
+					return new Double(fieldValue);
+				}
+				else if (valueClass.equals(Float.class)) {
+					return new Float(fieldValue);
+				}
+				else if (valueClass.equals(BigDecimal.class)) {
+					return new BigDecimal(fieldValue);
+				}
+				else if (valueClass.equals(java.util.Date.class)) {
+					return dateFormat.parse(fieldValue);
+				}
+				else if (valueClass.equals(java.sql.Timestamp.class)) {
+					return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
+				}
+				else if (valueClass.equals(java.sql.Time.class)) {
+					return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+				}
+				else
+					throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+			} catch (Exception e) {
+				throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 			}
+
 		}
 
 		throw new JRException("Unknown column name : " + fieldName);
@@ -315,6 +337,8 @@ public class JRCsvDataSource implements JRDataSource
 	 */
 	public void setDateFormat(DateFormat dateFormat)
 	{
+		if (processingStarted)
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		this.dateFormat = dateFormat;
 	}
 
@@ -335,6 +359,8 @@ public class JRCsvDataSource implements JRDataSource
 	 */
 	public void setFieldDelimiter(char fieldDelimiter)
 	{
+		if (processingStarted)
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		this.fieldDelimiter = fieldDelimiter;
 	}
 
@@ -354,7 +380,33 @@ public class JRCsvDataSource implements JRDataSource
 	 */
 	public void setRecordDelimiter(String recordDelimiter)
 	{
+		if (processingStarted)
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		this.recordDelimiter = recordDelimiter;
+	}
+
+
+	/**
+	 * Specifies an array of strings representing column names matching field names in the report template
+	 */
+	public void setColumnNames(String[] columnNames)
+	{
+		if (processingStarted)
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		for (int i = 0; i < columnNames.length; i++)
+			this.columnNames.put(columnNames[i], new Integer(i));
+	}
+
+
+	/**
+	 * Specifies whether the first line of the CSV file should be considered a table
+	 * header, containing column names matching field names in the report template
+	 */
+	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader)
+	{
+		if (processingStarted)
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
 }
 
