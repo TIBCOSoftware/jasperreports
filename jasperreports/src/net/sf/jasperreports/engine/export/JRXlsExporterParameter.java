@@ -77,4 +77,10 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
 
 
+	/**
+	 * A string of arrays representing custom sheet names. This is useful when used with the <i>IS_ONE_PAGE_PER_SHEET</i>
+	 * parameter. 
+	 */
+	public static final JRXlsExporterParameter SHEET_NAMES = new JRXlsExporterParameter("Sheet Names");
+
 }

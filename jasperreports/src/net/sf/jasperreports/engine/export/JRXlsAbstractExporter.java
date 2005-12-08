@@ -72,6 +72,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected boolean isAutoDetectCellType = true;
 
+	protected String[] sheetNames = null;
+
 	/**
 	 *
 	 */
@@ -204,6 +206,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
 
+		sheetNames = (String[])parameters.get(JRXlsExporterParameter.SHEET_NAMES);
+
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 	}
 
@@ -240,7 +244,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 
-						createSheet("Page " + (pageIndex + 1));
+						if (sheetNames != null && pageIndex < sheetNames.length)
+							createSheet(sheetNames[pageIndex]);
+						else
+							createSheet("Page " + (pageIndex + 1));
 
 						/*   */
 						exportPage(null, page);
