@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 
 /**
  * Class used to instantiate sub datasets.
@@ -131,7 +130,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		{
 			String language = query.getLanguage();
 			if (connectionExpression == null && 
-					language.equals(JRJdbcQueryExecuterFactory.QUERY_LANGUAGE_SQL) &&
+					(language.equals("sql") || language.equals("SQL")) &&
 					!parameterValues.containsKey(JRParameter.REPORT_CONNECTION))
 			{
 				JRFillParameter connParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
