@@ -906,6 +906,7 @@ public class JRExpressionCollector
 	
 	public void collect(JRFrame frame)
 	{
+		addExpression(frame.getPrintWhenExpression());
 		JRElement[] elements = frame.getElements();
 		if (elements != null)
 		{
