@@ -717,45 +717,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRPrintElement fill()
 	{
-		JRPrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage());
+		JRTemplatePrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage());
 		
 		printImage.setX(getX());
 		printImage.setY(getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
 
-		switch (getEvaluationTime())
+		byte evaluationType = getEvaluationTime();
+		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
 		{
-			case JRExpression.EVALUATION_TIME_REPORT :
-			{
-				filler.reportBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_PAGE :
-			{
-				filler.pageBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_COLUMN :
-			{
-				filler.columnBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_GROUP :
-			{
-				Map specificGroupBoundCharts = (Map)filler.groupBoundElements.get(getEvaluationGroup().getName());
-				specificGroupBoundCharts.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_BAND :
-			{
-				band.boundElements.put(printImage, this);
-			}
-			case JRExpression.EVALUATION_TIME_NOW :
-			default :
-			{
-				copy(printImage);
-			}
+			copy(printImage);
+		}
+		else
+		{
+			filler.addBoundElement(this, printImage, evaluationType, getEvaluationGroup(), band);
 		}
 		
 		return printImage;

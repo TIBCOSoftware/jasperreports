@@ -28,18 +28,25 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
@@ -94,6 +101,11 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	// default for all static elements
 	private boolean isValueRepeating = true;
 	
+	protected byte currentEvaluation;
+	
+	// used by elements that support evaluationTime=Auto
+	protected Map delayedEvaluationsMap;
+
 	/**
 	 *
 	 *
@@ -629,6 +641,10 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		}
 	}
 
+	protected void setCurrentEvaluation(byte evaluation)
+	{
+		currentEvaluation = evaluation;
+	}
 
 	/**
 	 *
@@ -948,5 +964,260 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	protected void setValueRepeating(boolean isValueRepeating)
 	{
 		this.isValueRepeating = isValueRepeating;
+	}
+
+
+	protected JRFillVariable getVariable(String variableName)
+	{
+		return filler.getVariable(variableName);
+	}
+
+
+	protected JRFillField getField(String fieldName)
+	{
+		return filler.getField(fieldName);
+	}
+	
+	// default for elements not supporting evaluationTime
+	protected byte getEvaluationTime()
+	{
+		return JRExpression.EVALUATION_TIME_NOW;
+	}
+
+	/**
+	 * Resolves an element.
+	 * 
+	 * @param element the element
+	 * @param evaluation the evaluation type
+	 * @param evaluationTime the current evaluation time
+	 */
+	protected void resolveElement (JRPrintElement element, byte evaluation, JREvaluationTime evaluationTime) throws JRException
+	{
+		byte evaluationTimeType = getEvaluationTime();
+		switch (evaluationTimeType)
+		{
+			case JRExpression.EVALUATION_TIME_NOW:
+				break;
+			case JRExpression.EVALUATION_TIME_AUTO:
+				delayedEvaluate((JRRecordedValuesPrintElement) element, evaluationTime, evaluation);
+				break;
+			default:
+				resolveElement(element, evaluation);
+				break;
+		}
+	}
+
+	private static class DelayedEvaluations implements Serializable
+	{
+		final Set fields;
+		final Set variables;
+
+		DelayedEvaluations()
+		{
+			fields = new HashSet();
+			variables = new HashSet();
+		}
+	}
+
+	protected boolean delayedEvaluationsInitialized()
+	{
+		return delayedEvaluationsMap != null;
+	}
+
+	protected void initDelayedEvaluations()
+	{
+		delayedEvaluationsMap = new HashMap();
+	}
+
+	protected void collectDelayedEvaluations(JRExpression expression)
+	{
+		if (expression != null)
+		{
+			JRExpressionChunk[] chunks = expression.getChunks();
+			if (chunks != null)
+			{
+				for (int i = 0; i < chunks.length; i++)
+				{
+					JRExpressionChunk chunk = chunks[i];
+					switch (chunk.getType())
+					{
+						case JRExpressionChunk.TYPE_FIELD:
+						{
+							DelayedEvaluations delayedEvaluations = getDelayedEvaluations(JREvaluationTime.EVALUATION_TIME_NOW);
+							delayedEvaluations.fields.add(chunk.getText());
+							break;
+						}
+						case JRExpressionChunk.TYPE_VARIABLE:
+						{
+							JREvaluationTime time = autogetVariableEvaluationTime(chunk.getText());
+							DelayedEvaluations delayedEvaluations = getDelayedEvaluations(time);
+							delayedEvaluations.variables.add(chunk.getText());
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	private DelayedEvaluations getDelayedEvaluations(JREvaluationTime time)
+	{
+		DelayedEvaluations delayedEvaluations = (DelayedEvaluations) delayedEvaluationsMap.get(time);
+		if (delayedEvaluations == null)
+		{
+			delayedEvaluations = new DelayedEvaluations();
+			delayedEvaluationsMap.put(time, delayedEvaluations);
+		}
+		return delayedEvaluations;
+	}
+
+
+	private JREvaluationTime autogetVariableEvaluationTime(String variableName)
+	{
+		JRFillVariable variable = getVariable(variableName);
+		JREvaluationTime evaluationTime;
+		switch (variable.getResetType())
+		{
+			case JRVariable.RESET_TYPE_REPORT:
+				evaluationTime = JREvaluationTime.EVALUATION_TIME_REPORT;
+				break;
+			case JRVariable.RESET_TYPE_PAGE:
+				evaluationTime = JREvaluationTime.EVALUATION_TIME_PAGE;
+				break;
+			case JRVariable.RESET_TYPE_COLUMN:
+				evaluationTime = JREvaluationTime.EVALUATION_TIME_COLUMN;
+				break;
+			case JRVariable.RESET_TYPE_GROUP:
+				evaluationTime = JREvaluationTime.getGroupEvaluationTime(variable.getResetGroup().getName());
+				break;
+			default:
+				evaluationTime = JREvaluationTime.EVALUATION_TIME_NOW;
+				break;
+		}
+		
+		if (!evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW) &&
+				band.isNowEvaluationTime(evaluationTime))
+		{
+			evaluationTime = JREvaluationTime.EVALUATION_TIME_NOW;
+		}
+		
+		if (variable.getCalculation() == JRVariable.CALCULATION_SYSTEM &&
+				evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW) &&
+				band.isVariableUsedInSubreportReturns(variableName))
+		{
+			evaluationTime = JREvaluationTime.getBandEvaluationTime(band);
+		}
+
+		return evaluationTime;
+	}
+	
+	
+	protected void initDelayedEvaluationPrint(JRRecordedValuesPrintElement printElement) throws JRException
+	{
+		for (Iterator it = delayedEvaluationsMap.keySet().iterator(); it.hasNext();)
+		{
+			JREvaluationTime evaluationTime = (JREvaluationTime) it.next();
+			if (!evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW))
+			{
+				filler.addBoundElement(this, printElement, evaluationTime);
+			}
+		}
+		
+		printElement.initRecordedValues(delayedEvaluationsMap.keySet());
+		
+		if (delayedEvaluationsMap.containsKey(JREvaluationTime.EVALUATION_TIME_NOW))
+		{
+			delayedEvaluate(printElement, JREvaluationTime.EVALUATION_TIME_NOW, currentEvaluation);
+		}
+	}
+
+
+	protected void delayedEvaluate(JRRecordedValuesPrintElement printElement, JREvaluationTime evaluationTime, byte evaluation) throws JRException
+	{
+		JRRecordedValues recordedValues = printElement.getRecordedValues();
+		if (!recordedValues.lastEvaluationTime())
+		{
+			DelayedEvaluations delayedEvaluations = (DelayedEvaluations) delayedEvaluationsMap.get(evaluationTime);
+			
+			for (Iterator it = delayedEvaluations.fields.iterator(); it.hasNext();)
+			{
+				String fieldName = (String) it.next();
+				JRFillField field = getField(fieldName);
+				recordedValues.recordFieldValue(fieldName, field.getValue(evaluation));
+			}
+
+			for (Iterator it = delayedEvaluations.variables.iterator(); it.hasNext();)
+			{
+				String variableName = (String) it.next();
+				JRFillVariable variable = getVariable(variableName);
+				recordedValues.recordVariableValue(variableName, variable.getValue(evaluation));
+			}
+		}
+
+		recordedValues.doneEvaluation(evaluationTime);
+		
+		if (recordedValues.finishedEvaluations())
+		{
+			overwriteWithRecordedValues(recordedValues, evaluation);
+			resolveElement(printElement, evaluation);
+			restoreValues(recordedValues, evaluation);
+			printElement.deleteRecordedValues();
+		}
+	}
+
+	
+	private void overwriteWithRecordedValues(JRRecordedValues recordedValues, byte evaluation)
+	{
+		Map fieldValues = recordedValues.getRecordedFieldValues();
+		if (fieldValues != null)
+		{
+			for (Iterator it = fieldValues.entrySet().iterator(); it.hasNext();)
+			{
+				Map.Entry entry = (Map.Entry) it.next();
+				String fieldName = (String) entry.getKey();
+				Object fieldValue = entry.getValue();
+				JRFillField field = getField(fieldName);
+				field.overwriteValue(fieldValue, evaluation);
+			}
+		}
+		
+		Map variableValues = recordedValues.getRecordedVariableValues();
+		if (variableValues != null)
+		{
+			for (Iterator it = variableValues.entrySet().iterator(); it.hasNext();)
+			{
+				Map.Entry entry = (Map.Entry) it.next();
+				String variableName = (String) entry.getKey();
+				Object variableValue = entry.getValue();
+				JRFillVariable variable = getVariable(variableName);
+				variable.overwriteValue(variableValue, evaluation);
+			}
+		}
+	}
+
+	private void restoreValues(JRRecordedValues recordedValues, byte evaluation)
+	{
+		Map fieldValues = recordedValues.getRecordedFieldValues();
+		if (fieldValues != null)
+		{
+			for (Iterator it = fieldValues.keySet().iterator(); it.hasNext();)
+			{
+				String fieldName = (String) it.next();
+				JRFillField field = getField(fieldName);
+				field.restoreValue(evaluation);
+			}
+		}
+		
+		Map variableValues = recordedValues.getRecordedVariableValues();
+		if (variableValues != null)
+		{
+			for (Iterator it = variableValues.keySet().iterator(); it.hasNext();)
+			{
+				String variableName = (String) it.next();
+				JRFillVariable variable = getVariable(variableName);
+				variable.restoreValue(evaluation);
+			}
+		}
 	}
 }

@@ -617,4 +617,18 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	public void setRightPadding(Integer rightPadding)
 	{
 	}
+
+	protected void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		JRElement[] elements = frameContainer.getElements();
+		if (elements != null)
+		{
+			for(int i = 0; i < elements.length; i++)
+			{
+				((JRFillElement) elements[i]).setBand(band);
+			}
+		}
+	}
 }

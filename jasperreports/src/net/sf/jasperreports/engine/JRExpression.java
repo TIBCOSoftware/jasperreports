@@ -72,6 +72,18 @@ public interface JRExpression
 	 */
 	public static final byte EVALUATION_TIME_BAND = 6;
 
+	
+	/**
+	 * Evaluation time used when report elements having expressions that combine values 
+	 * evaluated at different times are required (e.g. percentage out of a total).
+	 * <p/>
+	 * Variables will be evaluated at a time corresponding to their reset type.
+	 * Fields are evaluated "now", i.e. at the time the band the element lies on gets filled.
+	 * <p/>
+	 * NB: avoid using this evaluation type when other types suffice as it can lead
+	 * to performance loss.
+	 */
+	public static final byte EVALUATION_TIME_AUTO = 7;
 
 	/**
 	 *

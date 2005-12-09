@@ -33,19 +33,19 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
-import net.sf.jasperreports.engine.base.JRVirtualPrintPage.ObjectIDPair;
-import net.sf.jasperreports.engine.fill.JRBaseFiller.BoundElementMap;
+import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRSubreportReturnValue;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirtualPrintPage.IdentityDataProvider
+public class JRFillBand extends JRFillElementContainer implements JRBand
 {
 	
 
@@ -62,16 +62,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 	private boolean isNewPageColumn = false;
 	private boolean isFirstWholeOnPageColumn = false;
 	private Map isNewGroupMap = new HashMap();
-
-	/**
-	 * Map of elements to be resolved at band level.
-	 */
-	protected BoundElementMap boundElements;
 	
-	/**
-	 * Per page map of elements to be resolved at band level.
-	 */
-	protected Map pageToBoundElements;
+	private Set nowEvaluationTimes;
 
 	/**
 	 *
@@ -95,6 +87,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 		}
 		
 		initElements();
+		
+		nowEvaluationTimes = new HashSet();
 	}
 
 
@@ -288,6 +282,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 		boolean isOverflowAllowed
 		) throws JRException
 	{
+		filler.fillContext.ensureMasterPageAvailable();
+		
 		if (
 			Thread.currentThread().isInterrupted()
 			|| this.filler.isInterrupted()
@@ -329,38 +325,69 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JRVirt
 	}
 
 
-	protected void initBoundElementMap(boolean perPageElements)
-	{
-		if (perPageElements)
-		{
-			pageToBoundElements = new HashMap();
-			boundElements = filler.new BoundElementMap(pageToBoundElements);
-		}
-		else
-		{
-			boundElements = filler.new BoundElementMap();
-		}
-	}
-
-
-	public ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
-	{
-		Set allElements = new HashSet();
-		JRBaseFiller.addElements(allElements, pageToBoundElements, page);
-
-		return JRBaseFiller.createIdentityData(allElements);
-	}
-
-
-	public void setIdentityData(JRVirtualPrintPage page, ObjectIDPair[] identityData)
-	{
-		JRBaseFiller.updateIdentityData(pageToBoundElements, page, boundElements, identityData);
-	}
-
-
 	protected int getContainerHeight()
 	{
 		return getHeight();
 	}
 
+
+	protected boolean isVariableUsedInSubreportReturns(String variableName)
+	{
+		boolean used = false;
+		JRElement[] bandElements = getElements();
+		if (bandElements != null)
+		{
+			elementsLoop:
+			for (int i = 0; i < bandElements.length; i++)
+			{
+				JRElement element = bandElements[i];
+				if (element instanceof JRSubreport)
+				{
+					JRSubreport subreport = (JRSubreport) element;
+					JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
+					if (returnValues != null)
+					{
+						for (int j = 0; j < returnValues.length; j++)
+						{
+							JRSubreportReturnValue returnValue = returnValues[j];
+							if (returnValue.getToVariable().equals(variableName))
+							{
+								used = true;
+								break elementsLoop;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return used;
+	}
+	
+	
+	protected void addNowEvaluationTime(JREvaluationTime evaluationTime)
+	{
+		nowEvaluationTimes.add(evaluationTime);
+	}
+	
+	
+	protected void addNowEvaluationTimes(JREvaluationTime[] evaluationTimes)
+	{
+		for (int i = 0; i < evaluationTimes.length; i++)
+		{
+			nowEvaluationTimes.add(evaluationTimes[i]);
+		}
+	}
+	
+	
+	protected boolean isNowEvaluationTime(JREvaluationTime evaluationTime)
+	{
+		return nowEvaluationTimes.contains(evaluationTime);
+	}
+	
+	
+	protected int getId()
+	{
+		return System.identityHashCode(this);
+	}
 }

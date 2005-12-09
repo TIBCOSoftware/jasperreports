@@ -35,7 +35,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -52,6 +51,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -71,43 +71,26 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaultFontProvider
+public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualPrintPage.IdentityDataProvider//, JRDefaultFontProvider
 {
 
 	/**
 	 * Map class to be used for bound elements.
-	 * <p>
-	 * If per page element maps are used, the map will update the page map when
-	 * adding or clearing the bound element map.
+	 * <p/>
+	 * Keeps print elements to fill elements maps.
+	 * If per page element maps are used, such maps are kept per page.
 	 * 
 	 * @author John Bindel
 	 */
-	public class BoundElementMap extends HashMap
+	public class BoundElementMap
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		private final Map perPageElements;
+		private final Map map;
 
-		/**
-		 * Used when per page maps are not required. The map will behave just
-		 * like <code>java.util.HashMap</code>.
-		 */
 		BoundElementMap()
 		{
-			super();
-			this.perPageElements = null;
-		}
-
-		/**
-		 * Used when per page map is required.
-		 * 
-		 * @param perPageElements
-		 *            the page map
-		 */
-		BoundElementMap(Map perPageElements)
-		{
-			super();
-			this.perPageElements = perPageElements;
+			map = new HashMap(); 
 		}
 
 		/**
@@ -115,19 +98,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		 */
 		public Object put(Object key, Object value, JRPrintPage keyPage)
 		{
-			if (perPageElements != null)
+			Map pageMap = (Map) map.get(keyPage);
+			if (pageMap == null)
 			{
-				// Track the key element by its page.
-				Map map = (Map) this.perPageElements.get(keyPage);
-				if (map == null)
-				{
-					map = new HashMap();
-					this.perPageElements.put(keyPage, map);
-				}
-				map.put(new Integer(System.identityHashCode(key)), key);
+				pageMap = new HashMap();
+				map.put(keyPage, pageMap);
 			}
 
-			return super.put(key, value);
+			return pageMap.put(key, value);
 		}
 
 		/**
@@ -136,96 +114,32 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		 */
 		public Object put(Object key, Object value)
 		{
-			if (perPageElements != null)
+			if (isPerPageBoundElements)
 			{
 				return put(key, value, fillContext.getPrintPage());
 			}
-			return super.put(key, value);
+			
+			return map.put(key, value);
 		}
 
 		public void clear()
 		{
-			super.clear();
-
-			if (perPageElements != null)
-			{
-				perPageElements.clear();
-			}
+			map.clear();
 		}
-	}
-
-	/**
-	 * Keeps per page maps of bound elements.
-	 * 
-	 * @author John Bindel
-	 */
-	private class BoundElements implements JRVirtualPrintPage.IdentityDataProvider
-	{
-		// Each of these contains a java.util.Map of identity hash codes
-		// (Integer) to text elements.
-		HashMap pageToReportElements;
-
-		HashMap pageToPageElements;
-
-		HashMap pageToColumnElements;
-
-		HashMap pageToBandElements;
-
-		// Contains a java.util.Map per group of identity hash codes (Integer)
-		// to text elements.
-		HashMap pageToGroupElements;
-
-		BoundElements()
+		
+		public Map getMap()
 		{
-			this.pageToReportElements = new HashMap();
-			this.pageToPageElements = new HashMap();
-			this.pageToColumnElements = new HashMap();
-			this.pageToBandElements = new HashMap();
-			this.pageToGroupElements = new HashMap();
+			return map;
 		}
-
-		/**
-		 * Collect all of the identity data the the JRBaseFiller needs to know.
-		 * <p>
-		 * All the bound elements on the page are collected and transformed into
-		 * identity objects.
-		 * 
-		 * @param page
-		 *            the page to get the identity data for
-		 */
-		public JRVirtualPrintPage.ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
+		
+		public Map getMap(JRPrintPage page)
 		{
-			Set allElements = new HashSet();
-
-			addElements(allElements, pageToReportElements, page);
-			addElements(allElements, pageToPageElements, page);
-			addElements(allElements, pageToColumnElements, page);
-			addElements(allElements, pageToBandElements, page);
-			addGroupElements(allElements, pageToGroupElements, page);
-
-			return createIdentityData(allElements);
+			return (Map) map.get(page);
 		}
-
-		/**
-		 * Sets the identity date for a virtualized page.
-		 * <p>
-		 * The identity data consists of bound elements located on the page.
-		 * Pairs of identity hash code and objects are stored when the page is
-		 * virtualized. When the page gets devirtualized, the original objects
-		 * are substituted in the bound maps based on their identity hash code.
-		 * 
-		 * @param page
-		 *            the virtualized page
-		 * @param identityData
-		 *            the identity data
-		 */
-		public void setIdentityData(JRVirtualPrintPage page, JRVirtualPrintPage.ObjectIDPair[] identityData)
+		
+		public Map putMap(JRPrintPage page, Map valueMap)
 		{
-			// Update the perPageEntries, AND the normal bound maps.
-			updateIdentityData(pageToReportElements, page, reportBoundElements, identityData);
-			updateIdentityData(pageToPageElements, page, pageBoundElements, identityData);
-			updateIdentityData(pageToColumnElements, page, columnBoundElements, identityData);
-			updateGroupIdentityData(pageToGroupElements, page, groupBoundElements, identityData);
+			return (Map) map.put(page, valueMap);
 		}
 	}
 
@@ -327,29 +241,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	protected JRFillContext fillContext;
 	
 	/**
-	 * All bound elements per page.
+	 * Bound element maps indexed by {@link JREvaluationTime JREvaluationTime} objects.
 	 */
-	protected BoundElements perPageBoundElements = null;
-
-	/**
-	 * Map of elements to be resolved at report level.
-	 */
-	protected BoundElementMap reportBoundElements = null;
-
-	/**
-	 * Map of elements to be resolved at page level.
-	 */
-	protected BoundElementMap pageBoundElements = null;
-
-	/**
-	 * Map of elements to be resolved at column level.
-	 */
-	protected BoundElementMap columnBoundElements = null;
-
-	/**
-	 * Maps of elements to be resolved at group levels.
-	 */
-	protected Map groupBoundElements = null;
+	protected Map boundElements;
 
 	/**
 	 * 
@@ -390,6 +284,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	protected JasperReport jasperReport;
 
 	private boolean bandOverFlowAllowed;
+	
+	protected boolean isPerPageBoundElements;
 	
 	/**
 	 * 
@@ -549,6 +445,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		return (JRFillVariable) mainDataset.variablesMap.get(variableName);
 	}
 	
+	
+	/**
+	 * Returns a report field.
+	 * 
+	 * @param fieldName the field name
+	 * @return the field
+	 */
+	protected JRFillField getField(String fieldName)
+	{
+		return (JRFillField) mainDataset.fieldsMap.get(fieldName);
+	}
+	
 	private void initBands()
 	{
 		bands = new ArrayList(8 + (groups == null ? 0 : (2 * groups.length)));
@@ -570,7 +478,46 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 				bands.add(group.getGroupFooter());
 			}
 		}
+		
+		initBandsNowEvaluationTimes();
 	}
+
+	
+	private void initBandsNowEvaluationTimes()
+	{
+		JREvaluationTime[] groupEvaluationTimes;
+		if (groups == null)
+		{
+			groupEvaluationTimes = new JREvaluationTime[0];
+		}
+		else
+		{
+			groupEvaluationTimes = new JREvaluationTime[groups.length];
+			for (int i = 0; i < groups.length; i++)
+			{
+				groupEvaluationTimes[i] = JREvaluationTime.getGroupEvaluationTime(groups[i].getName());
+			}
+			
+			for (int i = 0; i < groups.length; i++)
+			{
+				JRGroup group = groups[i];
+				JRFillBand footer = (JRFillBand) group.getGroupFooter();
+				
+				for (int j = i; j < groupEvaluationTimes.length; ++j)
+				{
+					footer.addNowEvaluationTime(groupEvaluationTimes[j]);
+				}
+			}
+		}
+		
+		columnFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
+		
+		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
+		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_PAGE);
+		
+		summary.addNowEvaluationTimes(groupEvaluationTimes);
+	}
+
 
 	/**
 	 * 
@@ -766,49 +713,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			setTextFieldsFormats();
 
 			loadedSubreports = new HashMap();
-
-			if (!fillContext.isPerPageBoundElements())
-			{
-				// per page maps are not used
-				reportBoundElements = new BoundElementMap();
-				pageBoundElements = new BoundElementMap();
-				columnBoundElements = new BoundElementMap();
-				groupBoundElements = new HashMap();
-
-				if (groups != null && groups.length > 0)
-				{
-					for (int i = 0; i < groups.length; i++)
-					{
-						groupBoundElements.put(groups[i].getName(), new BoundElementMap());
-					}
-				}
-			}
-			else
-			{
-				// per page maps are used
-				reportBoundElements = new BoundElementMap(perPageBoundElements.pageToReportElements);
-				pageBoundElements = new BoundElementMap(perPageBoundElements.pageToPageElements);
-				columnBoundElements = new BoundElementMap(perPageBoundElements.pageToColumnElements);
-				groupBoundElements = new HashMap();
-
-				if (groups != null && groups.length > 0)
-				{
-					for (int i = 0; i < groups.length; i++)
-					{
-						String groupName = groups[i].getName();
-
-						HashMap map = new HashMap();
-						perPageBoundElements.pageToGroupElements.put(groupName, map);
-						groupBoundElements.put(groupName, new BoundElementMap(map));
-					}
-				}
-			}
-
-			for (Iterator i = bands.iterator(); i.hasNext();)
-			{
-				JRFillBand band = (JRFillBand) i.next();
-				band.initBoundElementMap(perPageBoundElements != null);
-			}
+			
+			createBoundElemementMaps();
 
 			/*   */
 			mainDataset.start();
@@ -832,6 +738,37 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			//kill the subreport filler threads
 			killSubfillerThreads();
 		}
+	}
+
+
+	private void createBoundElemementMaps()
+	{
+		boundElements = new HashMap();
+		
+		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_REPORT);
+		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_PAGE);
+		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_COLUMN);
+		
+		if (groups != null)
+		{
+			for (int i = 0; i < groups.length; i++)
+			{
+				createBoundElementMaps(JREvaluationTime.getGroupEvaluationTime(groups[i].getName()));
+			}
+		}
+		
+		for (Iterator i = bands.iterator(); i.hasNext();)
+		{
+			JRFillBand band = (JRFillBand) i.next();
+			createBoundElementMaps(JREvaluationTime.getBandEvaluationTime(band));
+		}
+	}
+
+
+	private void createBoundElementMaps(JREvaluationTime evaluationTime)
+	{
+		BoundElementMap boundElementsMap = new BoundElementMap();
+		boundElements.put(evaluationTime, boundElementsMap);
 	}
 
 
@@ -880,11 +817,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			fillContext.setPerPageBoundElements(true);
 		}
 		
-		if (virtualizer != null || fillContext.isPerPageBoundElements())
-		{
-			// keep per page element maps
-			perPageBoundElements = new BoundElements();
-		}
+		isPerPageBoundElements = fillContext.isPerPageBoundElements();
 		
 		/*   */
 		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
@@ -979,42 +912,44 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 		return mainDataset.next();
 	}
 
-	private void resolveBoundElements(Collection elements, Map boundElements, byte evaluation) throws JRException
+	private void resolveBoundElements(Map boundElementsMap, byte evaluation, JREvaluationTime evaluationTime) throws JRException
 	{
-		if (elements != null && elements.size() > 0)
+		if (boundElementsMap != null)
 		{
-			for (Iterator it = elements.iterator(); it.hasNext();)
+			for (Iterator it = boundElementsMap.entrySet().iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement) it.next();
-				JRFillElement fillElement = (JRFillElement) boundElements.get(element);
+				Map.Entry entry = (Map.Entry) it.next();
+				JRPrintElement element = (JRPrintElement) entry.getKey();
+				JRFillElement fillElement = (JRFillElement) entry.getValue();
 
-				fillElement.resolveElement(element, evaluation);
+				fillElement.resolveElement(element, evaluation, evaluationTime);
 			}
 		}
 	}
 
-	private void resolvePerPageBoundElements(Map perPageElements, Map boundElements, byte evaluation) throws JRException
+	protected void resolveBoundElements(JREvaluationTime evaluationTime, byte evaluation) throws JRException
 	{
-		if (perPageElements != null)
+		BoundElementMap boundElementsMap = (BoundElementMap) boundElements.get(evaluationTime);
+		if (isPerPageBoundElements)
 		{
-			for (Iterator it = perPageElements.entrySet().iterator(); it.hasNext();)
+			Map perPageElementsMap = boundElementsMap.getMap();
+			for (Iterator it = perPageElementsMap.entrySet().iterator(); it.hasNext();)
 			{
 				Map.Entry entry = (Map.Entry) it.next();
 				// Calling getElements() will page in the data for the page.
 				JRPrintPage page = (JRPrintPage) entry.getKey();
 				page.getElements();
-				resolveBoundElements(((Map) entry.getValue()).values(), boundElements, evaluation);
+				Map elementsMap = (Map) entry.getValue();
+				resolveBoundElements(elementsMap, evaluation, evaluationTime);
 			}
+
+			boundElementsMap.clear();
 		}
-
-		boundElements.clear();
-	}
-
-	private void resolveBoundElements(Map boundElements, byte evaluation) throws JRException
-	{
-		resolveBoundElements(boundElements.keySet(), boundElements, evaluation);
-
-		boundElements.clear();
+		else
+		{
+			resolveBoundElements(boundElementsMap.getMap(), evaluation, evaluationTime);
+			boundElementsMap.clear();
+		}
 	}
 
 	/**
@@ -1022,14 +957,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected void resolveReportBoundElements() throws JRException
 	{
-		if (fillContext.isPerPageBoundElements())
-		{
-			resolvePerPageBoundElements(perPageBoundElements.pageToReportElements, reportBoundElements, JRExpression.EVALUATION_DEFAULT);
-		}
-		else
-		{
-			resolveBoundElements(reportBoundElements, JRExpression.EVALUATION_DEFAULT);
-		}
+		resolveBoundElements(JREvaluationTime.EVALUATION_TIME_REPORT, JRExpression.EVALUATION_DEFAULT);
 	}
 
 	/**
@@ -1040,14 +968,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected void resolvePageBoundElements(byte evaluation) throws JRException
 	{
-		if (fillContext.isPerPageBoundElements())
-		{
-			resolvePerPageBoundElements(perPageBoundElements.pageToPageElements, pageBoundElements, evaluation);
-		}
-		else
-		{
-			resolveBoundElements(pageBoundElements, evaluation);
-		}
+		resolveBoundElements(JREvaluationTime.EVALUATION_TIME_PAGE, evaluation);
 	}
 
 	/**
@@ -1058,14 +979,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected void resolveColumnBoundElements(byte evaluation) throws JRException
 	{
-		if (fillContext.isPerPageBoundElements())
-		{
-			resolvePerPageBoundElements(perPageBoundElements.pageToColumnElements, columnBoundElements, evaluation);
-		}
-		else
-		{
-			resolveBoundElements(columnBoundElements, evaluation);
-		}
+		resolveBoundElements(JREvaluationTime.EVALUATION_TIME_COLUMN, evaluation);
 	}
 
 	/**
@@ -1086,16 +1000,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
 					String groupName = group.getName();
-					Map specificGroupBoundTexts = (Map) groupBoundElements.get(groupName);
-
-					if (fillContext.isPerPageBoundElements())
-					{
-						resolvePerPageBoundElements((Map) perPageBoundElements.pageToGroupElements.get(groupName), specificGroupBoundTexts, evaluation);
-					}
-					else
-					{
-						resolveBoundElements(specificGroupBoundTexts, evaluation);
-					}
+					
+					resolveBoundElements(JREvaluationTime.getGroupEvaluationTime(groupName), evaluation);
 				}
 			}
 		}
@@ -1144,140 +1050,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	 */
 	protected void resolveBandBoundElements(JRFillBand band, byte evaluation) throws JRException
 	{
-		if (fillContext.isPerPageBoundElements())
-		{
-			resolvePerPageBoundElements(band.pageToBoundElements, band.boundElements, evaluation);
-		}
-		else
-		{
-			resolveBoundElements(band.boundElements, evaluation);
-		}
-	}
-
-	/**
-	 * Creates identity data out of a list of elements.
-	 * 
-	 * @param allElements
-	 *            the elements
-	 * @return the identity data
-	 */
-	protected static JRVirtualPrintPage.ObjectIDPair[] createIdentityData(Set allElements)
-	{
-		JRVirtualPrintPage.ObjectIDPair[] ids;
-
-		if (!allElements.isEmpty())
-		{
-			ids = new JRVirtualPrintPage.ObjectIDPair[allElements.size()];
-
-			int i = 0;
-			for (Iterator it = allElements.iterator(); it.hasNext(); ++i)
-			{
-				ids[i] = new JRVirtualPrintPage.ObjectIDPair(it.next());
-			}
-		}
-		else
-		{
-			ids = null;
-		}
-		return ids;
-	}
-
-	/**
-	 * Collects elements from a map.
-	 * 
-	 * @param allElements
-	 *            the elements are collected here
-	 * @param pageMap
-	 *            the page map
-	 * @param page
-	 *            the page
-	 */
-	protected static void addElements(Set allElements, Map pageMap, JRVirtualPrintPage page)
-	{
-		Map map = (Map) pageMap.get(page);
-		if (map != null && !map.isEmpty())
-		{
-			Collection elements = map.values();
-			allElements.addAll(elements);
-		}
-	}
-
-	/**
-	 * Collects elements from a group map.
-	 * 
-	 * @param allElements
-	 *            the elements are collected here
-	 * @param groupMap
-	 *            the group map
-	 * @param page
-	 *            the page
-	 */
-	protected static void addGroupElements(Set allElements, Map groupMap, JRVirtualPrintPage page)
-	{
-		for (Iterator it = groupMap.entrySet().iterator(); it.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry) it.next();
-			addElements(allElements, (Map) entry.getValue(), page);
-		}
-	}
-
-	/**
-	 * Updates element maps on page devirtualization.
-	 * 
-	 * @param pageMap
-	 *            the page map
-	 * @param page
-	 *            the page
-	 * @param boundElements
-	 *            the bound element map
-	 * @param identityData
-	 *            the identity data
-	 */
-	protected static void updateIdentityData(Map pageMap, JRVirtualPrintPage page, BoundElementMap boundElements, JRVirtualPrintPage.ObjectIDPair[] identityData)
-	{
-		Map pageElements = (Map) pageMap.get(page);
-		if (pageElements != null && pageElements.size() > 0)
-		{
-			for (int i = 0; i < identityData.length; ++i)
-			{
-				Object oldObject = pageElements.remove(new Integer(identityData[i].getIdentity()));
-				if (oldObject != null)
-				{
-					Object resolver = boundElements.remove(oldObject);
-					if (resolver != null)
-					{
-						// This will also add the new element into the
-						// pageElements map.
-						boundElements.put(identityData[i].getObject(), resolver, page);
-					}
-					else
-					{
-						// Strange.
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Updates group element maps on page devirtualization.
-	 * 
-	 * @param pageGroupMap
-	 *            the page map
-	 * @param page
-	 *            the page
-	 * @param groupMap
-	 *            the group map
-	 * @param identityData
-	 *            the identity data
-	 */
-	protected static void updateGroupIdentityData(Map pageGroupMap, JRVirtualPrintPage page, Map groupMap, JRVirtualPrintPage.ObjectIDPair[] identityData)
-	{
-		for (Iterator it = pageGroupMap.entrySet().iterator(); it.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry) it.next();
-			updateIdentityData((Map) entry.getValue(), page, (BoundElementMap) groupMap.get(entry.getKey()), identityData);
-		}
+		resolveBoundElements(JREvaluationTime.getBandEvaluationTime(band), evaluation);
 	}
 
 	
@@ -1340,12 +1113,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 
 	private static void addIdentityDataProviders(JRVirtualPrintPage page, JRBaseFiller filler)
 	{
-		page.addIdentityDataProvider(filler.perPageBoundElements);
-		for (Iterator i = filler.bands.iterator(); i.hasNext();)
-		{
-			JRFillBand band = (JRFillBand) i.next();
-			page.addIdentityDataProvider(band);
-		}
+		page.addIdentityDataProvider(filler);
 
 		if (filler.subfillers != null)
 		{
@@ -1367,12 +1135,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 			{
 				JRVirtualPrintPage page = (JRVirtualPrintPage) it.next();
 				
-				page.removeIdentityDataProvider(filler.perPageBoundElements);
-				for (Iterator i = filler.bands.iterator(); i.hasNext();)
-				{
-					JRFillBand band = (JRFillBand) i.next();
-					page.removeIdentityDataProvider(band);
-				}
+				page.removeIdentityDataProvider(filler);
 			}
 			
 			filler.identityPages = null;
@@ -1452,7 +1215,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	protected void addPageIdentityDataProvider()
 	{
 		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
-		((JRVirtualPrintPage) fillContext.getPrintPage()).addIdentityDataProvider(pageProvider);
+		JRVirtualPrintPage masterPage = (JRVirtualPrintPage) fillContext.getPrintPage();
+		masterPage.addIdentityDataProvider(pageProvider);
 	}
 
 	
@@ -1555,5 +1319,117 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider//, JRDefaul
 	public JRFillDataset getMainDataset()
 	{
 		return mainDataset;
+	}
+	
+	
+	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, byte evaluationType, JRGroup group, JRFillBand band)
+	{
+		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
+		addBoundElement(element, printElement, evaluationTime);
+	}
+
+
+	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime)
+	{
+		BoundElementMap boundElementsMap = (BoundElementMap) boundElements.get(evaluationTime);
+		boundElementsMap.put(printElement, element);
+	}
+	
+	
+
+	/**
+	 * Collect all of the identity data the the JRBaseFiller needs to know.
+	 * <p>
+	 * All the bound elements on the page are collected and transformed into
+	 * identity objects.
+	 * 
+	 * @param page
+	 *            the page to get the identity data for
+	 */
+	public JRVirtualPrintPage.ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
+	{
+		Map allElements = new HashMap();
+		List identityList = new ArrayList();
+
+		for (Iterator it = boundElements.values().iterator(); it.hasNext();)
+		{
+			BoundElementMap pageBoundElementsMap = (BoundElementMap) it.next();
+			Map map = pageBoundElementsMap.getMap(page);
+			if (map != null && !map.isEmpty())
+			{
+				Map idMap = new HashMap();
+				
+				for (Iterator iter = map.entrySet().iterator(); iter.hasNext();)
+				{
+					Map.Entry entry = (Map.Entry) iter.next();
+					Object key = entry.getKey();
+					Integer id = (Integer) allElements.get(key);
+					if (id == null)
+					{
+						JRVirtualPrintPage.ObjectIDPair idPair = new JRVirtualPrintPage.ObjectIDPair(key);
+						identityList.add(idPair);
+						
+						id = new Integer(idPair.getIdentity());
+						allElements.put(key, id);
+					}
+					idMap.put(id, entry.getValue());
+				}
+				pageBoundElementsMap.putMap(page, idMap);
+			}
+		}
+
+		JRVirtualPrintPage.ObjectIDPair[] identityData = null;
+		if (!identityList.isEmpty())
+		{
+			identityData = new JRVirtualPrintPage.ObjectIDPair[identityList.size()];
+			identityList.toArray(identityData);
+		}
+		
+		return identityData;
+	}
+
+	/**
+	 * Sets the identity date for a virtualized page.
+	 * <p>
+	 * The identity data consists of bound elements located on the page.
+	 * Pairs of identity hash code and objects are stored when the page is
+	 * virtualized. When the page gets devirtualized, the original objects
+	 * are substituted in the bound maps based on their identity hash code.
+	 * 
+	 * @param page
+	 *            the virtualized page
+	 * @param identityData
+	 *            the identity data
+	 */
+	public void setIdentityData(JRVirtualPrintPage page, JRVirtualPrintPage.ObjectIDPair[] identityData)
+	{
+		if (identityData == null || identityData.length == 0)
+		{
+			return;
+		}
+		
+		for (Iterator it = boundElements.values().iterator(); it.hasNext();)
+		{
+			BoundElementMap pageBoundElementsMap = (BoundElementMap) it.next();
+			Map idMap = pageBoundElementsMap.getMap(page);
+			if (idMap != null && !idMap.isEmpty())
+			{
+				Map map = new HashMap();
+				
+				for (int i = 0; i < identityData.length; i++)
+				{
+					JRVirtualPrintPage.ObjectIDPair idPair = identityData[i];
+					Integer id = new Integer(idPair.getIdentity());
+					
+					Object value = idMap.get(id);
+					if (value != null)
+					{
+						map.put(idPair.getObject(), value);
+					}
+				}
+				
+				pageBoundElementsMap.putMap(page, map);
+			}
+		}
 	}
 }

@@ -245,4 +245,16 @@ public class JRFillContext
 		
 		return false;
 	}
+
+
+	/**
+	 * Ensures that the master page is available when virtualization is used.
+	 */
+	public void ensureMasterPageAvailable()
+	{
+		if (usingVirtualizer)
+		{
+			printPage.getElements();
+		}
+	}
 }

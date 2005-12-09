@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 
 
@@ -135,5 +136,49 @@ public class JRFillField implements JRField
 		this.value = value;
 	}
 		
-
+	public Object getValue(byte evaluation)
+	{
+		Object returnValue;
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				returnValue = oldValue;
+				break;
+			default:
+				returnValue = value;
+				break;
+		}
+		return returnValue;
+	}
+	
+	private Object savedValue;
+	public void overwriteValue(Object newValue, byte evaluation)
+	{
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				savedValue = oldValue;
+				oldValue = newValue;
+				break;
+			default:
+				savedValue = value;
+				value = newValue;
+				break;
+		}
+	}
+	
+	public void restoreValue(byte evaluation)
+	{
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				oldValue = savedValue;
+				break;
+			default:
+				value = savedValue;
+				break;
+		}
+		savedValue = null;
+	}
+	
 }
