@@ -34,7 +34,6 @@ import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
@@ -300,6 +299,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
+		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !delayedEvaluationsInitialized())
+		{
+			initDelayedEvaluations();
+			collectDelayedEvaluations();
+		}
+		
 		reset();
 		
 		evaluatePrintWhenExpression(evaluation);
@@ -574,11 +579,22 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRPrintElement fill()
+	protected JRPrintElement fill() throws JRException
 	{
-		JRPrintText text = null;
-
-		text = new JRTemplatePrintText(getJRTemplateText());
+		byte evaluationType = getEvaluationTime();
+		
+		JRTemplatePrintText text;
+		JRRecordedValuesPrintText recordedValuesText;
+		if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			text = recordedValuesText = new JRRecordedValuesPrintText(getJRTemplateText());
+		}
+		else
+		{
+			text = new JRTemplatePrintText(getJRTemplateText());
+			recordedValuesText = null;
+		}
+		
 		text.setX(getX());
 		text.setY(getRelativeY());
 		text.setWidth(getWidth());
@@ -592,39 +608,17 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		text.setRunDirection(getRunDirection());
 
-		switch (getEvaluationTime())
+		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
 		{
-			case JRExpression.EVALUATION_TIME_REPORT :
-			{
-				filler.reportBoundElements.put(text, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_PAGE :
-			{
-				filler.pageBoundElements.put(text, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_COLUMN :
-			{
-				filler.columnBoundElements.put(text, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_GROUP :
-			{
-				Map specificGroupBoundTexts = (Map)filler.groupBoundElements.get(getEvaluationGroup().getName());
-				specificGroupBoundTexts.put(text, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_BAND :
-			{
-				band.boundElements.put(text, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_NOW :
-			default :
-			{
-				copy(text);
-			}
+			copy(text);
+		}
+		else if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			initDelayedEvaluationPrint(recordedValuesText);
+		}
+		else
+		{
+			filler.addBoundElement(this, text, evaluationType, getEvaluationGroup(), band);
 		}
 
 		return text;
@@ -814,5 +808,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	public JRCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillTextField(this, factory);
+	}
+	
+	private void collectDelayedEvaluations()
+	{
+		collectDelayedEvaluations(getExpression());
+		collectDelayedEvaluations(getAnchorNameExpression());
+		collectDelayedEvaluations(getHyperlinkReferenceExpression());
+		collectDelayedEvaluations(getHyperlinkAnchorExpression());
+		collectDelayedEvaluations(getHyperlinkPageExpression());	
 	}
 }

@@ -1685,6 +1685,11 @@ public class JRVerifier
 
 	private void verifyChart(JRChart chart)
 	{
+		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			brokenRules.add("Charts do not support Auto evaluation time.");
+		}
+		
 		verifyElementDataset(chart.getDataset());
 	}
 

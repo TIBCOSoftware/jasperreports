@@ -215,7 +215,7 @@
 	isUsingCache (true | false) #IMPLIED
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
-	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
+	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
 	evaluationGroup CDATA #IMPLIED
 	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
 	hyperlinkTarget (Self | Blank) "Self"
@@ -279,7 +279,7 @@
 <!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
-	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
+	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
 	evaluationGroup CDATA #IMPLIED
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED

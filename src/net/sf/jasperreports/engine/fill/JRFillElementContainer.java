@@ -208,7 +208,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				for(int i = 0; i < allElements.length; i++)
 				{
-					((JRFillElement)allElements[i]).evaluate(evaluation);
+					JRFillElement element = (JRFillElement)allElements[i];
+					element.setCurrentEvaluation(evaluation);
+					element.evaluate(evaluation);
 				}
 			}
 		//}

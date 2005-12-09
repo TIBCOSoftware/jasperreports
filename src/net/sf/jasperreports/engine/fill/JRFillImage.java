@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
@@ -381,6 +380,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		byte evaluation
 		) throws JRException
 	{
+		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !delayedEvaluationsInitialized())
+		{
+			initDelayedEvaluations();
+			collectDelayedEvaluations();
+		}
+		
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
@@ -591,50 +596,37 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRPrintElement fill()
+	protected JRPrintElement fill() throws JRException
 	{
-		JRPrintImage printImage = null;
-		
-		printImage = new JRTemplatePrintImage(this.getJRTemplateImage());
+		byte evaluationType = this.getEvaluationTime();
+		JRTemplatePrintImage printImage;
+		JRRecordedValuesPrintImage recordedValuesImage;
+		if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			printImage = recordedValuesImage = new JRRecordedValuesPrintImage(getJRTemplateImage());
+		}
+		else
+		{
+			printImage = new JRTemplatePrintImage(getJRTemplateImage());
+			recordedValuesImage = null;
+		}
 		
 		printImage.setX(this.getX());
 		printImage.setY(this.getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
 
-		switch (this.getEvaluationTime())
+		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
 		{
-			case JRExpression.EVALUATION_TIME_REPORT :
-			{
-				this.filler.reportBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_PAGE :
-			{
-				this.filler.pageBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_COLUMN :
-			{
-				this.filler.columnBoundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_GROUP :
-			{
-				Map specificGroupBoundImages = (Map)this.filler.groupBoundElements.get(this.getEvaluationGroup().getName());
-				specificGroupBoundImages.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_BAND :
-			{
-				this.band.boundElements.put(printImage, this);
-				break;
-			}
-			case JRExpression.EVALUATION_TIME_NOW :
-			default :
-			{
-				this.copy(printImage);
-			}
+			this.copy(printImage);
+		}
+		else if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		{
+			initDelayedEvaluationPrint(recordedValuesImage);
+		}
+		else
+		{
+			filler.addBoundElement(this, printImage, evaluationType, getEvaluationGroup(), band);
 		}
 		
 		return printImage;
@@ -1105,6 +1097,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public JRCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillImage(this, factory);
+	}
+	
+	private void collectDelayedEvaluations()
+	{
+		collectDelayedEvaluations(getExpression());
+		collectDelayedEvaluations(getAnchorNameExpression());
+		collectDelayedEvaluations(getHyperlinkReferenceExpression());
+		collectDelayedEvaluations(getHyperlinkAnchorExpression());
+		collectDelayedEvaluations(getHyperlinkPageExpression());	
 	}
 
 }

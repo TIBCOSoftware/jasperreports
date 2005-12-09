@@ -85,8 +85,8 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected JRQuery query = null;
 	
-	private boolean useDatasourceParamValue;
-	private boolean useConnectionParamValue;
+	private boolean useDatasourceParamValue = false;
+	private boolean useConnectionParamValue = false;
 	
 	/**
 	 * The dataset parameter.
@@ -591,19 +591,20 @@ public class JRFillDataset implements JRDataset
 		{
 			for (int i = 0; i < parameters.length; i++)
 			{
+				Object value = null;
 				if (parameterValues.containsKey(parameters[i].getName()))
 				{
-					setParameter(parameters[i], parameterValues.get(parameters[i].getName()));
+					value = parameterValues.get(parameters[i].getName());
 				}
 				else if (!parameters[i].isSystemDefined())
 				{
-					Object value = calculator.evaluate(parameters[i].getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
+					value = calculator.evaluate(parameters[i].getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
 					if (value != null)
 					{
 						parameterValues.put(parameters[i].getName(), value);
 					}
-					setParameter(parameters[i], value);
 				}
+				setParameter(parameters[i], value);
 			}
 		}
 	}
@@ -637,12 +638,12 @@ public class JRFillDataset implements JRDataset
 	}
 
 
-	protected void init()
+	protected void reset()
 	{
 		useDatasourceParamValue = false;
 		useConnectionParamValue = false;
 	}
-	
+
 	
 	/**
 	 * Sets the data source to be used.
@@ -685,6 +686,8 @@ public class JRFillDataset implements JRDataset
 			queryExecuter.close();
 			queryExecuter = null;
 		}
+		
+		reset();
 	}
 
 	

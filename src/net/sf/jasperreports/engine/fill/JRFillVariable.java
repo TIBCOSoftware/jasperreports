@@ -323,4 +323,60 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	{
 		return helperVariables[type];
 	}
+	
+	
+	public Object getValue(byte evaluation)
+	{
+		Object returnValue;
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				returnValue = oldValue;
+				break;
+			case JRExpression.EVALUATION_ESTIMATED:
+				returnValue = estimatedValue;
+				break;
+			default:
+				returnValue = value;
+				break;
+		}
+		return returnValue;
+	}
+	
+	private Object savedValue;
+	public void overwriteValue(Object newValue, byte evaluation)
+	{
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				savedValue = oldValue;
+				oldValue = newValue;
+				break;
+			case JRExpression.EVALUATION_ESTIMATED:
+				savedValue = estimatedValue;
+				estimatedValue = newValue;
+				break;
+			default:
+				savedValue = value;
+				value = newValue;
+				break;
+		}
+	}
+	
+	public void restoreValue(byte evaluation)
+	{
+		switch (evaluation)
+		{
+			case JRExpression.EVALUATION_OLD:
+				oldValue = savedValue;
+				break;
+			case JRExpression.EVALUATION_ESTIMATED:
+				estimatedValue = savedValue;
+				break;
+			default:
+				value = savedValue;
+				break;
+		}
+		savedValue = null;
+	}
 }

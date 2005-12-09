@@ -104,14 +104,19 @@
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{FirstLetterGroup_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="70" y="1" width="140" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="70" y="1" width="100" height="11" forecolor="#ff0000" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
 			<textField pattern="0.00">
-				<reportElement x="210" y="1" width="60" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<reportElement x="170" y="1" width="60" height="11" forecolor="#ff0000" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumFirstLetterGroup}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Auto">
+				<reportElement x="230" y="1" width="40" height="11" forecolor="#ff0000" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumFirstLetterGroup}.doubleValue() / $V{FreightSumReport}.doubleValue()))]]></textFieldExpression>
 			</textField>
 		</band>
 		</groupFooter>
@@ -152,14 +157,19 @@
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CountryGroup_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="70" y="0" width="140" height="11" backcolor="#c0c0c0" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="70" y="0" width="100" height="11" backcolor="#c0c0c0" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
 			<textField pattern="0.00">
-				<reportElement mode="Opaque" x="210" y="0" width="60" height="11" backcolor="#c0c0c0" style="Arial_Bold"/>
+				<reportElement mode="Opaque" x="170" y="0" width="60" height="11" backcolor="#c0c0c0" style="Arial_Bold"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumCountryGroup}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Auto">
+				<reportElement mode="Opaque" x="230" y="0" width="40" height="11" backcolor="#c0c0c0" style="Arial_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumCountryGroup}.doubleValue() / $V{FreightSumFirstLetterGroup}.doubleValue()))]]></textFieldExpression>
 			</textField>
 		</band>
 		</groupFooter>
