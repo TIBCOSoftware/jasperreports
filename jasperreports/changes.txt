@@ -6,7 +6,9 @@ JasperReports 1.x.x (200x-xx-xx)
 -----------------------------------
 - support for other query languates including HQL and XPath implementations;
 
-- "Auto" evaluation type
+- "Auto" evaluation type;
+
+- CSV datasource;
 
 - minor bug fixes and improvements;
 
