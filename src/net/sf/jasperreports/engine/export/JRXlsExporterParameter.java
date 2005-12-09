@@ -78,7 +78,7 @@ public class JRXlsExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * A string of arrays representing custom sheet names. This is useful when used with the <i>IS_ONE_PAGE_PER_SHEET</i>
+	 * An array of strings representing custom sheet names. This is useful when used with the <i>IS_ONE_PAGE_PER_SHEET</i>
 	 * parameter. 
 	 */
 	public static final JRXlsExporterParameter SHEET_NAMES = new JRXlsExporterParameter("Sheet Names");
