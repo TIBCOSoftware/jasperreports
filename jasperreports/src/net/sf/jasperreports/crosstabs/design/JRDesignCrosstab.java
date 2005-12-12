@@ -89,6 +89,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected Map cellsMap;
 	protected JRDesignCrosstabCell[][] crossCells;
 	protected JRDesignCellContents whenNoDataCell;
+	protected JRDesignCellContents headerCell;
 	
 	
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
@@ -802,8 +803,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		createCellMatrix();
 		
-		calculateRowHeadersSizes();
-		calculateColumnHeadersSizes();
+		int rowHeadersWidth = calculateRowHeadersSizes();
+		int colHeadersHeight = calculateColumnHeadersSizes();
+		
+		if (headerCell != null)
+		{
+			headerCell.setWidth(rowHeadersWidth);
+			headerCell.setHeight(colHeadersHeight);
+		}
 	}
 
 	protected void setWhenNoDataCellSize()
@@ -980,9 +987,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		crossCells[i][j] = inheritedCell;
 	}
 
-	protected void calculateRowHeadersSizes()
+	protected int calculateRowHeadersSizes()
 	{
-		for (int i = rowGroups.size() - 1, widthSum = 0, heightSum = 0; i >= 0; --i)
+		int widthSum = 0;
+		for (int i = rowGroups.size() - 1, heightSum = 0; i >= 0; --i)
 		{
 			JRDesignCrosstabRowGroup group = (JRDesignCrosstabRowGroup) rowGroups.get(i);
 
@@ -1009,11 +1017,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				}
 			}
 		}
+		return widthSum;
 	}
 
-	protected void calculateColumnHeadersSizes()
+	protected int calculateColumnHeadersSizes()
 	{
-		for (int i = columnGroups.size() - 1, heightSum = 0, widthSum = 0; i >= 0; --i)
+		int heightSum = 0;
+		for (int i = columnGroups.size() - 1, widthSum = 0; i >= 0; --i)
 		{
 			JRDesignCrosstabColumnGroup group = (JRDesignCrosstabColumnGroup) columnGroups.get(i);
 
@@ -1039,6 +1049,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				}
 			}
 		}
+		return heightSum;
 	}
 
 	public JRCellContents getWhenNoDataCell()
@@ -1069,4 +1080,21 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
 	}
+
+	public JRCellContents getHeaderCell()
+	{
+		return headerCell;
+	}
+	
+	
+	/**
+	 * Sets the crosstab header cell (this cell will be rendered at the upper-left corder of the crosstab).
+	 * 
+	 * @param headerCell the cell
+	 * @see JRCrosstab#getHeaderCell()
+	 */
+	public void setHeaderCell(JRDesignCellContents headerCell)
+	{
+		this.headerCell = headerCell;
+	}	
 }

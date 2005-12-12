@@ -757,6 +757,8 @@ public class JRExpressionCollector
 			}
 		}
 		
+		crosstabCollector.collect(crosstab.getHeaderCell());
+
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		if (rowGroups != null)
 		{

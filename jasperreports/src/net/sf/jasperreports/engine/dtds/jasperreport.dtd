@@ -489,7 +489,7 @@
 >
 
 
-<!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
+<!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, crosstabHeaderCell?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
 <!ATTLIST crosstab
 	isRepeatColumnHeaders (true | false) "true"
 	isRepeatRowHeaders (true | false) "true"
@@ -508,6 +508,8 @@
 <!ATTLIST crosstabDataset
 	isDataPreSorted (true | false) "false"
 >
+
+<!ELEMENT crosstabHeaderCell (cellContents)>
 
 <!ELEMENT rowGroup (bucket, crosstabRowHeader?, crosstabTotalRowHeader?)>
 <!ATTLIST rowGroup

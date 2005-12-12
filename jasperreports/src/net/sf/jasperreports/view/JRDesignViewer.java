@@ -1871,6 +1871,14 @@ public class JRDesignViewer extends javax.swing.JPanel
 			colHeadersYOffset += columnGroups[i].getHeight();
 		}
 		
+		JRCellContents headerCell = crosstab.getHeaderCell();
+		if (headerCell != null)
+		{
+			grx.translate(crosstab.getX(), crosstab.getY());
+			printCellContents(crosstab, headerCell, grx, 0, 0, false, false);
+			grx.translate(-crosstab.getX(), -crosstab.getY());
+		}
+		
 		grx.translate(crosstab.getX() + rowHeadersXOffset, crosstab.getY());
 		printCrosstabColumnHeaders(crosstab, grx);
 		grx.translate(-(crosstab.getX() + rowHeadersXOffset), -crosstab.getY());
@@ -1898,12 +1906,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x, y, x == 0, false);
+				printCellContents(crosstab, totalHeader, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
 				x += totalHeader.getWidth();
 			}
 			
 			JRCellContents header = group.getHeader();
-			printCellContents(crosstab, header, grx, x, y, x == 0, false);
+			printCellContents(crosstab, header, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
 			
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
 			{
@@ -1926,13 +1934,13 @@ public class JRDesignViewer extends javax.swing.JPanel
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x, y, false, y == 0);
+				printCellContents(crosstab, totalHeader, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
 				printCrosstabDataCellsRow(crosstab, grx, rowHeadersXOffset, y, i);
 				y += totalHeader.getHeight();
 			}
 			
 			JRCellContents header = group.getHeader();
-			printCellContents(crosstab, header, grx, x, y, false, y == 0);
+			printCellContents(crosstab, header, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
 			
 			if (i == groups.length - 1)
 			{
