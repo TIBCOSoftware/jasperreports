@@ -216,4 +216,14 @@ public interface JRCrosstab extends JRElement
 	 * @return the first element having the specified key
 	 */
 	public JRElement getElementByKey(String key);
+
+	
+	/**
+	 * Returns a cell which will be rendered at the upper-left corner of the crosstab.
+	 * <p/>
+	 * The cell size will be calculated based on the row/column header cell widths/heights.  
+	 * 
+	 * @return a cell which will be rendered at the upper-left corner of the crosstab
+	 */
+	public JRCellContents getHeaderCell();
 }

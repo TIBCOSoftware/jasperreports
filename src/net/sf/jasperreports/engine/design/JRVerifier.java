@@ -1336,6 +1336,8 @@ public class JRVerifier
 			verifyElementDataset(dataset);
 		}
 		
+		verifyCellContents(crosstab.getHeaderCell(), "crosstab cell");		
+		
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		if (rowGroups == null || rowGroups.length == 0)
 		{

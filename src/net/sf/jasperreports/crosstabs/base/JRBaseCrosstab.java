@@ -73,6 +73,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected boolean repeatRowHeaders = true;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
+	protected JRCellContents headerCell;
 	
 	public JRBaseCrosstab(JRCrosstab crosstab, JRBaseObjectFactory factory, int id)
 	{
@@ -87,6 +88,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
 		
 		copyParameters(crosstab, factory);		
+		headerCell = factory.getCell(crosstab.getHeaderCell());
 		copyRowGroups(crosstab, factory);		
 		copyColumnGroups(crosstab, factory);
 		copyMeasures(crosstab, factory);
@@ -244,6 +246,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	{
 		JRElement element = null;
 		
+		if (crosstab.getHeaderCell() != null)
+		{
+			element = crosstab.getHeaderCell().getElementByKey(key);
+		}
+		
 		element = getHeadersElement(crosstab.getRowGroups(), key);
 		
 		if (element == null)
@@ -313,5 +320,10 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	public JRElement getElementByKey(String elementKey)
 	{
 		return getElementByKey(this, elementKey);
+	}
+
+	public JRCellContents getHeaderCell()
+	{
+		return headerCell;
 	}
 }

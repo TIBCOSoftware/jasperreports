@@ -3,6 +3,7 @@
 
 <jasperReport name="ShipmentsReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="812" leftMargin="15" rightMargin="15" topMargin="10" bottomMargin="10">
 	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Large" isDefault="false" style="Arial_Normal" fontSize="10"/>
 	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	
 	<subDataset name="Country_Orders">
@@ -51,6 +52,17 @@
 						</datasetRun>
 					</dataset>
 				</crosstabDataset>
+				
+				<crosstabHeaderCell>
+					<cellContents>
+						<box border="2Point"/>
+						<staticText>
+							<reportElement x="4" y="4" width="112" height="62" style="Arial_Large"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<text>Shipments total freight</text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
 				
 				<rowGroup name="Region" width="50" totalPosition="End">
 					<bucket>

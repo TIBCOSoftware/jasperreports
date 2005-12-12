@@ -1795,6 +1795,8 @@ public class JRXmlWriter
 		
 		writeCrosstabDataset(crosstab);
 		
+		writeCrosstabHeaderCell(crosstab);
+		
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		for (int i = 0; i < rowGroups.length; i++)
 		{
@@ -1862,6 +1864,18 @@ public class JRXmlWriter
 		{
 			writer.startElement("whenNoDataCell");
 			writeCellContents(whenNoDataCell);
+			writer.closeElement();
+		}
+	}
+
+
+	private void writeCrosstabHeaderCell(JRCrosstab crosstab) throws IOException
+	{
+		JRCellContents headerCell = crosstab.getHeaderCell();
+		if (headerCell != null)
+		{
+			writer.startElement("crosstabHeaderCell");
+			writeCellContents(headerCell);
 			writer.closeElement();
 		}
 	}
