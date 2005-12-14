@@ -651,6 +651,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		protected CrosstabFiller()
 		{
 			setRowHeadersXOffsets();
+
+			printRows = new ArrayList();
 		}
 		
 		protected void initCrosstab()
@@ -663,8 +665,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			
 			spanHeaders = new HeaderCell[rowGroups.length - 1];
 			spanHeadersStart = new int[rowGroups.length - 1];
-
-			printRows = new ArrayList();
 			
 			startRowIndex = 0;
 			startColumnIndex = 0;
