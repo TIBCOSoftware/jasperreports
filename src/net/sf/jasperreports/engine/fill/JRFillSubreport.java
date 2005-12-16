@@ -419,7 +419,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 			parameterValues.put(JRParameter.REPORT_LOCALE, filler.getLocale());
 		}
 
-		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
+		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER) &&
+				filler.reportClassLoader != null)
 		{
 			parameterValues.put(JRParameter.REPORT_CLASS_LOADER, filler.reportClassLoader);
 		}
