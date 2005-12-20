@@ -26,15 +26,11 @@
  * http://www.jaspersoft.com
  */
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
-import mondrian.olap.Query;
-import mondrian.olap.Result;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -106,10 +102,6 @@ public class MondrianApp
 				Connection conn = getConnection();
 				try
 				{
-					Query query = conn.parseQuery("select	{[Measures].[Quantity], [Measures].[Unit Price]} ON columns,[Address].members on rows from [Sales]");
-					Result result = conn.execute(query);
-					result.print(new PrintWriter(System.out));
-					
 					Map parameters = new HashMap();
 					parameters.put(JRMondrianQueryExecuterFactory.PARAMETER_MONDRIAN_CONNECTION, conn);
 					
