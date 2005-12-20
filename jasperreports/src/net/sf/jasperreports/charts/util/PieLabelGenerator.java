@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.util;
 
 import java.io.Serializable;
+import java.text.AttributedString;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -54,5 +55,10 @@ public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 	public String generateSectionLabel(PieDataset arg0, Comparable arg1)
 	{
 		return (String)labels.get( arg1 );
+	}
+
+	public AttributedString generateAttributedSectionLabel(PieDataset arg0, Comparable arg1)
+	{
+		return new AttributedString(generateSectionLabel(arg0, arg1));//FIXME check this
 	}
 }

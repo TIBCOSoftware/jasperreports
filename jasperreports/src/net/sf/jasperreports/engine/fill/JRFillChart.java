@@ -1029,7 +1029,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		CategoryPlot categoryPlot = (CategoryPlot)chart.getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );
+		lineRenderer.setShapesVisible( ((JRFillLinePlot)getPlot()).isShowShapes() );//FIXME check this
 		lineRenderer.setLinesVisible( ((JRFillLinePlot)getPlot()).isShowLines() );
 
 		return chart;
@@ -1314,8 +1314,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		XYPlot xyPlot = (XYPlot)chart.getPlot();
 		
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
-		lineRenderer.setDefaultLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
-		lineRenderer.setDefaultShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
+		lineRenderer.setLinesVisible(((JRTimeSeriesPlot)getPlot()).isShowLines() );
+		lineRenderer.setShapesVisible(((JRTimeSeriesPlot)getPlot()).isShowShapes() );
 		
 		return chart;
 		
