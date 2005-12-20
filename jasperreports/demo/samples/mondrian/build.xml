@@ -9,7 +9,7 @@
 	<property name="fonts.dir" value="../../fonts" />
 	
 	<path id="classpath">
-		<pathelement location="./bin"/>
+		<pathelement location="bin"/>
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${jr.lib}">
@@ -21,6 +21,7 @@
 	</path>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
+		<mkdir dir="bin"/>
 		<javac srcdir="src" destdir="bin" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
@@ -154,9 +155,7 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete includeemptydirs="true">
-			<fileset dir="bin" includes="**/*" />
-		</delete>
+		<delete dir="bin"/>
 	</target>
 
 </project>
