@@ -156,6 +156,7 @@
 
 	<target name="clean" description="Deletes all the generated files.">
 		<delete dir="bin"/>
+		<delete file="log"/>
 	</target>
 
 </project>
