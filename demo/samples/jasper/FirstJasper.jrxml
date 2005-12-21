@@ -7,6 +7,12 @@
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="OrderIdStyle" style="Arial_Normal">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></conditionExpression>
+			<style forecolor="#ff0000" isBold="true" pdfFontName="Helvetica-Bold"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
@@ -277,16 +283,7 @@
 				<graphicElement/>
 			</rectangle>
 			<textField>
-				<reportElement x="1" y="0" width="35" height="11">
-					<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 != 0)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{OrderID}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="1" y="0" width="35" height="11" forecolor="#ff0000" style="Arial_Bold">
-					<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="1" y="0" width="35" height="11" style="OrderIdStyle"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
