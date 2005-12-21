@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -283,12 +284,18 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
+		JRTemplateText template;
+		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		if (style == null)
+			style = parent.getStyle();
+
+		template = (JRTemplateText) templates.get(style);
 		if (template == null)
 		{
-			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent);
+			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent, style);
+			templates.put(style, template);
 		}
-		
-		return (JRTemplateText)template;
+		return template;
 	}
 
 

@@ -1408,4 +1408,145 @@ public class JRStyleResolver
 		return null;
 	}
 
+
+	/**
+	 * Copies properties of the source style to the destination style. The copied properties are either the sytle's own
+	 * or inherited from its parents.
+	 */
+	public static void buildFromStyle(JRStyle destStyle, JRStyle srcStyle)
+	{
+		destStyle.setMode(srcStyle.getMode());
+		destStyle.setForecolor(srcStyle.getForecolor());
+		destStyle.setBackcolor(srcStyle.getBackcolor());
+
+		destStyle.setPen(srcStyle.getPen());
+		destStyle.setFill(srcStyle.getFill());
+
+		destStyle.setRadius(srcStyle.getRadius());
+
+		destStyle.setScaleImage(srcStyle.getScaleImage());
+		destStyle.setHorizontalAlignment(srcStyle.getHorizontalAlignment());
+		destStyle.setVerticalAlignment(srcStyle.getVerticalAlignment());
+
+		destStyle.setBorder(srcStyle.getBorder());
+		destStyle.setTopBorder(srcStyle.getTopBorder());
+		destStyle.setLeftBorder(srcStyle.getLeftBorder());
+		destStyle.setBottomBorder(srcStyle.getBottomBorder());
+		destStyle.setRightBorder(srcStyle.getRightBorder());
+		destStyle.setBorderColor(srcStyle.getBorderColor());
+		destStyle.setTopBorderColor(srcStyle.getTopBorderColor());
+		destStyle.setLeftBorderColor(srcStyle.getLeftBorderColor());
+		destStyle.setBottomBorderColor(srcStyle.getBottomBorderColor());
+		destStyle.setRightBorderColor(srcStyle.getRightBorderColor());
+		destStyle.setPadding(srcStyle.getPadding());
+		destStyle.setTopPadding(srcStyle.getTopPadding());
+		destStyle.setLeftPadding(srcStyle.getLeftPadding());
+		destStyle.setBottomPadding(srcStyle.getBottomPadding());
+		destStyle.setRightPadding(srcStyle.getRightPadding());
+
+		destStyle.setRotation(srcStyle.getRotation());
+		destStyle.setLineSpacing(srcStyle.getLineSpacing());
+		destStyle.setStyledText(srcStyle.isStyledText());
+
+		destStyle.setPattern(srcStyle.getPattern());
+
+		destStyle.setFontName(srcStyle.getFontName());
+		destStyle.setBold(srcStyle.isBold());
+		destStyle.setItalic(srcStyle.isItalic());
+		destStyle.setUnderline(srcStyle.isUnderline());
+		destStyle.setStrikeThrough(srcStyle.isStrikeThrough());
+		destStyle.setFontSize(srcStyle.getFontSize());
+		destStyle.setPdfFontName(srcStyle.getPdfFontName());
+		destStyle.setPdfEncoding(srcStyle.getPdfEncoding());
+		destStyle.setPdfEmbedded(srcStyle.isPdfEmbedded());
+	}
+
+
+	/**
+	 * Merges two styles, by appending the properties of the source style to the ones of the destination style.
+	 */
+	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)
+	{
+		if (srcStyle.getOwnMode() != null)
+			destStyle.setMode(srcStyle.getOwnMode());
+		if (srcStyle.getOwnForecolor() != null)
+			destStyle.setForecolor(srcStyle.getOwnForecolor());
+		if (srcStyle.getOwnBackcolor() != null)
+			destStyle.setBackcolor(srcStyle.getOwnBackcolor());
+
+		if (srcStyle.getOwnPen() != null)
+			destStyle.setPen(srcStyle.getOwnPen());
+		if (srcStyle.getOwnFill() != null)
+			destStyle.setFill(srcStyle.getOwnFill());
+
+		if (srcStyle.getOwnRadius() != null)
+			destStyle.setRadius(srcStyle.getOwnRadius());
+
+		if (srcStyle.getOwnScaleImage() != null)
+			destStyle.setScaleImage(srcStyle.getOwnScaleImage());
+		if (srcStyle.getOwnHorizontalAlignment() != null)
+			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignment());
+		if (srcStyle.getOwnVerticalAlignment() != null)
+			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignment());
+
+		if (srcStyle.getOwnBorder() != null)
+			destStyle.setBorder(srcStyle.getOwnBorder());
+		if (srcStyle.getOwnTopBorder() != null)
+			destStyle.setTopBorder(srcStyle.getOwnTopBorder());
+		if (srcStyle.getOwnLeftBorder() != null)
+			destStyle.setLeftBorder(srcStyle.getOwnLeftBorder());
+		if (srcStyle.getOwnBottomBorder() != null)
+			destStyle.setBottomBorder(srcStyle.getOwnBottomBorder());
+		if (srcStyle.getOwnRightBorder() != null)
+			destStyle.setRightBorder(srcStyle.getOwnRightBorder());
+		if (srcStyle.getOwnBorderColor() != null)
+			destStyle.setBorderColor(srcStyle.getOwnBorderColor());
+		if (srcStyle.getOwnTopBorderColor() != null)
+			destStyle.setTopBorderColor(srcStyle.getOwnTopBorderColor());
+		if (srcStyle.getOwnLeftBorderColor() != null)
+			destStyle.setLeftBorderColor(srcStyle.getOwnLeftBorderColor());
+		if (srcStyle.getOwnBottomBorderColor() != null)
+			destStyle.setBottomBorderColor(srcStyle.getOwnBottomBorderColor());
+		if (srcStyle.getOwnRightBorderColor() != null)
+			destStyle.setRightBorderColor(srcStyle.getOwnRightBorderColor());
+		if (srcStyle.getOwnPadding() != null)
+			destStyle.setPadding(srcStyle.getOwnPadding());
+		if (srcStyle.getOwnTopPadding() != null)
+			destStyle.setTopPadding(srcStyle.getOwnTopPadding());
+		if (srcStyle.getOwnLeftPadding() != null)
+			destStyle.setLeftPadding(srcStyle.getOwnLeftPadding());
+		if (srcStyle.getOwnBottomPadding() != null)
+			destStyle.setBottomPadding(srcStyle.getOwnBottomPadding());
+		if (srcStyle.getOwnRightPadding() != null)
+			destStyle.setRightPadding(srcStyle.getOwnRightPadding());
+
+		if (srcStyle.getOwnRotation() != null)
+			destStyle.setRotation(srcStyle.getOwnRotation());
+		if (srcStyle.getOwnLineSpacing() != null)
+			destStyle.setLineSpacing(srcStyle.getOwnLineSpacing());
+		if (srcStyle.isOwnStyledText() != null)
+			destStyle.setStyledText(srcStyle.isOwnStyledText());
+
+		if (srcStyle.getOwnPattern() != null)
+			destStyle.setPattern(srcStyle.getOwnPattern());
+
+		if (srcStyle.getOwnFontName() != null)
+			destStyle.setFontName(srcStyle.getOwnFontName());
+		if (srcStyle.isOwnBold() != null)
+			destStyle.setBold(srcStyle.isOwnBold());
+		if (srcStyle.isOwnItalic() != null)
+			destStyle.setItalic(srcStyle.isOwnItalic());
+		if (srcStyle.isOwnUnderline() != null)
+			destStyle.setUnderline(srcStyle.isOwnUnderline());
+		if (srcStyle.isOwnStrikeThrough() != null)
+			destStyle.setStrikeThrough(srcStyle.isOwnStrikeThrough());
+		if (srcStyle.getOwnFontSize() != null)
+			destStyle.setFontSize(srcStyle.getOwnFontSize());
+		if (srcStyle.getOwnPdfFontName() != null)
+			destStyle.setPdfFontName(srcStyle.getOwnPdfFontName());
+		if (srcStyle.getOwnPdfEncoding() != null)
+			destStyle.setPdfEncoding(srcStyle.getOwnPdfEncoding());
+		if (srcStyle.isOwnPdfEmbedded() != null)
+			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
+	}
 }

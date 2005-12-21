@@ -122,6 +122,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 
 
 /**
@@ -131,12 +132,12 @@ import net.sf.jasperreports.engine.JRVariable;
 public class JRBaseObjectFactory extends JRAbstractObjectFactory
 {
 
-	
+
 	/**
 	 *
 	 */
 	private JRDefaultStyleProvider defaultStyleProvider = null;
-	
+
 	/**
 	 * Expression collector used to retrieve generated expression IDs.
 	 */
@@ -180,7 +181,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRReportFont getReportFont(JRReportFont font)
 	{
 		JRBaseReportFont baseFont = null;
-		
+
 		if (font != null)
 		{
 			baseFont = (JRBaseReportFont)get(font);
@@ -190,7 +191,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				put(font, baseFont);
 			}
 		}
-		
+
 		return baseFont;
 	}
 
@@ -201,7 +202,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle baseStyle = null;
-		
+
 		if (style != null)
 		{
 			baseStyle = (JRBaseStyle)get(style);
@@ -211,7 +212,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				put(style, baseStyle);
 			}
 		}
-		
+
 		return baseStyle;
 	}
 
@@ -222,22 +223,22 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRFont getFont(JRFont font)
 	{
 		JRBaseFont baseFont = null;
-		
+
 		if (font != null)
 		{
 			baseFont = (JRBaseFont)get(font);
 			if (baseFont == null)
 			{
-				baseFont = 
+				baseFont =
 					new JRBaseFont(
-						defaultStyleProvider, 
-						getReportFont(font.getReportFont()), 
+						defaultStyleProvider,
+						getReportFont(font.getReportFont()),
 						font
 						);
 				put(font, baseFont);
 			}
 		}
-		
+
 		return baseFont;
 	}
 
@@ -248,7 +249,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseParameter getParameter(JRParameter parameter)
 	{
 		JRBaseParameter baseParameter = null;
-		
+
 		if (parameter != null)
 		{
 			baseParameter = (JRBaseParameter)get(parameter);
@@ -257,7 +258,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseParameter = new JRBaseParameter(parameter, this);
 			}
 		}
-		
+
 		return baseParameter;
 	}
 
@@ -268,7 +269,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseQuery getQuery(JRQuery query)
 	{
 		JRBaseQuery baseQuery = null;
-		
+
 		if (query != null)
 		{
 			baseQuery = (JRBaseQuery)get(query);
@@ -277,7 +278,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseQuery = new JRBaseQuery(query, this);
 			}
 		}
-		
+
 		return baseQuery;
 	}
 
@@ -288,7 +289,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseQueryChunk getQueryChunk(JRQueryChunk queryChunk)
 	{
 		JRBaseQueryChunk baseQueryChunk = null;
-		
+
 		if (queryChunk != null)
 		{
 			baseQueryChunk = (JRBaseQueryChunk)get(queryChunk);
@@ -297,7 +298,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseQueryChunk = new JRBaseQueryChunk(queryChunk, this);
 			}
 		}
-		
+
 		return baseQueryChunk;
 	}
 
@@ -308,7 +309,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseField getField(JRField field)
 	{
 		JRBaseField baseField = null;
-		
+
 		if (field != null)
 		{
 			baseField = (JRBaseField)get(field);
@@ -317,7 +318,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseField = new JRBaseField(field, this);
 			}
 		}
-		
+
 		return baseField;
 	}
 
@@ -328,7 +329,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRBaseVariable getVariable(JRVariable variable)
 	{
 		JRBaseVariable baseVariable = null;
-		
+
 		if (variable != null)
 		{
 			baseVariable = (JRBaseVariable)get(variable);
@@ -337,7 +338,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseVariable = new JRBaseVariable(variable, this);
 			}
 		}
-		
+
 		return baseVariable;
 	}
 
@@ -345,10 +346,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public JRBaseExpression getExpression(JRExpression expression)
+	public JRExpression getExpression(JRExpression expression)
 	{
 		JRBaseExpression baseExpression = null;
-		
+
 		if (expression != null)
 		{
 			baseExpression = (JRBaseExpression)get(expression);
@@ -363,11 +364,11 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 						throw new JRRuntimeException("Expression ID not found.");
 					}
 				}
-				
+
 				baseExpression = new JRBaseExpression(expression, this, expressionId);
 			}
 		}
-		
+
 		return baseExpression;
 	}
 
@@ -378,7 +379,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseExpressionChunk getExpressionChunk(JRExpressionChunk expressionChunk)
 	{
 		JRBaseExpressionChunk baseExpressionChunk = null;
-		
+
 		if (expressionChunk != null)
 		{
 			baseExpressionChunk = (JRBaseExpressionChunk)get(expressionChunk);
@@ -387,7 +388,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseExpressionChunk = new JRBaseExpressionChunk(expressionChunk, this);
 			}
 		}
-		
+
 		return baseExpressionChunk;
 	}
 
@@ -398,7 +399,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseGroup getGroup(JRGroup group)
 	{
 		JRBaseGroup baseGroup = null;
-		
+
 		if (group != null)
 		{
 			baseGroup = (JRBaseGroup)get(group);
@@ -407,7 +408,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseGroup = new JRBaseGroup(group, this);
 			}
 		}
-		
+
 		return baseGroup;
 	}
 
@@ -418,7 +419,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseBand getBand(JRBand band)
 	{
 		JRBaseBand baseBand = null;
-		
+
 		if (band != null)
 		{
 			baseBand = (JRBaseBand)get(band);
@@ -427,7 +428,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseBand = new JRBaseBand(band, this);
 			}
 		}
-		
+
 		return baseBand;
 	}
 
@@ -438,7 +439,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
 		JRBaseElementGroup baseElementGroup = null;
-		
+
 		if (elementGroup != null)
 		{
 			baseElementGroup = (JRBaseElementGroup)get(elementGroup);
@@ -447,7 +448,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseElementGroup = new JRBaseElementGroup(elementGroup, this);
 			}
 		}
-		
+
 		return baseElementGroup;
 	}
 
@@ -458,7 +459,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRLine getLine(JRLine line)
 	{
 		JRBaseLine baseLine = null;
-		
+
 		if (line != null)
 		{
 			baseLine = (JRBaseLine)get(line);
@@ -467,7 +468,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseLine = new JRBaseLine(line, this);
 			}
 		}
-		
+
 		return baseLine;
 	}
 
@@ -478,7 +479,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRRectangle getRectangle(JRRectangle rectangle)
 	{
 		JRBaseRectangle baseRectangle = null;
-		
+
 		if (rectangle != null)
 		{
 			baseRectangle = (JRBaseRectangle)get(rectangle);
@@ -487,7 +488,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseRectangle = new JRBaseRectangle(rectangle, this);
 			}
 		}
-		
+
 		return baseRectangle;
 	}
 
@@ -498,7 +499,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JREllipse getEllipse(JREllipse ellipse)
 	{
 		JRBaseEllipse baseEllipse = null;
-		
+
 		if (ellipse != null)
 		{
 			baseEllipse = (JRBaseEllipse)get(ellipse);
@@ -507,7 +508,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseEllipse = new JRBaseEllipse(ellipse, this);
 			}
 		}
-		
+
 		return baseEllipse;
 	}
 
@@ -518,7 +519,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRImage getImage(JRImage image)
 	{
 		JRBaseImage baseImage = null;
-		
+
 		if (image != null)
 		{
 			baseImage = (JRBaseImage)get(image);
@@ -527,7 +528,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseImage = new JRBaseImage(image, this);
 			}
 		}
-		
+
 		return baseImage;
 	}
 
@@ -538,7 +539,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRStaticText getStaticText(JRStaticText staticText)
 	{
 		JRBaseStaticText baseStaticText = null;
-		
+
 		if (staticText != null)
 		{
 			baseStaticText = (JRBaseStaticText)get(staticText);
@@ -547,7 +548,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseStaticText = new JRBaseStaticText(staticText, this);
 			}
 		}
-		
+
 		return baseStaticText;
 	}
 
@@ -558,7 +559,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRTextField getTextField(JRTextField textField)
 	{
 		JRBaseTextField baseTextField = null;
-		
+
 		if (textField != null)
 		{
 			baseTextField = (JRBaseTextField)get(textField);
@@ -567,7 +568,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseTextField = new JRBaseTextField(textField, this);
 			}
 		}
-		
+
 		return baseTextField;
 	}
 
@@ -578,7 +579,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRSubreport getSubreport(JRSubreport subreport)
 	{
 		JRBaseSubreport baseSubreport = null;
-		
+
 		if (subreport != null)
 		{
 			baseSubreport = (JRBaseSubreport)get(subreport);
@@ -587,7 +588,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseSubreport = new JRBaseSubreport(subreport, this);
 			}
 		}
-		
+
 		return baseSubreport;
 	}
 
@@ -598,7 +599,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseSubreportParameter getSubreportParameter(JRSubreportParameter subreportParameter)
 	{
 		JRBaseSubreportParameter baseSubreportParameter = null;
-		
+
 		if (subreportParameter != null)
 		{
 			baseSubreportParameter = (JRBaseSubreportParameter)get(subreportParameter);
@@ -608,7 +609,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				put(subreportParameter, baseSubreportParameter);
 			}
 		}
-		
+
 		return baseSubreportParameter;
 	}
 
@@ -616,7 +617,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseDatasetParameter getDatasetParameter(JRDatasetParameter datasetParameter)
 	{
 		JRBaseDatasetParameter baseSubreportParameter = null;
-		
+
 		if (datasetParameter != null)
 		{
 			baseSubreportParameter = (JRBaseDatasetParameter) get(datasetParameter);
@@ -626,10 +627,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				put(datasetParameter, baseSubreportParameter);
 			}
 		}
-		
+
 		return baseSubreportParameter;
 	}
-	
+
 
 	/**
 	 *
@@ -637,7 +638,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
 		JRBasePieDataset basePieDataset = null;
-		
+
 		if (pieDataset != null)
 		{
 			basePieDataset = (JRBasePieDataset)get(pieDataset);
@@ -646,10 +647,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				basePieDataset = new JRBasePieDataset(pieDataset, this);
 			}
 		}
-		
+
 		return basePieDataset;
 	}
-	
+
 
 	/**
 	 *
@@ -657,7 +658,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRPiePlot getPiePlot(JRPiePlot piePlot)
 	{
 		JRBasePiePlot basePiePlot = null;
-		
+
 		if (piePlot != null)
 		{
 			basePiePlot = (JRBasePiePlot)get(piePlot);
@@ -666,10 +667,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				basePiePlot = new JRBasePiePlot(piePlot, this);
 			}
 		}
-		
+
 		return basePiePlot;
 	}
-	
+
 
 	/**
 	 *
@@ -677,7 +678,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
 		JRBasePie3DPlot basePie3DPlot = null;
-		
+
 		if (pie3DPlot != null)
 		{
 			basePie3DPlot = (JRBasePie3DPlot)get(pie3DPlot);
@@ -686,7 +687,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				basePie3DPlot = new JRBasePie3DPlot(pie3DPlot, this);
 			}
 		}
-		
+
 		return basePie3DPlot;
 	}
 
@@ -697,7 +698,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
 	{
 		JRBaseCategoryDataset baseCategoryDataset = null;
-		
+
 		if (categoryDataset != null)
 		{
 			baseCategoryDataset = (JRBaseCategoryDataset)get(categoryDataset);
@@ -706,10 +707,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseCategoryDataset = new JRBaseCategoryDataset(categoryDataset, this);
 			}
 		}
-		
+
 		return baseCategoryDataset;
 	}
-	
+
 	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
 		JRBaseTimeSeriesDataset baseTimeSeriesDataset = null;
 		if( timeSeriesDataset != null ){
@@ -718,11 +719,11 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseTimeSeriesDataset = new JRBaseTimeSeriesDataset( timeSeriesDataset, this );
 			}
 		}
-		
+
 		return baseTimeSeriesDataset;
 	}
-	
-	
+
+
 	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
 		JRBaseTimePeriodDataset baseTimePeriodDataset = null;
 		if( timePeriodDataset != null ){
@@ -733,14 +734,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		return baseTimePeriodDataset;
 	}
-	
+
 	/**
 	 *
 	 */
 	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
 	{
 		JRBaseCategorySeries baseCategorySeries = null;
-		
+
 		if (categorySeries != null)
 		{
 			baseCategorySeries = (JRBaseCategorySeries)get(categorySeries);
@@ -749,10 +750,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseCategorySeries = new JRBaseCategorySeries(categorySeries, this);
 			}
 		}
-		
+
 		return baseCategorySeries;
 	}
-	
+
 
 	/**
 	 *
@@ -760,7 +761,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRXySeries getXySeries(JRXySeries xySeries)
 	{
 		JRBaseXySeries baseXySeries = null;
-		
+
 		if (xySeries != null)
 		{
 			baseXySeries = (JRBaseXySeries)get(xySeries);
@@ -769,10 +770,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseXySeries = new JRBaseXySeries(xySeries, this);
 			}
 		}
-		
+
 		return baseXySeries;
 	}
-	
+
 
 	/**
 	 *
@@ -780,7 +781,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
 		JRBaseTimeSeries baseTimeSeries = null;
-		
+
 		if (timeSeries != null)
 		{
 			baseTimeSeries = (JRBaseTimeSeries)get(timeSeries);
@@ -789,10 +790,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseTimeSeries = new JRBaseTimeSeries(timeSeries, this);
 			}
 		}
-		
+
 		return baseTimeSeries;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -804,10 +805,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseTimePeriodSeries = new JRBaseTimePeriodSeries( timePeriodSeries, this );
 			}
 		}
-		
+
 		return baseTimePeriodSeries;
 	}
-	
+
 
 	/**
 	 *
@@ -815,7 +816,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRBarPlot getBarPlot(JRBarPlot barPlot)
 	{
 		JRBaseBarPlot baseBarPlot = null;
-		
+
 		if (barPlot != null)
 		{
 			baseBarPlot = (JRBaseBarPlot)get(barPlot);
@@ -824,7 +825,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseBarPlot = new JRBaseBarPlot(barPlot, this);
 			}
 		}
-		
+
 		return baseBarPlot;
 	}
 
@@ -834,7 +835,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRBaseBar3DPlot baseBarPlot = null;
-		
+
 		if (barPlot != null)
 		{
 			baseBarPlot = (JRBaseBar3DPlot)get(barPlot);
@@ -843,17 +844,17 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseBarPlot = new JRBaseBar3DPlot(barPlot, this);
 			}
 		}
-		
+
 		return baseBarPlot;
 	}
 
 
-	/** 
+	/**
 	 * 
 	 */
 	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
 		JRBaseLinePlot baseLinePlot = null;
-		
+
 		if (linePlot != null)
 		{
 			baseLinePlot = (JRBaseLinePlot)get(linePlot);
@@ -862,7 +863,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseLinePlot = new JRBaseLinePlot(linePlot, this);
 			}
 		}
-		
+
 		return baseLinePlot;
 	}
 
@@ -872,7 +873,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRBaseAreaPlot baseAreaPlot = null;
-		
+
 		if (areaPlot != null)
 		{
 			baseAreaPlot = (JRBaseAreaPlot)get(areaPlot);
@@ -881,7 +882,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseAreaPlot = new JRBaseAreaPlot(areaPlot, this);
 			}
 		}
-		
+
 		return baseAreaPlot;
 	}
 
@@ -891,7 +892,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
 		JRBaseXyzDataset baseXyzDataset = null;
-		
+
 		if (xyzDataset != null)
 		{
 			baseXyzDataset = (JRBaseXyzDataset)get(xyzDataset);
@@ -900,7 +901,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseXyzDataset = new JRBaseXyzDataset(xyzDataset, this);
 			}
 		}
-		
+
 		return baseXyzDataset;
 	}
 
@@ -947,7 +948,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
 		JRBaseXyzSeries baseXyzSeries = null;
-		
+
 		if (xyzSeries != null)
 		{
 			baseXyzSeries = (JRBaseXyzSeries)get(xyzSeries);
@@ -956,7 +957,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseXyzSeries = new JRBaseXyzSeries(xyzSeries, this);
 			}
 		}
-		
+
 		return baseXyzSeries;
 	}
 
@@ -966,7 +967,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
 		JRBaseBubblePlot baseBubblePlot = null;
-		
+
 		if (bubblePlot != null)
 		{
 			baseBubblePlot = (JRBaseBubblePlot)get(bubblePlot);
@@ -975,10 +976,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseBubblePlot = new JRBaseBubblePlot(bubblePlot, this);
 			}
 		}
-		
+
 		return baseBubblePlot;
 	}
-	
+
 
 	 /**
 	  *
@@ -1038,8 +1039,8 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 		return baseScatterPlot;
 	}
-	
-	
+
+
 
 	public JRTimeSeriesPlot getTimeSeriesPlot( JRTimeSeriesPlot plot ){
 		JRBaseTimeSeriesPlot basePlot = null;
@@ -1049,7 +1050,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				basePlot = new JRBaseTimeSeriesPlot( plot, this );
 			}
 		}
-		
+
 		return basePlot;
 	}
 
@@ -1078,7 +1079,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected JRBaseSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
 		JRBaseSubreportReturnValue baseSubreportReturnValue = null;
-		
+
 		if (returnValue != null)
 		{
 			baseSubreportReturnValue = (JRBaseSubreportReturnValue)get(returnValue);
@@ -1088,8 +1089,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				put(returnValue, baseSubreportReturnValue);
 			}
 		}
-		
+
 		return baseSubreportReturnValue;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle style)
+	{
+		JRBaseConditionalStyle baseConditionalStyle = null;
+		if (conditionalStyle != null)
+		{
+			baseConditionalStyle = (JRBaseConditionalStyle) get(conditionalStyle);
+			if (baseConditionalStyle == null) {
+				baseConditionalStyle = new JRBaseConditionalStyle(conditionalStyle, style, this);
+				put(conditionalStyle, baseConditionalStyle);
+			}
+		}
+		return baseConditionalStyle;
 	}
 
 
@@ -1105,7 +1124,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseCrosstabDataset = new JRBaseCrosstabDataset(crosstabDataset, this);
 			}
 		}
-		
+
 		return baseCrosstabDataset;
 	}
 
@@ -1192,7 +1211,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				{
 					throw new JRRuntimeException("Crosstab ID not found.");
 				}
-				
+
 				baseCrosstab = new JRBaseCrosstab(crosstab, this, id.intValue());
 			}
 		}
@@ -1204,7 +1223,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRBaseDataset getDataset(JRDataset dataset)
 	{
 		JRBaseDataset baseDataset = null;
-		
+
 		if (dataset != null)
 		{
 			baseDataset = (JRBaseDataset)get(dataset);
@@ -1213,7 +1232,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseDataset = new JRBaseDataset(dataset, this);
 			}
 		}
-		
+
 		return baseDataset;
 	}
 
@@ -1221,7 +1240,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRBaseDatasetRun getDatasetRun(JRDatasetRun datasetRun)
 	{
 		JRBaseDatasetRun baseDatasetRun = null;
-		
+
 		if (datasetRun != null)
 		{
 			baseDatasetRun = (JRBaseDatasetRun)get(datasetRun);
@@ -1230,15 +1249,15 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseDatasetRun = new JRBaseDatasetRun(datasetRun, this);
 			}
 		}
-		
+
 		return baseDatasetRun;
 	}
-	
+
 
 	public JRBaseCellContents getCell(JRCellContents cell)
 	{
 		JRBaseCellContents baseCell = null;
-		
+
 		if (cell != null)
 		{
 			baseCell = (JRBaseCellContents)get(cell);
@@ -1247,7 +1266,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseCell = new JRBaseCellContents(cell, this);
 			}
 		}
-		
+
 		return baseCell;
 	}
 
@@ -1255,7 +1274,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRCrosstabCell getCrosstabCell(JRCrosstabCell cell)
 	{
 		JRBaseCrosstabCell baseCell = null;
-		
+
 		if (cell != null)
 		{
 			baseCell = (JRBaseCrosstabCell)get(cell);
@@ -1264,7 +1283,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseCell = new JRBaseCrosstabCell(cell, this);
 			}
 		}
-		
+
 		return baseCell;
 	}
 
@@ -1289,7 +1308,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	public JRFrame getFrame(JRFrame frame)
 	{
 		JRBaseFrame baseFrame = null;
-		
+
 		if (frame != null)
 		{
 			baseFrame = (JRBaseFrame) get(frame);
@@ -1298,7 +1317,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				baseFrame = new JRBaseFrame(frame, this);
 			}
 		}
-		
+
 		return baseFrame;
 	}
 }

@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -95,12 +97,18 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
+		JRTemplateText template;
+		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		if (style == null)
+			style = parent.getStyle();
+
+		template = (JRTemplateText) templates.get(style);
 		if (template == null)
 		{
-			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRStaticText)parent);
+			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRStaticText)parent, style);
+			templates.put(style, template);
 		}
-		
-		return (JRTemplateText)template;
+		return template;
 	}
 
 

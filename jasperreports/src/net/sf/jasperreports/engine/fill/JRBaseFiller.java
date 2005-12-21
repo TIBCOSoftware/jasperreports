@@ -43,6 +43,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collection;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRConstants;
@@ -79,7 +80,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * <p/>
 	 * Keeps print elements to fill elements maps.
 	 * If per page element maps are used, such maps are kept per page.
-	 * 
+	 *
 	 * @author John Bindel
 	 */
 	public class BoundElementMap
@@ -90,7 +91,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		BoundElementMap()
 		{
-			map = new HashMap(); 
+			map = new HashMap();
 		}
 
 		/**
@@ -118,7 +119,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				return put(key, value, fillContext.getPrintPage());
 			}
-			
+
 			return map.put(key, value);
 		}
 
@@ -126,17 +127,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			map.clear();
 		}
-		
+
 		public Map getMap()
 		{
 			return map;
 		}
-		
+
 		public Map getMap(JRPrintPage page)
 		{
 			return (Map) map.get(page);
 		}
-		
+
 		public Map putMap(JRPrintPage page, Map valueMap)
 		{
 			return (Map) map.put(page, valueMap);
@@ -144,19 +145,19 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected JRBaseFiller parentFiller = null;
 
 	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	/**
-	 * 
+	 *
 	 */
 	private boolean isInterrupted = false;
 
 	/**
-	 * 
+	 *
 	 */
 	protected String name = null;
 
@@ -207,7 +208,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * Main report dataset.
 	 */
 	protected JRFillDataset mainDataset;
-	
+
 	protected JRFillGroup[] groups = null;
 
 	protected JRFillBand missingFillBand = null;
@@ -239,14 +240,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected Map loadedSubreports = null;
 
 	protected JRFillContext fillContext;
-	
+
 	/**
 	 * Bound element maps indexed by {@link JREvaluationTime JREvaluationTime} objects.
 	 */
 	protected Map boundElements;
 
 	/**
-	 * 
+	 *
 	 */
 	protected JasperPrint jasperPrint = null;
 
@@ -264,7 +265,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * Collection of subfillers
 	 */
 	protected Set subfillers;
-	
+
 	private List identityPages;
 
 	private Thread fillingThread;
@@ -272,33 +273,39 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected JRCalculator calculator;
 
 	protected JRAbstractScriptlet scriptlet;
-	
+
 	/**
 	 * Map of datasets ({@link JRFillDataset JRFillDataset} objects} indexed by name.
 	 */
 	protected Map datasetMap;
-	
+
 	/**
 	 * The report.
 	 */
 	protected JasperReport jasperReport;
 
 	private boolean bandOverFlowAllowed;
-	
+
 	protected boolean isPerPageBoundElements;
-	
+
 	/**
-	 * 
+	 * TODO
+	 */
+	protected Map consolidatedStyles = new HashMap();
+
+
+	/**
+	 *
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
-		
+
 		this.jasperReport = jasperReport;
-		
+
 		/*   */
 		this.parentFiller = parentFiller;
-		
+
 		if (parentFiller == null)
 		{
 			fillContext = new JRFillContext();
@@ -328,7 +335,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		whenResourceMissingType = jasperReport.getWhenResourceMissingType();
 
 		jasperPrint = new JasperPrint();
-		
+
 		if (initEvaluator == null)
 		{
 			calculator = JRFillDataset.createCalculator(jasperReport, jasperReport.getMainDataset());
@@ -354,11 +361,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				fonts[i] = factory.getReportFont(jrFonts[i]);
 			}
 		}
-		
+
 		createDatasets(factory);
 		mainDataset = factory.getDataset(jasperReport.getMainDataset());
 		groups = mainDataset.groups;
-		
+
 		/*   */
 		defaultStyle = factory.getStyle(jasperReport.getDefaultStyle());
 
@@ -385,7 +392,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
 		summary = factory.getBand(jasperReport.getSummary());
 
-		mainDataset.initElementDatasets(factory);		
+		mainDataset.initElementDatasets(factory);
 		initDatasets(factory);
 
 		mainDataset.checkVariableCalculationReqs(factory);
@@ -396,14 +403,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		/*   */
 		mainDataset.setCalculator(calculator);
 		mainDataset.initCalculator();
-		
+
 		initBands();
 	}
 
 
 	/**
 	 * Returns the report parameters indexed by name.
-	 * 
+	 *
 	 * @return the report parameters map
 	 */
 	protected Map getParametersMap()
@@ -411,10 +418,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.parametersMap;
 	}
 
-	
+
 	/**
 	 * Returns the report fields indexed by name.
-	 * 
+	 *
 	 * @return the report fields map
 	 */
 	protected Map getFieldsMap()
@@ -422,21 +429,21 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.fieldsMap;
 	}
 
-	
+
 	/**
 	 * Returns the report variables indexed by name.
-	 * 
+	 *
 	 * @return the report variables map
 	 */
 	protected Map getVariablesMap()
 	{
 		return mainDataset.variablesMap;
 	}
-	
-	
+
+
 	/**
 	 * Returns a report variable.
-	 * 
+	 *
 	 * @param variableName the variable name
 	 * @return the variable
 	 */
@@ -444,11 +451,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		return (JRFillVariable) mainDataset.variablesMap.get(variableName);
 	}
-	
-	
+
+
 	/**
 	 * Returns a report field.
-	 * 
+	 *
 	 * @param fieldName the field name
 	 * @return the field
 	 */
@@ -456,7 +463,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		return (JRFillField) mainDataset.fieldsMap.get(fieldName);
 	}
-	
+
 	private void initBands()
 	{
 		bands = new ArrayList(8 + (groups == null ? 0 : (2 * groups.length)));
@@ -478,11 +485,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				bands.add(group.getGroupFooter());
 			}
 		}
-		
+
 		initBandsNowEvaluationTimes();
 	}
 
-	
+
 	private void initBandsNowEvaluationTimes()
 	{
 		JREvaluationTime[] groupEvaluationTimes;
@@ -497,30 +504,30 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				groupEvaluationTimes[i] = JREvaluationTime.getGroupEvaluationTime(groups[i].getName());
 			}
-			
+
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRGroup group = groups[i];
 				JRFillBand footer = (JRFillBand) group.getGroupFooter();
-				
+
 				for (int j = i; j < groupEvaluationTimes.length; ++j)
 				{
 					footer.addNowEvaluationTime(groupEvaluationTimes[j]);
 				}
 			}
 		}
-		
+
 		columnFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
-		
+
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_PAGE);
-		
+
 		summary.addNowEvaluationTimes(groupEvaluationTimes);
 	}
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRStyledTextParser getStyledTextParser()
 	{
@@ -528,7 +535,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JasperPrint getJasperPrint()
 	{
@@ -536,7 +543,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JRReportFont getDefaultFont()
 	{
@@ -544,7 +551,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JRStyle getDefaultStyle()
 	{
@@ -552,7 +559,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected boolean isSubreport()
 	{
@@ -560,7 +567,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected boolean isInterrupted()
 	{
@@ -568,7 +575,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void setInterrupted(boolean isInterrupted)
 	{
@@ -576,7 +583,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected JRPrintPage getCurrentPage()
 	{
@@ -584,7 +591,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected JRReportFont[] getFonts()
 	{
@@ -592,7 +599,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected JRStyle[] getStyles()
 	{
@@ -600,7 +607,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected int getCurrentPageStretchHeight()
 	{
@@ -608,11 +615,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected abstract void setPageHeight(int pageHeight);
 
-	
+
 	public JasperPrint fill(Map parameterValues, Connection conn) throws JRException
 	{
 		if (parameterValues == null)
@@ -621,7 +628,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 
 		setConnectionParameterValue(parameterValues, conn);
-		
+
 		return fill(parameterValues);
 	}
 
@@ -631,7 +638,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		mainDataset.setConnectionParameterValue(parameterValues, conn);
 	}
 
-	
+
 	public JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
 	{
 		if (parameterValues == null)
@@ -640,7 +647,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 
 		setDatasourceParameterValue(parameterValues, ds);
-		
+
 		return fill(parameterValues);
 	}
 
@@ -649,8 +656,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		mainDataset.setDatasourceParameterValue(parameterValues, ds);
 	}
-	
-	
+
+
 	public JasperPrint fill(Map parameterValues) throws JRException
 	{
 		if (parameterValues == null)
@@ -713,7 +720,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			setTextFieldsFormats();
 
 			loadedSubreports = new HashMap();
-			
+
 			createBoundElemementMaps();
 
 			/*   */
@@ -722,19 +729,32 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			/*   */
 			fillReport();
 
+			//FIXME STYLE maybe we don,t need the consolidated styles in the JasperPrint
+			// add consolidates styles as normal styles in the print object
+			Set initialStyles = consolidatedStyles.keySet();
+			for (Iterator it = initialStyles.iterator(); it.hasNext();) {
+				JRStyle initialStyle = (JRStyle) it.next();
+				Map styleMap = (Map) consolidatedStyles.get(initialStyle);
+				Collection newStyles = styleMap.values();
+				for (Iterator it2 = newStyles.iterator(); it2.hasNext();) {
+					jasperPrint.addStyle((JRStyle) it2.next());
+				}
+			}
+
+
 			return jasperPrint;
 		}
 		finally
 		{
 			mainDataset.closeDatasource();
-			
+
 			if (parentFiller != null)
 			{
 				parentFiller.unregisterSubfiller(this);
 			}
-			
+
 			fillingThread = null;
-			
+
 			//kill the subreport filler threads
 			killSubfillerThreads();
 		}
@@ -744,11 +764,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	private void createBoundElemementMaps()
 	{
 		boundElements = new HashMap();
-		
+
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_REPORT);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_PAGE);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_COLUMN);
-		
+
 		if (groups != null)
 		{
 			for (int i = 0; i < groups.length; i++)
@@ -756,7 +776,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				createBoundElementMaps(JREvaluationTime.getGroupEvaluationTime(groups[i].getName()));
 			}
 		}
-		
+
 		for (Iterator i = bands.iterator(); i.hasNext();)
 		{
 			JRFillBand band = (JRFillBand) i.next();
@@ -787,43 +807,43 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	
+
 	protected void setTextFieldsFormats()
 	{
 		for (int i = 0; i < formattedTextFields.size(); i++)
 		{
 			((JRFillTextField) formattedTextFields.get(i)).setFormat();
 		}
-		
+
 		formattedTextFields.clear();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected abstract void fillReport() throws JRException;
 
 	/**
-	 * 
+	 *
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
 		/* Virtualizer */
 		virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-		
+
 		if (virtualizer != null)
 		{
 			fillContext.setUsingVirtualizer(true);
 			fillContext.setPerPageBoundElements(true);
 		}
-		
+
 		isPerPageBoundElements = fillContext.isPerPageBoundElements();
-		
+
 		/*   */
 		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
 
 		setIgnorePagination(parameterValues);
-		
+
 		mainDataset.setParameterValues(parameterValues);
 	}
 
@@ -849,7 +869,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			boolean ignorePagination = fillContext.isIgnorePagination();
 			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
 		}
-		
+
 		if (fillContext.isIgnorePagination())
 		{
 			isTitleNewPage = false;
@@ -866,22 +886,22 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			setPageHeight(Integer.MAX_VALUE);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Returns the report locale.
-	 * 
+	 *
 	 * @return the report locale
 	 */
 	protected Locale getLocale()
 	{
 		return mainDataset.locale;
 	}
-	
-	
+
+
 	/**
 	 * Sets a parameter's value.
-	 * 
+	 *
 	 * @param parameterName the parameter name
 	 * @param value the value
 	 * @throws JRException
@@ -890,11 +910,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		mainDataset.setParameter(parameterName, value);
 	}
-	
+
 
 	/**
 	 * Sets a parameter's value.
-	 * 
+	 *
 	 * @param parameter the parameter
 	 * @param value the value
 	 * @throws JRException
@@ -905,7 +925,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected boolean next() throws JRException
 	{
@@ -962,7 +982,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	/**
 	 * Resolves elements which are to be evaluated at page level.
-	 * 
+	 *
 	 * @param evaluation
 	 *            the evaluation type
 	 */
@@ -973,7 +993,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	/**
 	 * Resolves elements which are to be evaluated at column level.
-	 * 
+	 *
 	 * @param evaluation
 	 *            the evaluation type
 	 */
@@ -984,7 +1004,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	/**
 	 * Resolves elements which are to be evaluated at group level.
-	 * 
+	 *
 	 * @param evaluation
 	 *            the evaluation type
 	 * @param isFinal
@@ -1000,7 +1020,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				if ((group.hasChanged() && group.isFooterPrinted()) || isFinal)
 				{
 					String groupName = group.getName();
-					
+
 					resolveBoundElements(JREvaluationTime.getGroupEvaluationTime(groupName), evaluation);
 				}
 			}
@@ -1029,7 +1049,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	/**
 	 * Returns the value of a variable.
-	 * 
+	 *
 	 * @param variableName
 	 *            the variable name
 	 * @return the variable value
@@ -1041,7 +1061,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	/**
 	 * Resloves elements which are to be evaluated at band level.
-	 * 
+	 *
 	 * @param band
 	 *            the band
 	 * @param evaluation
@@ -1053,10 +1073,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		resolveBoundElements(JREvaluationTime.getBandEvaluationTime(band), evaluation);
 	}
 
-	
+
 	/**
 	 * Adds a variable calculation request.
-	 * 
+	 *
 	 * @param variableName
 	 *            the variable name
 	 * @param calculation
@@ -1067,10 +1087,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		mainDataset.addVariableCalculationReq(variableName, calculation);
 	}
 
-	
+
 	/**
 	 * Cancells the fill process.
-	 * 
+	 *
 	 * @throws JRException
 	 */
 	public void cancelFill() throws JRException
@@ -1085,7 +1105,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	
+
 	protected void registerSubfiller(JRBaseFiller subfiller)
 	{
 		if (subfillers == null)
@@ -1096,7 +1116,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		if (subfillers.add(subfiller) && fillContext.isUsingVirtualizer())
 		{
 			subfiller.identityPages = new ArrayList();
-			
+
 			JRVirtualPrintPage masterPrintPage = (JRVirtualPrintPage) fillContext.getPrintPage();
 			subfiller.identityPages.add(masterPrintPage);
 			addIdentityDataProviders(masterPrintPage, subfiller);
@@ -1120,7 +1140,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			for (Iterator i = filler.subfillers.iterator(); i.hasNext();)
 			{
 				JRBaseFiller subfiller = (JRBaseFiller) i.next();
-				
+
 				subfiller.identityPages.add(page);
 				addIdentityDataProviders(page, subfiller);
 			}
@@ -1134,15 +1154,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			for (Iterator it = filler.identityPages.iterator(); it.hasNext();)
 			{
 				JRVirtualPrintPage page = (JRVirtualPrintPage) it.next();
-				
+
 				page.removeIdentityDataProvider(filler);
 			}
-			
+
 			filler.identityPages = null;
 		}
 	}
 
-	
+
 	protected void addPage(JRPrintPage page)
 	{
 		if (!isSubreport())
@@ -1151,14 +1171,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			fillContext.setPrintPage(page);
 		}
 	}
-	
+
 
 	protected static final class PageIdentityDataProvider implements JRVirtualPrintPage.IdentityDataProvider
 	{
-		private static final Map providers = new HashMap();  
-		
+		private static final Map providers = new HashMap();
+
 		private final JRBasePrintPage printPage;
-		
+
 		protected PageIdentityDataProvider(JRBasePrintPage printPage)
 		{
 			this.printPage = printPage;
@@ -1176,14 +1196,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				Map idMap = new HashMap();
 				for (int i = 0; i < identityData.length; i++)
 				{
-					idMap.put(new Integer(identityData[i].getIdentity()), identityData[i].getObject()); 
+					idMap.put(new Integer(identityData[i].getIdentity()), identityData[i].getObject());
 				}
-				
+
 				for (ListIterator i = printPage.getElements().listIterator(); i.hasNext();)
 				{
 					Object element = i.next();
 					Integer id = new Integer(System.identityHashCode(element));
-					
+
 					Object idObject = idMap.get(id);
 					if (idObject != null)
 					{
@@ -1192,7 +1212,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				}
 			}
 		}
-		
+
 		public static JRVirtualPrintPage.IdentityDataProvider getIdentityDataProvider(JRBasePrintPage printPage)
 		{
 			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.get(printPage);
@@ -1203,7 +1223,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 			return provider;
 		}
-		
+
 		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRBasePrintPage printPage)
 		{
 			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
@@ -1211,7 +1231,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	
+
 	protected void addPageIdentityDataProvider()
 	{
 		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
@@ -1219,7 +1239,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		masterPage.addIdentityDataProvider(pageProvider);
 	}
 
-	
+
 	protected void removePageIdentityDataProvider()
 	{
 		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.removeIdentityDataProvider((JRBasePrintPage) printPage);
@@ -1228,8 +1248,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			((JRVirtualPrintPage) fillContext.getPrintPage()).removeIdentityDataProvider(pageProvider);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Evaluates an expression
 	 * @param expression the expression
@@ -1242,26 +1262,26 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.calculator.evaluate(expression, evaluation);
 	}
 
-	
+
 	private void createDatasets(JRFillObjectFactory factory) throws JRException
 	{
 		datasetMap = new HashMap();
-		
+
 		JRDataset[] datasets = jasperReport.getDatasets();
 		if (datasets != null && datasets.length > 0)
 		{
 			for (int i = 0; i < datasets.length; i++)
 			{
-				JRFillDataset fillDataset = factory.getDataset(datasets[i]);	
+				JRFillDataset fillDataset = factory.getDataset(datasets[i]);
 				fillDataset.createCalculator(jasperReport);
 				fillDataset.initScriptlet();
-				
+
 				datasetMap.put(datasets[i].getName(), fillDataset);
 			}
 		}
 	}
 
-	
+
 	private void initDatasets(JRFillObjectFactory factory)
 	{
 		for (Iterator it = datasetMap.values().iterator(); it.hasNext();)
@@ -1271,17 +1291,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			dataset.initElementDatasets(factory);
 		}
 	}
-	
-	
+
+
 	protected byte getWhenResourceMissingType()
 	{
 		return mainDataset.whenResourceMissingType;
 	}
-	
-	
+
+
 	/**
 	 * Returns the report.
-	 * 
+	 *
 	 * @return the report
 	 */
 	protected JasperReport getJasperReport()
@@ -1300,28 +1320,28 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		this.bandOverFlowAllowed = splittableBand;
 	}
-	
+
 	protected int getMasterColumnCount()
 	{
 		JRBaseFiller filler = parentFiller;
 		int colCount = 1;
-		
+
 		while (filler != null)
 		{
 			colCount *= filler.columnCount;
 			filler = filler.parentFiller;
 		}
-		
+
 		return colCount;
 	}
-	
-	
+
+
 	public JRFillDataset getMainDataset()
 	{
 		return mainDataset;
 	}
-	
-	
+
+
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, byte evaluationType, JRGroup group, JRFillBand band)
 	{
 		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
@@ -1334,15 +1354,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		BoundElementMap boundElementsMap = (BoundElementMap) boundElements.get(evaluationTime);
 		boundElementsMap.put(printElement, element);
 	}
-	
-	
+
+
 
 	/**
 	 * Collect all of the identity data the the JRBaseFiller needs to know.
 	 * <p>
 	 * All the bound elements on the page are collected and transformed into
 	 * identity objects.
-	 * 
+	 *
 	 * @param page
 	 *            the page to get the identity data for
 	 */
@@ -1358,7 +1378,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			if (map != null && !map.isEmpty())
 			{
 				Map idMap = new HashMap();
-				
+
 				for (Iterator iter = map.entrySet().iterator(); iter.hasNext();)
 				{
 					Map.Entry entry = (Map.Entry) iter.next();
@@ -1368,7 +1388,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 					{
 						JRVirtualPrintPage.ObjectIDPair idPair = new JRVirtualPrintPage.ObjectIDPair(key);
 						identityList.add(idPair);
-						
+
 						id = new Integer(idPair.getIdentity());
 						allElements.put(key, id);
 					}
@@ -1384,7 +1404,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			identityData = new JRVirtualPrintPage.ObjectIDPair[identityList.size()];
 			identityList.toArray(identityData);
 		}
-		
+
 		return identityData;
 	}
 
@@ -1395,7 +1415,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * Pairs of identity hash code and objects are stored when the page is
 	 * virtualized. When the page gets devirtualized, the original objects
 	 * are substituted in the bound maps based on their identity hash code.
-	 * 
+	 *
 	 * @param page
 	 *            the virtualized page
 	 * @param identityData
@@ -1407,7 +1427,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			return;
 		}
-		
+
 		for (Iterator it = boundElements.values().iterator(); it.hasNext();)
 		{
 			BoundElementMap pageBoundElementsMap = (BoundElementMap) it.next();
@@ -1415,21 +1435,41 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			if (idMap != null && !idMap.isEmpty())
 			{
 				Map map = new HashMap();
-				
+
 				for (int i = 0; i < identityData.length; i++)
 				{
 					JRVirtualPrintPage.ObjectIDPair idPair = identityData[i];
 					Integer id = new Integer(idPair.getIdentity());
-					
+
 					Object value = idMap.get(id);
 					if (value != null)
 					{
 						map.put(idPair.getObject(), value);
 					}
 				}
-				
+
 				pageBoundElementsMap.putMap(page, map);
 			}
+		}
+	}
+
+
+	/**
+	 * TODO
+	 * @param initialStyle
+	 * @param newStyle
+	 */
+	public void consolidateStyle(JRStyle initialStyle, JRStyle newStyle)
+	{
+		Map cachedStyle = (Map) consolidatedStyles.get(initialStyle);
+		if (cachedStyle != null) {
+			if (cachedStyle.get(newStyle.getName()) == null)
+				cachedStyle.put(newStyle.getName(), newStyle);
+		}
+		else {
+			Map map = new HashMap();
+			map.put(newStyle.getName(), newStyle);
+			consolidatedStyles.put(initialStyle, map);
 		}
 	}
 }

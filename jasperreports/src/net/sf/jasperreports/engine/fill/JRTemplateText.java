@@ -102,21 +102,27 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText)
+	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText, JRStyle style)
 	{
 		super(defaultStyleProvider);
 		
 		setStaticText(staticText);
+
+		if (style != null)
+			parentStyle = style;
 	}
 
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRTextField textField)
+	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRTextField textField, JRStyle style)
 	{
 		super(defaultStyleProvider);
 		
 		setTextField(textField);
+
+		if (style != null)
+			parentStyle = style;
 	}
 
 
