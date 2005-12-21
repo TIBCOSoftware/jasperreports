@@ -48,6 +48,8 @@ import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
+import net.sf.jasperreports.engine.base.JRBaseExpression;
 
 
 /**
@@ -95,7 +97,7 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRElementGroup getElementGroup(JRElementGroup elementGroup);
-	
+
 	/**
 	 *
 	 */
@@ -153,8 +155,8 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	public abstract JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset);
-	
-	
+
+
 	/**
 	 * 
 	 */
@@ -164,17 +166,17 @@ public abstract class JRAbstractObjectFactory
 	 * 
 	 */
 	public abstract JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset );
-	
+
 	/**
 	 * 
 	 */
 	public abstract JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries );
-	
+
 	/**
 	 * 
 	 */
 	public abstract JRTimeSeries getTimeSeries( JRTimeSeries timeSeries );
-	
+
 	/**
 	 *
 	 */
@@ -231,8 +233,12 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract JRChart getChart(JRChart chart);
 
-	
+
 	public abstract JRCrosstab getCrosstab(JRCrosstab crosstab);
-	
+
 	public abstract JRFrame getFrame(JRFrame frame);
+
+	public abstract JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle parentStyle);
+
+	public abstract JRExpression getExpression(JRExpression expression);//FIXME STYLE recheck this
 }

@@ -50,9 +50,9 @@
 	isPdfEmbedded (true | false) "false"
 >
 
-<!ELEMENT style EMPTY>
+<!ELEMENT style (conditionalStyle*)>
 <!ATTLIST style
-	name NMTOKEN #REQUIRED
+	name NMTOKEN #IMPLIED
 	isDefault (true | false) "false"
 	style NMTOKEN #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
@@ -94,6 +94,10 @@
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
 >
+
+<!ELEMENT conditionalStyle (conditionExpression, style)>
+
+<!ELEMENT conditionExpression (#PCDATA)>
 
 <!ELEMENT subDataset (property*, parameter*, queryString?, field*, variable*, group*)>
 <!ATTLIST subDataset

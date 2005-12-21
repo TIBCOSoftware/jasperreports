@@ -29,10 +29,14 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -108,6 +112,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	protected String pattern = null;
 	protected Boolean isBlankWhenNull = null;
 
+	protected JRConditionalStyle[] conditionalStyles;
+
+
 	/**
 	 *
 	 */
@@ -115,6 +122,13 @@ public class JRBaseStyle implements JRStyle, Serializable
 	{
 	}
 
+	/**
+	 *
+	 */
+	public JRBaseStyle(String name)
+	{
+		this.name = name;
+	}
 
 	/**
 	 *
@@ -169,6 +183,14 @@ public class JRBaseStyle implements JRStyle, Serializable
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
+
+		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+		if (conditionalStyles != null && conditionalStyles.length > 0) {
+			this.conditionalStyles = new JRConditionalStyle[conditionalStyles.length];
+			for (int i = 0; i < conditionalStyles.length; i++) {
+				this.conditionalStyles[i] = factory.getConditionalStyle(conditionalStyles[i], this);
+			}
+		}
 	}
 
 
@@ -1109,5 +1131,13 @@ public class JRBaseStyle implements JRStyle, Serializable
 	public void setFontSize(Integer fontSize)
 	{
 		this.fontSize = fontSize;
+	}
+
+	/**
+	 *
+	 */
+	public JRConditionalStyle[] getConditionalStyles()
+	{
+		return conditionalStyles;
 	}
 }

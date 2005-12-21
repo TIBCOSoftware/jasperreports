@@ -27,7 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 /**
@@ -41,6 +45,9 @@ public class JRDesignStyle extends JRBaseStyle
 	 *
 	 */
 	private static final long serialVersionUID = 10001;
+
+	private List conditionalStylesList = new ArrayList();
+
 
 	/**
 	 *
@@ -73,6 +80,36 @@ public class JRDesignStyle extends JRBaseStyle
 		this.parentStyle = parentStyle;
 	}
 
+	/**
+	 *
+	 */
+	public void addConditionalStyle(JRConditionalStyle conditionalStyle)
+	{
+		conditionalStylesList.add(conditionalStyle);
+	}
 
+	/**
+	 *
+	 */
+	public boolean removeConditionalStyle(JRConditionalStyle conditionalStyle)
+	{
+		return conditionalStylesList.remove(conditionalStyle);
+	}
+
+	/**
+	 *
+	 */
+	public JRConditionalStyle[] getConditionalStyles()
+	{
+		return (JRConditionalStyle[]) conditionalStylesList.toArray(new JRDesignConditionalStyle[conditionalStylesList.size()]);
+	}
+
+	/**
+	 *
+	 */
+	public List getConditionalStyleList()
+	{
+		return conditionalStylesList;
+	}
 
 }

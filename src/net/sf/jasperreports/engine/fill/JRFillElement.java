@@ -61,7 +61,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 *
 	 */
 	protected JRElement parent = null;
-	protected JRTemplateElement template = null;
+	protected Map templates = new HashMap();
 
 	/**
 	 *
@@ -156,7 +156,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		width = element.getWidth();
 		height = element.getHeight();
 		
-		this.template = element.template;
+//		this.template = element.template;
 	}
 
 

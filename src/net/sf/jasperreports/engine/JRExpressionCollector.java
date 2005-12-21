@@ -281,7 +281,14 @@ public class JRExpressionCollector
 				collector.collect(datasets[i]);
 			}
 		}
-		
+
+		JRStyle[] styles = report.getStyles();
+		if (styles != null && styles.length > 0) {
+			for (int i =0; i < styles.length; i++)
+				collect(styles[i]);
+		}
+
+
 		collect(report.getBackground());
 		collect(report.getTitle());
 		collect(report.getPageHeader());
@@ -295,6 +302,21 @@ public class JRExpressionCollector
 		collectIds();
 		
 		return expressions;
+	}
+
+
+	/**
+	 *
+	 */
+	private void collect(JRStyle style)
+	{
+		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+
+		if (conditionalStyles != null && conditionalStyles.length > 0) {
+			for (int i = 0; i < conditionalStyles.length; i++) {
+				addExpression(conditionalStyles[i].getConditionExpression());
+			}
+		}
 	}
 
 

@@ -77,6 +77,8 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -497,12 +499,18 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
+		JRTemplateImage template;
+		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		if (style == null)
+			style = parent.getStyle();
+
+		template = (JRTemplateImage) templates.get(style);
 		if (template == null)
 		{
-			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRChart)parent);
+			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRChart)parent, style);
+			templates.put(style, template);
 		}
-		
-		return (JRTemplateImage)template;
+		return template;
 	}
 
 

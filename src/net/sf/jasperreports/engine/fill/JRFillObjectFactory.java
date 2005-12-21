@@ -113,9 +113,13 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
+import net.sf.jasperreports.engine.base.JRBaseExpression;
 
 
 /**
@@ -158,21 +162,21 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		this.evaluator = expressionEvaluator;
 	}
 
-	
+
 	public JRFillObjectFactory(JRBaseFiller filler, JRFillCrosstab crosstab)
 	{
 		this(filler, crosstab.getExpressionEvaluator());
-		
+
 		this.crosstab = crosstab;
 	}
-	
-	
+
+
 	public JRFillCrosstab getCrosstab()
 	{
 		return crosstab;
 	}
 
-	
+
 	protected JRFillExpressionEvaluator getExpressionEvaluator()
 	{
 		return evaluator;
@@ -186,7 +190,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return (JRFillChartDataset[]) elementDatasets.toArray(new JRFillChartDataset[elementDatasets.size()]);
 	}
 
-	
+
 	protected JRFillElementDataset[] getElementDatasets(JRDataset dataset)
 	{
 		JRFillElementDataset[] elementDatasetsArray;
@@ -199,7 +203,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		{
 			elementDatasetsList = (List) elementDatasetMap.get(dataset.getName());
 		}
-		
+
 		if (elementDatasetsList == null || elementDatasetsList.size() == 0)
 		{
 			elementDatasetsArray = new JRFillElementDataset[0];
@@ -209,7 +213,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			elementDatasetsArray = new JRFillElementDataset[elementDatasetsList.size()];
 			elementDatasetsList.toArray(elementDatasetsArray);
 		}
-		
+
 		return elementDatasetsArray;
 	}
 
@@ -690,20 +694,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
 		JRFillTimeSeriesDataset fillTimeSeriesDataset = null;
-		
+
 		if( timeSeriesDataset != null ){
-			
+
 			fillTimeSeriesDataset = (JRFillTimeSeriesDataset)get( timeSeriesDataset );
-			
+
 			if( fillTimeSeriesDataset == null ){
 				fillTimeSeriesDataset = new JRFillTimeSeriesDataset( timeSeriesDataset, this );
 				addChartDataset(fillTimeSeriesDataset);
 			}
 		}
-		
+
 		return fillTimeSeriesDataset;
 	}
-	
+
 	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
 		JRFillTimePeriodDataset fillTimePeriodDataset = null;
 		if( timePeriodDataset != null ){
@@ -809,8 +813,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillTimeSeries;
 	}
-	
-	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){ 
+
+	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
 		JRFillTimePeriodSeries fillTimePeriodSeries = null;
 		if( timePeriodSeries != null ){
 			fillTimePeriodSeries = (JRFillTimePeriodSeries)get( timePeriodSeries );
@@ -818,7 +822,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillTimePeriodSeries = new JRFillTimePeriodSeries( timePeriodSeries, this );
 			}
 		}
-		
+
 		return fillTimePeriodSeries;
 	}
 
@@ -963,9 +967,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillCandlestickPlot;
 	}
-	
 
-	
+
+
 	public JRTimeSeriesPlot getTimeSeriesPlot( JRTimeSeriesPlot plot ){
 		JRFillTimeSeriesPlot fillPlot = null;
 		if( plot != null ){
@@ -974,9 +978,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillPlot = new JRFillTimeSeriesPlot( plot, this );
 			}
 		}
-		
+
 		return fillPlot;
-		
+
 	}
 
 
@@ -1000,7 +1004,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRCrosstab getCrosstab(JRCrosstab crosstabElement)
 	{
 		JRFillCrosstab fillCrosstab = null;
-		
+
 		if (crosstabElement != null)
 		{
 			fillCrosstab = (JRFillCrosstab) get(crosstabElement);
@@ -1009,7 +1013,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillCrosstab = new JRFillCrosstab(filler, crosstabElement, this);
 			}
 		}
-		
+
 		return fillCrosstab;
 	}
 
@@ -1030,12 +1034,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillDataset;
 	}
-	
-	
+
+
 	public JRFillDataset getDataset(JRDataset dataset)
 	{
 		JRFillDataset fillDataset = null;
-		
+
 		if (dataset != null)
 		{
 			fillDataset = (JRFillDataset) get(dataset);
@@ -1044,7 +1048,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillDataset = new JRFillDataset(filler, dataset, this);
 			}
 		}
-		
+
 		return fillDataset;
 	}
 
@@ -1074,7 +1078,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRFillDatasetRun getDatasetRun(JRDatasetRun datasetRun)
 	{
 		JRFillDatasetRun fillDatasetRun = null;
-		
+
 		if (datasetRun != null)
 		{
 			fillDatasetRun = (JRFillDatasetRun) get(datasetRun);
@@ -1083,7 +1087,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillDatasetRun = new JRFillDatasetRun(filler, datasetRun, this);
 			}
 		}
-		
+
 		return fillDatasetRun;
 	}
 
@@ -1103,8 +1107,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillParameter;
 	}
-	
-	
+
+
 	public JRFillCellContents getCell(JRCellContents cell)
 	{
 		JRFillCellContents fillCell = null;
@@ -1120,8 +1124,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillCell;
 	}
-	
-	
+
+
 	public JRFillCrosstabRowGroup getCrosstabRowGroup(JRCrosstabRowGroup group)
 	{
 		JRFillCrosstabRowGroup fillGroup = null;
@@ -1137,8 +1141,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillGroup;
 	}
-	
-	
+
+
 	public JRFillCrosstabColumnGroup getCrosstabColumnGroup(JRCrosstabColumnGroup group)
 	{
 		JRFillCrosstabColumnGroup fillGroup = null;
@@ -1154,8 +1158,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillGroup;
 	}
-	
-	
+
+
 	public JRFillCrosstabCell getCrosstabCell(JRCrosstabCell cell)
 	{
 		JRFillCrosstabCell fillCell = null;
@@ -1171,8 +1175,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillCell;
 	}
-	
-	
+
+
 	public JRFillCrosstabMeasure getCrosstabMeasure(JRCrosstabMeasure measure)
 	{
 		JRFillCrosstabMeasure fillMeasure = null;
@@ -1193,7 +1197,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRFrame getFrame(JRFrame frame)
 	{
 		JRFillFrame fillFrame = null;
-		
+
 		if (frame != null)
 		{
 			fillFrame = (JRFillFrame) get(frame);
@@ -1202,13 +1206,37 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillFrame = new JRFillFrame(filler, frame, this);
 			}
 		}
-		
+
 		return fillFrame;
 	}
-	
-	
+
+
 	protected JRBaseFiller getFiller()
 	{
 		return filler;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle style)
+	{
+		JRBaseConditionalStyle baseConditionalStyle = null;
+		if (conditionalStyle != null)
+		{
+			baseConditionalStyle = (JRBaseConditionalStyle) get(conditionalStyle);
+			if (baseConditionalStyle == null) {
+				baseConditionalStyle = new JRBaseConditionalStyle(conditionalStyle, style, this);
+				put(conditionalStyle, baseConditionalStyle);
+			}
+		}
+		return baseConditionalStyle;
+	}
+
+
+	public JRExpression getExpression(JRExpression expression)//FIXME STYLE why?
+	{
+		return expression;
 	}
 }

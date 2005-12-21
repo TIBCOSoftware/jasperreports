@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -460,6 +461,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
+		JRTemplateRectangle template;
+		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		if (style == null)
+			style = parent.getStyle();
+
+		template = (JRTemplateRectangle) templates.get(style);
 		if (template == null)
 		{
 			JRDesignRectangle rectangle = new JRDesignRectangle();
@@ -480,10 +487,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 /*			rectangle.setBackcolor(getBackcolor());
 */			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle, style);
+			templates.put(style, template);
 		}
 
-		return (JRTemplateRectangle) template;
+		return template;
 	}
 
 	protected void rewind()

@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
@@ -39,6 +41,10 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 
 /**
@@ -47,7 +53,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
  */
 public class JRFillBand extends JRFillElementContainer implements JRBand
 {
-	
+
 
 	/**
 	 *
@@ -62,22 +68,30 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	private boolean isNewPageColumn = false;
 	private boolean isFirstWholeOnPageColumn = false;
 	private Map isNewGroupMap = new HashMap();
-	
+
 	private Set nowEvaluationTimes;
+
+	protected Map evaluatedStyles = new HashMap();
+
+
+	/**
+	 * List of styles that con
+	 */
+	protected List stylesToEvaluate = new ArrayList();
 
 	/**
 	 *
 	 */
 	protected JRFillBand(
 		JRBaseFiller filler,
-		JRBand band, 
+		JRBand band,
 		JRFillObjectFactory factory
 		)
 	{
 		super(filler, band, factory);
 
 		this.parent = band;
-		
+
 		if (this.elements != null && this.elements.length > 0)
 		{
 			for(int i = 0; i < this.elements.length; i++)
@@ -85,10 +99,26 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 				this.elements[i].setBand(this);
 			}
 		}
-		
+
 		initElements();
-		
+
+		initConditionalStyles();
+
 		nowEvaluationTimes = new HashSet();
+	}
+
+
+	/**
+	 * Find all styles containing conditional styles which are referenced by elements in this band.
+	 */
+	protected void initConditionalStyles()
+	{
+		JRElement[] elements = getElements();
+		for (int i = 0; i < elements.length; i++) {
+			JRStyle style = elements[i].getStyle();
+			if (style != null && style.getConditionalStyles() != null)
+				stylesToEvaluate.add(style);
+		}
 	}
 
 
@@ -109,10 +139,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		return this.isNewPageColumn;
 	}
 
-	
+
 	/**
 	 * Decides whether this band is the for whole band on the page/column.
-	 * 
+	 *
 	 * @return whether this band is the for whole band on the page/column
 	 */
 	protected boolean isFirstWholeOnPageColumn()
@@ -120,7 +150,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		return isFirstWholeOnPageColumn;
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -136,12 +166,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	protected boolean isNewGroup(JRGroup group)
 	{
 		Boolean value = (Boolean)this.isNewGroupMap.get(group);
-		
+
 		if (value == null)
 		{
 			value = Boolean.FALSE;
 		}
-		
+
 		return value.booleanValue();
 	}
 
@@ -153,7 +183,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return (this.parent != null ? this.parent.getHeight() : 0);
 	}
-		
+
 	/**
 	 *
 	 */
@@ -161,14 +191,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return this.parent.isSplitAllowed();
 	}
-		
+
 	/**
 	 *
 	 */
 	public void setSplitAllowed(boolean isSplitAllowed)
 	{
 	}
-		
+
 	/**
 	 *
 	 */
@@ -184,7 +214,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return (this.getPrintWhenExpression() == null);
 	}
-	
+
 	/**
 	 *
 	 */
@@ -192,7 +222,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return this.isPrintWhenTrue;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -200,16 +230,16 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		this.isPrintWhenTrue = isPrintWhenTrue;
 	}
-	
+
 	/**
 	 *
 	 */
 	protected boolean isToPrint()
 	{
-		return 
+		return
 			(this.isPrintWhenExpressionNull() ||
-			(!this.isPrintWhenExpressionNull() && 
-			this.isPrintWhenTrue()));
+			 (!this.isPrintWhenExpressionNull() &&
+			  this.isPrintWhenTrue()));
 	}
 
 
@@ -252,8 +282,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 		return this.fill(availableStretchHeight);
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -261,8 +291,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return this.fill(0, false);
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -272,8 +302,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		return this.fill(availableStretchHeight, true);
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -283,7 +313,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		) throws JRException
 	{
 		filler.fillContext.ensureMasterPageAvailable();
-		
+
 		if (
 			Thread.currentThread().isInterrupted()
 			|| this.filler.isInterrupted()
@@ -294,11 +324,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 			throw new JRFillInterruptedException();
 		}
-		
+
 		filler.setBandOverFlowAllowed(isOverflowAllowed);
-		
+
 		initFill();
-		
+
 		if (isNewPageColumn && !isOverflow)
 		{
 			isFirstWholeOnPageColumn = true;
@@ -313,14 +343,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		this.moveBandBottomElements();
 
 		this.removeBlankElements();
-		
+
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		this.isNewPageColumn = false;
 		this.isNewGroupMap = new HashMap();
 
 		JRPrintBand printBand = new JRPrintBand();
 		this.fillElements(printBand);
-		
+
 		return printBand;
 	}
 
@@ -360,17 +390,17 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 				}
 			}
 		}
-		
+
 		return used;
 	}
-	
-	
+
+
 	protected void addNowEvaluationTime(JREvaluationTime evaluationTime)
 	{
 		nowEvaluationTimes.add(evaluationTime);
 	}
-	
-	
+
+
 	protected void addNowEvaluationTimes(JREvaluationTime[] evaluationTimes)
 	{
 		for (int i = 0; i < evaluationTimes.length; i++)
@@ -378,16 +408,63 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 			nowEvaluationTimes.add(evaluationTimes[i]);
 		}
 	}
-	
-	
+
+
 	protected boolean isNowEvaluationTime(JREvaluationTime evaluationTime)
 	{
 		return nowEvaluationTimes.contains(evaluationTime);
 	}
-	
-	
+
+
 	protected int getId()
 	{
 		return System.identityHashCode(this);
 	}
+
+
+	protected void evaluate(byte evaluation) throws JRException
+	{
+		super.evaluate(evaluation);
+		this.evaluateConditionalStyles(evaluation);
+	}
+	/**
+	 *
+	 */
+	protected void evaluateConditionalStyles(byte evaluation) throws JRException
+	{
+		for (int i = 0; i < stylesToEvaluate.size(); i++) {
+			JRStyle initialStyle = (JRStyle) stylesToEvaluate.get(i);
+			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
+			Boolean[] expressionValues = new Boolean[conditionalStyles.length];
+
+
+			StringBuffer code = new StringBuffer(initialStyle.getName());
+			for (int j = 0; j < conditionalStyles.length; j++) {
+				Boolean expressionValue = (Boolean) filler.evaluateExpression(conditionalStyles[j].getConditionExpression(),
+																			  evaluation);
+				if (expressionValue != null)
+					code.append(expressionValue.booleanValue() ? "1" : "0");
+				expressionValues[j] = expressionValue;
+			}
+
+			JRBaseStyle style = new JRBaseStyle(code.toString());
+			JRStyleResolver.buildFromStyle(style, initialStyle);
+			for (int j = 0; j < conditionalStyles.length; j++) {
+				JRConditionalStyle conditionalStyle = conditionalStyles[j];
+				if (expressionValues[j] != null && expressionValues[j].booleanValue())
+					JRStyleResolver.appendStyle(style, conditionalStyle);
+			}
+
+			evaluatedStyles.put(initialStyle, style);
+			filler.consolidateStyle(initialStyle, style);
+		}
+	}
+
+
+
+	public Map getEvaluatedStyles()
+	{
+		return evaluatedStyles;
+	}
+
 }

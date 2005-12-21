@@ -122,6 +122,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
@@ -510,6 +511,24 @@ public class JRXmlWriter
 		writer.addAttribute("pdfEncoding", style.getOwnPdfEncoding());
 		writer.addAttribute("isPdfEmbedded", style.isOwnPdfEmbedded());
 
+		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+		if (!(style instanceof JRConditionalStyle) && conditionalStyles != null) {
+			for (int i = 0; i < conditionalStyles.length; i++)
+				writeConditionalStyle(conditionalStyles[i]);
+		}
+		
+		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	private void writeConditionalStyle(JRConditionalStyle style) throws IOException
+	{
+		writer.startElement("conditionalStyle");
+		writer.writeExpression("conditionExpression", style.getConditionExpression(), false);
+		writeStyle(style);
 		writer.closeElement();
 	}
 

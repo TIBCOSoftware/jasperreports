@@ -112,6 +112,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.Digester;
@@ -172,6 +173,12 @@ public class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("jasperReport/style", JRStyleFactory.class.getName());
 		digester.addSetNext("jasperReport/style", "addStyle", JRStyle.class.getName());
+
+		digester.addFactoryCreate("jasperReport/style/conditionalStyle", JRConditionalStyleFactory.class.getName());
+		digester.addFactoryCreate("jasperReport/style/conditionalStyle/conditionExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addSetNext("jasperReport/style/conditionalStyle/conditionExpression", "setConditionExpression", JRExpression.class.getName());
+		digester.addCallMethod("jasperReport/style/conditionalStyle/conditionExpression", "setText", 0);
+		digester.addFactoryCreate("jasperReport/style/conditionalStyle/style", JRConditionalStyleFillerFactory.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/parameter", JRParameterFactory.class.getName());

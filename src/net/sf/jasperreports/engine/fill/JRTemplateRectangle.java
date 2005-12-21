@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRSubreport;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -57,22 +58,28 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRRectangle rectangle)
+	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRRectangle rectangle, JRStyle style)
 	{
 		super(defaultStyleProvider);
-		
+
 		setRectangle(rectangle);
+
+		if (style != null)
+			parentStyle = style;
 	}
 
 
 	/**
 	 *
 	 */
-	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRSubreport subreport)
+	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRSubreport subreport, JRStyle style)
 	{
 		super(defaultStyleProvider);
 		
 		setSubreport(subreport);
+
+		if (style != null)
+			parentStyle = style;
 	}
 
 
