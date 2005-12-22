@@ -367,7 +367,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	protected JRTemplateImage getJRTemplateImage()
 	{
 		JRTemplateImage template;
-		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		JRStyle style = null;
+		// FIXME STYLE check for crosstabs
+		if (band != null)
+			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
 		if (style == null)
 			style = parent.getStyle();
 
