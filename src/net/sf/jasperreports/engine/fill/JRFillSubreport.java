@@ -214,7 +214,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
 		JRTemplateRectangle template;
-		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		JRStyle style = null;
+		// FIXME STYLE check for crosstabs
+		if (band != null)
+			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
 		if (style == null)
 			style = parent.getStyle();
 

@@ -285,7 +285,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected JRTemplateText getJRTemplateText()
 	{
 		JRTemplateText template;
-		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		JRStyle style = null;
+		// FIXME STYLE check for crosstabs
+		if (band != null)
+			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
 		if (style == null)
 			style = parent.getStyle();
 

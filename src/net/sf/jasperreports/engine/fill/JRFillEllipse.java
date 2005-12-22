@@ -74,7 +74,10 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	protected JRTemplateEllipse getJRTemplateEllipse()
 	{
 		JRTemplateEllipse template;
-		JRStyle style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
+		JRStyle style = null;
+		// FIXME STYLE check for crosstabs
+		if (band != null)
+			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
 		if (style == null)
 			style = parent.getStyle();
 
