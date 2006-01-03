@@ -28,6 +28,7 @@
 package net.sf.jasperreports.crosstabs.design;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -556,8 +557,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return removedCell;
 	}
 	
-	private static class Pair
+	private static class Pair implements Serializable
 	{
+		private static final long serialVersionUID = 1L;
+		
 		final Object o1;
 		final Object o2;
 		
