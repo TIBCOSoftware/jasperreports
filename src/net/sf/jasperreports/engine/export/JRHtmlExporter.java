@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -33,6 +33,7 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
+
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -95,7 +96,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRHtmlExporter extends JRAbstractExporter
 {
 
-
 	/**
 	 *
 	 */
@@ -149,6 +149,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected StringProvider emptyCellStringProvider = null;
 
+
 	/**
 	 *
 	 */
@@ -157,23 +158,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isWrapBreakWord = false;
 
 	protected Map fontMap = null;
-	
+
 	private LinkedList backcolorStack;
 	private Color backcolor;
+
+
 
 	public JRHtmlExporter()
 	{
 		backcolorStack = new LinkedList();
 		backcolor = null;
 	}
-	
+
+
 	/**
 	 *
 	 */
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-		
+
 		/*   */
 		setOffset();
 
@@ -208,7 +212,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
 		}
-		
+
 		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
@@ -220,7 +224,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
 		}
-				
+
 		String uri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
 		if (uri != null)
 		{
@@ -232,7 +236,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			encoding = "UTF-8";
 		}
-		
+
 		rendererToImagePathMap = new HashMap();
 		imagesToProcess = new ArrayList();
 		isPxImageLoaded = false;
@@ -244,19 +248,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 //			imageNameToImageDataMap = new HashMap();
 //		}
 		//END - backward compatibility with the IMAGE_MAP parameter
-		
+
 		Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
 		if (isWrapBreakWordParameter != null)
 		{
 			isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
 		}
-		
+
 		sizeUnit = (String)parameters.get(JRHtmlExporterParameter.SIZE_UNIT);
 		if (sizeUnit == null)
 		{
 			sizeUnit = JRHtmlExporterParameter.SIZE_UNIT_PIXEL;
 		}
-		
+
 		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
 		if (isUsingImagesToAlignParameter == null)
 		{
@@ -265,7 +269,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (isUsingImagesToAlignParameter.booleanValue())
 		{
-			emptyCellStringProvider = 
+			emptyCellStringProvider =
 				new StringProvider()
 				{
 					public String getStringForCollapsedTD(Object value)
@@ -274,7 +278,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 					public String getStringForEmptyTD(Object value)
 					{
-						return "<img src=\"" + value + "px\" border=0>";
+						return "<img src=\"" + value + "px\" border=\"0\"/>";
 					}
 				};
 
@@ -282,7 +286,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			emptyCellStringProvider = 
+			emptyCellStringProvider =
 				new StringProvider()
 				{
 					public String getStringForCollapsedTD(Object value)
@@ -295,7 +299,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					}
 				};
 		}
-		
+
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
@@ -347,7 +351,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				{
 					try
 					{
-						writer = new OutputStreamWriter(os, encoding); 
+						writer = new OutputStreamWriter(os, encoding);
 						exportReportToWriter();
 					}
 					catch (IOException e)
@@ -380,22 +384,22 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
 					}
-					
+
 					if (imagesDir == null)
 					{
 						imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
 					}
-	
+
 					if (isOutputImagesToDirParameter == null)
 					{
 						isOutputImagesToDir = true;
 					}
-	
+
 					if (imagesURI == null)
 					{
 						imagesURI = imagesDir.getName() + "/";
 					}
-					
+
 					try
 					{
 						exportReportToWriter();
@@ -434,10 +438,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 				{
 					imagesDir.mkdir();
 				}
-	
+
 				if (isPxImageLoaded)
 				{
-					JRRenderable pxRenderer = 
+					JRRenderable pxRenderer =
 						JRImageRenderer.getInstance(
 							"net/sf/jasperreports/engine/images/pixel.GIF",
 							JRImage.ON_ERROR_TYPE_ERROR
@@ -474,19 +478,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
 				{
 					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
-					
+
 					JRPrintImage image = getImage(jasperPrintList, imageIndex);
 					JRRenderable renderer = image.getRenderer();
 					if (renderer.getType() == JRRenderable.TYPE_SVG)
 					{
-						renderer = 
+						renderer =
 							new JRWrappingSvgRenderer(
-								renderer, 
+								renderer,
 								new Dimension(image.getWidth(), image.getHeight()),
 								image.getBackcolor()
 								);
 					}
-					
+
 					byte[] imageData = renderer.getImageData();
 
 					File imageFile = new File(imagesDir, getImageName(imageIndex));
@@ -533,16 +537,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
-		
+
 		Integer[] elementIndexes = imageIndex.getElementIndexes();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
-		
+
 		for (int i = 1; i < elementIndexes.length; ++i)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
-		
+
 		return (JRPrintImage) element;
 	}
 
@@ -554,9 +558,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		if (htmlHeader == null)
 		{
-			writer.write("<html>\n");
+			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
+			writer.write("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
 			writer.write("<head>\n");
-			writer.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\">\n");
+			writer.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\"/>\n");
 			writer.write("  <style type=\"text/css\">\n");
 			writer.write("    a {text-decoration: none}\n");
 			writer.write("  </style>\n");
@@ -592,19 +597,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						throw new JRException("Current thread interrupted.");
 					}
-				
+
 					page = (JRPrintPage)pages.get(pageIndex);
 
 					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"/>\n");
 
 					/*   */
 					exportPage(page);
-				
+
 					if (reportIndex < jasperPrintList.size() - 1 || pageIndex < endPageIndex)
 					{
 						if (betweenPagesHtml == null)
 						{
-							writer.write("<br>\n<br>\n");
+							writer.write("<br/>\n<br/>\n");
 						}
 						else
 						{
@@ -640,52 +645,55 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = getPageGridLayout(page);
 		exportGrid(layout, isWhitePageBackground);
-		
+
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
 		}
 	}
 
-	
+
+	/**
+	 *
+	 */
 	protected void exportGrid(JRGridLayout gridLayout, boolean whitePageBackground) throws IOException, JRException
 	{
 		List xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 		boolean[] isRowNotEmpty = gridLayout.getIsRowNotEmpty();
-		
-		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=0 cellspacing=0 border=0");
+
+		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
 		if (whitePageBackground)
 		{
-			writer.write(" bgcolor=white");
+			writer.write(" bgcolor=\"white\"");
 		}
 		writer.write(">\n");
-		
+
 		if (whitePageBackground)
 		{
 			setBackcolor(Color.white);
 		}
-		
+
 		writer.write("<tr>\n");
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + width + sizeUnit + "; height: 1" + sizeUnit + "\"></td>\n");
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + width + sizeUnit + "; height: 1" + sizeUnit + "\"/></td>\n");
 		}
 		writer.write("</tr>\n");
-		
+
 		JRPrintElement element = null;
 		for(int y = 0; y < grid.length; y++)
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
-				writer.write("<tr valign=top>\n");
-		
+				writer.write("<tr valign=\"top\">\n");
+
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
 				int lastRowHeight = JRGridLayout.getRowHeight(grid, y);
-		
+
 				for(int x = 0; x < grid[y].length; x++)
 				{
 					if(grid[y][x].element != null)
@@ -695,15 +703,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 							writer.write("  <td");
 							if (emptyCellColSpan > 1)
 							{
-								writer.write(" colspan=" + emptyCellColSpan);
+								writer.write(" colspan=\"" + emptyCellColSpan + "\"");
 							}
-							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"></td>\n");
+							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"/></td>\n");
 							emptyCellColSpan = 0;
 							emptyCellWidth = 0;
 						}
-		
+
 						element = grid[y][x].element;
-		
+
 						if (element instanceof JRPrintLine)
 						{
 							exportLine((JRPrintLine)element, grid[y][x]);
@@ -728,7 +736,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						{
 							exportFrame((JRPrintFrame) element, grid[y][x]);
 						}
-		
+
 						x += grid[y][x].colSpan - 1;
 					}
 					else
@@ -737,28 +745,29 @@ public class JRHtmlExporter extends JRAbstractExporter
 						emptyCellWidth += grid[y][x].width;
 					}
 				}
-		
+
 				if (emptyCellColSpan > 0)
 				{
 					writer.write("  <td");
 					if (emptyCellColSpan > 1)
 					{
-						writer.write(" colspan=" + emptyCellColSpan);
+						writer.write(" colspan=\"" + emptyCellColSpan + "\"");
 					}
-					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"></td>\n");
+					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"/></td>\n");
 				}
-		
+
 				writer.write("</tr>\n");
 			}
 		}
-		
+
 		if (whitePageBackground)
 		{
 			restoreBackcolor();
 		}
-		
+
 		writer.write("</table>\n");
 	}
+
 
 	/**
 	 *
@@ -766,18 +775,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		writeCellTDStart(gridCell);
-		
+
 		if (
-			line.getForecolor().getRGB() != Color.white.getRGB() 
+			line.getForecolor().getRGB() != Color.white.getRGB()
 			)
 		{
-			writer.write(" bgcolor=#");
+			writer.write(" bgcolor=\"#");
 			String hexa = Integer.toHexString(line.getForecolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			writer.write(hexa);
 		}
 
-		writer.write(">");
+		writer.write("\">");
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
@@ -785,16 +794,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
+	/**
+	 *
+	 */
 	protected void writeCellTDStart(JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("  <td");
 		if (gridCell.colSpan > 1)
 		{
-			writer.write(" colspan=" + gridCell.colSpan);
+			writer.write(" colspan=\"" + gridCell.colSpan +"\"");
 		}
 		if (gridCell.rowSpan > 1)
 		{
-			writer.write(" rowspan=" + gridCell.rowSpan);
+			writer.write(" rowspan=\"" + gridCell.rowSpan + "\"");
 		}
 	}
 
@@ -805,19 +817,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell) throws IOException
 	{
 		writeCellTDStart(gridCell);
-		
+
 		if (
-			(backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()) 
+			(backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB())
 			&& element.getMode() == JRElement.MODE_OPAQUE
 			)
 		{
-			writer.write(" bgcolor=#");
+			writer.write(" bgcolor=\"#");
 			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			writer.write(hexa);
 		}
 
-		writer.write(">");
+		writer.write("\">");
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
@@ -831,11 +843,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportStyledText(JRStyledText styledText) throws IOException
 	{
 		String text = styledText.getText();
-		
+
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-		
+
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			exportStyledTextRun(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
@@ -920,7 +932,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writer.write(
 			JRStringUtil.htmlEncode(text)
 			);
-			
+
 		writer.write("</span>");
 	}
 
@@ -940,25 +952,25 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writeCellTDStart(gridCell);
-		
+
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
 		switch (text.getVerticalAlignment())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM : 
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM; 
+				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE : 
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP : 
-			default : 
+			case JRAlignment.VERTICAL_ALIGN_TOP :
+			default :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_TOP; 
+				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 			}
 		}
 
@@ -984,33 +996,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			switch (text.getHorizontalAlignment())
 			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT : 
+				case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 				{
-					horizontalAlignment = CSS_TEXT_ALIGN_RIGHT; 
+					horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER : 
+				case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 				{
 					horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 					break;
 				}
 				case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
 				{
-					horizontalAlignment = CSS_TEXT_ALIGN_JUSTIFY; 
+					horizontalAlignment = CSS_TEXT_ALIGN_JUSTIFY;
 					break;
 				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT : 
-				default : 
+				case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+				default :
 				{
-					horizontalAlignment = CSS_TEXT_ALIGN_LEFT; 
+					horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 				}
 			}
 
 			if (
 				(text.getRunDirection() == JRPrintText.RUN_DIRECTION_LTR
-				&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+				 && !horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 				|| (text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL
-				&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_RIGHT))
+					&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_RIGHT))
 				)
 			{
 				styleBuffer.append("text-align: ");
@@ -1018,7 +1030,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				styleBuffer.append(";");
 			}
 		}
-		
+
 		if (isWrapBreakWord)
 		{
 			styleBuffer.append("width: " + gridCell.width + sizeUnit + "; ");
@@ -1031,7 +1043,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
-		
+
 		writer.write(">");
 
 		if (text.getAnchorName() != null)
@@ -1144,33 +1156,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	private void appendBorderStyle(JRPrintElement element, JRBox box, StringBuffer styleBuffer)
+	protected void appendBorderStyle(JRPrintElement element, JRBox box, StringBuffer styleBuffer)
 	{
 		if (box != null)
 		{
 			appendBorder(
-				styleBuffer, 
+				styleBuffer,
 				box.getTopBorder(),
 				box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor(),
 				box.getTopPadding(),
 				"top"
 				);
 			appendBorder(
-				styleBuffer, 
+				styleBuffer,
 				box.getLeftBorder(),
 				box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor(),
 				box.getLeftPadding(),
 				"left"
 				);
 			appendBorder(
-				styleBuffer, 
+				styleBuffer,
 				box.getBottomBorder(),
 				box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor(),
 				box.getBottomPadding(),
 				"bottom"
 				);
 			appendBorder(
-				styleBuffer, 
+				styleBuffer,
 				box.getRightBorder(),
 				box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor(),
 				box.getRightPadding(),
@@ -1180,7 +1192,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	private Color appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
+	protected Color appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
 	{
 		if (element.getMode() == JRElement.MODE_OPAQUE && (backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()))
 		{
@@ -1189,10 +1201,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			hexa = ("000000" + hexa).substring(hexa.length());
 			styleBuffer.append(hexa);
 			styleBuffer.append("; ");
-			
+
 			return element.getBackcolor();
 		}
-		
+
 		return null;
 	}
 
@@ -1208,20 +1220,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		switch (image.getHorizontalAlignment())
 		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT : 
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT; 
+				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER : 
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_CENTER; 
+				horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 				break;
 			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT : 
-			default : 
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			default :
 			{
-				horizontalAlignment = CSS_TEXT_ALIGN_LEFT; 
+				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 			}
 		}
 
@@ -1236,20 +1248,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		switch (image.getVerticalAlignment())
 		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM : 
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM; 
+				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE : 
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
-			case JRAlignment.VERTICAL_ALIGN_TOP : 
-			default : 
+			case JRAlignment.VERTICAL_ALIGN_TOP :
+			default :
 			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_TOP; 
+				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 			}
 		}
 
@@ -1270,7 +1282,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
-		
+
 		writer.write(">");
 
 		if (image.getAnchorName() != null)
@@ -1368,7 +1380,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writer.write("<img");
 
 		String imagePath = "";
-		
+
 		byte scaleImage = image.getScaleImage();
 		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
@@ -1381,26 +1393,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 //				if (renderer.getType() == JRRenderable.TYPE_SVG)
 //				{
-//					renderer = 
+//					renderer =
 //						new JRWrappingSvgRenderer(
-//							renderer, 
+//							renderer,
 //							new Dimension(image.getWidth(), image.getHeight()),
 //							image.getBackcolor()
 //							);
 //				}
-				
+
 				if (image.isLazy())
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex = 
+					JRPrintElementIndex imageIndex =
 						new JRPrintElementIndex(
 								reportIndex,
 								pageIndex,
 								gridCell.elementIndex
-								);					
+								);
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
@@ -1423,7 +1435,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			imagePath = imagesURI + "px";
 			scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
 		}
-		
+
 		writer.write(" src=\"");
 		writer.write(imagePath);
 		writer.write("\"");
@@ -1464,15 +1476,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		writer.write(" border=");
+		writer.write(" border=\"");
 		writer.write(String.valueOf(borderWidth));
-		
+		writer.write("\"");
+
 		int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
 		if (imageWidth < 0)
 		{
 			imageWidth = 0;
 		}
-		
+
 		int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
 		if (imageHeight < 0)
 		{
@@ -1499,7 +1512,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				double normalWidth = imageWidth;
 				double normalHeight = imageHeight;
-				
+
 				if (!image.isLazy())
 				{
 					Dimension2D dimension = renderer.getDimension();
@@ -1509,11 +1522,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 						normalHeight = dimension.getHeight();
 					}
 				}
-		
+
 				if (imageHeight > 0)
 				{
 					double ratio = normalWidth / normalHeight;
-					
+
 					if( ratio > (double)imageWidth / (double)imageHeight )
 					{
 						writer.write(" style=\"width: ");
@@ -1531,8 +1544,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 			}
 		}
-				
-		writer.write(">");
+
+		writer.write("/>");
 
 		if (href != null)
 		{
@@ -1546,11 +1559,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRGridLayout getPageGridLayout(JRPrintPage page)
 	{
 		JRGridLayout layout = new JRGridLayout(page.getElements(), null,
-				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
-				globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, null);
+											   jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
+											   globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, null);
 		return layout;
 	}
-	
+
+
 	/**
 	 *
 	 */
@@ -1560,7 +1574,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		//backward compatibility with the IMAGE_MAP parameter
 		if (imageNameToImageDataMap != null && !imageNameToImageDataMap.containsKey("px"))
 		{
-			JRRenderable pxRenderer = 
+			JRRenderable pxRenderer =
 				JRImageRenderer.getInstance(
 					"net/sf/jasperreports/engine/images/pixel.GIF",
 					JRImage.ON_ERROR_TYPE_ERROR
@@ -1570,21 +1584,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		//END - backward compatibility with the IMAGE_MAP parameter
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
 	protected static interface StringProvider
 	{
-	
+
 		/**
-		 * 
+		 *
 		 */
 		public String getStringForCollapsedTD(Object value);
-	
+
 		/**
-		 * 
+		 *
 		 */
 		public String getStringForEmptyTD(Object value);
 
@@ -1596,33 +1610,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	private void appendBorder(StringBuffer sb, byte pen, Color borderColor, int padding, String side)
 	{
-		String borderStyle = null; 
-		String borderWidth = null; 
+		String borderStyle = null;
+		String borderWidth = null;
 
 		switch (pen)
 		{
 			case JRGraphicElement.PEN_DOTTED :
 			{
-				borderStyle = "dashed"; 
-				borderWidth = "1"; 
+				borderStyle = "dashed";
+				borderWidth = "1";
 				break;
 			}
 			case JRGraphicElement.PEN_4_POINT :
 			{
-				borderStyle = "solid"; 
-				borderWidth = "4"; 
+				borderStyle = "solid";
+				borderWidth = "4";
 				break;
 			}
 			case JRGraphicElement.PEN_2_POINT :
 			{
-				borderStyle = "solid"; 
-				borderWidth = "2"; 
+				borderStyle = "solid";
+				borderWidth = "2";
 				break;
 			}
 			case JRGraphicElement.PEN_THIN :
 			{
-				borderStyle = "solid"; 
-				borderWidth = "1"; 
+				borderStyle = "solid";
+				borderWidth = "1";
 				break;
 			}
 			case JRGraphicElement.PEN_NONE :
@@ -1632,12 +1646,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case JRGraphicElement.PEN_1_POINT :
 			default :
 			{
-				borderStyle = "solid"; 
-				borderWidth = "1"; 
+				borderStyle = "solid";
+				borderWidth = "1";
 				break;
 			}
 		}
-		
+
 		if (borderWidth != null)
 		{
 			sb.append("border-");
@@ -1645,14 +1659,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append("-style: ");
 			sb.append(borderStyle);
 			sb.append("; ");
-			
+
 			sb.append("border-");
 			sb.append(side);
 			sb.append("-width: ");
 			sb.append(borderWidth);
 			sb.append(sizeUnit);
 			sb.append("; ");
-			
+
 			sb.append("border-");
 			sb.append(side);
 			sb.append("-color: #");
@@ -1661,7 +1675,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append(hexa);
 			sb.append("; ");
 		}
-		
+
 		if (padding > 0)
 		{
 			sb.append("padding-");
@@ -1690,9 +1704,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			name.append('_');
 			name.append(elementIndexes[i]);
 		}
-		
+
 		return name.toString();
 	}
+
 
 	/**
 	 *
@@ -1700,15 +1715,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 	public static JRPrintElementIndex getPrintElementIndex(String imageName)
 	{
 		StringTokenizer tkzer = new StringTokenizer(imageName, "_");
-		
+
 		if (!"img".equals(tkzer.nextElement()))
 		{
 			throw new JRRuntimeException("Invalid image name: " + imageName);
 		}
-		
+
 		int reportIndex = Integer.parseInt(tkzer.nextToken());
 		int pageIndex = Integer.parseInt(tkzer.nextToken());
-		
+
 		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
 		int c = 0;
 		while (tkzer.hasMoreTokens())
@@ -1721,13 +1736,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 				reportIndex,
 				pageIndex,
 				elementIndexes
-				);					
+				);
 	}
+
 
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		writeCellTDStart(gridCell);
-		
+
 		StringBuffer styleBuffer = new StringBuffer();
 		Color frameBackcolor = appendBackcolorStyle(frame, styleBuffer);
 		appendBorderStyle(frame, frame, styleBuffer);
@@ -1738,9 +1754,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
-		
+
 		writer.write(">\n");
-		
+
 		if (frameBackcolor != null)
 		{
 			setBackcolor(frameBackcolor);
@@ -1757,22 +1773,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 				restoreBackcolor();
 			}
 		}
-		
+
 		writer.write("</td>\n");
 	}
-	
-	
+
+
 	protected void setBackcolor(Color color)
 	{
 		backcolorStack.addLast(backcolor);
-		
+
 		backcolor = color;
 	}
 
-	
+
 	protected void restoreBackcolor()
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
-
 }
