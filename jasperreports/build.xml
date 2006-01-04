@@ -73,6 +73,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRChart.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRChild.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRConditionalStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultStyleProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
