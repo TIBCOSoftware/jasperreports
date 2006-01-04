@@ -906,7 +906,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 							if (spanIndex >= 0)
 							{
 								HeaderCell spanCell = headersData[j][spanIndex];
-								firstHeaders[j] = HeaderCell.createLevelSpanCopy(spanCell, spanCell.getLevelSpan() - firstIndex + spanIndex);
+								int headerEndIdx = spanCell.getLevelSpan() + spanIndex;
+								if (headerEndIdx > lastIndex)
+								{
+									headerEndIdx = lastIndex;
+								}
+								firstHeaders[j] = HeaderCell.createLevelSpanCopy(spanCell, headerEndIdx - firstIndex);
 							}
 						}
 					}
