@@ -689,8 +689,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			for (int j = 0; j < conditionalStyles.length; j++) {
 				Boolean expressionValue = (Boolean) expressionEvaluator.evaluate(conditionalStyles[j].getConditionExpression(),
 																			  evaluation);
-				if (expressionValue != null)
-					code.append(expressionValue.booleanValue() ? "1" : "0");
+				
+				if (expressionValue == null)
+				{
+					expressionValue = Boolean.FALSE;
+				}
+				
+				code.append(expressionValue.booleanValue() ? "1" : "0");
 				expressionValues[j] = expressionValue;
 			}
 
