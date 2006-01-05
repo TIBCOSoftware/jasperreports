@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -97,19 +96,12 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
-		JRTemplateText template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateText) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateText template = (JRTemplateText) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRStaticText)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
 		return template;
 	}

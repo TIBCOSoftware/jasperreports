@@ -200,4 +200,8 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	}
 	
 
+	protected void setStyle(JRStyle style)
+	{
+		parentStyle = style;
+	}
 }

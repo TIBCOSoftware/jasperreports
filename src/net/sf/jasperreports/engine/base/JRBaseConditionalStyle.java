@@ -76,7 +76,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
-		conditionExpression = factory.getExpression(style.getConditionExpression());
+		conditionExpression = factory.getExpression(style.getConditionExpression(), true);
 	}
 
 

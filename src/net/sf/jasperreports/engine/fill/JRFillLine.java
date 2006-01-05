@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -88,19 +87,12 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	 */
 	protected JRTemplateLine getJRTemplateLine()
 	{
-		JRTemplateLine template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateLine) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateLine template = (JRTemplateLine) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateLine(filler.getJasperPrint().getDefaultStyleProvider(), (JRLine)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
 		return template;
 	}

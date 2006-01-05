@@ -97,7 +97,9 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setImage(image);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 
@@ -111,7 +113,9 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setChart(chart);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 	/**

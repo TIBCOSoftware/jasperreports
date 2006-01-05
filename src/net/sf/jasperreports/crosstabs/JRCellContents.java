@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRStyleContainer;
 
 /**
  * Crosstab cell contents interface.
@@ -47,7 +48,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCellContents extends JRElementGroup
+public interface JRCellContents extends JRElementGroup, JRStyleContainer
 {
 	/**
 	 * Horizontal stretch position indicating that the contents will be rendered on the left side.
@@ -98,8 +99,7 @@ public interface JRCellContents extends JRElementGroup
 	/**
 	 * Returns the cell background color.
 	 * <p>
-	 * The cell is filled with the background color only if the crosstab has opaque mode.
-	 * The default cell background color is the crosstab element background color.
+	 * The cell is filled with the background color only if the cell has opaque mode.
 	 * 
 	 * @return the cell backcolor
 	 */
@@ -130,4 +130,13 @@ public interface JRCellContents extends JRElementGroup
 	 * @see #NOT_CALCULATED
 	 */
 	public int getHeight();
+	
+	
+	/**
+	 * Returns the cell transparency mode.
+	 * 
+	 * @return {@link net.sf.jasperreports.engine.JRElement#MODE_OPAQUE MODE_OPAQUE}
+	 * or {@link net.sf.jasperreports.engine.JRElement#MODE_TRANSPARENT MODE_TRANSPARENT}
+	 */
+	public Byte getMode();
 }

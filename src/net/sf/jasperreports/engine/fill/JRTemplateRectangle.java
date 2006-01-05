@@ -65,7 +65,9 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 		setRectangle(rectangle);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 
@@ -79,7 +81,9 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 		setSubreport(subreport);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 

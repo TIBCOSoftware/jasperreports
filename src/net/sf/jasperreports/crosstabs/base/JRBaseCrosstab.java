@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -63,6 +64,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 
 	protected int id;
 	protected JRCrosstabParameter[] parameters;
+	protected JRVariable[] variables;
 	protected JRExpression parametersMapExpression;
 	protected JRCrosstabDataset dataset;
 	protected JRCrosstabRowGroup[] rowGroups;
@@ -88,6 +90,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
 		
 		copyParameters(crosstab, factory);		
+		copyVariables(crosstab, factory);		
 		headerCell = factory.getCell(crosstab.getHeaderCell());
 		copyRowGroups(crosstab, factory);		
 		copyColumnGroups(crosstab, factory);
@@ -110,6 +113,19 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		}
 		
 		parametersMapExpression = factory.getExpression(crosstab.getParametersMapExpression());
+	}
+
+	private void copyVariables(JRCrosstab crosstab, JRBaseObjectFactory factory)
+	{
+		JRVariable[] vars = crosstab.getVariables();
+		if (vars != null)
+		{
+			variables = new JRVariable[vars.length];
+			for (int i = 0; i < vars.length; i++)
+			{
+				variables[i] = factory.getVariable(vars[i]);
+			}
+		}
 	}
 
 	private void copyRowGroups(JRCrosstab crosstab, JRBaseObjectFactory factory)
@@ -325,5 +341,10 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
+	}
+
+	public JRVariable[] getVariables()
+	{
+		return variables;
 	}
 }

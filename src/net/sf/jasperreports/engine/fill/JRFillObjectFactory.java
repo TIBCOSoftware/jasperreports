@@ -94,10 +94,12 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
@@ -113,13 +115,10 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JRConditionalStyle;
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
-import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
-import net.sf.jasperreports.engine.base.JRBaseExpression;
 
 
 /**
@@ -135,7 +134,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	private JRBaseFiller filler = null;
 	private JRFillExpressionEvaluator evaluator;
-	private JRFillCrosstab crosstab;
 
 	private JRFont defaultFont = null;
 
@@ -160,20 +158,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		this.filler = filler;
 		this.evaluator = expressionEvaluator;
-	}
-
-
-	public JRFillObjectFactory(JRBaseFiller filler, JRFillCrosstab crosstab)
-	{
-		this(filler, crosstab.getExpressionEvaluator());
-
-		this.crosstab = crosstab;
-	}
-
-
-	public JRFillCrosstab getCrosstab()
-	{
-		return crosstab;
 	}
 
 
@@ -1235,7 +1219,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRExpression getExpression(JRExpression expression)//FIXME STYLE why?
+	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)//FIXME STYLE why?
 	{
 		return expression;
 	}

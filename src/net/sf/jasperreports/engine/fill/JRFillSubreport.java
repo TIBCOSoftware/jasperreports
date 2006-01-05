@@ -61,7 +61,6 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -213,19 +212,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRTemplateRectangle template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateRectangle) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRSubreport)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
 		return template;
 	}

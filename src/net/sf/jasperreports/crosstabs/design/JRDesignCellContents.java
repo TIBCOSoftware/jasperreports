@@ -32,6 +32,8 @@ import java.awt.Color;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 
 /**
@@ -45,6 +47,10 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle style;
+	
+	protected Byte mode;
 	private Color backcolor;
 	private JRBox box;
 	private int width = JRCellContents.NOT_CALCULATED;
@@ -125,5 +131,46 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	protected void setWidth(int width)
 	{
 		this.width = width;
+	}
+
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return defaultStyleProvider;
+	}
+
+	public JRStyle getStyle()
+	{
+		return style;
+	}
+	
+	
+	/**
+	 * Sets the style used by this cell.
+	 * <p/>
+	 * The style is only used for cell background and borders and is not inherited by
+	 * elements inside the cell.
+	 * 
+	 * @param style the style to be used
+	 */
+	public void setStyle(JRStyle style)
+	{
+		this.style = style;
+	}
+
+	public Byte getMode()
+	{
+		return mode;
+	}
+
+	
+	/**
+	 * Sets the cell transparency mode.
+	 * 
+	 * @param mode the transparency mode
+	 * @see JRCellContents#getMode()
+	 */
+	public void setMode(Byte mode)
+	{
+		this.mode = mode;
 	}
 }

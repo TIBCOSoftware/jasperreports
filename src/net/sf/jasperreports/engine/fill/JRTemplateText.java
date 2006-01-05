@@ -109,7 +109,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		setStaticText(staticText);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 	/**
@@ -122,7 +124,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		setTextField(textField);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 

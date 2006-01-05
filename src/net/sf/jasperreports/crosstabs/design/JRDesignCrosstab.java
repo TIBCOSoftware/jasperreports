@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -75,6 +76,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	protected List parametersList;
 	protected Map parametersMap;
+	protected List variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
 	protected List rowGroups;
@@ -98,6 +100,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
+	
+	private static final Object[] BUILT_IN_VARIABLES = new Object[] { 
+		JRCrosstab.VARIABLE_ROW_COUNT, Integer.class, 
+		JRCrosstab.VARIABLE_COLUMN_COUNT, Integer.class}; 
 
 	
 	/**
@@ -124,6 +130,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		addBuiltinParameters();
 		
+		variablesList = new ArrayList();
+		addBuiltinVariables();
+		
 		dataset = new JRDesignCrosstabDataset();
 	}
 
@@ -143,6 +152,19 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			{
 				// never reached
 			}
+		}
+	}
+
+	private void addBuiltinVariables()
+	{
+		for (int i = 0; i < BUILT_IN_VARIABLES.length; ++i)
+		{
+			JRDesignVariable variable = new JRDesignVariable();
+			variable.setName((String) BUILT_IN_VARIABLES[i]);
+			variable.setValueClass((Class) BUILT_IN_VARIABLES[++i]);
+			variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
+			variable.setSystemDefined(true);
+			variablesList.add(variable);
 		}
 	}
 	
@@ -250,6 +272,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		rowGroupsMap.put(groupName, new Integer(rowGroups.size()));
 		rowGroups.add(group);
+		variablesList.add(group.getVariable());
 	}
 	
 	
@@ -274,6 +297,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		columnGroupsMap.put(groupName, new Integer(columnGroups.size()));
 		columnGroups.add(group);
+		variablesList.add(group.getVariable());
 	}
 	
 	
@@ -295,7 +319,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		}
 		
 		measuresMap.put(measureName, new Integer(measures.size()));
-		measures.add(measure);
+		measures.add(measure);		
+		variablesList.add(measure.getVariable());
 	}
 	
 	
@@ -330,6 +355,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					cellsMap.remove(new Pair(rowTotalGroup, cell.getColumnTotalGroup()));
 				}
 			}
+			
+			variablesList.remove(removed.getVariable());
 		}
 		
 		return removed;
@@ -379,6 +406,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					cellsMap.remove(new Pair(cell.getRowTotalGroup(), columnTotalGroup));
 				}
 			}
+			
+			variablesList.remove(removed.getVariable());
 		}
 		
 		return removed;
@@ -417,6 +446,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRCrosstabMeasure group = (JRCrosstabMeasure) it.next();
 				measuresMap.put(group.getName(), new Integer(it.previousIndex()));
 			}
+			
+			variablesList.remove(removed.getVariable());
 		}
 		
 		return removed;
@@ -725,31 +756,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @return the list of variables created for this crosstab
 	 * @see JRCrosstabGroup#getVariable()
 	 * @see JRCrosstabMeasure#getVariable()
+	 * @see JRCrosstab#VARIABLE_ROW_COUNT
+	 * @see JRCrosstab#VARIABLE_COLUMN_COUNT
 	 */
 	public JRVariable[] getVariables()
 	{
-		JRVariable[] variables = new JRVariable[rowGroups.size() + columnGroups.size() + measures.size()];
-		
-		int i = 0;
-		
-		for (Iterator it = rowGroups.iterator(); it.hasNext();)
-		{
-			JRCrosstabGroup group = (JRCrosstabGroup) it.next();
-			variables[i++] = group.getVariable();
-		}
-		
-		for (Iterator it = columnGroups.iterator(); it.hasNext();)
-		{
-			JRCrosstabGroup group = (JRCrosstabGroup) it.next();
-			variables[i++] = group.getVariable();
-		}
-		
-		for (Iterator it = measures.iterator(); it.hasNext();)
-		{
-			JRCrosstabMeasure measure = (JRCrosstabMeasure) it.next();
-			variables[i++] = measure.getVariable();
-		}
-		
+		JRVariable[] variables = new JRVariable[variablesList.size()];
+		variablesList.toArray(variables);
 		return variables;
 	}
 

@@ -152,14 +152,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 
 	protected void setExpressionClass()
 	{
-		if (calculation == JRVariable.CALCULATION_COUNT)
-		{
-			designVariable.setValueClassName(Object.class.getName());
-		}
-		else
-		{
-			designVariable.setValueClassName(valueClassName);
-		}
+		designVariable.setValueClassName(valueClassName);
 	}
 
 }
