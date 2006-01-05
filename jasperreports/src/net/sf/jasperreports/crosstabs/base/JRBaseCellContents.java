@@ -33,6 +33,8 @@ import java.io.Serializable;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -46,6 +48,10 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle style;
+	
+	protected Byte mode;
 	protected Color backcolor;
 	protected JRBox box;
 	protected int width;
@@ -55,6 +61,9 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	{
 		super(cell, factory);
 		
+		this.defaultStyleProvider = factory.getDefaultStyleProvider();
+		style = factory.getStyle(cell.getStyle());
+		mode = cell.getMode();
 		backcolor = cell.getBackcolor();
 		box = cell.getBox();
 		width = cell.getWidth();
@@ -79,5 +88,20 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	public int getHeight()
 	{
 		return height;
+	}
+
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return defaultStyleProvider;
+	}
+
+	public JRStyle getStyle()
+	{
+		return style;
+	}
+
+	public Byte getMode()
+	{
+		return mode;
 	}
 }

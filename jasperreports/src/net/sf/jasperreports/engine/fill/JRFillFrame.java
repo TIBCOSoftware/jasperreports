@@ -29,7 +29,9 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
@@ -39,6 +41,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -59,24 +62,19 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	private JRFillFrameElements frameContainer;
 	
 	/**
-	 * Template frame.
-	 */
-	private JRTemplateFrame templateFrame;
-	
-	/**
 	 * Template frame without the bottom border.
 	 */
-	private JRTemplateFrame bottomTemplateFrame;
+	private Map bottomTemplateFrames;
 	
 	/**
 	 * Template frame without the top border
 	 */
-	private JRTemplateFrame topTemplateFrame;
+	private Map topTemplateFrames;
 	
 	/**
 	 * Template frame without the top and bottom borders
 	 */
-	private JRTemplateFrame topBottomTemplateFrame;
+	private Map topBottomTemplateFrames;
 	
 	/**
 	 * Whether the current frame chunk is the first one.
@@ -98,7 +96,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer = new JRFillFrameElements(factory);
 		
-		templateFrame = new JRTemplateFrame(this);
+		bottomTemplateFrames = new HashMap();
+		topTemplateFrames = new HashMap();
+		topBottomTemplateFrames = new HashMap();
 	}
 
 	protected JRFillFrame(JRFillFrame frame, JRFillCloneFactory factory)
@@ -109,10 +109,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer = new JRFillFrameElements(frame.frameContainer, factory);
 		
-		templateFrame = frame.templateFrame;
-		bottomTemplateFrame = frame.bottomTemplateFrame;
-		topTemplateFrame = frame.topTemplateFrame;
-		topBottomTemplateFrame = frame.topBottomTemplateFrame;
+		bottomTemplateFrames = frame.bottomTemplateFrames;
+		topTemplateFrames = frame.topTemplateFrames;
+		topBottomTemplateFrames = frame.topBottomTemplateFrames;
 	}
 
 	protected void evaluate(byte evaluation) throws JRException
@@ -249,53 +248,59 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	protected JRTemplateFrame getTemplate()
 	{
-		JRTemplateFrame boxTemplate;
-		
+		JRStyle style = getElementStyle();
+
+		Map templatesMap;
 		if (first)
 		{
 			if (fillBottomBorder)
-			{				
-				boxTemplate = templateFrame;
+			{
+				templatesMap = templates;
 			}
 			else //remove the bottom border
 			{
-				if (bottomTemplateFrame == null)
-				{
-					JRBox bottomBox = new JRBaseBox(this, true, true, true, false, null);
-					
-					bottomTemplateFrame = new JRTemplateFrame(this);
-					bottomTemplateFrame.setBox(bottomBox);
-				}
-				
-				boxTemplate = bottomTemplateFrame;
+				templatesMap = bottomTemplateFrames;
 			}
 		}
 		else
 		{
 			if (fillBottomBorder) //remove the top border
 			{
-				if (topTemplateFrame == null)
-				{
-					JRBox topBox = new JRBaseBox(this, true, true, false, true, null);
-					
-					topTemplateFrame = new JRTemplateFrame(this);
-					topTemplateFrame.setBox(topBox);
-				}
-				
-				boxTemplate = topTemplateFrame;
+				templatesMap = topTemplateFrames;
 			}
 			else //remove the top and bottom borders
 			{
-				if (topBottomTemplateFrame == null)
-				{
-					JRBox topBottomBox = new JRBaseBox(this, true, true, false, false, null);
-					
-					topBottomTemplateFrame = new JRTemplateFrame(this);
-					topBottomTemplateFrame.setBox(topBottomBox);
-				}
-				
-				boxTemplate = topBottomTemplateFrame;
+				templatesMap = topBottomTemplateFrames;
 			}
+		}
+		
+		JRTemplateFrame boxTemplate = (JRTemplateFrame) templatesMap.get(style);
+		if (boxTemplate == null)
+		{
+			boxTemplate = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this, style);
+			if (first)
+			{
+				if (!fillBottomBorder) //remove the bottom border
+				{				
+					JRBox bottomBox = new JRBaseBox(this, false, false, false, true);
+					boxTemplate.setBox(bottomBox);
+				}
+			}
+			else
+			{
+				if (fillBottomBorder) //remove the top border
+				{
+					JRBox topBox = new JRBaseBox(this, false, false, true, false);
+					boxTemplate.setBox(topBox);
+				}
+				else //remove the top and bottom borders
+				{
+					JRBox topBottomBox = new JRBaseBox(this, false, false, true, true);					
+					boxTemplate.setBox(topBottomBox);
+				}
+			}
+			
+			templatesMap.put(style, boxTemplate);
 		}
 		
 		return boxTemplate;
@@ -616,19 +621,5 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public void setRightPadding(Integer rightPadding)
 	{
-	}
-
-	protected void setBand(JRFillBand band)
-	{
-		super.setBand(band);
-		
-		JRElement[] elements = frameContainer.getElements();
-		if (elements != null)
-		{
-			for(int i = 0; i < elements.length; i++)
-			{
-				((JRFillElement) elements[i]).setBand(band);
-			}
-		}
 	}
 }

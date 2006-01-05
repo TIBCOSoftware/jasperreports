@@ -284,20 +284,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
-		JRTemplateText template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateText) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateText template = (JRTemplateText) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
+		
 		return template;
 	}
 

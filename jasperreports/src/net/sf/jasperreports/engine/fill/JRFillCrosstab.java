@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
@@ -137,7 +138,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 		loadEvaluator(filler.getJasperReport());
 
-		JRFillObjectFactory crosstabFactory = new JRFillObjectFactory(filler, this);
+		JRFillObjectFactory crosstabFactory = new JRFillObjectFactory(filler, crosstabEvaluator);
 		
 		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell());
 
@@ -151,8 +152,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		dataset = factory.getCrosstabDataset(crosstab.getDataset(), this);
 
 		copyParameters(crosstab, factory);
-
-		initVariables();
+		copyVariables(crosstab, crosstabFactory);
 
 		crosstabFiller = new CrosstabFiller();
 	}
@@ -223,30 +223,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		}
 	}
 
-	private void initVariables()
+	private void copyVariables(JRCrosstab crosstab, JRFillObjectFactory factory)
 	{
-		variables = new JRFillVariable[rowGroups.length + columnGroups.length + measures.length];
-
-		int c = 0;
-
-		for (int i = 0; i < rowGroups.length; i++)
-		{
-			variables[c++] = rowGroups[i].getFillVariable();
-		}
-
-		for (int i = 0; i < columnGroups.length; i++)
-		{
-			variables[c++] = columnGroups[i].getFillVariable();
-		}
-
-		for (int i = 0; i < measures.length; i++)
-		{
-			variables[c++] = measures[i].getFillVariable();
-		}
-
+		JRVariable[] vars = crosstab.getVariables();
+		variables = new JRFillVariable[vars.length];
 		variablesMap = new HashMap();
 		for (int i = 0; i < variables.length; i++)
 		{
+			variables[i] = factory.getVariable(vars[i]);
 			variablesMap.put(variables[i].getName(), variables[i]);
 		}
 	}
@@ -310,11 +294,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				measure.getValueClass(), 
 				measure.getCalculation(), 
 				measure.getIncrementerFactory()); 
-	}
-
-	public JRFillExpressionEvaluator getExpressionEvaluator()
-	{
-		return crosstabEvaluator;
 	}
 
 	protected void reset()
@@ -461,15 +440,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRTemplateRectangle template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateRectangle) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
 			JRDesignRectangle rectangle = new JRDesignRectangle();
@@ -487,11 +459,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
 			rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
 			rectangle.setForecolor(getForecolor());
-/*			rectangle.setBackcolor(getBackcolor());
-*/			rectangle.setPen(JRGraphicElement.PEN_NONE);
+			rectangle.setBackcolor(getBackcolor());
+			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
 			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle, style);
-			templates.put(style, template);
+			
+			registerTemplate(style, template);
 		}
 
 		return template;
@@ -636,6 +609,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		
 		private boolean[] columnBreakable;
 		private boolean[] rowBreakable;
+		private int[] columnCount;
+		private int[] rowCount;
 		private int[] columnXOffsets;
 		
 		private boolean noDataCellPrinted;
@@ -658,21 +633,29 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		
 		private boolean printRowHeaders;
 		private boolean printColumnHeaders;
+		
+		private JRFillVariable rowCountVar;
+		private JRFillVariable colCountVar;
 
 		protected CrosstabFiller()
 		{
 			setRowHeadersXOffsets();
 
 			printRows = new ArrayList();
+			
+			rowCountVar = (JRFillVariable) variablesMap.get(JRCrosstab.VARIABLE_ROW_COUNT);
+			colCountVar = (JRFillVariable) variablesMap.get(JRCrosstab.VARIABLE_COLUMN_COUNT);
 		}
 		
 		protected void initCrosstab()
 		{
 			columnXOffsets = computeOffsets(columnHeadersData, columnGroups, true);
 			columnBreakable = computeBreakableHeaders(columnHeadersData, columnGroups, columnXOffsets, true, true);
+			columnCount = computeCounts(columnHeadersData);
 			
 			int[] rowYOffsets = computeOffsets(rowHeadersData, rowGroups, false);
 			rowBreakable = computeBreakableHeaders(rowHeadersData, rowGroups, rowYOffsets, false, false);
+			rowCount = computeCounts(rowHeadersData);
 			
 			spanHeaders = new HeaderCell[rowGroups.length - 1];
 			spanHeadersStart = new int[rowGroups.length - 1];
@@ -758,7 +741,26 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 			return breakable;
 		}
-		
+
+		private int[] computeCounts(HeaderCell[][] headersData)
+		{
+			int[] counts = new int[headersData[0].length];
+			
+			HeaderCell[] lastHeaders = headersData[headersData.length - 1];
+			for (int i = 0, c = 0; i < counts.length; ++i)
+			{
+				HeaderCell lastHeader = lastHeaders[i];
+				if (lastHeader != null && !lastHeader.isTotal())
+				{
+					++c;
+				}
+				
+				counts[i] = c;
+			}
+			
+			return counts;
+		}
+
 		protected void fill(int availableHeight) throws JRException
 		{
 			printRows.clear();
@@ -1061,8 +1063,32 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			return headerRows;
 		}
 
+		
+		private void setCountVars(int rowIdx, int colIdx)
+		{
+			if (rowIdx == -1)
+			{
+				rowCountVar.setValue(null);
+			}
+			else
+			{
+				rowCountVar.setValue(new Integer(rowCount[rowIdx]));
+			}
+			
+			if (colIdx == -1)
+			{
+				colCountVar.setValue(null);
+			}
+			else
+			{
+				colCountVar.setValue(new Integer(columnCount[colIdx]));
+			}
+		}
+		
 		private JRFillCellContents fillHeader(int availableHeight) throws JRException
 		{
+			setCountVars(-1, -1);
+			
 			JRFillCellContents contents = headerCell.getWorkingClone();
 			contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 			contents.prepare(availableHeight - headerCell.getHeight());
@@ -1098,6 +1124,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			
 			if (cellAvailableStretch >= 0)
 			{
+				setCountVars(-1, columnIdx);
 				setGroupVariables(columnGroups, cell.getBucketValues());
 				
 				contents = contents.getTransformedContents(width, height, group.getPosition(), JRCellContents.POSITION_Y_TOP);
@@ -1376,6 +1403,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				boolean leftEmpty = startColumnIndex != 0 && !isRepeatRowHeaders();
 				boolean topEmpty = startRowIndex != 0 && !isRepeatColumnHeaders();
 				
+				setCountVars(rowIdx + startRowIndex, column);
 				setGroupVariables(rowGroups, data.getRowBucketValues());
 				setGroupVariables(columnGroups, data.getColumnBucketValues());
 				setMeasureVariables(data.getMesureValues());
@@ -1432,6 +1460,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			
 			if (!headerOverflow)
 			{
+				setCountVars(rowIdx + startRowIndex - vSpan + 1, -1);
 				setGroupVariables(rowGroups, cell.getBucketValues());
 
 				if (stretchContents)
@@ -1621,6 +1650,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			boolean headerOverflow = cellAvailableStretch < 0 || headerHeight < contents.getHeight();
 			if (!headerOverflow)
 			{
+				setCountVars(rowIdx + startRowIndex - vSpan, -1);
 				setGroupVariables(rowGroups, cell.getBucketValues());
 
 				if (stretchContents)
@@ -1792,5 +1822,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
+	}
+
+	public JRVariable[] getVariables()
+	{
+		return variables;
 	}
 }

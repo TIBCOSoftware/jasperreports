@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
@@ -41,10 +39,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRConditionalStyle;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 
 /**
@@ -71,14 +65,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 	private Set nowEvaluationTimes;
 
-	protected Map evaluatedStyles = new HashMap();
-
-
-	/**
-	 * List of styles that con
-	 */
-	protected List stylesToEvaluate = new ArrayList();
-
 	/**
 	 *
 	 */
@@ -92,11 +78,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 		this.parent = band;
 
-		if (this.elements != null && this.elements.length > 0)
+		if (deepElements.length > 0)
 		{
-			for(int i = 0; i < this.elements.length; i++)
+			for(int i = 0; i < deepElements.length; i++)
 			{
-				this.elements[i].setBand(this);
+				deepElements[i].setBand(this);
 			}
 		}
 
@@ -105,20 +91,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		initConditionalStyles();
 
 		nowEvaluationTimes = new HashSet();
-	}
-
-
-	/**
-	 * Find all styles containing conditional styles which are referenced by elements in this band.
-	 */
-	protected void initConditionalStyles()
-	{
-		JRElement[] elements = getElements();
-		for (int i = 0; i < elements.length; i++) {
-			JRStyle style = elements[i].getStyle();
-			if (style != null && style.getConditionalStyles() != null)
-				stylesToEvaluate.add(style);
-		}
 	}
 
 
@@ -426,45 +398,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		super.evaluate(evaluation);
 		this.evaluateConditionalStyles(evaluation);
-	}
-	/**
-	 *
-	 */
-	protected void evaluateConditionalStyles(byte evaluation) throws JRException
-	{
-		for (int i = 0; i < stylesToEvaluate.size(); i++) {
-			JRStyle initialStyle = (JRStyle) stylesToEvaluate.get(i);
-			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
-			Boolean[] expressionValues = new Boolean[conditionalStyles.length];
-
-
-			StringBuffer code = new StringBuffer(initialStyle.getName());
-			for (int j = 0; j < conditionalStyles.length; j++) {
-				Boolean expressionValue = (Boolean) filler.evaluateExpression(conditionalStyles[j].getConditionExpression(),
-																			  evaluation);
-				if (expressionValue != null)
-					code.append(expressionValue.booleanValue() ? "1" : "0");
-				expressionValues[j] = expressionValue;
-			}
-
-			JRBaseStyle style = new JRBaseStyle(code.toString());
-			JRStyleResolver.buildFromStyle(style, initialStyle);
-			for (int j = 0; j < conditionalStyles.length; j++) {
-				JRConditionalStyle conditionalStyle = conditionalStyles[j];
-				if (expressionValues[j] != null && expressionValues[j].booleanValue())
-					JRStyleResolver.appendStyle(style, conditionalStyle);
-			}
-
-			evaluatedStyles.put(initialStyle, style);
-			filler.consolidateStyle(initialStyle, style);
-		}
-	}
-
-
-
-	public Map getEvaluatedStyles()
-	{
-		return evaluatedStyles;
 	}
 
 }

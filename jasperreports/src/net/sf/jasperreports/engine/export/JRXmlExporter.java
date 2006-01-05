@@ -74,7 +74,6 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -477,16 +476,6 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("pdfFontName", style.getOwnPdfFontName());
 		xmlWriter.addAttribute("pdfEncoding", style.getOwnPdfEncoding());
 		xmlWriter.addAttribute("isPdfEmbedded", style.isOwnPdfEmbedded());
-
-		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
-		if (conditionalStyles != null) {
-			for (int i = 0; i < conditionalStyles.length; i++) {
-				xmlWriter.startElement("conditionalStyle");
-				xmlWriter.writeExpression("conditionExpression", conditionalStyles[i].getConditionExpression(), false);
-				exportStyle(conditionalStyles[i]);
-				xmlWriter.closeElement();
-			}
-		}
 
 		xmlWriter.closeElement();
 	}

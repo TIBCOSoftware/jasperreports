@@ -35,7 +35,7 @@
 				<textFieldExpression>"Number of orders by product and customer in " + $F{City}</textFieldExpression>
 			</textField>
 			<crosstab isRepeatColumnHeaders="false">
-				<reportElement x="0" y="20" width="782" height="70" mode="Opaque"/>
+				<reportElement x="0" y="20" width="782" height="70"/>
 				<crosstabParameter name="CityParam" class="java.lang.String">
 					<parameterValueExpression>$F{City}</parameterValueExpression>
 				</crosstabParameter>
@@ -62,7 +62,7 @@
 						</cellContents>
 					</crosstabRowHeader>
 					<crosstabTotalRowHeader>
-						<cellContents backcolor="#E0FFFF">
+						<cellContents backcolor="#E0FFFF" mode="Opaque">
 							<box leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
 							<staticText>
 								<reportElement x="5" y="0" width="75" height="10" style="Arial_Bold"/>
@@ -86,7 +86,7 @@
 						</cellContents>
 					</crosstabColumnHeader>
 					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#FFFF60">
+						<cellContents backcolor="#FFFF60" mode="Opaque">
 							<box topBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="50" style="Arial_Bold"/>
@@ -100,7 +100,7 @@
 					<measureExpression>$F{Quantity}</measureExpression>
 				</measure>
 				<crosstabCell width="20" height="10">
-					<cellContents backcolor="#FFFFFF">
+					<cellContents backcolor="#FFFFFF" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
@@ -110,7 +110,7 @@
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="30" height="10" columnTotalGroup="ProductGroup">
-					<cellContents backcolor="#FFFF60">
+					<cellContents backcolor="#FFFF60" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10"/>
@@ -120,7 +120,7 @@
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="20" height="10" rowTotalGroup="NameGroup">
-					<cellContents backcolor="#E0FFFF">
+					<cellContents backcolor="#E0FFFF" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField>
 							<reportElement x="0" y="0" width="20" height="10"/>
@@ -130,7 +130,7 @@
 					</cellContents>
 				</crosstabCell>
 				<crosstabCell width="30" height="10" rowTotalGroup="NameGroup" columnTotalGroup="ProductGroup">
-					<cellContents backcolor="#C0C0C0">
+					<cellContents backcolor="#C0C0C0" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField>
 							<reportElement x="0" y="0" width="30" height="10" style="Arial_Bold"/>

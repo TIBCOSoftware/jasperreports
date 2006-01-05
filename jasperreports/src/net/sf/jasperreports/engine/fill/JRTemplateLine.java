@@ -62,7 +62,9 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 		setLine(line);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 

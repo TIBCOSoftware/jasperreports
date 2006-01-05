@@ -29,6 +29,7 @@ package net.sf.jasperreports.crosstabs;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRVariable;
 
 /**
  * Crosstab element interface.
@@ -43,6 +44,16 @@ public interface JRCrosstab extends JRElement
 	 * @see #getColumnBreakOffset()
 	 */
 	public static final int DEFAULT_COLUMN_BREAK_OFFSET = 10;
+	
+	/**
+	 * Name of the built-in row count variable.
+	 */
+	public static final String VARIABLE_ROW_COUNT = "ROW_COUNT";
+	
+	/**
+	 * Name of the built-in column count variable.
+	 */
+	public static final String VARIABLE_COLUMN_COUNT = "COLUMN_COUNT";
 	
 	/**
 	 * Returns the ID of the crosstab.
@@ -226,4 +237,16 @@ public interface JRCrosstab extends JRElement
 	 * @return a cell which will be rendered at the upper-left corner of the crosstab
 	 */
 	public JRCellContents getHeaderCell();
+	
+	
+	/**
+	 * Returns the variables defined for the crosstab.
+	 * 
+	 * @return variables defined for the crosstab
+	 * @see JRCrosstabGroup#getVariable()
+	 * @see JRCrosstabMeasure#getVariable()
+	 * @see #VARIABLE_ROW_COUNT
+	 * @see #VARIABLE_COLUMN_COUNT
+	 */
+	public JRVariable[] getVariables();
 }

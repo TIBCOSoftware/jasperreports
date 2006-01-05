@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -100,19 +99,12 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRTemplateRectangle template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateRectangle) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRRectangle)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
 		return template;
 	}

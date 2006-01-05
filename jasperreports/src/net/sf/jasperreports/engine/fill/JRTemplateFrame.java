@@ -31,7 +31,9 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -49,19 +51,20 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	/**
 	 * Creates a template frame for a crosstab cell.
 	 * 
-	 * @param crosstab the crosstab
 	 * @param cell the cell
 	 */
-	public JRTemplateFrame(JRFillCrosstab crosstab, JRFillCellContents cell)
+	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell, JRStyle style)
 	{
-		super(crosstab);
+		super(defaultStyleProvider);
 		
-		if (cell.getBackcolor() != null)
-		{
-			setBackcolor(cell.getBackcolor());
-		}
-		
+		setBackcolor(cell.getBackcolor());
+		setMode(cell.getMode());
 		setBox(cell.getBox());
+
+		if (style != null)
+		{
+			setStyle(style);
+		}
 	}
 	
 	
@@ -69,12 +72,19 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 * Creates a template frame for a frame.
 	 * 
 	 * @param frame the frame
+	 * @param style 
 	 */
-	public JRTemplateFrame(JRFillFrame frame)
+	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillFrame frame, JRStyle style)
 	{
-		super(frame);
-		
+		super(defaultStyleProvider);
+
+		setElement(frame);
 		setBox(frame);
+		
+		if (style != null)
+		{
+			setStyle(style);
+		}
 	}
 
 	

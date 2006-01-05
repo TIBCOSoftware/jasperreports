@@ -106,6 +106,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	// used by elements that support evaluationTime=Auto
 	protected Map delayedEvaluationsMap;
 
+	protected JRFillElementContainer conditionalStylesContainer;
+	
 	/**
 	 *
 	 *
@@ -156,7 +158,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		width = element.getWidth();
 		height = element.getHeight();
 		
-//		this.template = element.template;
+		templates = element.templates;
 	}
 
 
@@ -1219,5 +1221,32 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 				variable.restoreValue(evaluation);
 			}
 		}
+	}
+
+
+	protected void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
+	{
+		this.conditionalStylesContainer = conditionalStylesContainer;
+	}
+
+	protected JRStyle getElementStyle()
+	{
+		JRStyle parentStyle = parent.getStyle();
+		JRStyle style = conditionalStylesContainer.getEvaluatedConditionalStyle(parentStyle);
+		if (style == null)
+		{
+			style = parentStyle;
+		}
+		return style;
+	}
+	
+	protected JRTemplateElement getTemplate(JRStyle style)
+	{
+		return (JRTemplateElement) templates.get(style);
+	}
+
+	protected void registerTemplate(JRStyle style, JRTemplateElement template)
+	{
+		templates.put(style, template);
 	}
 }

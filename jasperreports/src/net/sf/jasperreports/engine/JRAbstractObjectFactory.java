@@ -240,5 +240,10 @@ public abstract class JRAbstractObjectFactory
 
 	public abstract JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle parentStyle);
 
-	public abstract JRExpression getExpression(JRExpression expression);//FIXME STYLE recheck this
+	public abstract JRExpression getExpression(JRExpression expression, boolean assignNotUsedId);//FIXME STYLE recheck this
+	
+	public JRExpression getExpression(JRExpression expression)
+	{
+		return getExpression(expression, false);
+	}
 }

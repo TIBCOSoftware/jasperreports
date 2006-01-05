@@ -181,6 +181,66 @@ public class JRBaseBox implements JRBox, Serializable
 			bottomPadding = new Integer(complementaryBox.getBottomPadding());
 		}
 	}
+
+	
+	public JRBaseBox(JRBox box, boolean resetLeft, boolean resetRight, boolean resetTop, boolean resetBottom)
+	{
+		border = box.getOwnBorder();
+		borderColor = box.getOwnBorderColor();
+		padding = box.getOwnPadding();
+		
+		if (resetLeft)
+		{
+			leftBorder = new Byte(JRGraphicElement.PEN_NONE);
+			leftBorderColor = null;
+			leftPadding = null;
+		}
+		else
+		{
+			leftBorder = box.getOwnLeftBorder();
+			leftBorderColor = box.getOwnLeftBorderColor();
+			leftPadding = box.getOwnLeftPadding();
+		}
+		
+		if (resetTop)
+		{
+			topBorder = new Byte(JRGraphicElement.PEN_NONE);
+			topBorderColor = null;
+			topPadding = null;
+		}
+		else
+		{
+			topBorder = box.getOwnTopBorder();
+			topBorderColor = box.getOwnTopBorderColor();
+			topPadding = box.getOwnTopPadding();
+		}
+		
+		if (resetRight)
+		{
+			rightBorder = new Byte(JRGraphicElement.PEN_NONE);
+			rightBorderColor = null;
+			rightPadding = null;
+		}
+		else
+		{
+			rightBorder = box.getOwnRightBorder();
+			rightBorderColor = box.getOwnRightBorderColor();
+			rightPadding = box.getOwnRightPadding();
+		}
+		
+		if (resetBottom)
+		{
+			bottomBorder = new Byte(JRGraphicElement.PEN_NONE);
+			bottomBorderColor = null;
+			bottomPadding = null;
+		}
+		else
+		{
+			bottomBorder = box.getOwnBottomBorder();
+			bottomBorderColor = box.getOwnBottomBorderColor();
+			bottomPadding = box.getOwnBottomPadding();
+		}
+	}
 	
 	/**
 	 *

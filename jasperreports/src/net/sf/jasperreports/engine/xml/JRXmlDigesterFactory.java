@@ -112,7 +112,6 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.Digester;
@@ -769,7 +768,6 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/crosstab/crosstabHeaderCell/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/crosstabHeaderCell/cellContents", "setHeaderCell", JRDesignCellContents.class.getName());
 		
-		//TODO style?
 		digester.addFactoryCreate("*/cellContents/box", JRBaseBoxFactory.class.getName());
 		digester.addSetNext("*/cellContents/box", "setBox", JRBox.class.getName());
 	}

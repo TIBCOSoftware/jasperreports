@@ -574,6 +574,8 @@
 <!ELEMENT cellContents (box?, (line | rectangle | ellipse | image | staticText | textField | elementGroup | frame)*)>
 <!ATTLIST cellContents
 	backcolor CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	style NMTOKEN #IMPLIED
 >
 
 <!ELEMENT whenNoDataCell (cellContents)>

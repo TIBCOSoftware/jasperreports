@@ -57,7 +57,9 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 		setEllipse(ellipse);
 
 		if (style != null)
-			parentStyle = style;
+		{
+			setStyle(style);
+		}
 	}
 
 

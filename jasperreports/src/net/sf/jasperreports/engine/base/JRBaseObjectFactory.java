@@ -169,7 +169,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRDefaultStyleProvider getDefaultStyleProvider()
+	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
@@ -346,7 +346,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public JRExpression getExpression(JRExpression expression)
+	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		JRBaseExpression baseExpression = null;
 
@@ -355,21 +355,34 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			baseExpression = (JRBaseExpression)get(expression);
 			if (baseExpression == null)
 			{
-				Integer expressionId = null;
-				if (expressionCollector != null)
-				{
-					expressionId = expressionCollector.getExpressionId(expression);
-					if (expressionId == null)
-					{
-						throw new JRRuntimeException("Expression ID not found.");
-					}
-				}
-
+				Integer expressionId = getCollectedExpressionId(expression, assignNotUsedId);
 				baseExpression = new JRBaseExpression(expression, this, expressionId);
 			}
 		}
 
 		return baseExpression;
+	}
+
+
+	private Integer getCollectedExpressionId(JRExpression expression, boolean assignNotUsedId)
+	{
+		Integer expressionId = null;
+		if (expressionCollector != null)
+		{
+			expressionId = expressionCollector.getExpressionId(expression);
+			if (expressionId == null)
+			{
+				if (assignNotUsedId)
+				{
+					expressionId = JRExpression.NOT_USED_ID;
+				}
+				else
+				{
+					throw new JRRuntimeException("Expression ID not found.");
+				}
+			}
+		}
+		return expressionId;
 	}
 
 

@@ -47,9 +47,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-//import java.awt.image.*;
 
 
 /**
@@ -366,19 +364,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
-		JRTemplateImage template;
-		JRStyle style = null;
-		// FIXME STYLE check for crosstabs
-		if (band != null)
-			style = (JRStyle) band.getEvaluatedStyles().get(parent.getStyle());
-		if (style == null)
-			style = parent.getStyle();
-
-		template = (JRTemplateImage) templates.get(style);
+		JRStyle style = getElementStyle();
+		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
 		if (template == null)
 		{
 			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRImage)parent, style);
-			templates.put(style, template);
+			registerTemplate(style, template);
 		}
 		return template;
 	}

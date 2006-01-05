@@ -1991,6 +1991,12 @@ public class JRXmlWriter
 		{
 			writer.startElement("cellContents");
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_backcolor, contents.getBackcolor());
+			writer.addAttribute("mode", contents.getMode(), JRXmlConstants.getModeMap());
+			JRStyle style = contents.getStyle();
+			if (style != null)
+			{
+				writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_style, style.getName());
+			}
 			
 			writeBox(contents.getBox());
 			

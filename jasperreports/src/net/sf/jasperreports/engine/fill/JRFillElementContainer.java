@@ -30,16 +30,22 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * Abstract implementation of an element container filler.
@@ -65,9 +71,22 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	private int firstY = 0;
 	private boolean isFirstYFound = false;
 	
+	protected final JRFillExpressionEvaluator expressionEvaluator;
+	
+	protected JRFillElement[] deepElements;
+
+	/**
+	 * List of styles that con
+	 */
+	protected List stylesToEvaluate = new ArrayList();
+	protected Map evaluatedStyles = new HashMap();
+	
 	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup container, JRFillObjectFactory factory)
 	{
 		super(container, factory);
+		
+		expressionEvaluator = factory.getExpressionEvaluator();
+		initDeepElements();
 		
 		this.filler = filler;
 	}
@@ -76,9 +95,42 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		super(container, factory);
 		
+		expressionEvaluator = container.expressionEvaluator;
+		initDeepElements();
+		
 		this.filler = container.filler;
 	}
 
+
+	private void initDeepElements()
+	{
+		if (elements == null)
+		{
+			deepElements = new JRFillElement[0];
+		}
+		else
+		{
+			List deepElementsList = new ArrayList(elements.length);
+			collectDeepElements(elements, deepElementsList);
+			deepElements = new JRFillElement[deepElementsList.size()];
+			deepElementsList.toArray(deepElements);
+		}
+	}
+
+	private static void collectDeepElements(JRElement[] elements, List deepElementsList)
+	{
+		for (int i = 0; i < elements.length; i++)
+		{
+			JRElement element = elements[i];
+			deepElementsList.add(element);
+			
+			if (element instanceof JRFillFrame)
+			{
+				JRFrame frame = (JRFrame) element;
+				collectDeepElements(frame.getElements(), deepElementsList);
+			}
+		}
+	}
 
 	protected final void initElements()
 	{
@@ -593,4 +645,71 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 * @return the height of the element container
 	 */
 	protected abstract int getContainerHeight();
+
+
+	/**
+	 * Find all styles containing conditional styles which are referenced by elements in this band.
+	 */
+	protected void initConditionalStyles()
+	{
+		for (int i = 0; i < deepElements.length; i++)
+		{
+			JRStyle style = deepElements[i].getStyle();
+			collectConditionalStyle(style);
+		}
+		
+		
+		if (deepElements.length > 0)
+		{
+			for(int i = 0; i < deepElements.length; i++)
+			{
+				deepElements[i].setConditionalStylesContainer(this);
+			}
+		}
+	}
+
+	protected void collectConditionalStyle(JRStyle style)
+	{
+		if (style != null && style.getConditionalStyles() != null)
+		{
+			stylesToEvaluate.add(style);
+		}
+	}
+
+
+	protected void evaluateConditionalStyles(byte evaluation) throws JRException
+	{
+		for (int i = 0; i < stylesToEvaluate.size(); i++) {
+			JRStyle initialStyle = (JRStyle) stylesToEvaluate.get(i);
+			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
+			Boolean[] expressionValues = new Boolean[conditionalStyles.length];
+
+
+			StringBuffer code = new StringBuffer(initialStyle.getName());
+			for (int j = 0; j < conditionalStyles.length; j++) {
+				Boolean expressionValue = (Boolean) expressionEvaluator.evaluate(conditionalStyles[j].getConditionExpression(),
+																			  evaluation);
+				if (expressionValue != null)
+					code.append(expressionValue.booleanValue() ? "1" : "0");
+				expressionValues[j] = expressionValue;
+			}
+
+			JRBaseStyle style = new JRBaseStyle(code.toString());
+			JRStyleResolver.buildFromStyle(style, initialStyle);
+			for (int j = 0; j < conditionalStyles.length; j++) {
+				JRConditionalStyle conditionalStyle = conditionalStyles[j];
+				if (expressionValues[j] != null && expressionValues[j].booleanValue())
+					JRStyleResolver.appendStyle(style, conditionalStyle);
+			}
+
+			evaluatedStyles.put(initialStyle, style);
+			filler.consolidateStyle(initialStyle, style);
+		}
+	}
+
+	
+	public JRStyle getEvaluatedConditionalStyle(JRStyle parentStyle)
+	{
+		return (JRStyle) evaluatedStyles.get(parentStyle);
+	}
 }

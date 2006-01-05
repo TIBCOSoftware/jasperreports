@@ -30,9 +30,11 @@ package net.sf.jasperreports.engine;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -90,6 +92,8 @@ public class JRExpressionCollector
 	 * Collectors for crosstabs.
 	 */
 	private Map crosstabCollectors;
+	
+	private final Set collectedStyles;
 
 	/**
 	 * Constructs a collector instance.
@@ -107,6 +111,8 @@ public class JRExpressionCollector
 			datasetCollectors = new HashMap();
 			crosstabCollectors = new HashMap();
 		}
+		
+		collectedStyles = new HashSet();
 	}
 	
 	/**
@@ -282,13 +288,6 @@ public class JRExpressionCollector
 			}
 		}
 
-		JRStyle[] styles = report.getStyles();
-		if (styles != null && styles.length > 0) {
-			for (int i =0; i < styles.length; i++)
-				collect(styles[i]);
-		}
-
-
 		collect(report.getBackground());
 		collect(report.getTitle());
 		collect(report.getPageHeader());
@@ -310,11 +309,16 @@ public class JRExpressionCollector
 	 */
 	private void collect(JRStyle style)
 	{
-		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+		if (style != null && collectedStyles.add(style))
+		{
+			JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
 
-		if (conditionalStyles != null && conditionalStyles.length > 0) {
-			for (int i = 0; i < conditionalStyles.length; i++) {
-				addExpression(conditionalStyles[i].getConditionExpression());
+			if (conditionalStyles != null && conditionalStyles.length > 0)
+			{
+				for (int i = 0; i < conditionalStyles.length; i++)
+				{
+					addExpression(conditionalStyles[i].getConditionExpression());
+				}
 			}
 		}
 	}
@@ -393,6 +397,7 @@ public class JRExpressionCollector
 	 */
 	private void collectElement(JRElement element)
 	{
+		collect(element.getStyle());
 		addExpression(element.getPrintWhenExpression());
 	}
 
@@ -916,6 +921,7 @@ public class JRExpressionCollector
 	{
 		if (cell != null)
 		{
+			collect(cell.getStyle());
 			JRElement[] elements = cell.getElements();
 			if (elements != null && elements.length > 0)
 			{
@@ -930,7 +936,7 @@ public class JRExpressionCollector
 	
 	public void collect(JRFrame frame)
 	{
-		addExpression(frame.getPrintWhenExpression());
+		collectElement(frame);
 		JRElement[] elements = frame.getElements();
 		if (elements != null)
 		{

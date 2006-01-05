@@ -35,12 +35,14 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -59,7 +61,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private JRFillCellContents original;
 	
-	private final JRFillCrosstab crosstab;
 	private final JRCellContents parentCell;
 	
 	private JRBox box;
@@ -72,13 +73,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private int verticalSpan;
 	private byte verticalPositionType = JRCellContents.POSITION_Y_TOP;
 	
-	private JRTemplateFrame template;
+	private Map templateFrames;
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillObjectFactory factory)
 	{
 		super(filler, cell, factory);
 		
-		crosstab = factory.getCrosstab();
 		parentCell = cell;
 		
 		box = cell.getBox();
@@ -88,18 +88,24 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		initElements();
 		
-		createTemplate();
+		initConditionalStyles();
+		
+		initTemplatesMap();
 		
 		transformedContentsCache = new ReferenceMap();
 		boxContentsCache = new HashMap();
 		clonePool = new JRClonePool(this, true, true);
 	}
 
+	private void initTemplatesMap()
+	{
+		templateFrames = new HashMap();
+	}
+
 	protected JRFillCellContents(JRFillCellContents cellContents, JRFillCloneFactory factory)
 	{
 		super(cellContents, factory);
 		
-		crosstab = cellContents.crosstab;
 		parentCell = cellContents.parentCell;
 		
 		box = cellContents.box;
@@ -109,7 +115,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		initElements();
 		
-		template = cellContents.template;
+		initConditionalStyles();
+		
+		this.templateFrames = cellContents.templateFrames;
 		
 		transformedContentsCache = new ReferenceMap();
 		boxContentsCache = new HashMap();
@@ -118,11 +126,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		verticalPositionType = cellContents.verticalPositionType;
 	}
 
-	protected void createTemplate()
-	{
-		template = new JRTemplateFrame(crosstab, this);
-	}
-	
 	public Color getBackcolor()
 	{
 		return parentCell.getBackcolor();
@@ -136,7 +139,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	protected void setBox(JRBox box)
 	{
 		this.box = box;
-		createTemplate();
+		
+		initTemplatesMap();
 	}
 	
 	public int getHeight()
@@ -341,7 +345,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		moveBandBottomElements();
 		removeBlankElements();
 
-		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(template);
+		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame());
 		printCell.setX(x);
 		printCell.setY(y);
 		printCell.setWidth(width);
@@ -353,6 +357,24 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		printCell.setHeight(getPrintHeight());
 		
 		return printCell;
+	}
+
+	
+	private JRTemplateFrame getTemplateFrame()
+	{
+		JRStyle parentStyle = parentCell.getStyle();
+		JRStyle style = getEvaluatedConditionalStyle(parentStyle);
+		if (style == null)
+		{
+			style = parentStyle;
+		}
+		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(style);
+		if (template == null)
+		{
+			template = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this, style);
+			templateFrames.put(style, template);
+		}
+		return template;
 	}
 
 	
@@ -545,5 +567,32 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	public void setVerticalPositionType(byte positionType)
 	{
 		this.verticalPositionType = positionType;
+	}
+
+	protected void evaluate(byte evaluation) throws JRException
+	{
+		super.evaluate(evaluation);
+		evaluateConditionalStyles(evaluation);
+	}
+
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return parentCell.getDefaultStyleProvider();
+	}
+
+	public JRStyle getStyle()
+	{
+		return parentCell.getStyle();
+	}
+
+	protected void initConditionalStyles()
+	{
+		super.initConditionalStyles();
+		collectConditionalStyle(getStyle());
+	}
+
+	public Byte getMode()
+	{
+		return parentCell.getMode();
 	}
 }
