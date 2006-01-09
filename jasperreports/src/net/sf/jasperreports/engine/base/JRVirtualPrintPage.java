@@ -33,17 +33,26 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * A print page that can be virtualized to free heap memory.
@@ -135,10 +144,12 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 	 */
 	private transient IdentityDataProvider[] identityProviders;
 
+	private transient JRVirtualizationContext virtualizationContext;
+	
 	/**
 	 * Constructs a virtualizable page.
 	 */
-	public JRVirtualPrintPage(JasperPrint printObject, JRVirtualizer virtualizer) {
+	public JRVirtualPrintPage(JasperPrint printObject, JRVirtualizer virtualizer, JRVirtualizationContext virtualizationContext) {
 		super();
 		this.uid = makeUID(printObject);
 		this.virtualizer = virtualizer;
@@ -146,6 +157,8 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		if (virtualizer != null) {
 			virtualizer.registerObject(this);
 		}
+		
+		this.virtualizationContext = virtualizationContext;
 	}
 
 	/**
@@ -165,11 +178,53 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 	}
 
 	public void setVirtualData(Object o) {
-		super.setElements((List) o);
+		List elementsList = (List) o;
+		super.setElements(elementsList);
+		
+		// restore the cached image renderes from the virtualization context
+		if (elementsList != null && !elementsList.isEmpty())
+		{
+			for (Iterator iter = elementsList.iterator(); iter.hasNext();)
+			{
+				JRPrintElement element = (JRPrintElement) iter.next();
+				if (element instanceof JRPrintImage)
+				{
+					JRPrintImage image = (JRPrintImage) element;
+					JRRenderable renderer = image.getRenderer();
+					if (renderer != null && renderer instanceof JRIDHolderRenderer)
+					{
+						JRRenderable cachedRenderer = virtualizationContext.getCachedRenderer(renderer.getId());
+						if (cachedRenderer == null)
+						{
+							throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization cache.");
+						}
+						image.setRenderer(cachedRenderer);
+					}
+				}
+			}
+		}
 	}
 
 	public Object getVirtualData() {
-		return super.getElements();
+		List elems = super.getElements();
+		
+		// replacing image renderers cached in the virtualization context 
+		// with dummy renderers that only store the renderer ID
+		for (Iterator it = elems.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) it.next();
+			if (element instanceof JRPrintImage)
+			{
+				JRPrintImage image = (JRPrintImage) element;
+				JRRenderable renderer = image.getRenderer();
+				if (renderer != null && virtualizationContext.hasCachedRenderer(renderer.getId()))
+				{
+					image.setRenderer(new JRIDHolderRenderer(renderer));
+				}
+			}
+		}
+		
+		return elems;
 	}
 
 	public void removeVirtualData() {
@@ -298,5 +353,54 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 			}
 		}
 		super.addElement(element);
+	}
+	
+	
+	/**
+	 * Dummy image renderer that only stores the ID of a cached renderer.
+	 * When a page gets serialized, all image renderers that are cached in the
+	 * virtualization context are replaced with dummy renderers that only store the ID.
+	 * When a page gets deserialized, the original renderers are restored from the 
+	 * virtualization context based on the ID.
+	 */
+	protected static class JRIDHolderRenderer implements JRRenderable, Serializable
+	{
+		private static final long serialVersionUID = 1L;
+		
+		protected final String id;
+		
+		protected JRIDHolderRenderer(JRRenderable renderer)
+		{
+			this.id = renderer.getId();
+		}
+
+		public String getId()
+		{
+			return id;
+		}
+
+		public byte getType()
+		{
+			return TYPE_IMAGE;
+		}
+
+		public byte getImageType()
+		{
+			return IMAGE_TYPE_UNKNOWN;
+		}
+
+		public Dimension2D getDimension() throws JRException
+		{
+			return null;
+		}
+
+		public byte[] getImageData() throws JRException
+		{
+			return null;
+		}
+
+		public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
+		{
+		}
 	}
 }

@@ -1033,7 +1033,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		if (virtualizer != null)
 		{
-			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizer);
+			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizer, fillContext.getVirtualizationContext());
 
 			addIdentityDataProviders(virtualPage, this);
 
