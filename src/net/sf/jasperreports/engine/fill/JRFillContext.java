@@ -53,6 +53,7 @@ public class JRFillContext
 	private boolean ignorePagination = false;
 	private JRQueryExecuter queryExecuter;
 
+	private JRVirtualizationContext virtualizationContext;
 
 	
 	/**
@@ -103,6 +104,10 @@ public class JRFillContext
 	public void registerLoadedImage(Object source, JRPrintImage image)
 	{
 		loadedImages.put(source, image);
+		if (usingVirtualizer)
+		{
+			virtualizationContext.cacheRenderer(image);
+		}
 	}
 
 	
@@ -115,6 +120,10 @@ public class JRFillContext
 	public void setUsingVirtualizer(boolean usingVirtualizer)
 	{
 		this.usingVirtualizer = usingVirtualizer;
+		if (usingVirtualizer && virtualizationContext == null)
+		{
+			virtualizationContext = new JRVirtualizationContext();
+		}
 	}
 	
 	
@@ -256,5 +265,16 @@ public class JRFillContext
 		{
 			printPage.getElements();
 		}
+	}
+	
+	
+	/**
+	 * Returns the virtualization context.
+	 * 
+	 * @return the virtualization context
+	 */
+	public JRVirtualizationContext getVirtualizationContext()
+	{
+		return virtualizationContext;
 	}
 }
