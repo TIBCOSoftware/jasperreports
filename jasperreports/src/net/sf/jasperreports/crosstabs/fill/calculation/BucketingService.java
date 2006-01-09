@@ -57,22 +57,34 @@ public class BucketingService
 
 	protected static final int DIMENSIONS = 2;
 
-	protected BucketDefinition[] allBuckets;
-	protected BucketDefinition[][] buckets;
+	protected final BucketDefinition[] allBuckets;
+	protected final BucketDefinition[][] buckets;
 
-	protected MeasureDefinition[] measures;
-	protected int origMeasureCount;
-	protected int[] measureIndexes;
+	protected final int rowBucketCount;
+	protected final int colBucketCount;
+
+	protected final boolean[][] retrieveTotal;
+	private boolean[] rowRetrTotals;
+	private int rowRetrTotalMin;
+	private int rowRetrTotalMax;
+	private int[] rowRetrColMax;
+
+	protected final MeasureDefinition[] measures;
+	protected final int origMeasureCount;
+	protected final int[] measureIndexes;
 
 	protected final boolean sorted;
 
-	protected BucketMap bucketValueMap;
+	protected final BucketMap bucketValueMap;
 	protected long dataCount;
 	protected boolean processed;
 	
 	protected HeaderCell[][] colHeaders;
 	protected HeaderCell[][] rowHeaders;
 	protected CrosstabCell[][] cells;
+
+	private final MeasureValue[] zeroUserMeasureValues;
+
 
 	
 	/**
@@ -82,21 +94,25 @@ public class BucketingService
 	 * @param columnBuckets the column bucket definitions
 	 * @param measures the measure definitions
 	 * @param sorted whether the data is presorted
-	 * @param computeGrandTotal whether grand total computation is required
+	 * @param retrieveTotal totals to retrieve along with the cell values
 	 */
-	public BucketingService(List rowBuckets, List columnBuckets, List measures, boolean sorted, boolean computeGrandTotal)
+	public BucketingService(List rowBuckets, List columnBuckets, List measures, boolean sorted, boolean[][] retrieveTotal)
 	{
 		this.sorted = sorted;
 
 		buckets = new BucketDefinition[DIMENSIONS][];
-		buckets[DIMENSION_ROW] = new BucketDefinition[rowBuckets.size()];
+		
+		rowBucketCount = rowBuckets.size();
+		buckets[DIMENSION_ROW] = new BucketDefinition[rowBucketCount];
 		rowBuckets.toArray(buckets[DIMENSION_ROW]);
-		buckets[DIMENSION_COLUMN] = new BucketDefinition[columnBuckets.size()];
+		
+		colBucketCount = columnBuckets.size();
+		buckets[DIMENSION_COLUMN] = new BucketDefinition[colBucketCount];
 		columnBuckets.toArray(buckets[DIMENSION_COLUMN]);
 
-		allBuckets = new BucketDefinition[rowBuckets.size() + columnBuckets.size()];
-		System.arraycopy(buckets[DIMENSION_ROW], 0, allBuckets, 0, rowBuckets.size());
-		System.arraycopy(buckets[DIMENSION_COLUMN], 0, allBuckets, rowBuckets.size(), columnBuckets.size());
+		allBuckets = new BucketDefinition[rowBucketCount + colBucketCount];
+		System.arraycopy(buckets[DIMENSION_ROW], 0, allBuckets, 0, rowBucketCount);
+		System.arraycopy(buckets[DIMENSION_COLUMN], 0, allBuckets, rowBucketCount, colBucketCount);
 
 		origMeasureCount = measures.size();
 		List measuresList = new ArrayList(measures.size() * 2);
@@ -114,17 +130,71 @@ public class BucketingService
 			measureIndexes[i] = ((Integer) measureIndexList.get(i)).intValue();
 		}
 
-		checkTotals(computeGrandTotal);
+		this.retrieveTotal = retrieveTotal;
+		checkTotals();
 		
 		bucketValueMap = createBucketMap(0);
+		
+		zeroUserMeasureValues = initUserMeasureValues();
 	}
 
-	
-	protected void checkTotals(boolean computeGrandTotal)
+
+	protected void checkTotals()
 	{
+		rowRetrTotalMin = rowBucketCount + 1;
+		rowRetrTotalMax = -1;
+		rowRetrTotals = new boolean[rowBucketCount + 1];
+		rowRetrColMax = new int[rowBucketCount + 1];
+		for (int row = 0; row <= rowBucketCount; ++row)
+		{
+			rowRetrColMax[row] = -1;
+			boolean total = false;
+			for (int col = 0; col <= colBucketCount; ++col)
+			{
+				if (retrieveTotal[row][col])
+				{
+					total = true;
+					rowRetrColMax[row] = col;
+				}
+			}
+			
+			rowRetrTotals[row] = total;
+			if (total)
+			{
+				if (row < rowRetrTotalMin)
+				{
+					rowRetrTotalMin = row;
+				}
+				rowRetrTotalMax = row;
+				
+				if (row < rowBucketCount)
+				{
+					allBuckets[row].setComputeTotal();
+				}
+			}
+		}
+		
+		for (int col = 0; col < colBucketCount; ++col)
+		{
+			BucketDefinition colBucket = allBuckets[rowBucketCount + col];
+			if (!colBucket.computeTotal())
+			{
+				boolean total = false;
+				for (int row = 0; !total && row <= rowBucketCount; ++row)
+				{
+					total = retrieveTotal[row][col];
+				}
+				
+				if (total)
+				{
+					colBucket.setComputeTotal();
+				}
+			}
+		}
+		
 		for (int d = 0; d < DIMENSIONS; ++d)
 		{
-			boolean dTotal = computeGrandTotal;
+			boolean dTotal = false;
 			
 			for (int i = 0; i < buckets[d].length; ++i)
 			{
@@ -134,13 +204,13 @@ public class BucketingService
 				}
 				else
 				{
-					dTotal = buckets[d][i].getTotalPosition() != BucketDefinition.TOTAL_POSITION_NONE;
+					dTotal = buckets[d][i].computeTotal();
 				}
 			}
 		}
 	}
 
-	
+
 	/**
 	 * Clears all the accumulated and computed data.
 	 */
@@ -295,7 +365,7 @@ public class BucketingService
 		{
 			if (dataCount > 0)
 			{
-				if (allBuckets[buckets[DIMENSION_ROW].length - 1].computeTotal() || allBuckets[allBuckets.length - 1].computeTotal())
+				if (allBuckets[rowBucketCount - 1].computeTotal() || allBuckets[allBuckets.length - 1].computeTotal())
 				{
 					computeTotals(bucketValueMap);
 				}
@@ -413,7 +483,7 @@ public class BucketingService
 	
 	protected void computeTotals(BucketMap bucketMap) throws JRException
 	{
-		byte dimension = bucketMap.level < buckets[DIMENSION_ROW].length ? DIMENSION_ROW : DIMENSION_COLUMN;
+		byte dimension = bucketMap.level < rowBucketCount ? DIMENSION_ROW : DIMENSION_COLUMN;
 		
 		if (dimension == DIMENSION_COLUMN && !allBuckets[allBuckets.length - 1].computeTotal())
 		{
@@ -473,32 +543,33 @@ public class BucketingService
 			bucketMap = bucketMap.addTotalNextMap();
 		}
 		
-		bucketMap.addTotals(totals);
+		bucketMap.addTotalEntry(totals);
 	}
 
 
 	protected void computeRowTotals(BucketMap bucketMap) throws JRException
 	{
-		BucketListMap totals = createCollectBucketMap(buckets[DIMENSION_ROW].length);
+		BucketListMap totals = createCollectBucketMap(rowBucketCount);
 		
 		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
 		{
 			Map.Entry entry = (Map.Entry) it.next();
 			
-			for (int i = bucketMap.level + 1; i < buckets[DIMENSION_ROW].length; ++i)
+			for (int i = bucketMap.level + 1; i < rowBucketCount; ++i)
 			{
 				entry = ((BucketMap) entry.getValue()).getTotalEntry();
 			}
 			
-			totals.collectVals((BucketMap) entry.getValue(), true);
-		}
-
-		for (int i = bucketMap.level + 1; i < buckets[DIMENSION_ROW].length; ++i)
-		{
-			bucketMap = bucketMap.addTotalNextMap();
+			totals.collectVals((BucketMap) entry.getValue(), true);			
 		}
 		
-		bucketMap.addTotals(totals);
+		BucketMap totalBucketMap = bucketMap;
+		for (int i = bucketMap.level + 1; i < rowBucketCount; ++i)
+		{
+			totalBucketMap = totalBucketMap.addTotalNextMap();
+		}
+		
+		totalBucketMap.addTotalEntry(totals);
 	}
 
 	
@@ -543,18 +614,14 @@ public class BucketingService
 	protected abstract class BucketMap
 	{
 		final int level;
-
 		final boolean last;
+		final Bucket totalKey;
 
 		BucketMap(int level)
 		{
 			this.level = level;
 			this.last = level == allBuckets.length - 1;
-		}
-
-		void addTotals(Object totals)
-		{
-			addTotalEntry(totals);
+			totalKey = allBuckets[level].VALUE_TOTAL;
 		}
 
 		BucketMap addTotalNextMap()
@@ -580,7 +647,7 @@ public class BucketingService
 
 		abstract int size();
 		
-		abstract Entry getTotalEntry();
+		abstract Map.Entry getTotalEntry();
 	}
 
 	protected class BucketTreeMap extends BucketMap
@@ -641,13 +708,13 @@ public class BucketingService
 
 		void addTotalEntry(Object value)
 		{
-			map.put(allBuckets[level].VALUE_TOTAL, value);
+			map.put(totalKey, value);
 		}
 		
-		Entry getTotalEntry()
+		Map.Entry getTotalEntry()
 		{
-			Object value = get(allBuckets[level].VALUE_TOTAL);
-			return value == null ? null : new MapEntry(allBuckets[level].VALUE_TOTAL, value);
+			Object value = get(totalKey);
+			return value == null ? null : new MapEntry(totalKey, value);
 		}
 		
 		
@@ -751,10 +818,10 @@ public class BucketingService
 
 		void addTotalEntry(Object value)
 		{
-			add(allBuckets[level].VALUE_TOTAL, value);
+			add(totalKey, value);
 		}
 
-		Entry getTotalEntry()
+		Map.Entry getTotalEntry()
 		{
 			MapEntry lastEntry = (MapEntry) entries.get(entries.size() - 1);
 			if (lastEntry.key.isTotal())
@@ -853,7 +920,7 @@ public class BucketingService
 		if (allBuckets[0].computeTotal())
 		{
 			BucketMap map = bucketValueMap;
-			for (int i = 0; i < buckets[DIMENSION_ROW].length; ++i)
+			for (int i = 0; i < rowBucketCount; ++i)
 			{
 				map = (BucketMap) map.getTotalEntry().getValue();
 			}
@@ -861,7 +928,7 @@ public class BucketingService
 		}
 		else
 		{
-			collectedCols = createCollectBucketMap(buckets[DIMENSION_ROW].length);
+			collectedCols = createCollectBucketMap(rowBucketCount);
 			collectCols(collectedCols, bucketValueMap);
 		}
 		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, collectedCols, 0, false);
@@ -870,7 +937,7 @@ public class BucketingService
 		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders);
 		
 		cells = new CrosstabCell[collectedHeaders[BucketingService.DIMENSION_ROW].span][collectedHeaders[BucketingService.DIMENSION_COLUMN].span];
-		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList());
+		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList(), new ArrayList());
 	}
 
 
@@ -879,7 +946,7 @@ public class BucketingService
 		if (allBuckets[bucketMap.level].computeTotal())
 		{
 			BucketMap map = bucketMap;
-			for (int i = bucketMap.level; i < buckets[DIMENSION_ROW].length; ++i)
+			for (int i = bucketMap.level; i < rowBucketCount; ++i)
 			{
 				map = (BucketMap) map.getTotalEntry().getValue();
 			}
@@ -892,7 +959,7 @@ public class BucketingService
 		{
 			Map.Entry entry = (Map.Entry) it.next();
 			BucketMap nextMap = (BucketMap) entry.getValue();
-			if (bucketMap.level == buckets[DIMENSION_ROW].length - 1)
+			if (bucketMap.level == rowBucketCount - 1)
 			{
 				collectedCols.collectVals(nextMap, false);
 			}
@@ -999,9 +1066,11 @@ public class BucketingService
 	}
 
 
-	protected void fillCells(CollectedList[] collectedHeaders, BucketMap bucketMap, int level, int[] pos, List vals)
+	protected void fillCells(CollectedList[] collectedHeaders, BucketMap bucketMap, int level, int[] pos, List vals, List bucketMaps)
 	{
-		byte dimension = level < buckets[DIMENSION_ROW].length ? DIMENSION_ROW : DIMENSION_COLUMN;
+		bucketMaps.add(bucketMap);
+		
+		byte dimension = level < rowBucketCount ? DIMENSION_ROW : DIMENSION_COLUMN;
 		boolean last = level == allBuckets.length - 1;
 
 		CollectedList[] nextCollected = null;
@@ -1047,14 +1116,14 @@ public class BucketingService
 			vals.add(list.key);
 			if (last)
 			{
-				fillCell(pos, vals, bucketEntry);
+				fillCell(pos, vals, bucketMaps, bucketEntry);
 			}
 			else
 			{				
 				nextCollected[dimension] = list;
 				BucketMap nextMap = bucketEntry == null ? null : (BucketMap) bucketEntry.getValue();
 				
-				fillCells(nextCollected, nextMap, level + 1, pos, vals);
+				fillCells(nextCollected, nextMap, level + 1, pos, vals, bucketMaps);
 			}
 			vals.remove(vals.size() - 1);
 				
@@ -1064,10 +1133,12 @@ public class BucketingService
 				pos[1] = 0;
 			}
 		}
+		
+		bucketMaps.remove(bucketMaps.size() - 1);
 	}
 
 
-	protected void fillCell(int[] pos, List vals, Map.Entry bucketEntry)
+	protected void fillCell(int[] pos, List vals, List bucketMaps, Map.Entry bucketEntry)
 	{
 		Iterator valsIt = vals.iterator();
 		Bucket[] rowValues = new Bucket[buckets[BucketingService.DIMENSION_ROW].length];
@@ -1082,9 +1153,81 @@ public class BucketingService
 			columnValues[i] = (Bucket) valsIt.next();
 		}
 		
-		MeasureValue[] measureVals = bucketEntry == null ? initUserMeasureValues() : getUserMeasureValues((MeasureValue[]) bucketEntry.getValue());
-		cells[pos[0]][pos[1]] = new CrosstabCell(rowValues, columnValues, measureVals);
+		MeasureValue[] measureVals = bucketEntry == null ? zeroUserMeasureValues : getUserMeasureValues((MeasureValue[]) bucketEntry.getValue());
+		MeasureValue[][][] totals = retrieveTotals(vals, bucketMaps);
+		cells[pos[0]][pos[1]] = new CrosstabCell(rowValues, columnValues, measureVals, totals);
 		++pos[1];
+	}
+	
+	
+	protected MeasureValue[][][] retrieveTotals(List vals, List bucketMaps)
+	{
+		MeasureValue[][][] totals = new MeasureValue[rowBucketCount + 1][colBucketCount + 1][];
+		
+		for (int row = rowRetrTotalMax; row >= rowRetrTotalMin; --row)
+		{
+			if (!rowRetrTotals[row])
+			{
+				continue;
+			}
+			
+			BucketMap rowMap = (BucketMap) bucketMaps.get(row);
+			for (int i = row; rowMap != null && i < rowBucketCount; ++i)
+			{
+				Entry totalEntry = rowMap.getTotalEntry();
+				rowMap = totalEntry == null ? null : (BucketMap) totalEntry.getValue();
+			}
+
+			for (int col = 0; col <= rowRetrColMax[row]; ++col)
+			{
+				BucketMap colMap = rowMap;
+				
+				if (col < colBucketCount - 1)
+				{
+					if (row == rowBucketCount)
+					{
+						rowMap = (BucketMap) bucketMaps.get(rowBucketCount + col + 1);
+					}
+					else if (rowMap != null)
+					{
+						rowMap = (BucketMap) rowMap.get((Bucket) vals.get(rowBucketCount + col));
+					}
+				}
+				
+				if (!retrieveTotal[row][col])
+				{
+					continue;
+				}
+				
+				for (int i = col + 1; colMap != null && i < colBucketCount; ++i)
+				{
+					colMap = (BucketMap) colMap.getTotalEntry().getValue();
+				}
+				
+				if (colMap != null)
+				{
+					if (col == colBucketCount)
+					{
+						totals[row][col] = (MeasureValue[]) colMap.get((Bucket) vals.get(rowBucketCount + colBucketCount - 1));
+					}
+					else
+					{
+						Map.Entry totalEntry = colMap.getTotalEntry();
+						if (totalEntry != null)
+						{
+							totals[row][col] = (MeasureValue[]) totalEntry.getValue();
+						}
+					}
+				}
+				
+				if (totals[row][col] == null)
+				{
+					totals[row][col] = zeroUserMeasureValues;
+				}
+			}
+		}
+
+		return totals;
 	}
 	
 	protected static class CollectedList extends LinkedList

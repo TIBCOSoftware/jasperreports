@@ -27,7 +27,7 @@
 	<field name="ShipCountry" class="java.lang.String"/>
 	
 	<detail>
-		<band height="100">
+		<band height="50">
 			<textField>
 				<reportElement x="0" y="0" width="500" height="15"/>
 				<textElement>
@@ -37,7 +37,7 @@
 			</textField>
 			
 			<crosstab isRepeatColumnHeaders="false">
-				<reportElement x="0" y="20" width="812" height="60"/>
+				<reportElement x="0" y="20" width="812" height="20"/>
 				
 				<crosstabParameter name="Country" class="java.lang.String">
 					<parameterValueExpression>$F{ShipCountry}</parameterValueExpression>
@@ -57,7 +57,7 @@
 					<cellContents>
 						<box border="2Point"/>
 						<staticText>
-							<reportElement x="4" y="4" width="112" height="62" style="Arial_Large"/>
+							<reportElement x="4" y="4" width="112" height="42" style="Arial_Large"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<text>Shipments total freight</text>
 						</staticText>
@@ -72,7 +72,7 @@
 						<cellContents>
 							<box leftBorder="2Point" bottomBorder="2Point" rightBorder="2Point"/>
 							<textField>
-								<reportElement x="5" y="5" width="40" height="40"/>
+								<reportElement x="5" y="5" width="40" height="26"/>
 								<textFieldExpression><![CDATA[$V{Region} == null ? "No region" : $V{Region}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -81,7 +81,8 @@
 						<cellContents backcolor="#60FFFF" mode="Opaque">
 							<box leftBorder="2Point" bottomBorder="2Point" rightBorder="2Point"/>
 							<textField>
-								<reportElement x="5" y="5" width="110" height="20"/>
+								<reportElement x="5" y="0" width="110" height="22"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression>$P{Country} + " Total"</textFieldExpression>
 							</textField>
 						</cellContents>
@@ -96,7 +97,8 @@
 						<cellContents>
 							<box bottomBorder="2Point" rightBorder="2Point"/>
 							<textField>
-								<reportElement x="5" y="5" width="60" height="15"/>
+								<reportElement x="5" y="0" width="60" height="16"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression>$V{City}</textFieldExpression>
 							</textField>
 						</cellContents>
@@ -105,14 +107,15 @@
 						<cellContents backcolor="#E0FFFF" mode="Opaque">
 							<box bottomBorder="2Point" rightBorder="2Point"/>
 							<staticText>
-								<reportElement x="5" y="5" width="60" height="15"/>
+								<reportElement x="5" y="0" width="60" height="20"/>
+								<textElement verticalAlignment="Middle"/>
 								<text>Total</text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
 				
-				<columnGroup name="ShipYear" height="30" totalPosition="End" headerPosition="Stretch">
+				<columnGroup name="ShipYear" height="25" totalPosition="End" headerPosition="Stretch">
 					<bucket>
 						<bucketExpression class="java.util.Date">CrosstabApp.truncateToYear($F{ShippedDate})</bucketExpression>
 					</bucket>
@@ -120,11 +123,11 @@
 						<cellContents>
 							<box topBorder="2Point" bottomBorder="2Point" rightBorder="2Point"/>
 							<rectangle radius="10">
-								<reportElement x="4" y="4" width="52" height="22"/>
+								<reportElement x="4" y="4" width="52" height="17"/>
 								<graphicElement pen="1Point"/>
 							</rectangle>
 							<textField pattern="yyyy">
-								<reportElement x="5" y="5" width="50" height="20"/>
+								<reportElement x="5" y="5" width="50" height="15"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression class="java.util.Date">$V{ShipYear}</textFieldExpression>
 							</textField>
@@ -141,7 +144,7 @@
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				
-				<columnGroup name="ShipMonth" height="40" totalPosition="End">
+				<columnGroup name="ShipMonth" height="25" totalPosition="End">
 					<bucket>
 						<bucketExpression class="java.util.Date">CrosstabApp.truncateToMonth($F{ShippedDate})</bucketExpression>
 					</bucket>
@@ -149,7 +152,7 @@
 						<cellContents>
 							<box bottomBorder="2Point" rightBorder="2Point"/>
 							<textField pattern="MMM">
-								<reportElement x="5" y="5" width="20" height="30"/>
+								<reportElement x="5" y="2" width="20" height="21"/>
 								<textFieldExpression class="java.util.Date">$V{ShipMonth}</textFieldExpression>
 							</textField>
 						</cellContents>
@@ -158,7 +161,7 @@
 						<cellContents backcolor="#FFFFC0" mode="Opaque">
 							<box bottomBorder="2Point" rightBorder="2Point"/>
 							<textField>
-								<reportElement x="5" y="5" width="20" height="30"/>
+								<reportElement x="5" y="2" width="20" height="21"/>
 								<textFieldExpression>msg("{0,date,yyyy} Total", $V{ShipYear})</textFieldExpression>
 							</textField>
 						</cellContents>
@@ -169,44 +172,44 @@
 					<measureExpression>$F{Freight}</measureExpression>
 				</measure>
 				
-				<crosstabCell width="30" height="25">
+				<crosstabCell width="30" height="16">
 					<cellContents backcolor="#FFFFFF" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="25"/>
+							<reportElement x="0" y="0" width="25" height="16"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				
-				<crosstabCell width="30" height="25" columnTotalGroup="ShipMonth">
+				<crosstabCell width="30" columnTotalGroup="ShipMonth">
 					<cellContents backcolor="#FFFFC0" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="25" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="25" height="16" style="Arial_Bold"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				
-				<crosstabCell width="35" height="25" columnTotalGroup="ShipYear">
+				<crosstabCell width="35" columnTotalGroup="ShipYear">
 					<cellContents backcolor="#FFFF60" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="30" height="25" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="30" height="16" style="Arial_Bold"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				
-				<crosstabCell height="25" rowTotalGroup="City">
+				<crosstabCell height="20" rowTotalGroup="City">
 					<cellContents backcolor="#E0FFFF" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="25"/>
+							<reportElement x="0" y="0" width="25" height="20"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
@@ -217,7 +220,7 @@
 					<cellContents backcolor="#E0FFC0" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="25" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="25" height="20" style="Arial_Bold"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
@@ -228,20 +231,25 @@
 					<cellContents backcolor="#E0FF60" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="30" height="25" style="Arial_Bold"/>
+							<reportElement x="0" y="0" width="30" height="20" style="Arial_Bold"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 				
-				<crosstabCell height="30" rowTotalGroup="Region">
+				<crosstabCell height="24" rowTotalGroup="Region">
 					<cellContents backcolor="#60FFFF" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="30" style="Arial_Bold"/>
-							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<reportElement x="0" y="0" width="25" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="25" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression>msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -250,9 +258,14 @@
 					<cellContents backcolor="#60FFC0" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="25" height="30" style="Arial_Bold"/>
-							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<reportElement x="0" y="0" width="25" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="25" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression>msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -261,9 +274,14 @@
 					<cellContents backcolor="#60FF60" mode="Opaque">
 						<box bottomBorder="1Point" rightBorder="1Point"/>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="30" height="30" style="Arial_Bold"/>
-							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<reportElement x="0" y="0" width="30" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
 							<textFieldExpression class="java.lang.Float">$V{FreightSum}</textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="30" height="12" style="Arial_Bold"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression>msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))</textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

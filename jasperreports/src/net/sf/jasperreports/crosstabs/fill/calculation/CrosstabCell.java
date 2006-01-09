@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
+import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+
 /**
  * Crosstab cell produced by the crosstab bucketing engine.
  * 
@@ -39,7 +41,8 @@ public class CrosstabCell
 	private final int rowTotalGroupIndex;
 	private final BucketDefinition.Bucket[] columnBucketValues;
 	private final int columnTotalGroupIndex;
-	private final MeasureDefinition.MeasureValue[] mesureValues;
+	private final MeasureValue[] mesureValues;
+	private final MeasureValue[][][] totals;
 	
 	
 	/**
@@ -48,17 +51,20 @@ public class CrosstabCell
 	 * @param rowBucketValues the row bucket values corresponding to the cell
 	 * @param columnBucketValues the column bucket values corresponding to the cell
 	 * @param mesureValues the measure values
+	 * @param totals totals corresponding to the cell
 	 */
 	public CrosstabCell(
 			BucketDefinition.Bucket[] rowBucketValues, 
 			BucketDefinition.Bucket[] columnBucketValues, 
-			MeasureDefinition.MeasureValue[] mesureValues)
+			MeasureValue[] mesureValues,
+			MeasureValue[][][] totals)
 	{
 		this.rowBucketValues = rowBucketValues;
 		rowTotalGroupIndex = getTotalIndex(rowBucketValues);
 		this.columnBucketValues = columnBucketValues;
 		columnTotalGroupIndex = getTotalIndex(columnBucketValues);
 		this.mesureValues = mesureValues;
+		this.totals = totals;
 	}
 
 	
@@ -79,7 +85,7 @@ public class CrosstabCell
 	 * 
 	 * @return the measure values for this cell
 	 */
-	public MeasureDefinition.MeasureValue[] getMesureValues()
+	public MeasureValue[] getMesureValues()
 	{
 		return mesureValues;
 	}
@@ -132,5 +138,16 @@ public class CrosstabCell
 	public int getRowTotalGroupIndex()
 	{
 		return rowTotalGroupIndex;
+	}
+	
+	
+	/**
+	 * Returns measure totals corresponding to the cell.
+	 * 
+	 * @return measure totals corresponding to the cell
+	 */
+	public MeasureValue[][][] getTotals()
+	{
+		return totals;
 	}
 }

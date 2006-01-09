@@ -47,6 +47,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRCrosstabExpressionEvaluator;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
@@ -66,6 +67,7 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRParameter;
@@ -109,6 +111,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	protected JRFillVariable[] variables;
 
 	protected Map variablesMap;
+	
+	protected JRFillVariable[][][] totalVariables;
+	protected boolean[][] retrieveTotal;
 
 	protected JRFillCrosstabParameter[] parameters;
 
@@ -233,6 +238,54 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			variables[i] = factory.getVariable(vars[i]);
 			variablesMap.put(variables[i].getName(), variables[i]);
 		}
+		
+		Map totalVarPos = new HashMap();
+		totalVariables = new JRFillVariable[rowGroups.length + 1][columnGroups.length + 1][measures.length];
+		for (int row = 0; row <= rowGroups.length; ++row)
+		{
+			JRCrosstabRowGroup rowGroup = row == rowGroups.length ? null : rowGroups[row];
+			for (int col = 0; col <= columnGroups.length; ++col)
+			{
+				JRCrosstabColumnGroup colGroup = col == columnGroups.length ? null : columnGroups[col];
+				
+				if (row < rowGroups.length || col < columnGroups.length)
+				{
+					for (int m = 0; m < measures.length; m++)
+					{
+						String totalVariableName = JRDesignCrosstab.getTotalVariableName(measures[m], rowGroup, colGroup);
+						totalVariables[row][col][m] = (JRFillVariable) variablesMap.get(totalVariableName);
+						totalVarPos.put(totalVariableName, new int[]{row, col});
+					}
+				}
+			}
+		}
+
+		retrieveTotal = new boolean[rowGroups.length + 1][columnGroups.length + 1];
+		
+		JRExpressionCollector collector = new JRExpressionCollector();
+		collector.collect(crosstab);
+		List expressions = collector.getExpressions(crosstab);
+		for (Iterator iter = expressions.iterator(); iter.hasNext();)
+		{
+			JRExpression expression = (JRExpression) iter.next();
+			JRExpressionChunk[] chunks = expression.getChunks();
+			if (chunks != null)
+			{
+				for (int i = 0; i < chunks.length; i++)
+				{
+					JRExpressionChunk chunk = chunks[i];
+					if (chunk.getType() == JRExpressionChunk.TYPE_VARIABLE)
+					{
+						String varName = chunk.getText();
+						int[] pos = (int[]) totalVarPos.get(varName);
+						if (pos != null)
+						{
+							retrieveTotal[pos[0]][pos[1]] = true;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	protected void loadEvaluator(JasperReport jasperReport)
@@ -270,7 +323,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			percentage |= measures[i].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL;
 		}
 
-		return new BucketingService(rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), percentage);
+		if (percentage)
+		{
+			((BucketDefinition) rowBuckets.get(0)).setComputeTotal();
+			((BucketDefinition) colBuckets.get(0)).setComputeTotal();
+		}
+		
+		return new BucketingService(rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
 	}
 
 	private BucketDefinition createServiceBucket(JRCrosstabGroup group, byte evaluation) throws JRException
@@ -1406,7 +1465,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				setCountVars(rowIdx + startRowIndex, column);
 				setGroupVariables(rowGroups, data.getRowBucketValues());
 				setGroupVariables(columnGroups, data.getColumnBucketValues());
-				setMeasureVariables(data.getMesureValues());
+				setMeasureVariables(data);
 				
 				contents = contents.getBoxContents(leftEmpty && column == startColumnIndex, topEmpty && rowIdx == 0);
 				contents = contents.getWorkingClone();
@@ -1726,30 +1785,54 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			}
 		}
 
-		protected void setMeasureVariables(MeasureValue[] values)
+		protected void setMeasureVariables(CrosstabCell cell)
 		{
+			MeasureValue[] values = cell.getMesureValues();
 			for (int i = 0; i < measures.length; i++)
 			{
-				Object value;
-				
-				if (measures[i].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL)
+				Object value = measureValue(values, i);
+				measures[i].getFillVariable().setValue(value);
+			}
+			
+			MeasureValue[][][] totals = cell.getTotals();
+			for (int row = 0; row <= rowGroups.length; row++)
+			{
+				for (int col = 0; col <= columnGroups.length; col++)
 				{
-					if (values[i].isInitialized())
+					MeasureValue[] vals = totals[row][col];
+					if (retrieveTotal[row][col])
 					{
-						value = values[i].getValue();
+						for (int m = 0; m < measures.length; m++)
+						{
+							JRFillVariable totalVar = totalVariables[row][col][m];
+							Object value = measureValue(vals, m);
+							totalVar.setValue(value);
+						}
 					}
-					else
-					{
-						value = measures[i].getPercentageCalculator().calculatePercentage(values[i], grandTotals[i]);
-					}
+				}
+			}
+		}
+
+		
+		protected Object measureValue(MeasureValue[] values, int measureIdx)
+		{
+			Object value;
+			if (measures[measureIdx].getPercentageOfType() == JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL)
+			{
+				if (values[measureIdx].isInitialized())
+				{
+					value = values[measureIdx].getValue();
 				}
 				else
 				{
-					value = values[i].getValue();
+					value = measures[measureIdx].getPercentageCalculator().calculatePercentage(values[measureIdx], grandTotals[measureIdx]);
 				}
-				
-				measures[i].getFillVariable().setValue(value);
 			}
+			else
+			{
+				value = values[measureIdx].getValue();
+			}
+			return value;
 		}
 
 		
@@ -1768,6 +1851,20 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			for (int i = 0; i < measures.length; i++)
 			{
 				measures[i].getFillVariable().setValue(null);
+			}
+			
+			for (int row = 0; row <= rowGroups.length; ++row)
+			{
+				for (int col = 0; col <= columnGroups.length; ++col)
+				{
+					if (retrieveTotal[row][col])
+					{
+						for (int i = 0; i < measures.length; i++)
+						{
+							totalVariables[row][col][i].setValue(null);
+						}
+					}
+				}
 			}
 		}
 	}
