@@ -12,6 +12,8 @@ JasperReports 1.x.x (200x-xx-xx)
 
 - conditional styles;
 
+- crosstab total variables
+
 - minor bug fixes and improvements;
 
 

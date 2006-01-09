@@ -73,12 +73,12 @@ import net.sf.jasperreports.charts.xml.JRXyLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
-import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabCell;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabColumnGroup;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.xml.JRCellContentsFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabBucketExpressionFactory;
@@ -751,7 +751,7 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("*/bucket/comparatorExpression", "setText", 0);
 
 		digester.addFactoryCreate("*/crosstab/measure", JRCrosstabMeasureFactory.class.getName());		
-		digester.addSetNext("*/crosstab/measure", "addMeasure", JRCrosstabMeasure.class.getName());		
+		digester.addSetNext("*/crosstab/measure", "addMeasure", JRDesignCrosstabMeasure.class.getName());		
 		
 		digester.addFactoryCreate("*/crosstab/measure/measureExpression", JRCrosstabMeasureExpressionFactory.class.getName());
 		digester.addSetNext("*/crosstab/measure/measureExpression", "setValueExpression", JRExpression.class.getName());

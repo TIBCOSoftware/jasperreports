@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -42,7 +45,12 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_VALUE_CLASS = "valueClassName";
 
+	/** Property change support mechanism. */
+	private transient PropertyChangeSupport propSupport;
+	
 	private JRDesignVariable designVariable;
 	
 	
@@ -68,7 +76,6 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	public void setCalculation(byte calculation)
 	{
 		this.calculation = calculation;
-		setExpressionClass();
 	}
 
 	
@@ -81,7 +88,6 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	public void setValueExpression(JRExpression expression)
 	{
 		this.expression = expression;
-		setExpressionClass();
 	}
 
 	
@@ -144,15 +150,67 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 */
 	public void setValueClassName(String valueClassName)
 	{
+		String oldValue = this.valueClassName;
+		
 		this.valueClassName = valueClassName;
 		this.valueClass = null;
-		setExpressionClass();
-	}
-
-
-	protected void setExpressionClass()
-	{
 		designVariable.setValueClassName(valueClassName);
+		
+		getPropertyChangeSupport().firePropertyChange(PROPERTY_VALUE_CLASS, oldValue,
+				this.valueClassName);
+	}
+	
+
+	/**
+	 * Add a property listener to listen to all properties of this class.
+	 * 
+	 * @param l
+	 *            The property listener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().addPropertyChangeListener(l);
 	}
 
+	/**
+	 * Add a property listener to receive property change events for only one
+	 * specific property.
+	 * 
+	 * @param propName
+	 *            The property to listen to.
+	 * @param l
+	 *            The property listener to add.
+	 */
+	public void addPropertyChangeListener(String propName, PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().addPropertyChangeListener(propName, l);
+	}
+
+	/**
+	 * Remove a property change listener. This will remove any listener that was
+	 * added through either of the addPropertyListener methods.
+	 * 
+	 * @param l
+	 *            The listener to remove.
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().removePropertyChangeListener(l);
+	}
+
+	/**
+	 * Get the property change support object for this class. Because the
+	 * property change support object has to be transient, it may need to be
+	 * created.
+	 * 
+	 * @return The property change support object.
+	 */
+	protected PropertyChangeSupport getPropertyChangeSupport()
+	{
+		if (propSupport == null)
+		{
+			propSupport = new PropertyChangeSupport(this);
+		}
+		return propSupport;
+	}
 }
