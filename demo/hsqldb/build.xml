@@ -13,13 +13,6 @@
 			<classpath refid="hsql-classpath"/>
 		</java>
 	</target>
-	
-	<target name="stopServer" description="Stops the HSQLDB database server.">
-		<java classname="org.hsqldb.util.SqlTool" fork="false">
-			<arg line="--rcfile ./sqltool.rc --sql SHUTDOWN localhost-sa"/>
-			<classpath refid="hsql-classpath"/>
-		</java>
-	</target>
 
 	<target name="runManager" description="Launches the HSQLDB manager.">
 		<java classname="org.hsqldb.util.DatabaseManager" fork="true">

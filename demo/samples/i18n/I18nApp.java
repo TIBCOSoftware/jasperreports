@@ -238,13 +238,13 @@ public class I18nApp
 		LocaleWrapper[] locales = 
 			new LocaleWrapper[]
 			{
-				new LocaleWrapper(new Locale("cs")),
+				new LocaleWrapper(new Locale("cs", "CZ")),
 				new LocaleWrapper(Locale.GERMANY),
 				new LocaleWrapper(Locale.US),
 				new LocaleWrapper(Locale.FRANCE),
 				new LocaleWrapper(new Locale("pt", "PT")),
-				new LocaleWrapper(new Locale("ro")),
-				new LocaleWrapper(new Locale("sk"))
+				new LocaleWrapper(new Locale("ro", "")),
+				new LocaleWrapper(new Locale("sk", "SK"))
 			};
 									  
 		LocaleWrapper locale = 
