@@ -223,7 +223,7 @@ public class JRCsvDataSource implements JRDataSource
 					field = field.trim();
 					if (field.startsWith("\"") && field.endsWith("\"")) {
 						field = field.substring(1, field.length() - 1);
-						field = field.replaceAll("\"\"", "\"");
+						field = replaceAll(field, "\"\"", "\"");
 					}
 					else
 						field = "";
@@ -253,7 +253,7 @@ public class JRCsvDataSource implements JRDataSource
 			field = field.trim();
 			if (field.startsWith("\"") && field.endsWith("\"")) {
 				field = field.substring(1, field.length() - 1);
-				field = field.replaceAll("\"\"", "\"");
+				field = replaceAll(field, "\"\"", "\"");
 			}
 			else
 				field = "";
@@ -407,6 +407,27 @@ public class JRCsvDataSource implements JRDataSource
 		if (processingStarted)
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
+	}
+
+
+	private String replaceAll(String string, String substring, String replacement)
+	{
+		StringBuffer result = new StringBuffer();
+		int index = string.indexOf(substring);
+		int oldIndex = 0;
+		while (index >= 0) {
+			result.append(string.substring(oldIndex, index));
+			result.append(replacement);
+			index += substring.length();
+			oldIndex = index;
+
+			index = string.indexOf(substring, index);
+		}
+
+		if (oldIndex <  string.length())
+			result.append(string.substring(oldIndex, string.length()));
+
+		return result.toString();
 	}
 }
 
