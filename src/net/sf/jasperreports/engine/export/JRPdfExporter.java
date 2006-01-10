@@ -42,7 +42,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -346,7 +345,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			PdfWriter imageTesterPdfWriter = 
 				PdfWriter.getInstance(
 					imageTesterDocument, 
-					new ByteArrayOutputStream()
+					new NullOutputStream() // discard the output
 					);
 			imageTesterDocument.open();
 			imageTesterDocument.newPage();
@@ -1938,5 +1937,31 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		
 		exportBox(frame, frame);
+	}
+	
+	
+	/**
+	 * Output stream implementation that discards all the data.
+	 */
+	public static class NullOutputStream extends OutputStream
+	{
+		public NullOutputStream()
+		{
+		}
+
+		public void write(int b)
+		{
+			// discard the data
+		}
+
+		public void write(byte[] b, int off, int len)
+		{
+			// discard the data
+		}
+
+		public void write(byte[] b)
+		{
+			// discard the data
+		}
 	}
 }
