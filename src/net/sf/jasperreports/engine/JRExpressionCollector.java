@@ -765,6 +765,8 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRCrosstab crosstab)
 	{
+		collectElement(crosstab);
+		
 		createCrosstabId(crosstab);
 		
 		JRCrosstabDataset dataset = crosstab.getDataset();
