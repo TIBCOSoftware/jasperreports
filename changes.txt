@@ -4,9 +4,10 @@ JasperReports Change Log
 
 JasperReports 1.x.x (200x-xx-xx)
 -----------------------------------
-- support for other query languates including HQL and XPath implementations;
+- support for other query languates including HQL, XPath and MDX implementations;
 
-- "Auto" evaluation type;
+- new evaluation time "Auto" available for text fields enabling 
+new types of calculations such as percentage;
 
 - CSV datasource;
 
