@@ -113,6 +113,7 @@
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
+				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRClassLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
