@@ -338,7 +338,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					expression = getDataSourceExpression();
 					dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
 					
-					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, false);
+					boolean hasResourceBundle = jasperReport.getResourceBundle() != null;
+					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, false, hasResourceBundle);
 
 					if (subreportFiller != null)
 					{
@@ -367,7 +368,26 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	}
 
 
-	public static Map getParameterValues(JRBaseFiller filler, JRExpression parametersMapExpression, JRDatasetParameter[] subreportParameters, byte evaluation, boolean ignoreNullExpressions) throws JRException
+	/**
+	 * Utility method used for constructing a parameter values map for subreports, sub datasets and crosstabs.
+	 * 
+	 * @param filler report filler
+	 * @param parametersMapExpression expression that yields bulk parameter values map
+	 * @param subreportParameters list of individual parameter values
+	 * @param evaluation evaluation type
+	 * @param ignoreNullExpressions whether to ignore individual parameter value expressions
+	 * @param removeResourceBundle whether to remove the {@link JRParameter#REPORT_RESOURCE_BUNDLE REPORT_RESOURCE_BUNDLE}
+	 * 	value from the bulk values map
+	 * @return the parameter values map
+	 * @throws JRException
+	 */
+	public static Map getParameterValues(
+			JRBaseFiller filler, 
+			JRExpression parametersMapExpression, 
+			JRDatasetParameter[] subreportParameters, 
+			byte evaluation, 
+			boolean ignoreNullExpressions, 
+			boolean removeResourceBundle) throws JRException
 	{
 		Map parameterValues = null;
 		if (parametersMapExpression != null)
@@ -378,7 +398,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		if (parameterValues != null)
 		{
 			//parameterValues.remove(JRParameter.REPORT_LOCALE);
-			parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+			if (removeResourceBundle)
+			{
+				parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+			}
 			parameterValues.remove(JRParameter.REPORT_CONNECTION);
 			parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
 			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
