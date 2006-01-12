@@ -91,7 +91,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
-		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation, false);
+		boolean hasResourceBundle = dataset.getResourceBundle() != null;
+		Map parameterValues = JRFillSubreport.getParameterValues(filler, parametersMapExpression, parameters, evaluation, false, hasResourceBundle);
 
 		try
 		{

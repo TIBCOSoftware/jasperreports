@@ -399,7 +399,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected void initEvaluator(byte evaluation) throws JRException
 	{
-		Map parameterValues = JRFillSubreport.getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, true);
+		Map parameterValues = JRFillSubreport.getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, true, false);
 		
 		ResourceBundle resBdl = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		if (resBdl == null)

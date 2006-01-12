@@ -1008,7 +1008,7 @@ public class JRFillDataset implements JRDataset
 
 	public String getResourceBundle()
 	{
-		return resourceBundleBaseName;
+		return parent.getResourceBundle();
 	}
 
 
