@@ -25,71 +25,52 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.fill;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
+package net.sf.jasperreports.engine;
 
 /**
- * Context used to store data shared by virtualized objects resulted from a report fill process.
+ * Virtualization helper class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRVirtualizationContext implements Serializable
+public class JRVirtualizationHelper
 {
-	private static final long serialVersionUID = 1L;
-	
-	private Map cachedRenderers;
+	private static final ThreadLocal threadVirtualizer = new ThreadLocal();
+
 	
 	/**
-	 * Constructs a context.
+	 * Sets a virtualizer to be used for the current thread.
+	 * <p>
+	 * The current thread's virtualizer is used when a report obtained by virtualization
+	 * is deserialized.
+	 * 
+	 * @param virtualizer
 	 */
-	public JRVirtualizationContext()
+	public static void setThreadVirtualizer(JRVirtualizer virtualizer)
 	{
-		cachedRenderers = new HashMap();
+		threadVirtualizer.set(virtualizer);
 	}
 
 	
 	/**
-	 * Caches an image renderer.
-	 * 
-	 * @param image the image whose renderer should be cached
+	 * Clears the virtualizer associated to the current thread.
 	 */
-	public void cacheRenderer(JRPrintImage image)
+	public static void clearThreadVirtualizer()
 	{
-		JRRenderable renderer = image.getRenderer();
-		if (renderer != null)
-		{
-			cachedRenderers.put(renderer.getId(), renderer);
-		}
+		threadVirtualizer.set(null);
 	}
 
 	
 	/**
-	 * Retrieves a cached image renderer based on an ID.
+	 * Returns the virtualizer associated to the current thread.
+	 * <p>
+	 * This method is used by {@link net.sf.jasperreports.engine.base.JRVirtualPrintPage JRVirtualPrintPage}
+	 * on deserialization.
 	 * 
-	 * @param id the ID
-	 * @return the cached image renderer for the ID
+	 * @return the virtualizer associated to the current thread
 	 */
-	public JRRenderable getCachedRenderer(String id)
+	public static JRVirtualizer getThreadVirtualizer()
 	{
-		return (JRRenderable) cachedRenderers.get(id);
-	}
-
-	
-	/**
-	 * Determines whether a cached image renderer for a specified ID exists.
-	 * 
-	 * @param id the ID
-	 * @return <code>true</code> iff the context contains a cached renderer with the specified ID
-	 */
-	public boolean hasCachedRenderer(String id)
-	{
-		return cachedRenderers.containsKey(id);
+		return (JRVirtualizer) threadVirtualizer.get();
 	}
 }
