@@ -13,7 +13,9 @@ new types of calculations such as percentage;
 
 - conditional styles;
 
-- crosstab total variables
+- crosstab total variables;
+
+- XHTML;
 
 - minor bug fixes and improvements;
 
