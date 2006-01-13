@@ -36,7 +36,13 @@ package net.sf.jasperreports.engine.base;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -46,10 +52,13 @@ import java.util.Set;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
@@ -60,8 +69,8 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
  * @author John Bindel
  * @version $Id$
  */
-public class JRVirtualPrintPage extends JRBasePrintPage implements
-		JRVirtualizable {
+public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Serializable
+{
 	/**
 	 * Identity objects are those that we want to replace when we devirtualize
 	 * data. If object A was virtualized, and it is referenced outside the
@@ -127,12 +136,15 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 	private static final Random random = new Random(System.currentTimeMillis());
 
 	private static short counter = 1;
+	
+	
+	protected List elements = new ArrayList();
 
 	/**
 	 * A unique identifier that is useful for serialization and deserialization
 	 * to some persistence mechanism.
 	 */
-	private final String uid;
+	private String uid;
 
 	/**
 	 * The object that does the virtualization work.
@@ -144,7 +156,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 	 */
 	private transient IdentityDataProvider[] identityProviders;
 
-	private transient JRVirtualizationContext virtualizationContext;
+	private JRVirtualizationContext virtualizationContext;
 	
 	/**
 	 * Constructs a virtualizable page.
@@ -160,7 +172,8 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		
 		this.virtualizationContext = virtualizationContext;
 	}
-
+	
+	
 	/**
 	 * Make some unique identifier for this object.
 	 */
@@ -177,39 +190,51 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		return this.uid;
 	}
 
-	public void setVirtualData(Object o) {
-		List elementsList = (List) o;
-		super.setElements(elementsList);
+	public void setVirtualData(Object o)
+	{
+		elements = (List) o;
 		
+		afterElementVirtualization();
+	}
+
+	protected void afterElementVirtualization()
+	{
 		// restore the cached image renderes from the virtualization context
-		if (elementsList != null && !elementsList.isEmpty())
+		List elems = getDeepElements();
+		for (Iterator iter = elems.iterator(); iter.hasNext();)
 		{
-			for (Iterator iter = elementsList.iterator(); iter.hasNext();)
+			JRPrintElement element = (JRPrintElement) iter.next();
+			if (element instanceof JRPrintImage)
 			{
-				JRPrintElement element = (JRPrintElement) iter.next();
-				if (element instanceof JRPrintImage)
+				JRPrintImage image = (JRPrintImage) element;
+				JRRenderable renderer = image.getRenderer();
+				if (renderer != null && renderer instanceof JRIDHolderRenderer)
 				{
-					JRPrintImage image = (JRPrintImage) element;
-					JRRenderable renderer = image.getRenderer();
-					if (renderer != null && renderer instanceof JRIDHolderRenderer)
+					JRRenderable cachedRenderer = virtualizationContext.getCachedRenderer(renderer.getId());
+					if (cachedRenderer == null)
 					{
-						JRRenderable cachedRenderer = virtualizationContext.getCachedRenderer(renderer.getId());
-						if (cachedRenderer == null)
-						{
-							throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization cache.");
-						}
-						image.setRenderer(cachedRenderer);
+						throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
 					}
+					image.setRenderer(cachedRenderer);
 				}
 			}
 		}
 	}
 
-	public Object getVirtualData() {
-		List elems = super.getElements();
+	
+	public Object getVirtualData()
+	{
+		beforeElementVirtualization();
 		
+		return elements;
+	}
+
+	
+	protected void beforeElementVirtualization()
+	{
 		// replacing image renderers cached in the virtualization context 
 		// with dummy renderers that only store the renderer ID
+		List elems = getDeepElements();
 		for (Iterator it = elems.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = (JRPrintElement) it.next();
@@ -223,12 +248,10 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 				}
 			}
 		}
-		
-		return elems;
 	}
 
 	public void removeVirtualData() {
-		super.setElements(null);
+		elements = null;
 	}
 
 	public void setIdentityData(Object o) {
@@ -268,7 +291,7 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 	}
 
 	public boolean isVirtualized() {
-		return super.getElements() == null;
+		return elements == null;
 	}
 
 	/**
@@ -316,43 +339,54 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 		}
 	}
 
-	public List getElements() {
-		if (this.virtualizer != null) {
-			if (isVirtualized()) {
-				// If virtualized, deserialize the List object and then set it
-				// on this page.
+	public List getElements()
+	{
+		ensureVirtualData();
+		return elements;
+	}
+
+	protected void ensureVirtualData()
+	{
+		if (this.virtualizer != null)
+		{
+			if (isVirtualized())
+			{
+				// If virtualized, deserialize the List object and then set it on this page.
 				this.virtualizer.requestData(this);
-			} else {
+			}
+			else
+			{
 				this.virtualizer.touch(this);
 			}
 		}
-		return super.getElements();
 	}
 
 	public void setElements(List elements) {
-		if (this.virtualizer != null) {
-			if (isVirtualized()) {
-				// If virtualized, remove the persisted version of the List
-				// object.
-				this.virtualizer.clearData(this);
-			} else {
-				this.virtualizer.touch(this);
-			}
-		}
-		super.setElements(elements);
+		cleanVirtualData();
+		this.elements = elements;
 	}
 
-	public void addElement(JRPrintElement element) {
-		if (this.virtualizer != null) {
-			if (isVirtualized()) {
-				// If virtualized, deserialize the List object and then set it
-				// on this page.
-				this.virtualizer.requestData(this);
-			} else {
+	protected void cleanVirtualData()
+	{
+		if (this.virtualizer != null)
+		{
+			if (isVirtualized())
+			{
+				// If virtualized, remove the persisted version of the List object.
+				this.virtualizer.clearData(this);
+			}
+			else
+			{
 				this.virtualizer.touch(this);
 			}
 		}
-		super.addElement(element);
+	}
+
+	
+	public void addElement(JRPrintElement element)
+	{
+		ensureVirtualData();
+		elements.add(element);
 	}
 	
 	
@@ -401,6 +435,88 @@ public class JRVirtualPrintPage extends JRBasePrintPage implements
 
 		public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
 		{
+		}
+	}
+	
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		uid = (String) in.readObject();
+		virtualizationContext = (JRVirtualizationContext) in.readObject();
+		
+		byte[] buffer = (byte[]) in.readUnshared();
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
+		ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
+		elements = (List) elementsStream.readObject();
+		afterElementVirtualization();
+		
+		setThreadVirtualizer();
+	}
+
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		ensureVirtualData();
+		out.writeObject(uid);
+		out.writeObject(virtualizationContext);
+		
+		beforeElementVirtualization();
+		
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		ObjectOutputStream stream = new ObjectOutputStream(bout);
+		stream.writeObject(elements);
+		stream.flush();
+		
+		byte[] bytes = bout.toByteArray();
+		out.writeUnshared(bytes);
+	}
+
+	
+	private void setThreadVirtualizer()
+	{
+		JRVirtualizer threadVirtualizer = JRVirtualizationHelper.getThreadVirtualizer();
+		if (threadVirtualizer != null)
+		{
+			virtualizer = threadVirtualizer;
+			virtualizer.registerObject(this);
+		}
+	}
+
+
+	protected void finalize()
+	{
+		if (virtualizer != null)
+		{
+			virtualizer.deregisterObject(this);
+		}
+	}
+	
+	
+	/**
+	 * Returns all the elements on tha page, including the ones placed inside
+	 * {@link JRPrintFrame frames}.
+	 * 
+	 * @return all the elements on tha page
+	 */
+	protected List getDeepElements()
+	{
+		List deepElements = new ArrayList(elements.size());
+		collectDeepElements(elements, deepElements);
+		return deepElements;
+	}
+
+	protected void collectDeepElements(List elementsList, List deepElements)
+	{
+		for (Iterator it = elementsList.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) it.next();
+			deepElements.add(element);
+			
+			if (element instanceof JRPrintFrame)
+			{
+				JRPrintFrame frame = (JRPrintFrame) element;
+				collectDeepElements(frame.getElements(), deepElements);
+			}
 		}
 	}
 }

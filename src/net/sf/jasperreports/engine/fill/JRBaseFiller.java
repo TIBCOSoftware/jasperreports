@@ -1177,9 +1177,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		private static final Map providers = new HashMap();
 
-		private final JRBasePrintPage printPage;
+		private final JRPrintPage printPage;
 
-		protected PageIdentityDataProvider(JRBasePrintPage printPage)
+		protected PageIdentityDataProvider(JRPrintPage printPage)
 		{
 			this.printPage = printPage;
 		}
@@ -1213,7 +1213,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 
-		public static JRVirtualPrintPage.IdentityDataProvider getIdentityDataProvider(JRBasePrintPage printPage)
+		public static JRVirtualPrintPage.IdentityDataProvider getIdentityDataProvider(JRPrintPage printPage)
 		{
 			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.get(printPage);
 			if (provider == null)
@@ -1224,7 +1224,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			return provider;
 		}
 
-		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRBasePrintPage printPage)
+		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRPrintPage printPage)
 		{
 			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
 			return provider;
@@ -1234,7 +1234,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected void addPageIdentityDataProvider()
 	{
-		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider((JRBasePrintPage) printPage);
+		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.getIdentityDataProvider(printPage);
 		JRVirtualPrintPage masterPage = (JRVirtualPrintPage) fillContext.getPrintPage();
 		masterPage.addIdentityDataProvider(pageProvider);
 	}
@@ -1242,7 +1242,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected void removePageIdentityDataProvider()
 	{
-		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.removeIdentityDataProvider((JRBasePrintPage) printPage);
+		JRVirtualPrintPage.IdentityDataProvider pageProvider = PageIdentityDataProvider.removeIdentityDataProvider(printPage);
 		if (pageProvider != null)
 		{
 			((JRVirtualPrintPage) fillContext.getPrintPage()).removeIdentityDataProvider(pageProvider);
