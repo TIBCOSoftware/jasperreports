@@ -1421,6 +1421,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 					//backward compatibility with the IMAGE_MAP parameter
 					if (imageNameToImageDataMap != null)
 					{
+						if (renderer.getType() == JRRenderable.TYPE_SVG)
+						{
+							renderer =
+								new JRWrappingSvgRenderer(
+									renderer,
+									new Dimension(image.getWidth(), image.getHeight()),
+									image.getBackcolor()
+									);
+						}
 						imageNameToImageDataMap.put(imageName, renderer.getImageData());
 					}
 					//END - backward compatibility with the IMAGE_MAP parameter
