@@ -1,12 +1,17 @@
 <project name="jasper" default="javac" basedir=".">
 
 	<description>Shows how different feautures of the library could be used to generate a complex document.</description>
+	
+	<property name="project.location" location="."/>
+	<property file="${project.location}/build.properties"/>
 
 	<property name="class.name" value="MondrianApp" />
 	<property name="file.name" value="MondrianReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="jr.lib" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
+
+	<property name="monConnection.properties" value="monConnection.properties"/>
 	
 	<path id="classpath">
 		<pathelement location="bin"/>
@@ -25,9 +30,18 @@
 		<javac srcdir="src" destdir="bin" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
+		<!--
 		<copy file="src/jasperreports.properties" todir="bin"/>
 		<copy file="src/log4j.properties" todir="bin"/>
 		<copy file="src/schema.xml" todir="bin"/>
+		-->
+		<copy todir="bin">
+			<fileset dir="metadata">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
@@ -36,8 +50,8 @@
 		</taskdef>
 		<jrc destdir="bin">
 			<src>
-				<fileset dir="src">
-					<include name="**/*.jrxml"/>
+				<fileset dir="reports">
+					<include name="**/${file.name}.jrxml"/>
 				</fileset>
 			</src>
 			<classpath refid="classpath"/>
@@ -45,14 +59,17 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	    <echo message="File is ${file.name}"/>
 		<java classname="${class.name}" fork="true" dir="bin">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
+			<arg value="-P${monConnection.properties}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	    <echo message="File is ${file.name}"/>
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="bin">
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -135,6 +152,7 @@
 		<java classname="${class.name}" fork="true" dir="bin">
 			<arg value="-Trun"/>
 			<arg value="-F${file.name}.jasper"/>
+			<arg value="-P${monConnection.properties}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
