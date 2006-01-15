@@ -26,8 +26,12 @@
  * http://www.jaspersoft.com
  */
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
@@ -76,6 +80,7 @@ public class MondrianApp
 	{
 		String fileName = null;
 		String taskName = null;
+		String propertiesFileName = null;
 
 		if(args.length == 0)
 		{
@@ -90,6 +95,8 @@ public class MondrianApp
 				taskName = args[k].substring(2);
 			if ( args[k].startsWith("-F") )
 				fileName = args[k].substring(2);
+			if ( args[k].startsWith("-P") )
+				propertiesFileName = args[k].substring(2);
 			
 			k++;	
 		}
@@ -99,7 +106,7 @@ public class MondrianApp
 			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
-				Connection conn = getConnection();
+				Connection conn = getConnection(propertiesFileName);
 				try
 				{
 					Map parameters = new HashMap();
@@ -192,7 +199,7 @@ public class MondrianApp
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
-				Connection conn = getConnection();
+				Connection conn = getConnection(propertiesFileName);
 				try
 				{
 					Map parameters = new HashMap();
@@ -230,24 +237,160 @@ public class MondrianApp
 	private static void usage()
 	{
 		System.out.println( "MondrianApp usage:" );
-		System.out.println( "\tjava MondrianApp -Ttask -Ffile" );
+		System.out.println( "\tjava MondrianApp -Ttask -Ffile -Pproperties" );
 		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tproperties : properties file for Mondrian connection" );
 	}
 
 
-	private static Connection getConnection()
+	private static Connection getConnection(String propertiesFileName) throws FileNotFoundException, IOException
 	{
+		if (propertiesFileName == null) {
+			throw new RuntimeException("connection properties file not set");
+		}
+		ConnectionData data = getConnectionData(propertiesFileName);
 		Connection connection = 
 			DriverManager.getConnection(
 					"Provider=mondrian;" + 
-					"JdbcDrivers=org.hsqldb.jdbcDriver;" +
-					"Jdbc=jdbc:hsqldb:hsql://localhost;" +
-					"JdbcUser=sa;" +
-					"JdbcPassword=;" +
-					"Catalog=file:schema.xml;", 
+					"JdbcDrivers=" + data.getJdbcDrivers() + ";" +
+					"Jdbc=" + data.getJdbcUrl() + ";" +
+					"JdbcUser=" + data.getJdbcUser() + ";" +
+					"JdbcPassword=" + data.getJdbcPassword() + ";" +
+					"Catalog=" + data.getCatalogUri() + ";", 
 					null, false);
 		
 		return connection;
 	}
 
+	private static Properties loadConnectionProperties(String path) throws FileNotFoundException, IOException
+	{
+		File connectionFile = new File(path);
+		Properties properties = new Properties();
+		properties.load(new FileInputStream(connectionFile));
+		return properties;
+	}
+
+	private static ConnectionData getConnectionData(String propertiesFileName) throws IOException
+	{
+		Properties properties = loadConnectionProperties(propertiesFileName);
+
+		ConnectionData data = (new MondrianApp()).new ConnectionData();
+		String prop;
+
+		String dataSourceName = properties.getProperty("dataSourceName");
+		if (dataSourceName == null || dataSourceName.length() == 0) {
+			prop = properties.getProperty("jdbcDrivers");
+			if (prop != null && prop.length() > 0)
+				data.setJdbcDrivers(prop);
+			else
+				throw new RuntimeException("Invalid JDBC driver");
+
+			prop = properties.getProperty("jdbcUrl");
+			if (prop != null && prop.length() > 0)
+				data.setJdbcUrl(prop);
+			else
+				throw new RuntimeException("Invalid JDBC URL");
+
+			prop = properties.getProperty("jdbcUser");
+			if (prop != null && prop.length() > 0)
+				data.setJdbcUser(prop);
+			else
+				data.setJdbcUser("");
+
+			prop = properties.getProperty("jdbcPassword");
+			if (prop != null && prop.length() > 0)
+				data.setJdbcPassword(prop);
+			else
+				data.setJdbcPassword("");
+		}
+		else
+			data.setDataSourceName(dataSourceName);
+
+		prop = properties.getProperty("catalogUri");
+		if (prop != null && prop.length() > 0) {
+			data.setCatalogUri(prop);
+		} else
+			throw new RuntimeException("Invalid catalog URI");
+
+		return data;
+	}
+
+	
+	/**
+	 * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+	 * @version $Id
+	 */
+	private class ConnectionData
+	{
+		private String jdbcDrivers;
+		private String jdbcUrl;
+		private String jdbcUser;
+		private String jdbcPassword;
+		private String dataSourceName;
+		private String catalogUri;
+
+		public ConnectionData()
+		{
+		}
+
+		public String getCatalogUri()
+		{
+			return catalogUri;
+		}
+
+		public void setCatalogUri(String catalogUri)
+		{
+			this.catalogUri = catalogUri;
+		}
+
+		public String getDataSourceName()
+		{
+			return dataSourceName;
+		}
+
+		public void setDataSourceName(String dataSourceName)
+		{
+			this.dataSourceName = dataSourceName;
+		}
+
+		public String getJdbcDrivers()
+		{
+			return jdbcDrivers;
+		}
+
+		public void setJdbcDrivers(String jdbcDrivers)
+		{
+			this.jdbcDrivers = jdbcDrivers;
+		}
+
+		public String getJdbcPassword()
+		{
+			return jdbcPassword;
+		}
+
+		public void setJdbcPassword(String jdbcPassword)
+		{
+			this.jdbcPassword = jdbcPassword;
+		}
+
+		public String getJdbcUrl()
+		{
+			return jdbcUrl;
+		}
+
+		public void setJdbcUrl(String jdbcUrl)
+		{
+			this.jdbcUrl = jdbcUrl;
+		}
+
+		public String getJdbcUser()
+		{
+			return jdbcUser;
+		}
+
+		public void setJdbcUser(String jdbcUser)
+		{
+			this.jdbcUser = jdbcUser;
+		}
+	}
 }
