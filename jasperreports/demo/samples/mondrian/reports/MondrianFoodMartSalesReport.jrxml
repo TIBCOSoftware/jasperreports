@@ -33,16 +33,16 @@ from [Sales] ]]>
 		<fieldDescription><![CDATA[Data[1,?]]]></fieldDescription>
 	</field>
 	<field name="StoreStateUnitSales" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][Store State])[0,?]]]></fieldDescription>
+		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])[0,?]]]></fieldDescription>
 	</field>
 	<field name="StoreStateCustCount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][Store State])[1,?]]]></fieldDescription>
+		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])[1,?]]]></fieldDescription>
 	</field>
 	<field name="TotalStoreStateUnitSales" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][(All)])[0,?]]]></fieldDescription>
+		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])[0,?]]]></fieldDescription>
 	</field>
 	<field name="TotalStoreStateCustCount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][(All)])[1,?]]]></fieldDescription>
+		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])[1,?]]]></fieldDescription>
 	</field>
 	<group name="StoreState">
 		<groupExpression>$F{StoreState}</groupExpression>
@@ -50,17 +50,17 @@ from [Sales] ]]>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="StoreState">
 					<reportElement x="10" y="0" width="150" height="15" style="Arial_Bold"/>
-					<textFieldExpression>$F{StoreState}</textFieldExpression>
+					<textFieldExpression>"Store " + $F{StoreState}</textFieldExpression>
 				</textField>
-				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="StoreState">
+				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="StoreState">
 					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.lang.Number">$F{StoreStateUnitSales}</textFieldExpression>
 				</textField>
-				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="StoreState">
+				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="StoreState">
 					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Number">$F{StoreStateUnitSales}</textFieldExpression>
+					<textFieldExpression class="java.lang.Number">$F{StoreStateCustCount}</textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -103,14 +103,14 @@ from [Sales] ]]>
 		<band height="16">
 			<textField>
 				<reportElement x="20" y="0" width="150" height="15"/>
-				<textFieldExpression>$F{CustomerState}</textFieldExpression>
+				<textFieldExpression>"Customer " + $F{CustomerState}</textFieldExpression>
 			</textField>
-			<textField pattern="#,###">
+			<textField pattern="$#,##0.00">
 				<reportElement x="180" y="0" width="100" height="15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Number">$F{UnitSales}</textFieldExpression>
 			</textField>
-			<textField pattern="$#,##0.00">
+			<textField pattern="#,###">
 				<reportElement x="300" y="0" width="100" height="15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Number">$F{CustomerCount}</textFieldExpression>
@@ -127,12 +127,12 @@ from [Sales] ]]>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression>"Totals"</textFieldExpression>
 				</textField>
-				<textField pattern="#,###">
+				<textField pattern="$#,##0.00">
 					<reportElement x="180" y="0" width="100" height="15" style="Arial_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateUnitSales}</textFieldExpression>
 				</textField>
-				<textField pattern="$#,##0.00">
+				<textField pattern="#,###">
 					<reportElement x="300" y="0" width="100" height="15" style="Arial_Bold"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateCustCount}</textFieldExpression>
