@@ -230,6 +230,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 			file.deleteOnExit();
 
 			ObjectOutputStream oos = null;
+			o.beforeExternalization();
 			try {
 				FileOutputStream fos = new FileOutputStream(file);
 				oos = new ObjectOutputStream(fos);
@@ -265,6 +266,7 @@ public class JRFileVirtualizer implements JRVirtualizer {
 			ois = new ObjectInputStream(fis);
 			o.setIdentityData(ois.readObject());
 			o.setVirtualData(ois.readObject());
+			o.afterInternalization();
 		} finally {
 			if (ois != null) {
 				ois.close();
