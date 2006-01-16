@@ -45,6 +45,7 @@ public class JRVirtualizationContext implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private Map cachedRenderers;
+	private Map cachedTemplates;
 	
 	/**
 	 * Constructs a context.
@@ -52,6 +53,7 @@ public class JRVirtualizationContext implements Serializable
 	public JRVirtualizationContext()
 	{
 		cachedRenderers = new HashMap();
+		cachedTemplates = new HashMap();
 	}
 
 	
@@ -91,5 +93,28 @@ public class JRVirtualizationContext implements Serializable
 	public boolean hasCachedRenderer(String id)
 	{
 		return cachedRenderers.containsKey(id);
+	}
+	
+	
+	/**
+	 * Caches an element template.
+	 * 
+	 * @param template the template to cache
+	 */
+	public void cacheTemplate(JRTemplateElement template)
+	{
+		cachedTemplates.put(template.getId(), template);
+	}
+	
+	
+	/**
+	 * Retrieves a cached template.
+	 * 
+	 * @param templateId the template ID
+	 * @return the cached template having the given ID
+	 */
+	public JRTemplateElement getCachedTemplate(String templateId)
+	{
+		return (JRTemplateElement) cachedTemplates.get(templateId);
 	}
 }

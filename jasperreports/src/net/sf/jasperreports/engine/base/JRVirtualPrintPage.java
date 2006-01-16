@@ -43,9 +43,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -61,6 +63,8 @@ import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fill.JRTemplateElement;
+import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
@@ -193,61 +197,11 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	public void setVirtualData(Object o)
 	{
 		elements = (List) o;
-		
-		afterElementVirtualization();
 	}
-
-	protected void afterElementVirtualization()
-	{
-		// restore the cached image renderes from the virtualization context
-		List elems = getDeepElements();
-		for (Iterator iter = elems.iterator(); iter.hasNext();)
-		{
-			JRPrintElement element = (JRPrintElement) iter.next();
-			if (element instanceof JRPrintImage)
-			{
-				JRPrintImage image = (JRPrintImage) element;
-				JRRenderable renderer = image.getRenderer();
-				if (renderer != null && renderer instanceof JRIDHolderRenderer)
-				{
-					JRRenderable cachedRenderer = virtualizationContext.getCachedRenderer(renderer.getId());
-					if (cachedRenderer == null)
-					{
-						throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
-					}
-					image.setRenderer(cachedRenderer);
-				}
-			}
-		}
-	}
-
 	
 	public Object getVirtualData()
 	{
-		beforeElementVirtualization();
-		
 		return elements;
-	}
-
-	
-	protected void beforeElementVirtualization()
-	{
-		// replacing image renderers cached in the virtualization context 
-		// with dummy renderers that only store the renderer ID
-		List elems = getDeepElements();
-		for (Iterator it = elems.iterator(); it.hasNext();)
-		{
-			JRPrintElement element = (JRPrintElement) it.next();
-			if (element instanceof JRPrintImage)
-			{
-				JRPrintImage image = (JRPrintImage) element;
-				JRRenderable renderer = image.getRenderer();
-				if (renderer != null && virtualizationContext.hasCachedRenderer(renderer.getId()))
-				{
-					image.setRenderer(new JRIDHolderRenderer(renderer));
-				}
-			}
-		}
 	}
 
 	public void removeVirtualData() {
@@ -397,13 +351,13 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	 * When a page gets deserialized, the original renderers are restored from the 
 	 * virtualization context based on the ID.
 	 */
-	protected static class JRIDHolderRenderer implements JRRenderable, Serializable
+	protected static class JRIdHolderRenderer implements JRRenderable, Serializable
 	{
 		private static final long serialVersionUID = 1L;
 		
 		protected final String id;
 		
-		protected JRIDHolderRenderer(JRRenderable renderer)
+		protected JRIdHolderRenderer(JRRenderable renderer)
 		{
 			this.id = renderer.getId();
 		}
@@ -439,6 +393,16 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	}
 	
 	
+	protected static class JRIdHolderTemplateElement extends JRTemplateElement
+	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+		
+		protected JRIdHolderTemplateElement(String id)
+		{
+			super(id);
+		}
+	}
+	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		uid = (String) in.readObject();
@@ -448,7 +412,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 		ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
 		elements = (List) elementsStream.readObject();
-		afterElementVirtualization();
+		afterInternalization();
 		
 		setThreadVirtualizer();
 	}
@@ -457,10 +421,11 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
 		ensureVirtualData();
+		beforeExternalization();
+		
 		out.writeObject(uid);
 		out.writeObject(virtualizationContext);
 		
-		beforeElementVirtualization();
 		
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		ObjectOutputStream stream = new ObjectOutputStream(bout);
@@ -516,6 +481,96 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
 				collectDeepElements(frame.getElements(), deepElements);
+			}
+		}
+	}
+
+
+	public void beforeExternalization()
+	{
+		List elems = getDeepElements();
+		Map idTemplates = new HashMap();
+		for (Iterator it = elems.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) it.next();
+			
+			// replacing element template with dummy template that only stores the template ID
+			if (element instanceof JRTemplatePrintElement)
+			{
+				JRTemplatePrintElement templateElement = (JRTemplatePrintElement) element;
+				JRTemplateElement template = templateElement.getTemplate();
+				if (template != null)
+				{
+					virtualizationContext.cacheTemplate(template);
+					String templateId = template.getId();
+					JRIdHolderTemplateElement idTemplate = (JRIdHolderTemplateElement) idTemplates.get(templateId);
+					if (idTemplate == null)
+					{
+						idTemplate = new JRIdHolderTemplateElement(templateId);
+						idTemplates.put(templateId, idTemplate);
+					}
+					templateElement.setTemplate(idTemplate);
+				}
+			}
+			
+			// replacing image renderer cached in the virtualization context 
+			// with dummy renderer that only stores the renderer ID
+			if (element instanceof JRPrintImage)
+			{
+				JRPrintImage image = (JRPrintImage) element;
+				JRRenderable renderer = image.getRenderer();
+				if (renderer != null && virtualizationContext.hasCachedRenderer(renderer.getId()))
+				{
+					image.setRenderer(new JRIdHolderRenderer(renderer));
+				}
+			}
+		}
+	}
+
+
+	public void afterInternalization()
+	{
+		List elems = getDeepElements();
+		for (Iterator iter = elems.iterator(); iter.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) iter.next();
+			
+			// restore the cached element template from the virtualization context
+			if (element instanceof JRTemplatePrintElement)
+			{
+				JRTemplatePrintElement templateElement = (JRTemplatePrintElement) element;
+				JRTemplateElement template = templateElement.getTemplate();
+				if (template != null)
+				{
+					if (!(template instanceof JRIdHolderTemplateElement))
+					{
+						throw new JRRuntimeException("Virtualization error.");
+					}
+					
+					JRTemplateElement cachedTemplate = virtualizationContext.getCachedTemplate(template.getId());
+					if (cachedTemplate == null)
+					{
+						throw new JRRuntimeException("Template " + template.getId() + " not found in virtualization context.");
+					}
+					
+					templateElement.setTemplate(cachedTemplate);
+				}
+			}
+			
+			// restore the cached image rendere from the virtualization context
+			if (element instanceof JRPrintImage)
+			{
+				JRPrintImage image = (JRPrintImage) element;
+				JRRenderable renderer = image.getRenderer();
+				if (renderer != null && renderer instanceof JRIdHolderRenderer)
+				{
+					JRRenderable cachedRenderer = virtualizationContext.getCachedRenderer(renderer.getId());
+					if (cachedRenderer == null)
+					{
+						throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
+					}
+					image.setRenderer(cachedRenderer);
+				}
 			}
 		}
 	}

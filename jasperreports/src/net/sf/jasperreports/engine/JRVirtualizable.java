@@ -68,4 +68,16 @@ public interface JRVirtualizable {
 	 * Used by the virtualizer to get identity data.
 	 */
 	Object getIdentityData();
+	
+	
+	/**
+	 * Called by the virtualizer before the object's data is externalized.
+	 */
+	void beforeExternalization();
+	
+	
+	/**
+	 * Called by the virtualizer after the object's data was made available to the object.
+	 */
+	void afterInternalization();
 }

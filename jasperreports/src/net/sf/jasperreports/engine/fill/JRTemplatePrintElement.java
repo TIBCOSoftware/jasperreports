@@ -230,6 +230,15 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	public void setBackcolor(Color color)
 	{
 	}
-	
 
+	
+	public JRTemplateElement getTemplate()
+	{
+		return template;
+	}
+
+	public void setTemplate(JRTemplateElement template)
+	{
+		this.template = template;
+	}
 }

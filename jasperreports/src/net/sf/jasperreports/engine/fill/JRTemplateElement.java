@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Random;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -50,6 +51,8 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private static final Random randomId = new Random();
 
 	/**
 	 *
@@ -61,6 +64,7 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle = null;
 
+	private final String id;
 	
 	/**
 	 *
@@ -68,6 +72,7 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected JRTemplateElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		this.defaultStyleProvider = defaultStyleProvider;
+		id = createId();
 	}
 
 	/**
@@ -76,6 +81,17 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected JRTemplateElement(JRElement element)
 	{
 		setElement(element);
+		id = createId();
+	}
+
+	protected JRTemplateElement(String id)
+	{
+		this.id = id;
+	}
+	
+	private String createId()
+	{
+		return System.identityHashCode(this) + "_" + System.currentTimeMillis() + "_" + randomId.nextInt();
 	}
 
 
@@ -203,5 +219,11 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected void setStyle(JRStyle style)
 	{
 		parentStyle = style;
+	}
+
+
+	public String getId()
+	{
+		return id;
 	}
 }
