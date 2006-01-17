@@ -295,11 +295,11 @@ public class JRImageLoader
 	{
 		Image image = Toolkit.getDefaultToolkit().createImage( bytes );
 
-		MediaTracker traker = new MediaTracker(new Panel());
-		traker.addImage(image, 0);
+		MediaTracker tracker = new MediaTracker(new Panel());
+		tracker.addImage(image, 0);
 		try
 		{
-			traker.waitForID(0);
+			tracker.waitForID(0);
 		}
 		catch (Exception e)
 		{
@@ -309,7 +309,7 @@ public class JRImageLoader
 
 		try
 		{
-			if(traker.isErrorID(0)) {
+			if(tracker.isErrorID(0)) {
 				throw new JRException("Image failed to load.");
 			}
 		}
