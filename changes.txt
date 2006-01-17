@@ -13,7 +13,10 @@ new types of calculations such as percentage;
 
 - conditional styles;
 
-- crosstab total variables;
+- crosstab total variables to allow combining data at different 
+aggregation levels (percentages, etc);
+
+- serialization of virtualized reports;
 
 - XHTML;
 
