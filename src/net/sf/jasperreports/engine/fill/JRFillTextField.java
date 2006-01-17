@@ -288,7 +288,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		JRTemplateText template = (JRTemplateText) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent, style);
+			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent, style, getReportFont());
 			registerTemplate(style, template);
 		}
 		

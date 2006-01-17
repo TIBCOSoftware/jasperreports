@@ -108,6 +108,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	protected JRFillElementContainer conditionalStylesContainer;
 	
+	protected final JRStyle initialStyle;
+	
 	/**
 	 *
 	 *
@@ -138,6 +140,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 			y = element.getY();
 			width = element.getWidth();
 			height = element.getHeight();
+			
+			initialStyle = factory.getStyle(parent.getStyle());
 		}
 
 	
@@ -159,6 +163,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		height = element.getHeight();
 		
 		templates = element.templates;
+		
+		initialStyle = element.initialStyle;
 	}
 
 
@@ -786,7 +792,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	public JRStyle getStyle()
 	{
-		return parent.getStyle();
+		return initialStyle;
 	}
 
 
@@ -1231,13 +1237,12 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	protected JRStyle getElementStyle()
 	{
-		JRStyle parentStyle = parent.getStyle();
-		JRStyle style = conditionalStylesContainer.getEvaluatedConditionalStyle(parentStyle);
-		if (style == null)
+		JRStyle currStyle = conditionalStylesContainer.getEvaluatedConditionalStyle(initialStyle);
+		if (currStyle == null)
 		{
-			style = parentStyle;
+			currStyle = initialStyle;
 		}
-		return style;
+		return currStyle;
 	}
 	
 	protected JRTemplateElement getTemplate(JRStyle style)

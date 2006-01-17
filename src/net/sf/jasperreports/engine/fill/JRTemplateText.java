@@ -102,7 +102,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText, JRStyle style)
+	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText, JRStyle style, JRReportFont reportFont)
 	{
 		super(defaultStyleProvider);
 		
@@ -112,12 +112,14 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		{
 			setStyle(style);
 		}
+		
+		setReportFont(reportFont);
 	}
 
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRTextField textField, JRStyle style)
+	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRTextField textField, JRStyle style, JRReportFont reportFont)
 	{
 		super(defaultStyleProvider);
 		
@@ -127,6 +129,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		{
 			setStyle(style);
 		}
+		
+		setReportFont(reportFont);
 	}
 
 

@@ -76,6 +76,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	protected TextChopper textChopper = null;
 	
+	protected final JRReportFont reportFont;
 
 	/**
 	 *
@@ -88,6 +89,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super(filler, textElement, factory);
 
+		reportFont = factory.getReportFont(textElement.getReportFont());
+		
 		/*   */
 		createTextMeasurer();
 		createTextChopper();
@@ -97,6 +100,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	protected JRFillTextElement(JRFillTextElement textElement, JRFillCloneFactory factory)
 	{
 		super(textElement, factory);
+		
+		reportFont = textElement.reportFont;
 
 		createTextMeasurer();
 		createTextChopper();
@@ -918,7 +923,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public JRReportFont getReportFont()
 	{
-		return ((JRFont)parent).getReportFont();
+		return reportFont;
 	}
 
 	public void setReportFont(JRReportFont reportFont)
