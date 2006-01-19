@@ -1067,6 +1067,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					if (crossCells[i][j] == null)
 					{
 						inheritCell(i, j);
+						
+						if (crossCells[i][j] == null)
+						{
+							crossCells[i][j] = emptyCell(i, j);
+							inheritCellSize(i, j);
+						}
 					}
 					else
 					{
@@ -1079,6 +1085,20 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				}
 			}
 		}
+	}
+
+	private JRDesignCrosstabCell emptyCell(int i, int j)
+	{
+		JRDesignCrosstabCell emptyCell = new JRDesignCrosstabCell();
+		if (i < rowGroups.size())
+		{
+			emptyCell.setRowTotalGroup(((JRCrosstabRowGroup) rowGroups.get(i)).getName());
+		}
+		if (j < columnGroups.size())
+		{
+			emptyCell.setColumnTotalGroup(((JRCrosstabColumnGroup) columnGroups.get(j)).getName());
+		}
+		return emptyCell;
 	}
 
 	protected void inheritCellSize(int i, int j)

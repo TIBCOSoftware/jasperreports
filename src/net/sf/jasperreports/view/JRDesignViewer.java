@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
@@ -64,7 +65,9 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -82,6 +85,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -1875,7 +1879,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		if (headerCell != null)
 		{
 			grx.translate(crosstab.getX(), crosstab.getY());
-			printCellContents(crosstab, headerCell, grx, 0, 0, false, false);
+			printCellContents(headerCell, grx, 0, 0, false, false);
 			grx.translate(-crosstab.getX(), -crosstab.getY());
 		}
 		
@@ -1906,17 +1910,17 @@ public class JRDesignViewer extends javax.swing.JPanel
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
+				printCellContents(totalHeader, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
 				x += totalHeader.getWidth();
 			}
 			
 			JRCellContents header = group.getHeader();
-			printCellContents(crosstab, header, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
+			printCellContents(header, grx, x, y, x == 0 && crosstab.getHeaderCell() == null, false);
 			
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x + header.getWidth(), y, false, false);
+				printCellContents(totalHeader, grx, x + header.getWidth(), y, false, false);
 			}
 			
 			y += group.getHeight();
@@ -1934,13 +1938,13 @@ public class JRDesignViewer extends javax.swing.JPanel
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
+				printCellContents(totalHeader, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
 				printCrosstabDataCellsRow(crosstab, grx, rowHeadersXOffset, y, i);
 				y += totalHeader.getHeight();
 			}
 			
 			JRCellContents header = group.getHeader();
-			printCellContents(crosstab, header, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
+			printCellContents(header, grx, x, y, false, y == 0 && crosstab.getHeaderCell() == null);
 			
 			if (i == groups.length - 1)
 			{
@@ -1950,7 +1954,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
-				printCellContents(crosstab, totalHeader, grx, x, y + header.getHeight(), false, false);
+				printCellContents(totalHeader, grx, x, y + header.getHeight(), false, false);
 				printCrosstabDataCellsRow(crosstab, grx, rowHeadersXOffset, y + header.getHeight(), i);
 			}
 			
@@ -1971,18 +1975,18 @@ public class JRDesignViewer extends javax.swing.JPanel
 			
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_START)
 			{
-				printCellContents(crosstab, cells[rowIndex][i].getContents(), grx, x, 0, false, false);
+				printCellContents(cells[rowIndex][i].getContents(), grx, x, 0, false, false);
 				x += cells[rowIndex][i].getContents().getWidth();
 			}
 			
 			if (i == colGroups.length - 1)
 			{
-				printCellContents(crosstab, cells[rowIndex][colGroups.length].getContents(), grx, x, 0, false, false);
+				printCellContents(cells[rowIndex][colGroups.length].getContents(), grx, x, 0, false, false);
 			}
 			
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
 			{
-				printCellContents(crosstab, cells[rowIndex][i].getContents(), grx, x + group.getHeader().getWidth(), 0, false, false);
+				printCellContents(cells[rowIndex][i].getContents(), grx, x + group.getHeader().getWidth(), 0, false, false);
 			}
 		}
 		
@@ -1990,62 +1994,69 @@ public class JRDesignViewer extends javax.swing.JPanel
 	}
 
 
-	private void printCellContents(JRCrosstab crosstab, JRCellContents cell, Graphics2D grx, int x, int y, boolean left, boolean top)
+	private void printCellContents(JRCellContents cell, Graphics2D grx, int x, int y, boolean left, boolean top)
 	{
 		if (cell.getWidth() == 0 || cell.getHeight() == 0)
 		{
 			return;
 		}
 		
-		if (crosstab.getMode() == JRElement.MODE_OPAQUE)
-		{
-			Color backcolor = cell.getBackcolor();
-			if (backcolor == null)
-			{
-				backcolor = crosstab.getBackcolor();
-			}
-			
-			grx.setColor(backcolor);
-			grx.fillRect(x, y, cell.getWidth(), cell.getHeight());			
-		}
+		JRDesignFrame frame = createCrosstabCellFrame(cell, x, y, left, top);
+		printFrame(frame, grx);
+	}
+
+
+	private JRDesignFrame createCrosstabCellFrame(JRCellContents cell, int x, int y, boolean left, boolean top)
+	{
+		JRDesignFrame frame = new JRDesignFrame(cell.getDefaultStyleProvider());
+		frame.setX(x);
+		frame.setY(y);
+		frame.setWidth(cell.getWidth());
+		frame.setHeight(cell.getHeight());
 		
-		int topPadding = 0;
-		int leftPadding = 0;
+		frame.setMode(cell.getMode());
+		frame.setBackcolor(cell.getBackcolor());
+		frame.setStyle(cell.getStyle());
 		
 		JRBox box = cell.getBox();
 		if (box != null)
-		{			
+		{
+			frame.setBox(box);
+			
 			boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
 			boolean copyTop = top && box.getTopBorder() == JRGraphicElement.PEN_NONE && box.getBottomBorder() != JRGraphicElement.PEN_NONE;
 			
-			if (copyLeft || copyTop)
+			if (copyLeft)
 			{
-				JRBaseBox newBox = new JRBaseBox(box);
-				
-				if (copyLeft)
-				{
-					newBox.setLeftBorder(box.getRightBorder());
-					newBox.setLeftBorderColor(box.getRightBorderColor());
-				}
-				
-				if (copyTop)
-				{
-					newBox.setTopBorder(box.getBottomBorder());
-					newBox.setTopBorderColor(box.getBottomBorderColor());
-				}
-				
-				box = newBox;
+				frame.setLeftBorder(box.getRightBorder());
+				frame.setLeftBorderColor(box.getRightBorderColor());
 			}
 			
-			topPadding = box.getTopPadding();
-			leftPadding = box.getLeftPadding();
+			if (copyTop)
+			{
+				frame.setTopBorder(box.getBottomBorder());
+				frame.setTopBorderColor(box.getBottomBorderColor());
+			}
 		}
 		
-		grx.translate(x + leftPadding, y + topPadding);
-		printElements(cell.getElements(), grx);
-		grx.translate(-(x + leftPadding), -(y + topPadding));
+		List children = cell.getChildren();
+		if (children != null)
+		{
+			for (Iterator it = children.iterator(); it.hasNext();)
+			{
+				JRChild child = (JRChild) it.next();
+				if (child instanceof JRElement)
+				{
+					frame.addElement((JRElement) child);
+				}
+				else if (child instanceof JRElementGroup)
+				{
+					frame.addElementGroup((JRElementGroup) child);
+				}
+			}
+		}
 		
-		printBox(box, crosstab.getForecolor(), x, y, cell.getWidth(), cell.getHeight(), grx);
+		return frame;
 	}
 
 
