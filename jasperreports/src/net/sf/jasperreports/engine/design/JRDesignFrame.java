@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -453,5 +454,33 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+	
+	
+	/**
+	 * Sets all the box attributes.
+	 * 
+	 * @param box a box object to get the box attributes from
+	 */
+	public void setBox(JRBox box)
+	{
+		if (box != null)
+		{
+			border = box.getOwnBorder();
+			topBorder = box.getOwnTopBorder();
+			leftBorder = box.getOwnLeftBorder();
+			bottomBorder = box.getOwnBottomBorder();
+			rightBorder = box.getOwnRightBorder();
+			borderColor = box.getOwnBorderColor();
+			topBorderColor = box.getOwnTopBorderColor();
+			leftBorderColor = box.getOwnLeftBorderColor();
+			bottomBorderColor = box.getOwnBottomBorderColor();
+			rightBorderColor = box.getOwnRightBorderColor();
+			padding = box.getOwnPadding();
+			topPadding = box.getOwnTopPadding();
+			leftPadding = box.getOwnLeftPadding();
+			bottomPadding = box.getOwnBottomPadding();
+			rightPadding = box.getOwnRightPadding();
+		}
 	}
 }
