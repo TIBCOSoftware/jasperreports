@@ -98,15 +98,18 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected JRDesignCellContents whenNoDataCell;
 	protected JRDesignCellContents headerCell;
 	
-
-	private PropertyChangeListener measureClassChangeListener = new PropertyChangeListener()
+	
+	private class MeasureClassChangeListener implements PropertyChangeListener, Serializable
 	{
+		private static final long serialVersionUID = 1L;
+
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			measureClassChanged((JRDesignCrosstabMeasure) evt.getSource(), (String) evt.getNewValue());
 		}
-	};
+	}
 
+	private PropertyChangeListener measureClassChangeListener = new MeasureClassChangeListener();
 	
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 

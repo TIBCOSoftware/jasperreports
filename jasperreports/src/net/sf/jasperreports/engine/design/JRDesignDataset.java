@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,13 +90,17 @@ public class JRDesignDataset extends JRBaseDataset
 	protected Map groupsMap = new HashMap();
 	protected List groupsList = new ArrayList();
 
-	private PropertyChangeListener queryLanguageChangeListener = new PropertyChangeListener()
+	private class QueryLanguageChangeListener implements PropertyChangeListener, Serializable
 	{
+		private static final long serialVersionUID = 1L;
+
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			queryLanguageChanged((String) evt.getOldValue(), (String) evt.getNewValue());
 		}
-	};
+	}
+	
+	private PropertyChangeListener queryLanguageChangeListener = new QueryLanguageChangeListener();
 	
 	
 	/**
