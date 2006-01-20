@@ -111,6 +111,12 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	protected final JRStyle initialStyle;
 	
 	/**
+	 * Flag indicating whether the element is shrinkable.
+	 * @see #setShrinkable(boolean)
+	 */
+	private boolean shrinkable;
+	
+	/**
 	 *
 	 *
 	private JRElement topElementInGroup = null;
@@ -165,6 +171,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		templates = element.templates;
 		
 		initialStyle = element.initialStyle;
+		
+		shrinkable = element.shrinkable;
 	}
 
 
@@ -592,7 +600,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected void setStretchHeight(int stretchHeight)
 	{
-		if (stretchHeight > this.getHeight())
+		if (stretchHeight > this.getHeight() || (shrinkable && isRemoveLineWhenBlank()))
 		{
 			this.stretchHeight = stretchHeight;
 		}
@@ -1253,5 +1261,28 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	protected void registerTemplate(JRStyle style, JRTemplateElement template)
 	{
 		templates.put(style, template);
+	}
+	
+	
+	/**
+	 * Indicates whether an element is shrinkable.
+	 * <p>
+	 * This flag is only effective when {@link #isRemoveLineWhenBlank() isRemoveLineWhenBlank} is also set.
+	 * 
+	 * @param shrinkable whether the element is shrinkable
+	 */
+	protected final void setShrinkable(boolean shrinkable)
+	{
+		this.shrinkable = shrinkable;
+	}
+
+
+	/**
+	 * Called when the stretch height of an element is final so that
+	 * the element can perform any adjustments.
+	 */
+	protected void stretchHeightFinal()
+	{
+		// nothing		
 	}
 }

@@ -399,6 +399,16 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				element.moveDependantElements();
 			}
 		}
+		
+		if (ySortedElements != null && ySortedElements.length > 0)
+		{
+			for(int i = 0; i < ySortedElements.length; i++)
+			{
+				JRFillElement element = ySortedElements[i];
+
+				element.stretchHeightFinal();
+			}
+		}
 	}
 
 	
@@ -443,40 +453,44 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		{
 			JRElement[] elems = this.ySortedElements;
 			
-			JRFillElement iElem = null;
-			JRFillElement jElem = null;
-
-			int top = 0;
-			int bottom = 0;
-			boolean isToRemove = true;
-			
 			for(int i = 0; i < remElems.length; i++)
 			{
-				iElem = (JRFillElement)remElems[i];
+				JRFillElement iElem = (JRFillElement)remElems[i];
 
+				int blankHeight;
+				if (iElem.isToPrint())
+				{
+					blankHeight = iElem.getHeight() - iElem.getStretchHeight();
+				}
+				else
+				{
+					blankHeight = iElem.getHeight();
+				}
+				
 				if (
-					!iElem.isToPrint() && 
+					blankHeight > 0 && 
 					iElem.getRelativeY() + iElem.getStretchHeight() <= this.stretchHeight &&
 					iElem.getRelativeY() >= this.firstY
 					)
 				{
-					isToRemove = true;
+					int blankY = iElem.getRelativeY() + iElem.getHeight() - blankHeight;
+					boolean isToRemove = true;
 					
 					for(int j = 0; j < elems.length; j++)
 					{
-						jElem = (JRFillElement)elems[j];
+						JRFillElement jElem = (JRFillElement)elems[j];
 						
 						if (iElem != jElem && jElem.isToPrint())
 						{
-							top = 
-								Math.min(iElem.getRelativeY(), jElem.getRelativeY());
-							bottom = 
+							int top = 
+								Math.min(blankY, jElem.getRelativeY());
+							int bottom = 
 								Math.max(
-									iElem.getRelativeY() + iElem.getHeight(), 
+									blankY + blankHeight, 
 									jElem.getRelativeY() + jElem.getStretchHeight()
 									);
 							
-							if (iElem.getHeight() + jElem.getStretchHeight() > bottom - top)
+							if (blankHeight + jElem.getStretchHeight() > bottom - top)
 							{
 								isToRemove = false;
 								break;
@@ -488,15 +502,15 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					{
 						for(int j = 0; j < elems.length; j++)
 						{
-							jElem = (JRFillElement)elems[j];
+							JRFillElement jElem = (JRFillElement)elems[j];
 							
-							if (jElem.getRelativeY() >= iElem.getRelativeY() + iElem.getHeight())
+							if (jElem.getRelativeY() >= blankY + blankHeight)
 							{
-								jElem.setRelativeY(jElem.getRelativeY() - iElem.getHeight());
+								jElem.setRelativeY(jElem.getRelativeY() - blankHeight);
 							}
 						}
 						
-						this.stretchHeight = this.stretchHeight - iElem.getHeight();
+						this.stretchHeight = this.stretchHeight - blankHeight;
 					}
 				}
 			}

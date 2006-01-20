@@ -99,6 +99,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		bottomTemplateFrames = new HashMap();
 		topTemplateFrames = new HashMap();
 		topBottomTemplateFrames = new HashMap();
+		
+		setShrinkable(true);
 	}
 
 	protected JRFillFrame(JRFillFrame frame, JRFillCloneFactory factory)
@@ -227,13 +229,22 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		int bottomPadding = getBottomPadding();		
 		frameContainer.setStretchHeight(stretchHeight + frameContainer.getFirstY() - topPadding - bottomPadding);
 	}
-
-	protected JRPrintElement fill() throws JRException
+	
+	
+	protected void stretchHeightFinal()
 	{
 		frameContainer.stretchElements();
 		frameContainer.moveBandBottomElements();
 		frameContainer.removeBlankElements();
-		
+
+		int topPadding = first ? getTopPadding() : 0;
+		int bottomPadding = getBottomPadding();		
+		super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
+	}
+
+
+	protected JRPrintElement fill() throws JRException
+	{		
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplate());
 		printFrame.setX(getX());
 		printFrame.setY(getRelativeY());
