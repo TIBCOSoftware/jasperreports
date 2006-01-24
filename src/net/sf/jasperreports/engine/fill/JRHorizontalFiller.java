@@ -149,8 +149,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			
 					printPage = newPage();
 					addPage(printPage);
-					columnIndex = 0;
-					offsetX = leftMargin;
+					setFirstColumn();
 					offsetY = topMargin;
 			
 					fillBackground();
@@ -216,8 +215,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		printPage = newPage();
 		addPage(printPage);
-		columnIndex = 0;
-		offsetX = leftMargin;
+		setFirstColumn();
 		offsetY = topMargin;
 
 		fillBackground();
@@ -233,6 +231,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 		fillDetail();
 	}
 
+	
+	private void setFirstColumn()
+	{
+		columnIndex = 0;
+		offsetX = leftMargin; 
+		setColumnNumberVariable();
+	}
 
 	/**
 	 *
@@ -418,6 +423,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		for(columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
+			setColumnNumberVariable();
+			
 			columnHeader.evaluatePrintWhenExpression(evaluation);
 		
 			if (columnHeader.isToPrint())
@@ -468,8 +475,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 		}
 
-		columnIndex = 0;
-		offsetX = leftMargin; 
+		setFirstColumn();
 
 		isNewColumn = true;
 	}
@@ -546,8 +552,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		if (groupHeader.isToPrint())
 		{
-			columnIndex = 0;
-			offsetX = leftMargin;
+			setFirstColumn();
 
 			fillColumnBand(groupHeader, JRExpression.EVALUATION_DEFAULT);
 		}
@@ -587,8 +592,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		
 			if (groupHeader.isToPrint())
 			{
-				columnIndex = 0;
-				offsetX = leftMargin;
+				setFirstColumn();
 
 				while (
 					groupHeader.getHeight() > columnFooterOffsetY - offsetY ||
@@ -651,14 +655,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				if (columnIndex == columnCount - 1)
 				{
-					columnIndex = 0;
-					offsetX = leftMargin;
+					setFirstColumn();
 				}
 				else
 				{
 					columnIndex++;
 					offsetX += columnWidth + columnSpacing;
 					offsetY -= detail.getHeight();
+					
+					setColumnNumberVariable();
 				}
 			}
 
@@ -712,8 +717,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	
 		if (groupFooter.isToPrint())
 		{
-			columnIndex = 0;
-			offsetX = leftMargin;
+			setFirstColumn();
 
 			if (
 				groupFooter.getHeight() > columnFooterOffsetY - offsetY
@@ -758,6 +762,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		for(columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
+			setColumnNumberVariable();
+			
 			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 			offsetY = tmpColumnFooterOffsetY;
 		
@@ -1204,23 +1210,24 @@ public class JRHorizontalFiller extends JRBaseFiller
 			);
 
 		addPage(printPage);
-		columnIndex = 0;
-		offsetX = leftMargin;
+		setFirstColumn();
 		offsetY = topMargin;
 
 		lastDetailOffsetX = -1;
 		lastDetailOffsetY = -1;
 
-		calculator.getColumnNumber().setValue(
-			new Integer(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
-			);
-		calculator.getColumnNumber().setOldValue(
-			calculator.getColumnNumber().getValue()
-			);
-			
 		fillBackground();
 	}
 
+	/**
+	 * Sets the column number value computed based on {@link #columnIndex columnIndex}
+	 */
+	private void setColumnNumberVariable()
+	{
+		JRFillVariable columnNumberVar = calculator.getColumnNumber();
+		columnNumberVar.setValue(new Integer(columnIndex + 1));
+		columnNumberVar.setOldValue(columnNumberVar.getValue());
+	}
 
 	/**
 	 *
