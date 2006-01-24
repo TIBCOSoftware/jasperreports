@@ -146,8 +146,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 					printPage = newPage();
 					addPage(printPage);
-					columnIndex = 0;
-					offsetX = leftMargin;
+					setFirstColumn();
 					offsetY = topMargin;
 			
 					fillBackground();
@@ -213,8 +212,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		printPage = newPage();
 		addPage(printPage);
-		columnIndex = 0;
-		offsetX = leftMargin;
+		setFirstColumn();
 		offsetY = topMargin;
 
 		fillBackground();
@@ -438,14 +436,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					columnIndex += 1;
 					offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 					offsetY = columnHeaderOffsetY;
-			
-					JRFillVariable columnNumberVar = calculator.getColumnNumber();
-					columnNumberVar.setValue(
-						new Integer(((Number)columnNumberVar.getValue()).intValue() + 1)
-						);
-					columnNumberVar.setOldValue(
-						columnNumberVar.getValue()
-						);
+
+					setColumnNumberVar();
 				}
 				
 				fillPageFooter(evaluation);
@@ -1171,18 +1163,24 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		addPage(printPage);
 		
-		columnIndex = 0;
-		offsetX = leftMargin;
+		setFirstColumn();
 		offsetY = topMargin;
-
-		calculator.getColumnNumber().setValue(
-			new Integer(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
-			);
-		calculator.getColumnNumber().setOldValue(
-			calculator.getColumnNumber().getValue()
-			);
 			
 		fillBackground();
+	}
+
+	private void setFirstColumn()
+	{
+		columnIndex = 0;
+		offsetX = leftMargin;
+		setColumnNumberVar();
+	}
+
+	private void setColumnNumberVar()
+	{
+		JRFillVariable columnNumber = calculator.getColumnNumber();
+		columnNumber.setValue(new Integer(columnIndex + 1));
+		columnNumber.setOldValue(columnNumber.getValue());
 	}
 
 	/**
@@ -1254,12 +1252,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 			offsetY = columnHeaderOffsetY;
 
-			calculator.getColumnNumber().setValue(
-				new Integer(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
-				);
-			calculator.getColumnNumber().setOldValue(
-				calculator.getColumnNumber().getValue()
-				);
+			setColumnNumberVar();
 	
 			fillColumnHeader(evalNextPage);
 		}

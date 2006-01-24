@@ -192,7 +192,7 @@ public class JRDesignDataset extends JRBaseDataset
 		variable.setName(JRVariable.COLUMN_NUMBER);
 		variable.setValueClass(Integer.class);
 		//variable.setResetType(JRVariable.RESET_TYPE_COLUMN);
-		variable.setResetType(JRVariable.RESET_TYPE_REPORT);
+		variable.setResetType(JRVariable.RESET_TYPE_PAGE);
 		variable.setCalculation(JRVariable.CALCULATION_SYSTEM);
 		variable.setSystemDefined(true);
 		expression = new JRDesignExpression();
