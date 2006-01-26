@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -534,12 +535,45 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addVariable(JRDesignVariable variable) throws JRException
 	{
+		addVariable(variable, false);
+	}
+	
+	
+	/**
+	 * Adds a variable to the dataset.
+	 * 
+	 * @param variable the variable to add
+	 * @param system whether the variable should be added before user defined variables
+	 * or at the end of the variables list
+	 * @throws JRException
+	 */
+	protected void addVariable(JRDesignVariable variable, boolean system) throws JRException
+	{
 		if (variablesMap.containsKey(variable.getName()))
 		{
 			throw new JRException("Duplicate declaration of variable : " + variable.getName());
 		}
 
-		variablesList.add(variable);
+		if (system)
+		{
+			// add the variable vefore the first non-system variable
+			ListIterator it = variablesList.listIterator();
+			while (it.hasNext())
+			{
+				JRVariable var = (JRVariable) it.next();
+				if (!var.isSystemDefined())
+				{
+					it.previous();
+					break;
+				}
+			}
+			it.add(variable);
+		}
+		else
+		{
+			variablesList.add(variable);
+		}
+		
 		variablesMap.put(variable.getName(), variable);
 	}
 
@@ -635,7 +669,7 @@ public class JRDesignDataset extends JRBaseDataset
 		expression.setText("new Integer(0)");
 		countVariable.setInitialValueExpression(expression);
 
-		addVariable(countVariable);
+		addVariable(countVariable, true);
 
 		group.setCountVariable(countVariable);
 
