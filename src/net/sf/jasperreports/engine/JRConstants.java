@@ -38,6 +38,6 @@ public interface JRConstants
 	/**
 	 * Value used as <code>serialVersionUID</code> for the current version.
 	 */
-	public static final long SERIAL_VERSION_UID = 10101;
+	public static final long SERIAL_VERSION_UID = 10200;
 	
 }
