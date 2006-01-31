@@ -796,7 +796,7 @@ public class JRExpressionCollector
 				JRCrosstabRowGroup rowGroup = rowGroups[i];
 				JRCrosstabBucket bucket = rowGroup.getBucket();
 				datasetCollector.addExpression(bucket.getExpression());
-				datasetCollector.addExpression(bucket.getComparatorExpression());
+				addExpression(bucket.getComparatorExpression());
 				crosstabCollector.collect(rowGroup.getHeader());
 				crosstabCollector.collect(rowGroup.getTotalHeader());
 			}
@@ -809,7 +809,7 @@ public class JRExpressionCollector
 			{
 				JRCrosstabColumnGroup columnGroup = colGroups[i];
 				datasetCollector.addExpression(columnGroup.getBucket().getExpression());
-				datasetCollector.addExpression(columnGroup.getBucket().getComparatorExpression());
+				addExpression(columnGroup.getBucket().getComparatorExpression());
 				crosstabCollector.collect(columnGroup.getHeader());
 				crosstabCollector.collect(columnGroup.getTotalHeader());
 			}
