@@ -461,15 +461,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 				offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 				offsetY = columnHeaderOffsetY;
-			
-				/*FIXME
-				calculator.getColumnNumber().setValue(
-					new Integer(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
-					);
-				calculator.getColumnNumber().setOldValue(
-					calculator.getColumnNumber().getValue()
-					);
-				*/
 
 				fillFixedBand(columnHeader, evaluation);
 			}
