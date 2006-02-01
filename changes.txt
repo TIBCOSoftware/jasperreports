@@ -4,7 +4,7 @@ JasperReports Change Log
 
 JasperReports 1.2.0 (2006-02-xx)
 -----------------------------------
-- support for other query languates including HQL and XPath implementations;
+- support for other query languages including HQL and XPath implementations;
 
 - new evaluation time "Auto" available for text fields enabling 
 new types of calculations such as percentage;
@@ -18,7 +18,7 @@ aggregation levels (percentages, etc);
 
 - serialization of virtualized reports;
 
-- XHTML;
+- the built-in HTML exporter now produces XHTML-compatible output;
 
 - minor bug fixes and improvements;
 
