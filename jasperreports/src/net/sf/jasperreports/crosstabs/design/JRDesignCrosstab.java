@@ -301,7 +301,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			JRCrosstabMeasure measure = (JRCrosstabMeasure) measureIt.next();
 			addTotalVar(measure, rowGroup, null);
 			
-			
 			for (Iterator colIt = columnGroups.iterator(); colIt.hasNext();)
 			{
 				JRCrosstabColumnGroup colGroup = (JRCrosstabColumnGroup) colIt.next();
@@ -346,7 +345,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			JRCrosstabMeasure measure = (JRCrosstabMeasure) measureIt.next();
 			addTotalVar(measure, null, colGroup);
 
-			for (Iterator rowIt = columnGroups.iterator(); rowIt.hasNext();)
+			for (Iterator rowIt = rowGroups.iterator(); rowIt.hasNext();)
 			{
 				JRCrosstabRowGroup rowGroup = (JRCrosstabRowGroup) rowIt.next();
 				addTotalVar(measure, rowGroup, colGroup);
@@ -556,7 +555,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			JRCrosstabMeasure measure = (JRCrosstabMeasure) measureIt.next();
 			removeTotalVar(measure, null, colGroup);
 
-			for (Iterator rowIt = columnGroups.iterator(); rowIt.hasNext();)
+			for (Iterator rowIt = rowGroups.iterator(); rowIt.hasNext();)
 			{
 				JRCrosstabRowGroup rowGroup = (JRCrosstabRowGroup) rowIt.next();
 				removeTotalVar(measure, rowGroup, colGroup);
