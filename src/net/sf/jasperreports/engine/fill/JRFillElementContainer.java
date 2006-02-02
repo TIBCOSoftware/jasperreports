@@ -369,7 +369,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			}
 		}
 
-		if (maxBandStretch > availableStretchHeight)
+		if (maxBandStretch > availableStretchHeight + firstY)
 		{
 			tmpWillOverflow = true;
 		}
