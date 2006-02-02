@@ -81,6 +81,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	protected List stylesToEvaluate = new ArrayList();
 	protected Map evaluatedStyles = new HashMap();
 	
+	protected boolean hasPrintWhenOverflowElement;
+	
 	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup container, JRFillObjectFactory factory)
 	{
 		super(container, factory);
@@ -134,6 +136,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	protected final void initElements()
 	{
+		hasPrintWhenOverflowElement = false;
+		
 		if (this.elements != null && this.elements.length > 0)
 		{
 			List sortedElemsList = new ArrayList();
@@ -142,21 +146,27 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			List removableElemsList = new ArrayList();
 			for(int i = 0; i < this.elements.length; i++)
 			{
-				sortedElemsList.add(this.elements[i]);
+				JRFillElement element = elements[i];
+				sortedElemsList.add(element);
 				
-				if (this.elements[i].getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
+				if (element.getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM)
 				{
-					bandBottomElemsList.add(elements[i]);
+					bandBottomElemsList.add(element);
 				}
 
-				if (this.elements[i].getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
+				if (element.getStretchType() != JRElement.STRETCH_TYPE_NO_STRETCH)
 				{
-					stretchElemsList.add(elements[i]);
+					stretchElemsList.add(element);
 				}
 				
-				if (this.elements[i].isRemoveLineWhenBlank())
+				if (element.isRemoveLineWhenBlank())
 				{
-					removableElemsList.add(elements[i]);
+					removableElemsList.add(element);
+				}
+				
+				if (element.isPrintWhenDetailOverflows())
+				{
+					hasPrintWhenOverflowElement = true;
 				}
 			}
 
@@ -329,7 +339,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = ySortedElements[i];
 
-				tmpWillOverflow = element.prepare(availableStretchHeight, this.isOverflow) || tmpWillOverflow;
+				int elemFirstY = getElementFirstY(element);
+				tmpWillOverflow = element.prepare(availableStretchHeight + elemFirstY, this.isOverflow) || tmpWillOverflow;
 
 				element.moveDependantElements();
 
@@ -373,6 +384,24 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		}
 
 		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
+	}
+
+	private int getElementFirstY(JRFillElement element)
+	{
+		int elemFirstY;
+		if (!isOverflow || hasPrintWhenOverflowElement)
+		{
+			elemFirstY = 0;
+		}
+		else if (element.getY() >= firstY)
+		{
+			elemFirstY = firstY;
+		}
+		else
+		{
+			elemFirstY = element.getY();
+		}
+		return elemFirstY;
 	}
 
 	protected void setStretchHeight(int stretchHeight)
