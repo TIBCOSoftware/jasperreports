@@ -35,9 +35,14 @@ import net.sf.jasperreports.engine.JRGroup;
 
 /**
  * An evaluation time during the report fill process.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
  */
 public class JREvaluationTime implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT JRExpression.EVALUATION_TIME_REPORT}.
 	 */
