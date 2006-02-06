@@ -73,7 +73,6 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 		this.drawable = drawable;
 	}
 
-
 	/**
 	 *
 	 */
@@ -84,6 +83,5 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 			drawable.draw(grx, rectangle);
 		}
 	}
-
 	
 }
