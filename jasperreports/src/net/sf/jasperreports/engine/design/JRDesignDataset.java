@@ -93,7 +93,7 @@ public class JRDesignDataset extends JRBaseDataset
 
 	private class QueryLanguageChangeListener implements PropertyChangeListener, Serializable
 	{
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		public void propertyChange(PropertyChangeEvent evt)
 		{

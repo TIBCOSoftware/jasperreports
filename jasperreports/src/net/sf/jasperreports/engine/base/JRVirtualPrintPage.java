@@ -353,7 +353,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	 */
 	protected static class JRIdHolderRenderer implements JRRenderable, Serializable
 	{
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		protected final String id;
 		
