@@ -74,11 +74,14 @@ public interface JRExpression
 
 	
 	/**
-	 * Evaluation time used when report elements having expressions that combine values 
-	 * evaluated at different times are required (e.g. percentage out of a total).
+	 * Evaluation time indicating that each variable participating in the expression
+	 * should be evaluated at a time decided by the engine.
 	 * <p/>
 	 * Variables will be evaluated at a time corresponding to their reset type.
 	 * Fields are evaluated "now", i.e. at the time the band the element lies on gets filled.
+	 * <p/>
+	 * This evaluation type should be used when report elements having expressions that combine 
+	 * values evaluated at different times are required (e.g. percentage out of a total).
 	 * <p/>
 	 * NB: avoid using this evaluation type when other types suffice as it can lead
 	 * to performance loss.
