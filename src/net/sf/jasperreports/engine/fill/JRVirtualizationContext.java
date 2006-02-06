@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 
@@ -42,7 +43,7 @@ import net.sf.jasperreports.engine.JRRenderable;
  */
 public class JRVirtualizationContext implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map cachedRenderers;
 	private Map cachedTemplates;

@@ -41,8 +41,6 @@ import net.sf.jasperreports.engine.JRGroup;
  */
 public class JREvaluationTime implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT JRExpression.EVALUATION_TIME_REPORT}.
 	 */
