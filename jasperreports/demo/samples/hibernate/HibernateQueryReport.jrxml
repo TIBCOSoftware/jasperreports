@@ -74,14 +74,6 @@
 			</band>
 		</groupFooter>
 	</group>
-	<background>
-		<band height="742">
-			<image scaleImage="Clip" hAlign="Left" vAlign="Bottom">
-				<reportElement x="0" y="0" width="150" height="742"/>
-				<imageExpression>"jr.watermark.gif"</imageExpression>
-			</image>
-		</band>
-	</background>
 	<title>
 		<band height="50">
 			<line>
