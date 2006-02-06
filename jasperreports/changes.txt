@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.0 (2006-02-xx)
+JasperReports 1.2.0 (2006-02-06)
 -----------------------------------
 - support for other query languages including HQL and XPath implementations;
 
