@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class RtfServlet extends HttpServlet
 {

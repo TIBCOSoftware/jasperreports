@@ -12,7 +12,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class JRStyleFactory extends JRBaseFactory
 {

@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * either specify a collection of column names or set a flag to read the column names from the first row of the CSV file.
  *
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class JRCsvDataSource implements JRDataSource
 {

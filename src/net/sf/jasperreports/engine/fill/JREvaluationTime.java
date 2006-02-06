@@ -35,8 +35,6 @@ import net.sf.jasperreports.engine.JRGroup;
 
 /**
  * An evaluation time during the report fill process.
- * 
- * @return the recorded variable values
  */
 public class JREvaluationTime implements Serializable
 {

@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Color;
-import java.util.List;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
