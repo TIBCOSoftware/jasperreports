@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.util.ObjectIOHelperBase;
 
 /**
  * A print page that can be virtualized to free heap memory.
@@ -408,7 +409,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		uid = (String) in.readObject();
 		virtualizationContext = (JRVirtualizationContext) in.readObject();
 		
-		byte[] buffer = (byte[]) in.readUnshared();
+		byte[] buffer = (byte[]) ObjectIOHelperBase.getInstance().readUnshared(in);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 		ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
 		elements = (List) elementsStream.readObject();
@@ -433,7 +434,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		stream.flush();
 		
 		byte[] bytes = bout.toByteArray();
-		out.writeUnshared(bytes);
+		ObjectIOHelperBase.getInstance().writeUnshared(out, bytes);
 	}
 
 	
