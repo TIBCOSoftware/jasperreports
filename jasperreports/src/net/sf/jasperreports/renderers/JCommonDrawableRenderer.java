@@ -40,9 +40,6 @@ import java.awt.geom.Rectangle2D;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItemSource;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.ui.Drawable;
 
 

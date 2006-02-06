@@ -29,19 +29,16 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRConditionalStyle;
-import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class JRBaseStyle implements JRStyle, Serializable
 {

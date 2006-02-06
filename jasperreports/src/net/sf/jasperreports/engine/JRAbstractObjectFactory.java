@@ -48,8 +48,6 @@ import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
-import net.sf.jasperreports.engine.base.JRBaseExpression;
 
 
 /**

@@ -7,7 +7,7 @@ import net.sf.jasperreports.engine.JRConditionalStyle;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class JRDesignConditionalStyle extends JRBaseConditionalStyle implements JRConditionalStyle
 {

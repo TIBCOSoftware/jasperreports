@@ -8,7 +8,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditionalStyle
 {

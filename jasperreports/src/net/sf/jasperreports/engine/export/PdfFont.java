@@ -2,7 +2,7 @@ package net.sf.jasperreports.engine.export;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id
+ * @version $Id$
  */
 public class PdfFont
 {
