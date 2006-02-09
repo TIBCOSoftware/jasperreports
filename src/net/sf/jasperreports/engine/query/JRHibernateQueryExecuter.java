@@ -146,7 +146,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		String runType = JRProperties.getProperty(datasetProperties, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
 		boolean useFieldDescriptions = JRProperties.getBooleanProperty(datasetProperties, 
-				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE,
+				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS,
 				true);
 		
 		if (runType == null || runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST))

@@ -58,25 +58,25 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	 * 
 	 * @param queryExecuter the query executer
 	 * @param useFieldDescription whether to use field descriptions for fields to results mapping
-	 * @param userIndexOnSingleReturn whether to use indexed addressing even when the query has only one return column
+	 * @param useIndexOnSingleReturn whether to use indexed addressing even when the query has only one return column
 	 */
-	protected JRHibernateAbstractDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription, boolean userIndexOnSingleReturn)
+	protected JRHibernateAbstractDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription, boolean useIndexOnSingleReturn)
 	{
 		this.useFieldDescription = useFieldDescription;
 		
 		this.queryExecuter = queryExecuter;
 
-		fieldReaders = assignReaders(userIndexOnSingleReturn);
+		fieldReaders = assignReaders(useIndexOnSingleReturn);
 	}
 	
 	/**
 	 * Assigns field readers to report fields.
 	 * 
-	 * @param userIndexOnSingleReturn  whether to use indexed addressing even when the query has only one return column
+	 * @param useIndexOnSingleReturn  whether to use indexed addressing even when the query has only one return column
 	 * @return a report field name to field reader mapping
 	 * @see FieldReader
 	 */
-	protected Map assignReaders(boolean userIndexOnSingleReturn)
+	protected Map assignReaders(boolean useIndexOnSingleReturn)
 	{
 		Map readers = new HashMap();
 		
@@ -100,7 +100,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 				for (int i = 0; i < fields.length; i++)
 				{
 					JRField field = fields[i];
-					readers.put(field.getName(), getFieldReaderSingleReturn(aliasesMap, field, userIndexOnSingleReturn));
+					readers.put(field.getName(), getFieldReaderSingleReturn(aliasesMap, field, useIndexOnSingleReturn));
 				}
 			}
 			else
@@ -113,7 +113,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 				if (fields.length == 1)
 				{
 					JRField field = fields[0];
-					if (userIndexOnSingleReturn)
+					if (useIndexOnSingleReturn)
 					{
 						readers.put(field.getName(), new IdentityFieldReader());
 					}
