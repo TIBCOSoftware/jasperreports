@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,7 +82,8 @@ public class JRLoader
 		try
 		{
 			fis = new FileInputStream(file);
-			ois = new ObjectInputStream(fis);
+			BufferedInputStream bufferedIn = new BufferedInputStream(fis);
+			ois = new ObjectInputStream(bufferedIn);
 			obj = ois.readObject();
 		}
 		catch (IOException e)

@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -71,9 +73,11 @@ public class JRSaver
 		try
 		{
 			fos = new FileOutputStream(file);
-			oos = new ObjectOutputStream(fos);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
+			oos = new ObjectOutputStream(bos);
 			oos.writeObject(obj);
 			oos.flush();
+			bos.flush();
 			fos.flush();
 		}
 		catch (IOException e)
@@ -157,7 +161,9 @@ public class JRSaver
 		try
 		{
 			fwriter = new FileWriter(file);
-			fwriter.write(source);
+			BufferedWriter bufferedWriter = new BufferedWriter(fwriter);
+			bufferedWriter.write(source);
+			bufferedWriter.flush();
 			fwriter.flush();
 		}
 		catch (IOException e)
