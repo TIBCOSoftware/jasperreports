@@ -1104,12 +1104,14 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 
 			ColumnText colText = new ColumnText(pdfContentByte);
+			int upperY = jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset;
+			int lowerX = printImage.getX() + leftPadding + getOffsetX() + xoffset;
 			colText.setSimpleColumn(
 				new Phrase(chunk),
-				printImage.getX() + leftPadding + getOffsetX() + xoffset,
-				jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - scaledHeight - yoffset,
-				printImage.getX() + leftPadding + getOffsetX() + xoffset + scaledWidth,
-				jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset,
+				lowerX,
+				upperY - scaledHeight,
+				lowerX + scaledWidth,
+				upperY,
 				scaledHeight,
 				Element.ALIGN_LEFT
 				);
