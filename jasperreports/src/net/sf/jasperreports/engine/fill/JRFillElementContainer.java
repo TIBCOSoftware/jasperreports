@@ -725,37 +725,59 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		for (int i = 0; i < stylesToEvaluate.size(); i++) {
 			JRStyle initialStyle = (JRStyle) stylesToEvaluate.get(i);
 			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
-			Boolean[] expressionValues = new Boolean[conditionalStyles.length];
-
+			boolean[] expressionValues = new boolean[conditionalStyles.length];
 
 			StringBuffer code = new StringBuffer(initialStyle.getName());
+			boolean anyTrue = false;
 			for (int j = 0; j < conditionalStyles.length; j++) {
 				Boolean expressionValue = (Boolean) expressionEvaluator.evaluate(conditionalStyles[j].getConditionExpression(),
 																			  evaluation);
 				
+				boolean condition;
 				if (expressionValue == null)
 				{
-					expressionValue = Boolean.FALSE;
+					condition = false;
+				}
+				else
+				{
+					condition = expressionValue.booleanValue();
 				}
 				
-				code.append(expressionValue.booleanValue() ? "1" : "0");
-				expressionValues[j] = expressionValue;
+				code.append(condition ? '1' : '0');
+				expressionValues[j] = condition;
+				anyTrue |= condition;
 			}
+			
+			JRStyle style;
+			if (anyTrue)
+			{
+				String condStyleName = code.toString();
+				style = filler.getConditionalStyle(initialStyle, condStyleName);
+				if (style == null)
+				{
+					style = new JRBaseStyle(condStyleName);
+					JRStyleResolver.buildFromStyle(style, initialStyle);
+					for (int j = 0; j < conditionalStyles.length; j++)
+					{
+						if (expressionValues[j])
+						{
+							JRStyleResolver.appendStyle(style, conditionalStyles[j]);
+						}
+					}
 
-			JRBaseStyle style = new JRBaseStyle(code.toString());
-			JRStyleResolver.buildFromStyle(style, initialStyle);
-			for (int j = 0; j < conditionalStyles.length; j++) {
-				JRConditionalStyle conditionalStyle = conditionalStyles[j];
-				if (expressionValues[j] != null && expressionValues[j].booleanValue())
-					JRStyleResolver.appendStyle(style, conditionalStyle);
+					filler.putConditionalStyle(initialStyle, style);
+				}
+			}
+			else
+			{
+				style = initialStyle;
 			}
 
 			evaluatedStyles.put(initialStyle, style);
-			filler.consolidateStyle(initialStyle, style);
 		}
 	}
 
-	
+
 	public JRStyle getEvaluatedConditionalStyle(JRStyle parentStyle)
 	{
 		return (JRStyle) evaluatedStyles.get(parentStyle);

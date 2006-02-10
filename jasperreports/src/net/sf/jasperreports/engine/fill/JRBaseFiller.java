@@ -1452,24 +1452,28 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 	}
-
-
-	/**
-	 * TODO
-	 * @param initialStyle
-	 * @param newStyle
-	 */
-	public void consolidateStyle(JRStyle initialStyle, JRStyle newStyle)
+	
+	
+	protected JRStyle getConditionalStyle(JRStyle initialStyle, String condStyleName)
 	{
-		Map cachedStyle = (Map) consolidatedStyles.get(initialStyle);
-		if (cachedStyle != null) {
-			if (cachedStyle.get(newStyle.getName()) == null)
-				cachedStyle.put(newStyle.getName(), newStyle);
+		JRStyle condStyle = null;
+		Map condStyles = (Map) consolidatedStyles.get(initialStyle);
+		if (condStyles != null)
+		{
+			condStyle = (JRStyle) condStyles.get(condStyleName);
 		}
-		else {
-			Map map = new HashMap();
-			map.put(newStyle.getName(), newStyle);
-			consolidatedStyles.put(initialStyle, map);
+		return condStyle;
+	}
+	
+	
+	protected void putConditionalStyle(JRStyle initialStyle, JRStyle condStyle)
+	{
+		Map condStyles = (Map) consolidatedStyles.get(initialStyle);
+		if (condStyles == null)
+		{
+			condStyles = new HashMap();
+			consolidatedStyles.put(initialStyle, condStyles);
 		}
+		condStyles.put(condStyle.getName(), condStyle);
 	}
 }
