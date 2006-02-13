@@ -1487,8 +1487,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	
 	protected final boolean isEmpty(JRBand band)
 	{
-		return band.getHeight() == 0
+		return band == null || 
+				(band.getHeight() == 0
 				&& (band.getElements() == null || band.getElements().length == 0)
-				&& band.getPrintWhenExpression() == null;
+				&& band.getPrintWhenExpression() == null);
 	}
 }
