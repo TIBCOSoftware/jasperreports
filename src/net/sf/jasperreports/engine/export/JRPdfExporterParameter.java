@@ -103,4 +103,31 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * that can be passed as parameters directly.
 	 */
 	public static final JRPdfExporterParameter PDF_VERSION = new JRPdfExporterParameter("PDF Version");
+    
+    /**
+     * The Title of the PDF document, as String. 
+     */
+    public static final JRPdfExporterParameter METADATA_TITLE = new JRPdfExporterParameter("Metadata Title");
+
+    /**
+     * The Author of the PDF document, as String.  
+     */
+    public static final JRPdfExporterParameter METADATA_AUTHOR = new JRPdfExporterParameter("Metadata Author");
+
+    /**
+     * The Subject of the PDF document, as String. 
+     */
+    public static final JRPdfExporterParameter METADATA_SUBJECT = new JRPdfExporterParameter("Metadata Subject");
+
+    /**
+     * The Keywords of the PDF document, as comma-separated String. 
+     */
+    public static final JRPdfExporterParameter METADATA_KEYWORDS = new JRPdfExporterParameter("Metadata Keywords");
+
+    /**
+     * The Creator or Application for the PDF document, as String, defaults to JasperReports. 
+     */
+    public static final JRPdfExporterParameter METADATA_CREATOR = new JRPdfExporterParameter("Metadata Creator");
+
+
 }
