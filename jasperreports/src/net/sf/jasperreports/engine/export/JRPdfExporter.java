@@ -32,6 +32,7 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  * Ling Li - lonecatz@users.sourceforge.net
+ * Martin Clough - mtclough@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 
@@ -335,6 +336,30 @@ public class JRPdfExporter extends JRAbstractExporter
 					permissions
 					);
 			}
+            
+            // Add meta-data parameters to generated PDF document
+            // mtclough@users.sourceforge.net 2005-12-05
+            String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
+            if( title != null )
+                document.addTitle(title);
+            
+            String author = (String)parameters.get(JRPdfExporterParameter.METADATA_AUTHOR);
+            if( author != null )
+                document.addAuthor(author);
+            
+            String subject = (String)parameters.get(JRPdfExporterParameter.METADATA_SUBJECT);
+            if( subject != null )
+                document.addSubject(subject);
+            
+            String keywords = (String)parameters.get(JRPdfExporterParameter.METADATA_KEYWORDS);
+            if( keywords != null )
+                document.addKeywords(keywords);
+            
+            String creator = (String)parameters.get(JRPdfExporterParameter.METADATA_CREATOR);
+            if( creator != null )
+                document.addCreator(creator);
+            else
+                document.addCreator("JasperReports (" + jasperPrint.getName() + ")");
 
 			document.open();
 
