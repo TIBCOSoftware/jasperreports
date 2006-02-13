@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.Collection;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -390,7 +391,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		columnFooter = factory.getBand(jasperReport.getColumnFooter());
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
-		summary = factory.getBand(jasperReport.getSummary());
+		if (isEmpty(jasperReport.getSummary()))
+		{
+			summary = missingFillBand;
+		}
+		else
+		{
+			summary = factory.getBand(jasperReport.getSummary());
+		}
 
 		mainDataset.initElementDatasets(factory);
 		initDatasets(factory);
@@ -1475,5 +1483,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			consolidatedStyles.put(initialStyle, condStyles);
 		}
 		condStyles.put(condStyle.getName(), condStyle);
+	}
+	
+	protected final boolean isEmpty(JRBand band)
+	{
+		return band.getHeight() == 0
+				&& (band.getElements() == null || band.getElements().length == 0)
+				&& band.getPrintWhenExpression() == null;
 	}
 }
