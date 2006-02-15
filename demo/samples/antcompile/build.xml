@@ -28,7 +28,8 @@
 				keepjava="true"
 				xmlvalidation="true">
 			<classpath refid="classpath"/>
-		</jrc> 
+			<include name="**/*.jrxml"/>
+		</jrc>
 	</target> 
 
 	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag. Generated .jasper files lose their relative location and are placed in the same output directory.">
