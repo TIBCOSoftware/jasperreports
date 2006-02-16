@@ -77,117 +77,122 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		setPageRange();
-
-		exporter = new JRGraphics2DExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, progressMonitor);
-		exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
-		exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
-		exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
-
-		printRequestAttributeSet = 
-			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
-		if (printRequestAttributeSet == null)
+		try
 		{
-			printRequestAttributeSet = new HashPrintRequestAttributeSet();
-		}
-
-		printServiceAttributeSet = 
-			(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
-		if (printServiceAttributeSet == null)
-		{
-			printServiceAttributeSet = new HashPrintServiceAttributeSet();
-		}
-
-		//docFlavor = (DocFlavor)parameters.get(JRPrintServiceExporterParameter.DOC_FLAVOR);
-		//if (docFlavor == null)
-		//{
-		//
-		//}
-		
-		Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
-		if (pageDialog != null)
-		{
-			displayPageDialog = pageDialog.booleanValue();
-		}
-
-		Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
-		if (printDialog != null)
-		{
-			displayPrintDialog = printDialog.booleanValue();
-		}
-
-		PrinterJob printerJob = PrinterJob.getPrinterJob();
-
-		// fix for bug ID 6255588 from Sun bug database
-		JRPrinterAWT.initPrinterJobFields(printerJob);
-
-		printerJob.setPrintable(this);
-		
-		//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
-		PrintService selectedService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
-		if (selectedService == null) {
-			PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
-			if (services.length > 0)
-				selectedService = services[0];
-		}
-
-		if (selectedService != null)
-		{
-			try 
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			setPageRange();
+	
+			exporter = new JRGraphics2DExporter();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, progressMonitor);
+			exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
+			exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
+			exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
+			exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
+	
+			printRequestAttributeSet = 
+				(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
+			if (printRequestAttributeSet == null)
 			{
-				printerJob.setPrintService(selectedService);
-
-				if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
+				printRequestAttributeSet = new HashPrintRequestAttributeSet();
+			}
+	
+			printServiceAttributeSet = 
+				(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
+			if (printServiceAttributeSet == null)
+			{
+				printServiceAttributeSet = new HashPrintServiceAttributeSet();
+			}
+	
+			//docFlavor = (DocFlavor)parameters.get(JRPrintServiceExporterParameter.DOC_FLAVOR);
+			//if (docFlavor == null)
+			//{
+			//
+			//}
+			
+			Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
+			if (pageDialog != null)
+			{
+				displayPageDialog = pageDialog.booleanValue();
+			}
+	
+			Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
+			if (printDialog != null)
+			{
+				displayPrintDialog = printDialog.booleanValue();
+			}
+	
+			PrinterJob printerJob = PrinterJob.getPrinterJob();
+	
+			// fix for bug ID 6255588 from Sun bug database
+			JRPrinterAWT.initPrinterJobFields(printerJob);
+	
+			printerJob.setPrintable(this);
+			
+			//PrintService[] services = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
+			PrintService selectedService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
+			if (selectedService == null) {
+				PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
+				if (services.length > 0)
+					selectedService = services[0];
+			}
+	
+			if (selectedService != null)
+			{
+				try 
 				{
-					printRequestAttributeSet.add(
-						new MediaPrintableArea(
-							0f, 
-							0f, 
-							jasperPrint.getPageWidth() / 72f,
-							jasperPrint.getPageHeight() / 72f,
-							MediaPrintableArea.INCH
-							)
-						);
-				}
-
-				if (displayPageDialog)
-				{
-					printerJob.pageDialog(printRequestAttributeSet);
-				}
-				
-				if (displayPrintDialog)
-				{
-					if (printerJob.printDialog(printRequestAttributeSet))
+					printerJob.setPrintService(selectedService);
+	
+					if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
+					{
+						printRequestAttributeSet.add(
+							new MediaPrintableArea(
+								0f, 
+								0f, 
+								jasperPrint.getPageWidth() / 72f,
+								jasperPrint.getPageHeight() / 72f,
+								MediaPrintableArea.INCH
+								)
+							);
+					}
+	
+					if (displayPageDialog)
+					{
+						printerJob.pageDialog(printRequestAttributeSet);
+					}
+					
+					if (displayPrintDialog)
+					{
+						if (printerJob.printDialog(printRequestAttributeSet))
+						{
+							printerJob.print(printRequestAttributeSet);
+						}
+					}
+					else
 					{
 						printerJob.print(printRequestAttributeSet);
 					}
 				}
-				else
-				{
-					printerJob.print(printRequestAttributeSet);
+				catch (PrinterException e) 
+				{ 
+					throw new JRException(e);
 				}
 			}
-			catch (PrinterException e) 
-			{ 
-				throw new JRException(e);
+			else
+			{
+				throw new JRException("No suitable print service found.");
 			}
 		}
-		else
+		finally
 		{
-			throw new JRException("No suitable print service found.");
+			resetExportContext();
 		}
-
-		/*   */
-		resetClassLoader();
 	}
 
 

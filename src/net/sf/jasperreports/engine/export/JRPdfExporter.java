@@ -203,96 +203,100 @@ public class JRPdfExporter extends JRAbstractExporter
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		if (!isModeBatch)
+		try
 		{
-			setPageRange();
-		}
-		
-		Boolean isCreatingBatchModeBookmarksParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS);
-		if(isCreatingBatchModeBookmarksParameter != null){
-			isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarksParameter.booleanValue();
-		}
-
-		Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
-		if (isEncryptedParameter != null)
-		{
-			isEncrypted = isEncryptedParameter.booleanValue();
-		}
-		
-		Boolean is128BitKeyParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_128_BIT_KEY);
-		if (is128BitKeyParameter != null)
-		{
-			is128BitKey = is128BitKeyParameter.booleanValue();
-		}
-		
-		userPassword = (String)parameters.get(JRPdfExporterParameter.USER_PASSWORD);
-		ownerPassword = (String)parameters.get(JRPdfExporterParameter.OWNER_PASSWORD);
-
-		Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
-		if (permissionsParameter != null)
-		{
-			permissions = permissionsParameter.intValue();
-		}
-
-		pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
-
-		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-
-		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-		if (os != null)
-		{
-			exportReportToStream(os);
-		}
-		else
-		{
-			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-			if (destFile == null)
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			if (!isModeBatch)
 			{
-				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-				if (fileName != null)
-				{
-					destFile = new File(fileName);
-				}
-				else
-				{
-					throw new JRException("No output specified for the exporter.");
-				}
+				setPageRange();
 			}
-
-			try
+			
+			Boolean isCreatingBatchModeBookmarksParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS);
+			if(isCreatingBatchModeBookmarksParameter != null){
+				isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarksParameter.booleanValue();
+			}
+	
+			Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
+			if (isEncryptedParameter != null)
 			{
-				os = new FileOutputStream(destFile);
+				isEncrypted = isEncryptedParameter.booleanValue();
+			}
+			
+			Boolean is128BitKeyParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_128_BIT_KEY);
+			if (is128BitKeyParameter != null)
+			{
+				is128BitKey = is128BitKeyParameter.booleanValue();
+			}
+			
+			userPassword = (String)parameters.get(JRPdfExporterParameter.USER_PASSWORD);
+			ownerPassword = (String)parameters.get(JRPdfExporterParameter.OWNER_PASSWORD);
+	
+			Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
+			if (permissionsParameter != null)
+			{
+				permissions = permissionsParameter.intValue();
+			}
+	
+			pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
+	
+			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+	
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			if (os != null)
+			{
 				exportReportToStream(os);
-				os.flush();
 			}
-			catch (IOException e)
+			else
 			{
-				throw new JRException("Error trying to export to file : " + destFile, e);
-			}
-			finally
-			{
-				if (os != null)
+				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
 				{
-					try
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					if (fileName != null)
 					{
-						os.close();
+						destFile = new File(fileName);
 					}
-					catch(IOException e)
+					else
 					{
+						throw new JRException("No output specified for the exporter.");
+					}
+				}
+	
+				try
+				{
+					os = new FileOutputStream(destFile);
+					exportReportToStream(os);
+					os.flush();
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to file : " + destFile, e);
+				}
+				finally
+				{
+					if (os != null)
+					{
+						try
+						{
+							os.close();
+						}
+						catch(IOException e)
+						{
+						}
 					}
 				}
 			}
 		}
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 
 
@@ -1379,7 +1383,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName(), classLoader);
+				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName(), classLoader, urlHandlerFactory);
 			}
 			catch(JRException e)
 			{

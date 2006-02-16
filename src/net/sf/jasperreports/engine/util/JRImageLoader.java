@@ -37,8 +37,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -131,22 +131,24 @@ public class JRImageLoader
 	 */
 	public static byte[] loadImageDataFromLocation(String location) throws JRException
 	{
-		return loadImageDataFromLocation(location, null);
+		return loadImageDataFromLocation(location, null, null);
 	}
-	
+
+	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
+		return loadImageDataFromLocation(location, classLoader, null);
+	}
 	
 	/**
 	 *
 	 */
-	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader) throws JRException
+	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader,
+			URLStreamHandlerFactory urlHandlerFactory) throws JRException
 	{
-		try
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
 		{
-			URL url = new URL(location);
 			return loadImageDataFromURL(url);
-		}
-		catch(MalformedURLException e)
-		{
 		}
 
 		File file = new File(location);
@@ -155,36 +157,7 @@ public class JRImageLoader
 			return loadImageDataFromFile(file);
 		}
 
-		URL url = null;
-
-		if (classLoader != null)
-		{
-			url = classLoader.getResource(location);
-		}
-
-		if (url == null)
-		{
-			classLoader = Thread.currentThread().getContextClassLoader();
-			
-			if (classLoader != null)
-			{
-				url = classLoader.getResource(location);
-			}
-			
-			if (url == null)
-			{
-				classLoader = JRImageLoader.class.getClassLoader();
-				if (classLoader == null)
-				{
-					url = JRImageLoader.class.getResource("/" + location);
-				}
-				else
-				{
-					url = classLoader.getResource(location);
-				}
-			}
-		}
-
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRImageLoader.class);
 		if (url != null)
 		{
 			return loadImageDataFromURL(url);

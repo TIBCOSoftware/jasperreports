@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +116,8 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_SCRIPTLET, JRAbstractScriptlet.class, 
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
-		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
+		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class};
 
 
 	

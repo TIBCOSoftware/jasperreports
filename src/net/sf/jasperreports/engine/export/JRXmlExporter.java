@@ -133,93 +133,97 @@ public class JRXmlExporter extends JRAbstractExporter
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		setPageRange();
-
-		dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
-		if (dtdLocation == null)
+		try
 		{
-			dtdLocation = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
-		}
-		
-		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-		if (encoding == null)
-		{
-			encoding = "UTF-8";
-		}
-		
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-		if (sb != null)
-		{
-			StringBuffer buffer = exportReportToBuffer();
-			sb.append(buffer.toString());
-		}
-		else
-		{
-			Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-			if (outWriter != null)
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			setPageRange();
+	
+			dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
+			if (dtdLocation == null)
 			{
-				try
-				{
-					exportReportToStream(outWriter);
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
-				}
+				dtdLocation = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
+			}
+			
+			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+			if (encoding == null)
+			{
+				encoding = "UTF-8";
+			}
+			
+			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+			if (sb != null)
+			{
+				StringBuffer buffer = exportReportToBuffer();
+				sb.append(buffer.toString());
 			}
 			else
 			{
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-				if (os != null)
+				Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (outWriter != null)
 				{
 					try
 					{
-						exportReportToStream(new OutputStreamWriter(os, encoding));
+						exportReportToStream(outWriter);
 					}
-					catch (Exception e)
+					catch (IOException e)
 					{
-						throw new JRException("Error writing to OutputStream : " + jasperPrint.getName(), e);
+						throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
 					}
 				}
 				else
 				{
-					destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-					if (destFile == null)
+					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+					if (os != null)
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-						if (fileName != null)
+						try
 						{
-							destFile = new File(fileName);
+							exportReportToStream(new OutputStreamWriter(os, encoding));
 						}
-						else
+						catch (Exception e)
 						{
-							throw new JRException("No output specified for the exporter.");
+							throw new JRException("Error writing to OutputStream : " + jasperPrint.getName(), e);
 						}
 					}
-					
-					imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-					
-					Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
-					if (isEmbeddingImagesParameter == null)
+					else
 					{
-						isEmbeddingImagesParameter = Boolean.TRUE;
+						destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+						if (destFile == null)
+						{
+							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+							if (fileName != null)
+							{
+								destFile = new File(fileName);
+							}
+							else
+							{
+								throw new JRException("No output specified for the exporter.");
+							}
+						}
+						
+						imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						
+						Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
+						if (isEmbeddingImagesParameter == null)
+						{
+							isEmbeddingImagesParameter = Boolean.TRUE;
+						}
+						isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
+						
+						exportReportToFile();
 					}
-					isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
-					
-					exportReportToFile();
 				}
 			}
 		}
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 
 

@@ -33,6 +33,7 @@
 
 package net.sf.jasperreports.engine.fill;
 
+import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 
@@ -235,6 +237,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected JRVirtualizer virtualizer = null;
 
 	protected ClassLoader reportClassLoader = null;
+
+	protected URLStreamHandlerFactory urlHandlerFactory;
 
 	protected List formattedTextFields = new ArrayList();
 
@@ -674,10 +678,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 
 		fillingThread = Thread.currentThread();
+		boolean urlHandlerFactorySet = false;
+		boolean classLoaderSet = false;
 		try
 		{
 			/*   */
 			setParameters(parameterValues);
+
+			classLoaderSet = setClassLoader(parameterValues);
+			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
 
 			if (parentFiller != null)
 			{
@@ -765,6 +774,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 			//kill the subreport filler threads
 			killSubfillerThreads();
+			
+			if (classLoaderSet)
+			{
+				JRResourcesUtil.resetClassLoader();
+			}
+
+			if (urlHandlerFactorySet)
+			{
+				JRResourcesUtil.resetThreadURLHandlerFactory();
+			}
 		}
 	}
 
@@ -847,12 +866,33 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		isPerPageBoundElements = fillContext.isPerPageBoundElements();
 
-		/*   */
-		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
-
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
+	}
+
+
+	private boolean setClassLoader(Map parameterValues)
+	{
+		reportClassLoader = (ClassLoader) parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
+		boolean setClassLoader = reportClassLoader != null;
+		if (setClassLoader)
+		{
+			JRResourcesUtil.setThreadClassLoader(reportClassLoader);
+		}
+		return setClassLoader;
+	}
+
+
+	private boolean setUrlHandlerFactory(Map parameterValues)
+	{
+		urlHandlerFactory = (URLStreamHandlerFactory) parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY);
+		boolean setUrlHandlerFactory = urlHandlerFactory != null;
+		if (setUrlHandlerFactory)
+		{
+			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
+		}
+		return setUrlHandlerFactory;
 	}
 
 
