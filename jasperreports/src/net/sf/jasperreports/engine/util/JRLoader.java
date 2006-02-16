@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -222,22 +223,24 @@ public class JRLoader
 	 */
 	public static Object loadObjectFromLocation(String location) throws JRException
 	{
-		return loadObjectFromLocation(location, null);
+		return loadObjectFromLocation(location, null, null);
 	}
-	
-	
+
+	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
+		return loadObjectFromLocation(location, classLoader, null);
+	}
+
 	/**
 	 *
 	 */
-	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
+	public static Object loadObjectFromLocation(String location, ClassLoader classLoader,
+			URLStreamHandlerFactory urlHandlerFactory) throws JRException
 	{
-		try
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
 		{
-			URL url = new URL(location);
 			return loadObject(url);
-		}
-		catch(MalformedURLException e)
-		{
 		}
 
 		File file = new File(location);
@@ -246,36 +249,7 @@ public class JRLoader
 			return loadObject(file);
 		}
 
-		URL url = null;
-		
-		if (classLoader != null)
-		{
-			url = classLoader.getResource(location);
-		}
-		
-		if (url == null)
-		{
-			classLoader = Thread.currentThread().getContextClassLoader();
-
-			if (classLoader != null)
-			{
-				url = classLoader.getResource(location);
-			}
-			
-			if (url == null)
-			{
-				classLoader = JRLoader.class.getClassLoader();
-				if (classLoader == null)
-				{
-					url = JRLoader.class.getResource("/" + location);
-				}
-				else
-				{				
-					url = classLoader.getResource(location);
-				}
-			}
-		}
-
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
 		if (url != null)
 		{
 			return loadObject(url);
@@ -442,22 +416,24 @@ public class JRLoader
 	 */
 	public static byte[] loadBytesFromLocation(String location) throws JRException
 	{
-		return loadBytesFromLocation(location, null);
+		return loadBytesFromLocation(location, null, null);
 	}
 
+	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
+	{
+		return loadBytesFromLocation(location, classLoader, null);
+	}
 		
 	/**
 	 *
 	 */
-	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
+	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader,
+			URLStreamHandlerFactory urlHandlerFactory) throws JRException
 	{
-		try
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
 		{
-			URL url = new URL(location);
 			return loadBytes(url);
-		}
-		catch(MalformedURLException e)
-		{
 		}
 
 		File file = new File(location);
@@ -466,36 +442,7 @@ public class JRLoader
 			return loadBytes(file);
 		}
 
-		URL url = null;
-		
-		if (classLoader != null)
-		{
-			url = classLoader.getResource(location);
-		}
-		
-		if (url == null)
-		{
-			classLoader = Thread.currentThread().getContextClassLoader();
-
-			if (classLoader != null)
-			{
-				url = classLoader.getResource(location);
-			}
-
-			if (url == null)
-			{
-				classLoader = JRLoader.class.getClassLoader();
-				if (classLoader == null)
-				{
-					url = JRLoader.class.getResource("/" + location);
-				}
-				else
-				{
-					url = classLoader.getResource(location);
-				}
-			}
-		}
-
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
 		if (url != null)
 		{
 			return loadBytes(url);

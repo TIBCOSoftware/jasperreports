@@ -211,5 +211,14 @@ public class JRExporterParameter
 	 */
 	public static final JRExporterParameter CLASS_LOADER = new JRExporterParameter("Class Loader");
 
+	
+	/**
+	 * URL stream handler factory to be used while exporting the report.
+	 * <p/>
+	 * The values should be of type {@link java.net.URLStreamHandlerFactory java.net.URLStreamHandlerFactory}.
+	 * 
+	 * @see net.sf.jasperreports.engine.util.JRResourcesUtil#createURL(String, URLStreamHandlerFactory)
+	 */
+	public static final JRExporterParameter URL_HANDLER_FACTORY = new JRExporterParameter("URL Handler Factory");
 
 }

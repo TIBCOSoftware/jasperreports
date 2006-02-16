@@ -31,6 +31,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -115,7 +116,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
-		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
+		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class};
 	
 	private static final Object[] BUILT_IN_VARIABLES = new Object[] { 
 		JRCrosstab.VARIABLE_ROW_COUNT, Integer.class, 

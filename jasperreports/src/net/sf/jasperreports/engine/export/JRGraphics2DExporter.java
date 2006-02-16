@@ -112,35 +112,39 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		setPageRange();
-
-		grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
-		if (grx == null)
+		try
 		{
-			throw new JRException("No output specified for the exporter. java.awt.Graphics2D object expected.");
-		}
-		
-		Float zoomRatio = (Float)parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO);
-		if (zoomRatio != null)
-		{
-			zoom = zoomRatio.floatValue();
-			if (zoom <= 0)
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			setPageRange();
+	
+			grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
+			if (grx == null)
 			{
-				throw new JRException("Invalid zoom ratio : " + zoom);
+				throw new JRException("No output specified for the exporter. java.awt.Graphics2D object expected.");
 			}
+			
+			Float zoomRatio = (Float)parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO);
+			if (zoomRatio != null)
+			{
+				zoom = zoomRatio.floatValue();
+				if (zoom <= 0)
+				{
+					throw new JRException("Invalid zoom ratio : " + zoom);
+				}
+			}
+	
+			exportReportToGraphics2D();
 		}
-
-		exportReportToGraphics2D();
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 		
 

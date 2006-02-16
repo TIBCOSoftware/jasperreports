@@ -127,74 +127,78 @@ public class JRRtfExporter extends JRAbstractExporter
 			setPageRange();
 		}
 		
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-		
-		fonts = new ArrayList();
-		fontBuffer = new StringBuffer();
-		colors = new ArrayList();
-		colors.add(null);
-		colorBuffer = new StringBuffer(";");
-		
-		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-		
-		getDefaultFont();
-		getFontIndex(defaultFont);
-		
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-		if (sb != null) {
-			StringBuffer buffer = exportReportToBuffer();
-			sb.append(buffer.toString());
-		}
-		else {
-			Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-			if (outWriter != null) {
-				try {
-					writer = outWriter;
-					
-					// export report
-					exportReportToStream();
-				}
-				catch (IOException ex) {
-					throw new JRException("Error writing to writer : " + jasperPrint.getName(), ex);
-				}
+		try
+		{
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+			
+			fonts = new ArrayList();
+			fontBuffer = new StringBuffer();
+			colors = new ArrayList();
+			colors.add(null);
+			colorBuffer = new StringBuffer(";");
+			
+			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			
+			getDefaultFont();
+			getFontIndex(defaultFont);
+			
+			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+			if (sb != null) {
+				StringBuffer buffer = exportReportToBuffer();
+				sb.append(buffer.toString());
 			}
 			else {
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-				if(os != null) {
+				Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (outWriter != null) {
 					try {
-						writer = new OutputStreamWriter(os);
+						writer = outWriter;
 						
 						// export report
 						exportReportToStream();
 					}
-					catch (Exception ex) {
-						throw new JRException("Error writing to output stream : " + jasperPrint.getName(), ex);
+					catch (IOException ex) {
+						throw new JRException("Error writing to writer : " + jasperPrint.getName(), ex);
 					}
 				}
 				else {
-					destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-					if (destFile == null) {
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-						if (fileName != null) {
-							destFile = new File(fileName);
+					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+					if(os != null) {
+						try {
+							writer = new OutputStreamWriter(os);
+							
+							// export report
+							exportReportToStream();
 						}
-						else {
-							throw new JRException("No output specified for the exporter");
+						catch (Exception ex) {
+							throw new JRException("Error writing to output stream : " + jasperPrint.getName(), ex);
 						}
 					}
-					
-					// export report
-					exportReportToFile();
+					else {
+						destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+						if (destFile == null) {
+							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+							if (fileName != null) {
+								destFile = new File(fileName);
+							}
+							else {
+								throw new JRException("No output specified for the exporter");
+							}
+						}
+						
+						// export report
+						exportReportToFile();
+					}
 				}
 			}
 		}
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 	
 	

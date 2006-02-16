@@ -115,68 +115,72 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		if (!isModeBatch)
+		try
 		{
-			setPageRange();
-		}
-
-		setParameters();
-		
-		OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-		if (os != null)
-		{
-			exportReportToStream(os);
-		}
-		else
-		{
-			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-			if (destFile == null)
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			if (!isModeBatch)
 			{
-				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-				if (fileName != null)
-				{
-					destFile = new File(fileName);
-				}
-				else
-				{
-					throw new JRException("No output specified for the exporter.");
-				}
+				setPageRange();
 			}
-
-			try
+	
+			setParameters();
+			
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			if (os != null)
 			{
-				os = new FileOutputStream(destFile);
 				exportReportToStream(os);
-				os.flush();
 			}
-			catch (IOException e)
+			else
 			{
-				throw new JRException("Error trying to export to file : " + destFile, e);
-			}
-			finally
-			{
-				if (os != null)
+				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
 				{
-					try
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					if (fileName != null)
 					{
-						os.close();
+						destFile = new File(fileName);
 					}
-					catch(IOException e)
+					else
 					{
+						throw new JRException("No output specified for the exporter.");
+					}
+				}
+	
+				try
+				{
+					os = new FileOutputStream(destFile);
+					exportReportToStream(os);
+					os.flush();
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to file : " + destFile, e);
+				}
+				finally
+				{
+					if (os != null)
+					{
+						try
+						{
+							os.close();
+						}
+						catch(IOException e)
+						{
+						}
 					}
 				}
 			}
 		}
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 
 	protected void setParameters()

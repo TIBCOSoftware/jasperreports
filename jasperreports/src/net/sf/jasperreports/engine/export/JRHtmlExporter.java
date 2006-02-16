@@ -181,349 +181,353 @@ public class JRHtmlExporter extends JRAbstractExporter
 		/*   */
 		setOffset();
 
-		/*   */
-		setClassLoader();
-
-		/*   */
-		setInput();
-
-		/*   */
-		if (!isModeBatch)
+		try
 		{
-			setPageRange();
-		}
-
-		htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
-		betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
-		htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
-
-		imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
-		if (imagesDir == null)
-		{
-			String dir = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
-			if (dir != null)
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+	
+			/*   */
+			if (!isModeBatch)
 			{
-				imagesDir = new File(dir);
+				setPageRange();
 			}
-		}
-
-		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-		if (isRemoveEmptySpaceParameter != null)
-		{
-			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
-		}
-
-		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND);
-		if (isWhitePageBackgroundParameter != null)
-		{
-			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
-		}
-
-		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
-		if (isOutputImagesToDirParameter != null)
-		{
-			isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
-		}
-
-		String uri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
-		if (uri != null)
-		{
-			imagesURI = uri;
-		}
-
-		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-		if (encoding == null)
-		{
-			encoding = "UTF-8";
-		}
-
-		rendererToImagePathMap = new HashMap();
-		imagesToProcess = new ArrayList();
-		isPxImageLoaded = false;
-
-		//backward compatibility with the IMAGE_MAP parameter
-		imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-//		if (imageNameToImageDataMap == null)
-//		{
-//			imageNameToImageDataMap = new HashMap();
-//		}
-		//END - backward compatibility with the IMAGE_MAP parameter
-
-		Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
-		if (isWrapBreakWordParameter != null)
-		{
-			isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
-		}
-
-		sizeUnit = (String)parameters.get(JRHtmlExporterParameter.SIZE_UNIT);
-		if (sizeUnit == null)
-		{
-			sizeUnit = JRHtmlExporterParameter.SIZE_UNIT_PIXEL;
-		}
-
-		Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
-		if (isUsingImagesToAlignParameter == null)
-		{
-			isUsingImagesToAlignParameter = Boolean.TRUE;
-		}
-
-		if (isUsingImagesToAlignParameter.booleanValue())
-		{
-			emptyCellStringProvider =
-				new StringProvider()
-				{
-					public String getStringForCollapsedTD(Object value)
-					{
-						return "><img src=\"" + value + "px\"";
-					}
-					public String getStringForEmptyTD(Object value)
-					{
-						return "<img src=\"" + value + "px\" border=\"0\"/>";
-					}
-				};
-
-			loadPxImage();
-		}
-		else
-		{
-			emptyCellStringProvider =
-				new StringProvider()
-				{
-					public String getStringForCollapsedTD(Object value)
-					{
-						return "";
-					}
-					public String getStringForEmptyTD(Object value)
-					{
-						return "";
-					}
-				};
-		}
-
-
-		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-		if (sb != null)
-		{
-			try
+	
+			htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
+			betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
+			htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
+	
+			imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
+			if (imagesDir == null)
 			{
-				writer = new StringWriter();
-				exportReportToWriter();
-				sb.append(writer.toString());
-			}
-			catch (IOException e)
-			{
-				throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
-			}
-			finally
-			{
-				if (writer != null)
+				String dir = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
+				if (dir != null)
 				{
-					try
-					{
-						writer.close();
-					}
-					catch(IOException e)
-					{
-					}
+					imagesDir = new File(dir);
 				}
 			}
-		}
-		else
-		{
-			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-			if (writer != null)
+	
+			Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
+			if (isRemoveEmptySpaceParameter != null)
+			{
+				isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
+			}
+	
+			Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND);
+			if (isWhitePageBackgroundParameter != null)
+			{
+				isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
+			}
+	
+			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
+			if (isOutputImagesToDirParameter != null)
+			{
+				isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
+			}
+	
+			String uri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
+			if (uri != null)
+			{
+				imagesURI = uri;
+			}
+	
+			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+			if (encoding == null)
+			{
+				encoding = "UTF-8";
+			}
+	
+			rendererToImagePathMap = new HashMap();
+			imagesToProcess = new ArrayList();
+			isPxImageLoaded = false;
+	
+			//backward compatibility with the IMAGE_MAP parameter
+			imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+	//		if (imageNameToImageDataMap == null)
+	//		{
+	//			imageNameToImageDataMap = new HashMap();
+	//		}
+			//END - backward compatibility with the IMAGE_MAP parameter
+	
+			Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
+			if (isWrapBreakWordParameter != null)
+			{
+				isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
+			}
+	
+			sizeUnit = (String)parameters.get(JRHtmlExporterParameter.SIZE_UNIT);
+			if (sizeUnit == null)
+			{
+				sizeUnit = JRHtmlExporterParameter.SIZE_UNIT_PIXEL;
+			}
+	
+			Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
+			if (isUsingImagesToAlignParameter == null)
+			{
+				isUsingImagesToAlignParameter = Boolean.TRUE;
+			}
+	
+			if (isUsingImagesToAlignParameter.booleanValue())
+			{
+				emptyCellStringProvider =
+					new StringProvider()
+					{
+						public String getStringForCollapsedTD(Object value)
+						{
+							return "><img src=\"" + value + "px\"";
+						}
+						public String getStringForEmptyTD(Object value)
+						{
+							return "<img src=\"" + value + "px\" border=\"0\"/>";
+						}
+					};
+	
+				loadPxImage();
+			}
+			else
+			{
+				emptyCellStringProvider =
+					new StringProvider()
+					{
+						public String getStringForCollapsedTD(Object value)
+						{
+							return "";
+						}
+						public String getStringForEmptyTD(Object value)
+						{
+							return "";
+						}
+					};
+			}
+	
+	
+			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+	
+			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+			if (sb != null)
 			{
 				try
 				{
+					writer = new StringWriter();
 					exportReportToWriter();
+					sb.append(writer.toString());
 				}
 				catch (IOException e)
 				{
-					throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
+					throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
+				}
+				finally
+				{
+					if (writer != null)
+					{
+						try
+						{
+							writer.close();
+						}
+						catch(IOException e)
+						{
+						}
+					}
 				}
 			}
 			else
 			{
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-				if (os != null)
+				writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (writer != null)
 				{
 					try
 					{
-						writer = new OutputStreamWriter(os, encoding);
 						exportReportToWriter();
 					}
 					catch (IOException e)
 					{
-						throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
+						throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
 					}
 				}
 				else
 				{
-					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-					if (destFile == null)
+					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+					if (os != null)
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-						if (fileName != null)
+						try
 						{
-							destFile = new File(fileName);
+							writer = new OutputStreamWriter(os, encoding);
+							exportReportToWriter();
 						}
-						else
+						catch (IOException e)
 						{
-							throw new JRException("No output specified for the exporter.");
+							throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
 						}
 					}
-
-					try
+					else
 					{
-						os = new FileOutputStream(destFile);
-						writer = new OutputStreamWriter(os, encoding);
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
-					}
-
-					if (imagesDir == null)
-					{
-						imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-					}
-
-					if (isOutputImagesToDirParameter == null)
-					{
-						isOutputImagesToDir = true;
-					}
-
-					if (imagesURI == null)
-					{
-						imagesURI = imagesDir.getName() + "/";
-					}
-
-					try
-					{
-						exportReportToWriter();
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
-					}
-					finally
-					{
-						if (writer != null)
+						File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+						if (destFile == null)
 						{
-							try
+							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+							if (fileName != null)
 							{
-								writer.close();
+								destFile = new File(fileName);
 							}
-							catch(IOException e)
+							else
 							{
+								throw new JRException("No output specified for the exporter.");
+							}
+						}
+	
+						try
+						{
+							os = new FileOutputStream(destFile);
+							writer = new OutputStreamWriter(os, encoding);
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
+						}
+	
+						if (imagesDir == null)
+						{
+							imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						}
+	
+						if (isOutputImagesToDirParameter == null)
+						{
+							isOutputImagesToDir = true;
+						}
+	
+						if (imagesURI == null)
+						{
+							imagesURI = imagesDir.getName() + "/";
+						}
+	
+						try
+						{
+							exportReportToWriter();
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
+						}
+						finally
+						{
+							if (writer != null)
+							{
+								try
+								{
+									writer.close();
+								}
+								catch(IOException e)
+								{
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-
-		if (isOutputImagesToDir)
-		{
-			if (imagesDir == null)
+	
+			if (isOutputImagesToDir)
 			{
-				throw new JRException("The images directory was not specified for the exporter.");
-			}
-
-			if (isPxImageLoaded || (imagesToProcess != null && imagesToProcess.size() > 0))
-			{
-				if (!imagesDir.exists())
+				if (imagesDir == null)
 				{
-					imagesDir.mkdir();
+					throw new JRException("The images directory was not specified for the exporter.");
 				}
-
-				if (isPxImageLoaded)
+	
+				if (isPxImageLoaded || (imagesToProcess != null && imagesToProcess.size() > 0))
 				{
-					JRRenderable pxRenderer =
-						JRImageRenderer.getInstance(
-							"net/sf/jasperreports/engine/images/pixel.GIF",
-							JRImage.ON_ERROR_TYPE_ERROR
-							);
-					byte[] imageData = pxRenderer.getImageData();
-
-					File imageFile = new File(imagesDir, "px");
-					FileOutputStream fos = null;
-
-					try
+					if (!imagesDir.exists())
 					{
-						fos = new FileOutputStream(imageFile);
-						fos.write(imageData, 0, imageData.length);
+						imagesDir.mkdir();
 					}
-					catch (IOException e)
+	
+					if (isPxImageLoaded)
 					{
-						throw new JRException("Error writing to image file : " + imageFile, e);
-					}
-					finally
-					{
-						if (fos != null)
-						{
-							try
-							{
-								fos.close();
-							}
-							catch(IOException e)
-							{
-							}
-						}
-					}
-				}
-
-				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
-				{
-					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
-
-					JRPrintImage image = getImage(jasperPrintList, imageIndex);
-					JRRenderable renderer = image.getRenderer();
-					if (renderer.getType() == JRRenderable.TYPE_SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								image.getBackcolor()
+						JRRenderable pxRenderer =
+							JRImageRenderer.getInstance(
+								"net/sf/jasperreports/engine/images/pixel.GIF",
+								JRImage.ON_ERROR_TYPE_ERROR
 								);
-					}
-
-					byte[] imageData = renderer.getImageData();
-
-					File imageFile = new File(imagesDir, getImageName(imageIndex));
-					FileOutputStream fos = null;
-
-					try
-					{
-						fos = new FileOutputStream(imageFile);
-						fos.write(imageData, 0, imageData.length);
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error writing to image file : " + imageFile, e);
-					}
-					finally
-					{
-						if (fos != null)
+						byte[] imageData = pxRenderer.getImageData();
+	
+						File imageFile = new File(imagesDir, "px");
+						FileOutputStream fos = null;
+	
+						try
 						{
-							try
+							fos = new FileOutputStream(imageFile);
+							fos.write(imageData, 0, imageData.length);
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to image file : " + imageFile, e);
+						}
+						finally
+						{
+							if (fos != null)
 							{
-								fos.close();
+								try
+								{
+									fos.close();
+								}
+								catch(IOException e)
+								{
+								}
 							}
-							catch(IOException e)
+						}
+					}
+	
+					for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+					{
+						JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+	
+						JRPrintImage image = getImage(jasperPrintList, imageIndex);
+						JRRenderable renderer = image.getRenderer();
+						if (renderer.getType() == JRRenderable.TYPE_SVG)
+						{
+							renderer =
+								new JRWrappingSvgRenderer(
+									renderer,
+									new Dimension(image.getWidth(), image.getHeight()),
+									image.getBackcolor()
+									);
+						}
+	
+						byte[] imageData = renderer.getImageData();
+	
+						File imageFile = new File(imagesDir, getImageName(imageIndex));
+						FileOutputStream fos = null;
+	
+						try
+						{
+							fos = new FileOutputStream(imageFile);
+							fos.write(imageData, 0, imageData.length);
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to image file : " + imageFile, e);
+						}
+						finally
+						{
+							if (fos != null)
 							{
+								try
+								{
+									fos.close();
+								}
+								catch(IOException e)
+								{
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-
-		/*   */
-		resetClassLoader();
+		finally
+		{
+			resetExportContext();
+		}
 	}
 
 

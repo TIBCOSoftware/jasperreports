@@ -36,8 +36,10 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.URL;
+import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
@@ -52,11 +54,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	private static ThreadLocal threadLocalClassLoader = new ThreadLocal();
 
 	/**
 	 *
@@ -99,20 +96,22 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated replaced by
+	 * {@link JRResourcesUtil#getThreadClassLoader() JRResourcesUtil.getThreadClassLoader()}
 	 */
 	public static ClassLoader getClassLoader()
 	{
-		return (ClassLoader)threadLocalClassLoader.get();
+		return JRResourcesUtil.getThreadClassLoader();
 	}
 
 
 	/**
-	 *
+	 * @deprecated replace by
+	 * {@link JRResourcesUtil#setThreadClassLoader(ClassLoader) JRResourcesUtil.setThreadClassLoader(ClassLoader)}
 	 */
 	public static void setClassLoader(ClassLoader classLoader)
 	{
-		threadLocalClassLoader.set(classLoader);
+		JRResourcesUtil.setThreadClassLoader(classLoader);
 	}
 
 
@@ -161,14 +160,20 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy) throws JRException
 	{
-		return getInstance(imageLocation, onErrorType, isLazy, getClassLoader());
+		return getInstance(imageLocation, onErrorType, isLazy, null, null);
 	}
+
 	
+	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader) throws JRException
+	{
+		return getInstance(imageLocation, onErrorType, isLazy, classLoader);
+	}
 	
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader) throws JRException
+	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader,
+			URLStreamHandlerFactory urlHandlerFactory) throws JRException
 	{
 		if (imageLocation == null)
 		{
@@ -182,7 +187,8 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromLocation(imageLocation, classLoader), onErrorType);
+			byte[] data = JRImageLoader.loadImageDataFromLocation(imageLocation, classLoader, urlHandlerFactory);
+			return new JRImageRenderer(data, onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -350,7 +356,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 		{
 			try
 			{
-				imageData = JRImageLoader.loadImageDataFromLocation(imageLocation, getClassLoader());
+				imageData = JRImageLoader.loadImageDataFromLocation(imageLocation);
 			}
 			catch (JRException e)
 			{

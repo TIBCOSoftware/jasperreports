@@ -31,6 +31,7 @@ import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 import org.xml.sax.SAXException;
 
@@ -71,8 +73,10 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int globalOffsetX = 0;
 	protected int globalOffsetY = 0;
 	protected ClassLoader classLoader = null;
-	private ClassLoader oldImageRendererClassLoader = null;
-
+	protected boolean classLoaderSet;
+	protected URLStreamHandlerFactory urlHandlerFactory;
+	protected boolean urlHandlerFactorySet;
+	
 	/**
 	 *
 	 */
@@ -169,13 +173,23 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected void setClassLoader()
+	protected void setExportContext()
 	{
+		classLoaderSet = false;
+		urlHandlerFactorySet = false;
+		
 		classLoader = (ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER);
 		if (classLoader != null)
 		{
-			oldImageRendererClassLoader = JRImageRenderer.getClassLoader();
-			JRImageRenderer.setClassLoader(classLoader);
+			JRResourcesUtil.setThreadClassLoader(classLoader);
+			classLoaderSet = true;
+		}
+
+		urlHandlerFactory = (URLStreamHandlerFactory) parameters.get(JRExporterParameter.URL_HANDLER_FACTORY);
+		if (urlHandlerFactory != null)
+		{
+			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
+			urlHandlerFactorySet = true;
 		}
 	}
 		
@@ -183,14 +197,37 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected void resetClassLoader()
+	protected void resetExportContext()
 	{
-		if (classLoader != null)
+		if (classLoaderSet)
 		{
-			JRImageRenderer.setClassLoader(oldImageRendererClassLoader);
+			JRResourcesUtil.resetClassLoader();
+		}
+		
+		if (urlHandlerFactorySet)
+		{
+			JRResourcesUtil.resetThreadURLHandlerFactory();
 		}
 	}
-		
+
+	
+	/**
+	 * @deprecated replaced by {@link #setExportContext() setExportContext} 
+	 */
+	protected void setClassLoader()
+	{
+		setExportContext();
+	}
+
+	
+	/**
+	 * @deprecated replaced by {@link #resetExportContext() resetExportContext} 
+	 */
+	protected void resetClassLoader()
+	{
+		resetExportContext();
+	}
+
 
 	/**
 	 *

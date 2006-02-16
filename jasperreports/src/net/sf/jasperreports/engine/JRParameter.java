@@ -91,6 +91,12 @@ public interface JRParameter
 	 */
 	public static final String REPORT_CLASS_LOADER = "REPORT_CLASS_LOADER";
 
+	/**
+	 * A <tt>java.net.URLStreamHandlerFactory</tt> instance to be used during the report filling process to 
+	 * handler custom URL protocols for loading resources such as images, fonts and subreport templates.
+	 */
+	public static final String REPORT_URL_HANDLER_FACTORY = "REPORT_URL_HANDLER_FACTORY";
+
 
 	/**
 	 * Whether to use pagination.

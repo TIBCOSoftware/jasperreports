@@ -313,7 +313,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					}
 					else if (expressionClass.equals(java.lang.String.class))
 					{
-						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader);
+						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader,
+								filler.urlHandlerFactory);
 					}
 					
 					if (jasperReport != null)
@@ -448,6 +449,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 				filler.reportClassLoader != null)
 		{
 			parameterValues.put(JRParameter.REPORT_CLASS_LOADER, filler.reportClassLoader);
+		}
+
+		if (!parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY) &&
+				filler.urlHandlerFactory != null)
+		{
+			parameterValues.put(JRParameter.REPORT_URL_HANDLER_FACTORY, filler.urlHandlerFactory);
 		}
 		
 		return parameterValues;
