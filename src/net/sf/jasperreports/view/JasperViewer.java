@@ -77,7 +77,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 	/** Creates new form JasperViewer */
 	public JasperViewer(
-		InputStream is, 
+		InputStream is,
 		boolean isXMLFile
 		) throws JRException
 	{
@@ -103,10 +103,10 @@ public class JasperViewer extends javax.swing.JFrame
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
-	
+
 	/** Creates new form JasperViewer */
 	public JasperViewer(
-		String sourceFile, 
+		String sourceFile,
 		boolean isXMLFile,
 		boolean isExitOnClose
 		)  throws JRException
@@ -122,7 +122,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 	/** Creates new form JasperViewer */
 	public JasperViewer(
-		InputStream is, 
+		InputStream is,
 		boolean isXMLFile,
 		boolean isExitOnClose
 		) throws JRException
@@ -143,14 +143,14 @@ public class JasperViewer extends javax.swing.JFrame
 		)
 	{
 		this.isExitOnClose = isExitOnClose;
-		
+
 		initComponents();
 
 		this.viewer = new JRViewer(jasperPrint);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
-	
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -172,23 +172,23 @@ public class JasperViewer extends javax.swing.JFrame
 		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
 		pack();
-		
+
 		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		java.awt.Dimension screenSize = toolkit.getScreenSize();
 		int screenResolution = toolkit.getScreenResolution();
 		float zoom = ((float) screenResolution) / JRViewer.REPORT_RESOLUTION;
-		
+
 		int height = (int) (550 * zoom);
 		if (height > screenSize.getHeight())
 		{
 			height = (int) screenSize.getHeight();
-		}		
+		}
 		int width = (int) (750 * zoom);
 		if (width > screenSize.getWidth())
 		{
 			width = (int) screenSize.getWidth();
 		}
-		
+
 		java.awt.Dimension dimension = new java.awt.Dimension(width, height);
 		setSize(dimension);
 		setLocation((screenSize.width-width)/2,(screenSize.height-height)/2);
@@ -196,7 +196,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 	/** Exit the Application */
 	void exitForm() {//GEN-FIRST:event_exitForm
-		
+
 		if (this.isExitOnClose)
 		{
 			System.exit(0);
@@ -209,14 +209,41 @@ public class JasperViewer extends javax.swing.JFrame
 			this.getContentPane().removeAll();
 			this.dispose();
 		}
-		
+
 	}//GEN-LAST:event_exitForm
 
-	
+
+	/**
+	 *
+	 */
+	public void setZoomRatio(float zoomRatio)
+	{
+		viewer.setZoomRatio(zoomRatio);
+	}
+
+
+	/**
+	 *
+	 */
+	public void setFitWidthZoomRatio()
+	{
+		viewer.setFitWidthZoomRatio();
+	}
+
+
+	/**
+	 *
+	 */
+	public void setFitPageZoomRatio()
+	{
+		viewer.setFitPageZoomRatio();
+	}
+
+
 	/**
 	* @param args the command line arguments
 	*/
-	public static void main(String args[]) 
+	public static void main(String args[])
 	{
 		String fileName = null;
 		boolean isXMLFile = false;
@@ -235,7 +262,7 @@ public class JasperViewer extends javax.swing.JFrame
 			if ( args[k].startsWith("-XML") )
 				isXMLFile = true;
 
-			k++;	
+			k++;
 		}
 
 		try
@@ -264,11 +291,11 @@ public class JasperViewer extends javax.swing.JFrame
 	 *
 	 */
 	public static void viewReport(
-		String sourceFile, 
+		String sourceFile,
 		boolean isXMLFile
 		) throws JRException
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
 				sourceFile, 
 				isXMLFile,
@@ -281,13 +308,13 @@ public class JasperViewer extends javax.swing.JFrame
 	 *
 	 */
 	public static void viewReport(
-		InputStream is, 
+		InputStream is,
 		boolean isXMLFile
 		) throws JRException
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
-				is, 
+				is,
 				isXMLFile,
 				true
 				);
@@ -301,7 +328,7 @@ public class JasperViewer extends javax.swing.JFrame
 		JasperPrint jasperPrint
 		)
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
 				jasperPrint,
 				true
@@ -313,15 +340,15 @@ public class JasperViewer extends javax.swing.JFrame
 	 *
 	 */
 	public static void viewReport(
-		String sourceFile, 
+		String sourceFile,
 		boolean isXMLFile,
 		boolean isExitOnClose
 		) throws JRException
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
-				sourceFile, 
-				isXMLFile, 
+				sourceFile,
+				isXMLFile,
 				isExitOnClose
 				);
 		jasperViewer.setVisible(true);
@@ -331,14 +358,14 @@ public class JasperViewer extends javax.swing.JFrame
 	 *
 	 */
 	public static void viewReport(
-		InputStream is, 
+		InputStream is,
 		boolean isXMLFile,
 		boolean isExitOnClose
 		) throws JRException
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
-				is, 
+				is,
 				isXMLFile,
 				isExitOnClose
 				);
@@ -353,7 +380,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		)
 	{
-		JasperViewer jasperViewer = 
+		JasperViewer jasperViewer =
 			new JasperViewer(
 				jasperPrint,
 				isExitOnClose

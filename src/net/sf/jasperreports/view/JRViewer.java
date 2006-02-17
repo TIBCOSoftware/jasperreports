@@ -111,12 +111,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private float zoom = 0f;
-	
+
 	/**
 	 * the screen resolution.
 	 */
 	private int screenResolution = REPORT_RESOLUTION;
-	
+
 	/**
 	 * the zoom ration adjusted to the screen resolution.
 	 */
@@ -129,7 +129,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	private java.util.List hyperlinkListeners = new ArrayList();
 	private Map linksMap = new HashMap();
-	private MouseListener mouseListener = 
+	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()
 		{
 			public void mouseClicked(java.awt.event.MouseEvent evt)
@@ -143,15 +143,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
 		setScreenDetails();
-		
+
 		setZooms();
-		
+
 		initComponents();
-		
+
 		loadReport(fileName, isXML);
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
-		
+
 		addHyperlinkListener(this);
 	}
 
@@ -160,11 +160,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public JRViewer(InputStream is, boolean isXML) throws JRException
 	{
 		setScreenDetails();
-				
+
 		setZooms();
-		
+
 		initComponents();
-		
+
 		loadReport(is, isXML);
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
@@ -172,16 +172,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		addHyperlinkListener(this);
 	}
 
-	
+
 	/** Creates new form JRViewer */
 	public JRViewer(JasperPrint jrPrint)
 	{
 		setScreenDetails();
-		
+
 		setZooms();
-		
+
 		initComponents();
-		
+
 		loadReport(jrPrint);
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
@@ -1507,7 +1507,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	private void setZoomRatio(float newZoom)
+	public void setZoomRatio(float newZoom)
 	{
 		if (newZoom > 0)
 		{
@@ -1541,7 +1541,22 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 			refreshPage();
 		}
-	} 
+	}
+
+
+	/**
+	 *
+	 */
+	public void setFitWidthZoomRatio()
+	{
+		setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
+
+	}
+
+	public void setFitPageZoomRatio()
+	{
+		setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
+	}
 
 
 	/**
