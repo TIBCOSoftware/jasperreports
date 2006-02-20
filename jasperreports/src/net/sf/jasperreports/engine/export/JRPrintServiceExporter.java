@@ -153,12 +153,26 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	
 					if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
 					{
+						int printableWidth;
+						int printableHeight;
+						switch (jasperPrint.getOrientation())
+						{
+							case JRReport.ORIENTATION_LANDSCAPE:
+								printableWidth = jasperPrint.getPageHeight();
+								printableHeight = jasperPrint.getPageWidth();
+								break;
+							default:
+								printableWidth = jasperPrint.getPageWidth();
+								printableHeight = jasperPrint.getPageHeight();
+								break;
+						}
+						
 						printRequestAttributeSet.add(
 							new MediaPrintableArea(
 								0f, 
 								0f, 
-								jasperPrint.getPageWidth() / 72f,
-								jasperPrint.getPageHeight() / 72f,
+								printableWidth / 72f,
+								printableHeight / 72f,
 								MediaPrintableArea.INCH
 								)
 							);
