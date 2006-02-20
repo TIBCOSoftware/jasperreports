@@ -40,10 +40,12 @@ import javax.print.attribute.HashPrintServiceAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.OrientationRequested;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 
 
@@ -161,7 +163,22 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 								)
 							);
 					}
-	
+
+					if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
+					{
+						OrientationRequested orientation;
+						switch (jasperPrint.getOrientation())
+						{
+							case JRReport.ORIENTATION_LANDSCAPE:
+								orientation = OrientationRequested.LANDSCAPE;
+								break;
+							default:
+								orientation = OrientationRequested.PORTRAIT;
+								break;
+						}
+						printRequestAttributeSet.add(orientation);
+					}
+
 					if (displayPageDialog)
 					{
 						printerJob.pageDialog(printRequestAttributeSet);
