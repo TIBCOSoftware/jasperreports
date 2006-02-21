@@ -2,6 +2,16 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.1 (2006-0x-xx)
+-----------------------------------
+- support for URL stream handlers;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.0 (2006-02-06)
 -----------------------------------
 - support for other query languages including HQL and XPath implementations;
