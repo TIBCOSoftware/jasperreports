@@ -1339,32 +1339,31 @@ public class JRPdfExporter extends JRAbstractExporter
 		*/
 
 		Font font = null;
+		PdfFont pdfFont = null;
+		FontKey key = new FontKey(jrFont.getFontName(), jrFont.isBold(), jrFont.isItalic());
+
+		if (fontMap != null && fontMap.containsKey(key)) 
+		{
+			pdfFont = (PdfFont) fontMap.get(key);
+		}
+		else 
+		{
+			pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
+		}
+		
 		try
 		{
-			FontKey key = new FontKey(jrFont.getFontName(), jrFont.isBold(), jrFont.isItalic());
-			if (fontMap != null && fontMap.containsKey(key)) {
-				PdfFont pdfFont = (PdfFont) fontMap.get(key);
-				font = FontFactory.getFont(
-					pdfFont.getPdfFontName(),
-					pdfFont.getPdfEncoding(),
-					pdfFont.isPdfEmbedded(),
-					jrFont.getFontSize(),
-//					(jrFont.isBold() ? Font.BOLD : 0) | (jrFont.isItalic() ? Font.ITALIC : 0) |
-					(jrFont.isUnderline() ? Font.UNDERLINE : 0) | (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
-					forecolor
-					);
-			}
-			else {
-				font = FontFactory.getFont(
-					jrFont.getPdfFontName(),
-					jrFont.getPdfEncoding(),
-					jrFont.isPdfEmbedded(),
-					jrFont.getFontSize(),
-//					(jrFont.isBold() ? Font.BOLD : 0) | (jrFont.isItalic() ? Font.ITALIC : 0) |
-					(jrFont.isUnderline() ? Font.UNDERLINE : 0) | (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
-					forecolor
-					);
-			}
+			font = FontFactory.getFont(
+				pdfFont.getPdfFontName(),
+				pdfFont.getPdfEncoding(),
+				pdfFont.isPdfEmbedded(),
+				jrFont.getFontSize(),
+				(pdfFont.isPdfSimulatedBold() ? Font.BOLD : 0) 
+					| (pdfFont.isPdfSimulatedItalic() ? Font.ITALIC : 0) 
+					| (jrFont.isUnderline() ? Font.UNDERLINE : 0) 
+					| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+				forecolor
+				);
 			
 			// check if FontFactory didn't find the font
 			if (font.getBaseFont() == null && font.family() == Font.UNDEFINED)
@@ -1383,25 +1382,25 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = JRLoader.loadBytesFromLocation(jrFont.getPdfFontName(), classLoader, urlHandlerFactory);
+				bytes = JRLoader.loadBytesFromLocation(pdfFont.getPdfFontName(), classLoader, urlHandlerFactory);
 			}
 			catch(JRException e)
 			{
 				throw 
 					new JRException(
 						"Could not load the following font : " 
-						+ "\npdfFontName   : " + jrFont.getPdfFontName() 
-						+ "\npdfEncoding   : " + jrFont.getPdfEncoding() 
-						+ "\nisPdfEmbedded : " + jrFont.isPdfEmbedded(), 
+						+ "\npdfFontName   : " + pdfFont.getPdfFontName() 
+						+ "\npdfEncoding   : " + pdfFont.getPdfEncoding() 
+						+ "\nisPdfEmbedded : " + pdfFont.isPdfEmbedded(), 
 						initialException
 						);
 			}
 
 			BaseFont baseFont =
 				BaseFont.createFont(
-					jrFont.getPdfFontName(),
-					jrFont.getPdfEncoding(),
-					jrFont.isPdfEmbedded(),
+					pdfFont.getPdfFontName(),
+					pdfFont.getPdfEncoding(),
+					pdfFont.isPdfEmbedded(),
 					true,
 					bytes,
 					null
@@ -1411,9 +1410,9 @@ public class JRPdfExporter extends JRAbstractExporter
 				new Font(
 					baseFont,
 					jrFont.getFontSize(),
-					//((jrFont.isBold())?Font.BOLD:0) +
-					//((jrFont.isItalic())?Font.ITALIC:0) +
-					(jrFont.isUnderline() ? Font.UNDERLINE : 0) 
+					((pdfFont.isPdfSimulatedBold()) ? Font.BOLD : 0) 
+						| ((pdfFont.isPdfSimulatedItalic()) ? Font.ITALIC : 0) 
+						| (jrFont.isUnderline() ? Font.UNDERLINE : 0) 
 						| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
 					forecolor
 					);
