@@ -125,26 +125,26 @@
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="550" width="150" height="90" forecolor="#ff" backcolor="#ffdd99"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="sansserif" size="12" isBold="false" isItalic="true" pdfFontName="Arial.Slanted"/>
+					<font fontName="sansserif" size="12" isBold="false" isItalic="true" pdfFontName="Arial.Slanted" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="550" width="390" height="90"/>
 				<textElement/>
-				<text><![CDATA[<staticText><reportElement x="0" y="550" width="150" height="90" forecolor="blue" backcolor="#FFDD99" mode="Opaque"/><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="sansserif" size="12" isBold="false" pdfFontName="Arial.Slanted"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
+				<text><![CDATA[<staticText><reportElement x="0" y="550" width="150" height="90" forecolor="blue" backcolor="#FFDD99" mode="Opaque"/><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="sansserif" size="12" isBold="false" pdfFontName="Arial.Slanted" isPdfEmbedded="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="650" width="150" height="90" forecolor="#ff0000" backcolor="#99ddff"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font fontName="sansserif" size="12" isBold="true" pdfFontName="Arial Bold"/>
+					<font fontName="sansserif" size="12" isBold="true" pdfFontName="Arial Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="650" width="390" height="90"/>
 				<textElement/>
-				<text><![CDATA[<staticText><reportElement x="0" y="650" width="150" height="90" forecolor="red" backcolor="#99DDFF" mode="Opaque"/><textElement textAlignment="Right" verticalAlignment="Bottom"><font fontName="sansserif" size="12" isBold="true" pdfFontName="Arial Bold"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
+				<text><![CDATA[<staticText><reportElement x="0" y="650" width="150" height="90" forecolor="red" backcolor="#99DDFF" mode="Opaque"/><textElement textAlignment="Right" verticalAlignment="Bottom"><font fontName="sansserif" size="12" isBold="true" pdfFontName="Arial Bold" isPdfEmbedded="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 			</staticText>
 		</band>
 	</title>
