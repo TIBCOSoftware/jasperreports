@@ -121,8 +121,8 @@ public class FontsApp
 				JRPdfExporter exporter = new JRPdfExporter();
 
 				HashMap fontMap = new HashMap();
-				FontKey key = new FontKey("sansserif", false, true);
-				PdfFont font = new PdfFont("COMICBD.TTF", "Cp1252", false);
+				FontKey key = new FontKey("Comic Sans MS", true, false);
+				PdfFont font = new PdfFont("COMICBD.TTF", "Cp1252", true);
 				fontMap.put(key, font);
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);

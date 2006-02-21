@@ -125,7 +125,7 @@ public class StyledTextApp
 				fontMap.put(new FontKey("Arial", true, false), new PdfFont("Helvetica-Bold", "Cp1252", false));
 				fontMap.put(new FontKey("Arial", false, true), new PdfFont("Helvetica-Oblique", "Cp1252", false));
 				fontMap.put(new FontKey("Arial", true, true), new PdfFont("Helvetica-BoldOblique", "Cp1252", false));
-				fontMap.put(new FontKey("Comic Sans MS", false, false), new PdfFont("COMICBD.TTF", "Cp1252", false));
+				fontMap.put(new FontKey("Comic Sans MS", false, false), new PdfFont("COMICBD.TTF", "Cp1252", true));
 
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
