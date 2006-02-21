@@ -5,6 +5,12 @@
 	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="AlternateDetail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#C0C0C0"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
 	<queryString><![CDATA[SELECT * FROM Address ORDER BY City]]></queryString>
@@ -60,52 +66,6 @@
 		</band>
 		</groupFooter>
 	</group>
-	<group name="EvenGroup">
-		<groupExpression><![CDATA[$V{REPORT_COUNT}]]></groupExpression>
-		<groupHeader>
-		<band height="15">
-			<printWhenExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 1 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
-			<textField>
-				<reportElement x="0" y="0" width="55" height="15"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="55" y="0" width="205" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="260" y="0" width="255" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]]></textFieldExpression>
-			</textField>
-		</band>
-		</groupHeader>
-	</group>
-	<group name="OddGroup">
-		<groupExpression><![CDATA[$V{REPORT_COUNT}]]></groupExpression>
-		<groupHeader>
-		<band height="15">
-			<printWhenExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="55" height="15" backcolor="#c0c0c0"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Opaque" x="55" y="0" width="205" height="15" backcolor="#c0c0c0"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" mode="Opaque" x="260" y="0" width="255" height="15" backcolor="#c0c0c0"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]]></textFieldExpression>
-			</textField>
-		</band>
-		</groupHeader>
-	</group>
 	<title>
 		<band height="50">
 			<line>
@@ -143,7 +103,25 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band>
+		<band height="15">
+			<frame>
+				<reportElement x="0" y="0" width="515" height="15" style="AlternateDetail"/>
+				<textField>
+					<reportElement x="0" y="0" width="55" height="15"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="55" y="0" width="205" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="260" y="0" width="255" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</detail>
 	<pageFooter>
