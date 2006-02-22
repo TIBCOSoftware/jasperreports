@@ -6,6 +6,8 @@ JasperReports 1.2.1 (2006-0x-xx)
 -----------------------------------
 - support for URL stream handlers;
 
+- isPdfSimulatedBold and isPdfSimulatedItalic;
+
 - minor bug fixes and improvements;
 
 
