@@ -129,10 +129,10 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData, byte onErrorType)
 	{
-		if (imageData == null || imageData.length == 0)
-		{
-			return null;
-		}
+//		if (imageData == null || imageData.length == 0)
+//		{
+//			return null;
+//		}
 		return new JRImageRenderer(imageData, onErrorType);
 	}
 

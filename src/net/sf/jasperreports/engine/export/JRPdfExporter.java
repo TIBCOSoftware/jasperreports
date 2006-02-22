@@ -952,7 +952,11 @@ public class JRPdfExporter extends JRAbstractExporter
 							}
 							catch(Exception e)
 							{
-								java.awt.Image awtImage = JRImageLoader.loadImage(renderer.getImageData());
+								java.awt.Image awtImage = 
+									JRImageRenderer.getInstance(
+										renderer.getImageData(),
+										printImage.getOnErrorType()
+										).getImage();
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 
