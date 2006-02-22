@@ -1385,7 +1385,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write("<img");
 
-		String imagePath = "";
+		String imagePath = null;
 
 		byte scaleImage = image.getScaleImage();
 		JRRenderable renderer = image.getRenderer();
@@ -1452,7 +1452,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write(" src=\"");
-		writer.write(imagePath);
+		if (imagePath != null)
+			writer.write(imagePath);
 		writer.write("\"");
 
 		int borderWidth = 0;
