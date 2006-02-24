@@ -28,6 +28,9 @@
 package net.sf.jasperreports.view.save;
 
 import java.io.File;
+import java.text.MessageFormat;
+
+import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -78,10 +81,25 @@ public class JRCsvSaveContributor extends JRSaveContributor
 			file = new File(file.getAbsolutePath() + EXTENSION_CSV);
 		}
 		
-		JRCsvExporter exporter = new JRCsvExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
-		exporter.exportReport(); 
+		if (
+			!file.exists() ||
+			JOptionPane.OK_OPTION == 
+				JOptionPane.showConfirmDialog(
+					null, 
+					MessageFormat.format(
+						java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("file.exists"),
+						new Object[]{file.getName()}
+						), 
+					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"), 
+					JOptionPane.OK_CANCEL_OPTION
+					)
+			)
+		{
+			JRCsvExporter exporter = new JRCsvExporter();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
+			exporter.exportReport();
+		}
 	}
 
 }

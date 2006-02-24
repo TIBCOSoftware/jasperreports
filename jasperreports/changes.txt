@@ -8,6 +8,8 @@ JasperReports 1.2.1 (2006-0x-xx)
 
 - isPdfSimulatedBold and isPdfSimulatedItalic;
 
+- freezed serialVersionUID;
+
 - minor bug fixes and improvements;
 
 
