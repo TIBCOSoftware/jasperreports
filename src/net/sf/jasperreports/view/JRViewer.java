@@ -77,8 +77,8 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
+import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 
 /**
@@ -138,6 +138,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
+	private java.util.List saveContributors = new ArrayList();
+	
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
@@ -151,6 +153,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		loadReport(fileName, isXML);
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
+
+		initSaveContributors();
 
 		addHyperlinkListener(this);
 	}
@@ -169,6 +173,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
 
+		initSaveContributors();
+
 		addHyperlinkListener(this);
 	}
 
@@ -185,6 +191,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		loadReport(jrPrint);
 
 		cmbZoom.setSelectedIndex(defaultZoomIndex);
+
+		initSaveContributors();
 
 		addHyperlinkListener(this);
 	}
@@ -217,6 +225,33 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 *
 	 */
+	public void addSaveContributor(JRSaveContributor contributor)
+	{
+		saveContributors.add(contributor);
+	}
+
+
+	/**
+	 *
+	 */
+	public void removeSaveContributor(JRSaveContributor contributor)
+	{
+		saveContributors.remove(contributor);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRSaveContributor[] getSaveContributors()
+	{
+		return (JRSaveContributor[])saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
+	}
+
+
+	/**
+	 *
+	 */
 	public void addHyperlinkListener(JRHyperlinkListener listener)
 	{
 		hyperlinkListeners.add(listener);
@@ -241,6 +276,39 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	}
 
 
+	/**
+	 *
+	 */
+	protected void initSaveContributors()
+	{
+		final String[] DEFAULT_CONTRIBUTORS = 
+			{
+				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
+				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
+				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
+				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
+				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
+				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
+				"net.sf.jasperreports.view.save.JRCsvSaveContributor",
+				"net.sf.jasperreports.view.save.JRXmlSaveContributor",
+				"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor"
+			};
+		
+		for(int i = 0; i < DEFAULT_CONTRIBUTORS.length; i++)
+		{
+			try 
+			{
+				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
+				JRSaveContributor saveContrib = (JRSaveContributor)saveContribClass.newInstance();
+				saveContributors.add(saveContrib);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+	}
+
+	
 	/**
 	 *
 	 */
@@ -824,190 +892,54 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		JFileChooser fileChooser = new JFileChooser();
 
-		FileFilter jrprintFileFilter = 
-			new FileFilter()
-			{
-				public boolean accept(File file)
-				{
-					if (file.isDirectory())
-						return true;
-
-					return file.getName().toLowerCase().endsWith(".jrprint");
-				}
-				
-				public String getDescription(){ return "JasperReports (*.jrprint)"; }
-			};
-		fileChooser.addChoosableFileFilter(jrprintFileFilter);
-
-		JRSaveContributor pdfSaveContrib = null;
-		try 
+		for(int i = 0; i < saveContributors.size(); i++)
 		{
-			Class pdfSaveContribClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRPdfSaveContributor");
-			pdfSaveContrib = (JRSaveContributor)pdfSaveContribClass.newInstance();
-			fileChooser.addChoosableFileFilter(pdfSaveContrib);
-		}
-		catch (Exception e)
-		{
+			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
 		}
 		
-		JRSaveContributor rtfSaveContrib = null;
-		try {
-			Class rtfSaveContribClass= JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRRtfSaveContributor");
-			rtfSaveContrib = (JRSaveContributor)rtfSaveContribClass.newInstance();
-			fileChooser.addChoosableFileFilter(rtfSaveContrib);
-		}
-		catch(Exception ex)
+		if (saveContributors.size() > 0)
 		{
+			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
 		}
-	
-		JRSaveContributor htmlSaver = null;
-		try 
-		{
-			Class htmlSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRHtmlSaveContributor");
-			htmlSaver = (JRSaveContributor)htmlSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(htmlSaver);
-		}
-		catch (Exception e)
-		{
-		}
-	
-		JRSaveContributor xlsSingleSheetSaver = null;
-		try 
-		{
-			Class xlsSingleSheetSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor");
-			xlsSingleSheetSaver = (JRSaveContributor)xlsSingleSheetSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(xlsSingleSheetSaver);
-		}
-		catch (Exception e)
-		{
-		}
-	
-		JRSaveContributor xlsMultipleSheetsSaver = null;
-		try 
-		{
-			Class xlsMultipleSheetsSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor");
-			xlsMultipleSheetsSaver = (JRSaveContributor)xlsMultipleSheetsSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(xlsMultipleSheetsSaver);
-		}
-		catch (Exception e)
-		{
-		}
-	
-		JRSaveContributor csvSaver = null;
-		try 
-		{
-			Class csvSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRCsvSaveContributor");
-			csvSaver = (JRSaveContributor)csvSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(csvSaver);
-		}
-		catch (Exception e)
-		{
-		}
-	
-		JRSaveContributor xmlSaver = null;
-		try 
-		{
-			Class xmlSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JRXmlSaveContributor");
-			xmlSaver = (JRSaveContributor)xmlSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(xmlSaver);
-		}
-		catch (Exception e)
-		{
-		}
-	
-		JRSaveContributor xmlEmbeddedImagesSaver = null;
-		try 
-		{
-			Class xmlEmbeddedImagesSaverClass = JRClassLoader.loadClassForName("net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor");
-			xmlEmbeddedImagesSaver = (JRSaveContributor)xmlEmbeddedImagesSaverClass.newInstance();
-			fileChooser.addChoosableFileFilter(xmlEmbeddedImagesSaver);
-		}
-		catch (Exception e)
-		{
-		}
-
-		fileChooser.setFileFilter(jrprintFileFilter);
 	
 		int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION)
 		{
 			FileFilter fileFilter = fileChooser.getFileFilter();
 			File file = fileChooser.getSelectedFile();
-			String lowerCaseFileName = file.getName().toLowerCase();
+
+			JRSaveContributor contributor = null;
 			
+			if (fileFilter instanceof JRSaveContributor)
+			{
+				contributor = (JRSaveContributor)fileFilter;
+			}
+			else
+			{
+				int i = 0;
+				while(contributor == null && i < saveContributors.size())
+				{
+					contributor = (JRSaveContributor)saveContributors.get(i++);
+					if (!contributor.accept(file))
+					{
+						contributor = null;
+					}
+				}
+				
+				if (contributor == null)
+				{
+					contributor = new JRPrintSaveContributor();
+				}
+			}
+
 			try
 			{
-				if (fileFilter == jrprintFileFilter)
-				{
-					if (!file.getName().endsWith(".jrprint"))
-					{
-						file = new File(file.getAbsolutePath() + ".jrprint");
-					}
-					
-					JRSaver.saveObject(jasperPrint, file);
-				}
-				else if (fileFilter instanceof JRSaveContributor)
-				{
-					((JRSaveContributor)fileFilter).save(jasperPrint, file);
-				}
-				else
-				{
-					if (lowerCaseFileName.endsWith(".jrprint"))
-					{
-						JRSaver.saveObject(jasperPrint, file);
-					}
-					else if (
-						lowerCaseFileName.endsWith(".pdf") 
-						&& pdfSaveContrib != null
-						)
-					{
-						pdfSaveContrib.save(jasperPrint, file);
-					}
-					else if (
-						(lowerCaseFileName.endsWith(".html") 
-						|| lowerCaseFileName.endsWith(".htm"))
-						&& htmlSaver != null
-						)
-					{
-						htmlSaver.save(jasperPrint, file);
-					}
-					else if (
-						lowerCaseFileName.endsWith(".xls")
-						&& xlsSingleSheetSaver != null
-						)
-					{
-						xlsSingleSheetSaver.save(jasperPrint, file);
-					}
-					else if (
-						lowerCaseFileName.endsWith(".csv")
-						&& csvSaver != null
-						)
-					{
-						csvSaver.save(jasperPrint, file);
-					}
-					else if (
-						lowerCaseFileName.endsWith(".xml") 
-						|| lowerCaseFileName.endsWith(".jrpxml")
-						&& xmlSaver != null
-						)
-					{
-						xmlSaver.save(jasperPrint, file);
-					}
-					else
-					{
-						if (!file.getName().endsWith(".jrprint"))
-						{
-							file = new File(file.getAbsolutePath() + ".jrprint");
-						}
-						
-						JRSaver.saveObject(jasperPrint, file);
-					}
-				}
+				contributor.save(jasperPrint, file);
 			}
 			catch (JRException e)
 			{
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.saving"));
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.saving"));
 			}
 		}
 	}//GEN-LAST:event_btnSaveActionPerformed
@@ -1077,7 +1009,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						catch (Exception ex) 
 						{
 							ex.printStackTrace();
-							JOptionPane.showMessageDialog(null, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.printing"));
+							JOptionPane.showMessageDialog(JRViewer.this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.printing"));
 						}
 					}
 				}

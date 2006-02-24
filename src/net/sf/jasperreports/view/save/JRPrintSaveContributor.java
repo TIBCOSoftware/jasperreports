@@ -33,23 +33,21 @@ import java.text.MessageFormat;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHtmlSaveContributor extends JRSaveContributor
+public class JRPrintSaveContributor extends JRSaveContributor
 {
 
 	/**
 	 * 
 	 */
-	private static final String EXTENSION_HTM = ".htm"; 
-	private static final String EXTENSION_HTML = ".html"; 
+	private static final String EXTENSION_JRPRINT = ".jrprint"; 
 
 	
 	/**
@@ -61,8 +59,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 		{
 			return true;
 		}
-		String name = file.getName().toLowerCase();
-		return (name.endsWith(EXTENSION_HTM) || name.endsWith(EXTENSION_HTML));
+		return file.getName().toLowerCase().endsWith(EXTENSION_JRPRINT);
 	}
 
 	/**
@@ -70,7 +67,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	public String getDescription()
 	{
-		return "HTML (*.htm, *.html)";
+		return "JasperReports (*.jrprint)";
 	}
 
 	/**
@@ -78,14 +75,11 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
-		if (
-			!file.getName().endsWith(EXTENSION_HTM)
-			&& !file.getName().endsWith(EXTENSION_HTML)
-			)
+		if (!file.getName().endsWith(EXTENSION_JRPRINT))
 		{
-			file = new File(file.getAbsolutePath() + EXTENSION_HTML);
+			file = new File(file.getAbsolutePath() + EXTENSION_JRPRINT);
 		}
-			
+		
 		if (
 			!file.exists() ||
 			JOptionPane.OK_OPTION == 
@@ -100,10 +94,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRHtmlExporter exporter = new JRHtmlExporter();
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
-			exporter.exportReport(); 
+			JRSaver.saveObject(jasperPrint, file);
 		}
 	}
 
