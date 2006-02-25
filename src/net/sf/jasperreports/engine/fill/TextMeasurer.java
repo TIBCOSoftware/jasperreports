@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
@@ -38,6 +37,7 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
 
 /**
@@ -55,7 +55,7 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	private JRFillTextElement fillTextElement = null;
+	private JRTextElement textElement = null;
 
 
 	/**
@@ -86,25 +86,25 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	public TextMeasurer(JRFillTextElement fillTextElement)
+	public TextMeasurer(JRTextElement textElement)
 	{
-		this.fillTextElement = fillTextElement;
+		this.textElement = textElement;
 
 		/*   */
-		width = fillTextElement.getWidth();
-		height = fillTextElement.getHeight();
+		width = textElement.getWidth();
+		height = textElement.getHeight();
 		
-		topPadding = fillTextElement.getTopPadding();
-		leftPadding = fillTextElement.getLeftPadding();
-		bottomPadding = fillTextElement.getBottomPadding();
-		rightPadding = fillTextElement.getRightPadding();
+		topPadding = textElement.getTopPadding();
+		leftPadding = textElement.getLeftPadding();
+		bottomPadding = textElement.getBottomPadding();
+		rightPadding = textElement.getRightPadding();
 
-		switch (fillTextElement.getRotation())
+		switch (textElement.getRotation())
 		{
 			case JRTextElement.ROTATION_LEFT :
 			{
-				width = fillTextElement.getHeight();
-				height = fillTextElement.getWidth();
+				width = textElement.getHeight();
+				height = textElement.getWidth();
 				int tmpPadding = topPadding;
 				topPadding = leftPadding;
 				leftPadding = bottomPadding;
@@ -114,8 +114,8 @@ public class TextMeasurer
 			}
 			case JRTextElement.ROTATION_RIGHT :
 			{
-				width = fillTextElement.getHeight();
-				height = fillTextElement.getWidth();
+				width = textElement.getHeight();
+				height = textElement.getWidth();
 				int tmpPadding = topPadding;
 				topPadding = rightPadding;
 				rightPadding = bottomPadding;
@@ -130,7 +130,7 @@ public class TextMeasurer
 		}
 		
 		/*   */
-		switch (fillTextElement.getLineSpacing())
+		switch (textElement.getLineSpacing())
 		{
 			case JRTextElement.LINE_SPACING_SINGLE : 
 			{
@@ -153,15 +153,7 @@ public class TextMeasurer
 			}
 		}
 
-		/*   */
-		if (fillTextElement.isStyledText())
-		{
-			maxFontSizeFinder = new StyledTextMaxFontFinder();
-		}
-		else
-		{
-			maxFontSizeFinder = new DefaultMaxFontFinder();
-		}
+		maxFontSizeFinder = MaxFontSizeFinder.getInstance(textElement.isStyledText());
 	}
 	
 	/**
@@ -288,7 +280,7 @@ public class TextMeasurer
 							lineStartPosition, 
 							lineStartPosition + layout.getCharacterCount()
 							).getIterator(),
-						fillTextElement.getFontSize()
+						textElement.getFontSize()
 						);
 						
 				if (lines == 1)
@@ -333,7 +325,7 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	protected float getTextHeight()
+	public float getTextHeight()
 	{
 		return textHeight + 1;
 	}
@@ -341,11 +333,11 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	protected float getLineSpacingFactor()
+	public float getLineSpacingFactor()
 	{
 		if (lines > 0)
 		{
-			return getTextHeight() / fontSizeSum;
+			return textHeight / fontSizeSum;
 		}
 		return 0;
 	}
@@ -353,68 +345,9 @@ public class TextMeasurer
 	/**
 	 * 
 	 */
-	protected float getLeadingOffset()
+	public float getLeadingOffset()
 	{
 		return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
 	}
 	
-}
-
-
-/**
- * 
- */
-interface MaxFontSizeFinder
-{
-	/**
-	 * 
-	 */
-	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize);
-}
-
-
-/**
- * 
- */
-class StyledTextMaxFontFinder implements MaxFontSizeFinder
-{
-	
-	private static final Float ZERO = new Float(0);
-	
-	/**
-	 * 
-	 */
-	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize)
-	{
-		line.setIndex(0);
-		Float maxFontSize = ZERO;
-		int runLimit = 0;
-
-		while(runLimit < line.getEndIndex() && (runLimit = line.getRunLimit(TextAttribute.SIZE)) <= line.getEndIndex())
-		{
-			Float size = (Float)line.getAttribute(TextAttribute.SIZE);
-			if (maxFontSize.compareTo(size) < 0)
-			{
-				maxFontSize = size;
-			}
-			line.setIndex(runLimit);
-		}
-
-		return maxFontSize.intValue();
-	}
-}
-
-
-/**
- * 
- */
-class DefaultMaxFontFinder implements MaxFontSizeFinder
-{
-	/**
-	 * 
-	 */
-	public int findMaxFontSize(AttributedCharacterIterator line, int defaultFontSize)
-	{
-		return defaultFontSize;
-	}
 }

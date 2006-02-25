@@ -38,6 +38,7 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
 
 /**
@@ -56,12 +57,21 @@ public class TextRenderer
 	private float formatWidth = 0;
 	private float verticalOffset = 0;
 	private float floatLineSpacing = 0;
+	private float lineSpacingFactor = 0;
+	private float leadingOffset = 0;
 	private int maxHeight = 0;
+	private float textHeight = 0;
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
 	private byte horizontalAlignment = 0;
+	private int fontSize = 0;
 	
+	/**
+	 * 
+	 */
+	private MaxFontSizeFinder maxFontSizeFinder = null;
+
 	
 	/**
 	 * 
@@ -80,6 +90,10 @@ public class TextRenderer
 		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
 		byte initLineSpacing,
+		float initLineSpacingFactor,
+		float initLeadingOffset,
+		int initFontSize,
+		boolean isStyledText,
 		JRStyledText styledText,
 		String allText
 		)
@@ -98,7 +112,11 @@ public class TextRenderer
 			initTextHeight, 
 			initHorizontalAlignment, 
 			initVerticalAlignment, 
-			initLineSpacing
+			initLineSpacing,
+			initLineSpacingFactor,
+			initLeadingOffset,
+			initFontSize,
+			isStyledText
 			);
 		
 		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
@@ -152,7 +170,11 @@ public class TextRenderer
 		float initTextHeight,
 		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
-		byte initLineSpacing
+		byte initLineSpacing,
+		float initLineSpacingFactor,
+		float initLeadingOffset,
+		int initFontSize,
+		boolean isStyledText
 		)
 	{
 		this.grx = initGrx;
@@ -207,6 +229,9 @@ public class TextRenderer
 			}
 		}
 
+		this.lineSpacingFactor = initLineSpacingFactor;
+		this.leadingOffset = initLeadingOffset;
+
 		this.x = initX;
 		this.y = initY;
 		this.topPadding = initTopPadding;
@@ -216,10 +241,14 @@ public class TextRenderer
 		maxHeight = initHeight - initTopPadding - initBottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 
+		textHeight = 0;
 		drawPosY = 0;
 		drawPosX = 0;
 	
 		isMaxHeightReached = false;
+		
+		this.fontSize = initFontSize;
+		maxFontSizeFinder = MaxFontSizeFinder.getInstance(isStyledText);
 	}
 	
 	/**
@@ -275,10 +304,22 @@ public class TextRenderer
 			layout = new TextLayout(tmpText.getIterator(), LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
 			//eugene fix - end
 
-			drawPosY += layout.getLeading() + floatLineSpacing * layout.getAscent();
+			textHeight += layout.getLeading() + floatLineSpacing * layout.getAscent();
 
-			if (drawPosY + layout.getDescent() <= maxHeight)
+			float lineHeight = lineSpacingFactor * 
+				maxFontSizeFinder.findMaxFontSize(
+					new AttributedString(
+						paragraph, 
+						startIndex, 
+						startIndex + layout.getCharacterCount()
+						).getIterator(),
+					fontSize
+					);
+
+			if (drawPosY + lineHeight <= maxHeight)
 			{
+				drawPosY += lineHeight;
+				
 				switch (horizontalAlignment)
 				{
 					case JRAlignment.HORIZONTAL_ALIGN_JUSTIFIED :
@@ -316,22 +357,15 @@ public class TextRenderer
 				}
 
 				draw(layout);
-				drawPosY += layout.getDescent();
+
+				textHeight += layout.getDescent();
 			}
 			else
 			{
-				drawPosY -= layout.getLeading() + floatLineSpacing * layout.getAscent();
+				textHeight -= layout.getLeading() + floatLineSpacing * layout.getAscent();
 				isMaxHeightReached = true;
 			}
 		}
-	}
-	
-	/**
-	 * 
-	 */
-	public float getTextHeight()
-	{
-		return drawPosY + 1;
 	}
 	
 	/**
@@ -342,7 +376,7 @@ public class TextRenderer
 		layout.draw(
 			grx,
 			drawPosX + x + leftPadding,
-			drawPosY + y + topPadding + verticalOffset
+			drawPosY + y + topPadding + verticalOffset + leadingOffset
 			);
 	}
 	
