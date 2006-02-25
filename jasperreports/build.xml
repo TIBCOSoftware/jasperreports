@@ -131,6 +131,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyleResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ObjectIOHelperBase.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ObjectIOHelper.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>

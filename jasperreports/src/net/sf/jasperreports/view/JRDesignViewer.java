@@ -40,7 +40,6 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -88,6 +87,7 @@ import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRImageLoader;
@@ -140,13 +140,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private int downY = 0;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
-	protected TextRenderer simulationTextRenderer = 
-		new TextRenderer()
-		{
-			public void draw(TextLayout layout) 
-			{
-			}
-		};
 	protected TextRenderer textRenderer = new TextRenderer();
 
 	
@@ -1571,22 +1564,12 @@ public class JRDesignViewer extends javax.swing.JPanel
 		grx.setColor(text.getForecolor());
 
 		/*   */
-		simulationTextRenderer.render(
-			grx, 
-			x, 
-			y, 
-			width, 
-			height,
-			topPadding,
-			leftPadding,
-			bottomPadding,
-			rightPadding,
-			0f, 
-			text.getHorizontalAlignment(), 
-			text.getVerticalAlignment(), 
-			text.getLineSpacing(), 
+		TextMeasurer textMeasurer = new TextMeasurer(text);
+		textMeasurer.measure(
 			styledText, 
-			allText
+			allText,
+			0,
+			0
 			);
 		
 		/*   */
@@ -1600,10 +1583,14 @@ public class JRDesignViewer extends javax.swing.JPanel
 			leftPadding,
 			bottomPadding,
 			rightPadding,
-			simulationTextRenderer.getTextHeight(), 
+			textMeasurer.getTextHeight(), 
 			text.getHorizontalAlignment(), 
 			text.getVerticalAlignment(), 
 			text.getLineSpacing(), 
+			textMeasurer.getLineSpacingFactor(),
+			textMeasurer.getLeadingOffset(),
+			text.getFontSize(),
+			text.isStyledText(),
 			styledText, 
 			allText
 			);
