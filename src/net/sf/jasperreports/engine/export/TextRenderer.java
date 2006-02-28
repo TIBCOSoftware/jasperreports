@@ -60,7 +60,6 @@ public class TextRenderer
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
 	private int maxHeight = 0;
-	private float textHeight = 0;
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
@@ -241,7 +240,6 @@ public class TextRenderer
 		maxHeight = initHeight - initTopPadding - initBottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 
-		textHeight = 0;
 		drawPosY = 0;
 		drawPosX = 0;
 	
@@ -304,8 +302,6 @@ public class TextRenderer
 			layout = new TextLayout(tmpText.getIterator(), LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
 			//eugene fix - end
 
-			textHeight += layout.getLeading() + floatLineSpacing * layout.getAscent();
-
 			float lineHeight = lineSpacingFactor * 
 				maxFontSizeFinder.findMaxFontSize(
 					new AttributedString(
@@ -357,12 +353,9 @@ public class TextRenderer
 				}
 
 				draw(layout);
-
-				textHeight += layout.getDescent();
 			}
 			else
 			{
-				textHeight -= layout.getLeading() + floatLineSpacing * layout.getAscent();
 				isMaxHeightReached = true;
 			}
 		}
