@@ -483,8 +483,12 @@ public class JRGridLayout
 	
 	public static int getRowHeight(JRExporterGridCell[][] grid, int rowIdx)
 	{
-		JRExporterGridCell[] row = grid[rowIdx];
-		
+		return getRowHeight(grid[rowIdx]);
+	}
+	
+	
+	public static int getRowHeight(JRExporterGridCell[] row)
+	{
 		if (row[0].rowSpan == 1 && row[0] != JRExporterGridCell.OCCUPIED_CELL) //quick exit
 		{
 			return row[0].height;

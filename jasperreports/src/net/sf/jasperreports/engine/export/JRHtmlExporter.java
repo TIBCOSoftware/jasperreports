@@ -694,72 +694,72 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
-				writer.write("<tr valign=\"top\">\n");
-
+				JRExporterGridCell[] gridRow = grid[y];
+				
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
-				int lastRowHeight = JRGridLayout.getRowHeight(grid, y);
-
-				for(int x = 0; x < grid[y].length; x++)
+				int rowHeight = JRGridLayout.getRowHeight(gridRow);
+				
+				boolean hasEmptyCell = hasEmptyCell(gridRow);
+				
+				writer.write("<tr valign=\"top\"");
+				if (!hasEmptyCell)
 				{
-					if(grid[y][x].element != null)
+					writer.write(" style=\"height:" + rowHeight + sizeUnit + "\"");
+				}
+				writer.write(">\n");
+
+				for(int x = 0; x < gridRow.length; x++)
+				{
+					JRExporterGridCell gridCell = gridRow[x];
+					if(gridCell.element != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
-							writer.write("  <td");
-							if (emptyCellColSpan > 1)
-							{
-								writer.write(" colspan=\"" + emptyCellColSpan + "\"");
-							}
-							writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"/></td>\n");
+							writeEmptyCell(emptyCellColSpan, emptyCellWidth, rowHeight);
 							emptyCellColSpan = 0;
 							emptyCellWidth = 0;
 						}
 
-						element = grid[y][x].element;
+						element = gridCell.element;
 
 						if (element instanceof JRPrintLine)
 						{
-							exportLine((JRPrintLine)element, grid[y][x]);
+							exportLine((JRPrintLine)element, gridCell);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, grid[y][x]);
+							exportRectangle(element, gridCell);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, grid[y][x]);
+							exportRectangle(element, gridCell);
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							exportImage((JRPrintImage)element, grid[y][x]);
+							exportImage((JRPrintImage)element, gridCell);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							exportText((JRPrintText)element, grid[y][x]);
+							exportText((JRPrintText)element, gridCell);
 						}
 						else if (element instanceof JRPrintFrame)
 						{
-							exportFrame((JRPrintFrame) element, grid[y][x]);
+							exportFrame((JRPrintFrame) element, gridCell);
 						}
 
-						x += grid[y][x].colSpan - 1;
+						x += gridCell.colSpan - 1;
 					}
 					else
 					{
 						emptyCellColSpan++;
-						emptyCellWidth += grid[y][x].width;
+						emptyCellWidth += gridCell.width;
 					}
 				}
 
 				if (emptyCellColSpan > 0)
 				{
-					writer.write("  <td");
-					if (emptyCellColSpan > 1)
-					{
-						writer.write(" colspan=\"" + emptyCellColSpan + "\"");
-					}
-					writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + lastRowHeight + sizeUnit + "\"/></td>\n");
+					writeEmptyCell(emptyCellColSpan, emptyCellWidth, rowHeight);
 				}
 
 				writer.write("</tr>\n");
@@ -772,6 +772,38 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write("</table>\n");
+	}
+
+
+	private boolean hasEmptyCell(JRExporterGridCell[] gridRow)
+	{
+		if (gridRow[0].element == null) // quick exit
+		{
+			return true;
+		}
+		
+		boolean hasEmptyCell = false;
+		for(int x = 1; x < gridRow.length; x++)
+		{
+			if (gridRow[x].element == null)
+			{
+				hasEmptyCell = true;
+				break;
+			}
+		}
+
+		return hasEmptyCell;
+	}
+
+
+	private void writeEmptyCell(int emptyCellColSpan, int emptyCellWidth, int rowHeight) throws IOException
+	{
+		writer.write("  <td");
+		if (emptyCellColSpan > 1)
+		{
+			writer.write(" colspan=\"" + emptyCellColSpan + "\"");
+		}
+		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + rowHeight + sizeUnit + "\"/></td>\n");
 	}
 
 
