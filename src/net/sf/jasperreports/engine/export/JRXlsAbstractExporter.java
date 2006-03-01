@@ -325,17 +325,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
+				JRExporterGridCell[] gridRow = grid[y];
+				
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
-				int lastRowHeight = JRGridLayout.getRowHeight(grid, y);
+				int lastRowHeight = JRGridLayout.getRowHeight(gridRow);
 				
 				setRowHeight(rowIndex, lastRowHeight);
 	
-				for(int x = 0; x < grid[y].length; x++)
+				for(int x = 0; x < gridRow.length; x++)
 				{
 					setCell(x, rowIndex);
 	
-					if(grid[y][x].element != null)
+					JRExporterGridCell gridCell = gridRow[x];
+					if(gridCell.element != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -348,40 +351,40 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 	
-						JRPrintElement element = grid[y][x].element;
+						JRPrintElement element = gridCell.element;
 	
 						if (element instanceof JRPrintLine)
 						{
-							exportLine((JRPrintLine)element, grid[y][x], x, rowIndex);
+							exportLine((JRPrintLine)element, gridCell, x, rowIndex);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, grid[y][x], x, rowIndex);
+							exportRectangle(element, gridCell, x, rowIndex);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, grid[y][x], x, rowIndex);
+							exportRectangle(element, gridCell, x, rowIndex);
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							exportImage((JRPrintImage) element, grid[y][x], x, rowIndex);
+							exportImage((JRPrintImage) element, gridCell, x, rowIndex);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							exportText((JRPrintText)element, grid[y][x], x, rowIndex);
+							exportText((JRPrintText)element, gridCell, x, rowIndex);
 						}
 						else if (element instanceof JRPrintFrame)
 						{
-							exportFrame((JRPrintFrame) element, grid[y][x], x, y);
+							exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
 						}
 
-						x += grid[y][x].colSpan - 1;
+						x += gridCell.colSpan - 1;
 					}
 					else
 					{
 						emptyCellColSpan++;
-						emptyCellWidth += grid[y][x].width;
-						addBlankCell(grid[y][x], x, rowIndex);
+						emptyCellWidth += gridCell.width;
+						addBlankCell(gridCell, x, rowIndex);
 					}
 				}
 	
