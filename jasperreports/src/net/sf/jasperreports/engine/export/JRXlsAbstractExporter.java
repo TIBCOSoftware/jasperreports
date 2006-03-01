@@ -35,11 +35,11 @@ import org.xml.sax.SAXException;
 public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 {
 
-	static class TextAlignHolder
+	protected static class TextAlignHolder
 	{
-		final short horizontalAlignment;
-		final short verticalAlignment;
-		final short rotation;
+		public final short horizontalAlignment;
+		public final short verticalAlignment;
+		public final short rotation;
 
 		public TextAlignHolder(short horizontalAlignment, short verticalAlignment, short rotation)
 		{
