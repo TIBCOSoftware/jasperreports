@@ -712,7 +712,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				text.getTextHeight(), 
 				text.getHorizontalAlignment(), 
 				text.getVerticalAlignment(), 
-				text.getLineSpacing(),
 				text.getLineSpacingFactor(),
 				text.getLeadingOffset(),
 				text.getFontSize(),

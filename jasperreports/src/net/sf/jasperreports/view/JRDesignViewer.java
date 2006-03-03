@@ -1586,7 +1586,6 @@ public class JRDesignViewer extends javax.swing.JPanel
 			textMeasurer.getTextHeight(), 
 			text.getHorizontalAlignment(), 
 			text.getVerticalAlignment(), 
-			text.getLineSpacing(), 
 			textMeasurer.getLineSpacingFactor(),
 			textMeasurer.getLeadingOffset(),
 			text.getFontSize(),

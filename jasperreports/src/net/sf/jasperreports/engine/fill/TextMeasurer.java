@@ -269,9 +269,7 @@ public class TextMeasurer
 			
 			textHeight += layout.getLeading() + lineSpacing * layout.getAscent();
 
-			// we consider the extra pixel that is going to be added 
-			// in the end to the overall text height. see getTextHeight() below
-			if (textHeight + layout.getDescent() + 1 <= maxHeight)   
+			if (textHeight + layout.getDescent() <= maxHeight)   
 			{
 				lines++;
 
@@ -329,9 +327,7 @@ public class TextMeasurer
 	 */
 	public float getTextHeight()
 	{
-		// we add an extra pixel to make sure the text field 
-		// is tall enough and letters do not get cut at the bottom.
-		return textHeight + 1;
+		return textHeight;// + 1;
 	}
 	
 	/**
