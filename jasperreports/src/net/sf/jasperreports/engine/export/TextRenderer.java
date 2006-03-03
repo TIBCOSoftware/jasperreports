@@ -312,7 +312,9 @@ public class TextRenderer
 					fontSize
 					);
 
-			if (drawPosY + lineHeight <= maxHeight)
+			// maybe this has no effect, but we consider the extra pixel that was added 
+			// to the overall text height. see TextMeasurer.getTextHeight()
+			if (drawPosY + lineHeight + 1 <= maxHeight)
 			{
 				drawPosY += lineHeight;
 				
