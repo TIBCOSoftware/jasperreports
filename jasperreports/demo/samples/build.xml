@@ -41,6 +41,7 @@
 		<ant dir="barbecue" target="html" />
 		<ant dir="barbecue" target="rtf" />
 		<ant dir="barbecue" target="xls" />
+		<ant dir="barbecue" target="jxl" />
 		<ant dir="barbecue" target="csv" />
 
 		<echo message=""/>
@@ -55,6 +56,7 @@
 		<ant dir="batchexport" target="html" />
 		<ant dir="batchexport" target="rtf" />
 		<ant dir="batchexport" target="xls" />
+		<ant dir="batchexport" target="jxl" />
 		<ant dir="batchexport" target="csv" />
 
 		<echo message=""/>
@@ -89,6 +91,7 @@
 		<ant dir="crosstabs" target="html" />
 		<ant dir="crosstabs" target="rtf" />
 		<ant dir="crosstabs" target="xls" />
+		<ant dir="crosstabs" target="jxl" />
 		<ant dir="crosstabs" target="xmlEmbed" />
 		<ant dir="crosstabs" target="xml" />
 
@@ -106,6 +109,7 @@
 		<ant dir="csvdatasource" target="html" />
 		<ant dir="csvdatasource" target="rtf" />
 		<ant dir="csvdatasource" target="xls" />
+		<ant dir="csvdatasource" target="jxl" />
 		<ant dir="csvdatasource" target="csv" />
 
 		<echo message=""/>
@@ -125,6 +129,7 @@
 		<ant dir="datasource" target="html" />
 		<ant dir="datasource" target="rtf" />
 		<ant dir="datasource" target="xls" />
+		<ant dir="datasource" target="jxl" />
 		<ant dir="datasource" target="csv" />
 
 		<echo message=""/>
@@ -141,6 +146,7 @@
 		<ant dir="fonts" target="html" />
 		<ant dir="fonts" target="rtf" />
 		<ant dir="fonts" target="xls" />
+		<ant dir="fonts" target="jxl" />
 		<ant dir="fonts" target="csv" />
 
 		<echo message=""/>
@@ -167,6 +173,7 @@
 		<ant dir="hibernate" target="html" />
 		<ant dir="hibernate" target="rtf" />
 		<ant dir="hibernate" target="xls" />
+		<ant dir="hibernate" target="jxl" />
 		<ant dir="hibernate" target="csv" />
 
 		<echo message=""/>
@@ -183,6 +190,7 @@
 		<ant dir="horizontal" target="html" />
 		<ant dir="horizontal" target="rtf" />
 		<ant dir="horizontal" target="xls" />
+		<ant dir="horizontal" target="jxl" />
 		<ant dir="horizontal" target="csv" />
 
 		<echo message=""/>
@@ -200,6 +208,7 @@
 		<ant dir="hyperlink" target="html" />
 		<ant dir="hyperlink" target="rtf" />
 		<ant dir="hyperlink" target="xls" />
+		<ant dir="hyperlink" target="jxl" />
 		<ant dir="hyperlink" target="csv" />
 
 		<echo message=""/>
@@ -214,6 +223,7 @@
 		<ant dir="i18n" target="html" />
 		<ant dir="i18n" target="rtf" />
 		<ant dir="i18n" target="xls" />
+		<ant dir="i18n" target="jxl" />
 		<ant dir="i18n" target="csv" />
 
 		<echo message=""/>
@@ -230,6 +240,7 @@
 		<ant dir="images" target="html" />
 		<ant dir="images" target="rtf" />
 		<ant dir="images" target="xls" />
+		<ant dir="images" target="jxl" />
 		<ant dir="images" target="csv" />
 
 		<echo message=""/>
@@ -246,6 +257,7 @@
 		<ant dir="jasper" target="html" />
 		<ant dir="jasper" target="rtf" />
 		<ant dir="jasper" target="xls" />
+		<ant dir="jasper" target="jxl" />
 		<ant dir="jasper" target="csv" />
 
 		<echo message=""/>
@@ -269,19 +281,9 @@
 		<ant dir="jcharts" target="html" />
 		<ant dir="jcharts" target="rtf" />
 		<ant dir="jcharts" target="xls" />
+		<ant dir="jcharts" target="jxl" />
 		<ant dir="jcharts" target="csv" />
 
-		<echo message=""/>
-		<echo message="==================================="/>
-		<echo message=" JExcelApi Sample"/>
-		<echo message="==================================="/>
-		<ant dir="jexcelapi" target="clean" />
-		<ant dir="jexcelapi" target="javac" />
-		<ant dir="jexcelapi" target="compile" />
-		<ant dir="jexcelapi" target="fill" />
-		<ant dir="jexcelapi" target="pdf" />
-		<ant dir="jexcelapi" target="xls" />
-		
 		<echo message=""/>
 		<echo message="==================================="/>
 		<echo message=" JFreeChart Sample"/>
@@ -296,6 +298,7 @@
 		<ant dir="jfreechart" target="html" />
 		<ant dir="jfreechart" target="rtf" />
 		<ant dir="jfreechart" target="xls" />
+		<ant dir="jfreechart" target="jxl" />
 		<ant dir="jfreechart" target="csv" />
 
 		<echo message=""/>
@@ -312,6 +315,7 @@
 		<ant dir="landscape" target="html" />
 		<ant dir="landscape" target="rtf" />
 		<ant dir="landscape" target="xls" />
+		<ant dir="landscape" target="jxl" />
 		<ant dir="landscape" target="csv" />
 
 		<echo message=""/>
@@ -328,6 +332,7 @@
 		<ant dir="nopagebreak" target="html" />
 		<ant dir="nopagebreak" target="rtf" />
 		<ant dir="nopagebreak" target="xls" />
+		<ant dir="nopagebreak" target="jxl" />
 		<ant dir="nopagebreak" target="csv" />
 
 		<echo message=""/>
@@ -343,6 +348,7 @@
 		<ant dir="noreport" target="html" />
 		<ant dir="noreport" target="rtf" />
 		<ant dir="noreport" target="xls" />
+		<ant dir="noreport" target="jxl" />
 		<ant dir="noreport" target="csv" />
 
 		<echo message=""/>
@@ -360,6 +366,7 @@
 		<ant dir="noxmldesign" target="html" />
 		<ant dir="noxmldesign" target="rtf" />
 		<ant dir="noxmldesign" target="xls" />
+		<ant dir="noxmldesign" target="jxl" />
 		<ant dir="noxmldesign" target="csv" />
 
 		<echo message=""/>
@@ -394,6 +401,7 @@
 		<ant dir="query" target="html" />
 		<ant dir="query" target="rtf" />
 		<ant dir="query" target="xls" />
+		<ant dir="query" target="jxl" />
 		<ant dir="query" target="csv" />
 
 		<echo message=""/>
@@ -410,6 +418,7 @@
 		<ant dir="rotation" target="html" />
 		<ant dir="rotation" target="rtf" />
 		<ant dir="rotation" target="xls" />
+		<ant dir="rotation" target="jxl" />
 		<ant dir="rotation" target="csv" />
 
 		<echo message=""/>
@@ -426,6 +435,7 @@
 		<ant dir="scriptlet" target="html" />
 		<ant dir="scriptlet" target="rtf" />
 		<ant dir="scriptlet" target="xls" />
+		<ant dir="scriptlet" target="jxl" />
 		<ant dir="scriptlet" target="csv" />
 
 		<echo message=""/>
@@ -442,6 +452,7 @@
 		<ant dir="shapes" target="html" />
 		<ant dir="shapes" target="rtf" />
 		<ant dir="shapes" target="xls" />
+		<ant dir="shapes" target="jxl" />
 		<ant dir="shapes" target="csv" />
 
 		<echo message=""/>
@@ -458,6 +469,7 @@
 		<ant dir="stretch" target="html" />
 		<ant dir="stretch" target="rtf" />
 		<ant dir="stretch" target="xls" />
+		<ant dir="stretch" target="jxl" />
 		<ant dir="stretch" target="csv" />
 
 		<echo message=""/>
@@ -474,6 +486,7 @@
 		<ant dir="styledtext" target="html" />
 		<ant dir="styledtext" target="rtf" />
 		<ant dir="styledtext" target="xls" />
+		<ant dir="styledtext" target="jxl" />
 		<ant dir="styledtext" target="csv" />
 
 		<echo message=""/>
@@ -490,6 +503,7 @@
 		<ant dir="subreport" target="html" />
 		<ant dir="subreport" target="rtf" />
 		<ant dir="subreport" target="xls" />
+		<ant dir="subreport" target="jxl" />
 		<ant dir="subreport" target="csv" />
 
 		<echo message=""/>
@@ -506,6 +520,7 @@
 		<ant dir="table" target="html" />
 		<ant dir="table" target="rtf" />
 		<ant dir="table" target="xls" />
+		<ant dir="table" target="jxl" />
 		<ant dir="table" target="csv" />
 
 		<echo message=""/>
@@ -522,6 +537,7 @@
 		<ant dir="tableofcontents" target="html" />
 		<ant dir="tableofcontents" target="rtf" />
 		<ant dir="tableofcontents" target="xls" />
+		<ant dir="tableofcontents" target="jxl" />
 		<ant dir="tableofcontents" target="csv" />
 
 		<echo message=""/>
@@ -549,6 +565,7 @@
 		<ant dir="unicode" target="html" />
 		<ant dir="unicode" target="rtf" />
 		<ant dir="unicode" target="xls" />
+		<ant dir="unicode" target="jxl" />
 		<ant dir="unicode" target="csv" />
 
 		<echo message=""/>
@@ -581,6 +598,7 @@
 		<ant dir="xmldatasource" target="html" />
 		<ant dir="xmldatasource" target="rtf" />
 		<ant dir="xmldatasource" target="xls" />
+		<ant dir="xmldatasource" target="jxl" />
 		<ant dir="xmldatasource" target="csv" />
 	</target>
 
@@ -605,7 +623,6 @@
 		<ant dir="jasper" target="clean" />
 		<ant dir="java1.5" target="clean" />
 		<ant dir="jcharts" target="clean" />
-		<ant dir="jexcelapi" target="clean"/>
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
 		<ant dir="nopagebreak" target="clean" />

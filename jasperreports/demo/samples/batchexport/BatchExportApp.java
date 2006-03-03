@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -59,6 +60,7 @@ public class BatchExportApp
 	private static final String TASK_HTML = "html";
 	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
+	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	
 	
@@ -168,6 +170,24 @@ public class BatchExportApp
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_JXL.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				
+				JExcelApiExporter exporter = new JExcelApiExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+				
+				exporter.exportReport();
+
+				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else if (TASK_CSV.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
@@ -211,7 +231,7 @@ public class BatchExportApp
 	{
 		System.out.println( "BatchExportApp usage:" );
 		System.out.println( "\tjava BatchExportApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | csv" );
+		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv" );
 	}
 
 
