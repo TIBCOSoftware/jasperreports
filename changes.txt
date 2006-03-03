@@ -10,6 +10,8 @@ JasperReports 1.2.1 (2006-0x-xx)
 
 - freezed serialVersionUID;
 
+- JExcelApi exporter moved to core library;
+
 - minor bug fixes and improvements;
 
 

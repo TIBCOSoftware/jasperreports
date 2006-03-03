@@ -94,10 +94,18 @@
 		</java>
 	</target>
 
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
 			<arg value="-F${file.name}.xls"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tjxl"/>
+			<arg value="-F${file.name}.jxl.xls"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
