@@ -36,7 +36,6 @@ import java.text.AttributedString;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAlignment;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
@@ -56,7 +55,6 @@ public class TextRenderer
 	private int leftPadding = 0;
 	private float formatWidth = 0;
 	private float verticalOffset = 0;
-	private float floatLineSpacing = 0;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
 	private int maxHeight = 0;
@@ -88,7 +86,6 @@ public class TextRenderer
 		float initTextHeight,
 		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
-		byte initLineSpacing,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -111,7 +108,6 @@ public class TextRenderer
 			initTextHeight, 
 			initHorizontalAlignment, 
 			initVerticalAlignment, 
-			initLineSpacing,
 			initLineSpacingFactor,
 			initLeadingOffset,
 			initFontSize,
@@ -169,7 +165,6 @@ public class TextRenderer
 		float initTextHeight,
 		byte initHorizontalAlignment,
 		byte initVerticalAlignment,
-		byte initLineSpacing,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -201,30 +196,6 @@ public class TextRenderer
 			default :
 			{
 				verticalOffset = 0f;
-			}
-		}
-
-		floatLineSpacing = 1f;
-		switch (initLineSpacing)
-		{
-			case JRTextElement.LINE_SPACING_SINGLE :
-			{
-				floatLineSpacing = 1f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_1_1_2 :
-			{
-				floatLineSpacing = 1.5f;
-				break;
-			}
-			case JRTextElement.LINE_SPACING_DOUBLE :
-			{
-				floatLineSpacing = 2f;
-				break;
-			}
-			default :
-			{
-				floatLineSpacing = 1f;
 			}
 		}
 
@@ -312,9 +283,7 @@ public class TextRenderer
 					fontSize
 					);
 
-			// maybe this has no effect, but we consider the extra pixel that was added 
-			// to the overall text height. see TextMeasurer.getTextHeight()
-			if (drawPosY + lineHeight + 1 <= maxHeight)
+			if (drawPosY + lineHeight <= maxHeight)
 			{
 				drawPosY += lineHeight;
 				
