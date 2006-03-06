@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -66,6 +67,7 @@ public class SubreportApp
 	private static final String TASK_HTML = "html";
 	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
+	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_RUN = "run";
 	
@@ -172,6 +174,25 @@ public class SubreportApp
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 				
+				exporter.exportReport();
+
+				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
+			else if (TASK_JXL.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+
+				JExcelApiExporter exporter = new JExcelApiExporter();
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
