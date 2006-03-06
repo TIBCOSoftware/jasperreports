@@ -165,20 +165,23 @@ public abstract class JREvaluator
 	{
 		Object value = null;
 		
-		try
+		if (expression != null)
 		{
-			value = evaluate(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
+			try
+			{
+				value = evaluate(expression.getId());
+			}
+			catch (NullPointerException e)
+			{
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			catch (Throwable e)
+			{
+				throw new JRExpressionEvalException(expression, e);
+			}
 		}
 		
 		return value;
@@ -192,20 +195,23 @@ public abstract class JREvaluator
 	{
 		Object value = null;
 		
-		try
+		if (expression != null)
 		{
-			value = evaluateOld(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
+			try
+			{
+				value = evaluateOld(expression.getId());
+			}
+			catch (NullPointerException e)
+			{
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			catch (Throwable e)
+			{
+				throw new JRExpressionEvalException(expression, e);
+			}
 		}
 		
 		return value;
@@ -219,20 +225,23 @@ public abstract class JREvaluator
 	{
 		Object value = null;
 		
-		try
+		if (expression != null)
 		{
-			value = evaluateEstimated(expression.getId());
-		}
-		catch (NullPointerException e)
-		{
-		}
-		catch (OutOfMemoryError e)
-		{
-			throw e;
-		}
-		catch (Throwable e)
-		{
-			throw new JRExpressionEvalException(expression, e); 
+			try
+			{
+				value = evaluateEstimated(expression.getId());
+			}
+			catch (NullPointerException e)
+			{
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			catch (Throwable e)
+			{
+				throw new JRExpressionEvalException(expression, e);
+			}
 		}
 		
 		return value;
