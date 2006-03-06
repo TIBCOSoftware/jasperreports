@@ -126,7 +126,7 @@
 		</java>
 	</target>
 
-	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file." depends="check1.5">
+	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the POI library." depends="check1.5">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
 			<arg value="-F${file.name}.jrprint"/>
