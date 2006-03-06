@@ -32,7 +32,7 @@
 		<antcall target="runAll"/>
 	</target>
 	
-	<target name="runAll" depends="javac,compile,fill,pdf,xml,html,xls,rtf,csv">
+	<target name="runAll" depends="javac,compile,fill,pdf,xml,html,xls,jxl,rtf,csv">
 	</target>
 	
 	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application." depends="check1.5">
@@ -129,6 +129,14 @@
 	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the POI library." depends="check1.5">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Txls"/>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Tjxl"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
