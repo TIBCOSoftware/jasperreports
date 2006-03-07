@@ -268,7 +268,7 @@ public class TextMeasurer
 			isLeftToRight = isLeftToRight && layout.isLeftToRight();
 			
 			textHeight += layout.getLeading() + lineSpacing * layout.getAscent();
-
+			
 			if (textHeight + layout.getDescent() <= maxHeight)   
 			{
 				lines++;
@@ -327,7 +327,7 @@ public class TextMeasurer
 	 */
 	public float getTextHeight()
 	{
-		return textHeight;// + 1;
+		return textHeight;
 	}
 	
 	/**
