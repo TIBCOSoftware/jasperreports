@@ -254,7 +254,7 @@ public class SubreportApp
 	{
 		System.out.println( "SubreportApp usage:" );
 		System.out.println( "\tjava SubreportApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 

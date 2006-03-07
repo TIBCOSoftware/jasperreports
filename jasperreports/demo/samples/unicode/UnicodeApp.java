@@ -250,7 +250,7 @@ public class UnicodeApp
 	{
 		System.out.println( "UnicodeApp usage:" );
 		System.out.println( "\tjava UnicodeApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 

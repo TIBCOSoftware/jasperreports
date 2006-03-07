@@ -268,7 +268,7 @@ public class TableOfContentsApp
 	{
 		System.out.println( "TableOfContentsApp usage:" );
 		System.out.println( "\tjava TableOfContentsApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 

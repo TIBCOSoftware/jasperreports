@@ -268,7 +268,7 @@ public class QueryApp
 	{
 		System.out.println( "QueryApp usage:" );
 		System.out.println( "\tjava QueryApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : compile | fill | fillIgnorePagination | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 

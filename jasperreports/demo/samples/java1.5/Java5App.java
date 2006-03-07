@@ -228,7 +228,7 @@ public class Java5App
 	{
 		System.out.println("Java5App usage:");
 		System.out.println("\tjava GroovyApp -Ttask -Ffile");
-		System.out.println("\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run");
+		System.out.println("\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run");
 	}
 
 }

@@ -238,7 +238,7 @@ public class LandscapeApp
 	{
 		System.out.println( "LandscapeApp usage:" );
 		System.out.println( "\tjava LandscapeApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 
