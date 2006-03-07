@@ -237,7 +237,7 @@ public class ShapesApp
 	{
 		System.out.println( "ShapesApp usage:" );
 		System.out.println( "\tjava ShapesApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 
