@@ -286,7 +286,7 @@ public class DataSourceApp
 	{
 		System.out.println( "DataSourceApp usage:" );
 		System.out.println( "\tjava DataSourceApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill1 | fill2 | fill3 | fill4 | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 

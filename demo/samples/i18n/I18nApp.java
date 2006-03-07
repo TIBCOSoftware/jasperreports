@@ -294,7 +294,7 @@ public class I18nApp
 	{
 		System.out.println( "I18nApp usage:" );
 		System.out.println( "\tjava I18nApp task file" );
-		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | csv" );
+		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv" );
 	}
 
 

@@ -245,7 +245,7 @@ public class HyperlinkApp
 	{
 		System.out.println( "HyperlinkApp usage:" );
 		System.out.println( "\tjava HyperlinkApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | run | csv | writeXml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run | writeXml" );
 	}
 
 

@@ -284,7 +284,7 @@ public class NoXmlDesignApp
 	{
 		System.out.println( "NoXmlDesignApp usage:" );
 		System.out.println( "\tjava NoXmlDesignApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : compile | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run | writeXml" );
+		System.out.println( "\tTasks : compile | fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run | writeXml" );
 	}
 
 

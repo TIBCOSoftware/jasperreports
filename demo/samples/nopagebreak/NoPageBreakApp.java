@@ -267,7 +267,7 @@ public class NoPageBreakApp
 	{
 		System.out.println( "NoPageBreakApp usage:" );
 		System.out.println( "\tjava NoPageBreakApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
 	}
 
 
