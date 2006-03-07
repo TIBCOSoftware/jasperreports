@@ -57,7 +57,7 @@ public class TextRenderer
 	private float verticalOffset = 0;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
-	private int maxHeight = 0;
+	private float textHeight = 0;
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
@@ -208,8 +208,7 @@ public class TextRenderer
 		this.leftPadding = initLeftPadding;
 		formatWidth = initWidth - initLeftPadding - initRightPadding;
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
-		maxHeight = initHeight - initTopPadding - initBottomPadding;
-		maxHeight = maxHeight < 0 ? 0 : maxHeight;
+		this.textHeight = initTextHeight;
 
 		drawPosY = 0;
 		drawPosX = 0;
@@ -283,7 +282,7 @@ public class TextRenderer
 					fontSize
 					);
 
-			if (drawPosY + lineHeight <= maxHeight)
+			if (drawPosY + lineHeight <= textHeight)
 			{
 				drawPosY += lineHeight;
 				
