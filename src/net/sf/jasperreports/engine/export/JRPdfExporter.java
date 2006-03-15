@@ -151,6 +151,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected boolean isCreatingBatchModeBookmarks = false;
+	protected boolean isCompressed = false;
 	protected boolean isEncrypted = false;
 	protected boolean is128BitKey = false;
 	protected String userPassword = null;
@@ -222,6 +223,12 @@ public class JRPdfExporter extends JRAbstractExporter
 				isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarksParameter.booleanValue();
 			}
 	
+			Boolean isCompressedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_COMPRESSED);
+			if (isCompressedParameter != null)
+			{
+				isCompressed = isCompressedParameter.booleanValue();
+			}
+			
 			Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
 			if (isEncryptedParameter != null)
 			{
@@ -331,6 +338,9 @@ public class JRPdfExporter extends JRAbstractExporter
 			if (pdfVersion != null)
 				pdfWriter.setPdfVersion(pdfVersion.charValue());
 
+			if (isCompressed)
+				pdfWriter.setFullCompression();
+            
 			if (isEncrypted)
 			{
 				pdfWriter.setEncryption(

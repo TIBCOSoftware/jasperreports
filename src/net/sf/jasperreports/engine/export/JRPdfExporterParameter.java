@@ -65,10 +65,14 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static final JRPdfExporterParameter IS_CREATING_BATCH_MODE_BOOKMARKS = new JRPdfExporterParameter("Is Creating Batch Mode Bookmarks");
 
 	/**
+	 * A boolean value specifying whether the PDF document should be compressed.
+	 */
+	public static final JRPdfExporterParameter IS_COMPRESSED = new JRPdfExporterParameter("Is Compressed");
+
+	/**
 	 * A boolean value specifying whether the final PDF document should be encrypted.
 	 */
 	public static final JRPdfExporterParameter IS_ENCRYPTED = new JRPdfExporterParameter("Is Encrypted");
-
 
 	/**
 	 * A boolean value specifying whether the encryption key is 128 bits.
@@ -128,6 +132,5 @@ public class JRPdfExporterParameter extends JRExporterParameter
      * The Creator or Application for the PDF document, as String, defaults to JasperReports. 
      */
     public static final JRPdfExporterParameter METADATA_CREATOR = new JRPdfExporterParameter("Metadata Creator");
-
 
 }
