@@ -1123,7 +1123,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 			else
 			{
-				for (int k = j + 1; k <= columnGroups.size(); ++j)
+				for (int k = j + 1; k <= columnGroups.size(); ++k)
 				{
 					if (crossCells[i][k] != null)
 					{
