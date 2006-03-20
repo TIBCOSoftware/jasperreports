@@ -110,7 +110,7 @@ public class JRCsvDataSource implements JRDataSource
 
 		Integer columnIndex = (Integer) columnNames.get(fieldName);
 		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
-			columnIndex = Integer.getInteger(fieldName.substring(7));
+			columnIndex = Integer.valueOf(fieldName.substring(7));
 		}
 		if (columnIndex == null)
 			throw new JRException("Unknown column name : " + fieldName);
