@@ -115,11 +115,11 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 					JRField field = fields[0];
 					if (useIndexOnSingleReturn)
 					{
-						readers.put(field.getName(), new IdentityFieldReader());
+						readers.put(field.getName(), new IndexFieldReader(0));
 					}
 					else
 					{
-						readers.put(field.getName(), new IndexFieldReader(0));
+						readers.put(field.getName(), new IdentityFieldReader());
 					}
 				}
 			}
