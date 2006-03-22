@@ -396,6 +396,13 @@ public class JRVerifier
 							break;
 						}
 						case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
+						{
+							if (!parametersMap.containsKey(queryChunk.getText()))
+							{
+								brokenRules.add("Query parameter not found : " + queryChunk.getText());
+							}
+							break;
+						}
 						case JRQueryChunk.TYPE_TEXT :
 						default :
 						{

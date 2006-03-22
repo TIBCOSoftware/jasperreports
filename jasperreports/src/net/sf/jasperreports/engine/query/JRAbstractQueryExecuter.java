@@ -158,7 +158,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		if (parameter == null)
 		{
-			throw new JRRuntimeException("Paramater " + parameterName + " does not exist.");
+			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
 		}
 		
 		return parameter;
