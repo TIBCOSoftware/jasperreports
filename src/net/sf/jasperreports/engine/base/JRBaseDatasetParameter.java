@@ -69,10 +69,7 @@ public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 	 */
 	protected JRBaseDatasetParameter(JRDatasetParameter datasetParameter, JRBaseObjectFactory factory)
 	{
-		if (factory != null)
-		{
-			factory.put(datasetParameter, this);
-		}
+		factory.put(datasetParameter, this);
 
 		name = datasetParameter.getName();
 		expression = factory.getExpression(datasetParameter.getExpression());
