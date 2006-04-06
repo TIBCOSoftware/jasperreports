@@ -72,11 +72,7 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 			incrementType = dataset.getIncrementType();
 			resetGroup = dataset.getResetGroup();
 			incrementGroup = dataset.getIncrementGroup();
-			JRDatasetRun origDatasetRun = dataset.getDatasetRun();
-			if (origDatasetRun != null)
-			{
-				datasetRun = new JRBaseDatasetRun(origDatasetRun, null);
-			}
+			datasetRun = dataset.getDatasetRun();
 		}
 	}
 

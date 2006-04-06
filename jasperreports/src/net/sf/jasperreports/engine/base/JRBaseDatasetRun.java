@@ -67,10 +67,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	 */
 	protected JRBaseDatasetRun(JRDatasetRun datasetRun, JRBaseObjectFactory factory)
 	{
-		if (factory != null)
-		{
-			factory.put(datasetRun, this);
-		}
+		factory.put(datasetRun, this);
 		
 		datasetName = datasetRun.getDatasetName();
 		parametersMapExpression = factory.getExpression(datasetRun.getParametersMapExpression());
@@ -83,14 +80,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 			parameters = new JRBaseDatasetParameter[datasetParams.length];
 			for (int i = 0; i < parameters.length; i++)
 			{
-				if (factory != null)
-				{
-					parameters[i] = factory.getDatasetParameter(datasetParams[i]);
-				}
-				else
-				{
-					parameters[i] = new JRBaseDatasetParameter(datasetParams[i], null);
-				}
+				parameters[i] = factory.getDatasetParameter(datasetParams[i]);
 			}
 		}
 	}
