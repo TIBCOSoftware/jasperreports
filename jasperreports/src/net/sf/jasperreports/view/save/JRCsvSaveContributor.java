@@ -49,7 +49,15 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_CSV = ".csv"; 
+	public static final JRCsvSaveContributor INSTANCE = new JRCsvSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRCsvSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

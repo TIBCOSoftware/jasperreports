@@ -51,7 +51,15 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 	 */
 	private static final String EXTENSION_XML = ".xml"; 
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
+	public static final JREmbeddedImagesXmlSaveContributor INSTANCE = new JREmbeddedImagesXmlSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JREmbeddedImagesXmlSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

@@ -50,7 +50,15 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_XLS = ".xls"; 
+	public static final JRSingleSheetXlsSaveContributor INSTANCE = new JRSingleSheetXlsSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRSingleSheetXlsSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

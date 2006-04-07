@@ -45,8 +45,23 @@ import net.sf.jasperreports.view.JRSaveContributor;
 public class JRRtfSaveContributor extends JRSaveContributor 
 {
 
+	/**
+	 * 
+	 */
 	private static final String EXTENSION_RTF = ".rtf";
+	public static final JRRtfSaveContributor INSTANCE = new JRRtfSaveContributor(); 
+
+	/**
+	 * 
+	 */
+	public static JRRtfSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
+	/**
+	 * 
+	 */
 	public boolean accept(File file)
 	{
 		if(file.isDirectory()){
@@ -56,11 +71,17 @@ public class JRRtfSaveContributor extends JRSaveContributor
 	}
 
 	
+	/**
+	 * 
+	 */
 	public String getDescription()
 	{
 		return "RTF (*.rtf)";
 	}
 	
+	/**
+	 * 
+	 */
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if(!file.getName().endsWith(EXTENSION_RTF))
