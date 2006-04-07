@@ -95,7 +95,7 @@
 	isBlankWhenNull (true | false) #IMPLIED
 >
 
-<!ELEMENT conditionalStyle (conditionExpression, style)>
+<!ELEMENT conditionalStyle (conditionExpression?, style)>
 
 <!ELEMENT conditionExpression (#PCDATA)>
 
