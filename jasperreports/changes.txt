@@ -10,7 +10,7 @@ fonts or subreports using customized URL protocols;
 - new isPdfSimulatedBold and isPdfSimulatedItalic attributes available 
 for the PDF exporter font mappings;
 
-- serialVersionUID freezed at 10200; this will no longer be incremented 
+- serialVersionUID frozen at 10200; this will no longer be incremented 
 with every new release;
 
 - JExcelApi exporter moved to core library;
