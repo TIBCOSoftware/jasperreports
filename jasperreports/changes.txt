@@ -2,13 +2,16 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.1 (2006-0x-xx)
+JasperReports 1.2.1 (2006-04-07)
 -----------------------------------
-- support for URL stream handlers;
+- support for URL stream handlers to allow loading resources such as images, 
+fonts or subreports using customized URL protocols;
 
-- isPdfSimulatedBold and isPdfSimulatedItalic;
+- new isPdfSimulatedBold and isPdfSimulatedItalic attributes available 
+for the PDF exporter font mappings;
 
-- freezed serialVersionUID;
+- serialVersionUID freezed at 10200; this will no longer be incremented 
+with every new release;
 
 - JExcelApi exporter moved to core library;
 
