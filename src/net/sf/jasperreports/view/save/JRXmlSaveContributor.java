@@ -51,7 +51,15 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	 */
 	private static final String EXTENSION_XML = ".xml"; 
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
+	public static final JRXmlSaveContributor INSTANCE = new JRXmlSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRXmlSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

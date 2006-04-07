@@ -50,7 +50,15 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	 */
 	private static final String EXTENSION_HTM = ".htm"; 
 	private static final String EXTENSION_HTML = ".html"; 
+	public static final JRHtmlSaveContributor INSTANCE = new JRHtmlSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRHtmlSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

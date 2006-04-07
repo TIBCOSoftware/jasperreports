@@ -48,7 +48,15 @@ public class JRPrintSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_JRPRINT = ".jrprint"; 
+	public static final JRPrintSaveContributor INSTANCE = new JRPrintSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRPrintSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 

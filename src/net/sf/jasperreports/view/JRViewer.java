@@ -46,6 +46,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -299,7 +300,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			try 
 			{
 				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				JRSaveContributor saveContrib = (JRSaveContributor)saveContribClass.newInstance();
+				Method method = saveContribClass.getMethod("getInstance", null);
+				JRSaveContributor saveContrib = (JRSaveContributor)method.invoke(null, null);
 				saveContributors.add(saveContrib);
 			}
 			catch (Exception e)

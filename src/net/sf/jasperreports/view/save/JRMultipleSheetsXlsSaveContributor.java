@@ -50,7 +50,15 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_XLS = ".xls"; 
+	public static final JRMultipleSheetsXlsSaveContributor INSTANCE = new JRMultipleSheetsXlsSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRMultipleSheetsXlsSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 
