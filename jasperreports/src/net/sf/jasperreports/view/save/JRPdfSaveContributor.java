@@ -49,7 +49,15 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	 * 
 	 */
 	private static final String EXTENSION_PDF = ".pdf"; 
+	public static final JRPdfSaveContributor INSTANCE = new JRPdfSaveContributor(); 
 
+	/**
+	 * 
+	 */
+	public static JRPdfSaveContributor getInstance()
+	{
+		return INSTANCE;
+	}
 	
 	/**
 	 * 
