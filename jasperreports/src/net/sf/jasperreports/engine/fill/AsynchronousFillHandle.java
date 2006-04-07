@@ -61,6 +61,8 @@ public class AsynchronousFillHandle
 	protected boolean cancelled = false;
 	protected final Object lock;
 	
+	protected Integer priority = null;
+	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
 			Map parameters,
@@ -199,6 +201,11 @@ public class AsynchronousFillHandle
 					}
 				});
 		
+		if (priority != null)
+		{
+			fillThread.setPriority(priority.intValue());
+		}
+		
 		fillThread.start();
 	}
 
@@ -315,5 +322,24 @@ public class AsynchronousFillHandle
 		AsynchronousFillHandle filler = new AsynchronousFillHandle(jasperReport, parameters);
 		
 		return filler;
+	}
+	
+	
+	/**
+	 * Sets the priority of the filler thread.
+	 * 
+	 * @param priority the filler thread priority.
+	 * @see Thread#setPriority(int)
+	 */
+	public void setPriority (int priority)
+	{
+		synchronized (lock)
+		{
+			this.priority = new Integer(priority);
+			if (fillThread != null)
+			{
+				fillThread.setPriority(priority);
+			}
+		}
 	}
 }
