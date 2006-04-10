@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/jasperreports:jasperreports</connection>
-		<tag>jr-1-2-0</tag>
+		<tag>jr-1-2-1</tag>
 		<url>http://cvs.sourceforge.net/viewcvs.py/jasperreports/jasperreports/</url>
 	</scm>
 	<build>
@@ -72,7 +72,7 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>itext</groupId>
+			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>[1.02b,)</version>
 			<scope>compile</scope>
@@ -151,9 +151,8 @@
 		<dependency>
 			<groupId>com.keypoint</groupId>
 			<artifactId>png-encoder</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/png-encoder.jar</systemPath>
+			<version>1.5</version>
+			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
