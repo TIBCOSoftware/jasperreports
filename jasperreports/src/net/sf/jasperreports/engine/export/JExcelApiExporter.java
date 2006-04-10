@@ -119,6 +119,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private boolean isFontSizeFixEnabled = false;
 
 	private Pattern backgroundMode = Pattern.SOLID;
+	
+	private PngEncoderB pngEncoder;
+	
+	public JExcelApiExporter()
+	{
+		pngEncoder = new PngEncoderB();
+	}
 
 	protected void setParameters()
 	{
@@ -586,7 +593,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				
 					sheet.addCell(new Blank(x, y, cellStyle2));
 					WritableImage image = new WritableImage(x, y, gridCell.colSpan, gridCell.rowSpan, 
-															PngEncoderB.loadImageDataFromAWTImage(bi));
+															loadImageDataFromAWTImage(bi));
 					
 						
 					sheet.addImage(image);
@@ -603,6 +610,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				throw new JRException("The cell cannot be added", err);
 			}
 		//}
+	}
+
+	protected byte[] loadImageDataFromAWTImage(BufferedImage bi)
+	{
+		try
+		{
+			pngEncoder.setImage(bi);
+			return pngEncoder.pngEncode();
+		}
+		finally
+		{
+			pngEncoder.setImage(null);
+		}
 	}
 
 	private static Colour getNearestColour(Color awtColor)
@@ -951,20 +971,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
 			if (ps == null)
 			{
-				// ANSI X3.151-1987 - "Letter" (216 × 279 mm)
+				// ANSI X3.151-1987 - "Letter" (216 ï¿½ 279 mm)
 				if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216)))
 				{
 					ps = PaperSize.LETTER;
 				}
-				// ANSI X3.151-1987 - "Legal" (216 × 356 mm)
+				// ANSI X3.151-1987 - "Legal" (216 ï¿½ 356 mm)
 				if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216)))
 				{
 					ps = PaperSize.LEGAL;
 				}
-				// ANSI X3.151-1987 - "Executive" (190 × 254 mm)
+				// ANSI X3.151-1987 - "Executive" (190 ï¿½ 254 mm)
 				// Not supperted by JExcelApi yet.
 
-				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 × 432 mm)
+				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 ï¿½ 432 mm)
 				// Not supperted by JExcelApi yet.
 			}
 		}
@@ -1103,8 +1123,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	
 	
-	// Berechnungsvorschriften für die DIN Formate A, B, und C.
-	// Die Angabe der Breite/Höhe erfolgt in [mm].
+	// Berechnungsvorschriften fï¿½r die DIN Formate A, B, und C.
+	// Die Angabe der Breite/Hï¿½he erfolgt in [mm].
 
 	private final int calculateWidthForDinAN(int n)
 	{
