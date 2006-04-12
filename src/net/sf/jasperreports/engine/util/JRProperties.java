@@ -130,6 +130,13 @@ public class JRProperties
 	 */
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
 	
+	
+	/**
+	 * Property specifying the {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory JRSubreportRunnerFactory}
+	 * implementation to use for creating subreport runners.
+	 */
+	public static final String SUBREPORT_RUNNER_FACTORY = PROPERTY_PREFIX + "subreport.runner.factory";
+	
 	protected static Properties props;
 	
 	protected static Properties savedProps;
@@ -214,6 +221,8 @@ public class JRProperties
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "HQL", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "xPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "XPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
+
+		defaults.setProperty(SUBREPORT_RUNNER_FACTORY, "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory");
 
 		return defaults;
 	}

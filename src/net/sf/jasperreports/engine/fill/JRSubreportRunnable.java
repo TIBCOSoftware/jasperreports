@@ -25,38 +25,57 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
 /**
- * Query executer utility class.
+ * Abstract base for {@link java.lang.Runnable Runnable}-based
+ * {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner}
+ * implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRQueryExecuterUtils
+public abstract class JRSubreportRunnable implements Runnable
 {
-	private static final JRSingletonCache cache = new JRSingletonCache(JRQueryExecuterFactory.class);
+	private final JRFillSubreport fillSubreport;
 	
-	/**
-	 * Returns a query executer factory for a query language.
-	 * 
-	 * @param language the query language
-	 * @return a query executer factory
-	 * @throws JRException
-	 * @see JRProperties#QUERY_EXECUTER_FACTORY_PREFIX
-	 */
-	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
+	private Throwable error;
+	private boolean running;
+	
+	protected JRSubreportRunnable(JRFillSubreport fillSubreport)
 	{
-		String factoryClassName = JRProperties.getProperty(JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language);
-		if (factoryClassName == null)
-		{
-			throw new JRException("No query executer factory class registered for " + language + " queries.  " +
-					"Create a propery named " + JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
-		}
+		this.fillSubreport = fillSubreport;
+	}
+
+	protected JRSubreportRunResult runResult()
+	{
+		return new JRSubreportRunResult(!running, error);
+	}
+	
+	public void run()
+	{
+		running = true;		
+		error = null;
 		
-		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
+		try
+		{
+			fillSubreport.fillSubreport();
+		}
+		catch(JRFillInterruptedException e)
+		{
+			//If the subreport filler was interrupted, we should remain silent
+		}
+		catch(Throwable t)
+		{
+			error = t;
+		}
+
+		running = false;
+	}
+	
+	protected boolean isRunning()
+	{
+		return running;
 	}
 }

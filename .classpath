@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
 	<classpathentry kind="lib" path="lib/png-encoder.jar"/>
+	<classpathentry kind="lib" path="lib/commons-javaflow-20060411.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

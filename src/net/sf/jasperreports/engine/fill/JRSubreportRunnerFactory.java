@@ -25,38 +25,24 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
 /**
- * Query executer utility class.
+ * Factory of {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see net.sf.jasperreports.engine.util.JRProperties#SUBREPORT_RUNNER_FACTORY
  */
-public class JRQueryExecuterUtils
+public interface JRSubreportRunnerFactory
 {
-	private static final JRSingletonCache cache = new JRSingletonCache(JRQueryExecuterFactory.class);
-	
 	/**
-	 * Returns a query executer factory for a query language.
+	 * Creates a new {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner} instance.
 	 * 
-	 * @param language the query language
-	 * @return a query executer factory
-	 * @throws JRException
-	 * @see JRProperties#QUERY_EXECUTER_FACTORY_PREFIX
+	 * @param fillSubreport the subreport element of the master report
+	 * @param subreportFiller the subreport filler created to fill the subreport
+	 * @return a new {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner} instance
 	 */
-	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
-	{
-		String factoryClassName = JRProperties.getProperty(JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language);
-		if (factoryClassName == null)
-		{
-			throw new JRException("No query executer factory class registered for " + language + " queries.  " +
-					"Create a propery named " + JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
-		}
-		
-		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
-	}
+	JRSubreportRunner createSubreportRunner(JRFillSubreport fillSubreport, JRBaseFiller subreportFiller);
 }

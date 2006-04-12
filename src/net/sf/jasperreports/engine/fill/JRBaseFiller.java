@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -297,6 +298,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * TODO
 	 */
 	protected Map consolidatedStyles = new HashMap();
+	
+	private JRSubreportRunner subreportRunner;
 
 
 	/**
@@ -1531,5 +1534,20 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				(band.getHeight() == 0
 				&& (band.getElements() == null || band.getElements().length == 0)
 				&& band.getPrintWhenExpression() == null);
+	}
+	
+	protected void setSubreportRunner(JRSubreportRunner runner)
+	{
+		this.subreportRunner = runner;
+	}
+	
+	protected void suspendSubreportRunner() throws JRException
+	{
+		if (subreportRunner == null)
+		{
+			throw new JRRuntimeException("No subreport runner set.");
+		}
+
+		subreportRunner.suspend();
 	}
 }
