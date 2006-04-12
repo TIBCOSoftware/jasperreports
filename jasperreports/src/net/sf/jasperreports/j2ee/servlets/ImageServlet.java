@@ -58,11 +58,6 @@ public class ImageServlet extends HttpServlet
 	/**
 	 *
 	 */
-	public static final String DEFAULT_JASPER_PRINT_LIST_SESSION_ATTRIBUTE = "net.sf.jasperreports.j2ee.jasper_print_list";
-	public static final String DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE = "net.sf.jasperreports.j2ee.jasper_print";
-
-	public static final String JASPER_PRINT_LIST_REQUEST_PARAMETER = "jrprintlist";
-	public static final String JASPER_PRINT_REQUEST_PARAMETER = "jrprint";
 	public static final String IMAGE_NAME_REQUEST_PARAMETER = "image";
 
 			
