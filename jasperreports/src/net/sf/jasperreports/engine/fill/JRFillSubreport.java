@@ -64,6 +64,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.logging.Log;
@@ -74,7 +76,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillSubreport extends JRFillElement implements JRSubreport, Runnable
+public class JRFillSubreport extends JRFillElement implements JRSubreport
 {
 
 
@@ -82,6 +84,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	 *
 	 */
 	private static final Log log = LogFactory.getLog(JRFillSubreport.class);
+	
+	private static final JRSingletonCache runnerFactoryCache = new JRSingletonCache(JRSubreportRunnerFactory.class);
 
 	/**
 	 *
@@ -107,12 +111,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 	private JRReportFont[] subreportFonts = null;
 	private JRStyle[] subreportStyles = null;
 
-	/**
-	 *
-	 */
-	private Throwable error = null;
-	private Thread fillThread = null;
-	private boolean isRunning = false;
+	private JRSubreportRunner runner;
 	
 	/**
 	 * Set of checked reports.
@@ -348,24 +347,37 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 					}
 		
 					/*   */
-					switch (jasperReport.getPrintOrder())
-					{
-						case JRReport.PRINT_ORDER_HORIZONTAL :
-						{
-							subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, filler);
-							break;
-						}
-						case JRReport.PRINT_ORDER_VERTICAL :
-						{
-							subreportFiller = new JRVerticalFiller(jasperReport, evaluator, filler);
-							break;
-						}
-					}
+					initSubreportFiller(evaluator);
 					
 					checkReturnValues();
 				}
 			}
 		}
+	}
+
+
+	protected void initSubreportFiller(JREvaluator evaluator) throws JRException
+	{
+		switch (jasperReport.getPrintOrder())
+		{
+			case JRReport.PRINT_ORDER_HORIZONTAL :
+			{
+				subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, filler);
+				break;
+			}
+			case JRReport.PRINT_ORDER_VERTICAL :
+			{
+				subreportFiller = new JRVerticalFiller(jasperReport, evaluator, filler);
+				break;
+			}
+			default :
+			{
+				throw new JRRuntimeException("Unkown print order " + jasperReport.getPrintOrder() + ".");
+			}
+		}
+		
+		runner = getRunnerFactory().createSubreportRunner(this, subreportFiller);
+		subreportFiller.setSubreportRunner(runner);
 	}
 
 
@@ -460,56 +472,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		return parameterValues;
 	}
 
-
-	/**
-	 *
-	 */
-	public void run()
+	protected void fillSubreport() throws JRException
 	{
-		isRunning = true;
-		
-		error = null;
-		
-		try
+		if (getConnectionExpression() != null)
 		{
-			if (getConnectionExpression() != null)
-			{
-				subreportFiller.setConnectionParameterValue(parameterValues, connection);
-			}
-			else if (getDataSourceExpression() != null)
-			{
-				subreportFiller.setDatasourceParameterValue(parameterValues, dataSource);
-			}
-			
+			subreportFiller.fill(parameterValues, connection);
+		}
+		else if (getDataSourceExpression() != null)
+		{
+			subreportFiller.fill(parameterValues, dataSource);
+		}
+		else
+		{
 			subreportFiller.fill(parameterValues);
 		}
-		catch(JRFillInterruptedException e)
-		{
-			//If the subreport filler was interrupted, we should remain silent
-		}
-		catch(Throwable t)
-		{
-			error = t;
-		}
-		
-		isRunning = false;
-		
-		synchronized (subreportFiller)
-		{
-			//main filler notified that the subreport has finished
-			subreportFiller.notifyAll();
-		}
-
-/*
-		if (error != null)
-		{
-			synchronized (subreportFiller)
-			{
-				//if an exception occured then we should notify the main filler that we have finished the subreport
-				subreportFiller.notifyAll();
-			}
-		}
-		*/
 	}
 	
 
@@ -545,11 +521,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		
 		//subreportFiller.setPageHeight(getHeight() + availableStretchHeight);
 		
-		boolean notFilling = fillThread == null;
+		boolean filling = runner.isFilling();
 		boolean toPrint = !isOverflow || isPrintWhenDetailOverflows() || !isAlreadyPrinted();
 		boolean reprinted = isOverflow && isPrintWhenDetailOverflows();
 		
-		if (notFilling && toPrint && reprinted)
+		if (!filling && toPrint && reprinted)
 		{
 			rewind();
 		}
@@ -558,57 +534,42 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 
 		synchronized (subreportFiller)
 		{
-			if (notFilling)
+			JRSubreportRunResult result;
+			if (filling)
 			{
-				if (toPrint)
-				{
-					setReprinted(reprinted);
-					
-					fillThread = new Thread(this, subreportFiller.getJasperReport().getName() + " subreport filler");
-					fillThread.start();
-				}
-				else
-				{
-					printPage = null;
-					subreportFonts = null;
-					subreportStyles = null;
-					setStretchHeight(getHeight());
-					setToPrint(false);
-					
-					return willOverflow;
-				}
+				result = runner.resume();
+			}
+			else if (toPrint)
+			{
+				setReprinted(reprinted);
+
+				result = runner.start();
 			}
 			else
 			{
-				//notifing the subreport fill thread that it can continue on the next page
-				subreportFiller.notifyAll();
-			}
-		
-			try
-			{
-				//waiting for the subreport fill thread to fill the current page
-				subreportFiller.wait(); // FIXME maybe this is useless since you cannot enter 
-										// the synchornized bloc if the subreport filler hasn't 
-										// finished the page and passed to the wait state.
-			}
-			catch (InterruptedException e)
-			{
-				throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
+				printPage = null;
+				subreportFonts = null;
+				subreportStyles = null;
+				setStretchHeight(getHeight());
+				setToPrint(false);
+
+				return willOverflow;
 			}
 			
-			if (!isRunning)
+			if (result.getException() != null)
 			{
-				copyValues();
-			}
-			
-			if (error != null)
-			{
+				Throwable error = result.getException();
 				if (error instanceof RuntimeException)
 				{
-					throw (RuntimeException)error;
+					throw (RuntimeException) error;
 				}
 
 				throw new JRRuntimeException(error);
+			}
+
+			if (result.hasFinished())
+			{
+				copyValues();
 			}
 
 			printPage = subreportFiller.getCurrentPage();
@@ -618,12 +579,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page
-			willOverflow = isRunning;
+			willOverflow = !result.hasFinished();
 			
 			if (!willOverflow)
 			{
 				//the subreport fill thread has finished and the next time we shall create a new one
-				fillThread = null;
+				runner.reset();
 			}
 		}// synchronized
 		
@@ -652,45 +613,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		
 		// marking the subreport filler for interruption
 		subreportFiller.setInterrupted(true);
-		// notifying the subreport filling thread that it can continue.
-		// it will stop anyway when trying to fill the current band
+		
 		synchronized (subreportFiller)
 		{
-			subreportFiller.notifyAll();
-
-			if (isRunning)
-			{
-				try
-				{
-					//waits until the master filler notifies it that can continue with the next page
-					subreportFiller.wait();
-				}
-				catch(InterruptedException e)
-				{
-					throw new JRException("Error encountered while waiting on the subreport filling thread.", e);
-				}
-			}
+			// forcing the creation of a new thread and a new subreport filler
+			runner.cancel();
+			runner.reset();
 		}
-
-		// forcing the creation of a new thread and a new subreport filler
-		fillThread = null;
 
 		filler.unregisterSubfiller(subreportFiller);
 		
-		/*   */
-		switch (jasperReport.getPrintOrder())
-		{
-			case JRReport.PRINT_ORDER_HORIZONTAL :
-			{
-				subreportFiller = new JRHorizontalFiller(jasperReport, filler);
-				break;
-			}
-			case JRReport.PRINT_ORDER_VERTICAL :
-			{
-				subreportFiller = new JRVerticalFiller(jasperReport, filler);
-				break;
-			}
-		}
+		initSubreportFiller(null);//FIXME used chached evaluator
 
 		if (getConnectionExpression() == null && dataSource != null)
 		{
@@ -894,5 +827,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport, Runna
 		//not needed
 		return null;
 	}
-
+	
+	protected static JRSubreportRunnerFactory getRunnerFactory() throws JRException
+	{
+		String factoryClassName = JRProperties.getProperty(JRProperties.SUBREPORT_RUNNER_FACTORY);
+		if (factoryClassName == null)
+		{
+			throw new JRException("Property \"" + JRProperties.SUBREPORT_RUNNER_FACTORY + "\" must be set");
+		}
+		return (JRSubreportRunnerFactory) runnerFactoryCache.getCachedInstance(factoryClassName);
+	}
 }

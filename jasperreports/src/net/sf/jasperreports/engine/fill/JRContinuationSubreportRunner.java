@@ -25,38 +25,56 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+
+import org.apache.commons.javaflow.Continuation;
+
 
 /**
- * Query executer utility class.
+ * Implemetation of {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner}
+ * using <a href="http://jakarta.apache.org/commons/sandbox/javaflow/">Javaflow</a> continuations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRQueryExecuterUtils
+public class JRContinuationSubreportRunner extends JRSubreportRunnable implements JRSubreportRunner
 {
-	private static final JRSingletonCache cache = new JRSingletonCache(JRQueryExecuterFactory.class);
-	
-	/**
-	 * Returns a query executer factory for a query language.
-	 * 
-	 * @param language the query language
-	 * @return a query executer factory
-	 * @throws JRException
-	 * @see JRProperties#QUERY_EXECUTER_FACTORY_PREFIX
-	 */
-	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
+	private Continuation continuation;
+
+	public JRContinuationSubreportRunner(JRFillSubreport fillSubreport)
 	{
-		String factoryClassName = JRProperties.getProperty(JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language);
-		if (factoryClassName == null)
-		{
-			throw new JRException("No query executer factory class registered for " + language + " queries.  " +
-					"Create a propery named " + JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
-		}
-		
-		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
+		super(fillSubreport);
+	}
+
+	public boolean isFilling()
+	{
+		return continuation != null;
+	}
+
+	public JRSubreportRunResult start()
+	{
+		continuation = Continuation.startWith(this);
+		return runResult();
+	}
+
+	public JRSubreportRunResult resume()
+	{
+		continuation = Continuation.continueWith(continuation);
+		return runResult();
+	}
+
+	public void reset()
+	{
+		continuation = null;
+	}
+
+	public void cancel()
+	{
+	}
+
+	public void suspend()
+	{
+		Continuation.suspend();
 	}
 }

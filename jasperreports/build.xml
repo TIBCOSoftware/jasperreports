@@ -22,6 +22,25 @@
 				</fileset>
 			</classpath>
 		</javac>
+		
+		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</taskdef>
+
+		<javaflow srcdir="./build/classes" dstdir="./build/classes" mode="bcel">
+			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRHorizontalFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRFillSubreport.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRSubreportRunnable.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner.class"/>
+		</javaflow>
+
 		<copy todir="./build/classes">
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>

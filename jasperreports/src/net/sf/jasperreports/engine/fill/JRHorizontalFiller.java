@@ -1163,19 +1163,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				removePageIdentityDataProvider();
 			}
-
-			//signals to the master filler that is has finished the page
-			this.notifyAll();
-
-			try
-			{
-				//waits until the master filler notifies it that can continue with the next page
-				this.wait();
-			}
-			catch(InterruptedException e)
-			{
-				throw new JRException("Error encountered while waiting on the subreport filling thread.", e);
-			}
+			
+			suspendSubreportRunner();
 		}
 		
 		printPage = newPage();
