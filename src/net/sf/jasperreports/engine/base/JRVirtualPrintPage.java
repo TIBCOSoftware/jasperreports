@@ -423,7 +423,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
 		ensureVirtualData();
-		beforeExternalization();
+		beforeExternalization();//TODO restore?
 		
 		out.writeObject(uid);
 		out.writeObject(virtualizationContext);
