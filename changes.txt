@@ -2,6 +2,12 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.2
+-----------------------------------
+- subreport runner based Javaflow continuations
+
+
+
 JasperReports 1.2.1 (2006-04-07)
 -----------------------------------
 - support for URL stream handlers to allow loading resources such as images, 
