@@ -194,7 +194,7 @@ public class JRStringUtil
 						}
 						last = i + 1;
 						
-						ret.append("<br>");
+						ret.append("<br/>");
 						isEncodeSpace = false;
 						break;
 

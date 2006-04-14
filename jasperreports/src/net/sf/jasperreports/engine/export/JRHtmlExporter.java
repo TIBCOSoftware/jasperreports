@@ -567,6 +567,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 //			writer.write("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
 			writer.write("<html>\n");
 			writer.write("<head>\n");
+			writer.write("  <title/>\n");
 			writer.write("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + encoding + "\"/>\n");
 			writer.write("  <style type=\"text/css\">\n");
 			writer.write("    a {text-decoration: none}\n");
