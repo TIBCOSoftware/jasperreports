@@ -39,14 +39,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class PdfServlet extends BaseHttpServlet
+public abstract class AbstractXlsServlet extends BaseHttpServlet
 {
 
 
@@ -68,12 +68,15 @@ public class PdfServlet extends BaseHttpServlet
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
 		if (isBuffered.booleanValue())
 		{
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRXlsAbstractExporter exporter = getXlsExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
 			
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+
 			try 
 			{
 				exporter.exportReport();
@@ -87,7 +90,8 @@ public class PdfServlet extends BaseHttpServlet
 			
 			if (bytes != null && bytes.length > 0)
 			{
-				response.setContentType("application/pdf");
+				response.setContentType("application/xls");
+				response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
 				response.setContentLength(bytes.length);
 				ServletOutputStream ouputStream = response.getOutputStream();
 
@@ -123,13 +127,17 @@ public class PdfServlet extends BaseHttpServlet
 		}
 		else
 		{
-			response.setContentType("application/pdf");
+			response.setContentType("application/xls");
+			response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
 
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRXlsAbstractExporter exporter = getXlsExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
 			OutputStream ouputStream = response.getOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
+
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
@@ -155,5 +163,11 @@ public class PdfServlet extends BaseHttpServlet
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	protected abstract JRXlsAbstractExporter getXlsExporter();
 
+	
 }
