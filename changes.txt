@@ -4,7 +4,7 @@ JasperReports Change Log
 
 JasperReports 1.2.2
 -----------------------------------
-- subreport runner based Javaflow continuations
+- subreport runner based Javaflow continuations;
 
 
 
