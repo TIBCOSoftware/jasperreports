@@ -2,9 +2,13 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.2
+JasperReports 1.2.2 (2006-04-xx)
 -----------------------------------
 - subreport runner based Javaflow continuations;
+
+- minor bug fixes and improvements;
+
+
 
 
 
