@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -154,6 +154,13 @@
 			<version>1.5</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-javaflow</groupId>
+			<artifactId>commons-javaflow</artifactId>
+			<version>20060411</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/commons-javaflow-20060411.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
