@@ -33,7 +33,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +50,7 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ImageServlet extends HttpServlet
+public class ImageServlet extends BaseHttpServlet
 {
 
 
@@ -91,7 +90,7 @@ public class ImageServlet extends HttpServlet
 		}
 		else
 		{
-			List jasperPrintList = ServletHelper.getJasperPrintList(request);
+			List jasperPrintList = BaseHttpServlet.getJasperPrintList(request);
 			
 			if (jasperPrintList == null)
 			{

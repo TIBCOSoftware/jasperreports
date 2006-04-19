@@ -34,7 +34,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +45,7 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class RtfServlet extends HttpServlet
+public class RtfServlet extends BaseHttpServlet
 {
 
 
@@ -58,14 +57,14 @@ public class RtfServlet extends HttpServlet
 		HttpServletResponse response
 		) throws IOException, ServletException
 	{
-		List jasperPrintList = ServletHelper.getJasperPrintList(request);
+		List jasperPrintList = BaseHttpServlet.getJasperPrintList(request);
 
 		if (jasperPrintList == null)
 		{
 			throw new ServletException("No JasperPrint documents found on the HTTP session.");
 		}
 		
-		Boolean isBuffered = Boolean.valueOf(request.getParameter(ServletHelper.BUFFERED_OUTPUT_REQUEST_PARAMETER));
+		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
 		if (isBuffered.booleanValue())
 		{
 			JRRtfExporter exporter = new JRRtfExporter();
