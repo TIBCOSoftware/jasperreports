@@ -27,9 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.compilers.JRGroovyCompiler;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -77,42 +79,13 @@ public final class JRDefaultCompiler implements JRCompiler
 		String compiler = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
 		if (compiler == null || compiler.trim().length() == 0)
 		{
-			try 
+			if (JRReport.LANGUAGE_GROOVY.equals(jasperDesign.getLanguage()))
 			{
-				JRClassLoader.loadClassForName("org.eclipse.jdt.internal.compiler.Compiler");
-				jrCompiler = new JRJdtCompiler();
+				jrCompiler = new JRGroovyCompiler();
 			}
-			catch (Exception e)
+			else
 			{
-			}
-	
-			if (jrCompiler == null)
-			{
-				try 
-				{
-					JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
-					jrCompiler = new JRJdk13Compiler();
-				}
-				catch (Exception e)
-				{
-				}
-			}
-	
-			if (jrCompiler == null)
-			{
-				try 
-				{
-					JRClassLoader.loadClassForName("sun.tools.javac.Main");
-					jrCompiler = new JRJdk12Compiler();
-				}
-				catch (Exception e)
-				{
-				}
-			}
-	
-			if (jrCompiler == null)
-			{
-				jrCompiler = new JRJavacCompiler();
+				jrCompiler = getJavaCompiler();
 			}
 		}
 		else
@@ -132,7 +105,56 @@ public final class JRDefaultCompiler implements JRCompiler
 	}
 
 
-	private JRCompiler getCompiler(JasperReport jasperReport) throws JRException
+	/**
+	 *
+	 */
+	private static JRCompiler getJavaCompiler()
+	{
+		JRCompiler compiler = null;
+
+		try 
+		{
+			JRClassLoader.loadClassForName("org.eclipse.jdt.internal.compiler.Compiler");
+			compiler = new JRJdtCompiler();
+		}
+		catch (Exception e)
+		{
+		}
+
+		if (compiler == null)
+		{
+			try 
+			{
+				JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
+				compiler = new JRJdk13Compiler();
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if (compiler == null)
+		{
+			try 
+			{
+				JRClassLoader.loadClassForName("sun.tools.javac.Main");
+				compiler = new JRJdk12Compiler();
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if (compiler == null)
+		{
+			compiler = new JRJavacCompiler();
+		}
+		
+		return compiler;
+	}
+
+
+	private static JRCompiler getCompiler(JasperReport jasperReport) throws JRException
 	{
 		JRCompiler compiler = null;
 		

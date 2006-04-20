@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
@@ -66,8 +67,6 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	 *  
 	 */
 	private static final Log log = LogFactory.getLog(JRGroovyCompiler.class);
-
-	public static final String LANGUAGE_GROOVY = "groovy";
 
 	
 	public JRGroovyCompiler()
@@ -150,7 +149,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 
 	protected void checkLanguage(String language) throws JRException
 	{
-		if (!LANGUAGE_GROOVY.equals(language))
+		if (!JRReport.LANGUAGE_GROOVY.equals(language))
 		{
 			throw 
 				new JRException(
