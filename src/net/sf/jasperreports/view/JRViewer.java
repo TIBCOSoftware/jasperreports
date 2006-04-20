@@ -300,8 +300,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			try 
 			{
 				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Method method = saveContribClass.getMethod("getInstance", null);
-				JRSaveContributor saveContrib = (JRSaveContributor)method.invoke(null, null);
+				Method method = saveContribClass.getMethod("getInstance", (Class[])null);
+				JRSaveContributor saveContrib = (JRSaveContributor)method.invoke(null, (Object[])null);
 				saveContributors.add(saveContrib);
 			}
 			catch (Exception e)
