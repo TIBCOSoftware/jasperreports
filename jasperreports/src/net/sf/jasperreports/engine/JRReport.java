@@ -45,6 +45,11 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	public static final String LANGUAGE_JAVA = "java";
 
 	/**
+	 * A constant used to specify that the language used by expressions is Groovy.
+	 */
+	public static final String LANGUAGE_GROOVY = "groovy";
+
+	/**
 	 * Specifies that columns in a report should be filled vertically (fill an entire column and then go to the
 	 * next one).
 	 */
