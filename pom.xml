@@ -162,5 +162,12 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/commons-javaflow-20060411.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.0-beta-10</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 </project>

@@ -6,6 +6,8 @@ JasperReports 1.2.2 (2006-04-xx)
 -----------------------------------
 - subreport runner based Javaflow continuations;
 
+- Groovy compiler moved to core library;
+
 - minor bug fixes and improvements;
 
 
