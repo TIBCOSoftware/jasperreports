@@ -5,7 +5,7 @@
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
- * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
+ * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,18 +32,6 @@
 <%@ page import="net.sf.jasperreports.engine.*,net.sf.jasperreports.engine.util.JRProperties" %>
 
 <%
-	JRProperties.setProperty(
-		JRProperties.COMPILER_CLASSPATH, 
-		application.getRealPath("/WEB-INF/lib/jasperreports-1.2.1.jar") +
-		System.getProperty("path.separator") + 
-		application.getRealPath("/WEB-INF/classes/")
-		);
-
-	JRProperties.setProperty(
-		JRProperties.COMPILER_TEMP_DIR, 
-		application.getRealPath("/reports/")
-		);
-
 	JasperCompileManager.compileReportToFile(application.getRealPath("/reports/WebappReport.jrxml"));
 %>
 
@@ -55,7 +43,7 @@
 
 <body bgcolor="white">
 
-<span class="bold">The XML report design was successfully compiled.</span>
+<span class="bold">The JRXML report design was successfully compiled.</span>
 
 </body>
 </html>

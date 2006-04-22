@@ -12,16 +12,16 @@ JasperReports - Web Application Sample
 <table width="700" cellpadding="0" cellspacing="0" border="0">
   <tr class="doc">
     <td width="100" align="center"><img src="images/jasperreports.gif" border="0" width="139" height="25"/></td>
-    <td width="600">&nbsp;&nbsp;&nbsp;<span class="header">compile</span></td>
+    <td width="600">&nbsp;&nbsp;&nbsp;<span class="header">compile JRXML</span></td>
   </tr>
   <tr valign="top">
     <td class="doc">
       <table width="100%" cellpadding="1" cellspacing="1" border="0">
         <tr><td class="doc">&nbsp;</td></tr>
         <tr><td class="menu">&nbsp;<a href="index.html" class="menu">home</span></a></td></tr>
-        <tr><td class="menu">&nbsp;<a href="compile.html" class="menu">compile</span></a></td></tr>
-        <tr><td class="menu">&nbsp;<a href="pdf.html" class="menu">PDF output</span></a></td></tr>
-        <tr><td class="menu">&nbsp;<a href="html.html" class="menu">HTML output</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="compile.html" class="menu">compile JRXML</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="fill.html" class="menu">fill report</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="export.html" class="menu">export report</span></a></td></tr>
         <tr><td class="menu">&nbsp;<a href="applets.html" class="menu">applet viewer</span></a></td></tr>
       </table>
     </td>
@@ -40,21 +40,16 @@ JasperReports - Web Application Sample
   <tr valign="top">
     <td>&nbsp;</td>
     <td class="justify">
-      <span class="title">XML Report Design Compilation</span>
+      <span class="title">JRXML Report Design Compilation</span>
       <br>
       <br>
-      <span class="desc">First, I was trying to convince people that report compilation is a design-time job and should not be performed at runtime.</span>
-      <br>
-      <span class="desc">You have to compile your XML report templates only once, just like you compile the Java source files of your application.</span>
+      <span class="desc">Note that in the majority of cases, the JRXML report template compilation process is an application build-time process and not a runtime process.</span>
       <br>
       <br>
-      <span class="desc">But then I started to receive many questions on the discussion forums about problems encountered when compiling report templates in Web environment. I decided it is the time to show everybody how to do it.</span>
+      <span class="desc">Normally, report templates have to be compiled only once, just like we compile Java source files and then we deploy them with the application. If the report templates are not dynamic, there is no point on recompiling them at runtime. Report definitions are static and only the data supplied to them is different with every report filling operation.</span>
       <br>
       <br>
-      <span class="desc">Remember however, that if your report templates are not dynamic, there is no point on recompiling them at runtime. Report definitions are static and only the data supplied to them is different with every report filling operation.</span>
-      <br>
-      <br>
-      <span class="desc">Now let's go for it!</span>
+      <span class="desc">However, sometimes applications do require runtime report template compilation, so here you can see how this can be achieved in Web environment.</span>
       <br>
       <br>
       <span class="desc">The following example performs the compilation of the <code>WebappReport.jrxml</code> file and produces the <code>WebappReport.jasper</code> file.</span>
@@ -88,7 +83,7 @@ JasperReports - Web Application Sample
     </td>
   </tr>
   <tr><td colspan="2"><hr size="1"></td></tr>
-  <tr><td colspan="2" align="center"><span class="small">Copyright &copy; 2001-2005 JasperSoft Corporation </span><a href="http://www.jaspersoft.com" target="_blank"><span class="small">www.jaspersoft.com</span></a></td></tr>
+  <tr><td colspan="2" align="center"><span class="small">Copyright &copy; 2001-2006 JasperSoft Corporation </span><a href="http://www.jaspersoft.com" target="_blank"><span class="small">www.jaspersoft.com</span></a></td></tr>
 </table>
 
 </body>
