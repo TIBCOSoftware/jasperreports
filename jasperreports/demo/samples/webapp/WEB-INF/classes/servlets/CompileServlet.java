@@ -4,7 +4,7 @@
  * ============================================================================
  *
  * JasperReports - Free Java report-generating library.
- * Copyright (C) 2001-2005 JasperSoft Corporation http://www.jaspersoft.com
+ * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -59,17 +58,8 @@ public class CompileServlet extends HttpServlet
 	{
 		ServletContext context = this.getServletConfig().getServletContext();
 
-		JRProperties.setProperty(
-			JRProperties.COMPILER_CLASSPATH, 
-			context.getRealPath("/WEB-INF/lib/jasperreports-1.2.1.jar") +
-			System.getProperty("path.separator") + 
-			context.getRealPath("/WEB-INF/classes/")
-			);
-	
-		JRProperties.setProperty(
-			JRProperties.COMPILER_TEMP_DIR, 
-			context.getRealPath("/reports/")
-			);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
 
 		try
 		{
@@ -77,8 +67,6 @@ public class CompileServlet extends HttpServlet
 		}
 		catch (JRException e)
 		{
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
 			out.println("<html>");
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
@@ -100,8 +88,6 @@ public class CompileServlet extends HttpServlet
 			return;
 		}
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<title>JasperReports - Web Application Sample</title>");
@@ -110,7 +96,7 @@ public class CompileServlet extends HttpServlet
 		
 		out.println("<body bgcolor=\"white\">");
 
-		out.println("<span class=\"bold\">The XML report design was successfully compiled.</span>");
+		out.println("<span class=\"bold\">The JRXML report design was successfully compiled.</span>");
 
 		out.println("</body>");
 		out.println("</html>");

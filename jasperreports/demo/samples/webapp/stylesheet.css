@@ -9,6 +9,17 @@
 	text-decoration:none
 }
 
+.menu:hover
+{
+	font-decoration:none;
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:normal;
+	color:#000000;
+	background:#999999;
+	text-decoration:none
+}
+
 .mnew
 {
 	font-decoration:none;

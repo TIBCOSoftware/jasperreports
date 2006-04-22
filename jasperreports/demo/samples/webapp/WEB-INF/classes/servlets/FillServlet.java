@@ -29,14 +29,12 @@ package servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,8 +43,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
 import datasource.WebappDataSource;
 
 
@@ -54,7 +51,7 @@ import datasource.WebappDataSource;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperPrintServlet extends HttpServlet
+public class FillServlet extends HttpServlet
 {
 
 
@@ -68,31 +65,31 @@ public class JasperPrintServlet extends HttpServlet
 	{
 		ServletContext context = this.getServletConfig().getServletContext();
 
-		File reportFile = new File(context.getRealPath("/reports/WebappReport.jasper"));
-		if (!reportFile.exists())
-			throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
-
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Address Report");
-		parameters.put("BaseDir", reportFile.getParentFile());
-					
-		JasperPrint jasperPrint = null;
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
 
 		try
 		{
-			JasperReport jasperReport = (JasperReport)JRLoader.loadObject(reportFile.getPath());
-			
-			jasperPrint = 
+			String reportFileName = context.getRealPath("/reports/WebappReport.jasper");
+			File reportFile = new File(reportFileName);
+			if (!reportFile.exists())
+				throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
+
+			Map parameters = new HashMap();
+			parameters.put("ReportTitle", "Address Report");
+			parameters.put("BaseDir", reportFile.getParentFile());
+						
+			JasperPrint jasperPrint = 
 				JasperFillManager.fillReport(
-					jasperReport,
+					reportFileName, 
 					parameters, 
 					new WebappDataSource()
 					);
+						
+			request.getSession().setAttribute(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 		}
 		catch (JRException e)
 		{
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
 			out.println("<html>");
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
@@ -110,40 +107,20 @@ public class JasperPrintServlet extends HttpServlet
 
 			out.println("</body>");
 			out.println("</html>");
-
-			return;
 		}
 
-		if (jasperPrint != null)
-		{
-			response.setContentType("application/octet-stream");
-			ServletOutputStream ouputStream = response.getOutputStream();
-			
-			ObjectOutputStream oos = new ObjectOutputStream(ouputStream);
-			oos.writeObject(jasperPrint);
-			oos.flush();
-			oos.close();
+		out.println("<html>");
+		out.println("<head>");
+		out.println("<title>JasperReports - Web Application Sample</title>");
+		out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" title=\"Style\">");
+		out.println("</head>");
+		
+		out.println("<body bgcolor=\"white\">");
 
-			ouputStream.flush();
-			ouputStream.close();
-		}
-		else
-		{
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			out.println("<html>");
-			out.println("<head>");
-			out.println("<title>JasperReports - Web Application Sample</title>");
-			out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" title=\"Style\">");
-			out.println("</head>");
-			
-			out.println("<body bgcolor=\"white\">");
-	
-			out.println("<span class=\"bold\">Empty response.</span>");
-	
-			out.println("</body>");
-			out.println("</html>");
-		}
+		out.println("<span class=\"bold\">The compiled report design was successfully filled with data.</span>");
+
+		out.println("</body>");
+		out.println("</html>");
 	}
 
 
