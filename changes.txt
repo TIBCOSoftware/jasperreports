@@ -2,11 +2,13 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.2 (2006-04-xx)
+JasperReports 1.2.2 (2006-04-23)
 -----------------------------------
-- subreport runner based Javaflow continuations;
+- the use of threads is no longer mandatory for the subreport filling process after
+introducing a new subreport runner interface and an altenative default implementation
+that realies on Javaflow continuations (Jakarta Commons Javaflow library);
 
-- Groovy compiler moved to core library;
+- Groovy report compiler moved to core library;
 
 - minor bug fixes and improvements;
 
