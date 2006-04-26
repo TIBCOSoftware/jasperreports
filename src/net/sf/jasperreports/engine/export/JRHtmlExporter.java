@@ -276,11 +276,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						public String getStringForCollapsedTD(Object value)
 						{
-							return "><img src=\"" + value + "px\"";
+							return "><img alt=\"\" src=\"" + value + "px\"";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
-							return "<img src=\"" + value + "px\" border=\"0\"/>";
+							return "<img alt=\"\" src=\"" + value + "px\" border=\"0\"/>";
 						}
 					};
 	
@@ -1594,7 +1594,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		writer.write("/>");
+		writer.write(" alt=\"\"/>");
 
 		if (href != null)
 		{
