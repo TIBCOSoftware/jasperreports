@@ -300,7 +300,7 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/textElement", JRTextElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textElement/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate("*/textElement/font", JRFontFactory.TextElementFontFactory.class.getName());
 //		digester.addSetNext("*/textElement/font", "setFont", JRFont.class.getName());
 
 		/*   */
@@ -388,13 +388,13 @@ public class JRXmlDigesterFactory
 
 		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());
 		digester.addFactoryCreate("*/chart/chartTitle", JRChartFactory.JRChartTitleFactory.class.getName());
-		digester.addFactoryCreate("*/chart/chartTitle/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartTitle/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/chart/chartTitle/font", "setTitleFont", JRFont.class.getName());
 		digester.addFactoryCreate("*/chart/chartTitle/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext("*/chart/chartTitle/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/chart/chartTitle/titleExpression", "setText", 0);
 		digester.addFactoryCreate("*/chart/chartSubtitle", JRChartFactory.JRChartSubtitleFactory.class.getName());
-		digester.addFactoryCreate("*/chart/chartSubtitle/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartSubtitle/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/chart/chartSubtitle/font", "setSubtitleFont", JRFont.class.getName());
 		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext("*/chart/chartSubtitle/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
