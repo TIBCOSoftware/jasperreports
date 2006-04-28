@@ -539,7 +539,7 @@
 
 <!ELEMENT crosstabTotalColumnHeader (cellContents?)>
 
-<!ELEMENT bucket (bucketExpression, comparatorExpression?)>
+<!ELEMENT bucket (bucketExpression?, comparatorExpression?)>
 <!ATTLIST bucket
 	order (Ascending | Descending) "Ascending"
 >
@@ -551,10 +551,10 @@
 
 <!ELEMENT comparatorExpression (#PCDATA)>
 
-<!ELEMENT measure (measureExpression)>
+<!ELEMENT measure (measureExpression?)>
 <!ATTLIST measure
 	name NMTOKEN #REQUIRED
-	class NMTOKEN #REQUIRED
+	class NMTOKEN #IMPLIED
 	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 	percentageOf (None | GrandTotal) "None"
