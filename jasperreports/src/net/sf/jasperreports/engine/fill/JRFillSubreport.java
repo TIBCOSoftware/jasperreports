@@ -530,7 +530,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			rewind();
 		}
 		
-		subreportFiller.setPageHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
+		int availableHeight = getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY();
+		subreportFiller.setPageHeight(availableHeight);
 
 		synchronized (subreportFiller)
 		{
@@ -575,7 +576,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			printPage = subreportFiller.getCurrentPage();
 			subreportFonts = subreportFiller.getFonts();
 			subreportStyles = subreportFiller.getStyles();
-			setStretchHeight(subreportFiller.getCurrentPageStretchHeight());
+			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight);
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page
