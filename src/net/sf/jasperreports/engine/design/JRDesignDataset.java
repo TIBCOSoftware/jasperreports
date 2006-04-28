@@ -386,14 +386,14 @@ public class JRDesignDataset extends JRBaseDataset
 		String oldLanguage = null;
 		if (this.query != null)
 		{
-			((JRDesignQuery) this.query).removePropertyChangeListener(queryLanguageChangeListener);
+			((JRDesignQuery) this.query).removePropertyChangeListener(JRDesignQuery.PROPERTY_LANGUAGE, queryLanguageChangeListener);
 			oldLanguage = this.query.getLanguage();
 		}
 		this.query = query;
 		String newLanguage = null;
 		if (query != null)
 		{
-			query.addPropertyChangeListener(queryLanguageChangeListener);
+			query.addPropertyChangeListener(JRDesignQuery.PROPERTY_LANGUAGE, queryLanguageChangeListener);
 			newLanguage = query.getLanguage();
 		}
 		queryLanguageChanged(oldLanguage, newLanguage);

@@ -166,6 +166,8 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 * 
 	 * @param l
 	 *            The property listener to add.
+	 *            
+	 * @see #removePropertyChangeListener(PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener l)
 	{
@@ -180,6 +182,8 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	 *            The property to listen to.
 	 * @param l
 	 *            The property listener to add.
+	 *            
+	 * @see #removePropertyChangeListener(String, PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(String propName, PropertyChangeListener l)
 	{
@@ -187,8 +191,11 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	}
 
 	/**
-	 * Remove a property change listener. This will remove any listener that was
-	 * added through either of the addPropertyListener methods.
+	 * Remove a property change listener registered for all properties.
+	 * 
+	 * This will only remove listeners that were added through the 
+	 * {@link #addPropertyChangeListener(PropertyChangeListener) addPropertyChangeListener(PropertyChangeListener)}
+	 * method.
 	 * 
 	 * @param l
 	 *            The listener to remove.
@@ -196,6 +203,19 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure
 	public void removePropertyChangeListener(PropertyChangeListener l)
 	{
 		getPropertyChangeSupport().removePropertyChangeListener(l);
+	}
+
+	/**
+	 * Remove a property change listener registered for a specific property.
+	 * 
+	 * @param propName
+	 *            The property to listen to.
+	 * @param l
+	 *            The listener to remove.
+	 */
+	public void removePropertyChangeListener(String propName, PropertyChangeListener l)
+	{
+		getPropertyChangeSupport().removePropertyChangeListener(propName, l);
 	}
 
 	/**
