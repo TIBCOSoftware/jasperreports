@@ -62,7 +62,7 @@ public class JRSingletonCache
 	 * The class is expected to have a no-argument constructor.
 	 * 
 	 * @param className
-	 * @return
+	 * @return the singleton instance corresponding to a class
 	 * @throws JRException
 	 */
 	public synchronized Object getCachedInstance(String className) throws JRException
