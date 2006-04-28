@@ -1208,14 +1208,16 @@ public class BucketingService
 				{
 					if (col == colBucketCount)
 					{
-						totals[row][col] = (MeasureValue[]) colMap.get((Bucket) vals.get(rowBucketCount + colBucketCount - 1));
+						MeasureValue[] measureValues = (MeasureValue[]) colMap.get((Bucket) vals.get(rowBucketCount + colBucketCount - 1));
+						totals[row][col] = getUserMeasureValues(measureValues);
 					}
 					else
 					{
 						Map.Entry totalEntry = colMap.getTotalEntry();
 						if (totalEntry != null)
 						{
-							totals[row][col] = (MeasureValue[]) totalEntry.getValue();
+							MeasureValue[] totalValues = (MeasureValue[]) totalEntry.getValue();
+							totals[row][col] = getUserMeasureValues(totalValues);
 						}
 					}
 				}
