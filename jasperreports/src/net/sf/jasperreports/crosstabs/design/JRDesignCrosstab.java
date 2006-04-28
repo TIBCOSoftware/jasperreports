@@ -601,7 +601,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			
 			removeMeasureVars(removed);
 			
-			removed.removePropertyChangeListener(measureClassChangeListener);
+			removed.removePropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
 		}
 		
 		return removed;
