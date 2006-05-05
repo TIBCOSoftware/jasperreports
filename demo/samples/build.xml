@@ -320,6 +320,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Mondrian Sample"/>
+		<echo message="==================================="/>
+		<ant dir="mondrian" target="clean" />
+		<ant dir="mondrian" target="javac" />
+		<ant dir="mondrian" target="compile" />
+		<ant dir="mondrian" target="fill" />
+		<ant dir="mondrian" target="pdf" />
+		<ant dir="mondrian" target="xmlEmbed" />
+		<ant dir="mondrian" target="xml" />
+		<ant dir="mondrian" target="html" />
+		<ant dir="mondrian" target="rtf" />
+		<ant dir="mondrian" target="xls" />
+		<ant dir="mondrian" target="jxl" />
+		<ant dir="mondrian" target="csv" />		
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" No Page Break Sample"/>
 		<echo message="==================================="/>
 		<ant dir="nopagebreak" target="clean" />
@@ -625,6 +642,7 @@
 		<ant dir="jcharts" target="clean" />
 		<ant dir="jfreechart" target="clean" />
 		<ant dir="landscape" target="clean" />
+		<ant dir="mondrian" target="clean" />
 		<ant dir="nopagebreak" target="clean" />
 		<ant dir="noreport" target="clean" />
 		<ant dir="noxmldesign" target="clean" />
