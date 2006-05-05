@@ -22,5 +22,7 @@
 	<classpathentry kind="lib" path="lib/png-encoder-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-javaflow-20060411.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.0-beta-10.jar"/>
+	<classpathentry kind="lib" path="lib/mondrian-2.0.1.jar"/>
+	<classpathentry sourcepath="ANTLR_HOME/antlrsrc.zip" kind="var" path="ANTLR_HOME/antlr.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

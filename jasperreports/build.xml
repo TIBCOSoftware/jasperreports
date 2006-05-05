@@ -4,7 +4,7 @@
 
 	<property name="version" value="1.2.2"/>
 
-	<target name="compile" description="Compiles the java source files of the library.">
+	<target name="compile" description="Compiles the java source files of the library." depends="antlr.generate">
 		<mkdir dir="./build/classes"/> 
 		<condition property="using.jdk.1.4">
 			<or>
@@ -12,7 +12,7 @@
 			<equals arg1="${ant.java.version}" arg2="1.5"/>
 			</or>
 		</condition>
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true">
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<classpath>
@@ -21,6 +21,8 @@
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
+			<src path="./src"/>
+			<src path="./build/antlr-generated-sources"/>
 		</javac>
 		
 		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
@@ -48,6 +50,15 @@
 				<include name="**/*.GIF"/>
 			</fileset>
 		</copy>
+	</target>
+	
+	<target name="antlr.generate" description="Generete source files for ANTLR grammars">
+		<mkdir dir="./build/antlr-generated-sources"/> 
+		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g" outputdirectory="./build/antlr-generated-sources">
+			<classpath>
+				<pathelement path="./lib/antlr-2.7.5.jar"/>
+			</classpath>
+		</antlr>
 	</target>
 
 	<target name="jar" depends="compile, applet" description="Builds the JasperReports JAR file.">
