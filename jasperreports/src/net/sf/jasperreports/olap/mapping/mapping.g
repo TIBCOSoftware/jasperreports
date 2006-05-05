@@ -202,6 +202,10 @@ name returns [String name = null]
 	;
 
 
+/**
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
+ */
 class MappingLexer extends Lexer;
 options
 {
