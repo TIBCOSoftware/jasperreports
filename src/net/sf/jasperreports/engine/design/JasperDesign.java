@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -1143,21 +1144,31 @@ public class JasperDesign extends JRBaseReport
 		
 		return crosstabs;
 	}
-
-
+	
 	protected void collectCrosstabs(JRBand band)
 	{
 		if (band != null)
 		{
-			JRElement[] elements = band.getElements();
-			if (elements != null)
+			collectCrosstabs(band.getElements());
+		}
+	}
+
+
+	protected void collectCrosstabs(JRElement[] elements)
+	{
+		if (elements != null)
+		{
+			for (int i = 0; i < elements.length; i++)
 			{
-				for (int i = 0; i < elements.length; i++)
+				JRElement element = elements[i];
+				if (element instanceof JRCrosstab)
 				{
-					if (elements[i] instanceof JRCrosstab)
-					{
-						crosstabs.add(elements[i]);
-					}
+					crosstabs.add(element);
+				}
+				else if (element instanceof JRFrame)
+				{
+					JRFrame frame = (JRFrame) element;
+					collectCrosstabs(frame.getElements());
 				}
 			}
 		}
