@@ -223,6 +223,8 @@ public class JRProperties
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "XPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "mdx", "net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory");
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "MDX", "net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "ejbql", "net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory");
+		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "EJBQL", "net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory");
 
 		defaults.setProperty(SUBREPORT_RUNNER_FACTORY, "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory");
 

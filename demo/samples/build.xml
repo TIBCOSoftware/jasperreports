@@ -134,6 +134,23 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" EJBQL Sample"/>
+		<echo message="==================================="/>
+		<ant dir="ejbql" target="clean" />
+		<ant dir="ejbql" target="javac" />
+		<ant dir="ejbql" target="compile" />
+		<ant dir="ejbql" target="fill" />
+		<ant dir="ejbql" target="pdf" />
+		<ant dir="ejbql" target="xmlEmbed" />
+		<ant dir="ejbql" target="xml" />
+		<ant dir="ejbql" target="html" />
+		<ant dir="ejbql" target="rtf" />
+		<ant dir="ejbql" target="xls" />
+		<ant dir="ejbql" target="jxl" />
+		<ant dir="ejbql" target="csv" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Fonts Sample"/>
 		<echo message="==================================="/>
 		<ant dir="fonts" target="clean" />
@@ -630,6 +647,7 @@
 		<ant dir="crosstabs" target="clean" />
 		<ant dir="csvdatasource" target="clean" />
 		<ant dir="datasource" target="clean" />
+		<ant dir="ejbql" target="clean" />
 		<ant dir="fonts" target="clean" />
 		<ant dir="groovy" target="clean" />
 		<ant dir="hibernate" target="clean" />
