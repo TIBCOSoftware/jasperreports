@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="JRMDbSubreport1" pageWidth="175" pageHeight="842" columnWidth="175" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="MovieId" class="java.lang.Integer"/>
+	<queryString language="ejbql">
+		<![CDATA[
+			SELECT   v 
+			FROM     Varia v
+			WHERE    v.movie.id = $P{MovieId}
+			ORDER BY v.importance]]></queryString>
+	<field name="id" class="java.lang.Integer">
+	</field>
+	<field name="type" class="java.lang.String">
+	</field>
+	<field name="description" class="java.lang.String">
+	</field>
+	<title>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="2" width="240" height="10" style="Arial_Italic"/>
+				<text><![CDATA[Varia]]></text>
+			</staticText>
+		</band>
+	</title>		
+	<columnHeader>
+		<band height="14">
+			<rectangle>
+				<reportElement x="0" y="2" width="240" height="10" forecolor="#ccffff" backcolor="#ccffff"/>
+				<graphicElement/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="70" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="75" y="2" width="170" height="10" backcolor="#ccffff" style="Arial_Bold"/>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="2" width="70" height="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="75" y="2" width="170" height="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
