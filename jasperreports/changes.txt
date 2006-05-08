@@ -2,6 +2,20 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.3 (2006-05-xx)
+-----------------------------------
+- OLAP data source (Mondrian);
+
+- EJBQL query executer and data source;
+
+- GZIP in-memory virtualizer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.2 (2006-04-23)
 -----------------------------------
 - the use of threads is no longer mandatory for the subreport filling process after
