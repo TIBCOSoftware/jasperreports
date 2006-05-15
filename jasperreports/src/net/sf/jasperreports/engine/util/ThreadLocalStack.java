@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.net.URLStreamHandlerFactory;
 import java.util.LinkedList;
 
 
@@ -63,7 +62,7 @@ public class ThreadLocalStack
 		LinkedList stack = (LinkedList) threadStack.get();
 		if (stack != null && !stack.isEmpty())
 		{
-			o = (URLStreamHandlerFactory) stack.getFirst();
+			o = stack.getFirst();
 		}
 		return o;
 	}
