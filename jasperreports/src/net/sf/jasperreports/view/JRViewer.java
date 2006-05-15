@@ -55,6 +55,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
@@ -145,6 +146,30 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
+		this(fileName, isXML, null);
+	}
+
+
+	/** Creates new form JRViewer */
+	public JRViewer(InputStream is, boolean isXML) throws JRException
+	{
+		this(is, isXML, null);
+	}
+
+
+	/** Creates new form JRViewer */
+	public JRViewer(JasperPrint jrPrint)
+	{
+		this(jrPrint, null);
+	}
+
+	
+	/** Creates new form JRViewer */
+	public JRViewer(String fileName, boolean isXML, Locale locale) throws JRException
+	{
+		if (locale != null)
+			setLocale(locale);
+
 		setScreenDetails();
 
 		setZooms();
@@ -162,8 +187,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
 	/** Creates new form JRViewer */
-	public JRViewer(InputStream is, boolean isXML) throws JRException
+	public JRViewer(InputStream is, boolean isXML, Locale locale) throws JRException
 	{
+		if (locale != null)
+			setLocale(locale);
+
 		setScreenDetails();
 
 		setZooms();
@@ -181,8 +209,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
 	/** Creates new form JRViewer */
-	public JRViewer(JasperPrint jrPrint)
+	public JRViewer(JasperPrint jrPrint, Locale locale)
 	{
+		if (locale != null)
+			setLocale(locale);
+
 		setScreenDetails();
 
 		setZooms();
@@ -483,7 +514,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
-        btnSave.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("save"));
+        btnSave.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("save"));
         btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
         btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -497,7 +528,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnSave);
 
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/print.GIF")));
-        btnPrint.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("print"));
+        btnPrint.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("print"));
         btnPrint.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
         btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -511,7 +542,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnPrint);
 
         btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
-        btnReload.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("reload"));
+        btnReload.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("reload"));
         btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
         btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -528,7 +559,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(pnlSep01);
 
         btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/first.GIF")));
-        btnFirst.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("first.page"));
+        btnFirst.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("first.page"));
         btnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFirst.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -542,7 +573,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnFirst);
 
         btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/previous.GIF")));
-        btnPrevious.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("previous.page"));
+        btnPrevious.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("previous.page"));
         btnPrevious.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnPrevious.setMaximumSize(new java.awt.Dimension(23, 23));
         btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -556,7 +587,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnPrevious);
 
         btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/next.GIF")));
-        btnNext.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("next.page"));
+        btnNext.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("next.page"));
         btnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnNext.setMaximumSize(new java.awt.Dimension(23, 23));
         btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -570,7 +601,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnNext);
 
         btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/last.GIF")));
-        btnLast.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("last.page"));
+        btnLast.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("last.page"));
         btnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnLast.setMaximumSize(new java.awt.Dimension(23, 23));
         btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -583,7 +614,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         tlbToolBar.add(btnLast);
 
-        txtGoTo.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("go.to.page"));
+        txtGoTo.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("go.to.page"));
         txtGoTo.setMaximumSize(new java.awt.Dimension(40, 23));
         txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
         txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
@@ -599,7 +630,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(pnlSep02);
 
         btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/actualsize.GIF")));
-        btnActualSize.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("actual.size"));
+        btnActualSize.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("actual.size"));
         btnActualSize.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
         btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -613,7 +644,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnActualSize);
 
         btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitpage.GIF")));
-        btnFitPage.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("fit.page"));
+        btnFitPage.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("fit.page"));
         btnFitPage.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -627,7 +658,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnFitPage);
 
         btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitwidth.GIF")));
-        btnFitWidth.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("fit.width"));
+        btnFitWidth.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("fit.width"));
         btnFitWidth.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
         btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -644,7 +675,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(pnlSep03);
 
         btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomin.GIF")));
-        btnZoomIn.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("zoom.in"));
+        btnZoomIn.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("zoom.in"));
         btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
         btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -658,7 +689,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnZoomIn);
 
         btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
-        btnZoomOut.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("zoom.out"));
+        btnZoomOut.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("zoom.out"));
         btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));
         btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
@@ -672,7 +703,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         tlbToolBar.add(btnZoomOut);
 
         cmbZoom.setEditable(true);
-        cmbZoom.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("zoom.ratio"));
+        cmbZoom.setToolTipText(java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("zoom.ratio"));
         cmbZoom.setMaximumSize(new java.awt.Dimension(80, 23));
         cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
         cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
@@ -941,7 +972,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			catch (JRException e)
 			{
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.saving"));
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("error.saving"));
 			}
 		}
 	}//GEN-LAST:event_btnSaveActionPerformed
@@ -1011,7 +1042,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						catch (Exception ex) 
 						{
 							ex.printStackTrace();
-							JOptionPane.showMessageDialog(JRViewer.this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.printing"));
+							JOptionPane.showMessageDialog(JRViewer.this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("error.printing"));
 						}
 					}
 				}
@@ -1066,7 +1097,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				setPageIndex(0);
 				refreshPage();
 
-				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.loading"));
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("error.loading"));
 			}
 
 			zoom = 0;//force pageRefresh()
@@ -1151,7 +1182,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		catch(JRException e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.hyperlink"));
+			JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("error.hyperlink"));
 		}
 	}
 
@@ -1175,7 +1206,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			txtGoTo.setText("" + (pageIndex + 1));
 			lblStatus.setText(
 				MessageFormat.format(
-					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("page"),
+					java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("page"),
 					new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
 					)
 				);
@@ -1268,7 +1299,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			
 			if (jasperPrint != null)
 			{
-				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("no.pages"));
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("no.pages"));
 			}
 
 			return;
@@ -1389,7 +1420,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				}
 			}
 		}
-		
+
 		pnlMain.validate();
 		pnlMain.repaint();
 	}
@@ -1511,7 +1542,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
+			JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale()).getString("error.displaying"));
 		}
 
 	} 
