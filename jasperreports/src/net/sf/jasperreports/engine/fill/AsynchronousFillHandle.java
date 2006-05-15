@@ -63,6 +63,8 @@ public class AsynchronousFillHandle
 	
 	protected Integer priority = null;
 	
+	protected String threadName;
+	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
 			Map parameters,
@@ -199,7 +201,8 @@ public class AsynchronousFillHandle
 							}
 						}
 					}
-				});
+				},
+				threadName);
 		
 		if (priority != null)
 		{
@@ -339,6 +342,25 @@ public class AsynchronousFillHandle
 			if (fillThread != null)
 			{
 				fillThread.setPriority(priority);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Sets the name of the filler thread.
+	 * 
+	 * @param name the filler thread name.
+	 * @see Thread#setName(java.lang.String)
+	 */
+	public void setThreadName (String name)
+	{
+		synchronized (lock)
+		{
+			this.threadName = name;
+			if (fillThread != null)
+			{
+				fillThread.setName(name);
 			}
 		}
 	}
