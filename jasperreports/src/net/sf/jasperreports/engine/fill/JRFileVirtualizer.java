@@ -40,8 +40,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
@@ -94,6 +92,10 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		return "virt" + uid;
 	}
 
+	private String makeFilename(String virtualId) {
+		return "virt" + virtualId;
+	}
+
 	protected void pageOut(JRVirtualizable o) throws IOException {
 		// Store data to a file.
 		String filename = makeFilename(o);
@@ -118,7 +120,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 				}
 			}
 		} else {
-			if (!readOnly) {
+			if (!isReadOnly(o)) {
 				throw new IllegalStateException(
 						"Cannot virtualize data because the file \"" + filename
 								+ "\" already exists.");
@@ -147,14 +149,14 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 			}
 		}
 
-		if (!readOnly) {
+		if (!isReadOnly(o)) {
 			// Wait until we know it worked before tossing the data.
 			file.delete();
 		}
 	}
 
-	protected void dispose(JRVirtualizable o) {
-		String filename = makeFilename(o);
+	protected void dispose(String virtualId) {
+		String filename = makeFilename(virtualId);
 		File file = new File(directory, filename);
 		file.delete();
 	}
@@ -164,31 +166,9 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 * Called when we are done with the virtualizer and wish to
 	 * cleanup any resources it has.
 	 */
-	public void cleanup()
+	public synchronized void cleanup()
 	{
-		// Remove all paged-out swap files.
-		for (Iterator it = pagedOut.entrySet().iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry) it.next();
-			try {
-				dispose((JRVirtualizable) entry.getValue());
-				it.remove();
-			} catch (Exception e) {
-				log.error("Error cleaning up virtualizer.", e);
-				// Do nothing because we want to try to remove all swap files.
-			}
-		}
-
-		for (Iterator it = pagedIn.entrySet().iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry) it.next();
-			try {
-				dispose((JRVirtualizable) entry.getValue());
-				it.remove();
-			} catch (Exception e) {
-				log.error("Error cleaning up virtualizer.", e);
-				// Do nothing because we want to try to remove all swap files.
-			}
-		}
-		
-		this.readOnly = false;
+		disposeAll();
+		reset();
 	}
 }

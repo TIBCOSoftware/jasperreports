@@ -858,13 +858,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected void setParameters(Map parameterValues) throws JRException
 	{
-		/* Virtualizer */
-		virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-
-		if (virtualizer != null)
+		if (!isSubreport())
 		{
-			fillContext.setUsingVirtualizer(true);
-			fillContext.setPerPageBoundElements(true);
+			/* Virtualizer */
+			virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
+
+			if (virtualizer != null)
+			{
+				fillContext.setUsingVirtualizer(true);
+				fillContext.setPerPageBoundElements(true);
+				JRVirtualizationContext.register(fillContext.getVirtualizationContext(), jasperPrint);
+			}
 		}
 
 		isPerPageBoundElements = fillContext.isPerPageBoundElements();

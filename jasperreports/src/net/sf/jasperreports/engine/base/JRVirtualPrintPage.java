@@ -51,6 +51,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -75,6 +78,8 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
  */
 public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Serializable
 {
+	private static final Log log = LogFactory.getLog(JRVirtualPrintPage.class);
+	
 	/**
 	 * Identity objects are those that we want to replace when we devirtualize
 	 * data. If object A was virtualized, and it is referenced outside the
@@ -167,14 +172,15 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	 */
 	public JRVirtualPrintPage(JasperPrint printObject, JRVirtualizer virtualizer, JRVirtualizationContext virtualizationContext) {
 		super();
+		
+		this.virtualizationContext = virtualizationContext;
+
 		this.uid = makeUID(printObject);
 		this.virtualizer = virtualizer;
 		this.identityProviders = null;
 		if (virtualizer != null) {
 			virtualizer.registerObject(this);
 		}
-		
-		this.virtualizationContext = virtualizationContext;
 	}
 	
 	
@@ -302,37 +308,22 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	protected void ensureVirtualData()
 	{
 		if (this.virtualizer != null)
-		{
-			if (isVirtualized())
-			{
-				// If virtualized, deserialize the List object and then set it on this page.
-				this.virtualizer.requestData(this);
-			}
-			else
-			{
-				this.virtualizer.touch(this);
-			}
+		{			
+			this.virtualizer.requestData(this);
 		}
 	}
 
 	public void setElements(List elements) {
 		cleanVirtualData();
 		this.elements = elements;
+		cacheInContext(this.elements);
 	}
 
 	protected void cleanVirtualData()
 	{
 		if (this.virtualizer != null)
 		{
-			if (isVirtualized())
-			{
-				// If virtualized, remove the persisted version of the List object.
-				this.virtualizer.clearData(this);
-			}
-			else
-			{
-				this.virtualizer.touch(this);
-			}
+			this.virtualizer.clearData(this);
 		}
 	}
 
@@ -341,6 +332,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	{
 		ensureVirtualData();
 		elements.add(element);
+		cacheInContext(element);
 	}
 	
 	
@@ -423,19 +415,26 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
 		ensureVirtualData();
-		beforeExternalization();//TODO restore?
+		beforeExternalization();
 		
-		out.writeObject(uid);
-		out.writeObject(virtualizationContext);
-		
-		ByteArrayOutputStream bout = new ByteArrayOutputStream();
-		ObjectOutputStream stream = new ObjectOutputStream(bout);
-		stream.writeObject(elements);
-		stream.flush();
-		
-		byte[] bytes = bout.toByteArray();
-		out.writeInt(bytes.length);
-		out.write(bytes);
+		try
+		{
+			out.writeObject(uid);
+			out.writeObject(virtualizationContext);
+
+			ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			ObjectOutputStream stream = new ObjectOutputStream(bout);
+			stream.writeObject(elements);
+			stream.flush();
+
+			byte[] bytes = bout.toByteArray();
+			out.writeInt(bytes.length);
+			out.write(bytes);
+		}
+		finally
+		{
+			afterInternalization();
+		}
 	}
 
 	
@@ -460,10 +459,10 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	
 	
 	/**
-	 * Returns all the elements on tha page, including the ones placed inside
+	 * Returns all the elements on the page, including the ones placed inside
 	 * {@link JRPrintFrame frames}.
 	 * 
-	 * @return all the elements on tha page
+	 * @return all the elements on the page
 	 */
 	protected List getDeepElements()
 	{
@@ -500,35 +499,87 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 			if (element instanceof JRTemplatePrintElement)
 			{
 				JRTemplatePrintElement templateElement = (JRTemplatePrintElement) element;
-				JRTemplateElement template = templateElement.getTemplate();
-				if (template != null)
-				{
-					virtualizationContext.cacheTemplate(template);
-					String templateId = template.getId();
-					JRIdHolderTemplateElement idTemplate = (JRIdHolderTemplateElement) idTemplates.get(templateId);
-					if (idTemplate == null)
-					{
-						idTemplate = new JRIdHolderTemplateElement(templateId);
-						idTemplates.put(templateId, idTemplate);
-					}
-					templateElement.setTemplate(idTemplate);
-				}
+				setExternalizationTemplate(templateElement, idTemplates);
 			}
 			
 			// replacing image renderer cached in the virtualization context 
 			// with dummy renderer that only stores the renderer ID
 			if (element instanceof JRPrintImage)
 			{
-				JRPrintImage image = (JRPrintImage) element;
-				JRRenderable renderer = image.getRenderer();
-				if (renderer != null && virtualizationContext.hasCachedRenderer(renderer.getId()))
+				setExternalizationRenderer((JRPrintImage) element);
+			}
+		}
+	}
+
+
+	protected void setExternalizationTemplate(JRTemplatePrintElement templateElement, Map idTemplates)
+	{
+		JRTemplateElement template = templateElement.getTemplate();
+		if (template != null)
+		{
+			if (virtualizationContext.hasCachedTemplate(template.getId()))
+			{
+				String templateId = template.getId();
+				JRIdHolderTemplateElement idTemplate = (JRIdHolderTemplateElement) idTemplates.get(templateId);
+				if (idTemplate == null)
 				{
-					image.setRenderer(new JRIdHolderRenderer(renderer));
+					idTemplate = new JRIdHolderTemplateElement(templateId);
+					idTemplates.put(templateId, idTemplate);
+				}
+				templateElement.setTemplate(idTemplate);
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Template " + template + " having id " + template.getId() + " not found in virtualization context cache");
 				}
 			}
 		}
 	}
 
+
+	protected void setExternalizationRenderer(JRPrintImage image)
+	{
+		JRRenderable renderer = image.getRenderer();
+		if (renderer != null && virtualizationContext.hasCachedRenderer(renderer.getId()))
+		{
+			image.setRenderer(new JRIdHolderRenderer(renderer));
+		}
+	}
+
+
+	protected void cacheInContext(List elementList)
+	{
+		if (elementList != null && !elementList.isEmpty())
+		{
+			for (Iterator it = elementList.iterator(); it.hasNext();)
+			{
+				JRPrintElement element = (JRPrintElement) it.next();
+				cacheInContext(element);
+			}
+		}
+	}
+
+	
+	protected void cacheInContext(JRPrintElement element)
+	{
+		if (element instanceof JRTemplatePrintElement)
+		{
+			JRTemplatePrintElement templateElement = (JRTemplatePrintElement) element;
+			JRTemplateElement template = templateElement.getTemplate();
+			if (template != null)
+			{
+				virtualizationContext.cacheTemplate(template);
+			}
+		}
+		
+		if (element instanceof JRPrintFrame)
+		{
+			JRPrintFrame frame = (JRPrintFrame) element;
+			cacheInContext(frame.getElements());
+		}
+	}
 
 	public void afterInternalization()
 	{
@@ -542,19 +593,14 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 			{
 				JRTemplatePrintElement templateElement = (JRTemplatePrintElement) element;
 				JRTemplateElement template = templateElement.getTemplate();
-				if (template != null)
+				if (template != null && template instanceof JRIdHolderTemplateElement)
 				{
-					if (!(template instanceof JRIdHolderTemplateElement))
-					{
-						throw new JRRuntimeException("Virtualization error.");
-					}
-					
 					JRTemplateElement cachedTemplate = virtualizationContext.getCachedTemplate(template.getId());
 					if (cachedTemplate == null)
 					{
 						throw new JRRuntimeException("Template " + template.getId() + " not found in virtualization context.");
 					}
-					
+
 					templateElement.setTemplate(cachedTemplate);
 				}
 			}
@@ -575,5 +621,11 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 				}
 			}
 		}
+	}
+
+
+	public JRVirtualizationContext getContext()
+	{
+		return virtualizationContext;
 	}
 }

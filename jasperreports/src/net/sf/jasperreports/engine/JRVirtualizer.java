@@ -68,11 +68,17 @@ public interface JRVirtualizer
 
 	/**
 	 * Called when the virtual object must be paged-in.
+	 * <p>
+	 * If the object's virtual data is not paged-out, the object will only be
+	 * {@link #touch(JRVirtualizable) touched}.
 	 */
 	void requestData(JRVirtualizable o);
 
 	/**
 	 * Called when the virtual object paged-out data should be freed.
+	 * <p>
+	 * If the object's virtual data is not paged-out, the object will only be
+	 * {@link #touch(JRVirtualizable) touched}.
 	 */
 	void clearData(JRVirtualizable o);
 
