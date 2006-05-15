@@ -31,9 +31,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * Context used to store data shared by virtualized objects resulted from a report fill process.
@@ -45,8 +50,14 @@ public class JRVirtualizationContext implements Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	private static final Log log = LogFactory.getLog(JRVirtualizationContext.class);
+	
+	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
+	
 	private Map cachedRenderers;
 	private Map cachedTemplates;
+	
+	private boolean readOnly;
 	
 	/**
 	 * Constructs a context.
@@ -95,6 +106,18 @@ public class JRVirtualizationContext implements Serializable
 	{
 		return cachedRenderers.containsKey(id);
 	}
+
+	
+	/**
+	 * Determines whether a cached {@link JRTemplateElement template} with a specified ID exists.
+	 * 
+	 * @param id the template ID
+	 * @return <code>true</code> iff the context contains a cached template with the specified ID
+	 */
+	public boolean hasCachedTemplate(String id)
+	{
+		return cachedTemplates.containsKey(id);
+	}
 	
 	
 	/**
@@ -104,7 +127,11 @@ public class JRVirtualizationContext implements Serializable
 	 */
 	public void cacheTemplate(JRTemplateElement template)
 	{
-		cachedTemplates.put(template.getId(), template);
+		Object old = cachedTemplates.put(template.getId(), template);
+		if (old == null && log.isDebugEnabled())
+		{
+			log.debug("Cached template " + template + " having id " + template.getId());
+		}
 	}
 	
 	
@@ -117,5 +144,67 @@ public class JRVirtualizationContext implements Serializable
 	public JRTemplateElement getCachedTemplate(String templateId)
 	{
 		return (JRTemplateElement) cachedTemplates.get(templateId);
+	}
+
+
+	/**
+	 * Determines whether this context has been marked as read-only.
+	 * 
+	 * @return whether this context has been marked as read-only
+	 * @see #setReadOnly(boolean)
+	 */
+	public boolean isReadOnly()
+	{
+		return readOnly;
+	}
+
+
+	/**
+	 * Sets the read-only flag for this context.
+	 * <p>
+	 * When in read-only mode, all the virtualizable objects belonging to this context
+	 * are assumed final by the virtualizer and any change in a virtualizable object's data
+	 * would be discarded on virtualization.
+	 * 
+	 * @param readOnly the read-only flag
+	 */
+	public void setReadOnly(boolean readOnly)
+	{
+		this.readOnly = readOnly;
+	}
+	
+	
+	/**
+	 * Registers a virtualization context for {@link JasperPrint JasperPrint} object.
+	 * 
+	 * @param context the virtualization context
+	 * @param print the print object
+	 */
+	public static void register(JRVirtualizationContext context, JasperPrint print)
+	{
+		synchronized (contexts)
+		{
+			contexts.put(print, context);
+		}
+	}
+
+	
+	/**
+	 * Returns the virtualization context registered for a print object.
+	 * <p>
+	 * When the engine fills a report using a virtualizer, it {@link #register(JRVirtualizationContext, JasperPrint) registers}
+	 * the virtualization context with the generated {@link JasperPrint JasperPrint} object so that the caller
+	 * would be able to retrieve the context based on the returned print object.
+	 * 
+	 * @param print a print object
+	 * @return the virtualization context registered for the print object, or <code>null</code> if no context
+	 * has been registered
+	 */
+	public static JRVirtualizationContext getRegistered(JasperPrint print)
+	{
+		synchronized (contexts)
+		{
+			return (JRVirtualizationContext) contexts.get(print);
+		}
 	}
 }

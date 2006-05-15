@@ -33,6 +33,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+
 /**
  * @author John Bindel
  * @version $Id$
@@ -80,4 +82,13 @@ public interface JRVirtualizable {
 	 * Called by the virtualizer after the object's data was made available to the object.
 	 */
 	void afterInternalization();
+	
+	/**
+	 * Returns the virtualization context this object belongs to.
+	 * 
+	 * @return the virtualization context this object belongs to
+	 */
+	//TODO use a more generic context type, JRVirtualizationContext has print page-specific methods
+	//issue: changing JRVirtualizationContext hierarchy would impact serialization
+	JRVirtualizationContext getContext(); 
 }
