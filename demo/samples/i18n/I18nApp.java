@@ -116,8 +116,7 @@ public class I18nApp
 				Locale locale = chooseLocale();
 				if (locale != null)
 				{
-					Locale.setDefault(locale);
-					JasperViewer.viewReport(fileName, false, true);
+					JasperViewer.viewReport(fileName, false, true, locale);
 				}
 				else
 				{

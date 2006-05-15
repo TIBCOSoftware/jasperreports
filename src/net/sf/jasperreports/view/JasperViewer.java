@@ -36,6 +36,7 @@ package net.sf.jasperreports.view;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.InputStream;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -66,12 +67,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isXMLFile
 		) throws JRException
 	{
-		this.isExitOnClose = true;
-
-		initComponents();
-
-		this.viewer = new JRViewer(sourceFile, isXMLFile);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		this(sourceFile, isXMLFile, true);
 	}
 
 
@@ -81,12 +77,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isXMLFile
 		) throws JRException
 	{
-		this.isExitOnClose = true;
-
-		initComponents();
-
-		this.viewer = new JRViewer(is, isXMLFile);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		this(is, isXMLFile, true);
 	}
 
 
@@ -95,12 +86,7 @@ public class JasperViewer extends javax.swing.JFrame
 		JasperPrint jasperPrint
 		)
 	{
-		this.isExitOnClose = true;
-
-		initComponents();
-
-		this.viewer = new JRViewer(jasperPrint);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		this(jasperPrint, true);
 	}
 
 
@@ -111,12 +97,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		)  throws JRException
 	{
-		this.isExitOnClose = isExitOnClose;
-
-		initComponents();
-
-		this.viewer = new JRViewer(sourceFile, isXMLFile);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		this(sourceFile, isXMLFile, isExitOnClose, null);
 	}
 
 
@@ -127,12 +108,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		) throws JRException
 	{
-		this.isExitOnClose = isExitOnClose;
-
-		initComponents();
-
-		this.viewer = new JRViewer(is, isXMLFile);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		this(is, isXMLFile, isExitOnClose, null);
 	}
 
 
@@ -142,11 +118,65 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		)
 	{
+		this(jasperPrint, isExitOnClose, null);
+	}
+
+
+	/** Creates new form JasperViewer */
+	public JasperViewer(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		)  throws JRException
+	{
+		if (locale != null)
+			setLocale(locale);
+
 		this.isExitOnClose = isExitOnClose;
 
 		initComponents();
 
-		this.viewer = new JRViewer(jasperPrint);
+		this.viewer = new JRViewer(sourceFile, isXMLFile, locale);
+		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+
+	/** Creates new form JasperViewer */
+	public JasperViewer(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		if (locale != null)
+			setLocale(locale);
+
+		this.isExitOnClose = isExitOnClose;
+
+		initComponents();
+
+		this.viewer = new JRViewer(is, isXMLFile, locale);
+		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+
+	/** Creates new form JasperViewer */
+	public JasperViewer(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
+		if (locale != null)
+			setLocale(locale);
+
+		this.isExitOnClose = isExitOnClose;
+
+		initComponents();
+
+		this.viewer = new JRViewer(jasperPrint, locale);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
@@ -295,13 +325,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isXMLFile
 		) throws JRException
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				sourceFile, 
-				isXMLFile,
-				true
-				);
-		jasperViewer.setVisible(true);
+		viewReport(sourceFile, isXMLFile, true, null);
 	}
 
 	/**
@@ -312,13 +336,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isXMLFile
 		) throws JRException
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				is,
-				isXMLFile,
-				true
-				);
-		jasperViewer.setVisible(true);
+		viewReport(is, isXMLFile, true, null);
 	}
 
 	/**
@@ -328,12 +346,7 @@ public class JasperViewer extends javax.swing.JFrame
 		JasperPrint jasperPrint
 		)
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				jasperPrint,
-				true
-				);
-		jasperViewer.setVisible(true);
+		viewReport(jasperPrint, true, null);
 	}
 
 	/**
@@ -345,13 +358,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		) throws JRException
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				sourceFile,
-				isXMLFile,
-				isExitOnClose
-				);
-		jasperViewer.setVisible(true);
+		viewReport(sourceFile, isXMLFile, isExitOnClose, null);
 	}
 
 	/**
@@ -363,13 +370,7 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		) throws JRException
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				is,
-				isXMLFile,
-				isExitOnClose
-				);
-		jasperViewer.setVisible(true);
+		viewReport(is, isXMLFile, isExitOnClose, null);
 	}
 
 	/**
@@ -380,10 +381,63 @@ public class JasperViewer extends javax.swing.JFrame
 		boolean isExitOnClose
 		)
 	{
+		viewReport(jasperPrint, isExitOnClose, null);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		JasperViewer jasperViewer =
+			new JasperViewer(
+				sourceFile,
+				isXMLFile,
+				isExitOnClose,
+				locale
+				);
+		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		JasperViewer jasperViewer =
+			new JasperViewer(
+				is,
+				isXMLFile,
+				isExitOnClose,
+				locale
+				);
+		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
 		JasperViewer jasperViewer =
 			new JasperViewer(
 				jasperPrint,
-				isExitOnClose
+				isExitOnClose,
+				locale
 				);
 		jasperViewer.setVisible(true);
 	}
