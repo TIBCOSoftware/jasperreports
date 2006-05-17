@@ -12,10 +12,16 @@
 			<equals arg1="${ant.java.version}" arg2="1.5"/>
 			</or>
 		</condition>
+		<condition property="using.jdk.1.5">
+			<or>
+			<equals arg1="${ant.java.version}" arg2="1.5"/>
+			</or>
+		</condition>
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true">
 			<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
+			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">
