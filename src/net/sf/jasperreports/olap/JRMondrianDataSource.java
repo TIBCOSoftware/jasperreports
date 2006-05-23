@@ -118,56 +118,55 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 	public boolean next() throws JRException
 	{
 		boolean next;
-		
-		if (iterate)
+		boolean matchMaxLevel;
+		do
 		{
-			boolean matchMaxLevel;
-			do
+			if (iterate)
 			{
 				next = nextPositions();
-				if (!next)
-				{
-					break;
-				}
+			}
+			else
+			{
+				next = first;
+				first = false;
+			}
 
-				resetMaxDepths();
-				for (Iterator it = fieldMatchers.entrySet().iterator(); it.hasNext();)
+			if (!next)
+			{
+				break;
+			}
+
+			resetMaxDepths();
+			for (Iterator it = fieldMatchers.entrySet().iterator(); it.hasNext();)
+			{
+				Map.Entry entry = (Map.Entry) it.next();
+				Object fieldName = entry.getKey();
+				FieldMatcher matcher = (FieldMatcher) entry.getValue();
+				if (matcher.matches())
 				{
-					Map.Entry entry = (Map.Entry) it.next();
-					Object fieldName = entry.getKey();
-					FieldMatcher matcher = (FieldMatcher) entry.getValue();
-					if (matcher.matches())
-					{
-						Object value = matcher.value();
-						fieldValues.put(fieldName, value);
-					}
+					Object value = matcher.value();
+					fieldValues.put(fieldName, value);
 				}
-				
-				matchMaxLevel = true;
-				axes_loop:
-				for (int i = 0; i < axes.length; i++)
+			}
+			
+			matchMaxLevel = true;
+			axes_loop:
+			for (int i = 0; i < axes.length; i++)
+			{
+				if (iteratePositions[i])
 				{
-					if (iteratePositions[i])
+					for (int j = 0; j < fieldsMaxDepths[i].length; j++)
 					{
-						for (int j = 0; j < fieldsMaxDepths[i].length; j++)
+						if (maxDepths[i][j] < fieldsMaxDepths[i][j])
 						{
-							if (maxDepths[i][j] < fieldsMaxDepths[i][j])
-							{
-								matchMaxLevel = false;
-								break axes_loop;
-							}
+							matchMaxLevel = false;
+							break axes_loop;
 						}
 					}
 				}
 			}
-			while (!matchMaxLevel);
 		}
-		else
-		{
-			//TODO
-			next = first;
-			first = false;
-		}
+		while (!matchMaxLevel);
 		
 		return next;
 	}
@@ -399,11 +398,11 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 	
 	protected abstract class FieldMatcher
 	{
-		abstract boolean matches();
+		public abstract boolean matches();
 		
-		abstract Object value();
+		public abstract Object value();
 		
-		final Member member(net.sf.jasperreports.olap.mapping.Member memberInfo, int[] positions)
+		public final Member member(net.sf.jasperreports.olap.mapping.Member memberInfo, int[] positions)
 		{
 			int axisIdx = memberInfo.getAxis().getIdx();
 			Axis axis = axes[axisIdx];
@@ -426,7 +425,7 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 			this.property = mapping.getProperty();
 		}
 		
-		boolean matches()
+		public boolean matches()
 		{
 			member = member(memberInfo, axisPositions);
 			setMatchMemberDepth(memberInfo, member);
@@ -434,7 +433,7 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 			return member != null;
 		}
 
-		Object value()
+		public Object value()
 		{
 			Object value;
 			if (property != null)
@@ -456,30 +455,10 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 	
 	protected class DataFieldMatcher extends FieldMatcher
 	{
-		final boolean formatted;
-		final int[] dataPositions;
-		final net.sf.jasperreports.olap.mapping.Member[] members;
-		int[] positions;
-		
-		DataFieldMatcher(boolean formatted, int[] dataPositions, List members)
-		{
-			this.formatted = formatted;
-			this.dataPositions = dataPositions;
-			if (members == null || members.isEmpty())
-			{
-				this.members = null;
-			}
-			else
-			{
-				this.members = new net.sf.jasperreports.olap.mapping.Member[members.size()];
-				members.toArray(this.members);
-			}
-			
-			if (dataPositions == null)
-			{
-				positions = axisPositions;
-			}
-		}
+		private final boolean formatted;
+		private final int[] dataPositions;
+		private final net.sf.jasperreports.olap.mapping.Member[] members;
+		private int[] positions;
 
 		public DataFieldMatcher(DataMapping mapping)
 		{
@@ -529,7 +508,7 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 			}
 		}
 
-		boolean matches()
+		public boolean matches()
 		{
 			if (dataPositions != null)
 			{
@@ -555,7 +534,7 @@ public class JRMondrianDataSource implements JRDataSource, MappingMetadata
 			return matches;
 		}
 
-		Object value()
+		public Object value()
 		{
 			Cell cell = result.getCell(positions);
 			
