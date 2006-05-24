@@ -430,7 +430,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 						pdfContentByte = pdfWriter.getDirectContent();
 
-						pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
+						pdfContentByte.setLineCap(2);
 
 						chunk = new Chunk(" ");
 						chunk.setLocalDestination(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
