@@ -50,14 +50,15 @@ public class JRConcurrentSwapFile extends JRSwapFile
 	/**
 	 * Creates a swap file.
 	 * 
-	 * @param directory the directory where the file should be created.
 	 * The file name is generated automatically.
+	 * 
+	 * @param directory the directory where the file should be created.
 	 * @param blockSize the size of the blocks allocated by the swap file
 	 * @param minGrowCount the minimum number of blocks by which the swap file grows when full
 	 */
-	public JRConcurrentSwapFile(String swapFileName, int blockSize, int minGrowCount)
+	public JRConcurrentSwapFile(String directory, int blockSize, int minGrowCount)
 	{
-		super(swapFileName, blockSize, minGrowCount);
+		super(directory, blockSize, minGrowCount);
 
 		fileChannel = file.getChannel();
 	}
