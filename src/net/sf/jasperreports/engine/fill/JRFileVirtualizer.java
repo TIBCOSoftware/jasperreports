@@ -43,6 +43,7 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,6 +60,20 @@ import org.apache.commons.logging.LogFactory;
 public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	
 	private static final Log log = LogFactory.getLog(JRFileVirtualizer.class);
+
+	
+	/**
+	 * Property used to decide whether {@link File#deleteOnExit() deleteOnExit} should be requested
+	 * for temporary files created by the virtualizer.
+	 * <p>
+	 * Calling  {@link File#deleteOnExit() File.deleteOnExit()} will accumulate JVM process memory
+	 * (see this <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4513817">bug</a>), and this
+	 * should abviously be avoided in long-running applications.
+	 * <p>
+	 * Temporary files will be deleted by explicitly calling {@link #cleanup() cleanup()} or from the virtualizer
+	 * <code>finalize()</code> method.
+	 */
+	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRProperties.PROPERTY_PREFIX + "virtulazer.temp.files.set.delete.on.exit";
 
 	private final String directory;
 
@@ -102,7 +117,9 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		File file = new File(directory, filename);
 		
 		if (file.createNewFile()) {
-			file.deleteOnExit();
+			if (JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT)) {
+				file.deleteOnExit();
+			}
 
 			FileOutputStream fos = null;
 			try {

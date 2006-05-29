@@ -37,6 +37,7 @@ import java.util.Properties;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -227,6 +228,8 @@ public class JRProperties
 		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "EJBQL", "net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory");
 
 		defaults.setProperty(SUBREPORT_RUNNER_FACTORY, "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory");
+
+		defaults.setProperty(JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT, "true");
 
 		return defaults;
 	}
