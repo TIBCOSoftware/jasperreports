@@ -42,7 +42,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -65,7 +64,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
-import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileFilter;
 
 import net.sf.jasperreports.engine.JRException;
@@ -1423,27 +1421,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		}
 
-		if (zoom <= 2) {
-			Image image = null;
-			ImageIcon imageIcon = null;
-
-			try
-			{
-				image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, realZoom);
-				imageIcon = new ImageIcon(image);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
-			}
-
-			lblPage.setIcon(imageIcon);
-		}
-		else {
-			pnlMain.validate();
-			pnlMain.repaint();
-		}
+		pnlMain.validate();
+		pnlMain.repaint();
 	}
 
 
