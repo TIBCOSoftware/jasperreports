@@ -2,15 +2,20 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.3 (2006-05-xx)
+JasperReports 1.2.3 (2006-05-30)
 -----------------------------------
-- OLAP data source (Mondrian);
+- support for OLAP and MDX queries using Mondrian-based 
+query executer and data source implementations;
 
-- EJBQL query executer and data source;
+- support for EJBQL using JPA-based query executer implementation
+(contribution by Marcel Overdijk);
 
-- GZIP in-memory virtualizer;
+- GZIP in-memory virtualizer 
+(contributed by John Bindel, Works Inc.);
 
-- (single) swap file virtualizer
+- new single/swap file virtualizer;
+
+- support for shared file virtualizer;
 
 - minor bug fixes and improvements;
 
@@ -174,7 +179,8 @@ Stacked Bar 3D, Line, XY Line, Area, XY Area, Scatter Plot, Bubble, Time series,
 High Low Open Close, Candlestick;
 
 - support for generating very large reports using serialization on disk to minimize memory 
-consumption during the filling and exporting processes (report virtualizer, contributed by Works Inc.);
+consumption during the filling and exporting processes 
+(report virtualizer, contributed by John Bindel, Works Inc.);
 
 - report fields can be of any type, just like report parameters and report variables. 
 This simplifies working with JavaBean data sources where casting from java.lang.Object 
