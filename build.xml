@@ -4,7 +4,7 @@
 
 	<property name="version" value="1.2.3"/>
 
-	<target name="compile" description="Compiles the java source files of the library." depends="antlr.generate">
+	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
 		<condition property="using.jdk.1.4">
 			<or>
@@ -29,7 +29,6 @@
 				</fileset>
 			</classpath>
 			<src path="./src"/>
-			<src path="./build/antlr-generated-sources"/>
 		</javac>
 		
 		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
@@ -55,13 +54,14 @@
 				<include name="**/*.dtd"/>
 				<include name="**/*.properties"/>
 				<include name="**/*.GIF"/>
+				<include name="**/*TokenTypes.txt"/>
 			</fileset>
 		</copy>
 	</target>
 	
 	<target name="antlr.generate" description="Generete source files for ANTLR grammars">
 		<mkdir dir="./build/antlr-generated-sources"/> 
-		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g" outputdirectory="./build/antlr-generated-sources">
+		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
 			<classpath>
 				<pathelement path="./lib/antlr-2.7.5.jar"/>
 			</classpath>
