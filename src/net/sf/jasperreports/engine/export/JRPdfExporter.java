@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -97,6 +98,7 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -168,6 +170,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	private BookmarkStack bookmarkStack = null;
 
 	private Map fontMap = null;
+	
+	private SplitCharacter splitCharacter;
+	
 	/**
 	 *
 	 */
@@ -253,6 +258,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
 	
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			
+			setSplitCharacter();
 	
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
@@ -303,6 +310,26 @@ public class JRPdfExporter extends JRAbstractExporter
 		finally
 		{
 			resetExportContext();
+		}
+	}
+
+
+	protected void setSplitCharacter()
+	{
+		boolean useFillSplitCharacter;
+		Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
+		if (useFillSplitCharacterParam == null)
+		{
+			useFillSplitCharacter = JRProperties.getBooleanProperty(JRProperties.PDF_FORCE_LINEBREAK_POLICY);
+		}
+		else
+		{
+			useFillSplitCharacter = useFillSplitCharacterParam.booleanValue();
+		}
+		
+		if (useFillSplitCharacter)
+		{
+			splitCharacter = new BreakIteratorSplitCharacter();
 		}
 	}
 
@@ -1437,6 +1464,11 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (backcolor != null)
 		{
 			chunk.setBackground(backcolor);
+		}
+		
+		if (splitCharacter != null)
+		{
+			chunk.setSplitCharacter(splitCharacter);
 		}
 		
 		return chunk;
