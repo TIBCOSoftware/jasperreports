@@ -138,6 +138,15 @@ public class JRProperties
 	 */
 	public static final String SUBREPORT_RUNNER_FACTORY = PROPERTY_PREFIX + "subreport.runner.factory";
 	
+	/**
+	 * Property that provides a default value for the 
+	 * {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY JRPdfExporterParameter.FORCE_LINEBREAK_POLICY}
+	 * PDF exporter parameter.
+	 * 
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY
+	 */
+	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
+	
 	protected static Properties props;
 	
 	protected static Properties savedProps;
@@ -230,6 +239,7 @@ public class JRProperties
 		defaults.setProperty(SUBREPORT_RUNNER_FACTORY, "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory");
 
 		defaults.setProperty(JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT, "true");
+		defaults.setProperty(PDF_FORCE_LINEBREAK_POLICY, "false");
 
 		return defaults;
 	}
