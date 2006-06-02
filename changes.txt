@@ -159,7 +159,7 @@ and the "customizerClass" attribute available for charts;
 - new FONT_MAP exporter parameter introduced to allow export-time font mappings and 
 better control of font translation during document export;
 
-- support for generating PDF bookmarks from report anchors using a new "bookmarkLever" 
+- support for generating PDF bookmarks from report anchors using a new "bookmarkLevel" 
 attribute available for hyperlink elements;
 
 - new IS_IGNORE_PAGINATION built-in parameter for disabling pagination and allow 
