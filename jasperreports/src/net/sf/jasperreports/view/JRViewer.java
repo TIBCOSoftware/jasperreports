@@ -167,8 +167,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML, Locale locale) throws JRException
 	{
-		if (locale != null)
-			setLocale(locale);
+		initLocale(locale);
 
 		setScreenDetails();
 
@@ -189,8 +188,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(InputStream is, boolean isXML, Locale locale) throws JRException
 	{
-		if (locale != null)
-			setLocale(locale);
+		initLocale(locale);
 
 		setScreenDetails();
 
@@ -211,8 +209,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/** Creates new form JRViewer */
 	public JRViewer(JasperPrint jrPrint, Locale locale)
 	{
-		if (locale != null)
-			setLocale(locale);
+		initLocale(locale);
 
 		setScreenDetails();
 
@@ -305,6 +302,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public JRHyperlinkListener[] getHyperlinkListeners()
 	{
 		return (JRHyperlinkListener[])hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
+	}
+
+
+	/**
+	 * 
+	 */
+	protected void initLocale(Locale locale)
+	{
+		if (locale != null)
+			setLocale(locale);
+		else
+			setLocale(Locale.getDefault());
 	}
 
 
