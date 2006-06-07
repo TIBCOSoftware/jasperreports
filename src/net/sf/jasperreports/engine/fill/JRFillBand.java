@@ -76,7 +76,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		super(filler, band, factory);
 
-		this.parent = band;
+		parent = band;
 
 		if (deepElements.length > 0)
 		{
@@ -108,7 +108,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected boolean isNewPageColumn()
 	{
-		return this.isNewPageColumn;
+		return isNewPageColumn;
 	}
 
 
@@ -128,7 +128,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected void setNewGroup(JRGroup group, boolean isNew)
 	{
-		this.isNewGroupMap.put(group, isNew ? Boolean.TRUE : Boolean.FALSE);
+		isNewGroupMap.put(group, isNew ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 
@@ -137,7 +137,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected boolean isNewGroup(JRGroup group)
 	{
-		Boolean value = (Boolean)this.isNewGroupMap.get(group);
+		Boolean value = (Boolean)isNewGroupMap.get(group);
 
 		if (value == null)
 		{
@@ -153,7 +153,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	public int getHeight()
 	{
-		return (this.parent != null ? this.parent.getHeight() : 0);
+		return (parent != null ? parent.getHeight() : 0);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	public boolean isSplitAllowed()
 	{
-		return this.parent.isSplitAllowed();
+		return parent.isSplitAllowed();
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	public JRExpression getPrintWhenExpression()
 	{
-		return (this.parent != null ? this.parent.getPrintWhenExpression() : null);
+		return (parent != null ? parent.getPrintWhenExpression() : null);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected boolean isPrintWhenExpressionNull()
 	{
-		return (this.getPrintWhenExpression() == null);
+		return (getPrintWhenExpression() == null);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected boolean isPrintWhenTrue()
 	{
-		return this.isPrintWhenTrue;
+		return isPrintWhenTrue;
 	}
 
 	/**
@@ -209,9 +209,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	protected boolean isToPrint()
 	{
 		return
-			(this.isPrintWhenExpressionNull() ||
-			 (!this.isPrintWhenExpressionNull() &&
-			  this.isPrintWhenTrue()));
+			(isPrintWhenExpressionNull() ||
+			 (!isPrintWhenExpressionNull() &&
+			  isPrintWhenTrue()));
 	}
 
 
@@ -224,10 +224,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	{
 		boolean isPrintTrue = false;
 
-		JRExpression expression = this.getPrintWhenExpression();
+		JRExpression expression = getPrintWhenExpression();
 		if (expression != null)
 		{
-			Boolean printWhenExpressionValue = (Boolean)this.filler.evaluateExpression(expression, evaluation);
+			Boolean printWhenExpressionValue = (Boolean)filler.evaluateExpression(expression, evaluation);
 			if (printWhenExpressionValue == null)
 			{
 				isPrintTrue = false;
@@ -238,7 +238,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 			}
 		}
 
-		this.setPrintWhenTrue(isPrintTrue);
+		setPrintWhenTrue(isPrintTrue);
 	}
 
 
@@ -250,9 +250,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		int availableStretchHeight
 		) throws JRException
 	{
-		this.rewind();
+		rewind();
 
-		return this.fill(availableStretchHeight);
+		return fill(availableStretchHeight);
 	}
 
 
@@ -261,7 +261,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	 */
 	protected JRPrintBand fill() throws JRException
 	{
-		return this.fill(0, false);
+		return fill(0, false);
 	}
 
 
@@ -272,7 +272,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		int availableStretchHeight
 		) throws JRException
 	{
-		return this.fill(availableStretchHeight, true);
+		return fill(availableStretchHeight, true);
 	}
 
 
@@ -288,11 +288,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 		if (
 			Thread.currentThread().isInterrupted()
-			|| this.filler.isInterrupted()
+			|| filler.isInterrupted()
 			)
 		{
 			// child fillers will stop if this parent filler was marked as interrupted
-			this.filler.setInterrupted(true);
+			filler.setInterrupted(true);
 
 			throw new JRFillInterruptedException();
 		}
@@ -306,22 +306,22 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 			isFirstWholeOnPageColumn = true;
 		}
 		
-		this.resetElements();
+		resetElements();
 
-		this.prepareElements(availableStretchHeight, isOverflowAllowed);
+		prepareElements(availableStretchHeight, isOverflowAllowed);
 
-		this.stretchElements();
+		stretchElements();
 
-		this.moveBandBottomElements();
+		moveBandBottomElements();
 
-		this.removeBlankElements();
+		removeBlankElements();
 
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
-		this.isNewPageColumn = false;
-		this.isNewGroupMap = new HashMap();
+		isNewPageColumn = false;
+		isNewGroupMap = new HashMap();
 
 		JRPrintBand printBand = new JRPrintBand();
-		this.fillElements(printBand);
+		fillElements(printBand);
 
 		return printBand;
 	}
@@ -397,7 +397,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		super.evaluate(evaluation);
-		this.evaluateConditionalStyles(evaluation);
+		evaluateConditionalStyles(evaluation);
 	}
 
 }

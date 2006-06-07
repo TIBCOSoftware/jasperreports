@@ -68,14 +68,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 *
 	 */
-	public byte getMode()
-	{
-		return JRStyleResolver.getMode(this, MODE_OPAQUE);
-	}
-
-	/**
-	 *
-	 */
 	public byte getPen()
 	{
 		return JRStyleResolver.getPen(this, PEN_1_POINT);

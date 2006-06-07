@@ -73,12 +73,12 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		
 	public String getIncrementerFactoryClassName()
 	{
-		return this.parent.getIncrementerFactoryClassName();
+		return parent.getIncrementerFactoryClassName();
 	}
 		
 	public byte getCalculation()
 	{
-		return this.parent.getCalculation();
+		return parent.getCalculation();
 	}
 
 		

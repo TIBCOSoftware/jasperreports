@@ -34,6 +34,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -58,6 +59,14 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 		elements = new ArrayList();
 	}
 
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+	}
+		
 	public void setBox(JRBox box)
 	{
 		this.box = box;
