@@ -92,7 +92,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public String getName()
 	{
-		return this.parent.getName();
+		return parent.getName();
 	}
 		
 	/**
@@ -100,7 +100,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Class getValueClass()
 	{
-		return this.parent.getValueClass();
+		return parent.getValueClass();
 	}
 		
 	/**
@@ -108,7 +108,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public String getValueClassName()
 	{
-		return this.parent.getValueClassName();
+		return parent.getValueClassName();
 	}
 		
 	/**
@@ -116,7 +116,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Class getIncrementerFactoryClass()
 	{
-		return this.parent.getIncrementerFactoryClass();
+		return parent.getIncrementerFactoryClass();
 	}
 		
 	/**
@@ -124,7 +124,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public String getIncrementerFactoryClassName()
 	{
-		return this.parent.getIncrementerFactoryClassName();
+		return parent.getIncrementerFactoryClassName();
 	}
 		
 	/**
@@ -132,7 +132,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public JRExpression getExpression()
 	{
-		return this.parent.getExpression();
+		return parent.getExpression();
 	}
 		
 	/**
@@ -140,7 +140,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public JRExpression getInitialValueExpression()
 	{
-		return this.parent.getInitialValueExpression();
+		return parent.getInitialValueExpression();
 	}
 		
 	/**
@@ -148,7 +148,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public byte getResetType()
 	{
-		return this.parent.getResetType();
+		return parent.getResetType();
 	}
 		
 	/**
@@ -156,7 +156,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public byte getIncrementType()
 	{
-		return this.parent.getIncrementType();
+		return parent.getIncrementType();
 	}
 		
 	/**
@@ -164,7 +164,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public byte getCalculation()
 	{
-		return this.parent.getCalculation();
+		return parent.getCalculation();
 	}
 		
 	/**
@@ -172,7 +172,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public boolean isSystemDefined()
 	{
-		return this.parent.isSystemDefined();
+		return parent.isSystemDefined();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public JRGroup getResetGroup()
 	{
-		return this.resetGroup;
+		return resetGroup;
 	}
 		
 	/**
@@ -188,7 +188,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public JRGroup getIncrementGroup()
 	{
-		return this.incrementGroup;
+		return incrementGroup;
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Object getOldValue()
 	{
-		return this.oldValue;
+		return oldValue;
 	}
 		
 	/**
@@ -212,7 +212,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Object getEstimatedValue()
 	{
-		return this.estimatedValue;
+		return estimatedValue;
 	}
 		
 	/**
@@ -228,7 +228,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Object getIncrementedValue()
 	{
-		return this.incrementedValue;
+		return incrementedValue;
 	}
 		
 	/**
@@ -244,7 +244,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public Object getValue()
 	{
-		return this.value;
+		return value;
 	}
 		
 	/**
@@ -260,7 +260,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 */
 	public boolean isInitialized()
 	{
-		return this.isInitialized;
+		return isInitialized;
 	}
 		
 	/**
