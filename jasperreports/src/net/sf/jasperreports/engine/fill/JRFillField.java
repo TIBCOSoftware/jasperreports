@@ -70,7 +70,7 @@ public class JRFillField implements JRField
 	 */
 	public String getName()
 	{
-		return this.parent.getName();
+		return parent.getName();
 	}
 		
 	/**
@@ -78,7 +78,7 @@ public class JRFillField implements JRField
 	 */
 	public String getDescription()
 	{
-		return this.parent.getDescription();
+		return parent.getDescription();
 	}
 		
 	/**
@@ -109,7 +109,7 @@ public class JRFillField implements JRField
 	 */
 	public Object getOldValue()
 	{
-		return this.oldValue;
+		return oldValue;
 	}
 		
 	/**
@@ -125,7 +125,7 @@ public class JRFillField implements JRField
 	 */
 	public Object getValue()
 	{
-		return this.value;
+		return value;
 	}
 		
 	/**

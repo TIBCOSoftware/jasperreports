@@ -173,17 +173,17 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public byte getPen()
+	public byte getMode()
 	{
-		return JRStyleResolver.getPen(this, PEN_NONE);
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
 	}
 
 	/**
 	 *
 	 */
-	public byte getMode()
+	public byte getPen()
 	{
-		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+		return JRStyleResolver.getPen(this, PEN_NONE);
 	}
 
 	/**

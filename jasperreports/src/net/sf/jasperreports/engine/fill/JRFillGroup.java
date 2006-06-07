@@ -84,7 +84,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public String getName()
 	{
-		return this.parent.getName();
+		return parent.getName();
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public JRExpression getExpression()
 	{
-		return this.parent.getExpression();
+		return parent.getExpression();
 	}
 		
 	/**
@@ -100,7 +100,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isStartNewColumn()
 	{
-		return this.parent.isStartNewColumn();
+		return parent.isStartNewColumn();
 	}
 		
 	/**
@@ -108,7 +108,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewColumn(boolean isStart)
 	{
-		this.parent.setStartNewColumn(isStart);
+		parent.setStartNewColumn(isStart);
 	}
 		
 	/**
@@ -116,7 +116,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isStartNewPage()
 	{
-		return this.parent.isStartNewPage();
+		return parent.isStartNewPage();
 	}
 		
 	/**
@@ -124,7 +124,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setStartNewPage(boolean isStart)
 	{
-		this.parent.setStartNewPage(isStart);
+		parent.setStartNewPage(isStart);
 	}
 		
 	/**
@@ -132,7 +132,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isResetPageNumber()
 	{
-		return this.parent.isResetPageNumber();
+		return parent.isResetPageNumber();
 	}
 		
 	/**
@@ -140,7 +140,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public void setResetPageNumber(boolean isReset)
 	{
-		this.parent.setResetPageNumber(isReset);
+		parent.setResetPageNumber(isReset);
 	}
 		
 	/**
@@ -148,7 +148,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isReprintHeaderOnEachPage()
 	{
-		return this.parent.isReprintHeaderOnEachPage();
+		return parent.isReprintHeaderOnEachPage();
 	}
 		
 	/**
@@ -163,7 +163,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public int getMinHeightToStartNewPage()
 	{
-		return this.parent.getMinHeightToStartNewPage();
+		return parent.getMinHeightToStartNewPage();
 	}
 		
 	/**
@@ -178,7 +178,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public JRBand getGroupHeader()
 	{
-		return this.groupHeader;
+		return groupHeader;
 	}
 		
 	/**
@@ -186,7 +186,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public JRBand getGroupFooter()
 	{
-		return this.groupFooter;
+		return groupFooter;
 	}
 		
 	/**
@@ -194,7 +194,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public JRVariable getCountVariable()
 	{
-		return this.countVariable;
+		return countVariable;
 	}
 	
 	/**
@@ -202,7 +202,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean hasChanged()
 	{
-		return this.hasChanged;
+		return hasChanged;
 	}
 		
 	/**
@@ -218,7 +218,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isTopLevelChange()
 	{
-		return this.isTopLevelChange;
+		return isTopLevelChange;
 	}
 		
 	/**
@@ -234,7 +234,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	public boolean isFooterPrinted()
 	{
-		return this.isFooterPrinted;
+		return isFooterPrinted;
 	}
 		
 	/**
