@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.compilers.JRGroovyCompiler;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -77,16 +76,18 @@ public final class JRDefaultCompiler implements JRCompiler
 		JRCompiler jrCompiler = null;
 
 		String compiler = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
+		if (
+			(compiler == null 
+			|| compiler.trim().length() == 0)
+			&& JRReport.LANGUAGE_GROOVY.equals(jasperDesign.getLanguage())
+			)
+		{
+			compiler = "net.sf.jasperreports.compilers.JRGroovyCompiler";
+		}
+
 		if (compiler == null || compiler.trim().length() == 0)
 		{
-			if (JRReport.LANGUAGE_GROOVY.equals(jasperDesign.getLanguage()))
-			{
-				jrCompiler = new JRGroovyCompiler();
-			}
-			else
-			{
-				jrCompiler = getJavaCompiler();
-			}
+			jrCompiler = getJavaCompiler();
 		}
 		else
 		{

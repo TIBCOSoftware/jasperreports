@@ -119,7 +119,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 		        Object key = entry.getKey();
 		        Object value = entry.getValue();
-		        remove(key);
+		        this.remove(key);
 		        processRemovedLRU(key,value);
 		    }
 
