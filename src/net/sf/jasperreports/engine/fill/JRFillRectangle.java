@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -72,7 +73,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	 */
 	public int getRadius()
 	{
-		return ((JRRectangle)this.parent).getRadius();
+		return JRStyleResolver.getRadius(this);
 	}
 		
 	public Integer getOwnRadius()
@@ -99,11 +100,11 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRRectangle)parent, style);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

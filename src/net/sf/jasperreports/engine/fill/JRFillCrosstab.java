@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.jfree.data.general.Dataset;
@@ -160,6 +161,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 		copyVariables(crosstab, crosstabFactory);
 
 		crosstabFiller = new CrosstabFiller();
+	}
+
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
 	}
 
 	private void copyRowGroups(JRCrosstab crosstab, JRFillObjectFactory factory)
@@ -499,7 +508,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
@@ -521,7 +530,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			rectangle.setBackcolor(getBackcolor());
 			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle, style);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 			
 			registerTemplate(style, template);
 		}

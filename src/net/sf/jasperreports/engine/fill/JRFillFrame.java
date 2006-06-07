@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
@@ -114,6 +115,14 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		bottomTemplateFrames = frame.bottomTemplateFrames;
 		topTemplateFrames = frame.topTemplateFrames;
 		topBottomTemplateFrames = frame.topBottomTemplateFrames;
+	}
+
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
 	}
 
 	protected void evaluate(byte evaluation) throws JRException
@@ -259,7 +268,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	protected JRTemplateFrame getTemplate()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 
 		Map templatesMap;
 		if (first)
@@ -288,7 +297,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		JRTemplateFrame boxTemplate = (JRTemplateFrame) templatesMap.get(style);
 		if (boxTemplate == null)
 		{
-			boxTemplate = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this, style);
+			boxTemplate = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			if (first)
 			{
 				if (!fillBottomBorder) //remove the bottom border
@@ -386,7 +395,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public byte getBorder()
 	{
-		return parentFrame.getBorder();
+		return JRStyleResolver.getBorder(this);
 	}
 
 	public Byte getOwnBorder()
@@ -400,7 +409,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public Color getBorderColor()
 	{
-		return parentFrame.getBorderColor();
+		return JRStyleResolver.getBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnBorderColor()
@@ -414,7 +423,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public int getPadding()
 	{
-		return parentFrame.getPadding();
+		return JRStyleResolver.getPadding(this);
 	}
 
 	public Integer getOwnPadding()
@@ -428,7 +437,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public byte getTopBorder()
 	{
-		return parentFrame.getTopBorder();
+		return JRStyleResolver.getTopBorder(this);
 	}
 
 	public Byte getOwnTopBorder()
@@ -442,7 +451,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public Color getTopBorderColor()
 	{
-		return parentFrame.getTopBorderColor();
+		return JRStyleResolver.getTopBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnTopBorderColor()
@@ -456,7 +465,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public int getTopPadding()
 	{
-		return parentFrame.getTopPadding();
+		return JRStyleResolver.getTopPadding(this);
 	}
 
 	public Integer getOwnTopPadding()
@@ -470,7 +479,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public byte getLeftBorder()
 	{
-		return parentFrame.getLeftBorder();
+		return JRStyleResolver.getLeftBorder(this);
 	}
 
 	public Byte getOwnLeftBorder()
@@ -484,7 +493,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public Color getLeftBorderColor()
 	{
-		return parentFrame.getLeftBorderColor();
+		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnLeftBorderColor()
@@ -498,7 +507,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public int getLeftPadding()
 	{
-		return parentFrame.getLeftPadding();
+		return JRStyleResolver.getLeftPadding(this);
 	}
 
 	public Integer getOwnLeftPadding()
@@ -512,7 +521,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public byte getBottomBorder()
 	{
-		return parentFrame.getBottomBorder();
+		return JRStyleResolver.getBottomBorder(this);
 	}
 
 	public Byte getOwnBottomBorder()
@@ -526,7 +535,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public Color getBottomBorderColor()
 	{
-		return parentFrame.getBottomBorderColor();
+		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnBottomBorderColor()
@@ -540,7 +549,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public int getBottomPadding()
 	{
-		return parentFrame.getBottomPadding();
+		return JRStyleResolver.getBottomPadding(this);
 	}
 
 	public Integer getOwnBottomPadding()
@@ -554,7 +563,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public byte getRightBorder()
 	{
-		return parentFrame.getRightBorder();
+		return JRStyleResolver.getRightBorder(this);
 	}
 
 	public Byte getOwnRightBorder()
@@ -568,7 +577,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public Color getRightBorderColor()
 	{
-		return parentFrame.getRightBorderColor();
+		return JRStyleResolver.getRightBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnRightBorderColor()
@@ -582,7 +591,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	public int getRightPadding()
 	{
-		return parentFrame.getRightPadding();
+		return JRStyleResolver.getRightPadding(this);
 	}
 
 	public Integer getOwnRightPadding()

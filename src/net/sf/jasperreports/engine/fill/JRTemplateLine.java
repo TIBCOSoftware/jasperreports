@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLine;
-import net.sf.jasperreports.engine.JRStyle;
 
 
 /**
@@ -55,16 +54,11 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	protected JRTemplateLine(JRDefaultStyleProvider defaultStyleProvider, JRLine line, JRStyle style)
+	protected JRTemplateLine(JRDefaultStyleProvider defaultStyleProvider, JRLine line)
 	{
 		super(defaultStyleProvider);
 
 		setLine(line);
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
 

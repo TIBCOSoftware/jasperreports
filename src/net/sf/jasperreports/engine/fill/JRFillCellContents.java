@@ -376,7 +376,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(currStyle);
 		if (template == null)
 		{
-			template = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this, currStyle);
+			template = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			templateFrames.put(currStyle, template);
 		}
 		return template;

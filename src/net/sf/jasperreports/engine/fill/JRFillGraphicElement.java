@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -66,7 +67,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public byte getPen()
 	{
-		return ((JRGraphicElement)this.parent).getPen();
+		return JRStyleResolver.getPen(this, PEN_1_POINT);
 	}
 	
 	/**
@@ -96,7 +97,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public byte getFill()
 	{
-		return ((JRGraphicElement)this.parent).getFill();
+		return JRStyleResolver.getFill(this, FILL_SOLID);
 	}
 
 	/**

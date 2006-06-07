@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -136,7 +137,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public String getPattern()
 	{
-		return ((JRTextField)parent).getPattern();
+		return JRStyleResolver.getPattern(this);
 	}
 		
 	public String getOwnPattern()
@@ -156,7 +157,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public boolean isBlankWhenNull()
 	{
-		return ((JRTextField)parent).isBlankWhenNull();
+		return JRStyleResolver.isBlankWhenNull(this);
 	}
 
 	/**
@@ -284,11 +285,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected JRTemplateText getJRTemplateText()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateText template = (JRTemplateText) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), (JRTextField)parent, style, getReportFont());
+			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		

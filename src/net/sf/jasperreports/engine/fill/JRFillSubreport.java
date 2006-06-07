@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.logging.Log;
@@ -154,6 +155,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
+
+	/**
+	 *
+	 */
 	public boolean isUsingCache()
 	{
 		return ((JRSubreport)parent).isUsingCache();
@@ -211,11 +220,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	protected JRTemplateRectangle getJRTemplateRectangle()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), (JRSubreport)parent, style);
+			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

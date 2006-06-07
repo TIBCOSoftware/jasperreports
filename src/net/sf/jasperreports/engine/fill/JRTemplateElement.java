@@ -215,13 +215,9 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 		this.backcolor = backcolor;
 	}
 	
-
-	protected void setStyle(JRStyle style)
-	{
-		parentStyle = style;
-	}
-
-
+	/**
+	 *
+	 */
 	public String getId()
 	{
 		return id;

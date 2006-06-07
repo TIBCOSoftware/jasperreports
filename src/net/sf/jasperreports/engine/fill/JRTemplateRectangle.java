@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -58,32 +57,22 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRRectangle rectangle, JRStyle style)
+	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRRectangle rectangle)
 	{
 		super(defaultStyleProvider);
 
 		setRectangle(rectangle);
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
 
 	/**
 	 *
 	 */
-	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRSubreport subreport, JRStyle style)
+	protected JRTemplateRectangle(JRDefaultStyleProvider defaultStyleProvider, JRSubreport subreport)
 	{
 		super(defaultStyleProvider);
 		
 		setSubreport(subreport);
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
 
@@ -105,7 +94,8 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement
 	{
 		super.setElement(subreport);
 
-		setMode(subreport.getMode());//don't want to inherit mode because of different defaults
+		// don't want to inherit mode because of different defaults for rectangles and subreports
+		setMode(subreport.getMode());
 		
 		setPen(JRGraphicElement.PEN_NONE);
 		setFill(JRGraphicElement.FILL_SOLID);
