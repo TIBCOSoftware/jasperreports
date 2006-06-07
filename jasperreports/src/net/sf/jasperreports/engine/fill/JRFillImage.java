@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
@@ -97,11 +98,27 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 
 	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
+
+	/**
+	 *
+	 */
+	public byte getPen()
+	{
+		return JRStyleResolver.getPen(this, PEN_NONE);
+	}
+
+	/**
 	 * 
 	 */
 	public byte getScaleImage()
 	{
-		return ((JRImage)this.parent).getScaleImage();
+		return JRStyleResolver.getScaleImage(this);
 	}
 		
 	public Byte getOwnScaleImage()
@@ -128,7 +145,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return ((JRImage)this.parent).getHorizontalAlignment();
+		return JRStyleResolver.getHorizontalAlignment(this);
 	}
 		
 	public Byte getOwnHorizontalAlignment()
@@ -155,7 +172,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getVerticalAlignment()
 	{
-		return ((JRImage)this.parent).getVerticalAlignment();
+		return JRStyleResolver.getVerticalAlignment(this);
 	}
 		
 	public Byte getOwnVerticalAlignment()
@@ -364,11 +381,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRImage)parent, style);
+			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -695,7 +712,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getBorder()
 	{
-		return ((JRBox)parent).getBorder();
+		return JRStyleResolver.getBorder(this);
 	}
 
 	public Byte getOwnBorder()
@@ -715,7 +732,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Color getBorderColor()
 	{
-		return ((JRBox)parent).getBorderColor();
+		return JRStyleResolver.getBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnBorderColor()
@@ -735,7 +752,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public int getPadding()
 	{
-		return ((JRBox)parent).getPadding();
+		return JRStyleResolver.getPadding(this);
 	}
 
 	public Integer getOwnPadding()
@@ -755,7 +772,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getTopBorder()
 	{
-		return ((JRBox)parent).getTopBorder();
+		return JRStyleResolver.getTopBorder(this);
 	}
 
 	/**
@@ -778,7 +795,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Color getTopBorderColor()
 	{
-		return ((JRBox)parent).getTopBorderColor();
+		return JRStyleResolver.getTopBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -801,7 +818,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public int getTopPadding()
 	{
-		return ((JRBox)parent).getTopPadding();
+		return JRStyleResolver.getTopPadding(this);
 	}
 
 	/**
@@ -824,7 +841,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getLeftBorder()
 	{
-		return ((JRBox)parent).getLeftBorder();
+		return JRStyleResolver.getLeftBorder(this);
 	}
 
 	/**
@@ -847,7 +864,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Color getLeftBorderColor()
 	{
-		return ((JRBox)parent).getLeftBorderColor();
+		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -870,7 +887,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public int getLeftPadding()
 	{
-		return ((JRBox)parent).getLeftPadding();
+		return JRStyleResolver.getLeftPadding(this);
 	}
 
 	/**
@@ -893,7 +910,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getBottomBorder()
 	{
-		return ((JRBox)parent).getBottomBorder();
+		return JRStyleResolver.getBottomBorder(this);
 	}
 
 	/**
@@ -916,7 +933,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Color getBottomBorderColor()
 	{
-		return ((JRBox)parent).getBottomBorderColor();
+		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -939,7 +956,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public int getBottomPadding()
 	{
-		return ((JRBox)parent).getBottomPadding();
+		return JRStyleResolver.getBottomPadding(this);
 	}
 
 	/**
@@ -962,7 +979,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public byte getRightBorder()
 	{
-		return ((JRBox)parent).getRightBorder();
+		return JRStyleResolver.getRightBorder(this);
 	}
 
 	/**
@@ -985,7 +1002,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Color getRightBorderColor()
 	{
-		return ((JRBox)parent).getRightBorderColor();
+		return JRStyleResolver.getRightBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -1008,7 +1025,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public int getRightPadding()
 	{
-		return ((JRBox)parent).getRightPadding();
+		return JRStyleResolver.getRightPadding(this);
 	}
 
 	/**

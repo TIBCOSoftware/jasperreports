@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -53,18 +52,13 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 * 
 	 * @param cell the cell
 	 */
-	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell, JRStyle style)
+	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell)
 	{
 		super(defaultStyleProvider);
 		
 		setBackcolor(cell.getBackcolor());
 		setMode(cell.getMode());
 		setBox(cell.getBox());
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 	
 	
@@ -72,21 +66,22 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 * Creates a template frame for a frame.
 	 * 
 	 * @param frame the frame
-	 * @param style 
 	 */
-	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillFrame frame, JRStyle style)
+	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillFrame frame)
 	{
 		super(defaultStyleProvider);
 
 		setElement(frame);
 		setBox(frame);
-		
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+	}
 	
 	/**
 	 * Sets the border of this template frame.
@@ -564,9 +559,4 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 		this.rightPadding = rightPadding;
 	}
 	
-	
-	public byte getMode()
-	{
-		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
-	}
 }

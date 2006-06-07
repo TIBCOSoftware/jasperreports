@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.renderers.JCommonDrawableRenderer;
 
@@ -270,6 +271,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
 
 	/**
 	 *
@@ -498,11 +507,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JRTemplateImage getJRTemplateImage()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateImage template = (JRTemplateImage) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), (JRChart)parent, style);
+			template = new JRTemplateImage(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;
@@ -1351,7 +1360,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getBorder()
 	{
-		return ((JRBox)parent).getBorder();
+		return JRStyleResolver.getBorder(this);
 	}
 
 	public Byte getOwnBorder()
@@ -1378,7 +1387,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getBorderColor()
 	{
-		return ((JRBox)parent).getBorderColor();
+		return JRStyleResolver.getBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnBorderColor()
@@ -1398,7 +1407,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public int getPadding()
 	{
-		return ((JRBox)parent).getPadding();
+		return JRStyleResolver.getPadding(this);
 	}
 
 	public Integer getOwnPadding()
@@ -1425,7 +1434,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getTopBorder()
 	{
-		return ((JRBox)parent).getTopBorder();
+		return JRStyleResolver.getTopBorder(this);
 	}
 
 	/**
@@ -1455,7 +1464,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getTopBorderColor()
 	{
-		return ((JRBox)parent).getTopBorderColor();
+		return JRStyleResolver.getTopBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -1478,7 +1487,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public int getTopPadding()
 	{
-		return ((JRBox)parent).getTopPadding();
+		return JRStyleResolver.getTopPadding(this);
 	}
 
 	/**
@@ -1508,7 +1517,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getLeftBorder()
 	{
-		return ((JRBox)parent).getLeftBorder();
+		return JRStyleResolver.getLeftBorder(this);
 	}
 
 	/**
@@ -1538,7 +1547,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getLeftBorderColor()
 	{
-		return ((JRBox)parent).getLeftBorderColor();
+		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -1561,7 +1570,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public int getLeftPadding()
 	{
-		return ((JRBox)parent).getLeftPadding();
+		return JRStyleResolver.getLeftPadding(this);
 	}
 
 	/**
@@ -1591,7 +1600,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getBottomBorder()
 	{
-		return ((JRBox)parent).getBottomBorder();
+		return JRStyleResolver.getBottomBorder(this);
 	}
 
 	/**
@@ -1621,7 +1630,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getBottomBorderColor()
 	{
-		return ((JRBox)parent).getBottomBorderColor();
+		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -1644,7 +1653,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public int getBottomPadding()
 	{
-		return ((JRBox)parent).getBottomPadding();
+		return JRStyleResolver.getBottomPadding(this);
 	}
 
 	/**
@@ -1674,7 +1683,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getRightBorder()
 	{
-		return ((JRBox)parent).getRightBorder();
+		return JRStyleResolver.getRightBorder(this);
 	}
 
 	/**
@@ -1704,7 +1713,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getRightBorderColor()
 	{
-		return ((JRBox)parent).getRightBorderColor();
+		return JRStyleResolver.getRightBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -1727,7 +1736,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public int getRightPadding()
 	{
-		return ((JRBox)parent).getRightPadding();
+		return JRStyleResolver.getRightPadding(this);
 	}
 
 	/**

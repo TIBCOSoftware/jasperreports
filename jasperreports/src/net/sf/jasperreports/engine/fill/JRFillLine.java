@@ -87,11 +87,11 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	 */
 	protected JRTemplateLine getJRTemplateLine()
 	{
-		JRStyle style = getElementStyle();
+		JRStyle style = getStyle();
 		JRTemplateLine template = (JRTemplateLine) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateLine(filler.getJasperPrint().getDefaultStyleProvider(), (JRLine)parent, style);
+			template = new JRTemplateLine(filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

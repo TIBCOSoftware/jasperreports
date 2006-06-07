@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -190,7 +191,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public String getKey()
 	{
-		return this.parent.getKey();
+		return parent.getKey();
 	}
 
 	/**
@@ -198,7 +199,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public byte getPositionType()
 	{
-		return this.parent.getPositionType();//FIXME optimize this by consolidating style properties
+		return parent.getPositionType();//FIXME optimize this by consolidating style properties
 	}
 
 	/**
@@ -213,7 +214,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public byte getStretchType()
 	{
-		return this.parent.getStretchType();
+		return parent.getStretchType();
 	}
 
 	/**
@@ -228,7 +229,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public boolean isPrintRepeatedValues()
 	{
-		return this.parent.isPrintRepeatedValues();
+		return parent.isPrintRepeatedValues();
 	}
 
 	/**
@@ -243,7 +244,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public byte getMode()
 	{
-		return this.parent.getMode();
+		return JRStyleResolver.getMode(this, MODE_OPAQUE);
 	}
 
 	/**
@@ -251,7 +252,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public Byte getOwnMode()
 	{
-		return this.parent.getOwnMode();
+		return parent.getOwnMode();
 	}
 
 	/**
@@ -337,7 +338,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public boolean isRemoveLineWhenBlank()
 	{
-		return this.parent.isRemoveLineWhenBlank();
+		return parent.isRemoveLineWhenBlank();
 	}
 
 	/**
@@ -352,7 +353,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public boolean isPrintInFirstWholeBand()
 	{
-		return this.parent.isPrintInFirstWholeBand();
+		return parent.isPrintInFirstWholeBand();
 	}
 
 	/**
@@ -367,7 +368,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public boolean isPrintWhenDetailOverflows()
 	{
-		return this.parent.isPrintWhenDetailOverflows();
+		return parent.isPrintWhenDetailOverflows();
 	}
 
 	/**
@@ -382,12 +383,12 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public Color getForecolor()
 	{
-		return this.parent.getForecolor();
+		return JRStyleResolver.getForecolor(this);
 	}
 
 	public Color getOwnForecolor()
 	{
-		return this.parent.getOwnForecolor();
+		return parent.getOwnForecolor();
 	}
 
 	/**
@@ -402,7 +403,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public Color getBackcolor()
 	{
-		return this.parent.getBackcolor();
+		return JRStyleResolver.getBackcolor(this);
 	}
 
 	/**
@@ -410,7 +411,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public Color getOwnBackcolor()
 	{
-		return this.parent.getOwnBackcolor();
+		return parent.getOwnBackcolor();
 	}
 
 	/**
@@ -425,7 +426,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public JRExpression getPrintWhenExpression()
 	{
-		return this.parent.getPrintWhenExpression();
+		return parent.getPrintWhenExpression();
 	}
 
 	/**
@@ -433,7 +434,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public JRGroup getPrintWhenGroupChanges()
 	{
-		return this.printWhenGroupChanges;
+		return printWhenGroupChanges;
 	}
 
 	/**
@@ -441,7 +442,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public JRElementGroup getElementGroup()
 	{
-		return this.elementGroup;
+		return elementGroup;
 	}
 
 	/**
@@ -449,7 +450,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected boolean isPrintWhenExpressionNull()
 	{
-		return this.isPrintWhenExpressionNull;
+		return isPrintWhenExpressionNull;
 	}
 
 	/**
@@ -465,7 +466,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected boolean isPrintWhenTrue()
 	{
-		return this.isPrintWhenTrue;
+		return isPrintWhenTrue;
 	}
 
 	/**
@@ -481,7 +482,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected boolean isToPrint()
 	{
-		return this.isToPrint;
+		return isToPrint;
 	}
 
 	/**
@@ -497,7 +498,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected boolean isReprinted()
 	{
-		return this.isReprinted;
+		return isReprinted;
 	}
 
 	/**
@@ -513,7 +514,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected boolean isAlreadyPrinted()
 	{
-		return this.isAlreadyPrinted;
+		return isAlreadyPrinted;
 	}
 
 	/**
@@ -541,26 +542,10 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	/**
 	 *
-	 *
-	protected void setGroupElements(Collection groupElements)
-	{
-		this.groupElements = groupElements;
-	}
-
-	/**
-	 *
-	 *
-	protected void addGroupElement(JRFElement element)
-	{
-		this.groupElements.add(element);
-	}
-
-	/**
-	 *
 	 */
 	protected Collection getDependantElements()
 	{
-		return this.dependantElements;
+		return dependantElements;
 	}
 
 	/**
@@ -568,7 +553,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected void addDependantElement(JRElement element)
 	{
-		this.dependantElements.add(element);
+		dependantElements.add(element);
 	}
 
 	/**
@@ -576,7 +561,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected int getRelativeY()
 	{
-		return this.relativeY;
+		return relativeY;
 	}
 
 	/**
@@ -592,7 +577,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected int getStretchHeight()
 	{
-		return this.stretchHeight;
+		return stretchHeight;
 	}
 
 	/**
@@ -600,13 +585,13 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected void setStretchHeight(int stretchHeight)
 	{
-		if (stretchHeight > this.getHeight() || (shrinkable && isRemoveLineWhenBlank()))
+		if (stretchHeight > getHeight() || (shrinkable && isRemoveLineWhenBlank()))
 		{
 			this.stretchHeight = stretchHeight;
 		}
 		else
 		{
-			this.stretchHeight = this.getHeight();
+			this.stretchHeight = getHeight();
 		}
 	}
 
@@ -615,7 +600,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected int getBandBottomY()
 	{
-		return this.bandBottomY;
+		return bandBottomY;
 	}
 
 	/**
@@ -631,7 +616,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected JRFillBand getBand()
 	{
-		return this.band;
+		return band;
 	}
 
 	/**
@@ -680,7 +665,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		boolean isExprNull = true;
 		boolean isExprTrue = false;
 
-		JRExpression expression = this.getPrintWhenExpression();
+		JRExpression expression = getPrintWhenExpression();
 		if (expression != null)
 		{
 			isExprNull = false;
@@ -721,19 +706,19 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		) throws JRException
 	{
 		if (
-			this.isPrintWhenExpressionNull() ||
-			( !this.isPrintWhenExpressionNull() &&
-			  this.isPrintWhenTrue() )
+			isPrintWhenExpressionNull() ||
+			( !isPrintWhenExpressionNull() &&
+			  isPrintWhenTrue() )
 			)
 		{
-			this.setToPrint(true);
+			setToPrint(true);
 		}
 		else
 		{
-			this.setToPrint(false);
+			setToPrint(false);
 		}
 
-		this.setReprinted(false);
+		setReprinted(false);
 
 		return false;
 	}
@@ -745,19 +730,19 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected void stretchElement(int bandStretch)
 	{
-		switch (this.getStretchType())
+		switch (getStretchType())
 		{
 			case JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT :
 			{
-				this.setStretchHeight(this.getHeight() + bandStretch);
+				setStretchHeight(getHeight() + bandStretch);
 				break;
 			}
 			case JRElement.STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT :
 			{
-				if (this.elementGroup != null)
+				if (elementGroup != null)
 				{
-					//this.setStretchHeight(this.getHeight() + this.getStretchHeightDiff());
-					this.setStretchHeight(this.getHeight() + elementGroup.getStretchHeightDiff());
+					//setStretchHeight(getHeight() + getStretchHeightDiff());
+					setStretchHeight(getHeight() + elementGroup.getStretchHeightDiff());
 				}
 
 				break;
@@ -776,7 +761,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	protected void moveDependantElements()
 	{
-		Collection elements = this.getDependantElements();
+		Collection elements = getDependantElements();
 		if (elements != null && elements.size() > 0)
 		{
 			JRFillElement element = null;
@@ -785,8 +770,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 			{
 				element = (JRFillElement)it.next();
 
-				diffY = element.getY() - this.getY() - this.getHeight() -
-						(element.getRelativeY() - this.getRelativeY() - this.getStretchHeight());
+				diffY = element.getY() - getY() - getHeight() -
+						(element.getRelativeY() - getRelativeY() - getStretchHeight());
 
 				if (diffY < 0)
 				{
@@ -798,137 +783,6 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		}
 	}
 
-	public JRStyle getStyle()
-	{
-		return initialStyle;
-	}
-
-
-	/**
-	 *
-	 *
-	private int getStretchHeightDiff()
-	{
-		if (this.topElementInGroup == null)
-		{
-			this.setTopBottomElements();
-		}
-
-		JRFillElement topElem = null;
-		JRFillElement bottomElem = null;
-
-		if (this.elementGroup != null)
-		{
-			JRElement[] elements = this.elementGroup.getElements();
-
-			if (elements != null && elements.length > 0)
-			{
-				JRFillElement element = null;
-
-				for(int i = 0; i < elements.length; i++)
-				{
-					element = (JRFillElement)elements[i];
-					if (element != this && element.isToPrint())
-					//if (element.isToPrint())
-					{
-						if (
-							topElem == null ||
-							(topElem != null &&
-							element.getRelativeY() + element.getStretchHeight() <
-							topElem.getRelativeY() + topElem.getStretchHeight())
-							)
-						{
-							topElem = element;
-						}
-
-						if (
-							bottomElem == null ||
-							(bottomElem != null &&
-							element.getRelativeY() + element.getStretchHeight() >
-							bottomElem.getRelativeY() + bottomElem.getStretchHeight())
-							)
-						{
-							bottomElem = element;
-						}
-					}
-				}
-			}
-		}
-
-		if (topElem == null)
-		{
-			topElem = this;
-		}
-
-		if (bottomElem == null)
-		{
-			bottomElem = this;
-		}
-
-		int diff = 
-			bottomElem.getRelativeY() + bottomElem.getStretchHeight() - topElem.getRelativeY() -
-			(this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight() - this.topElementInGroup.getY());
-
-		if (diff < 0)
-		{
-			diff = 0;
-		}
-
-		return diff;
-	}
-
-
-	/**
-	 *
-	 *
-	private void setTopBottomElements()
-	{
-		if (this.elementGroup != null)
-		{
-			JRElement[] elements = this.elementGroup.getElements();
-
-			if (elements != null && elements.length > 0)
-			{
-				for(int i = 0; i < elements.length; i++)
-				{
-					if (elements[i] != this)
-					{
-						if (
-							this.topElementInGroup == null ||
-							(this.topElementInGroup != null &&
-							elements[i].getY() + elements[i].getHeight() <
-							this.topElementInGroup.getY() + this.topElementInGroup.getHeight())
-							)
-						{
-							this.topElementInGroup = elements[i];
-						}
-
-						if (
-							this.bottomElementInGroup == null ||
-							(this.bottomElementInGroup != null &&
-							elements[i].getY() + elements[i].getHeight() >
-							this.bottomElementInGroup.getY() + this.bottomElementInGroup.getHeight())
-							)
-						{
-							this.bottomElementInGroup = elements[i];
-						}
-					}
-				}
-			}
-		}
-
-		if (this.topElementInGroup == null)
-		{
-			this.topElementInGroup = this;
-		}
-
-		if (this.bottomElementInGroup == null)
-		{
-			this.bottomElementInGroup = this;
-		}
-
-	}
-	*/
 
 	/**
 	 * Resolves an element.
@@ -1243,14 +1097,17 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		this.conditionalStylesContainer = conditionalStylesContainer;
 	}
 
-	protected JRStyle getElementStyle()
+	public JRStyle getStyle()
 	{
-		JRStyle currStyle = conditionalStylesContainer.getEvaluatedConditionalStyle(initialStyle);
-		if (currStyle == null)
-		{
-			currStyle = initialStyle;
-		}
-		return currStyle;
+		JRStyle currentStyle = null;
+
+		if (conditionalStylesContainer != null)
+			currentStyle = conditionalStylesContainer.getEvaluatedConditionalStyle(initialStyle);
+		
+		if (currentStyle == null)
+			currentStyle = initialStyle;
+
+		return currentStyle;
 	}
 	
 	protected JRTemplateElement getTemplate(JRStyle style)

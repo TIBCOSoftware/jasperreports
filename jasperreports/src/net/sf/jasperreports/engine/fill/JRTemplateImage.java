@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -90,32 +89,22 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	protected JRTemplateImage(JRDefaultStyleProvider defaultStyleProvider, JRImage image, JRStyle style)
+	protected JRTemplateImage(JRDefaultStyleProvider defaultStyleProvider, JRImage image)
 	{
 		super(defaultStyleProvider);
 		
 		setImage(image);
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
 
 	/**
 	 *
 	 */
-	protected JRTemplateImage(JRDefaultStyleProvider defaultStyleProvider, JRChart chart, JRStyle style)
+	protected JRTemplateImage(JRDefaultStyleProvider defaultStyleProvider, JRChart chart)
 	{
 		super(defaultStyleProvider);
 		
 		setChart(chart);
-
-		if (style != null)
-		{
-			setStyle(style);
-		}
 	}
 
 	/**

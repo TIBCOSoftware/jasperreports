@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.logging.Log;
@@ -121,11 +122,19 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 
 	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, JRElement.MODE_TRANSPARENT);
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
 	 */
 	public byte getTextAlignment()
 	{
-		return ((JRTextElement)parent).getHorizontalAlignment();
+		return JRStyleResolver.getHorizontalAlignment(this);
 	}
 
 	/**
@@ -140,7 +149,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getHorizontalAlignment()
 	{
-		return ((JRTextElement)parent).getHorizontalAlignment();
+		return JRStyleResolver.getHorizontalAlignment(this);
 	}
 		
 	public Byte getOwnHorizontalAlignment()
@@ -167,7 +176,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getVerticalAlignment()
 	{
-		return ((JRTextElement)parent).getVerticalAlignment();
+		return JRStyleResolver.getVerticalAlignment(this);
 	}
 		
 	public Byte getOwnVerticalAlignment()
@@ -194,7 +203,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getRotation()
 	{
-		return ((JRTextElement)parent).getRotation();
+		return JRStyleResolver.getRotation(this);
 	}
 		
 	public Byte getOwnRotation()
@@ -221,7 +230,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getLineSpacing()
 	{
-		return ((JRTextElement)parent).getLineSpacing();
+		return JRStyleResolver.getLineSpacing(this);
 	}
 		
 	public Byte getOwnLineSpacing()
@@ -248,7 +257,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isStyledText()
 	{
-		return ((JRTextElement)parent).isStyledText();
+		return JRStyleResolver.isStyledText(this);
 	}
 		
 	public Boolean isOwnStyledText()
@@ -295,11 +304,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		if (styledTextAttributes == null)
 		{
 			styledTextAttributes = new HashMap(); 
-			JRFontUtil.setAttributes(styledTextAttributes, (JRTextElement)parent);
-			styledTextAttributes.put(TextAttribute.FOREGROUND, parent.getForecolor());
-			if (parent.getMode() == JRElement.MODE_OPAQUE)
+			JRFontUtil.setAttributes(styledTextAttributes, this);
+			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
+			if (getMode() == JRElement.MODE_OPAQUE)
 			{
-				styledTextAttributes.put(TextAttribute.BACKGROUND, parent.getBackcolor());
+				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
 			}
 		}
 		
@@ -586,7 +595,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getBorder()
 	{
-		return ((JRBox)parent).getBorder();
+		return JRStyleResolver.getBorder(this);
 	}
 
 	public Byte getOwnBorder()
@@ -606,7 +615,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Color getBorderColor()
 	{
-		return ((JRBox)parent).getBorderColor();
+		return JRStyleResolver.getBorderColor(this, getForecolor());
 	}
 
 	public Color getOwnBorderColor()
@@ -626,7 +635,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getPadding()
 	{
-		return ((JRBox)parent).getPadding();
+		return JRStyleResolver.getPadding(this);
 	}
 
 	public Integer getOwnPadding()
@@ -646,7 +655,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getTopBorder()
 	{
-		return ((JRBox)parent).getTopBorder();
+		return JRStyleResolver.getTopBorder(this);
 	}
 
 	/**
@@ -669,7 +678,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Color getTopBorderColor()
 	{
-		return ((JRBox)parent).getTopBorderColor();
+		return JRStyleResolver.getTopBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -692,7 +701,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getTopPadding()
 	{
-		return ((JRBox)parent).getTopPadding();
+		return JRStyleResolver.getTopPadding(this);
 	}
 
 	/**
@@ -715,7 +724,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getLeftBorder()
 	{
-		return ((JRBox)parent).getLeftBorder();
+		return JRStyleResolver.getLeftBorder(this);
 	}
 
 	/**
@@ -738,7 +747,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Color getLeftBorderColor()
 	{
-		return ((JRBox)parent).getLeftBorderColor();
+		return JRStyleResolver.getLeftBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -761,7 +770,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getLeftPadding()
 	{
-		return ((JRBox)parent).getLeftPadding();
+		return JRStyleResolver.getLeftPadding(this);
 	}
 
 	/**
@@ -784,7 +793,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getBottomBorder()
 	{
-		return ((JRBox)parent).getBottomBorder();
+		return JRStyleResolver.getBottomBorder(this);
 	}
 
 	/**
@@ -807,7 +816,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Color getBottomBorderColor()
 	{
-		return ((JRBox)parent).getBottomBorderColor();
+		return JRStyleResolver.getBottomBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -830,7 +839,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getBottomPadding()
 	{
-		return ((JRBox)parent).getBottomPadding();
+		return JRStyleResolver.getBottomPadding(this);
 	}
 
 	/**
@@ -853,7 +862,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public byte getRightBorder()
 	{
-		return ((JRBox)parent).getRightBorder();
+		return JRStyleResolver.getRightBorder(this);
 	}
 
 	/**
@@ -876,7 +885,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Color getRightBorderColor()
 	{
-		return ((JRBox)parent).getRightBorderColor();
+		return JRStyleResolver.getRightBorderColor(this, getForecolor());
 	}
 
 	/**
@@ -899,7 +908,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getRightPadding()
 	{
-		return ((JRBox)parent).getRightPadding();
+		return JRStyleResolver.getRightPadding(this);
 	}
 
 	/**
@@ -935,7 +944,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getFontName()
 	{
-		return ((JRFont)parent).getFontName();
+		return JRStyleResolver.getFontName(this);
 	}
 
 	/**
@@ -959,7 +968,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isBold()
 	{
-		return ((JRFont)parent).isBold();
+		return JRStyleResolver.isBold(this);
 	}
 
 	/**
@@ -991,7 +1000,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isItalic()
 	{
-		return ((JRFont)parent).isItalic();
+		return JRStyleResolver.isItalic(this);
 	}
 
 	/**
@@ -1022,7 +1031,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isUnderline()
 	{
-		return ((JRFont)parent).isUnderline();
+		return JRStyleResolver.isUnderline(this);
 	}
 
 	/**
@@ -1053,7 +1062,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isStrikeThrough()
 	{
-		return ((JRFont)parent).isStrikeThrough();
+		return JRStyleResolver.isStrikeThrough(this);
 	}
 
 	/**
@@ -1084,7 +1093,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public int getFontSize()
 	{
-		return ((JRFont)parent).getFontSize();
+		return JRStyleResolver.getFontSize(this);
 	}
 
 	/**
@@ -1145,7 +1154,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getPdfFontName()
 	{
-		return ((JRFont)parent).getPdfFontName();
+		return JRStyleResolver.getPdfFontName(this);
 	}
 
 	/**
@@ -1169,7 +1178,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getPdfEncoding()
 	{
-		return ((JRFont)parent).getPdfEncoding();
+		return JRStyleResolver.getPdfEncoding(this);
 	}
 
 	/**
@@ -1193,7 +1202,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isPdfEmbedded()
 	{
-		return ((JRFont)parent).isPdfEmbedded();
+		return JRStyleResolver.isPdfEmbedded(this);
 	}
 
 	/**
