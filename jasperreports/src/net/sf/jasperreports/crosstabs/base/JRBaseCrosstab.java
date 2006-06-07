@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
@@ -100,6 +101,14 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		whenNoDataCell = factory.getCell(crosstab.getWhenNoDataCell());
 	}
 
+	/**
+	 *
+	 */
+	public byte getMode()
+	{
+		return JRStyleResolver.getMode(this, MODE_TRANSPARENT);
+	}
+	
 	private void copyParameters(JRCrosstab crosstab, JRBaseObjectFactory factory)
 	{
 		JRCrosstabParameter[] crossParameters = crosstab.getParameters();
