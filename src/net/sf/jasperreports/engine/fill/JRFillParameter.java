@@ -69,7 +69,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public String getName()
 	{
-		return this.parent.getName();
+		return parent.getName();
 	}
 		
 	/**
@@ -77,7 +77,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public String getDescription()
 	{
-		return this.parent.getDescription();
+		return parent.getDescription();
 	}
 		
 	/**
@@ -108,7 +108,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public boolean isSystemDefined()
 	{
-		return this.parent.isSystemDefined();
+		return parent.isSystemDefined();
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public boolean isForPrompting()
 	{
-		return this.parent.isForPrompting();
+		return parent.isForPrompting();
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public JRExpression getDefaultValueExpression()
 	{
-		return this.parent.getDefaultValueExpression();
+		return parent.getDefaultValueExpression();
 	}
 		
 	/**
@@ -132,7 +132,7 @@ public class JRFillParameter implements JRParameter
 	 */
 	public Object getValue()
 	{
-		return this.value;
+		return value;
 	}
 		
 	/**
