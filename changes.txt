@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.4 (2006-06-xx)
+-----------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.3 (2006-05-30)
 -----------------------------------
 - support for OLAP and MDX queries using Mondrian-based 
