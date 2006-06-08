@@ -295,8 +295,35 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 				
 				String resourceName = result.replace('.', '/') + ".class";
+
+				boolean isPackage = true;
+
 				InputStream is = getResource(resourceName);
-				return is == null;
+				
+				if (is != null)// cannot just test for null; need to read from "is" to avoid bug 
+				{              // with sun.plugin.cache.EmptyInputStream on JRE 1.5 plugin
+					try        // http://sourceforge.net/tracker/index.php?func=detail&aid=1478460&group_id=36382&atid=416703
+					{
+						isPackage = (is.read() > 0);
+					}
+					catch(IOException e)
+					{
+						//ignore
+					}
+					finally
+					{
+						try
+						{
+							is.close();
+						}
+						catch(IOException e)
+						{
+							//ignore
+						}
+					}
+				}
+				
+				return isPackage;
 			}
 
 			public boolean isPackage(char[][] parentPackageName, char[] packageName) 
