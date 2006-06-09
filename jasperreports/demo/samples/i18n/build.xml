@@ -111,8 +111,8 @@
 
 	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<java classname="${class.name}" fork="true">
-			<arg value="-Tjxl"/>
-			<arg value="-F${file.name}.jrprint"/>
+			<arg value="jxl"/>
+			<arg value="${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
