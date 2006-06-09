@@ -109,7 +109,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	protected JRFillElementContainer conditionalStylesContainer;
 	
-	protected final JRStyle initialStyle;
+	protected final JRStyle initStyle;
 	
 	/**
 	 * Flag indicating whether the element is shrinkable.
@@ -148,7 +148,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 			width = element.getWidth();
 			height = element.getHeight();
 			
-			initialStyle = factory.getStyle(parent.getStyle());
+			initStyle = factory.getStyle(parent.getStyle());
 		}
 
 	
@@ -171,7 +171,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		
 		templates = element.templates;
 		
-		initialStyle = element.initialStyle;
+		initStyle = element.initStyle;
 		
 		shrinkable = element.shrinkable;
 	}
@@ -1092,29 +1092,51 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	}
 
 
+	/**
+	 * 
+	 */
 	protected void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
 	{
 		this.conditionalStylesContainer = conditionalStylesContainer;
 	}
 
+	/**
+	 * 
+	 */
 	public JRStyle getStyle()
 	{
-		JRStyle currentStyle = null;
+		JRStyle crtStyle = initStyle;
+		
+		boolean isUsingDefaultStyle = false;
+
+		if (crtStyle == null)
+		{
+			crtStyle = filler.getDefaultStyle();
+			isUsingDefaultStyle = true;
+		}
+
+		JRStyle evalStyle = crtStyle;
 
 		if (conditionalStylesContainer != null)
-			currentStyle = conditionalStylesContainer.getEvaluatedConditionalStyle(initialStyle);
+			evalStyle = conditionalStylesContainer.getEvaluatedConditionalStyle(crtStyle);
 		
-		if (currentStyle == null)
-			currentStyle = initialStyle;
-
-		return currentStyle;
+		if (isUsingDefaultStyle && evalStyle == crtStyle)
+			evalStyle = null;
+		
+		return evalStyle;
 	}
 	
+	/**
+	 * 
+	 */
 	protected JRTemplateElement getTemplate(JRStyle style)
 	{
 		return (JRTemplateElement) templates.get(style);
 	}
 
+	/**
+	 * 
+	 */
 	protected void registerTemplate(JRStyle style, JRTemplateElement template)
 	{
 		templates.put(style, template);

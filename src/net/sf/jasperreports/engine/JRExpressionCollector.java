@@ -276,6 +276,8 @@ public class JRExpressionCollector
 	 */
 	public Collection collect(JRReport report)
 	{
+		collect(report.getDefaultStyle());
+
 		collect(report.getMainDataset());
 
 		JRDataset[] datasets = report.getDatasets();

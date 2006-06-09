@@ -31,9 +31,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRElement;
@@ -78,7 +80,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	/**
 	 * List of styles that con
 	 */
-	protected List stylesToEvaluate = new ArrayList();
+	protected Set stylesToEvaluate = new HashSet();
 	protected Map evaluatedStyles = new HashMap();
 	
 	protected boolean hasPrintWhenOverflowElement;
@@ -695,12 +697,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected void initConditionalStyles()
 	{
+		collectConditionalStyle(filler.getDefaultStyle());
+		
 		for (int i = 0; i < deepElements.length; i++)
 		{
-			JRStyle style = deepElements[i].getStyle();
+			JRStyle style = deepElements[i].initStyle;
 			collectConditionalStyle(style);
 		}
-		
 		
 		if (deepElements.length > 0)
 		{
@@ -722,16 +725,21 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	protected void evaluateConditionalStyles(byte evaluation) throws JRException
 	{
-		for (int i = 0; i < stylesToEvaluate.size(); i++) {
-			JRStyle initialStyle = (JRStyle) stylesToEvaluate.get(i);
+		for (Iterator it = stylesToEvaluate.iterator(); it.hasNext();) 
+		{
+			JRStyle initialStyle = (JRStyle) it.next();
 			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
 			boolean[] expressionValues = new boolean[conditionalStyles.length];
 
 			StringBuffer code = new StringBuffer(initialStyle.getName());
 			boolean anyTrue = false;
-			for (int j = 0; j < conditionalStyles.length; j++) {
-				Boolean expressionValue = (Boolean) expressionEvaluator.evaluate(conditionalStyles[j].getConditionExpression(),
-																			  evaluation);
+			for (int j = 0; j < conditionalStyles.length; j++) 
+			{
+				Boolean expressionValue = 
+					(Boolean) expressionEvaluator.evaluate(
+						conditionalStyles[j].getConditionExpression(),
+						evaluation
+						);
 				
 				boolean condition;
 				if (expressionValue == null)
