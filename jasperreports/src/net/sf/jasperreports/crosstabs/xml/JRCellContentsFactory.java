@@ -59,7 +59,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		String backcolor = attributes.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			cell.setBackcolor(getColor(backcolor, null));
+			cell.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 		}
 		
 		String modeAtt = attributes.getValue(ATTRIBUTE_mode);

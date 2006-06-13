@@ -55,29 +55,10 @@ public class JRChartPlotFactory extends JRBaseFactory
 	{
 		JRChartPlot plot = (JRChartPlot) digester.peek();
 
-		String color = atts.getValue(ATTRIBUTE_backcolor);
-		if (color != null && color.length() > 0)
+		Color color = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_backcolor), Color.black);
+		if (color != null)
 		{
-			char firstChar = color.charAt(0);
-			if (firstChar == '#')
-			{
-				plot.setBackcolor(new Color(Integer.parseInt(color.substring(1), 16)));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				plot.setBackcolor(new Color(Integer.parseInt(color)));
-			}
-			else
-			{
-				if (JRXmlConstants.getColorMap().containsKey(color))
-				{
-					plot.setBackcolor((Color)JRXmlConstants.getColorMap().get(color));
-				}
-				else
-				{
-					plot.setBackcolor(Color.black);
-				}
-			}
+			plot.setBackcolor(color);
 		}
 
 		String orientation = atts.getValue(ATTRIBUTE_orientation);

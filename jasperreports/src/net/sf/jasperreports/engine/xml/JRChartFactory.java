@@ -130,29 +130,10 @@ public class JRChartFactory extends JRBaseFactory
 				chart.setTitlePosition(((Byte)JRXmlConstants.getChartTitlePositionMap().get(position)).byteValue());
 
 
-			String color = atts.getValue(ATTRIBUTE_color);
-			if (color != null && color.length() > 0)
+			Color color = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_color), Color.black);
+			if (color != null)
 			{
-				char firstChar = color.charAt(0);
-				if (firstChar == '#')
-				{
-					chart.setTitleColor(new Color(Integer.parseInt(color.substring(1), 16)));
-				}
-				else if ('0' <= firstChar && firstChar <= '9')
-				{
-					chart.setTitleColor(new Color(Integer.parseInt(color)));
-				}
-				else
-				{
-					if (JRXmlConstants.getColorMap().containsKey(color))
-					{
-						chart.setTitleColor((Color)JRXmlConstants.getColorMap().get(color));
-					}
-					else
-					{
-						chart.setTitleColor(Color.black);
-					}
-				}
+				chart.setTitleColor(color);
 			}
 
 			return chart;
@@ -172,29 +153,10 @@ public class JRChartFactory extends JRBaseFactory
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
 
-			String color = atts.getValue(ATTRIBUTE_color);
-			if (color != null && color.length() > 0)
+			Color color = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_color), Color.black);
+			if (color != null)
 			{
-				char firstChar = color.charAt(0);
-				if (firstChar == '#')
-				{
-					chart.setSubtitleColor(new Color(Integer.parseInt(color.substring(1), 16)));
-				}
-				else if ('0' <= firstChar && firstChar <= '9')
-				{
-					chart.setSubtitleColor(new Color(Integer.parseInt(color)));
-				}
-				else
-				{
-					if (JRXmlConstants.getColorMap().containsKey(color))
-					{
-						chart.setSubtitleColor((Color)JRXmlConstants.getColorMap().get(color));
-					}
-					else
-					{
-						chart.setSubtitleColor(Color.black);
-					}
-				}
+				chart.setSubtitleColor(color);
 			}
 
 			return chart;

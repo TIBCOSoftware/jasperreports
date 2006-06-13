@@ -158,13 +158,13 @@ public class JRElementFactory extends JRBaseFactory
 		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
-			element.setForecolor(getColor(forecolor, null));
+			element.setForecolor(JRXmlConstants.getColor(forecolor, null));
 		}
 
 		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
-			element.setBackcolor(getColor(backcolor, null));
+			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 		}
 		
 		if (atts.getValue(ATTRIBUTE_style) != null)

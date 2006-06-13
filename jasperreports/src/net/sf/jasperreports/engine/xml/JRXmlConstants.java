@@ -990,4 +990,40 @@ public class JRXmlConstants
 		return crosstabColumnPositionMap;
 	}
 	
+
+	/**
+	 *
+	 */
+	public static Color getColor(String strColor, Color defaultColor)
+	{
+		Color color = null;
+		
+		if (strColor != null && strColor.length() > 0)
+		{
+			char firstChar = strColor.charAt(0);
+			if (firstChar == '#')
+			{
+				color = new Color(Integer.parseInt(strColor.substring(1), 16));
+			}
+			else if ('0' <= firstChar && firstChar <= '9')
+			{
+				color = new Color(Integer.parseInt(strColor));
+			}
+			else
+			{
+				if (JRXmlConstants.getColorMap().containsKey(strColor))
+				{
+					color = (Color)JRXmlConstants.getColorMap().get(strColor);
+				}
+				else
+				{
+					color = defaultColor;
+				}
+			}
+		}
+		
+		return color;
+	}
+	
+
 }

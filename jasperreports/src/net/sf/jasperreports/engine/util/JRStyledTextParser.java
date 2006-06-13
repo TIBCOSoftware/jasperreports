@@ -281,31 +281,11 @@ public class JRStyledTextParser
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_forecolor) != null)
 				{
-					Color color = null;
-					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_forecolor).getNodeValue();
-					if (colorStr != null && colorStr.length() > 0)
-					{
-						char firstChar = colorStr.charAt(0);
-						if (firstChar == '#')
-						{
-							color = new Color(Integer.parseInt(colorStr.substring(1), 16));
-						}
-						else if ('0' <= firstChar && firstChar <= '9')
-						{
-							color = new Color(Integer.parseInt(colorStr));
-						}
-						else
-						{
-							if (JRXmlConstants.getColorMap().containsKey(colorStr))
-							{
-								color = (Color)JRXmlConstants.getColorMap().get(colorStr);
-							}
-							else
-							{
-								color = Color.black;
-							}
-						}
-					}
+					Color color = 
+						JRXmlConstants.getColor(
+							nodeAttrs.getNamedItem(ATTRIBUTE_forecolor).getNodeValue(),
+							Color.black
+							);
 					styleAttrs.put(
 						TextAttribute.FOREGROUND,
 						color
@@ -314,31 +294,11 @@ public class JRStyledTextParser
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_backcolor) != null)
 				{
-					Color color = null;
-					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_backcolor).getNodeValue();
-					if (colorStr != null && colorStr.length() > 0)
-					{
-						char firstChar = colorStr.charAt(0);
-						if (firstChar == '#')
-						{
-							color = new Color(Integer.parseInt(colorStr.substring(1), 16));
-						}
-						else if ('0' <= firstChar && firstChar <= '9')
-						{
-							color = new Color(Integer.parseInt(colorStr));
-						}
-						else
-						{
-							if (JRXmlConstants.getColorMap().containsKey(colorStr))
-							{
-								color = (Color)JRXmlConstants.getColorMap().get(colorStr);
-							}
-							else
-							{
-								color = Color.black;
-							}
-						}
-					}
+					Color color = 
+						JRXmlConstants.getColor(
+							nodeAttrs.getNamedItem(ATTRIBUTE_backcolor).getNodeValue(),
+							Color.black
+							);
 					styleAttrs.put(
 						TextAttribute.BACKGROUND,
 						color
@@ -407,31 +367,11 @@ public class JRStyledTextParser
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_color) != null)
 				{
-					Color color = null;
-					String colorStr = nodeAttrs.getNamedItem(ATTRIBUTE_color).getNodeValue();
-					if (colorStr != null && colorStr.length() > 0)
-					{
-						char firstChar = colorStr.charAt(0);
-						if (firstChar == '#')
-						{
-							color = new Color(Integer.parseInt(colorStr.substring(1), 16));
-						}
-						else if ('0' <= firstChar && firstChar <= '9')
-						{
-							color = new Color(Integer.parseInt(colorStr));
-						}
-						else
-						{
-							if (JRXmlConstants.getColorMap().containsKey(colorStr))
-							{
-								color = (Color)JRXmlConstants.getColorMap().get(colorStr);
-							}
-							else
-							{
-								color = Color.black;
-							}
-						}
-					}
+					Color color = 
+						JRXmlConstants.getColor(
+							nodeAttrs.getNamedItem(ATTRIBUTE_color).getNodeValue(),
+							Color.black
+							);
 					styleAttrs.put(
 						TextAttribute.FOREGROUND,
 						color
