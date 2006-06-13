@@ -197,25 +197,14 @@
 		<copy todir="./docs/dtds">
 			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
 		</copy>
-		<javadoc
+		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
+				sourcepath="./src"
 				destdir="./docs/api"
 				author="true"
 				version="true"
 				use="true"
 				windowtitle="JasperReports API version ${version}"
-				useexternalfile="yes">
-			<arg value="-J-Xmx128m"/>
-			<fileset dir="./src">
-				<include name="**/*.java"/>
-				<exclude name="org/w3c/tools/codec/**"/>
-				<exclude name="**/JRPrintServiceExporter.java" unless="using.jdk.1.4"/>
-				<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
-				<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
-				<exclude name="**/JRGroovy*.java" unless="using.jdk.1.4"/>
-				<exclude name="**/olap/*.java" unless="using.jdk.1.4"/>
-				<exclude name="**/olap/mapping/*.java" unless="using.jdk.1.4"/>
-				<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
-			</fileset>
+				excludepackagenames="org.w3c.tools.codec">
 			<doctitle><![CDATA[<span style="font-family:verdana,arial,helvetica,sans-serif;font-size:16pt;font-style:normal;color:#000000;"><b><font color="#808080">Jasper</font><font color="#990000">Reports</font></b></span><br><span style="font-family:verdana,arial,helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;">version ${version}</span>]]></doctitle>
 			<bottom><![CDATA[<span style="font-decoration:none;font-family:verdana,arial,helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2006 JasperSoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>]]></bottom>
 			<classpath>
