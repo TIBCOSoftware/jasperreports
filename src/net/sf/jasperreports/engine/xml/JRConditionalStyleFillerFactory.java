@@ -74,10 +74,10 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 		}
 
 		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
-		style.setForecolor(getColor(forecolor, null));
+		style.setForecolor(JRXmlConstants.getColor(forecolor, null));
 
 		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
-		style.setBackcolor(getColor(backcolor, null));
+		style.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 
 
 
@@ -126,7 +126,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setBorder(border);
 		}
 
-		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), null);
+		Color borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			style.setBorderColor(borderColor);
@@ -144,7 +144,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setTopBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			style.setTopBorderColor(borderColor);
@@ -162,7 +162,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setLeftBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			style.setLeftBorderColor(borderColor);
@@ -180,7 +180,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setBottomBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			style.setBottomBorderColor(borderColor);
@@ -198,7 +198,7 @@ public class JRConditionalStyleFillerFactory extends JRBaseFactory
 			style.setRightBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			style.setRightBorderColor(borderColor);

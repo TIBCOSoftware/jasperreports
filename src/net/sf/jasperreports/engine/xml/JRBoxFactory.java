@@ -81,7 +81,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setBorder(border);
 		}
 
-		Color borderColor = getColor(atts.getValue(ATTRIBUTE_borderColor), null);
+		Color borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			box.setBorderColor(borderColor);
@@ -99,7 +99,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setTopBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setTopBorderColor(borderColor);
@@ -117,7 +117,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setLeftBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setLeftBorderColor(borderColor);
@@ -135,7 +135,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setBottomBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setBottomBorderColor(borderColor);
@@ -153,7 +153,7 @@ public class JRBoxFactory extends JRBaseFactory
 			box.setRightBorder(border);
 		}
 
-		borderColor = getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setRightBorderColor(borderColor);
