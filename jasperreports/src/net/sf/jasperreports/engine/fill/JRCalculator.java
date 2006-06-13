@@ -360,10 +360,6 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				elementDataset.increment();
 			}
 		}
-		else
-		{
-			//FIXME CHARTS dataset.increment();
-		}
 	}
 
 
@@ -436,63 +432,47 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	private void initializeDataset(JRFillElementDataset elementDataset, byte resetType)
 	{
-		//if (jrVariable.getCalculation() != JRVariable.CALCULATION_NOTHING)
-//		if (dataset.getResetType() != JRVariable.RESET_TYPE_NONE)
-//		{
-			boolean toInitialize = false;
-			switch (resetType)
+		boolean toInitialize = false;
+		switch (resetType)
+		{
+			case JRVariable.RESET_TYPE_REPORT :
 			{
-				case JRVariable.RESET_TYPE_REPORT :
-				{
-					toInitialize = true;
-					break;
-				}
-				case JRVariable.RESET_TYPE_PAGE :
-				{
-					toInitialize = 
-						(
-						elementDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
-						elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
-						);
-					break;
-				}
-				case JRVariable.RESET_TYPE_COLUMN :
-				{
-					toInitialize = (elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
-					break;
-				}
-				case JRVariable.RESET_TYPE_GROUP :
-				{
-					if (elementDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
-					{
-						JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
-						toInitialize = group.hasChanged();
-					}
-					break;
-				}
-				case JRVariable.RESET_TYPE_NONE :
-				default :
-				{
-				}
+				toInitialize = true;
+				break;
 			}
+			case JRVariable.RESET_TYPE_PAGE :
+			{
+				toInitialize = 
+					(
+					elementDataset.getResetType() == JRVariable.RESET_TYPE_PAGE || 
+					elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN
+					);
+				break;
+			}
+			case JRVariable.RESET_TYPE_COLUMN :
+			{
+				toInitialize = (elementDataset.getResetType() == JRVariable.RESET_TYPE_COLUMN);
+				break;
+			}
+			case JRVariable.RESET_TYPE_GROUP :
+			{
+				if (elementDataset.getResetType() == JRVariable.RESET_TYPE_GROUP)
+				{
+					JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
+					toInitialize = group.hasChanged();
+				}
+				break;
+			}
+			case JRVariable.RESET_TYPE_NONE :
+			default :
+			{
+			}
+		}
 
-			if (toInitialize)
-			{
-//				dataset.setValue(
-//					evaluate(dataset.getInitialValueExpression())
-//					);
-//				dataset.setInitialized(true);
-//				dataset.setIncrementedValue(null);
-				elementDataset.initialize();
-			}
-//		}FIXME CHARTS verify that reset type none does not make any sense
-//		else
-//		{
-//			dataset.setValue(
-//				evaluate(dataset.getExpression())
-//				);
-//			dataset.setIncrementedValue(dataset.getValue());
-//		}
+		if (toInitialize)
+		{
+			elementDataset.initialize();
+		}
 	}
 
 
