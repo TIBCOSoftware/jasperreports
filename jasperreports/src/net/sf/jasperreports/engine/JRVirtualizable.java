@@ -88,7 +88,7 @@ public interface JRVirtualizable {
 	 * 
 	 * @return the virtualization context this object belongs to
 	 */
-	//TODO use a more generic context type, JRVirtualizationContext has print page-specific methods
+	//FIXME use a more generic context type, JRVirtualizationContext has print page-specific methods
 	//issue: changing JRVirtualizationContext hierarchy would impact serialization
 	JRVirtualizationContext getContext(); 
 }
