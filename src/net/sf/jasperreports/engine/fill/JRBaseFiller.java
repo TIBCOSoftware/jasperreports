@@ -36,6 +36,7 @@ package net.sf.jasperreports.engine.fill;
 import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,7 +45,6 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collection;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
@@ -295,7 +295,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected boolean isPerPageBoundElements;
 
 	/**
-	 * TODO
+	 *
 	 */
 	protected Map consolidatedStyles = new HashMap();
 	

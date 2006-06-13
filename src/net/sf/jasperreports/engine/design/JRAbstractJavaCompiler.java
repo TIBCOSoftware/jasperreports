@@ -77,7 +77,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 				putClassInCache(className, clazz);
 			}
 			
-			//TODO multiple classes per thread?
+			//FIXME multiple classes per thread?
 			classFromBytesRef.set(clazz);
 		
 			evaluator = (JREvaluator) clazz.newInstance();
