@@ -749,18 +749,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			/*   */
 			fillReport();
 
-			//FIXME STYLE maybe we don,t need the consolidated styles in the JasperPrint
 			// add consolidates styles as normal styles in the print object
 			Set initialStyles = consolidatedStyles.keySet();
-			for (Iterator it = initialStyles.iterator(); it.hasNext();) {
+			for (Iterator it = initialStyles.iterator(); it.hasNext();) 
+			{
 				JRStyle initialStyle = (JRStyle) it.next();
 				Map styleMap = (Map) consolidatedStyles.get(initialStyle);
 				Collection newStyles = styleMap.values();
-				for (Iterator it2 = newStyles.iterator(); it2.hasNext();) {
+				for (Iterator it2 = newStyles.iterator(); it2.hasNext();) 
+				{
 					jasperPrint.addStyle((JRStyle) it2.next());
 				}
 			}
-
 
 			return jasperPrint;
 		}
