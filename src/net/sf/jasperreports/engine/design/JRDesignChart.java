@@ -521,8 +521,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignBar3DPlot(plot);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				//FIXME CHARTS why only one dataset?    
-				//dataset = new JRDesignTimeSeriesDataset( dataset );
+				dataset = new JRDesignTimeSeriesDataset( dataset );//other datasets could be supported
 				plot = new JRDesignTimeSeriesPlot( plot );
 				break;
 			case CHART_TYPE_XYAREA:
