@@ -123,10 +123,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
-		if (!isModeBatch) {
-			setPageRange();
-		}
-		
+
 		try
 		{
 			/*   */
@@ -134,7 +131,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 			/*   */
 			setInput();
-			
+
+			if (!isModeBatch) {
+				setPageRange();
+			}
+
 			fonts = new ArrayList();
 			fontBuffer = new StringBuffer();
 			colors = new ArrayList();
@@ -242,14 +243,16 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-			setPageRange();
 			
 			defaultFont = null;
 			
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0){
-				startPageIndex = 0;
-				endPageIndex = pages.size() - 1;
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 				JRPrintPage page = null;
 				
 				writer.write("{\\info{\\nofpages" + pages.size() + "}}\n");
@@ -323,75 +326,77 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected void createColorAndFontEntries() throws JRException {
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-			setPageRange();
-			
+
 			defaultFont = null;
 			
 			List pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0){
-				startPageIndex = 0;
-				endPageIndex = pages.size() - 1;
-			}
-			for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
-				if (Thread.currentThread().isInterrupted()) {
-					throw new JRException("Current thread interrupted");
+			if (pages != null && pages.size() > 0) {
+				if (isModeBatch) {
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
 				}
-				JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-				JRPrintElement element = null;
-				Collection elements = page.getElements();
-				if (elements != null && elements.size() > 0)
-				{
-					for (Iterator it = elements.iterator(); it.hasNext();)
+
+				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
+					if (Thread.currentThread().isInterrupted()) {
+						throw new JRException("Current thread interrupted");
+					}
+					JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+					JRPrintElement element = null;
+					Collection elements = page.getElements();
+					if (elements != null && elements.size() > 0)
 					{
-						element = (JRPrintElement) it.next();
-						getColorIndex(element.getForecolor());
-						getColorIndex(element.getBackcolor());
-						
-						if (element instanceof JRPrintText)
+						for (Iterator it = elements.iterator(); it.hasNext();)
 						{
-							JRPrintText text = (JRPrintText)element;
-							
-							// create color indices for box border color
-							getColorIndex(text.getBorderColor());
-							getColorIndex(text.getTopBorderColor());
-							getColorIndex(text.getBottomBorderColor());
-							getColorIndex(text.getLeftBorderColor());
-							getColorIndex(text.getRightBorderColor());
-							
-							for(int i = 0; i < text.getText().length(); i++ ){
-								if((text.getText().charAt(i)) > 255){
-									isUnicode = true;
-								}
-							}
-							
-							int runLimit = 0;
-							JRStyledText styledText = getStyledText((JRPrintText) element);
-							AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-							while (runLimit < styledText.length()
-									&& (runLimit = iterator.getRunLimit()) <= styledText.length())
+							element = (JRPrintElement) it.next();
+							getColorIndex(element.getForecolor());
+							getColorIndex(element.getBackcolor());
+
+							if (element instanceof JRPrintText)
 							{
-								Map styledTextAttributes = iterator.getAttributes();
-								JRFont styleFont = new JRBaseFont(styledTextAttributes);
-								
-								// replace fonts with fonts from font map
-								String fontName = styleFont.getFontName();
+								JRPrintText text = (JRPrintText)element;
+
+								// create color indices for box border color
+								getColorIndex(text.getBorderColor());
+								getColorIndex(text.getTopBorderColor());
+								getColorIndex(text.getBottomBorderColor());
+								getColorIndex(text.getLeftBorderColor());
+								getColorIndex(text.getRightBorderColor());
+
+								for(int i = 0; i < text.getText().length(); i++ ){
+									if((text.getText().charAt(i)) > 255){
+										isUnicode = true;
+									}
+								}
+
+								int runLimit = 0;
+								JRStyledText styledText = getStyledText((JRPrintText) element);
+								AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+								while (runLimit < styledText.length()
+										&& (runLimit = iterator.getRunLimit()) <= styledText.length())
+								{
+									Map styledTextAttributes = iterator.getAttributes();
+									JRFont styleFont = new JRBaseFont(styledTextAttributes);
+
+									// replace fonts with fonts from font map
+									String fontName = styleFont.getFontName();
+									if(fontMap != null && fontMap.containsKey(fontName)){
+										fontName = (String)fontMap.get(fontName);
+									}
+									getFontIndex(fontName);
+
+									getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
+									getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
+									iterator.setIndex(runLimit);
+								}
+
+								// replace fonts with font from fontMap
+								String fontName = ((JRPrintText) element).getFontName();
 								if(fontMap != null && fontMap.containsKey(fontName)){
 									fontName = (String)fontMap.get(fontName);
 								}
 								getFontIndex(fontName);
-								
-								getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
-								getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
-								iterator.setIndex(runLimit);
+
 							}
-							
-							// replace fonts with font from fontMap
-							String fontName = ((JRPrintText) element).getFontName();
-							if(fontMap != null && fontMap.containsKey(fontName)){
-								fontName = (String)fontMap.get(fontName);
-							}
-							getFontIndex(fontName);
-							
 						}
 					}
 				}
