@@ -329,7 +329,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			endPageIndex = end.intValue();
 			if (endPageIndex < startPageIndex || endPageIndex > lastPageIndex)
 			{
-				throw new JRException("End page index out of range : " + endPageIndex + " (" + startPageIndex + "-" + lastPageIndex + ")");
+				throw new JRException("End page index out of range : " + endPageIndex + " (" + startPageIndex + " : " + lastPageIndex + ")");
 			}
 		}
 
