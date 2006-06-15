@@ -203,8 +203,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		short forecolor = getNearestColor(line.getForecolor()).getIndex();
 
-		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
-
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
 				HSSFCellStyle.SOLID_FOREGROUND,
@@ -212,7 +210,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP, 
 				(short)0,
-				cellFont,
+				getLoadedFont(getDefaultFont(), forecolor),
 				gridCell
 				);
 		
@@ -245,8 +243,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
 		}
 
-		HSSFFont cellFont = getLoadedFont(getDefaultFont(), forecolor);
-
 		HSSFCellStyle cellStyle = 
 			getLoadedCellStyle(
 				mode,
@@ -254,7 +250,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.ALIGN_LEFT, 
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0, 
-				cellFont,
+				getLoadedFont(getDefaultFont(), forecolor),
 				gridCell
 				);
 		
@@ -282,8 +278,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short forecolor = getNearestColor(textElement.getForecolor()).getIndex();
 
-		HSSFFont cellFont = getLoadedFont(textElement, forecolor);
-
 		TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
 		short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
 		short verticalAlignment = getVerticalAlignment(textAlignHolder);
@@ -309,7 +303,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				horizontalAlignment, 
 				verticalAlignment,
 				rotation, 
-				cellFont,
+				getLoadedFont(textElement, forecolor),
 				gridCell
 				);
 

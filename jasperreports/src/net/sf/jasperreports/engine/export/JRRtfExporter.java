@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -143,9 +144,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			colorBuffer = new StringBuffer(";");
 			
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-			
-			getDefaultFont();
-			getFontIndex(defaultFont);
 			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null) {
@@ -244,8 +242,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			
-			defaultFont = null;
-			
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0){
 				if (isModeBatch)
@@ -327,7 +323,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 
-			defaultFont = null;
+			JRFont defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+			getFontIndex(defaultFont);
 			
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0) {

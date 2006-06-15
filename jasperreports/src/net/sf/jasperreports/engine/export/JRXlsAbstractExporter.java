@@ -25,8 +25,8 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -57,8 +57,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	protected JRFont defaultFont = null;
-
 	protected List loadedFonts = new ArrayList();
 
 	/**
@@ -87,23 +85,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	private int skippedRows = 0;
 	
+	/**
+	 *
+	 */
+	protected JRFont defaultFont = null;
+
 	
 	/**
-	 * 
+	 *
 	 */
 	protected JRFont getDefaultFont()
 	{
-		if (defaultFont == null)
-		{
-			defaultFont = jasperPrint.getDefaultFont();
-			if (defaultFont == null)
-			{
-				defaultFont = new JRBaseFont();
-			}
-		}
-
 		return defaultFont;
 	}
+
 	
 	/**
 	 *
@@ -224,7 +219,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-			defaultFont = null;
+			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
