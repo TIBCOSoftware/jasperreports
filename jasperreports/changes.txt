@@ -7,6 +7,9 @@ JasperReports 1.2.4 (2006-06-xx)
 
 - new REPORT_TIME_ZONE built-in parameter added to fully control date formatting;
 
+- new FORCE_LINEBREAK_POLICY exporter parameter to force the PDF exporter to use
+the same line break policy as in AWT;
+
 - minor bug fixes and improvements;
 
 
