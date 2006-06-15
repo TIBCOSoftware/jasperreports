@@ -39,12 +39,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.base.JRBaseBox;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
-import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 import org.xml.sax.SAXException;
 
@@ -76,12 +75,10 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected boolean classLoaderSet;
 	protected URLStreamHandlerFactory urlHandlerFactory;
 	protected boolean urlHandlerFactorySet;
-	
+
 	/**
 	 *
 	 */
-	protected JRFont defaultFont = null;
-	
 	private LinkedList elementOffsetStack;
 	private int elementOffsetX;
 	private int elementOffsetY;
@@ -346,24 +343,6 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 	}
 	
-
-	/**
-	 *
-	 */
-	protected JRFont getDefaultFont()
-	{
-		if (defaultFont == null)
-		{
-			defaultFont = jasperPrint.getDefaultFont();
-			if (defaultFont == null)
-			{
-				defaultFont = new JRBaseFont();
-			}
-		}
-
-		return defaultFont;
-	}
-
 
 	/**
 	 *

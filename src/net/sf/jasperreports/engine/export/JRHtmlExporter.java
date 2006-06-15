@@ -586,7 +586,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-			defaultFont = null;
 
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)

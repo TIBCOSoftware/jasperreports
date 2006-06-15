@@ -421,7 +421,6 @@ public class JRPdfExporter extends JRAbstractExporter
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
 				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-				defaultFont = null;
 				loadedImagesMap = new HashMap();
 				document.setPageSize(new Rectangle(jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
 				
