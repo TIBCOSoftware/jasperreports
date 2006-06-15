@@ -45,6 +45,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
@@ -951,6 +952,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected Locale getLocale()
 	{
 		return mainDataset.locale;
+	}
+
+
+	/**
+	 * Returns the report time zone.
+	 *
+	 * @return the report time zone
+	 */
+	protected TimeZone getTimeZone()
+	{
+		return mainDataset.timeZone;
 	}
 
 

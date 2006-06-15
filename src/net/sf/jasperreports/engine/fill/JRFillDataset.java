@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -169,6 +170,11 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected ResourceBundle resourceBundle = null;
 
+	/**
+	 * The {@link TimeZone TimeZone} to be used by the dataset.
+	 */
+	protected TimeZone timeZone = null;
+	
 	/**
 	 * The cursor used when iterating the data source.
 	 */
@@ -556,6 +562,13 @@ public class JRFillDataset implements JRDataset
 		{
 			resourceBundle = loadResourceBundle();
 			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+		}
+		
+		timeZone = (TimeZone) parameterValues.get(JRParameter.REPORT_TIME_ZONE);
+		if (timeZone == null)
+		{
+			timeZone = TimeZone.getDefault();
+			parameterValues.put(JRParameter.REPORT_TIME_ZONE, timeZone);
 		}
 		
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);

@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
@@ -135,7 +134,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 					RegularTimePeriod.createInstance(
 						getTimePeriod(), 
 						crtTimeSeries.getTimePeriod(), 
-						TimeZone.getDefault()
+						getTimeZone()
 						);
 
 				series.addOrUpdate(tp, crtTimeSeries.getValue());
