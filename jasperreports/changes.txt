@@ -5,6 +5,8 @@ JasperReports Change Log
 JasperReports 1.2.4 (2006-06-xx)
 -----------------------------------
 
+- new REPORT_TIME_ZONE built-in parameter added to fully control date formatting;
+
 - minor bug fixes and improvements;
 
 

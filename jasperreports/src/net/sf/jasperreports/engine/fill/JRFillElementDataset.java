@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.TimeZone;
+
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -104,6 +106,14 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	public JRGroup getIncrementGroup()
 	{
 		return incrementGroup;
+	}
+		
+	/**
+	 *
+	 */
+	protected TimeZone getTimeZone()
+	{
+		return filler.getTimeZone();
 	}
 		
 	/**

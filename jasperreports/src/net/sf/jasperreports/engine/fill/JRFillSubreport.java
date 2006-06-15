@@ -424,6 +424,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			{
 				parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
 			}
+			//parameterValues.remove(JRParameter.REPORT_TIME_ZONE);
 			parameterValues.remove(JRParameter.REPORT_CONNECTION);
 			parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
 			parameterValues.remove(JRParameter.REPORT_DATA_SOURCE);
@@ -464,6 +465,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (!parameterValues.containsKey(JRParameter.REPORT_LOCALE))
 		{
 			parameterValues.put(JRParameter.REPORT_LOCALE, filler.getLocale());
+		}
+
+		if (!parameterValues.containsKey(JRParameter.REPORT_TIME_ZONE))
+		{
+			parameterValues.put(JRParameter.REPORT_TIME_ZONE, filler.getTimeZone());
 		}
 
 		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER) &&

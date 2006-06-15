@@ -713,6 +713,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				((SimpleDateFormat)format).applyPattern(pattern);
 			}
 		}
+		
+		((DateFormat)format).setTimeZone(filler.getTimeZone());
 	}
 
 	

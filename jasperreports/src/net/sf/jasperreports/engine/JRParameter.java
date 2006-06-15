@@ -80,6 +80,13 @@ public interface JRParameter
 	 */
 	public static final String REPORT_RESOURCE_BUNDLE = "REPORT_RESOURCE_BUNDLE";
 	
+
+	/**
+	 * A <tt>java.util.TimeZone</tt> instance to use for date formatting.
+	 */
+	public static final String REPORT_TIME_ZONE = "REPORT_TIME_ZONE";
+
+
 	/**
 	 * The {@link JRVirtualizer JRVirtualizer} to be used for page virtualization.  This parameter is optional.
 	 */
