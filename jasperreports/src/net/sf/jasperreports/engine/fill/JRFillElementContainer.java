@@ -495,7 +495,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				}
 				else
 				{
-					blankHeight = iElem.getHeight();
+					blankHeight = iElem.getHeight();//FIXME subreports that strech and then don't print, will not remove all space
 				}
 				
 				if (
