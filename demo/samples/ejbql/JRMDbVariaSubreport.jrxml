@@ -8,15 +8,15 @@
 	<parameter name="MovieId" class="java.lang.Integer"/>
 	<queryString language="ejbql">
 		<![CDATA[
-			SELECT   v 
+			SELECT   v.type, v.description
 			FROM     Varia v
 			WHERE    v.movie.id = $P{MovieId}
 			ORDER BY v.importance]]></queryString>
-	<field name="id" class="java.lang.Integer">
-	</field>
 	<field name="type" class="java.lang.String">
+		<fieldDescription>COLUMN_1</fieldDescription>
 	</field>
 	<field name="description" class="java.lang.String">
+		<fieldDescription>COLUMN_2</fieldDescription>
 	</field>
 	<title>
 		<band height="14">
