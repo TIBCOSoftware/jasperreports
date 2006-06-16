@@ -27,37 +27,58 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
 
 /**
  * Java Persistence API data source that uses <code>javax.persistence.Query.getResultList()</code>.
  * <p/>
  * The query result can be paginated by not retrieving all the rows at once.
+ * <p/>
+ * Fields are mapped to values in the result following these rules:
+ * <ul>
+ * <li>if the query returns a single object/bean (e.g. <code>SELECT m FROM Movie m</code> or
+ * <code>SELECT NEW MovieDescription(m.title, m.genre) FROM Movie m</code>), then the fields are
+ * mapped to bean property names.</li>
+ * <li>if the query returns multiple objects per row (e.g. <code>SELECT m.title, m.gender FROM Movie m</code>),
+ * the fields are mapped using the following syntax: COLUMN_<em>index</em>[.<em>property</em>], with the
+ * indexes starting from 1.  Example mappings: COLUMN_1, COLUMN_2, COLUMN_2.title, COLUMN_2.movie.title.</li>
+ * </ul>
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
  * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_PAGE_SIZE
  */
 public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewindableDataSource {
+	private static final String MAPPING_INDEX_PREFIX = "COLUMN_";
+	private static final int MAPPING_INDEX_PREFIX_LENGTH = MAPPING_INDEX_PREFIX.length();
+	private static final String MAPPING_INDEX_PROPERTY_SEP = ".";
+	private static final int MAPPING_INDEX_PROPERTY_SEP_LENGTH = MAPPING_INDEX_PROPERTY_SEP.length();
+	
 	private final JRJpaQueryExecuter queryExecuter;
 	private final int pageSize;
 	private int pageCount;
 	private boolean nextPage;
 	private List returnValues;
 	private Iterator iterator;
-	private Object currentBean;
+	protected Object currentRow;
+	private Map fieldValueReaders;
 
 	public JRJpaDataSource(JRJpaQueryExecuter queryExecuter, int pageSize) {
 		super(true);
 
 		this.queryExecuter = queryExecuter;
 		this.pageSize = pageSize;
+		
+		fieldValueReaders = new HashMap();
 		
 		pageCount = 0;
 		fetchPage();
@@ -90,7 +111,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewin
 		}
 		
 		if (hasNext) {
-			currentBean = iterator.next();
+			currentRow = iterator.next();
 		}
 
 		return hasNext;
@@ -111,6 +132,125 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewin
 	}
 	
 	public Object getFieldValue(JRField field) throws JRException {
-		return getFieldValue(currentBean, field);
+		FieldValueReader reader = getFieldValueReader(field);
+		return reader.getValue();
+	}
+	
+	protected FieldValueReader getFieldValueReader(JRField field)
+	{
+		FieldValueReader reader = (FieldValueReader) fieldValueReaders.get(field.getName());
+		if (reader == null)
+		{
+			String mapping = getPropertyName(field);
+			reader = createReader(mapping);
+			fieldValueReaders.put(field.getName(), reader);
+		}
+		return reader;
+	}
+
+	private FieldValueReader createReader(String mapping)
+	{
+		FieldValueReader reader = null;
+		if (mapping.startsWith(MAPPING_INDEX_PREFIX))
+		{
+			int propertySepIdx = mapping.indexOf(MAPPING_INDEX_PROPERTY_SEP, MAPPING_INDEX_PREFIX_LENGTH + 1);
+			if (propertySepIdx < 0)
+			{
+				String indexStr = mapping.substring(MAPPING_INDEX_PREFIX_LENGTH);
+				try
+				{
+					int index = Integer.parseInt(indexStr);
+					reader = new IndexReader(index - 1);
+				}
+				catch (NumberFormatException e)
+				{
+					//ignore
+				}
+			}
+			else
+			{
+				String indexStr = mapping.substring(MAPPING_INDEX_PREFIX_LENGTH, propertySepIdx);
+				try
+				{
+					int index = Integer.parseInt(indexStr);
+					String property = mapping.substring(propertySepIdx + MAPPING_INDEX_PROPERTY_SEP_LENGTH);
+					reader = new IndexPropertyReader(index - 1, property);
+				}
+				catch (NumberFormatException e)
+				{
+					//ignore
+				}
+			}
+		}
+
+		//default to a property mapping
+		if (reader == null)
+		{
+			reader = new PropertyReader(mapping);
+		}
+		
+		return reader;
+	}
+
+	protected static interface FieldValueReader
+	{
+		Object getValue() throws JRException;
+	}
+	
+	protected class PropertyReader implements FieldValueReader
+	{
+		private final String property;
+		
+		public PropertyReader(String property)
+		{
+			this.property = property;
+		}
+		
+		public Object getValue() throws JRException
+		{
+			return getBeanProperty(currentRow, property);
+		}	
+	}
+	
+	protected class IndexReader implements FieldValueReader
+	{
+		private final int position;
+		
+		public IndexReader(int position)
+		{
+			this.position = position;
+		}
+		
+		public Object getValue() throws JRException
+		{
+			Object[] values = (Object[]) currentRow;
+			if (position < 0 || position >= values.length)
+			{
+				throw new JRRuntimeException("Index " + position + " out of bounds for query result of lenght " + values.length);
+			}
+			return values[position];
+		}	
+	}
+	
+	protected class IndexPropertyReader implements FieldValueReader
+	{
+		private final int position;
+		private final String property;
+		
+		public IndexPropertyReader(int position, String property)
+		{
+			this.position = position;
+			this.property = property;
+		}
+		
+		public Object getValue() throws JRException
+		{
+			Object[] values = (Object[]) currentRow;
+			if (position < 0 || position >= values.length)
+			{
+				throw new JRRuntimeException("Index " + position + " out of bounds for query result of lenght " + values.length);
+			}
+			return getBeanProperty(values[position], property);
+		}
 	}
 }
