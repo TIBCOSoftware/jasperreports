@@ -56,6 +56,8 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	{
 		super(defaultStyleProvider);
 		
+		parentStyle = cell.getStyle();
+		
 		setBackcolor(cell.getBackcolor());
 		setMode(cell.getMode());
 		setBox(cell.getBox());

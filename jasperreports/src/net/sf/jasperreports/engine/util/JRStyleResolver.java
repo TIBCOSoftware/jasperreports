@@ -1410,59 +1410,6 @@ public class JRStyleResolver
 
 
 	/**
-	 * Copies properties of the source style to the destination style. The copied properties are either the sytle's own
-	 * or inherited from its parents.
-	 */
-	public static void buildFromStyle(JRStyle destStyle, JRStyle srcStyle)
-	{
-		destStyle.setMode(srcStyle.getMode());
-		destStyle.setForecolor(srcStyle.getForecolor());
-		destStyle.setBackcolor(srcStyle.getBackcolor());
-
-		destStyle.setPen(srcStyle.getPen());
-		destStyle.setFill(srcStyle.getFill());
-
-		destStyle.setRadius(srcStyle.getRadius());
-
-		destStyle.setScaleImage(srcStyle.getScaleImage());
-		destStyle.setHorizontalAlignment(srcStyle.getHorizontalAlignment());
-		destStyle.setVerticalAlignment(srcStyle.getVerticalAlignment());
-
-		destStyle.setBorder(srcStyle.getBorder());
-		destStyle.setTopBorder(srcStyle.getTopBorder());
-		destStyle.setLeftBorder(srcStyle.getLeftBorder());
-		destStyle.setBottomBorder(srcStyle.getBottomBorder());
-		destStyle.setRightBorder(srcStyle.getRightBorder());
-		destStyle.setBorderColor(srcStyle.getBorderColor());
-		destStyle.setTopBorderColor(srcStyle.getTopBorderColor());
-		destStyle.setLeftBorderColor(srcStyle.getLeftBorderColor());
-		destStyle.setBottomBorderColor(srcStyle.getBottomBorderColor());
-		destStyle.setRightBorderColor(srcStyle.getRightBorderColor());
-		destStyle.setPadding(srcStyle.getPadding());
-		destStyle.setTopPadding(srcStyle.getTopPadding());
-		destStyle.setLeftPadding(srcStyle.getLeftPadding());
-		destStyle.setBottomPadding(srcStyle.getBottomPadding());
-		destStyle.setRightPadding(srcStyle.getRightPadding());
-
-		destStyle.setRotation(srcStyle.getRotation());
-		destStyle.setLineSpacing(srcStyle.getLineSpacing());
-		destStyle.setStyledText(srcStyle.isStyledText());
-
-		destStyle.setPattern(srcStyle.getPattern());
-
-		destStyle.setFontName(srcStyle.getFontName());
-		destStyle.setBold(srcStyle.isBold());
-		destStyle.setItalic(srcStyle.isItalic());
-		destStyle.setUnderline(srcStyle.isUnderline());
-		destStyle.setStrikeThrough(srcStyle.isStrikeThrough());
-		destStyle.setFontSize(srcStyle.getFontSize());
-		destStyle.setPdfFontName(srcStyle.getPdfFontName());
-		destStyle.setPdfEncoding(srcStyle.getPdfEncoding());
-		destStyle.setPdfEmbedded(srcStyle.isPdfEmbedded());
-	}
-
-
-	/**
 	 * Merges two styles, by appending the properties of the source style to the ones of the destination style.
 	 */
 	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)

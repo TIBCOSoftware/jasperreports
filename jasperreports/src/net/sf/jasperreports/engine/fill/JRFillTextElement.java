@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -73,7 +74,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textEnd = 0;
 	private String rawText = null;
 	private JRStyledText styledText = null;
-	private Map styledTextAttributes = null;
+	private Map styledTextAttributesMap = new HashMap();
 
 	protected TextChopper textChopper = null;
 	
@@ -111,7 +112,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	private void createTextMeasurer()
 	{
-		textMeasurer = new TextMeasurer(this);
+		textMeasurer = new TextMeasurer(this);//FIXME what about conditional styles: top padding and all...
 	}
 
 
@@ -301,6 +302,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected Map getStyledTextAttributes()
 	{
+		JRStyle style = getStyle();
+		Map styledTextAttributes = (Map)styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
 			styledTextAttributes = new HashMap(); 
@@ -310,6 +313,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
 			}
+			styledTextAttributesMap.put(style, styledTextAttributes);
 		}
 		
 		return styledTextAttributes;

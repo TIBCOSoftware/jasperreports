@@ -75,7 +75,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private Map templateFrames;
 	
-	private final JRStyle style;
+	private final JRStyle initStyle;
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillObjectFactory factory)
 	{
@@ -88,7 +88,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		width = cell.getWidth();
 		height = cell.getHeight();
 		
-		style = factory.getStyle(parentCell.getStyle());
+		initStyle = factory.getStyle(parentCell.getStyle());
 		
 		initElements();
 		
@@ -117,7 +117,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		width = cellContents.width;
 		height = cellContents.height;
 		
-		style = cellContents.style;
+		initStyle = cellContents.initStyle;
 		
 		initElements();
 		
@@ -368,16 +368,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private JRTemplateFrame getTemplateFrame()
 	{
-		JRStyle currStyle = getEvaluatedConditionalStyle(style);
-		if (currStyle == null)
-		{
-			currStyle = style;
-		}
-		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(currStyle);
+		JRStyle style = getStyle();
+		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(style);
 		if (template == null)
 		{
 			template = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this);
-			templateFrames.put(currStyle, template);
+			templateFrames.put(style, template);
 		}
 		return template;
 	}
@@ -587,13 +583,28 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	public JRStyle getStyle()
 	{
-		return style;
+		JRStyle crtStyle = initStyle;
+		
+		boolean isUsingDefaultStyle = false;
+
+		if (crtStyle == null)
+		{
+			crtStyle = filler.getDefaultStyle();
+			isUsingDefaultStyle = true;
+		}
+
+		JRStyle evalStyle = getEvaluatedConditionalStyle(crtStyle);
+		
+		if (isUsingDefaultStyle && evalStyle == crtStyle)
+			evalStyle = null;
+		
+		return evalStyle;
 	}
 
 	protected void initConditionalStyles()
 	{
 		super.initConditionalStyles();
-		collectConditionalStyle(style);
+		collectConditionalStyle(initStyle);
 	}
 
 	public Byte getMode()

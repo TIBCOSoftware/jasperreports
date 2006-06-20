@@ -89,8 +89,13 @@ public class TextMeasurer
 	public TextMeasurer(JRTextElement textElement)
 	{
 		this.textElement = textElement;
-
-		/*   */
+	}
+	
+	/**
+	 * 
+	 */
+	private void initialize(int availableStretchHeight)
+	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
 		
@@ -154,13 +159,7 @@ public class TextMeasurer
 		}
 
 		maxFontSizeFinder = MaxFontSizeFinder.getInstance(textElement.isStyledText());
-	}
-	
-	/**
-	 * 
-	 */
-	private void initialize(int availableStretchHeight)
-	{
+
 		formatWidth = width - leftPadding - rightPadding;
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
