@@ -15,6 +15,12 @@
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/*jdt*.jar" />
 		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/poi*.jar" />
+		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/jxl*.jar" />
+		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
 		</copy>
