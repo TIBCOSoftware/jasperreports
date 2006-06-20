@@ -181,11 +181,11 @@ public class JRBaseStyle implements JRStyle, Serializable
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
 
-		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
-		if (conditionalStyles != null && conditionalStyles.length > 0) {
-			this.conditionalStyles = new JRConditionalStyle[conditionalStyles.length];
-			for (int i = 0; i < conditionalStyles.length; i++) {
-				this.conditionalStyles[i] = factory.getConditionalStyle(conditionalStyles[i], this);
+		JRConditionalStyle[] condStyles = style.getConditionalStyles();
+		if (condStyles != null && condStyles.length > 0) {
+			this.conditionalStyles = new JRConditionalStyle[condStyles.length];
+			for (int i = 0; i < condStyles.length; i++) {
+				this.conditionalStyles[i] = factory.getConditionalStyle(condStyles[i], this);
 			}
 		}
 	}
