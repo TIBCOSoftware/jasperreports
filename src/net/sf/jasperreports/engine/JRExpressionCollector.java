@@ -322,6 +322,8 @@ public class JRExpressionCollector
 					addExpression(conditionalStyles[i].getConditionExpression());
 				}
 			}
+			
+			collect(style.getStyle());
 		}
 	}
 

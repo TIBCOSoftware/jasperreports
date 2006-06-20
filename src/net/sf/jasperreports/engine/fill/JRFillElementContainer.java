@@ -78,7 +78,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	protected JRFillElement[] deepElements;
 
 	/**
-	 * List of styles that con
+	 *
 	 */
 	protected Set stylesToEvaluate = new HashSet();
 	protected Map evaluatedStyles = new HashMap();
@@ -716,7 +716,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	protected void collectConditionalStyle(JRStyle style)
 	{
-		if (style != null && style.getConditionalStyles() != null)
+		if (style != null)// && style.getConditionalStyles() != null)
 		{
 			stylesToEvaluate.add(style);
 		}
@@ -727,17 +727,55 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		for (Iterator it = stylesToEvaluate.iterator(); it.hasNext();) 
 		{
-			JRStyle initialStyle = (JRStyle) it.next();
-			JRConditionalStyle[] conditionalStyles = initialStyle.getConditionalStyles();
-			boolean[] expressionValues = new boolean[conditionalStyles.length];
+			evaluateConditionalStyle((JRStyle) it.next(), evaluation);
+		}
+	}
 
-			StringBuffer code = new StringBuffer(initialStyle.getName());
-			boolean anyTrue = false;
+
+	protected JRStyle evaluateConditionalStyle(JRStyle initialStyle, byte evaluation) throws JRException
+	{
+		JRStyle consolidatedStyle = initialStyle;
+
+		StringBuffer code = new StringBuffer();
+		List condStylesToApply = new ArrayList();
+		
+		boolean anyTrue = buildConsolidatedStyle(initialStyle, evaluation, code, condStylesToApply);
+		
+		if (anyTrue)
+		{
+			String consolidatedStyleName = initialStyle.getName() + code.toString();
+			consolidatedStyle = filler.getConsolidatedStyle(consolidatedStyleName);
+			if (consolidatedStyle == null)
+			{
+				consolidatedStyle = new JRBaseStyle(consolidatedStyleName);
+				for (int j = condStylesToApply.size() - 1; j >= 0; j--)
+				{
+					JRStyleResolver.appendStyle(consolidatedStyle, (JRStyle)condStylesToApply.get(j));
+				}
+
+				filler.putConsolidatedStyle(consolidatedStyle);
+			}
+		}
+
+		evaluatedStyles.put(initialStyle, consolidatedStyle);
+		
+		return consolidatedStyle;
+	}
+
+
+	protected boolean buildConsolidatedStyle(JRStyle style, byte evaluation, StringBuffer code, List condStylesToApply) throws JRException
+	{
+		boolean anyTrue = false;
+		
+		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
+		if (conditionalStyles != null && conditionalStyles.length > 0)
+		{
 			for (int j = 0; j < conditionalStyles.length; j++) 
 			{
+				JRConditionalStyle conditionalStyle = conditionalStyles[j];
 				Boolean expressionValue = 
 					(Boolean) expressionEvaluator.evaluate(
-						conditionalStyles[j].getConditionExpression(),
+						conditionalStyle.getConditionExpression(),
 						evaluation
 						);
 				
@@ -752,37 +790,19 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				}
 				
 				code.append(condition ? '1' : '0');
-				expressionValues[j] = condition;
-				anyTrue |= condition;
-			}
-			
-			JRStyle style;
-			if (anyTrue)
-			{
-				String condStyleName = code.toString();
-				style = filler.getConditionalStyle(initialStyle, condStyleName);
-				if (style == null)
-				{
-					style = new JRBaseStyle(condStyleName);
-					JRStyleResolver.buildFromStyle(style, initialStyle);
-					for (int j = 0; j < conditionalStyles.length; j++)
-					{
-						if (expressionValues[j])
-						{
-							JRStyleResolver.appendStyle(style, conditionalStyles[j]);
-						}
-					}
+				anyTrue = anyTrue | condition;
 
-					filler.putConditionalStyle(initialStyle, style);
-				}
+				if (condition)
+					condStylesToApply.add(conditionalStyle);
 			}
-			else
-			{
-				style = initialStyle;
-			}
-
-			evaluatedStyles.put(initialStyle, style);
 		}
+
+		condStylesToApply.add(style);
+		
+		if (style.getStyle() != null)
+			anyTrue = anyTrue | buildConsolidatedStyle(style.getStyle(), evaluation, code, condStylesToApply);
+		
+		return anyTrue;
 	}
 
 

@@ -36,7 +36,6 @@ package net.sf.jasperreports.engine.fill;
 import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -751,16 +750,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			fillReport();
 
 			// add consolidates styles as normal styles in the print object
-			Set initialStyles = consolidatedStyles.keySet();
-			for (Iterator it = initialStyles.iterator(); it.hasNext();) 
+			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();) 
 			{
-				JRStyle initialStyle = (JRStyle) it.next();
-				Map styleMap = (Map) consolidatedStyles.get(initialStyle);
-				Collection newStyles = styleMap.values();
-				for (Iterator it2 = newStyles.iterator(); it2.hasNext();) 
-				{
-					jasperPrint.addStyle((JRStyle) it2.next());
-				}
+				jasperPrint.addStyle((JRStyle) it.next());
 			}
 
 			return jasperPrint;
@@ -1521,27 +1513,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 	
 	
-	protected JRStyle getConditionalStyle(JRStyle initialStyle, String condStyleName)
+	protected JRStyle getConsolidatedStyle(String consolidatedStyleName)
 	{
-		JRStyle condStyle = null;
-		Map condStyles = (Map) consolidatedStyles.get(initialStyle);
-		if (condStyles != null)
-		{
-			condStyle = (JRStyle) condStyles.get(condStyleName);
-		}
-		return condStyle;
+		return (JRStyle) consolidatedStyles.get(consolidatedStyleName);
 	}
 	
 	
-	protected void putConditionalStyle(JRStyle initialStyle, JRStyle condStyle)
+	protected void putConsolidatedStyle(JRStyle consolidatedStyle)
 	{
-		Map condStyles = (Map) consolidatedStyles.get(initialStyle);
-		if (condStyles == null)
-		{
-			condStyles = new HashMap();
-			consolidatedStyles.put(initialStyle, condStyles);
-		}
-		condStyles.put(condStyle.getName(), condStyle);
+		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
 	}
 	
 	protected final boolean isEmpty(JRBand band)
