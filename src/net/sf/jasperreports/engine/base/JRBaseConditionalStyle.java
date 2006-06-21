@@ -28,7 +28,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		super();
 	}
 
-	public JRBaseConditionalStyle(JRConditionalStyle style, JRStyle parentStyle, JRAbstractObjectFactory factory)//FIXME STYLE recheck this
+	public JRBaseConditionalStyle(JRConditionalStyle style, JRStyle parentStyle, JRAbstractObjectFactory factory)
 	{
 		this.parentStyle = parentStyle;
 

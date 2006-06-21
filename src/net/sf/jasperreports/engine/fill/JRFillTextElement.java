@@ -112,7 +112,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	private void createTextMeasurer()
 	{
-		textMeasurer = new TextMeasurer(this);//FIXME what about conditional styles: top padding and all...
+		textMeasurer = new TextMeasurer(this);
 	}
 
 

@@ -639,7 +639,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 		filler.unregisterSubfiller(subreportFiller);
 		
-		initSubreportFiller(null);//FIXME used chached evaluator
+		initSubreportFiller(null);//FIXME used cached evaluator
 
 		if (getConnectionExpression() == null && dataSource != null)
 		{
