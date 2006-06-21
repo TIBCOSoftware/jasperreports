@@ -1219,7 +1219,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)//FIXME STYLE why?
+	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		return expression;
 	}
