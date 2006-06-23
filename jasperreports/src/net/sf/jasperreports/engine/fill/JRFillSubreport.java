@@ -725,6 +725,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			{
+				JRSubreportReturnValue countVal = createDistinctCountHelperReturnValue(parentReturnValue);
+				addReturnValue(countVal, returnValueList, factory);
+				
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+				break;
+			}
 		}
 
 		returnValueList.add(returnValue);
@@ -739,7 +747,19 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		helper.setToVariable(returnValue.getToVariable() + nameSuffix);
 		helper.setSubreportVariable(returnValue.getSubreportVariable());
 		helper.setCalculation(calculation);
-		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());
+		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue?
+		
+		return helper;
+	}
+	
+
+	protected JRSubreportReturnValue createDistinctCountHelperReturnValue(JRSubreportReturnValue returnValue)
+	{
+		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
+		helper.setToVariable(returnValue.getToVariable() + "_DISTINCT_COUNT");
+		helper.setSubreportVariable(returnValue.getSubreportVariable());
+		helper.setCalculation(JRVariable.CALCULATION_NOTHING);
+		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue? tests required
 		
 		return helper;
 	}
@@ -798,7 +818,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 				
 				JRVariable variable = filler.getVariable(returnValue.getToVariable());
-				if (returnValue.getCalculation() == JRVariable.CALCULATION_COUNT)
+				if (
+					returnValue.getCalculation() == JRVariable.CALCULATION_COUNT
+					|| returnValue.getCalculation() == JRVariable.CALCULATION_DISTINCT_COUNT
+					)
 				{
 					if (!Number.class.isAssignableFrom(variable.getValueClass()))
 					{

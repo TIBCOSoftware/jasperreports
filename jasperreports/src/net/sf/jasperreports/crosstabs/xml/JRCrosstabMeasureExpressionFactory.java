@@ -45,7 +45,10 @@ public class JRCrosstabMeasureExpressionFactory extends JRBaseFactory
 		JRDesignCrosstabMeasure measure = (JRDesignCrosstabMeasure) digester.peek();
 
 		JRDesignExpression expression = new JRDesignExpression();
-		if (measure.getCalculation() == JRVariable.CALCULATION_COUNT)
+		if (
+			measure.getCalculation() == JRVariable.CALCULATION_COUNT
+			|| measure.getCalculation() == JRVariable.CALCULATION_DISTINCT_COUNT
+			)
 		{
 			expression.setValueClassName(Object.class.getName());
 		}

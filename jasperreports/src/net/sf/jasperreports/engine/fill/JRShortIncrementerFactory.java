@@ -107,6 +107,11 @@ public class JRShortIncrementerFactory extends JRAbstractExtendedIncrementerFact
 				incrementer = JRShortVarianceIncrementer.getInstance();
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			{
+				incrementer = JRShortDistinctCountIncrementer.getInstance();
+				break;
+			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_FIRST :
@@ -193,6 +198,58 @@ class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	public Object initialValue()
+	{
+		return JRShortIncrementerFactory.ZERO;
+	}
+}
+
+
+/**
+ *
+ */
+class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRShortDistinctCountIncrementer mainInstance = new JRShortDistinctCountIncrementer();
+
+	/**
+	 *
+	 */
+	private JRShortDistinctCountIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public static JRShortDistinctCountIncrementer getInstance()
+	{
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRCalculable variable, 
+		Object expressionValue,
+		AbstractValueProvider valueProvider
+		)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		if (variable.isInitialized())
+		{
+			holder.init();
+		}
+
+		return new Short((short)holder.getCount());
+	}
+
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;

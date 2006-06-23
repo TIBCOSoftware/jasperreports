@@ -107,6 +107,11 @@ public class JRByteIncrementerFactory extends JRAbstractExtendedIncrementerFacto
 				incrementer = JRByteVarianceIncrementer.getInstance();
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			{
+				incrementer = JRByteDistinctCountIncrementer.getInstance();
+				break;
+			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_FIRST :
@@ -193,6 +198,58 @@ class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	public Object initialValue()
+	{
+		return JRByteIncrementerFactory.ZERO;
+	}
+}
+
+
+/**
+ *
+ */
+class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRByteDistinctCountIncrementer mainInstance = new JRByteDistinctCountIncrementer();
+
+	/**
+	 *
+	 */
+	private JRByteDistinctCountIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public static JRByteDistinctCountIncrementer getInstance()
+	{
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRCalculable variable, 
+		Object expressionValue,
+		AbstractValueProvider valueProvider
+		)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		if (variable.isInitialized())
+		{
+			holder.init();
+		}
+
+		return new Byte((byte)holder.getCount());
+	}
+
 	public Object initialValue()
 	{
 		return JRByteIncrementerFactory.ZERO;

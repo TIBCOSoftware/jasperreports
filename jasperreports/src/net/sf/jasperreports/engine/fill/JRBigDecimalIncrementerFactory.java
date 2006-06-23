@@ -110,6 +110,11 @@ public class JRBigDecimalIncrementerFactory extends JRAbstractExtendedIncremente
 				incrementer = JRBigDecimalVarianceIncrementer.getInstance();
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			{
+				incrementer = JRBigDecimalDistinctCountIncrementer.getInstance();
+				break;
+			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_FIRST :
@@ -196,6 +201,58 @@ class JRBigDecimalCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	public Object initialValue()
+	{
+		return JRBigDecimalIncrementerFactory.ZERO;
+	}
+}
+
+
+/**
+*
+*/
+class JRBigDecimalDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRBigDecimalDistinctCountIncrementer mainInstance = new JRBigDecimalDistinctCountIncrementer();
+
+	/**
+	 *
+	 */
+	private JRBigDecimalDistinctCountIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public static JRBigDecimalDistinctCountIncrementer getInstance()
+	{
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRCalculable variable, 
+		Object expressionValue,
+		AbstractValueProvider valueProvider
+		)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		if (variable.isInitialized())
+		{
+			holder.init();
+		}
+
+		return new BigDecimal(holder.getCount());
+	}
+
 	public Object initialValue()
 	{
 		return JRBigDecimalIncrementerFactory.ZERO;

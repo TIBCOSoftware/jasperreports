@@ -498,6 +498,7 @@ public class JRXmlConstants
 	private static final String CALCULATION_VARIANCE = "Variance";
 	private static final String CALCULATION_SYSTEM = "System";
 	private static final String CALCULATION_FIRST = "First";
+	private static final String CALCULATION_DISTINCT_COUNT = "DistinctCount";
 
 	private static Map calculationMap = null;
 
@@ -515,7 +516,8 @@ public class JRXmlConstants
 			calculationMap.put(CALCULATION_STANDARD_DEVIATION, new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION));
 			calculationMap.put(CALCULATION_VARIANCE,           new Byte(JRVariable.CALCULATION_VARIANCE));
 			calculationMap.put(CALCULATION_SYSTEM,             new Byte(JRVariable.CALCULATION_SYSTEM));
-			calculationMap.put(CALCULATION_FIRST,             new Byte(JRVariable.CALCULATION_FIRST));
+			calculationMap.put(CALCULATION_FIRST,              new Byte(JRVariable.CALCULATION_FIRST));
+			calculationMap.put(CALCULATION_DISTINCT_COUNT,     new Byte(JRVariable.CALCULATION_DISTINCT_COUNT));
 			calculationMap.put(new Byte(JRVariable.CALCULATION_NOTHING),            CALCULATION_NOTHING);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_COUNT),              CALCULATION_COUNT);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_SUM),                CALCULATION_SUM);
@@ -525,7 +527,8 @@ public class JRXmlConstants
 			calculationMap.put(new Byte(JRVariable.CALCULATION_STANDARD_DEVIATION), CALCULATION_STANDARD_DEVIATION);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_VARIANCE),           CALCULATION_VARIANCE);
 			calculationMap.put(new Byte(JRVariable.CALCULATION_SYSTEM),             CALCULATION_SYSTEM);
-			calculationMap.put(new Byte(JRVariable.CALCULATION_FIRST),             CALCULATION_FIRST);
+			calculationMap.put(new Byte(JRVariable.CALCULATION_FIRST),              CALCULATION_FIRST);
+			calculationMap.put(new Byte(JRVariable.CALCULATION_DISTINCT_COUNT),     CALCULATION_DISTINCT_COUNT);
 		}
 
 		return calculationMap;

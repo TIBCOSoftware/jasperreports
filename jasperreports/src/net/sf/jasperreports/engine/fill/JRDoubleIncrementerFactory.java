@@ -107,6 +107,11 @@ public class JRDoubleIncrementerFactory extends JRAbstractExtendedIncrementerFac
 				incrementer = JRDoubleVarianceIncrementer.getInstance();
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			{
+				incrementer = JRDoubleDistinctCountIncrementer.getInstance();
+				break;
+			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_FIRST :
@@ -193,6 +198,58 @@ class JRDoubleCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	public Object initialValue()
+	{
+		return JRDoubleIncrementerFactory.ZERO;
+	}
+}
+
+
+/**
+ *
+ */
+class JRDoubleDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRDoubleDistinctCountIncrementer mainInstance = new JRDoubleDistinctCountIncrementer();
+
+	/**
+	 *
+	 */
+	private JRDoubleDistinctCountIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public static JRDoubleDistinctCountIncrementer getInstance()
+	{
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRCalculable variable, 
+		Object expressionValue,
+		AbstractValueProvider valueProvider
+		)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		if (variable.isInitialized())
+		{
+			holder.init();
+		}
+
+		return new Double(holder.getCount());
+	}
+
 	public Object initialValue()
 	{
 		return JRDoubleIncrementerFactory.ZERO;

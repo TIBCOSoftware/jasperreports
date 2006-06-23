@@ -259,6 +259,12 @@ public class BucketingService
 				addMeasure(varianceMeasure, index, measuresList, measureIndexList);
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			{
+				MeasureDefinition countMeasure = MeasureDefinition.createDistinctCountHelperMeasure(measure);
+				addMeasure(countMeasure, index, measuresList, measureIndexList);
+				break;
+			}
 		}
 
 		measuresList.add(measure);
@@ -328,6 +334,10 @@ public class BucketingService
 				case JRVariable.CALCULATION_STANDARD_DEVIATION:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_VARIANCE);
+				}
+				case JRVariable.CALCULATION_DISTINCT_COUNT:
+				{
+					values[i].setHelper(values[i - 1], JRCalculable.HELPER_COUNT);
 				}
 			}
 		}

@@ -28,8 +28,10 @@
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.AbstractValueProvider;
 import net.sf.jasperreports.engine.fill.JRCalculable;
+import net.sf.jasperreports.engine.fill.JRDistinctCountExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementer;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 
@@ -45,8 +47,6 @@ public class MeasureDefinition
 	protected final JRExtendedIncrementerFactory incrementerFactory;
 	protected final Class valueClass;
 	protected final boolean isSystemDefined;
-	
-	protected final JRExtendedIncrementer incrementer;
 	
 	
 	/**
@@ -74,7 +74,6 @@ public class MeasureDefinition
 		this.calculation = calculation;
 		this.incrementerFactory = incrementerFactory;
 		this.isSystemDefined = isSystemDefined;
-		this.incrementer = getIncrementer();
 	}
 	
 	
@@ -88,6 +87,18 @@ public class MeasureDefinition
 	public static MeasureDefinition createHelperMeasure(MeasureDefinition measure, byte helperCalculation)
 	{
 		return new MeasureDefinition(measure.valueClass, helperCalculation, measure.incrementerFactory, true);
+	}
+
+	
+	/**
+	 * Creates a helper measure for a distinct count calculation.
+	 * 
+	 * @param measure the measure
+	 * @return the helper measure having the specified calculation
+	 */
+	public static MeasureDefinition createDistinctCountHelperMeasure(MeasureDefinition measure)
+	{
+		return new MeasureDefinition(measure.valueClass, JRVariable.CALCULATION_NOTHING, JRDistinctCountExtendedIncrementerFactory.getInstance(), true);
 	}
 
 	
@@ -162,6 +173,7 @@ public class MeasureDefinition
 		private Object value;
 		private MeasureValue[] helpers;
 		private boolean initialized;
+		private JRExtendedIncrementer incrementer;
 		
 		
 		/**
@@ -171,6 +183,7 @@ public class MeasureDefinition
 		{
 			this.value = null;
 			this.helpers = new MeasureValue[HELPER_SIZE];
+			incrementer = getIncrementer();
 			
 			init();
 		}
