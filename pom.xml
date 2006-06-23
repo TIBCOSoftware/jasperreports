@@ -32,23 +32,6 @@
 				</includes>
 			</resource>
 		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antlr-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>src</sourceDirectory>
-							<grammars>net/sf/jasperreports/olap/mapping/mapping.g</grammars>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
@@ -192,6 +175,14 @@
 			<version>2.0.1</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/mondrian-2.0.1.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>jpa</groupId>
+			<artifactId>jpa</artifactId>
+			<version>20060623</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jpa.jar</systemPath>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
