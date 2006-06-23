@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/jasperreports:jasperreports</connection>
-		<tag>jr-1-2-1</tag>
-		<url>http://cvs.sourceforge.net/viewcvs.py/jasperreports/jasperreports/</url>
+		<connection>scm:cvs:pserver:anonymous:@jasperreports.cvs.sourceforge.net:/cvsroot/jasperreports:jasperreports</connection>
+		<tag>jr-1-2-4</tag>
+		<url>http://jasperreports.cvs.sourceforge.net/jasperreports/jasperreports/</url>
 	</scm>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
