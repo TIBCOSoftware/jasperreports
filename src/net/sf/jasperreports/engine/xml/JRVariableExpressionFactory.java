@@ -50,7 +50,10 @@ public class JRVariableExpressionFactory extends JRBaseFactory
 		JRDesignVariable variable = (JRDesignVariable)digester.peek();
 
 		JRDesignExpression expression = new JRDesignExpression();
-		if (variable.getCalculation() == JRVariable.CALCULATION_COUNT)
+		if (
+			variable.getCalculation() == JRVariable.CALCULATION_COUNT
+			|| variable.getCalculation() == JRVariable.CALCULATION_DISTINCT_COUNT
+			)
 		{
 			expression.setValueClassName(java.lang.Object.class.getName());
 		}

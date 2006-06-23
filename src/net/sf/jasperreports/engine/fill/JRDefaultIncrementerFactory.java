@@ -88,6 +88,7 @@ public class JRDefaultIncrementerFactory extends JRAbstractExtendedIncrementerFa
 			case JRVariable.CALCULATION_HIGHEST :
 			case JRVariable.CALCULATION_STANDARD_DEVIATION :
 			case JRVariable.CALCULATION_VARIANCE :
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
 			default :
 			{
 				incrementer = JRDefaultNothingIncrementer.getInstance();

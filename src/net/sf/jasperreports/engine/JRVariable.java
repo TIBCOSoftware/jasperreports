@@ -196,6 +196,13 @@ public interface JRVariable
 	public static final byte CALCULATION_FIRST = 9;
 
 
+	/**
+	 * The value is calculated by counting the distinct non-null values of the variable expression with every iteration in the data source.
+	 * The count variable must be numeric, but the variable expression needs not, since its value is not important.
+	 * On the other hand, the initial value expression must be numeric since it will be the count variable initial value.
+	 */
+	public static final byte CALCULATION_DISTINCT_COUNT = 10;
+
 
 	/**
 	 * Returns the name of the variable. Since all variables are stored in a map, the variable names are the keys in the map.

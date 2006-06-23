@@ -629,6 +629,7 @@ public class JRVerifier
 						else {
 							if (
 								variable.getCalculation() != JRVariable.CALCULATION_COUNT
+								&& variable.getCalculation() != JRVariable.CALCULATION_DISTINCT_COUNT
 								&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM
 								&& !valueClass.isAssignableFrom(
 									expression.getValueClass()
@@ -1649,9 +1650,11 @@ public class JRVerifier
 		{
 			brokenRules.add("Measure value class missing.");
 		}
-		else if (expressionClass != null &&
-				calculation != JRVariable.CALCULATION_COUNT &&
-				!valueClass.isAssignableFrom(expressionClass))
+		else if (expressionClass != null 
+			&& calculation != JRVariable.CALCULATION_COUNT 
+			&& calculation != JRVariable.CALCULATION_DISTINCT_COUNT 
+			&& !valueClass.isAssignableFrom(expressionClass)
+			)
 		{
 			brokenRules.add("The class of the expression is not compatible with the class of the measure " + measureName + ".");
 		}

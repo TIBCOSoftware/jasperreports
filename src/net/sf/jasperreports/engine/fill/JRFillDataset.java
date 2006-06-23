@@ -304,6 +304,14 @@ public class JRFillDataset implements JRDataset
 
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT:
+			{
+				JRVariable countVar = createDistinctCountHelperVariable(parentVariable);
+				JRFillVariable fillCountVar = addVariable(countVar, variableList, factory);
+				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);
+
+				break;
+			}
 		}
 
 		variableList.add(variable);
@@ -327,6 +335,24 @@ public class JRFillDataset implements JRDataset
 		return helper;
 	}
 
+	private JRVariable createDistinctCountHelperVariable(JRVariable variable)
+	{
+		JRDesignVariable helper = new JRDesignVariable();
+		helper.setName(variable.getName() + "_DISTINCT_COUNT");
+		helper.setValueClassName(variable.getValueClassName());
+		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
+		helper.setResetType(JRVariable.RESET_TYPE_REPORT);
+
+		if (variable.getIncrementType() != JRVariable.RESET_TYPE_NONE)
+			helper.setResetType(variable.getIncrementType());
+			
+		helper.setResetGroup(variable.getIncrementGroup());
+		helper.setCalculation(JRVariable.CALCULATION_NOTHING);
+		helper.setSystemDefined(true);
+		helper.setExpression(variable.getExpression());
+		
+		return helper;
+	}
 
 	private void setVariables(List variableList)
 	{
@@ -961,6 +987,17 @@ public class JRFillDataset implements JRDataset
 				JRFillVariable fillVarianceVar = factory.getVariable(varianceVar);
 				checkVariableCalculationReq(fillVarianceVar, variableList, factory);
 				variable.setHelperVariable(fillVarianceVar, JRCalculable.HELPER_VARIANCE);
+			}
+		}
+
+		if (hasVariableCalculationReq(variable, JRVariable.CALCULATION_DISTINCT_COUNT))
+		{
+			if (variable.getHelperVariable(JRCalculable.HELPER_COUNT) == null)
+			{
+				JRVariable countVar = createDistinctCountHelperVariable(variable);
+				JRFillVariable fillCountVar = factory.getVariable(countVar);
+				checkVariableCalculationReq(fillCountVar, variableList, factory);
+				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);
 			}
 		}
 

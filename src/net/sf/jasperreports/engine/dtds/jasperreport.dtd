@@ -136,7 +136,7 @@
 	resetGroup CDATA #IMPLIED
 	incrementType (None | Report | Page | Column | Group) "None"
 	incrementGroup CDATA #IMPLIED
-	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System | First) "Nothing"
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
 <!ELEMENT variableExpression (#PCDATA)>
@@ -311,7 +311,7 @@
 <!ATTLIST returnValue
 	subreportVariable NMTOKEN #IMPLIED
 	toVariable NMTOKEN #IMPLIED
-	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
 
@@ -555,7 +555,7 @@
 <!ATTLIST measure
 	name NMTOKEN #REQUIRED
 	class NMTOKEN #IMPLIED
-	calculation (Nothing | Count | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 	percentageOf (None | GrandTotal) "None"
 	percentageCalculatorClass NMTOKEN #IMPLIED

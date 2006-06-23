@@ -107,6 +107,11 @@ public class JRFloatIncrementerFactory extends JRAbstractExtendedIncrementerFact
 				incrementer = JRFloatVarianceIncrementer.getInstance();
 				break;
 			}
+			case JRVariable.CALCULATION_DISTINCT_COUNT :
+			{
+				incrementer = JRFloatDistinctCountIncrementer.getInstance();
+				break;
+			}
 			case JRVariable.CALCULATION_SYSTEM :
 			case JRVariable.CALCULATION_NOTHING :
 			case JRVariable.CALCULATION_FIRST :
@@ -193,6 +198,58 @@ class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	public Object initialValue()
+	{
+		return JRFloatIncrementerFactory.ZERO;
+	}
+}
+
+
+/**
+ *
+ */
+class JRFloatDistinctCountIncrementer extends JRAbstractExtendedIncrementer
+{
+	/**
+	 *
+	 */
+	private static JRFloatDistinctCountIncrementer mainInstance = new JRFloatDistinctCountIncrementer();
+
+	/**
+	 *
+	 */
+	private JRFloatDistinctCountIncrementer()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public static JRFloatDistinctCountIncrementer getInstance()
+	{
+		return mainInstance;
+	}
+
+	/**
+	 *
+	 */
+	public Object increment(
+		JRCalculable variable, 
+		Object expressionValue,
+		AbstractValueProvider valueProvider
+		)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		if (variable.isInitialized())
+		{
+			holder.init();
+		}
+
+		return new Float(holder.getCount());
+	}
+
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
