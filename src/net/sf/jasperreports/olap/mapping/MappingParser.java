@@ -662,10 +662,20 @@ public MappingParser(ParserSharedInputState state) {
 				member=tupleMember();
 				tuple.addMember(member);
 				{
-				match(COMMA);
-				member=tupleMember();
-				tuple.addMember(member);
+				_loop35:
+				do {
+					if ((LA(1)==COMMA)) {
+						match(COMMA);
+						member=tupleMember();
+						tuple.addMember(member);
+					}
+					else {
+						break _loop35;
+					}
+					
+				} while (true);
 				}
+				match(RPAREN);
 				}
 				break;
 			}
@@ -697,7 +707,7 @@ public MappingParser(ParserSharedInputState state) {
 			name=mondrName();
 			tuple.addName(name);
 			{
-			_loop37:
+			_loop38:
 			do {
 				if ((LA(1)==POINT)) {
 					match(POINT);
@@ -705,7 +715,7 @@ public MappingParser(ParserSharedInputState state) {
 					tuple.addName(name);
 				}
 				else {
-					break _loop37;
+					break _loop38;
 				}
 				
 			} while (true);
