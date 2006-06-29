@@ -197,7 +197,7 @@ tuple returns [Tuple tuple = null]
 	:
 		(LPAREN {tuple = new Tuple();}
 			member=tupleMember {tuple.addMember(member);}
-			(COMMA member=tupleMember {tuple.addMember(member);} )) |
+			(COMMA member=tupleMember {tuple.addMember(member);} )* RPAREN) |
 		member=tupleMember {tuple = new Tuple(member);}
 	;
 
