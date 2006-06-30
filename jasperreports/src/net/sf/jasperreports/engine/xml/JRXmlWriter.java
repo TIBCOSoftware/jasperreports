@@ -1100,6 +1100,8 @@ public class JRXmlWriter
 			writer.addAttribute("incrementGroup", dataset.getIncrementGroup().getName());
 		}
 
+		writer.writeExpression(JRElementDatasetFactory.ELEMENT_INCREMENT_WHEN_EXPRESSION, dataset.getIncrementWhenExpression(), false);
+		
 		JRDatasetRun datasetRun = dataset.getDatasetRun();
 		if (datasetRun != null)
 		{

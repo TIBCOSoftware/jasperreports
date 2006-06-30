@@ -32,6 +32,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 
 
@@ -55,6 +56,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	private boolean isIncremented = true;
 
 	protected JRFillDatasetRun datasetRun;
+	private boolean increment = true;
 
 	/**
 	 *
@@ -123,6 +125,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	{
 		customInitialize();
 		isIncremented = false;
+		increment = true;
 	}
 
 	/**
@@ -130,16 +133,38 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		customEvaluate(calculator);
+		evaluateIncrementWhenExpression(calculator);
+		
+		if (increment)
+		{
+			customEvaluate(calculator);
+		}
+
 		isIncremented = false;
 	}
+
+	
+	protected void evaluateIncrementWhenExpression(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		JRExpression incrementWhenExpression = getIncrementWhenExpression();
+		if (incrementWhenExpression == null)
+		{
+			increment = true;
+		}
+		else
+		{
+			Boolean evaluated = (Boolean) calculator.evaluate(incrementWhenExpression);
+			increment = evaluated != null && evaluated.booleanValue();
+		}
+	}
+
 
 	/**
 	 *
 	 */
 	protected void increment()
 	{
-		if (!isIncremented)
+		if (!isIncremented && increment)
 		{
 			customIncrement();
 		}
@@ -190,5 +215,11 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		}
 		
 		return inputDataset;
+	}
+
+
+	public JRExpression getIncrementWhenExpression()
+	{
+		return parent.getIncrementWhenExpression();
 	}
 }

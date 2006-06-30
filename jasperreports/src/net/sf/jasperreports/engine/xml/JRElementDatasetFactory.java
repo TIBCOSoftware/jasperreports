@@ -47,6 +47,8 @@ public class JRElementDatasetFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_resetGroup = "resetGroup";
 	private static final String ATTRIBUTE_incrementType = "incrementType";
 	private static final String ATTRIBUTE_incrementGroup = "incrementGroup";
+	
+	public static final String ELEMENT_INCREMENT_WHEN_EXPRESSION = "incrementWhenExpression";
 
 	public Object createObject(Attributes atts)
 	{

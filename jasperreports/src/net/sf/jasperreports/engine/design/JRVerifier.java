@@ -1824,6 +1824,20 @@ public class JRVerifier
 			
 			verifyDatasetRun(datasetRun);
 		}
+		
+		JRExpression incrementWhenExpression = dataset.getIncrementWhenExpression();
+		if (incrementWhenExpression != null) 
+		{
+			Class valueClass = incrementWhenExpression.getValueClass();
+			if (valueClass == null)
+			{
+				brokenRules.add("Class not set for data set \"increment when\" expression.");
+			}
+			else if (!Boolean.class.isAssignableFrom(valueClass))
+			{
+				brokenRules.add("Class " + valueClass + " not supported for dataset \"increment when\" expression. Use java.lang.Boolean instead.");
+			}
+		}
 	}
 
 
