@@ -154,6 +154,8 @@
 		<delete dir="ProductsReport.html_files" />
 		<delete dir="ShipmentsReport.jrpxml_files" />
 		<delete dir="ShipmentsReport.html_files" />
+		<delete dir="LateOrdersReport.jrpxml_files" />
+		<delete dir="LateOrdersReport.html_files" />
 	</target>
 
 </project>

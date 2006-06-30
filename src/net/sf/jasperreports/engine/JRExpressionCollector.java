@@ -900,6 +900,13 @@ public class JRExpressionCollector
 	protected void collect(JRElementDataset dataset)
 	{
 		collect(dataset.getDatasetRun());
+		
+		JRExpression incrementWhenExpression = dataset.getIncrementWhenExpression();
+		if (incrementWhenExpression != null)
+		{
+			JRExpressionCollector datasetCollector = getCollector(dataset);
+			datasetCollector.addExpression(incrementWhenExpression);
+		}
 	}
 
 

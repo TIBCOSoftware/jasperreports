@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -55,6 +56,7 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	protected JRGroup incrementGroup = null;
 	
 	protected JRDatasetRun datasetRun;
+	protected JRExpression incrementWhenExpression;
 
 	
 	protected JRBaseElementDataset()
@@ -73,6 +75,7 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 			resetGroup = dataset.getResetGroup();
 			incrementGroup = dataset.getIncrementGroup();
 			datasetRun = dataset.getDatasetRun();
+			incrementWhenExpression = dataset.getIncrementWhenExpression();
 		}
 	}
 
@@ -90,6 +93,7 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
 		
 		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
+		incrementWhenExpression = factory.getExpression(dataset.getIncrementWhenExpression());
 	}
 
 	
@@ -129,6 +133,12 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	public JRDatasetRun getDatasetRun()
 	{
 		return datasetRun;
+	}
+
+
+	public JRExpression getIncrementWhenExpression()
+	{
+		return incrementWhenExpression;
 	}
 		
 }

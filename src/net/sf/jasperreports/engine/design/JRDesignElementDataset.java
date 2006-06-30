@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -115,5 +116,19 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	public void setDatasetRun(JRDatasetRun datasetRun)
 	{
 		this.datasetRun = datasetRun;
+	}
+	
+	
+	/**
+	 * Sets the "increment when" expression.
+	 * <p>
+	 * The expression value class should be compatible with <code>java.lang.Boolean</code>
+	 * 
+	 * @param expression the expression
+	 * @see JRElementDataset#getIncrementWhenExpression()
+	 */
+	public void setIncrementWhenExpression(JRExpression expression)
+	{
+		this.incrementWhenExpression = expression;
 	}
 }

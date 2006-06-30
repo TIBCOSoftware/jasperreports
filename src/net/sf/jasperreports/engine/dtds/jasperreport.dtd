@@ -353,13 +353,15 @@
 <!ELEMENT labelExpression (#PCDATA)>
 <!ELEMENT piePlot (plot)>
 
-<!ELEMENT dataset (datasetRun?)>
+<!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
 <!ATTLIST dataset
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
 	incrementType (None | Report | Page | Column | Group) "None"
 	incrementGroup CDATA #IMPLIED
 >
+
+<!ELEMENT incrementWhenExpression (#PCDATA)>
 
 <!ELEMENT datasetRun (parametersMapExpression?, datasetParameter*, (connectionExpression | dataSourceExpression)?)>
 <!ATTLIST datasetRun

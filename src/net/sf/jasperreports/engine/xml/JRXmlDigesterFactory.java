@@ -384,6 +384,11 @@ public class JRXmlDigesterFactory
 	{
 		digester.addFactoryCreate("*/dataset", JRElementDatasetFactory.class.getName());
 		
+		String datasetIncrementWhenExpressionPath = "*/dataset/" + JRElementDatasetFactory.ELEMENT_INCREMENT_WHEN_EXPRESSION;
+		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
+		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
+		
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
 
 		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());

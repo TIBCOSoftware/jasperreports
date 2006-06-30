@@ -72,5 +72,19 @@ public interface JRElementDataset
 	 * @return the sub dataset run for this chart dataset
 	 */
 	public JRDatasetRun getDatasetRun();
+	
+	/**
+	 * Returns the "increment when" expression.
+	 * <p>
+	 * This expression determines whether a dataset will be incremented or not.
+	 * <p>
+	 * The expression (if not null) is evaluated before each increment of the dataset.
+	 * The increment will be carried on only when the result of the evaluation is <code>Boolean.TRUE</code>;
+	 * if the result is null or false, the increment will not be performed.
+	 * 
+	 * 
+	 * @return the "increment when" expression
+	 */
+	public JRExpression getIncrementWhenExpression();
 
 }

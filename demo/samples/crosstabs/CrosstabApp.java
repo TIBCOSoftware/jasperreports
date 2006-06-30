@@ -73,7 +73,8 @@ public class CrosstabApp
 	private static final String[] reportNames = {
 		"OrdersReport",
 		"ProductsReport",
-		"ShipmentsReport"
+		"ShipmentsReport",
+		"LateOrdersReport"
 	};
 	
 	/**
