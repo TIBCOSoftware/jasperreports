@@ -7,11 +7,10 @@
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Comic_Normal" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMIC.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<style name="Comic_Bold" isDefault="false" fontName="Comic Sans MS" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="COMICBD.TTF" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-	<parameter name="ReportTitle" class="java.lang.String">
-	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
 	</parameter>
-	<parameter name="SummaryImage" class="java.awt.Image">
+	<parameter name="ChartFreightThreshold" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[new Double(20d)]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
@@ -154,7 +153,11 @@
 					<reportElement positionType="Float" x="0" y="25" width="270" height="175"/>
 				</chart>
 				<xyDataset>
-					<dataset resetType="Group" resetGroup="CountryGroup"/>
+					<dataset resetType="Group" resetGroup="CountryGroup">
+						<incrementWhenExpression><![CDATA[
+							$F{Freight}.doubleValue() >= $P{ChartFreightThreshold}.doubleValue() ? Boolean.TRUE : Boolean.FALSE
+						]]></incrementWhenExpression>
+					</dataset>
 					<xySeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
 						<xValueExpression>$F{OrderID}</xValueExpression>
