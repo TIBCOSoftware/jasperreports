@@ -31,6 +31,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
@@ -59,6 +60,7 @@ public class JRBaseDataset implements JRDataset, Serializable
 	protected String resourceBundle = null;
 	protected byte whenResourceMissingType = WHEN_RESOURCE_MISSING_TYPE_NULL;
 	protected JRPropertiesMap propertiesMap;
+	protected JRExpression filterExpression;
 	
 	protected JRBaseDataset(boolean isMain)
 	{
@@ -126,6 +128,8 @@ public class JRBaseDataset implements JRDataset, Serializable
 				groups[i] = factory.getGroup(jrGroups[i]);
 			}
 		}
+		
+		filterExpression = factory.getExpression(dataset.getFilterExpression());
 	}
 
 	
@@ -208,5 +212,10 @@ public class JRBaseDataset implements JRDataset, Serializable
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
+	}
+
+	public JRExpression getFilterExpression()
+	{
+		return filterExpression;
 	}
 }

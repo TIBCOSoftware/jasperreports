@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, variable*, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name NMTOKEN #REQUIRED
 	language NMTOKEN "java"
@@ -99,7 +99,7 @@
 
 <!ELEMENT conditionExpression (#PCDATA)>
 
-<!ELEMENT subDataset (property*, parameter*, queryString?, field*, variable*, group*)>
+<!ELEMENT subDataset (property*, parameter*, queryString?, field*, variable*, filterExpression?, group*)>
 <!ATTLIST subDataset
 	name NMTOKEN #REQUIRED
 	scriptletClass NMTOKEN #IMPLIED
@@ -141,6 +141,8 @@
 >
 <!ELEMENT variableExpression (#PCDATA)>
 <!ELEMENT initialValueExpression (#PCDATA)>
+
+<!ELEMENT filterExpression (#PCDATA)>
 
 <!ELEMENT group (groupExpression?, groupHeader?, groupFooter?)>
 <!ATTLIST group

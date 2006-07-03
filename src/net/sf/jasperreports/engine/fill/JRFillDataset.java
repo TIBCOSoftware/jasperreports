@@ -751,35 +751,93 @@ public class JRFillDataset implements JRDataset
 
 		if (dataSource != null)
 		{
-			hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount++) && dataSource.next();
-
-			if (hasNext)
+			boolean includeRow = true;
+			JRExpression filterExpression = getFilterExpression();
+			do
 			{
-				/*   */
-				if (fields != null && fields.length > 0)
+				hasNext = advanceDataSource();
+				if (hasNext)
 				{
-					JRFillField field = null;
-					for (int i = 0; i < fields.length; i++)
-					{
-						field = fields[i];
-						field.setOldValue(field.getValue());
-						field.setValue(dataSource.getFieldValue(field));
-					}
-				}
+					setOldValues();
 
-				/*   */
-				if (variables != null && variables.length > 0)
-				{
-					JRFillVariable variable = null;
-					for (int i = 0; i < variables.length; i++)
+					calculator.estimateVariables();
+					if (filterExpression != null)
 					{
-						variable = variables[i];
-						variable.setOldValue(variable.getValue());
+						Boolean filterExprResult = (Boolean) calculator.evaluate(filterExpression, JRExpression.EVALUATION_ESTIMATED);
+						includeRow = filterExprResult != null && filterExprResult.booleanValue();
+					}
+					
+					if (!includeRow)
+					{
+						revertToOldValues();
 					}
 				}
 			}
+			while(hasNext && !includeRow);
+			
+			if (hasNext)
+			{
+				++reportCount;
+			}
 		}
 
+		return hasNext;
+	}
+
+
+	protected void setOldValues() throws JRException
+	{
+		if (fields != null && fields.length > 0)
+		{
+			for (int i = 0; i < fields.length; i++)
+			{
+				JRFillField field = fields[i];
+				field.setPreviousOldValue(field.getOldValue());
+				field.setOldValue(field.getValue());
+				field.setValue(dataSource.getFieldValue(field));
+			}
+		}
+
+		if (variables != null && variables.length > 0)
+		{
+			for (int i = 0; i < variables.length; i++)
+			{
+				JRFillVariable variable = variables[i];
+				variable.setPreviousOldValue(variable.getOldValue());
+				variable.setOldValue(variable.getValue());
+			}
+		}
+	}
+
+
+	protected void revertToOldValues()
+	{
+		if (fields != null && fields.length > 0)
+		{
+			for (int i = 0; i < fields.length; i++)
+			{
+				JRFillField field = fields[i];
+				field.setValue(field.getOldValue());
+				field.setOldValue(field.getPreviousOldValue());
+			}
+		}
+		
+		if (variables != null && variables.length > 0)
+		{
+			for (int i = 0; i < variables.length; i++)
+			{
+				JRFillVariable variable = variables[i];
+				variable.setValue(variable.getOldValue());
+				variable.setOldValue(variable.getPreviousOldValue());
+			}
+		}
+	}
+
+
+	protected boolean advanceDataSource() throws JRException
+	{
+		boolean hasNext;
+		hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount) && dataSource.next();
 		return hasNext;
 	}
 	
@@ -1077,5 +1135,11 @@ public class JRFillDataset implements JRDataset
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
+	}
+
+
+	public JRExpression getFilterExpression()
+	{
+		return parent.getFilterExpression();
 	}
 }

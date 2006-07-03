@@ -159,4 +159,24 @@ public interface JRDataset
 	 * @return this dataset's properties map
 	 */
 	public JRPropertiesMap getPropertiesMap();
+
+	
+	/**
+	 * Returns the dataset filter expression.
+	 * <p>
+	 * This expression is used to filter the rows of the 
+	 * {@link JRDataSource data source} that this dataset will iterate on.
+	 * </p>
+	 * <p>
+	 * This expression (if not null) is evaluated immediately after a new row is 
+	 * {@link JRDataSource#next() produced} by the data source.
+	 * The evaluation is performed using field and variable values corresponding to the new row. 
+	 * When the result of the evaluation is <code>Boolean.TRUE</code> the row gets processed by the report
+	 * filling engine.
+	 * When the result is null or <code>Boolean.FALSE</code>, the current row will be skipped and the datasource will be asked for the next row.
+	 * </p>
+	 * 
+	 * @return the dataset filter expression
+	 */
+	public JRExpression getFilterExpression();
 }

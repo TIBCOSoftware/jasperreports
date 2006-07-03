@@ -2085,6 +2085,8 @@ public class JRXmlWriter
 				}
 			}
 		}
+		
+		writer.writeExpression(JRDatasetFactory.TAG_FILTER_EXPRESSION, dataset.getFilterExpression(), false);
 
 		/*   */
 		JRGroup[] groups = dataset.getGroups();

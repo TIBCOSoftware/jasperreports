@@ -182,12 +182,15 @@ public class JRCalculator implements JRFillExpressionEvaluator
 
 
 	/**
-	 *
+	 * Determines group breaks based on estimated report values. 
+	 * <p>
+	 * {@link #estimateVariables() estimateVariables()} needs to be called prior to this method.
+	 * </p>
+	 * 
+	 * @throws JRException
 	 */
 	public void estimateGroupRuptures() throws JRException
 	{
-		estimateVariables();
-
 		JRFillGroup group = null;
 		Object oldValue = null;
 		Object estimatedValue = null;

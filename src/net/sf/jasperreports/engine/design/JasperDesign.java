@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFrame;
@@ -961,5 +962,30 @@ public class JasperDesign extends JRBaseReport
 	public void setIgnorePagination(boolean ignorePagination)
 	{
 		this.ignorePagination = ignorePagination;
+	}
+	
+	
+	/**
+	 * Returns the main dataset filter expression.
+	 * 
+	 * @return the main dataset filter expression
+	 * @see JRDataset#getFilterExpression()
+	 */
+	public JRExpression getFilterExpression()
+	{
+		return mainDesignDataset.getFilterExpression();
+	}
+
+	
+	/**
+	 * Sets the main dataset filter expression.
+	 * 
+	 * @param expression the boolean expression to use as main dataset filter expression
+	 * @see JRDesignDataset#setFilterExpression(JRExpression)
+	 * @see JRDataset#getFilterExpression()
+	 */
+	public void setFilterExpression(JRExpression expression)
+	{
+		mainDesignDataset.setFilterExpression(expression);
 	}
 }

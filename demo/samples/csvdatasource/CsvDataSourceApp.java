@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import net.sf.jasperreports.engine.JRException;
@@ -109,6 +111,10 @@ public class CsvDataSourceApp
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
 				parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
+				Set states = new HashSet();
+				states.add("Active");
+				states.add("Trial");
+				parameters.put("IncludedStates", states);
 
 				JasperFillManager.fillReportToFile(fileName, parameters, getDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
@@ -223,6 +229,10 @@ public class CsvDataSourceApp
 				//Preparing parameters
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
+				Set states = new HashSet();
+				states.add("Active");
+				states.add("Trial");
+				parameters.put("IncludedStates", states);
 				
 				JasperRunManager.runReportToPdfFile(fileName, parameters, getDataSource());
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
@@ -252,7 +262,7 @@ public class CsvDataSourceApp
 	 */
 	private static JRCsvDataSource getDataSource() throws IOException
 	{
-		String[] columnNames = new String[]{"city", "id", "name", "address"};
+		String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
 		JRCsvDataSource ds = new JRCsvDataSource(new File("CsvDataSource.txt"));
 		ds.setRecordDelimiter("\r\n");
 //		ds.setUseFirstRowAsHeader(true);
