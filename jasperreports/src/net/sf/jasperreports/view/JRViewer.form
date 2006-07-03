@@ -40,8 +40,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/save.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="save" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;save&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -68,8 +68,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/print.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="print" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;print&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -96,8 +96,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/reload.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="reload" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;reload&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -136,8 +136,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/first.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="first.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;first.page&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -164,8 +164,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/previous.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="previous.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;previous.page&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -192,8 +192,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/next.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="next.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;next.page&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -220,8 +220,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/last.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="last.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;last.page&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -245,8 +245,8 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtGoTo">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="go.to.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;go.to.page&quot;)" type="code"/>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[40, 23]"/>
@@ -282,8 +282,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/actualsize.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="actual.size" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;actual.size&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -310,8 +310,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/fitpage.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="fit.page" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;fit.page&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -338,8 +338,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/fitwidth.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="fit.width" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;fit.width&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -378,8 +378,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomin.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.in" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;zoom.in&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -406,8 +406,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/net/sf/jasperreports/view/images/zoomout.GIF"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.out" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;zoom.out&quot;)" type="code"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 2, 2, 2]"/>
@@ -432,8 +432,8 @@
         <Component class="javax.swing.JComboBox" name="cmbZoom">
           <Properties>
             <Property name="editable" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="net/sf/jasperreports/view/viewer.properties" key="zoom.ratio" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;, getLocale()).getString(&quot;{key}&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="getBundleString(&quot;zoom.ratio&quot;)" type="code"/>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[80, 23]"/>
