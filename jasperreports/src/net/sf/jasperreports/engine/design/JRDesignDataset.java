@@ -46,7 +46,9 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
@@ -801,5 +803,20 @@ public class JRDesignDataset extends JRBaseDataset
 	public void setProperty(String propName, String value)
 	{
 		getPropertiesMap().setProperty(propName, value);
+	}
+	
+	
+	/**
+	 * Sets the dataset filter expression.
+	 * <p>
+	 * The expression value class should be <code>java.lang.Boolean</code>.
+	 * </p>
+	 * 
+	 * @param expression the boolean expression to use as filter expression
+	 * @see JRDataset#getFilterExpression()
+	 */
+	public void setFilterExpression(JRExpression expression)
+	{
+		this.filterExpression = expression;
 	}
 }

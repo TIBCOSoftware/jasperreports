@@ -213,6 +213,11 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/variable/initialValueExpression", "setText", 0);
 
+		String filterExpressionPath = "*/" + JRDatasetFactory.TAG_FILTER_EXPRESSION;
+		digester.addFactoryCreate(filterExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addSetNext(filterExpressionPath, "setFilterExpression", JRExpression.class.getName());
+		digester.addCallMethod(filterExpressionPath, "setText", 0);
+		
 		/*   */
 		digester.addFactoryCreate("*/group", JRGroupFactory.class.getName());
 		digester.addSetNext("*/group", "addGroup", JRDesignGroup.class.getName());

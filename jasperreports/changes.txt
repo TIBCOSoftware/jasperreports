@@ -7,9 +7,9 @@ JasperReports 1.2.5 (2006-xx-xx)
 
 - "increment when" expression to filter out data in chart and crosstab datasets;
 
+- data source filter expression
+
 - minor bug fixes and improvements;
-
-
 
 
 

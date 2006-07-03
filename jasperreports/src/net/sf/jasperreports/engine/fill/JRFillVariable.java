@@ -54,11 +54,13 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
+	private Object previousOldValue = null;
 	private Object oldValue = null;
 	private Object estimatedValue = null;
 	private Object incrementedValue = null;
 	private Object value = null;
 	private boolean isInitialized = false;
+	private Object savedValue;
 	
 	private JRFillVariable[] helperVariables;
 
@@ -343,7 +345,6 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		return returnValue;
 	}
 	
-	private Object savedValue;
 	public void overwriteValue(Object newValue, byte evaluation)
 	{
 		switch (evaluation)
@@ -378,5 +379,19 @@ public class JRFillVariable implements JRVariable, JRCalculable
 				break;
 		}
 		savedValue = null;
+	}
+
+
+	
+	public Object getPreviousOldValue()
+	{
+		return previousOldValue;
+	}
+
+
+	
+	public void setPreviousOldValue(Object previousOldValue)
+	{
+		this.previousOldValue = previousOldValue;
 	}
 }

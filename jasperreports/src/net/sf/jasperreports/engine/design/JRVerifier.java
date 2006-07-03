@@ -1989,6 +1989,20 @@ public class JRVerifier
 		verifyVariables(dataset);
 
 		verifyGroups(dataset);
+		
+		JRExpression filterExpression = dataset.getFilterExpression();
+		if (filterExpression != null) 
+		{
+			Class valueClass = filterExpression.getValueClass();
+			if (valueClass == null)
+			{
+				brokenRules.add("Class not set for filter expression.");
+			}
+			else if (!Boolean.class.isAssignableFrom(valueClass))
+			{
+				brokenRules.add("Class " + valueClass + " not supported for filter expression. Use java.lang.Boolean instead.");
+			}
+		}
 	}
 
 

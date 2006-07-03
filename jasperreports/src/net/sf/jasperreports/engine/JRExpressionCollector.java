@@ -888,6 +888,8 @@ public class JRExpressionCollector
 		collector.collect(dataset.getVariables());
 		collector.collect(dataset.getGroups());
 		
+		collector.addExpression(dataset.getFilterExpression());
+		
 		return expressions;
 	}
 

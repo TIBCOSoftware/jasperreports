@@ -47,8 +47,10 @@ public class JRFillField implements JRField
 	/**
 	 *
 	 */
+	private Object previousOldValue = null;
 	private Object oldValue = null;
 	private Object value = null;
+	private Object savedValue;
 
 
 	/**
@@ -151,7 +153,6 @@ public class JRFillField implements JRField
 		return returnValue;
 	}
 	
-	private Object savedValue;
 	public void overwriteValue(Object newValue, byte evaluation)
 	{
 		switch (evaluation)
@@ -179,6 +180,20 @@ public class JRFillField implements JRField
 				break;
 		}
 		savedValue = null;
+	}
+
+
+	
+	public Object getPreviousOldValue()
+	{
+		return previousOldValue;
+	}
+
+
+	
+	public void setPreviousOldValue(Object previousOldValue)
+	{
+		this.previousOldValue = previousOldValue;
 	}
 	
 }
