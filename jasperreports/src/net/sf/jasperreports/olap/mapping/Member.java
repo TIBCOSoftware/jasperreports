@@ -87,7 +87,7 @@ public class Member
 			ancestor = member;
 			for (int i = depth.getDepth(); i < memberDepth; ++i)
 			{
-				ancestor = member.getParentMember();
+				ancestor = ancestor.getParentMember();
 			}
 		}
 		else
