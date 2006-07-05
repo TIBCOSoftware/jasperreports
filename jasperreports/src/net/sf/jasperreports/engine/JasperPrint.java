@@ -76,7 +76,7 @@ public class JasperPrint implements Serializable
 
 		public JRReportFont getDefaultFont()
 		{
-			return this.defaultFont;
+			return defaultFont;
 		}
 
 		void setDefaultFont(JRReportFont font)
@@ -86,7 +86,7 @@ public class JasperPrint implements Serializable
 
 		public JRStyle getDefaultStyle()
 		{
-			return this.defaultStyle;
+			return defaultStyle;
 		}
 
 		void setDefaultStyle(JRStyle style)
@@ -133,7 +133,7 @@ public class JasperPrint implements Serializable
 	 */
 	public String getName()
 	{
-		return this.name;
+		return name;
 	}
 		
 	/**
@@ -151,7 +151,7 @@ public class JasperPrint implements Serializable
 	 */
 	public int getPageWidth()
 	{
-		return this.pageWidth;
+		return pageWidth;
 	}
 		
 	/**
@@ -169,7 +169,7 @@ public class JasperPrint implements Serializable
 	 */
 	public int getPageHeight()
 	{
-		return this.pageHeight;
+		return pageHeight;
 	}
 		
 	/**
@@ -190,7 +190,7 @@ public class JasperPrint implements Serializable
 	 */
 	public byte getOrientation()
 	{
-		return this.orientation;
+		return orientation;
 	}
 		
 	/**
@@ -247,7 +247,7 @@ public class JasperPrint implements Serializable
 	 */
 	public List getFontsList()
 	{
-		return this.fontsList;
+		return fontsList;
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class JasperPrint implements Serializable
 	 */
 	public Map getFontsMap()
 	{
-		return this.fontsMap;
+		return fontsMap;
 	}
 
 	/**
@@ -265,17 +265,26 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addFont(JRReportFont reportFont) throws JRException
 	{
-		if (this.fontsMap.containsKey(reportFont.getName()))
+		addFont(reportFont, false);
+	}
+
+	/**
+	 * Adds a new font to the report fonts.
+	 * @deprecated
+	 */
+	public synchronized void addFont(JRReportFont reportFont, boolean isIgnoreDuplicate) throws JRException
+	{
+		if (!isIgnoreDuplicate && fontsMap.containsKey(reportFont.getName()))
 		{
 			throw new JRException("Duplicate declaration of report font : " + reportFont.getName());
 		}
 
-		this.fontsList.add(reportFont);
-		this.fontsMap.put(reportFont.getName(), reportFont);
+		fontsList.add(reportFont);
+		fontsMap.put(reportFont.getName(), reportFont);
 		
 		if (reportFont.isDefault())
 		{
-			this.setDefaultFont(reportFont);
+			setDefaultFont(reportFont);
 		}
 	}
 
@@ -284,8 +293,8 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized JRReportFont removeFont(String fontName)
 	{
-		return this.removeFont(
-			(JRReportFont)this.fontsMap.get(fontName)
+		return removeFont(
+			(JRReportFont)fontsMap.get(fontName)
 			);
 	}
 
@@ -298,11 +307,11 @@ public class JasperPrint implements Serializable
 		{
 			if (reportFont.isDefault())
 			{
-				this.setDefaultFont(null);
+				setDefaultFont(null);
 			}
 
-			this.fontsList.remove(reportFont);
-			this.fontsMap.remove(reportFont.getName());
+			fontsList.remove(reportFont);
+			fontsMap.remove(reportFont.getName());
 		}
 		
 		return reportFont;
@@ -350,7 +359,7 @@ public class JasperPrint implements Serializable
 	 */
 	public List getStylesList()
 	{
-		return this.stylesList;
+		return stylesList;
 	}
 
 	/**
@@ -358,7 +367,7 @@ public class JasperPrint implements Serializable
 	 */
 	public Map getStylesMap()
 	{
-		return this.stylesMap;
+		return stylesMap;
 	}
 
 	/**
@@ -366,7 +375,15 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addStyle(JRStyle style) throws JRException
 	{
-		if (stylesMap.containsKey(style.getName()))
+		addStyle(style, false);
+	}
+
+	/**
+	 * Adds a new style to the report styles.
+	 */
+	public synchronized void addStyle(JRStyle style, boolean isIgnoreDuplicate) throws JRException
+	{
+		if (!isIgnoreDuplicate && stylesMap.containsKey(style.getName()))
 		{
 			throw new JRException("Duplicate declaration of report style : " + style.getName());
 		}
@@ -376,7 +393,7 @@ public class JasperPrint implements Serializable
 		
 		if (style.isDefault())
 		{
-			this.setDefaultStyle(style);
+			setDefaultStyle(style);
 		}
 	}
 
@@ -414,7 +431,7 @@ public class JasperPrint implements Serializable
 	 */
 	public List getPages()
 	{
-		return this.pages;
+		return pages;
 	}
 		
 	/**
@@ -422,8 +439,8 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addPage(JRPrintPage page)
 	{
-		this.anchorIndexes = null;
-		this.pages.add(page);
+		anchorIndexes = null;
+		pages.add(page);
 	}
 
 	/**
@@ -431,8 +448,8 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addPage(int index, JRPrintPage page)
 	{
-		this.anchorIndexes = null;
-		this.pages.add(index, page);
+		anchorIndexes = null;
+		pages.add(index, page);
 	}
 
 	/**
@@ -440,8 +457,8 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized JRPrintPage removePage(int index)
 	{
-		this.anchorIndexes = null;
-		return (JRPrintPage)this.pages.remove(index);
+		anchorIndexes = null;
+		return (JRPrintPage)pages.remove(index);
 	}
 
 	/**
@@ -449,9 +466,9 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized Map getAnchorIndexes()
 	{
-		if (this.anchorIndexes == null)
+		if (anchorIndexes == null)
 		{
-			this.anchorIndexes = new HashMap();
+			anchorIndexes = new HashMap();
 			
 			JRPrintPage page = null;
 			int i = 0;
@@ -467,7 +484,7 @@ public class JasperPrint implements Serializable
 						element = (JRPrintElement)it.next();
 						if (element instanceof JRPrintAnchor)
 						{
-							this.anchorIndexes.put(
+							anchorIndexes.put(
 								((JRPrintAnchor)element).getAnchorName(), 
 								new JRPrintAnchorIndex(i, element)
 								);
@@ -477,7 +494,7 @@ public class JasperPrint implements Serializable
 			}
 		}
 		
-		return this.anchorIndexes;
+		return anchorIndexes;
 	}
 		
 
