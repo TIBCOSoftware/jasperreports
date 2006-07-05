@@ -729,14 +729,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				for (int i = 0; i < fonts.length; i++)
 				{
-					try
-					{
-						jasperPrint.addFont(fonts[i]);
-					}
-					catch (JRException e)
-					{
-						// ignore font duplication exception
-					}
+					jasperPrint.addFont(fonts[i], true);
 				}
 			}
 
@@ -747,14 +740,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				for (int i = 0; i < styles.length; i++)
 				{
-					try
-					{
-						jasperPrint.addStyle(styles[i]);
-					}
-					catch (JRException e)
-					{
-						// ignore font duplication exception
-					}
+					jasperPrint.addStyle(styles[i], true);
 				}
 			}
 

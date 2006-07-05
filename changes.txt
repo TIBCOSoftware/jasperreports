@@ -5,9 +5,9 @@ JasperReports Change Log
 JasperReports 1.2.5 (2006-xx-xx)
 -----------------------------------
 
-- "increment when" expression to filter out data in chart and crosstab datasets;
+- new filter expression added to filter out records in a data source;
 
-- data source filter expression
+- "increment when" expression to filter out data in chart and crosstab datasets;
 
 - minor bug fixes and improvements;
 

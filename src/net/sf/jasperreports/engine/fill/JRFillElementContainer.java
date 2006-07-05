@@ -596,14 +596,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							{
 								for(int j = 0; j < fonts.length; j++)
 								{
-									try
-									{
-										filler.getJasperPrint().addFont(fonts[j]);
-									}
-									catch(JRException e)
-									{
-										//ignore font duplication exception
-									}
+									filler.getJasperPrint().addFont(fonts[j], true);
 								}
 							}
 							
@@ -612,14 +605,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							{
 								for(int j = 0; j < styles.length; j++)
 								{
-									try
-									{
-										filler.getJasperPrint().addStyle(styles[j]);
-									}
-									catch(JRException e)
-									{
-										//ignore style duplication exception
-									}
+									filler.getJasperPrint().addStyle(styles[j], true);
 								}
 							}
 							
