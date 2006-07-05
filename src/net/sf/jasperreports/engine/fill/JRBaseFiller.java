@@ -620,6 +620,27 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		return styles;
 	}
+	
+	protected JRStyle[] getPrintStyles()
+	{
+		JRStyle[] printStyles;
+		if (consolidatedStyles == null || consolidatedStyles.isEmpty())
+		{
+			printStyles = styles;
+		}
+		else
+		{
+			printStyles = new JRStyle[styles.length + consolidatedStyles.size()];
+			System.arraycopy(styles, 0, printStyles, 0, styles.length);
+			int c = styles.length;
+			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext(); ++c)
+			{
+				JRStyle style = (JRStyle) it.next();
+				printStyles[c] = style;
+			}
+		}
+		return printStyles;
+	}
 
 	/**
 	 *
