@@ -590,7 +590,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 			printPage = subreportFiller.getCurrentPage();
 			subreportFonts = subreportFiller.getFonts();
-			subreportStyles = subreportFiller.getStyles();
+			subreportStyles = subreportFiller.getPrintStyles();
 			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight);
 
 			//if the subreport fill thread has not finished, 
