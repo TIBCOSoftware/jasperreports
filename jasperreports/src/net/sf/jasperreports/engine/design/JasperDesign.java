@@ -762,8 +762,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Collection getExpressions()
 	{
-		JRExpressionCollector expressionCollector = new JRExpressionCollector();
-		return expressionCollector.collect(this);
+		return JRExpressionCollector.collectExpressions(this);
 	}
 
 	

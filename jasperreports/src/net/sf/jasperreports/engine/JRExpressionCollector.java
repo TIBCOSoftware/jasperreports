@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -76,13 +77,71 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 public class JRExpressionCollector
 {
 	
-	/**
-	 *
-	 */
-	private List expressions = new ArrayList();
-	private Map expressionIds = new HashMap();
-	private Map crosstabIds = new HashMap();
+	public static JRExpressionCollector collector(JRReport report)
+	{
+		JRExpressionCollector collector = new JRExpressionCollector(null, report);
+		collector.collect();
+		return collector;
+	}
+	
+	public static List collectExpressions(JRReport report)
+	{
+		return collector(report).getExpressions();
+	}
+	
+	public static JRExpressionCollector collector(JRReport report, JRCrosstab crosstab)
+	{
+		JRExpressionCollector collector = new JRExpressionCollector(null, report);
+		collector.collect(crosstab);
+		return collector;
+	}
+	
+	public static List collectExpressions(JRReport report, JRCrosstab crosstab)
+	{
+		return collector(report, crosstab).getExpressions(crosstab);
+	}
 
+	private final JRReport report;
+	private final JRExpressionCollector parent;
+	
+	private Map expressionIds;
+
+	protected static class GeneratedIds
+	{
+		private final TreeMap ids = new TreeMap();
+		private int nextId = 0;
+		private List expressions;
+		
+		public JRExpression put(Integer id, JRExpression expression)
+		{
+			expressions = null;
+			
+			return (JRExpression) ids.put(id, expression);
+		}
+		
+		public Integer nextId()
+		{
+			Integer id = new Integer(nextId);
+			while(ids.containsKey(id))
+			{
+				id = new Integer(++nextId);
+			}
+			return id;
+		}
+		
+		public List expressions()
+		{
+			if (expressions == null)
+			{
+				expressions = new ArrayList(ids.values());
+			}
+			return expressions;
+		}
+	}
+	private GeneratedIds generatedIds = new GeneratedIds();
+	
+	private Map crosstabIds = new HashMap();
+	
 	/**
 	 * Collectors for sub datasets indexed by dataset name.
 	 */
@@ -94,27 +153,23 @@ public class JRExpressionCollector
 	private Map crosstabCollectors;
 	
 	private final Set collectedStyles;
-
-	/**
-	 * Constructs a collector instance.
-	 */
-	public JRExpressionCollector()
-	{
-		this(true);
-	}
 	
 	
-	private JRExpressionCollector(boolean isMain)
+	protected JRExpressionCollector(JRExpressionCollector parent, JRReport report)
 	{
-		if (isMain)
+		this.parent = parent;
+		this.report = report;
+		
+		if (parent == null)
 		{
+			expressionIds = new HashMap();
 			datasetCollectors = new HashMap();
 			crosstabCollectors = new HashMap();
 		}
 		
 		collectedStyles = new HashSet();
 	}
-	
+
 	/**
 	 *
 	 */
@@ -122,15 +177,73 @@ public class JRExpressionCollector
 	{
 		if (expression != null)
 		{
-			if (!expressionIds.containsKey(expression))
+			Integer id = getGlobalGeneratedId(expression);
+			if (id == null)
 			{
-				expressionIds.put(expression, new Integer(expressions.size()));
-				expressions.add(expression);
+				id = generatedIds.nextId();
+				setGlobalGeneratedId(expression, id);
+				generatedIds.put(id, expression);
+			}
+			else
+			{
+				JRExpression existingExpression = generatedIds.put(id, expression);
+				if (existingExpression != null && !existingExpression.equals(expression))
+				{
+					Integer newId = generatedIds.nextId();
+					updateGlobalGeneratedId(existingExpression, id, newId);
+					generatedIds.put(newId, existingExpression);
+				}
 			}
 		}
 	}
+	
+	private Integer getGlobalGeneratedId(JRExpression expression)
+	{
+		Integer generatedId;
+		if (parent == null)
+		{
+			generatedId = (Integer) expressionIds.get(expression);
+		}
+		else
+		{
+			generatedId = parent.getGlobalGeneratedId(expression);
+		}
+		return generatedId;
+	}
 
+	private void setGlobalGeneratedId(JRExpression expression, Integer id)
+	{
+		if (parent == null)
+		{
+			Object existingId = expressionIds.put(expression, id);
+			if (existingId != null && !existingId.equals(id))
+			{
+				throw new JRRuntimeException("Expression \"" + expression.getText() + "\" has two generated IDs");
+			}
+		}
+		else
+		{
+			parent.setGlobalGeneratedId(expression, id);
+		}
+	}
 
+	private void updateGlobalGeneratedId(JRExpression expression, Integer currentId, Integer newId)
+	{
+		if (parent == null)
+		{
+			Object existingId = expressionIds.put(expression, newId);
+			if (existingId == null || !existingId.equals(currentId))
+			{
+				throw new JRRuntimeException("Expression \"" + expression.getText() + "\" not found with id " + currentId);
+			}
+		}
+		else
+		{
+			parent.updateGlobalGeneratedId(expression, currentId, newId);
+		}
+	}
+
+	
 	private JRExpressionCollector getCollector(JRElementDataset elementDataset)
 	{
 		JRExpressionCollector collector;
@@ -154,7 +267,7 @@ public class JRExpressionCollector
 		JRExpressionCollector collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
 		if (collector == null)
 		{
-			collector = new JRExpressionCollector(false);
+			collector = new JRExpressionCollector(this, report);
 			datasetCollectors.put(datasetName, collector);
 		}
 		return collector;
@@ -182,7 +295,7 @@ public class JRExpressionCollector
 		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
 		if (collector == null)
 		{
-			collector = new JRExpressionCollector(false);
+			collector = new JRExpressionCollector(this, report);
 			crosstabCollectors.put(crosstab, collector);
 		}
 		return collector;
@@ -196,7 +309,7 @@ public class JRExpressionCollector
 	 */
 	public List getExpressions()
 	{
-		return expressions;
+		return new ArrayList(generatedIds.expressions());
 	}
 
 	
@@ -236,45 +349,10 @@ public class JRExpressionCollector
 	}
 
 	
-	private void collectIds()
-	{
-		for (Iterator it = datasetCollectors.values().iterator(); it.hasNext();)
-		{
-			JRExpressionCollector datasetCollector = (JRExpressionCollector) it.next();
-			
-			collectIds(datasetCollector);
-		}
-		
-		for (Iterator it = crosstabCollectors.values().iterator(); it.hasNext();)
-		{
-			JRExpressionCollector datasetCollector = (JRExpressionCollector) it.next();
-			
-			collectIds(datasetCollector);
-		}
-	}
-
-
-	private void collectIds(JRExpressionCollector datasetCollector)
-	{
-		for (Iterator iter = datasetCollector.expressionIds.entrySet().iterator(); iter.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry) iter.next();
-			Object key = entry.getKey();
-			
-			if (expressionIds.containsKey(key))
-			{
-				throw new JRRuntimeException("Same expression found in different datasets.");
-			}
-			
-			expressionIds.put(key, entry.getValue());
-		}
-	}
-
-	
 	/**
 	 *
 	 */
-	public Collection collect(JRReport report)
+	public Collection collect()
 	{
 		collect(report.getDefaultStyle());
 
@@ -300,9 +378,7 @@ public class JRExpressionCollector
 		collect(report.getLastPageFooter());
 		collect(report.getSummary());
 		
-		collectIds();
-		
-		return expressions;
+		return getExpressions();
 	}
 
 
@@ -779,6 +855,8 @@ public class JRExpressionCollector
 		JRExpressionCollector datasetCollector = getCollector(dataset);
 		JRExpressionCollector crosstabCollector = getCollector(crosstab);
 		
+		crosstabCollector.collect(report.getDefaultStyle());
+		
 		addExpression(crosstab.getParametersMapExpression());
 		
 		JRCrosstabParameter[] parameters = crosstab.getParameters();
@@ -890,7 +968,7 @@ public class JRExpressionCollector
 		
 		collector.addExpression(dataset.getFilterExpression());
 		
-		return expressions;
+		return getExpressions(dataset);
 	}
 
 	
