@@ -274,17 +274,22 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addFont(JRReportFont reportFont, boolean isIgnoreDuplicate) throws JRException
 	{
-		if (!isIgnoreDuplicate && fontsMap.containsKey(reportFont.getName()))
+		if (fontsMap.containsKey(reportFont.getName()))
 		{
-			throw new JRException("Duplicate declaration of report font : " + reportFont.getName());
+			if (!isIgnoreDuplicate)
+			{
+				throw new JRException("Duplicate declaration of report font : "	+ reportFont.getName());
+			}
 		}
-
-		fontsList.add(reportFont);
-		fontsMap.put(reportFont.getName(), reportFont);
-		
-		if (reportFont.isDefault())
+		else
 		{
-			setDefaultFont(reportFont);
+			fontsList.add(reportFont);
+			fontsMap.put(reportFont.getName(), reportFont);
+			
+			if (reportFont.isDefault())
+			{
+				setDefaultFont(reportFont);
+			}
 		}
 	}
 
@@ -383,17 +388,22 @@ public class JasperPrint implements Serializable
 	 */
 	public synchronized void addStyle(JRStyle style, boolean isIgnoreDuplicate) throws JRException
 	{
-		if (!isIgnoreDuplicate && stylesMap.containsKey(style.getName()))
+		if (stylesMap.containsKey(style.getName()))
 		{
-			throw new JRException("Duplicate declaration of report style : " + style.getName());
+			if (!isIgnoreDuplicate)
+			{
+				throw new JRException("Duplicate declaration of report style : " + style.getName());
+			}
 		}
-
-		stylesList.add(style);
-		stylesMap.put(style.getName(), style);
-		
-		if (style.isDefault())
+		else
 		{
-			setDefaultStyle(style);
+			stylesList.add(style);
+			stylesMap.put(style.getName(), style);
+			
+			if (style.isDefault())
+			{
+				setDefaultStyle(style);
+			}
 		}
 	}
 
