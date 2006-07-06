@@ -73,7 +73,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 * Temporary files will be deleted by explicitly calling {@link #cleanup() cleanup()} or from the virtualizer
 	 * <code>finalize()</code> method.
 	 */
-	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRProperties.PROPERTY_PREFIX + "virtulazer.temp.files.set.delete.on.exit";
+	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRProperties.PROPERTY_PREFIX + "virtualizer.files.delete.on.exit";
 
 	private final String directory;
 
