@@ -137,8 +137,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		checkLanguage(jasperDesign.getLanguage());
 		
 		// collect all report expressions
-		JRExpressionCollector expressionCollector = new JRExpressionCollector();
-		expressionCollector.collect(jasperDesign);
+		JRExpressionCollector expressionCollector = JRExpressionCollector.collector(jasperDesign);
 		
 		// verify the report design
 		verifyDesign(jasperDesign, expressionCollector);

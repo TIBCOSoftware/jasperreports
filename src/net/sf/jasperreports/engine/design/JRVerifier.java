@@ -128,8 +128,7 @@ public class JRVerifier
 		}
 		else
 		{
-			this.expressionCollector = new JRExpressionCollector();
-			this.expressionCollector.collect(jasperDesign);
+			this.expressionCollector = JRExpressionCollector.collector(jasperDesign);
 		}
 	}
 
