@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.5 (2006-xx-xx)
+JasperReports 1.2.5 (2006-07-xx)
 -----------------------------------
 
 - new filter expression added to filter out records in a data source;
