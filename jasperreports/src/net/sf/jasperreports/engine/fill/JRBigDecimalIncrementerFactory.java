@@ -253,6 +253,14 @@ class JRBigDecimalDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 		return new BigDecimal(holder.getCount());
 	}
 
+	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
+	{
+		DistinctCountHolder holder = 
+			(DistinctCountHolder)valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
+		
+		return new Integer((int)holder.getCount());
+	}
+	
 	public Object initialValue()
 	{
 		return JRBigDecimalIncrementerFactory.ZERO;
