@@ -28,7 +28,9 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -54,6 +56,9 @@ public class JRFillContext
 	private JRQueryExecuter queryExecuter;
 
 	private JRVirtualizationContext virtualizationContext;
+	
+	private Locale masterLocale;
+	private TimeZone masterTimeZone;
 
 	
 	/**
@@ -276,5 +281,29 @@ public class JRFillContext
 	public JRVirtualizationContext getVirtualizationContext()
 	{
 		return virtualizationContext;
+	}
+
+	
+	public Locale getMasterLocale()
+	{
+		return masterLocale;
+	}
+
+	
+	public void setMasterLocale(Locale masterLocale)
+	{
+		this.masterLocale = masterLocale;
+	}
+
+	
+	public TimeZone getMasterTimeZone()
+	{
+		return masterTimeZone;
+	}
+
+	
+	public void setMasterTimeZone(TimeZone masterTimeZone)
+	{
+		this.masterTimeZone = masterTimeZone;
 	}
 }

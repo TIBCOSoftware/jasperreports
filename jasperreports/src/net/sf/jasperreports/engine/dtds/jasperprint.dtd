@@ -5,6 +5,8 @@
 	pageWidth NMTOKEN "595"
 	pageHeight NMTOKEN "842"
 	orientation (Portrait | Landscape) "Portrait"
+	locale CDATA #IMPLIED
+	timezone CDATA #IMPLIED
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
@@ -145,6 +147,10 @@
 	hyperlinkAnchor CDATA #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
 	bookmarkLevel NMTOKEN "0"
+	valueClass NMTOKEN #IMPLIED
+	pattern CDATA #IMPLIED
+	locale CDATA #IMPLIED
+	timezone CDATA #IMPLIED
 >
 <!ELEMENT font EMPTY>
 <!ATTLIST font

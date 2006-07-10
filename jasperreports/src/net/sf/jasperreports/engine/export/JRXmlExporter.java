@@ -75,7 +75,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.xml.JRPrintTextFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.JasperPrintFactory;
 
 import org.w3c.tools.codec.Base64Encoder;
 
@@ -339,6 +341,8 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("pageWidth", jasperPrint.getPageWidth());
 		xmlWriter.addAttribute("pageHeight", jasperPrint.getPageHeight());
 		xmlWriter.addAttribute("orientation", jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -742,6 +746,10 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("hyperlinkAnchor", text.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", text.getHyperlinkPage());
 		xmlWriter.addAttribute("bookmarkLevel", text.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_valueClass, text.getValueClassName());
+		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		
+		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_locale, text.getLocaleCode());		
+		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_timezone, text.getTimeZoneId());		
 		
 		exportReportElement(text);
 		exportBox(text);

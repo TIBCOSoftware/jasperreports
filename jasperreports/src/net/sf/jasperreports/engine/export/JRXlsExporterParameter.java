@@ -73,8 +73,34 @@ public class JRXlsExporterParameter extends JRExporterParameter
 
 	/**
 	 * A boolean value specifying whether the exporter should try to automatically detect cell types based on the cell value.
+	 * 
+	 * @deprecated The {@link #IS_DETECT_CELL_TYPE IS_DETECT_CELL_TYPE} offers more consistent numerical cell detection.
 	 */
 	public static final JRXlsExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Auto Detect Cell Type");
+	
+	
+	/**
+	 * Flag used to indicate whether the exporter should take into consideration the type of the
+	 * original text field expressions and set the cell types and values accordingly.
+	 * <p>
+	 * Text fields having numerical or date expressions save type and formatting (format pattern, locale and time zone)
+	 * information in the {@link net.sf.jasperreports.engine.JasperPrint JasperPrint}/{@link net.sf.jasperreports.engine.JRPrintText JRPrintText}
+	 * object created by the report fill process.
+	 * </p>
+	 * <p>
+	 * When this flag is set, the exporter will parse back the <code>String</code> value of numerical/date texts.
+	 * Numerical/date cells will be created and the original pattern of the text will be included 
+	 * as part of the cell style.
+	 * </p>
+	 * <p>
+	 * Note that this mechanism would not work when the text field overflows and splits on two pages/columns.
+	 * Also, it is required that the text field expression has a numerical or date type set. 
+	 * </p>
+	 * <p>
+	 * This flag is off by default to ensure backwards compatibility.
+	 * </p>
+	 */
+	public static final JRXlsExporterParameter IS_DETECT_CELL_TYPE = new JRXlsExporterParameter("Is Detect Cell Type");
 
 
 	/**

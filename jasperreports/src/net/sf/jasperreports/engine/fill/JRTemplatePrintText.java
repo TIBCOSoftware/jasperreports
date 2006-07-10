@@ -1156,5 +1156,25 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setRightPadding(Integer rightPadding)
 	{
 	}
+
+	public String getValueClassName()
+	{
+		return ((JRTemplateText) template).getValueClassName();
+	}
+
+	public String getPattern()
+	{
+		return ((JRTemplateText) template).getPattern();
+	}
+
+	public String getLocaleCode()
+	{
+		return ((JRTemplateText) template).getLocaleCode();
+	}
+
+	public String getTimeZoneId()
+	{
+		return ((JRTemplateText) template).getTimeZoneId();
+	}
 	
 }

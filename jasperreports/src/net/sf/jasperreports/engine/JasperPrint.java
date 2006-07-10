@@ -118,6 +118,9 @@ public class JasperPrint implements Serializable
 
 	private transient Map anchorIndexes = null;
 	private DefaultStyleProvider defaultStyleProvider = null;
+	
+	private String localeCode;
+	private String timeZoneId;
 
 
 	/**
@@ -505,6 +508,72 @@ public class JasperPrint implements Serializable
 		}
 		
 		return anchorIndexes;
+	}
+
+
+	/**
+	 * Returns the code of the default <code>java.util.Locale</code> to be used for the
+	 * elements of this print object.
+	 * <p>
+	 * When filling a report, the value of the {@link JRParameter#REPORT_LOCALE REPORT_LOCALE} parameter 
+	 * (or the default locale if the parameter has no explicit value) 
+	 * is saved using this attribute.  Some elements (e.g. elements rendered by a subreport)
+	 * in the print object can override this default locale.
+	 * </p>
+	 * 
+	 * @return the code of the default <code>java.util.Locale</code> for this object
+	 * @see JRPrintText#getLocaleCode()
+	 */
+	public String getLocaleCode()
+	{
+		return localeCode;
+	}
+
+
+	/**
+	 * Sets the the code of the default <code>java.util.Locale</code> to be used for this object.
+	 * 
+	 * @param localeCode the locale code, using the {@link java.util.Locale#toString() java.util.Locale.toString()}
+	 * convention.
+	 * @see #getLocaleCode()
+	 * @see java.util.Locale#toString()
+	 */
+	public void setLocaleCode(String localeCode)
+	{
+		this.localeCode = localeCode;
+	}
+
+
+	/**
+	 * Returns the {@link java.util.TimeZone#getID() ID} of the default <code>java.util.TimeZone</code>
+	 * to be used for the elements of this print object.
+	 * <p>
+	 * When filling a report, the value of the {@link JRParameter#REPORT_TIME_ZONE REPORT_TIME_ZONE} parameter
+	 * (or the default time zine if the parameter has no explicit value) 
+	 * is saved using this attribute.  Some elements (e.g. elements rendered by a subreport)
+	 * in the print object can override this default time zone.
+	 * </p>
+	 * 
+	 * @return the ID of the default <code>java.util.TimeZone</code> for this object
+	 * @see JRPrintText#getTimeZoneId()()
+	 */
+	public String getTimeZoneId()
+	{
+		return timeZoneId;
+	}
+
+
+	/**
+	 * Sets the the {@link java.util.TimeZone#getID() ID} of the default <code>java.util.TimeZone</code>
+	 * to be used for this object.
+	 * 
+	 * @param timeZoneId the time zone ID
+	 * @see #getTimeZoneId()()
+	 * @see java.util.TimeZone#getID()
+	 */
+	public void setTimeZoneId(String timeZoneId)
+	{
+		this.timeZoneId = timeZoneId;
 	}
 		
 

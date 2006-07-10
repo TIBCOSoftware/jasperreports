@@ -110,6 +110,10 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected String pdfEncoding = null;
 	protected Boolean isPdfEmbedded = null;
 
+	protected String valueClassName;
+	protected String pattern;
+	protected String localeCode;
+	protected String timeZoneId;
 	
 	/**
 	 *
@@ -1292,6 +1296,54 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+
+	
+	public String getPattern()
+	{
+		return pattern;
+	}
+
+	
+	public void setPattern(String pattern)
+	{
+		this.pattern = pattern;
+	}
+
+	
+	public String getValueClassName()
+	{
+		return valueClassName;
+	}
+
+	
+	public void setValueClassName(String valueClassName)
+	{
+		this.valueClassName = valueClassName;
+	}
+
+	
+	public String getLocaleCode()
+	{
+		return localeCode;
+	}
+
+	
+	public void setLocaleCode(String localeCode)
+	{
+		this.localeCode = localeCode;
+	}
+
+	
+	public String getTimeZoneId()
+	{
+		return timeZoneId;
+	}
+
+	
+	public void setTimeZoneId(String timeZoneId)
+	{
+		this.timeZoneId = timeZoneId;
 	}
 
 }

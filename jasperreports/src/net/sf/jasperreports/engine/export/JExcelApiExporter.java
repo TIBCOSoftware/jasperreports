@@ -50,6 +50,7 @@ import jxl.CellView;
 import jxl.JXLException;
 import jxl.SheetSettings;
 import jxl.Workbook;
+import jxl.biff.DisplayFormat;
 import jxl.format.Alignment;
 import jxl.format.BoldStyle;
 import jxl.format.Border;
@@ -62,6 +63,7 @@ import jxl.format.Pattern;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Blank;
+import jxl.write.DateTime;
 import jxl.write.Label;
 import jxl.write.Number;
 import jxl.write.WritableCellFormat;
@@ -71,6 +73,7 @@ import jxl.write.WritableImage;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
+import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
@@ -90,10 +93,17 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import com.keypoint.PngEncoderB;
 
 import org.apache.commons.collections.ReferenceMap;
+
+import com.keypoint.PngEncoderB;
 
 
 /**
@@ -102,8 +112,8 @@ import org.apache.commons.collections.ReferenceMap;
  */
 public class JExcelApiExporter extends JRXlsAbstractExporter
 {
-	private static final Colour WHITE = Colour.WHITE;
-	private static final Colour BLACK = Colour.BLACK;
+	protected static final Colour WHITE = Colour.WHITE;
+	protected static final Colour BLACK = Colour.BLACK;
 	
 	private static Map colorsCache = new ReferenceMap();
 
@@ -122,9 +132,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	private PngEncoderB pngEncoder;
 	
+	private Map numberFormats;
+	private Map dateFormats;
+	
 	public JExcelApiExporter()
 	{
 		pngEncoder = new PngEncoderB();
+		
+		numberFormats = new HashMap();
+		dateFormats = new HashMap();
 	}
 
 	protected void setParameters()
@@ -308,7 +324,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		if (styledText != null)
 		{
 			Colour forecolor = getNearestColour(text.getForecolor());
-			WritableFont cellFont2 = this.getLoadedFont(text, forecolor.getValue());
+			WritableFont cellFont = this.getLoadedFont(text, forecolor.getValue());
 			
 			TextAlignHolder alignment = getTextAlignHolder(text);
 			int horizontalAlignment = getHorizontalAlignment(alignment);
@@ -328,11 +344,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				mode = Pattern.SOLID;
 				backcolor = getNearestColour(gridCell.getBackcolor());
 			}
-				
 
-			WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, backcolor, horizontalAlignment,
-																	verticalAlignment, rotation, cellFont2,
-																	gridCell);
+			StyleInfo baseStyle = new StyleInfo(mode, backcolor, 
+					horizontalAlignment, verticalAlignment, 
+					rotation, cellFont, 
+					gridCell.getBox());
 			
 			try
 			{
@@ -354,22 +370,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					case JRHyperlink.HYPERLINK_TYPE_NONE:
 					default:
 					{
-						if (isAutoDetectCellType)
-						{
-							try
-							{
-								double d = Double.parseDouble(textStr);
-								sheet.addCell(new Number(x, y, d, cellStyle2));
-							}
-							catch (NumberFormatException nfe)
-							{
-								sheet.addCell(new Label(x, y, textStr, cellStyle2));
-							}
-						}
-						else
-						{
-							sheet.addCell(new Label(x, y, textStr, cellStyle2));
-						}
+						addCell(x, y, text, textStr, baseStyle);
 					}
 				}
 			}
@@ -378,6 +379,152 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				throw new JRException("Can't add cell.", e);
 			}
 		}
+	}
+
+	protected void addCell(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws WriteException, RowsExceededException, JRException
+	{
+		CellValue cellValue;
+		if (isDetectCellType)
+		{
+			cellValue = getDetectedCellValue(x, y, text, textStr, baseStyle);
+		}
+		else if (isAutoDetectCellType)
+		{
+			cellValue = getAutoDetectedCellValue(x, y, textStr, baseStyle);
+		}
+		else
+		{
+			cellValue = getLabelCell(x, y, textStr, baseStyle);
+		}
+		
+		sheet.addCell(cellValue);
+	}
+
+
+	protected CellValue getDetectedCellValue(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws JRException
+	{
+		TextValue textValue = getTextValue(text, textStr);
+		CellTextValueHandler handler = new CellTextValueHandler(x, y, baseStyle);
+		textValue.handle(handler);
+		return handler.getResult();
+	}
+
+	protected class CellTextValueHandler implements TextValueHandler
+	{
+		private final int x;
+		private final int y;
+		private final StyleInfo baseStyle;
+		
+		private CellValue result;
+		
+		public CellTextValueHandler(int x, int y, StyleInfo baseStyle)
+		{
+			this.x = x;
+			this.y = y;
+			this.baseStyle = baseStyle;
+		}
+
+		public void handle(StringTextValue textValue) throws JRException
+		{
+			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+			result = new Label(x, y, textValue.getText(), cellStyle);
+		}
+
+		public void handle(NumberTextValue textValue) throws JRException
+		{
+			baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+			if (textValue.getValue() == null)
+			{
+				result = blank(cellStyle);
+			}
+			else
+			{
+				result = new Number(x, y, textValue.getValue().doubleValue(), cellStyle);
+			}
+		}
+
+		public void handle(DateTextValue textValue) throws JRException
+		{
+			baseStyle.setDisplayFormat(getDateFormat(textValue.getPattern()));
+			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+			if (textValue.getValue() == null)
+			{
+				result = blank(cellStyle);
+			}
+			else
+			{
+				result = new DateTime(x, y, textValue.getValue(), cellStyle);
+			}
+		}
+
+		public void handle(BooleanTextValue textValue) throws JRException
+		{
+			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+			if (textValue.getValue() == null)
+			{
+				result = blank(cellStyle);
+			}
+			else
+			{
+				result = new jxl.write.Boolean(x, y, textValue.getValue().booleanValue(), cellStyle);
+			}
+		}
+
+		protected Blank blank(WritableCellFormat cellStyle)
+		{
+			return new Blank(x, y, cellStyle);
+		}
+		
+		public CellValue getResult()
+		{
+			return result;
+		}		
+	}
+
+	protected jxl.write.NumberFormat getNumberFormat(String pattern)
+	{
+		jxl.write.NumberFormat cellFormat = (jxl.write.NumberFormat) numberFormats.get(pattern);
+		if (cellFormat == null)
+		{
+			cellFormat = new jxl.write.NumberFormat(pattern);
+			numberFormats.put(pattern, cellFormat);
+		}
+		return cellFormat;
+	}
+
+	protected jxl.write.DateFormat getDateFormat(String pattern)
+	{
+		jxl.write.DateFormat cellFormat = (jxl.write.DateFormat) dateFormats.get(pattern);
+		if (cellFormat == null)
+		{
+			cellFormat = new jxl.write.DateFormat(pattern);
+			dateFormats.put(pattern, cellFormat);
+		}
+		return cellFormat;
+	}
+
+	protected CellValue getAutoDetectedCellValue(int x, int y, String textStr, StyleInfo baseStyle) throws JRException
+	{
+		CellValue cellValue;
+		try
+		{
+			double d = Double.parseDouble(textStr);
+			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+			cellValue = new Number(x, y, d, cellStyle);
+		}
+		catch (NumberFormatException nfe)
+		{
+			cellValue = getLabelCell(x, y, textStr, baseStyle);
+		}
+		return cellValue;
+	}
+
+	protected CellValue getLabelCell(int x, int y, String textStr, StyleInfo baseStyle) throws JRException
+	{
+		WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
+		CellValue cellValue = new Label(x, y, textStr, cellStyle);
+		return cellValue;
 	}
 
 	protected void addMergeRegion(JRExporterGridCell gridCell, int x, int y) throws JRException
@@ -625,7 +772,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	private static Colour getNearestColour(Color awtColor)
+	protected static Colour getNearestColour(Color awtColor)
 	{
 		Colour color = (Colour) colorsCache.get(awtColor);
 		
@@ -693,31 +840,29 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private WritableFont getLoadedFont(JRFont font, int forecolor) throws JRException
 	{
-		WritableFont cellFont2 = null;
+		WritableFont cellFont = null;
 		int fontSize;
 
 		if (this.loadedFonts != null && this.loadedFonts.size() > 0)
 		{
-			WritableFont cf2 = null;
-
 			for (int i = 0; i < this.loadedFonts.size(); i++)
 			{
-				cf2 = (WritableFont) this.loadedFonts.get(i);
+				WritableFont cf = (WritableFont) this.loadedFonts.get(i);
 
 				// FontSizeFix
 				fontSize = font.getFontSize();
 				if (isFontSizeFixEnabled)
 					fontSize -= 1;
 
-				if ((cf2.getName().equals(font.getFontName())) 
-						&& (cf2.getColour().getValue() == forecolor) 
-						&& (cf2.getPointSize() == fontSize)
-						&& (cf2.getUnderlineStyle() == UnderlineStyle.SINGLE ? (font.isUnderline()) : (!font.isUnderline())) 
-						&& (cf2.isStruckout() == font.isStrikeThrough())
-						&& (cf2.getBoldWeight() == BoldStyle.BOLD.getValue() ? (font.isBold()) : (!font.isBold())) 
-						&& (cf2.isItalic() == font.isItalic()))
+				if ((cf.getName().equals(font.getFontName())) 
+						&& (cf.getColour().getValue() == forecolor) 
+						&& (cf.getPointSize() == fontSize)
+						&& (cf.getUnderlineStyle() == UnderlineStyle.SINGLE ? (font.isUnderline()) : (!font.isUnderline())) 
+						&& (cf.isStruckout() == font.isStrikeThrough())
+						&& (cf.getBoldWeight() == BoldStyle.BOLD.getValue() ? (font.isBold()) : (!font.isBold())) 
+						&& (cf.isItalic() == font.isItalic()))
 				{
-					cellFont2 = cf2;
+					cellFont = cf;
 					break;
 				}
 			}
@@ -725,7 +870,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		try
 		{
-			if (cellFont2 == null)
+			if (cellFont == null)
 			{
 
 				// FontSizeFix
@@ -734,54 +879,162 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					fontSize -= 1;
 				}
 
-				cellFont2 = new WritableFont(WritableFont.createFont(font.getFontName()),
+				cellFont = new WritableFont(WritableFont.createFont(font.getFontName()),
 										fontSize, 
 										font.isBold() ? WritableFont.BOLD : WritableFont.NO_BOLD, 
 									    font.isItalic(),
 									    font.isUnderline() ? UnderlineStyle.SINGLE : UnderlineStyle.NO_UNDERLINE,
 									    Colour.getInternalColour(forecolor));
 				
-				this.loadedFonts.add(cellFont2);
+				this.loadedFonts.add(cellFont);
 			}
 		}
 		catch (Exception e)
 		{
 			throw new JRException("Can't get loaded fonts.", e);
 		}
-		return cellFont2;
+		return cellFont;
 	}
 
-	protected static class StyleKey
+	protected static class BoxStyle
 	{
-		int mode;
-		int backcolor;
-		int horizontalAlignment;
-		int verticalAlignment;
-		int rotation;
-		int font;
-		JRBox box;
-		final int hashCode;
-		
-		protected StyleKey(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRBox box)
+		protected final BorderLineStyle topBorder;
+		protected final BorderLineStyle bottomBorder;
+		protected final BorderLineStyle leftBorder;
+		protected final BorderLineStyle rightBorder;
+		protected final Colour topBorderColour;
+		protected final Colour bottomBorderColour;
+		protected final Colour leftBorderColour;
+		protected final Colour rightBorderColour;
+		private final int hash;
+
+		public BoxStyle(JRBox box)
 		{
-			this.mode = mode.getValue();
-			this.backcolor = backcolor.getValue();
+			if(box != null && box.getTopBorder() != JRGraphicElement.PEN_NONE)
+			{
+				topBorder = getBorderLineStyle(box.getTopBorder());
+				topBorderColour = getNearestColour(box.getTopBorderColor());
+			}
+			else
+			{
+				topBorder = BorderLineStyle.NONE;
+				topBorderColour = BLACK;
+			}
+				
+			if(box != null && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			{
+				bottomBorder = getBorderLineStyle(box.getBottomBorder());
+				bottomBorderColour = getNearestColour(box.getBottomBorderColor());
+			}
+			else
+			{
+				bottomBorder = BorderLineStyle.NONE;
+				bottomBorderColour = BLACK;
+			}
+				
+			if(box != null && box.getLeftBorder()!= JRGraphicElement.PEN_NONE)
+			{
+				leftBorder = getBorderLineStyle(box.getLeftBorder());
+				leftBorderColour = getNearestColour(box.getLeftBorderColor());
+			}
+			else
+			{
+				leftBorder = BorderLineStyle.NONE;
+				leftBorderColour = BLACK;
+			}
+				
+			if(box != null && box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			{
+				rightBorder = getBorderLineStyle(box.getRightBorder());
+				rightBorderColour = getNearestColour(box.getRightBorderColor());
+			}	
+			else
+			{
+				rightBorder = BorderLineStyle.NONE;
+				rightBorderColour = BLACK;
+			}
+			
+			hash = computeHash();
+		}
+
+		private int computeHash()
+		{
+			int hashCode = topBorder.hashCode();
+			hashCode = 31*hashCode + topBorderColour.hashCode();
+			hashCode = 31*hashCode + bottomBorder.hashCode();
+			hashCode = 31*hashCode + bottomBorderColour.hashCode();
+			hashCode = 31*hashCode + leftBorder.hashCode();
+			hashCode = 31*hashCode + leftBorderColour.hashCode();
+			hashCode = 31*hashCode + rightBorder.hashCode();
+			hashCode = 31*hashCode + rightBorderColour.hashCode();
+			return hashCode;
+		}
+		
+		public int hashCode()
+		{
+			return hash;
+		}
+		
+		public boolean equals(Object o)
+		{
+			BoxStyle b = (BoxStyle) o;
+			
+			return 
+				b.topBorder.equals(topBorder) &&
+				b.topBorderColour.equals(topBorderColour) &&
+				b.bottomBorder.equals(bottomBorder) &&
+				b.bottomBorderColour.equals(bottomBorderColour) &&
+				b.leftBorder.equals(leftBorder) &&
+				b.leftBorderColour.equals(leftBorderColour) &&
+				b.rightBorder.equals(rightBorder) &&
+				b.rightBorderColour.equals(rightBorderColour);
+		}
+		
+		public String toString()
+		{
+			return "(" +
+				topBorder.getValue() + "/" + topBorderColour.getValue() + "," +
+				bottomBorder.getValue() + "/" + bottomBorderColour.getValue() + "," +
+				leftBorder.getValue() + "/" + leftBorderColour.getValue() + "," +
+				rightBorder.getValue() + "/" + rightBorderColour.getValue() + ")";
+		}
+	}
+	
+	protected static class StyleInfo
+	{
+		protected final Pattern mode;
+		protected final Colour backcolor;
+		protected final int horizontalAlignment;
+		protected final int verticalAlignment;
+		protected final int rotation;
+		protected final WritableFont font;
+		protected final BoxStyle box;
+		private DisplayFormat displayFormat;
+		private int hashCode;
+		
+		protected StyleInfo(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRBox box)
+		{
+			this.mode = mode;
+			this.backcolor = backcolor;
 			this.horizontalAlignment = horizontalAlignment;
 			this.verticalAlignment = verticalAlignment;
 			this.rotation = rotation;
-			this.font = font.getFontIndex();
-			this.box = box;
-			
-			int hash = this.mode;
-			hash = 31*hash + this.backcolor;
-			hash = 31*hash + horizontalAlignment;
-			hash = 31*hash + verticalAlignment;
-			hash = 31*hash + rotation;
-			hash = 31*hash + this.font;
-			if (box != null)
-			{
-				hash = 31*hash + box.hashCode();
-			}
+			this.font = font;
+			this.box = new BoxStyle(box);
+		
+			computeHash();
+		}
+		
+		protected void computeHash()
+		{
+			int hash = this.mode.hashCode();
+			hash = 31*hash + this.backcolor.hashCode();
+			hash = 31*hash + this.horizontalAlignment;
+			hash = 31*hash + this.verticalAlignment;
+			hash = 31*hash + this.rotation;
+			hash = 31*hash + this.font.hashCode();
+			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
+			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			
 			hashCode = hash;
 		}
@@ -793,75 +1046,71 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		
 		public boolean equals(Object o)
 		{
-			StyleKey k = (StyleKey) o;
+			StyleInfo k = (StyleInfo) o;
 			
-			return k.mode == mode && k.backcolor == backcolor &&
+			return k.mode.equals(mode) && k.backcolor.equals(backcolor) &&
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
-				k.rotation == rotation && k.font == font &&
-				(k.box == null ? box == null : (box != null && k.box.equals(box)));
+				k.rotation == rotation && k.font.equals(font) &&
+				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
+				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)));
+		}
+		
+		public DisplayFormat getDisplayFormat()
+		{
+			return displayFormat;
+		}
+		
+		public void setDisplayFormat(DisplayFormat displayFormat)
+		{
+			this.displayFormat = displayFormat;
+			computeHash();
+		}
+		
+		public String toString()
+		{
+			return "(" +
+				mode + "," + backcolor + "," + 
+				horizontalAlignment + "," + verticalAlignment + "," + 
+				rotation + "," + font + "," +
+				box + "," + displayFormat + ")";
 		}
 	}
 	
-	private WritableCellFormat getLoadedCellStyle(Pattern mode, Colour backcolor, int horizontalAlignment, 
-												  int verticalAlignment, int rotation, WritableFont font, JRExporterGridCell gridCell) throws JRException
+	private WritableCellFormat getLoadedCellStyle(Pattern mode, Colour backcolor, int horizontalAlignment,
+			int verticalAlignment, int rotation, WritableFont font, JRExporterGridCell gridCell) throws JRException
 	{
-		StyleKey styleKey = new StyleKey(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell.getBox());
-		
+		StyleInfo styleKey = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell.getBox());
+		return getLoadedCellStyle(styleKey);
+	}
+
+
+	protected WritableCellFormat getLoadedCellStyle(StyleInfo styleKey) throws JRException
+	{	
 		WritableCellFormat cellStyle = (WritableCellFormat) loadedCellStyles.get(styleKey);
 		
 		if (cellStyle == null)
 		{
-			BorderLineStyle topBorder = BorderLineStyle.NONE;
-			BorderLineStyle bottomBorder = BorderLineStyle.NONE;
-			BorderLineStyle leftBorder = BorderLineStyle.NONE;
-			BorderLineStyle rightBorder = BorderLineStyle.NONE;
-			Colour topBorderColour = BLACK;
-			Colour bottomBorderColour = BLACK;
-			Colour leftBorderColour = BLACK;
-			Colour rightBorderColour = BLACK;
-			
-			JRBox box = gridCell.getBox();
-			if(box != null)
-			{
-				if(box.getTopBorder() != JRGraphicElement.PEN_NONE)
-				{
-					topBorder = getBorderLineStyle(box.getTopBorder());
-					topBorderColour = getNearestColour(box.getTopBorderColor());
-				}
-					
-				if(box.getBottomBorder() != JRGraphicElement.PEN_NONE)
-				{
-					bottomBorder = getBorderLineStyle(box.getBottomBorder());
-					bottomBorderColour = getNearestColour(box.getBottomBorderColor());
-				}
-					
-				if(box.getLeftBorder()!= JRGraphicElement.PEN_NONE)
-				{
-					leftBorder = getBorderLineStyle(box.getLeftBorder());
-					leftBorderColour = getNearestColour(box.getLeftBorderColor());
-				}
-					
-				if(box.getRightBorder() != JRGraphicElement.PEN_NONE)
-				{
-					rightBorder = getBorderLineStyle(box.getRightBorder());
-					rightBorderColour = getNearestColour(box.getRightBorderColor());
-				}	
-			}
-			
-			
 			try
 			{
-				cellStyle = new WritableCellFormat(font);
-				cellStyle.setBackground(backcolor, mode);
-				cellStyle.setAlignment(Alignment.getAlignment(horizontalAlignment));
-				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(verticalAlignment));
-				cellStyle.setOrientation(Orientation.getOrientation(rotation));
+				if (styleKey.getDisplayFormat() == null)
+				{
+					cellStyle = new WritableCellFormat(styleKey.font);
+				}
+				else
+				{
+					cellStyle = new WritableCellFormat(styleKey.font, styleKey.getDisplayFormat());
+				}
+				cellStyle.setBackground(styleKey.backcolor, styleKey.mode);
+				cellStyle.setAlignment(Alignment.getAlignment(styleKey.horizontalAlignment));
+				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(styleKey.verticalAlignment));
+				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
 				cellStyle.setWrap(true);
 				
-				cellStyle.setBorder(Border.TOP, topBorder, topBorderColour);
-				cellStyle.setBorder(Border.BOTTOM, bottomBorder, bottomBorderColour);
-				cellStyle.setBorder(Border.LEFT, leftBorder, leftBorderColour);
-				cellStyle.setBorder(Border.RIGHT, rightBorder, rightBorderColour);
+				BoxStyle box = styleKey.box;
+				cellStyle.setBorder(Border.TOP, box.topBorder, box.topBorderColour);
+				cellStyle.setBorder(Border.BOTTOM, box.bottomBorder, box.bottomBorderColour);
+				cellStyle.setBorder(Border.LEFT, box.leftBorder, box.leftBorderColour);
+				cellStyle.setBorder(Border.RIGHT, box.rightBorder, box.rightBorderColour);
 			}
 			catch (Exception e)
 			{
@@ -877,7 +1126,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	/**
 	 * @param lineStyle
 	 */
-	private BorderLineStyle getBorderLineStyle(byte lineStyle) {
+	protected static BorderLineStyle getBorderLineStyle(byte lineStyle) {
 		BorderLineStyle retVal = null;
 		switch(lineStyle) {
 			case JRGraphicElement.PEN_THIN:
@@ -1191,3 +1440,4 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 }
+

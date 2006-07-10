@@ -60,6 +60,10 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
 	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
 	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
+	public static final String ATTRIBUTE_valueClass = "valueClass";
+	public static final String ATTRIBUTE_pattern = "pattern";
+	public static final String ATTRIBUTE_locale = "locale";
+	public static final String ATTRIBUTE_timezone = "timezone";
 
 
 	/**
@@ -151,6 +155,30 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (bookmarkLevelAttr != null)
 		{
 			text.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
+		}
+		
+		String valueClass = atts.getValue(ATTRIBUTE_valueClass);
+		if (valueClass != null)
+		{
+			text.setValueClassName(valueClass);
+		}
+		
+		String pattern = atts.getValue(ATTRIBUTE_pattern);
+		if (pattern != null)
+		{
+			text.setPattern(pattern);
+		}
+		
+		String locale = atts.getValue(ATTRIBUTE_locale);
+		if (locale != null)
+		{
+			text.setLocaleCode(locale);
+		}
+		
+		String timezone = atts.getValue(ATTRIBUTE_timezone);
+		if (timezone != null)
+		{
+			text.setTimeZoneId(timezone);
 		}
 		
 		return text;
