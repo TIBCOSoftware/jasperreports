@@ -69,6 +69,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isWhitePageBackground = true;
 
 	protected boolean isAutoDetectCellType = true;
+	protected boolean isDetectCellType = false;
 
 	protected String[] sheetNames = null;
 
@@ -204,6 +205,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
+		
+		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsExporterParameter.IS_DETECT_CELL_TYPE);
+		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
 
 		sheetNames = (String[])parameters.get(JRXlsExporterParameter.SHEET_NAMES);
 

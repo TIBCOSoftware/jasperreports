@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -723,6 +724,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			jasperPrint.setOrientation(orientation);
 
 			jasperPrint.setDefaultFont(defaultFont);
+			
+			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
+			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
 
 			/*   */
 			if (fonts != null && fonts.length > 0)
@@ -876,6 +880,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
+		
+		if (!isSubreport())
+		{
+			fillContext.setMasterLocale(getLocale());
+			fillContext.setMasterTimeZone(getTimeZone());
+		}
 	}
 
 
@@ -962,6 +972,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected TimeZone getTimeZone()
 	{
 		return mainDataset.timeZone;
+	}
+
+	
+	protected boolean hasMasterLocale()
+	{
+		return !isSubreport() || getLocale().equals(fillContext.getMasterLocale());
+	}
+	
+	
+	protected boolean hasMasterTimeZone()
+	{
+		return !isSubreport() || getTimeZone().equals(fillContext.getMasterTimeZone());
 	}
 
 

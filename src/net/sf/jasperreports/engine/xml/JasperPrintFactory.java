@@ -47,6 +47,8 @@ public class JasperPrintFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_pageWidth = "pageWidth";
 	private static final String ATTRIBUTE_pageHeight = "pageHeight";
 	private static final String ATTRIBUTE_orientation = "orientation";
+	public static final String ATTRIBUTE_locale = "locale";
+	public static final String ATTRIBUTE_timezone = "timezone";
 
 
 	/**
@@ -74,6 +76,18 @@ public class JasperPrintFactory extends JRBaseFactory
 		if (orientation != null)
 		{
 			jasperPrint.setOrientation(orientation.byteValue());
+		}
+		
+		String locale = atts.getValue(ATTRIBUTE_locale);
+		if (locale != null)
+		{
+			jasperPrint.setLocaleCode(locale);
+		}
+		
+		String timezone = atts.getValue(ATTRIBUTE_timezone);
+		if (timezone != null)
+		{
+			jasperPrint.setTimeZoneId(timezone);
 		}
 
 		return jasperPrint;

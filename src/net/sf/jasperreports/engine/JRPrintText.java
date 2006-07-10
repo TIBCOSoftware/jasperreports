@@ -182,6 +182,60 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * @deprecated
 	 */
 	public void setFont(JRFont font);
-		
 	
+	/**
+	 * Returns the type of the value which was used to generate this text.
+	 * <p>
+	 * {@link JRTextField Text fields} that have a non-<code>String</code> expression
+	 * save the value type using this attribute.  This information can be used by
+	 * exporters to treat numerical or date texts (for instance) in a special manner.
+	 * </p>
+	 * 
+	 * @return the type of the original value used to generate the text
+	 */
+	public String getValueClassName();
+	
+	/**
+	 * Returns the pattern used to format a value that was the source of this text. 
+	 * <p>
+	 * The pattern can be used to parse the text back to its source value.
+	 * </p>
+	 * 
+	 * @return the pattern used to format this text's source value
+	 * @see #getValueClassName()
+	 */
+	public String getPattern();
+	
+
+	/**
+	 * Returns the code of the <code>java.util.Locale</code> which was used 
+	 * while formatting the source value of the text.
+	 * <p>
+	 * The code is created using the {@link java.util.Locale#toString() java.util.Locale.toString()}
+	 * convention.
+	 * </p>
+	 * <p>
+	 * When this attribute is null, the locale returned by
+	 * {@link JasperPrint#getLocaleCode() JasperPrint.getLocaleCode()} is used.
+	 * This way, the locale is specified in a single place when all the (or many ) texts from a print object
+	 * were formatted using the same locale.
+	 * </p>
+	 * 
+	 * @return the code of the <code>java.util.Locale</code> used when formatting this text's source value
+	 */
+	public String getLocaleCode();
+	
+	
+	/**
+	 * Returns the {@link java.util.TimeZone#getID() ID} of the <code>java.util.TimeZone</code>
+	 * used to format this text's date source value.
+	 * <p>
+	 * When this attribute is null, the time zone returned by
+	 * {@link JasperPrint#getTimeZoneId() JasperPrint.getTimeZoneId()} is used.
+	 * </p>
+	 * 
+	 * @return the {@link java.util.TimeZone#getID() ID} of the <code>java.util.TimeZone</code>
+	 * used to format this text's date source value
+	 */
+	public String getTimeZoneId();
 }

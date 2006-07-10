@@ -32,19 +32,34 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 
@@ -55,6 +70,7 @@ import org.xml.sax.SAXException;
 public abstract class JRAbstractExporter implements JRExporter
 {
 
+	private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
 
 	/**
 	 *
@@ -492,4 +508,128 @@ public abstract class JRAbstractExporter implements JRExporter
 		
 		return box;
 	}
+
+	
+	protected Locale getTextLocale(JRPrintText text)
+	{
+		String localeCode = text.getLocaleCode();
+		if (localeCode == null)
+		{
+			localeCode = jasperPrint.getLocaleCode();
+		}
+		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);
+	}
+
+	protected TimeZone getTextTimeZone(JRPrintText text)
+	{
+		String tzId = text.getTimeZoneId();
+		if (tzId == null)
+		{
+			tzId = jasperPrint.getTimeZoneId();
+		}
+		return tzId == null ? null : JRDataUtils.getTimeZone(tzId);
+	}
+	
+	protected TextValue getTextValue(JRPrintText text, String textStr)
+	{
+		TextValue textValue;
+		if (text.getValueClassName() == null)
+		{
+			textValue = getTextValueString(text, textStr);
+		}
+		else
+		{
+			try
+			{
+				Class valueClass = JRClassLoader.loadClassForName(text.getValueClassName());
+				if (java.lang.Number.class.isAssignableFrom(valueClass))
+				{
+					textValue = getNumberCellValue(text, textStr);
+				}
+				else if (Date.class.isAssignableFrom(valueClass))
+				{
+					textValue = getDateCellValue(text, textStr);
+				}
+				else if (Boolean.class.equals(valueClass))
+				{
+					textValue = getBooleanCellValue(text, textStr);
+				}
+				else
+				{
+					textValue = getTextValueString(text, textStr);
+				} 
+			}
+			catch (ParseException e)
+			{
+				log.warn("Error parsing text value", e);
+				textValue = getTextValueString(text, textStr);
+			}
+			catch (ClassNotFoundException e)
+			{
+				log.warn("Error loading text value class", e);
+				textValue = getTextValueString(text, textStr);
+			}			
+		}
+		return textValue;
+	}
+
+	protected TextValue getTextValueString(JRPrintText text, String textStr)
+	{
+		return new StringTextValue(textStr);
+	}
+
+	protected TextValue getBooleanCellValue(JRPrintText text, String textStr)
+	{
+		Boolean value = null;
+		if (textStr != null || textStr.length() > 0)
+		{
+			value = Boolean.valueOf(textStr);
+		}
+		return new BooleanTextValue(textStr, value);
+	}
+
+	protected TextValue getDateCellValue(JRPrintText text, String textStr) throws ParseException
+	{
+		TextValue textValue;
+		String pattern = text.getPattern();
+		if (pattern == null)
+		{
+			textValue = getTextValueString(text, textStr);
+		}
+		else
+		{
+			DateFormat dateFormat = JRDataUtils.getDateFormat(pattern, getTextLocale(text), getTextTimeZone(text));
+			
+			Date value = null;
+			if (textStr != null && textStr.length() > 0)
+			{
+				value = dateFormat.parse(textStr);
+			}
+			textValue = new DateTextValue(textStr, value, pattern);
+		}
+		return textValue;
+	}
+
+	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException
+	{
+		TextValue textValue;
+		String pattern = text.getPattern();
+		if (pattern == null)
+		{
+			textValue = getTextValueString(text, textStr);
+		}
+		else
+		{
+			NumberFormat numberFormat = JRDataUtils.getNumberFormat(pattern, getTextLocale(text));
+			
+			Number value = null;
+			if (textStr != null && textStr.length() > 0)
+			{
+				value = numberFormat.parse(textStr);
+			}
+			textValue = new NumberTextValue(textStr, value, pattern);
+		}
+		return textValue;
+	}
+	
 }

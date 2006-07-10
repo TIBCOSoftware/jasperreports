@@ -28,12 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
@@ -44,8 +39,9 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -83,19 +79,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(filler, textField, factory);
 		
-		JRExpression expression = getExpression();
-		if (expression != null)
+		if (JRDataUtils.useFormat(getExpression()))
 		{
-			Class expressionClass = expression.getValueClass();
-			if (
-				java.util.Date.class.isAssignableFrom(expressionClass)
-				|| java.lang.Number.class.isAssignableFrom(expressionClass)
-				)
-			{
-				filler.formattedTextFields.add(this);
-			}
+			filler.formattedTextFields.add(this);
 		}
-		
+
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 	}
 
@@ -290,10 +278,41 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		if (template == null)
 		{
 			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), this);
+			setTemplatePattern(template);
+			
 			registerTemplate(style, template);
 		}
 		
 		return template;
+	}
+
+
+	protected void setTemplatePattern(JRTemplateText template)
+	{
+		if (getExpression() != null)
+		{
+			Class valueClass = getExpression().getValueClass();
+			if (!String.class.equals(valueClass))
+			{
+				template.setValueClassName(valueClass.getName());
+
+				String pattern = JRDataUtils.getPattern(getExpression(), format, getPattern());
+				if (pattern != null)
+				{
+					template.setPattern(pattern);
+				}
+				
+				if (!filler.hasMasterLocale())
+				{
+					template.setLocaleCode(JRDataUtils.getLocaleCode(filler.getLocale()));
+				}
+
+				if (!filler.hasMasterTimeZone() && java.util.Date.class.isAssignableFrom(valueClass))
+				{
+					template.setTimeZoneId(JRDataUtils.getTimeZoneId(filler.getTimeZone()));
+				}
+			}
+		}
 	}
 
 
@@ -655,120 +674,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	protected void setFormat()
 	{
-		String pattern = getPattern();
-		Class expressionClass = getExpression().getValueClass();
-		if (java.util.Date.class.isAssignableFrom(expressionClass))
-		{
-			setDateFormat(pattern);
-		}
-		else if (java.lang.Number.class.isAssignableFrom(expressionClass))
-		{
-			if (pattern != null && pattern.trim().length() > 0)
-			{
-				format = NumberFormat.getNumberInstance(filler.getLocale());
-				if (format instanceof DecimalFormat)
-				{
-					((DecimalFormat)format).applyPattern(pattern);
-				}
-			}
-		}
-	}
-
-
-	protected void setDateFormat(String pattern)
-	{
-		int[] dateStyle = null;
-		int[] timeStyle = null;
-		if (pattern != null && pattern.trim().length() > 0)
-		{			
-			int sepIdx = pattern.indexOf(JRTextField.STANDARD_DATE_FORMAT_SEPARATOR);
-			String dateTok = sepIdx < 0 ? pattern : pattern.substring(0, sepIdx);
-			dateStyle = getDateStyle(dateTok);
-			if (dateStyle != null)
-			{
-				if (sepIdx >= 0)
-				{
-					String timeTok = pattern.substring(sepIdx + JRTextField.STANDARD_DATE_FORMAT_SEPARATOR.length());
-					timeStyle = getDateStyle(timeTok);
-				}
-				else
-				{
-					timeStyle = dateStyle;
-				}
-			}
-		}
-		
-		if (dateStyle != null && timeStyle != null)
-		{
-			format = getDateFormat(dateStyle, timeStyle, filler.getLocale());
-		}
-		else
-		{			
-			format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, filler.getLocale());
-			if (
-				pattern != null && pattern.trim().length() > 0
-				&& format instanceof SimpleDateFormat
-				)
-			{
-				((SimpleDateFormat)format).applyPattern(pattern);
-			}
-		}
-		
-		((DateFormat)format).setTimeZone(filler.getTimeZone());
-	}
-
-	
-	protected static int[] getDateStyle(String pattern)
-	{
-		if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_DEFAULT))
-		{
-			return new int[]{DateFormat.DEFAULT};
-		}
-		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_SHORT))
-		{
-			return new int[]{DateFormat.SHORT};
-		}
-		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_MEDIUM))
-		{
-			return new int[]{DateFormat.MEDIUM};
-		}
-		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_LONG))
-		{
-			return new int[]{DateFormat.LONG};
-		}
-		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_FULL))
-		{
-			return new int[]{DateFormat.FULL};
-		}
-		else if (pattern.equalsIgnoreCase(JRTextField.STANDARD_DATE_FORMAT_HIDE))
-		{
-			return new int[0];
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	
-	protected static DateFormat getDateFormat(int[] dateStyle, int[] timeStyle, Locale locale)
-	{
-		if (dateStyle.length == 0)
-		{
-			if (timeStyle.length == 0)
-			{
-				return new SimpleDateFormat("");
-			}
-
-			return DateFormat.getTimeInstance(timeStyle[0], locale);
-		}
-
-		if (timeStyle.length == 0)
-		{
-			return DateFormat.getDateInstance(dateStyle[0], locale);
-		}
-
-		return DateFormat.getDateTimeInstance(dateStyle[0], timeStyle[0], locale);
+		format = JRDataUtils.getFormat(getExpression(), getPattern(), filler.getLocale(), filler.getTimeZone());
 	}
 
 	/**
