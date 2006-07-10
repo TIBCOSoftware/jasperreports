@@ -9,6 +9,10 @@ JasperReports 1.2.5 (2006-07-xx)
 
 - "increment when" expression to filter out data in chart and crosstab datasets;
 
+- new IS_DETECT_CELL_TYPE exporter parameter available for the XLS exporters,
+to allow setting the correct cell data type in worksheets;
+the former IS_AUTO_DETECT_CELL_TYPE is now deprecated;
+
 - minor bug fixes and improvements;
 
 
