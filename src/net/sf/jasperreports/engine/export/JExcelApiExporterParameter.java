@@ -35,7 +35,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**
@@ -48,5 +47,4 @@ public class JExcelApiExporterParameter extends JRXlsExporterParameter {
 		super(name);
 	}
 
-	public static final JExcelApiExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JExcelApiExporterParameter("Is Font Size Fix Enabled");
 }

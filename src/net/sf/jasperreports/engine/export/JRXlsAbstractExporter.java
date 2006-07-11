@@ -71,6 +71,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isAutoDetectCellType = true;
 	protected boolean isDetectCellType = false;
 
+	protected boolean isFontSizeFixEnabled = false;
+	
 	protected String[] sheetNames = null;
 
 	/**
@@ -208,6 +210,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsExporterParameter.IS_DETECT_CELL_TYPE);
 		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
+
+		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JExcelApiExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
+		if (isFontSizeFixEnabledParameter != null)
+		{
+			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
+		}
 
 		sheetNames = (String[])parameters.get(JRXlsExporterParameter.SHEET_NAMES);
 

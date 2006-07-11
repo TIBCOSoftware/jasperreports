@@ -109,4 +109,10 @@ public class JRXlsExporterParameter extends JRExporterParameter
 	 */
 	public static final JRXlsExporterParameter SHEET_NAMES = new JRXlsExporterParameter("Sheet Names");
 
+
+	/**
+	 * Flag for decreasing font size so that texts fit into the specified cell height.
+	 */
+	public static final JRXlsExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JRXlsExporterParameter("Is Font Size Fix Enabled");
+
 }
