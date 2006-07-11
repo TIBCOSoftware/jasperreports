@@ -126,8 +126,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private WritableCellFormat emptyCellStyle = null;
 
-	private boolean isFontSizeFixEnabled = false;
-
 	private Pattern backgroundMode = Pattern.SOLID;
 	
 	private PngEncoderB pngEncoder;
@@ -141,17 +139,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		
 		numberFormats = new HashMap();
 		dateFormats = new HashMap();
-	}
-
-	protected void setParameters()
-	{
-		super.setParameters();
-
-		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JExcelApiExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
-		if (isFontSizeFixEnabledParameter != null)
-		{
-			this.isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
-		}
 	}
 
 	protected void setBackground()
@@ -841,16 +828,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private WritableFont getLoadedFont(JRFont font, int forecolor) throws JRException
 	{
 		WritableFont cellFont = null;
-		int fontSize;
-
+		
 		if (this.loadedFonts != null && this.loadedFonts.size() > 0)
 		{
 			for (int i = 0; i < this.loadedFonts.size(); i++)
 			{
 				WritableFont cf = (WritableFont) this.loadedFonts.get(i);
 
-				// FontSizeFix
-				fontSize = font.getFontSize();
+				int fontSize = font.getFontSize();
 				if (isFontSizeFixEnabled)
 					fontSize -= 1;
 
@@ -878,12 +863,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			if (cellFont == null)
 			{
-
-				// FontSizeFix
-				fontSize = font.getFontSize();
-				if (isFontSizeFixEnabled){
+				int fontSize = font.getFontSize();
+				if (isFontSizeFixEnabled)
 					fontSize -= 1;
-				}
 
 				String fontName = font.getFontName();
 				if (fontMap != null && fontMap.containsKey(fontName))
@@ -909,6 +891,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			throw new JRException("Can't get loaded fonts.", e);
 		}
+
 		return cellFont;
 	}
 
