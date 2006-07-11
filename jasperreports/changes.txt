@@ -17,6 +17,8 @@ the former IS_AUTO_DETECT_CELL_TYPE is now deprecated;
 
 
 
+
+
 JasperReports 1.2.4 (2006-06-23)
 -----------------------------------
 
