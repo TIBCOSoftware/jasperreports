@@ -449,6 +449,8 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				log.error("Error virtualizing object", e);
 				throw new JRRuntimeException(e);
 			}
+			
+			o.afterExternalization();
 
 			// Wait until we know it worked before tossing the data.
 			o.removeVirtualData();

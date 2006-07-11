@@ -79,6 +79,13 @@ public interface JRVirtualizable {
 	
 	
 	/**
+	 * Called by the virtualizer after the object's data is externalized, but before
+	 * the virtual data is {@link #removeVirtualData() removed}.
+	 */
+	void afterExternalization();
+	
+	
+	/**
 	 * Called by the virtualizer after the object's data was made available to the object.
 	 */
 	void afterInternalization();
