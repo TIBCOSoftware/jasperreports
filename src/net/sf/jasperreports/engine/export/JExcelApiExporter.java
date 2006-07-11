@@ -854,7 +854,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				if (isFontSizeFixEnabled)
 					fontSize -= 1;
 
-				if ((cf.getName().equals(font.getFontName())) 
+				String fontName = font.getFontName();
+				if (fontMap != null && fontMap.containsKey(fontName))
+				{
+					fontName = (String) fontMap.get(fontName);
+				}
+
+				if ((cf.getName().equals(fontName)) 
 						&& (cf.getColour().getValue() == forecolor) 
 						&& (cf.getPointSize() == fontSize)
 						&& (cf.getUnderlineStyle() == UnderlineStyle.SINGLE ? (font.isUnderline()) : (!font.isUnderline())) 
@@ -879,12 +885,22 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					fontSize -= 1;
 				}
 
-				cellFont = new WritableFont(WritableFont.createFont(font.getFontName()),
-										fontSize, 
-										font.isBold() ? WritableFont.BOLD : WritableFont.NO_BOLD, 
-									    font.isItalic(),
-									    font.isUnderline() ? UnderlineStyle.SINGLE : UnderlineStyle.NO_UNDERLINE,
-									    Colour.getInternalColour(forecolor));
+				String fontName = font.getFontName();
+				if (fontMap != null && fontMap.containsKey(fontName))
+				{
+					fontName = (String) fontMap.get(fontName);
+				}
+
+				cellFont = 
+					new WritableFont(
+						WritableFont.createFont(fontName),
+						fontSize, 
+						font.isBold() ? WritableFont.BOLD : WritableFont.NO_BOLD, 
+					    font.isItalic(),
+					    font.isUnderline() ? UnderlineStyle.SINGLE : UnderlineStyle.NO_UNDERLINE,
+					    Colour.getInternalColour(forecolor)
+					    );
+				cellFont.setStruckout(font.isStrikeThrough());
 				
 				this.loadedFonts.add(cellFont);
 			}

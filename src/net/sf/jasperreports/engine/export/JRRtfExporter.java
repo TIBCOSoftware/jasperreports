@@ -323,8 +323,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 
-			JRFont defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-			getFontIndex(defaultFont);
+			getFontIndex(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 			
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0) {
@@ -366,33 +365,22 @@ public class JRRtfExporter extends JRAbstractExporter
 								}
 
 								int runLimit = 0;
-								JRStyledText styledText = getStyledText((JRPrintText) element);
+								JRStyledText styledText = getStyledText((JRPrintText)element);
 								AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 								while (runLimit < styledText.length()
 										&& (runLimit = iterator.getRunLimit()) <= styledText.length())
 								{
 									Map styledTextAttributes = iterator.getAttributes();
-									JRFont styleFont = new JRBaseFont(styledTextAttributes);
 
-									// replace fonts with fonts from font map
-									String fontName = styleFont.getFontName();
-									if(fontMap != null && fontMap.containsKey(fontName)){
-										fontName = (String)fontMap.get(fontName);
-									}
-									getFontIndex(fontName);
+									getFontIndex(new JRBaseFont(styledTextAttributes));
 
-									getColorIndex((Color) styledTextAttributes.get(TextAttribute.FOREGROUND));
-									getColorIndex((Color) styledTextAttributes.get(TextAttribute.BACKGROUND));
+									getColorIndex((Color)styledTextAttributes.get(TextAttribute.FOREGROUND));
+									getColorIndex((Color)styledTextAttributes.get(TextAttribute.BACKGROUND));
+
 									iterator.setIndex(runLimit);
 								}
 
-								// replace fonts with font from fontMap
-								String fontName = ((JRPrintText) element).getFontName();
-								if(fontMap != null && fontMap.containsKey(fontName)){
-									fontName = (String)fontMap.get(fontName);
-								}
-								getFontIndex(fontName);
-
+								getFontIndex((JRPrintText)element);
 							}
 						}
 					}
@@ -430,15 +418,16 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * Return font index from the header of the .rtf file. The method is
 	 * called first when the header of the .rtf document is constructed and when a
 	 * text component needs font informations.
-	 * @param font Font for which the index is required
+	 * @param font the font for which the index is required
 	 * @return index of the font from .rtf file header
 	 */
-	private int getFontIndex(JRFont font) {
-		String fontName = font.getFontName();
-		return getFontIndex(fontName);
-	}
-	
-	private int getFontIndex(String fontName) {
+	private int getFontIndex(JRFont font) 
+	{
+		String fontName = font.getFontName(); 
+		if(fontMap != null && fontMap.containsKey(fontName)){
+			fontName = (String)fontMap.get(fontName);
+		}
+		
 		int fontIndex = fonts.indexOf(fontName);
 		
 		if(fontIndex < 0) {
@@ -816,11 +805,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		
 		JRFont font = text;//.getFont();
 
-		String fontName = font.getFontName();
-		if(fontMap != null && fontMap.containsKey(fontName)){
-			fontName = (String)fontMap.get(fontName);
-		}
-		writer.write("\\f" + getFontIndex(fontName));
+		writer.write("\\f" + getFontIndex(font));
 		writer.write("\\cf" + getColorIndex(text.getForecolor()));
 		writer.write("\\cb" + getColorIndex(text.getBackcolor()));
 		
@@ -914,12 +899,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				isStrikeThrough = true;
 			}
 
-			fontName = styleFont.getFontName();
-			if(fontMap != null && fontMap.containsKey(fontName)){
-				fontName = (String)fontMap.get(fontName);
-			}
-			
-			int fontIndex = getFontIndex(fontName); 
+			int fontIndex = getFontIndex(styleFont); 
 			writer.write("\\f" + fontIndex);
 			
 			int fontSize = styleFont.getFontSize();
