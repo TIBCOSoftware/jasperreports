@@ -120,20 +120,12 @@ public class JRSwapFile
 	{
 		int blockCount = (data.length - 1) / blockSize + 1;
 		long[] offsets = reserveFreeBlocks(blockCount);
-		SwapHandle handle = new SwapHandle(offsets, data.length % blockSize);
+		int lastBlockSize = (data.length - 1) % blockSize + 1;
+		SwapHandle handle = new SwapHandle(offsets, lastBlockSize);
 		for (int i = 0; i < blockCount; ++i)
 		{
-			int dataSize;
-			if (i < blockCount - 1)
-			{
-				dataSize = blockSize;
-			}
-			else
-			{
-				dataSize = data.length % blockSize;
-			}
-			int dataOffset = i * blockSize;
-			
+			int dataSize = i < blockCount - 1 ? blockSize : lastBlockSize;
+			int dataOffset = i * blockSize;			
 			write(data, dataSize, dataOffset, offsets[i]);
 		}
 		
@@ -168,18 +160,8 @@ public class JRSwapFile
 		for (int i = 0; i < offsets.length; ++i)
 		{
 			int dataOffset = i * blockSize;
-			int dataLength;
-			if (i < offsets.length - 1)
-			{
-				dataLength = blockSize;
-			}
-			else
-			{
-				dataLength = data.length % blockSize;
-			}
-			
-			long fileOffset = offsets[i];
-			read(data, dataOffset, dataLength, fileOffset);
+			int dataLength = i < offsets.length - 1 ? blockSize : handle.getLastSize();
+			read(data, dataOffset, dataLength, offsets[i]);
 		}
 		
 		if (free)
