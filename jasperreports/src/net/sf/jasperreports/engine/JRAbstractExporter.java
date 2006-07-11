@@ -58,8 +58,6 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 
@@ -70,7 +68,8 @@ import org.xml.sax.SAXException;
 public abstract class JRAbstractExporter implements JRExporter
 {
 
-	private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
+	//FIXME this would make the applet require logging library
+	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
 
 	/**
 	 *
@@ -561,12 +560,12 @@ public abstract class JRAbstractExporter implements JRExporter
 			}
 			catch (ParseException e)
 			{
-				log.warn("Error parsing text value", e);
+				//log.warn("Error parsing text value", e);
 				textValue = getTextValueString(text, textStr);
 			}
 			catch (ClassNotFoundException e)
 			{
-				log.warn("Error loading text value class", e);
+				//log.warn("Error loading text value class", e);
 				textValue = getTextValueString(text, textStr);
 			}			
 		}
