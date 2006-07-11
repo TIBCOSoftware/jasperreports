@@ -414,9 +414,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		mainDataset.checkVariableCalculationReqs(factory);
 
 		/*   */
-		scriptlet = mainDataset.initScriptlet();
-
-		/*   */
 		mainDataset.setCalculator(calculator);
 		mainDataset.initCalculator();
 
@@ -880,6 +877,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
+		
+		this.scriptlet = mainDataset.scriptlet;
 		
 		if (!isSubreport())
 		{
@@ -1362,7 +1361,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				JRFillDataset fillDataset = factory.getDataset(datasets[i]);
 				fillDataset.createCalculator(jasperReport);
-				fillDataset.initScriptlet();
 
 				datasetMap.put(datasets[i].getName(), fillDataset);
 			}

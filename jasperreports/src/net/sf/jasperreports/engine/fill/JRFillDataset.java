@@ -429,22 +429,6 @@ public class JRFillDataset implements JRDataset
 	
 	
 	/**
-	 * Creates and initializes the scriptlet.
-	 * 
-	 * @return the scriptlet
-	 * @throws JRException
-	 */
-	protected JRAbstractScriptlet initScriptlet() throws JRException
-	{
-		scriptlet = createScriptlet();
-
-		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
-		
-		return scriptlet;
-	}
-	
-	
-	/**
 	 * Creates the scriptlet.
 	 * 
 	 * @return the scriptlet
@@ -596,6 +580,13 @@ public class JRFillDataset implements JRDataset
 			timeZone = TimeZone.getDefault();
 			parameterValues.put(JRParameter.REPORT_TIME_ZONE, timeZone);
 		}
+		
+		scriptlet = (JRAbstractScriptlet) parameterValues.get(JRParameter.REPORT_SCRIPTLET);
+		if (scriptlet == null)
+		{
+			scriptlet = createScriptlet();
+		}
+		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
 		
 		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		
