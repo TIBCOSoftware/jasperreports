@@ -21,6 +21,9 @@
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib" includes="**/jxl*.jar" />
 		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib" includes="**/png-encoder*.jar" />
+		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
 		</copy>
