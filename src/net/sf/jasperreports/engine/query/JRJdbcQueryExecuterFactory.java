@@ -46,8 +46,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 {	
 	/**
-	 * Property specifying whether field descriptions should be used to determine the mapping between the fields
-	 * and the query return values.
+	 * Property specifying the ResultSet fetch size.
 	 */
 	public static final String PROPERTY_JDBC_FETCH_SIZE = JRProperties.PROPERTY_PREFIX + "jdbc.fetch.size";
 
