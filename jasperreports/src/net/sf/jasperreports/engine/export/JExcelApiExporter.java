@@ -143,7 +143,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void setBackground()
 	{
-		this.backgroundMode = Pattern.SOLID;
+		if (isWhitePageBackground)
+		{
+			this.backgroundMode = Pattern.SOLID;
+		}
+		else
+		{
+			this.backgroundMode = Pattern.NONE;
+		}
 	}
 
 	protected void openWorkbook(OutputStream os) throws JRException
