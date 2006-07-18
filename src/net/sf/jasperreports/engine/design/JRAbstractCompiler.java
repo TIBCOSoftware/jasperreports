@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * Base class for report compilers.
@@ -97,7 +98,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			className = report.getName() + "_" + dataset.getName();
 		}
 		
-		className += nameSuffix;
+		className = JRStringUtil.getLiteral(className) + nameSuffix;
 		
 		return className;
 	}
@@ -128,7 +129,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	protected static String getUnitName(JRReport report, int crosstabId, String nameSuffix)
 	{
-		return report.getName() + "_CROSSTAB" + crosstabId + nameSuffix;
+		return JRStringUtil.getLiteral(report.getName()) + "_CROSSTAB" + crosstabId + nameSuffix;
 	}
 	
 	public final JasperReport compileReport(JasperDesign jasperDesign) throws JRException
