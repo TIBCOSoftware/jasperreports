@@ -27,8 +27,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.awt.Color;
-
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.ObjectCreationFactory;
 
