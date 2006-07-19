@@ -255,7 +255,7 @@ class JRFloatDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 		DistinctCountHolder holder = 
 			(DistinctCountHolder)valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		
-		return new Integer((int)holder.getCount());
+		return new Float(holder.getCount());
 	}
 	
 	public Object initialValue()
