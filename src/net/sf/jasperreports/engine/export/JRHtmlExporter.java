@@ -274,9 +274,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				emptyCellStringProvider =
 					new StringProvider()
 					{
-						public String getStringForCollapsedTD(Object value)
+						public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit)
 						{
-							return "><img alt=\"\" src=\"" + value + "px\"";
+							return "><img alt=\"\" src=\"" + value + "px\" style=\"width: " + width + sizeUnit + "; height: " + height + sizeUnit + ";\"/>";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
@@ -291,9 +291,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				emptyCellStringProvider =
 					new StringProvider()
 					{
-						public String getStringForCollapsedTD(Object value)
+						public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit)
 						{
-							return "";
+							return ">";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
@@ -685,7 +685,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		for(int i = 1; i < xCuts.size(); i++)
 		{
 			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + width + sizeUnit + "; height: 1" + sizeUnit + "\"/></td>\n");
+			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
 		}
 		writer.write("</tr>\n");
 
@@ -803,7 +803,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" colspan=\"" + emptyCellColSpan + "\"");
 		}
-		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI) + " style=\"width: " + emptyCellWidth + sizeUnit + "; height: " + rowHeight + sizeUnit + "\"/></td>\n");
+		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, emptyCellWidth, rowHeight, sizeUnit) + "</td>\n");
 	}
 
 
@@ -1643,7 +1643,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		/**
 		 *
 		 */
-		public String getStringForCollapsedTD(Object value);
+		public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit);
 
 		/**
 		 *
