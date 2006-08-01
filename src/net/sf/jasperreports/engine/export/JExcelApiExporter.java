@@ -426,7 +426,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public void handle(NumberTextValue textValue) throws JRException
 		{
-			baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+			if (textValue.getPattern() != null)
+			{
+				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+			}
+
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
 			if (textValue.getValue() == null)
 			{

@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.text.DateFormat;
@@ -591,7 +593,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		TextValue textValue;
 		String pattern = text.getPattern();
-		if (pattern == null)
+		if (pattern == null || pattern.trim().length() == 0)
 		{
 			textValue = getTextValueString(text, textStr);
 		}
@@ -609,13 +611,29 @@ public abstract class JRAbstractExporter implements JRExporter
 		return textValue;
 	}
 
-	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException
+	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException, ClassNotFoundException
 	{
 		TextValue textValue;
 		String pattern = text.getPattern();
-		if (pattern == null)
+		if (pattern == null || pattern.trim().length() == 0)
 		{
-			textValue = getTextValueString(text, textStr);
+			if (textStr != null && textStr.length() > 0)
+			{
+				Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForName(text.getValueClassName()));
+
+				if (value != null)
+				{
+					textValue = new NumberTextValue(textStr, value, null);
+				}
+				else
+				{
+					textValue = getTextValueString(text, textStr);
+				}
+			}
+			else
+			{
+				textValue = new NumberTextValue(textStr, null, null);
+			}
 		}
 		else
 		{
@@ -629,6 +647,52 @@ public abstract class JRAbstractExporter implements JRExporter
 			textValue = new NumberTextValue(textStr, value, pattern);
 		}
 		return textValue;
+	}
+
+
+	protected Number defaultParseNumber(String textStr, Class valueClass)
+	{
+		Number value = null;
+		try
+		{
+			if (valueClass.equals(Byte.class))
+			{
+				value = Byte.valueOf(textStr);
+			}
+			else if (valueClass.equals(Short.class))
+			{
+				value = Short.valueOf(textStr);
+			}
+			else if (valueClass.equals(Integer.class))
+			{
+				value = Integer.valueOf(textStr);
+			}
+			else if (valueClass.equals(Long.class))
+			{
+				value = Long.valueOf(textStr);
+			}
+			else if (valueClass.equals(Float.class))
+			{
+				value = Float.valueOf(textStr);
+			}
+			else if (valueClass.equals(Double.class))
+			{
+				value = Double.valueOf(textStr);
+			}
+			else if (valueClass.equals(BigInteger.class))
+			{
+				value = new BigInteger(textStr);
+			}
+			else if (valueClass.equals(BigDecimal.class))
+			{
+				value = new BigDecimal(textStr);
+			}
+		}
+		catch (NumberFormatException e)
+		{
+			//skip
+		}
+		return value;
 	}
 	
 }
