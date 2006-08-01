@@ -332,7 +332,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				public void handle(NumberTextValue textValue) throws JRException
 				{
-					baseStyle.setDataFormat(getDataFormat(textValue.getPattern()));
+					if (textValue.getPattern() != null)
+					{
+						baseStyle.setDataFormat(getDataFormat(textValue.getPattern()));
+					}
+
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getValue() == null)
 					{
