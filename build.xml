@@ -189,18 +189,15 @@
 		<delete dir="./dist"/>
 	</target>
 
-	<target name="docs" depends="compile" description="Compiles the library API documentation.">
-		<mkdir dir="./docs/api"/> 
-		<delete dir="./docs/api/net"/>
+	<target name="javadoc" depends="compile" description="Compiles the library API documentation.">
+		<mkdir dir="./dist/javadoc"/> 
+		<delete dir="./dist/javadoc/net"/>
 		<delete>
-			<fileset dir="./docs/api" includes="**/*.*" />
+			<fileset dir="./dist/javadoc" includes="**/*.*" />
 		</delete>
-		<copy todir="./docs/dtds">
-			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
-		</copy>
 		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
-				destdir="./docs/api"
+				destdir="./dist/javadoc"
 				author="true"
 				version="true"
 				use="true"
@@ -215,6 +212,25 @@
 				<pathelement location="./build/classes"/>
 			</classpath>
 		</javadoc>
+	</target>
+
+	<target name="quickref" description="Generates the Quick Reference.">
+		<mkdir dir="./dist"/> 
+		<style basedir="docs" includes="*.xml" destdir="dist" extension="-${version}.html" style="docs/quick.reference.xsl">
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</style>
+	</target>
+
+	<target name="docs" depends="javadoc, quickref" description="Generates all documentation.">
+		<mkdir dir="./dist/dtds"/> 
+		<copy todir="./dist/dtds">
+			<fileset dir="./src/net/sf/jasperreports/engine/dtds"/>
+		</copy>
 	</target>
 
 </project>
