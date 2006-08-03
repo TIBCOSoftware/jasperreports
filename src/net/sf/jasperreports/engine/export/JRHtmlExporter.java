@@ -293,7 +293,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						public String getStringForCollapsedTD(Object value, int width, int height, String sizeUnit)
 						{
-							return ">";
+							return " style=\"width: " + width + sizeUnit + "; height: " + height + sizeUnit + ";\">";
 						}
 						public String getStringForEmptyTD(Object value)
 						{
