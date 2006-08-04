@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -965,6 +966,15 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(" text-decoration: line-through;");
 		}
 
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			writer.write(" vertical-align: super;");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			writer.write(" vertical-align: sub;");
+		}
+
 		writer.write("\">");
 
 		writer.write(
@@ -1073,6 +1083,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			styleBuffer.append("width: " + gridCell.width + sizeUnit + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
+		}
+		
+		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+		{
+			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
 		}
 
 		if (styleBuffer.length() > 0)

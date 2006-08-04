@@ -69,6 +69,8 @@ public class JRStyledTextParser
 	private static final String NODE_bold = "b";
 	private static final String NODE_italic = "i";
 	private static final String NODE_underline = "u";
+	private static final String NODE_sup = "sup";
+	private static final String NODE_sub = "sub";
 	private static final String NODE_font = "font";
 	private static final String NODE_br = "br";
 	private static final String NODE_li = "li";
@@ -165,20 +167,55 @@ public class JRStyledTextParser
 				sbuffer.append(NODE_style);
 				sbuffer.append(styleBuffer.toString());
 				sbuffer.append(GREATER);
-				sbuffer.append(chunk);
+				writeChunk(sbuffer, parentAttrs, attrs, chunk);
 				sbuffer.append(LESS_SLASH);
 				sbuffer.append(NODE_style);
 				sbuffer.append(GREATER);
 			}
 			else
 			{
-				sbuffer.append(chunk);
+				writeChunk(sbuffer, parentAttrs, attrs, chunk);
 			}
 
 			iterator.setIndex(runLimit);
 		}
 		
 		return sbuffer.toString();
+	}
+
+	/**
+	 *
+	 */
+	public void writeChunk(StringBuffer sbuffer, Map parentAttrs, Map attrs, String chunk)
+	{
+		Object value = attrs.get(TextAttribute.SUPERSCRIPT);
+		Object oldValue = parentAttrs.get(TextAttribute.SUPERSCRIPT);
+
+		boolean isSuper = false;
+		boolean isSub = false;
+		
+		if (value != null && !value.equals(oldValue))
+		{
+			isSuper=TextAttribute.SUPERSCRIPT_SUPER.equals(value);
+			isSub=TextAttribute.SUPERSCRIPT_SUB.equals(value);
+		}
+
+
+		if (isSuper || isSub)
+		{
+			String node = isSuper?NODE_sup:NODE_sub;
+			sbuffer.append(LESS);
+			sbuffer.append(node);
+			sbuffer.append(GREATER);
+			sbuffer.append(chunk);
+			sbuffer.append(LESS_SLASH);
+			sbuffer.append(node);
+			sbuffer.append(GREATER);
+		}
+		else
+		{
+			sbuffer.append(chunk);
+		}
 	}
 
 	/**
@@ -337,6 +374,28 @@ public class JRStyledTextParser
 			{
 				Map styleAttrs = new HashMap();
 				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sup.equalsIgnoreCase(node.getNodeName()))
+			{
+				Map styleAttrs = new HashMap();
+				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sub.equalsIgnoreCase(node.getNodeName()))
+			{
+				Map styleAttrs = new HashMap();
+				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
 
 				int startIndex = styledText.length();
 
