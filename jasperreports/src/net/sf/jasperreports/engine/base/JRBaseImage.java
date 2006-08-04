@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -39,6 +40,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -68,8 +71,10 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected boolean isLazy = false;
 	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private JRHyperlinkParameter[] hyperlinkParameters;
 
 	/**
 	 *
@@ -139,8 +144,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		isLazy = image.isLazy();
 		onErrorType = image.getOnErrorType();
 		evaluationTime = image.getEvaluationTime();
-		hyperlinkType = image.getHyperlinkType();
+		linkType = image.getLinkType();
 		hyperlinkTarget = image.getHyperlinkTarget();
+		copyHyperlinkParameters(image, factory);
 
 //		box = image.getBox();
 
@@ -168,7 +174,22 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		hyperlinkPageExpression = factory.getExpression(image.getHyperlinkPageExpression());
 		bookmarkLevel = image.getBookmarkLevel();
 	}
-		
+
+
+	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
+	{
+		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
+		if (parameters != null && parameters.length > 0)
+		{
+			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRHyperlinkParameter parameter = parameters[i];
+				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
+			}
+		}
+	}
+
 
 	/**
 	 *
@@ -366,7 +387,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkType()
 	{
-		return hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	/**
@@ -885,6 +906,35 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+
+
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
 }

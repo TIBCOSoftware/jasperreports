@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
@@ -37,6 +39,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -62,7 +65,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Byte verticalAlignment = null;
 	protected boolean isLazy = false;
 	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	//private JRBox box = null;
 
@@ -143,7 +147,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setVerticalAlignment(image.getVerticalAlignment());
 		setLazy(image.isLazy());
 		setOnErrorType(image.getOnErrorType());
-		setHyperlinkType(image.getHyperlinkType());
+		setLinkType(image.getLinkType());
 		setHyperlinkTarget(image.getHyperlinkTarget());
 	}
 
@@ -159,7 +163,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		
 		setBox(chart);
 
-		setHyperlinkType(chart.getHyperlinkType());
+		setLinkType(chart.getLinkType());
 		setHyperlinkTarget(chart.getHyperlinkTarget());
 	}
 
@@ -314,21 +318,34 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	{
 		return this;
 	}
-		
+
+	
 	/**
-	 *
+	 * Retrieves the hyperlink type for the element.
+	 * <p>
+	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
+	 * This method can is used to determine whether the hyperlink type is one of the
+	 * built-in types or a custom type. 
+	 * When hyperlink is of custom type, {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * </p>
+	 * @return one of the hyperlink type constants
+	 * @see #getLinkType()
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
-		
+
+	
 	/**
-	 *
+	 * Sets the link type as a built-in hyperlink type.
+	 * 
+	 * @param hyperlinkType the built-in hyperlink type
+	 * @see #getLinkType()
 	 */
 	protected void setHyperlinkType(byte hyperlinkType)
 	{
-		this.hyperlinkType = hyperlinkType;
+		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 		
 	/**
@@ -776,6 +793,53 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+
+	
+	/**
+	 * Returns the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	/**
+	 * Sets the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @param linkType the hyperlink type
+	 */
+	public void setLinkType(String linkType)
+	{
+		this.linkType = linkType;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
 }

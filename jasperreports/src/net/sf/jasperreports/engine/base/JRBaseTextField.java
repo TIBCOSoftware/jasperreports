@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -37,6 +38,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -64,8 +67,10 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
 	protected String pattern;
 	protected Boolean isBlankWhenNull = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private JRHyperlinkParameter[] hyperlinkParameters;
 
 	/**
 	 *
@@ -94,8 +99,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		evaluationTime = textField.getEvaluationTime();
 		pattern = textField.getOwnPattern();
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
-		hyperlinkType = textField.getHyperlinkType();
+		linkType = textField.getLinkType();
 		hyperlinkTarget = textField.getHyperlinkTarget();
+		copyHyperlinkParameters(textField, factory);
 
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 		expression = factory.getExpression(textField.getExpression());
@@ -104,6 +110,21 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
 		bookmarkLevel = textField.getBookmarkLevel();
+	}
+
+
+	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
+	{
+		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
+		if (parameters != null && parameters.length > 0)
+		{
+			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRHyperlinkParameter parameter = parameters[i];
+				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
+			}
+		}
 	}
 		
 
@@ -189,7 +210,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	public byte getHyperlinkType()
 	{
-		return this.hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	/**
@@ -277,4 +298,34 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	{
 		return bookmarkLevel;
 	}
+
+
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+	
 }

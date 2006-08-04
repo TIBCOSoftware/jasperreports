@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -61,6 +62,8 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -89,8 +92,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	protected boolean isShowLegend = false;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private JRHyperlinkParameter[] hyperlinkParameters;
+	
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
 	protected Color titleColor = Color.black;
 	protected Color subtitleColor = Color.black;
@@ -236,7 +242,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 
 		isShowLegend = chart.isShowLegend();
 		evaluationTime = chart.getEvaluationTime();
-		hyperlinkType = chart.getHyperlinkType();
+		linkType = chart.getLinkType();
 		hyperlinkTarget = chart.getHyperlinkTarget();
 		titlePosition = chart.getTitlePosition();
 		titleColor = chart.getTitleColor();
@@ -253,6 +259,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
+		copyHyperlinkParameters(chart, factory);
 
 		customizerClass = chart.getCustomizerClass();
 
@@ -272,6 +279,21 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		bottomPadding = chart.getOwnBottomPadding();
 		rightPadding = chart.getOwnRightPadding();
 
+	}
+
+
+	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
+	{
+		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
+		if (parameters != null && parameters.length > 0)
+		{
+			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRHyperlinkParameter parameter = parameters[i];
+				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
+			}
+		}
 	}
 		
 
@@ -384,7 +406,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public byte getHyperlinkType()
 	{
-		return hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	/**
@@ -934,6 +956,35 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+
+
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();		
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
 }

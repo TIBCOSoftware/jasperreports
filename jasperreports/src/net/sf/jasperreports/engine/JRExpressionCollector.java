@@ -497,6 +497,24 @@ public class JRExpressionCollector
 		addExpression(hyperlink.getHyperlinkReferenceExpression());
 		addExpression(hyperlink.getHyperlinkAnchorExpression());
 		addExpression(hyperlink.getHyperlinkPageExpression());
+		
+		JRHyperlinkParameter[] hyperlinkParameters = hyperlink.getHyperlinkParameters();
+		if (hyperlinkParameters != null)
+		{
+			for (int i = 0; i < hyperlinkParameters.length; i++)
+			{
+				JRHyperlinkParameter parameter = hyperlinkParameters[i];
+				collectHyperlinkParameter(parameter);
+			}
+		}
+	}
+
+	protected void collectHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		if (parameter != null)
+		{
+			addExpression(parameter.getValueExpression());
+		}
 	}
 
 	/**

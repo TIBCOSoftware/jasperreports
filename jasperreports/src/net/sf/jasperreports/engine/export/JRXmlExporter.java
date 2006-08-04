@@ -63,6 +63,9 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -74,7 +77,10 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterFactory;
+import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterValueFactory;
 import net.sf.jasperreports.engine.xml.JRPrintTextFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JasperPrintFactory;
@@ -643,7 +649,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("vAlign", image.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
 		xmlWriter.addAttribute("isLazy", image.isLazy(), false);
 		xmlWriter.addAttribute("onErrorType", image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
-		xmlWriter.addAttribute("hyperlinkType", image.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		xmlWriter.addAttribute("hyperlinkType", image.getLinkType());
 		xmlWriter.addAttribute("hyperlinkTarget", image.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
 		xmlWriter.addAttribute("anchorName", image.getAnchorName());
 		xmlWriter.addAttribute("hyperlinkReference", image.getHyperlinkReference());
@@ -719,6 +725,8 @@ public class JRXmlExporter extends JRAbstractExporter
 			xmlWriter.closeElement();
 		}
 		
+		exportHyperlinkParameters(image);
+		
 		xmlWriter.closeElement();
 	}
 
@@ -739,7 +747,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("isStyledText", text.isOwnStyledText());
 		xmlWriter.addAttribute("lineSpacingFactor", text.getLineSpacingFactor());
 		xmlWriter.addAttribute("leadingOffset", text.getLeadingOffset());
-		xmlWriter.addAttribute("hyperlinkType", text.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		xmlWriter.addAttribute("hyperlinkType", text.getLinkType());
 		xmlWriter.addAttribute("hyperlinkTarget", text.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
 		xmlWriter.addAttribute("anchorName", text.getAnchorName());
 		xmlWriter.addAttribute("hyperlinkReference", text.getHyperlinkReference());
@@ -760,6 +768,8 @@ public class JRXmlExporter extends JRAbstractExporter
 		{
 			xmlWriter.writeCDATAElement("textContent", text.getText());
 		}
+		
+		exportHyperlinkParameters(text);
 
 		xmlWriter.closeElement();
 	}
@@ -869,5 +879,35 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	private static synchronized int getNextImageId(){
 		return imageId++;
+	}
+
+
+	protected void exportHyperlinkParameters(JRPrintHyperlink hyperlink) throws IOException
+	{
+		JRPrintHyperlinkParameters hyperlinkParameters = hyperlink.getHyperlinkParameters();
+		if (hyperlinkParameters != null)
+		{
+			for (Iterator it = hyperlinkParameters.getParameters().iterator(); it.hasNext();)
+			{
+				JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter) it.next();
+				exportHyperlinkParameter(parameter);
+			}
+		}
+	}
+
+
+	protected void exportHyperlinkParameter(JRPrintHyperlinkParameter parameter) throws IOException
+	{
+		xmlWriter.startElement(JRPrintHyperlinkParameterFactory.TAG_HYPERLINK_PARAMETER);
+		xmlWriter.addAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
+		xmlWriter.addAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_class, parameter.getValueClass(), "java.lang.String");
+		
+		if (parameter.getValue() != null)
+		{
+			String data = JRValueStringUtils.serialize(parameter.getValueClass(), parameter.getValue());
+			xmlWriter.writeCDATAElement(JRPrintHyperlinkParameterValueFactory.TAG_HYPERLINK_PARAMETER_VALUE, data);
+		}
+		
+		xmlWriter.closeElement();
 	}
 }

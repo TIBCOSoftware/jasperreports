@@ -129,10 +129,10 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setLeadingOffset(Float.parseFloat(leadingOffset));
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
+		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
-			text.setHyperlinkType(hyperlinkType.byteValue());
+			text.setLinkType(hyperlinkType);
 		}
 
 		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));

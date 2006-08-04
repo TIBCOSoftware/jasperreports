@@ -97,10 +97,10 @@ public class JRPrintImageFactory extends JRBaseFactory
 			image.setOnErrorType(onErrorType.byteValue());
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
+		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
-			image.setHyperlinkType(hyperlinkType.byteValue());
+			image.setLinkType(hyperlinkType);
 		}
 
 		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));

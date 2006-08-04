@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
@@ -1086,9 +1087,32 @@ public class JRVerifier
 					brokenRules.add("Class " + clazz + " not supported for hyperlink page expression. Use java.lang.Integer instead.");
 				}
 			}
+			
+			JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
+			if (parameters != null)
+			{
+				for (int i = 0; i < parameters.length; i++)
+				{
+					JRHyperlinkParameter parameter = parameters[i];
+					verifyHyperlinkParameter(parameter);
+				}
+			}
 		}
 	}
 		
+
+	protected void verifyHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		if (parameter != null)
+		{
+			String name = parameter.getName();
+			if (name == null || name.length() == 0)
+			{
+				brokenRules.add("Hyperlink parameter name missing.");
+			}
+		}
+	}
+
 
 	/**
 	 *

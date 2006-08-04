@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -173,6 +174,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	
 	private SplitCharacter splitCharacter;
 	
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+
 	/**
 	 *
 	 */
@@ -260,7 +263,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 			
 			setSplitCharacter();
-	
+			setHyperlinkProducerFactory();
+			
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
 			{
@@ -331,6 +335,12 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			splitCharacter = new BreakIteratorSplitCharacter();
 		}
+	}
+
+
+	protected void setHyperlinkProducerFactory()
+	{
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRPdfExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
@@ -1110,67 +1120,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 
 			setAnchor(chunk, printImage, printImage);
-
-			switch(printImage.getHyperlinkType())
-			{
-				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
-				{
-					if (printImage.getHyperlinkReference() != null)
-					{
-						chunk.setAnchor(printImage.getHyperlinkReference());
-					}
-					break;
-				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-				{
-					if (printImage.getHyperlinkAnchor() != null)
-					{
-						chunk.setLocalGoto(printImage.getHyperlinkAnchor());
-					}
-					break;
-				}
-				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-				{
-					if (printImage.getHyperlinkPage() != null)
-					{
-						chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + printImage.getHyperlinkPage().toString());
-					}
-					break;
-				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-				{
-					if (
-						printImage.getHyperlinkReference() != null &&
-						printImage.getHyperlinkAnchor() != null
-						)
-					{
-						chunk.setRemoteGoto(
-							printImage.getHyperlinkReference(),
-							printImage.getHyperlinkAnchor()
-							);
-					}
-					break;
-				}
-				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-				{
-					if (
-						printImage.getHyperlinkReference() != null &&
-						printImage.getHyperlinkPage() != null
-						)
-					{
-						chunk.setRemoteGoto(
-							printImage.getHyperlinkReference(),
-							printImage.getHyperlinkPage().intValue()
-							);
-					}
-					break;
-				}
-				case JRHyperlink.HYPERLINK_TYPE_NONE :
-				default :
-				{
-					break;
-				}
-			}
+			setHyperlinkInfo(chunk, printImage);
 
 			ColumnText colText = new ColumnText(pdfContentByte);
 			int upperY = jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset;
@@ -1267,46 +1217,44 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	protected void setHyperlinkInfo(Chunk chunk, JRPrintText text)
+	protected void setHyperlinkInfo(Chunk chunk, JRPrintHyperlink link)
 	{
-		setAnchor(chunk, text, text);
-
-		switch(text.getHyperlinkType())
+		switch(link.getHyperlinkType())
 		{
 			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
 			{
-				if (text.getHyperlinkReference() != null)
+				if (link.getHyperlinkReference() != null)
 				{
-					chunk.setAnchor(text.getHyperlinkReference());
+					chunk.setAnchor(link.getHyperlinkReference());
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
 			{
-				if (text.getHyperlinkAnchor() != null)
+				if (link.getHyperlinkAnchor() != null)
 				{
-					chunk.setLocalGoto(text.getHyperlinkAnchor());
+					chunk.setLocalGoto(link.getHyperlinkAnchor());
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
 			{
-				if (text.getHyperlinkPage() != null)
+				if (link.getHyperlinkPage() != null)
 				{
-					chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + text.getHyperlinkPage().toString());
+					chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString());
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
 			{
 				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkAnchor() != null
+					link.getHyperlinkReference() != null &&
+					link.getHyperlinkAnchor() != null
 					)
 				{
 					chunk.setRemoteGoto(
-						text.getHyperlinkReference(),
-						text.getHyperlinkAnchor()
+						link.getHyperlinkReference(),
+						link.getHyperlinkAnchor()
 						);
 				}
 				break;
@@ -1314,16 +1262,27 @@ public class JRPdfExporter extends JRAbstractExporter
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
 			{
 				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkPage() != null
+					link.getHyperlinkReference() != null &&
+					link.getHyperlinkPage() != null
 					)
 				{
 					chunk.setRemoteGoto(
-						text.getHyperlinkReference(),
-						text.getHyperlinkPage().intValue()
+						link.getHyperlinkReference(),
+						link.getHyperlinkPage().intValue()
 						);
 				}
 				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_CUSTOM :
+			{
+				if (hyperlinkProducerFactory != null)
+				{
+					String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
+					if (hyperlink != null)
+					{
+						chunk.setAnchor(hyperlink);
+					}					
+				}
 			}
 			case JRHyperlink.HYPERLINK_TYPE_NONE :
 			default :
@@ -1350,6 +1309,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), leadingOffset);
+			setAnchor(chunk, textElement, textElement);
 			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
 

@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
@@ -36,7 +38,10 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -66,11 +71,13 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	//protected JRBox box = null;
 	protected String anchorName = null;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
 	protected Integer hyperlinkPage = null;
+	protected JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -318,7 +325,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public byte getHyperlinkType()
 	{
-		return hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 		
 	/**
@@ -326,7 +333,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{
-		this.hyperlinkType = hyperlinkType;
+		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
 	/**
@@ -845,5 +852,62 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.rightPadding = rightPadding;
 	}
 
+	
+	public JRPrintHyperlinkParameters getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+
+	
+	public void setHyperlinkParameters(JRPrintHyperlinkParameters hyperlinkParameters)
+	{
+		this.hyperlinkParameters = hyperlinkParameters;
+	}
+
+	
+	/**
+	 * Adds a custom hyperlink parameter.
+	 * 
+	 * @param parameter the parameter to add
+	 * @see #getHyperlinkParameters()
+	 * @see JRPrintHyperlinkParameters#addParameter(JRPrintHyperlinkParameter)
+	 */
+	public void addHyperlinkParameter(JRPrintHyperlinkParameter parameter)
+	{
+		if (hyperlinkParameters == null)
+		{
+			hyperlinkParameters = new JRPrintHyperlinkParameters();
+		}
+		hyperlinkParameters.addParameter(parameter);
+	}
+
+	
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+	
+	public void setLinkType(String linkType)
+	{
+		this.linkType = linkType;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
 
 }

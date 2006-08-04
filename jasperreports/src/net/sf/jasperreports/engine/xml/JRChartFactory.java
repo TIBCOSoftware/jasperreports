@@ -85,10 +85,10 @@ public class JRChartFactory extends JRBaseFactory
 			}
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
+		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
-			chart.setHyperlinkType(hyperlinkType.byteValue());
+			chart.setLinkType(hyperlinkType);
 		}
 
 		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));

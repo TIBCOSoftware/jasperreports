@@ -92,14 +92,14 @@
 	radius NMTOKEN #IMPLIED
 >
 <!ELEMENT ellipse (reportElement?, graphicElement?)>
-<!ELEMENT image (reportElement?, box?, graphicElement?, imageSource?)>
+<!ELEMENT image (reportElement?, box?, graphicElement?, imageSource?, hyperlinkParameter*)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
 	hAlign (Left | Center | Right) #IMPLIED
 	vAlign (Top | Middle | Bottom) #IMPLIED
 	isLazy (true | false) "false"
 	onErrorType (Error | Blank | Icon) "Error"
-	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
@@ -129,7 +129,7 @@
 <!ATTLIST imageSource
 	isEmbedded (true | false) "false"
 >
-<!ELEMENT text (reportElement?, box?, font?, textContent?)>
+<!ELEMENT text (reportElement?, box?, font?, textContent?, hyperlinkParameter*)>
 <!ATTLIST text
 	textAlignment (Left | Center | Right | Justified) #IMPLIED
 	verticalAlignment (Top | Middle | Bottom) #IMPLIED
@@ -140,7 +140,7 @@
 	isStyledText (true | false) #IMPLIED
 	lineSpacingFactor NMTOKEN "0"
 	leadingOffset NMTOKEN "0"
-	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	anchorName CDATA #IMPLIED
 	hyperlinkReference CDATA #IMPLIED
@@ -167,3 +167,10 @@
 >
 <!ELEMENT textContent (#PCDATA)>
 <!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame)*)>
+
+<!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>
+<!ATTLIST hyperlinkParameter
+	name NMTOKEN #REQUIRED
+	class NMTOKEN "java.lang.String"
+>
+<!ELEMENT hyperlinkParameterValue (#PCDATA)>

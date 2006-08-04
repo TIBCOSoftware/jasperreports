@@ -73,7 +73,9 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -149,6 +151,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	protected String customizerClass;
 	protected JRChartCustomizer chartCustomizer;
@@ -621,6 +624,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
+		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 
 
@@ -761,6 +765,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setBookmarkLevel(getBookmarkLevel());
+		printImage.setHyperlinkParameters(hyperlinkParameters);
 	}
 
 	public byte getChartType()
@@ -1773,5 +1778,17 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		//not needed
 		return null;
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return ((JRChart) parent).getHyperlinkParameters();
+	}
+
+
+	public String getLinkType()
+	{
+		return ((JRChart) parent).getLinkType();
 	}
 }

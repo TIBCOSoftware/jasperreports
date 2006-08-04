@@ -284,12 +284,20 @@ public class JRXmlWriteHelper
 	{
 		buffer = new StringBuffer();
 	}
+	
 
 	public void writeExpression(String name, JRExpression expression, boolean writeClass) throws IOException
 	{
+		writeExpression(name, expression, writeClass, null);
+	}
+
+
+	public void writeExpression(String name, JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
+	{
 		if (expression != null)
 		{
-			if (writeClass)
+			if (writeClass &&
+					(defaultClassName == null || !defaultClassName.equals(expression.getValueClassName())))
 			{
 				writeCDATAElement(name, expression.getText(), "class", expression.getValueClassName());
 			}

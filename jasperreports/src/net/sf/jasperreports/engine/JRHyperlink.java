@@ -83,6 +83,20 @@ public interface JRHyperlink
 	 */
 	public static final byte HYPERLINK_TYPE_REMOTE_PAGE = 6;
 
+	
+	/**
+	 * Not set hyperlink type.
+	 */
+	public static final byte HYPERLINK_TYPE_NULL = 0;
+	
+	
+	/**
+	 * Custom hyperlink type.
+	 * <p>
+	 * The specific type is determined by {@link #getLinkType() getLinkType()}.
+	 * </p>
+	 */
+	public static final byte HYPERLINK_TYPE_CUSTOM = 7;
 
 
 	/**
@@ -96,10 +110,16 @@ public interface JRHyperlink
 	public static final byte HYPERLINK_TARGET_BLANK = 2;
 
 
-
 	/**
 	 * Retrieves the hyperlink type for the element.
+	 * <p>
+	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
+	 * This method can is used to determine whether the hyperlink type is one of the
+	 * built-in types or a custom type. 
+	 * When hyperlink is of custom type, {@link #HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * </p>
 	 * @return one of the hyperlink type constants
+	 * @see #getLinkType()
 	 */
 	public byte getHyperlinkType();
 
@@ -130,5 +150,27 @@ public interface JRHyperlink
 	 */
 	public JRExpression getHyperlinkPageExpression();
 
+	
+	/**
+	 * Returns the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkType();
+	
+	
+	/**
+	 * Returns the list of hyperlink parameters.
+	 * <p>
+	 * The parameters can be used by custom hyperlink types to generate
+	 * dynamic links.
+	 * </p>
+	 * @return the list of hyperlink parameters
+	 */
+	public JRHyperlinkParameter[] getHyperlinkParameters();
 
 }

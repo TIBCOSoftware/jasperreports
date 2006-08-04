@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -652,6 +653,10 @@ public class JRXmlConstants
 
 	private static Map hyperlinkTypeMap = null;
 
+	
+	/**
+	 * @deprecated {@link JRHyperlinkHelper JRHyperlinkHelper} should be used instead.
+	 */
 	public static Map getHyperlinkTypeMap()
 	{
 		if (hyperlinkTypeMap == null)
