@@ -29,6 +29,10 @@ package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -40,6 +44,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -69,8 +75,10 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected boolean isLazy = false;
 	protected byte onErrorType = ON_ERROR_TYPE_ERROR;
 	protected byte evaluationTime = JRExpression.EVALUATION_TIME_NOW;
-	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
+	private List hyperlinkParameters;
 
 	/**
 	 *
@@ -120,6 +128,8 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public JRDesignImage(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
+		
+		hyperlinkParameters = new ArrayList();
 	}
 		
 
@@ -272,7 +282,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 */
 	public byte getHyperlinkType()
 	{
-		return hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	/**
@@ -410,13 +420,17 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		bottomPadding = box.getOwnBottomPadding();
 		rightPadding = box.getOwnRightPadding();
 	}
-		
+
+	
 	/**
-	 *
+	 * Sets the link type as a built-in hyperlink type.
+	 * 
+	 * @param hyperlinkType the built-in hyperlink type
+	 * @see #getLinkType()
 	 */
 	public void setHyperlinkType(byte hyperlinkType)
 	{
-		this.hyperlinkType = hyperlinkType;
+		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 		
 	/**
@@ -947,6 +961,115 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public void setRightPadding(Integer rightPadding)
 	{
 		this.rightPadding = rightPadding;
+	}
+
+
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	/**
+	 * Sets the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @param type the hyperlink type
+	 */
+	public void setLinkType(String type)
+	{
+		this.linkType = type;
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		JRHyperlinkParameter[] parameters;
+		if (hyperlinkParameters.isEmpty())
+		{
+			parameters = null;
+		}
+		else
+		{
+			parameters = new JRHyperlinkParameter[hyperlinkParameters.size()];
+			hyperlinkParameters.toArray(parameters);
+		}
+		return parameters;
+	}
+	
+	
+	/**
+	 * Returns the list of custom hyperlink parameters.
+	 * 
+	 * @return the list of custom hyperlink parameters
+	 */
+	public List getHyperlinkParametersList()
+	{
+		return hyperlinkParameters;
+	}
+	
+	
+	/**
+	 * Adds a custom hyperlink parameter.
+	 * 
+	 * @param parameter the parameter to add
+	 */
+	public void addHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		hyperlinkParameters.add(parameter);
+	}
+	
+
+	/**
+	 * Removes a custom hyperlink parameter.
+	 * 
+	 * @param parameter the parameter to remove
+	 */
+	public void removeHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		hyperlinkParameters.remove(parameter);
+	}
+	
+	
+	/**
+	 * Removes a custom hyperlink parameter.
+	 * <p>
+	 * If multiple parameters having the specified name exist, all of them
+	 * will be removed
+	 * </p>
+	 * 
+	 * @param parameterName the parameter name
+	 */
+	public void removeHyperlinkParameter(String parameterName)
+	{
+		for (Iterator it = hyperlinkParameters.iterator(); it.hasNext();)
+		{
+			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			if (parameter.getName() != null && parameter.getName().equals(parameterName))
+			{
+				it.remove();
+			}
+		}
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
 }

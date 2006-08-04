@@ -41,9 +41,11 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
@@ -72,6 +74,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 
 	/**
@@ -493,6 +496,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);
 		this.hyperlinkPage = (Integer) evaluateExpression(this.getHyperlinkPageExpression(), evaluation);
+		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 	
 
@@ -666,6 +670,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
 		printImage.setHyperlinkPage(this.getHyperlinkPage());
 		printImage.setBookmarkLevel(this.getBookmarkLevel());
+		printImage.setHyperlinkParameters(hyperlinkParameters);
 	}
 
 
@@ -1126,6 +1131,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkAnchorExpression());
 		collectDelayedEvaluations(getHyperlinkPageExpression());	
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return ((JRImage) parent).getHyperlinkParameters();
+	}
+
+
+	public String getLinkType()
+	{
+		return ((JRImage) parent).getLinkType();
 	}
 
 }

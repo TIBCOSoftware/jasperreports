@@ -28,6 +28,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
@@ -36,6 +38,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -65,7 +68,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private Byte rotation = null;
 	private Byte lineSpacing = null;
 	private Boolean isStyledText = null;
-	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NONE;
+	private byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	private String linkType;
 	private byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 
 	/**
@@ -139,7 +143,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		setTextElement(textField);
 
-		hyperlinkType = textField.getHyperlinkType();
+		setLinkType(textField.getLinkType());
 		hyperlinkTarget = textField.getHyperlinkTarget();
 	}
 
@@ -341,13 +345,22 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	{
 		return this;
 	}
-		
+
+	
 	/**
-	 *
+	 * Retrieves the hyperlink type for the element.
+	 * <p>
+	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
+	 * This method can is used to determine whether the hyperlink type is one of the
+	 * built-in types or a custom type. 
+	 * When hyperlink is of custom type, {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * </p>
+	 * @return one of the hyperlink type constants
+	 * @see #getLinkType()
 	 */
 	public byte getHyperlinkType()
 	{
-		return hyperlinkType;
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 
 	/**
@@ -1166,6 +1179,53 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void setTimeZoneId(String timeZoneId)
 	{
 		this.timeZoneId = timeZoneId;
+	}
+
+	
+	/**
+	 * Returns the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @return the hyperlink type
+	 */
+	public String getLinkType()
+	{
+		return linkType;
+	}
+
+
+	/**
+	 * Sets the hyperlink type.
+	 * <p>
+	 * The type can be one of the built-in types
+	 * (Reference, LocalAnchor, LocalPage, RemoteAnchor, RemotePage),
+	 * or can be an arbitrary type.
+	 * </p>
+	 * @param linkType the hyperlink type
+	 */
+	public void setLinkType(String linkType)
+	{
+		this.linkType = linkType;
+	}
+	
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		normalizeLinkType();
+	}
+
+
+	protected void normalizeLinkType()
+	{
+		if (linkType == null)
+		{
+			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
+		}
+		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
 
 }

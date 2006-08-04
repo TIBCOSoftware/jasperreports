@@ -213,7 +213,7 @@
 
 <!ELEMENT ellipse (reportElement, graphicElement?)>
 
-<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
 	hAlign (Left | Center | Right) #IMPLIED
@@ -223,7 +223,7 @@
 	onErrorType (Error | Blank | Icon) "Error"
 	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
 	evaluationGroup CDATA #IMPLIED
-	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
 >
@@ -256,6 +256,17 @@
 <!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
 <!ELEMENT hyperlinkPageExpression (#PCDATA)>
 
+<!ELEMENT hyperlinkParameter (hyperlinkParameterExpression)>
+<!ATTLIST hyperlinkParameter
+	name NMTOKEN #REQUIRED
+>
+
+<!ELEMENT hyperlinkParameterExpression (#PCDATA)>
+<!ATTLIST hyperlinkParameterExpression
+	class NMTOKEN "java.lang.String"
+>
+
+
 <!ELEMENT staticText (reportElement, box?, textElement?, text?)>
 <!ELEMENT text (#PCDATA)>
 
@@ -282,14 +293,14 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 
-<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
 	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
 	evaluationGroup CDATA #IMPLIED
 	pattern CDATA #IMPLIED
 	isBlankWhenNull (true | false) #IMPLIED
-	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
 >
@@ -326,12 +337,12 @@
 
 <!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*>
 
-<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?)>
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
 <!ATTLIST chart
 	isShowLegend (true | false) "true"
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
 	evaluationGroup CDATA #IMPLIED
-	hyperlinkType (None | Reference | LocalAnchor | LocalPage | RemoteAnchor | RemotePage) "None"
+	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
 	customizerClass NMTOKEN #IMPLIED

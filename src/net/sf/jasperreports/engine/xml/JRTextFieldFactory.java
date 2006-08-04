@@ -101,10 +101,10 @@ public class JRTextFieldFactory extends JRBaseFactory
 			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
-		Byte hyperlinkType = (Byte)JRXmlConstants.getHyperlinkTypeMap().get(atts.getValue(ATTRIBUTE_hyperlinkType));
+		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
-			textField.setHyperlinkType(hyperlinkType.byteValue());
+			textField.setLinkType(hyperlinkType);
 		}
 
 		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));

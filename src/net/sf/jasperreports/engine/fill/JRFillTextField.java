@@ -37,7 +37,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
@@ -67,6 +69,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
 	 *
@@ -393,6 +396,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
+		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 
 
@@ -666,6 +670,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
 		text.setBookmarkLevel(getBookmarkLevel());
+		text.setHyperlinkParameters(hyperlinkParameters);
 	}
 	
 	
@@ -730,5 +735,17 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkAnchorExpression());
 		collectDelayedEvaluations(getHyperlinkPageExpression());	
+	}
+
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		return ((JRTextField) parent).getHyperlinkParameters();
+	}
+
+
+	public String getLinkType()
+	{
+		return ((JRTextField) parent).getLinkType();
 	}
 }

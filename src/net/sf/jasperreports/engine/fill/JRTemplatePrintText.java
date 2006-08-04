@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 
@@ -62,6 +63,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -1175,6 +1177,27 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public String getTimeZoneId()
 	{
 		return ((JRTemplateText) template).getTimeZoneId();
+	}
+
+	
+	public JRPrintHyperlinkParameters getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+
+	
+	public void setHyperlinkParameters(JRPrintHyperlinkParameters hyperlinkParameters)
+	{
+		this.hyperlinkParameters = hyperlinkParameters;
+	}
+
+	public String getLinkType()
+	{
+		return ((JRTemplateText) template).getLinkType();
+	}
+
+	public void setLinkType(String type)
+	{
 	}
 	
 }

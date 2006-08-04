@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -105,6 +106,7 @@ import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
@@ -122,7 +124,6 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
@@ -798,7 +799,7 @@ public class JRXmlWriter
 			writer.addAttribute("evaluationGroup", image.getEvaluationGroup().getName());
 		}
 
-		writer.addAttribute("hyperlinkType", image.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkType", image.getLinkType());
 		writer.addAttribute("hyperlinkTarget", image.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
 		writer.addAttribute("bookmarkLevel", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
@@ -813,6 +814,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", image.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", image.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", image.getHyperlinkPageExpression(), false);
+		writeHyperlinkParameters(image.getHyperlinkParameters());
 		
 		writer.closeElement();
 	}
@@ -945,7 +947,7 @@ public class JRXmlWriter
 		writer.addAttribute("pattern", textField.getOwnPattern());
 		writer.addAttribute("isBlankWhenNull", textField.isOwnBlankWhenNull());
 		
-		writer.addAttribute("hyperlinkType", textField.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkType", textField.getLinkType());
 		writer.addAttribute("hyperlinkTarget", textField.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
 		writer.addAttribute("bookmarkLevel", textField.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
@@ -959,6 +961,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", textField.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", textField.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", textField.getHyperlinkPageExpression(), false);
+		writeHyperlinkParameters(textField.getHyperlinkParameters());
 		
 		writer.closeElement();
 	}
@@ -1043,7 +1046,7 @@ public class JRXmlWriter
 			writer.addAttribute("evaluationGroup", chart.getEvaluationGroup().getName());
 		}
 		
-		writer.addAttribute("hyperlinkType", chart.getHyperlinkType(), JRXmlConstants.getHyperlinkTypeMap(), JRHyperlink.HYPERLINK_TYPE_NONE);
+		writer.addAttribute("hyperlinkType", chart.getLinkType());
 		writer.addAttribute("hyperlinkTarget", chart.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
 		writer.addAttribute("bookmarkLevel", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		writer.addAttribute("customizerClass", chart.getCustomizerClass());
@@ -1076,6 +1079,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", chart.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", chart.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", chart.getHyperlinkPageExpression(), false);
+		writeHyperlinkParameters(chart.getHyperlinkParameters());
 
 		writer.closeElement();
 	}
@@ -2142,5 +2146,33 @@ public class JRXmlWriter
 		}
 		
 		writer.closeElement();
+	}
+
+
+	protected void writeHyperlinkParameters(JRHyperlinkParameter[] parameters) throws IOException
+	{
+		if (parameters != null)
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRHyperlinkParameter parameter = parameters[i];
+				writeHyperlinkParameter(parameter);
+			}
+		}
+	}
+
+
+	protected void writeHyperlinkParameter(JRHyperlinkParameter parameter) throws IOException
+	{
+		if (parameter != null)
+		{
+			writer.startElement(JRHyperlinkParameterFactory.TAG_hyperlinkParameter);
+			writer.addAttribute(JRHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
+			
+			writer.writeExpression(JRHyperlinkParameterExpressionFactory.TAG_VALUE_EXPRESSION,
+					parameter.getValueExpression(), true, String.class.getName());
+			
+			writer.closeElement();
+		}
 	}
 }

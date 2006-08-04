@@ -151,4 +151,11 @@ public class JRPdfExporterParameter extends JRExporterParameter
      * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
      */
     public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
+    
+
+	/**
+	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
+	 * hyperlink types during export.
+	 */
+	public static final JRPdfExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRPdfExporterParameter("Hyperlink producer factory");
 }

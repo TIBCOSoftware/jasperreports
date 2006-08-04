@@ -160,5 +160,11 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 */
 	public static final String SIZE_UNIT_POINT = "pt";
 
+	
+	/**
+	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
+	 * hyperlink types during export.
+	 */
+	public static final JRHtmlExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRHtmlExporterParameter("Hyperlink producer factory");
 
 }

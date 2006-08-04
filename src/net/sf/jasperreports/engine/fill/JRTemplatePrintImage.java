@@ -32,6 +32,7 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 
@@ -57,6 +58,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -737,5 +739,26 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 	}
 
+	
+	public JRPrintHyperlinkParameters getHyperlinkParameters()
+	{
+		return hyperlinkParameters;
+	}
+
+	
+	public void setHyperlinkParameters(JRPrintHyperlinkParameters parameters)
+	{
+		this.hyperlinkParameters = parameters;
+	}
+
+	
+	public String getLinkType()
+	{
+		return ((JRTemplateImage) this.template).getLinkType();
+	}
+
+	public void setLinkType(String type)
+	{
+	}
 
 }

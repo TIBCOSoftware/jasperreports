@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
@@ -257,6 +258,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 		
 		addFrameRules(digester);
 
+		addHyperlinkParameterRules(digester);
+		
 		return digester;
 	}
 
@@ -265,6 +268,18 @@ public class JRPrintXmlLoader implements ErrorHandler
 	{
 		digester.addFactoryCreate("*/frame", JRPrintFrameFactory.class.getName());
 		digester.addSetNext("*/frame", "addElement", JRPrintElement.class.getName());
+	}
+
+
+	protected void addHyperlinkParameterRules(JRXmlDigester digester)
+	{
+		String parameterPattern = "*/" + JRPrintHyperlinkParameterFactory.TAG_HYPERLINK_PARAMETER;
+		digester.addFactoryCreate(parameterPattern, JRPrintHyperlinkParameterFactory.class);
+		digester.addSetNext(parameterPattern, "addHyperlinkParameter", JRPrintHyperlinkParameter.class.getName());
+		
+		String parameterValuePattern = parameterPattern + "/" + JRPrintHyperlinkParameterValueFactory.TAG_HYPERLINK_PARAMETER_VALUE;
+		digester.addFactoryCreate(parameterValuePattern, JRPrintHyperlinkParameterValueFactory.class);
+		digester.addCallMethod(parameterValuePattern, "setData", 0);
 	}
 
 

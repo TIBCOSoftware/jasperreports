@@ -70,6 +70,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -163,6 +164,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	private LinkedList backcolorStack;
 	private Color backcolor;
 
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 
 
 	public JRHtmlExporter()
@@ -305,6 +307,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 	
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+						
+			setHyperlinkProducerFactory();
 	
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
@@ -529,6 +533,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
+	}
+
+
+	protected void setHyperlinkProducerFactory()
+	{
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
@@ -1106,54 +1116,83 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"/>");
 		}
 
+		boolean startedHyperlink = startHyperlink(text);
+
+		if (textLength > 0)
+		{
+			exportStyledText(styledText);
+		}
+		else
+		{
+			writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
+		}
+
+		if (startedHyperlink)
+		{
+			endHyperlink();
+		}
+
+		writer.write("</td>\n");
+	}
+
+
+	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
+	{
 		String href = null;
-		switch(text.getHyperlinkType())
+		switch(link.getHyperlinkType())
 		{
 			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
 			{
-				if (text.getHyperlinkReference() != null)
+				if (link.getHyperlinkReference() != null)
 				{
-					href = text.getHyperlinkReference();
+					href = link.getHyperlinkReference();
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
 			{
-				if (text.getHyperlinkAnchor() != null)
+				if (link.getHyperlinkAnchor() != null)
 				{
-					href = "#" + text.getHyperlinkAnchor();
+					href = "#" + link.getHyperlinkAnchor();
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
 			{
-				if (text.getHyperlinkPage() != null)
+				if (link.getHyperlinkPage() != null)
 				{
-					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + text.getHyperlinkPage().toString();
+					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
 			{
 				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkAnchor() != null
+					link.getHyperlinkReference() != null &&
+					link.getHyperlinkAnchor() != null
 					)
 				{
-					href = text.getHyperlinkReference() + "#" + text.getHyperlinkAnchor();
+					href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
 				}
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
 			{
 				if (
-					text.getHyperlinkReference() != null &&
-					text.getHyperlinkPage() != null
+					link.getHyperlinkReference() != null &&
+					link.getHyperlinkPage() != null
 					)
 				{
-					href = text.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + text.getHyperlinkPage().toString();
+					href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
 				}
 				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_CUSTOM :
+			{
+				if (hyperlinkProducerFactory != null)
+				{
+					href = hyperlinkProducerFactory.produceHyperlink(link);
+				}
 			}
 			case JRHyperlink.HYPERLINK_TYPE_NONE :
 			default :
@@ -1163,7 +1202,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		String target = null;
-		switch(text.getHyperlinkTarget())
+		switch(link.getHyperlinkTarget())
 		{
 			case JRHyperlink.HYPERLINK_TARGET_BLANK :
 			{
@@ -1190,22 +1229,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			writer.write(">");
 		}
+		
+		return href != null;
+	}
 
-		if (textLength > 0)
-		{
-			exportStyledText(styledText);
-		}
-		else
-		{
-			writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
-		}
 
-		if (href != null)
-		{
-			writer.write("</a>");
-		}
-
-		writer.write("</td>\n");
+	protected void endHyperlink() throws IOException
+	{
+		writer.write("</a>");
 	}
 
 
@@ -1345,90 +1376,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"/>");
 		}
 
-		String href = null;
-		switch(image.getHyperlinkType())
-		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
-			{
-				if (image.getHyperlinkReference() != null)
-				{
-					href = image.getHyperlinkReference();
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-			{
-				if (image.getHyperlinkAnchor() != null)
-				{
-					href = "#" + image.getHyperlinkAnchor();
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-			{
-				if (image.getHyperlinkPage() != null)
-				{
-					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + image.getHyperlinkPage().toString();
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-			{
-				if (
-					image.getHyperlinkReference() != null &&
-					image.getHyperlinkAnchor() != null
-					)
-				{
-					href = image.getHyperlinkReference() + "#" + image.getHyperlinkAnchor();
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-			{
-				if (
-					image.getHyperlinkReference() != null &&
-					image.getHyperlinkPage() != null
-					)
-				{
-					href = image.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + image.getHyperlinkPage().toString();
-				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
-			default :
-			{
-				break;
-			}
-		}
-
-		String target = null;
-		switch(image.getHyperlinkTarget())
-		{
-			case JRHyperlink.HYPERLINK_TARGET_BLANK :
-			{
-				target = "_blank";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_SELF :
-			default :
-			{
-				break;
-			}
-		}
-
-		if (href != null)
-		{
-			writer.write("<a href=\"");
-			writer.write(href);
-			writer.write("\"");
-			if (target != null)
-			{
-				writer.write(" target=\"");
-				writer.write(target);
-				writer.write("\"");
-			}
-			writer.write(">");
-		}
+		boolean startedHyperlink = startHyperlink(image);
 
 		writer.write("<img");
 
@@ -1610,9 +1558,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(" alt=\"\"/>");
 
-		if (href != null)
+		if (startedHyperlink)
 		{
-			writer.write("</a>");
+			endHyperlink();
 		}
 
 		writer.write("</td>\n");

@@ -99,6 +99,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
@@ -330,6 +331,8 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/hyperlinkPageExpression", JRExpressionFactory.IntegerExpressionFactory.class.getName());
 		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
+		
+		addHyperlinkParameterRules(digester);
 
 		/*   */
 		digester.addFactoryCreate("*/subreport", JRSubreportFactory.class.getName());
@@ -788,6 +791,20 @@ public class JRXmlDigesterFactory
 		String framePattern = "*/" + JRFrameFactory.TAG_FRAME;
 		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
 		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
+	}
+
+
+	private static void addHyperlinkParameterRules(Digester digester)
+	{
+		String hyperlinkParameterPattern = "*/" + JRHyperlinkParameterFactory.TAG_hyperlinkParameter;
+		digester.addFactoryCreate(hyperlinkParameterPattern, JRHyperlinkParameterFactory.class.getName());
+		digester.addSetNext(hyperlinkParameterPattern, "addHyperlinkParameter", JRHyperlinkParameter.class.getName());
+
+		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRHyperlinkParameterExpressionFactory.TAG_VALUE_EXPRESSION;
+		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRHyperlinkParameterExpressionFactory.class.getName());
+		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
+
 	}
 	
 	

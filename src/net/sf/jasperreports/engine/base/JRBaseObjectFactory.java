@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
@@ -378,7 +379,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				}
 				else
 				{
-					throw new JRRuntimeException("Expression ID not found.");
+					throw new JRRuntimeException("Expression ID not found for expression <<" + expression.getText() + ">>.");
 				}
 			}
 		}
@@ -1332,5 +1333,22 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseFrame;
+	}
+
+
+	public JRHyperlinkParameter getHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		JRHyperlinkParameter baseParameter = null;
+
+		if (parameter != null)
+		{
+			baseParameter = (JRHyperlinkParameter) get(parameter);
+			if (baseParameter == null)
+			{
+				baseParameter = new JRBaseHyperlinkParameter(parameter, this);
+			}
+		}
+
+		return baseParameter;
 	}
 }
