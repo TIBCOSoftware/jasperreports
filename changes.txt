@@ -2,6 +2,17 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.6 (2006-08-xx)
+-----------------------------------
+
+- support for superscript and subscript in styled text;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.5 (2006-07-11)
 -----------------------------------
 

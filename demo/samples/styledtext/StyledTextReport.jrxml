@@ -4,7 +4,7 @@
 <jasperReport name="StyledTextReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
 	<style name="Arial" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<title>
-		<band height="640">
+		<band height="660">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#c0c0c0"/>
 				<textElement isStyledText="true">
@@ -17,10 +17,10 @@
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This is a text field element that contains styled text displaying the text-only version of the <style size=\"12\" isBold=\"true\" forecolor=\"black\" pdfFontName=\"Helvetica-Bold\">^<style forecolor=\"#808080\">Jasper</style><style forecolor=\"#990000\">Reports</style></style> logo."]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["This is a text field element that contains styled text displaying the text-only version of the <style size=\"12\" isBold=\"true\" forecolor=\"black\" pdfFontName=\"Helvetica-Bold\">^<style forecolor=\"#808080\">Jasper</style><style forecolor=\"#990000\">Reports</style></style> logo and some <font size=\"10\"><sup>superscript</sup></font> text and <font size=\"10\"><sub>subscript</sub></font> text."]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="220" width="270" height="320" backcolor="#ccffcc"/>
+				<reportElement mode="Opaque" x="0" y="220" width="270" height="350" backcolor="#ccffcc"/>
 				<textElement isStyledText="true">
 					<font size="16"/>
 				</textElement>
@@ -39,7 +39,7 @@ isPdfEmbedded
 <style backcolor="blue" forecolor="white" isBold="true" pdfFontName="Helvetica-Bold">backcolor</style>]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="280" y="220" width="270" height="320" backcolor="#ccffcc"/>
+				<reportElement mode="Opaque" x="280" y="220" width="270" height="350" backcolor="#ccffcc"/>
 				<textElement isStyledText="true">
 					<font size="16"/>
 				</textElement>
@@ -48,31 +48,31 @@ isPdfEmbedded
 <font size="12">&amp;lt;font size=&amp;quot;12&amp;quot;&amp;gt;</font>
 <font color="red">&amp;lt;font color=&amp;quot;red&amp;quot;&amp;gt;</font>
 <font face="Comic Sans MS">&amp;lt;font face=&amp;quot;Comic Sans MS&amp;quot;&amp;gt;</font>
-<b>bold</b>
-<i>italic</i>
-<u>underlined</u>
-an empty line follows(&amp;lt;br/&amp;gt;):
+<b>bold &amp;lt;b&amp;gt;</b> <i>italic &amp;lt;i&amp;gt;</i> <u>underlined &amp;lt;u&amp;gt;</u>
+an empty line follows (&amp;lt;br/&amp;gt;):
+<br/>
+<sup>&amp;lt;sup&amp;gt;</sup> and <sub>&amp;lt;sub&amp;gt;</sub>
 <br/>
 A bulleted list:
-<li>item 1</li>
+<li>item 1 &amp;lt;li&amp;gt;</li>
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="550" width="555" height="20"/>
+				<reportElement x="0" y="580" width="555" height="20"/>
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["ampersand &amp;amp; less &amp;lt; greater &amp;gt; quote &amp;quot;"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="580" width="555" height="20"/>
+				<reportElement x="0" y="600" width="555" height="20"/>
 				<textElement textAlignment="Center" isStyledText="true">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[ampersand &amp;amp; less &amp;lt; greater &amp;gt; quote &amp;quot;]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Opaque" x="0" y="610" width="555" height="20" forecolor="#ff" backcolor="#ffff00"/>
+				<reportElement mode="Opaque" x="0" y="640" width="555" height="20" forecolor="#ff" backcolor="#ffff00"/>
 				<textElement textAlignment="Center" isStyledText="true"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n"]]></textFieldExpression>
 			</textField>

@@ -1337,7 +1337,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement) throws JRException, DocumentException, IOException
+	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement, float leadingOffset) throws JRException, DocumentException, IOException
 	{
 		Phrase phrase = new Phrase();
 
@@ -1349,7 +1349,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
+			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), leadingOffset);
 			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
 
@@ -1363,7 +1363,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Chunk getChunk(Map attributes, String text) throws JRException, DocumentException, IOException
+	protected Chunk getChunk(Map attributes, String text, float leadingOffset) throws JRException, DocumentException, IOException
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
 		
@@ -1463,6 +1463,19 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (backcolor != null)
 		{
 			chunk.setBackground(backcolor);
+		}
+		
+		Object script = attributes.get(TextAttribute.SUPERSCRIPT);
+		if (script != null)
+		{
+			if (TextAttribute.SUPERSCRIPT_SUPER.equals(script))
+			{
+				chunk.setTextRise(font.leading(1f)/2);
+			}
+			else if (script != null && TextAttribute.SUPERSCRIPT_SUB.equals(script))
+			{
+				chunk.setTextRise(-font.leading(1f)/2);
+			}
 		}
 		
 		if (splitCharacter != null)
@@ -1656,7 +1669,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			ColumnText colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
-				getPhrase(styledText, text),
+				getPhrase(styledText, text, text.getLeadingOffset()),
 				x + leftPadding, 
 				jasperPrint.getPageHeight() 
 					- y
