@@ -923,6 +923,15 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write("\\strike ");
 			}
 
+			if (TextAttribute.SUPERSCRIPT_SUPER.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
+			{
+				writer.write("\\super");
+			}
+			else if (TextAttribute.SUPERSCRIPT_SUB.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
+			{
+				writer.write("\\sub");
+			}
+
 			writer.write("\\cb" + getColorIndex(styleBackground) + " ");
 			writer.write("\\cf" + getColorIndex(styleForeground) + " ");
 
