@@ -120,6 +120,8 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		
 		setTextStart(0);
 		setTextEnd(0);
+		
+		setValueRepeating(true);
 	}
 
 

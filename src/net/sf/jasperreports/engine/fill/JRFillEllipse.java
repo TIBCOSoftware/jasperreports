@@ -93,6 +93,8 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		
+		setValueRepeating(true);
 	}
 
 

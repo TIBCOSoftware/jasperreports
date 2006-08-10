@@ -121,6 +121,8 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		
+		setValueRepeating(true);
 	}
 
 

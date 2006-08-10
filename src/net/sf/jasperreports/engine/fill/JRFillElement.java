@@ -99,8 +99,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	private int width;
 	private int height;
 	
-	// default for all static elements
-	private boolean isValueRepeating = true;
+	private boolean isValueRepeating = false;
 	
 	protected byte currentEvaluation;
 	
@@ -640,6 +639,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		{
 			elementGroup.reset();
 		}
+		
+		setValueRepeating(false);
 	}
 
 	protected void setCurrentEvaluation(byte evaluation)

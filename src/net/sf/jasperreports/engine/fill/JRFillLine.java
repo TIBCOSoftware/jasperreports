@@ -108,6 +108,8 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		this.reset();
 		
 		this.evaluatePrintWhenExpression(evaluation);
+		
+		setValueRepeating(true);
 	}
 
 
