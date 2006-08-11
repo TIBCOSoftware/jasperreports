@@ -44,7 +44,7 @@ import java.util.Map;
 public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
 {
 	
-	private final Map handlers;
+	private Map producers;
 	
 	
 	/**
@@ -52,7 +52,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
 	 */
 	public JRHyperlinkProducerMapFactory()
 	{
-		handlers = new HashMap();
+		producers = new HashMap();
 	}
 
 	
@@ -61,9 +61,21 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
 	 * 
 	 * @return the type to producer association map
 	 */
-	public Map getHandlersMap()
+	public Map getProducersMap()
 	{
-		return handlers;
+		return producers;
+	}
+
+	
+	/**
+	 * Sets the type to producer association map.
+	 *
+	 * @param producers bulk type to producer association map
+	 * @see #getHandlersMap()
+	 */
+	public void setProducersMap(Map producers)
+	{
+		this.producers = producers;
 	}
 	
 	
@@ -75,7 +87,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
 	 */
 	public void addProducer(String linkType, JRHyperlinkProducer producer)
 	{
-		handlers.put(linkType, producer);
+		producers.put(linkType, producer);
 	}
 	
 	
@@ -87,13 +99,13 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
 	 */
 	public JRHyperlinkProducer removeProducer(String linkType)
 	{
-		return (JRHyperlinkProducer) handlers.remove(linkType);
+		return (JRHyperlinkProducer) producers.remove(linkType);
 	}
 	
 	
 	public JRHyperlinkProducer getHandler(String linkType)
 	{
-		return (JRHyperlinkProducer) handlers.get(linkType);
+		return (JRHyperlinkProducer) producers.get(linkType);
 	}
 
 }
