@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="1.2.5"/>
+	<property name="version" value="1.2.6"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -34,24 +34,6 @@
 			<src path="./src"/>
 		</javac>
 		
-		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
-		</taskdef>
-
-		<javaflow srcdir="./build/classes" dstdir="./build/classes" mode="bcel">
-			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRHorizontalFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRFillSubreport.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRSubreportRunnable.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner.class"/>
-		</javaflow>
-
 		<copy todir="./build/classes">
 			<fileset dir="./src">
 				<include name="**/*.dtd"/>
@@ -71,7 +53,7 @@
 		</antlr>
 	</target>
 
-	<target name="jar" depends="compile, applet" description="Builds the JasperReports JAR file.">
+	<target name="jar" depends="compile, javaflow, applet" description="Builds the JasperReports JAR files.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar">
 			<manifest>
@@ -93,6 +75,50 @@
 		</jar>
 	</target>
 
+	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
+		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</taskdef>
+
+		<copy todir="./build/javaflow">
+			<fileset dir="./build/classes"/>
+		</copy>
+
+		<javaflow srcdir="./build/javaflow" dstdir="./build/javaflow" mode="bcel">
+			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRHorizontalFiller.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRFillSubreport.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRSubreportRunnable.class"/>
+			<include name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner.class"/>
+		</javaflow>
+
+		<mkdir dir="./dist"/> 
+		<jar jarfile="./dist/jasperreports-${version}-javaflow.jar">
+			<manifest>
+				<attribute name="Built-By" value="JasperReports"/>
+				<section name="net/sf/jasperreports/engine/">
+					<attribute name="Specification-Title" value="JasperReports Library"/>
+					<attribute name="Specification-Version" value="${version}"/>
+					<attribute name="Specification-Vendor" value="JasperReports"/>
+					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
+					<attribute name="Implementation-Version" value="${version}"/> 
+					<attribute name="Implementation-Vendor" value="JasperReports"/>
+				</section>
+			</manifest>		
+			<fileset dir="./build/javaflow"/>
+			<fileset dir="./">
+				<include name="**/lgpl.txt"/>
+				<include name="**/license.txt"/>
+			</fileset>
+		</jar>
+	</target>
+	
 	<target name="applet" depends="compile" description="Builds the jasperreports-applet.jar file.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
@@ -184,7 +210,7 @@
 		</jar>
 	</target>
 
-	<target name="clean" description="Deletes all the .class files.">
+	<target name="clean" description="Deletes all build files.">
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
 	</target>
