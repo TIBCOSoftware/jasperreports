@@ -9,7 +9,7 @@
 	<property name="fonts.dir" value="../../fonts" />
 	
 	<path id="classpath">
-		<pathelement location="./"/>
+		<pathelement location="./" />
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">
@@ -42,6 +42,25 @@
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="fill-javaflow" description="Fills the subreports using JavaFlow Continuations, not threads.">
+		<ant dir="../../../" target="javaflow" />
+		<java classname="${class.name}" fork="true">
+			<sysproperty key="net.sf.jasperreports.properties" value="jasperreports-javaflow.properties"/>
+			<arg value="-Tfill"/>
+			<arg value="-F${file.name}.jasper"/>
+			<classpath>
+				<pathelement location="./"/>
+				<fileset dir="../../../dist">
+					<include name="**/*-javaflow.jar"/>
+				</fileset>
+				<pathelement location="${fonts.dir}" />
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
 		</java>
 	</target>
 
