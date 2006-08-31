@@ -96,6 +96,10 @@
 					<dataset incrementType="Group" incrementGroup="CountryGroup" resetType="Group" resetGroup="FirstLetterGroup"/>
 					<keyExpression>$F{ShipCountry}</keyExpression>
 					<valueExpression>$V{FreightSumCountryGroup}</valueExpression>
+					<sectionHyperlink hyperlinkType="Reference" hyperlinkTarget="Blank">
+						<hyperlinkReferenceExpression>"http://en.wikipedia.org/wiki/" + $F{ShipCountry}</hyperlinkReferenceExpression>
+						<hyperlinkTooltipExpression><![CDATA["Read more about " + $F{ShipCountry}]]></hyperlinkTooltipExpression>
+					</sectionHyperlink>
 				</pieDataset>
 				<piePlot>
 					<plot/>

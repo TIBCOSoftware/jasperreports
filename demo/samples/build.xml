@@ -78,6 +78,7 @@
 		<ant dir="charts" target="compile" />
 		<ant dir="charts" target="fill" />
 		<ant dir="charts" target="pdf" />
+		<ant dir="charts" target="html" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
