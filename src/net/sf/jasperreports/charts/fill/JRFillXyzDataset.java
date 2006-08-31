@@ -27,15 +27,20 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.DefaultXYZDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.Pair;
 
 import org.jfree.data.general.Dataset;
 
@@ -48,6 +53,8 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	protected JRFillXyzSeries[] xyzSeries = null;
 
 	private DefaultXYZDataset dataset = null;
+	
+	private Map itemHyperlinks;
 	
 	
 	public JRFillXyzDataset(JRXyzDataset xyzDataset, JRFillObjectFactory factory)
@@ -72,6 +79,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	protected void customInitialize()
 	{
 		dataset = new DefaultXYZDataset();
+		itemHyperlinks = new HashMap();
 	}
 	
 	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException 
@@ -98,6 +106,18 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 					crtXyzSeries.getYValue(),
 					crtXyzSeries.getZValue()
 					);
+				
+				if (crtXyzSeries.hasItemHyperlinks())
+				{
+					Map seriesLinks = (Map) itemHyperlinks.get(crtXyzSeries.getSeries());
+					if (seriesLinks == null)
+					{
+						seriesLinks = new HashMap();
+						itemHyperlinks.put(crtXyzSeries.getSeries(), seriesLinks);
+					}
+					Pair xyKey = new Pair(crtXyzSeries.getXValue(), crtXyzSeries.getYValue());
+					seriesLinks.put(xyKey, crtXyzSeries.getPrintItemHyperlink());
+				}
 			}
 		}
 	}
@@ -120,6 +140,33 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+	
+	
+	public boolean hasItemHyperlinks()
+	{
+		boolean foundLinks = false;
+		if (xyzSeries != null && xyzSeries.length > 0)
+		{
+			for (int i = 0; i < xyzSeries.length && !foundLinks; i++)
+			{
+				JRFillXyzSeries serie = xyzSeries[i];
+				foundLinks = serie.hasItemHyperlinks();
+			}
+		}
+		return foundLinks;
+	}
+
+	
+	public Map getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 

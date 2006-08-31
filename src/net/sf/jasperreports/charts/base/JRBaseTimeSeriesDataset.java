@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -94,6 +95,12 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 

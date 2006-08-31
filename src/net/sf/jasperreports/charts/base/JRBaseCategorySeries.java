@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 
@@ -52,6 +53,7 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 	protected JRExpression categoryExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
+	protected JRHyperlink itemHyperlink;
 
 	
 	/**
@@ -73,6 +75,7 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 		categoryExpression = factory.getExpression(categorySeries.getCategoryExpression());
 		valueExpression = factory.getExpression(categorySeries.getValueExpression());
 		labelExpression = factory.getExpression(categorySeries.getLabelExpression());
+		itemHyperlink = factory.getHyperlink(categorySeries.getItemHyperlink());
 	}
 
 	
@@ -106,6 +109,12 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
+	}
+
+	
+	public JRHyperlink getItemHyperlink()
+	{
+		return itemHyperlink;
 	}
 		
 }

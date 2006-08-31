@@ -74,6 +74,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 
@@ -379,6 +380,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 		
 
+	protected String getHyperlinkTooltip()
+	{
+		return this.hyperlinkTooltip;
+	}
+		
+
 	/**
 	 *
 	 */
@@ -496,6 +503,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);
 		this.hyperlinkPage = (Integer) evaluateExpression(this.getHyperlinkPageExpression(), evaluation);
+		this.hyperlinkTooltip = (String) evaluateExpression(this.getHyperlinkTooltipExpression(), evaluation);
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 	
@@ -669,6 +677,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkReference(this.getHyperlinkReference());
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
 		printImage.setHyperlinkPage(this.getHyperlinkPage());
+		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
 		printImage.setBookmarkLevel(this.getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
 	}
@@ -1143,6 +1152,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public String getLinkType()
 	{
 		return ((JRImage) parent).getLinkType();
+	}
+
+
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return ((JRImage) parent).getHyperlinkTooltipExpression();
 	}
 
 }

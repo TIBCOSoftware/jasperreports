@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts;
 
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
@@ -52,5 +53,16 @@ public interface JRPieDataset extends JRChartDataset
 	 * 
 	 */
 	public JRExpression getLabelExpression();
+	
+	
+	/**
+	 * Returns the hyperlink specification for chart sections.
+	 * <p>
+	 * The hyperlink will be evaluated for every chart section and a image map will be created for the chart.
+	 * </p>
+	 * 
+	 * @return hyperlink specification for chart sections
+	 */
+	public JRHyperlink getSectionHyperlink();
 
 }

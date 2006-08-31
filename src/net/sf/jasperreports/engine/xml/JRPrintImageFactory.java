@@ -55,6 +55,7 @@ public class JRPrintImageFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
 	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
 	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
+	public static final String ATTRIBUTE_hyperlinkTooltip = "hyperlinkTooltip";
 	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 
 
@@ -118,6 +119,8 @@ public class JRPrintImageFactory extends JRBaseFactory
 		{
 			image.setHyperlinkPage(new Integer(hyperlinkPage));
 		}
+		
+		image.setHyperlinkTooltip(atts.getValue(ATTRIBUTE_hyperlinkTooltip));
 
 		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)

@@ -33,11 +33,17 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.util.PieLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 import org.jfree.data.general.Dataset;
@@ -60,6 +66,9 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	private Comparable key = null;
 	private Number value = null;
 	private String label = null;
+	
+	private Map sectionHyperlinks;
+	private JRPrintHyperlink sectionHyperlink;
 	
 	
 	/**
@@ -106,6 +115,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	{
 		dataset = new DefaultPieDataset();
 		labels = new HashMap();
+		sectionHyperlinks = new HashMap();
 	}
 
 	/**
@@ -116,6 +126,28 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		key = (Comparable)calculator.evaluate(getKeyExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
+		
+		if (hasSectionHyperlinks())
+		{
+			evaluateSectionHyperlink(calculator);
+		}		
+	}
+
+
+	protected void evaluateSectionHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			sectionHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getSectionHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**
@@ -125,6 +157,11 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	{
 		dataset.setValue(key, value);
 		labels.put( key, label );
+		
+		if (hasSectionHyperlinks())
+		{
+			sectionHyperlinks.put(key, sectionHyperlink);
+		}		
 	}
 
 	/**
@@ -156,5 +193,27 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		collector.collect(this);
 	}
 
+
+	public JRHyperlink getSectionHyperlink()
+	{
+		return ((JRPieDataset) parent).getSectionHyperlink();
+	}
+
+	
+	public boolean hasSectionHyperlinks()
+	{
+		return getSectionHyperlink() != null;
+	}
+	
+	public Map getSectionHyperlinks()
+	{
+		return sectionHyperlinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
 
 }

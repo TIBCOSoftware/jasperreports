@@ -28,9 +28,14 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
@@ -45,7 +50,7 @@ public class JRFillXyzSeries implements JRXyzSeries {
 	private Number xValue = null;
 	private Number yValue = null;
 	private Number zValue = null;
-	
+	private JRPrintHyperlink itemHyperlink;
 	
 	public JRFillXyzSeries( JRXyzSeries xyzSeries, JRFillObjectFactory factory ){
 		factory.put( xyzSeries, this );
@@ -85,11 +90,47 @@ public class JRFillXyzSeries implements JRXyzSeries {
 		return zValue;
 	}
 	
+	protected JRPrintHyperlink getPrintItemHyperlink()
+	{
+		return itemHyperlink;
+	}
+	
 	protected void evaluate( JRCalculator calculator ) throws JRExpressionEvalException {
 		series = (Comparable)calculator.evaluate( getSeriesExpression() );
 		xValue = (Number)calculator.evaluate( getXValueExpression() );
 		yValue = (Number)calculator.evaluate( getYValueExpression() );
 		zValue = (Number)calculator.evaluate( getZValueExpression() );
+		
+		if (hasItemHyperlinks())
+		{
+			evaluateItemHyperlink(calculator);
+		}
+	}
+
+	protected void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			itemHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getItemHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public JRHyperlink getItemHyperlink()
+	{
+		return parent.getItemHyperlink();
+	}
+	
+	public boolean hasItemHyperlinks()
+	{
+		return getItemHyperlink() != null;
 	}
 
 }

@@ -32,8 +32,10 @@ import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 
 /**
@@ -52,6 +54,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
+	private JRHyperlink sectionHyperlink;
 
 	
 	/**
@@ -73,6 +76,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		keyExpression = factory.getExpression(dataset.getKeyExpression());
 		valueExpression = factory.getExpression(dataset.getValueExpression());
 		labelExpression = factory.getExpression(dataset.getLabelExpression());
+		sectionHyperlink = factory.getHyperlink(dataset.getSectionHyperlink());
 	}
 
 	
@@ -115,6 +119,18 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+
+	public JRHyperlink getSectionHyperlink()
+	{
+		return sectionHyperlink;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 

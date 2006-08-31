@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.util.TimePeriodDatasetLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -63,6 +64,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	private List seriesNames = null;
 	private Map seriesMap = null;
 	private Map labelsMap = null;
+	private Map itemHyperlinks;
 
 
 	/**
@@ -97,6 +99,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		seriesNames = null;
 		seriesMap = null;
 		labelsMap = null;
+		itemHyperlinks = null;
 	}
 
 	protected void customEvaluate(JRCalculator calculator)
@@ -120,6 +123,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 				seriesNames = new ArrayList();
 				seriesMap = new HashMap();
 				labelsMap = new HashMap();
+				itemHyperlinks = new HashMap();
 			}
 
 			for (int i = 0; i < timePeriodSeries.length; i++)
@@ -154,6 +158,18 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 					}
 					
 					seriesLabels.put(stp, crtTimePeriodSeries.getLabel());
+				}
+				
+				if (crtTimePeriodSeries.hasItemHyperlink())
+				{
+					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					if (seriesLinks == null)
+					{
+						seriesLinks = new HashMap();
+						itemHyperlinks.put(seriesName, seriesLinks);
+					}
+					
+					seriesLinks.put(stp, crtTimePeriodSeries.getPrintItemHyperlink());
 				}
 			}
 		}
@@ -195,6 +211,32 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+	
+	
+	public boolean hasItemHyperlinks()
+	{
+		boolean foundLinks = false;
+		if (timePeriodSeries != null && timePeriodSeries.length > 0)
+		{
+			for (int i = 0; i < timePeriodSeries.length && !foundLinks; i++)
+			{
+				foundLinks = timePeriodSeries[i].hasItemHyperlink();
+			}
+		}
+		return foundLinks;
+	}
+	
+	
+	public Map getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 }

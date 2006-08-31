@@ -114,6 +114,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+	private JRExpression hyperlinkTooltipExpression;
 
 	/**
 	 * The bookmark level for the anchor associated with this image.
@@ -1070,6 +1071,24 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return hyperlinkTooltipExpression;
+	}
+
+	
+	/**
+	 * Sets the expression which will be used to generate the hyperlink tooltip.
+	 * 
+	 * @param hyperlinkTooltipExpression the expression which will be used to generate the hyperlink tooltip
+	 * @see #getHyperlinkTooltipExpression()
+	 */
+	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression)
+	{
+		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
 	}
 
 }

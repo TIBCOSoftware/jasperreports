@@ -69,6 +69,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
@@ -271,6 +272,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 		
 
+	protected String getHyperlinkTooltip()
+	{
+		return hyperlinkTooltip;
+	}
+		
+
 	/**
 	 *
 	 */
@@ -396,6 +403,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
+		hyperlinkTooltip = (String) evaluateExpression(getHyperlinkTooltipExpression(), evaluation);
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 
@@ -669,6 +677,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkReference(getHyperlinkReference());
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
+		text.setHyperlinkTooltip(getHyperlinkTooltip());
 		text.setBookmarkLevel(getBookmarkLevel());
 		text.setHyperlinkParameters(hyperlinkParameters);
 	}
@@ -748,4 +757,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		return ((JRTextField) parent).getLinkType();
 	}
+
+
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return ((JRTextField) parent).getHyperlinkTooltipExpression();
+	}
+	
 }

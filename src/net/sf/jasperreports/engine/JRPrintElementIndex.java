@@ -28,7 +28,9 @@
 package net.sf.jasperreports.engine;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 /**
@@ -88,5 +90,57 @@ public class JRPrintElementIndex
 		return (Integer[]) elementIndexes.toArray(new Integer[elementIndexes.size()]);
 	}
 
+
+	/**
+	 * Returns a String representation of this element index.
+	 * <p>
+	 * The representation is obtained by appending all the indexes that compose this instance.
+	 * The result is compatible with {@link #parsePrintElementIndex(String) parsePrintElementIndex(String)},
+	 * which can be used to recreate the elemetn index instance from a String representation.
+	 * </p>
+	 */
+	public String toString()
+	{
+		StringBuffer str = new StringBuffer();
+		str.append(reportIndex);
+		str.append('_');
+		str.append(pageIndex);
+		for (Iterator it = elementIndexes.iterator(); it.hasNext();)
+		{
+			Integer idx = (Integer) it.next();
+			str.append('_');
+			str.append(idx);			
+		}
+		return str.toString();
+	}
 	
+	
+	/**
+	 * Parses a String representation as obtained by {@link #toString() toString()} back
+	 * into an element index instance.
+	 * 
+	 * @param indexStr the String representation of an element index
+	 * @return an element index instance corresponding to the String representation
+	 */
+	public static JRPrintElementIndex parsePrintElementIndex(String indexStr)
+	{
+		StringTokenizer tkzer = new StringTokenizer(indexStr, "_");
+		
+		int reportIndex = Integer.parseInt(tkzer.nextToken());
+		int pageIndex = Integer.parseInt(tkzer.nextToken());
+
+		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
+		int c = 0;
+		while (tkzer.hasMoreTokens())
+		{
+			elementIndexes[c++] = Integer.valueOf(tkzer.nextToken());
+		}
+
+		return
+			new JRPrintElementIndex(
+				reportIndex,
+				pageIndex,
+				elementIndexes
+				);
+	}
 }

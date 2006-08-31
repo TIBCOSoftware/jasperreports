@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -59,6 +60,8 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	private DefaultCategoryDataset dataset = null;
 	private Map labelsMap = null;
 	
+	private Map itemHyperlinks;
+
 	
 	/**
 	 *
@@ -99,6 +102,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	{
 		dataset = null;
 		labelsMap = null;
+		itemHyperlinks = null;
 	}
 
 	/**
@@ -126,6 +130,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			{
 				dataset = new DefaultCategoryDataset();
 				labelsMap = new HashMap();
+				itemHyperlinks = new HashMap();
 			}
 			
 			for(int i = 0; i < categorySeries.length; i++)
@@ -151,6 +156,17 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 					}
 					
 					seriesLabels.put(crtCategorySeries.getCategory(), crtCategorySeries.getLabel());
+				}
+				
+				if (crtCategorySeries.hasItemHyperlinks())
+				{
+					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					if (seriesLinks == null)
+					{
+						seriesLinks = new HashMap();
+						itemHyperlinks.put(seriesName, seriesLinks);
+					}
+					seriesLinks.put(crtCategorySeries.getCategory(), crtCategorySeries.getPrintItemHyperlink());
 				}
 			}
 		}
@@ -190,5 +206,31 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 		collector.collect(this);
 	}
 
+	
+	public Map getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+	
+	
+	public boolean hasItemHyperlinks()
+	{
+		boolean foundLinks = false;
+		if (categorySeries != null && categorySeries.length > 0)
+		{
+			for (int i = 0; i < categorySeries.length && !foundLinks; i++)
+			{
+				JRFillCategorySeries serie = categorySeries[i];
+				foundLinks = serie.hasItemHyperlinks();
+			}
+		}
+		return foundLinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
 
 }

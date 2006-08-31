@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts;
 
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -42,5 +43,16 @@ public interface JRXyzSeries {
 	public JRExpression getYValueExpression();
 	
 	public JRExpression getZValueExpression();
+
+	
+	/**
+	 * Returns the hyperlink specification for chart items.
+	 * <p>
+	 * The hyperlink will be evaluated for every chart item and a image map will be created for the chart.
+	 * </p>
+	 * 
+	 * @return hyperlink specification for chart items
+	 */
+	public JRHyperlink getItemHyperlink();
 	
 }

@@ -109,6 +109,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+	private JRExpression hyperlinkTooltipExpression;
 
 	/**
 	 * The bookmark level for the anchor associated with this image.
@@ -146,7 +147,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		evaluationTime = image.getEvaluationTime();
 		linkType = image.getLinkType();
 		hyperlinkTarget = image.getHyperlinkTarget();
-		copyHyperlinkParameters(image, factory);
+		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(image, factory);
 
 //		box = image.getBox();
 
@@ -172,22 +173,8 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		hyperlinkReferenceExpression = factory.getExpression(image.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(image.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(image.getHyperlinkPageExpression());
+		hyperlinkTooltipExpression = factory.getExpression(image.getHyperlinkTooltipExpression());
 		bookmarkLevel = image.getBookmarkLevel();
-	}
-
-
-	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
-	{
-		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
-		if (parameters != null && parameters.length > 0)
-		{
-			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
-			for (int i = 0; i < parameters.length; i++)
-			{
-				JRHyperlinkParameter parameter = parameters[i];
-				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
-			}
-		}
 	}
 
 
@@ -935,6 +922,12 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return hyperlinkTooltipExpression;
 	}
 
 }

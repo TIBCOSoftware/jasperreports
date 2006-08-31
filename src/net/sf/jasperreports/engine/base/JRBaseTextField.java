@@ -81,6 +81,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+	private JRExpression hyperlinkTooltipExpression;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -101,7 +102,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
 		linkType = textField.getLinkType();
 		hyperlinkTarget = textField.getHyperlinkTarget();
-		copyHyperlinkParameters(textField, factory);
+		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(textField, factory);
 
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 		expression = factory.getExpression(textField.getExpression());
@@ -109,22 +110,8 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
+		hyperlinkTooltipExpression = factory.getExpression(textField.getHyperlinkTooltipExpression());
 		bookmarkLevel = textField.getBookmarkLevel();
-	}
-
-
-	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
-	{
-		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
-		if (parameters != null && parameters.length > 0)
-		{
-			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
-			for (int i = 0; i < parameters.length; i++)
-			{
-				JRHyperlinkParameter parameter = parameters[i];
-				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
-			}
-		}
 	}
 		
 
@@ -326,6 +313,12 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return hyperlinkTooltipExpression;
 	}
 	
 }

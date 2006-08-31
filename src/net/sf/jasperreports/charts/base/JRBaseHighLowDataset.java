@@ -32,8 +32,10 @@ import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 
 /**
@@ -55,6 +57,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	protected JRExpression openExpression;
 	protected JRExpression closeExpression;
 	protected JRExpression volumeExpression;
+	private JRHyperlink itemHyperlink;
 
 
 	/**
@@ -80,6 +83,7 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 		openExpression = factory.getExpression(dataset.getOpenExpression());
 		closeExpression = factory.getExpression(dataset.getCloseExpression());
 		volumeExpression = factory.getExpression(dataset.getVolumeExpression());
+		itemHyperlink = factory.getHyperlink(dataset.getItemHyperlink());
 	}
 
 
@@ -141,5 +145,16 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 		collector.collect(this);
 	}
 
+	
+	public JRHyperlink getItemHyperlink()
+	{
+		return itemHyperlink;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
 
 }

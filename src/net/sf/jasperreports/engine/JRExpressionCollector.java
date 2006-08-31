@@ -489,24 +489,26 @@ public class JRExpressionCollector
 		addExpression(anchor.getAnchorNameExpression());
 	}
 
-	/**
-	 *
-	 */
+	
 	private void collectHyperlink(JRHyperlink hyperlink)
 	{
-		addExpression(hyperlink.getHyperlinkReferenceExpression());
-		addExpression(hyperlink.getHyperlinkAnchorExpression());
-		addExpression(hyperlink.getHyperlinkPageExpression());
-		
-		JRHyperlinkParameter[] hyperlinkParameters = hyperlink.getHyperlinkParameters();
-		if (hyperlinkParameters != null)
+		if (hyperlink != null)
 		{
-			for (int i = 0; i < hyperlinkParameters.length; i++)
+			addExpression(hyperlink.getHyperlinkReferenceExpression());
+			addExpression(hyperlink.getHyperlinkAnchorExpression());
+			addExpression(hyperlink.getHyperlinkPageExpression());
+			addExpression(hyperlink.getHyperlinkTooltipExpression());
+
+			JRHyperlinkParameter[] hyperlinkParameters = hyperlink.getHyperlinkParameters();
+			if (hyperlinkParameters != null)
 			{
-				JRHyperlinkParameter parameter = hyperlinkParameters[i];
-				collectHyperlinkParameter(parameter);
+				for (int i = 0; i < hyperlinkParameters.length; i++)
+				{
+					JRHyperlinkParameter parameter = hyperlinkParameters[i];
+					collectHyperlinkParameter(parameter);
+				}
 			}
-		}
+		}		
 	}
 
 	protected void collectHyperlinkParameter(JRHyperlinkParameter parameter)
@@ -620,6 +622,8 @@ public class JRExpressionCollector
 		collector.addExpression(pieDataset.getKeyExpression());
 		collector.addExpression(pieDataset.getValueExpression());
 		collector.addExpression(pieDataset.getLabelExpression());
+		
+		collector.collectHyperlink(pieDataset.getSectionHyperlink());
 	}
 
 	/**
@@ -697,6 +701,8 @@ public class JRExpressionCollector
 		addExpression(xySeries.getXValueExpression());
 		addExpression(xySeries.getYValueExpression());
 		addExpression(xySeries.getLabelExpression());
+		
+		collectHyperlink(xySeries.getItemHyperlink());
 	}
 
 	/**
@@ -708,6 +714,8 @@ public class JRExpressionCollector
 		addExpression(categorySeries.getCategoryExpression());
 		addExpression(categorySeries.getValueExpression());
 		addExpression(categorySeries.getLabelExpression());
+		
+		collectHyperlink(categorySeries.getItemHyperlink());
 	}
 
 	/**
@@ -769,6 +777,8 @@ public class JRExpressionCollector
 		addExpression(timeSeries.getTimePeriodExpression());
 		addExpression(timeSeries.getValueExpression());
 		addExpression(timeSeries.getLabelExpression());
+		
+		collectHyperlink(timeSeries.getItemHyperlink());
 	}
 	
 	/**
@@ -780,6 +790,7 @@ public class JRExpressionCollector
 		addExpression(timePeriodSeries.getEndDateExpression());
 		addExpression(timePeriodSeries.getValueExpression());
 		addExpression(timePeriodSeries.getLabelExpression());
+		collectHyperlink(timePeriodSeries.getItemHyperlink());
 	}
 
 	/**
@@ -808,7 +819,7 @@ public class JRExpressionCollector
 		addExpression(xyzSeries.getXValueExpression());
 		addExpression(xyzSeries.getYValueExpression());
 		addExpression(xyzSeries.getZValueExpression());
-		
+		collectHyperlink(xyzSeries.getItemHyperlink());
 	}
 
 	/**
@@ -844,6 +855,8 @@ public class JRExpressionCollector
 		collector.addExpression(highLowDataset.getOpenExpression());
 		collector.addExpression(highLowDataset.getCloseExpression());
 		collector.addExpression(highLowDataset.getVolumeExpression());
+		
+		collector.collectHyperlink(highLowDataset.getItemHyperlink());
 	}
 
 	/**

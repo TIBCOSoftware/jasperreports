@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.base.JRBaseTimePeriodSeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -75,5 +76,16 @@ public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries {
 	 */
 	public void setLabelExpression( JRExpression labelExpression ){
 		this.labelExpression = labelExpression;
+	}
+
+	/**
+	 * Sets the hyperlink specification for chart items.
+	 * 
+	 * @param itemHyperlink the hyperlink specification
+	 * @see #getItemHyperlink()
+	 */
+	public void setItemHyperlink(JRHyperlink itemHyperlink)
+	{
+		this.itemHyperlink = itemHyperlink;
 	}
 }

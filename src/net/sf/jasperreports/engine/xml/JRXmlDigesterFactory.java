@@ -99,6 +99,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -331,6 +332,11 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/hyperlinkPageExpression", JRExpressionFactory.IntegerExpressionFactory.class.getName());
 		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
+
+		String hyperlinkTooltipExpressionPattern = "*/" + JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION;
+		digester.addFactoryCreate(hyperlinkTooltipExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addSetNext(hyperlinkTooltipExpressionPattern, "setHyperlinkTooltipExpression", JRExpression.class.getName());
+		digester.addCallMethod(hyperlinkTooltipExpressionPattern, "setText", 0);
 		
 		addHyperlinkParameterRules(digester);
 
@@ -429,6 +435,10 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
 		
+		String sectionHyperlinkPattern = "*/pieDataset/" + JRHyperlinkFactory.ELEMENT_SECTION_HYPERLINK;
+		digester.addFactoryCreate(sectionHyperlinkPattern, JRHyperlinkFactory.class);
+		digester.addSetNext(sectionHyperlinkPattern, "setSectionHyperlink", JRHyperlink.class.getName());
+		
 		// pie 3D charts
 		digester.addFactoryCreate("*/pie3DChart", JRPie3DChartFactory.class.getName());
 		digester.addSetNext("*/pie3DChart", "addElement", JRDesignElement.class.getName());
@@ -496,7 +506,10 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/categorySeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
 		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
-
+		
+		String itemHyperlinkPattern = "*/" + JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK;
+		digester.addFactoryCreate(itemHyperlinkPattern, JRHyperlinkFactory.class);
+		digester.addSetNext(itemHyperlinkPattern, "setItemHyperlink", JRHyperlink.class.getName());
 		
 		digester.addFactoryCreate( "*/xyzDataset", JRXyzDatasetFactory.class.getName() );
 		digester.addFactoryCreate( "*/xyzDataset/xyzSeries", JRXyzSeriesFactory.class.getName() );

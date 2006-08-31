@@ -105,6 +105,7 @@
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
+	hyperlinkTooltip CDATA #IMPLIED
 	bookmarkLevel NMTOKEN "0"
 >
 <!ELEMENT box EMPTY>
@@ -146,6 +147,7 @@
 	hyperlinkReference CDATA #IMPLIED
 	hyperlinkAnchor CDATA #IMPLIED
 	hyperlinkPage NMTOKEN #IMPLIED
+	hyperlinkTooltip CDATA #IMPLIED
 	bookmarkLevel NMTOKEN "0"
 	valueClass NMTOKEN #IMPLIED
 	pattern CDATA #IMPLIED
