@@ -32,7 +32,9 @@ import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 
 
@@ -52,6 +54,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	protected JRExpression keyExpression = null;
 	protected JRExpression valueExpression = null;
 	protected JRExpression labelExpression = null;
+	private JRHyperlink sectionHyperlink;
 
 
 	/**
@@ -126,6 +129,30 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	
+	public JRHyperlink getSectionHyperlink()
+	{
+		return sectionHyperlink;
+	}
+
+
+	/**
+	 * Sets the hyperlink specification for chart sections.
+	 * 
+	 * @param itemHyperlink the hyperlink specification
+	 * @see #getItemHyperlink()
+	 */
+	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
+	{
+		this.sectionHyperlink = sectionHyperlink;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 

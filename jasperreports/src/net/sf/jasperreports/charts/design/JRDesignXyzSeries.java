@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.design;
 
 import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -52,6 +53,17 @@ public class JRDesignXyzSeries extends JRBaseXyzSeries {
 	
 	public void setZValueExpression( JRExpression zValueExpression ){
 		this.zValueExpression = zValueExpression;
+	}
+
+	/**
+	 * Sets the hyperlink specification for chart items.
+	 * 
+	 * @param itemHyperlink the hyperlink specification
+	 * @see #getItemHyperlink()
+	 */
+	public void setItemHyperlink(JRHyperlink itemHyperlink)
+	{
+		this.itemHyperlink = itemHyperlink;
 	}
 	
 }

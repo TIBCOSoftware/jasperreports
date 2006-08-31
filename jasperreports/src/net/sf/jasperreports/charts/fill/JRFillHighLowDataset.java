@@ -33,11 +33,17 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 import org.jfree.data.general.Dataset;
@@ -62,6 +68,9 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	private Number open = null;
 	private Number close = null;
 	private Number volume = null;
+	
+	private JRPrintHyperlink itemHyperlink;
+	private List itemHyperlinks;
 
 	
 	/**
@@ -76,6 +85,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	protected void customInitialize()
 	{
 		elements = new ArrayList();
+		itemHyperlinks = new ArrayList();
 	}
 
 
@@ -88,12 +98,39 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		open = (Number) calculator.evaluate(getOpenExpression());
 		close = (Number) calculator.evaluate(getCloseExpression());
 		volume = (Number) calculator.evaluate(getVolumeExpression());
+		
+		if (hasItemHyperlink())
+		{
+			evaluateSectionHyperlink(calculator);
+		}
+	}
+
+
+	protected void evaluateSectionHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			itemHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getItemHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 
 	protected void customIncrement()
 	{
 		elements.add(new HighLowElement(date, high, low, open, close, volume));
+		
+		if (hasItemHyperlink())
+		{
+			itemHyperlinks.add(itemHyperlink);
+		}
 	}
 
 
@@ -281,5 +318,28 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		collector.collect(this);
 	}
 
+
+	public JRHyperlink getItemHyperlink()
+	{
+		return ((JRHighLowDataset) parent).getItemHyperlink();
+	}
+
+
+	public boolean hasItemHyperlink()
+	{
+		return getItemHyperlink() != null;
+	}
+
+	
+	public List getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
+	}
 
 }

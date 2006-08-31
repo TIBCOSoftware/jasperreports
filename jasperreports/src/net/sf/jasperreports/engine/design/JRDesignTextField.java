@@ -85,6 +85,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+	private JRExpression hyperlinkTooltipExpression;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -480,4 +481,23 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	}
+
+	
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return hyperlinkTooltipExpression;
+	}
+
+	
+	/**
+	 * Sets the expression which will be used to generate the hyperlink tooltip.
+	 * 
+	 * @param hyperlinkTooltipExpression the expression which will be used to generate the hyperlink tooltip
+	 * @see #getHyperlinkTooltipExpression()
+	 */
+	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression)
+	{
+		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
+	}
+	
 }

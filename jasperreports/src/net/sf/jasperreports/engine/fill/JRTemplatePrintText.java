@@ -63,6 +63,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String hyperlinkReference = null;
 	private String hyperlinkAnchor = null;
 	private Integer hyperlinkPage = null;
+	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
@@ -1198,6 +1199,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public void setLinkType(String type)
 	{
+	}
+
+	
+	public String getHyperlinkTooltip()
+	{
+		return hyperlinkTooltip;
+	}
+
+	
+	public void setHyperlinkTooltip(String hyperlinkTooltip)
+	{
+		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
 	
 }

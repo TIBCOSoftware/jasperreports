@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterFactory;
 import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterValueFactory;
+import net.sf.jasperreports.engine.xml.JRPrintImageFactory;
 import net.sf.jasperreports.engine.xml.JRPrintTextFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JasperPrintFactory;
@@ -655,6 +656,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("hyperlinkReference", image.getHyperlinkReference());
 		xmlWriter.addAttribute("hyperlinkAnchor", image.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", image.getHyperlinkPage());
+		xmlWriter.addEncodedAttribute(JRPrintImageFactory.ATTRIBUTE_hyperlinkTooltip, image.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		exportReportElement(image);
@@ -753,6 +755,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("hyperlinkReference", text.getHyperlinkReference());
 		xmlWriter.addAttribute("hyperlinkAnchor", text.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", text.getHyperlinkPage());
+		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_hyperlinkTooltip, text.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", text.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_valueClass, text.getValueClassName());
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		

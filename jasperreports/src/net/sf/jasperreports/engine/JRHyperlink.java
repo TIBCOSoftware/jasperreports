@@ -172,5 +172,13 @@ public interface JRHyperlink
 	 * @return the list of hyperlink parameters
 	 */
 	public JRHyperlinkParameter[] getHyperlinkParameters();
+	
+	
+	/**
+	 * Returns the expression which will generate the hyperlink tooltip.
+	 * 
+	 * @return the expression which will generate the hyperlink tooltip
+	 */
+	public JRExpression getHyperlinkTooltipExpression();
 
 }

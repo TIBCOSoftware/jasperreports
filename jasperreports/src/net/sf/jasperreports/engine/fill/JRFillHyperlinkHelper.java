@@ -31,8 +31,10 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 
 
 /**
@@ -90,5 +92,30 @@ public class JRFillHyperlinkHelper
 			}
 		}
 		return printParameters;
+	}
+	
+	
+	/**
+	 * Evaluate a hyperlink specification.
+	 * 
+	 * @param hyperlink the hyperlink specification
+	 * @param expressionEvaluator the expression evaluator to use for evaluation the hyperlink expressions
+	 * @param evaluationType the evaluation type, as in {@link JRFillExpressionEvaluator#evaluate(JRExpression, byte) JRFillExpressionEvaluator.evaluate(JRExpression, byte)}
+	 * @return a {@link JRPrintHyperlink print hyperlink} resulted from the expression evaluations.
+	 * @throws JRException
+	 */
+	public static JRPrintHyperlink evaluateHyperlink(JRHyperlink hyperlink,
+			JRFillExpressionEvaluator expressionEvaluator,
+			byte evaluationType) throws JRException
+	{
+		JRBasePrintHyperlink printHyperlink = new JRBasePrintHyperlink();
+		printHyperlink.setLinkType(hyperlink.getLinkType());
+		printHyperlink.setHyperlinkTarget(hyperlink.getHyperlinkTarget());
+		printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
+		printHyperlink.setHyperlinkAnchor((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkAnchorExpression(), evaluationType));
+		printHyperlink.setHyperlinkPage((Integer) expressionEvaluator.evaluate(hyperlink.getHyperlinkPageExpression(), evaluationType));
+		printHyperlink.setHyperlinkTooltip((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkTooltipExpression(), evaluationType));
+		printHyperlink.setHyperlinkParameters(evaluateHyperlinkParameters(hyperlink, expressionEvaluator, evaluationType));
+		return printHyperlink;
 	}
 }

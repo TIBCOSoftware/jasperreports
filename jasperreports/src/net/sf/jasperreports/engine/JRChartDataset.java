@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.design.JRVerifier;
+
 
 /**
  * Datasets are used to represent the actual data needed to generate a chart. The dataset structure may vary with each chart type. This
@@ -48,4 +50,16 @@ public interface JRChartDataset extends JRElementDataset
 	 * Gets the dataset type. Must be one of the dataset type constants defined in this class.
 	 */
 	public byte getDatasetType();
+
+	
+	/**
+	 * Validates the dataset using a verifier.
+	 * <p>
+	 * Broken rules are collected by the verifier.
+	 * </p>
+	 * 
+	 * @param verifier the verifier to use for validation
+	 */
+	public void validate(JRVerifier verifier);
+	
 }

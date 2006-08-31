@@ -142,4 +142,19 @@ public interface JRPrintHyperlink
 	 */
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters parameters);
 
+	
+	/**
+	 * Returns the hyperlink tooltip.
+	 * 
+	 * @return the hyperlink tooltip
+	 */
+	public String getHyperlinkTooltip();
+	
+	
+	/**
+	 * Sets the tooltip to be used for the hyperlink.
+	 * 
+	 * @param tooltip the tooltip
+	 */
+	public void setHyperlinkTooltip(String tooltip);
 }

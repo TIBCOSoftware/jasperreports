@@ -213,7 +213,7 @@
 
 <!ELEMENT ellipse (reportElement, graphicElement?)>
 
-<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
+<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST image
 	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
 	hAlign (Left | Center | Right) #IMPLIED
@@ -255,6 +255,7 @@
 <!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
 <!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
 <!ELEMENT hyperlinkPageExpression (#PCDATA)>
+<!ELEMENT hyperlinkTooltipExpression (#PCDATA)>
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterExpression)>
 <!ATTLIST hyperlinkParameter
@@ -293,7 +294,7 @@
 	isPdfEmbedded (true | false) #IMPLIED
 >
 
-<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
+<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST textField
 	isStretchWithOverflow (true | false) "false"
 	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
@@ -337,7 +338,7 @@
 
 <!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*>
 
-<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkParameter*)>
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST chart
 	isShowLegend (true | false) "true"
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
@@ -360,10 +361,17 @@
 <!ELEMENT subtitleExpression (#PCDATA)>
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
-<!ELEMENT pieDataset (dataset?, keyExpression?, valueExpression?, labelExpression?)>
+<!ELEMENT pieDataset (dataset?, keyExpression?, valueExpression?, labelExpression?, sectionHyperlink?)>
 <!ELEMENT keyExpression (#PCDATA)>
 <!ELEMENT valueExpression (#PCDATA)>
 <!ELEMENT labelExpression (#PCDATA)>
+
+<!ELEMENT sectionHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST sectionHyperlink
+	hyperlinkType CDATA "None"
+	hyperlinkTarget (Self | Blank) "Self"
+>
+
 <!ELEMENT piePlot (plot)>
 
 <!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
@@ -404,9 +412,15 @@
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>
 <!ELEMENT categoryDataset (dataset?, categorySeries*)>
-<!ELEMENT categorySeries (seriesExpression?, categoryExpression?, valueExpression?, labelExpression?)>
+<!ELEMENT categorySeries (seriesExpression?, categoryExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
 <!ELEMENT seriesExpression (#PCDATA)>
 <!ELEMENT categoryExpression (#PCDATA)>
+
+<!ELEMENT itemHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST itemHyperlink
+	hyperlinkType CDATA "None"
+	hyperlinkTarget (Self | Blank) "Self"
+>
 
 <!ELEMENT barPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST barPlot
@@ -428,7 +442,7 @@
 <!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
 
 <!ELEMENT timePeriodDataset (dataset?, timePeriodSeries*)>
-<!ELEMENT timePeriodSeries (seriesExpression?, startDateExpression?, endDateExpression?, valueExpression?, labelExpression?)>
+<!ELEMENT timePeriodSeries (seriesExpression?, startDateExpression?, endDateExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
 <!ELEMENT startDateExpression (#PCDATA)>
 <!ELEMENT endDateExpression (#PCDATA)>
 
@@ -445,7 +459,7 @@
 
 <!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
 <!ELEMENT xyDataset (dataset?, xySeries*)>
-<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?)>
+<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?, itemHyperlink?)>
 <!ELEMENT xValueExpression (#PCDATA)>
 <!ELEMENT yValueExpression (#PCDATA)>
 
@@ -465,7 +479,7 @@
 
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
 <!ELEMENT xyzDataset (dataset?, xyzSeries*)>
-<!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?)>
+<!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?, itemHyperlink?)>
 <!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
 <!ATTLIST bubblePlot
 	scaleType (BothAxes | DomainAxis | RangeAxis) "RangeAxis"
@@ -476,7 +490,7 @@
 <!ATTLIST timeSeriesDataset
 	timePeriod (Year | Quarter | Month | Week | Day | Hour | Minute | Second | Milisecond ) "Day"
 >
-<!ELEMENT timeSeries (seriesExpression?, timePeriodExpression?, valueExpression?, labelExpression?)>
+<!ELEMENT timeSeries (seriesExpression?, timePeriodExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
 <!ELEMENT timePeriodExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
@@ -488,7 +502,7 @@
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
-<!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?)>
+<!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?, itemHyperlink?)>
 <!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
 <!ATTLIST highLowPlot
 	isShowCloseTicks (true | false) "true"

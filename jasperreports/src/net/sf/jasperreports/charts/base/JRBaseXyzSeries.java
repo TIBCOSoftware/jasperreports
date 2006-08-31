@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -46,6 +47,7 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 	protected JRExpression xValueExpression = null;
 	protected JRExpression yValueExpression = null;
 	protected JRExpression zValueExpression = null;
+	protected JRHyperlink itemHyperlink;
 	
 	public JRBaseXyzSeries(){
 	}
@@ -57,7 +59,7 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 		xValueExpression = factory.getExpression( xyzSeries.getXValueExpression() );
 		yValueExpression = factory.getExpression( xyzSeries.getYValueExpression() );
 		zValueExpression = factory.getExpression( xyzSeries.getZValueExpression() );
-		
+		itemHyperlink = factory.getHyperlink(xyzSeries.getItemHyperlink());
 	}
 	
 	
@@ -75,6 +77,11 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 	
 	public JRExpression getZValueExpression(){
 		return zValueExpression;
+	}
+	
+	public JRHyperlink getItemHyperlink()
+	{
+		return itemHyperlink;
 	}
 	
 }

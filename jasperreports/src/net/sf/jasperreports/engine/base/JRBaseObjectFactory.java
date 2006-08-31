@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
@@ -1350,5 +1351,20 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseParameter;
+	}
+
+
+	public JRHyperlink getHyperlink(JRHyperlink hyperlink)
+	{
+		JRHyperlink link = null;
+		if (hyperlink != null)
+		{
+			link = (JRHyperlink) get(hyperlink);
+			if (link == null)
+			{
+				link = new JRBaseHyperlink(hyperlink, this);
+			}
+		}
+		return link;
 	}
 }

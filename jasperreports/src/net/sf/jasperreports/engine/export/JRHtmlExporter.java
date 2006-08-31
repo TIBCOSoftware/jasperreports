@@ -38,6 +38,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.File;
@@ -54,7 +55,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -72,6 +73,8 @@ import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintImageArea;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
@@ -83,6 +86,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.Pair;
 
 
 /**
@@ -117,6 +121,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
 	protected static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
 	protected static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
+	
+	public static final String IMAGE_NAME_PREFIX = "img_";
+	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
 	/**
 	 *
@@ -124,6 +131,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected Writer writer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected Map rendererToImagePathMap = null;
+	protected Map imageMaps;
 	protected Map imageNameToImageDataMap = null;
 	protected List imagesToProcess = null;
 	protected boolean isPxImageLoaded = false;
@@ -243,6 +251,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 	
 			rendererToImagePathMap = new HashMap();
+			imageMaps = new HashMap();
 			imagesToProcess = new ArrayList();
 			isPxImageLoaded = false;
 	
@@ -1138,6 +1147,58 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
+		String href = getHyperlinkURL(link);
+
+		if (href != null)
+		{
+			writer.write("<a href=\"");
+			writer.write(href);
+			writer.write("\"");
+
+			String target = getHyperlinkTarget(link);
+			if (target != null)
+			{
+				writer.write(" target=\"");
+				writer.write(target);
+				writer.write("\"");
+			}
+
+			if (link.getHyperlinkTooltip() != null)
+			{
+				writer.write(" title=\"");
+				writer.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+				writer.write("\"");
+			}
+			
+			writer.write(">");
+		}
+		
+		return href != null;
+	}
+
+
+	protected String getHyperlinkTarget(JRPrintHyperlink link)
+	{
+		String target = null;
+		switch(link.getHyperlinkTarget())
+		{
+			case JRHyperlink.HYPERLINK_TARGET_BLANK :
+			{
+				target = "_blank";
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TARGET_SELF :
+			default :
+			{
+				break;
+			}
+		}
+		return target;
+	}
+
+
+	protected String getHyperlinkURL(JRPrintHyperlink link)
+	{
 		String href = null;
 		switch(link.getHyperlinkType())
 		{
@@ -1200,37 +1261,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				break;
 			}
 		}
-
-		String target = null;
-		switch(link.getHyperlinkTarget())
-		{
-			case JRHyperlink.HYPERLINK_TARGET_BLANK :
-			{
-				target = "_blank";
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TARGET_SELF :
-			default :
-			{
-				break;
-			}
-		}
-
-		if (href != null)
-		{
-			writer.write("<a href=\"");
-			writer.write(href);
-			writer.write("\"");
-			if (target != null)
-			{
-				writer.write(" target=\"");
-				writer.write(target);
-				writer.write("\"");
-			}
-			writer.write(">");
-		}
-		
-		return href != null;
+		return href;
 	}
 
 
@@ -1375,15 +1406,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(image.getAnchorName());
 			writer.write("\"/>");
 		}
+		
+		JRRenderable renderer = image.getRenderer();
+		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
 
-		boolean startedHyperlink = startHyperlink(image);
+		boolean startedHyperlink = !imageMapRenderer && startHyperlink(image);
 
 		writer.write("<img");
 
 		String imagePath = null;
+		String imageMapName = null;
+		List imageMapAreas = null;
 
 		byte scaleImage = image.getScaleImage();
-		JRRenderable renderer = image.getRenderer();
 		if (renderer != null)
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -1408,12 +1443,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex =
-						new JRPrintElementIndex(
-								reportIndex,
-								pageIndex,
-								gridCell.elementIndex
-								);
+					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
@@ -1437,6 +1467,27 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
+			}
+			
+			if (imageMapRenderer)
+			{
+				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
+				
+				if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+				{
+					imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
+				}
+
+				if (imageMapName == null)
+				{
+					imageMapName = "map_" + getElementIndex(gridCell).toString();
+					imageMapAreas = ((JRImageMapRenderer) renderer).getImageAreaHyperlinks(renderingArea);
+					
+					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+					{
+						imageMaps.put(new Pair(renderer.getId(), renderingArea), imageMapName);
+					}
+				}
 			}
 		}
 		else
@@ -1555,15 +1606,111 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 			}
 		}
-
+		
+		if (imageMapName != null)
+		{
+			writer.write(" usemap=\"#" + imageMapName + "\"");
+		}
+		
 		writer.write(" alt=\"\"/>");
 
 		if (startedHyperlink)
 		{
 			endHyperlink();
 		}
+		
+		if (imageMapAreas != null)
+		{
+			writer.write("\n");
+			writeImageMap(imageMapName, image, imageMapAreas);
+		}
 
 		writer.write("</td>\n");
+	}
+
+
+	protected JRPrintElementIndex getElementIndex(JRExporterGridCell gridCell)
+	{
+		JRPrintElementIndex imageIndex =
+			new JRPrintElementIndex(
+					reportIndex,
+					pageIndex,
+					gridCell.elementIndex
+					);
+		return imageIndex;
+	}
+
+
+	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
+	{
+		writer.write("<map name=\"" + imageMapName + "\">\n");
+
+		for (Iterator it = imageMapAreas.iterator(); it.hasNext();)
+		{
+			JRPrintImageAreaHyperlink areaHyperlink = (JRPrintImageAreaHyperlink) it.next();
+			JRPrintImageArea area = areaHyperlink.getArea();
+
+			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
+			writeImageAreaCoordinates(area);			
+			writeImageAreaHyperlink(areaHyperlink.getHyperlink());
+			writer.write("/>\n");
+		}
+		
+		if (mainHyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+		{
+			writer.write("  <area shape=\"default\"");
+			writeImageAreaHyperlink(mainHyperlink);
+			writer.write("/>\n");
+		}
+		
+		writer.write("</map>\n");
+	}
+
+
+	protected void writeImageAreaCoordinates(JRPrintImageArea area) throws IOException
+	{
+		int[] coords = area.getCoordinates();
+		if (coords != null && coords.length > 0)
+		{
+			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
+			coordsEnum.append(coords[0]);
+			for (int i = 1; i < coords.length; i++)
+			{
+				coordsEnum.append(',');
+				coordsEnum.append(coords[i]);
+			}
+			
+			writer.write(" coords=\"" + coordsEnum + "\"");
+		}
+	}
+
+
+	protected void writeImageAreaHyperlink(JRPrintHyperlink hyperlink) throws IOException
+	{
+		String href = getHyperlinkURL(hyperlink);
+		if (href == null)
+		{
+			writer.write(" nohref=\"nohref\"");
+		}
+		else
+		{
+			writer.write(" href=\"" + href + "\"");
+			
+			String target = getHyperlinkTarget(hyperlink);
+			if (target != null)
+			{
+				writer.write(" target=\"");
+				writer.write(target);
+				writer.write("\"");
+			}
+		}
+
+		if (hyperlink.getHyperlinkTooltip() != null)
+		{
+			writer.write(" title=\"");
+			writer.write(JRStringUtil.xmlEncode(hyperlink.getHyperlinkTooltip()));
+			writer.write("\"");
+		}
 	}
 
 
@@ -1704,19 +1851,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	public static String getImageName(JRPrintElementIndex printElementIndex)
 	{
-		StringBuffer name = new StringBuffer();
-		name.append("img_");
-		name.append(printElementIndex.getReportIndex());
-		name.append('_');
-		name.append(printElementIndex.getPageIndex());
-		Integer[] elementIndexes = printElementIndex.getElementIndexes();
-		for (int i = 0; i < elementIndexes.length; i++)
-		{
-			name.append('_');
-			name.append(elementIndexes[i]);
-		}
-
-		return name.toString();
+		return IMAGE_NAME_PREFIX + printElementIndex.toString();
 	}
 
 
@@ -1725,29 +1860,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	public static JRPrintElementIndex getPrintElementIndex(String imageName)
 	{
-		StringTokenizer tkzer = new StringTokenizer(imageName, "_");
-
-		if (!"img".equals(tkzer.nextElement()))
+		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
 		{
 			throw new JRRuntimeException("Invalid image name: " + imageName);
 		}
 
-		int reportIndex = Integer.parseInt(tkzer.nextToken());
-		int pageIndex = Integer.parseInt(tkzer.nextToken());
-
-		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
-		int c = 0;
-		while (tkzer.hasMoreTokens())
-		{
-			elementIndexes[c++] = Integer.valueOf(tkzer.nextToken());
-		}
-
-		return
-			new JRPrintElementIndex(
-				reportIndex,
-				pageIndex,
-				elementIndexes
-				);
+		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
 	}
 
 
@@ -1801,4 +1919,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
+
 }
+

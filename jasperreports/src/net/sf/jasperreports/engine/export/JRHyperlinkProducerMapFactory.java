@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
@@ -41,9 +44,11 @@ import java.util.Map;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory
+public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory implements Serializable
 {
 	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	private Map producers;
 	
 	

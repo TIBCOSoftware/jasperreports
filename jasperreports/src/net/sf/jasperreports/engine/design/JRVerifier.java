@@ -36,6 +36,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimePeriodSeries;
+import net.sf.jasperreports.charts.JRTimeSeries;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -53,6 +65,7 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -1087,6 +1100,22 @@ public class JRVerifier
 					brokenRules.add("Class " + clazz + " not supported for hyperlink page expression. Use java.lang.Integer instead.");
 				}
 			}
+
+			expression = hyperlink.getHyperlinkTooltipExpression();
+			
+			if (expression != null)
+			{
+				Class clazz = expression.getValueClass();
+
+				if (clazz == null)
+				{
+					brokenRules.add("Class not set for hyperlink tooltip expression.");
+				}
+				else if (!java.lang.String.class.isAssignableFrom(clazz))
+				{
+					brokenRules.add("Class " + clazz + " not supported for hyperlink tooltip expression. Use java.lang.String instead.");
+				}
+			}
 			
 			JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
 			if (parameters != null)
@@ -1725,7 +1754,15 @@ public class JRVerifier
 			brokenRules.add("Charts do not support Auto evaluation time.");
 		}
 		
-		verifyElementDataset(chart.getDataset());
+		JRChartDataset dataset = chart.getDataset();
+		if (dataset == null)
+		{
+			brokenRules.add("Chart dataset missing.");
+		}
+		else
+		{
+			dataset.validate(this);
+		}
 	}
 
 
@@ -2061,5 +2098,124 @@ public class JRVerifier
 				verifyElement(element);
 			}
 		}
+	}
+
+
+	public void verify(JRCategoryDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRCategorySeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+	}
+
+
+	protected void verify(JRCategorySeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
+	}
+
+
+	public void verify(JRPieDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		verifyHyperlink(dataset.getSectionHyperlink());
+	}
+
+
+	public void verify(JRHighLowDataset dataset)
+	{
+		verifyElementDataset(dataset);	
+		verifyHyperlink(dataset.getItemHyperlink());
+	}
+
+
+	public void verify(JRTimePeriodDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRTimePeriodSeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+	}
+
+
+	protected void verify(JRTimePeriodSeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
+	}
+
+
+	public void verify(JRTimeSeriesDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRTimeSeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+	}
+
+
+	protected void verify(JRTimeSeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
+	}
+
+
+	public void verify(JRXyDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRXySeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}
+	}
+
+
+	protected void verify(JRXySeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
+	}
+
+
+	public void verify(JRXyzDataset dataset)
+	{
+		verifyElementDataset(dataset);
+		
+		JRXyzSeries[] series = dataset.getSeries();
+		if (series != null)
+		{
+			for (int i = 0; i < series.length; i++)
+			{
+				verify(series[i]);
+			}
+		}		
+	}
+
+
+	protected void verify(JRXyzSeries series)
+	{
+		verifyHyperlink(series.getItemHyperlink());
 	}
 }

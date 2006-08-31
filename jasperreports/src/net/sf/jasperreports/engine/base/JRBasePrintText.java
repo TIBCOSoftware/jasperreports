@@ -79,6 +79,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected String hyperlinkReference = null;
 	protected String hyperlinkAnchor = null;
 	protected Integer hyperlinkPage = null;
+	protected String hyperlinkTooltip;
 	protected JRPrintHyperlinkParameters hyperlinkParameters;
 
 	/**
@@ -1410,6 +1411,20 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+
+	
+	public String getHyperlinkTooltip()
+	{
+		return hyperlinkTooltip;
+	}
+
+
+	
+	public void setHyperlinkTooltip(String hyperlinkTooltip)
+	{
+		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
 
 }

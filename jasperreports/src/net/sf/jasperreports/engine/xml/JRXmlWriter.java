@@ -814,6 +814,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", image.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", image.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", image.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, image.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(image.getHyperlinkParameters());
 		
 		writer.closeElement();
@@ -961,6 +962,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", textField.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", textField.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", textField.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, textField.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(textField.getHyperlinkParameters());
 		
 		writer.closeElement();
@@ -1079,6 +1081,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", chart.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", chart.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", chart.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, chart.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(chart.getHyperlinkParameters());
 
 		writer.closeElement();
@@ -1190,6 +1193,7 @@ public class JRXmlWriter
 		writer.writeExpression("categoryExpression", categorySeries.getCategoryExpression(), false);
 		writer.writeExpression("valueExpression", categorySeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", categorySeries.getLabelExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, categorySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1226,6 +1230,7 @@ public class JRXmlWriter
 		writer.writeExpression("xValueExpression", series.getXValueExpression(), false);
 		writer.writeExpression("yValueExpression", series.getYValueExpression(), false);
 		writer.writeExpression("zValueExpression", series.getZValueExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, series.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1241,6 +1246,7 @@ public class JRXmlWriter
 		writer.writeExpression("xValueExpression", xySeries.getXValueExpression(), false);
 		writer.writeExpression("yValueExpression", xySeries.getYValueExpression(), false);
 		writer.writeExpression("labelExpression", xySeries.getLabelExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, xySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1280,6 +1286,7 @@ public class JRXmlWriter
 		writer.writeExpression("timePeriodExpression", timeSeries.getTimePeriodExpression(), false);
 		writer.writeExpression("valueExpression", timeSeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", timeSeries.getLabelExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, timeSeries.getItemHyperlink());
 		
 		writer.closeElement();
 	}
@@ -1294,6 +1301,7 @@ public class JRXmlWriter
 		writer.writeExpression("endDateExpression", timePeriodSeries.getEndDateExpression(), false);
 		writer.writeExpression("valueExpression", timePeriodSeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", timePeriodSeries.getLabelExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, timePeriodSeries.getItemHyperlink());
 		
 		writer.closeElement();
 	}
@@ -1311,7 +1319,8 @@ public class JRXmlWriter
 		writer.writeExpression("keyExpression", dataset.getKeyExpression(), false);
 		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
 		writer.writeExpression("labelExpression", dataset.getLabelExpression(), false);
-		
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_SECTION_HYPERLINK, dataset.getSectionHyperlink());
+
 		writer.closeElement();
 	}
 
@@ -1561,6 +1570,7 @@ public class JRXmlWriter
 		writer.writeExpression("openExpression", dataset.getOpenExpression(), false);
 		writer.writeExpression("closeExpression", dataset.getCloseExpression(), false);
 		writer.writeExpression("volumeExpression", dataset.getVolumeExpression(), false);
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, dataset.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -2171,6 +2181,26 @@ public class JRXmlWriter
 			
 			writer.writeExpression(JRHyperlinkParameterExpressionFactory.TAG_VALUE_EXPRESSION,
 					parameter.getValueExpression(), true, String.class.getName());
+			
+			writer.closeElement();
+		}
+	}
+	
+	
+	protected void writeHyperlink(String tagName, JRHyperlink hyperlink) throws IOException
+	{
+		if (hyperlink != null)
+		{
+			writer.startElement(tagName);
+			
+			writer.addAttribute("hyperlinkType", hyperlink.getLinkType());
+			writer.addAttribute("hyperlinkTarget", hyperlink.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
+			
+			writer.writeExpression("hyperlinkReferenceExpression", hyperlink.getHyperlinkReferenceExpression(), false);
+			writer.writeExpression("hyperlinkAnchorExpression", hyperlink.getHyperlinkAnchorExpression(), false);
+			writer.writeExpression("hyperlinkPageExpression", hyperlink.getHyperlinkPageExpression(), false);
+			writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, hyperlink.getHyperlinkTooltipExpression(), false);
+			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 			
 			writer.closeElement();
 		}

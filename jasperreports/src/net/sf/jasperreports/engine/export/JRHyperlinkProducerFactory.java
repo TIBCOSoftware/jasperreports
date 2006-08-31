@@ -27,8 +27,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.io.Serializable;
-
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 
@@ -42,7 +40,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRHyperlinkProducerFactory implements Serializable
+public abstract class JRHyperlinkProducerFactory
 {
 
 	/**

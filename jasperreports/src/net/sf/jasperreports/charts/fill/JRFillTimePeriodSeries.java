@@ -30,9 +30,14 @@ package net.sf.jasperreports.charts.fill;
 import java.util.Date;
 
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -50,6 +55,7 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 	private Date endDate = null;
 	private Number value = null;
 	private String label = null;
+	private JRPrintHyperlink itemHyperlink;
 	
 	
 	public JRFillTimePeriodSeries( JRTimePeriodSeries timePeriodSeries, JRFillObjectFactory factory  ){
@@ -104,6 +110,46 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 		endDate = (Date)calculator.evaluate( getEndDateExpression() );
 		value= (Number)calculator.evaluate( getValueExpression() );
 		label = (String)calculator.evaluate( getLabelExpression() );
+		
+		if (hasItemHyperlink())
+		{
+			evaluateItemHyperlink(calculator);
+		}
+	}
+
+
+	protected void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			itemHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getItemHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+
+	public JRHyperlink getItemHyperlink()
+	{
+		return parent.getItemHyperlink();
+	}
+
+
+	public boolean hasItemHyperlink()
+	{
+		return getItemHyperlink() != null;
+	}
+
+	
+	public JRPrintHyperlink getPrintItemHyperlink()
+	{
+		return itemHyperlink;
 	}
 	
 	

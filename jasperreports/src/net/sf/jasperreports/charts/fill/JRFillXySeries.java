@@ -28,9 +28,14 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRXySeries;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
@@ -50,6 +55,7 @@ public class JRFillXySeries implements JRXySeries
 	private Number xValue = null;
 	private Number yValue = null;
 	private String label = null;
+	private JRPrintHyperlink itemHyperlink;
 	
 	
 	/**
@@ -131,6 +137,11 @@ public class JRFillXySeries implements JRXySeries
 		return label;
 	}
 	
+	protected JRPrintHyperlink getPrintItemHyperlink()
+	{
+		return itemHyperlink;
+	}
+	
 	
 	/**
 	 *
@@ -141,6 +152,40 @@ public class JRFillXySeries implements JRXySeries
 		xValue = (Number)calculator.evaluate(getXValueExpression()); 
 		yValue = (Number)calculator.evaluate(getYValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
+		
+		if (hasItemHyperlinks())
+		{
+			evaluateItemHyperlink(calculator);
+		}
+	}
+
+
+	protected void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	{
+		try
+		{
+			itemHyperlink = JRFillHyperlinkHelper.evaluateHyperlink(getItemHyperlink(), calculator, JRExpression.EVALUATION_DEFAULT);
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+
+	public JRHyperlink getItemHyperlink()
+	{
+		return parent.getItemHyperlink();
+	}
+
+	
+	public boolean hasItemHyperlinks()
+	{
+		return getItemHyperlink() != null;
 	}
 
 }

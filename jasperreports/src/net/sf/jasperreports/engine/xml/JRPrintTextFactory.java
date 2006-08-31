@@ -59,6 +59,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
 	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
 	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
+	public static final String ATTRIBUTE_hyperlinkTooltip = "hyperlinkTooltip";
 	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 	public static final String ATTRIBUTE_valueClass = "valueClass";
 	public static final String ATTRIBUTE_pattern = "pattern";
@@ -150,6 +151,8 @@ public class JRPrintTextFactory extends JRBaseFactory
 		{
 			text.setHyperlinkPage(new Integer(hyperlinkPage));
 		}
+		
+		text.setHyperlinkTooltip(atts.getValue(ATTRIBUTE_hyperlinkTooltip));
 
 		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)

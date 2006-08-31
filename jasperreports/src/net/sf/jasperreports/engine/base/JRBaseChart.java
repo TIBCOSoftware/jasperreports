@@ -120,6 +120,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRExpression hyperlinkReferenceExpression = null;
 	protected JRExpression hyperlinkAnchorExpression = null;
 	protected JRExpression hyperlinkPageExpression = null;
+	private JRExpression hyperlinkTooltipExpression;
 
 	protected JRChartDataset dataset = null;
 	protected JRChartPlot plot = null;
@@ -258,8 +259,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
+		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
-		copyHyperlinkParameters(chart, factory);
+		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(chart, factory);
 
 		customizerClass = chart.getCustomizerClass();
 
@@ -279,21 +281,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		bottomPadding = chart.getOwnBottomPadding();
 		rightPadding = chart.getOwnRightPadding();
 
-	}
-
-
-	private void copyHyperlinkParameters(JRHyperlink hyperlink, JRBaseObjectFactory factory)
-	{
-		JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
-		if (parameters != null && parameters.length > 0)
-		{
-			hyperlinkParameters = new JRHyperlinkParameter[parameters.length];
-			for (int i = 0; i < parameters.length; i++)
-			{
-				JRHyperlinkParameter parameter = parameters[i];
-				hyperlinkParameters[i] = factory.getHyperlinkParameter(parameter);
-			}
-		}
 	}
 		
 
@@ -985,6 +972,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			 linkType = JRHyperlinkHelper.getLinkType(hyperlinkType);
 		}
 		hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
+	}
+
+	
+	public JRExpression getHyperlinkTooltipExpression()
+	{
+		return hyperlinkTooltipExpression;
 	}
 
 }

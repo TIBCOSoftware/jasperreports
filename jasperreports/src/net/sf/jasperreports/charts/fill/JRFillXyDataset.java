@@ -37,10 +37,12 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.util.XYDatasetLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.Pair;
 
 import org.jfree.data.general.Dataset;
 import org.jfree.data.xy.XYSeries;
@@ -62,6 +64,8 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	private List seriesNames = null;
 	private Map seriesMap = null;
 	private Map labelsMap = null;
+	
+	private Map itemHyperlinks;
 	
 	
 	/**
@@ -104,6 +108,7 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		seriesNames = null;
 		seriesMap = null;
 		labelsMap = null;
+		itemHyperlinks = null;
 	}
 
 	
@@ -134,6 +139,7 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 				seriesNames = new ArrayList();
 				seriesMap = new HashMap();
 				labelsMap = new HashMap();
+				itemHyperlinks = new HashMap();
 			}
 
 			for(int i = 0; i < xySeries.length; i++)
@@ -164,6 +170,18 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 					}
 					
 					seriesLabels.put(crtXySeries.getXValue(), crtXySeries.getLabel());
+				}
+				
+				if (crtXySeries.hasItemHyperlinks())
+				{
+					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					if (seriesLinks == null)
+					{
+						seriesLinks = new HashMap();
+						itemHyperlinks.put(seriesName, seriesLinks);
+					}
+					Pair xyKey = new Pair(crtXySeries.getXValue(), crtXySeries.getYValue());
+					seriesLinks.put(xyKey, crtXySeries.getPrintItemHyperlink());
 				}
 			}
 		}
@@ -210,6 +228,33 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	
+	public Map getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+	
+	
+	public boolean hasItemHyperlinks()
+	{
+		boolean foundLinks = false;
+		if (xySeries != null && xySeries.length > 0)
+		{
+			for (int i = 0; i < xySeries.length && !foundLinks; i++)
+			{
+				JRFillXySeries serie = xySeries[i];
+				foundLinks = serie.hasItemHyperlinks();
+			}
+		}
+		return foundLinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 

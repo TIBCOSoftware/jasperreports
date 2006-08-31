@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.util.TimeSeriesLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
@@ -62,6 +63,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	private List seriesNames = null;
 	private Map seriesMap = null;
 	private Map labelsMap = null;
+	private Map itemHyperlinks;
 	
 	
 	public JRFillTimeSeriesDataset(
@@ -92,6 +94,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		seriesNames = null;
 		seriesMap = null;
 		labelsMap = null;
+		itemHyperlinks = null;
 	}
 	
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException 
@@ -115,6 +118,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				seriesNames = new ArrayList();
 				seriesMap = new HashMap();
 				labelsMap = new HashMap();
+				itemHyperlinks = new HashMap();
 			}
 
 			for (int i = 0; i < timeSeries.length; i++)
@@ -149,6 +153,17 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 					}
 					
 					seriesLabels.put(tp, crtTimeSeries.getLabel());
+				}
+				
+				if (crtTimeSeries.hasItemHyperlink())
+				{
+					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					if (seriesLinks == null)
+					{
+						seriesLinks = new HashMap();
+						itemHyperlinks.put(seriesName, seriesLinks);
+					}
+					seriesLinks.put(tp, crtTimeSeries.getPrintItemHyperlink());
 				}
 			}
 		}
@@ -195,6 +210,32 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
+	}
+
+	
+	public Map getItemHyperlinks()
+	{
+		return itemHyperlinks;
+	}
+	
+	
+	public boolean hasItemHyperlinks()
+	{
+		boolean foundLinks = false;
+		if (timeSeries != null && timeSeries.length > 0)
+		{
+			for (int i = 0; i < timeSeries.length && !foundLinks; i++)
+			{
+				foundLinks = timeSeries[i].hasItemHyperlink();
+			}
+		}
+		return foundLinks;
+	}
+
+
+	public void validate(JRVerifier verifier)
+	{
+		verifier.verify(this);
 	}
 
 
