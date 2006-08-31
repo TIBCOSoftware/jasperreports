@@ -89,6 +89,7 @@ This operation has apparently only one inconvenience. The final document does no
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
+				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{headingText}]]></hyperlinkTooltipExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true">

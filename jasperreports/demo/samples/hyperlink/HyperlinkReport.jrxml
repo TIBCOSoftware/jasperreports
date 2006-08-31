@@ -30,6 +30,7 @@
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
+				<hyperlinkTooltipExpression>"Skip to the summary section"</hyperlinkTooltipExpression>
 			</textField>
 			<textField hyperlinkType="LocalPage">
 				<reportElement x="5" y="65" width="300" height="15" forecolor="#8000"/>
@@ -48,6 +49,7 @@
 				<graphicElement/>
 				<imageExpression class="java.lang.String"><![CDATA["google.gif"]]></imageExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
+				<hyperlinkTooltipExpression>"Searching for something?"</hyperlinkTooltipExpression>
 			</image>
 			<textField hyperlinkType="RemoteAnchor">
 				<reportElement x="5" y="125" width="350" height="15"/>
