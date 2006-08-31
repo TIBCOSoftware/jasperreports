@@ -137,7 +137,7 @@ public class ChartsApp
 				{
 					long start = System.currentTimeMillis();
 					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
-					System.err.println("Report : " + reportNames[i] + ". PDF export time : " + (System.currentTimeMillis() - start));
+					System.err.println("Report : " + reportNames[i] + ". Html export time : " + (System.currentTimeMillis() - start));
 				}
 
 				System.exit(0);

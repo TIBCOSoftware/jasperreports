@@ -159,6 +159,10 @@
 						<seriesExpression>"Freight"</seriesExpression>
 						<xValueExpression>$F{OrderID}</xValueExpression>
 						<yValueExpression>$F{Freight}</yValueExpression>
+						<itemHyperlink hyperlinkType="LocalAnchor">
+							<hyperlinkAnchorExpression>$F{OrderID}.toString()</hyperlinkAnchorExpression>
+							<hyperlinkTooltipExpression>"Go to item " + $F{OrderID}</hyperlinkTooltipExpression>
+						</itemHyperlink>
 					</xySeries>
 					<xySeries>
 						<seriesExpression>"Half Freight"</seriesExpression>
@@ -265,6 +269,7 @@
 				<reportElement x="1" y="0" width="35" height="11"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{OrderID}]]></textFieldExpression>
+				<anchorNameExpression>$F{OrderID}.toString()</anchorNameExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11"/>
