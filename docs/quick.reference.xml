@@ -442,7 +442,8 @@
     <a href="seriesExpression">seriesExpression</a>,
     <a href="categoryExpression">categoryExpression</a>,
     <a href="valueExpression">valueExpression</a>,
-    <a href="labelExpression">labelExpression</a>?
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -513,7 +514,13 @@
     <a href="reportElement">reportElement</a>,
     <a href="box">box</a>?,
     <a href="chartTitle">chartTitle</a>?,
-    <a href="chartSubtitle">chartSubtitle</a>?
+    <a href="chartSubtitle">chartSubtitle</a>?,
+    <a href="anchorNameExpression">anchorNameExpression</a>?,
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
   )</contains>
   <attributes>
     <attribute>
@@ -566,33 +573,34 @@
     </attribute>
     <attribute>
       <name>hyperlinkType</name>
-      <description>Indicates the type of the hyperlink element.</description>
-      <values>
-        <value>
-          <name>None</name>
-          <description>The current element doesn't represent a hyperlink.</description>
-        </value>
-        <value>
-          <name>Reference</name>
-          <description>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</description>
-        </value>
-        <value>
-          <name>LocalAnchor</name>
-          <description>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>LocalPage</name>
-          <description>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemoteAnchor</name>
-          <description>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemotePage</name>
-          <description>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-      </values>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
       <default>None</default>
     </attribute>
     <attribute>
@@ -1745,7 +1753,8 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="highExpression">highExpression</a>,
     <a href="lowExpression">lowExpression</a>,
     <a href="openExpression">closeExpression</a>,
-    <a href="volumeExpression">volumeExpression</a>
+    <a href="volumeExpression">volumeExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -1816,10 +1825,56 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 </element>
 
 
+<!-- hyperlinkParameter -->
+<element>
+  <name>hyperlinkParameter</name>
+  <description>Definition of a hyperlink parameter.  Hyperlink parameters can be used to parametrize hyperlinks of custom types.</description>
+  <contains>(
+    <a href="hyperlinkParameterExpression">hyperlinkParameterExpression</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>The name of the hyperlink parameter.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkParameterExpression -->
+<element>
+  <name>hyperlinkParameterExpression</name>
+  <description>Expression that will produce the value for a hyperlink parameter.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Type of the parameter value.</description>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- hyperlinkReferenceExpression -->
 <element>
   <name>hyperlinkReferenceExpression</name>
   <description>Used in hyperlink elements to point to external documents and resources.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkTooltipExpression -->
+<element>
+  <name>hyperlinkTooltipExpression</name>
+  <description>Used in hyperlink elements to generate a tooltip for the hyperlink.  The type of the expression should be <code>java.lang.String</code>.</description>
   <contains>(
     #PCDATA
   )</contains>
@@ -1840,7 +1895,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="anchorNameExpression">anchorNameExpression</a>?,
     <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
     <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
-    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
   )</contains>
   <attributes>
     <attribute>
@@ -1988,33 +2045,34 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>hyperlinkType</name>
-      <description>Indicates the type of the hyperlink element.</description>
-      <values>
-        <value>
-          <name>None</name>
-          <description>The current element doesn't represent a hyperlink.</description>
-        </value>
-        <value>
-          <name>Reference</name>
-          <description>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</description>
-        </value>
-        <value>
-          <name>LocalAnchor</name>
-          <description>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>LocalPage</name>
-          <description>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemoteAnchor</name>
-          <description>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemotePage</name>
-          <description>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-      </values>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
       <default>None</default>
     </attribute>
     <attribute>
@@ -2129,6 +2187,69 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     #PCDATA
   )</contains>
   <attributes>
+  </attributes>
+</element>
+
+
+<!-- itemHyperlink -->
+<element>
+  <name>itemHyperlink</name>
+  <description>Hyperlink specification for chart items.  This hyperlink definition will be evaluated for every chart item and an image map will be created for the chart.</description>
+  <contains>(
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
   </attributes>
 </element>
 
@@ -2781,7 +2902,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="dataset">dataset</a>,
     <a href="keyExpression">keyExpression</a>,
     <a href="valueExpression">valueExpression</a>,
-    <a href="labelExpressiont">labelExpression</a>?
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="sectionHyperlink">sectionHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -3384,6 +3506,68 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- sectionHyperlink -->
+<element>
+  <name>sectionHyperlink</name>
+  <description>Hyperlink specification for pie chart sections.  This hyperlink definition will be evaluated for every chart section and a image map will be created for the chart.</description>
+  <contains>(
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+  </attributes>
+</element>
+
 <!-- seriesExpression -->
 <element>
   <name>seriesExpression</name>
@@ -3879,7 +4063,9 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="anchorNameExpression">anchorNameExpression</a>?,
     <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
     <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
-    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
   )</contains>
   <attributes>
     <attribute>
@@ -3958,33 +4144,34 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
     <attribute>
       <name>hyperlinkType</name>
-      <description>Indicates the type of the hyperlink element.</description>
-      <values>
-        <value>
-          <name>None</name>
-          <description>The current element doesn't represent a hyperlink.</description>
-        </value>
-        <value>
-          <name>Reference</name>
-          <description>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</description>
-        </value>
-        <value>
-          <name>LocalAnchor</name>
-          <description>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>LocalPage</name>
-          <description>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemoteAnchor</name>
-          <description>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-        <value>
-          <name>RemotePage</name>
-          <description>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</description>
-        </value>
-      </values>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
       <default>None</default>
     </attribute>
     <attribute>
@@ -4120,7 +4307,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="startDateExpression">startDateExpression</a>,
     <a href="endDateExpression">endDateExpression</a>,
     <a href="valueExpression">valueExpression</a>,
-    <a href="indexol.html#labelExpression">labelExpression</a>
+    <a href="labelExpression">labelExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -4135,7 +4323,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="seriesExpression">seriesExpression</a>,
     <a href="timePeriodExpression">timePeriodExpression</a>,
     <a href="valueExpression">valueExpression</a>,
-    <a href="labelExpression">labelExpression</a> ?
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -4550,7 +4739,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="seriesExpression">seriesExpression</a>,
     <a href="xValueExpression">xValueExpression</a>,
     <a href="yValueExpression">yValueExpression</a>,
-    <a href="labelExpression">labelExpression</a>
+    <a href="labelExpression">labelExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
@@ -4577,7 +4767,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <contains>(
     <a href="seriesExpression">seriesExpression</a>,
     <a href="xValueExpression">xValueExpression</a>,
-    <a href="yValueExpression">yValueExpression</a>
+    <a href="yValueExpression">yValueExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
   )</contains>
   <attributes>
   </attributes>
