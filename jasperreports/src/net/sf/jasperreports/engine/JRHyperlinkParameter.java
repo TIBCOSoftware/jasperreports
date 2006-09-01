@@ -31,6 +31,8 @@ package net.sf.jasperreports.engine;
 /**
  * A hyperlink parameter, consisting of a name and a value expression.
  * 
+ * Hyperlink parameters can be used to parametrize hyperlinks of custom types.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  * @see JRHyperlink#getHyperlinkParameters()

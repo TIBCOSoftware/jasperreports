@@ -76,7 +76,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 * Sets the type to producer association map.
 	 *
 	 * @param producers bulk type to producer association map
-	 * @see #getHandlersMap()
+	 * @see #getProducersMap()
 	 */
 	public void setProducersMap(Map producers)
 	{
