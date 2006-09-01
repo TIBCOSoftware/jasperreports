@@ -41,9 +41,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -55,6 +57,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -70,10 +73,15 @@ import javax.swing.filechooser.FileFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
@@ -123,7 +131,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 * the zoom ration adjusted to the screen resolution.
 	 */
-	private float realZoom = 0f;
+	protected float realZoom = 0f;
 
 	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
 	private ResourceBundle resourceBundle = null;
@@ -1218,15 +1226,20 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
-		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);
-		
+		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);		
+		hyperlinkClicked(element);
+	}
+
+
+	protected void hyperlinkClicked(JRPrintHyperlink hyperlink)
+	{
 		try
 		{
 			JRHyperlinkListener listener = null;
 			for(int i = 0; i < hyperlinkListeners.size(); i++)
 			{
 				listener = (JRHyperlinkListener)hyperlinkListeners.get(i);
-				listener.gotoHyperlink(element);
+				listener.gotoHyperlink(hyperlink);
 			}
 		}
 		catch(JRException e)
@@ -1376,26 +1389,60 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlLinks.removeAll();
 		linksMap = new HashMap();
 
+		createHyperlinks();
+
+		pnlMain.validate();
+		pnlMain.repaint();
+	}
+
+
+	protected void createHyperlinks()
+	{
 		java.util.List pages = jasperPrint.getPages();
 		JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 		Collection elements = page.getElements();
 		if(elements != null && elements.size() > 0)
 		{
-			JPanel link = null;
-			JRPrintElement element = null;
-			JRPrintHyperlink hyperlink = null;
 			for(Iterator it = elements.iterator(); it.hasNext();)
 			{
-				element = (JRPrintElement)it.next();
-				if (
-					element instanceof JRPrintHyperlink && 
-					((JRPrintHyperlink)element).getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE
-					)
+				JRPrintElement element = (JRPrintElement)it.next();
+				
+				JRImageMapRenderer imageMap = null;
+				if (element instanceof JRPrintImage)
 				{
-					hyperlink = (JRPrintHyperlink)element;
+					JRRenderable renderer = ((JRPrintImage) element).getRenderer();
+					if (renderer instanceof JRImageMapRenderer)
+					{
+						imageMap = (JRImageMapRenderer) renderer;
+					}
+				}
+				boolean hasImageMap = imageMap != null;
+				
+				JRPrintHyperlink hyperlink = null;
+				if (!hasImageMap && element instanceof JRPrintHyperlink)
+				{
+					hyperlink = (JRPrintHyperlink) element;
+				}
+				boolean hasHyperlink = hyperlink != null && hyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE;
+				
+				if (hasHyperlink || hasImageMap)
+				{
+					JPanel link;
+					if (hasHyperlink)
+					{
+						link = new JPanel();
+					}
+					else //hasImageMap
+					{
+						Rectangle renderingArea = new Rectangle(0, 0, element.getWidth(), element.getHeight());
+						link = new ImageMapPanel(renderingArea, imageMap);
+					}
 					
-					link = new JPanel();
-					link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					if (hasHyperlink)
+					{
+						link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					}
+					
 					link.setLocation(
 						(int)(element.getX() * realZoom), 
 						(int)(element.getY() * realZoom)
@@ -1406,25 +1453,138 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						);
 					link.setOpaque(false);
 					
-					String toolTip = hyperlink.getHyperlinkTooltip();
-					if (toolTip == null)
+					String toolTip;
+					if (hasHyperlink)
 					{
-						toolTip = getFallbackTooltip(hyperlink);
+						toolTip = getHyperlinkTooltip(hyperlink);
 					}
-
+					else //hasImageMap
+					{
+						toolTip = "";//not null to register the panel as having a tool tip
+					}
 					link.setToolTipText(toolTip);
+					
 					link.addMouseListener(mouseListener);
 					pnlLinks.add(link);
 					linksMap.put(link, element);
 				}
 			}
 		}
+	}
 
-		pnlMain.validate();
-		pnlMain.repaint();
+	
+	protected class ImageMapPanel extends JPanel implements MouseListener, MouseMotionListener
+	{
+		protected final List imageAreaHyperlinks;
+		
+		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
+		{
+			try
+			{
+				imageAreaHyperlinks = imageMap.getImageAreaHyperlinks(renderingArea);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			
+			addMouseListener(this);
+			addMouseMotionListener(this);
+		}
+		
+		public String getToolTipText(MouseEvent event)
+		{
+			String tooltip = null;
+			JRPrintImageAreaHyperlink imageMapArea = getImageMapArea(event);
+			if (imageMapArea != null)
+			{
+				tooltip = getHyperlinkTooltip(imageMapArea.getHyperlink());
+			}
+			
+			if (tooltip == null)
+			{
+				tooltip = super.getToolTipText(event);
+			}
+				
+			return tooltip;
+		}
+		
+		public void mouseDragged(MouseEvent e)
+		{
+		}
+
+		public void mouseMoved(MouseEvent e)
+		{
+			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
+			if (imageArea != null 
+					&& imageArea.getHyperlink().getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+			{
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			else
+			{
+				e.getComponent().setCursor(Cursor.getDefaultCursor());
+			}
+		}
+
+		protected JRPrintImageAreaHyperlink getImageMapArea(MouseEvent e)
+		{
+			return getImageMapArea((int) (e.getX() / realZoom), (int) (e.getY() / realZoom));
+		}
+
+		protected JRPrintImageAreaHyperlink getImageMapArea(int x, int y)
+		{
+			JRPrintImageAreaHyperlink image = null;
+			for (Iterator it = imageAreaHyperlinks.iterator(); image == null && it.hasNext();)
+			{
+				JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.next();
+				if (area.getArea().containsPoint(x, y))
+				{
+					image = area;
+				}
+			}
+			return image;
+		}
+
+		public void mouseClicked(MouseEvent e)
+		{
+			JRPrintImageAreaHyperlink imageMapArea = getImageMapArea(e);
+			if (imageMapArea != null)
+			{
+				hyperlinkClicked(imageMapArea.getHyperlink());
+			}
+		}
+
+		public void mouseEntered(MouseEvent e)
+		{
+		}
+
+		public void mouseExited(MouseEvent e)
+		{
+		}
+
+		public void mousePressed(MouseEvent e)
+		{
+		}
+
+		public void mouseReleased(MouseEvent e)
+		{
+		}
 	}
 
 
+	protected String getHyperlinkTooltip(JRPrintHyperlink hyperlink)
+	{
+		String toolTip;
+		toolTip = hyperlink.getHyperlinkTooltip();
+		if (toolTip == null)
+		{
+			toolTip = getFallbackTooltip(hyperlink);
+		}
+		return toolTip;
+	}
+
+	
 	protected String getFallbackTooltip(JRPrintHyperlink hyperlink)
 	{
 		String toolTip = null;
