@@ -58,7 +58,7 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * Returns the hyperlink specification for chart sections.
 	 * <p>
-	 * The hyperlink will be evaluated for every chart section and a image map will be created for the chart.
+	 * The hyperlink will be evaluated for every chart section and an image map will be created for the chart.
 	 * </p>
 	 * 
 	 * @return hyperlink specification for chart sections

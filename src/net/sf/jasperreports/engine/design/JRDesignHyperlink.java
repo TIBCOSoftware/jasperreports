@@ -231,6 +231,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	
 	/**
 	 * Sets the expression which will be used to generate the hyperlink tooltip.
+	 * The type of the expression should be <code>java.lang.String</code>.
 	 * 
 	 * @param hyperlinkTooltipExpression the expression which will be used to generate the hyperlink tooltip
 	 * @see #getHyperlinkTooltipExpression()

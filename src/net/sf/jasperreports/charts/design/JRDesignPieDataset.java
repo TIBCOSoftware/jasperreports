@@ -141,8 +141,8 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 * Sets the hyperlink specification for chart sections.
 	 * 
-	 * @param itemHyperlink the hyperlink specification
-	 * @see #getItemHyperlink()
+	 * @param sectionHyperlink the hyperlink specification
+	 * @see #getSectionHyperlink()
 	 */
 	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
 	{
