@@ -27,6 +27,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,6 +116,7 @@ public class JRPrintImageArea
 	private byte shape = SHAPE_DEFAULT;
 	private int[] coordinates;
 	
+	private transient Shape cachedAWTShape;
 	
 	/**
 	 * Creates a blank image area.
@@ -168,6 +173,115 @@ public class JRPrintImageArea
 	public void setCoordinates(int[] coordinates)
 	{
 		this.coordinates = coordinates;
+	}
+	
+	
+	/**
+	 * Decides whether a specific point is inside this area.
+	 * 
+	 * @param x the X coordinate of the point
+	 * @param y the Y coordinate of the point
+	 * @return whether the point is inside this area
+	 */
+	public boolean containsPoint(int x, int y)
+	{
+		boolean contains;
+		if (hasAWTShape())
+		{
+			ensureAWTShape();
+			contains = cachedAWTShape.contains(x, y);
+		}
+		else
+		{
+			contains = true;
+		}
+		return contains;
+	}
+	
+	
+	protected void ensureAWTShape()
+	{
+		if (cachedAWTShape == null)
+		{
+			cachedAWTShape = createAWTShape();
+		}
+	}
+	
+	
+	protected boolean hasAWTShape()
+	{
+		return shape != SHAPE_DEFAULT;
+	}
+	
+	
+	protected Shape createAWTShape()
+	{
+		Shape awtShape;
+		switch (shape)
+		{
+			case SHAPE_RECTANGLE:
+				awtShape = createAWTRectangle();
+				break;
+			case SHAPE_CIRCLE:
+				awtShape = createAWTCircle();
+				break;
+			case SHAPE_POLYGON:
+				awtShape = createAWTPolygon();
+				break;
+			default:
+				awtShape = null;
+				break;
+		}
+		return awtShape;
+	}
+
+
+	protected Shape createAWTRectangle()
+	{
+		if (coordinates == null || coordinates.length != 4)
+		{
+			throw new JRRuntimeException("A rectangle must have exactly 4 coordinates");
+		}
+		
+		return new Rectangle(
+				coordinates[0], 
+				coordinates[1], 
+				coordinates[2] - coordinates[0],
+				coordinates[3] - coordinates[1]);
+	}
+
+
+	private Shape createAWTCircle()
+	{
+		if (coordinates == null || coordinates.length != 3)
+		{
+			throw new JRRuntimeException("A circle must have exactly 4 coordinates");
+		}
+		
+		return new Ellipse2D.Float(coordinates[0], coordinates[1], coordinates[2], coordinates[2]);
+	}
+
+
+	private Shape createAWTPolygon()
+	{
+		if (coordinates == null || coordinates.length == 0 || coordinates.length % 2 != 0)
+		{
+			throw new JRRuntimeException("A polygon must have an even number of coordinates");
+		}
+		
+		Polygon polygon = new Polygon();
+		
+		int i;
+		for (i = 0; i < coordinates.length - 2; i += 2)
+		{
+			polygon.addPoint(coordinates[i], coordinates[i + 1]);
+		}
+		if (coordinates[i] != coordinates[0] || coordinates[i + 1] != coordinates[1])
+		{
+			polygon.addPoint(coordinates[i], coordinates[i + 1]);
+		}
+
+		return polygon;
 	}
 	
 }
