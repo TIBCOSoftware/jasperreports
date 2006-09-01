@@ -75,9 +75,12 @@
 
 
 <xsl:template match="description">
-<xsl:apply-templates/>
+  <xsl:apply-templates mode="copy"/>
 </xsl:template>
 
+<xsl:template match="*" mode="copy">
+  <xsl:copy-of select="."/>
+</xsl:template>
 
 <xsl:template match="text()">
   <xsl:value-of select="."/>
@@ -154,6 +157,5 @@
     <td colspan="2"><i>Required </i><code><xsl:value-of select="."/></code></td>
   </tr>
 </xsl:template>
-
 
 </xsl:stylesheet>
