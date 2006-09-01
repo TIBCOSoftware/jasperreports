@@ -409,7 +409,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
 			{
-				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
+				if (isOnlyHyperlinkListener())
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Implement your own JRHyperlinkListener to manage this type of event.");
@@ -485,7 +485,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
 			{
-				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
+				if (isOnlyHyperlinkListener())
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Hyperlink anchor    : " + hyperlink.getHyperlinkAnchor());
@@ -495,10 +495,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
 			{
-				if (hyperlinkListeners != null && hyperlinkListeners.size() > 1)
+				if (isOnlyHyperlinkListener())
 				{
 					System.out.println("Hyperlink reference : " + hyperlink.getHyperlinkReference());
 					System.out.println("Hyperlink page      : " + hyperlink.getHyperlinkPage());
+					System.out.println("Implement your own JRHyperlinkListener to manage this type of event.");
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_CUSTOM:
+			{
+				if (isOnlyHyperlinkListener())
+				{
+					System.out.println("Hyperlink of type " + hyperlink.getLinkType());
 					System.out.println("Implement your own JRHyperlinkListener to manage this type of event.");
 				}
 				break;
@@ -509,6 +518,25 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				break;
 			}
 		}
+	}
+
+
+	protected boolean isOnlyHyperlinkListener()
+	{
+		int listenerCount;
+		if (hyperlinkListeners == null)
+		{
+			listenerCount = 0;
+		}
+		else
+		{
+			listenerCount = hyperlinkListeners.size();
+			if (hyperlinkListeners.contains(this))
+			{
+				--listenerCount;
+			}
+		}
+		return listenerCount == 0;
 	}
 
 	
