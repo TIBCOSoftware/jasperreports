@@ -1381,7 +1381,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		Collection elements = page.getElements();
 		if(elements != null && elements.size() > 0)
 		{
-			String toolTip = null;
 			JPanel link = null;
 			JRPrintElement element = null;
 			JRPrintHyperlink hyperlink = null;
@@ -1407,62 +1406,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						);
 					link.setOpaque(false);
 					
-					toolTip = null;
-					switch(hyperlink.getHyperlinkType())
+					String toolTip = hyperlink.getHyperlinkTooltip();
+					if (toolTip == null)
 					{
-						case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
-						{
-							toolTip = hyperlink.getHyperlinkReference();
-							break;
-						}
-						case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-						{
-							if (hyperlink.getHyperlinkAnchor() != null)
-							{
-								toolTip = "#" + hyperlink.getHyperlinkAnchor();
-							}
-							break;
-						}
-						case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-						{
-							if (hyperlink.getHyperlinkPage() != null)
-							{
-								toolTip = "#page " + hyperlink.getHyperlinkPage();
-							}
-							break;
-						}
-						case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-						{
-							toolTip = "";
-							if (hyperlink.getHyperlinkReference() != null)
-							{
-								toolTip = toolTip + hyperlink.getHyperlinkReference();
-							}
-							if (hyperlink.getHyperlinkAnchor() != null)
-							{
-								toolTip = toolTip + "#" + hyperlink.getHyperlinkAnchor();
-							}
-							break;
-						}
-						case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-						{
-							toolTip = "";
-							if (hyperlink.getHyperlinkReference() != null)
-							{
-								toolTip = toolTip + hyperlink.getHyperlinkReference();
-							}
-							if (hyperlink.getHyperlinkPage() != null)
-							{
-								toolTip = toolTip + "#page " + hyperlink.getHyperlinkPage();
-							}
-							break;
-						}
-						default :
-						{
-							break;
-						}
+						toolTip = getFallbackTooltip(hyperlink);
 					}
-					
+
 					link.setToolTipText(toolTip);
 					link.addMouseListener(mouseListener);
 					pnlLinks.add(link);
@@ -1473,6 +1422,67 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		pnlMain.validate();
 		pnlMain.repaint();
+	}
+
+
+	protected String getFallbackTooltip(JRPrintHyperlink hyperlink)
+	{
+		String toolTip = null;
+		switch(hyperlink.getHyperlinkType())
+		{
+			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			{
+				toolTip = hyperlink.getHyperlinkReference();
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+			{
+				if (hyperlink.getHyperlinkAnchor() != null)
+				{
+					toolTip = "#" + hyperlink.getHyperlinkAnchor();
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			{
+				if (hyperlink.getHyperlinkPage() != null)
+				{
+					toolTip = "#page " + hyperlink.getHyperlinkPage();
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+			{
+				toolTip = "";
+				if (hyperlink.getHyperlinkReference() != null)
+				{
+					toolTip = toolTip + hyperlink.getHyperlinkReference();
+				}
+				if (hyperlink.getHyperlinkAnchor() != null)
+				{
+					toolTip = toolTip + "#" + hyperlink.getHyperlinkAnchor();
+				}
+				break;
+			}
+			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			{
+				toolTip = "";
+				if (hyperlink.getHyperlinkReference() != null)
+				{
+					toolTip = toolTip + hyperlink.getHyperlinkReference();
+				}
+				if (hyperlink.getHyperlinkPage() != null)
+				{
+					toolTip = toolTip + "#page " + hyperlink.getHyperlinkPage();
+				}
+				break;
+			}
+			default :
+			{
+				break;
+			}
+		}
+		return toolTip;
 	}
 
 
