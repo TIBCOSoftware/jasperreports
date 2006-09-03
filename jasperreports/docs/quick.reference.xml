@@ -538,7 +538,7 @@
     </attribute>
     <attribute>
       <name>evaluationTime</name>
-      <description>The image to be printed is supplied by the associated expression. This expression can be evaluated at a specified moment. This could be useful, for example, when we want to have on the first page a chart that will be generated only after fetching all the data source rows.</description>
+      <description>The chart can be rendered at a specified moment. This could be useful, for example, when we want to have on the first page a chart that will be generated only after fetching all the data source rows.</description>
       <values>
         <value>
           <name>Now</name>
