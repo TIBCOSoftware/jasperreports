@@ -2,12 +2,13 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.6 (2006-08-xx)
+JasperReports 1.2.6 (2006-09-03)
 -----------------------------------
 
-- support for superscript and subscript in styled text;
+- enhanced hyperlink support for text elements, images and charts;
+hyperlinks per chart items for enhanced drill-through support;
 
-- enhanced hyperlink support;
+- support for superscript and subscript in styled text;
 
 - minor bug fixes and improvements;
 
