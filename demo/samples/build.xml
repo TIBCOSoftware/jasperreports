@@ -532,6 +532,7 @@
 		<ant dir="subreport" target="javac" />
 		<ant dir="subreport" target="compile" />
 		<ant dir="subreport" target="fill" />
+		<ant dir="subreport" target="fill-javaflow" />
 		<ant dir="subreport" target="pdf" />
 		<ant dir="subreport" target="xmlEmbed" />
 		<ant dir="subreport" target="xml" />
