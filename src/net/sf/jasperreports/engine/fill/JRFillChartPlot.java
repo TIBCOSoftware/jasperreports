@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.util.SortedSet;
 
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -122,7 +123,45 @@ public class JRFillChartPlot implements JRChartPlot
 	public void setForegroundAlpha(float foregroundAlpha)
 	{
 	}
-		
+	
+	/**
+	 *
+	 */
+	public double getLabelRotation()
+	{
+		return parent.getLabelRotation();
+	}
+	
+	/**
+	 *
+	 */
+	public void setLabelRotation(double labelRotation)
+	{
+	}
+	
+	/**
+	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
+	 * If there are no defined series colors this method will return an empty list, not null. 
+	 */
+	public SortedSet getSeriesColors()
+	{
+		return parent.getSeriesColors();
+	}
+	
+	/**
+	 * Removes all defined series colors.
+	 */
+	public void clearSeriesColors()
+	{
+	}
+	
+	/**
+	 * Adds the specified series color to the plot.
+	 */
+	public void addSeriesColor(JRSeriesColor seriesColor)
+	{
+	}
+	
 	/**
 	 *
 	 */
