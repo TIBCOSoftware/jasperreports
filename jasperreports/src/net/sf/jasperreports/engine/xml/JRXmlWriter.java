@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -48,21 +49,32 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDataset;
+import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.util.JRChartAxis;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
+import net.sf.jasperreports.charts.xml.JRMeterPlotFactory;
+import net.sf.jasperreports.charts.xml.JRThermometerPlotFactory;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -89,6 +101,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
@@ -126,6 +139,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.xml.JRChartPlotFactory.JRSeriesColorFactory;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -134,6 +148,7 @@ import org.jfree.data.time.Day;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Minor enhancements by Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
 public class JRXmlWriter
@@ -1077,6 +1092,15 @@ public class JRXmlWriter
 		}
 		writer.closeElement();
 		
+		// write chartLegend
+		writer.startElement("chartLegend");
+		if (chart.getLegendColor() != null)
+			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_textColor, chart.getLegendColor());
+		if (chart.getLegendBackgroundColor() != null)
+			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_backgroundColor, chart.getLegendBackgroundColor());
+		writeFont(chart.getLegendFont());
+		writer.closeElement();
+		
 		writer.writeExpression("anchorNameExpression", chart.getAnchorNameExpression(), false);
 		writer.writeExpression("hyperlinkReferenceExpression", chart.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", chart.getHyperlinkAnchorExpression(), false);
@@ -1325,6 +1349,112 @@ public class JRXmlWriter
 	}
 
 	/**
+	 * Writes the description of a value dataset to the output stream.
+	 * @param dataset the value dataset to persist
+	 */
+	public void writeValueDataset(JRValueDataset dataset) throws IOException
+	{
+		writer.startElement("valueDataset");
+
+		writeElementDataset(dataset);
+
+		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
+		
+		writer.closeElement();
+	}
+
+
+	/**
+	 * Writes the description of how to display a value in a valueDataset.
+	 * 
+	 * @param valueDisplay the description to save
+	 */
+	public void writeValueDisplay(JRValueDisplay valueDisplay) throws IOException
+	{
+		writer.startElement("valueDisplay");
+
+        writer.addAttribute("color", valueDisplay.getColor());
+        writer.addAttribute("mask", valueDisplay.getMask());
+
+		writeFont(valueDisplay.getFont());
+		
+		writer.closeElement();
+	}
+
+	/**
+	 * Writes a data range block to the output stream.
+	 * 
+	 * @param dataRange the range to write
+	 */
+	public void writeDataRange(JRDataRange dataRange) throws IOException
+	{
+		writer.startElement("dataRange");
+		
+		writer.writeExpression("lowExpression", dataRange.getLowExpression(), false);
+		writer.writeExpression("highExpression", dataRange.getHighExpression(), false);
+		
+		writer.closeElement();
+    }
+
+
+	/**
+	 * Writes a meter interval description to the output stream.
+	 * 
+	 * @param interval the interval to write
+	 */
+	private void writeMeterInterval(JRMeterInterval interval) throws IOException
+	{
+		writer.startElement("meterInterval");
+		
+		writer.addAttribute("label", interval.getLabel());
+		writer.addAttribute("color", interval.getBackgroundColor());
+		writer.addAttribute("alpha", interval.getAlpha());
+		
+		writeDataRange(interval.getDataRange());
+		
+		writer.closeElement();
+	}
+
+	/**
+	 * Writes out the contents of a series colors block for a chart.  Assumes the caller
+	 * has already written the <code>&lt;seriesColors&gt;</code> tag.
+	 * 
+	 * @param seriesColors the colors to write
+	 */
+	private void writeSeriesColors(SortedSet seriesColors) throws IOException
+	{
+		if (seriesColors == null || seriesColors.size() == 0)
+			return;
+		
+		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
+		for (int i = 0; i < colors.length; i++)
+		{
+			writer.startElement("seriesColor");
+			writer.addAttribute(JRSeriesColorFactory.ATTRIBUTE_seriesOrder, colors[i].getSeriesOrder());
+			writer.addAttribute(JRSeriesColorFactory.ATTRIBUTE_color, colors[i].getColor());
+			writer.closeElement();
+		}
+	}
+	
+	/**
+	 * Write the information about a the data and layout that make up one range axis in
+	 * a multiple axis chart.
+	 * 
+	 * @param chartAxis the axis being written
+	 */
+	private void writeChartAxis(JRChartAxis chartAxis) throws IOException
+	{
+	   writer.startElement("axis");
+	   writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPosition(),
+	                       JRXmlConstants.getAxisPositionMap(), JRChartAxis.POSITION_LEFT_OR_TOP);
+	   
+	   // Let the nested chart describe itself
+	   writeChartTag(chartAxis.getChart());
+	   writer.closeElement();
+	}
+	
+	/**
+	 * 
 	 *
 	 */
 	private void writePlot(JRChartPlot plot) throws IOException
@@ -1334,6 +1464,8 @@ public class JRXmlWriter
 		writer.addAttribute("orientation", plot.getOrientation(), JRXmlConstants.getPlotOrientationMap(), PlotOrientation.VERTICAL);
 		writer.addAttribute("backgroundAlpha", plot.getBackgroundAlpha(), 1.0f);
 		writer.addAttribute("foregroundAlpha", plot.getForegroundAlpha(), 1.0f);
+		writer.addAttribute("labelRotation", plot.getLabelRotation(), 0.0);
+		writeSeriesColors(plot.getSeriesColors());
 		
 		writer.closeElement();
 	}
@@ -1377,6 +1509,52 @@ public class JRXmlWriter
 	}
 
 
+
+	/**
+	 * Writes out the axis format block for a chart axis.
+	 * 
+	 * @param axisFormatElementName the name of the axis format element being written
+	 * @param axisLabelFont font to use for the axis label
+	 * @param axisLabelColor color to use for the axis label
+	 * @param axisTickLabelFont font to use for the label of each tick mark
+	 * @param axisTickLabelColor color to use for the label of each tick mark
+	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
+	 * @param axisLineColor the color to use for the axis line and any tick marks
+	 * 
+	 */
+	public void writeAxisFormat(String axisFormatElementName,
+								JRFont axisLabelFont, Color axisLabelColor,
+								JRFont axisTickLabelFont, Color axisTickLabelColor,
+								String axisTickLabelMask, Color axisLineColor)  throws IOException
+	{
+		if (axisLabelFont == null && axisLabelColor == null &&
+			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
+			return;
+		
+		writer.startElement(axisFormatElementName);
+		writer.startElement("axisFormat");
+		writer.addAttribute(JRChartFactory.JRChartAxisFormatFactory.ATTRIBUTE_labelColor, axisLabelColor);
+		writer.addAttribute(JRChartFactory.JRChartAxisFormatFactory.ATTRIBUTE_tickLabelColor, axisTickLabelColor);
+		writer.addAttribute(JRChartFactory.JRChartAxisFormatFactory.ATTRIBUTE_tickLabelMask, axisTickLabelMask);
+		writer.addAttribute(JRChartFactory.JRChartAxisFormatFactory.ATTRIBUTE_axisLineColor, axisLineColor);
+
+		if (axisLabelFont != null)
+		{
+			writer.startElement("labelFont");
+			writeFont(axisLabelFont);
+			writer.closeElement();
+		}
+		
+		if (axisTickLabelFont != null)
+		{
+			writer.startElement("tickLabelFont");
+			writeFont(axisTickLabelFont);
+			writer.closeElement();
+		}
+
+		writer.closeElement();
+		writer.closeElement();
+	}
 	/**
 	 *
 	 */
@@ -1389,7 +1567,14 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writeAxisFormat("categoryAxisFormat", plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
+						plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
+						plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 	}
@@ -1403,8 +1588,15 @@ public class JRXmlWriter
 		writer.startElement("bubblePlot");
 		writer.addAttribute("scaleType", plot.getScaleType(), JRXmlConstants.getScaleTypeMap());
 		writePlot(plot);
+
 		writer.writeExpression("xAxisLabelExpression", plot.getXAxisLabelExpression(), false);
+		writeAxisFormat("xAxisFormat", plot.getXAxisLabelFont(), plot.getXAxisLabelColor(),
+				plot.getXAxisTickLabelFont(), plot.getXAxisTickLabelColor(),
+				plot.getXAxisTickLabelMask(), plot.getXAxisLineColor());
 		writer.writeExpression("yAxisLabelExpression", plot.getYAxisLabelExpression(), false);
+		writeAxisFormat("yAxisFormat", plot.getYAxisLabelFont(), plot.getYAxisLabelColor(),
+				plot.getYAxisTickLabelFont(), plot.getYAxisTickLabelColor(),
+				plot.getYAxisTickLabelMask(), plot.getYAxisLineColor());
 
 		writer.closeElement();
 	}
@@ -1422,7 +1614,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writeAxisFormat("categoryAxisFormat", plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
 
 		writer.closeElement();
 	}
@@ -1437,7 +1635,14 @@ public class JRXmlWriter
 		writePlot( plot );
 		
 		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat("timeAxisFormat", plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 	}
@@ -1456,7 +1661,14 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writeAxisFormat("categoryAxisFormat", plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 	}
@@ -1591,7 +1803,14 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat("timeAxisFormat", plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 		writer.closeElement();
@@ -1612,7 +1831,14 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("timeAxisLabelExpression", plot.getTimeAxisLabelExpression(), false);
+		writeAxisFormat("timeAxisFormat", plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 		writer.closeElement();
@@ -1627,7 +1853,14 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("categoryAxisLabelExpression", plot.getCategoryAxisLabelExpression(), false);
+		writeAxisFormat("categoryAxisFormat", plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
 		writer.writeExpression("valueAxisLabelExpression", plot.getValueAxisLabelExpression(), false);
+		writeAxisFormat("valueAxisFormat", plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+
 
 		writer.closeElement();
 	}
@@ -1660,7 +1893,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression("xAxisLabelExpression", plot.getXAxisLabelExpression(), false);
+		writeAxisFormat("xAxisFormat", plot.getXAxisLabelFont(), plot.getXAxisLabelColor(),
+				plot.getXAxisTickLabelFont(), plot.getXAxisTickLabelColor(),
+				plot.getXAxisTickLabelMask(), plot.getXAxisLineColor());
 		writer.writeExpression("yAxisLabelExpression", plot.getYAxisLabelExpression(), false);
+		writeAxisFormat("yAxisFormat", plot.getYAxisLabelFont(), plot.getYAxisLabelColor(),
+				plot.getYAxisTickLabelFont(), plot.getYAxisTickLabelColor(),
+				plot.getYAxisTickLabelMask(), plot.getYAxisLineColor());
 
 		writer.closeElement();
 	}
@@ -1737,6 +1976,142 @@ public class JRXmlWriter
 	}
 
 
+	/**
+	 * Writes the definition of a meter chart to the output stream.
+	 * 
+	 * @param chart the meter chart to write
+	 */
+	public void writeMeterChart(JRChart chart) throws IOException
+	{
+		writer.startElement("meterChart");
+		
+		writeChart(chart);
+		writeValueDataset((JRValueDataset) chart.getDataset());
+
+		// write plot
+		JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
+		writer.startElement("meterPlot");
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_shape, plot.getShape(),
+		                    JRXmlConstants.getMeterShapeMap(), JRMeterPlot.SHAPE_PIE);
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_angle, plot.getMeterAngle());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_units, plot.getUnits());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickInterval, plot.getTickInterval());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_meterColor, plot.getMeterBackgroundColor());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_needleColor, plot.getNeedleColor());
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickColor, plot.getTickColor());
+		
+		writePlot(chart.getPlot());
+		writeValueDisplay(plot.getValueDisplay());
+		writeDataRange(plot.getDataRange());
+		
+		List intervals = plot.getIntervals();
+		if (intervals != null)
+		{
+		    Iterator iter = intervals.iterator();
+		    while (iter.hasNext())
+		    {
+		        JRMeterInterval meterInterval =
+		                  (JRMeterInterval) iter.next();
+		        writeMeterInterval(meterInterval);
+		    }
+		}
+		writer.closeElement();
+
+		writer.closeElement();
+	}
+
+
+	/**
+	 * Writes the description of a thermometer chart to the output stream.
+	 * 
+	 * @param chart the thermometer chart to write
+	 */
+	public void writeThermometerChart(JRChart chart) throws IOException
+	{
+		writer.startElement("thermometerChart");
+		
+		writeChart(chart);
+		writeValueDataset((JRValueDataset) chart.getDataset());
+
+		// write plot
+		JRThermometerPlot plot = (JRThermometerPlot) chart.getPlot();
+		
+		writer.startElement("thermometerPlot");
+		
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_valueLocation,
+		                    plot.getValueLocation(),
+		                    JRXmlConstants.getThermometerValueLocationMap(),
+		                    JRThermometerPlot.LOCATION_BULB);
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_showValueLines, plot.isShowValueLines());
+		writer.addAttribute(JRThermometerPlotFactory.ATTRIBUTE_mercuryColor, plot.getMercuryColor());
+		
+		writePlot(chart.getPlot());
+		
+		writeValueDisplay(plot.getValueDisplay());
+		writeDataRange(plot.getDataRange());
+		
+		if (plot.getLowRange() != null)
+		{
+            writer.startElement("lowRange");
+            writeDataRange(plot.getLowRange());
+            writer.closeElement();
+		}
+		
+		if (plot.getMediumRange() != null)
+		{
+            writer.startElement("mediumRange");
+            writeDataRange(plot.getMediumRange());
+            writer.closeElement();
+		}
+		
+		if (plot.getHighRange() != null)
+		{
+            writer.startElement("highRange");
+            writeDataRange(plot.getHighRange());
+            writer.closeElement();
+		}
+		
+
+		writer.closeElement();
+
+		writer.closeElement();
+	}
+
+
+	/**
+	 * Writes the definition of a multiple axis chart to the output stream.
+	 * 
+	 * @param chart the multiple axis chart to write
+	 */
+	public void writeMultiAxisChart(JRChart chart) throws IOException
+	{
+		writer.startElement("multiAxisChart");
+		
+		writeChart(chart);
+
+		// write plot
+		JRMultiAxisPlot plot = (JRMultiAxisPlot) chart.getPlot();
+		writer.startElement("multiAxisPlot");
+		
+		writePlot(chart.getPlot());
+		
+		List axes = plot.getAxes();
+		if (axes != null)
+		{
+		    Iterator iter = axes.iterator();
+		    while (iter.hasNext())
+		    {
+		        JRChartAxis chartAxis =
+		                  (JRChartAxis) iter.next();
+		        writeChartAxis(chartAxis);
+		    }
+		}
+		writer.closeElement();
+
+		writer.closeElement();
+	}
+	
+	
 	public void writeChartTag(JRChart chart) throws IOException
 	{
 		switch(chart.getChartType()) {
@@ -1761,7 +2136,13 @@ public class JRXmlWriter
 			case JRChart.CHART_TYPE_LINE:
 				writeLineChart(chart);
 				break;
-			case JRChart.CHART_TYPE_PIE:
+		    case JRChart.CHART_TYPE_METER:
+		        writeMeterChart(chart);
+		        break;
+		    case JRChart.CHART_TYPE_MULTI_AXIS:
+		    	writeMultiAxisChart(chart);
+		    	break;
+		    case JRChart.CHART_TYPE_PIE:
 				writePieChart(chart);
 				break;
 			case JRChart.CHART_TYPE_PIE3D:
@@ -1776,6 +2157,9 @@ public class JRXmlWriter
 			case JRChart.CHART_TYPE_STACKEDBAR3D:
 				writeStackedBar3DChart(chart);
 				break;
+		    case JRChart.CHART_TYPE_THERMOMETER:
+		        writeThermometerChart(chart);
+		        break;
 			case JRChart.CHART_TYPE_TIMESERIES:
 				writeTimeSeriesChart( chart );
 				break;

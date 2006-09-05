@@ -31,6 +31,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -880,6 +883,87 @@ public class JRXmlConstants
 	}
 
 	
+	/**
+	 *
+	 */
+	private static final String METER_SHAPE_CHORD = "chord";
+	private static final String METER_SHAPE_CIRCLE = "circle";
+	private static final String METER_SHAPE_PIE = "pie";
+	
+	private static Map meterShapeMap = null;
+	
+	public static Map getMeterShapeMap()
+	{
+	   if (meterShapeMap == null)
+	   {
+	       meterShapeMap = new HashMap();
+	       meterShapeMap.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
+	       meterShapeMap.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
+	       meterShapeMap.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
+	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
+	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
+	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
+	   }
+	   
+	   return meterShapeMap;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static final String THERMOMETER_VALUE_LOCATION_NONE = "none";
+	private static final String THERMOMETER_VALUE_LOCATION_LEFT = "left";
+	private static final String THERMOMETER_VALUE_LOCATION_RIGHT = "right";
+	private static final String THERMOMETER_VALUE_LOCATION_BULB = "bulb";
+	
+	private static Map thermometerValueLocationMap = null;
+	
+	public static Map getThermometerValueLocationMap()
+	{
+	   if (thermometerValueLocationMap == null)
+	   {
+	       thermometerValueLocationMap = new HashMap();
+	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_NONE, new Byte(JRThermometerPlot.LOCATION_NONE));
+	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_LEFT, new Byte(JRThermometerPlot.LOCATION_LEFT));
+	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_RIGHT, new Byte(JRThermometerPlot.LOCATION_RIGHT));
+	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_BULB, new Byte(JRThermometerPlot.LOCATION_BULB));
+	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_NONE), THERMOMETER_VALUE_LOCATION_NONE);
+	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
+	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
+	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
+	   }
+	   
+	   return thermometerValueLocationMap;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static final String AXIS_POSITION_LEFT_OR_TOP = "leftOrTop";
+	private static final String AXIS_POSITION_RIGHT_OR_BOTTOM = "rightOrBottom";
+	
+	private static Map axisPositionMap = null;
+	
+	public static Map getAxisPositionMap()
+	{
+	   if (axisPositionMap == null)
+	   {
+	       axisPositionMap = new HashMap();
+	       axisPositionMap.put(AXIS_POSITION_LEFT_OR_TOP, new Byte(JRChartAxis.POSITION_LEFT_OR_TOP));
+	       axisPositionMap.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
+	       axisPositionMap.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
+	       axisPositionMap.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
+	   }
+	   
+	   return axisPositionMap;
+	}
+	
+	
+	/**
+	 *
+	 */
 	private static final String CROSSTAB_BUCKET_ORDER_ASCENDING = "Ascending";
 	private static final String CROSSTAB_BUCKET_ORDER_DESCENDING = "Descending";
 	

@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 import java.util.Collection;
 
+import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
@@ -164,4 +166,123 @@ public class JRChartFactory extends JRBaseFactory
 	}
 
 
+	/**                                        	
+	 * A factory responsible for creating new chart legend formatting objects.
+	 * 
+	 * @author Barry Klawans (bklawans@users.sourceforge.net)
+	 */
+	public static class JRChartLegendFactory extends JRBaseFactory
+	{
+        /**
+         * Attribute used to specify the font color in the legend.
+         */		
+		public static final String ATTRIBUTE_textColor = "textColor";
+		
+		/**
+		 * Attribute used to specify the background color of the legend.
+		 */
+		public static final String ATTRIBUTE_backgroundColor = "backgroundColor";
+	    
+	    /**
+	     *
+	     */
+	    public Object createObject(Attributes atts) throws JRException
+	    {
+	    	// Grab the chart from the object stack.
+	        JRDesignChart chart = (JRDesignChart)digester.peek();
+	        
+	        // Set the text color
+	        String attrValue = atts.getValue(ATTRIBUTE_textColor);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+	        	Color color = JRXmlConstants.getColor(attrValue, null);
+	        	chart.setLegendColor(color);
+	        }
+
+	        // Set the background color
+	        attrValue = atts.getValue(ATTRIBUTE_backgroundColor);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+		        Color color = JRXmlConstants.getColor(attrValue, null);
+	            chart.setLegendBackgroundColor(color);
+	        }
+	        
+	        // Any font set will be put in the chart directly by the digester
+
+	        return chart;
+	    }
+	}
+
+
+	/**                                        	
+	 * A factory responsible for creating new chart axis formatting objects.
+	 * 
+	 * @author Barry Klawans (bklawans@users.sourceforge.net)
+	 */
+	public static class JRChartAxisFormatFactory extends JRBaseFactory
+	{
+		/**
+		 * Attribute to use to specify the color of the axis label.
+		 */
+		public static final String ATTRIBUTE_labelColor = "labelColor";
+		
+		/**
+		 * Attribute to use to specify the color of each tick mark label.
+		 */
+		public static final String ATTRIBUTE_tickLabelColor = "tickLabelColor";
+		
+		/**
+		 * Attribute to use to specify a formatting mask for each tick mark label.
+		 */
+		public static final String ATTRIBUTE_tickLabelMask = "tickLabelMask";
+		
+		/**
+		 * Attribute to use to specify the color of the axis line and any tick marks.
+		 */
+		public static final String ATTRIBUTE_axisLineColor = "axisLineColor";
+	    
+	    /**
+	     *
+	     */
+	    public Object createObject(Attributes atts) throws JRException
+	    {
+	    	// Create an empty axis formatting object
+	    	JRAxisFormat axisLabel = new JRAxisFormat();
+	        
+	    	// Set the label color
+	        String attrValue = atts.getValue(ATTRIBUTE_labelColor);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+	        	Color color = JRXmlConstants.getColor(attrValue, null);
+	        	axisLabel.setLabelColor(color);
+	        }
+	        
+	        // Set the tick label color
+	        attrValue = atts.getValue(ATTRIBUTE_tickLabelColor);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+	        	Color color = JRXmlConstants.getColor(attrValue, null);
+	        	axisLabel.setTickLabelColor(color);
+	        }
+	        
+	        // Set the tick mask
+	        attrValue = atts.getValue(ATTRIBUTE_tickLabelMask);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+	        	axisLabel.setTickLabelMask(attrValue);
+	        }
+	        
+	        // And finally set the axis line color
+	        attrValue = atts.getValue(ATTRIBUTE_axisLineColor);
+	        if (attrValue != null && attrValue.length() > 0)
+	        {
+	        	Color color = JRXmlConstants.getColor(attrValue, null);
+	        	axisLabel.setLineColor(color);
+	        }
+
+	        // Any fonts set will be put in the axis format object by the digester.
+	        
+	        return axisLabel;
+	    }
+	}
 }
