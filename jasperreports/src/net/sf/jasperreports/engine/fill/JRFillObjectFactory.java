@@ -42,15 +42,19 @@ import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -65,15 +69,19 @@ import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillHighLowPlot;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
+import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
+import net.sf.jasperreports.charts.fill.JRFillMultiAxisPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
 import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillScatterPlot;
+import net.sf.jasperreports.charts.fill.JRFillThermometerPlot;
 import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimePeriodSeries;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeries;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesPlot;
+import net.sf.jasperreports.charts.fill.JRFillValueDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXySeries;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
@@ -967,7 +975,85 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	}
 
+	/**
+	 *
+	 */
+	public JRValueDataset getValueDataset(JRValueDataset valueDataset)
+	{
+		JRFillValueDataset fillValueDataset = null;
 
+		if (valueDataset != null)
+		{
+			fillValueDataset = (JRFillValueDataset)get(valueDataset);
+			if (fillValueDataset == null)
+			{
+				fillValueDataset = new JRFillValueDataset(valueDataset, this);
+				addChartDataset(fillValueDataset);
+			}
+		}
+
+		return fillValueDataset;
+	}
+
+	/**
+	 *
+	 */
+	public JRMeterPlot getMeterPlot(JRMeterPlot meterPlot)
+	{
+		JRFillMeterPlot fillMeterPlot = null;
+
+		if (meterPlot != null)
+		{
+			fillMeterPlot = (JRFillMeterPlot)get(meterPlot);
+			if (fillMeterPlot == null)
+			{
+				fillMeterPlot = new JRFillMeterPlot(meterPlot, this);
+			}
+		}
+
+		return fillMeterPlot;
+	}
+	
+	/**
+	 *
+	 */
+	public JRThermometerPlot getThermometerPlot(JRThermometerPlot thermometerPlot)
+	{
+		JRFillThermometerPlot fillThermometerPlot = null;
+
+		if (thermometerPlot != null)
+		{
+			fillThermometerPlot = (JRFillThermometerPlot)get(thermometerPlot);
+			if (fillThermometerPlot == null)
+			{
+				fillThermometerPlot = new JRFillThermometerPlot(thermometerPlot, this);
+			}
+		}
+
+		return fillThermometerPlot;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public JRMultiAxisPlot getMultiAxisPlot(JRMultiAxisPlot multiAxisPlot)
+	{
+		JRFillMultiAxisPlot fillMultiAxisPlot = null;
+
+		if (multiAxisPlot != null)
+		{
+			fillMultiAxisPlot = (JRFillMultiAxisPlot)get(multiAxisPlot);
+			if (fillMultiAxisPlot == null)
+			{
+				fillMultiAxisPlot = new JRFillMultiAxisPlot(multiAxisPlot, this);
+			}
+		}
+
+		return fillMultiAxisPlot;
+	}
+	
+	
 	protected JRFillSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
 		JRFillSubreportReturnValue fillReturnValue = null;

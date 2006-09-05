@@ -62,5 +62,5 @@ public abstract class JRFillChartDataset extends JRFillElementDataset implements
 	/**
 	 *
 	 */
-	protected abstract Dataset getCustomDataset();
+	public abstract Dataset getCustomDataset();
 }
