@@ -87,6 +87,16 @@
 </xsl:template>
 
 
+<xsl:template match="br">
+  <br/>
+</xsl:template>
+
+
+<xsl:template match="p/text()">
+  <p><xsl:value-of select="." disable-output-escaping="yes" /></p>
+</xsl:template>
+
+
 <xsl:template match="a">
   <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element>
 </xsl:template>
