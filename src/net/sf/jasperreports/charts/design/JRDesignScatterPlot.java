@@ -27,10 +27,14 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
+import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -47,11 +51,139 @@ public class JRDesignScatterPlot extends JRBaseScatterPlot {
 	}
 
 
+	/**
+	 *
+	 */
 	public void setXAxisLabelExpression( JRExpression xAxisLabelExpression ){
 		this.xAxisLabelExpression = xAxisLabelExpression;
 	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLabelFont(JRFont xAxisLabelFont)
+	{
+		this.xAxisLabelFont = xAxisLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLabelColor(Color xAxisLabelColor)
+	{
+		this.xAxisLabelColor = xAxisLabelColor;
+	}
 	
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelFont(JRFont xAxisTickLabelFont)
+	{
+		this.xAxisTickLabelFont = xAxisTickLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelColor(Color xAxisTickLabelColor)
+	{
+		this.xAxisTickLabelColor = xAxisTickLabelColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelMask(String xAxisTickLabelMask)
+	{
+		this.xAxisTickLabelMask = xAxisTickLabelMask;
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLineColor(Color xAxisLineColor)
+	{
+		this.xAxisLineColor = xAxisLineColor;
+	}
+
+	/**
+	 *
+	 */
 	public void setYAxisLabelExpression( JRExpression yAxisLabelExpression ){
 		this.yAxisLabelExpression = yAxisLabelExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLabelFont(JRFont yAxisLabelFont)
+	{
+		this.yAxisLabelFont = yAxisLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLabelColor(Color yAxisLabelColor)
+	{
+		this.yAxisLabelColor = yAxisLabelColor;
+	}
+	
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelFont(JRFont yAxisTickLabelFont)
+	{
+		this.yAxisTickLabelFont = yAxisTickLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelColor(Color yAxisTickLabelColor)
+	{
+		this.yAxisTickLabelColor = yAxisTickLabelColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelMask(String yAxisTickLabelMask)
+	{
+		this.yAxisTickLabelMask = yAxisTickLabelMask;
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLineColor(Color yAxisLineColor)
+	{
+		this.yAxisLineColor = yAxisLineColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setXAxisFormat(JRAxisFormat axisFormat)
+	{
+		setXAxisLabelColor(axisFormat.getLabelColor());
+		setXAxisLabelFont(axisFormat.getLabelFont());
+		setXAxisTickLabelFont(axisFormat.getTickLabelFont());
+		setXAxisTickLabelColor(axisFormat.getTickLabelColor());
+		setXAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setXAxisLineColor(axisFormat.getLineColor());
+	}
+
+	/**
+	 * 
+	 */
+	public void setYAxisFormat(JRAxisFormat axisFormat)
+	{
+		setYAxisLabelColor(axisFormat.getLabelColor());
+		setYAxisLabelFont(axisFormat.getLabelFont());
+		setYAxisTickLabelFont(axisFormat.getTickLabelFont());
+		setYAxisTickLabelColor(axisFormat.getTickLabelColor());
+		setYAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setYAxisLineColor(axisFormat.getLineColor());
 	}
 }

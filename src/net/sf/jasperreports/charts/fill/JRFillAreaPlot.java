@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -42,11 +45,199 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot {
 		 super( plot, factory ); 
 	}
 	
-	public JRExpression getCategoryAxisLabelExpression(){
+	/**
+	 *
+	 */
+	public JRExpression getCategoryAxisLabelExpression()
+	{
 		return ((JRAreaPlot)parent).getCategoryAxisLabelExpression();
 	}
+
+	/**
+	 *
+	 */
+	public JRFont getCategoryAxisLabelFont()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLabelFont(JRFont font)
+	{
+	}
 	
-	public JRExpression getValueAxisLabelExpression(){
+	/**
+	 *
+	 */
+	public Color getCategoryAxisLabelColor()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getCategoryAxisTickLabelFont()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getCategoryAxisTickLabelColor()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getCategoryAxisTickLabelMask()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelMask(String mask)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getCategoryAxisLineColor()
+	{
+		return ((JRAreaPlot)parent).getCategoryAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueAxisLabelExpression()
+	{
 		return ((JRAreaPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return ((JRAreaPlot)parent).getValueAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return ((JRAreaPlot)parent).getValueAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return ((JRAreaPlot)parent).getValueAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return ((JRAreaPlot)parent).getValueAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return ((JRAreaPlot)parent).getValueAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return ((JRAreaPlot)parent).getValueAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLineColor(Color color)
+	{
 	}
 }

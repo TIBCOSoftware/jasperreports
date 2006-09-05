@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -51,18 +54,202 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 		super(candlestickPlot, factory);
 	}
 
-	public JRExpression getValueAxisLabelExpression()
-	{
-		return ((JRCandlestickPlot)parent).getValueAxisLabelExpression();
-	}
-
-
+	/**
+	 *
+	 */
 	public JRExpression getTimeAxisLabelExpression()
 	{
 		return ((JRCandlestickPlot)parent).getTimeAxisLabelExpression();
 	}
 
+	/**
+	 *
+	 */
+	public JRFont getTimeAxisLabelFont()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisLabelFont();
+	}
 
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getTimeAxisLabelColor()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getTimeAxisTickLabelFont()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getTimeAxisTickLabelColor()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getTimeAxisTickLabelMask()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTimeAxisLineColor()
+	{
+		return ((JRCandlestickPlot)parent).getTimeAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueAxisLabelExpression()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return ((JRCandlestickPlot)parent).getValueAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLineColor(Color color)
+	{
+	}
+	
 	public boolean isShowVolume()
 	{
 		return ((JRCandlestickPlot)parent).isShowVolume();

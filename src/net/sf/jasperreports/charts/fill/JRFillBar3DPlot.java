@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -38,38 +41,245 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot {
 	
+	/**
+	 *
+	 */
 	public JRFillBar3DPlot( JRBar3DPlot barPlot, JRFillObjectFactory factory ){
 		super( barPlot, factory );
 	}
 	
-	public JRExpression getCategoryAxisLabelExpression(){
+	/**
+	 *
+	 */
+	public JRExpression getCategoryAxisLabelExpression()
+	{
 		return ((JRBar3DPlot)parent).getCategoryAxisLabelExpression();
 	}
-	
-	public JRExpression getValueAxisLabelExpression(){
-		return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
+
+	/**
+	 *
+	 */
+	public JRFont getCategoryAxisLabelFont()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLabelFont(JRFont font)
+	{
 	}
 	
+	/**
+	 *
+	 */
+	public Color getCategoryAxisLabelColor()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getCategoryAxisTickLabelFont()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getCategoryAxisTickLabelColor()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getCategoryAxisTickLabelMask()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getCategoryAxisLineColor()
+	{
+		return ((JRBar3DPlot)parent).getCategoryAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setCategoryAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueAxisLabelExpression()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return ((JRBar3DPlot)parent).getValueAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLineColor(Color color)
+	{
+	}
+	
+	/**
+	 *
+	 */
 	public double getXOffset(){
 		return ((JRBar3DPlot)parent).getXOffset();
 	}
 	
+	/**
+	 *
+	 */
 	public void setXOffset( double xOffset ){
 	}
 	
+	/**
+	 *
+	 */
 	public double getYOffset(){
 		return ((JRBar3DPlot)parent).getYOffset();
 	}
 	
+	/**
+	 *
+	 */
 	public void setYOffset( double yOffset ){
 	}
 	
+	/**
+	 *
+	 */
 	public boolean isShowLabels(){
 		return ((JRBar3DPlot)parent).isShowLabels();
 	}
 	
+	/**
+	 *
+	 */
 	public void setShowLabels( boolean isShowLabels ){
 	}
-	
-	
 }

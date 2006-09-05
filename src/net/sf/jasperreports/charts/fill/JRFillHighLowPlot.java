@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -51,18 +54,202 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		super(highLowPlot, factory);
 	}
 
-	public JRExpression getValueAxisLabelExpression()
-	{
-		return ((JRHighLowPlot)parent).getValueAxisLabelExpression();
-	}
-
-
+	/**
+	 *
+	 */
 	public JRExpression getTimeAxisLabelExpression()
 	{
 		return ((JRHighLowPlot)parent).getTimeAxisLabelExpression();
 	}
 
+	/**
+	 *
+	 */
+	public JRFont getTimeAxisLabelFont()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisLabelFont();
+	}
 
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getTimeAxisLabelColor()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getTimeAxisTickLabelFont()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getTimeAxisTickLabelColor()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getTimeAxisTickLabelMask()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getTimeAxisLineColor()
+	{
+		return ((JRHighLowPlot)parent).getTimeAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getValueAxisLabelExpression()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return ((JRHighLowPlot)parent).getValueAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLineColor(Color color)
+	{
+	}
+	
 	public boolean isShowOpenTicks()
 	{
 		return ((JRHighLowPlot)parent).isShowOpenTicks();
