@@ -30,10 +30,15 @@ package net.sf.jasperreports.engine.xml;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
+import net.sf.jasperreports.charts.design.JRDesignDataRange;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
+import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
 import net.sf.jasperreports.charts.design.JRDesignXySeries;
 import net.sf.jasperreports.charts.design.JRDesignXyzSeries;
+import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.charts.util.JRChartAxis;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
 import net.sf.jasperreports.charts.xml.JRBar3DChartFactory;
@@ -46,11 +51,18 @@ import net.sf.jasperreports.charts.xml.JRCandlestickChartFactory;
 import net.sf.jasperreports.charts.xml.JRCandlestickPlotFactory;
 import net.sf.jasperreports.charts.xml.JRCategoryDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
+import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
+import net.sf.jasperreports.charts.xml.JRDataRangeFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowChartFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRHighLowPlotFactory;
 import net.sf.jasperreports.charts.xml.JRLineChartFactory;
 import net.sf.jasperreports.charts.xml.JRLinePlotFactory;
+import net.sf.jasperreports.charts.xml.JRMeterChartFactory;
+import net.sf.jasperreports.charts.xml.JRMeterIntervalFactory;
+import net.sf.jasperreports.charts.xml.JRMeterPlotFactory;
+import net.sf.jasperreports.charts.xml.JRMultiAxisChartFactory;
+import net.sf.jasperreports.charts.xml.JRMultiAxisPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRPie3DPlotFactory;
 import net.sf.jasperreports.charts.xml.JRPieChartFactory;
@@ -60,12 +72,16 @@ import net.sf.jasperreports.charts.xml.JRScatterChartFactory;
 import net.sf.jasperreports.charts.xml.JRScatterPlotFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
+import net.sf.jasperreports.charts.xml.JRThermometerChartFactory;
+import net.sf.jasperreports.charts.xml.JRThermometerPlotFactory;
 import net.sf.jasperreports.charts.xml.JRTimePeriodDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRTimePeriodSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesChartFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesFactory;
 import net.sf.jasperreports.charts.xml.JRTimeSeriesPlotFactory;
+import net.sf.jasperreports.charts.xml.JRValueDatasetFactory;
+import net.sf.jasperreports.charts.xml.JRValueDisplayFactory;
 import net.sf.jasperreports.charts.xml.JRXyAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRXyDatasetFactory;
@@ -94,6 +110,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFact
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
@@ -404,6 +421,8 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
 		
 		digester.addFactoryCreate("*/plot", JRChartPlotFactory.class.getName());
+		digester.addFactoryCreate("*/plot/seriesColor", JRChartPlotFactory.JRSeriesColorFactory.class.getName());
+		digester.addSetNext("*/plot/seriesColor", "addSeriesColor", JRChartPlot.JRSeriesColor.class.getName());
 
 		digester.addFactoryCreate("*/chart", JRChartFactory.class.getName());
 		digester.addFactoryCreate("*/chart/chartTitle", JRChartFactory.JRChartTitleFactory.class.getName());
@@ -418,6 +437,45 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext("*/chart/chartSubtitle/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/chart/chartSubtitle/subtitleExpression", "setText", 0);
+		digester.addFactoryCreate("*/chart/chartLegend", JRChartFactory.JRChartLegendFactory.class.getName());
+		digester.addFactoryCreate("*/chart/chartLegend/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/chart/chartLegend/font", "setLegendFont", JRFont.class.getName());
+
+		// axis labels
+		digester.addFactoryCreate("*/categoryAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
+		digester.addSetNext("*/categoryAxisFormat/axisFormat", "setCategoryAxisFormat", JRAxisFormat.class.getName());
+		digester.addFactoryCreate("*/categoryAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/categoryAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/categoryAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/categoryAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
+
+		digester.addFactoryCreate("*/valueAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
+		digester.addSetNext("*/valueAxisFormat/axisFormat", "setValueAxisFormat", JRAxisFormat.class.getName());
+		digester.addFactoryCreate("*/valueAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/valueAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/valueAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/valueAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
+
+		digester.addFactoryCreate("*/timeAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
+		digester.addSetNext("*/timeAxisFormat/axisFormat", "setTimeAxisFormat", JRAxisFormat.class.getName());
+		digester.addFactoryCreate("*/timeAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/timeAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/timeAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/timeAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
+
+		digester.addFactoryCreate("*/xAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
+		digester.addSetNext("*/xAxisFormat/axisFormat", "setXAxisFormat", JRAxisFormat.class.getName());
+		digester.addFactoryCreate("*/xAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/xAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/xAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/xAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
+
+		digester.addFactoryCreate("*/yAxisFormat/axisFormat", JRChartFactory.JRChartAxisFormatFactory.class.getName());
+		digester.addSetNext("*/yAxisFormat/axisFormat", "setYAxisFormat", JRAxisFormat.class.getName());
+		digester.addFactoryCreate("*/yAxisFormat/axisFormat/labelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/yAxisFormat/axisFormat/labelFont/font", "setLabelFont", JRFont.class.getName());
+		digester.addFactoryCreate("*/yAxisFormat/axisFormat/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/yAxisFormat/axisFormat/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
 
 		// pie charts
 		digester.addFactoryCreate("*/pieChart", JRPieChartFactory.class.getName());
@@ -709,6 +767,62 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/candlestickPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/candlestickPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/valueAxisLabelExpression", "setText", 0 );
+		
+		// value datasets
+		digester.addFactoryCreate("*/valueDataset", JRValueDatasetFactory.class.getName());
+		digester.addFactoryCreate("*/valueDataset/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/valueDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/valueDataset/valueExpression", "setText", 0);
+		
+        // data ranges - anything that contains a data range must have a "setDataRange" method.
+        digester.addFactoryCreate("*/dataRange", JRDataRangeFactory.class.getName());
+        digester.addSetNext("*/dataRange", "setDataRange", JRDesignDataRange.class.getName());
+		digester.addFactoryCreate("*/dataRange/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/dataRange/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/dataRange/lowExpression", "setText", 0);
+		digester.addFactoryCreate("*/dataRange/highExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/dataRange/highExpression", "setHighExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/dataRange/highExpression", "setText", 0);
+
+        // value displays - anything that contains a display value must have a "setValueDisplay" method.
+        digester.addFactoryCreate("*/valueDisplay", JRValueDisplayFactory.class.getName());
+        digester.addSetNext("*/valueDisplay", "setValueDisplay", JRDesignValueDisplay.class.getName());
+		digester.addFactoryCreate("*/valueDisplay/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext("*/valueDisplay/font", "setFont", JRFont.class.getName());
+        
+		// meter charts
+		digester.addFactoryCreate("*/meterChart", JRMeterChartFactory.class.getName());
+		digester.addSetNext("*/meterChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/meterChart/meterPlot", JRMeterPlotFactory.class.getName());
+		
+		digester.addFactoryCreate("*/meterPlot/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/meterPlot/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/meterPlot/lowExpression", "setText", 0);
+		digester.addFactoryCreate("*/meterPlot/highExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext("*/meterPlot/highExpression", "setHighExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod("*/meterPlot/highExpression", "setText", 0);
+		
+		digester.addFactoryCreate("*/meterPlot/meterInterval", JRMeterIntervalFactory.class.getName());
+		digester.addSetNext("*/meterPlot/meterInterval", "addInterval", JRMeterInterval.class.getName());
+		
+		// thermometer charts
+		digester.addFactoryCreate("*/thermometerChart", JRThermometerChartFactory.class.getName());
+		digester.addSetNext("*/thermometerChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/thermometerChart/thermometerPlot", JRThermometerPlotFactory.class.getName());
+		
+        digester.addFactoryCreate("*/thermometerPlot/lowRange/dataRange", JRDataRangeFactory.class.getName());
+        digester.addSetNext("*/thermometerPlot/lowRange/dataRange", "setLowRange", JRDesignDataRange.class.getName());
+        digester.addFactoryCreate("*/thermometerPlot/mediumRange/dataRange", JRDataRangeFactory.class.getName());
+        digester.addSetNext("*/thermometerPlot/mediumRange/dataRange", "setMediumRange", JRDesignDataRange.class.getName());
+        digester.addFactoryCreate("*/thermometerPlot/highRange/dataRange", JRDataRangeFactory.class.getName());
+        digester.addSetNext("*/thermometerPlot/highRange/dataRange", "setHighRange", JRDesignDataRange.class.getName());
+	
+	    //multi axis charts
+	    digester.addFactoryCreate("*/multiAxisChart", JRMultiAxisChartFactory.class.getName());
+	    digester.addSetNext("*/multiAxisChart", "addElement", JRDesignElement.class.getName());
+	    digester.addFactoryCreate("*/multiAxisChart/multiAxisPlot", JRMultiAxisPlotFactory.class.getName());
+	    digester.addFactoryCreate("*/axis", JRChartAxisFactory.class.getName());
+	    digester.addSetNext("*/axis", "addAxis", JRChartAxis.class.getName());
 	}
 
 

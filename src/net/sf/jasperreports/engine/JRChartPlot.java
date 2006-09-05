@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Color;
+import java.util.SortedSet;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -91,8 +92,52 @@ public interface JRChartPlot
 	public void setForegroundAlpha(float foregroundAlpha);
 
 	/**
+	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
+	 */
+	public double getLabelRotation();
+	
+	/**
+	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
+	 */
+	public void setLabelRotation(double labelRotation);
+	
+	/**
+	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
+	 * If there are no defined series colors this method will return an empty list, not null. 
+	 */
+	public SortedSet getSeriesColors();
+	
+	/**
+	 * Removes all defined series colors.
+	 */
+	public void clearSeriesColors();
+	
+	/**
+	 * Adds the specified series color to the plot.
+	 */
+	public void addSeriesColor(JRSeriesColor seriesColor);
+	
+	/**
 	 *
 	 */
 	public void collectExpressions(JRExpressionCollector collector);
 
+	public interface JRSeriesColor
+	{
+		/**
+		 * Returns the series order that this color applies to.  The series order is relative to
+		 * the series order of all other <code>JRSeriesColor</code>s defined for this plot.  The
+		 * relative ordering defines the order of the colors in the series.
+		 */
+		public int getSeriesOrder();
+		
+		/**
+		 * Returns the color to use for this series.
+		 */
+		public Color getColor();
+	}
 }

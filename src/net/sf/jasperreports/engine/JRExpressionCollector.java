@@ -44,20 +44,25 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -693,6 +698,15 @@ public class JRExpressionCollector
 	}
 	
 	/**
+	 * 
+	 */
+	public void collect( JRValueDataset valueDataset ){
+		collect((JRElementDataset) valueDataset);
+
+        addExpression(valueDataset.getValueExpression());		
+	}
+		
+	/**
 	 *
 	 */
 	private void collect(JRXySeries xySeries)
@@ -839,6 +853,48 @@ public class JRExpressionCollector
 		addExpression(highLowPlot.getTimeAxisLabelExpression());
 		addExpression(highLowPlot.getValueAxisLabelExpression());
 	}
+
+    /**
+     *
+     */
+    public void collect(JRDataRange dataRange)
+    {
+        if (dataRange != null)
+        {
+            addExpression(dataRange.getLowExpression());
+            addExpression(dataRange.getHighExpression());
+        }
+    }
+    
+	/**
+	 *
+	 */
+	public void collect(JRMeterPlot meterPlot)
+	{
+		List intervals = meterPlot.getIntervals();
+		if (intervals != null)
+		{
+		    Iterator iter = intervals.iterator();
+		    while (iter.hasNext())
+		    {
+		        JRMeterInterval interval = (JRMeterInterval)iter.next();
+		        collect(interval.getDataRange());
+		    }
+		}
+		collect(meterPlot.getDataRange());
+	}
+
+	/**
+	 *
+	 */
+	public void collect(JRThermometerPlot thermometerPlot)
+	{
+	    collect(thermometerPlot.getDataRange());
+		collect(thermometerPlot.getLowRange());
+		collect(thermometerPlot.getMediumRange());
+		collect(thermometerPlot.getHighRange());
+	}
+
 
 	/**
 	 *

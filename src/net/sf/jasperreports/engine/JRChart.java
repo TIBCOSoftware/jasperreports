@@ -69,6 +69,9 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	public static final byte CHART_TYPE_XYBAR = 14;
 	public static final byte CHART_TYPE_XYLINE = 15;
 	public static final byte CHART_TYPE_TIMESERIES = 16;
+	public static final byte CHART_TYPE_METER = 17;
+	public static final byte CHART_TYPE_THERMOMETER = 18;
+	public static final byte CHART_TYPE_MULTI_AXIS = 19;
 
 
 	/**
@@ -157,6 +160,31 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	 */
 	public void setSubtitleColor(Color subtitleColor);
 
+	
+	/**
+	 * 
+	 */
+	public Color getLegendColor();
+	
+	/**
+	 * 
+	 */
+	public void setLegendColor(Color legendColor);
+	
+	/**
+	 * 
+	 */
+	public Color getLegendBackgroundColor();
+	
+	/**
+	 * 
+	 */
+	public void setLegendBackgroundColor(Color legendBackgroundColor);
+	
+	/**
+	 * 
+	 */
+	public JRFont getLegendFont();
 	
 	/**
 	 * Gets the chart dataset. Most chart types have different dataset structures, depending on the chart type.

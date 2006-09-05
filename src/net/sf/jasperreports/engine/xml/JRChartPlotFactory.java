@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.xml.sax.Attributes;
@@ -46,6 +47,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_orientation = "orientation";
 	private static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
 	private static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
+	private static final String ATTRIBUTE_labelRotation = "labelRotation";
 
 
 	/**
@@ -73,6 +75,32 @@ public class JRChartPlotFactory extends JRBaseFactory
 		if (backgroundAlpha != null && backgroundAlpha.length() > 0)
 			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha).floatValue());
 
+		String labelRotation = atts.getValue(ATTRIBUTE_labelRotation);
+		if (labelRotation != null && labelRotation.length() > 0)
+			plot.setLabelRotation(Double.valueOf(labelRotation).doubleValue());
+
 		return plot;
+	}
+	
+	public static class JRSeriesColorFactory extends JRBaseFactory
+	{
+		public static final String ATTRIBUTE_seriesOrder = "seriesOrder";
+		public static final String ATTRIBUTE_color = "color";
+		
+		public Object createObject(Attributes atts)
+		{
+			int seriesIndex = -1;
+			Color color = null;
+			
+			String seriesNumber = atts.getValue(ATTRIBUTE_seriesOrder);
+			if (seriesNumber != null && seriesNumber.length() > 0)
+				seriesIndex = Integer.valueOf(seriesNumber).intValue();
+
+			String colorName = atts.getValue(ATTRIBUTE_color);
+			if (colorName != null && colorName.length() > 0)
+				color = JRXmlConstants.getColor(colorName, null);
+			
+			return new JRBaseChartPlot.JRBaseSeriesColor(seriesIndex, color);
+		}
 	}
 }
