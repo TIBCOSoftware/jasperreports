@@ -35,10 +35,99 @@
   <contains>(
     <a href="plot">plot</a>,
     <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
   </attributes>
+</element>
+
+
+<!-- axis -->
+<element>
+    <name>axis</name>
+    <description>Describes a range axis to use in a
+    <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.  Each
+    axis has its own range indicator and a data plot.</description>
+    <contains>(
+        <a href="barChart">barChart</a> |
+        <a href="bar">bar</a>3DChart |
+        <a href="xyBarChart">xyBarChart</a> |
+        <a href="stackedBarChart">stackedBarChart</a> |
+        <a href="stackedBar">stackedBar</a>3DChart |
+        <a href="lineChart">lineChart</a> |
+        <a href="xyLineChart">xyLineChart</a> |
+        <a href="areaChart">areaChart</a> |
+        <a href="xyAreaChart">xyAreaChart</a> |
+        <a href="scatterChart">scatterChart</a> |
+        <a href="bubbleChart">bubbleChart</a> |
+        <a href="timeSeriesChart">timeSeriesChart</a> |
+        <a href="highLowChart">highLowChart</a> |
+        <a href="candlestickChart">candlestickChart</a>
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>position</name>
+            <description>Where relative to the chart to display the range axis
+                        for this chart</description>
+            <values>
+                <value>
+                    <name>leftOrTop</name>
+                    <description>Display the axis to the left (for charts with
+                    a Vertical orientation) or top (for charts with a
+                    Horizontal orientation.)</description>
+                </value>
+                <value>
+                    <name>rightOrBottom</name>
+                    <description>Display the axis to the right (for charts with
+                    a Vertical orientation) or bottom (for charts with a
+                    Horizontal orientation.)</description>
+                </value>
+            </values>
+            <default>leftOrTop</default>
+        </attribute>
+    </attributes>
+</element>
+
+
+<!-- axisFormat -->
+<element>
+    <name>axisFormat</name>
+    <description></description>
+    <contains>(
+        <a href="labelFont">labelFont</a>?,
+        <a href="tickLabelFont">tickLabelFont</a>?
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>labelColor</name>
+            <description>The color to use for the caption of the axis.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>tickLabelColor</name>
+            <description>The color to use for the label of each tick mark on the axis.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>tickLabelMask</name>
+            <description>A formatting mask to use for the label of each tick mark on the
+            axis.  Only used if the axis is time based or numeric based.  For numeric
+            axes the format of the mask is described in documentation for
+            <code>java.text.DecimalFormat</code>.  For a date axis the
+            format used is described in <code>java.text.SimpleDateFormat</code>.
+            Finally, for date axes the values "SHORT", "MEDIUM", "LONG" and
+            "FULL" can be used as described in <code>java.text.DateFormat</code>.
+            </description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>lineColor</name>
+            <description>The color to use when drawing the line showing the axis.</description>
+            <required>false</required>
+        </attribute>
+    </attributes>
 </element>
 
 
@@ -83,6 +172,9 @@
     <a href="timeSeriesChart">timeSeriesChart</a> |
     <a href="highLowChart">highLowChart</a> |
     <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -133,7 +225,9 @@
   <contains>(
     <a href="plot">plot</a>,
     <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -181,8 +275,10 @@
   <description>Plot options for a <a href="barChart"><code>&lt;barChart&gt;</code></a> </description>
   <contains>(
     <a href="plot">plot</a>,
-    <a href="categoryAxisLabelExpression">category</a>?,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -299,8 +395,10 @@
   <description>Plot options for a <a href="bubbleChart"><code>&lt;bubbleChart&gt;</code></a></description>
   <contains>(
     <a href="plot">plot</a>,
-    <a href="xAxisLabelExpression">xAxisLabelExpression</a>,
-    <a href="yAxisLabelExpression">yAxisLabelExpression</a>
+    <a href="xAxisLabelExpression">xAxisLabelExpression</a>?,
+    <a href="xAxisFormat">xAxisFormat</a>?,
+    <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
+    <a href="yAxisFormat">yAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -389,7 +487,9 @@
   <contains>(
     <a href="plot">plot</a>,
     <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -406,6 +506,20 @@
       <default>true</default>
     </attribute>
   </attributes>
+</element>
+
+
+<!-- categoryAxisFormat -->
+<element>
+    <name>categoryAxisFormat</name>
+    <description>Specifies the formatting of a category axis, including how to
+    draw the axis line, its label and tick mark labels.  Any tick label mask
+    specified will be ignored.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
 </element>
 
 
@@ -515,6 +629,7 @@
     <a href="box">box</a>?,
     <a href="chartTitle">chartTitle</a>?,
     <a href="chartSubtitle">chartSubtitle</a>?,
+    <a href="chartLegend">chartLegend</a>?
     <a href="anchorNameExpression">anchorNameExpression</a>?,
     <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
     <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
@@ -641,6 +756,28 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </description>
     </attribute>
   </attributes>
+</element>
+
+
+<!-- chartLegend -->
+<element>
+    <name>chartLegend</name>
+    <description>Specifies layout options for the legend of a chart.</description>
+    <contains>(
+        <a href="font">font</a>?
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>textColor</name>
+            <description>The color of the text in the legend.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>backgroundColor</name>
+            <description>The color of the background of the legend.</description>
+            <required>false</required>
+        </attribute>
+    </attributes>
 </element>
 
 
@@ -1238,6 +1375,19 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 </element>
 
 
+<!-- dataRange -->
+<element>
+  <name>dataRange</name>
+  <description>Defines a numeric range, such as the bounds of chart or a section of a chart.</description>
+  <contains>(
+    <a href="lowExpression">lowExpression</a>,
+    <a href="highExpression">highExpression</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
 <!-- datasetRun -->
 <element>
   <name>datasetRun</name>
@@ -1334,6 +1484,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="timeSeriesChart">timeSeriesChart</a> |
     <a href="highLowChart">highLowChart</a> |
     <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -1397,12 +1550,12 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
 	 <p>
 	 This expression is used to filter the rows of the data source that this dataset will iterate on.
 	 </p>
-	 <p>
+	 <p><![CDATA[
 	 This expression (if not null) is evaluated immediately after a new row is produced by the data source.
 	 The evaluation is performed using field and variable values corresponding to the new row. 
 	 When the result of the evaluation is <code>Boolean.TRUE</code> the row gets processed by the report filling engine.
 	 When the result is null or <code>Boolean.FALSE</code>, the current row will be skipped and the datasource will be asked for the next row.
-	 </p>
+	 ]]></p>
   </description>
   <contains>(
     #PCDATA
@@ -1535,6 +1688,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="timeSeriesChart">timeSeriesChart</a> |
     <a href="highLowChart">highLowChart</a> |
     <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -1768,7 +1924,9 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <contains>(
     <a href="plot">plot</a>,
     <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -1797,6 +1955,18 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
       </values>
       <default>true</default>
     </attribute>
+  </attributes>
+</element>
+
+
+<!-- highRange -->
+<element>
+  <name>highRange</name>
+  <description>Defines the high range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
   </attributes>
 </element>
 
@@ -2166,10 +2336,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 <element>
   <name>incrementWhenExpression</name>
   <description>Boolean expression that determines whether a chart or crosstab dataset will be incremented or not.
-	  <p>
+	  <p><![CDATA[
 		  The expression is evaluated before each increment of the dataset.
 		  The increment will be carried on only when the result of the evaluation is <code>Boolean.TRUE</code>; if the result is <code>null</code> or <code>Boolean.FALSE</code>, the dataset will not be incremented.
-	  </p>
+	  ]]></p>
   </description>
   <contains>(
     #PCDATA
@@ -2506,6 +2676,19 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- labelFont -->
+<element>
+    <name>labelFont</name>
+    <description>Specifies the font to use when drawing the label of an axis
+    in a chart.  The label of an axis is the text that describes the axis.</description>
+    <contains>(
+        <a hre="font">font</a>?
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
 <!-- lastPageFooter -->
 <element>
   <name>lastPageFooter</name>
@@ -2566,7 +2749,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <description>Defines plot options for a <a href="lineChart">&lt;line chart&gt;</a></description>
   <contains>(
     <a href="plot">plot</a>,
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
     <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -2605,6 +2791,18 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <description>Low expression in a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a></description>
   <contains>(
     #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- lowRange -->
+<element>
+  <name>lowRange</name>
+  <description>Defines the low range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
   )</contains>
   <attributes>
   </attributes>
@@ -2740,6 +2938,184 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   </attributes>
 </element>
 
+
+<!-- mediumRange -->
+<element>
+  <name>mediumRange</name>
+  <description>Defines the medium range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- meterChart -->
+<element>
+  <name>meterChart</name>
+  <description>Defines a meter chart.  A meter chart plots a single value on a dial.  In addition to the value being
+               plotted multiple ranges can be specified to help interpret the value.</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="valueDataset">valueDataset</a>,
+    <a href="meterPlot">meterPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- meterInterval -->
+<element>
+  <name>meterInterval</name>
+  <description>Describes a range of a <a href="meterChart">meterChart</a> to highlight.  A typical use is to
+  divide a meter up into sections such as "normal", "warning" and "critical" and color code them.</description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>label</name>
+      <description>The name of this region.  The name will appear in the meter's legend if the legend
+            is being displayed.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>color</name>
+      <description>The color used to shade the region in the meter.  If not set the region will have no
+         visual indicator.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>alpha</name>
+      <description>The alpha (transparency) of the shading for the region.  The values range from 0.0
+            (completely transparent) to 1.0 (completely opaque).</description>
+      <default>1.0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- meterPlot -->
+<element>
+  <name>meterPlot</name>
+  <description>Plot options for a <a href="meterChart">meterChart</a>.</description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="valueDisplay">valueDisplay</a>?,
+    <a href="dataRange">dataRange</a>,
+    <a href="meterInterval">meterInterval</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>shape</name>
+      <description>Defines the shape of the meter.  The final appearance is determined by the combination of
+      this attribute and the <code>angle</code> attribute.  This attribute only matters when the meter
+      is using an angle over 180 degrees.
+      <p>
+      When a meter is over 180 degrees wide the space between the start and end of the meter can be filled
+      in several different ways.  The best way to visualize this is to think of a twelve hour clock.  If the angle of the meter is 240 degrees the
+      meter will start at 8, sweep up past 12 and down to 4.  This attribute specifies how to fill the area
+      between 4 o'clock and 8 o'clock.
+      </p>
+      </description>
+      <values>
+        <value>
+          <name>chord</name>
+          <description>A straight line is drawn between the start point and the end point, and the area bounded by
+          the meter and this line is shaded with the background color.</description>
+        </value>
+        <value>
+          <name>circle</name>
+          <description>The unused portion of the circle that describes the meter is shaded with the background color.</description>
+        </value>
+        <value>
+          <name>pie</name>
+          <description>The unused portion of the circle that describes the meter is not shaded at all.</description>
+        </value>
+      </values>
+      <default>pie</default>
+    </attribute>
+    <attribute>
+        <name>angle</name>
+        <description>The extent of the meter in degrees.  Use 180 for a semicircle.</description>
+        <default>180</default>
+    </attribute>
+    <attribute>
+        <name>units</name>
+        <description>An optional string that describes the unit that the meter is displaying.  This string will
+            be appended to the value.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>tickInterval</name>
+        <description>The amount of space between values to mark as "ticks" on the face of the meter.  If the meter has a data
+        range of 0-100 and the tick interval is 20, there will be 4 ticks at 20, 40, 60 and 80.</description>
+        <default>10</default>
+    </attribute>
+    <attribute>
+        <name>meterColor</name>
+        <description>The color of meter.  If <a href="meterInterval">meterIntervals</a> are defined they may
+        mask this color.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>needleColor</name>
+        <description>The color used to draw the needle in the meter.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>tickColor</name>
+        <description>The color of the meter ticks, if any.</description>
+        <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- multiAxisChart -->
+<element>
+    <name>multiAxisChart</name>
+    <description>Definition of chart with multiple range axis, all sharing a common
+    domain axis.  The domain is determined by the dataset of each nested report, and
+    they must all use the same type of dataset.  The time period datasets (highLowDataset,
+    candlestickDataset and timeSeriesDataset) are considered the same and can be
+    mixed.
+    <br/><br/>
+    Each nested chart has its own range, so you can combine charts with significantly
+    different scales.  Each chart will have its own axis showing its range, and it is
+    highly recommended to color the data series and the axis to match.
+    <br/><br/>
+    The plot options of the nested reports are ignored - the plot is configured via the
+    multiAxisPlot.  The only exception to this is any seriesColors specified in the
+    plot of a nested report, which will be used to color a specific series in that
+    report.  In this case the seriesOrder in the seriesColor is an absolute specification
+    of a series to color, not a relative ordering.</description>
+    <contains>(
+        <a href="chart">chart</a>,
+        <a href="multiAxisPlot">multiAxisPlot</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+<!-- multiAxisPlot -->
+<element>
+    <name>multiAxisPlot</name>
+    <description>Plot options for a <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.
+    The set plot options will be shared by all the charts inside this plot, and the
+    nested charts are specified via the <a href="axis"><code>&lt;axis&gt;</code></a> tags.
+    All nested charts must share the same type of domain axis - a category, a numeric (xy)
+    or a time based axis.
+    </description>
+    <contains>(
+        <a href="plot">plot</a>,
+        <a href="axis">axis</a>+
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
 
 <!-- openExpression -->
 <element>
@@ -2927,7 +3303,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <name>plot</name>
   <description>Defines generic plot options for charts</description>
   <contains>(
-    <a>EMPTY</a>
+    <a href="seriesColor">seriesColor</a>*
   )</contains>
   <attributes>
     <attribute>
@@ -2955,6 +3331,14 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <attribute>
       <name>foregroundAlpha</name>
       <description>Alpha (transparency) parameter for the foreground</description>
+      <default>1</default>
+    </attribute>
+    <attribute>
+      <name>labelRotation</name>
+      <description>Degrees to rotate the text labels for the x axis of the chart.  Positive
+            values rotate the text clockwise and negative values rotate it counterclockwise.
+            This attribute has no effect on charts where the x axis is either numeric or a
+            date.</description>
       <default>1</default>
     </attribute>
   </attributes>
@@ -3473,7 +3857,9 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <contains>(
     <a href="plot">plot</a>,
     <a href="xAxisLabelExpression">xAxisLabelExpression</a>?,
-    <a href="yAxisLabelExpression">yAxisLabelExpression</a>?
+    <a href="xAxisFormat">xAxisFormat</a>?,
+    <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
+    <a href="yAxisFormat">yAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -3504,7 +3890,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
   </attributes>
 </element>
-
+  
 
 <!-- sectionHyperlink -->
 <element>
@@ -3567,6 +3953,48 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     </attribute>
   </attributes>
 </element>
+
+
+<!-- seriesColor -->
+<element>
+  <name>seriesColor</name>
+  <description>Defines the color to use for  a  series in the report.  If only one seriesColor
+  is specified it becomes the color of the first series.  If more than one seriesColor is
+  specified the chart will cycle through the supplied colors.  Meter and Thermometer charts
+  do not have series and
+  will ignore any seriesColor settings.
+  <br/><br/>
+  When used in a chart that part of a multi-axis chart series color is treated a bit
+  differently.  The default color series to cycle through is defined in the plot of the
+  multi axis chart, and the color series for the nested charts define series colors
+  for that chart only.  This is useful when a multiple axis chart contains several
+  line charts, each with one series.  By default every line will be the first in its
+  plot and will have the first color defined in the multi axis plot, so every line will
+  be the same color.  To solve this you can set a seriesColor for each nested chart to
+  override the default colors.</description>
+  <contains>(
+    EMPTY
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>seriesOrder</name>
+      <description>The relative order of this color.  All seriesColors are sorted
+      by the value of this attribute, and appear in that order when coloring the
+      series.
+      <br/><br/>
+      When the chart is nested inside a multiple axis chart the seriesOrder is
+      the actual series number to apply the color to.  Series use zero-based indexing.
+      </description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>color</name>
+      <description>The color to use for the series</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
 
 <!-- seriesExpression -->
 <element>
@@ -4261,6 +4689,114 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- thermometerChart -->
+<element>
+  <name>thermometerChart</name>
+  <description>Defines a thermometer chart.  A thermometer chart plots a single value on a thermometer.
+        In addition to the value being plotted three ranges can be specified to help interpret the value.</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="valueDataset">valueDataset</a>,
+    <a href="meterPlot">thermometerPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- thermometerPlot -->
+<element>
+  <name>thermometerPlot</name>
+  <description>Plot options for a <a href="thermometerChart">thermometerChart</a>.</description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="valueDisplay">valueDisplay</a>?,
+    <a href="dataRange">dataRange</a>,
+    <a href="lowRange">lowRange</a>,
+    <a href="mediumRange">mediumRange</a>,
+    <a href="highRange">highRange</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>valueLocation</name>
+      <description>Defines where to display the textual representation of the value being displayed,
+                relative to the thermometer outline.
+      </description>
+      <values>
+        <value>
+          <name>none</name>
+          <description>The textual value is not displayed.</description>
+        </value>
+        <value>
+          <name>left</name>
+          <description>The text value is displayed to the left of the thermometer outline.</description>
+        </value>
+        <value>
+          <name>right</name>
+          <description>The text value is displayed to the left of the thermometer outline.</description>
+        </value>
+        <value>
+          <name>bulb</name>
+          <description>The text value is displayed in the bulb at the bottom of the thermometer.</description>
+        </value>
+      </values>
+      <default>bulb</default>
+    </attribute>
+    <attribute>
+      <name>isShowValueLines</name>
+      <description>Defines whether or not lines are drawn showing values on the thermometer.
+      </description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Value lines are drawn.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Value lines are not drawn.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+        <name>mercuryColor</name>
+        <description>The color used to fill the thermometer.
+            <p/>
+            If the value of the thermometer falls in one of the defined ranges the color specified in that range
+            will be used instead of this color.</description>
+        <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- tickLabelFont -->
+<element>
+    <name>tickLabelFont</name>
+    <description>Specifies the font to use when drawing the label for each tick
+    mark on an axis in a chart.</description>
+    <contains>(
+        <a hre="font">font</a>?
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- timeAxisFormat -->
+<element>
+    <name>timeAxisFormat</name>
+    <description>Specifies the formatting of a time axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a date mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
 <!-- timeAxisLabelExpression -->
 <element>
   <name>timeAxisLabelExpression</name>
@@ -4398,8 +4934,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <description>Defines plot options for a <a href="timeSeriesChart"><code>&lt;timeSeriesChart&gt;</code></a></description>
   <contains>(
     <a href="indexos.htmk#plot">plot</a>,
-    <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>,
-    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>
+    <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -4456,10 +4994,76 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- valueAxisFormat -->
+<element>
+    <name>valueAxisFormat</name>
+    <description>Specifies the formatting of a value axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
 <!-- valueAxisLabelExpression -->
 <element>
   <name>valueAxisLabelExpression</name>
   <description>Defines the expression for the value axis of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- valueDataset -->
+<element>
+  <name>valueDataset</name>
+  <description>Defines a dataset that contains a single value.</description>
+  <contains>(
+    <a href="dataset">dataset</a>?,
+    <a href="valueExpression">valueExpression</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- valueDisplay -->
+<element>
+  <name>valueDisplay</name>
+  <description>Controls how the single data value is displayed in a <a href="meterChart">meterChart</a> or
+        <a href="thermometerChart">thermometerChart</a>.</description>
+  <contains>(
+    <a href="font">font</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>color</name>
+      <description>The color to use when displaying the value.</description>
+      <default>Dependent on the chart type</default>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>mask</name>
+      <description>The formatting mask to use to display the value.  This mask must follow the rules
+            specified for a <code>java.text.DecimalFormat</code> pattern.
+            <p/>
+            This attribute is currently ignored for a <a href="meterChart">meterChart</a>.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- valueExpression -->
+<element>
+  <name>valueExpression</name>
+  <description>Defines the expression for the value of a point in a chart.</description>
   <contains>(
     #PCDATA
   )</contains>
@@ -4649,6 +5253,20 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- xAxisFormat -->
+<element>
+    <name>xAxisFormat</name>
+    <description>Specifies the formatting of an x axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
 <!-- xAxisLabelExpression -->
 <element>
   <name>xAxisLabelExpression</name>
@@ -4772,6 +5390,20 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   )</contains>
   <attributes>
   </attributes>
+</element>
+
+
+<!-- yAxisFormat -->
+<element>
+    <name>yAxisFormat</name>
+    <description>Specifies the formatting of a y axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
 </element>
 
 
