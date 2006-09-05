@@ -44,6 +44,7 @@ import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -2178,6 +2179,15 @@ public class JRVerifier
 	}
 
 
+    /**
+     * Verify the design of a value dataset.  Since value dataset's only
+     * contain a single value and do not support hyperlinks there is nothing
+     * to verify.
+     */
+    public void verify(JRValueDataset dataset)
+    {
+    }
+    
 	public void verify(JRXyDataset dataset)
 	{
 		verifyElementDataset(dataset);
