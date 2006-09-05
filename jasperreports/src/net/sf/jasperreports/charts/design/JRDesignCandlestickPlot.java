@@ -27,10 +27,14 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
+import net.sf.jasperreports.charts.util.JRAxisFormat;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 
 
 /**
@@ -57,14 +61,138 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
-	public void setTimeAxisLabelExpression(JRExpression timeAxisLabelExpression)
-	{
+	public void setTimeAxisLabelExpression( JRExpression timeAxisLabelExpression ){
 		this.timeAxisLabelExpression = timeAxisLabelExpression;
+		
 	}
 
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelFont(JRFont timeAxisLabelFont)
+	{
+		this.timeAxisLabelFont = timeAxisLabelFont;
+	}
 
+	/**
+	 *
+	 */
+	public void setTimeAxisLabelColor(Color timeAxisLabelColor)
+	{
+		this.timeAxisLabelColor = timeAxisLabelColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelFont(JRFont timeAxisTickLabelFont)
+	{
+		this.timeAxisTickLabelFont = timeAxisTickLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelColor(Color timeAxisTickLabelColor)
+	{
+		this.timeAxisTickLabelColor = timeAxisTickLabelColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisTickLabelMask(String timeAxisTickLabelMask)
+	{
+		this.timeAxisTickLabelMask = timeAxisTickLabelMask;
+	}
+
+	/**
+	 *
+	 */
+	public void setTimeAxisLineColor(Color timeAxisLineColor)
+	{
+		this.timeAxisLineColor = timeAxisLineColor;
+	}
+
+	/**
+	 *
+	 */
 	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
 	{
 		this.valueAxisLabelExpression = valueAxisLabelExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelFont(JRFont valueAxisLabelFont)
+	{
+		this.valueAxisLabelFont = valueAxisLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLabelColor(Color valueAxisLabelColor)
+	{
+		this.valueAxisLabelColor = valueAxisLabelColor;
+	}
+	
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelFont(JRFont valueAxisTickLabelFont)
+	{
+		this.valueAxisTickLabelFont = valueAxisTickLabelFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelColor(Color valueAxisTickLabelColor)
+	{
+		this.valueAxisTickLabelColor = valueAxisTickLabelColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisTickLabelMask(String valueAxisTickLabelMask)
+	{
+		this.valueAxisTickLabelMask = valueAxisTickLabelMask;
+	}
+
+	/**
+	 *
+	 */
+	public void setValueAxisLineColor(Color valueAxisLineColor)
+	{
+		this.valueAxisLineColor = valueAxisLineColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setTimeAxisFormat(JRAxisFormat axisFormat)
+	{
+		setTimeAxisLabelFont(axisFormat.getLabelFont());
+		setTimeAxisLabelColor(axisFormat.getLabelColor());
+		setTimeAxisTickLabelFont(axisFormat.getTickLabelFont());
+		setTimeAxisTickLabelColor(axisFormat.getTickLabelColor());
+		setTimeAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setTimeAxisLineColor(axisFormat.getLineColor());
+	}
+
+	/**
+	 * 
+	 */
+	public void setValueAxisFormat(JRAxisFormat axisFormat)
+	{
+		setValueAxisLabelFont(axisFormat.getLabelFont());
+		setValueAxisLabelColor(axisFormat.getLabelColor());
+		setValueAxisTickLabelFont(axisFormat.getTickLabelFont());
+		setValueAxisTickLabelColor(axisFormat.getTickLabelColor());
+		setValueAxisTickLabelMask(axisFormat.getTickLabelMask());
+		setValueAxisLineColor(axisFormat.getLineColor());
 	}
 }

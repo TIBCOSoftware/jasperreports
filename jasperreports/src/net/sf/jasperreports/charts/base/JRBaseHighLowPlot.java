@@ -27,11 +27,14 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -49,7 +52,20 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected JRExpression timeAxisLabelExpression = null;
+	protected JRFont timeAxisLabelFont = null;
+	protected Color timeAxisLabelColor = null;
+	protected JRFont timeAxisTickLabelFont = null;
+	protected Color timeAxisTickLabelColor = null;
+	protected String timeAxisTickLabelMask = null;
+	protected Color timeAxisLineColor = null;
+
 	protected JRExpression valueAxisLabelExpression = null;
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected String valueAxisTickLabelMask = null;
+	protected Color valueAxisLineColor = null;
 
 	protected boolean isShowOpenTicks = false;
 	protected boolean isShowCloseTicks = false;
@@ -74,41 +90,164 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		isShowOpenTicks = highLowPlot.isShowOpenTicks();
 		isShowCloseTicks = highLowPlot.isShowCloseTicks();
 
-		timeAxisLabelExpression = factory.getExpression(highLowPlot.getTimeAxisLabelExpression());
-		valueAxisLabelExpression = factory.getExpression(highLowPlot.getValueAxisLabelExpression());
+		timeAxisLabelExpression = factory.getExpression( highLowPlot.getTimeAxisLabelExpression() );
+		timeAxisLabelFont = factory.getFont(highLowPlot.getTimeAxisLabelFont());
+		timeAxisLabelColor = highLowPlot.getTimeAxisLabelColor();
+		timeAxisTickLabelFont = factory.getFont(highLowPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelColor = highLowPlot.getTimeAxisTickLabelColor();
+		timeAxisTickLabelMask = highLowPlot.getTimeAxisTickLabelMask();
+		timeAxisLineColor = highLowPlot.getTimeAxisLineColor();
+		
+		valueAxisLabelExpression = factory.getExpression( highLowPlot.getValueAxisLabelExpression() );
+		valueAxisLabelFont = factory.getFont(highLowPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = highLowPlot.getValueAxisLabelColor();
+		valueAxisTickLabelFont = factory.getFont(highLowPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = highLowPlot.getValueAxisTickLabelColor();
+		valueAxisTickLabelMask = highLowPlot.getValueAxisTickLabelMask();
+		valueAxisLineColor = highLowPlot.getValueAxisTickLabelColor();
 	}
 
 
-	public JRExpression getTimeAxisLabelExpression()
-	{
+	/**
+	 * 
+	 */
+	public JRExpression getTimeAxisLabelExpression(){
 		return timeAxisLabelExpression;
 	}
-
-
-	public JRExpression getValueAxisLabelExpression()
+	
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisLabelFont()
 	{
+		return timeAxisLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLabelColor()
+	{
+		return timeAxisLabelColor;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisTickLabelFont()
+	{
+		return timeAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisTickLabelColor()
+	{
+		return timeAxisTickLabelColor;
+	}
+
+	/**
+	 * 
+	 */
+	public String getTimeAxisTickLabelMask()
+	{
+		return timeAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLineColor()
+	{
+		return timeAxisLineColor;
+	}
+	/**
+	 * 
+	 */
+	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
 
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return valueAxisLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return valueAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
+	}
 
+	/**
+	 * 
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return valueAxisLineColor;
+	}
+		
+	/**
+	 * 
+	 */
 	public boolean isShowOpenTicks()
 	{
 		return isShowOpenTicks;
 	}
 
 
+	/**
+	 * 
+	 */
 	public void setShowOpenTicks(boolean showOpenTicks)
 	{
 		isShowOpenTicks = showOpenTicks;
 	}
 
 
+	/**
+	 * 
+	 */
 	public boolean isShowCloseTicks()
 	{
 		return isShowCloseTicks;
 	}
 
 
+	/**
+	 * 
+	 */
 	public void setShowCloseTicks(boolean showCloseTicks)
 	{
 		isShowCloseTicks = showCloseTicks;

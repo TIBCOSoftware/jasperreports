@@ -27,11 +27,14 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -50,7 +53,20 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected JRExpression categoryAxisLabelExpression = null;
+	protected JRFont categoryAxisLabelFont = null;
+	protected Color categoryAxisLabelColor = null;
+	protected JRFont categoryAxisTickLabelFont = null;
+	protected Color categoryAxisTickLabelColor = null;
+	protected String categoryAxisTickLabelMask = null;
+	protected Color categoryAxisLineColor = null;
+
 	protected JRExpression valueAxisLabelExpression = null;
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected String valueAxisTickLabelMask = null;
+	protected Color valueAxisLineColor = null;
 	
 	protected boolean isShowTickMarks = false;
 	protected boolean isShowTickLabels = false;
@@ -76,26 +92,133 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		isShowTickLabels = barPlot.isShowTickLabels();
 		isShowLabels = barPlot.isShowLabels();
 		
-		categoryAxisLabelExpression = factory.getExpression(barPlot.getCategoryAxisLabelExpression());
-		valueAxisLabelExpression = factory.getExpression(barPlot.getValueAxisLabelExpression());
+		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
+		categoryAxisLabelFont = factory.getFont(barPlot.getCategoryAxisLabelFont());
+		categoryAxisLabelColor = barPlot.getCategoryAxisLabelColor();
+		categoryAxisTickLabelFont = factory.getFont(barPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelColor = barPlot.getCategoryAxisTickLabelColor();
+		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
+		categoryAxisLineColor = barPlot.getCategoryAxisLineColor();
+		
+		valueAxisLabelExpression = factory.getExpression( barPlot.getValueAxisLabelExpression() );
+		valueAxisLabelFont = factory.getFont(barPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = barPlot.getValueAxisLabelColor();
+		valueAxisTickLabelFont = factory.getFont(barPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = barPlot.getValueAxisTickLabelColor();
+		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
+		valueAxisLineColor = barPlot.getValueAxisLineColor();
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public JRExpression getCategoryAxisLabelExpression()
-	{
+	public JRExpression getCategoryAxisLabelExpression(){
 		return categoryAxisLabelExpression;
 	}
-		
+	
 	/**
-	 *
+	 * 
 	 */
-	public JRExpression getValueAxisLabelExpression()
+	public JRFont getCategoryAxisLabelFont()
 	{
+		return categoryAxisLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getCategoryAxisLabelColor()
+	{
+		return categoryAxisLabelColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRFont getCategoryAxisTickLabelFont()
+	{
+		return categoryAxisTickLabelFont;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getCategoryAxisTickLabelColor()
+	{
+		return categoryAxisTickLabelColor;
+	}
+
+	/**
+	 * 
+	 */
+	public String getCategoryAxisTickLabelMask()
+	{
+		return categoryAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getCategoryAxisLineColor()
+	{
+		return categoryAxisLineColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
+
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return valueAxisLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
+	}
 		
+	
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return valueAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
+	}
+
+	/**
+	 * 
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return valueAxisLineColor;
+	}
 	/**
 	 *
 	 */

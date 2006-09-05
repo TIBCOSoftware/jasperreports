@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts.fill;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -38,29 +41,232 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot {
 	
+	/**
+	 *
+	 */
 	public JRFillScatterPlot( JRScatterPlot plot, JRFillObjectFactory factory ){
 		super( plot, factory );
 	}
 	
-	public JRExpression getXAxisLabelExpression(){
+	/**
+	 *
+	 */
+	public JRExpression getXAxisLabelExpression()
+	{
 		return ((JRScatterPlot)parent).getXAxisLabelExpression();
 	}
-	
-	public JRExpression getYAxisLabelExpression(){
-		return ((JRScatterPlot)parent).getYAxisLabelExpression();
+
+	/**
+	 *
+	 */
+	public JRFont getXAxisLabelFont()
+	{
+		return ((JRScatterPlot)parent).getXAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLabelFont(JRFont font)
+	{
 	}
 	
+	/**
+	 *
+	 */
+	public Color getXAxisLabelColor()
+	{
+		return ((JRScatterPlot)parent).getXAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getXAxisTickLabelFont()
+	{
+		return ((JRScatterPlot)parent).getXAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getXAxisTickLabelColor()
+	{
+		return ((JRScatterPlot)parent).getXAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getXAxisTickLabelMask()
+	{
+		return ((JRScatterPlot)parent).getXAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getXAxisLineColor()
+	{
+		return ((JRScatterPlot)parent).getXAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setXAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getYAxisLabelExpression()
+	{
+		return ((JRScatterPlot)parent).getYAxisLabelExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getYAxisLabelFont()
+	{
+		return ((JRScatterPlot)parent).getYAxisLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getYAxisLabelColor()
+	{
+		return ((JRScatterPlot)parent).getYAxisLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public JRFont getYAxisTickLabelFont()
+	{
+		return ((JRScatterPlot)parent).getYAxisTickLabelFont();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelFont(JRFont font)
+	{
+	}
+	
+	/**
+	 *
+	 */
+	public Color getYAxisTickLabelColor()
+	{
+		return ((JRScatterPlot)parent).getYAxisTickLabelColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public String getYAxisTickLabelMask()
+	{
+		return ((JRScatterPlot)parent).getYAxisTickLabelMask();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisTickLabelMask(String mask)
+	{
+	}
+
+	/**
+	 *
+	 */
+	public Color getYAxisLineColor()
+	{
+		return ((JRScatterPlot)parent).getYAxisLineColor();
+	}
+
+	/**
+	 *
+	 */
+	public void setYAxisLineColor(Color color)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public boolean isShowShapes(){
 		return ((JRScatterPlot)parent).isShowShapes();
 	}
 	
+	/**
+	 *
+	 */
 	public void setShowShapes( boolean value ){
 	}
 	
+	/**
+	 *
+	 */
 	public boolean isShowLines(){
 		return ((JRScatterPlot)parent).isShowLines();
 	}
 	
+	/**
+	 *
+	 */
 	public void setShowLines( boolean value ){
 	}
 	

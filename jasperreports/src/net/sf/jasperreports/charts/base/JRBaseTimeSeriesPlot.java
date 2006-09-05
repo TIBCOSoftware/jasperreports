@@ -27,11 +27,14 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -44,15 +47,34 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected JRExpression timeAxisLabelExpression = null;
+	protected JRFont timeAxisLabelFont = null;
+	protected Color timeAxisLabelColor = null;
+	protected JRFont timeAxisTickLabelFont = null;
+	protected Color timeAxisTickLabelColor = null;
+	protected String timeAxisTickLabelMask = null;
+	protected Color timeAxisLineColor = null;
+
 	protected JRExpression valueAxisLabelExpression = null;
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected String valueAxisTickLabelMask = null;
+	protected Color valueAxisLineColor = null;
 	
 	boolean isShowShapes = true;
 	boolean isShowLines = true;
 	
+	/**
+	 * 
+	 */
 	protected JRBaseTimeSeriesPlot( JRChartPlot plot ){
 		super( plot );
 	}
 	
+	/**
+	 * 
+	 */
 	public JRBaseTimeSeriesPlot( JRTimeSeriesPlot plot, JRBaseObjectFactory factory ){
 		super( plot, factory );
 		
@@ -60,29 +82,156 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		isShowShapes = plot.isShowShapes();
 		
 		timeAxisLabelExpression = factory.getExpression( plot.getTimeAxisLabelExpression() );
+		timeAxisLabelFont = factory.getFont(plot.getTimeAxisLabelFont());
+		timeAxisLabelColor = plot.getTimeAxisLabelColor();
+		timeAxisTickLabelFont = factory.getFont(plot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelColor = plot.getTimeAxisTickLabelColor();
+		timeAxisTickLabelMask = plot.getTimeAxisTickLabelMask();
+		timeAxisLineColor = plot.getTimeAxisLineColor();
+		
 		valueAxisLabelExpression = factory.getExpression( plot.getValueAxisLabelExpression() );
+		valueAxisLabelFont = factory.getFont(plot.getValueAxisLabelFont());
+		valueAxisLabelColor = plot.getValueAxisLabelColor();
+		valueAxisTickLabelFont = factory.getFont(plot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = plot.getValueAxisTickLabelColor();
+		valueAxisTickLabelMask = plot.getValueAxisTickLabelMask();
+		valueAxisLineColor = plot.getValueAxisTickLabelColor();
 	}
 	
+	/**
+	 * 
+	 */
 	public JRExpression getTimeAxisLabelExpression(){
 		return timeAxisLabelExpression;
 	}
 	
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisLabelFont()
+	{
+		return timeAxisLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLabelColor()
+	{
+		return timeAxisLabelColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisTickLabelFont()
+	{
+		return timeAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisTickLabelColor()
+	{
+		return timeAxisTickLabelColor;
+	}
+
+	/**
+	 * 
+	 */
+	public String getTimeAxisTickLabelMask()
+	{
+		return timeAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLineColor()
+	{
+		return timeAxisLineColor;
+	}
+	
+	/**
+	 * 
+	 */
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
+
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisLabelFont()
+	{
+		return valueAxisLabelFont;
+	}
 	
+	/**
+	 * 
+	 */
+	public Color getValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
+	}
+		
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisTickLabelFont()
+	{
+		return valueAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
+	}
+
+	/**
+	 * 
+	 */
+	public String getValueAxisTickLabelMask()
+	{
+		return valueAxisTickLabelMask;
+	}
+
+	/**
+	 * 
+	 */
+	public Color getValueAxisLineColor()
+	{
+		return valueAxisLineColor;
+	}
+
+	/**
+	 * 
+	 */
 	public boolean isShowLines(){
 		return isShowLines;
 	}
 	
+	/**
+	 * 
+	 */
 	public boolean isShowShapes(){
 		return isShowShapes;
 	}
 	
+	/**
+	 * 
+	 */
 	public void setShowLines( boolean val ){
 		this.isShowLines = val;
 	}
 	
+	/**
+	 * 
+	 */
 	public void setShowShapes( boolean val ){
 		this.isShowShapes = val;
 	}
