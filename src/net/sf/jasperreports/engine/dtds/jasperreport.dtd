@@ -167,7 +167,7 @@
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
 
-<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*)>
+<!ELEMENT band (printWhenExpression?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*)>
 <!ATTLIST band
 	height NMTOKEN "0"
 	isSplitAllowed (true | false) "true"
@@ -336,9 +336,9 @@
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
 
-<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*>
+<!ELEMENT elementGroup (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*>
 
-<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, chartLegend?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST chart
 	isShowLegend (true | false) "true"
 	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
@@ -359,6 +359,11 @@
 	color CDATA #IMPLIED
 >
 <!ELEMENT subtitleExpression (#PCDATA)>
+<!ELEMENT chartLegend (font?)>
+<!ATTLIST chartLegend
+    textColor CDATA #IMPLIED
+    backgroundColor CDATA #IMPLIED
+>
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
 <!ELEMENT pieDataset (dataset?, keyExpression?, valueExpression?, labelExpression?, sectionHyperlink?)>
@@ -396,12 +401,19 @@
 
 <!ELEMENT datasetParameterExpression (#PCDATA)>
 
-<!ELEMENT plot EMPTY>
+<!ELEMENT plot (seriesColor*) >
 <!ATTLIST plot
 	backcolor CDATA #IMPLIED
 	orientation (Horizontal | Vertical) "Vertical"
 	backgroundAlpha NMTOKEN "1"
 	foregroundAlpha NMTOKEN "1"
+	labelRotation CDATA "0.0"
+>
+
+<!ELEMENT seriesColor EMPTY>
+<!ATTLIST seriesColor
+    seriesOrder NMTOKEN #REQUIRED
+    color CDATA #REQUIRED
 >
 
 <!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
@@ -422,7 +434,7 @@
 	hyperlinkTarget (Self | Blank) "Self"
 >
 
-<!ELEMENT barPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT barPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST barPlot
 	isShowLabels (true | false ) "false"
 	isShowTickMarks (true | false) "true"
@@ -430,9 +442,21 @@
 >
 <!ELEMENT categoryAxisLabelExpression (#PCDATA)>
 <!ELEMENT valueAxisLabelExpression (#PCDATA)>
+<!ELEMENT categoryAxisFormat (axisFormat)>
+<!ELEMENT valueAxisFormat (axisFormat)>
+
+<!ELEMENT axisFormat (labelFont?, tickLabelFont?)>
+<!ATTLIST axisFormat
+    labelColor CDATA #IMPLIED
+    tickLabelColor CDATA #IMPLIED
+    tickLabelMask CDATA #IMPLIED
+    axisLineColor CDATA #IMPLIED
+>
+<!ELEMENT labelFont (font?)>
+<!ELEMENT tickLabelFont (font?)>
 
 <!ELEMENT bar3DChart (chart, categoryDataset, bar3DPlot)>
-<!ELEMENT bar3DPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT bar3DPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST bar3DPlot
 	isShowLabels (true | false ) "false"
 	xOffset CDATA #IMPLIED
@@ -451,7 +475,7 @@
 <!ELEMENT stackedBar3DChart (chart, categoryDataset, bar3DPlot)>
 
 <!ELEMENT lineChart (chart, categoryDataset, linePlot)>
-<!ELEMENT linePlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT linePlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST linePlot
 	isShowLines (true | false) "true"
 	isShowShapes (true | false) "true"
@@ -464,23 +488,25 @@
 <!ELEMENT yValueExpression (#PCDATA)>
 
 <!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
-<!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 
 <!ELEMENT xyAreaChart (chart, xyDataset, areaPlot)>
 
 <!ELEMENT scatterChart (chart, xyDataset, scatterPlot)>
-<!ELEMENT scatterPlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
+<!ELEMENT scatterPlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
 <!ATTLIST scatterPlot
 	isShowLines (true | false) "true"
 	isShowShapes (true | false) "true"
 >
 <!ELEMENT xAxisLabelExpression (#PCDATA)>
 <!ELEMENT yAxisLabelExpression (#PCDATA)>
+<!ELEMENT xAxisFormat (axisFormat)>
+<!ELEMENT yAxisFormat (axisFormat)>
 
 <!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
 <!ELEMENT xyzDataset (dataset?, xyzSeries*)>
 <!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?, itemHyperlink?)>
-<!ELEMENT bubblePlot (plot, xAxisLabelExpression?, yAxisLabelExpression?)>
+<!ELEMENT bubblePlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
 <!ATTLIST bubblePlot
 	scaleType (BothAxes | DomainAxis | RangeAxis) "RangeAxis"
 >
@@ -494,16 +520,17 @@
 <!ELEMENT timePeriodExpression (#PCDATA)>
 
 <!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
-<!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST timeSeriesPlot
 	isShowLines (true | false) "true"
 	isShowShapes (true | false) "true"
 >
 <!ELEMENT timeAxisLabelExpression (#PCDATA)>
+<!ELEMENT timeAxisFormat (axisFormat)>
 
 <!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
 <!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?, itemHyperlink?)>
-<!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST highLowPlot
 	isShowCloseTicks (true | false) "true"
 	isShowOpenTicks (true | false) "true"
@@ -516,11 +543,58 @@
 <!ELEMENT volumeExpression (#PCDATA)>
 
 <!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
-<!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, valueAxisLabelExpression?)>
+<!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
 <!ATTLIST candlestickPlot
 	isShowVolume (true | false) "true"
 >
 
+<!ELEMENT meterChart (chart, valueDataset, meterPlot)>
+<!ELEMENT valueDataset (dataset?, valueExpression )>
+<!ELEMENT meterPlot (plot, valueDisplay?, dataRange, meterInterval*)>
+<!ATTLIST meterPlot
+    shape (chord | circle | pie) "pie"
+    angle CDATA "180"
+    units CDATA #IMPLIED
+    tickInterval CDATA "10.0"
+    meterColor CDATA #IMPLIED
+    needleColor CDATA #IMPLIED
+    tickColor CDATA #IMPLIED
+>
+
+<!ELEMENT valueDisplay (font?)>
+<!ATTLIST valueDisplay
+    color CDATA #IMPLIED
+    mask CDATA #IMPLIED
+>
+
+<!ELEMENT dataRange (lowExpression, highExpression)>
+
+<!ELEMENT meterInterval (dataRange)>
+<!ATTLIST meterInterval
+    label CDATA #IMPLIED
+    color CDATA #IMPLIED
+    alpha CDATA "1.0"
+>
+
+<!ELEMENT thermometerChart (chart, valueDataset, thermometerPlot)>
+<!ELEMENT thermometerPlot (plot, valueDisplay?, dataRange, lowRange?, mediumRange?, highRange?)>
+<!ATTLIST thermometerPlot
+    valueLocation ( none | left | right | bulb ) "bulb"
+    isShowValueLines ( true | false) "false"
+    mercuryColor CDATA #IMPLIED
+>
+
+<!ELEMENT lowRange (dataRange)>
+<!ELEMENT mediumRange (dataRange)>
+<!ELEMENT highRange (dataRange)>
+
+
+<!ELEMENT multiAxisChart (chart, multiAxisPlot)>
+<!ELEMENT multiAxisPlot (plot, axis+)>
+<!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart)>
+<!ATTLIST axis
+    position (leftOrTop | rightOrBottom) "leftOrTop"
+>
 
 <!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, crosstabHeaderCell?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
 <!ATTLIST crosstab
@@ -609,4 +683,4 @@
 
 <!ELEMENT whenNoDataCell (cellContents)>
 
-<!ELEMENT frame (reportElement, box?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | elementGroup | crosstab | frame)*)>
+<!ELEMENT frame (reportElement, box?, (line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*)>
