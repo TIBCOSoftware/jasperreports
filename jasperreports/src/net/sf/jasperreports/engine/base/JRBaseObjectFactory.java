@@ -37,15 +37,19 @@ import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -60,15 +64,19 @@ import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
 import net.sf.jasperreports.charts.base.JRBaseHighLowDataset;
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
+import net.sf.jasperreports.charts.base.JRBaseMeterPlot;
+import net.sf.jasperreports.charts.base.JRBaseMultiAxisPlot;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.charts.base.JRBasePieDataset;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.charts.base.JRBaseScatterPlot;
+import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
 import net.sf.jasperreports.charts.base.JRBaseTimePeriodDataset;
 import net.sf.jasperreports.charts.base.JRBaseTimePeriodSeries;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeries;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeriesDataset;
 import net.sf.jasperreports.charts.base.JRBaseTimeSeriesPlot;
+import net.sf.jasperreports.charts.base.JRBaseValueDataset;
 import net.sf.jasperreports.charts.base.JRBaseXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.charts.base.JRBaseXyzDataset;
@@ -1068,6 +1076,87 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 		return basePlot;
 	}
+
+
+    /**
+     *
+     */
+    public JRValueDataset getValueDataset(JRValueDataset valueDataset)
+    {
+        JRBaseValueDataset baseValueDataset = null;
+        
+        if (valueDataset != null)
+        {
+            baseValueDataset = (JRBaseValueDataset)get(valueDataset);
+            if (baseValueDataset == null)
+            {
+                baseValueDataset = new JRBaseValueDataset(valueDataset, this);
+            }
+        }
+        
+        return baseValueDataset;
+    }
+
+    
+	/**
+	 *
+	 */
+	public JRMeterPlot getMeterPlot(JRMeterPlot meterPlot)
+	{
+		JRBaseMeterPlot baseMeterPlot = null;
+
+		if (meterPlot != null)
+		{
+			baseMeterPlot = (JRBaseMeterPlot)get(meterPlot);
+			if (baseMeterPlot == null)
+			{
+				baseMeterPlot = new JRBaseMeterPlot(meterPlot, this);
+			}
+		}
+
+		return baseMeterPlot;
+	}
+
+    
+	/**
+	 *
+	 */
+	public JRThermometerPlot getThermometerPlot(JRThermometerPlot thermometerPlot)
+	{
+		JRBaseThermometerPlot baseThermometerPlot = null;
+
+		if (thermometerPlot != null)
+		{
+			baseThermometerPlot = (JRBaseThermometerPlot)get(thermometerPlot);
+			if (baseThermometerPlot == null)
+			{
+				baseThermometerPlot = new JRBaseThermometerPlot(thermometerPlot, this);
+			}
+		}
+
+		return baseThermometerPlot;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRMultiAxisPlot getMultiAxisPlot(JRMultiAxisPlot multiAxisPlot)
+	{
+		JRBaseMultiAxisPlot baseMultiAxisPlot = null;
+
+		if (multiAxisPlot != null)
+		{
+			baseMultiAxisPlot = (JRBaseMultiAxisPlot)get(baseMultiAxisPlot);
+			if (baseMultiAxisPlot == null)
+			{
+				baseMultiAxisPlot = new JRBaseMultiAxisPlot(multiAxisPlot, this);
+			}
+		}
+
+		return baseMultiAxisPlot;
+	}
+
 
 	/**
 	 *

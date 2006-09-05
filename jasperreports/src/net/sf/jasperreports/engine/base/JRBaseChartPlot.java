@@ -29,6 +29,8 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -53,6 +55,8 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
 	protected float backgroundAlpha = 1;
 	protected float foregroundAlpha = 1;
+	protected double labelRotation = 0.0;
+	protected SortedSet  seriesColors = null;
 
 
 	/**
@@ -65,6 +69,12 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 			orientation = plot.getOrientation();
 			backgroundAlpha = plot.getBackgroundAlpha();
 			foregroundAlpha = plot.getForegroundAlpha();
+			labelRotation = plot.getLabelRotation();
+			seriesColors = new TreeSet(plot.getSeriesColors());
+		}
+		else
+		{
+			seriesColors = new TreeSet();
 		}
 	}
 
@@ -80,7 +90,8 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 		orientation = plot.getOrientation();
 		backgroundAlpha = plot.getBackgroundAlpha();
 		foregroundAlpha = plot.getForegroundAlpha();
-		
+		labelRotation = plot.getLabelRotation();
+		seriesColors = new TreeSet(plot.getSeriesColors());
 	}
 
 	
@@ -148,4 +159,91 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 		this.foregroundAlpha = foregroundAlpha;
 	}
 
+	/**
+	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
+	 */
+	public double getLabelRotation()
+	{
+		return labelRotation;
+	}
+	
+	/**
+	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
+	 */
+	public void setLabelRotation(double labelRotation)
+	{
+		this.labelRotation = labelRotation;
+	}
+	
+	
+	/**
+	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
+	 * If there are no defined series colors this method will return an empty list, not null. 
+	 */
+	public SortedSet getSeriesColors()
+	{
+		return seriesColors;
+	}
+	
+	/**
+	 * Removes all defined series colors.
+	 */
+	public void clearSeriesColors()
+	{
+		seriesColors.clear();
+	}
+	
+	/**
+	 * Adds the specified series color to the plot.
+	 */
+	public void addSeriesColor(JRSeriesColor seriesColor)
+	{
+		seriesColors.add(seriesColor);
+	}
+	
+	public static class JRBaseSeriesColor implements JRChartPlot.JRSeriesColor, Serializable, Comparable
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+		
+		protected int seriesOrder = -1;
+		protected Color color = null;
+		
+		public JRBaseSeriesColor(int seriesOrder, Color color)
+		{
+			this.seriesOrder = seriesOrder;
+			this.color = color;
+		}
+		
+		/**
+		 * Returns the series number (0 based) that this color applies to.
+		 */
+		public int getSeriesOrder()
+		{
+			return seriesOrder;
+		}
+		
+		/**
+		 * Returns the color to use for this series.
+		 */
+		public Color getColor()
+		{
+			return color;
+		}
+
+		public int compareTo(Object obj) {
+			if (obj == null)
+			{
+				throw new NullPointerException();
+			}
+			
+			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();
+		}
+	}
 }
