@@ -43,13 +43,17 @@ import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
 import net.sf.jasperreports.charts.design.JRDesignLinePlot;
+import net.sf.jasperreports.charts.design.JRDesignMeterPlot;
+import net.sf.jasperreports.charts.design.JRDesignMultiAxisPlot;
 import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.charts.design.JRDesignPiePlot;
 import net.sf.jasperreports.charts.design.JRDesignScatterPlot;
+import net.sf.jasperreports.charts.design.JRDesignThermometerPlot;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesPlot;
+import net.sf.jasperreports.charts.design.JRDesignValueDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyDataset;
 import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -102,12 +106,15 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
 	protected Color titleColor = Color.black;
 	protected Color subtitleColor = Color.black;
+	protected Color legendColor = null;
+	protected Color legendBackgroundColor = null;
 
 	/**
 	 *
 	 */
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
+	protected JRFont legendFont = null;
 
 	protected String customizerClass;
 
@@ -324,6 +331,57 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		this.subtitleColor = subtitleColor;
 	}
 
+	/**
+	 *
+	 */
+	public Color getLegendColor()
+	{
+		return legendColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendColor(Color legendColor)
+	{
+		this.legendColor = legendColor;
+	}
+	
+	/**
+	 *
+	 */
+	public Color getLegendBackgroundColor()
+	{
+		return legendBackgroundColor;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendBackgroundColor(Color legendBackgroundColor)
+	{
+		this.legendBackgroundColor = legendBackgroundColor;
+	}
+	
+	/**
+	 *
+	 */
+	public JRFont getLegendFont()
+	{
+		return legendFont;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendFont(JRFont legendFont)
+	{
+		this.legendFont = legendFont;
+	}
+	
+	/**
+	 *
+	 */
 	public byte getHyperlinkType()
 	{
 		return JRHyperlinkHelper.getHyperlinkType(this);
@@ -511,6 +569,14 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignLinePlot(plot);
 				break;
+			case CHART_TYPE_METER:
+				dataset = new JRDesignValueDataset(dataset);
+				plot = new JRDesignMeterPlot(plot);
+				break;
+			case CHART_TYPE_MULTI_AXIS:
+				plot = new JRDesignMultiAxisPlot(plot);
+				dataset = null;
+				break;
 			case CHART_TYPE_PIE:
 				dataset = new JRDesignPieDataset(dataset);
 				plot = new JRDesignPiePlot(plot);
@@ -530,6 +596,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			case CHART_TYPE_STACKEDBAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBar3DPlot(plot);
+				break;
+			case CHART_TYPE_THERMOMETER:
+				dataset = new JRDesignValueDataset(dataset);
+				plot = new JRDesignThermometerPlot(plot);
 				break;
 			case CHART_TYPE_TIMESERIES:
 				dataset = new JRDesignTimeSeriesDataset( dataset );//other datasets could be supported
@@ -555,14 +625,29 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setDataset(JRChartDataset ds)
 	{
 		switch( ds.getDatasetType() ){
-			case JRChartDataset.TIMESERIES_DATASET:
-				dataset = (JRDesignTimeSeriesDataset)ds;
+			case JRChartDataset.CATEGORY_DATASET:
+				dataset = (JRDesignCategoryDataset)ds;
+				break;
+			case JRChartDataset.HIGHLOW_DATASET:
+				dataset = (JRDesignHighLowDataset)ds;
+				break;
+			case JRChartDataset.PIE_DATASET:
+				dataset = (JRDesignPieDataset)ds;
 				break;
 			case JRChartDataset.TIMEPERIOD_DATASET:
 				dataset = (JRDesignTimePeriodDataset)ds;
 				break;
+			case JRChartDataset.TIMESERIES_DATASET:
+				dataset = (JRDesignTimeSeriesDataset)ds;
+				break;
+			case JRChartDataset.VALUE_DATASET:
+				dataset = (JRDesignValueDataset)ds;
+				break;
 			case JRChartDataset.XY_DATASET:
 				dataset = (JRDesignXyDataset)ds;
+				break;
+			case JRChartDataset.XYZ_DATASET:
+				dataset = (JRDesignXyzDataset)ds;
 				break;
 		}
 	}
@@ -604,6 +689,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			case CHART_TYPE_LINE:
 				xmlWriter.writeLineChart(this);
 				break;
+			case CHART_TYPE_METER:
+				xmlWriter.writeMeterChart(this);
+				break;
+			case CHART_TYPE_MULTI_AXIS:
+				xmlWriter.writeMultiAxisChart(this);
+				break;
 			case CHART_TYPE_PIE:
 				xmlWriter.writePieChart(this);
 				break;
@@ -618,6 +709,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				break;
 			case CHART_TYPE_STACKEDBAR3D:
 				xmlWriter.writeStackedBar3DChart(this);
+				break;
+			case CHART_TYPE_THERMOMETER:
+				xmlWriter.writeThermometerChart(this);
 				break;
 			case CHART_TYPE_TIMESERIES:
 				xmlWriter.writeTimeSeriesChart( this );
