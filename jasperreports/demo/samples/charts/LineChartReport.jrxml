@@ -106,9 +106,18 @@
 						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() / 2d)</valueExpression>
 						<labelExpression></labelExpression>
 					</categorySeries>
+					<categorySeries>
+						<seriesExpression>"Douoble Freight"</seriesExpression>
+						<categoryExpression>$F{ShipCountry}</categoryExpression>
+						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 2d)</valueExpression>
+						<labelExpression></labelExpression>
+					</categorySeries>
 				</categoryDataset>
 				<linePlot isShowLines="true" isShowShapes="false">
-					<plot/>
+					<plot>
+					    <seriesColor seriesOrder="0" color="#000000"/>
+					    <seriesColor seriesOrder="1" color="#ff00ff"/>
+					</plot>
 				</linePlot>
 			</lineChart>
 		</band>

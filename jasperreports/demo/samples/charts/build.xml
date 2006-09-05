@@ -26,7 +26,7 @@
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="./">
+		<jrc destdir="./" >
 			<src>
 				<fileset dir="./">
 					<include name="**/*.jrxml"/>
@@ -45,7 +45,7 @@
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-FBarChartReport.jrprint"/>
+			<arg value="-FMultipleAxisChartReport.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
