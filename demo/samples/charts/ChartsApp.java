@@ -79,7 +79,10 @@ public class ChartsApp
 		"BubbleChartReport",
 		"HighLowChartReport",
 		"CandlestickChartReport",
-		"SubDatasetChartReport"
+		"SubDatasetChartReport",
+		"MeterChartReport",
+		"MultipleAxisChartReport",
+		"ThermometerChartReport"
 		};
 	
 	/**
