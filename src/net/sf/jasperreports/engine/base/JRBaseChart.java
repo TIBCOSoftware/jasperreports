@@ -40,13 +40,17 @@ import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -100,6 +104,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
 	protected Color titleColor = Color.black;
 	protected Color subtitleColor = Color.black;
+	protected Color legendColor = null;
+	protected Color legendBackgroundColor = null;
 
 	/**
 	 *
@@ -107,6 +113,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRBox box = null;
 	protected JRFont titleFont = null;
 	protected JRFont subtitleFont = null;
+	protected JRFont legendFont = null;
 
 	protected String customizerClass;
 
@@ -190,6 +197,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
+			case CHART_TYPE_METER:
+				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());
+				plot = factory.getMeterPlot((JRMeterPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_MULTI_AXIS:
+				dataset = null;
+				plot = factory.getMultiAxisPlot((JRMultiAxisPlot) chart.getPlot());
+				break;
 			case CHART_TYPE_PIE:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
@@ -209,6 +224,10 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			case CHART_TYPE_STACKEDBAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				break;
+			case CHART_TYPE_THERMOMETER:
+				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());
+				plot = factory.getThermometerPlot((JRThermometerPlot) chart.getPlot());
 				break;
 			case CHART_TYPE_TIMESERIES:
 				dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
@@ -248,9 +267,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		titlePosition = chart.getTitlePosition();
 		titleColor = chart.getTitleColor();
 		subtitleColor = chart.getSubtitleColor();
+		legendColor = chart.getLegendColor();
+		legendBackgroundColor = chart.getLegendBackgroundColor();
 
 		titleFont = factory.getFont(chart.getTitleFont());
 		subtitleFont = factory.getFont(chart.getSubtitleFont());
+		legendFont = factory.getFont(chart.getLegendFont());
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 		titleExpression = factory.getExpression(chart.getTitleExpression());
@@ -388,6 +410,31 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		this.subtitleColor = subtitleColor;
 	}
 
+
+	public Color getLegendBackgroundColor() {
+		return legendBackgroundColor;
+	}
+
+
+	public Color getLegendColor() {
+		return legendColor;
+	}
+
+
+	public JRFont getLegendFont() {
+		return legendFont;
+	}
+
+
+	public void setLegendBackgroundColor(Color legendBackgroundColor) {
+		this.legendBackgroundColor = legendBackgroundColor;
+	}
+
+
+	public void setLegendColor(Color legendColor) {
+		this.legendColor = legendColor;
+	}
+	
 	/**
 	 *
 	 */
