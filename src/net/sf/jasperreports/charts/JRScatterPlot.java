@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -36,16 +39,94 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface JRScatterPlot extends JRChartPlot {
 	
+	/**
+	 * 
+	 */
 	public JRExpression getXAxisLabelExpression();
+
+	/**
+	 * 
+	 */
+	public JRFont getXAxisLabelFont();
 	
+	/**
+	 * 
+	 */
+	public Color getXAxisLabelColor();
+
+	/**
+	 * 
+	 */
+	public JRFont getXAxisTickLabelFont();
+	
+	/**
+	 * 
+	 */
+	public Color getXAxisTickLabelColor();
+
+	/**
+	 * 
+	 */
+	public String getXAxisTickLabelMask();
+
+	/**
+	 * 
+	 */
+	public Color getXAxisLineColor();
+
+	/**
+	 * 
+	 */
 	public JRExpression getYAxisLabelExpression();
+
+	/**
+	 * 
+	 */
+	public JRFont getYAxisLabelFont();
 	
+	/**
+	 * 
+	 */
+	public Color getYAxisLabelColor();
+	
+	/**
+	 * 
+	 */
+	public JRFont getYAxisTickLabelFont();
+
+	/**
+	 * 
+	 */
+	public Color getYAxisTickLabelColor();
+
+	/**
+	 * 
+	 */
+	public String getYAxisTickLabelMask();
+
+	/**
+	 * 
+	 */
+	public Color getYAxisLineColor();
+	
+	/**
+	 * 
+	 */
 	public boolean isShowLines();
 	
+	/**
+	 * 
+	 */
 	public void setShowLines(boolean isShowLines);
 
+	/**
+	 * 
+	 */
 	public boolean isShowShapes();
 
+	/**
+	 * 
+	 */
 	public void setShowShapes(boolean isShowShapes);
 	
 }

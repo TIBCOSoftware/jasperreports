@@ -27,8 +27,11 @@
  */
 package net.sf.jasperreports.charts;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 
 
 /**
@@ -39,15 +42,75 @@ public interface JRHighLowPlot extends JRChartPlot
 {
 
 	/**
-	 *
+	 * 
+	 */
+	public JRExpression getTimeAxisLabelExpression();
+
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisLabelFont();
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLabelColor();
+	
+	/**
+	 * 
+	 */
+	public JRFont getTimeAxisTickLabelFont();
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisTickLabelColor();
+
+	/**
+	 * 
+	 */
+	public String getTimeAxisTickLabelMask();
+	
+	/**
+	 * 
+	 */
+	public Color getTimeAxisLineColor();
+	
+	/**
+	 * 
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
-	 *
+	 * 
 	 */
-	public JRExpression getTimeAxisLabelExpression();
+	public JRFont getValueAxisLabelFont();
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisLabelColor();
 
+	/**
+	 * 
+	 */
+	public JRFont getValueAxisTickLabelFont();
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisTickLabelColor();
+	
+	/**
+	 * 
+	 */
+	public String getValueAxisTickLabelMask();
+	
+	/**
+	 * 
+	 */
+	public Color getValueAxisLineColor();
+	
 	/**
 	 *
 	 */
