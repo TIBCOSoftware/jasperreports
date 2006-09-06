@@ -639,8 +639,6 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		{
 			elementGroup.reset();
 		}
-		
-		setValueRepeating(false);
 	}
 
 	protected void setCurrentEvaluation(byte evaluation)
