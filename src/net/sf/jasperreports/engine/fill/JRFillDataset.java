@@ -571,7 +571,10 @@ public class JRFillDataset implements JRDataset
 		if (resourceBundle == null)
 		{
 			resourceBundle = loadResourceBundle();
-			parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+			if (resourceBundle != null)
+			{
+				parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+			}
 		}
 		
 		timeZone = (TimeZone) parameterValues.get(JRParameter.REPORT_TIME_ZONE);
