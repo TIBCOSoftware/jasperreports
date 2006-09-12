@@ -155,6 +155,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlinkHelper.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImage.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRImageMapRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
