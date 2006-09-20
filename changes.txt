@@ -2,6 +2,18 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.7 (2006-09-xx)
+-----------------------------------
+
+- extended support for charts including new chart types: 
+meter chart, thermometer chart and multi-axis charts;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.6 (2006-09-03)
 -----------------------------------
 
