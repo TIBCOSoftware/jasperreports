@@ -555,7 +555,7 @@ public class JasperPrint implements Serializable
 	 * </p>
 	 * 
 	 * @return the ID of the default <code>java.util.TimeZone</code> for this object
-	 * @see JRPrintText#getTimeZoneId()()
+	 * @see JRPrintText#getTimeZoneId()
 	 */
 	public String getTimeZoneId()
 	{
@@ -568,7 +568,7 @@ public class JasperPrint implements Serializable
 	 * to be used for this object.
 	 * 
 	 * @param timeZoneId the time zone ID
-	 * @see #getTimeZoneId()()
+	 * @see #getTimeZoneId()
 	 * @see java.util.TimeZone#getID()
 	 */
 	public void setTimeZoneId(String timeZoneId)
