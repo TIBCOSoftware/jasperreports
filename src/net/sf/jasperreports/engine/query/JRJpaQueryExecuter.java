@@ -42,8 +42,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRJpaDataSource;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -159,7 +159,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 			for (Iterator iter = parameterNames.iterator(); iter.hasNext();) {
 				String parameterName = (String)iter.next();
 				if (namesSet.add(parameterName)) {
-					JRFillParameter parameter = getParameter(parameterName);
+					JRValueParameter parameter = getValueParameter(parameterName);
 					query.setParameter(getEjbqlParameterName(parameterName), parameter.getValue());
 				}
 			}

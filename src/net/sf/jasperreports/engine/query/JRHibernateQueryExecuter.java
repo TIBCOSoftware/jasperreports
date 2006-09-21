@@ -41,10 +41,10 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateScrollDataSource;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -233,7 +233,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 				String parameterName = (String) iter.next();
 				if (namesSet.add(parameterName))
 				{
-					JRFillParameter parameter = getParameter(parameterName);
+					JRValueParameter parameter = getValueParameter(parameterName);
 					setParameter(parameter);
 				}
 			}
@@ -246,7 +246,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * 
 	 * @param parameter the report parameter
 	 */
-	protected void setParameter(JRFillParameter parameter)
+	protected void setParameter(JRValueParameter parameter)
 	{
 		String hqlParamName = getHqlParameterName(parameter.getName());
 		Class clazz = parameter.getValueClass();

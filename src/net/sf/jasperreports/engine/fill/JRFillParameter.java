@@ -29,13 +29,14 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRValueParameter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillParameter implements JRParameter
+public class JRFillParameter implements JRValueParameter
 {
 
 

@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
@@ -150,7 +150,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					for(int i = 0; i < parameterNames.size(); i++)
 					{
 						String parameterName = (String)parameterNames.get(i);
-						JRFillParameter parameter = getParameter(parameterName);
+						JRValueParameter parameter = getValueParameter(parameterName);
 						Class clazz = parameter.getValueClass();
 						Object parameterValue = parameter.getValue();
 
