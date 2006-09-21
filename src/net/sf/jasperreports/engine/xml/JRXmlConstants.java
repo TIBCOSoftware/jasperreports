@@ -31,9 +31,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;

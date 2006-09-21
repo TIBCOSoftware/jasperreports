@@ -27,8 +27,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseMultiAxisPlot;
-import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignChart;

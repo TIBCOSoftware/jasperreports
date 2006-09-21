@@ -27,8 +27,8 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -94,7 +94,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
             while (iter.hasNext())
             {
                 JRChartAxis axis = (JRChartAxis)iter.next();
-                axes.add(new JRChartAxis(axis, factory));
+                axes.add(factory.getChartAxis(axis));
             }
         }
     }

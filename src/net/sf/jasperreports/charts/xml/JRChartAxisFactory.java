@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.charts.xml;
 
-import net.sf.jasperreports.charts.util.JRChartAxis;
+import net.sf.jasperreports.charts.design.JRDesignChartAxis;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
@@ -50,7 +50,7 @@ public class JRChartAxisFactory extends JRBaseFactory
     public Object createObject(Attributes atts) throws JRException
     {
     	JRDesignChart parentChart = (JRDesignChart)digester.peek(1);
-        JRChartAxis axis = new JRChartAxis(parentChart);
+        JRDesignChartAxis axis = new JRDesignChartAxis(parentChart);
         
         String posAttr = atts.getValue(ATTRIBUTE_position);
         Byte position = (Byte)JRXmlConstants.getAxisPositionMap().get(posAttr);

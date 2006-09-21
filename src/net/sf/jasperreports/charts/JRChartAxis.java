@@ -25,48 +25,50 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.charts.fill;
+package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.engine.fill.JRFillChartDataset;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import net.sf.jasperreports.engine.JRChart;
 
 /**
- * @author Barry Klawans (bklawans@users.sourceforge.net)
+ * Describes an axis that can be added to a multiple axis chart.  The name
+ * "axis" is a bit of a misnomer, as it really contains information about
+ * a new dataset to plot, the axis to plot it against, and how to render that
+ * dataset.
+ * 
+ * @author Barry Klawans (barry@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisPlot
-{
-	
-	private List axes;
-	
-    public JRFillMultiAxisPlot(JRMultiAxisPlot multiAxisPlot, JRFillObjectFactory factory)
-    {
-        super(multiAxisPlot, factory);
-        
-        List parentAxes = multiAxisPlot.getAxes();
-        this.axes = new ArrayList(parentAxes.size());
-		Iterator iter = parentAxes.iterator();
-        while (iter.hasNext())
-        {
-            JRChartAxis axis = (JRChartAxis)iter.next();
-            this.axes.add(factory.getChartAxis(axis));
-        }
-    }
-    
-    public List getAxes()
-    {
-        return axes;
-    }
 
-    public JRFillChartDataset getMainDataset()
-    {
-    	return (JRFillChartDataset) ((JRFillChartAxis) axes.get(0)).getFillChart().getDataset();
-    }
+
+public interface JRChartAxis
+{
+	/**
+	 * Position the axis to the left of a VERTICAL chart or on the top
+	 * of a HORIZONTAL chart.
+	 */
+    public static final byte POSITION_LEFT_OR_TOP = 1;
+    
+    /**
+     * Position the axis to the right of a VERTICAL chart or on the bottom
+     * of a HORIZONTAL chart.
+     */
+    public static final byte POSITION_RIGHT_OR_BOTTOM = 2;
+
+    
+    /**
+     * Returns the position of this axis.
+     * 
+     * @return the position of this axis
+     */
+    public byte getPosition();
+
+    
+    /**
+     * Returns the chart that contains the dataset and plot to use for this
+     * axis.  The plot is used to figure out how to render the dataset when
+     * adding to the multiple axis chart.
+     * 
+     * @return the chart that contains the dataset and plot for this axis
+     */
+    public JRChart getChart();
 }

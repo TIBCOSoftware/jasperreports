@@ -28,45 +28,61 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.engine.fill.JRFillChartDataset;
-import net.sf.jasperreports.engine.fill.JRFillChartPlot;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * @author Barry Klawans (bklawans@users.sourceforge.net)
+ * Describes an axis that can be added to a multiple axis chart.  The name
+ * "axis" is a bit of a misnomer, as it really contains information about
+ * a new dataset to plot, the axis to plot it against, and how to render that
+ * dataset.
+ * 
+ * @author Barry Klawans (barry@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisPlot
+public class JRFillChartAxis implements JRChartAxis
 {
+
+	protected JRChartAxis parent;
 	
-	private List axes;
+    /**
+     * The filled version of the <code>chart</code> field.  Contains evaluated
+     * expressions and data.
+     */
+    protected JRFillChart fillChart = null;
+
+    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+
+    public JRFillChartAxis(JRChartAxis axis, JRFillObjectFactory factory)
+	{
+		factory.put(axis, this);
 	
-    public JRFillMultiAxisPlot(JRMultiAxisPlot multiAxisPlot, JRFillObjectFactory factory)
+		this.parent = axis;
+        this.fillChart = (JRFillChart) factory.getChart(axis.getChart());
+	}
+
+	/**
+     * Return the filled version of the chart with the dataset and plot for
+     * this axis.
+     * 
+     * @return the filled version of the chart with the dataset and plot for
+     * 		   this axis
+     */
+    public JRFillChart getFillChart()
     {
-        super(multiAxisPlot, factory);
-        
-        List parentAxes = multiAxisPlot.getAxes();
-        this.axes = new ArrayList(parentAxes.size());
-		Iterator iter = parentAxes.iterator();
-        while (iter.hasNext())
-        {
-            JRChartAxis axis = (JRChartAxis)iter.next();
-            this.axes.add(factory.getChartAxis(axis));
-        }
-    }
-    
-    public List getAxes()
-    {
-        return axes;
+        return fillChart;
     }
 
-    public JRFillChartDataset getMainDataset()
-    {
-    	return (JRFillChartDataset) ((JRFillChartAxis) axes.get(0)).getFillChart().getDataset();
-    }
+	public JRChart getChart()
+	{
+		return parent.getChart();
+	}
+
+	public byte getPosition()
+	{
+		return parent.getPosition();
+	}
 }
