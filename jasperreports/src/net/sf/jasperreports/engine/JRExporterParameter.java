@@ -217,7 +217,7 @@ public class JRExporterParameter
 	 * <p/>
 	 * The values should be of type {@link java.net.URLStreamHandlerFactory java.net.URLStreamHandlerFactory}.
 	 * 
-	 * @see net.sf.jasperreports.engine.util.JRResourcesUtil#createURL(String, URLStreamHandlerFactory)
+	 * @see net.sf.jasperreports.engine.util.JRResourcesUtil#createURL(String, java.net.URLStreamHandlerFactory)
 	 */
 	public static final JRExporterParameter URL_HANDLER_FACTORY = new JRExporterParameter("URL Handler Factory");
 
