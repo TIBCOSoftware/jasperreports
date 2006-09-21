@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.2.7 (2006-09-xx)
+JasperReports 1.2.7 (2006-09-21)
 -----------------------------------
 
 - extended support for charts including new chart types: 
