@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 
 /**
@@ -141,7 +142,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected Object getParameterValue(String parameterName)
 	{
-		JRFillParameter parameter = getParameter(parameterName);
+		JRValueParameter parameter = getValueParameter(parameterName);
 		return parameter.getValue();
 	}
 	
@@ -151,6 +152,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 * 
 	 * @param parameterName the paramter name
 	 * @return the parameter
+	 * @deprecated {@link #getValueParameter(String) getValueParameter(String)} should be used instead
 	 */
 	protected JRFillParameter getParameter(String parameterName)
 	{
@@ -164,6 +166,26 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		return parameter;
 	}
 
+	
+	/**
+	 * Return a value parameter from the paramters map.
+	 * 
+	 * @param parameterName the paramter name
+	 * @return the parameter
+	 */
+	protected JRValueParameter getValueParameter(String parameterName)
+	{
+		JRValueParameter parameter = (JRValueParameter) parametersMap.get(parameterName);
+		
+		if (parameter == null)
+		{
+			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
+		}
+		
+		return parameter;
+	}
+
+	
 	/**
 	 * Returns the replacement text for a query paramter.
 	 * 

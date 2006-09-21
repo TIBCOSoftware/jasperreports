@@ -31,6 +31,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 
 
 /**
@@ -67,7 +68,7 @@ public interface JRQueryExecuterFactory
 	 * this factory.
 	 * 
 	 * @param dataset the dataset containing the query, fields, etc
-	 * @param parameters map of parameters (instances of {@link net.sf.jasperreports.engine.fill.JRFillParameter JRFillParameter})
+	 * @param parameters map of value parameters (instances of {@link JRValueParameter JRValueParameter})
 	 * 	indexed by name
 	 * 
 	 * @return a query executer
