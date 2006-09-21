@@ -45,6 +45,7 @@ import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
@@ -67,6 +68,7 @@ import net.sf.jasperreports.charts.fill.JRFillAreaPlot;
 import net.sf.jasperreports.charts.fill.JRFillBar3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillBarPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
+import net.sf.jasperreports.charts.fill.JRFillChartAxis;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
 import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
@@ -78,7 +80,6 @@ import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
-import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -2141,7 +2142,7 @@ public class JRFillChart extends JRFillElement implements JRChart
         Iterator iter = jrPlot.getAxes().iterator();
         if (iter.hasNext())
         {
-            JRChartAxis axis = (JRChartAxis)iter.next();
+            JRFillChartAxis axis = (JRFillChartAxis)iter.next();
             JRFillChart fillChart = axis.getFillChart();
             mainChart = fillChart.evaluateImage(evaluation).getChart();
             // Override the plot from the first axis with the plot for the multi-axis
@@ -2169,7 +2170,7 @@ public class JRFillChart extends JRFillElement implements JRChart
         while (iter.hasNext())
         {
         	axisNumber++;
-        	JRChartAxis chartAxis = (JRChartAxis)iter.next();
+        	JRFillChartAxis chartAxis = (JRFillChartAxis)iter.next();
         	JRFillChart fillChart = chartAxis.getFillChart();
         	JFreeChart axisChart = fillChart.evaluateImage(evaluation).getChart();
         	

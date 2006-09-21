@@ -39,6 +39,7 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -66,6 +67,7 @@ import net.sf.jasperreports.charts.fill.JRFillBubblePlot;
 import net.sf.jasperreports.charts.fill.JRFillCandlestickPlot;
 import net.sf.jasperreports.charts.fill.JRFillCategoryDataset;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
+import net.sf.jasperreports.charts.fill.JRFillChartAxis;
 import net.sf.jasperreports.charts.fill.JRFillHighLowDataset;
 import net.sf.jasperreports.charts.fill.JRFillHighLowPlot;
 import net.sf.jasperreports.charts.fill.JRFillLinePlot;
@@ -1308,5 +1310,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		return expression;
+	}
+
+
+	public JRChartAxis getChartAxis(JRChartAxis axis)
+	{
+		JRFillChartAxis fillAxis = null;
+		if (axis != null)
+		{
+			fillAxis = (JRFillChartAxis) get(axis);
+			if (fillAxis == null)
+			{
+				fillAxis = new JRFillChartAxis(axis, this);
+			}
+		}
+		return fillAxis;
 	}
 }

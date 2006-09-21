@@ -34,6 +34,7 @@ import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRHighLowDataset;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
@@ -61,6 +62,7 @@ import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
 import net.sf.jasperreports.charts.base.JRBaseCategoryDataset;
 import net.sf.jasperreports.charts.base.JRBaseCategorySeries;
+import net.sf.jasperreports.charts.base.JRBaseChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseHighLowDataset;
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
@@ -1455,5 +1457,20 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		return link;
+	}
+	
+	
+	public JRChartAxis getChartAxis(JRChartAxis axis)
+	{
+		JRChartAxis baseAxis = null;
+		if (axis != null)
+		{
+			baseAxis = (JRChartAxis) get(axis);
+			if (baseAxis == null)
+			{
+				baseAxis = new JRBaseChartAxis(axis, this);
+			}
+		}
+		return baseAxis;
 	}
 }

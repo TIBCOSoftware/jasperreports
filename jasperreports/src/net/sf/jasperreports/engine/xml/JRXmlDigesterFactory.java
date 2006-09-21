@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignDataRange;
 import net.sf.jasperreports.charts.design.JRDesignTimePeriodSeries;
@@ -37,7 +38,6 @@ import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
 import net.sf.jasperreports.charts.design.JRDesignXySeries;
 import net.sf.jasperreports.charts.design.JRDesignXyzSeries;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
-import net.sf.jasperreports.charts.util.JRChartAxis;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.xml.JRAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRAreaPlotFactory;
