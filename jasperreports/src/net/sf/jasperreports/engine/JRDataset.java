@@ -105,6 +105,14 @@ public interface JRDataset
 
 	
 	/**
+	 * Returns the dataset's sort fields.
+	 * 
+	 * @return the dataset's sort fields
+	 */
+	public JRSortField[] getSortFields();
+
+	
+	/**
 	 * Returns the dataset's variables.
 	 * 
 	 * @return the dataset's variables
