@@ -66,7 +66,8 @@ import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jdt.internal.compiler.problem.DefaultProblemFactory;
 
 /**
- * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
  */
 public class JRJdtCompiler extends JRAbstractJavaCompiler
 {
