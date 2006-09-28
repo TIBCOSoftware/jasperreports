@@ -273,6 +273,11 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	/**
 	 *
 	 */
+	public JRSortField[] getSortFields();
+
+	/**
+	 *
+	 */
 	public JRVariable[] getVariables();
 
 	/**

@@ -129,6 +129,7 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -589,6 +590,18 @@ public class JRXmlWriter
 
 		writer.writeCDATAElement("fieldDescription", field.getDescription());
 		
+		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	private void writeSortField(JRSortField sortField) throws IOException
+	{
+		writer.startElement("sortField");
+		writer.addAttribute("name", sortField.getName());
+		writer.addAttribute("order", sortField.getOrder(), JRXmlConstants.getSortOrderMap(), JRSortField.SORT_ORDER_ASCENDING);
 		writer.closeElement();
 	}
 
@@ -2468,6 +2481,16 @@ public class JRXmlWriter
 			for(int i = 0; i < fields.length; i++)
 			{
 				writeField(fields[i]);
+			}
+		}
+
+		/*   */
+		JRSortField[] sortFields = dataset.getSortFields();
+		if (sortFields != null && sortFields.length > 0)
+		{
+			for(int i = 0; i < sortFields.length; i++)
+			{
+				writeSortField(sortFields[i]);
 			}
 		}
 

@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -753,6 +754,28 @@ public class JRXmlConstants
 		}
 
 		return plotOrientationMap;
+	}
+
+	/**
+	 *
+	 */
+	private static final String SORT_ORDER_ASCENDING = "Ascending";
+	private static final String SORT_ORDER_DESCENDING = "Descending";
+
+	private static Map sortOrderMap = null;
+
+	public static Map getSortOrderMap()
+	{
+		if (sortOrderMap == null)
+		{
+			sortOrderMap = new HashMap(4);
+			sortOrderMap.put(SORT_ORDER_ASCENDING,  new Byte(JRSortField.SORT_ORDER_ASCENDING));
+			sortOrderMap.put(SORT_ORDER_DESCENDING, new Byte(JRSortField.SORT_ORDER_DESCENDING));
+			sortOrderMap.put(new Byte(JRSortField.SORT_ORDER_ASCENDING),  SORT_ORDER_ASCENDING);
+			sortOrderMap.put(new Byte(JRSortField.SORT_ORDER_DESCENDING), SORT_ORDER_DESCENDING);
+		}
+
+		return sortOrderMap;
 	}
 
 

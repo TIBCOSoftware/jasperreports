@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
@@ -623,7 +624,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 * Gets an array of report fields.
+	 * Gets a list of report fields.
 	 */
 	public List getFieldsList()
 	{
@@ -664,6 +665,42 @@ public class JasperDesign extends JRBaseReport
 	public JRField removeField(JRField field)
 	{
 		return mainDesignDataset.removeField(field);
+	}
+	
+
+	/**
+	 * Gets a list of sort report fields.
+	 */
+	public List getSortFieldsList()
+	{
+		return mainDesignDataset.getSortFieldsList();
+	}
+	
+
+	/**
+	 *
+	 */
+	public void addSortField(JRSortField sortField) throws JRException
+	{
+		mainDesignDataset.addSortField(sortField);
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRSortField removeSortField(String fieldName)
+	{
+		return mainDesignDataset.removeSortField(fieldName);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRSortField removeSortField(JRSortField sortField)
+	{
+		return mainDesignDataset.removeSortField(sortField);
 	}
 	
 

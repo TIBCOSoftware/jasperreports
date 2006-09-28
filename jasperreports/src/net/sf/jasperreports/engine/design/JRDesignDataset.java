@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
@@ -80,6 +81,13 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	protected Map fieldsMap = new HashMap();
 	protected List fieldsList = new ArrayList();
+
+
+	/**
+	 * Sort fields mapped by name.
+	 */
+	protected Map sortFieldsMap = new HashMap();
+	protected List sortFieldsList = new ArrayList();
 
 
 	/**
@@ -425,6 +433,7 @@ public class JRDesignDataset extends JRBaseDataset
 		}
 	}
 
+	
 	public JRField[] getFields()
 	{
 		JRField[] fieldsArray = new JRField[fieldsList.size()];
@@ -502,6 +511,75 @@ public class JRDesignDataset extends JRBaseDataset
 		}
 
 		return field;
+	}
+
+	
+	public JRSortField[] getSortFields()
+	{
+		JRSortField[] sortFieldsArray = new JRSortField[sortFieldsList.size()];
+
+		sortFieldsList.toArray(sortFieldsArray);
+
+		return sortFieldsArray;
+	}
+
+
+	/**
+	 * Returns the list of sort fields.
+	 * 
+	 * @return list of {@link JRSortField JRSortField} objects
+	 */
+	public List getSortFieldsList()
+	{
+		return sortFieldsList;
+	}
+
+	
+	/**
+	 * Adds a sort field to the dataset.
+	 * @param sortField the sort field to add
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getSortFields()
+	 */
+	public void addSortField(JRSortField sortField) throws JRException
+	{
+		if (sortFieldsMap.containsKey(sortField.getName()))
+		{
+			throw new JRException("Duplicate declaration of sort field : " + sortField.getName());
+		}
+
+		sortFieldsList.add(sortField);
+		sortFieldsMap.put(sortField.getName(), sortField);
+	}
+
+	
+	/**
+	 * Removes a sort field from the dataset.
+	 * 
+	 * @param fieldName the field name
+	 * @return the removed sort field, or <code>null</code> if the sort field was not found
+	 */
+	public JRSortField removeSortField(String fieldName)
+	{
+		return removeSortField((JRSortField) sortFieldsMap.get(fieldName));
+	}
+
+	
+	/**
+	 * Removes a sort field from the dataset.
+	 * 
+	 * @param sortField the sort field to be removed
+	 * @return the sort field to be removed
+	 */
+	public JRSortField removeSortField(JRSortField sortField)
+	{
+		if (sortField != null)
+		{
+			sortFieldsList.remove(sortField);
+			sortFieldsMap.remove(sortField.getName());
+		}
+
+		return sortField;
 	}
 
 	

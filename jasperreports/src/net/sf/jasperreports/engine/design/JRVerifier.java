@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -602,6 +603,45 @@ public class JRVerifier
 				if (className == null)
 				{
 					brokenRules.add("Class not set for field : " + field.getName());
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	private void verifySortFields(JRDesignDataset dataset)
+	{
+		JRField[] fields = dataset.getFields();
+		JRSortField[] sortFields = dataset.getSortFields();
+		if (sortFields != null && sortFields.length > 0)
+		{
+			for(int index = 0; index < sortFields.length; index++)
+			{
+				JRSortField sortField = sortFields[index];
+				String sortFieldName = sortField.getName();
+				
+				if (sortFieldName == null || sortFieldName.trim().length() == 0)
+				{
+					brokenRules.add("Sort field name missing.");
+				}
+				else
+				{
+					boolean isFound = false;
+					
+					int j = 0;
+					while (!isFound && j < fields.length)
+					{
+						isFound = sortFieldName.equals(fields[j].getName());
+						j++;
+					}
+					
+					if (!isFound)
+					{
+						brokenRules.add("Sort field \"" + sortFieldName + "\" not declared.");
+					}
 				}
 			}
 		}
@@ -2046,6 +2086,8 @@ public class JRVerifier
 		verifyQuery(dataset);
 
 		verifyFields(dataset);
+
+		verifySortFields(dataset);
 
 		verifyVariables(dataset);
 

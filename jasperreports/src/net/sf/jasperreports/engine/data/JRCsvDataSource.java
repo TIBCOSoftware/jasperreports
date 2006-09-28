@@ -1,3 +1,30 @@
+/*
+ * ============================================================================
+ * GNU Lesser General Public License
+ * ============================================================================
+ *
+ * JasperReports - Free Java report-generating library.
+ * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
+ * 
+ * JasperSoft Corporation
+ * 303 Second Street, Suite 450 North
+ * San Francisco, CA 94107
+ * http://www.jaspersoft.com
+ */
 package net.sf.jasperreports.engine.data;
 
 import java.io.File;
@@ -118,14 +145,17 @@ public class JRCsvDataSource implements JRDataSource
 		if (fields.size() > columnIndex.intValue()) {
 			String fieldValue = (String) fields.get(columnIndex.intValue());
 			Class valueClass = jrField.getValueClass();
-			if (Number.class.isAssignableFrom(valueClass))
-				fieldValue = fieldValue.trim();
+			
+			if (valueClass.equals(String.class)) 
+				return fieldValue;
 
+			fieldValue = fieldValue.trim();
+			
+			if (fieldValue.length() == 0)
+				return null;
+			
 			try {
-				if (valueClass.equals(String.class)) {
-					return fieldValue;
-				}
-				else if (valueClass.equals(Boolean.class)) {
+				if (valueClass.equals(Boolean.class)) {
 					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
 				}
 				else if (valueClass.equals(Byte.class)) {
@@ -163,7 +193,6 @@ public class JRCsvDataSource implements JRDataSource
 			} catch (Exception e) {
 				throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 			}
-
 		}
 
 		throw new JRException("Unknown column name : " + fieldName);
