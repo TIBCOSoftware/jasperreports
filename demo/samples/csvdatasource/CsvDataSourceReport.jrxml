@@ -25,6 +25,8 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription>state</fieldDescription>
 	</field>
+	<sortField name="city" order="Descending"/>
+	<sortField name="name" order="Ascending"/>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
