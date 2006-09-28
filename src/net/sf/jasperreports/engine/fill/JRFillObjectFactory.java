@@ -119,6 +119,7 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -128,6 +129,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
+import net.sf.jasperreports.engine.base.JRBaseSortField;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 

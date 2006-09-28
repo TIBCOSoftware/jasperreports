@@ -51,8 +51,10 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRSortableDataSource;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
@@ -221,7 +223,7 @@ public class JRFillDataset implements JRDataset
 		setParameters(dataset, factory);
 
 		setFields(dataset, factory);
-
+		
 		setVariables(dataset, factory);
 		
 		setGroups(dataset, factory);
@@ -607,6 +609,13 @@ public class JRFillDataset implements JRDataset
 		if (!useDatasourceParamValue && (useConnectionParamValue || dataSource == null))
 		{
 			dataSource = createQueryDatasource();
+			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
+		}
+		
+		JRSortField[] sortFields = getSortFields();
+		if (sortFields != null && sortFields.length > 0)
+		{
+			dataSource = new JRSortableDataSource(dataSource, fields, sortFields, locale);
 			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
 		}
 	}
@@ -1091,6 +1100,11 @@ public class JRFillDataset implements JRDataset
 	public JRField[] getFields()
 	{
 		return fields;
+	}
+
+	public JRSortField[] getSortFields()
+	{
+		return parent.getSortFields();
 	}
 
 	public JRVariable[] getVariables()

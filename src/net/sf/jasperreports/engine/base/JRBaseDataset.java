@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -55,6 +56,7 @@ public class JRBaseDataset implements JRDataset, Serializable
 	protected JRParameter[] parameters = null;
 	protected JRQuery query = null;
 	protected JRField[] fields = null;
+	protected JRSortField[] sortFields = null;
 	protected JRVariable[] variables = null;
 	protected JRGroup[] groups = null;
 	protected String resourceBundle = null;
@@ -104,6 +106,17 @@ public class JRBaseDataset implements JRDataset, Serializable
 			for(int i = 0; i < fields.length; i++)
 			{
 				fields[i] = factory.getField(jrFields[i]);
+			}
+		}
+
+		/*   */
+		JRSortField[] jrSortFields = dataset.getSortFields();
+		if (jrSortFields != null && jrSortFields.length > 0)
+		{
+			sortFields = new JRSortField[jrSortFields.length];
+			for(int i = 0; i < sortFields.length; i++)
+			{
+				sortFields[i] = factory.getSortField(jrSortFields[i]);
 			}
 		}
 
@@ -171,6 +184,14 @@ public class JRBaseDataset implements JRDataset, Serializable
 	public JRField[] getFields()
 	{
 		return fields;
+	}
+
+	/**
+	 *
+	 */
+	public JRSortField[] getSortFields()
+	{
+		return sortFields;
 	}
 
 	/**

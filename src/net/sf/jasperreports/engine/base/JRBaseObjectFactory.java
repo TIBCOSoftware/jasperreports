@@ -127,6 +127,7 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -332,6 +333,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseField;
+	}
+
+
+	/**
+	 *
+	 */
+	protected JRBaseSortField getSortField(JRSortField sortField)
+	{
+		JRBaseSortField baseSortField = null;
+
+		if (sortField != null)
+		{
+			baseSortField = (JRBaseSortField)get(sortField);
+			if (baseSortField == null)
+			{
+				baseSortField = new JRBaseSortField(sortField, this);
+			}
+		}
+
+		return baseSortField;
 	}
 
 

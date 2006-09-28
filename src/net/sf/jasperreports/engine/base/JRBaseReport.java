@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 
@@ -474,6 +475,14 @@ public class JRBaseReport implements JRReport, Serializable
 	public JRField[] getFields()
 	{
 		return mainDataset.getFields();
+	}
+
+	/**
+	 *  Gets an array of sort report fields.
+	 */
+	public JRSortField[] getSortFields()
+	{
+		return mainDataset.getSortFields();
 	}
 
 	/**

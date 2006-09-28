@@ -120,6 +120,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -217,6 +218,10 @@ public class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/field", JRFieldFactory.class.getName());
 		digester.addSetNext("*/field", "addField", JRField.class.getName());
 		digester.addCallMethod("*/field/fieldDescription", "setDescription", 0);
+
+		/*   */
+		digester.addFactoryCreate("*/sortField", JRSortFieldFactory.class.getName());
+		digester.addSetNext("*/sortField", "addSortField", JRSortField.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/variable", JRVariableFactory.class.getName());
