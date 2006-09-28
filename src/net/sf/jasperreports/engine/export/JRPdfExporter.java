@@ -644,6 +644,8 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 		
 			pdfContentByte.stroke();
+			
+			pdfContentByte.setLineDash(0f);
 		}
 	}
 
@@ -709,6 +711,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				pdfContentByte.stroke();
 			}
 		}
+		
+		pdfContentByte.setLineDash(0f);
 	}
 
 
@@ -831,6 +835,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				pdfContentByte.stroke();
 			}
 		}
+		
+		pdfContentByte.setLineDash(0f);
 	}
 
 
@@ -1751,6 +1757,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				);
 			pdfContentByte.stroke();
 		}
+		
+		pdfContentByte.setLineDash(0f);
 	}
 
 		
