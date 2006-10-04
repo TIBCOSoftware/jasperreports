@@ -27,18 +27,20 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Vector;
-import java.util.HashMap;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Vector;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -76,26 +78,49 @@ public class JRCsvDataSource implements JRDataSource
 
 
 	/**
+	 * Creates a datasource instance from a CSV data input stream, using the default encoding.
 	 * @param stream an input stream containing CSV data
 	 */
 	public JRCsvDataSource(InputStream stream)
 	{
-		this(new InputStreamReader(stream));
+		this(new BufferedReader(new InputStreamReader(stream)));
 	}
 
 
 	/**
-	 * Builds a datasource instance.
+	 * Creates a datasource instance from a CSV data input stream, using the specified encoding.
+	 * @param stream an input stream containing CSV data
+	 * @param charsetName the encoding to use
+	 */
+	public JRCsvDataSource(InputStream stream, String charsetName) throws UnsupportedEncodingException
+	{
+		this(new BufferedReader(new InputStreamReader(stream, charsetName)));
+	}
+
+
+	/**
+	 * Creates a datasource instance from a CSV file, using the default encoding.
 	 * @param file a file containing CSV data
 	 */
 	public JRCsvDataSource(File file) throws FileNotFoundException
 	{
-		this(new FileReader(file));
+		this(new FileInputStream(file));
 	}
 
 
 	/**
-	 * Builds a datasource instance.
+	 * Creates a datasource instance from a CSV file, using the specified encoding.
+	 * @param file a file containing CSV data
+	 * @param charsetName the encoding to use
+	 */
+	public JRCsvDataSource(File file, String charsetName) throws FileNotFoundException, UnsupportedEncodingException
+	{
+		this(new FileInputStream(file), charsetName);
+	}
+
+
+	/**
+	 * Creates a datasource instance from a CSV data reader.
 	 * @param reader a <tt>Reader</tt> instance, for reading the stream
 	 */
 	public JRCsvDataSource(Reader reader)
@@ -436,6 +461,22 @@ public class JRCsvDataSource implements JRDataSource
 		if (processingStarted)
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
+	}
+
+
+	/**
+	 * Closes the reader. Users of this data source should close it after usage.
+	 */
+	public void close()
+	{
+		try
+		{
+			reader.close();
+		}
+		catch(IOException e)
+		{
+			//nothing to do
+		}
 	}
 
 
