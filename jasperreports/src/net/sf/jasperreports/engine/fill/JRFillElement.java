@@ -888,14 +888,18 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 		}
 	}
 
-	protected boolean delayedEvaluationsInitialized()
-	{
-		return delayedEvaluationsMap != null;
-	}
-
 	protected void initDelayedEvaluations()
 	{
-		delayedEvaluationsMap = new HashMap();
+		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && delayedEvaluationsMap == null)
+		{
+			delayedEvaluationsMap = new HashMap();
+			collectDelayedEvaluations();
+		}
+	}
+	
+	protected void collectDelayedEvaluations()
+	{
+		//to be overridden by elements that support "Auto" evaluation
 	}
 
 	protected void collectDelayedEvaluations(JRExpression expression)
@@ -1162,5 +1166,40 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	protected void stretchHeightFinal()
 	{
 		// nothing		
+	}
+	
+	
+	protected boolean isEvaluateNow()
+	{
+		boolean evaluateNow;
+		switch (getEvaluationTime())
+		{
+			case JRExpression.EVALUATION_TIME_NOW:
+				evaluateNow = true;
+				break;
+
+			case JRExpression.EVALUATION_TIME_AUTO:
+				evaluateNow = isAutoEvaluateNow();
+				break;
+
+			default:
+				evaluateNow = false;
+				break;
+		}
+		return evaluateNow;
+	}
+	
+	
+	protected boolean isAutoEvaluateNow()
+	{
+		return delayedEvaluationsMap == null || delayedEvaluationsMap.isEmpty() 
+				|| (delayedEvaluationsMap.size() == 1 
+						&& delayedEvaluationsMap.containsKey(JREvaluationTime.EVALUATION_TIME_NOW));
+	}
+	
+	
+	protected boolean isEvaluateAuto()
+	{
+		return getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !isAutoEvaluateNow();
 	}
 }
