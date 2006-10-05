@@ -409,11 +409,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		byte evaluation
 		) throws JRException
 	{
-		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !delayedEvaluationsInitialized())
-		{
-			initDelayedEvaluations();
-			collectDelayedEvaluations();
-		}
+		initDelayedEvaluations();
 		
 		this.reset();
 		
@@ -425,7 +421,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			this.isPrintWhenTrue()))
 			)
 		{
-			if (this.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+			if (isEvaluateNow())
 			{
 				this.evaluateImage(evaluation);
 			}
@@ -539,7 +535,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (this.getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+		if (isEvaluateNow())
 		{
 			if (isOverflow && this.isAlreadyPrinted() && !this.isPrintWhenDetailOverflows())
 			{
@@ -633,7 +629,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		byte evaluationType = this.getEvaluationTime();
 		JRTemplatePrintImage printImage;
 		JRRecordedValuesPrintImage recordedValuesImage;
-		if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		if (isEvaluateAuto())
 		{
 			printImage = recordedValuesImage = new JRRecordedValuesPrintImage(getJRTemplateImage());
 		}
@@ -648,11 +644,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
 
-		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
+		if (isEvaluateNow())
 		{
 			this.copy(printImage);
 		}
-		else if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		else if (isEvaluateAuto())
 		{
 			initDelayedEvaluationPrint(recordedValuesImage);
 		}
@@ -1133,7 +1129,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return new JRFillImage(this, factory);
 	}
 	
-	private void collectDelayedEvaluations()
+	protected void collectDelayedEvaluations()
 	{
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());

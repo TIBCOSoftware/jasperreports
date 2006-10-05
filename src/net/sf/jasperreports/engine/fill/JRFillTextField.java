@@ -333,11 +333,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
-		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !delayedEvaluationsInitialized())
-		{
-			initDelayedEvaluations();
-			collectDelayedEvaluations();
-		}
+		initDelayedEvaluations();
 		
 		reset();
 		
@@ -349,7 +345,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			isPrintWhenTrue()))
 			)
 		{
-			if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+			if (isEvaluateNow())
 			{
 				evaluateText(evaluation);
 			}
@@ -428,7 +424,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (getEvaluationTime() == JRExpression.EVALUATION_TIME_NOW)
+		if (isEvaluateNow())
 		{
 			if (isOverflow)
 			{
@@ -621,7 +617,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		JRTemplatePrintText text;
 		JRRecordedValuesPrintText recordedValuesText;
-		if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		if (isEvaluateAuto())
 		{
 			text = recordedValuesText = new JRRecordedValuesPrintText(getJRTemplateText());
 		}
@@ -644,11 +640,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		text.setRunDirection(getRunDirection());
 
-		if (evaluationType == JRExpression.EVALUATION_TIME_NOW)
+		if (isEvaluateNow())
 		{
 			copy(text);
 		}
-		else if (evaluationType == JRExpression.EVALUATION_TIME_AUTO)
+		else if (isEvaluateAuto())
 		{
 			initDelayedEvaluationPrint(recordedValuesText);
 		}
@@ -737,7 +733,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return new JRFillTextField(this, factory);
 	}
 	
-	private void collectDelayedEvaluations()
+	protected void collectDelayedEvaluations()
 	{
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
