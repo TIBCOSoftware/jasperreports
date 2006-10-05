@@ -62,6 +62,9 @@ public class JRResultSetDataSource implements JRDataSource
 {
 
 
+	private static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
+	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
+	
 	/**
 	 *
 	 */
@@ -329,33 +332,28 @@ public class JRResultSetDataSource implements JRDataSource
 		{
 			try
 			{
-				ResultSetMetaData metadata = resultSet.getMetaData();
-				for(int i = 1; i <= metadata.getColumnCount(); i++)
+				columnIndex = searchColumnByName(fieldName);
+				
+				if (columnIndex == null)
 				{
-					if (fieldName.equalsIgnoreCase(metadata.getColumnName(i)))
+					columnIndex = searchColumnByLabel(fieldName);
+				}
+				
+				if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
+				{
+					columnIndex = new Integer(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
+					if (
+						columnIndex.intValue() <= 0
+						|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
+						)
 					{
-						columnIndex = new Integer(i);
-						break;
+						throw new JRException("Column index out of range : " + columnIndex);
 					}
 				}
 				
 				if (columnIndex == null)
 				{
-					if (fieldName.startsWith("COLUMN_"))
-					{
-						columnIndex = new Integer(fieldName.substring(7));
-						if (
-							columnIndex.intValue() <= 0
-							|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
-							)
-						{
-							throw new JRException("Column index out of range : " + columnIndex);
-						}
-					}
-					else
-					{
-						throw new JRException("Unknown column name : " + fieldName);
-					}
+					throw new JRException("Unknown column name : " + fieldName);
 				}
 			}
 			catch (SQLException e)
@@ -366,6 +364,40 @@ public class JRResultSetDataSource implements JRDataSource
 			columnIndexMap.put(fieldName, columnIndex);
 		}
 		
+		return columnIndex;
+	}
+
+
+	protected Integer searchColumnByName(String fieldName) throws SQLException
+	{
+		Integer columnIndex = null;
+		ResultSetMetaData metadata = resultSet.getMetaData();
+		for(int i = 1; i <= metadata.getColumnCount(); i++)
+		{
+			String columnName = metadata.getColumnName(i);
+			if (fieldName.equalsIgnoreCase(columnName))
+			{
+				columnIndex = new Integer(i);
+				break;
+			}
+		}
+		return columnIndex;
+	}
+
+
+	protected Integer searchColumnByLabel(String fieldName) throws SQLException
+	{
+		Integer columnIndex = null;
+		ResultSetMetaData metadata = resultSet.getMetaData();
+		for(int i = 1; i <= metadata.getColumnCount(); i++)
+		{
+			String columnLabel = metadata.getColumnLabel(i);
+			if (columnLabel != null && fieldName.equalsIgnoreCase(columnLabel))
+			{
+				columnIndex = new Integer(i);
+				break;
+			}
+		}
 		return columnIndex;
 	}
 
