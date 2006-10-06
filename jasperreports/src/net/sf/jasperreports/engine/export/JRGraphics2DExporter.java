@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRGraphics2DExporter extends JRAbstractExporter
 {
 
+	private static final int ELEMENT_RECTANGLE_PADDING = 3;
 
 	/**
 	 *
@@ -214,10 +215,19 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			JRPrintElement element;
+			Shape clipArea = grx.getClip();
 			for(Iterator it = elements.iterator(); it.hasNext();)
 			{
-				element = (JRPrintElement)it.next();
+				JRPrintElement element = (JRPrintElement)it.next();
+				
+				if (!clipArea.intersects(
+						element.getX() + getOffsetX() - ELEMENT_RECTANGLE_PADDING, 
+						element.getY() + getOffsetY() - ELEMENT_RECTANGLE_PADDING, 
+						element.getWidth() + 2 * ELEMENT_RECTANGLE_PADDING, 
+						element.getHeight() + 2 * ELEMENT_RECTANGLE_PADDING))
+				{
+					continue;
+				}
 				
 				if (element instanceof JRPrintLine)
 				{
