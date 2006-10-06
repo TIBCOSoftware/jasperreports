@@ -483,31 +483,41 @@ public class JasperPrint implements Serializable
 		{
 			anchorIndexes = new HashMap();
 			
-			JRPrintPage page = null;
 			int i = 0;
 			for(Iterator itp = pages.iterator(); itp.hasNext(); i++)
 			{
-				page = (JRPrintPage)itp.next();
+				JRPrintPage page = (JRPrintPage)itp.next();
 				Collection elements = page.getElements();
-				if (elements != null && elements.size() > 0)
-				{
-					JRPrintElement element = null;
-					for(Iterator it = elements.iterator(); it.hasNext();)
-					{
-						element = (JRPrintElement)it.next();
-						if (element instanceof JRPrintAnchor)
-						{
-							anchorIndexes.put(
-								((JRPrintAnchor)element).getAnchorName(), 
-								new JRPrintAnchorIndex(i, element)
-								);
-						}
-					}
-				}
+				collectAnchors(elements, i, 0, 0);
 			}
 		}
 		
 		return anchorIndexes;
+	}
+
+	protected void collectAnchors(Collection elements, int pageIndex, int offsetX, int offsetY)
+	{
+		if (elements != null && elements.size() > 0)
+		{
+			JRPrintElement element = null;
+			for(Iterator it = elements.iterator(); it.hasNext();)
+			{
+				element = (JRPrintElement)it.next();
+				if (element instanceof JRPrintAnchor)
+				{
+					anchorIndexes.put(
+						((JRPrintAnchor)element).getAnchorName(), 
+						new JRPrintAnchorIndex(pageIndex, element, offsetX, offsetY)
+						);
+				}
+				
+				if (element instanceof JRPrintFrame)
+				{
+					JRPrintFrame frame = (JRPrintFrame) element;
+					collectAnchors(frame.getElements(), pageIndex, offsetX + frame.getX(), offsetY + frame.getY());
+				}
+			}
+		}
 	}
 
 

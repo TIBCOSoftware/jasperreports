@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine;
 
 
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -41,23 +42,45 @@ public class JRPrintAnchorIndex
 	 */
 	private int pageIndex = 0;
 	private JRPrintElement element = null;
+	private final int offsetX;
+	private final int offsetY;
 
-
+	
 	/**
-	 *
+	 * Creates an element anchor.
+	 * 
+	 * @param page the index of the page in the report
+	 * @param elem the element
 	 */
 	public JRPrintAnchorIndex(
-		int page,
-		JRPrintElement elem
-		)
+			int page,
+			JRPrintElement elem)
+	{
+		this (page, elem, 0, 0);
+	}
+	
+	
+	/**
+	 * Creates an element anchor.
+	 * 
+	 * @param page the index of the page in the report
+	 * @param elem the element
+	 * @param offsetX the X offset of the element coordinates system
+	 * @param offsetY the Y offset of the element coordinates system
+	 * @see #getElementAbsoluteX()
+	 * @see #getElementAbsoluteY()
+	 */
+	public JRPrintAnchorIndex(int page, JRPrintElement elem, int offsetX, int offsetY)
 	{
 		this.pageIndex = page;
 		this.element = elem;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 	}
 
 
 	/**
-	 *
+	 * 
 	 */
 	public int getPageIndex()
 	{
@@ -71,6 +94,36 @@ public class JRPrintAnchorIndex
 	public JRPrintElement getElement()
 	{
 		return this.element;
+	}
+	
+	
+	/**
+	 * Returns the absolute (relative to the report page) X coordinate of the anchor element.
+	 * <p>
+	 * This can be different than {@link JRPrintElement#getX() getElement().getX()} for elements
+	 * placed inside a {@link JRPrintFrame frame}.
+	 * </p>
+	 * 
+	 * @return the absolute X coordinate of the anchor element
+	 */
+	public int getElementAbsoluteX()
+	{
+		return element.getX() + offsetX;
+	}
+	
+	
+	/**
+	 * Returns the absolute (relative to the report page) Y coordinate of the anchor element.
+	 * <p>
+	 * This can be different than {@link JRPrintElement#getY() getElement().getY()} for elements
+	 * placed inside a {@link JRPrintFrame frame}.
+	 * </p>
+	 * 
+	 * @return the absolute Y coordinate of the anchor element
+	 */
+	public int getElementAbsoluteY()
+	{
+		return element.getY() + offsetY;
 	}
 
 
