@@ -280,4 +280,12 @@ public class JRPrinterAWT implements Printable
 		} catch (ClassNotFoundException e) {
 		}
 	}
+	
+	
+	public static long getImageSize(JasperPrint jasperPrint, float zoom)
+	{
+		int width = (int) (jasperPrint.getPageWidth() * zoom) + 1;
+		int height = (int) (jasperPrint.getPageHeight() * zoom) + 1;
+		return width * height;
+	}
 }

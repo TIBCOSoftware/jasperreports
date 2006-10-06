@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
+import net.sf.jasperreports.view.JRViewer;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -147,6 +148,20 @@ public class JRProperties
 	 */
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
+	
+	/**
+	 * Maximum size (in pixels) of a buffered image that would be used by {@link JRViewer JRViewer} to render a report page.
+	 * <p>
+	 * If rendering a report page would require an image larger than this threshold
+	 * (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
+	 * </p>
+	 * <p>
+	 * If this property is zero or negative, buffered images will never be user to render a report page.
+	 * By default, this property is set to 0.
+	 * </p>
+	 */
+	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = PROPERTY_PREFIX + "viewer.render.buffer.max.size";
+	
 	protected static Properties props;
 	
 	protected static Properties savedProps;
@@ -240,6 +255,8 @@ public class JRProperties
 
 		defaults.setProperty(JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT, "true");
 		defaults.setProperty(PDF_FORCE_LINEBREAK_POLICY, "false");
+		
+		defaults.setProperty(VIEWER_RENDER_BUFFER_MAX_SIZE, Long.toString(0L));
 
 		return defaults;
 	}
@@ -512,5 +529,43 @@ public class JRProperties
 		String value = getProperty(propertiesMap, key);
 		
 		return value == null ? defaultValue : asInteger(value);
+	}
+
+	/**
+	 * Converts a <code>String</code> value into a <code>long</code>.
+	 * 
+	 * @param value the value
+	 * @return the value as a <code>long</code>
+	 */
+	public static long asLong(String value)
+	{
+		return Long.parseLong(value);
+	}
+	
+	/**
+	 * Returns a property as a long value.
+	 * 
+	 * @param key the key
+	 * @return the property value as a long
+	 */
+	public static long getLongProperty (String key)
+	{
+		return asLong(props.getProperty(key));
+	}
+
+	/**
+	 * Returns the value of a property as a long, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static long getLongProperty (JRPropertiesMap propertiesMap, String key, int defaultValue)
+	{
+		String value = getProperty(propertiesMap, key);
+		
+		return value == null ? defaultValue : asLong(value);
 	}
 }

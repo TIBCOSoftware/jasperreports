@@ -40,6 +40,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -63,6 +64,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -86,8 +88,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
+import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
@@ -432,8 +436,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					{
 						JViewport viewport = (JViewport) container;
 
-						int newX = (int)(anchorIndex.getElement().getX() * realZoom);
-						int newY = (int)(anchorIndex.getElement().getY() * realZoom);
+						int newX = (int)(anchorIndex.getElementAbsoluteX() * realZoom);
+						int newY = (int)(anchorIndex.getElementAbsoluteY() * realZoom);
 
 						int maxX = pnlInScroll.getWidth() - viewport.getWidth();
 						int maxY = pnlInScroll.getHeight() - viewport.getHeight();
@@ -1405,7 +1409,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnZoomIn.setEnabled(zoom < MAX_ZOOM);
 		btnZoomOut.setEnabled(zoom > MIN_ZOOM);
 		cmbZoom.setEnabled(true);
-		
+
 		Dimension dim = new Dimension(
 			(int)(jasperPrint.getPageWidth() * realZoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
 			(int)(jasperPrint.getPageHeight() * realZoom) + 8
@@ -1413,14 +1417,51 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlPage.setMaximumSize(dim);
 		pnlPage.setMinimumSize(dim);
 		pnlPage.setPreferredSize(dim);
+		
+		long maxImageSize = JRProperties.getLongProperty(JRProperties.VIEWER_RENDER_BUFFER_MAX_SIZE);
+		boolean renderImage;
+		if (maxImageSize <= 0)
+		{
+			renderImage = false;
+		}
+		else
+		{
+			long imageSize = JRPrinterAWT.getImageSize(jasperPrint, realZoom);
+			renderImage = imageSize <= maxImageSize;
+		}
+		
+		lblPage.setRenderImage(renderImage);
+
+		if (renderImage)
+		{
+			Image image = null;
+			ImageIcon imageIcon = null;
+			try
+			{
+				image = JasperPrintManager.printPageToImage(jasperPrint, pageIndex, realZoom);
+				imageIcon = new ImageIcon(image);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("net/sf/jasperreports/view/viewer").getString("error.displaying"));
+			}
+
+			lblPage.setIcon(imageIcon);
+		}
 
 		pnlLinks.removeAll();
 		linksMap = new HashMap();
 
 		createHyperlinks();
+		
+		if (!renderImage)
+		{
+			lblPage.setIcon(null);
 
-		pnlMain.validate();
-		pnlMain.repaint();
+			pnlMain.validate();
+			pnlMain.repaint();
+		}
 	}
 
 
@@ -1459,6 +1500,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					if (hasHyperlink)
 					{
 						link = new JPanel();
+						link.addMouseListener(mouseListener);
 					}
 					else //hasImageMap
 					{
@@ -1492,7 +1534,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 					link.setToolTipText(toolTip);
 					
-					link.addMouseListener(mouseListener);
 					pnlLinks.add(link);
 					linksMap.put(link, element);
 				}
@@ -1774,7 +1815,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
-	private void paintPage(Graphics2D grx)
+	protected void paintPage(Graphics2D grx)
 	{
 		try
 		{
@@ -1800,6 +1841,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	class PageRenderer extends JLabel
 	{
+		private boolean renderImage;
 		JRViewer viewer = null;
 		
 		public PageRenderer(JRViewer viewer)
@@ -1809,7 +1851,24 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		
 		public void paintComponent(Graphics g)
 		{
-			viewer.paintPage((Graphics2D)g.create());
+			if (isRenderImage())
+			{
+				super.paintComponent(g);
+			}
+			else
+			{
+				viewer.paintPage((Graphics2D)g.create());
+			}
+		}
+		
+		public boolean isRenderImage()
+		{
+			return renderImage;
+		}
+		
+		public void setRenderImage(boolean renderImage)
+		{
+			this.renderImage = renderImage;
 		}
 	}
 	
@@ -1835,7 +1894,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel lblPage;
+    private PageRenderer lblPage;
     protected javax.swing.JLabel lblStatus;
     private javax.swing.JPanel pnlInScroll;
     private javax.swing.JPanel pnlLinks;
