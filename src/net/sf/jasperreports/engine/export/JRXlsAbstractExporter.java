@@ -135,7 +135,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * used when indexing the identical sheet generated names with ordering numbers;
 	 * contains sheet names as keys and the number of occurences of each sheet name as values
 	 */
-	protected HashMap sheetNamesMap = null;
+	protected Map sheetNamesMap = null;
 	
 	/**
 	 *
