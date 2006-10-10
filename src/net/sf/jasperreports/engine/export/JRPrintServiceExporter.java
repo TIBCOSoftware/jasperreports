@@ -41,11 +41,13 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.OrientationRequested;
+import javax.print.attribute.standard.PageRanges;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 
 
@@ -61,10 +63,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 *
 	 */
 	protected JRGraphics2DExporter exporter = null;
-	//protected JRExportProgressMonitor progressMonitor = null;
-	protected PrintRequestAttributeSet printRequestAttributeSet = null;
-	protected PrintServiceAttributeSet printServiceAttributeSet = null;
-	//protected DocFlavor docFlavor = null;
 	protected boolean displayPageDialog = false;
 	protected boolean displayPrintDialog = false;
 
@@ -75,8 +73,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 */
 	public void exportReport() throws JRException
 	{
-		//progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-		
 		/*   */
 		setOffset();
 
@@ -88,18 +84,38 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			/*   */
 			setInput();
 
-			// determining the print service only once
-			printServiceAttributeSet = 
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+	
+			PrintServiceAttributeSet printServiceAttributeSet = 
 				(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
 			if (printServiceAttributeSet == null)
 			{
 				printServiceAttributeSet = new HashPrintServiceAttributeSet();
 			}
 
+			Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
+			if (pageDialog != null)
+			{
+				displayPageDialog = pageDialog.booleanValue();
+			}
+	
+			Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
+			if (printDialog != null)
+			{
+				displayPrintDialog = printDialog.booleanValue();
+			}
+	
 			PrinterJob printerJob = PrinterJob.getPrinterJob();
 			
 			JRPrinterAWT.initPrinterJobFields(printerJob);
 			
+			printerJob.setPrintable(this);
+			
+			// determining the print service only once
 			PrintService selectedService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
 			if (selectedService == null) {
 				PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
@@ -107,120 +123,113 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 					selectedService = services[0];
 			}
 			
-			if (selectedService != null)
+			if (selectedService == null)
 			{
-				// fix for bug ID artf1455 from jasperforge.org bug database
-				for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
+				throw new JRException("No suitable print service found.");
+			}
+
+			try 
+			{
+				printerJob.setPrintService(selectedService);
+			}
+			catch (PrinterException e) 
+			{ 
+				throw new JRException(e);
+			}
+
+			// fix for bug ID artf1455 from jasperforge.org bug database
+			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
+			{
+				jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+
+				exporter = new JRGraphics2DExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, parameters.get(JRExporterParameter.PROGRESS_MONITOR));
+				exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
+				exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
+				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
+				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
+		
+				PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+				PrintRequestAttributeSet printRequestAttributeSetParam = 
+					(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
+				if (printRequestAttributeSetParam != null)
 				{
-				
-					/*   */
+					printRequestAttributeSet.addAll(printRequestAttributeSetParam);
+				}
+		
+				try 
+				{
+					if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
+					{
+						int printableWidth;
+						int printableHeight;
+						switch (jasperPrint.getOrientation())
+						{
+							case JRReport.ORIENTATION_LANDSCAPE:
+								printableWidth = jasperPrint.getPageHeight();
+								printableHeight = jasperPrint.getPageWidth();
+								break;
+							default:
+								printableWidth = jasperPrint.getPageWidth();
+								printableHeight = jasperPrint.getPageHeight();
+								break;
+						}
+						
+						printRequestAttributeSet.add(
+							new MediaPrintableArea(
+								0f, 
+								0f, 
+								printableWidth / 72f,
+								printableHeight / 72f,
+								MediaPrintableArea.INCH
+								)
+							);
+					}
+
+					if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
+					{
+						OrientationRequested orientation;
+						switch (jasperPrint.getOrientation())
+						{
+							case JRReport.ORIENTATION_LANDSCAPE:
+								orientation = OrientationRequested.LANDSCAPE;
+								break;
+							default:
+								orientation = OrientationRequested.PORTRAIT;
+								break;
+						}
+						printRequestAttributeSet.add(orientation);
+					}
 					
 					if (!isModeBatch)
 					{
-						setPageRange();
+						printRequestAttributeSet.add(new PageRanges(startPageIndex + 1, endPageIndex + 1));
 					}
-			
-					exporter = new JRGraphics2DExporter();
-					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-					exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, parameters.get(JRExporterParameter.PROGRESS_MONITOR));
-					exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
-					exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
-					exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
-					exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
-			
-					printRequestAttributeSet = 
-						(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
-					if (printRequestAttributeSet == null)
+
+					printerJob.setJobName("JasperReports - " + jasperPrint.getName());
+
+					if (displayPageDialog)
 					{
-						printRequestAttributeSet = new HashPrintRequestAttributeSet();
+						printerJob.pageDialog(printRequestAttributeSet);
 					}
-			
-					Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
-					if (pageDialog != null)
-					{
-						displayPageDialog = pageDialog.booleanValue();
-					}
-			
-					Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
-					if (printDialog != null)
-					{
-						displayPrintDialog = printDialog.booleanValue();
-					}
-			
-					printerJob.setPrintable(this);
 					
-					try 
+					if (displayPrintDialog)
 					{
-						printerJob.setPrintService(selectedService);
-		
-						if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
-						{
-							int printableWidth;
-							int printableHeight;
-							switch (jasperPrint.getOrientation())
-							{
-								case JRReport.ORIENTATION_LANDSCAPE:
-									printableWidth = jasperPrint.getPageHeight();
-									printableHeight = jasperPrint.getPageWidth();
-									break;
-								default:
-									printableWidth = jasperPrint.getPageWidth();
-									printableHeight = jasperPrint.getPageHeight();
-									break;
-							}
-							
-							printRequestAttributeSet.add(
-								new MediaPrintableArea(
-									0f, 
-									0f, 
-									printableWidth / 72f,
-									printableHeight / 72f,
-									MediaPrintableArea.INCH
-									)
-								);
-						}
-	
-						if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
-						{
-							OrientationRequested orientation;
-							switch (jasperPrint.getOrientation())
-							{
-								case JRReport.ORIENTATION_LANDSCAPE:
-									orientation = OrientationRequested.LANDSCAPE;
-									break;
-								default:
-									orientation = OrientationRequested.PORTRAIT;
-									break;
-							}
-							printRequestAttributeSet.add(orientation);
-						}
-	
-						if (displayPageDialog)
-						{
-							printerJob.pageDialog(printRequestAttributeSet);
-						}
-						
-						if (displayPrintDialog)
-						{
-							if (printerJob.printDialog(printRequestAttributeSet))
-							{
-								printerJob.print(printRequestAttributeSet);
-							}
-						}
-						else
+						if (printerJob.printDialog(printRequestAttributeSet))
 						{
 							printerJob.print(printRequestAttributeSet);
 						}
 					}
-					catch (PrinterException e) 
-					{ 
-						throw new JRException(e);
+					else
+					{
+						printerJob.print(printRequestAttributeSet);
 					}
 				}
-			}
-			else
-			{
-				throw new JRException("No suitable print service found.");
+				catch (PrinterException e) 
+				{ 
+					throw new JRException(e);
+				}
 			}
 		}
 		finally
