@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Hashtable;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -114,6 +115,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor = null;
 
 	protected int reportIndex = 0;
+	
 
 	protected Map fontMap = null;
 
@@ -124,6 +126,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected JRFont defaultFont = null;
 
+	/**
+	 * used for counting the total number of sheets
+	 */
+	protected int sheetIndex = 0;
+
+	/**
+	 * used when indexing the identical sheet generated names with ordering numbers;
+	 * contains sheet names as keys and the number of occurences of each sheet name as values
+	 */
+	protected Hashtable sheetNamesMap = null;
 	
 	/**
 	 *
@@ -258,10 +270,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		openWorkbook(os);
+		sheetNamesMap = new Hashtable();
+		int currentIndex = 0;
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			String reportName = jasperPrint.getName();
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
 			List pages = jasperPrint.getPages();
@@ -276,21 +291,33 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				if (isOnePagePerSheet)
 				{
 					pageHeight = jasperPrint.getPageHeight();
-				
+					
+					// if there are multiple documents having the same name, sheets names must have unique name
+					boolean isDuplicateSheetName = null != sheetNamesMap.get(reportName);
+					
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.currentThread().isInterrupted())
 						{
 							throw new JRException("Current thread interrupted.");
 						}
-			
+						
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-
-						if (sheetNames != null && pageIndex < sheetNames.length)
-							createSheet(sheetNames[pageIndex]);
+						
+						// when using batch mode we need to count all sheets generated for all exported documents
+						if (sheetNames != null && sheetIndex < sheetNames.length)
+						{
+							setSheet(sheetNames[sheetIndex],sheetNamesMap);
+							sheetIndex++;
+						}
 						else
-							createSheet("Page " + (pageIndex + 1));
-
+						{
+							setSheet(reportName,String.valueOf(pageIndex+1),isDuplicateSheetName,sheetNamesMap);
+							// now we are inside the same document, so the isDuplicateSheetName should be reset
+							// the sheet names should differ only by the page index in a given document
+							isDuplicateSheetName = false;
+						}
+						
 						/*   */
 						exportPage(null, page);
 					}
@@ -324,9 +351,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							}
 						}
 					}
-
-					createSheet(jasperPrint.getName());
-
+					
+					if (sheetNames != null && sheetIndex < sheetNames.length)
+					{
+						setSheet(sheetNames[sheetIndex],sheetNamesMap);
+						sheetIndex++;
+					}
+					else
+						setSheet(reportName,sheetNamesMap);
+					
 					/*   */
 					exportPage(alterYs, allPages);
 				}
@@ -614,6 +647,70 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 
 		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
+	}
+
+	/**
+	 *
+	 */
+
+	private void setSheet(String currentSheetName, Map sheetNamezMap){
+		
+		// sheet names must be unique
+		if(null == sheetNamezMap.get(currentSheetName))
+		{
+			// first time this sheet name is found;
+			createSheet(currentSheetName);
+			sheetNamezMap.put(currentSheetName, Integer.valueOf(1));
+		}
+		else
+		{	
+			int currentIndex = ((Integer)sheetNamezMap.get(currentSheetName)).intValue() + 1;
+			createSheet(currentSheetName+" #"+currentIndex);
+			sheetNamezMap.remove(currentSheetName);
+			sheetNamezMap.put(currentSheetName, Integer.valueOf(currentIndex));
+		}
+	}
+	
+	/**
+	 *
+	 */
+
+	private void setSheet(String currentSheetName, String pgIndex, boolean isDuplicate, Map sheetNamezMap){
+		
+		String index = (null==pgIndex)? "":" page " + pgIndex;
+		int currentIndex = 0;
+		
+		if(isDuplicate)
+		{
+			currentIndex = ((Integer)sheetNamezMap.get(currentSheetName)).intValue() + 1;
+			createSheet(currentSheetName + " #" + currentIndex + index);
+			sheetNamezMap.remove(currentSheetName);
+			sheetNamezMap.put(currentSheetName, Integer.valueOf(currentIndex));
+		}
+		else
+		{
+			if(null == sheetNamezMap.get(currentSheetName))
+			{
+				// first occurence of this sheet name;
+				createSheet(currentSheetName + index);
+				sheetNamezMap.put(currentSheetName, Integer.valueOf(1));
+			}
+			else
+			{	
+				// next occurences
+				currentIndex = ((Integer)sheetNamezMap.get(currentSheetName)).intValue();
+				if(currentIndex < 2)
+				{
+					// first document with this sheet name
+					createSheet(currentSheetName + index);
+				}
+				else
+				{
+					// next docs with this name
+					createSheet(currentSheetName + " #" + currentIndex + index);
+				}
+			}
+		}
 	}
 	
 	protected abstract JRGridLayout.ExporterElements getExporterElements();
