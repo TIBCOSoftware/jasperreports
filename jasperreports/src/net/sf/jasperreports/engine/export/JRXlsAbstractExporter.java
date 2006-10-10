@@ -36,7 +36,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
@@ -135,7 +135,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * used when indexing the identical sheet generated names with ordering numbers;
 	 * contains sheet names as keys and the number of occurences of each sheet name as values
 	 */
-	protected Hashtable sheetNamesMap = null;
+	protected HashMap sheetNamesMap = null;
 	
 	/**
 	 *
@@ -270,7 +270,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		openWorkbook(os);
-		sheetNamesMap = new Hashtable();
+		sheetNamesMap = new HashMap();
 		int currentIndex = 0;
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
