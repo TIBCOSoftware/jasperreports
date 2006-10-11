@@ -659,14 +659,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 
 			fillFixedBand(detail, JRExpression.EVALUATION_DEFAULT);
+			
+			lastDetailOffsetX = offsetX;
+			lastDetailOffsetY = offsetY;
 		}
 
 		isNewPage = false;
 		isNewColumn = false;
 		isNewGroup = false;
-		
-		lastDetailOffsetX = offsetX;
-		lastDetailOffsetY = offsetY;
 	}
 
 
