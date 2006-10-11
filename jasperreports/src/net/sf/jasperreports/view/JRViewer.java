@@ -56,6 +56,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -985,6 +986,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitWidth.setSelected(false);
 
 			setZoomRatio(1);
+			btnActualSize.setSelected(true);
 		}
 	}//GEN-LAST:event_btnActualSizeActionPerformed
 
@@ -996,6 +998,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitPage.setSelected(false);
 
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
+			btnFitWidth.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
@@ -1007,6 +1010,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitWidth.setSelected(false);
 
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
+			btnFitPage.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
@@ -1768,7 +1772,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			cmbZoom.getEditor().setItem(
 				zoomDecimalFormat.format(newZoom * 100) + "%"
 				);
-
+			
+			cmbZoom.setSelectedItem(cmbZoom.getEditor().getItem());
+			
 			if (zoom != newZoom)
 			{
 				zoom = newZoom;
@@ -1792,6 +1798,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			cmbZoom.getEditor().setItem(
 				zoomDecimalFormat.format(zoom * 100) + "%"
 				);
+			
+			cmbZoom.setSelectedItem(cmbZoom.getEditor().getItem());
 
 			refreshPage();
 		}
