@@ -2,13 +2,15 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+<xsl:param name="version" />
+
 <xsl:template match="/">
 <html>
 <body>
 
 <a name="top"/>
 
-<h1>Quick Reference</h1>
+<h1>JasperReports <xsl:value-of select="$version"/> - Quick Reference</h1>
 
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
