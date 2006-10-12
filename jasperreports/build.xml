@@ -245,6 +245,7 @@
 	<target name="quickref" description="Generates the Quick Reference.">
 		<mkdir dir="./dist"/> 
 		<style basedir="docs" includes="*.xml" destdir="dist" extension="-${version}.html" style="docs/quick.reference.xsl">
+			<param name="version" expression="${version}"/>
 			<classpath>
 				<fileset dir="./lib">
 					<include name="**/*.jar"/>
