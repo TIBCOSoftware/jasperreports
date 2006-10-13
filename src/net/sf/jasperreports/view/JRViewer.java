@@ -104,6 +104,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 {
 
 	/**
+	 * Maximum size (in pixels) of a buffered image that would be used by {@link JRViewer JRViewer} to render a report page.
+	 * <p>
+	 * If rendering a report page would require an image larger than this threshold
+	 * (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
+	 * </p>
+	 * <p>
+	 * If this property is zero or negative, buffered images will never be user to render a report page.
+	 * By default, this property is set to 0.
+	 * </p>
+	 */
+	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = JRProperties.PROPERTY_PREFIX + "viewer.render.buffer.max.size";
+	
+	/**
 	 *
 	 */
 	private static final int TYPE_FILE_NAME = 1;
@@ -126,6 +139,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private float zoom = 0f;
+
+	private JRGraphics2DExporter exporter = null;
 
 	/**
 	 * the screen resolution.
@@ -1421,7 +1436,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlPage.setMinimumSize(dim);
 		pnlPage.setPreferredSize(dim);
 		
-		long maxImageSize = JRProperties.getLongProperty(JRProperties.VIEWER_RENDER_BUFFER_MAX_SIZE);
+		long maxImageSize = JRProperties.getLongProperty(VIEWER_RENDER_BUFFER_MAX_SIZE);
 		boolean renderImage;
 		if (maxImageSize <= 0)
 		{
@@ -1826,7 +1841,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		try
 		{
-			JRGraphics2DExporter exporter = new JRGraphics2DExporter();
+			if (exporter == null)
+			{
+				exporter = new JRGraphics2DExporter();
+			}
+			else
+			{
+				exporter.reset();
+			}
+			
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx);
 			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
@@ -1864,7 +1887,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			else
 			{
-				viewer.paintPage((Graphics2D)g.create());
+				synchronized (viewer)
+				{
+					viewer.paintPage((Graphics2D)g.create());
+				}
 			}
 		}
 		

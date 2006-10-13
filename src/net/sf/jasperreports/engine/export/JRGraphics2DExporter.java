@@ -84,13 +84,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 {
 
 	private static final int ELEMENT_RECTANGLE_PADDING = 3;
+	private static final float DEFAULT_ZOOM = 1f;
 
 	/**
 	 *
 	 */
 	protected Graphics2D grx = null;
 	protected JRExportProgressMonitor progressMonitor = null;
-	protected float zoom = 1f;
+	protected float zoom = DEFAULT_ZOOM;
 
 	protected TextRenderer textRenderer = new TextRenderer();
 
@@ -138,6 +139,10 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				{
 					throw new JRException("Invalid zoom ratio : " + zoom);
 				}
+			}
+			else
+			{
+				zoom = DEFAULT_ZOOM;
 			}
 	
 			exportReportToGraphics2D();

@@ -89,37 +89,44 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int globalOffsetX = 0;
 	protected int globalOffsetY = 0;
 	protected ClassLoader classLoader = null;
-	protected boolean classLoaderSet;
-	protected URLStreamHandlerFactory urlHandlerFactory;
-	protected boolean urlHandlerFactorySet;
+	protected boolean classLoaderSet = false;
+	protected URLStreamHandlerFactory urlHandlerFactory = null;
+	protected boolean urlHandlerFactorySet = false;
 
 	/**
 	 *
 	 */
-	private LinkedList elementOffsetStack;
-	private int elementOffsetX;
-	private int elementOffsetY;
+	private LinkedList elementOffsetStack = new LinkedList();
+	private int elementOffsetX = globalOffsetX;
+	private int elementOffsetY = globalOffsetY;
 
-	private Map penBoxes;
+	private Map penBoxes = new HashMap();//FIXME is this working properly? forecolor is not part of the key
+
+	/**
+	 *
+	 */
+	protected final JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	
+	/**
+	 *
+	 */
 	protected JRAbstractExporter()
 	{
-		elementOffsetStack = new LinkedList();
-		
-		elementOffsetX = globalOffsetX;
-		elementOffsetY = globalOffsetY;
-		
-		penBoxes = new HashMap();
 	}
 	
 	
 	/**
 	 *
 	 */
-	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
-
-
+	public void reset()
+	{
+		parameters = new HashMap();
+		elementOffsetStack = new LinkedList();
+		penBoxes = new HashMap();
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -172,11 +179,19 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			globalOffsetX = offsetX.intValue();
 		}
+		else
+		{
+			globalOffsetX = 0;
+		}
 
 		Integer offsetY = (Integer)parameters.get(JRExporterParameter.OFFSET_Y);
 		if (offsetY != null)
 		{
 			globalOffsetY = offsetY.intValue();
+		}
+		else
+		{
+			globalOffsetY = 0;
 		}
 		
 		elementOffsetX = globalOffsetX;
