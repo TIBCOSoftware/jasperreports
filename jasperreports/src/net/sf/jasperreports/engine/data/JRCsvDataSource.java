@@ -298,7 +298,7 @@ public class JRCsvDataSource implements JRDataSource
 
 		// end of row was reached, so the final characters form the last field in the record
 		String field = row.substring(startFieldPos, pos);
-		if (field == null || field.length() == 0)
+		if (field == null)
 			return true;
 
 		if (misplacedQuote)
