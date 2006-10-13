@@ -462,7 +462,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
 				offsetY = columnHeaderOffsetY;
 
-				fillFixedBand(columnHeader, evaluation);
+				fillFixedBand(columnHeader, evaluation, false);
 			}
 		}
 
@@ -658,7 +658,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 			}
 
-			fillFixedBand(detail, JRExpression.EVALUATION_DEFAULT);
+			fillFixedBand(detail, JRExpression.EVALUATION_DEFAULT, false);
 			
 			lastDetailOffsetX = offsetX;
 			lastDetailOffsetY = offsetY;
@@ -762,7 +762,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			if (columnFooter.isToPrint())
 			{
-				fillFixedBand(columnFooter, evaluation);
+				fillFixedBand(columnFooter, evaluation, false);
 			}
 		}
 	}
@@ -1363,12 +1363,18 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	protected void fillFixedBand(JRFillBand band, byte evaluation) throws JRException
 	{
+		fillFixedBand(band, evaluation, true);
+	}
+
+
+	protected void fillFixedBand(JRFillBand band, byte evaluation, boolean allowShrinking) throws JRException
+	{
 		band.evaluate(evaluation);
 
 		JRPrintBand printBand = band.fill();
 
 		fillBand(printBand);
-		offsetY += printBand.getHeight();
+		offsetY += allowShrinking ? printBand.getHeight() : band.getHeight();
 		
 		resolveBandBoundElements(band, evaluation);
 	}
