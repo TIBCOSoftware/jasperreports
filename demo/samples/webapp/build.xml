@@ -4,25 +4,22 @@
 
 	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
 		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../dist" includes="**/jasperreports-*.jar" excludes="**/jasperreports-*-applet.jar"/>
+			<fileset dir="../../../dist">
+				<include name="**/jasperreports-*.jar"/>
+				<exclude name="**/jasperreports-*-javaflow.jar"/>
+				<exclude name="**/jasperreports-*-applet.jar"/>
+			</fileset>
 		</copy>
 		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/commons-*.jar" />
-		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/i*ext*.jar" />
-		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/*jdt*.jar" />
-		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/poi*.jar" />
-		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/jxl*.jar" />
-		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib" includes="**/png-encoder*.jar" />
+			<fileset dir="../../../lib">
+				<include name="**/commons-*.jar"/>
+				<include name="**/i*ext*.jar"/>
+				<include name="**/*jdt*.jar"/>
+				<include name="**/poi*.jar"/>
+				<include name="**/jxl*.jar"/>
+				<include name="**/png-encoder*.jar"/>
+				<exclude name="**/commons-javaflow-*.jar"/>
+			</fileset>
 		</copy>
 		<copy todir="./applets">
 			<fileset dir="../../../dist" includes="**/jasperreports-*-applet.jar"/>
