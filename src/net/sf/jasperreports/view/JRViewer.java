@@ -1000,7 +1000,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitWidth.setSelected(false);
 
 			setZoomRatio(1);
-			btnActualSize.setSelected(true);
 		}
 	}//GEN-LAST:event_btnActualSizeActionPerformed
 
@@ -1012,7 +1011,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitPage.setSelected(false);
 
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
-			btnFitWidth.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
@@ -1024,7 +1022,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnFitWidth.setSelected(false);
 
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
-			btnFitPage.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
@@ -1787,8 +1784,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				zoomDecimalFormat.format(newZoom * 100) + "%"
 				);
 			
-			cmbZoom.setSelectedItem(cmbZoom.getEditor().getItem());
-			
 			if (zoom != newZoom)
 			{
 				zoom = newZoom;
@@ -1813,8 +1808,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				zoomDecimalFormat.format(zoom * 100) + "%"
 				);
 			
-			cmbZoom.setSelectedItem(cmbZoom.getEditor().getItem());
-
 			refreshPage();
 		}
 	}
