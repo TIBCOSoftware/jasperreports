@@ -468,11 +468,11 @@ public class JRLoader
 	{
 		InputStream is = null;
 		
-		is = getFileInputStream(location);
+		is = getResourceInputStream(location);
 		
 		if (is == null)
 		{
-			is = getResourceInputStream(location);
+			is = getFileInputStream(location);
 		}
 		
 		if (is == null)

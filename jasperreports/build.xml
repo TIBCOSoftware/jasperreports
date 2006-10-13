@@ -123,6 +123,7 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}-applet.jar">
 			<fileset dir="./build/classes">
+				<include name="**/default.jasperreports.properties"/>
 				<include name="**/net/sf/jasperreports/charts/util/CategoryLabelGenerator.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/DefaultXYZDataset.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/PieLabelGenerator.class"/>
@@ -159,6 +160,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRPropertiesMap.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRenderable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRReportFont.class"/>
@@ -190,10 +192,11 @@
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>
 				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRClassLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
-				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRProperties.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStringUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRStyledText*.class"/>

@@ -37,8 +37,6 @@ import java.util.Properties;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
-import net.sf.jasperreports.view.JRViewer;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -149,19 +147,6 @@ public class JRProperties
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
 	
-	/**
-	 * Maximum size (in pixels) of a buffered image that would be used by {@link JRViewer JRViewer} to render a report page.
-	 * <p>
-	 * If rendering a report page would require an image larger than this threshold
-	 * (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
-	 * </p>
-	 * <p>
-	 * If this property is zero or negative, buffered images will never be user to render a report page.
-	 * By default, this property is set to 0.
-	 * </p>
-	 */
-	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = PROPERTY_PREFIX + "viewer.render.buffer.max.size";
-	
 	protected static Properties props;
 	
 	protected static Properties savedProps;
@@ -179,13 +164,13 @@ public class JRProperties
 		try
 		{
 			Properties defaults = getDefaults();
-			String propFile = System.getProperty(PROPERTIES_FILE);
+			String propFile = getSystemProperty(PROPERTIES_FILE);
 			if (propFile == null)
 			{
 				props = loadProperties(DEFAULT_PROPERTIES_FILE, defaults);
 				if (props == null)
 				{
-					props = defaults;
+					props = new Properties(defaults);
 				}
 			}
 			else
@@ -220,50 +205,73 @@ public class JRProperties
 	 * 
 	 * @return the default properties
 	 */
-	protected static Properties getDefaults ()
+	protected static Properties getDefaults() throws JRException
 	{
 		Properties defaults = new Properties();
 		
-		defaults.setProperty(COMPILER_XML_VALIDATION, String.valueOf(true));
-		defaults.setProperty(COMPILER_KEEP_JAVA_FILE, String.valueOf(false));
-		defaults.setProperty(EXPORT_XML_VALIDATION, String.valueOf(true));
+		InputStream is = JRProperties.class.getResourceAsStream("/default.jasperreports.properties");
 		
-		String userDir = System.getProperty("user.dir");
+		if (is == null)
+		{
+			throw new JRException("Default properties file not found.");
+		}
+
+		try
+		{
+			defaults.load(is);
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Failed to load default properties.", e);
+		}
+		finally
+		{
+			try
+			{
+				is.close();
+			}
+			catch (IOException e)
+			{
+			}
+		}
+		
+		String userDir = getSystemProperty("user.dir");
 		if (userDir != null)
 		{
 			defaults.setProperty(COMPILER_TEMP_DIR, userDir);
 		}
 		
-		String classPath = System.getProperty("java.class.path");
+		String classPath = getSystemProperty("java.class.path");
 		if (classPath != null)
 		{
 			defaults.setProperty(COMPILER_CLASSPATH, classPath);
 		}
-		
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "sql", "net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "SQL", "net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "hql", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "HQL", "net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "xPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "XPath", "net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "mdx", "net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "MDX", "net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "ejbql", "net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory");
-		defaults.setProperty(QUERY_EXECUTER_FACTORY_PREFIX + "EJBQL", "net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory");
-
-		defaults.setProperty(SUBREPORT_RUNNER_FACTORY, "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory");
-
-		defaults.setProperty(JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT, "true");
-		defaults.setProperty(PDF_FORCE_LINEBREAK_POLICY, "false");
-		
-		defaults.setProperty(VIEWER_RENDER_BUFFER_MAX_SIZE, Long.toString(0L));
 
 		return defaults;
 	}
 
+	/**
+	 * 
+	 */
+	protected static String getSystemProperty(String propertyName)
+	{
+		try
+		{
+			return System.getProperty(propertyName);
+		}
+		catch (SecurityException e)
+		{
+			// This could fail if we are in the applet viewer or some other 
+			// restrictive environment, but it should be safe to simply return null.
+			// We cannot log this properly using a logging API, 
+			// as we want to keep applet JAR dependencies to a minimum.
+			return null;
+		}
+	}
+
 	protected static void loadSystemProperty(String sysKey, String propKey)
 	{
-		String val = System.getProperty(sysKey);
+		String val = getSystemProperty(sysKey);
 		if (val != null)
 		{
 			props.setProperty(propKey, val);
@@ -280,9 +288,21 @@ public class JRProperties
 	 */
 	public static Properties loadProperties (String name, Properties defaults) throws JRException
 	{
-		InputStream is = JRLoader.getLocationInputStream(name);
-		
 		Properties properties = null;
+		
+		InputStream is = null;
+		
+		try
+		{
+			is = JRLoader.getLocationInputStream(name);
+		}
+		catch (SecurityException e)
+		{
+			// This could fail if we are in the applet viewer or some other 
+			// restrictive environment, but most of the time it should be safe to ignore.
+			// We cannot log this properly using a logging API, 
+			// as we want to keep applet JAR dependencies to a minimum.
+		}
 		
 		if (is != null)
 		{
