@@ -1880,10 +1880,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 			else
 			{
-				synchronized (viewer)
-				{
-					viewer.paintPage((Graphics2D)g.create());
-				}
+				viewer.paintPage((Graphics2D)g.create());
 			}
 		}
 		
