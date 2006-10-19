@@ -131,6 +131,58 @@ public class AsynchronousFillHandle
 	}
 
 	
+	protected class ReportFiller implements Runnable
+	{
+		public void run()
+		{
+			synchronized (lock)
+			{
+				running = true;
+			}
+			
+			try
+			{
+				JasperPrint print;
+				if (conn != null)
+				{
+					print = filler.fill(parameters, conn);
+				}
+				else if (dataSource != null)
+				{
+					print = filler.fill(parameters, dataSource);
+				}
+				else
+				{
+					print = filler.fill(parameters);
+				}
+				
+				notifyFinish(print);
+			}
+			catch (Exception e)
+			{
+				synchronized (lock)
+				{
+					if (cancelled)
+					{
+						notifyCancel();
+					}
+					else
+					{
+						notifyError(e);
+					}
+				}
+			}
+			finally
+			{
+				synchronized (lock)
+				{
+					running = false;
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Starts the filling process asychronously.
 	 * <p>
@@ -152,57 +204,16 @@ public class AsynchronousFillHandle
 			started = true;
 		}
 		
-		fillThread = new Thread(new Runnable()
-				{
-					public void run()
-					{
-						synchronized (lock)
-						{
-							running = true;
-						}
-						
-						try
-						{
-							JasperPrint print;
-							if (conn != null)
-							{
-								print = filler.fill(parameters, conn);
-							}
-							else if (dataSource != null)
-							{
-								print = filler.fill(parameters, dataSource);
-							}
-							else
-							{
-								print = filler.fill(parameters);
-							}
-							
-							notifyFinish(print);
-						}
-						catch (Exception e)
-						{
-							synchronized (lock)
-							{
-								if (cancelled)
-								{
-									notifyCancel();
-								}
-								else
-								{
-									notifyError(e);
-								}
-							}
-						}
-						finally
-						{
-							synchronized (lock)
-							{
-								running = false;
-							}
-						}
-					}
-				},
-				threadName);
+		ReportFiller reportFiller = new ReportFiller();
+		
+		if (threadName == null)
+		{
+			fillThread = new Thread(reportFiller);
+		}
+		else
+		{
+			fillThread = new Thread(reportFiller, threadName);
+		}
 		
 		if (priority != null)
 		{
