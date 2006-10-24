@@ -128,6 +128,16 @@ public class TextMeasurer
 				leftPadding = tmpPadding;
 				break;
 			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			{
+				int tmpPadding = topPadding;
+				topPadding = bottomPadding;
+				bottomPadding = tmpPadding;
+				tmpPadding = leftPadding;
+				leftPadding = rightPadding;
+				rightPadding = tmpPadding;
+				break;
+			}
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{

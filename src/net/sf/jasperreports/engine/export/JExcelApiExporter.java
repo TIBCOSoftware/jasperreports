@@ -580,6 +580,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				return Orientation.PLUS_90.getValue();
 			case JRTextElement.ROTATION_RIGHT:
 				return Orientation.MINUS_90.getValue();
+			case JRTextElement.ROTATION_UPSIDE_DOWN:
 			case JRTextElement.ROTATION_NONE:
 			default:
 				return Orientation.HORIZONTAL.getValue();
@@ -1369,6 +1370,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 				break;
 			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN:
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{

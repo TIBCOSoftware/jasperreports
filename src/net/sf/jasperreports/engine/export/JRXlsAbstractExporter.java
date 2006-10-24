@@ -635,6 +635,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 				break;
 			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN:
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{

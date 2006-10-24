@@ -243,6 +243,7 @@ public class JRXmlConstants
 	private static final String ROTATION_NONE = "None";
 	private static final String ROTATION_LEFT = "Left";
 	private static final String ROTATION_RIGHT = "Right";
+	private static final String ROTATION_UPSIDE_DOWN = "UpsideDown";
 
 	private static Map rotationMap = null;
 
@@ -251,12 +252,14 @@ public class JRXmlConstants
 		if (rotationMap == null)
 		{
 			rotationMap = new HashMap(6);
-			rotationMap.put(ROTATION_NONE,  new Byte(JRTextElement.ROTATION_NONE));
-			rotationMap.put(ROTATION_LEFT,  new Byte(JRTextElement.ROTATION_LEFT));
-			rotationMap.put(ROTATION_RIGHT, new Byte(JRTextElement.ROTATION_RIGHT));
-			rotationMap.put(new Byte(JRTextElement.ROTATION_NONE),  ROTATION_NONE);
-			rotationMap.put(new Byte(JRTextElement.ROTATION_LEFT),  ROTATION_LEFT);
-			rotationMap.put(new Byte(JRTextElement.ROTATION_RIGHT), ROTATION_RIGHT);
+			rotationMap.put(ROTATION_NONE,  		new Byte(JRTextElement.ROTATION_NONE));
+			rotationMap.put(ROTATION_LEFT,  		new Byte(JRTextElement.ROTATION_LEFT));
+			rotationMap.put(ROTATION_RIGHT, 		new Byte(JRTextElement.ROTATION_RIGHT));
+			rotationMap.put(ROTATION_UPSIDE_DOWN, 	new Byte(JRTextElement.ROTATION_UPSIDE_DOWN));
+			rotationMap.put(new Byte(JRTextElement.ROTATION_NONE),  		ROTATION_NONE);
+			rotationMap.put(new Byte(JRTextElement.ROTATION_LEFT),  		ROTATION_LEFT);
+			rotationMap.put(new Byte(JRTextElement.ROTATION_RIGHT), 		ROTATION_RIGHT);
+			rotationMap.put(new Byte(JRTextElement.ROTATION_UPSIDE_DOWN), 	ROTATION_UPSIDE_DOWN);
 		}
 
 		return rotationMap;
