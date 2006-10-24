@@ -842,9 +842,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			String hexa = Integer.toHexString(line.getForecolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			writer.write(hexa);
+			writer.write("\"");
 		}
 
-		writer.write("\">");
+		writer.write(">");
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
@@ -885,9 +886,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			writer.write(hexa);
+			writer.write("\"");
 		}
 
-		writer.write("\">");
+		writer.write(">");
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
