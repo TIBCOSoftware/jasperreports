@@ -28,8 +28,26 @@ verticalAlignment="Bottom"]]></text>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[rotation="Left" 
-textAlignment="RIght" 
+textAlignment="Right"
 verticalAlignment="Middle"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="0" width="90" height="350" backcolor="#c0c0c0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="UpsideDown">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="UpsideDown"
+textAlignment="Left"
+verticalAlignment="Middle"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="155" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="UpsideDown">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[rotation="Left"
+textAlignment="Right"
+verticalAlignment="Top"]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="255" y="410" width="90" height="350" forecolor="#ffffff" backcolor="#404040"/>
@@ -54,8 +72,8 @@ verticalAlignment="Bottom"]]></text>
 				<textElement rotation="Right">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[rotation="Right" 
-textAlignment="Left" 
+				<text><![CDATA[rotation="Right"
+textAlignment="Left"
 verticalAlignment="Top"]]></text>
 			</staticText>
 		</band>
