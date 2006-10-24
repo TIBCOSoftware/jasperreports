@@ -1547,6 +1547,19 @@ public class JRDesignViewer extends javax.swing.JPanel
 				angle = Math.PI / 2;
 				break;
 			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			{
+				x = text.getX() + text.getWidth();
+				y = text.getY() + text.getHeight();
+				int tmpPadding = topPadding;
+				topPadding = bottomPadding;
+				bottomPadding = tmpPadding;
+				tmpPadding = leftPadding;
+				leftPadding = rightPadding;
+				rightPadding = tmpPadding;
+				angle = Math.PI;
+				break;
+			}
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{
