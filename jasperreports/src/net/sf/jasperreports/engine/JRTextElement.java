@@ -70,6 +70,10 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont
 	 */
 	public static final byte ROTATION_RIGHT = 2;
 
+	/**
+	 * Constant useful for rotating the text 180 degrees.
+	 */
+	public static final byte ROTATION_UPSIDE_DOWN = 3;
 
 	/**
 	 * Constant for setting normal spacing between lines.

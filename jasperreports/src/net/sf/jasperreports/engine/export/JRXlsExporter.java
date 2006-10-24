@@ -503,6 +503,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				return 90;
 			case JRTextElement.ROTATION_RIGHT:
 				return -90;
+			case JRTextElement.ROTATION_UPSIDE_DOWN:
 			case JRTextElement.ROTATION_NONE:
 			default:
 				return 0;

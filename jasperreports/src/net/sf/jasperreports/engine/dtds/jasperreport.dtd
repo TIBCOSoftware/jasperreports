@@ -281,7 +281,7 @@
 <!ATTLIST textElement
 	textAlignment (Left | Center | Right | Justified) #IMPLIED
 	verticalAlignment (Top | Middle | Bottom) #IMPLIED
-	rotation (None | Left | Right) #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
 	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
 	isStyledText (true | false) #IMPLIED
 >

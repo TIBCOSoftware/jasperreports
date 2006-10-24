@@ -687,6 +687,19 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 				angle = Math.PI / 2;
 				break;
 			}
+			case JRTextElement.ROTATION_UPSIDE_DOWN :
+			{
+				int tmpPadding = topPadding;
+				x = text.getX() + getOffsetX() + text.getWidth();
+				y = text.getY() + getOffsetY() + text.getHeight();
+				topPadding = bottomPadding;
+				bottomPadding = tmpPadding;
+				tmpPadding = leftPadding;
+				leftPadding = rightPadding;
+				rightPadding = tmpPadding;
+				angle = Math.PI;
+				break;
+			}
 			case JRTextElement.ROTATION_NONE :
 			default :
 			{
