@@ -25,78 +25,44 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import mondrian.olap.Cell;
+import net.sf.jasperreports.olap.result.JROlapCell;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianCell implements JROlapCell
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
+
+	private final Cell cell;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
+	public JRMondrianCell(Cell cell)
 	{
-		this.pos = pos;
-		this.depth = depth;
+		this.cell = cell;
 	}
 
-	public Axis getAxis()
+	public String getFormattedValue()
 	{
-		return pos.getAxis();
+		return cell.getFormattedValue();
 	}
 
-	public MemberDepth getDepth()
+	public Object getValue()
 	{
-		return depth;
+		return cell.getValue();
 	}
 
-	public TuplePosition getPosition()
+	public boolean isError()
 	{
-		return pos;
-	}
-	
-	public boolean matches(JROlapMember member)
-	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
+		return cell.isError();
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public boolean isNull()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return cell.isNull();
 	}
+
 }

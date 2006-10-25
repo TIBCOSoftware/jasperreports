@@ -25,78 +25,60 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import net.sf.jasperreports.olap.result.JROlapHierarchy;
+import net.sf.jasperreports.olap.result.JROlapMemberTuple;
+import net.sf.jasperreports.olap.result.JROlapResultAxis;
+import mondrian.olap.Axis;
+import mondrian.olap.Hierarchy;
+import mondrian.olap.Position;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianAxis implements JROlapResultAxis
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
-	{
-		this.pos = pos;
-		this.depth = depth;
-	}
-
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
-	}
+	private final JRMondrianTuple[] tuples;
+	private final JRMondrianHierarchy[] hierarchies;
 	
-	public boolean matches(JROlapMember member)
+	public JRMondrianAxis(Axis axis, Hierarchy[] axisHierarchies, JRMondrianFactory factory)
 	{
-		boolean match;
-		int memberDepth = member.getDepth();
+		Position[] positions = axis.positions;
+		tuples = new JRMondrianTuple[positions.length];
+		for (int i = 0; i < positions.length; i++)
+		{
+			tuples[i] = new JRMondrianTuple(positions[i], factory);
+		}
 		
-		if (depth == null)
+		hierarchies = new JRMondrianHierarchy[axisHierarchies.length];
+		for (int i = 0; i < axisHierarchies.length; i++)
 		{
-			match = true;
+			hierarchies[i] = new JRMondrianHierarchy(axisHierarchies[i]);
 		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public JROlapHierarchy[] getHierarchiesOnAxis()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return hierarchies;
 	}
+
+	public JROlapMemberTuple getTuple(int index)
+	{
+		if (index < 0 || index >= tuples.length)
+		{
+			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + tuples.length);
+		}
+		
+		return tuples[index];
+	}
+
+	public int getTupleCount()
+	{
+		return tuples.length;
+	}
+
 }

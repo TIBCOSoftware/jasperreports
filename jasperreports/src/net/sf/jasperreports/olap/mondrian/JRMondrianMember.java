@@ -25,78 +25,56 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
+import mondrian.olap.Member;
 import net.sf.jasperreports.olap.result.JROlapMember;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianMember implements JROlapMember
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
-	
-	public Member(TuplePosition pos, MemberDepth depth)
+
+	private final Member member;
+	private final JRMondrianMember parent;
+
+	public JRMondrianMember(Member member, JRMondrianFactory factory)
 	{
-		this.pos = pos;
-		this.depth = depth;
+		this.member = member;
+		this.parent = factory.createMember(member.getParentMember());
 	}
 
-	public Axis getAxis()
+	public int getDepth()
 	{
-		return pos.getAxis();
+		return member.getDepth();
 	}
 
-	public MemberDepth getDepth()
+	public String getName()
 	{
-		return depth;
+		return member.getName();
 	}
 
-	public TuplePosition getPosition()
+	public JROlapMember getParentMember()
 	{
-		return pos;
-	}
-	
-	public boolean matches(JROlapMember member)
-	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
+		return parent;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public Object getPropertyValue(String propertyName)
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return member.getPropertyValue(propertyName);
 	}
+
+	public String getUniqueName()
+	{
+		return member.getUniqueName();
+	}
+
+	public Member getMondrianMember()
+	{
+		return member;
+	}
+
 }

@@ -25,78 +25,46 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.xmla;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import net.sf.jasperreports.olap.result.JROlapCell;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRXmlaCell implements JROlapCell
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
-	{
-		this.pos = pos;
-		this.depth = depth;
-	}
+	private final Object value;
+	private final String formattedValue;
 
-	public Axis getAxis()
+	public JRXmlaCell(Object value, String formattedValue)
 	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
+		this.value = value;
+		this.formattedValue = formattedValue;
 	}
 	
-	public boolean matches(JROlapMember member)
+	public String getFormattedValue()
 	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
+		return formattedValue;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public Object getValue()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return value;
 	}
+
+	public boolean isError()
+	{
+		//TODO 
+		return false;
+	}
+
+	public boolean isNull()
+	{
+		return value == null;
+	}
+
 }

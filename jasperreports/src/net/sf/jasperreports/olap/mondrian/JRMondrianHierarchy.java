@@ -25,78 +25,44 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import mondrian.olap.Hierarchy;
+import mondrian.olap.Level;
+import net.sf.jasperreports.olap.result.JROlapHierarchy;
+import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianHierarchy implements JROlapHierarchy
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
-	{
-		this.pos = pos;
-		this.depth = depth;
-	}
-
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
-	}
+	private final Hierarchy hierarchy;
+	private final JRMondrianLevel[] levels;
 	
-	public boolean matches(JROlapMember member)
+	public JRMondrianHierarchy(Hierarchy hierarchy)
 	{
-		boolean match;
-		int memberDepth = member.getDepth();
+		this.hierarchy = hierarchy;
 		
-		if (depth == null)
+		Level[] hierarchyLevels = hierarchy.getLevels();
+		levels = new JRMondrianLevel[hierarchyLevels.length];
+		for (int i = 0; i < hierarchyLevels.length; i++)
 		{
-			match = true;
+			levels[i] = new JRMondrianLevel(hierarchyLevels[i]);
 		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public String getDimensionName()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return hierarchy.getDimension().getName();
 	}
+
+	public JROlapHierarchyLevel[] getLevels()
+	{
+		return levels;
+	}
+
 }

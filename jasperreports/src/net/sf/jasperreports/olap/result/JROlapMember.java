@@ -25,78 +25,28 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.result;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import mondrian.olap.Member;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public interface JROlapMember
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
+
+	String getName();
+
+	String getUniqueName();
 	
-	public Member(TuplePosition pos, MemberDepth depth)
-	{
-		this.pos = pos;
-		this.depth = depth;
-	}
+	int getDepth();
 
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
+	JROlapMember getParentMember();
 
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
-	}
+	Object getPropertyValue(String propertyName);
 	
-	public boolean matches(JROlapMember member)
-	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
-	}
+	Member getMondrianMember();
 
-	public JROlapMember ancestorMatch(JROlapMember member)
-	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
-	}
 }

@@ -25,78 +25,46 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import java.util.HashMap;
+import java.util.Map;
+
+import mondrian.olap.Member;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianFactory
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
+	private final Map members;
+	
+	public JRMondrianFactory()
 	{
-		this.pos = pos;
-		this.depth = depth;
-	}
-
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
+		members = new HashMap();
 	}
 	
-	public boolean matches(JROlapMember member)
+	public JRMondrianMember createMember(Member member)
 	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
+		JRMondrianMember mondrianMember;
+		if (member == null)
 		{
-			match = true;
+			mondrianMember = null;
 		}
 		else
 		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
-	}
-
-	public JROlapMember ancestorMatch(JROlapMember member)
-	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
+			String key = member.getUniqueName();
+			mondrianMember = (JRMondrianMember) members.get(key);
+			if (mondrianMember == null)
 			{
-				ancestor = ancestor.getParentMember();
+				mondrianMember = new JRMondrianMember(member, this);
+				members.put(key, mondrianMember);
 			}
 		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return mondrianMember;
 	}
+	
 }

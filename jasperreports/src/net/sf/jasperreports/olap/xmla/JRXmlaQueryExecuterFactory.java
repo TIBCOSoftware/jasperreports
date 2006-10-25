@@ -25,78 +25,47 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.xmla;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.query.JRQueryExecuter;
+import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Michael Günther (m.guenther at users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
-	
-	public Member(TuplePosition pos, MemberDepth depth)
+
+	public final static String PARAMETER_XMLA_URL = "XMLA_URL";
+
+	public final static String PARAMETER_XMLA_DATASOURCE = "XMLA_DATASOURCE";
+
+	public final static String PARAMETER_XMLA_CATALOG = "XMLA_CATALOG";
+
+	private final static Object[] XMLA_BUILTIN_PARAMETERS = { 
+		PARAMETER_XMLA_URL, String.class, 
+		PARAMETER_XMLA_DATASOURCE, String.class, 
+		PARAMETER_XMLA_CATALOG, String.class, };
+
+	public Object[] getBuiltinParameters()
 	{
-		this.pos = pos;
-		this.depth = depth;
+		return XMLA_BUILTIN_PARAMETERS;
 	}
 
-	public Axis getAxis()
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException
 	{
-		return pos.getAxis();
+		return new JRXmlaQueryExecuter(dataset, parameters);
 	}
 
-	public MemberDepth getDepth()
+	public boolean supportsQueryParameterType(String className)
 	{
-		return depth;
+		return true;
 	}
 
-	public TuplePosition getPosition()
-	{
-		return pos;
-	}
-	
-	public boolean matches(JROlapMember member)
-	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
-	}
-
-	public JROlapMember ancestorMatch(JROlapMember member)
-	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
-	}
 }
