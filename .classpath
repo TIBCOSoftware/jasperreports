@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/jpa.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.jar"/>
+	<classpathentry kind="lib" path="lib/saaj-api-1.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
