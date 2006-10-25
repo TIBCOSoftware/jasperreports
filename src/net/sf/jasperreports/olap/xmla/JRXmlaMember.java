@@ -25,78 +25,74 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.xmla;
 
+import mondrian.olap.Member;
 import net.sf.jasperreports.olap.result.JROlapMember;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRXmlaMember implements JROlapMember
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
-	
-	public Member(TuplePosition pos, MemberDepth depth)
+
+	private final String name;
+	private final String uniqueName;
+	private final String dimensionName;
+	private final String levelName;
+	private final int depth;
+
+	public JRXmlaMember(String name, String uniqueName, String dimensionName, String levelName, int depth)
 	{
-		this.pos = pos;
+		this.name = name;
+		this.uniqueName = uniqueName;
+		this.dimensionName = dimensionName;
+		this.levelName = levelName;
 		this.depth = depth;
 	}
-
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
+	
+	public int getDepth()
 	{
 		return depth;
 	}
 
-	public TuplePosition getPosition()
+	public String getName()
 	{
-		return pos;
-	}
-	
-	public boolean matches(JROlapMember member)
-	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			match = true;
-		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
+		return name;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public JROlapMember getParentMember()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		// not implemented
+		return null;
 	}
+
+	public Object getPropertyValue(String propertyName)
+	{
+		throw new UnsupportedOperationException("Member properties are not supported by the XML/A query executer");
+	}
+
+	public String getUniqueName()
+	{
+		return uniqueName;
+	}
+	
+	public String getLevelName()
+	{
+		return levelName;
+	}
+
+	
+	public String getDimensionName()
+	{
+		return dimensionName;
+	}
+
+	public Member getMondrianMember()
+	{
+		throw new UnsupportedOperationException("XML/A member cannot be converted to a mondrian.olap.Member");
+	}
+
 }

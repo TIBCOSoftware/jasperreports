@@ -25,78 +25,52 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.mapping;
+package net.sf.jasperreports.olap.mondrian;
 
-import net.sf.jasperreports.olap.result.JROlapMember;
+import mondrian.olap.Axis;
+import mondrian.olap.Cell;
+import mondrian.olap.Query;
+import mondrian.olap.Result;
+import net.sf.jasperreports.olap.result.JROlapCell;
+import net.sf.jasperreports.olap.result.JROlapResult;
+import net.sf.jasperreports.olap.result.JROlapResultAxis;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class Member
+public class JRMondrianResult implements JROlapResult
 {
-	private final TuplePosition pos;
-	private final MemberDepth depth;
 	
-	public Member(TuplePosition pos, MemberDepth depth)
-	{
-		this.pos = pos;
-		this.depth = depth;
-	}
-
-	public Axis getAxis()
-	{
-		return pos.getAxis();
-	}
-
-	public MemberDepth getDepth()
-	{
-		return depth;
-	}
-
-	public TuplePosition getPosition()
-	{
-		return pos;
-	}
+	private final Result result;
+	private final JRMondrianAxis[] axes;
 	
-	public boolean matches(JROlapMember member)
+	public JRMondrianResult(Result result)
 	{
-		boolean match;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
+		this.result = result;
+
+		JRMondrianFactory factory = new JRMondrianFactory();
+
+		Query query = result.getQuery();
+		Axis[] resultAxes = result.getAxes();
+		axes = new JRMondrianAxis[resultAxes.length];
+		for (int i = 0; i < resultAxes.length; i++)
 		{
-			match = true;
+			axes[i] = new JRMondrianAxis(resultAxes[i], query.getMdxHierarchiesOnAxis(i), factory);
 		}
-		else
-		{
-			match = memberDepth == depth.getDepth();
-		}
-		return match;
 	}
 
-	public JROlapMember ancestorMatch(JROlapMember member)
+	public JROlapResultAxis[] getAxes()
 	{
-		JROlapMember ancestor;
-		int memberDepth = member.getDepth();
-		
-		if (depth == null)
-		{
-			ancestor = member;
-		}
-		else if (depth.getDepth() <= memberDepth)
-		{
-			ancestor = member;
-			for (int i = depth.getDepth(); i < memberDepth; ++i)
-			{
-				ancestor = ancestor.getParentMember();
-			}
-		}
-		else
-		{
-			ancestor = null;
-		}
-		
-		return ancestor;
+		return axes;
 	}
+
+	public JROlapCell getCell(int[] axisPositions)
+	{
+		Cell dataCell = result.getCell(axisPositions);
+		JRMondrianCell cell = new JRMondrianCell(dataCell);
+		return cell;
+	}
+
 }
