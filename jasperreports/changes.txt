@@ -10,6 +10,8 @@ if such tags are present, an intermediate JRSortableDataSource will wrap
 the initial report data source and perform in-memory sorting before the 
 records are fed into the report filling process;
 
+- upside down text rotation;
+
 - minor bug fixes and improvements;
 
 
