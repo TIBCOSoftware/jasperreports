@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -771,12 +772,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		int leftPadding = twip(text.getLeftPadding());
 		int bottomPadding = twip(text.getBottomPadding());
 		int rightPadding = twip(text.getRightPadding());
+
+		Color bgcolor = (Color)text.getBackcolor();
 		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
-			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), text
-					.getBackcolor(), 1);
+			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), bgcolor, 1);
 		}
 		
 		int verticalAdjustment = topPadding;
@@ -830,7 +832,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\cf");
 		writer.write(String.valueOf(getColorIndex(text.getForecolor())));
 		writer.write("\\cb");
-		writer.write(String.valueOf(getColorIndex(text.getBackcolor())));
+		writer.write(String.valueOf(getColorIndex(bgcolor)));
 		writer.write(" ");
 
 		if (leftPadding > 0)
@@ -894,7 +896,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			JRFont styleFont = new JRBaseFont(styledTextAttributes);
 			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
 			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
-
+			
 			writer.write("\\f");
 			writer.write(String.valueOf(getFontIndex(styleFont)));
 			writer.write("\\fs");
@@ -926,10 +928,10 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write("\\sub");
 			}
 			
-			writer.write("\\cb");
-			writer.write(String.valueOf(getColorIndex(styleBackground)));
-			//writer.write("\\highlight");
-			//writer.write(String.valueOf(getColorIndex(styleBackground)));
+			if(!(null == styleBackground || styleBackground.equals(bgcolor))){
+				writer.write("\\highlight");
+				writer.write(String.valueOf(getColorIndex(styleBackground)));
+			}
 			writer.write("\\cf");
 			writer.write(String.valueOf(getColorIndex(styleForeground)));
 			writer.write(" ");
@@ -965,7 +967,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\par}}}\n");
 		}
 
-		exportBox(text, x, y, width, height, text.getForecolor(), text.getBackcolor());
+		exportBox(text, x, y, width, height, text.getForecolor(), bgcolor);
 	}
 	
 	
