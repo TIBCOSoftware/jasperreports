@@ -75,7 +75,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -773,7 +772,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		int bottomPadding = twip(text.getBottomPadding());
 		int rightPadding = twip(text.getRightPadding());
 
-		Color bgcolor = (Color)text.getBackcolor();
+		Color bgcolor = text.getBackcolor();
 		
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
