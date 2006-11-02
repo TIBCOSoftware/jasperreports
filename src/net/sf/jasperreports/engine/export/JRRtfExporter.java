@@ -110,7 +110,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
 	
-	// indicate that report containts Unicode characters with code > 255
+	// indicate that report containts Unicode characters with code > 127
 	private boolean isUnicode = false;
 	
 	private Map fontMap = null;
@@ -797,7 +797,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		/* 
 		 rtf text box does not allow unicode characters
 		 representation so if the report contains
-		 unicode characters above 255 the text box
+		 unicode characters above 127 the text box
 		 is replaced by paragraphs
 		 */
 		if(isUnicode) {
