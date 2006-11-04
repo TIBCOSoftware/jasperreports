@@ -38,7 +38,24 @@ import java.io.PrintWriter;
  */
 public class JRException extends Exception
 {
+
+	/**
+	 *
+	 */
+	private static boolean isJre14orLater = true;
 	
+	static
+	{
+		isJre14orLater = true;
+		try 
+		{
+			Exception.class.getMethod("getCause", (Class[])null);
+		}
+		catch (NoSuchMethodException e) 
+		{
+			isJre14orLater = false;
+		}
+	}
 
 	/**
 	 *
@@ -58,20 +75,20 @@ public class JRException extends Exception
 	/**
 	 *
 	 */
-	public JRException(Throwable e)
+	public JRException(Throwable t)
 	{
-		super(e.getMessage());
-		nestedThrowable = e;
+		this(t.toString(), t);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRException(String message, Throwable e)
+	public JRException(String message, Throwable t)
 	{
 		super(message);
-		nestedThrowable = e;
+		
+		nestedThrowable = t;
 	}
 
 
@@ -80,7 +97,7 @@ public class JRException extends Exception
 	 */
 	public Throwable getCause()
 	{
-		return this.nestedThrowable;
+		return nestedThrowable;
 	}
 
 
@@ -89,10 +106,10 @@ public class JRException extends Exception
 	 */
 	public void printStackTrace()
 	{
-		if (nestedThrowable != null)
+		if (!isJre14orLater && nestedThrowable != null)
 		{
 			nestedThrowable.printStackTrace();
-			System.err.println("\nNESTED BY :");
+			System.err.println("\nNested by:");
 		}
 
 		super.printStackTrace();
@@ -104,10 +121,10 @@ public class JRException extends Exception
 	 */
 	public void printStackTrace(PrintStream s)
 	{
-		if (nestedThrowable != null)
+		if (!isJre14orLater && nestedThrowable != null)
 		{
 			nestedThrowable.printStackTrace(s);
-			s.println("\nNESTED BY :");
+			s.println("\nNested by:");
 		}
 
 		super.printStackTrace(s);
@@ -119,10 +136,10 @@ public class JRException extends Exception
 	 */
 	public void printStackTrace(PrintWriter s)
 	{
-		if (nestedThrowable != null)
+		if (!isJre14orLater && nestedThrowable != null)
 		{
 			nestedThrowable.printStackTrace(s);
-			s.println("\nNESTED BY :");
+			s.println("\nNested by:");
 		}
 
 		super.printStackTrace(s);
