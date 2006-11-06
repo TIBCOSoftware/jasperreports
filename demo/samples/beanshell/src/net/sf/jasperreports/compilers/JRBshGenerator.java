@@ -326,6 +326,11 @@ public class JRBshGenerator
 		sb.append("        return super.evaluator.msg(pattern, arg0, arg1, arg2);\n");
 		sb.append("    }\n");
 		sb.append("\n"); 
+		sb.append("    msg(String pattern, Object[] args)\n");
+		sb.append("    {\n");
+		sb.append("        return super.evaluator.msg(pattern, args);\n");
+		sb.append("    }\n");
+		sb.append("\n"); 
 		sb.append("    return this;\n");
 		sb.append("}\n");
 	}		
