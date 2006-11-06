@@ -983,11 +983,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		// Add your handling code here:
 		if (btnFitPage.isSelected())
 		{
-			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
+			fitPage();
+			btnFitPage.setSelected(true);
 		}
 		else if (btnFitWidth.isSelected())
 		{
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
+			btnFitWidth.setSelected(true);
 		}
 		
 	}//GEN-LAST:event_pnlMainComponentResized
@@ -998,8 +1000,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			btnFitPage.setSelected(false);
 			btnFitWidth.setSelected(false);
-
+			cmbZoom.setSelectedIndex(-1);
 			setZoomRatio(1);
+			btnActualSize.setSelected(true);
 		}
 	}//GEN-LAST:event_btnActualSizeActionPerformed
 
@@ -1009,8 +1012,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			btnActualSize.setSelected(false);
 			btnFitPage.setSelected(false);
-
+			cmbZoom.setSelectedIndex(-1);
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
+			btnFitWidth.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitWidthActionPerformed
 
@@ -1020,8 +1024,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			btnActualSize.setSelected(false);
 			btnFitWidth.setSelected(false);
-
-			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight());
+			cmbZoom.setSelectedIndex(-1);
+			fitPage();
+			btnFitPage.setSelected(true);
 		}
 	}//GEN-LAST:event_btnFitPageActionPerformed
 
@@ -1859,7 +1864,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	} 
 
-
+	/**
+	 * 
+	*/
+	private void fitPage(){
+		float heightRatio = ((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight();
+		float widthRatio = ((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth();
+		setRealZoomRatio(heightRatio < widthRatio ? heightRatio : widthRatio);
+	}
+	
 	/**
 	*/
 	class PageRenderer extends JLabel
