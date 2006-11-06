@@ -93,8 +93,10 @@ public class I18nApp
 				Locale locale = chooseLocale();
 				if (locale != null)
 				{
+//					Object[] aw = new Object[] {new Double(1000000.45), "$", "Ferrari", new Integer(20),new Integer(88)};
 					Map parameters = new HashMap();
-					parameters.put("number", new Integer((int)(1000 * Math.random())));
+					parameters.put("number", new Double(1234567 + Math.random()));
+//					parameters.put("array", aw);
 					parameters.put(JRParameter.REPORT_LOCALE, locale);
 					long start = System.currentTimeMillis();
 					JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
@@ -105,7 +107,7 @@ public class I18nApp
 			else if (TASK_FILL_DEFAULT.equals(taskName))
 			{
 				Map parameters = new HashMap();
-				parameters.put("number", new Integer((int)(1000 * Math.random())));
+				parameters.put("number", new Double(1234567 + Math.random()));
 				long start = System.currentTimeMillis();
 				JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
@@ -265,7 +267,7 @@ public class I18nApp
 				new LocaleWrapper(Locale.US),
 				new LocaleWrapper(Locale.FRANCE),
 				new LocaleWrapper(new Locale("pt", "PT")),
-				new LocaleWrapper(new Locale("ro", "")),
+				new LocaleWrapper(new Locale("ro", "RO")),
 				new LocaleWrapper(new Locale("sk", "SK"))
 			};
 									  
