@@ -130,6 +130,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	{
 		String queryString = getQueryString();
 		
+		if (log.isDebugEnabled())
+		{
+			log.debug("SQL query string: " + queryString);
+		}
+		
 		if (connection != null && queryString != null && queryString.trim().length() > 0)
 		{
 			try
@@ -150,157 +155,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					for(int i = 0; i < parameterNames.size(); i++)
 					{
 						String parameterName = (String)parameterNames.get(i);
-						JRValueParameter parameter = getValueParameter(parameterName);
-						Class clazz = parameter.getValueClass();
-						Object parameterValue = parameter.getValue();
-
-						if ( clazz.equals(java.lang.Object.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.JAVA_OBJECT);
-							}
-							else
-							{
-								statement.setObject(i + 1, parameterValue);
-							}
-						}
-						else if ( clazz.equals(java.lang.Boolean.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.BIT);
-							}
-							else
-							{
-								statement.setBoolean(i + 1, ((Boolean)parameterValue).booleanValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Byte.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.TINYINT);
-							}
-							else
-							{
-								statement.setByte(i + 1, ((Byte)parameterValue).byteValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Double.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.DOUBLE);
-							}
-							else
-							{
-								statement.setDouble(i + 1, ((Double)parameterValue).doubleValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Float.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.FLOAT);
-							}
-							else
-							{
-								statement.setFloat(i + 1, ((Float)parameterValue).floatValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Integer.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.INTEGER);
-							}
-							else
-							{
-								statement.setInt(i + 1, ((Integer)parameterValue).intValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Long.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.BIGINT);
-							}
-							else
-							{
-								statement.setLong(i + 1, ((Long)parameterValue).longValue());
-							}
-						}
-						else if ( clazz.equals(java.lang.Short.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.SMALLINT);
-							}
-							else
-							{
-								statement.setShort(i + 1, ((Short)parameterValue).shortValue());
-							}
-						}
-						else if ( clazz.equals(java.math.BigDecimal.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.DECIMAL);
-							}
-							else
-							{
-								statement.setBigDecimal(i + 1, (BigDecimal)parameterValue);
-							}
-						}
-						else if ( clazz.equals(java.lang.String.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.VARCHAR);
-							}
-							else
-							{
-								statement.setString(i + 1, parameterValue.toString());
-							}
-						}
-						else if ( clazz.equals(java.util.Date.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.DATE);
-							}
-							else
-							{
-								statement.setDate( i + 1, new java.sql.Date( ((java.util.Date)parameterValue).getTime() ) );
-							}
-						}
-						else if ( clazz.equals(java.sql.Timestamp.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.TIMESTAMP);
-							}
-							else
-							{
-								statement.setTimestamp( i + 1, (java.sql.Timestamp)parameterValue );
-							}
-						}
-						else if ( clazz.equals(java.sql.Time.class) )
-						{
-							if (parameterValue == null)
-							{
-								statement.setNull(i + 1, Types.TIME);
-							}
-							else
-							{
-								statement.setTime( i + 1, (java.sql.Time)parameterValue );
-							}
-						}
-						else
-						{
-							throw new JRException("Parameter type not supported in query : " + parameterName + " class " + clazz.getName());
-						}
+						setStatementParameter(i + 1, parameterName);
 					}
 				}
 			}
@@ -308,6 +163,167 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", e);
 			}
+		}
+	}
+
+
+	protected void setStatementParameter(int parameterIndex, String parameterName) throws SQLException, JRException
+	{
+		JRValueParameter parameter = getValueParameter(parameterName);
+		Class clazz = parameter.getValueClass();
+		Object parameterValue = parameter.getValue();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Parameter #" + parameterIndex + " (" + parameterName + " of type " + clazz.getName() + "): " + parameterValue);
+		}
+
+		if ( clazz.equals(java.lang.Object.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.JAVA_OBJECT);
+			}
+			else
+			{
+				statement.setObject(parameterIndex, parameterValue);
+			}
+		}
+		else if ( clazz.equals(java.lang.Boolean.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.BIT);
+			}
+			else
+			{
+				statement.setBoolean(parameterIndex, ((Boolean)parameterValue).booleanValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Byte.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.TINYINT);
+			}
+			else
+			{
+				statement.setByte(parameterIndex, ((Byte)parameterValue).byteValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Double.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.DOUBLE);
+			}
+			else
+			{
+				statement.setDouble(parameterIndex, ((Double)parameterValue).doubleValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Float.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.FLOAT);
+			}
+			else
+			{
+				statement.setFloat(parameterIndex, ((Float)parameterValue).floatValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Integer.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.INTEGER);
+			}
+			else
+			{
+				statement.setInt(parameterIndex, ((Integer)parameterValue).intValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Long.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.BIGINT);
+			}
+			else
+			{
+				statement.setLong(parameterIndex, ((Long)parameterValue).longValue());
+			}
+		}
+		else if ( clazz.equals(java.lang.Short.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.SMALLINT);
+			}
+			else
+			{
+				statement.setShort(parameterIndex, ((Short)parameterValue).shortValue());
+			}
+		}
+		else if ( clazz.equals(java.math.BigDecimal.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.DECIMAL);
+			}
+			else
+			{
+				statement.setBigDecimal(parameterIndex, (BigDecimal)parameterValue);
+			}
+		}
+		else if ( clazz.equals(java.lang.String.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.VARCHAR);
+			}
+			else
+			{
+				statement.setString(parameterIndex, parameterValue.toString());
+			}
+		}
+		else if ( clazz.equals(java.util.Date.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.DATE);
+			}
+			else
+			{
+				statement.setDate( parameterIndex, new java.sql.Date( ((java.util.Date)parameterValue).getTime() ) );
+			}
+		}
+		else if ( clazz.equals(java.sql.Timestamp.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.TIMESTAMP);
+			}
+			else
+			{
+				statement.setTimestamp( parameterIndex, (java.sql.Timestamp)parameterValue );
+			}
+		}
+		else if ( clazz.equals(java.sql.Time.class) )
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.TIME);
+			}
+			else
+			{
+				statement.setTime( parameterIndex, (java.sql.Time)parameterValue );
+			}
+		}
+		else
+		{
+			throw new JRException("Parameter type not supported in query : " + parameterName + " class " + clazz.getName());
 		}
 	}
 
