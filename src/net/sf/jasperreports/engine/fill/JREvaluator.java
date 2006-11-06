@@ -101,7 +101,7 @@ public abstract class JREvaluator
 	 */
 	public String msg(String pattern, Object arg0)
 	{
-		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0 }, new StringBuffer(), null).toString();
+		return getMessageFormat(pattern).format(new Object[] { arg0 }, new StringBuffer(), null).toString();
 	}
 
 	/**
@@ -115,7 +115,7 @@ public abstract class JREvaluator
 	 */
 	public String msg(String pattern, Object arg0, Object arg1)
 	{
-		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0, arg1 }, new StringBuffer(), null).toString();
+		return getMessageFormat(pattern).format(new Object[] { arg0, arg1 }, new StringBuffer(), null).toString();
 	}
 
 	
@@ -131,7 +131,7 @@ public abstract class JREvaluator
 	 */
 	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
 	{
-		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0, arg1, arg2 }, new StringBuffer(), null).toString();
+		return getMessageFormat(pattern).format(new Object[] { arg0, arg1, arg2 }, new StringBuffer(), null).toString();
 	}
 
 	/**
@@ -144,7 +144,7 @@ public abstract class JREvaluator
 	 */
 	public String msg(String pattern, Object[] args)
 	{
-		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(args, new StringBuffer(), null).toString();
+		return getMessageFormat(pattern).format(args, new StringBuffer(), null).toString();
 	}
 	
 	/**
@@ -354,5 +354,17 @@ public abstract class JREvaluator
 	 * @see JRFillVariable#getEstimatedValue()
 	 */
 	protected abstract Object evaluateEstimated(int id) throws Throwable;
+
+
+	/**
+	 * 
+	 */
+	private MessageFormat getMessageFormat(String pattern)
+	{
+		MessageFormat messageFormat = new MessageFormat("");
+		messageFormat.setLocale((Locale)locale.getValue());
+		messageFormat.applyPattern(pattern);
+		return messageFormat;
+	}
 
 }
