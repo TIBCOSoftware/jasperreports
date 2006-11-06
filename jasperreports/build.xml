@@ -22,8 +22,7 @@
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRGroovy*.java" unless="using.jdk.1.4"/>
-			<exclude name="**/olap/*.java" unless="using.jdk.1.4"/>
-			<exclude name="**/olap/mapping/*.java" unless="using.jdk.1.4"/>
+			<exclude name="**/olap/**/*.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>
