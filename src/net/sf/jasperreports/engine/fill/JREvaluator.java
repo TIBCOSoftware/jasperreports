@@ -28,12 +28,14 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -55,6 +57,10 @@ public abstract class JREvaluator
 	 */
 	private byte whenResourceMissingType;
 
+	/**
+	 * The report Locale used when parsing the bundle message.
+	 */
+	private JRFillParameter locale;
 	
 	/**
 	 * Default constructor.
@@ -80,7 +86,7 @@ public abstract class JREvaluator
 	{
 		this.resourceBundle = resourceBundleParameter;
 		this.whenResourceMissingType = resourceMissingType;
-
+		this.locale = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 	}
 
@@ -91,13 +97,12 @@ public abstract class JREvaluator
 	 * @param pattern the message pattern
 	 * @param arg0 the message parameter
 	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.String, java.lang.Object[])
+	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
 	public String msg(String pattern, Object arg0)
 	{
-		return MessageFormat.format(pattern, new Object[] { arg0 });
+		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0 }, new StringBuffer(), null).toString();
 	}
-
 
 	/**
 	 * Constructs a message using a pattern with two parameters.
@@ -106,11 +111,11 @@ public abstract class JREvaluator
 	 * @param arg0 the first message parameter
 	 * @param arg1 the second message paramter
 	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.String, java.lang.Object[])
+	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
 	public String msg(String pattern, Object arg0, Object arg1)
 	{
-		return MessageFormat.format(pattern, new Object[] { arg0, arg1 });
+		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0, arg1 }, new StringBuffer(), null).toString();
 	}
 
 	
@@ -122,13 +127,25 @@ public abstract class JREvaluator
 	 * @param arg1 the second message paramter
 	 * @param arg2 the third parameter
 	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.String, java.lang.Object[])
+	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
 	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
 	{
-		return MessageFormat.format(pattern, new Object[] { arg0, arg1, arg2 });
+		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(new Object[] { arg0, arg1, arg2 }, new StringBuffer(), null).toString();
 	}
 
+	/**
+	 * Constructs a message using a pattern with an Object array parameter.
+	 * 
+	 * @param pattern the message pattern
+	 * @param args the parameter Object array
+	 * @return the constructed message
+	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
+	 */
+	public String msg(String pattern, Object[] args)
+	{
+		return (new MessageFormat(pattern,(Locale)this.locale.getValue())).format(args, new StringBuffer(), null).toString();
+	}
 	
 	/**
 	 * Returns a string for a given key from the resource bundle associated with the evaluator.
