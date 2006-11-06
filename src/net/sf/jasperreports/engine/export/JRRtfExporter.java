@@ -466,38 +466,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page, boolean lastPage) throws JRException, IOException
 	{
-		JRPrintElement element = null;
-		Collection elements = page.getElements();
-		if (elements != null && elements.size() > 0)
-		{
-			for (Iterator it = elements.iterator(); it.hasNext();)
-			{
-				element = (JRPrintElement) it.next();
-				if (element instanceof JRPrintLine)
-				{
-					exportLine((JRPrintLine) element, 0, 0);
-				}
-				else if (element instanceof JRPrintRectangle)
-				{
-					exportRectangle((JRPrintRectangle) element, 0, 0);
-				}
-				else if (element instanceof JRPrintEllipse)
-				{
-					exportEllipse((JRPrintEllipse) element, 0, 0);
-				}
-				else if (element instanceof JRPrintImage)
-				{
-					exportImage((JRPrintImage) element, 0, 0);
-				}
-				else if (element instanceof JRPrintText)
-				{
-					exportText((JRPrintText) element, 0, 0);
-				}
-				else if (element instanceof JRPrintFrame) {
-					exportFrame((JRPrintFrame)element, 0, 0);
-				}
-			}
-		}
+		exportElements(page.getElements());
 		
 		if(lastPage == false){
 			if(isUnicode){
@@ -644,15 +613,13 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a line object
 	 * @param line JasperReports line object - JRPrintLine
-	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
-	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws IOException
 	 */
-	protected void exportLine(JRPrintLine line, int offsetx, int offsety) throws IOException {
+	protected void exportLine(JRPrintLine line) throws IOException {
 		int x = twip(line.getX());
-		x += offsetx;
+		x += getOffsetX();
 		int y = twip(line.getY());
-		y+= offsety;
+		y+= getOffsetY();
 		int h = twip(line.getHeight());
 		int w = twip(line.getWidth());
 
@@ -700,13 +667,11 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a rectangle
 	 * @param rect JasperReports rectangle object (JRPrintRectangle)
-	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
-	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 */
-	protected void exportRectangle(JRPrintRectangle rect, int offsetx, int offsety) throws IOException {
+	protected void exportRectangle(JRPrintRectangle rect) throws IOException {
 		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
-				twip(rect.getX() + offsetx), 
-				twip(rect.getY() + offsety), 
+				twip(rect.getX() + getOffsetX()), 
+				twip(rect.getY() + getOffsetY()), 
 				twip(rect.getWidth()),
 				twip(rect.getHeight())
 				);
@@ -717,14 +682,12 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a ellipse object
 	 * @param ellipse JasperReports ellipse object (JRPrintElipse)
-	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
-	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 */
-	protected void exportEllipse(JRPrintEllipse ellipse, int offsetx, int offsety) throws IOException {
+	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException {
 		startGraphic(
 			"dpellipse", 
-			twip(ellipse.getX() + offsetx), 
-			twip(ellipse.getY() + offsety),
+			twip(ellipse.getX() + getOffsetX()), 
+			twip(ellipse.getY() + getOffsetY()),
 			twip(ellipse.getWidth()), 
 			twip(ellipse.getHeight())
 		);
@@ -735,11 +698,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Draw a text box
 	 * @param text JasperReports text object (JRPrintText)
-	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
-	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws JRException 
 	 */
-	protected void exportText(JRPrintText text, int offsetx, int offsety) throws IOException, JRException {
+	protected void exportText(JRPrintText text) throws IOException, JRException {
 		
 		
 		// use styled text
@@ -749,8 +710,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			return;
 		}
 
-		int x = twip(text.getX() + offsetx);
-		int y = twip(text.getY() + offsety);
+		int x = twip(text.getX() + getOffsetX());
+		int y = twip(text.getY() + getOffsetY());
 
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
@@ -1022,12 +983,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * Export a image object 
 	 * @param printImage JasperReports image object (JRPrintImage)
-	 * @param offsetx If the object is in a frame this parameter represents the x offset of the element
-	 * @param offsety If the object is in a frame this parameter represents the y offset of the element
 	 * @throws JRException
 	 * @throws IOException
 	 */
-	protected void exportImage(JRPrintImage printImage, int offsetx, int offsety) throws JRException, IOException
+	protected void exportImage(JRPrintImage printImage) throws JRException, IOException
 	{
 		int x = twip(printImage.getX() + globalOffsetX);
 		int y = twip(printImage.getY() + globalOffsetY);
@@ -1164,11 +1123,11 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + globalOffsetX + offsetx)));
+			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + globalOffsetX + getOffsetX())));
 			writer.write("\\dpxsize");
 			writer.write(String.valueOf(twip(availableImageWidth)));
 			writer.write("\\dpy");
-			writer.write(String.valueOf(twip(printImage.getY() + topPadding + globalOffsetY + offsety)));
+			writer.write(String.valueOf(twip(printImage.getY() + topPadding + globalOffsetY + getOffsetY())));
 			writer.write("\\dpysize");
 			writer.write(String.valueOf(twip(availableImageHeight)));
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pict\\jpegblip\\picwgoal");
@@ -1224,9 +1183,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param frame
 	 * @throws JRException
 	 */
-	protected void exportFrame(JRPrintFrame frame, int offsetx, int offsety) throws JRException, IOException {
-		int x = twip(frame.getX() + offsetx);
-		int y = twip(frame.getY() + offsety);
+	protected void exportFrame(JRPrintFrame frame) throws JRException, IOException {
+		int x = twip(frame.getX() + getOffsetX());
+		int y = twip(frame.getY() + getOffsetY());
 		int width = twip(frame.getWidth());
 		int height = twip(frame.getHeight());
 		
@@ -1236,33 +1195,36 @@ public class JRRtfExporter extends JRAbstractExporter
 			finishGraphic(JRGraphicElement.PEN_NONE, frame.getForecolor(),
 					frame.getBackcolor(), 1);
 		}
-		exportElements(frame.getElements(), frame.getX() , frame.getY());
+		
+		setFrameElementsOffset(frame, false);
+		exportElements(frame.getElements());
+		restoreElementOffsets();
+		
 		exportBox(frame, x, y, width, height, frame.getForecolor(), frame.getBackcolor());		
 	}
 	
 	
-	protected void exportElements(Collection elements, int offsetx, int offsety) throws JRException, IOException {
+	protected void exportElements(Collection elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
-			JRPrintElement element;
 			for (Iterator it = elements.iterator(); it.hasNext();) {
-				element = (JRPrintElement)it.next();
+				JRPrintElement element = (JRPrintElement)it.next();
 				if (element instanceof JRPrintLine) {
-					exportLine((JRPrintLine)element, offsetx, offsety);
+					exportLine((JRPrintLine)element);
 				}
 				else if (element instanceof JRPrintRectangle) {
-					exportRectangle((JRPrintRectangle)element, offsetx, offsety);
+					exportRectangle((JRPrintRectangle)element);
 				}
 				else if (element instanceof JRPrintEllipse) {
-					exportEllipse((JRPrintEllipse)element, offsetx, offsety);
+					exportEllipse((JRPrintEllipse)element);
 				}
 				else if (element instanceof JRPrintImage) {
-					exportImage((JRPrintImage)element, offsetx, offsety);
+					exportImage((JRPrintImage)element);
 				}
 				else if (element instanceof JRPrintText) {
-					exportText((JRPrintText)element, offsetx, offsety);
+					exportText((JRPrintText)element);
 				}
 				else if (element instanceof JRPrintFrame) {
-					exportFrame((JRPrintFrame)element, offsetx, offsety);
+					exportFrame((JRPrintFrame)element);
 				}
 			}
 		}
