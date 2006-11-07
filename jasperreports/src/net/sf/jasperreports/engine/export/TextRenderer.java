@@ -269,7 +269,7 @@ public class TextRenderer
 					startIndex, 
 					startIndex + layout.getCharacterCount()
 					);
-			layout = new TextLayout(tmpText.getIterator(), LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
+			layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
 			//eugene fix - end
 
 			float lineHeight = lineSpacingFactor * 
