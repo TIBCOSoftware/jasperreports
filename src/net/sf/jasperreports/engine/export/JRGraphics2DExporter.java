@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -87,13 +88,22 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	private static final float DEFAULT_ZOOM = 1f;
 
 	/**
+	 * Property that provides a default value for the 
+	 * {@link net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter#MINIMIZE_PRINTER_JOB_SIZE JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE}
+	 * Graphics2D exporter parameter.
+	 * 
+	 * @see net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter#MINIMIZE_PRINTER_JOB_SIZE
+	 */
+	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRProperties.PROPERTY_PREFIX + "export.graphics2d.min.job.size";
+
+	/**
 	 *
 	 */
 	protected Graphics2D grx = null;
 	protected JRExportProgressMonitor progressMonitor = null;
 	protected float zoom = DEFAULT_ZOOM;
 
-	protected TextRenderer textRenderer = new TextRenderer();
+	protected TextRenderer textRenderer = null;
 
 	/**
 	 *
@@ -125,6 +135,9 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			/*   */
 			setPageRange();
 	
+			/*   */
+			setTextRenderer();
+			
 			grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
 			if (grx == null)
 			{
@@ -154,6 +167,23 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	}
 		
 
+	protected void setTextRenderer()
+	{
+		boolean isMinimizePrinterJobSize = true;
+		Boolean isMinimizePrinterJobSizeParam = (Boolean) parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE);
+		if (isMinimizePrinterJobSizeParam == null)
+		{
+			isMinimizePrinterJobSize = JRProperties.getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);
+		}
+		else
+		{
+			isMinimizePrinterJobSize = isMinimizePrinterJobSizeParam.booleanValue();
+		}
+		
+		textRenderer = new TextRenderer(isMinimizePrinterJobSize);
+	}
+
+	
 	/**
 	 *
 	 */

@@ -36,6 +36,7 @@ import java.text.AttributedString;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
@@ -68,7 +69,30 @@ public class TextRenderer
 	 * 
 	 */
 	private MaxFontSizeFinder maxFontSizeFinder = null;
+	
+	/**
+	 * 
+	 */
+	private boolean isMinimizePrinterJobSize = true;
 
+	
+	/**
+	 * 
+	 */
+	public static TextRenderer getInstance()
+	{
+		return new TextRenderer(JRProperties.getBooleanProperty(JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE));
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public TextRenderer(boolean isMinimizePrinterJobSize)
+	{
+		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
+	}
+	
 	
 	/**
 	 * 
@@ -262,15 +286,18 @@ public class TextRenderer
 
 			TextLayout layout = lineMeasurer.nextLayout(formatWidth);
 
-			//eugene fix - start
-			AttributedString tmpText = 
-				new AttributedString(
-					paragraph, 
-					startIndex, 
-					startIndex + layout.getCharacterCount()
-					);
-			layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
-			//eugene fix - end
+			if (isMinimizePrinterJobSize)
+			{
+				//eugene fix - start
+				AttributedString tmpText = 
+					new AttributedString(
+						paragraph, 
+						startIndex, 
+						startIndex + layout.getCharacterCount()
+						);
+				layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
+				//eugene fix - end
+			}
 
 			float lineHeight = lineSpacingFactor * 
 				maxFontSizeFinder.findMaxFontSize(
