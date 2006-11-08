@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
 
 /**
  * Expression evaluator used for crosstabs at fill time.
@@ -62,8 +61,8 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 	}
 
 	
-	public void init(Map parametersMap, Map variablesMap, JRFillParameter resourceBundleParam, byte whenResourceMissingType) throws JRException
+	public void init(Map parametersMap, Map variablesMap, byte whenResourceMissingType) throws JRException
 	{
-		evaluator.init(parametersMap, null, variablesMap, resourceBundleParam, whenResourceMissingType);
+		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType);
 	}
 }
