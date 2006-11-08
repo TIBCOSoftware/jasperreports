@@ -102,6 +102,7 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.FontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
@@ -127,6 +128,15 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class JRPdfExporter extends JRAbstractExporter
 {
+
+	/**
+	 * Property that provides a default value for the 
+	 * {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_SVG_SHAPES JRPdfExporterParameter.FORCE_SVG_SHAPES}
+	 * PDF exporter parameter.
+	 * 
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_SVG_SHAPES
+	 */
+	public static final String PDF_FORCE_SVG_SHAPES = JRProperties.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
 
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 
@@ -172,6 +182,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private Map fontMap = null;
 	
+	private boolean forceSvgShapes = true;
 	private SplitCharacter splitCharacter;
 	
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
@@ -262,6 +273,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 			
+			setForceSvgShapes();
 			setSplitCharacter();
 			setHyperlinkProducerFactory();
 			
@@ -314,6 +326,20 @@ public class JRPdfExporter extends JRAbstractExporter
 		finally
 		{
 			resetExportContext();
+		}
+	}
+
+
+	protected void setForceSvgShapes()
+	{
+		Boolean forceSvgShapesParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_SVG_SHAPES);
+		if (forceSvgShapesParam == null)
+		{
+			forceSvgShapes = JRProperties.getBooleanProperty(PDF_FORCE_SVG_SHAPES);
+		}
+		else
+		{
+			forceSvgShapes = forceSvgShapesParam.booleanValue();
 		}
 	}
 
@@ -1077,7 +1103,10 @@ public class JRPdfExporter extends JRAbstractExporter
 				}
 
 				PdfTemplate template = pdfContentByte.createTemplate(availableImageWidth, availableImageHeight);
-				Graphics2D g = template.createGraphicsShapes(availableImageWidth, availableImageHeight);
+				
+				Graphics2D g = forceSvgShapes 
+					? template.createGraphicsShapes(availableImageWidth, availableImageHeight)
+					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
 				
 				if (printImage.getMode() == JRElement.MODE_OPAQUE)
 				{
@@ -1302,7 +1331,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement, float leadingOffset) throws JRException, DocumentException, IOException
+	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement)
 	{
 		Phrase phrase = new Phrase();
 
@@ -1314,7 +1343,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), leadingOffset);
+			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit));
 			setAnchor(chunk, textElement, textElement);
 			setHyperlinkInfo(chunk, textElement);
 			phrase.add(chunk);
@@ -1329,14 +1358,50 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Chunk getChunk(Map attributes, String text, float leadingOffset) throws JRException, DocumentException, IOException
+	protected Chunk getChunk(Map attributes, String text)
+	{
+		Font font = getFont(attributes);
+
+		Chunk chunk = new Chunk(text, font);
+		
+		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (backcolor != null)
+		{
+			chunk.setBackground(backcolor);
+		}
+		
+		Object script = attributes.get(TextAttribute.SUPERSCRIPT);
+		if (script != null)
+		{
+			if (TextAttribute.SUPERSCRIPT_SUPER.equals(script))
+			{
+				chunk.setTextRise(font.leading(1f)/2);
+			}
+			else if (script != null && TextAttribute.SUPERSCRIPT_SUB.equals(script))
+			{
+				chunk.setTextRise(-font.leading(1f)/2);
+			}
+		}
+		
+		if (splitCharacter != null)
+		{
+			chunk.setSplitCharacter(splitCharacter);
+		}
+		
+		return chunk;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Font getFont(Map attributes)
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
 		
 		Exception initialException = null;
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		/*
 		if (forecolor == null)
 		{
@@ -1393,7 +1458,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			catch(JRException e)
 			{
 				throw 
-					new JRException(
+					new JRRuntimeException(
 						"Could not load the following font : " 
 						+ "\npdfFontName   : " + pdfFont.getPdfFontName() 
 						+ "\npdfEncoding   : " + pdfFont.getPdfEncoding() 
@@ -1402,15 +1467,28 @@ public class JRPdfExporter extends JRAbstractExporter
 						);
 			}
 
-			BaseFont baseFont =
-				BaseFont.createFont(
-					pdfFont.getPdfFontName(),
-					pdfFont.getPdfEncoding(),
-					pdfFont.isPdfEmbedded(),
-					true,
-					bytes,
-					null
-					);
+			BaseFont baseFont = null;
+			
+			try
+			{
+				baseFont =
+					BaseFont.createFont(
+						pdfFont.getPdfFontName(),
+						pdfFont.getPdfEncoding(),
+						pdfFont.isPdfEmbedded(),
+						true,
+						bytes,
+						null
+						);
+			}
+			catch(DocumentException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch(IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 			
 			font =
 				new Font(
@@ -1423,40 +1501,15 @@ public class JRPdfExporter extends JRAbstractExporter
 					forecolor
 					);
 		}
-
-		Chunk chunk = new Chunk(text, font);
 		
-		if (backcolor != null)
-		{
-			chunk.setBackground(backcolor);
-		}
-		
-		Object script = attributes.get(TextAttribute.SUPERSCRIPT);
-		if (script != null)
-		{
-			if (TextAttribute.SUPERSCRIPT_SUPER.equals(script))
-			{
-				chunk.setTextRise(font.leading(1f)/2);
-			}
-			else if (script != null && TextAttribute.SUPERSCRIPT_SUB.equals(script))
-			{
-				chunk.setTextRise(-font.leading(1f)/2);
-			}
-		}
-		
-		if (splitCharacter != null)
-		{
-			chunk.setSplitCharacter(splitCharacter);
-		}
-		
-		return chunk;
+		return font;
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportText(JRPrintText text) throws JRException, DocumentException, IOException
+	protected void exportText(JRPrintText text) throws DocumentException
 	{
 		JRStyledText styledText = getStyledText(text, false);
 
@@ -1648,7 +1701,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			ColumnText colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
-				getPhrase(styledText, text, text.getLeadingOffset()),
+				getPhrase(styledText, text),
 				x + leftPadding, 
 				jasperPrint.getPageHeight() 
 					- y
@@ -2031,6 +2084,27 @@ public class JRPdfExporter extends JRAbstractExporter
 		public void write(byte[] b)
 		{
 			// discard the data
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	class LocalFontMapper implements FontMapper
+	{
+		public LocalFontMapper()
+		{
+		}
+
+		public BaseFont awtToPdf(java.awt.Font font)
+		{
+			return getFont(font.getAttributes()).getBaseFont();
+		}
+		
+		public java.awt.Font pdfToAwt(BaseFont font, int size)
+		{
+			return null;
 		}
 	}
 }
