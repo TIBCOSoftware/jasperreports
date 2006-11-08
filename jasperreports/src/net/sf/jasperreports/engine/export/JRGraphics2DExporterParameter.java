@@ -59,5 +59,23 @@ public class JRGraphics2DExporterParameter extends JRExporterParameter
 	 */
 	public static final JRGraphics2DExporterParameter ZOOM_RATIO = new JRGraphics2DExporterParameter("Zoom Ratio");
 
+	/**
+	 * Flag to control the use of an AWT rendering fix which causes the printer job size to be reduced when 
+	 * the exporter draws onto a printer graphic context. 
+	 * 
+	 * The fix was introduced to solve an old Java printing problem related to the size of printer spool jobs.
+	 * However, it causes problems when bidirectional text is rendered, by losing text direction information.
+	 * 
+	 * This flag is true, by default and should be set to false when bidirectional writing is present in 
+	 * the document that is sent to the printer.
+	 * 
+	 * This flag can be set system-wide using the
+     * {@link net.sf.jasperreports.engine.export.JRGraphics2DExporter#MINIMIZE_PRINTER_JOB_SIZE MINIMIZE_PRINTER_JOB_SIZE} property.
+     * This export parameter overrides the property value.
+     * 
+     * @see net.sf.jasperreports.engine.export.JRGraphics2DExporter#MINIMIZE_PRINTER_JOB_SIZE
+	 */
+	public static final JRGraphics2DExporterParameter MINIMIZE_PRINTER_JOB_SIZE = new JRGraphics2DExporterParameter("Minimize Printer Job Size");
+
 
 }

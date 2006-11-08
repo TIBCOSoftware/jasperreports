@@ -140,7 +140,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 	private int downY = 0;
 
 	protected JRStyledTextParser styledTextParser = new JRStyledTextParser();
-	protected TextRenderer textRenderer = new TextRenderer();
+	protected TextRenderer textRenderer = TextRenderer.getInstance();
 
 	
 	/** Creates new form JRDesignViewer */

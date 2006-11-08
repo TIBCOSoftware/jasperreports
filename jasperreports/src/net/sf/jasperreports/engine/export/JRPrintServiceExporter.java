@@ -149,6 +149,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
 				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
+				exporter.setParameter(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE, parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE));
 		
 				PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
 				PrintRequestAttributeSet printRequestAttributeSetParam = 

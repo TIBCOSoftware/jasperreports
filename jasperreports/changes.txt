@@ -15,6 +15,9 @@ records are fed into the report filling process;
 - new exporter parameter and configuration property to disable the rendering
 of SVG images using shapes in PDF and reduce file size;
 
+- new exporter parameter and configuration property to disable the printer job
+size optimization and allow full support for bidirectional writing;
+
 - minor bug fixes and improvements;
 
 
