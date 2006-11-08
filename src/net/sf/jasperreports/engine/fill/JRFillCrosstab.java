@@ -75,9 +75,9 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -424,8 +424,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			parameters[i].setValue(value);
 		}
 
-		JRFillParameter resourceBundleParam = (JRFillParameter) parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		crosstabEvaluator.init(parametersMap, variablesMap, resourceBundleParam, filler.getWhenResourceMissingType());
+		crosstabEvaluator.init(parametersMap, variablesMap, filler.getWhenResourceMissingType());
 	}
 
 	protected void initBucketingService()

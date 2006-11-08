@@ -76,16 +76,13 @@ public abstract class JREvaluator
 	 * @param parametersMap the parameters indexed by name
 	 * @param fieldsMap the fields indexed by name
 	 * @param variablesMap the variables indexed by name
-	 * @param resourceBundleParameter the parameter whose value is the resource bundle 
-	 * to be used for the expression evaluation
 	 * @param resourceMissingType the resource missing type
 	 * @throws JRException
 	 */
-	public void init(Map parametersMap, Map fieldsMap, Map variablesMap, 
-			JRFillParameter resourceBundleParameter, byte resourceMissingType) throws JRException
+	public void init(Map parametersMap, Map fieldsMap, Map variablesMap, byte resourceMissingType) throws JRException
 	{
-		this.resourceBundle = resourceBundleParameter;
 		this.whenResourceMissingType = resourceMissingType;
+		this.resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		this.locale = (JRFillParameter)parametersMap.get(JRParameter.REPORT_LOCALE);
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 	}
