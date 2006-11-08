@@ -172,7 +172,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
      * @see net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES
      * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
      */
-    public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG shapes");
+    public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
     
 
 	/**
