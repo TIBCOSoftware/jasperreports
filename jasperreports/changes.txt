@@ -12,6 +12,9 @@ records are fed into the report filling process;
 
 - upside down text rotation;
 
+- new exporter parameter and configuration property to disable the rendering
+of SVG images using shapes in PDF and reduce file size;
+
 - minor bug fixes and improvements;
 
 
