@@ -153,6 +153,28 @@ public class JRPdfExporterParameter extends JRExporterParameter
     public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
     
 
+    /**
+     * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
+     * 
+     * This allows rendering fonts as shapes and avoid font mapping issues that might cause Unicode 
+     * text not to show up properly, but has the disadvantage of producing larger PDF files.
+     * By default, the flag is set to true, mainly due to backward compatibility reasons.
+     * 
+     * To reduce PDF file size for documents containing SVG images such as charts, the flag should be 
+     * turned to false, and the PDF exporter font mappings should be correctly configured using the 
+     * {@link JRExporterParameter#FONT_MAP FONT_MAP} exporter parameter to ensure proper rendering of 
+     * text in the SVG.
+     * 
+     * This flag can be set system-wide using the
+     * {@link net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES PDF_FORCE_SVG_SHAPES} property.
+     * This export parameter overrides the property value.
+     * 
+     * @see net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES
+     * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
+     */
+    public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG shapes");
+    
+
 	/**
 	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
 	 * hyperlink types during export.
