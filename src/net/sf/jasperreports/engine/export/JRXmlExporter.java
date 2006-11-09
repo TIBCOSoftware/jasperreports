@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.xml.JRPrintElementFactory;
 import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterFactory;
 import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterValueFactory;
 import net.sf.jasperreports.engine.xml.JRPrintImageFactory;
@@ -577,6 +578,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement("reportElement");
+		xmlWriter.addAttribute(JRPrintElementFactory.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)
 		{

@@ -51,6 +51,8 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected String key;
+	
 	/**
 	 *
 	 */
@@ -241,6 +243,25 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	public void setBackcolor(Color backcolor)
 	{
 		this.backcolor = backcolor;
+	}
+
+
+	
+	public String getKey()
+	{
+		return key;
+	}
+
+
+	/**
+	 * Sets the print element key.
+	 * 
+	 * @param key the element key
+	 * @see #getKey()
+	 */
+	public void setKey(String key)
+	{
+		this.key = key;
 	}
 	
 

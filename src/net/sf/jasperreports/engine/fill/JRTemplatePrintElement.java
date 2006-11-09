@@ -241,4 +241,9 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	{
 		this.template = template;
 	}
+
+	public String getKey()
+	{
+		return template.getKey();
+	}
 }
