@@ -78,6 +78,11 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		String queryStr = getQueryString();
 		if (connection != null && queryStr != null)
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("MDX query: " + queryStr);
+			}
+			
 			Query query = connection.parseQuery(queryStr);
 			result = connection.execute(query);
 			

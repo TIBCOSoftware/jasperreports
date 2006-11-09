@@ -81,6 +81,12 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		JRDataSource datasource = null;
 		
 		String xPath = getQueryString();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("XPath query: " + xPath);
+		}
+		
 		if (document != null && xPath != null)
 		{
 			datasource = new JRXmlDataSource(document, xPath);

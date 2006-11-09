@@ -149,6 +149,12 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	 * @param queryString the query string
 	 */
 	protected synchronized void createQuery(String queryString) {
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("EJBQL query: " + queryString);
+		}
+		
 		query = em.createQuery(queryString);
 		
 		// Set parameters.
@@ -160,7 +166,15 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 				String parameterName = (String)iter.next();
 				if (namesSet.add(parameterName)) {
 					JRValueParameter parameter = getValueParameter(parameterName);
-					query.setParameter(getEjbqlParameterName(parameterName), parameter.getValue());
+					String ejbParamName = getEjbqlParameterName(parameterName);
+					Object paramValue = parameter.getValue();
+					
+					if (log.isDebugEnabled())
+					{
+						log.debug("Parameter " + ejbParamName + ": " + paramValue);
+					}
+					
+					query.setParameter(ejbParamName, paramValue);
 				}
 			}
 		}
