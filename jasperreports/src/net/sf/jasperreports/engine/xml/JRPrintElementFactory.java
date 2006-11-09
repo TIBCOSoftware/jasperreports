@@ -45,6 +45,8 @@ public class JRPrintElementFactory extends JRBaseFactory
 {
 
 
+	public static final String ATTRIBUTE_key = "key";
+	
 	/**
 	 *
 	 */
@@ -67,6 +69,12 @@ public class JRPrintElementFactory extends JRBaseFactory
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 		JRBasePrintElement element = (JRBasePrintElement)digester.peek();
 
+		String key = atts.getValue(ATTRIBUTE_key);
+		if (key != null)
+		{
+			element.setKey(key);
+		}
+		
 		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
 		if (mode != null)
 		{

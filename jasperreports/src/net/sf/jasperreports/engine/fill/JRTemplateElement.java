@@ -57,6 +57,7 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	/**
 	 *
 	 */
+	private String key;
 	private Byte mode = null;
 	private Color forecolor = null;
 	private Color backcolor = null;
@@ -101,6 +102,8 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	protected void setElement(JRElement element)
 	{
 		parentStyle = element.getStyle();
+		
+		setKey(element.getKey());
 		
 		mode = element.getOwnMode();
 		forecolor = element.getOwnForecolor();
@@ -221,5 +224,17 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	public String getId()
 	{
 		return id;
+	}
+
+	
+	public String getKey()
+	{
+		return key;
+	}
+
+	
+	public void setKey(String key)
+	{
+		this.key = key;
 	}
 }
