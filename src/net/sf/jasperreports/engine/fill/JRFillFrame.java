@@ -202,26 +202,27 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer.initFill();
 		frameContainer.resetElements();
-		frameContainer.prepareElements(stretchHeight + bottomPadding, true);
+		int frameElemsAvailableHeight = stretchHeight + bottomPadding + getTopPadding() - topPadding;
+		frameContainer.prepareElements(frameElemsAvailableHeight, true);
 		
 		boolean willOverflow = frameContainer.willOverflow();
 		if (willOverflow)
 		{
-			setStretchHeight(getHeight() + stretchHeight);
 			fillBottomBorder = false;
+			setStretchHeight(getHeight() + stretchHeight);
 		}
 		else
 		{
 			int neededStretch = frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding;
 			if (neededStretch <= getHeight() + stretchHeight)
 			{
-				setStretchHeight(neededStretch);
 				fillBottomBorder = true;
+				setStretchHeight(neededStretch);
 			}
 			else //don't overflow because of the bottom padding
 			{
-				setStretchHeight(getHeight() + stretchHeight);
 				fillBottomBorder = false;
+				setStretchHeight(getHeight() + stretchHeight);
 			}
 		}
 
@@ -235,7 +236,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		super.setStretchHeight(stretchHeight);
 		
 		int topPadding = first ? getTopPadding() : 0;
-		int bottomPadding = getBottomPadding();		
+		int bottomPadding = fillBottomBorder ? getBottomPadding() : 0;		
 		frameContainer.setStretchHeight(stretchHeight + frameContainer.getFirstY() - topPadding - bottomPadding);
 	}
 	
@@ -247,7 +248,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		frameContainer.removeBlankElements();
 
 		int topPadding = first ? getTopPadding() : 0;
-		int bottomPadding = getBottomPadding();		
+		int bottomPadding = fillBottomBorder ? getBottomPadding() : 0;
 		super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
 	}
 

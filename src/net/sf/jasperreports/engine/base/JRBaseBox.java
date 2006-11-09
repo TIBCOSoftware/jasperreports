@@ -193,7 +193,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			leftBorder = new Byte(JRGraphicElement.PEN_NONE);
 			leftBorderColor = null;
-			leftPadding = null;
+			leftPadding = new Integer(0);
 		}
 		else
 		{
@@ -206,7 +206,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			topBorder = new Byte(JRGraphicElement.PEN_NONE);
 			topBorderColor = null;
-			topPadding = null;
+			topPadding = new Integer(0);
 		}
 		else
 		{
@@ -219,7 +219,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			rightBorder = new Byte(JRGraphicElement.PEN_NONE);
 			rightBorderColor = null;
-			rightPadding = null;
+			rightPadding = new Integer(0);
 		}
 		else
 		{
@@ -232,7 +232,7 @@ public class JRBaseBox implements JRBox, Serializable
 		{
 			bottomBorder = new Byte(JRGraphicElement.PEN_NONE);
 			bottomBorderColor = null;
-			bottomPadding = null;
+			bottomPadding = new Integer(0);
 		}
 		else
 		{
