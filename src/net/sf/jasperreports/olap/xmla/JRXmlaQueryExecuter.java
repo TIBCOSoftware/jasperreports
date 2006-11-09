@@ -184,6 +184,11 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		String queryStr = getQueryString();
 
+		if (log.isDebugEnabled())
+		{
+			log.debug("MDX query: " + queryStr);
+		}
+		
 		try
 		{
 			MessageFactory mf = MessageFactory.newInstance();

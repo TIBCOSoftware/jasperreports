@@ -195,6 +195,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 */
 	protected synchronized void createQuery(String queryString)
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("HQL query: " + queryString);
+		}
+		
 		Object filterCollection = getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_FILTER_COLLECTION);
 		if (filterCollection == null)
 		{
@@ -251,6 +256,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		String hqlParamName = getHqlParameterName(parameter.getName());
 		Class clazz = parameter.getValueClass();
 		Object parameterValue = parameter.getValue();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Parameter " + hqlParamName + " of type " + clazz.getName() + ": " + parameterValue);
+		}
 		
 		Type type = (Type) hibernateTypeMap.get(clazz);
 		
