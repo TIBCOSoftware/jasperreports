@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
  * order to find the selected output type in this order: OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
  *
  * @author Sanda Zaharia (szaharia@users.sourceforge.net)
- * @version $Id:$
+ * @version $Id$
  */
 public class JRXlsAbstractExporterParameter extends JRExporterParameter
 {
