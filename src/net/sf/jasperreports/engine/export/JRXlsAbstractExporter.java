@@ -226,32 +226,32 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected void setParameters()
 	{
-		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET);
+		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET);
 		if (isOnePagePerSheetParameter != null)
 		{
 			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
 		}
 
-		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
+		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
 		if (isRemoveEmptySpaceParameter != null)
 		{
 			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
 		}
 		
-		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND);
+		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
 		{
 			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
 			setBackground();
 		}
 		
-		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
+		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
 		if (isAutoDetectCellTypeParameter != null)
 		{
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
 		
-		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsExporterParameter.IS_DETECT_CELL_TYPE);
+		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE);
 		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
 
 		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JExcelApiExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
@@ -260,7 +260,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
 		}
 
-		sheetNames = (String[])parameters.get(JRXlsExporterParameter.SHEET_NAMES);
+		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 	}
