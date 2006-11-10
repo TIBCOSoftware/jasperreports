@@ -590,10 +590,9 @@ public class JRFillDataset implements JRDataset
 		if (scriptlet == null)
 		{
 			scriptlet = createScriptlet();
+			parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		}
 		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
-		
-		parameterValues.put(JRParameter.REPORT_SCRIPTLET, scriptlet);
 		
 		setFillParameterValues(parameterValues);
 		
