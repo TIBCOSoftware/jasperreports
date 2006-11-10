@@ -34,6 +34,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
@@ -178,9 +179,9 @@ public class JasperApp
 			else if (TASK_XLS.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
-		
+				Map dateFormats = new HashMap();
+				dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
 				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
 				
 				JRXlsExporter exporter = new JRXlsExporter();
@@ -188,6 +189,8 @@ public class JasperApp
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 				exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+				exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+				exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
 				
 				exporter.exportReport();
 
