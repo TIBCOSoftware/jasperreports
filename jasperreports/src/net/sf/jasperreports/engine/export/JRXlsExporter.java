@@ -351,7 +351,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				public void handle(DateTextValue textValue) throws JRException
 				{
-					baseStyle.setDataFormat(getDataFormat(textValue.getPattern()));
+					String datePattern = getConvertedDatePattern(textValue.getPattern());
+					baseStyle.setDataFormat(getDataFormat(datePattern));
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getValue() == null)
 					{
@@ -376,6 +377,24 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						cell.setCellValue(textValue.getValue().booleanValue());
 					}
 					endCreateCell(cellStyle);
+				}
+				
+				/**
+				 * This method is intended to modify a given java date format pattern so to include 
+				 * only the accepted proprietary date format characters. The resulted pattern 
+				 * will possibly truncate the original pattern
+				 * @param pattern
+				 * @return pattern converted to accepted proprietary date formats
+				 */
+				private String getConvertedDatePattern(String pattern)
+				{
+					Map excelDataFormatsMap = (Map) parameters.get(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
+
+					if(null != excelDataFormatsMap && excelDataFormatsMap.containsKey(pattern))
+					{
+						return (String) excelDataFormatsMap.get(pattern);
+					}
+					return pattern;
 				}
 
 			});
