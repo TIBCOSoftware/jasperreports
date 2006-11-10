@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -74,8 +74,8 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
 			
-			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-			exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
@@ -136,8 +136,8 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 			OutputStream ouputStream = response.getOutputStream();
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
 
-			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-			exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
