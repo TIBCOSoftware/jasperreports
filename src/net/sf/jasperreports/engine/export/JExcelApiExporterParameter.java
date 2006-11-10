@@ -41,7 +41,7 @@ package net.sf.jasperreports.engine.export;
  * @author Manuel Paul (mpaul@ratundtat.com)
  * @version $Id$
  */
-public class JExcelApiExporterParameter extends JRXlsExporterParameter {
+public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
 
 	protected JExcelApiExporterParameter(String name) {
 		super(name);
