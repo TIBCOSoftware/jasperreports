@@ -109,9 +109,18 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 	
-	private HSSFDataFormat dataFormat;
+	protected HSSFDataFormat dataFormat = null;
+	protected Map formatPatternsMap = null;
 
 	
+	protected void setParameters()
+	{
+		super.setParameters();
+		
+		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
+	}
+
+
 	protected void setBackground()
 	{
 		if (!isWhitePageBackground)
@@ -127,6 +136,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle = workbook.createCellStyle();
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);
+		dataFormat = workbook.createDataFormat();
 	}
 	
 	protected void createSheet(String name)
@@ -323,18 +333,22 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			TextValue value = getTextValue(textElement, textStr);
 			value.handle(new TextValueHandler()
 			{
-				public void handle(StringTextValue textValue) throws JRException
+				public void handle(StringTextValue textValue)
 				{
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					setStringCellValue(textValue.getText());
 					endCreateCell(cellStyle);
 				}
 
-				public void handle(NumberTextValue textValue) throws JRException
+				public void handle(NumberTextValue textValue)
 				{
 					if (textValue.getPattern() != null)
 					{
-						baseStyle.setDataFormat(getDataFormat(textValue.getPattern()));
+						baseStyle.setDataFormat(
+							dataFormat.getFormat(
+								getConvertedPattern(textValue.getPattern())
+								)
+							);
 					}
 
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
@@ -349,10 +363,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					endCreateCell(cellStyle);
 				}
 
-				public void handle(DateTextValue textValue) throws JRException
+				public void handle(DateTextValue textValue)
 				{
-					String datePattern = getConvertedDatePattern(textValue.getPattern());
-					baseStyle.setDataFormat(getDataFormat(datePattern));
+					baseStyle.setDataFormat(
+						dataFormat.getFormat(
+							getConvertedPattern(textValue.getPattern())
+							)
+						);
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getValue() == null)
 					{
@@ -365,7 +382,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					endCreateCell(cellStyle);
 				}
 
-				public void handle(BooleanTextValue textValue) throws JRException
+				public void handle(BooleanTextValue textValue)
 				{
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getValue() == null)
@@ -380,19 +397,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				
 				/**
-				 * This method is intended to modify a given java date format pattern so to include 
-				 * only the accepted proprietary date format characters. The resulted pattern 
+				 * This method is intended to modify a given format pattern so to include 
+				 * only the accepted proprietary format characters. The resulted pattern 
 				 * will possibly truncate the original pattern
 				 * @param pattern
-				 * @return pattern converted to accepted proprietary date formats
+				 * @return pattern converted to accepted proprietary formats
 				 */
-				private String getConvertedDatePattern(String pattern)
+				private String getConvertedPattern(String pattern)
 				{
-					Map excelDataFormatsMap = (Map) parameters.get(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
-
-					if(null != excelDataFormatsMap && excelDataFormatsMap.containsKey(pattern))
+					if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
 					{
-						return (String) excelDataFormatsMap.get(pattern);
+						return (String) formatPatternsMap.get(pattern);
 					}
 					return pattern;
 				}
@@ -418,21 +433,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			setStringCellValue(textStr);
 			endCreateCell(cellStyle);
 		}
-	}
-
-	protected short getDataFormat(String pattern)
-	{
-		return dataFormat().getFormat(pattern);
-	}
-
-
-	protected HSSFDataFormat dataFormat()
-	{
-		if (dataFormat == null)
-		{
-			dataFormat = workbook.createDataFormat();
-		}
-		return dataFormat;
 	}
 
 

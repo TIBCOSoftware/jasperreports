@@ -254,7 +254,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE);
 		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
 
-		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JExcelApiExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
+		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JRXlsAbstractExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
 		if (isFontSizeFixEnabledParameter != null)
 		{
 			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
