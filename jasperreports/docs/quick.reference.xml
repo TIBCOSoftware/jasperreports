@@ -2437,6 +2437,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="parameter">parameter</a>*,
     <a href="queryString">queryString</a>?,
     <a href="field">field</a>*,
+    <a href="sortField">sortField</a>*,
     <a href="variable">variable</a>*,
     <a href="filterExpression">filterExpression</a>?,
     <a href="group">group</a>*,
@@ -2647,6 +2648,11 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         </value>
       </values>
       <default>false</default>
+    </attribute>
+    <attribute>
+      <name>formatFactoryClass</name>
+      <description>Specifies the name of the class implementing the <code>net.sf.jasperreports.engine.util.FormatFactory</code> interface to use with this report. If omitted, an instance of <code>net.sf.jasperreports.engine.util.DefaultFormatFactory</code> will be created.</description>
+      <default>net.sf.jasperreports.engine.util.DefaultFormatFactory</default>
     </attribute>
   </attributes>
 </element>
@@ -4008,6 +4014,34 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 </element>
 
 
+<!-- sortField -->
+<element>
+  <name>sortField</name>
+  <description>Introduces a field to use for sorting the data source.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the report field to use for sorting.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>order</name>
+      <description>The sort order for the field.</description>
+      <values>
+        <value>
+          <name>Ascending</name>
+        </value>
+        <value>
+          <name>Descending</name>
+        </value>
+      </values>
+      <default>Ascending</default>
+    </attribute>
+  </attributes>
+</element>
+
+
 <!-- stackedBar3DChart -->
 <element>
   <name>stackedBar3DChart</name>
@@ -4192,6 +4226,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="parameter">parameter</a>*,
     <a href="queryString">queryString</a>?,
     <a href="field">field</a>*,
+    <a href="sortField">sortField</a>*,
     <a href="variable">variable</a>*,
     <a href="filterExpression">filterExpression</a>?,
     <a href="group">group</a>*
@@ -4437,6 +4472,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>Right</name>
           <description>Text runs vertically from top to bottom and from right to left.</description>
+        </value>
+        <value>
+          <name>UpsideDown</name>
+          <description>Text is rotated with 180 degrees.</description>
         </value>
       </values>
       <default>None</default>
