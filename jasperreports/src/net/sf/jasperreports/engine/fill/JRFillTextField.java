@@ -84,11 +84,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(filler, textField, factory);
 		
-		if (JRDataUtils.useFormat(getExpression()))
-		{
-			filler.formattedTextFields.add(this);
-		}
-
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 	}
 
@@ -712,7 +707,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected String getTemplatePattern()
+	protected String getTemplatePattern()//FIXME optimize this with an interface
 	{
 		String pattern = null;
 		String originalPattern = getPattern();

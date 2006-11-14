@@ -29,13 +29,11 @@ package net.sf.jasperreports.engine.util;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 
@@ -223,95 +221,6 @@ public class DefaultFormatFactory implements FormatFactory
 	}
 	
 	
-	public static boolean useFormat(JRExpression valueExpression)
-	{
-		boolean format = false;
-		if (valueExpression != null)
-		{
-			Class valueClass = valueExpression.getValueClass();
-			format = java.util.Date.class.isAssignableFrom(valueClass)
-				|| java.lang.Number.class.isAssignableFrom(valueClass);
-		}
-		return format;
-	}
-	
-	
-	public static String getPattern(JRExpression valueExpression, Format format, String originalPattern)
-	{
-		String pattern = null;
-		if (format != null && valueExpression != null)
-		{
-			Class valueClass = valueExpression.getValueClass();
-			if (java.util.Date.class.isAssignableFrom(valueClass))
-			{
-				if (format instanceof SimpleDateFormat)
-				{
-					pattern = ((SimpleDateFormat) format).toPattern();
-				}
-			}
-			else if (Number.class.isAssignableFrom(valueClass))
-			{
-				if (format instanceof DecimalFormat)
-				{
-					pattern = ((DecimalFormat) format).toPattern();
-				}
-			}
-		}
-		
-		if (pattern == null)//fallback to the original pattern
-		{
-			pattern = originalPattern;
-		}
-		
-		return pattern;		
-	}
-	
-	
-	public static String getLocaleCode(Locale locale)
-	{
-		return locale.toString();
-	}
-
-	
-	public static Locale getLocale(String code)
-	{
-		String language;
-		String country;
-		String variant;
-		
-		int firstSep = code.indexOf('_');
-		if (firstSep < 0) {
-			language = code;
-			country = variant = "";
-		} else {
-			language = code.substring(0, firstSep);
-			
-			int secondSep = code.indexOf('_', firstSep + 1);
-			if (secondSep < 0) {
-				country = code.substring(firstSep + 1);
-				variant = "";
-			} else {
-				country = code.substring(firstSep + 1, secondSep);
-				variant = code.substring(secondSep + 1);
-			}
-		}
-		
-		return new Locale(language, country, variant);
-	}
-	
-	
-	public static String getTimeZoneId(TimeZone tz)
-	{
-		return tz.getID();
-	}
-	
-	
-	public static TimeZone getTimeZone(String id)
-	{
-		return TimeZone.getTimeZone(id);
-	}
-	
-
 	public static FormatFactory createFormatFactory(String formatFactoryClassName)
 	{
 		FormatFactory formatFactory = null;
