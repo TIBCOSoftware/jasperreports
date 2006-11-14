@@ -247,8 +247,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	
 	protected URLStreamHandlerFactory urlHandlerFactory;
 
-	protected List formattedTextFields = new ArrayList();
-
 	protected Map loadedSubreports = null;
 
 	protected JRFillContext fillContext;
@@ -972,10 +970,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		Locale lc = getLocale();
 		TimeZone tz = getTimeZone();
-		String key = pattern 
-			+ "|" + lc.getLanguage() 
-			+ "|" + lc.getCountry() 
-			+ "|" + tz.getID();
+		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc) + "|" + JRDataUtils.getTimeZoneId(tz);
 		Format format = (Format)dateFormatCache.get(key);
 		if (format == null)
 		{
@@ -995,9 +990,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected Format getNumberFormat(String pattern)
 	{
 		Locale lc = getLocale();
-		String key = pattern 
-			+ "|" + lc.getLanguage() 
-			+ "|" + lc.getCountry(); 
+		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc); 
 		Format format = (Format)numberFormatCache.get(key);
 		if (format == null)
 		{

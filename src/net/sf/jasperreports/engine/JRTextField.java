@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 
 //import java.text.Format;
 
@@ -43,49 +43,49 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	/**
 	 * Used in the date pattern to specify the default style.
 	 * @see java.text.DateFormat#DEFAULT
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_DEFAULT JRDataUtils.STANDARD_DATE_FORMAT_DEFAULT}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_DEFAULT DefaultFormatFactory.STANDARD_DATE_FORMAT_DEFAULT}
 	 */
-	public static final String STANDARD_DATE_FORMAT_DEFAULT = JRDataUtils.STANDARD_DATE_FORMAT_DEFAULT;
+	public static final String STANDARD_DATE_FORMAT_DEFAULT = DefaultFormatFactory.STANDARD_DATE_FORMAT_DEFAULT;
 
 	/**
 	 * Used in the date pattern to specify the short style.
 	 * @see java.text.DateFormat#SHORT
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_SHORT JRDataUtils.STANDARD_DATE_FORMAT_SHORT}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_SHORT DefaultFormatFactory.STANDARD_DATE_FORMAT_SHORT}
 	 */
-	public static final String STANDARD_DATE_FORMAT_SHORT = JRDataUtils.STANDARD_DATE_FORMAT_SHORT;
+	public static final String STANDARD_DATE_FORMAT_SHORT = DefaultFormatFactory.STANDARD_DATE_FORMAT_SHORT;
 
 	/**
 	 * Used in the date pattern to specify the medium style.
 	 * @see java.text.DateFormat#MEDIUM
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_MEDIUM JRDataUtils.STANDARD_DATE_FORMAT_MEDIUM}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_MEDIUM DefaultFormatFactory.STANDARD_DATE_FORMAT_MEDIUM}
 	 */
-	public static final String STANDARD_DATE_FORMAT_MEDIUM = JRDataUtils.STANDARD_DATE_FORMAT_MEDIUM;
+	public static final String STANDARD_DATE_FORMAT_MEDIUM = DefaultFormatFactory.STANDARD_DATE_FORMAT_MEDIUM;
 
 	/**
 	 * Used in the date pattern to specify the long style.
 	 * @see java.text.DateFormat#LONG
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_LONG JRDataUtils.STANDARD_DATE_FORMAT_LONG}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_LONG DefaultFormatFactory.STANDARD_DATE_FORMAT_LONG}
 	 */
-	public static final String STANDARD_DATE_FORMAT_LONG = JRDataUtils.STANDARD_DATE_FORMAT_LONG;
+	public static final String STANDARD_DATE_FORMAT_LONG = DefaultFormatFactory.STANDARD_DATE_FORMAT_LONG;
 
 	/**
 	 * Used in the date pattern to specify the full style.
 	 * @see java.text.DateFormat#FULL
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_FULL JRDataUtils.STANDARD_DATE_FORMAT_FULL}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_FULL DefaultFormatFactory.STANDARD_DATE_FORMAT_FULL}
 	 */
-	public static final String STANDARD_DATE_FORMAT_FULL = JRDataUtils.STANDARD_DATE_FORMAT_FULL;
+	public static final String STANDARD_DATE_FORMAT_FULL = DefaultFormatFactory.STANDARD_DATE_FORMAT_FULL;
 
 	/**
 	 * Used in the date pattern to specify that the date or time should not be included.
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_HIDE JRDataUtils.STANDARD_DATE_FORMAT_HIDE}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_HIDE DefaultFormatFactory.STANDARD_DATE_FORMAT_HIDE}
 	 */
-	public static final String STANDARD_DATE_FORMAT_HIDE = JRDataUtils.STANDARD_DATE_FORMAT_HIDE;
+	public static final String STANDARD_DATE_FORMAT_HIDE = DefaultFormatFactory.STANDARD_DATE_FORMAT_HIDE;
 
 	/**
 	 * Used in the date format pattern to separate the date and time styles.
-	 * @deprecated replaced by {@link JRDataUtils#STANDARD_DATE_FORMAT_SEPARATOR JRDataUtils.STANDARD_DATE_FORMAT_SEPARATOR}
+	 * @deprecated replaced by {@link DefaultFormatFactory#STANDARD_DATE_FORMAT_SEPARATOR DefaultFormatFactory.STANDARD_DATE_FORMAT_SEPARATOR}
 	 */
-	public static final String STANDARD_DATE_FORMAT_SEPARATOR = JRDataUtils.STANDARD_DATE_FORMAT_SEPARATOR;
+	public static final String STANDARD_DATE_FORMAT_SEPARATOR = DefaultFormatFactory.STANDARD_DATE_FORMAT_SEPARATOR;
 
 	
 	/**

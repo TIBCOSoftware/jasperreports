@@ -733,9 +733,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
-			+ "|" + lc.getCountry() 
-			+ "|" + lc.getLanguage() 
-			+ "|" + tz.getID();
+			+ "|" + JRDataUtils.getLocaleCode(lc) 
+			+ "|" + JRDataUtils.getTimeZoneId(tz);
 		DateFormat dateFormat = (DateFormat)dateFormatCache.get(key);
 		if (dateFormat == null)
 		{
@@ -751,8 +750,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
-			+ "|" + lc.getCountry() 
-			+ "|" + lc.getLanguage(); 
+			+ "|" + JRDataUtils.getLocaleCode(lc); 
 		NumberFormat numberFormat = (NumberFormat)numberFormatCache.get(key);
 		if (numberFormat == null)
 		{
