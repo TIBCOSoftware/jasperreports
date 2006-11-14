@@ -1410,6 +1410,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		
 		JRRenderable renderer = image.getRenderer();
+		JRRenderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
 
 		boolean startedHyperlink = !imageMapRenderer && startHyperlink(image);
@@ -1483,7 +1484,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				if (imageMapName == null)
 				{
 					imageMapName = "map_" + getElementIndex(gridCell).toString();
-					imageMapAreas = ((JRImageMapRenderer) renderer).getImageAreaHyperlinks(renderingArea);
+					imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);
 					
 					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 					{
