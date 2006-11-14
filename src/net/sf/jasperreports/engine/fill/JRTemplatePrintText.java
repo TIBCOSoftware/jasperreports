@@ -1170,6 +1170,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText) template).getPattern();
 	}
 
+	public String getFormatFactoryClass()
+	{
+		return ((JRTemplateText) template).getFormatFactoryClass();
+	}
+
 	public String getLocaleCode()
 	{
 		return ((JRTemplateText) template).getLocaleCode();

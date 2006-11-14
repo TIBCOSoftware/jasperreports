@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -107,10 +106,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	private JRBaseFiller subreportFiller = null;
+	protected JRBaseFiller subreportFiller = null;
 	private JRPrintPage printPage = null;
-	private JRReportFont[] subreportFonts = null;
-	private JRStyle[] subreportStyles = null;
 
 	private JRSubreportRunner runner;
 	
@@ -234,24 +231,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected JRReportFont[] getFonts()
-	{
-		return subreportFonts;
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRStyle[] getStyles()
-	{
-		return subreportStyles;
-	}
-
-
-	/**
-	 *
-	 */
 	protected Collection getPrintElements()
 	{
 		Collection printElements = null;
@@ -347,8 +326,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					expression = getDataSourceExpression();
 					dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
 					
-					boolean hasResourceBundle = jasperReport.getResourceBundle() != null;
-					parameterValues = getParameterValues(filler, getParametersMapExpression(), getParameters(), evaluation, false, hasResourceBundle);
+					parameterValues = 
+						getParameterValues(
+							filler, 
+							getParametersMapExpression(), 
+							getParameters(), 
+							evaluation, 
+							false, 
+							jasperReport.getResourceBundle() != null,//hasResourceBundle 
+							jasperReport.getFormatFactoryClass() != null//hasFormatFactory
+							);
 
 					if (subreportFiller != null)
 					{
@@ -409,7 +396,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			JRDatasetParameter[] subreportParameters, 
 			byte evaluation, 
 			boolean ignoreNullExpressions, 
-			boolean removeResourceBundle) throws JRException
+			boolean removeResourceBundle,
+			boolean removeFormatFactory
+			) throws JRException
 	{
 		Map parameterValues = null;
 		if (parametersMapExpression != null)
@@ -423,6 +412,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			if (removeResourceBundle)
 			{
 				parameterValues.remove(JRParameter.REPORT_RESOURCE_BUNDLE);
+			}
+			if (removeFormatFactory)
+			{
+				parameterValues.remove(JRParameter.REPORT_FORMAT_FACTORY);
 			}
 			//parameterValues.remove(JRParameter.REPORT_TIME_ZONE);
 			parameterValues.remove(JRParameter.REPORT_CONNECTION);
@@ -470,6 +463,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (!parameterValues.containsKey(JRParameter.REPORT_TIME_ZONE))
 		{
 			parameterValues.put(JRParameter.REPORT_TIME_ZONE, filler.getTimeZone());
+		}
+
+		if (
+			!parameterValues.containsKey(JRParameter.REPORT_FORMAT_FACTORY)
+			&& !removeFormatFactory
+			)
+		{
+			parameterValues.put(JRParameter.REPORT_FORMAT_FACTORY, filler.getFormatFactory());
 		}
 
 		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER) &&
@@ -564,8 +565,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			else
 			{
 				printPage = null;
-				subreportFonts = null;
-				subreportStyles = null;
 				setStretchHeight(getHeight());
 				setToPrint(false);
 
@@ -589,8 +588,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
-			subreportFonts = subreportFiller.getFonts();
-			subreportStyles = subreportFiller.getPrintStyles();
 			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight);
 
 			//if the subreport fill thread has not finished, 

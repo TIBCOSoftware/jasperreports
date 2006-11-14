@@ -35,6 +35,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,6 +68,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
@@ -240,6 +243,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected ClassLoader reportClassLoader = null;
 
+	protected FormatFactory formatFactory = null;
+	
 	protected URLStreamHandlerFactory urlHandlerFactory;
 
 	protected List formattedTextFields = new ArrayList();
@@ -298,7 +303,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected Map consolidatedStyles = new HashMap();
+	protected Map dateFormatCache = new HashMap();
+	protected Map numberFormatCache = new HashMap();
 	
 	private JRSubreportRunner subreportRunner;
 
@@ -614,35 +620,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected JRStyle[] getStyles()
-	{
-		return styles;
-	}
-	
-	protected JRStyle[] getPrintStyles()
-	{
-		JRStyle[] printStyles;
-		if (consolidatedStyles == null || consolidatedStyles.isEmpty())
-		{
-			printStyles = styles;
-		}
-		else
-		{
-			printStyles = new JRStyle[styles.length + consolidatedStyles.size()];
-			System.arraycopy(styles, 0, printStyles, 0, styles.length);
-			int c = styles.length;
-			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext(); ++c)
-			{
-				JRStyle style = (JRStyle) it.next();
-				printStyles[c] = style;
-			}
-		}
-		return printStyles;
-	}
-
-	/**
-	 *
-	 */
 	protected int getCurrentPageStretchHeight()
 	{
 		return printPageStretchHeight;
@@ -722,6 +699,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 			jasperPrint.setDefaultFont(defaultFont);
 			
+			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
 
@@ -745,8 +723,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				}
 			}
 
-			setTextFieldsFormats();
-
 			loadedSubreports = new HashMap();
 
 			createBoundElemementMaps();
@@ -758,10 +734,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			fillReport();
 
 			// add consolidates styles as normal styles in the print object
-			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();) 
-			{
-				jasperPrint.addStyle((JRStyle) it.next());
-			}
+//			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();) 
+//			{
+//				jasperPrint.addStyle((JRStyle) it.next());
+//			}
 
 			return jasperPrint;
 		}
@@ -839,16 +815,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	protected void setTextFieldsFormats()
-	{
-		for (int i = 0; i < formattedTextFields.size(); i++)
-		{
-			((JRFillTextField) formattedTextFields.get(i)).setFormat();
-		}
-
-		formattedTextFields.clear();
-	}
-
 	/**
 	 *
 	 */
@@ -874,6 +840,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		isPerPageBoundElements = fillContext.isPerPageBoundElements();
 
+		setFormatFactory(parameterValues);
+		
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
@@ -882,8 +850,20 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		
 		if (!isSubreport())
 		{
+			fillContext.setMasterFormatFactory(getFormatFactory());
 			fillContext.setMasterLocale(getLocale());
 			fillContext.setMasterTimeZone(getTimeZone());
+		}
+	}
+
+
+	private void setFormatFactory(Map parameterValues)
+	{
+		formatFactory = (FormatFactory)parameterValues.get(JRParameter.REPORT_FORMAT_FACTORY);
+		if (formatFactory == null)
+		{
+			formatFactory = DefaultFormatFactory.createFormatFactory(jasperReport.getFormatFactoryClass());
+			parameterValues.put(JRParameter.REPORT_FORMAT_FACTORY, formatFactory);
 		}
 	}
 
@@ -973,6 +953,73 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.timeZone;
 	}
 
+	
+	/**
+	 * Returns the report format factory.
+	 *
+	 * @return the report format factory
+	 */
+	protected FormatFactory getFormatFactory()
+	{
+		return formatFactory;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected Format getDateFormat(String pattern)
+	{
+		Locale lc = getLocale();
+		TimeZone tz = getTimeZone();
+		String key = pattern 
+			+ "|" + lc.getLanguage() 
+			+ "|" + lc.getCountry() 
+			+ "|" + tz.getID();
+		Format format = (Format)dateFormatCache.get(key);
+		if (format == null)
+		{
+			format = getFormatFactory().createDateFormat(pattern, lc, tz);
+			if (format != null)
+			{
+				dateFormatCache.put(key, format);
+			}
+		}
+		return format;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected Format getNumberFormat(String pattern)
+	{
+		Locale lc = getLocale();
+		String key = pattern 
+			+ "|" + lc.getLanguage() 
+			+ "|" + lc.getCountry(); 
+		Format format = (Format)numberFormatCache.get(key);
+		if (format == null)
+		{
+			format = getFormatFactory().createNumberFormat(pattern, lc);
+			if (format != null)
+			{
+				numberFormatCache.put(key, format);
+			}
+		}
+		return format;
+	}
+
+	
+	protected boolean hasMasterFormatFactory()
+	{
+		return 
+			!isSubreport() 
+			|| getFormatFactory().getClass().getName().equals(
+				fillContext.getMasterFormatFactory().getClass().getName()
+				);
+	}
+	
 	
 	protected boolean hasMasterLocale()
 	{
@@ -1540,16 +1587,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 	
 	
-	protected JRStyle getConsolidatedStyle(String consolidatedStyleName)
-	{
-		return (JRStyle) consolidatedStyles.get(consolidatedStyleName);
-	}
-	
-	
-	protected void putConsolidatedStyle(JRStyle consolidatedStyle)
-	{
-		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
-	}
+//	protected JRStyle getConsolidatedStyle(String consolidatedStyleName)
+//	{
+//		return (JRStyle) consolidatedStyles.get(consolidatedStyleName);
+//	}
+//	
+//	
+//	protected void putConsolidatedStyle(JRStyle consolidatedStyle)
+//	{
+//		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
+//	}
 	
 	protected final boolean isEmpty(JRBand band)
 	{

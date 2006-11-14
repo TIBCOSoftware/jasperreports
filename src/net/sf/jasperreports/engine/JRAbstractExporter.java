@@ -52,6 +52,8 @@ import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -106,6 +108,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	 *
 	 */
 	protected final JRStyledTextParser styledTextParser = new JRStyledTextParser();
+
+	/**
+	 *
+	 */
+	protected Map dateFormatCache = new HashMap();
+	protected Map numberFormatCache = new HashMap();
 
 	
 	/**
@@ -526,6 +534,16 @@ public abstract class JRAbstractExporter implements JRExporter
 	}
 
 	
+	protected String getTextFormatFactoryClass(JRPrintText text)
+	{
+		String formatFactoryClass = text.getFormatFactoryClass();
+		if (formatFactoryClass == null)
+		{
+			formatFactoryClass = jasperPrint.getFormatFactoryClass();
+		}
+		return formatFactoryClass;
+	}
+
 	protected Locale getTextLocale(JRPrintText text)
 	{
 		String localeCode = text.getLocaleCode();
@@ -614,7 +632,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 		else
 		{
-			DateFormat dateFormat = JRDataUtils.getDateFormat(pattern, getTextLocale(text), getTextTimeZone(text));
+			DateFormat dateFormat = getDateFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text), getTextTimeZone(text));
 			
 			Date value = null;
 			if (textStr != null && textStr.length() > 0)
@@ -652,7 +670,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 		else
 		{
-			NumberFormat numberFormat = JRDataUtils.getNumberFormat(pattern, getTextLocale(text));
+			NumberFormat numberFormat = getNumberFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text));
 			
 			Number value = null;
 			if (textStr != null && textStr.length() > 0)
@@ -710,4 +728,39 @@ public abstract class JRAbstractExporter implements JRExporter
 		return value;
 	}
 	
+
+	protected DateFormat getDateFormat(String formatFactoryClass, String pattern, Locale lc, TimeZone tz)
+	{
+		String key = formatFactoryClass 
+			+ "|" + pattern 
+			+ "|" + lc.getCountry() 
+			+ "|" + lc.getLanguage() 
+			+ "|" + tz.getID();
+		DateFormat dateFormat = (DateFormat)dateFormatCache.get(key);
+		if (dateFormat == null)
+		{
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXME cache this too
+			dateFormat = formatFactory.createDateFormat(pattern, lc, tz);
+			dateFormatCache.put(key, dateFormat);
+		}
+		return dateFormat;
+	}
+	
+
+	protected NumberFormat getNumberFormat(String formatFactoryClass, String pattern, Locale lc)
+	{
+		String key = formatFactoryClass 
+			+ "|" + pattern 
+			+ "|" + lc.getCountry() 
+			+ "|" + lc.getLanguage(); 
+		NumberFormat numberFormat = (NumberFormat)numberFormatCache.get(key);
+		if (numberFormat == null)
+		{
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXME cache this too
+			numberFormat = formatFactory.createNumberFormat(pattern, lc);
+			dateFormatCache.put(key, numberFormat);
+		}
+		return numberFormat;
+	}
+
 }

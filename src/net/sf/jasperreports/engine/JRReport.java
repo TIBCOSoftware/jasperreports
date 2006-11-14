@@ -215,6 +215,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	public String getScriptletClass();
 
 	/**
+	 * Gets the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
+	 * interface to use with this report.
+	 */
+	public String getFormatFactoryClass();
+
+	/**
 	 * Gets the base name of the report associated resource bundle.
 	 */
 	public String getResourceBundle();

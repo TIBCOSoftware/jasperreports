@@ -63,6 +63,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 	public static final String ATTRIBUTE_valueClass = "valueClass";
 	public static final String ATTRIBUTE_pattern = "pattern";
+	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
 	public static final String ATTRIBUTE_locale = "locale";
 	public static final String ATTRIBUTE_timezone = "timezone";
 
@@ -170,6 +171,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (pattern != null)
 		{
 			text.setPattern(pattern);
+		}
+		
+		String formatFactoryClass = atts.getValue(ATTRIBUTE_formatFactoryClass);
+		if (formatFactoryClass != null)
+		{
+			text.setFormatFactoryClass(formatFactoryClass);
 		}
 		
 		String locale = atts.getValue(ATTRIBUTE_locale);

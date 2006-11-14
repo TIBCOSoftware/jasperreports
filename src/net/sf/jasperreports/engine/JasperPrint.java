@@ -119,6 +119,7 @@ public class JasperPrint implements Serializable
 	private transient Map anchorIndexes = null;
 	private DefaultStyleProvider defaultStyleProvider = null;
 	
+	private String formatFactoryClass;
 	private String localeCode;
 	private String timeZoneId;
 
@@ -518,6 +519,26 @@ public class JasperPrint implements Serializable
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Returns the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
+	 * interface to use with this document.
+	 */
+	public String getFormatFactoryClass()
+	{
+		return formatFactoryClass;
+	}
+
+
+	/**
+	 * Sets the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
+	 * interface to use with this document.
+	 */
+	public void setFormatFactoryClass(String formatFactoryClass)
+	{
+		this.formatFactoryClass = formatFactoryClass;
 	}
 
 

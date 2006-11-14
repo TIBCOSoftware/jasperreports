@@ -349,6 +349,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("pageWidth", jasperPrint.getPageWidth());
 		xmlWriter.addAttribute("pageHeight", jasperPrint.getPageHeight());
 		xmlWriter.addAttribute("orientation", jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
 		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
 		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
@@ -761,6 +762,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("bookmarkLevel", text.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_valueClass, text.getValueClassName());
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		
+		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_formatFactoryClass, text.getFormatFactoryClass());		
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_locale, text.getLocaleCode());		
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_timezone, text.getTimeZoneId());		
 		

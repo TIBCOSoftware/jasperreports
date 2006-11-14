@@ -120,6 +120,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 	protected String valueClassName;
 	protected String pattern;
+	protected String formatFactoryClass;
 	protected String localeCode;
 	protected String timeZoneId;
 	
@@ -1328,6 +1329,18 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setValueClassName(String valueClassName)
 	{
 		this.valueClassName = valueClassName;
+	}
+
+	
+	public String getFormatFactoryClass()
+	{
+		return formatFactoryClass;
+	}
+
+	
+	public void setFormatFactoryClass(String formatFactoryClass)
+	{
+		this.formatFactoryClass = formatFactoryClass;
 	}
 
 	

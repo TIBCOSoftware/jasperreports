@@ -22,6 +22,7 @@
 	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 	isIgnorePagination (true | false) "false"
+	formatFactoryClass NMTOKEN #IMPLIED
 >
 
 <!ELEMENT property EMPTY>

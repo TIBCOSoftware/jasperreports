@@ -349,6 +349,15 @@ public class JasperDesign extends JRBaseReport
 		
 
 	/**
+	 *
+	 */
+	public void setFormatFactoryClass(String formatFactoryClass)
+	{
+		this.formatFactoryClass = formatFactoryClass;
+	}
+		
+
+	/**
 	 * Sets the base name of the report associated resource bundle.
 	 */
 	public void setResourceBundle(String resourceBundle)

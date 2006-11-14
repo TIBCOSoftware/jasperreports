@@ -103,6 +103,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected Boolean isPdfEmbedded = null;
 	protected String valueClassName;
 	protected String pattern;
+	protected String formatFactoryClass;
 	protected String localeCode;
 	protected String timeZoneId;
 	
@@ -1155,6 +1156,18 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void setValueClassName(String valueClassName)
 	{
 		this.valueClassName = valueClassName;
+	}
+
+	
+	public String getFormatFactoryClass()
+	{
+		return formatFactoryClass;
+	}
+
+	
+	public void setFormatFactoryClass(String formatFactoryClass)
+	{
+		this.formatFactoryClass = formatFactoryClass;
 	}
 
 	

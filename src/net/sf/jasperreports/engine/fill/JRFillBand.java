@@ -396,8 +396,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 	protected void evaluate(byte evaluation) throws JRException
 	{
-		super.evaluate(evaluation);
 		evaluateConditionalStyles(evaluation);
+		super.evaluate(evaluation);
 	}
 
 }
