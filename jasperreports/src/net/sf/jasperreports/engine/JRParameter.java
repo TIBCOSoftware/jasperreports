@@ -92,12 +92,14 @@ public interface JRParameter
 	 */
 	public static final String REPORT_VIRTUALIZER = "REPORT_VIRTUALIZER";
 
+	
 	/**
 	 * A <tt>java.lang.ClassLoader</tt> instance to be used during the report filling process to load resources such 
 	 * as images, fonts and subreport templates.
 	 */
 	public static final String REPORT_CLASS_LOADER = "REPORT_CLASS_LOADER";
 
+	
 	/**
 	 * A <tt>java.net.URLStreamHandlerFactory</tt> instance to be used during the report filling process to 
 	 * handler custom URL protocols for loading resources such as images, fonts and subreport templates.
@@ -105,6 +107,14 @@ public interface JRParameter
 	public static final String REPORT_URL_HANDLER_FACTORY = "REPORT_URL_HANDLER_FACTORY";
 
 
+	/**
+	 * A {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory} instance to be used 
+	 * during the report filling process to create instances of <tt>java.text.DateFormat<tt> to format date text
+	 * fields and instances of <tt>java.text.NumberFormat<tt> to format numeric text fields.
+	 */
+	public static final String REPORT_FORMAT_FACTORY = "REPORT_DATE_FORMAT_FACTORY";
+
+	
 	/**
 	 * Whether to use pagination.
 	 * <b>

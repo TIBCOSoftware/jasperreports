@@ -86,6 +86,11 @@ public class JRBaseReport implements JRReport, Serializable
 	/**
 	 *
 	 */
+	protected String formatFactoryClass = null;
+
+	/**
+	 *
+	 */
 	protected Set importsSet = null;
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
@@ -148,6 +153,8 @@ public class JRBaseReport implements JRReport, Serializable
 		isFloatColumnFooter = report.isFloatColumnFooter();
 		ignorePagination = report.isIgnorePagination();
 
+		formatFactoryClass = report.getFormatFactoryClass();
+		
 		/*   */
 		String[] imports = report.getImports();
 		if (imports != null && imports.length > 0)
@@ -367,6 +374,14 @@ public class JRBaseReport implements JRReport, Serializable
 	public String getScriptletClass()
 	{
 		return mainDataset.getScriptletClass();
+	}
+
+	/**
+	 *
+	 */
+	public String getFormatFactoryClass()
+	{
+		return formatFactoryClass;
 	}
 
 	/**

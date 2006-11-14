@@ -208,6 +208,13 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	
 
 	/**
+	 * Returns the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
+	 * interface to use with this text element, in case it is not the same as the one for the overall document.
+	 */
+	public String getFormatFactoryClass();
+	
+	
+	/**
 	 * Returns the code of the <code>java.util.Locale</code> which was used 
 	 * while formatting the source value of the text.
 	 * <p>

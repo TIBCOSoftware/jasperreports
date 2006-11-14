@@ -591,21 +591,21 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 						{
 							JRFillSubreport subreport = (JRFillSubreport)element;
 							
-							JRReportFont[] fonts = subreport.getFonts();
+							List fonts = subreport.subreportFiller.getJasperPrint().getFontsList();
 							if (fonts != null)
 							{
-								for(int j = 0; j < fonts.length; j++)
+								for(int j = 0; j < fonts.size(); j++)
 								{
-									filler.getJasperPrint().addFont(fonts[j], true);
+									filler.getJasperPrint().addFont((JRReportFont)fonts.get(j), true);
 								}
 							}
 							
-							JRStyle[] styles = subreport.getStyles();
+							List styles = subreport.subreportFiller.getJasperPrint().getStylesList();
 							if (styles != null)
 							{
-								for(int j = 0; j < styles.length; j++)
+								for(int j = 0; j < styles.size(); j++)
 								{
-									filler.getJasperPrint().addStyle(styles[j], true);
+									filler.getJasperPrint().addStyle((JRStyle)styles.get(j), true);
 								}
 							}
 							
@@ -730,7 +730,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		if (anyTrue)
 		{
 			String consolidatedStyleName = initialStyle.getName() + code.toString();
-			consolidatedStyle = filler.getConsolidatedStyle(consolidatedStyleName);
+			consolidatedStyle = (JRStyle)filler.getJasperPrint().getStylesMap().get(consolidatedStyleName);
 			if (consolidatedStyle == null)
 			{
 				consolidatedStyle = new JRBaseStyle(consolidatedStyleName);
@@ -739,7 +739,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					JRStyleResolver.appendStyle(consolidatedStyle, (JRStyle)condStylesToApply.get(j));
 				}
 
-				filler.putConsolidatedStyle(consolidatedStyle);
+				filler.getJasperPrint().addStyle(consolidatedStyle, true);
 			}
 		}
 

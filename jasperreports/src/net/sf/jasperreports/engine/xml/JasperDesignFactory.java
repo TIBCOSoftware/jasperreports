@@ -61,6 +61,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
 	private static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
 	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
+	private static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
 	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
 	private static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
 	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
@@ -168,6 +169,7 @@ public class JasperDesignFactory extends JRBaseFactory
 		}
 
 		jasperDesign.setScriptletClass(atts.getValue(ATTRIBUTE_scriptletClass));
+		jasperDesign.setFormatFactoryClass(atts.getValue(ATTRIBUTE_formatFactoryClass));
 		jasperDesign.setResourceBundle(atts.getValue(ATTRIBUTE_resourceBundle));
 
 		Byte whenResourceMissingType = (Byte)JRXmlConstants.getWhenResourceMissingTypeMap().get(atts.getValue(ATTRIBUTE_whenResourceMissingType));

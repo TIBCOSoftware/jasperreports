@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
+import net.sf.jasperreports.engine.util.FormatFactory;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -57,6 +58,7 @@ public class JRFillContext
 
 	private JRVirtualizationContext virtualizationContext;
 	
+	private FormatFactory masterFormatFactory;
 	private Locale masterLocale;
 	private TimeZone masterTimeZone;
 
@@ -281,6 +283,18 @@ public class JRFillContext
 	public JRVirtualizationContext getVirtualizationContext()
 	{
 		return virtualizationContext;
+	}
+
+	
+	public FormatFactory getMasterFormatFactory()
+	{
+		return masterFormatFactory;
+	}
+
+	
+	public void setMasterFormatFactory(FormatFactory masterFormatFactory)
+	{
+		this.masterFormatFactory = masterFormatFactory;
 	}
 
 	

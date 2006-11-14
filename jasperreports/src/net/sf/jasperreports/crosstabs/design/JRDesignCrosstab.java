@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import org.apache.commons.collections.SequencedHashMap;
-
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -67,8 +65,11 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+
+import org.apache.commons.collections.SequencedHashMap;
 
 /**
  * Design-time {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -118,6 +119,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class, 
+		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class};
 	

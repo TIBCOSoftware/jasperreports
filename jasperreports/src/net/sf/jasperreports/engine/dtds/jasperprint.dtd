@@ -5,6 +5,7 @@
 	pageWidth NMTOKEN "595"
 	pageHeight NMTOKEN "842"
 	orientation (Portrait | Landscape) "Portrait"
+	formatFactoryClass NMTOKEN #IMPLIED
 	locale CDATA #IMPLIED
 	timezone CDATA #IMPLIED
 >
@@ -152,6 +153,7 @@
 	bookmarkLevel NMTOKEN "0"
 	valueClass NMTOKEN #IMPLIED
 	pattern CDATA #IMPLIED
+	formatFactoryClass NMTOKEN #IMPLIED
 	locale CDATA #IMPLIED
 	timezone CDATA #IMPLIED
 >

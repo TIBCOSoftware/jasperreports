@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
@@ -128,6 +129,7 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class, 
+		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class};
 
