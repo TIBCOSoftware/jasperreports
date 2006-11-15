@@ -202,6 +202,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRStyleResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
+				<include name="**/net/sf/jasperreports/engine/xml/JRXmlConstants.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
