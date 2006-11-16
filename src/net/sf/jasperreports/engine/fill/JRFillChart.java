@@ -120,9 +120,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
@@ -146,8 +146,8 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.ValueDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.general.ValueDataset;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
@@ -949,7 +949,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 			JRFont font = getTitleFont();
 			if (font != null) {
-				Map attributes = JRFontUtil.getNonPdfAttributes(font);
+				Map attributes = JRFontUtil.getAttributes(font);
 				title.setFont(new Font(attributes));
 			}
 
@@ -963,7 +963,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 			JRFont font = getSubtitleFont();
 			if (font != null) {
-				Map attributes = JRFontUtil.getNonPdfAttributes(font);
+				Map attributes = JRFontUtil.getAttributes(font);
 				subtitle.setFont(new Font(attributes));
 			}
 
@@ -977,7 +977,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			chart.getLegend().setBackgroundPaint(getLegendBackgroundColor());
 		if (getLegendFont() != null)
 		{
-			Map attributes = JRFontUtil.getNonPdfAttributes(getLegendFont());
+			Map attributes = JRFontUtil.getAttributes(getLegendFont());
 			chart.getLegend().setItemFont(new Font(attributes));
 		}
 		
@@ -1148,13 +1148,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		if (labelFont != null)
 		{
-			Map attributes = JRFontUtil.getNonPdfAttributes(labelFont);
+			Map attributes = JRFontUtil.getAttributes(labelFont);
 			axis.setLabelFont(new Font(attributes));
 		}
 		
 		if (tickLabelFont != null)
 		{
-			Map attributes = JRFontUtil.getNonPdfAttributes(tickLabelFont);
+			Map attributes = JRFontUtil.getAttributes(tickLabelFont);
 			axis.setTickLabelFont(new Font(attributes));
 		}
 		
@@ -1972,7 +1972,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		    }
 		    if (display.getFont() != null)
 		    {
-		        Map attributes = JRFontUtil.getNonPdfAttributes(display.getFont());
+		        Map attributes = JRFontUtil.getAttributes(display.getFont());
 		        chartPlot.setValueFont(new Font(attributes));
 		    }
 		}
@@ -2054,7 +2054,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		    }
 		    if (display.getFont() != null)
 		    {
-		        Map attributes = JRFontUtil.getNonPdfAttributes(display.getFont());
+		        Map attributes = JRFontUtil.getAttributes(display.getFont());
 		        chartPlot.setValueFont(new Font(attributes));
 		    }
 		}

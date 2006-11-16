@@ -58,6 +58,19 @@ public class JRFontUtil
 	/**
 	 *
 	 */
+	public static Map getAttributes(JRFont font)
+	{
+		Map attributes = new HashMap();
+
+		setAttributes(attributes, font);
+		
+		return attributes;
+	}
+
+
+	/**
+	 *
+	 */
 	private static Map setNonPdfAttributes(Map attributes, JRFont font)
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
