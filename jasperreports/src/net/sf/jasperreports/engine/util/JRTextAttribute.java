@@ -27,15 +27,20 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.InvalidObjectException;
 import java.text.AttributedCharacterIterator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTextAttribute extends AttributedCharacterIterator.Attribute
+public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 {
+
+	private static final Map instanceMap = new HashMap(4);
 
 	/**
 	 *
@@ -44,12 +49,37 @@ public class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	public static JRTextAttribute PDF_ENCODING = new JRTextAttribute("PDF_ENCODING");
 	public static JRTextAttribute IS_PDF_EMBEDDED = new JRTextAttribute("IS_PDF_EMBEDDED");
 	public static JRTextAttribute HTML_FONT_FACE = new JRTextAttribute("HTML_FONT_FACE");
+	
 	/**
 	 *
 	 */
 	private JRTextAttribute(String name)
 	{
 		super(name);
+		
+		if (this.getClass() == JRTextAttribute.class)
+		{
+			instanceMap.put(name, this);
+		}
 	}
 
+	/**
+	 * Resolves instances being deserialized to the predefined constants.
+	*/
+	protected Object readResolve() throws InvalidObjectException 
+	{
+		if (this.getClass() != JRTextAttribute.class)
+		{
+			throw new InvalidObjectException("Subclass didn't correctly implement readResolve");
+		}
+		
+		JRTextAttribute instance = (JRTextAttribute) instanceMap.get(getName());
+		if (instance != null)
+		{
+			return instance;
+		}
+
+		throw new InvalidObjectException("Unknown attribute name");
+	}
+	
 }
