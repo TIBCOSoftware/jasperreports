@@ -16,7 +16,7 @@ records are fed into the report filling process;
 (REPORT_FORMAT_FACTORY) to allow the use of custom date and number formatters;
 
 - new exporter parameter (FORCE_SVG_SHAPES) and configuration property 
-(net.sf.jasperreports.export.pdf.graphics.shapes) to disable the rendering
+(net.sf.jasperreports.export.pdf.force.svg.shapes) to disable the rendering
 of SVG images using shapes in PDF and reduce file size;
 
 - new exporter parameter (MINIMIZE_PRINTER_JOB_SIZE) and configuration property 
