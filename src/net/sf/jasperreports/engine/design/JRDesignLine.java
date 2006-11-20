@@ -106,7 +106,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	 */
 	public byte getDirection()
 	{
-		return this.direction;
+		return direction;
 	}
 
 	/**
