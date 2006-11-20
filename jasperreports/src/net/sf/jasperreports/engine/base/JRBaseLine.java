@@ -91,7 +91,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	 */
 	public byte getDirection()
 	{
-		return this.direction;
+		return direction;
 	}
 
 	/**
