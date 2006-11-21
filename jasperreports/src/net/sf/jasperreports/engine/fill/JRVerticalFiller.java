@@ -50,25 +50,6 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private boolean isCreatingNewPage = false;
-	private boolean isNewPage = false;
-	private boolean isNewColumn = false;
-	private boolean isNewGroup = true;
-
-	private int columnIndex = 0;
-
-	private int offsetX = 0;
-	private int offsetY = 0;
-	private int columnHeaderOffsetY = 0;
-	private int columnFooterOffsetY = 0;
-	private int lastPageColumnFooterOffsetY = 0;
-
-	private boolean isLastPageFooter = false;
-
-
-	/**
-	 *
-	 */
 	protected JRVerticalFiller(JasperReport jasperReport) throws JRException
 	{
 		this(jasperReport, null, null);
@@ -542,6 +523,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			fillColumnBand(groupHeader, JRExpression.EVALUATION_DEFAULT);
 		}
 
+		group.setHeaderPrinted(true);
+
 		isNewGroup = true;
 	}
 
@@ -568,7 +551,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	 {
 		if (
 			group.isReprintHeaderOnEachPage() && 
-			(!group.hasChanged() || (group.hasChanged() && !group.isFooterPrinted())) 
+			(!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted())) 
 			)
 		{
 			JRFillBand groupHeader = (JRFillBand)group.getGroupHeader();
@@ -688,6 +671,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		isNewPage = false;
 		isNewColumn = false;
 
+		group.setHeaderPrinted(false);
 		group.setFooterPrinted(true);
 	}
 
