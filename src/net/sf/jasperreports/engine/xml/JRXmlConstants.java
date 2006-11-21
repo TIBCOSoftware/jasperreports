@@ -38,6 +38,7 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
@@ -263,6 +264,28 @@ public class JRXmlConstants
 		}
 
 		return rotationMap;
+	}
+
+	/**
+	 *
+	 */
+	private static final String BREAK_TYPE_PAGE = "Page";
+	private static final String BREAK_TYPE_COLUMN = "Column";
+
+	private static Map breakTypeMap = null;
+
+	public static Map getBreakTypeMap()
+	{
+		if (breakTypeMap == null)
+		{
+			breakTypeMap = new HashMap(4);
+			breakTypeMap.put(BREAK_TYPE_PAGE,   new Byte(JRBreak.TYPE_PAGE));
+			breakTypeMap.put(BREAK_TYPE_COLUMN, new Byte(JRPrintText.RUN_DIRECTION_RTL));
+			breakTypeMap.put(new Byte(JRBreak.TYPE_PAGE),   BREAK_TYPE_PAGE);
+			breakTypeMap.put(new Byte(JRBreak.TYPE_COLUMN), BREAK_TYPE_COLUMN);
+		}
+
+		return breakTypeMap;
 	}
 
 	/**

@@ -103,6 +103,7 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
@@ -119,7 +120,6 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
-import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
@@ -129,7 +129,6 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseReportFont;
-import net.sf.jasperreports.engine.base.JRBaseSortField;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 
@@ -408,6 +407,26 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return fillElementGroup;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRBreak getBreak(JRBreak breakElement)
+	{
+		JRFillBreak fillBreak = null;
+
+		if (breakElement != null)
+		{
+			fillBreak = (JRFillBreak)get(breakElement);
+			if (fillBreak == null)
+			{
+				fillBreak = new JRFillBreak(filler, breakElement, this);
+			}
+		}
+
+		return fillBreak;
 	}
 
 

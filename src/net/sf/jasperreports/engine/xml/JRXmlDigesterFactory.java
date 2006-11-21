@@ -281,6 +281,10 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("*/band/printWhenExpression", "setText", 0);
 
 		/*   */
+		digester.addFactoryCreate("*/break", JRBreakFactory.class.getName());
+		digester.addSetNext("*/break", "addElement", JRDesignElement.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/line", JRLineFactory.class.getName());
 		digester.addSetNext("*/line", "addElement", JRDesignElement.class.getName());
 

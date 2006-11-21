@@ -103,7 +103,9 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabParameter;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabRowGroup;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -135,7 +137,6 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JRConditionalStyle;
 
 
 /**
@@ -496,6 +497,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseElementGroup;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRBreak getBreak(JRBreak breakElement)
+	{
+		JRBaseBreak baseBreak = null;
+
+		if (breakElement != null)
+		{
+			baseBreak = (JRBaseBreak)get(breakElement);
+			if (baseBreak == null)
+			{
+				baseBreak = new JRBaseBreak(breakElement, this);
+			}
+		}
+
+		return baseBreak;
 	}
 
 
