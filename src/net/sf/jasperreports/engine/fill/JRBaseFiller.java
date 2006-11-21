@@ -310,6 +310,25 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
+	protected boolean isCreatingNewPage = false;
+	protected boolean isNewPage = false;
+	protected boolean isNewColumn = false;
+	protected boolean isNewGroup = true;
+
+	protected int columnIndex = 0;
+
+	protected int offsetX = 0;
+	protected int offsetY = 0;
+	protected int columnHeaderOffsetY = 0;
+	protected int columnFooterOffsetY = 0;
+	protected int lastPageColumnFooterOffsetY = 0;
+
+	protected boolean isLastPageFooter = false;
+
+	
+	/**
+	 *
+	 */
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
