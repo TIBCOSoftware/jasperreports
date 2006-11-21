@@ -2,6 +2,19 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.2.9 (2006-1x-xx)
+-----------------------------------
+
+- XMLA data source;
+
+- page/column break element;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.2.8 (2006-11-14)
 -----------------------------------
 

@@ -527,6 +527,14 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
+	public void collect(JRBreak breakElement)
+	{
+		collectElement(breakElement);
+	}
+
+	/**
+	 *
+	 */
 	public void collect(JRLine line)
 	{
 		collectElement(line);

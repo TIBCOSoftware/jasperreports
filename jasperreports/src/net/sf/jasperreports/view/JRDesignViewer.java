@@ -63,6 +63,7 @@ import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
@@ -957,7 +958,11 @@ public class JRDesignViewer extends javax.swing.JPanel
 			{
 				JRElement element = elements[i];
 
-				if (element instanceof JRLine)
+				if (element instanceof JRBreak)
+				{
+					printBreak((JRBreak)element, grx);
+				}
+				else if (element instanceof JRLine)
 				{
 					printLine((JRLine)element, grx);
 				}
@@ -999,6 +1004,24 @@ public class JRDesignViewer extends javax.swing.JPanel
 				}
 			}
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	private void printBreak(JRBreak breakElement, Graphics2D grx)
+	{
+		grx.setColor(breakElement.getForecolor());
+
+		grx.setStroke(getStroke(JRGraphicElement.PEN_DOTTED));
+		
+		grx.drawLine(
+				0, 
+				breakElement.getY(),
+				report.getColumnWidth(), 
+				breakElement.getY()
+				);
 	}
 
 

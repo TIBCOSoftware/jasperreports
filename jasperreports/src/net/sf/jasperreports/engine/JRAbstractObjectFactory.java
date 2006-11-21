@@ -99,6 +99,11 @@ public abstract class JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	public abstract JRBreak getBreak(JRBreak breakElement);
+
+	/**
+	 *
+	 */
 	public abstract JRLine getLine(JRLine line);
 
 	/**

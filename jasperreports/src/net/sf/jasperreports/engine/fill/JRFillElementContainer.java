@@ -71,7 +71,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	
 	private int stretchHeight = 0;
 	private int firstY = 0;
-	private boolean isFirstYFound = false;
+	protected JRFillElement firstYElement = null;
 	
 	protected final JRFillExpressionEvaluator expressionEvaluator;
 	
@@ -140,13 +140,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		hasPrintWhenOverflowElement = false;
 		
-		if (this.elements != null && this.elements.length > 0)
+		if (elements != null && elements.length > 0)
 		{
 			List sortedElemsList = new ArrayList();
 			List stretchElemsList = new ArrayList();
 			List bandBottomElemsList = new ArrayList();
 			List removableElemsList = new ArrayList();
-			for(int i = 0; i < this.elements.length; i++)
+			for(int i = 0; i < elements.length; i++)
 			{
 				JRFillElement element = elements[i];
 				sortedElemsList.add(element);
@@ -174,20 +174,20 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 			/*   */
 			Collections.sort(sortedElemsList, new JRYComparator());
-			this.ySortedElements = new JRFillElement[this.elements.length];
-			sortedElemsList.toArray(this.ySortedElements);
+			ySortedElements = new JRFillElement[elements.length];
+			sortedElemsList.toArray(ySortedElements);
 
 			/*   */
-			this.stretchElements = new JRFillElement[stretchElemsList.size()];
-			stretchElemsList.toArray(this.stretchElements);
+			stretchElements = new JRFillElement[stretchElemsList.size()];
+			stretchElemsList.toArray(stretchElements);
 
 			/*   */
-			this.bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
-			bandBottomElemsList.toArray(this.bandBottomElements);
+			bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
+			bandBottomElemsList.toArray(bandBottomElements);
 
 			/*   */
-			this.removableElements = new JRFillElement[removableElemsList.size()];
-			removableElemsList.toArray(this.removableElements);
+			removableElements = new JRFillElement[removableElemsList.size()];
+			removableElemsList.toArray(removableElements);
 		}
 		
 		/*   */
@@ -198,12 +198,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	protected final void setElementsBandBottomY()
 	{
-		if (this.elements != null && this.elements.length > 0)
+		if (elements != null && elements.length > 0)
 		{
-			for(int i = 0; i < this.elements.length; i++)
+			for(int i = 0; i < elements.length; i++)
 			{
-				this.elements[i].setBandBottomY(
-					this.getContainerHeight() - this.elements[i].getY() - this.elements[i].getHeight()
+				elements[i].setBandBottomY(
+					getContainerHeight() - elements[i].getY() - elements[i].getHeight()
 					);
 			}
 		}
@@ -216,23 +216,20 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		if (ySortedElements != null && ySortedElements.length > 0)
 		{
-			JRFillElement iElem = null;
-			JRFillElement jElem = null;
-			int left = 0;
-			int right = 0;
 			for(int i = 0; i < ySortedElements.length - 1; i++)
 			{
-				iElem = ySortedElements[i];
+				JRFillElement iElem = ySortedElements[i];
+				boolean isBreakElem = iElem instanceof JRFillBreak;
 
 				for(int j = i + 1; j < ySortedElements.length; j++)
 				{
-					jElem = ySortedElements[j];
+					JRFillElement jElem = ySortedElements[j];
 					
-					left = Math.min(iElem.getX(), jElem.getX());
-					right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
+					int left = Math.min(iElem.getX(), jElem.getX());
+					int right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
 					
 					if (
-						jElem.getPositionType() == JRElement.POSITION_TYPE_FLOAT &&
+						((isBreakElem && jElem.getPositionType() == JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP) || jElem.getPositionType() == JRElement.POSITION_TYPE_FLOAT) &&
 						iElem.getY() + iElem.getHeight() <= jElem.getY() &&
 						iElem.getWidth() + jElem.getWidth() > right - left // FIXME band bottom elements should not have dependent elements
 						)
@@ -259,15 +256,15 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected void evaluate(byte evaluation) throws JRException
 	{
-		//this.evaluatePrintWhenExpression(evaluation);
+		//evaluatePrintWhenExpression(evaluation);
 
 		//if (
-		//	(this.isPrintWhenExpressionNull() ||
-		//	(!this.isPrintWhenExpressionNull() && 
-		//	this.isPrintWhenTrue()))
+		//	(isPrintWhenExpressionNull() ||
+		//	(!isPrintWhenExpressionNull() && 
+		//	isPrintWhenTrue()))
 		//	)
 		//{
-			JRElement[] allElements = this.getElements();
+			JRElement[] allElements = getElements();
 			if (allElements != null && allElements.length > 0)
 			{
 				for(int i = 0; i < allElements.length; i++)
@@ -294,7 +291,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 				element.reset();
 				
-				if (!this.isOverflow)
+				if (!isOverflow)
 				{
 					element.setAlreadyPrinted(false);
 				}
@@ -308,15 +305,15 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected boolean willOverflow()
 	{
-		return this.willOverflow;
+		return willOverflow;
 	}
 
 
 	protected void initFill()
 	{
-		this.isOverflow = this.willOverflow;
-		this.firstY = 0;
-		this.isFirstYFound = false;
+		isOverflow = willOverflow;
+		firstY = 0;
+		firstYElement = null;
 	}
 
 
@@ -334,6 +331,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		int bandStretch = 0;
 
 		firstY = isOverflow ? getContainerHeight() : 0;
+		firstYElement = null;
+		boolean isFirstYFound = false;
 
 		if (ySortedElements != null && ySortedElements.length > 0)
 		{
@@ -341,26 +340,31 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = ySortedElements[i];
 
-				int elemFirstY = getElementFirstY(element);
-				tmpWillOverflow = element.prepare(availableStretchHeight + elemFirstY, this.isOverflow) || tmpWillOverflow;
+				tmpWillOverflow = 
+					element.prepare(
+						availableStretchHeight + getElementFirstY(element), 
+						isOverflow
+						) 
+					|| tmpWillOverflow;
 
 				element.moveDependantElements();
 
 				if (element.isToPrint())
 				{
-					if (this.isOverflow)
+					if (isOverflow)
 					{
 						if (element.isReprinted())
 						{
-							this.firstY = 0;
+							firstY = 0;
 						}
-						else if (!this.isFirstYFound)
+						else if (!isFirstYFound)
 						{
-							this.firstY = element.getY();
+							firstY = element.getY();
 						}
-						
-						this.isFirstYFound = true;
+						isFirstYFound = true;
 					}
+
+					firstYElement = element;
 
 					bandStretch = element.getRelativeY() + element.getStretchHeight() - getContainerHeight() + element.getBandBottomY();
 					if (bandStretch > maxBandStretch)
@@ -378,14 +382,14 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		
 		if (tmpWillOverflow)
 		{
-			this.stretchHeight = getContainerHeight() + availableStretchHeight;
+			stretchHeight = getContainerHeight() + availableStretchHeight;
 		}
 		else
 		{
-			this.stretchHeight = getContainerHeight() + maxBandStretch;
+			stretchHeight = getContainerHeight() + maxBandStretch;
 		}
 
-		this.willOverflow = tmpWillOverflow && isOverflowAllowed;
+		willOverflow = tmpWillOverflow && isOverflowAllowed;
 	}
 
 	private int getElementFirstY(JRFillElement element)
@@ -425,7 +429,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = stretchElements[i];
 				
-				element.stretchElement(this.stretchHeight - getContainerHeight());
+				element.stretchElement(stretchHeight - getContainerHeight());
 				
 				element.moveDependantElements();
 			}
@@ -454,7 +458,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected void moveBandBottomElements()
 	{
-		//if (!this.willOverflow)
+		//if (!willOverflow)
 		//{
 			if (bandBottomElements != null && bandBottomElements.length > 0)
 			{
@@ -463,11 +467,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 					JRFillElement element = bandBottomElements[i];
 
 					element.setRelativeY(
-						element.getY() + this.stretchHeight - getContainerHeight()
+						element.getY() + stretchHeight - getContainerHeight()
 						);
 
 					// band bottom elements do not print if there will be an overflow
-					element.setToPrint(element.isToPrint() && !this.willOverflow);
+					element.setToPrint(element.isToPrint() && !willOverflow);
 				}
 			}
 		//}
@@ -479,10 +483,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected void removeBlankElements()
 	{
-		JRElement[] remElems = this.removableElements;
+		JRElement[] remElems = removableElements;
 		if (remElems != null && remElems.length > 0)
 		{
-			JRElement[] elems = this.ySortedElements;
+			JRElement[] elems = ySortedElements;
 			
 			for(int i = 0; i < remElems.length; i++)
 			{
@@ -500,8 +504,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				
 				if (
 					blankHeight > 0 && 
-					iElem.getRelativeY() + iElem.getStretchHeight() <= this.stretchHeight &&
-					iElem.getRelativeY() >= this.firstY
+					iElem.getRelativeY() + iElem.getStretchHeight() <= stretchHeight &&
+					iElem.getRelativeY() >= firstY
 					)
 				{
 					int blankY = iElem.getRelativeY() + iElem.getHeight() - blankHeight;
@@ -541,7 +545,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							}
 						}
 						
-						this.stretchHeight = this.stretchHeight - blankHeight;
+						stretchHeight = stretchHeight - blankHeight;
 					}
 				}
 			}
@@ -556,16 +560,16 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	{
 		//int maxStretch = 0;
 		//int stretch = 0;
-		JRElement[] allElements = this.getElements();
+		JRElement[] allElements = getElements();
 		if (allElements != null && allElements.length > 0)
 		{
 			for(int i = 0; i < allElements.length; i++)
 			{
 				JRFillElement element = (JRFillElement)allElements[i];
 				
-				element.setRelativeY(element.getRelativeY() - this.firstY);
+				element.setRelativeY(element.getRelativeY() - firstY);
 
-				if (element.getRelativeY() + element.getStretchHeight() > this.stretchHeight)
+				if (element.getRelativeY() + element.getStretchHeight() > stretchHeight)
 				{
 					element.setToPrint(false);
 				}
@@ -575,12 +579,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				if (element.isToPrint())
 				{
 					JRPrintElement printElement = element.fill();
-					//printElement.setY(printElement.getY() - this.firstY);
+					//printElement.setY(printElement.getY() - firstY);
 
 					if (printElement != null)
 					{
 						//FIXME not all elements affect height
-						//stretch = printElement.getY() + this.firstY + printElement.getHeight() - element.getY() - element.getHeight();
+						//stretch = printElement.getY() + firstY + printElement.getHeight() - element.getY() - element.getHeight();
 						//if (stretch > maxStretch)
 						//{
 						//	maxStretch = stretch;
@@ -623,8 +627,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			}
 		}
 		
-		//printBand.setHeight(this.getHeight() + maxStretch - this.firstY);
-		printContainer.setHeight(this.stretchHeight - this.firstY);
+		//printBand.setHeight(getHeight() + maxStretch - firstY);
+		printContainer.setHeight(stretchHeight - firstY);
 	}
 
 
@@ -661,7 +665,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			}
 		}
 		
-		this.willOverflow = false;
+		willOverflow = false;
 	}
 	
 	protected int getFirstY()
