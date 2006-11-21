@@ -58,6 +58,7 @@ public class JRFillGroup implements JRGroup
 	 */
 	private boolean hasChanged = true;
 	private boolean isTopLevelChange = false;
+	private boolean isHeaderPrinted = false;
 	private boolean isFooterPrinted = true;
 	
 
@@ -227,6 +228,22 @@ public class JRFillGroup implements JRGroup
 	public void setTopLevelChange(boolean isTopLevelChange)
 	{
 		this.isTopLevelChange = isTopLevelChange;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isHeaderPrinted()
+	{
+		return isHeaderPrinted;
+	}
+			
+	/**
+	 *
+	 */
+	public void setHeaderPrinted(boolean isHeaderPrinted)
+	{
+		this.isHeaderPrinted = isHeaderPrinted;
 	}
 
 	/**
