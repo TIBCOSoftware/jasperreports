@@ -45,10 +45,6 @@ public interface JRFont extends JRStyleContainer
 {
 
 	public static final String DEFAULT_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.font.name";
-	public static final String DEFAULT_FONT_BOLD = JRProperties.PROPERTY_PREFIX + "default.font.bold";
-	public static final String DEFAULT_FONT_ITALIC = JRProperties.PROPERTY_PREFIX + "default.font.italic";
-	public static final String DEFAULT_FONT_UNDERLINE = JRProperties.PROPERTY_PREFIX + "default.font.underline";
-	public static final String DEFAULT_FONT_STRIKETHROUGH = JRProperties.PROPERTY_PREFIX + "default.font.strikethrough";
 	public static final String DEFAULT_FONT_SIZE = JRProperties.PROPERTY_PREFIX + "default.font.size";
 	public static final String DEFAULT_PDF_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.pdf.font.name";
 	public static final String DEFAULT_PDF_ENCODING = JRProperties.PROPERTY_PREFIX + "default.pdf.encoding";
