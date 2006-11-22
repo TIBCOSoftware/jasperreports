@@ -40,15 +40,15 @@
 <!ATTLIST reportFont
 	name NMTOKEN #REQUIRED
 	isDefault (true | false) "false"
-	fontName CDATA "sansserif"
-	size NMTOKEN "10"
-	isBold (true | false) "false"
-	isItalic (true | false) "false"
-	isUnderline (true | false) "false"
-	isStrikeThrough (true | false) "false"
-	pdfFontName CDATA "Helvetica"
-	pdfEncoding CDATA "CP1252"
-	isPdfEmbedded (true | false) "false"
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
 >
 
 <!ELEMENT style (conditionalStyle*)>
