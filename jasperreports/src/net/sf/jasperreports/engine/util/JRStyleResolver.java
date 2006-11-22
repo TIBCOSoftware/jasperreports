@@ -722,7 +722,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.getFontName() != null)
 			return baseStyle.getFontName();
-		return JRFont.DEFAULT_FONT_NAME;
+		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 	
 	/**
@@ -735,7 +735,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null && baseStyle.getFontName() != null)
 			return baseStyle.getFontName();
-		return JRFont.DEFAULT_FONT_NAME;
+		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 
 	/**
@@ -751,7 +751,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isBold() != null)
 			return baseStyle.isBold().booleanValue();
-		return JRFont.DEFAULT_FONT_BOLD;
+		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_BOLD);
 	}
 	
 	/**
@@ -780,7 +780,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isItalic() != null)
 			return baseStyle.isItalic().booleanValue();
-		return JRFont.DEFAULT_FONT_ITALIC;
+		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_ITALIC);
 	}
 	
 	/**
@@ -809,7 +809,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isUnderline() != null)
 			return baseStyle.isUnderline().booleanValue();
-		return JRFont.DEFAULT_FONT_UNDERLINE;
+		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_UNDERLINE);
 	}
 	
 	/**
@@ -838,7 +838,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isStrikeThrough() != null)
 			return baseStyle.isStrikeThrough().booleanValue();
-		return JRFont.DEFAULT_FONT_STRIKETHROUGH;
+		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_STRIKETHROUGH);
 	}
 	
 	/**
@@ -867,7 +867,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.getFontSize() != null)
 			return baseStyle.getFontSize().intValue();
-		return JRFont.DEFAULT_FONT_SIZE;
+		return JRProperties.getIntegerProperty(JRFont.DEFAULT_FONT_SIZE);
 	}
 	
 	/**
@@ -954,7 +954,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isPdfEmbedded() != null)
 			return baseStyle.isPdfEmbedded().booleanValue();
-		return JRFont.DEFAULT_PDF_EMBEDDED;
+		return JRProperties.getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
 	}
 	
 	/**

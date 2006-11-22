@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.JRProperties;
+
 
 /**
  * An abstract representation of a font. Fonts in JasperReports are very complex because of the library portability
@@ -42,15 +44,15 @@ package net.sf.jasperreports.engine;
 public interface JRFont extends JRStyleContainer
 {
 
-	public static final String DEFAULT_FONT_NAME = "sansserif";
-	public static final boolean DEFAULT_FONT_BOLD = false;
-	public static final boolean DEFAULT_FONT_ITALIC = false;
-	public static final boolean DEFAULT_FONT_UNDERLINE = false;
-	public static final boolean DEFAULT_FONT_STRIKETHROUGH = false;
-	public static final int DEFAULT_FONT_SIZE = 10;
-	public static final String DEFAULT_PDF_FONT_NAME = "Helvetica";
-	public static final String DEFAULT_PDF_ENCODING = "Cp1252";
-	public static final boolean DEFAULT_PDF_EMBEDDED = false;
+	public static final String DEFAULT_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.font.name";
+	public static final String DEFAULT_FONT_BOLD = JRProperties.PROPERTY_PREFIX + "default.font.bold";
+	public static final String DEFAULT_FONT_ITALIC = JRProperties.PROPERTY_PREFIX + "default.font.italic";
+	public static final String DEFAULT_FONT_UNDERLINE = JRProperties.PROPERTY_PREFIX + "default.font.underline";
+	public static final String DEFAULT_FONT_STRIKETHROUGH = JRProperties.PROPERTY_PREFIX + "default.font.strikethrough";
+	public static final String DEFAULT_FONT_SIZE = JRProperties.PROPERTY_PREFIX + "default.font.size";
+	public static final String DEFAULT_PDF_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.pdf.font.name";
+	public static final String DEFAULT_PDF_ENCODING = JRProperties.PROPERTY_PREFIX + "default.pdf.encoding";
+	public static final String DEFAULT_PDF_EMBEDDED = JRProperties.PROPERTY_PREFIX + "default.pdf.embedded";
 
 	/**
 	 *
