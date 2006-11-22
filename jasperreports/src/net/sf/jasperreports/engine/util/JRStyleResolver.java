@@ -751,7 +751,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isBold() != null)
 			return baseStyle.isBold().booleanValue();
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_BOLD);
+		return false;
 	}
 	
 	/**
@@ -780,7 +780,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isItalic() != null)
 			return baseStyle.isItalic().booleanValue();
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_ITALIC);
+		return false;
 	}
 	
 	/**
@@ -809,7 +809,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isUnderline() != null)
 			return baseStyle.isUnderline().booleanValue();
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_UNDERLINE);
+		return false;
 	}
 	
 	/**
@@ -838,7 +838,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.isStrikeThrough() != null)
 			return baseStyle.isStrikeThrough().booleanValue();
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_FONT_STRIKETHROUGH);
+		return false;
 	}
 	
 	/**
