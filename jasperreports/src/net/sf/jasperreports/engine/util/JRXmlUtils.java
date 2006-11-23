@@ -203,7 +203,14 @@ public class JRXmlUtils
 	public static Document createDocument(Node sourceNode) throws JRException
 	{
 		Document doc = JRXmlUtils.createDocumentBuilder().newDocument();
-		Node node = doc.importNode(sourceNode, true);
+		Node source;
+		if (sourceNode.getNodeType() == Node.DOCUMENT_NODE) {
+			source = ((Document) sourceNode).getDocumentElement();
+		} else {
+			source = sourceNode;
+		}
+
+		Node node = doc.importNode(source, true);
 		doc.appendChild(node);
 		
 		return doc;
