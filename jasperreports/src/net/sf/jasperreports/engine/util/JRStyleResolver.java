@@ -896,7 +896,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.getPdfFontName() != null)
 			return baseStyle.getPdfFontName();
-		return JRFont.DEFAULT_PDF_FONT_NAME;
+		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 	
 	/**
@@ -909,7 +909,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null && baseStyle.getPdfFontName() != null)
 			return baseStyle.getPdfFontName();
-		return JRFont.DEFAULT_PDF_FONT_NAME;
+		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 
 	/**
@@ -925,7 +925,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null && baseStyle.getPdfEncoding() != null)
 			return baseStyle.getPdfEncoding();
-		return JRFont.DEFAULT_PDF_ENCODING;
+		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 	
 	/**
@@ -938,7 +938,7 @@ public class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null && baseStyle.getPdfEncoding() != null)
 			return baseStyle.getPdfEncoding();
-		return JRFont.DEFAULT_PDF_ENCODING;
+		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 
 	/**
