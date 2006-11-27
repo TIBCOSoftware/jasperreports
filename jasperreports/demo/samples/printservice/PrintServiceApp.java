@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 
 
@@ -217,7 +217,7 @@ public class PrintServiceApp
 		image.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		image.setRenderer(
 			JRImageRenderer.getInstance(
-				JRImageLoader.loadImageDataFromLocation("jasperreports.gif")
+				JRLoader.loadBytesFromLocation("jasperreports.gif")
 				)
 			);
 		page.addElement(image);

@@ -87,7 +87,7 @@ public class JRDesignExpression extends JRBaseExpression
 	}
 
 	/**
-	 * FIXME remove me?
+	 * FIXMENOW remove me?
 	 */
 	public void setId(int id)
 	{

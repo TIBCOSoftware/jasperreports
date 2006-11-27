@@ -85,7 +85,6 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -198,7 +197,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				pxImage = 
 					Image.getInstance(
-						JRImageLoader.loadImageDataFromLocation("net/sf/jasperreports/engine/images/pixel.GIF", null)
+						JRLoader.loadBytesFromLocation("net/sf/jasperreports/engine/images/pixel.GIF", null)
 						);
 			}
 			catch(Exception e)

@@ -133,7 +133,7 @@ public class JRSaver
 		}
 		finally
 		{
-			//FIXME should not close the stream
+			//FIXMENOW should not close the stream
 			if (oos != null)
 			{
 				try

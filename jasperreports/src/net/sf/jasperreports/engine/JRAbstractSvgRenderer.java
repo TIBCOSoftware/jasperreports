@@ -63,7 +63,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	 */
 	public byte getImageType()
 	{
-		return IMAGE_TYPE_JPEG;
+		return IMAGE_TYPE_PNG;
 	}
 
 
@@ -110,14 +110,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 			render(g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
 			g.dispose();
 			
-			try
-			{
-				return JRImageLoader.loadImageDataFromAWTImage(bi);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
+			return JRImageLoader.loadImageDataFromAWTImage(bi, getImageType());
 		}
 		return null;
 	}

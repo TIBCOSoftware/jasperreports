@@ -27,24 +27,15 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Panel;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import net.sf.jasperreports.engine.JRRenderable;
 
 
 /**
@@ -75,138 +66,126 @@ public class JRImageLoader
 	/**
 	 *
 	 */
-	//private static boolean wasWarning = false;
+	private static JRImageReader imageReader = null;
+	private static JRImageEncoder imageEncoder = null;
+	
+
+	static
+	{
+		try 
+		{
+			JRClassLoader.loadClassForName("javax.imageio.ImageIO");
+
+			Class clazz = JRClassLoader.loadClassForName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
+			imageReader = (JRImageReader) clazz.newInstance();
+		}
+		catch (Exception e)
+		{
+			imageReader = new JRJdk13ImageReader();
+		}
+
+		try 
+		{
+			JRClassLoader.loadClassForName("javax.imageio.ImageIO");
+
+			Class clazz = JRClassLoader.loadClassForName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
+			imageEncoder = (JRImageEncoder) clazz.newInstance();
+		}
+		catch (Exception e)
+		{
+			imageEncoder = new JRDefaultImageEncoder();
+		}
+	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLoader#loadBytes(File)}.
 	 */
 	public static byte[] loadImageDataFromFile(File file) throws JRException
 	{
-		try
-		{
-			return JRLoader.loadBytes(file);
-		}
-		catch (JRException e)
-		{
-			throw new JRException("Error loading image data : " + file, e);
-		}
+		return JRLoader.loadBytes(file);
 	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLoader#loadBytes(URL)}.
 	 */
 	public static byte[] loadImageDataFromURL(URL url) throws JRException
 	{
-		try
-		{
-			return JRLoader.loadBytes(url);
-		}
-		catch (JRException e)
-		{
-			throw new JRException("Error loading image data : " + url, e);
-		}
+		return JRLoader.loadBytes(url);
 	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLoader#loadBytes(InputStream)}.
 	 */
 	public static byte[] loadImageDataFromInputStream(InputStream is) throws JRException
 	{
-		try
-		{
-			return JRLoader.loadBytes(is);
-		}
-		catch (JRException e)
-		{
-			throw new JRException("Error loading image data from input stream.", e);
-		}
+		return JRLoader.loadBytes(is);
 	}
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String)}.
 	 */
 	public static byte[] loadImageDataFromLocation(String location) throws JRException
 	{
-		return loadImageDataFromLocation(location, null, null);
+		return JRLoader.loadBytesFromLocation(location);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String, ClassLoader)}.
+	 */
 	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
-		return loadImageDataFromLocation(location, classLoader, null);
+		return JRLoader.loadBytesFromLocation(location, classLoader);
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String, ClassLoader, URLStreamHandlerFactory)}.
 	 */
-	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader,
-			URLStreamHandlerFactory urlHandlerFactory) throws JRException
+	public static byte[] loadImageDataFromLocation(
+		String location, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory
+		) throws JRException
 	{
-		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
-		if (url != null)
-		{
-			return loadImageDataFromURL(url);
-		}
-
-		File file = new File(location);
-		if (file.exists() && file.isFile())
-		{
-			return loadImageDataFromFile(file);
-		}
-
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRImageLoader.class);
-		if (url != null)
-		{
-			return loadImageDataFromURL(url);
-		}
-
-		throw new JRException("Image not found : " + location);
+		return JRLoader.loadBytesFromLocation(location, classLoader, urlHandlerFactory);
 	}
 
 
 	/**
-	 *
+	 * Encoding the image object using an image encoder that supports the supplied image type.
+	 * 
+	 * @param image the java.awt.Image object to encode
+	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
+	 * @return the encoded image data
+	 */
+	public static byte[] loadImageDataFromAWTImage(Image image, byte imageType) throws JRException
+	{
+		return imageEncoder.encode(image, imageType);
+	}
+
+
+	/**
+	 * Encodes the image object using an image encoder that supports the JRRenderable.IMAGE_TYPE_JPEG image type.
+	 * 
+	 * @deprecated Replaced by {@link JRImageLoader#loadImageDataFromAWTImage(Image, byte)}.
 	 */
 	public static byte[] loadImageDataFromAWTImage(BufferedImage bi) throws JRException
 	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	
-		try
-		{
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(baos);
-			JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(bi);
-			param.setQuality(1f, true);//1f = JPG_QUALITY
-			encoder.encode(bi, param);
-		}
-		catch (IOException e)
-		{
-			throw new JRException("Error trying to load image data from AWT image.", e);
-		}
-		
-		return baos.toByteArray();
+		return loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG);
 	}
 
 
 	/**
-	 *
+	 * Encodes the image object using an image encoder that supports the JRRenderable.IMAGE_TYPE_JPEG image type.
+	 * 
+	 * @deprecated Replaced by {@link JRImageLoader#loadImageDataFromAWTImage(Image, byte)}.
 	 */
-	public static byte[] loadImageDataFromAWTImage(Image img) throws JRException
+	public static byte[] loadImageDataFromAWTImage(Image image) throws JRException
 	{
-		BufferedImage bi =
-			new BufferedImage(
-				img.getWidth(null),
-				img.getHeight(null),
-				BufferedImage.TYPE_INT_RGB
-				);
-
-		Graphics g = bi.createGraphics();
-		g.drawImage(img, 0, 0, null);
-		g.dispose();
-
-		return loadImageDataFromAWTImage(bi);
+		return loadImageDataFromAWTImage(image, JRRenderable.IMAGE_TYPE_JPEG);
 	}
 
 
@@ -266,32 +245,7 @@ public class JRImageLoader
 	 */
 	public static Image loadImage(byte[] bytes) throws JRException
 	{
-		Image image = Toolkit.getDefaultToolkit().createImage( bytes );
-
-		MediaTracker tracker = new MediaTracker(new Panel());
-		tracker.addImage(image, 0);
-		try
-		{
-			tracker.waitForID(0);
-		}
-		catch (Exception e)
-		{
-			//image = null;
-			throw new JRException(e);
-		}
-
-		try
-		{
-			if(tracker.isErrorID(0)) {
-				throw new JRException("Image failed to load.");
-			}
-		}
-		catch (JRException e)
-		{
-			throw e;
-		}
-
-		return image;
+		return imageReader.readImage(bytes);
 	}
 
 
@@ -301,7 +255,8 @@ public class JRImageLoader
 	 * @param image the resource name
 	 * @throws JRException
 	 */
-	protected static Image loadImage(String image) throws JRException {
+	protected static Image loadImage(String image) throws JRException 
+	{
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		URL url = classLoader.getResource(image);
 		if (url == null)
@@ -324,9 +279,7 @@ public class JRImageLoader
 			is = classLoader.getResourceAsStream(image);
 		}
 		
-		return loadImage(
-			loadImageDataFromInputStream(is)
-			);
+		return imageReader.readImage(JRLoader.loadBytes(is));
 	}
 
 }

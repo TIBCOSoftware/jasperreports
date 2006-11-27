@@ -99,11 +99,10 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
-
-import com.keypoint.PngEncoderB;
 
 
 /**
@@ -128,15 +127,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private Pattern backgroundMode = Pattern.SOLID;
 	
-	private PngEncoderB pngEncoder;
-	
 	private Map numberFormats;
 	private Map dateFormats;
 	
 	public JExcelApiExporter()
 	{
-		pngEncoder = new PngEncoderB();
-		
 		numberFormats = new HashMap();
 		dateFormats = new HashMap();
 	}
@@ -738,8 +733,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					
 				
 					sheet.addCell(new Blank(x, y, cellStyle2));
-					WritableImage image = new WritableImage(x, y, gridCell.colSpan, gridCell.rowSpan, 
-															loadImageDataFromAWTImage(bi));
+					WritableImage image = 
+						new WritableImage(
+							x, 
+							y, 
+							gridCell.colSpan, 
+							gridCell.rowSpan, 
+							JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
+							);
 					
 						
 					sheet.addImage(image);
@@ -756,19 +757,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				throw new JRException("The cell cannot be added", err);
 			}
 		//}
-	}
-
-	protected byte[] loadImageDataFromAWTImage(BufferedImage bi)
-	{
-		try
-		{
-			pngEncoder.setImage(bi);
-			return pngEncoder.pngEncode();
-		}
-		finally
-		{
-			pngEncoder.setImage(null);
-		}
 	}
 
 	protected static Colour getNearestColour(Color awtColor)

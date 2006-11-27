@@ -9,6 +9,8 @@ JasperReports 1.2.9 (2006-1x-xx)
 
 - page/column break element;
 
+- improved image loading/encoding support;
+
 - minor bug fixes and improvements;
 
 

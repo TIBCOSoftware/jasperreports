@@ -39,6 +39,7 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
@@ -164,7 +165,12 @@ public class JRImageRenderer extends JRAbstractRenderer
 	}
 
 	
-	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader) throws JRException
+	public static JRRenderable getInstance(
+		String imageLocation, 
+		byte onErrorType, 
+		boolean isLazy, 
+		ClassLoader classLoader
+		) throws JRException
 	{
 		return getInstance(imageLocation, onErrorType, isLazy, classLoader);
 	}
@@ -172,8 +178,13 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy, ClassLoader classLoader,
-			URLStreamHandlerFactory urlHandlerFactory) throws JRException
+	public static JRRenderable getInstance(
+		String imageLocation, 
+		byte onErrorType, 
+		boolean isLazy, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory
+		) throws JRException
 	{
 		if (imageLocation == null)
 		{
@@ -187,7 +198,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 		try
 		{
-			byte[] data = JRImageLoader.loadImageDataFromLocation(imageLocation, classLoader, urlHandlerFactory);
+			byte[] data = JRLoader.loadBytesFromLocation(imageLocation, classLoader, urlHandlerFactory);
 			return new JRImageRenderer(data, onErrorType);
 		}
 		catch (JRException e)
@@ -202,9 +213,24 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRRenderable getInstance(Image img, byte onErrorType) throws JRException
 	{
+		return getInstance(img, JRRenderable.IMAGE_TYPE_JPEG, onErrorType);
+	}
+
+
+	/**
+	 * Creates and returns an instance of the JRImageRenderer class after encoding the image object using an image
+	 * encoder that supports the supplied image type.
+	 * 
+	 * @param image the java.awt.Image object to wrap into a JRImageRenderer instance
+	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
+	 * @param onErrorType one of the error type constants defined in the JRImage interface
+	 * @return the image renderer instance
+	 */
+	public static JRRenderable getInstance(Image image, byte imageType, byte onErrorType) throws JRException
+	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(img), onErrorType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(image, imageType), onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -220,7 +246,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromInputStream(is), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(is), onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -236,7 +262,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromURL(url), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(url), onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -252,7 +278,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromFile(file), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(file), onErrorType);
 		}
 		catch (JRException e)
 		{
@@ -356,7 +382,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 		{
 			try
 			{
-				imageData = JRImageLoader.loadImageDataFromLocation(imageLocation);
+				imageData = JRLoader.loadBytesFromLocation(imageLocation);
 			}
 			catch (JRException e)
 			{

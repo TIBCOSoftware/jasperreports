@@ -1136,7 +1136,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(twip(availableImageHeight)));
 			writer.write("\n");
 			
-			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi));
+			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG));
 
 			int count = 0;
 			int current = 0;

@@ -84,7 +84,7 @@ public class JRPrintImageSourceObject
 		{
 			try
 			{
-				ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXME other encodings ?
+				ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXMENOW other encodings ?
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				
 				Base64Decoder decoder = new Base64Decoder(bais, baos);

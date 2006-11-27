@@ -201,7 +201,7 @@ public class JRLoader
 		}
 		finally
 		{
-			//FIXME should not close the stream
+			//FIXMENOW should not close the stream
 			if (ois != null)
 			{
 				try
@@ -226,16 +226,24 @@ public class JRLoader
 		return loadObjectFromLocation(location, null, null);
 	}
 
+
+	/**
+	 *
+	 */
 	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
 		return loadObjectFromLocation(location, classLoader, null);
 	}
 
+	
 	/**
 	 *
 	 */
-	public static Object loadObjectFromLocation(String location, ClassLoader classLoader,
-			URLStreamHandlerFactory urlHandlerFactory) throws JRException
+	public static Object loadObjectFromLocation(
+		String location, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory
+		) throws JRException
 	{
 		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
 		if (url != null)
@@ -419,16 +427,24 @@ public class JRLoader
 		return loadBytesFromLocation(location, null, null);
 	}
 
+
+	/**
+	 *
+	 */
 	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
 		return loadBytesFromLocation(location, classLoader, null);
 	}
 		
+	
 	/**
 	 *
 	 */
-	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader,
-			URLStreamHandlerFactory urlHandlerFactory) throws JRException
+	public static byte[] loadBytesFromLocation(
+		String location, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory
+		) throws JRException
 	{
 		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
 		if (url != null)
