@@ -683,7 +683,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected Format getFormat()//FIXME optimize this with an interface
+	protected Format getFormat()//FIXMEFORMAT optimize this with an interface
 	{
 		Format format = null;
 
@@ -707,7 +707,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected String getTemplatePattern()//FIXME optimize this with an interface
+	protected String getTemplatePattern()//FIXMEFORMAT optimize this with an interface
 	{
 		String pattern = null;
 		String originalPattern = getPattern();

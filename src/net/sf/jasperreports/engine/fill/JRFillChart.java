@@ -1466,7 +1466,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		JRFillLinePlot linePlot = (JRFillLinePlot)getPlot();
 
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setShapesVisible( linePlot.isShowShapes() );//FIXME check this
+		lineRenderer.setShapesVisible( linePlot.isShowShapes() );//FIXMECHART check this
 		lineRenderer.setLinesVisible( linePlot.isShowLines() );
 
 		// Handle the axis formating for the catagory axis

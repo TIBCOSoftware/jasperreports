@@ -23,6 +23,8 @@
 			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRGroovy*.java" unless="using.jdk.1.4"/>
 			<exclude name="**/olap/**/*.java" unless="using.jdk.1.4"/>
+			<exclude name="**/JRJdk14ImageReader.java" unless="using.jdk.1.4"/>
+			<exclude name="**/JRJdk14ImageEncoder.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
 			<classpath>
 				<pathelement location="./build/classes"/>
@@ -190,10 +192,17 @@
 				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>
 				<include name="**/net/sf/jasperreports/engine/print/JRPrinterAWT.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRAbstractImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRClassLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRDefaultImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRImageReader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRJdk13ImageReader.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageEncoder.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRJdk14ImageReader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRLoader.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRProperties.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRSaver.class"/>

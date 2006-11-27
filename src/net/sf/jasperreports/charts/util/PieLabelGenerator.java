@@ -59,6 +59,6 @@ public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 
 	public AttributedString generateAttributedSectionLabel(PieDataset arg0, Comparable arg1)
 	{
-		return new AttributedString(generateSectionLabel(arg0, arg1));//FIXME check this
+		return new AttributedString(generateSectionLabel(arg0, arg1));//FIXMECHART check this
 	}
 }

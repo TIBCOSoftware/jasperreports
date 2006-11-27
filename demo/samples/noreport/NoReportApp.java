@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 
@@ -308,7 +307,7 @@ public class NoReportApp
 		image.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		image.setRenderer(
 			JRImageRenderer.getInstance(
-				JRImageLoader.loadImageDataFromLocation("jasperreports.gif")
+				JRLoader.loadBytesFromLocation("jasperreports.gif")
 				)
 			);
 		page.addElement(image);

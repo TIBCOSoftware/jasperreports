@@ -1268,7 +1268,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 						try
 						{
 							awtImage = JRImageLoader.loadImage(
-								JRImageLoader.loadImageDataFromLocation(location)
+								JRLoader.loadBytesFromLocation(location)
 								);
 						}
 						catch (JRException e)

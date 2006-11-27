@@ -72,7 +72,7 @@ import org.xml.sax.SAXException;
 public abstract class JRAbstractExporter implements JRExporter
 {
 
-	//FIXME this would make the applet require logging library
+	//FIXMENOW this would make the applet require logging library
 	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
 
 	/**
@@ -102,7 +102,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	private int elementOffsetX = globalOffsetX;
 	private int elementOffsetY = globalOffsetY;
 
-	private Map penBoxes = new HashMap();//FIXME is this working properly? forecolor is not part of the key
+	private Map penBoxes = new HashMap();//FIXMENOW is this working properly? forecolor is not part of the key
 
 	/**
 	 *
@@ -738,7 +738,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		DateFormat dateFormat = (DateFormat)dateFormatCache.get(key);
 		if (dateFormat == null)
 		{
-			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXME cache this too
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
 			dateFormat = formatFactory.createDateFormat(pattern, lc, tz);
 			dateFormatCache.put(key, dateFormat);
 		}
@@ -754,7 +754,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		NumberFormat numberFormat = (NumberFormat)numberFormatCache.get(key);
 		if (numberFormat == null)
 		{
-			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXME cache this too
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
 			numberFormat = formatFactory.createNumberFormat(pattern, lc);
 			dateFormatCache.put(key, numberFormat);
 		}
