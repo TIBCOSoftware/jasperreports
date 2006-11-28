@@ -503,7 +503,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 								new JRWrappingSvgRenderer(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
-									image.getBackcolor()
+									JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
 									);
 						}
 	
@@ -1430,16 +1430,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-//				if (renderer.getType() == JRRenderable.TYPE_SVG)
-//				{
-//					renderer =
-//						new JRWrappingSvgRenderer(
-//							renderer,
-//							new Dimension(image.getWidth(), image.getHeight()),
-//							image.getBackcolor()
-//							);
-//				}
-
 				if (image.isLazy())
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
@@ -1461,7 +1451,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 								new JRWrappingSvgRenderer(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
-									image.getBackcolor()
+									JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
 									);
 						}
 						imageNameToImageDataMap.put(imageName, renderer.getImageData());
@@ -1571,7 +1561,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 				break;
 			}
-			case JRImage.SCALE_IMAGE_CLIP :
+			case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
 			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 			default :
 			{

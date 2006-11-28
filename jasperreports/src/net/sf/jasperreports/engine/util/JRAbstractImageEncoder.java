@@ -32,6 +32,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRenderable;
 
 
 /**
@@ -59,7 +60,10 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 				new BufferedImage(
 					image.getWidth(null),
 					image.getHeight(null),
-					BufferedImage.TYPE_INT_RGB
+					// avoid creating JPEG images with transparency that would result 
+					// in invalid image files for some viewers (browsers)
+					(imageType == JRRenderable.IMAGE_TYPE_GIF || imageType == JRRenderable.IMAGE_TYPE_PNG)  
+						? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
 					);
 
 			Graphics g = bi.createGraphics();

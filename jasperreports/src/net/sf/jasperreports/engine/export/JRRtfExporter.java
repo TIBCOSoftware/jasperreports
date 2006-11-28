@@ -1069,7 +1069,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
 			Graphics2D grx = bi.createGraphics();
-			grx.setColor(printImage.getBackcolor());
+			grx.setColor(printImage.getBackcolor());//FIXMEIMAGE ignore mode? what about alpha channel above?
 			grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
 
 			switch (printImage.getScaleImage())

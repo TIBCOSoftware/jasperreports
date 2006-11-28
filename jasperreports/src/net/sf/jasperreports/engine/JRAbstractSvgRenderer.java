@@ -93,11 +93,15 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 		Dimension2D dimension = getDimension();
 		if (dimension != null)
 		{
+			byte imageType = getImageType();
 			BufferedImage bi =
 				new BufferedImage(
 					(int)dimension.getWidth(),
 					(int)dimension.getHeight(),
-					BufferedImage.TYPE_INT_RGB
+					// avoid creating JPEG images with transparency that would result 
+					// in invalid image files for some viewers (browsers)
+					(imageType == JRRenderable.IMAGE_TYPE_GIF || imageType == JRRenderable.IMAGE_TYPE_PNG)  
+						? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
 					);
 
 			Graphics2D g = bi.createGraphics();
