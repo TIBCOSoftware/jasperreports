@@ -658,11 +658,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						}
 					}
 					
-					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
+					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
 					Graphics2D grx = bi.createGraphics();
-					grx.setColor(element.getBackcolor());
-					grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
-					
+					if (JRElement.MODE_OPAQUE == element.getMode())
+					{
+						grx.setColor(element.getBackcolor());
+						grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+					}
 				
 					switch (element.getScaleImage())
 					{

@@ -52,6 +52,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -681,7 +682,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					new JRWrappingSvgRenderer(
 						renderer, 
 						new Dimension(image.getWidth(), image.getHeight()),
-						image.getBackcolor()
+						JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
 						);
 			}
 				

@@ -36,6 +36,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -106,7 +107,7 @@ public class ImageServlet extends BaseHttpServlet
 					new JRWrappingSvgRenderer(
 						renderer, 
 						new Dimension(image.getWidth(), image.getHeight()),
-						image.getBackcolor()
+						JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
 						);
 			}
 
