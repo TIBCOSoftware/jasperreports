@@ -442,9 +442,11 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			document.open();
 			
-			if(null != pdfJavaScript)
-				pdfWriter.addJavaScript(pdfJavaScript); 
+			if(pdfJavaScript != null)
+				pdfWriter.addJavaScript(pdfJavaScript);
+			
 			pdfContentByte = pdfWriter.getDirectContent();
+			
 			initBookmarks();
 
 			PdfWriter imageTesterPdfWriter = 
