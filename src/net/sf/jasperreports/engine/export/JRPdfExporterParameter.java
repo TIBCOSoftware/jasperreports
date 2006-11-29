@@ -180,4 +180,10 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * hyperlink types during export.
 	 */
 	public static final JRPdfExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRPdfExporterParameter("Hyperlink producer factory");
+	
+	
+	/**
+	 * The user defined JavaScript piece of code to be inserted in the generated PDF document 
+	 */
+	public static final JRPdfExporterParameter PDF_JAVASCRIPT = new JRPdfExporterParameter("PDF JavaScript");
 }
