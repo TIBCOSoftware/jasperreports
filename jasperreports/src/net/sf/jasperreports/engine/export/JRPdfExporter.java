@@ -183,8 +183,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	
 	private boolean forceSvgShapes = true;
 	private SplitCharacter splitCharacter;
-	
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+
+	private String pdfJavaScript;
 
 	/**
 	 *
@@ -275,7 +276,9 @@ public class JRPdfExporter extends JRAbstractExporter
 			setForceSvgShapes();
 			setSplitCharacter();
 			setHyperlinkProducerFactory();
-			
+
+			pdfJavaScript =	(String)parameters.get(JRPdfExporterParameter.PDF_JAVASCRIPT);
+
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
 			{
@@ -412,7 +415,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					permissions
 					);
 			}
-            
+
             // Add meta-data parameters to generated PDF document
             // mtclough@users.sourceforge.net 2005-12-05
             String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
@@ -438,9 +441,10 @@ public class JRPdfExporter extends JRAbstractExporter
                 document.addCreator("JasperReports (" + jasperPrint.getName() + ")");
 
 			document.open();
-
-			pdfContentByte = pdfWriter.getDirectContent();
 			
+			if(null != pdfJavaScript)
+				pdfWriter.addJavaScript(pdfJavaScript); 
+			pdfContentByte = pdfWriter.getDirectContent();
 			initBookmarks();
 
 			PdfWriter imageTesterPdfWriter = 
