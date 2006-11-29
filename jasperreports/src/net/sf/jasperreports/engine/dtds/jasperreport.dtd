@@ -329,14 +329,14 @@
 <!ELEMENT parametersMapExpression (#PCDATA)>
 <!ELEMENT subreportParameter (subreportParameterExpression?)>
 <!ATTLIST subreportParameter
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 >
 <!ELEMENT subreportParameterExpression (#PCDATA)>
 
 <!ELEMENT returnValue EMPTY>
 <!ATTLIST returnValue
-	subreportVariable NMTOKEN #IMPLIED
-	toVariable NMTOKEN #IMPLIED
+	subreportVariable CDATA #IMPLIED
+	toVariable CDATA #IMPLIED
 	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
 >
@@ -408,7 +408,7 @@
 
 <!ELEMENT datasetParameter (datasetParameterExpression?)>
 <!ATTLIST datasetParameter
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 >
 
 <!ELEMENT datasetParameterExpression (#PCDATA)>
