@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT jasperPrint (reportFont*, style*, page*)>
 <!ATTLIST jasperPrint
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	pageWidth NMTOKEN "595"
 	pageHeight NMTOKEN "842"
 	orientation (Portrait | Landscape) "Portrait"
@@ -11,7 +11,7 @@
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	isDefault (true | false) "false"
 	fontName CDATA #IMPLIED
 	size NMTOKEN #IMPLIED
@@ -25,9 +25,9 @@
 >
 <!ELEMENT style EMPTY>
 <!ATTLIST style
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	isDefault (true | false) "false"
-	style NMTOKEN #IMPLIED
+	style CDATA #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
 	forecolor CDATA #IMPLIED
 	backcolor CDATA #IMPLIED
@@ -74,8 +74,8 @@
 >
 <!ELEMENT reportElement EMPTY>
 <!ATTLIST reportElement
-	key NMTOKEN #IMPLIED
-	style NMTOKEN #IMPLIED
+	key CDATA #IMPLIED
+	style CDATA #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
 	x NMTOKEN #REQUIRED
 	y NMTOKEN #REQUIRED
@@ -159,7 +159,7 @@
 >
 <!ELEMENT font EMPTY>
 <!ATTLIST font
-	reportFont NMTOKEN #IMPLIED
+	reportFont CDATA #IMPLIED
 	fontName CDATA #IMPLIED
 	size NMTOKEN #IMPLIED
 	isBold (true | false) #IMPLIED

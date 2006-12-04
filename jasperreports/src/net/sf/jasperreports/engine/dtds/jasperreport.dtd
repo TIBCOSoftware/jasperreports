@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	language NMTOKEN "java"
 	columnCount NMTOKEN "1"
 	printOrder (Vertical | Horizontal) "Vertical"
@@ -38,7 +38,7 @@
 
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	isDefault (true | false) "false"
 	fontName CDATA #IMPLIED
 	size NMTOKEN #IMPLIED
@@ -53,9 +53,9 @@
 
 <!ELEMENT style (conditionalStyle*)>
 <!ATTLIST style
-	name NMTOKEN #IMPLIED
+	name CDATA #IMPLIED
 	isDefault (true | false) "false"
-	style NMTOKEN #IMPLIED
+	style CDATA #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
 	forecolor CDATA #IMPLIED
 	backcolor CDATA #IMPLIED
@@ -102,7 +102,7 @@
 
 <!ELEMENT subDataset (property*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*)>
 <!ATTLIST subDataset
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	scriptletClass NMTOKEN #IMPLIED
 	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
@@ -153,7 +153,7 @@
 
 <!ELEMENT group (groupExpression?, groupHeader?, groupFooter?)>
 <!ATTLIST group
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	isStartNewColumn (true | false) "false"
 	isStartNewPage (true | false) "false"
 	isResetPageNumber (true | false) "false"
@@ -192,8 +192,8 @@
 
 <!ELEMENT reportElement (printWhenExpression?)>
 <!ATTLIST reportElement
-	key NMTOKEN #IMPLIED
-	style NMTOKEN #IMPLIED
+	key CDATA #IMPLIED
+	style CDATA #IMPLIED
 	positionType (Float | FixRelativeToTop | FixRelativeToBottom) "FixRelativeToTop"
 	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) "NoStretch"
 	isPrintRepeatedValues (true | false) "true"
@@ -294,7 +294,7 @@
 
 <!ELEMENT font EMPTY>
 <!ATTLIST font
-	reportFont NMTOKEN #IMPLIED
+	reportFont CDATA #IMPLIED
 	fontName CDATA #IMPLIED
 	size NMTOKEN #IMPLIED
 	isBold (true | false) #IMPLIED
@@ -403,7 +403,7 @@
 
 <!ELEMENT datasetRun (parametersMapExpression?, datasetParameter*, (connectionExpression | dataSourceExpression)?)>
 <!ATTLIST datasetRun
-	subDataset NMTOKEN #REQUIRED
+	subDataset CDATA #REQUIRED
 >
 
 <!ELEMENT datasetParameter (datasetParameterExpression?)>
@@ -632,7 +632,7 @@
 
 <!ELEMENT rowGroup (bucket, crosstabRowHeader?, crosstabTotalRowHeader?)>
 <!ATTLIST rowGroup
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	width NMTOKEN #REQUIRED
 	totalPosition (Start | End | None) "None"
 	headerPosition (Top | Middle | Bottom | Stretch) "Top"
@@ -644,7 +644,7 @@
 
 <!ELEMENT columnGroup (bucket, crosstabColumnHeader?, crosstabTotalColumnHeader?)>
 <!ATTLIST columnGroup
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	height NMTOKEN #REQUIRED
 	totalPosition (Start | End | None) "None"
 	headerPosition (Left | Center | Right | Stretch) "Left"
@@ -668,7 +668,7 @@
 
 <!ELEMENT measure (measureExpression?)>
 <!ATTLIST measure
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	class NMTOKEN #IMPLIED
 	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
 	incrementerFactoryClass NMTOKEN #IMPLIED
@@ -682,15 +682,15 @@
 <!ATTLIST crosstabCell
 	width NMTOKEN #IMPLIED
 	height NMTOKEN #IMPLIED
-	rowTotalGroup NMTOKEN #IMPLIED
-	columnTotalGroup NMTOKEN #IMPLIED
+	rowTotalGroup CDATA #IMPLIED
+	columnTotalGroup CDATA #IMPLIED
 >
 
 <!ELEMENT cellContents (box?, (line | rectangle | ellipse | image | staticText | textField | elementGroup | frame)*)>
 <!ATTLIST cellContents
 	backcolor CDATA #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
-	style NMTOKEN #IMPLIED
+	style CDATA #IMPLIED
 >
 
 <!ELEMENT whenNoDataCell (cellContents)>
