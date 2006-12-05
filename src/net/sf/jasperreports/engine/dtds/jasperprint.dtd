@@ -175,7 +175,7 @@
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>
 <!ATTLIST hyperlinkParameter
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 	class NMTOKEN "java.lang.String"
 >
 <!ELEMENT hyperlinkParameterValue (#PCDATA)>
