@@ -6,6 +6,9 @@
 
 <xsl:template match="/">
 <html>
+<head>
+<title>JasperReports <xsl:value-of select="$version"/> - Quick Reference</title>
+</head>
 <body>
 
 <a name="top"/>
