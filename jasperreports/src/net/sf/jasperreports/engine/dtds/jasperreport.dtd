@@ -2,7 +2,7 @@
 <!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name CDATA #REQUIRED
-	language NMTOKEN "java"
+	language CDATA "java"
 	columnCount NMTOKEN "1"
 	printOrder (Vertical | Horizontal) "Vertical"
 	pageWidth NMTOKEN "595"
@@ -119,7 +119,7 @@
 
 <!ELEMENT queryString (#PCDATA)>
 <!ATTLIST queryString
-	language NMTOKEN "sql"
+	language CDATA "sql"
 >
 
 <!ELEMENT field (fieldDescription?)>
@@ -271,7 +271,7 @@
 
 <!ELEMENT hyperlinkParameter (hyperlinkParameterExpression)>
 <!ATTLIST hyperlinkParameter
-	name NMTOKEN #REQUIRED
+	name CDATA #REQUIRED
 >
 
 <!ELEMENT hyperlinkParameterExpression (#PCDATA)>
@@ -424,7 +424,7 @@
 
 <!ELEMENT seriesColor EMPTY>
 <!ATTLIST seriesColor
-    seriesOrder NMTOKEN #REQUIRED
+    seriesOrder CDATA #REQUIRED
     color CDATA #REQUIRED
 >
 
