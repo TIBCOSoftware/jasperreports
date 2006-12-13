@@ -29,12 +29,15 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.w3c.dom.Document;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -43,6 +46,7 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
@@ -108,6 +112,10 @@ public class XmlDataSourceApp
 				Map params = new HashMap();
 				Document document = JRXmlUtils.parse(new File("northwind.xml"));
 				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+				params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd");
+				params.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, "#,##0.##");
+				params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.GERMANY);
+				params.put(JRParameter.REPORT_LOCALE, Locale.FRANCE);
 				
 				JasperFillManager.fillReportToFile(fileName, params);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
@@ -211,7 +219,8 @@ public class XmlDataSourceApp
 				
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-				
+				//exporter.setParameter(JRCsvExporterParameter.FIELD_DELIMITER, "|");
+
 				exporter.exportReport();
 
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
