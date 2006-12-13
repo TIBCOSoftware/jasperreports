@@ -6,11 +6,12 @@
 	<style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<style name="Arial_Italic" isDefault="false" fontName="Arial" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<parameter name="CustomerID" class="java.lang.String"/>
+	<parameter name="DATASOURCE_LOCALE" class="java.util.Locale"/>
 	<queryString language="xPath"><![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]></queryString>
 	<field name="Id" class="java.lang.String">
 		<fieldDescription><![CDATA[OrderID]]></fieldDescription>
 	</field>
-	<field name="OrderDate" class="java.lang.String">
+	<field name="OrderDate" class="java.util.Date">
 		<fieldDescription><![CDATA[OrderDate]]></fieldDescription>
 	</field>
 	<field name="ShipCity" class="java.lang.String">
@@ -56,17 +57,17 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
 				<reportElement positionType="Float" x="54" y="2" width="87" height="10"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{OrderDate}]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="146" y="2" width="108" height="10"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
 				<reportElement positionType="Float" x="259" y="2" width="92" height="10"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$F{Freight}]]></textFieldExpression>
