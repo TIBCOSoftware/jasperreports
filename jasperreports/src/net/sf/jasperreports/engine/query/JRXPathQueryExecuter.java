@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataSource;
@@ -34,6 +35,20 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 
+import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
+import org.apache.commons.beanutils.locale.converters.BigDecimalLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.BigIntegerLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.ByteLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.DecimalLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.DoubleLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.FloatLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.IntegerLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.LongLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.ShortLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.SqlDateLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.SqlTimeLocaleConverter;
+import org.apache.commons.beanutils.locale.converters.SqlTimestampLocaleConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -56,6 +71,8 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 	private static final Log log = LogFactory.getLog(JRXPathQueryExecuter.class);
 	
 	private final Document document;
+	private final Locale xmlLocale;
+	private LocaleConvertUtilsBean convertBean;
 	
 	public JRXPathQueryExecuter(JRDataset dataset, Map parametersMap)
 	{
@@ -67,7 +84,12 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		{
 			log.warn("The supplied org.w3c.dom.Document object is null.");
 		}
-		
+		convertBean = new LocaleConvertUtilsBean();
+		Locale tmpLocale = (Locale) getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE);
+		xmlLocale = tmpLocale == null ? Locale.getDefault() : tmpLocale;
+		convertBean.setDefaultLocale(xmlLocale);
+		convertBean.deregister();
+		registerConverters();
 		parseQuery();
 	}
 
@@ -90,6 +112,8 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		if (document != null && xPath != null)
 		{
 			datasource = new JRXmlDataSource(document, xPath);
+			((JRXmlDataSource) datasource).setConvertBean(this.convertBean);
+			((JRXmlDataSource) datasource).setXmlLocale(this.xmlLocale);
 		}
 		
 		return datasource;
@@ -104,5 +128,105 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 	{
 		//nothing to cancel
 		return false;
+	}
+	
+	/**
+	 * This method adds some particularly localized Converters to the convertBean's mapConverters object 
+	 *
+	 */
+	private void registerConverters()
+	{
+		Object numberPattern = getParameterValue(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN);
+		Object datePattern = getParameterValue(JRXPathQueryExecuterFactory.XML_DATE_PATTERN);
+		if(numberPattern != null)
+		{
+			convertBean.register(
+					new DecimalLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Number.class,
+					xmlLocale);
+			convertBean.register(
+					new BigDecimalLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.math.BigDecimal.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new BigIntegerLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.math.BigInteger.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new ByteLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Byte.class,
+					xmlLocale);
+			
+			
+			convertBean.register(
+					new DoubleLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Double.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new FloatLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Float.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new IntegerLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Integer.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new LongLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Long.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new ShortLocaleConverter(xmlLocale, (String) numberPattern), 
+					java.lang.Short.class,
+					xmlLocale);
+		}
+
+		if(datePattern != null)
+		{
+			convertBean.register(
+					new DateLocaleConverter(xmlLocale, (String) datePattern), 
+					java.util.Date.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new SqlDateLocaleConverter(xmlLocale, (String) datePattern), 
+					java.sql.Date.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new SqlTimeLocaleConverter(xmlLocale, (String) datePattern), 
+					java.sql.Time.class,
+					xmlLocale);
+			
+			convertBean.register(
+					new SqlTimestampLocaleConverter(xmlLocale, (String) datePattern), 
+					java.sql.Timestamp.class,
+					xmlLocale);
+		}
+		else
+		{
+			// this converter is not automatically registered when instantiating a LocaleConvertUtilsBean
+			convertBean.register(
+					new DateLocaleConverter(xmlLocale, "yyyy-MM-dd"), 
+					java.util.Date.class,
+					xmlLocale);
+			
+		}
+		
+		/*
+		//temporarily not needed
+		convertBean.register(
+				new StringLocaleConverter(
+						xmlLocale, 
+						(String) getParameterValue(JRXPathQueryExecuterFactory.XML_STRING_PATTERN)
+				), 
+				java.lang.String.class,
+				xmlLocale);
+		*/
 	}
 }
