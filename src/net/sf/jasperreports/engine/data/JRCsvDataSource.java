@@ -37,7 +37,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Vector;
@@ -64,6 +67,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRCsvDataSource implements JRDataSource
 {
 	private DateFormat dateFormat = new SimpleDateFormat();
+	private NumberFormat numberFormat = new DecimalFormat();
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
 	private HashMap columnNames = new HashMap();
@@ -183,26 +187,40 @@ public class JRCsvDataSource implements JRDataSource
 				if (valueClass.equals(Boolean.class)) {
 					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
 				}
-				else if (valueClass.equals(Byte.class)) {
-					return new Byte(fieldValue);
-				}
-				else if (valueClass.equals(Integer.class)) {
-					return new Integer(fieldValue);
-				}
-				else if (valueClass.equals(Long.class)) {
-					return new Long(fieldValue);
-				}
-				else if (valueClass.equals(Short.class)) {
-					return new Short(fieldValue);
-				}
-				else if (valueClass.equals(Double.class)) {
-					return new Double(fieldValue);
-				}
-				else if (valueClass.equals(Float.class)) {
-					return new Float(fieldValue);
-				}
-				else if (valueClass.equals(BigDecimal.class)) {
-					return new BigDecimal(fieldValue);
+				else if(java.lang.Number.class.equals(valueClass.getSuperclass()))
+				{
+					if (valueClass.equals(Byte.class)) {
+						numberFormat.setParseIntegerOnly(true);
+						return new Byte((numberFormat.parse(fieldValue)).byteValue());
+					}
+					else if (valueClass.equals(Integer.class)) {
+						numberFormat.setParseIntegerOnly(true);
+						return new Integer((numberFormat.parse(fieldValue)).intValue());
+					}
+					else if (valueClass.equals(Long.class)) {
+						numberFormat.setParseIntegerOnly(true);
+						return new Long((numberFormat.parse(fieldValue)).longValue());
+					}
+					else if (valueClass.equals(Short.class)) {
+						numberFormat.setParseIntegerOnly(true);
+						return new Short((numberFormat.parse(fieldValue)).shortValue());
+					}
+					else if (valueClass.equals(Double.class)) {
+						numberFormat.setParseIntegerOnly(false);
+						return new Double((numberFormat.parse(fieldValue)).doubleValue());
+					}
+					else if (valueClass.equals(Float.class)) {
+						numberFormat.setParseIntegerOnly(false);
+						return new Float((numberFormat.parse(fieldValue)).floatValue());
+					}
+					else if (valueClass.equals(BigDecimal.class)) {
+						numberFormat.setParseIntegerOnly(false);
+						return new BigDecimal((numberFormat.parse(fieldValue)).toString());
+					}
+					else if (valueClass.equals(BigInteger.class)) {
+						numberFormat.setParseIntegerOnly(true);
+						return new BigInteger((numberFormat.parse(fieldValue)).toString());
+					}
 				}
 				else if (valueClass.equals(java.util.Date.class)) {
 					return dateFormat.parse(fieldValue);
@@ -498,6 +516,16 @@ public class JRCsvDataSource implements JRDataSource
 			result.append(string.substring(oldIndex, string.length()));
 
 		return result.toString();
+	}
+
+
+	public NumberFormat getNumberFormat() {
+		return numberFormat;
+	}
+
+
+	public void setNumberFormat(NumberFormat numberFormat) {
+		this.numberFormat = numberFormat;
 	}
 }
 

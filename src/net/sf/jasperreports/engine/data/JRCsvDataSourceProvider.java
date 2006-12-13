@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.data;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.io.InputStream;
 import java.io.File;
 import java.io.Reader;
@@ -53,7 +54,7 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 	private char fieldDelimiter;
 	private String recordDelimiter;
 	private String[] columnNames;
-
+	private NumberFormat numberFormat;
 
 	/**
 	 * @param stream an input stream containing CSV data
@@ -114,6 +115,7 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 		}
 
 		ds.setDateFormat(dateFormat);
+		ds.setNumberFormat(numberFormat);
 		ds.setFieldDelimiter(fieldDelimiter);
 		ds.setRecordDelimiter(recordDelimiter);
 		ds.setColumnNames(columnNames);
@@ -167,5 +169,17 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 	public void setRecordDelimiter(String recordDelimiter)
 	{
 		this.recordDelimiter = recordDelimiter;
+	}
+
+
+	public NumberFormat getNumberFormat() 
+	{
+		return numberFormat;
+	}
+
+
+	public void setNumberFormat(NumberFormat numberFormat) 
+	{
+		this.numberFormat = numberFormat;
 	}
 }
