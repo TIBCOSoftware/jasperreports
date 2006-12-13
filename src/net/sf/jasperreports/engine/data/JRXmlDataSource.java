@@ -35,6 +35,7 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Locale;
 
 import javax.xml.transform.TransformerException;
 
@@ -44,7 +45,7 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 
-import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 import org.apache.xpath.CachedXPathAPI;
 import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Document;
@@ -146,6 +147,10 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 
 	// XPath API fa?ade
 	private CachedXPathAPI xpathAPI = new CachedXPathAPI();
+	
+	private LocaleConvertUtilsBean convertBean;
+	
+	private Locale xmlLocale;
 	
 	// -----------------------------------------------------------------
 	// Constructors
@@ -252,9 +257,9 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public void moveFirst() throws JRException {
 		if (document == null)
-			throw new JRException("document cannot be not null");
+			throw new JRException("document cannot be null");
 		if (selectExpression == null)
-			throw new JRException("selectExpression cannot be not null");
+			throw new JRException("selectExpression cannot be null");
 
 		try {
 			currentNode = null;
@@ -298,7 +303,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		Object value = null;
 		
 		Class valueClass = jrField.getValueClass();
-
+		
 		if(Object.class != valueClass) {
 			String text = null;
 			
@@ -316,15 +321,14 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 				throw new JRException("XPath selection failed. Expression: "
 						+ expression, e);
 			}
-	
+			
 			if(text != null) {
-				if(String.class == valueClass)
+				if(String.class.equals(valueClass))
 					value = text;
 				else
-					value = ConvertUtils.convert(text.trim(), valueClass);
+					value = convertBean.lookup(valueClass, xmlLocale).convert(valueClass,text.trim());
 			}
 		}
-		
 		return value;
 	}
 
@@ -469,5 +473,21 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		String v1 = (String) subDs.getFieldValue(field1);
 		System.out.println(field1.getDescription() + "=" + v1);
 		
+	}
+
+	public LocaleConvertUtilsBean getConvertBean() {
+		return convertBean;
+	}
+
+	public void setConvertBean(LocaleConvertUtilsBean convertBean) {
+		this.convertBean = convertBean;
+	}
+
+	public Locale getXmlLocale() {
+		return xmlLocale;
+	}
+
+	public void setXmlLocale(Locale xmlLocale) {
+		this.xmlLocale = xmlLocale;
 	}
 }
