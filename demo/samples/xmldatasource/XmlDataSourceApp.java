@@ -112,9 +112,10 @@ public class XmlDataSourceApp
 				Map params = new HashMap();
 				Document document = JRXmlUtils.parse(new File("northwind.xml"));
 				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
-				params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd");
+				params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd hh:mm:ss z");
 				params.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, "#,##0.##");
-				params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.GERMANY);
+				params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.ENGLISH);
+				params.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, "GMT-8");
 				params.put(JRParameter.REPORT_LOCALE, Locale.FRANCE);
 				
 				JasperFillManager.fillReportToFile(fileName, params);
