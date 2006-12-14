@@ -34,12 +34,12 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
+import net.sf.jasperreports.engine.util.JRJavaUtilDateConverter;
 
 import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 import org.apache.commons.beanutils.locale.converters.BigDecimalLocaleConverter;
 import org.apache.commons.beanutils.locale.converters.BigIntegerLocaleConverter;
 import org.apache.commons.beanutils.locale.converters.ByteLocaleConverter;
-import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
 import org.apache.commons.beanutils.locale.converters.DecimalLocaleConverter;
 import org.apache.commons.beanutils.locale.converters.DoubleLocaleConverter;
 import org.apache.commons.beanutils.locale.converters.FloatLocaleConverter;
@@ -72,6 +72,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 	
 	private final Document document;
 	private final Locale xmlLocale;
+	private final String xmlTimezone;
 	private LocaleConvertUtilsBean convertBean;
 	
 	public JRXPathQueryExecuter(JRDataset dataset, Map parametersMap)
@@ -87,6 +88,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		convertBean = new LocaleConvertUtilsBean();
 		Locale tmpLocale = (Locale) getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE);
 		xmlLocale = tmpLocale == null ? Locale.getDefault() : tmpLocale;
+		xmlTimezone = (String) getParameterValue(JRXPathQueryExecuterFactory.XML_TIME_ZONE);
 		convertBean.setDefaultLocale(xmlLocale);
 		convertBean.deregister();
 		registerConverters();
@@ -188,8 +190,11 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 
 		if(datePattern != null)
 		{
+			//used as DateLocaleConverter
+			JRJavaUtilDateConverter jrUtilDateConverter = new JRJavaUtilDateConverter(xmlLocale, (String) datePattern);
+			jrUtilDateConverter.setTimezone(xmlTimezone);
 			convertBean.register(
-					new DateLocaleConverter(xmlLocale, (String) datePattern), 
+					jrUtilDateConverter, 
 					java.util.Date.class,
 					xmlLocale);
 			
@@ -210,9 +215,12 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
+			// used as DateLocaleConverter
 			// this converter is not automatically registered when instantiating a LocaleConvertUtilsBean
+			JRJavaUtilDateConverter jrUtilDateConverter = new JRJavaUtilDateConverter(xmlLocale, "yyyy-MM-dd");
+			jrUtilDateConverter.setTimezone(xmlTimezone);
 			convertBean.register(
-					new DateLocaleConverter(xmlLocale, "yyyy-MM-dd"), 
+					jrUtilDateConverter, 
 					java.util.Date.class,
 					xmlLocale);
 			
