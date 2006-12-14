@@ -71,6 +71,9 @@
 				<subreportParameter name="XML_LOCALE">
 					<subreportParameterExpression>$P{XML_LOCALE}</subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="XML_TIME_ZONE">
+					<subreportParameterExpression>$P{XML_TIME_ZONE}</subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="CustomerID">
 					<subreportParameterExpression>$F{CustomerID}</subreportParameterExpression>
 				</subreportParameter>
