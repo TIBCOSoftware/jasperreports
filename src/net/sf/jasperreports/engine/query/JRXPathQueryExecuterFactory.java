@@ -125,6 +125,11 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	 */
 	public final static String XML_LOCALE = "XML_LOCALE";
 	
+	/**
+	 * Parameter holding the value of the datasource Timezone
+	 */
+	public final static String XML_TIME_ZONE = "XML_TIME_ZONE";
+	
 	private final static Object[] XPATH_BUILTIN_PARAMETERS = {
 		PARAMETER_XML_DATA_DOCUMENT,  org.w3c.dom.Document.class,
 		XML_DATE_PATTERN, java.lang.String.class,
@@ -146,6 +151,7 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 		XML_STRING_PATTERN, java.lang.String.class,
 */		
 		XML_LOCALE, java.util.Locale.class,
+		XML_TIME_ZONE, java.lang.String.class,
 		};
 
 	public Object[] getBuiltinParameters()
