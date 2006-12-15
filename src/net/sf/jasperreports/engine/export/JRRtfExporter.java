@@ -616,10 +616,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @throws IOException
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException {
-		int x = twip(line.getX());
-		x += getOffsetX();
-		int y = twip(line.getY());
-		y+= getOffsetY();
+		int x = twip(line.getX() + getOffsetX());
+		int y = twip(line.getY() + getOffsetY());
 		int h = twip(line.getHeight());
 		int w = twip(line.getWidth());
 
