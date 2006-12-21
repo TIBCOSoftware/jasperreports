@@ -37,6 +37,7 @@ import net.sf.jasperreports.charts.JRTimePeriodSeries;
 import net.sf.jasperreports.charts.util.TimePeriodDatasetLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -131,7 +132,11 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 				JRFillTimePeriodSeries crtTimePeriodSeries = timePeriodSeries[i];
 
 				Comparable seriesName = crtTimePeriodSeries.getSeries();
-				seriesName.toString();
+				if (seriesName == null)
+				{
+					throw new JRRuntimeException("Time period series name is null.");
+				}
+
 				TimePeriodValues timePeriodValues = (TimePeriodValues)seriesMap.get(seriesName);
 				if (timePeriodValues == null)
 				{

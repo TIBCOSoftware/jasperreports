@@ -221,11 +221,28 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 			Number volume
 			)
 		{
+			if (date == null)
+				throw new JRRuntimeException("Date value is null in high-low series.");
 			this.date = date;
+
+			if (high == null)
+				throw new JRRuntimeException("High value is null in high-low series.");
 			this.high = high;
+			
+			if (low == null)
+				throw new JRRuntimeException("Low value is null in high-low series.");
 			this.low = low;
+			
+			if (open == null)
+				throw new JRRuntimeException("Open value is null in high-low series.");
 			this.open = open;
+			
+			if (close == null)
+				throw new JRRuntimeException("Close value is null in high-low series.");
 			this.close = close;
+			
+			if (volume == null)
+				throw new JRRuntimeException("Volume value is null in high-low series.");
 			this.volume = volume;
 		}
 

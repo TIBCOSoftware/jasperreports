@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.DefaultXYZDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -100,6 +101,13 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 			for (int i = 0; i < xyzSeries.length; i++)
 			{
 				JRFillXyzSeries crtXyzSeries = xyzSeries[i];
+				
+				Comparable seriesName = crtXyzSeries.getSeries();
+				if (seriesName == null)
+				{
+					throw new JRRuntimeException("XYZ series name is null.");
+				}
+
 				dataset.addValue(
 					crtXyzSeries.getSeries(), 
 					crtXyzSeries.getXValue(),

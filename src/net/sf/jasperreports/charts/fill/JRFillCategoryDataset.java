@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -138,7 +139,10 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 				JRFillCategorySeries crtCategorySeries = categorySeries[i];
 				
 				Comparable seriesName = crtCategorySeries.getSeries();
-				seriesName.toString();
+				if (seriesName == null)
+				{
+					throw new JRRuntimeException("Category series name is null.");
+				}
 
 				dataset.addValue(
 					crtCategorySeries.getValue(), 
