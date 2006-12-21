@@ -395,17 +395,12 @@ public class JRCsvExporter extends JRAbstractExporter
 			}
 			
 			StringBuffer sbuffer = new StringBuffer();
-			StringTokenizer tkzer = new StringTokenizer(source, delimiter+"\"\n", true);
+			StringTokenizer tkzer = new StringTokenizer(source, "\"\n", true);
 			String token = null;
 			while(tkzer.hasMoreTokens())
 			{
 				token = tkzer.nextToken();
-				if (delimiter.equals(token))
-				{
-					putQuotes = true;
-					sbuffer.append(delimiter);
-				}
-				else if ("\"".equals(token))
+				if ("\"".equals(token))
 				{
 					putQuotes = true;
 					sbuffer.append("\"\"");
