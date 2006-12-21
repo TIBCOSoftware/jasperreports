@@ -187,40 +187,32 @@ public class JRCsvDataSource implements JRDataSource
 				if (valueClass.equals(Boolean.class)) {
 					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
 				}
-				else if(java.lang.Number.class.equals(valueClass.getSuperclass()))
-				{
-					if (valueClass.equals(Byte.class)) {
-						numberFormat.setParseIntegerOnly(true);
-						return new Byte((numberFormat.parse(fieldValue)).byteValue());
-					}
-					else if (valueClass.equals(Integer.class)) {
-						numberFormat.setParseIntegerOnly(true);
-						return new Integer((numberFormat.parse(fieldValue)).intValue());
-					}
-					else if (valueClass.equals(Long.class)) {
-						numberFormat.setParseIntegerOnly(true);
-						return new Long((numberFormat.parse(fieldValue)).longValue());
-					}
-					else if (valueClass.equals(Short.class)) {
-						numberFormat.setParseIntegerOnly(true);
-						return new Short((numberFormat.parse(fieldValue)).shortValue());
-					}
-					else if (valueClass.equals(Double.class)) {
-						numberFormat.setParseIntegerOnly(false);
-						return new Double((numberFormat.parse(fieldValue)).doubleValue());
-					}
-					else if (valueClass.equals(Float.class)) {
-						numberFormat.setParseIntegerOnly(false);
-						return new Float((numberFormat.parse(fieldValue)).floatValue());
-					}
-					else if (valueClass.equals(BigDecimal.class)) {
-						numberFormat.setParseIntegerOnly(false);
-						return new BigDecimal((numberFormat.parse(fieldValue)).toString());
-					}
-					else if (valueClass.equals(BigInteger.class)) {
-						numberFormat.setParseIntegerOnly(true);
-						return new BigInteger((numberFormat.parse(fieldValue)).toString());
-					}
+				else if (valueClass.equals(Byte.class)) {
+					return new Byte((numberFormat.parse(fieldValue)).byteValue());
+				}
+				else if (valueClass.equals(Integer.class)) {
+					return new Integer((numberFormat.parse(fieldValue)).intValue());
+				}
+				else if (valueClass.equals(Long.class)) {
+					return new Long((numberFormat.parse(fieldValue)).longValue());
+				}
+				else if (valueClass.equals(Short.class)) {
+					return new Short((numberFormat.parse(fieldValue)).shortValue());
+				}
+				else if (valueClass.equals(Double.class)) {
+					return new Double((numberFormat.parse(fieldValue)).doubleValue());
+				}
+				else if (valueClass.equals(Float.class)) {
+					return new Float((numberFormat.parse(fieldValue)).floatValue());
+				}
+				else if (valueClass.equals(BigDecimal.class)) {
+					return new BigDecimal((numberFormat.parse(fieldValue)).toString());
+				}
+				else if (valueClass.equals(BigInteger.class)) {
+					return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
+				}
+				else if(valueClass.equals(java.lang.Number.class)) {
+					return numberFormat.parse(fieldValue);
 				}
 				else if (valueClass.equals(java.util.Date.class)) {
 					return dateFormat.parse(fieldValue);
