@@ -137,24 +137,29 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	public Dataset getCustomDataset()
 	{
 		int size = elements.size();
-		Date[] dateArray = new Date[size];
-		double[] highArray = new double[size];
-		double[] lowArray = new double[size];
-		double[] openArray = new double[size];
-		double[] closeArray = new double[size];
-		double[] volumeArray = new double[size];
+		if (size > 0)
+		{
+			Date[] dateArray = new Date[size];
+			double[] highArray = new double[size];
+			double[] lowArray = new double[size];
+			double[] openArray = new double[size];
+			double[] closeArray = new double[size];
+			double[] volumeArray = new double[size];
 
-		for (int i = 0; i < elements.size(); i++) {
-			HighLowElement bean = (HighLowElement) elements.get(i);
-			dateArray[i] = new Date(bean.getDate().getTime());
-			highArray[i] = bean.getHigh().doubleValue();
-			lowArray[i] = bean.getLow().doubleValue();
-			openArray[i] = bean.getOpen().doubleValue();
-			closeArray[i] = bean.getClose().doubleValue();
-			volumeArray[i] = bean.getVolume().doubleValue();
+			for (int i = 0; i < elements.size(); i++) {
+				HighLowElement bean = (HighLowElement) elements.get(i);
+				dateArray[i] = new Date(bean.getDate().getTime());
+				highArray[i] = bean.getHigh().doubleValue();
+				lowArray[i] = bean.getLow().doubleValue();
+				openArray[i] = bean.getOpen().doubleValue();
+				closeArray[i] = bean.getClose().doubleValue();
+				volumeArray[i] = bean.getVolume().doubleValue();
+			}
+
+			return new DefaultHighLowDataset(series, dateArray, highArray, lowArray, openArray, closeArray, volumeArray);
 		}
-
-		return new DefaultHighLowDataset(series, dateArray, highArray, lowArray, openArray, closeArray, volumeArray);
+		
+		return null;
 	}
 
 
