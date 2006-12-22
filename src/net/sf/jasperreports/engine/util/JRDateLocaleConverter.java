@@ -51,47 +51,50 @@ import org.apache.commons.logging.LogFactory;
  * @version $Id: JRParameter.java 1485 2006-11-14 18:23:17 +0000 (Tue, 14 Nov 2006) teodord $
  */
 
-public class JRJavaUtilDateConverter extends DateLocaleConverter {
+public class JRDateLocaleConverter extends DateLocaleConverter 
+{
 
-    private static Log log = LogFactory.getLog(DateLocaleConverter.class);
-
-    // holds the timezone's ID
-    private String timezone;
-    
-    boolean isLenient = false;
-    
+	private static Log log = LogFactory.getLog(DateLocaleConverter.class);
+	
+	// holds the timezone's ID
+	private TimeZone timeZone = null;
+	
+	//boolean isLenient = false;
+	
     /**
      *
      */
-    public JRJavaUtilDateConverter() {
-        super(false);
+    public JRDateLocaleConverter(TimeZone timeZone) {
+        super();
+        
+        this.timeZone = timeZone;
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(boolean locPattern) {
+     *
+    public JRDateLocaleConverter(boolean locPattern) {
         super(Locale.getDefault(), locPattern);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Locale locale) {
+     *
+    public JRDateLocaleConverter(Locale locale) {
         super(locale, false);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Locale locale, boolean locPattern) {
+     *
+    public JRDateLocaleConverter(Locale locale, boolean locPattern) {
         super(locale, (String) null, locPattern);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Locale locale, String pattern) {
+     *
+    public JRDateLocaleConverter(Locale locale, String pattern) {
         super(locale, pattern, false);
     }
 
@@ -103,64 +106,55 @@ public class JRJavaUtilDateConverter extends DateLocaleConverter {
      * @param locale        The locale
      * @param pattern       The convertion pattern
      * @param locPattern    Indicate whether the pattern is localized or not
-     */
-    public JRJavaUtilDateConverter(Locale locale, String pattern, boolean locPattern) {
+     *
+    public JRDateLocaleConverter(Locale locale, String pattern, boolean locPattern) {
         super(locale, pattern, locPattern);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue) {
+     *
+    public JRDateLocaleConverter(Object defaultValue) {
         super(defaultValue, false);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue, boolean locPattern) {
+     *
+    public JRDateLocaleConverter(Object defaultValue, boolean locPattern) {
         super(defaultValue, Locale.getDefault(), locPattern);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue, Locale locale) {
+     *
+    public JRDateLocaleConverter(Object defaultValue, Locale locale) {
         super(defaultValue, locale, false);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue, Locale locale, boolean locPattern) {
+     *
+    public JRDateLocaleConverter(Object defaultValue, Locale locale, boolean locPattern) {
         super(defaultValue, locale, null, locPattern);
     }
 
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue, Locale locale, String pattern) {
+     *
+    public JRDateLocaleConverter(Object defaultValue, Locale locale, String pattern) {
         super(defaultValue, locale, pattern, false);
     }
 
     /**
      *
-     */
-    public JRJavaUtilDateConverter(Object defaultValue, Locale locale, String pattern, boolean locPattern) {
+     *
+    public JRDateLocaleConverter(Object defaultValue, Locale locale, String pattern, boolean locPattern) {
         super(defaultValue, locale, pattern, locPattern);
     }
+    */
 
-    /**
-     * Convert the specified locale-sensitive input object into an output object of the
-     * java.util.Date type.
-     *
-     * @param value The input object to be converted
-     * @param pattern The pattern is used for the convertion
-     *
-     * @exception org.apache.commons.beanutils.ConversionException if conversion cannot be performed
-     *  successfully
-     */
     protected Object parse(Object value, String pattern) throws ParseException {
         SimpleDateFormat formatter = getFormatter(pattern, locale);
         if (locPattern) {
@@ -172,11 +166,6 @@ public class JRJavaUtilDateConverter extends DateLocaleConverter {
         return formatter.parse((String) value);
     }
 
-    /**
-     * Gets an appropriate <code>SimpleDateFormat</code> for given locale, 
-     * default Date format pattern is not provided. If a timezone is provided
-     * the timezone field is set
-     */
     private SimpleDateFormat getFormatter(String pattern, Locale locale) {
     	
         if(pattern == null) {
@@ -185,32 +174,25 @@ public class JRJavaUtilDateConverter extends DateLocaleConverter {
             log.warn("Null pattern was provided, defaulting to: " + pattern);
         }
         SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
-        if(timezone != null)
-        	format.setTimeZone(TimeZone.getTimeZone(timezone));
-        format.setLenient(isLenient);
+        if(timeZone != null)
+        	format.setTimeZone(timeZone);
+        format.setLenient(isLenient());
         return format;
     }
 
-	public String getTimezone() {
-		return timezone;
-	}
-
-	public void setTimezone(String timezone) {
-		this.timezone = timezone;
-	}
-
     /**
     *
-    */
+    *
    public boolean isLenient() {
        return isLenient;
    }
    
    /**
     * 
-    */
+    *
    public void setLenient(boolean lenient) {
        isLenient = lenient;
    }	
+   */
 	
 }
