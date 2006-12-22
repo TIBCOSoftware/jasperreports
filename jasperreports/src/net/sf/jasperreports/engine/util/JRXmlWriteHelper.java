@@ -337,6 +337,14 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	public void addEncodedAttribute(String name, String value, String defaultValue)
+	{
+		if (value != null && !value.equals(defaultValue))
+		{
+			writeAttribute(name, JRStringUtil.xmlEncode(value));
+		}
+	}
+	
 	public void addAttribute(String name, Object value)
 	{
 		if (value != null)
