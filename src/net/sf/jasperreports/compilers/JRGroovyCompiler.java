@@ -32,9 +32,6 @@
  */
 package net.sf.jasperreports.compilers;
 
-import groovyjarjarasm.asm.ClassVisitor;
-import groovyjarjarasm.asm.ClassWriter;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
@@ -54,6 +51,8 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilationUnit;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.Phases;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
 
 /**
  * Calculator compiler that uses groovy to compile expressions.
@@ -132,7 +131,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	
 		/**
 		 * @see org.codehaus.groovy.control.CompilationUnit.ClassgenCallback#call(
-		 *      groovyjarjarasm.asm.ClassVisitor, 
+		 *      org.objectweb.asm.ClassVisitor, 
 		 *      org.codehaus.groovy.ast.ClassNode)
 		 */
 		public void call(ClassVisitor writer, ClassNode node) throws CompilationFailedException 
