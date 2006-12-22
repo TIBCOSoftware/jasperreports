@@ -271,7 +271,7 @@ public class JRXmlWriter
 		writer.writeProlog(encoding);
 		writer.writePublicDoctype("jasperReport", "-//JasperReports//DTD Report Design//EN", "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd");
 
-		writer.startElement(JasperDesignFactory.TAG_jasperReport);
+		writer.startElement(JasperDesignFactory.ELEMENT_jasperReport);
 		writer.addEncodedAttribute(JasperDesignFactory.ATTRIBUTE_name, report.getName());
 		writer.addEncodedAttribute(JasperDesignFactory.ATTRIBUTE_language, report.getLanguage(), JRReport.LANGUAGE_JAVA);
 		writer.addAttribute(JasperDesignFactory.ATTRIBUTE_columnCount, report.getColumnCount(), 1);
@@ -858,7 +858,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", image.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", image.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", image.getHyperlinkPageExpression(), false);
-		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, image.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_hyperlinkTooltipExpression, image.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(image.getHyperlinkParameters());
 		
 		writer.closeElement();
@@ -1006,7 +1006,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", textField.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", textField.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", textField.getHyperlinkPageExpression(), false);
-		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, textField.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_hyperlinkTooltipExpression, textField.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(textField.getHyperlinkParameters());
 		
 		writer.closeElement();
@@ -1069,10 +1069,10 @@ public class JRXmlWriter
 
 	private void writeDatasetParameter(JRDatasetParameter datasetParameter) throws IOException
 	{
-		writer.startElement(JRDatasetRunParameterFactory.TAG_DATASET_PARAMETER);
+		writer.startElement(JRDatasetRunParameterFactory.ELEMENT_datasetParameter);
 		writer.addEncodedAttribute(JRDatasetRunParameterFactory.ATTRIBUTE_name, datasetParameter.getName());
 
-		writer.writeExpression(JRDatasetRunParameterExpressionFactory.TAG_DATASET_PARAMETER_EXPRESSION, datasetParameter.getExpression(), false);
+		writer.writeExpression(JRDatasetRunParameterExpressionFactory.ELEMENT_datasetParameterExpression, datasetParameter.getExpression(), false);
 		
 		writer.closeElement();
 	}
@@ -1134,7 +1134,7 @@ public class JRXmlWriter
 		writer.writeExpression("hyperlinkReferenceExpression", chart.getHyperlinkReferenceExpression(), false);
 		writer.writeExpression("hyperlinkAnchorExpression", chart.getHyperlinkAnchorExpression(), false);
 		writer.writeExpression("hyperlinkPageExpression", chart.getHyperlinkPageExpression(), false);
-		writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, chart.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRHyperlinkFactory.ELEMENT_hyperlinkTooltipExpression, chart.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(chart.getHyperlinkParameters());
 
 		writer.closeElement();
@@ -1160,7 +1160,7 @@ public class JRXmlWriter
 			writer.addEncodedAttribute("incrementGroup", dataset.getIncrementGroup().getName());
 		}
 
-		writer.writeExpression(JRElementDatasetFactory.ELEMENT_INCREMENT_WHEN_EXPRESSION, dataset.getIncrementWhenExpression(), false);
+		writer.writeExpression(JRElementDatasetFactory.ELEMENT_incrementWhenExpression, dataset.getIncrementWhenExpression(), false);
 		
 		JRDatasetRun datasetRun = dataset.getDatasetRun();
 		if (datasetRun != null)
@@ -1246,7 +1246,7 @@ public class JRXmlWriter
 		writer.writeExpression("categoryExpression", categorySeries.getCategoryExpression(), false);
 		writer.writeExpression("valueExpression", categorySeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", categorySeries.getLabelExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, categorySeries.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, categorySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1283,7 +1283,7 @@ public class JRXmlWriter
 		writer.writeExpression("xValueExpression", series.getXValueExpression(), false);
 		writer.writeExpression("yValueExpression", series.getYValueExpression(), false);
 		writer.writeExpression("zValueExpression", series.getZValueExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, series.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, series.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1299,7 +1299,7 @@ public class JRXmlWriter
 		writer.writeExpression("xValueExpression", xySeries.getXValueExpression(), false);
 		writer.writeExpression("yValueExpression", xySeries.getYValueExpression(), false);
 		writer.writeExpression("labelExpression", xySeries.getLabelExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, xySeries.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, xySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -1339,7 +1339,7 @@ public class JRXmlWriter
 		writer.writeExpression("timePeriodExpression", timeSeries.getTimePeriodExpression(), false);
 		writer.writeExpression("valueExpression", timeSeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", timeSeries.getLabelExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, timeSeries.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, timeSeries.getItemHyperlink());
 		
 		writer.closeElement();
 	}
@@ -1354,7 +1354,7 @@ public class JRXmlWriter
 		writer.writeExpression("endDateExpression", timePeriodSeries.getEndDateExpression(), false);
 		writer.writeExpression("valueExpression", timePeriodSeries.getValueExpression(), false);
 		writer.writeExpression("labelExpression", timePeriodSeries.getLabelExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, timePeriodSeries.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, timePeriodSeries.getItemHyperlink());
 		
 		writer.closeElement();
 	}
@@ -1372,7 +1372,7 @@ public class JRXmlWriter
 		writer.writeExpression("keyExpression", dataset.getKeyExpression(), false);
 		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
 		writer.writeExpression("labelExpression", dataset.getLabelExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_SECTION_HYPERLINK, dataset.getSectionHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_sectionHyperlink, dataset.getSectionHyperlink());
 
 		writer.closeElement();
 	}
@@ -1811,7 +1811,7 @@ public class JRXmlWriter
 		writer.writeExpression("openExpression", dataset.getOpenExpression(), false);
 		writer.writeExpression("closeExpression", dataset.getCloseExpression(), false);
 		writer.writeExpression("volumeExpression", dataset.getVolumeExpression(), false);
-		writeHyperlink(JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK, dataset.getItemHyperlink());
+		writeHyperlink(JRHyperlinkFactory.ELEMENT_itemHyperlink, dataset.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -2456,7 +2456,7 @@ public class JRXmlWriter
 
 	public void writeDataset(JRDataset dataset) throws IOException
 	{
-		writer.startElement(JRDatasetFactory.TAG_SUB_DATASET);
+		writer.startElement(JRDatasetFactory.ELEMENT_subDataset);
 		writer.addEncodedAttribute(JRDatasetFactory.ATTRIBUTE_name, dataset.getName());
 		writer.addAttribute(JRDatasetFactory.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
 		writer.addEncodedAttribute(JRDatasetFactory.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
@@ -2523,7 +2523,7 @@ public class JRXmlWriter
 			}
 		}
 		
-		writer.writeExpression(JRDatasetFactory.TAG_FILTER_EXPRESSION, dataset.getFilterExpression(), false);
+		writer.writeExpression(JRDatasetFactory.ELEMENT_filterExpression, dataset.getFilterExpression(), false);
 
 		/*   */
 		JRGroup[] groups = dataset.getGroups();
@@ -2539,7 +2539,7 @@ public class JRXmlWriter
 	
 	protected void writeDatasetRun(JRDatasetRun datasetRun) throws IOException
 	{
-		writer.startElement(JRDatasetRunFactory.TAG_DATASET_RUN);
+		writer.startElement(JRDatasetRunFactory.ELEMENT_datasetRun);
 		writer.addEncodedAttribute(JRDatasetRunFactory.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
 		
 		writer.writeExpression("parametersMapExpression", datasetRun.getParametersMapExpression(), false);
@@ -2563,7 +2563,7 @@ public class JRXmlWriter
 	
 	public void writeFrame(JRFrame frame) throws IOException
 	{
-		writer.startElement(JRFrameFactory.TAG_FRAME);
+		writer.startElement(JRFrameFactory.ELEMENT_frame);
 		
 		writeReportElement(frame);
 		writeBox(frame);
@@ -2599,10 +2599,10 @@ public class JRXmlWriter
 	{
 		if (parameter != null)
 		{
-			writer.startElement(JRHyperlinkParameterFactory.TAG_hyperlinkParameter);
+			writer.startElement(JRHyperlinkParameterFactory.ELEMENT_hyperlinkParameter);
 			writer.addEncodedAttribute(JRHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
 			
-			writer.writeExpression(JRHyperlinkParameterExpressionFactory.TAG_VALUE_EXPRESSION,
+			writer.writeExpression(JRHyperlinkParameterExpressionFactory.ELEMENT_hyperlinkParameterExpression,
 					parameter.getValueExpression(), true, String.class.getName());
 			
 			writer.closeElement();
@@ -2622,7 +2622,7 @@ public class JRXmlWriter
 			writer.writeExpression("hyperlinkReferenceExpression", hyperlink.getHyperlinkReferenceExpression(), false);
 			writer.writeExpression("hyperlinkAnchorExpression", hyperlink.getHyperlinkAnchorExpression(), false);
 			writer.writeExpression("hyperlinkPageExpression", hyperlink.getHyperlinkPageExpression(), false);
-			writer.writeExpression(JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION, hyperlink.getHyperlinkTooltipExpression(), false);
+			writer.writeExpression(JRHyperlinkFactory.ELEMENT_hyperlinkTooltipExpression, hyperlink.getHyperlinkTooltipExpression(), false);
 			writeHyperlinkParameters(hyperlink.getHyperlinkParameters());
 			
 			writer.closeElement();

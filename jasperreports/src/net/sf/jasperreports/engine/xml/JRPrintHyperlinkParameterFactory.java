@@ -44,7 +44,7 @@ import org.xml.sax.Attributes;
 public class JRPrintHyperlinkParameterFactory extends JRBaseFactory
 {
 
-	public static final String TAG_HYPERLINK_PARAMETER = "hyperlinkParameter";
+	public static final String ELEMENT_hyperlinkParameter = "hyperlinkParameter";
 	
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_class = "class";

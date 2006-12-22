@@ -273,11 +273,11 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 	protected void addHyperlinkParameterRules(JRXmlDigester digester)
 	{
-		String parameterPattern = "*/" + JRPrintHyperlinkParameterFactory.TAG_HYPERLINK_PARAMETER;
+		String parameterPattern = "*/" + JRPrintHyperlinkParameterFactory.ELEMENT_hyperlinkParameter;
 		digester.addFactoryCreate(parameterPattern, JRPrintHyperlinkParameterFactory.class);
 		digester.addSetNext(parameterPattern, "addHyperlinkParameter", JRPrintHyperlinkParameter.class.getName());
 		
-		String parameterValuePattern = parameterPattern + "/" + JRPrintHyperlinkParameterValueFactory.TAG_HYPERLINK_PARAMETER_VALUE;
+		String parameterValuePattern = parameterPattern + "/" + JRPrintHyperlinkParameterValueFactory.ELEMENT_hyperlinkParameterValue;
 		digester.addFactoryCreate(parameterValuePattern, JRPrintHyperlinkParameterValueFactory.class);
 		digester.addCallMethod(parameterValuePattern, "setData", 0);
 	}

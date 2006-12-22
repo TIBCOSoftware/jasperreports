@@ -43,7 +43,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	public static final String TAG_jasperReport = "jasperReport";
+	public static final String ELEMENT_jasperReport = "jasperReport";
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_language = "language";
 	public static final String ATTRIBUTE_columnCount = "columnCount";

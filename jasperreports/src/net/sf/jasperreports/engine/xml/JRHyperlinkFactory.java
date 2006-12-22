@@ -41,9 +41,9 @@ import org.xml.sax.Attributes;
  */
 public class JRHyperlinkFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
-	public static final String ELEMENT_SECTION_HYPERLINK = "sectionHyperlink";
-	public static final String ELEMENT_ITEM_HYPERLINK = "itemHyperlink";
+	public static final String ELEMENT_hyperlinkTooltipExpression = "hyperlinkTooltipExpression";
+	public static final String ELEMENT_sectionHyperlink = "sectionHyperlink";
+	public static final String ELEMENT_itemHyperlink = "itemHyperlink";
 	
 	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";

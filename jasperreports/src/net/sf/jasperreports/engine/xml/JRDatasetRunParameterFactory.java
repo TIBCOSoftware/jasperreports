@@ -38,7 +38,7 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunParameterFactory extends JRBaseFactory
 {
-	public static final String TAG_DATASET_PARAMETER = "datasetParameter";
+	public static final String ELEMENT_datasetParameter = "datasetParameter";
 	
 	public static final String ATTRIBUTE_name = "name";
 

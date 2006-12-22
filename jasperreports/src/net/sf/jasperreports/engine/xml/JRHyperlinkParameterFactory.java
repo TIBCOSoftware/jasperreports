@@ -42,9 +42,9 @@ import org.xml.sax.Attributes;
 public class JRHyperlinkParameterFactory extends JRBaseFactory
 {
 
-	public static final String ATTRIBUTE_name = "name";
+	public static final String ELEMENT_hyperlinkParameter = "hyperlinkParameter";
 	
-	public static final String TAG_hyperlinkParameter = "hyperlinkParameter";
+	public static final String ATTRIBUTE_name = "name";
 	
 	public Object createObject(Attributes atts)
 	{

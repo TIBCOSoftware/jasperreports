@@ -38,7 +38,7 @@ import org.xml.sax.Attributes;
  */
 public class JRFrameFactory extends JRBaseFactory
 {
-	public static final String TAG_FRAME = "frame";
+	public static final String ELEMENT_frame = "frame";
 	
 	
 	public Object createObject(Attributes attributes)

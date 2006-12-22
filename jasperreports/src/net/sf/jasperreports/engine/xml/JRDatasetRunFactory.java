@@ -37,7 +37,7 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunFactory extends JRBaseFactory
 {
-	public static final String TAG_DATASET_RUN = "datasetRun";
+	public static final String ELEMENT_datasetRun = "datasetRun";
 	
 	public static final String ATTRIBUTE_subDataset = "subDataset";
 	

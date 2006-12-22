@@ -37,8 +37,8 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetFactory extends JRBaseFactory
 {
-	public static final String TAG_SUB_DATASET = "subDataset";
-	public static final String TAG_FILTER_EXPRESSION = "filterExpression";
+	public static final String ELEMENT_subDataset = "subDataset";
+	public static final String ELEMENT_filterExpression = "filterExpression";
 	
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
