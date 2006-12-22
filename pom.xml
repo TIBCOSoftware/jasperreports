@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>1.2.8-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@jasperreports.cvs.sourceforge.net:/cvsroot/jasperreports:jasperreports</connection>
-		<tag>jr-1-2-8</tag>
+		<tag>jr-1-3-0</tag>
 		<url>http://jasperreports.cvs.sourceforge.net/jasperreports/jasperreports/</url>
 	</scm>
 	<build>
