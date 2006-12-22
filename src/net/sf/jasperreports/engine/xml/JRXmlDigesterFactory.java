@@ -237,7 +237,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/variable/initialValueExpression", "setText", 0);
 
-		String filterExpressionPath = "*/" + JRDatasetFactory.TAG_FILTER_EXPRESSION;
+		String filterExpressionPath = "*/" + JRDatasetFactory.ELEMENT_filterExpression;
 		digester.addFactoryCreate(filterExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
 		digester.addSetNext(filterExpressionPath, "setFilterExpression", JRExpression.class.getName());
 		digester.addCallMethod(filterExpressionPath, "setText", 0);
@@ -359,7 +359,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
 
-		String hyperlinkTooltipExpressionPattern = "*/" + JRHyperlinkFactory.ELEMENT_HYPERLINK_TOOLTIP_EXPRESSION;
+		String hyperlinkTooltipExpressionPattern = "*/" + JRHyperlinkFactory.ELEMENT_hyperlinkTooltipExpression;
 		digester.addFactoryCreate(hyperlinkTooltipExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkTooltipExpressionPattern, "setHyperlinkTooltipExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkTooltipExpressionPattern, "setText", 0);
@@ -424,7 +424,7 @@ public class JRXmlDigesterFactory
 	{
 		digester.addFactoryCreate("*/dataset", JRElementDatasetFactory.class.getName());
 		
-		String datasetIncrementWhenExpressionPath = "*/dataset/" + JRElementDatasetFactory.ELEMENT_INCREMENT_WHEN_EXPRESSION;
+		String datasetIncrementWhenExpressionPath = "*/dataset/" + JRElementDatasetFactory.ELEMENT_incrementWhenExpression;
 		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
 		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
@@ -502,7 +502,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
 		
-		String sectionHyperlinkPattern = "*/pieDataset/" + JRHyperlinkFactory.ELEMENT_SECTION_HYPERLINK;
+		String sectionHyperlinkPattern = "*/pieDataset/" + JRHyperlinkFactory.ELEMENT_sectionHyperlink;
 		digester.addFactoryCreate(sectionHyperlinkPattern, JRHyperlinkFactory.class);
 		digester.addSetNext(sectionHyperlinkPattern, "setSectionHyperlink", JRHyperlink.class.getName());
 		
@@ -574,7 +574,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
 		
-		String itemHyperlinkPattern = "*/" + JRHyperlinkFactory.ELEMENT_ITEM_HYPERLINK;
+		String itemHyperlinkPattern = "*/" + JRHyperlinkFactory.ELEMENT_itemHyperlink;
 		digester.addFactoryCreate(itemHyperlinkPattern, JRHyperlinkFactory.class);
 		digester.addSetNext(itemHyperlinkPattern, "setItemHyperlink", JRHyperlink.class.getName());
 		
@@ -837,19 +837,19 @@ public class JRXmlDigesterFactory
 
 	private static void addDatasetRules(Digester digester)
 	{
-		String subDatasetPattern = "jasperReport/" + JRDatasetFactory.TAG_SUB_DATASET;
+		String subDatasetPattern = "jasperReport/" + JRDatasetFactory.ELEMENT_subDataset;
 		digester.addFactoryCreate(subDatasetPattern, JRDatasetFactory.class.getName());
 		digester.addSetNext(subDatasetPattern, "addDataset", JRDesignDataset.class.getName());
 		
-		String datasetRunPattern = "*/dataset/" + JRDatasetRunFactory.TAG_DATASET_RUN;
+		String datasetRunPattern = "*/dataset/" + JRDatasetRunFactory.ELEMENT_datasetRun;
 		digester.addFactoryCreate(datasetRunPattern, JRDatasetRunFactory.class.getName());
 		digester.addSetNext(datasetRunPattern, "setDatasetRun", JRDatasetRun.class.getName());
 		
-		String datasetParamPattern = datasetRunPattern + "/" + JRDatasetRunParameterFactory.TAG_DATASET_PARAMETER;
+		String datasetParamPattern = datasetRunPattern + "/" + JRDatasetRunParameterFactory.ELEMENT_datasetParameter;
 		digester.addFactoryCreate(datasetParamPattern, JRDatasetRunParameterFactory.class.getName());
 		digester.addSetNext(datasetParamPattern, "addParameter", JRDatasetParameter.class.getName());
 		
-		String datasetParamExprPattern = datasetParamPattern + "/" + JRDatasetRunParameterExpressionFactory.TAG_DATASET_PARAMETER_EXPRESSION;
+		String datasetParamExprPattern = datasetParamPattern + "/" + JRDatasetRunParameterExpressionFactory.ELEMENT_datasetParameterExpression;
 		digester.addFactoryCreate(datasetParamExprPattern, JRDatasetRunParameterExpressionFactory.class.getName());
 		digester.addSetNext(datasetParamExprPattern, "setExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetParamExprPattern, "setText", 0);
@@ -924,7 +924,7 @@ public class JRXmlDigesterFactory
 
 	private static void addFrameRules(Digester digester)
 	{
-		String framePattern = "*/" + JRFrameFactory.TAG_FRAME;
+		String framePattern = "*/" + JRFrameFactory.ELEMENT_frame;
 		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
 		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
 	}
@@ -932,11 +932,11 @@ public class JRXmlDigesterFactory
 
 	private static void addHyperlinkParameterRules(Digester digester)
 	{
-		String hyperlinkParameterPattern = "*/" + JRHyperlinkParameterFactory.TAG_hyperlinkParameter;
+		String hyperlinkParameterPattern = "*/" + JRHyperlinkParameterFactory.ELEMENT_hyperlinkParameter;
 		digester.addFactoryCreate(hyperlinkParameterPattern, JRHyperlinkParameterFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterPattern, "addHyperlinkParameter", JRHyperlinkParameter.class.getName());
 
-		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRHyperlinkParameterExpressionFactory.TAG_VALUE_EXPRESSION;
+		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRHyperlinkParameterExpressionFactory.ELEMENT_hyperlinkParameterExpression;
 		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRHyperlinkParameterExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);

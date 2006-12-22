@@ -43,10 +43,11 @@ public class JasperPrintFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_pageWidth = "pageWidth";
-	private static final String ATTRIBUTE_pageHeight = "pageHeight";
-	private static final String ATTRIBUTE_orientation = "orientation";
+	public static final String ELEMENT_jasperPrint = "jasperPrint";
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_pageWidth = "pageWidth";
+	public static final String ATTRIBUTE_pageHeight = "pageHeight";
+	public static final String ATTRIBUTE_orientation = "orientation";
 	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
 	public static final String ATTRIBUTE_locale = "locale";
 	public static final String ATTRIBUTE_timezone = "timezone";

@@ -345,14 +345,14 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.writeProlog(encoding);
 		xmlWriter.writePublicDoctype("jasperPrint", "-//JasperReports//DTD Report Design//EN", dtdLocation);
 
-		xmlWriter.startElement("jasperPrint");
-		xmlWriter.addAttribute("name", jasperPrint.getName());
-		xmlWriter.addAttribute("pageWidth", jasperPrint.getPageWidth());
-		xmlWriter.addAttribute("pageHeight", jasperPrint.getPageHeight());
-		xmlWriter.addAttribute("orientation", jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
+		xmlWriter.startElement(JasperPrintFactory.ELEMENT_jasperPrint);
+		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_name, jasperPrint.getName());
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_pageWidth, jasperPrint.getPageWidth());
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_pageHeight, jasperPrint.getPageHeight());
+		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_orientation, jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
 		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
+		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
+		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -406,16 +406,16 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportFont(JRReportFont font) throws IOException
 	{
 		xmlWriter.startElement("reportFont");
-		xmlWriter.addAttribute("name", font.getName());
+		xmlWriter.addEncodedAttribute("name", font.getName());
 		xmlWriter.addAttribute("isDefault", font.isDefault());
-		xmlWriter.addAttribute("fontName", font.getFontName());
+		xmlWriter.addEncodedAttribute("fontName", font.getFontName());
 		xmlWriter.addAttribute("size", font.getFontSize());
 		xmlWriter.addAttribute("isBold", font.isBold());
 		xmlWriter.addAttribute("isItalic", font.isItalic());
 		xmlWriter.addAttribute("isUnderline", font.isUnderline());
 		xmlWriter.addAttribute("isStrikeThrough", font.isStrikeThrough());
-		xmlWriter.addAttribute("pdfFontName", font.getPdfFontName());
-		xmlWriter.addAttribute("pdfEncoding", font.getPdfEncoding());
+		xmlWriter.addEncodedAttribute("pdfFontName", font.getPdfFontName());
+		xmlWriter.addEncodedAttribute("pdfEncoding", font.getPdfEncoding());
 		xmlWriter.addAttribute("isPdfEmbedded", font.isPdfEmbedded());
 		xmlWriter.closeElement();
 	}
@@ -427,7 +427,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportStyle(JRStyle style) throws IOException
 	{
 		xmlWriter.startElement("style");
-		xmlWriter.addAttribute("name", style.getName());
+		xmlWriter.addEncodedAttribute("name", style.getName());
 		xmlWriter.addAttribute("isDefault", style.isDefault());
 
 		if (style.getStyle() != null)
@@ -438,7 +438,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					);
 			if(baseStyle != null)
 			{
-				xmlWriter.addAttribute("style", style.getStyle().getName());
+				xmlWriter.addEncodedAttribute("style", style.getStyle().getName());
 			}
 			else
 			{
@@ -462,7 +462,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("rotation", style.getOwnRotation(), JRXmlConstants.getRotationMap());
 		xmlWriter.addAttribute("lineSpacing", style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
 		xmlWriter.addAttribute("isStyledText", style.isOwnStyledText());
-		//xmlWriter.addAttribute("pattern", style.getOwnPattern());
+		//xmlWriter.addEncodedAttribute("pattern", style.getOwnPattern());//FIXME if pattern in text field is equal to this, then it should be removed there (inheritance)
 		//xmlWriter.addAttribute("isBlankWhenNull", style.isOwnBlankWhenNull());
 		
 		xmlWriter.addAttribute("border", style.getOwnBorder(), JRXmlConstants.getPenMap());
@@ -485,14 +485,14 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("rightBorderColor", style.getOwnRightBorderColor());
 		xmlWriter.addAttribute("rightPadding", style.getOwnRightPadding());
 
-		xmlWriter.addAttribute("fontName", style.getOwnFontName());
+		xmlWriter.addEncodedAttribute("fontName", style.getOwnFontName());
 		xmlWriter.addAttribute("fontSize", style.getOwnFontSize());
 		xmlWriter.addAttribute("isBold", style.isOwnBold());
 		xmlWriter.addAttribute("isItalic", style.isOwnItalic());
 		xmlWriter.addAttribute("isUnderline", style.isOwnUnderline());
 		xmlWriter.addAttribute("isStrikeThrough", style.isOwnStrikeThrough());
-		xmlWriter.addAttribute("pdfFontName", style.getOwnPdfFontName());
-		xmlWriter.addAttribute("pdfEncoding", style.getOwnPdfEncoding());
+		xmlWriter.addEncodedAttribute("pdfFontName", style.getOwnPdfFontName());
+		xmlWriter.addEncodedAttribute("pdfEncoding", style.getOwnPdfEncoding());
 		xmlWriter.addAttribute("isPdfEmbedded", style.isOwnPdfEmbedded());
 
 		xmlWriter.closeElement();
@@ -580,11 +580,11 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement("reportElement");
-		xmlWriter.addAttribute(JRPrintElementFactory.ATTRIBUTE_key, element.getKey());
+		xmlWriter.addEncodedAttribute(JRPrintElementFactory.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)
 		{
-			xmlWriter.addAttribute("style", style.getName());
+			xmlWriter.addEncodedAttribute("style", style.getName());
 		}
 		xmlWriter.addAttribute("mode", element.getOwnMode(), JRXmlConstants.getModeMap());
 		xmlWriter.addAttribute("x", element.getX() + getOffsetX());
@@ -654,11 +654,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("vAlign", image.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
 		xmlWriter.addAttribute("isLazy", image.isLazy(), false);
 		xmlWriter.addAttribute("onErrorType", image.getOnErrorType(), JRXmlConstants.getOnErrorTypeMap(), JRImage.ON_ERROR_TYPE_ERROR);
-		xmlWriter.addAttribute("hyperlinkType", image.getLinkType());
+		xmlWriter.addEncodedAttribute("hyperlinkType", image.getLinkType());
 		xmlWriter.addAttribute("hyperlinkTarget", image.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
-		xmlWriter.addAttribute("anchorName", image.getAnchorName());
-		xmlWriter.addAttribute("hyperlinkReference", image.getHyperlinkReference());
-		xmlWriter.addAttribute("hyperlinkAnchor", image.getHyperlinkAnchor());
+		xmlWriter.addEncodedAttribute("anchorName", image.getAnchorName());
+		xmlWriter.addEncodedAttribute("hyperlinkReference", image.getHyperlinkReference());
+		xmlWriter.addEncodedAttribute("hyperlinkAnchor", image.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", image.getHyperlinkPage());
 		xmlWriter.addEncodedAttribute(JRPrintImageFactory.ATTRIBUTE_hyperlinkTooltip, image.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
@@ -753,19 +753,19 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute("isStyledText", text.isOwnStyledText());
 		xmlWriter.addAttribute("lineSpacingFactor", text.getLineSpacingFactor());
 		xmlWriter.addAttribute("leadingOffset", text.getLeadingOffset());
-		xmlWriter.addAttribute("hyperlinkType", text.getLinkType());
+		xmlWriter.addEncodedAttribute("hyperlinkType", text.getLinkType());
 		xmlWriter.addAttribute("hyperlinkTarget", text.getHyperlinkTarget(), JRXmlConstants.getHyperlinkTargetMap(), JRHyperlink.HYPERLINK_TARGET_SELF);
-		xmlWriter.addAttribute("anchorName", text.getAnchorName());
-		xmlWriter.addAttribute("hyperlinkReference", text.getHyperlinkReference());
-		xmlWriter.addAttribute("hyperlinkAnchor", text.getHyperlinkAnchor());
+		xmlWriter.addEncodedAttribute("anchorName", text.getAnchorName());
+		xmlWriter.addEncodedAttribute("hyperlinkReference", text.getHyperlinkReference());
+		xmlWriter.addEncodedAttribute("hyperlinkAnchor", text.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", text.getHyperlinkPage());
 		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_hyperlinkTooltip, text.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", text.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_valueClass, text.getValueClassName());
-		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		
+		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		
 		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_formatFactoryClass, text.getFormatFactoryClass());		
-		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_locale, text.getLocaleCode());		
-		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_timezone, text.getTimeZoneId());		
+		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_locale, text.getLocaleCode());		
+		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_timezone, text.getTimeZoneId());		
 		
 		exportReportElement(text);
 		exportBox(text);
@@ -836,7 +836,7 @@ public class JRXmlExporter extends JRAbstractExporter
 						);
 				if(baseFont != null)
 				{
-					xmlWriter.addAttribute("reportFont", font.getReportFont().getName());
+					xmlWriter.addEncodedAttribute("reportFont", font.getReportFont().getName());
 				}
 				else
 				{
@@ -848,14 +848,14 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 			}
 		
-			xmlWriter.addAttribute("fontName", font.getOwnFontName());
+			xmlWriter.addEncodedAttribute("fontName", font.getOwnFontName());
 			xmlWriter.addAttribute("size", font.getOwnFontSize());
 			xmlWriter.addAttribute("isBold", font.isOwnBold());
 			xmlWriter.addAttribute("isItalic", font.isOwnItalic());
 			xmlWriter.addAttribute("isUnderline", font.isOwnUnderline());
 			xmlWriter.addAttribute("isStrikeThrough", font.isOwnStrikeThrough());
-			xmlWriter.addAttribute("pdfFontName", font.getOwnPdfFontName());
-			xmlWriter.addAttribute("pdfEncoding", font.getOwnPdfEncoding());
+			xmlWriter.addEncodedAttribute("pdfFontName", font.getOwnPdfFontName());
+			xmlWriter.addEncodedAttribute("pdfEncoding", font.getOwnPdfEncoding());
 			xmlWriter.addAttribute("isPdfEmbedded", font.isOwnPdfEmbedded());
 			xmlWriter.closeElement(true);
 		}
@@ -906,14 +906,14 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportHyperlinkParameter(JRPrintHyperlinkParameter parameter) throws IOException
 	{
-		xmlWriter.startElement(JRPrintHyperlinkParameterFactory.TAG_HYPERLINK_PARAMETER);
-		xmlWriter.addAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
+		xmlWriter.startElement(JRPrintHyperlinkParameterFactory.ELEMENT_hyperlinkParameter);
+		xmlWriter.addEncodedAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
 		xmlWriter.addAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_class, parameter.getValueClass(), "java.lang.String");
 		
 		if (parameter.getValue() != null)
 		{
 			String data = JRValueStringUtils.serialize(parameter.getValueClass(), parameter.getValue());
-			xmlWriter.writeCDATAElement(JRPrintHyperlinkParameterValueFactory.TAG_HYPERLINK_PARAMETER_VALUE, data);
+			xmlWriter.writeCDATAElement(JRPrintHyperlinkParameterValueFactory.ELEMENT_hyperlinkParameterValue, data);
 		}
 		
 		xmlWriter.closeElement();
