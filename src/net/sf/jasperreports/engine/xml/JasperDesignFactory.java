@@ -43,27 +43,28 @@ public class JasperDesignFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_language = "language";
-	private static final String ATTRIBUTE_columnCount = "columnCount";
-	private static final String ATTRIBUTE_printOrder = "printOrder";
-	private static final String ATTRIBUTE_pageWidth = "pageWidth";
-	private static final String ATTRIBUTE_pageHeight = "pageHeight";
-	private static final String ATTRIBUTE_orientation = "orientation";
-	private static final String ATTRIBUTE_whenNoDataType = "whenNoDataType";
-	private static final String ATTRIBUTE_columnWidth = "columnWidth";
-	private static final String ATTRIBUTE_columnSpacing = "columnSpacing";
-	private static final String ATTRIBUTE_leftMargin = "leftMargin";
-	private static final String ATTRIBUTE_rightMargin = "rightMargin";
-	private static final String ATTRIBUTE_topMargin = "topMargin";
-	private static final String ATTRIBUTE_bottomMargin = "bottomMargin";
-	private static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
-	private static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
-	private static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
-	private static final String ATTRIBUTE_scriptletClass = "scriptletClass";
-	private static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
-	private static final String ATTRIBUTE_resourceBundle = "resourceBundle";
-	private static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
+	public static final String TAG_jasperReport = "jasperReport";
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_language = "language";
+	public static final String ATTRIBUTE_columnCount = "columnCount";
+	public static final String ATTRIBUTE_printOrder = "printOrder";
+	public static final String ATTRIBUTE_pageWidth = "pageWidth";
+	public static final String ATTRIBUTE_pageHeight = "pageHeight";
+	public static final String ATTRIBUTE_orientation = "orientation";
+	public static final String ATTRIBUTE_whenNoDataType = "whenNoDataType";
+	public static final String ATTRIBUTE_columnWidth = "columnWidth";
+	public static final String ATTRIBUTE_columnSpacing = "columnSpacing";
+	public static final String ATTRIBUTE_leftMargin = "leftMargin";
+	public static final String ATTRIBUTE_rightMargin = "rightMargin";
+	public static final String ATTRIBUTE_topMargin = "topMargin";
+	public static final String ATTRIBUTE_bottomMargin = "bottomMargin";
+	public static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
+	public static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
+	public static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
+	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
+	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
+	public static final String ATTRIBUTE_resourceBundle = "resourceBundle";
+	public static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
 	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
 
 
