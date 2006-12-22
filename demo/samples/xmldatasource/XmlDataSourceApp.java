@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
@@ -114,9 +115,9 @@ public class XmlDataSourceApp
 				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 				params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd hh:mm:ss z");
 				params.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, "#,##0.##");
-				params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.ENGLISH);
-				params.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, "GMT-8");
-				params.put(JRParameter.REPORT_LOCALE, Locale.FRANCE);
+				params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.FRANCE);
+				params.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, TimeZone.getTimeZone("GMT-8"));
+				params.put(JRParameter.REPORT_LOCALE, Locale.GERMANY);
 				
 				JasperFillManager.fillReportToFile(fileName, params);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
