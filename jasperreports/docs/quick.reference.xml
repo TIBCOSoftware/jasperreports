@@ -149,6 +149,7 @@
   <description>Generic definition of a report section.</description>
   <contains>(
     <a href="printWhenExpression">printWhenExpression</a>?, (
+    <a href="break">break</a> |
     <a href="line">line</a> |
     <a href="rectangle">rectangle</a> |
     <a href="ellipse">ellipse</a> |
@@ -370,6 +371,33 @@
       <name>padding, topPadding, leftPadding, bottomPadding, rightPadding</name>
       <description>The amount of empty space between the border and the element's content.</description>
       <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- break -->
+<element>
+  <name>break</name>
+  <description>Introduces a page break or column break</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>type</name>
+      <description>Specifies the type of the break element.</description>
+      <values>
+        <value>
+          <name>Page</name>
+          <description>Page break.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>Column break.</description>
+        </value>
+      </values>
+      <default>Page</default>
     </attribute>
   </attributes>
 </element>
@@ -1461,6 +1489,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <name>elementGroup</name>
   <description>Element for grouping objects on the report.</description>
   <contains>(
+    <a href="break">break</a> |
     <a href="line">line</a> |
     <a href="rectangle">rectangle</a> |
     <a href="ellipse">ellipse</a> |
@@ -1665,6 +1694,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="reportElement">reportElement</a>,
     <a href="box">box</a>?,
       (
+    <a href="break">break</a> |
     <a href="line">line</a> |
     <a href="rectangle">rectangle</a> |
     <a href="ellipse">ellipse</a> |
