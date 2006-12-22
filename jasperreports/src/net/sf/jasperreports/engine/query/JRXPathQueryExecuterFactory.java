@@ -151,7 +151,7 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 		XML_STRING_PATTERN, java.lang.String.class,
 */		
 		XML_LOCALE, java.util.Locale.class,
-		XML_TIME_ZONE, java.lang.String.class,
+		XML_TIME_ZONE, java.util.TimeZone.class,
 		};
 
 	public Object[] getBuiltinParameters()

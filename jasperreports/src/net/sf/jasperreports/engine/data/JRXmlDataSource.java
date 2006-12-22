@@ -35,7 +35,9 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.xml.transform.TransformerException;
 
@@ -43,6 +45,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
+import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 
 import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
@@ -148,9 +151,12 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	// XPath API fa?ade
 	private CachedXPathAPI xpathAPI = new CachedXPathAPI();
 	
-	private LocaleConvertUtilsBean convertBean;
+	private LocaleConvertUtilsBean convertBean = null;
 	
-	private Locale xmlLocale;
+	private Locale locale = null;
+	private String datePattern = null;
+	private String numberPattern = null;
+	private TimeZone timeZone = null;
 	
 	// -----------------------------------------------------------------
 	// Constructors
@@ -323,10 +329,19 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 			}
 			
 			if(text != null) {
-				if(String.class.equals(valueClass))
+				if (String.class.equals(valueClass))
+				{
 					value = text;
-				else
-					value = convertBean.lookup(valueClass, xmlLocale).convert(valueClass,text.trim());
+				}
+				else if (Number.class.isAssignableFrom(valueClass))
+				{
+					value = getConvertBean().convert(text.trim(), valueClass, locale, numberPattern);
+				}
+				else if (Date.class.isAssignableFrom(valueClass))
+				{
+					value = getConvertBean().convert(text.trim(), valueClass, locale, datePattern);
+				}
+					
 			}
 		}
 		return value;
@@ -346,7 +361,12 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 			throws JRException {
 		// create a new document from the current node
 		Document doc = subDocument();
-		return new JRXmlDataSource(doc, selectExpr);
+		JRXmlDataSource subDataSource = new JRXmlDataSource(doc, selectExpr);
+		subDataSource.setLocale(locale);
+		subDataSource.setDatePattern(datePattern);
+		subDataSource.setNumberPattern(numberPattern);
+		subDataSource.setTimeZone(timeZone);
+		return subDataSource;
 	}
 
 	/**
@@ -395,7 +415,12 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	 */
 	public JRXmlDataSource dataSource(String selectExpr)
 			throws JRException {
-		return new JRXmlDataSource(document, selectExpr);
+		JRXmlDataSource subDataSource = new JRXmlDataSource(document, selectExpr);
+		subDataSource.setLocale(locale);
+		subDataSource.setDatePattern(datePattern);
+		subDataSource.setNumberPattern(numberPattern);
+		subDataSource.setTimeZone(timeZone);
+		return subDataSource;
 	}
 
 	/**
@@ -475,19 +500,60 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		
 	}
 
-	public LocaleConvertUtilsBean getConvertBean() {
+	protected LocaleConvertUtilsBean getConvertBean() 
+	{
+		if (convertBean == null)
+		{
+			convertBean = new LocaleConvertUtilsBean();
+			if (locale != null)
+			{
+				convertBean.setDefaultLocale(locale);
+				convertBean.deregister();
+				//convertBean.lookup();
+			}
+			convertBean.register(
+				new JRDateLocaleConverter(timeZone), 
+				java.util.Date.class,
+				locale
+				);
+		}
 		return convertBean;
 	}
 
-	public void setConvertBean(LocaleConvertUtilsBean convertBean) {
-		this.convertBean = convertBean;
+	public Locale getLocale() {
+		return locale;
 	}
 
-	public Locale getXmlLocale() {
-		return xmlLocale;
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+		convertBean = null;
 	}
 
-	public void setXmlLocale(Locale xmlLocale) {
-		this.xmlLocale = xmlLocale;
+	public String getDatePattern() {
+		return datePattern;
 	}
+
+	public void setDatePattern(String datePattern) {
+		this.datePattern = datePattern;
+		convertBean = null;
+	}
+
+	public String getNumberPattern() {
+		return numberPattern;
+	}
+
+	public void setNumberPattern(String numberPattern) {
+		this.numberPattern = numberPattern;
+		convertBean = null;
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+		convertBean = null;
+	}
+
 }
