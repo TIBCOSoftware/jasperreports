@@ -206,6 +206,7 @@
 			<artifactId>saaj-api</artifactId>
 			<version>1.3</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
