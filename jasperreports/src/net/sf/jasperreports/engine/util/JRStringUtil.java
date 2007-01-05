@@ -95,6 +95,15 @@ public class JRStringUtil
 						
 						ret.append("&quot;");
 						break;
+					case '\'' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&apos;");
+						break;
 
 					default :
 						break;
@@ -185,6 +194,16 @@ public class JRStringUtil
 						last = i + 1;
 						
 						ret.append("&quot;");
+						isEncodeSpace = false;
+						break;
+					case '\'' :
+						if (last < i)
+						{
+							ret.append(text.substring(last, i));
+						}
+						last = i + 1;
+						
+						ret.append("&apos;");
 						isEncodeSpace = false;
 						break;
 					case '\n' :
