@@ -207,14 +207,14 @@ public class JRStyledTextParser
 			sbuffer.append(LESS);
 			sbuffer.append(node);
 			sbuffer.append(GREATER);
-			sbuffer.append(chunk);
+			sbuffer.append(JRStringUtil.xmlEncode(chunk));
 			sbuffer.append(LESS_SLASH);
 			sbuffer.append(node);
 			sbuffer.append(GREATER);
 		}
 		else
 		{
-			sbuffer.append(chunk);
+			sbuffer.append(JRStringUtil.xmlEncode(chunk));
 		}
 	}
 
