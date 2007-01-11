@@ -112,7 +112,7 @@ public interface JRParameter
 	 * during the report filling process to create instances of <tt>java.text.DateFormat<tt> to format date text
 	 * fields and instances of <tt>java.text.NumberFormat<tt> to format numeric text fields.
 	 */
-	public static final String REPORT_FORMAT_FACTORY = "REPORT_DATE_FORMAT_FACTORY";
+	public static final String REPORT_FORMAT_FACTORY = "REPORT_FORMAT_FACTORY";
 
 	
 	/**
