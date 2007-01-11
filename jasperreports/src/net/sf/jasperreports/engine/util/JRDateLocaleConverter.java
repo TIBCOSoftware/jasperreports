@@ -58,141 +58,48 @@ public class JRDateLocaleConverter extends DateLocaleConverter
 	
 	// holds the timezone's ID
 	private TimeZone timeZone = null;
-	
-	//boolean isLenient = false;
-	
-    /**
-     *
-     */
-    public JRDateLocaleConverter(TimeZone timeZone) {
-        super();
-        
-        this.timeZone = timeZone;
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(boolean locPattern) {
-        super(Locale.getDefault(), locPattern);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Locale locale) {
-        super(locale, false);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Locale locale, boolean locPattern) {
-        super(locale, (String) null, locPattern);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Locale locale, String pattern) {
-        super(locale, pattern, false);
-    }
-
-    /**
-     * Create a {@link org.apache.commons.beanutils.locale.LocaleConverter} 
-     * that will throw a {@link org.apache.commons.beanutils.ConversionException}
-     * if a conversion error occurs.
-     *
-     * @param locale        The locale
-     * @param pattern       The convertion pattern
-     * @param locPattern    Indicate whether the pattern is localized or not
-     *
-    public JRDateLocaleConverter(Locale locale, String pattern, boolean locPattern) {
-        super(locale, pattern, locPattern);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue) {
-        super(defaultValue, false);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue, boolean locPattern) {
-        super(defaultValue, Locale.getDefault(), locPattern);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue, Locale locale) {
-        super(defaultValue, locale, false);
-    }
-
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue, Locale locale, boolean locPattern) {
-        super(defaultValue, locale, null, locPattern);
-    }
 
 
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue, Locale locale, String pattern) {
-        super(defaultValue, locale, pattern, false);
-    }
+	/**
+	 *
+	 */
+	public JRDateLocaleConverter(TimeZone timeZone) 
+	{
+		super();
 
-    /**
-     *
-     *
-    public JRDateLocaleConverter(Object defaultValue, Locale locale, String pattern, boolean locPattern) {
-        super(defaultValue, locale, pattern, locPattern);
-    }
-    */
+		this.timeZone = timeZone;
+	}
 
-    protected Object parse(Object value, String pattern) throws ParseException {
-        SimpleDateFormat formatter = getFormatter(pattern, locale);
-        if (locPattern) {
-            formatter.applyLocalizedPattern(pattern);
-        }
-        else {
-            formatter.applyPattern(pattern);
-        }
-        return formatter.parse((String) value);
-    }
+	/**
+	 *
+	 */
+	protected Object parse(Object value, String pattern) throws ParseException 
+	{
+		SimpleDateFormat formatter = getFormatter(pattern, locale);
+		if (locPattern) {
+			formatter.applyLocalizedPattern(pattern);
+		}
+		else {
+			formatter.applyPattern(pattern);
+		}
+		return formatter.parse((String) value);
+	}
 
-    private SimpleDateFormat getFormatter(String pattern, Locale locale) {
-    	
-        if(pattern == null) {
-            pattern = locPattern ? 
-                new SimpleDateFormat().toLocalizedPattern() : new SimpleDateFormat().toPattern();
-            log.warn("Null pattern was provided, defaulting to: " + pattern);
-        }
-        SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
-        if(timeZone != null)
-        	format.setTimeZone(timeZone);
-        format.setLenient(isLenient());
-        return format;
-    }
+	/**
+	 *
+	 */
+	private SimpleDateFormat getFormatter(String pattern, Locale locale) 
+	{
+		if(pattern == null) {
+			pattern = locPattern ? 
+				new SimpleDateFormat().toLocalizedPattern() : new SimpleDateFormat().toPattern();
+			log.warn("Null pattern was provided, defaulting to: " + pattern);
+		}
+		SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
+		if(timeZone != null)
+			format.setTimeZone(timeZone);
+		format.setLenient(isLenient());
+		return format;
+	}
 
-    /**
-    *
-    *
-   public boolean isLenient() {
-       return isLenient;
-   }
-   
-   /**
-    * 
-    *
-   public void setLenient(boolean lenient) {
-       isLenient = lenient;
-   }	
-   */
-	
 }
