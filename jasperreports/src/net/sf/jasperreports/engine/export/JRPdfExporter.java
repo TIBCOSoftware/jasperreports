@@ -368,7 +368,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected void setHyperlinkProducerFactory()
 	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRPdfExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 

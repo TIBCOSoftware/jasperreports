@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
+import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 
 
 /**
@@ -221,4 +222,12 @@ public class JRExporterParameter
 	 */
 	public static final JRExporterParameter URL_HANDLER_FACTORY = new JRExporterParameter("URL Handler Factory");
 
+	
+	/**
+	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
+	 * hyperlink types during export.
+	 */
+	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");
+
+	
 }
