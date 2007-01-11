@@ -547,7 +547,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void setHyperlinkProducerFactory()
 	{
-		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 
