@@ -373,8 +373,8 @@
 <!ELEMENT subtitleExpression (#PCDATA)>
 <!ELEMENT chartLegend (font?)>
 <!ATTLIST chartLegend
-    textColor CDATA #IMPLIED
-    backgroundColor CDATA #IMPLIED
+	textColor CDATA #IMPLIED
+	backgroundColor CDATA #IMPLIED
 >
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>
@@ -424,8 +424,8 @@
 
 <!ELEMENT seriesColor EMPTY>
 <!ATTLIST seriesColor
-    seriesOrder CDATA #REQUIRED
-    color CDATA #REQUIRED
+	seriesOrder CDATA #REQUIRED
+	color CDATA #REQUIRED
 >
 
 <!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
@@ -459,10 +459,10 @@
 
 <!ELEMENT axisFormat (labelFont?, tickLabelFont?)>
 <!ATTLIST axisFormat
-    labelColor CDATA #IMPLIED
-    tickLabelColor CDATA #IMPLIED
-    tickLabelMask CDATA #IMPLIED
-    axisLineColor CDATA #IMPLIED
+	labelColor CDATA #IMPLIED
+	tickLabelColor CDATA #IMPLIED
+	tickLabelMask CDATA #IMPLIED
+	axisLineColor CDATA #IMPLIED
 >
 <!ELEMENT labelFont (font?)>
 <!ELEMENT tickLabelFont (font?)>
@@ -564,36 +564,36 @@
 <!ELEMENT valueDataset (dataset?, valueExpression )>
 <!ELEMENT meterPlot (plot, valueDisplay?, dataRange, meterInterval*)>
 <!ATTLIST meterPlot
-    shape (chord | circle | pie) "pie"
-    angle CDATA "180"
-    units CDATA #IMPLIED
-    tickInterval CDATA "10.0"
-    meterColor CDATA #IMPLIED
-    needleColor CDATA #IMPLIED
-    tickColor CDATA #IMPLIED
+	shape (chord | circle | pie) "pie"
+	angle CDATA "180"
+	units CDATA #IMPLIED
+	tickInterval CDATA "10.0"
+	meterColor CDATA #IMPLIED
+	needleColor CDATA #IMPLIED
+	tickColor CDATA #IMPLIED
 >
 
 <!ELEMENT valueDisplay (font?)>
 <!ATTLIST valueDisplay
-    color CDATA #IMPLIED
-    mask CDATA #IMPLIED
+	color CDATA #IMPLIED
+	mask CDATA #IMPLIED
 >
 
 <!ELEMENT dataRange (lowExpression, highExpression)>
 
 <!ELEMENT meterInterval (dataRange)>
 <!ATTLIST meterInterval
-    label CDATA #IMPLIED
-    color CDATA #IMPLIED
-    alpha CDATA "1.0"
+	label CDATA #IMPLIED
+	color CDATA #IMPLIED
+	alpha CDATA "1.0"
 >
 
 <!ELEMENT thermometerChart (chart, valueDataset, thermometerPlot)>
 <!ELEMENT thermometerPlot (plot, valueDisplay?, dataRange, lowRange?, mediumRange?, highRange?)>
 <!ATTLIST thermometerPlot
-    valueLocation ( none | left | right | bulb ) "bulb"
-    isShowValueLines ( true | false) "false"
-    mercuryColor CDATA #IMPLIED
+	valueLocation ( none | left | right | bulb ) "bulb"
+	isShowValueLines ( true | false) "false"
+	mercuryColor CDATA #IMPLIED
 >
 
 <!ELEMENT lowRange (dataRange)>
@@ -605,7 +605,7 @@
 <!ELEMENT multiAxisPlot (plot, axis+)>
 <!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart)>
 <!ATTLIST axis
-    position (leftOrTop | rightOrBottom) "leftOrTop"
+	position (leftOrTop | rightOrBottom) "leftOrTop"
 >
 
 <!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, crosstabHeaderCell?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
