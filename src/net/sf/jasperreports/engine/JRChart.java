@@ -72,6 +72,7 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	public static final byte CHART_TYPE_METER = 17;
 	public static final byte CHART_TYPE_THERMOMETER = 18;
 	public static final byte CHART_TYPE_MULTI_AXIS = 19;
+	public static final byte CHART_TYPE_STACKEDAREA = 20;
 
 
 	/**
