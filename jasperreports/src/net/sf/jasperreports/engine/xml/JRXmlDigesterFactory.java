@@ -70,6 +70,7 @@ import net.sf.jasperreports.charts.xml.JRPieDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRPiePlotFactory;
 import net.sf.jasperreports.charts.xml.JRScatterChartFactory;
 import net.sf.jasperreports.charts.xml.JRScatterPlotFactory;
+import net.sf.jasperreports.charts.xml.JRStackedAreaChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBar3DChartFactory;
 import net.sf.jasperreports.charts.xml.JRStackedBarChartFactory;
 import net.sf.jasperreports.charts.xml.JRThermometerChartFactory;
@@ -832,6 +833,11 @@ public class JRXmlDigesterFactory
 	    digester.addFactoryCreate("*/multiAxisChart/multiAxisPlot", JRMultiAxisPlotFactory.class.getName());
 	    digester.addFactoryCreate("*/axis", JRChartAxisFactory.class.getName());
 	    digester.addSetNext("*/axis", "addAxis", JRChartAxis.class.getName());
+	    
+		digester.addFactoryCreate("*/stackedAreaChart", JRStackedAreaChartFactory.class.getName());
+		digester.addSetNext("*/stackedAreaChart", "addElement", JRDesignElement.class.getName());
+		digester.addFactoryCreate("*/stackedAreaChart/areaPlot", JRAreaPlotFactory.class.getName());
+	    
 	}
 
 

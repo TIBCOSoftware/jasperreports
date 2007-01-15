@@ -2140,6 +2140,20 @@ public class JRXmlWriter
 		writer.closeElement();
 	}
 	
+	/**
+	 *
+	 */
+	public void writeStackedAreaChart(JRChart chart) throws IOException
+	{
+		writer.startElement("stackedAreaChart");
+
+		writeChart(chart);
+		writeCategoryDataSet((JRCategoryDataset) chart.getDataset());
+		writeAreaPlot((JRAreaPlot) chart.getPlot());
+
+		writer.closeElement();
+	}
+
 	
 	public void writeChartTag(JRChart chart) throws IOException
 	{
@@ -2200,6 +2214,9 @@ public class JRXmlWriter
 				break;
 			case JRChart.CHART_TYPE_XYLINE:
 				writeXyLineChart(chart);
+				break;
+			case JRChart.CHART_TYPE_STACKEDAREA:
+				writeStackedAreaChart(chart);
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
