@@ -174,7 +174,7 @@
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
 
-<!ELEMENT band (printWhenExpression?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*)>
+<!ELEMENT band (printWhenExpression?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | elementGroup | crosstab | frame)*)>
 <!ATTLIST band
 	height NMTOKEN "0"
 	isSplitAllowed (true | false) "true"
@@ -348,7 +348,7 @@
 	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
 >
 
-<!ELEMENT elementGroup (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*>
+<!ELEMENT elementGroup (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | elementGroup | crosstab | frame)*>
 
 <!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, chartLegend?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
 <!ATTLIST chart
@@ -483,6 +483,7 @@
 <!ELEMENT endDateExpression (#PCDATA)>
 
 <!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
+<!ELEMENT stackedAreaChart (chart, categoryDataset, areaPlot)>
 
 <!ELEMENT stackedBar3DChart (chart, categoryDataset, bar3DPlot)>
 
@@ -603,7 +604,7 @@
 
 <!ELEMENT multiAxisChart (chart, multiAxisPlot)>
 <!ELEMENT multiAxisPlot (plot, axis+)>
-<!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart)>
+<!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | stackedAreaChart)>
 <!ATTLIST axis
 	position (leftOrTop | rightOrBottom) "leftOrTop"
 >
@@ -695,4 +696,4 @@
 
 <!ELEMENT whenNoDataCell (cellContents)>
 
-<!ELEMENT frame (reportElement, box?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | elementGroup | crosstab | frame)*)>
+<!ELEMENT frame (reportElement, box?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | elementGroup | crosstab | frame)*)>
