@@ -4783,7 +4783,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <contains>(
     <a href="chart">chart</a>,
     <a href="valueDataset">valueDataset</a>,
-    <a href="meterPlot">thermometerPlot</a>
+    <a href="thermometerPlot">thermometerPlot</a>
   )</contains>
   <attributes>
   </attributes>
