@@ -302,6 +302,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 				dataset = (JRFillChartDataset) factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
+			case CHART_TYPE_STACKEDAREA:
+				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
@@ -738,6 +742,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 			case CHART_TYPE_XYLINE:
 				chartRenderer = evaluateXyLineImage(evaluation);
 				break;
+			case CHART_TYPE_STACKEDAREA:
+				chartRenderer = evaluateStackedAreaImage(evaluation);
+				break;
 			default:
 				throw new JRRuntimeException("Chart type " + getChartType() + " not supported.");
 		}
@@ -755,7 +762,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = (String) evaluateExpression(getHyperlinkTooltipExpression(), evaluation);
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
-		
 		return chartRenderer;
 	}
 
@@ -1685,6 +1691,40 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return getCategoryRenderer(chart);
 	}
 
+	/**
+	 *
+	 */
+	protected JFreeChartRenderer evaluateStackedAreaImage(byte evaluation) throws JRException
+	{
+		JFreeChart chart =
+			ChartFactory.createStackedAreaChart(
+				(String)evaluateExpression(getTitleExpression(), evaluation),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression(), evaluation),
+				(String)evaluateExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression(), evaluation),
+				(CategoryDataset)dataset.getDataset(),
+				getPlot().getOrientation(),
+				isShowLegend(),
+				true,
+				false
+				);
+		
+		configureChart(chart, getPlot(), evaluation);
+		JRFillAreaPlot areaPlot = (JRFillAreaPlot)getPlot();
+
+		// Handle the axis formating for the catagory axis
+		configureAxis(((CategoryPlot)chart.getPlot()).getDomainAxis(), areaPlot.getCategoryAxisLabelFont(),
+				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
+				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
+				areaPlot.getCategoryAxisLineColor());
+
+		// Handle the axis formating for the value axis
+		configureAxis(((CategoryPlot)chart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
+				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
+				areaPlot.getValueAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(),
+				areaPlot.getValueAxisLineColor());
+		
+		return getCategoryRenderer(chart);
+	}
 
 	protected JFreeChartRenderer evaluateXyAreaImage( byte evaluation ) throws JRException {
 		JFreeChart chart = ChartFactory.createXYAreaChart(
