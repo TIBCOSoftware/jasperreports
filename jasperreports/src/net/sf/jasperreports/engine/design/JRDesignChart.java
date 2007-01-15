@@ -616,6 +616,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignLinePlot(plot);
 				break;
+			case CHART_TYPE_STACKEDAREA:
+				dataset = new JRDesignCategoryDataset(dataset);
+				plot = new JRDesignAreaPlot(plot);
+				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
@@ -724,6 +728,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				break;
 			case CHART_TYPE_XYLINE:
 				xmlWriter.writeXyLineChart(this);
+				break;
+			case CHART_TYPE_STACKEDAREA:
+				xmlWriter.writeStackedAreaChart(this);
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
