@@ -80,7 +80,7 @@
 
 
 <xsl:template match="description">
-  <xsl:apply-templates mode="copy"/>
+  <xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="*" mode="copy">

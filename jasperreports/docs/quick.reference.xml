@@ -64,7 +64,8 @@
         <a href="bubbleChart">bubbleChart</a> |
         <a href="timeSeriesChart">timeSeriesChart</a> |
         <a href="highLowChart">highLowChart</a> |
-        <a href="candlestickChart">candlestickChart</a>
+        <a href="candlestickChart">candlestickChart</a> |
+        <a href="stackedAreaChart">stackedBarChart</a>
     )</contains>
     <attributes>
         <attribute>
@@ -176,6 +177,7 @@
     <a href="meterChart">meterChart</a> |
     <a href="thermometerChart">thermometerChart</a> |
     <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedBarChart">stackedAreaChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -727,15 +729,15 @@
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
           </dl>
         </li>
         <li>
@@ -1516,6 +1518,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="meterChart">meterChart</a> |
     <a href="thermometerChart">thermometerChart</a> |
     <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedBarChart">stackedAreaChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -1721,6 +1724,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <a href="meterChart">meterChart</a> |
     <a href="thermometerChart">thermometerChart</a> |
     <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedAreaChart">stackedAreaChart</a> |
     <a href="elementGroup">elementGroup</a> |
     <a href="crosstab">crosstab</a> |
     <a href="frame">frame</a>
@@ -2256,15 +2260,15 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
           </dl>
         </li>
         <li>
@@ -2416,15 +2420,15 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
           </dl>
         </li>
         <li>
@@ -3953,15 +3957,15 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
           </dl>
         </li>
         <li>
@@ -4094,6 +4098,19 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="chart">chart</a>,
     <a href="categoryDataset">categoryDataset</a>,
     <a href="barPlot">barPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+<!-- stackedAreaChart -->
+<element>
+  <name>stackedAreaChart</name>
+  <description>Defines a stacked area chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="areaPlot">areaPlot</a>
   )</contains>
   <attributes>
   </attributes>
@@ -4652,15 +4669,15 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
             <dt><code>None</code></dt>
             <dd>The current element doesn't represent a hyperlink.</dd>
             <dt><code>Reference</code></dt>
-            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
             <dt><code>LocalAnchor</code></dt>
-            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
             <dt><code>LocalPage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
             <dt><code>RemoteAnchor</code></dt>
-            <dd>The current hyperlink points to an anchor specified by the <a href="#hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
             <dt><code>RemotePage</code></dt>
-            <dd>The current hyperlink points to a 1 based page index specified by the <a href="#hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="#hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
           </dl>
         </li>
         <li>
