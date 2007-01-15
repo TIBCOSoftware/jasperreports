@@ -77,12 +77,13 @@ public class ChartsApp
 		"XYLineChartReport",
 		"TimeSeriesChartReport",
 		"BubbleChartReport",
-		"HighLowChartReport",
-		"CandlestickChartReport",
 		"SubDatasetChartReport",
 		"MeterChartReport",
 		"MultipleAxisChartReport",
-		"ThermometerChartReport"
+		"ThermometerChartReport",
+		"HighLowChartReport",
+		"CandlestickChartReport",
+		"StackedAreaChartReport"
 		};
 	
 	/**
