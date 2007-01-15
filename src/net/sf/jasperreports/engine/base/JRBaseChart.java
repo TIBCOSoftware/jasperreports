@@ -256,6 +256,10 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
+			case CHART_TYPE_STACKEDAREA:
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
+				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");
 		}
