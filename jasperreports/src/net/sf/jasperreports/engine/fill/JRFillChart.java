@@ -2007,8 +2007,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		    }
 		    if (display.getMask() != null)
 		    {
-		    	//TODO: this seems broken
-		        //chartPlot.setValueFormat(new DecimalFormat(display.getMask()));
+		        chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
 		    }
 		    if (display.getFont() != null)
 		    {
