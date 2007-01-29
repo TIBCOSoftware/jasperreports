@@ -71,7 +71,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 		++current;
 		if (current == endIdx)
 		{
-			return true;
+			return false;
 		}
 
 		if (!(chars == cc && this.start == startIdx && this.end == endIdx))
