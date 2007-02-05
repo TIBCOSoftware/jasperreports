@@ -1202,68 +1202,85 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		switch(link.getHyperlinkType())
+		JRHyperlinkProducer customHandler = getCustomHandler(link);		
+		if (customHandler == null)
 		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			switch(link.getHyperlinkType())
 			{
-				if (link.getHyperlinkReference() != null)
+				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
 				{
-					href = link.getHyperlinkReference();
+					if (link.getHyperlinkReference() != null)
+					{
+						href = link.getHyperlinkReference();
+					}
+					break;
 				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-			{
-				if (link.getHyperlinkAnchor() != null)
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
 				{
-					href = "#" + link.getHyperlinkAnchor();
+					if (link.getHyperlinkAnchor() != null)
+					{
+						href = "#" + link.getHyperlinkAnchor();
+					}
+					break;
 				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-			{
-				if (link.getHyperlinkPage() != null)
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
 				{
-					href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					if (link.getHyperlinkPage() != null)
+					{
+						href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					}
+					break;
 				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-			{
-				if (
-					link.getHyperlinkReference() != null &&
-					link.getHyperlinkAnchor() != null
-					)
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
 				{
-					href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkAnchor() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+					}
+					break;
 				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-			{
-				if (
-					link.getHyperlinkReference() != null &&
-					link.getHyperlinkPage() != null
-					)
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
 				{
-					href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+					}
+					break;
 				}
-				break;
-			}
-			case JRHyperlink.HYPERLINK_TYPE_CUSTOM :
-			{
-				if (hyperlinkProducerFactory != null)
+				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				default :
 				{
-					href = hyperlinkProducerFactory.produceHyperlink(link);
+					break;
 				}
-			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
-			default :
-			{
-				break;
 			}
 		}
+		else
+		{
+			href = customHandler.getHyperlink(link);
+		}
+		
 		return href;
+	}
+
+
+	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
+	{
+		JRHyperlinkProducer customHandler = hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
+		if (hyperlinkProducerFactory == null)
+		{
+			customHandler = null;
+		}
+		else
+		{
+			customHandler = hyperlinkProducerFactory.getHandler(link.getLinkType());
+		}
+		return customHandler;
 	}
 
 
