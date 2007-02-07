@@ -1103,7 +1103,7 @@ public class JRXmlWriter
 		// write title
 		writer.startElement("chartTitle");
 		writer.addAttribute("position", chart.getTitlePosition(), JRXmlConstants.getChartTitlePositionMap(), JRChart.TITLE_POSITION_TOP);
-		writer.addAttribute("color", chart.getTitleColor(), Color.black);
+		writer.addAttribute("color", chart.getOwnTitleColor());
 		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
 		{
@@ -1113,7 +1113,7 @@ public class JRXmlWriter
 
 		// write subtitle
 		writer.startElement("chartSubtitle");
-		writer.addAttribute("color", chart.getSubtitleColor());
+		writer.addAttribute("color", chart.getOwnSubtitleColor());
 		writeFont(chart.getSubtitleFont());
 		if (chart.getSubtitleExpression() != null)
 		{
@@ -1123,10 +1123,10 @@ public class JRXmlWriter
 		
 		// write chartLegend
 		writer.startElement("chartLegend");
-		if (chart.getLegendColor() != null)
-			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_textColor, chart.getLegendColor());
-		if (chart.getLegendBackgroundColor() != null)
-			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_backgroundColor, chart.getLegendBackgroundColor());
+		if (chart.getOwnLegendColor() != null)
+			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_textColor, chart.getOwnLegendColor());
+		if (chart.getOwnLegendBackgroundColor() != null)
+			writer.addAttribute(JRChartFactory.JRChartLegendFactory.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 		
