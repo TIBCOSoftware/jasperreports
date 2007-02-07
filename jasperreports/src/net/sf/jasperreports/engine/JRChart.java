@@ -135,6 +135,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	/**
 	 *
 	 */
+	public Color getOwnTitleColor();
+
+
+	/**
+	 *
+	 */
 	public void setTitleColor(Color titleColor);
 
 	
@@ -155,6 +161,10 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	 */
 	public Color getSubtitleColor();
 
+	/**
+	 *
+	 */
+	public Color getOwnSubtitleColor();
 
 	/**
 	 *
@@ -170,7 +180,17 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	/**
 	 * 
 	 */
+	public Color getOwnLegendColor();
+	
+	/**
+	 * 
+	 */
 	public void setLegendColor(Color legendColor);
+	
+	/**
+	 * 
+	 */
+	public Color getOwnLegendBackgroundColor();
 	
 	/**
 	 * 
