@@ -102,8 +102,8 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
-	protected Color titleColor = Color.black;
-	protected Color subtitleColor = Color.black;
+	protected Color titleColor = null;
+	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
 
@@ -269,14 +269,34 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		linkType = chart.getLinkType();
 		hyperlinkTarget = chart.getHyperlinkTarget();
 		titlePosition = chart.getTitlePosition();
-		titleColor = chart.getTitleColor();
-		subtitleColor = chart.getSubtitleColor();
-		legendColor = chart.getLegendColor();
-		legendBackgroundColor = chart.getLegendBackgroundColor();
+		titleColor = chart.getOwnTitleColor();
+		subtitleColor = chart.getOwnSubtitleColor();
+		legendColor = chart.getOwnLegendColor();
+		legendBackgroundColor = chart.getOwnLegendBackgroundColor();
 
-		titleFont = factory.getFont(chart.getTitleFont());
-		subtitleFont = factory.getFont(chart.getSubtitleFont());
-		legendFont = factory.getFont(chart.getLegendFont());
+		titleFont = 
+			new JRBaseFont(
+					null,
+					null,
+					chart,
+					chart.getTitleFont()
+					);
+
+		subtitleFont = 
+		new JRBaseFont(
+				null,
+				null,
+				chart,
+				chart.getSubtitleFont()
+				);
+
+		legendFont = 
+		new JRBaseFont(
+				null,
+				null,
+				chart,
+				chart.getLegendFont()
+				);
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 		titleExpression = factory.getExpression(chart.getTitleExpression());
@@ -379,6 +399,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public Color getTitleColor()
 	{
+		return JRStyleResolver.getTitleColor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTitleColor()
+	{
 		return titleColor;
 	}
 
@@ -401,9 +429,17 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	public Color getSubtitleColor()
+	public Color getOwnSubtitleColor()
 	{
 		return subtitleColor;
+	}
+
+	/**
+	 *
+	 */
+	public Color getSubtitleColor()
+	{
+		return JRStyleResolver.getSubtitleColor(this);
 	}
 
 	/**
@@ -414,16 +450,22 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		this.subtitleColor = subtitleColor;
 	}
 
-
 	public Color getLegendBackgroundColor() {
+		return JRStyleResolver.getLegendBackgroundColor(this);
+	}
+
+	public Color getOwnLegendBackgroundColor() {
 		return legendBackgroundColor;
 	}
 
 
-	public Color getLegendColor() {
+	public Color getOwnLegendColor() {
 		return legendColor;
 	}
 
+	public Color getLegendColor() {
+		return JRStyleResolver.getLegendColor(this);
+	}
 
 	public JRFont getLegendFont() {
 		return legendFont;

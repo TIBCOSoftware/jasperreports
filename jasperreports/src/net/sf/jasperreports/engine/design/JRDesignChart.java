@@ -104,8 +104,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
-	protected Color titleColor = Color.black;
-	protected Color subtitleColor = Color.black;
+	protected Color titleColor = null;
+	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
 
@@ -288,6 +288,14 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getTitleColor()
 	{
+		return JRStyleResolver.getTitleColor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTitleColor()
+	{
 		return titleColor;
 	}
 
@@ -320,6 +328,14 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getSubtitleColor()
 	{
+		return JRStyleResolver.getSubtitleColor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnSubtitleColor()
+	{
 		return subtitleColor;
 	}
 
@@ -334,9 +350,17 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public Color getLegendColor()
+	public Color getOwnLegendColor()
 	{
 		return legendColor;
+	}
+
+	/**
+	 *
+	 */
+	public Color getLegendColor()
+	{
+		return JRStyleResolver.getLegendColor(this);
 	}
 
 	/**
@@ -350,9 +374,17 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public Color getLegendBackgroundColor()
+	public Color getOwnLegendBackgroundColor()
 	{
 		return legendBackgroundColor;
+	}
+
+	/**
+	 *
+	 */
+	public Color getLegendBackgroundColor()
+	{
+		return JRStyleResolver.getLegendBackgroundColor(this);
 	}
 
 	/**

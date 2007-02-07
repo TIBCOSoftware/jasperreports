@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
@@ -1496,4 +1497,45 @@ public class JRStyleResolver
 		if (srcStyle.isOwnPdfEmbedded() != null)
 			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
 	}
+
+	/**
+	 *
+	 */
+	public static Color getTitleColor(JRChart chart)
+	{
+		if (chart.getOwnTitleColor() != null) 
+			return chart.getOwnTitleColor();
+		return getForecolor(chart);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getSubtitleColor(JRChart chart)
+	{
+		if (chart.getOwnSubtitleColor() != null) 
+			return chart.getOwnSubtitleColor();
+		return getForecolor(chart);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getLegendColor(JRChart chart)
+	{
+		if (chart.getOwnLegendColor() != null) 
+			return chart.getOwnLegendColor();
+		return getForecolor(chart);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getLegendBackgroundColor(JRChart chart)
+	{
+		if (chart.getOwnLegendBackgroundColor() != null) 
+			return chart.getOwnLegendBackgroundColor();
+		return getBackcolor(chart);
+	}
+
 }

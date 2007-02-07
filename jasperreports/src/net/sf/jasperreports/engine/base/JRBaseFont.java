@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 
@@ -63,6 +64,11 @@ public class JRBaseFont implements JRFont, Serializable
 	 *
 	 */
 	protected JRReportFont reportFont = null;
+
+	/**
+	 *
+	 */
+	protected JRStyleContainer styleContainer = null;
 
 	protected String fontName = null;
 	protected Boolean isBold = null;
@@ -162,19 +168,43 @@ public class JRBaseFont implements JRFont, Serializable
 		JRFont font
 		)
 	{
+		this(
+			defaultFontProvider, 
+			reportFont,
+			null,
+			font
+			);
+	}
+		
+
+	/**
+	 *
+	 */
+	public JRBaseFont(
+		JRDefaultFontProvider defaultFontProvider, 
+		JRReportFont reportFont,
+		JRStyleContainer styleContainer,
+		JRFont font
+		)
+	{
 		this.defaultFontProvider = defaultFontProvider;
 		
 		this.reportFont = reportFont;
+
+		this.styleContainer = styleContainer;
 		
-		fontName = font.getOwnFontName();
-		isBold = font.isOwnBold();
-		isItalic = font.isOwnItalic();
-		isUnderline = font.isOwnUnderline();
-		isStrikeThrough = font.isOwnStrikeThrough();
-		fontSize = font.getOwnFontSize();
-		pdfFontName = font.getOwnPdfFontName();
-		pdfEncoding = font.getOwnPdfEncoding();
-		isPdfEmbedded = font.isOwnPdfEmbedded();
+		if (font != null)
+		{
+			fontName = font.getOwnFontName();
+			isBold = font.isOwnBold();
+			isItalic = font.isOwnItalic();
+			isUnderline = font.isOwnUnderline();
+			isStrikeThrough = font.isOwnStrikeThrough();
+			fontSize = font.getOwnFontSize();
+			pdfFontName = font.getOwnPdfFontName();
+			pdfEncoding = font.getOwnPdfEncoding();
+			isPdfEmbedded = font.isOwnPdfEmbedded();
+		}
 	}
 		
 
@@ -191,7 +221,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
-		return null;
+		return styleContainer == null ? null : styleContainer.getDefaultStyleProvider();
 	}
 
 	/**
@@ -199,7 +229,7 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public JRStyle getStyle()
 	{
-		return null;
+		return styleContainer == null ? null : styleContainer.getStyle();
 	}
 
 	/**
