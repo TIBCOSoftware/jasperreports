@@ -138,12 +138,25 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	/**
 	 * Returns the value of a fill paramter.
 	 * @param parameterName the paramter name
+	 * @param ignoreMissing if <code>true</code>, the method will return null for non existing parameters;
+	 * 		otherwise, an exception will be thrown if the parameter does not exist
+	 * @return the parameter value
+	 */
+	protected Object getParameterValue(String parameterName, boolean ignoreMissing)
+	{
+		JRValueParameter parameter = getValueParameter(parameterName, ignoreMissing);
+		return parameter == null ? null : parameter.getValue();
+	}
+	
+	
+	/**
+	 * Returns the value of a fill paramter.
+	 * @param parameterName the paramter name
 	 * @return the parameter value
 	 */
 	protected Object getParameterValue(String parameterName)
 	{
-		JRValueParameter parameter = getValueParameter(parameterName);
-		return parameter.getValue();
+		return getParameterValue(parameterName, false);
 	}
 	
 	
@@ -171,18 +184,32 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 * Return a value parameter from the paramters map.
 	 * 
 	 * @param parameterName the paramter name
+	 * @param ignoreMissing if <code>true</code>, the method will return null for non existing parameters;
+	 * 		otherwise, an exception will be thrown if the parameter does not exist
 	 * @return the parameter
 	 */
-	protected JRValueParameter getValueParameter(String parameterName)
+	protected JRValueParameter getValueParameter(String parameterName, boolean ignoreMissing)
 	{
 		JRValueParameter parameter = (JRValueParameter) parametersMap.get(parameterName);
 		
-		if (parameter == null)
+		if (parameter == null && !ignoreMissing)
 		{
 			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
 		}
 		
 		return parameter;
+	}
+
+	
+	/**
+	 * Return a value parameter from the paramters map.
+	 * 
+	 * @param parameterName the paramter name
+	 * @return the parameter
+	 */
+	protected JRValueParameter getValueParameter(String parameterName)
+	{
+		return getValueParameter(parameterName, false);
 	}
 
 	

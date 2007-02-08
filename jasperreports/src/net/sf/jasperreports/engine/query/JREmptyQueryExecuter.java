@@ -25,55 +25,32 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.olap.xmla;
+package net.sf.jasperreports.engine.query;
 
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
 
 /**
- * @author Michael Günther (m.guenther at users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
+public class JREmptyQueryExecuter implements JRQueryExecuter
 {
 
-	public final static String PARAMETER_XMLA_URL = "XMLA_URL";
-
-	public final static String PARAMETER_XMLA_DATASOURCE = "XMLA_DATASOURCE";
-
-	public final static String PARAMETER_XMLA_CATALOG = "XMLA_CATALOG";
-	
-	public final static String PARAMETER_XMLA_USER = "XMLA_USER";
-	
-	public final static String PARAMETER_XMLA_PASSWORD = "XMLA_PASSWORD";
-
-
-	private final static Object[] XMLA_BUILTIN_PARAMETERS = { 
-		PARAMETER_XMLA_URL, String.class, 
-		PARAMETER_XMLA_DATASOURCE, String.class, 
-		PARAMETER_XMLA_CATALOG, String.class,
-		PARAMETER_XMLA_USER, String.class,
-		PARAMETER_XMLA_PASSWORD, String.class,
-	};
-
-	public Object[] getBuiltinParameters()
+	public boolean cancelQuery() throws JRException
 	{
-		return XMLA_BUILTIN_PARAMETERS;
+		return false;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException
+	public void close()
 	{
-		return new JRXmlaQueryExecuter(dataset, parameters);
+		//nothing
 	}
 
-	public boolean supportsQueryParameterType(String className)
+	public JRDataSource createDatasource() throws JRException
 	{
-		return true;
+		return null;
 	}
 
 }
