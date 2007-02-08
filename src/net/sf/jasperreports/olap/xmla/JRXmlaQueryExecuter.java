@@ -32,7 +32,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,28 +76,14 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	private static final Pattern LEVEL_UNIQUE_NAME_PATTERN = Pattern.compile("\\[[^\\]]+\\]\\.\\[([^\\]]+)\\]");
 	private static final int LEVEL_UNIQUE_NAME_PATTERN_NAME_GROUP = 1;
 
-	private Properties soapProperties;
-
 	private SOAPFactory sf;
 	private SOAPConnection connection;
 	private JRXmlaResult xmlaResult;
 
 
-	protected JRXmlaQueryExecuter(JRDataset dataset, Map parametersMap)
+	public JRXmlaQueryExecuter(JRDataset dataset, Map parametersMap)
 	{
 		super(dataset, parametersMap);
-
-		soapProperties = new Properties();
-
-		String soapURL = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL);
-		soapProperties.put("url", soapURL);
-		if (soapURL == null)
-		{
-			log.warn("The SOAP-URL is null.");
-		}
-
-		soapProperties.put("dataSource", getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE));
-		soapProperties.put("catalog", getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG));
 
 		parseQuery();
 	}
@@ -117,7 +102,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			this.connection = createSOAPConnection();
 			SOAPMessage queryMessage = createQueryMessage();
 
-			URL soapURL = new URL(soapProperties.getProperty("url"));
+			URL soapURL = new URL(getSoapUrl());
 			SOAPMessage resultMessage = executeQuery(queryMessage, soapURL);
 			
 			xmlaResult = new JRXmlaResult();
@@ -136,6 +121,31 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		
 		JROlapDataSource olapDS = new JROlapDataSource(dataset, xmlaResult);
 		return olapDS;
+	}
+
+	protected String getSoapUrl() throws MalformedURLException
+	{
+		String soapUrl;
+		String xmlaUrl = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL);
+		String user = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER, true);
+		if (user == null || user.length() == 0)
+		{
+			soapUrl = xmlaUrl;
+		}
+		else
+		{
+			URL url = new URL(xmlaUrl);
+			soapUrl = url.getProtocol() + "://" + user;
+			
+			String password = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD, true);
+			if (password != null && password.length() > 0)
+			{
+				soapUrl += ":" + password;
+			}
+
+			soapUrl += "@" + url.getHost() + ":" + url.getPort() + url.getPath();
+		}
+		return soapUrl;
 	}
 
 	public boolean cancelQuery() throws JRException
@@ -225,8 +235,10 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			// </PropertyList>
 			// </Properties>
 			Map paraList = new HashMap();
-			paraList.put("DataSourceInfo", soapProperties.getProperty("dataSource"));
-			paraList.put("Catalog", soapProperties.getProperty("catalog"));
+			String datasource = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE);
+			paraList.put("DataSourceInfo", datasource);
+			String catalog = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG);
+			paraList.put("Catalog", catalog);
 			paraList.put("Format", "Multidimensional");
 			paraList.put("AxisFormat", "TupleFormat");
 			addParameterList(envelope, eEx, "Properties", "PropertyList", paraList);
