@@ -11,8 +11,6 @@
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
 	</parameter>
-	<parameter name="SummaryImage" class="java.awt.Image">
-	</parameter>
 	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>
@@ -107,7 +105,7 @@
 						<labelExpression></labelExpression>
 					</categorySeries>
 					<categorySeries>
-						<seriesExpression>"Douoble Freight"</seriesExpression>
+						<seriesExpression>"Double Freight"</seriesExpression>
 						<categoryExpression>$F{ShipCountry}</categoryExpression>
 						<valueExpression>new Double($V{FreightSumCountryGroup}.doubleValue() * 2d)</valueExpression>
 						<labelExpression></labelExpression>
@@ -115,8 +113,9 @@
 				</categoryDataset>
 				<linePlot isShowLines="true" isShowShapes="false">
 					<plot>
-					    <seriesColor seriesOrder="0" color="#000000"/>
-					    <seriesColor seriesOrder="1" color="#ff00ff"/>
+					    <seriesColor seriesOrder="0" color="#FF00FF"/>
+					    <seriesColor seriesOrder="1" color="#FFFF00"/>
+					    <seriesColor seriesOrder="2" color="#00FFFF"/>
 					</plot>
 				</linePlot>
 			</lineChart>
