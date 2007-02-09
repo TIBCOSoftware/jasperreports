@@ -11,8 +11,6 @@
 	</parameter>
 	<parameter name="MaxOrderID" class="java.lang.Integer">
 	</parameter>
-	<parameter name="SummaryImage" class="java.awt.Image">
-	</parameter>
 	<queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]></queryString>
 	<field name="ShippedDate" class="java.sql.Timestamp">
 	</field>

@@ -93,7 +93,6 @@
 	<parameter name="MaxOrderID" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer(15000)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SummaryImage" isForPrompting="false" class="java.awt.Image"/>
 	<queryString><![CDATA[SELECT * FROM Orders
 WHERE OrderID <= $P{MaxOrderID}
 ORDER BY ShipCountry, ShipCity]]></queryString>
