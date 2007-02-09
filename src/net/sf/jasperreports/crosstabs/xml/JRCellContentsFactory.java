@@ -45,6 +45,8 @@ import org.xml.sax.Attributes;
  */
 public class JRCellContentsFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_cellContents = "cellContents";
+	
 	public static final String ATTRIBUTE_backcolor = "backcolor";
 	public static final String ATTRIBUTE_mode = "mode";
 	public static final String ATTRIBUTE_style = "style";

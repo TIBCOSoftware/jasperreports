@@ -39,7 +39,8 @@ import org.xml.sax.Attributes;
 public class JRElementGroupFactory extends JRBaseFactory
 {
 
-
+	public static final String ELEMENT_elementGroup = "elementGroup";
+	
 	/**
 	 *
 	 */

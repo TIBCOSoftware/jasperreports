@@ -43,10 +43,12 @@ public class JRFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_class = "class";
-
-
+	public static final String ELEMENT_field = "field";
+	public static final String ELEMENT_fieldDescription = "fieldDescription";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_class = "class";
+	
 	/**
 	 *
 	 */

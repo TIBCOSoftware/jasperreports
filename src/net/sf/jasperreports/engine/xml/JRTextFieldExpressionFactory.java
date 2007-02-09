@@ -43,7 +43,9 @@ public class JRTextFieldExpressionFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_class = "class";
+	public static final String ELEMENT_textFieldExpression = "textFieldExpression";
+	
+	public static final String ATTRIBUTE_class = "class";
 
 
 	/**

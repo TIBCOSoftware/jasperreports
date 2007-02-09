@@ -43,6 +43,9 @@ public class JasperDesignFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	public static final String DOCUMENT_docType = "-//JasperReports//DTD Report Design//EN";
+	public static final String DOCUMENT_uri = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
+	
 	public static final String ELEMENT_jasperReport = "jasperReport";
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_language = "language";
@@ -67,7 +70,20 @@ public class JasperDesignFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
 	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
 
-
+	public static final String ATTRIBUTE_value = "value";
+	
+	public static final String ELEMENT_import = "import";
+	public static final String ELEMENT_background = "background";
+	public static final String ELEMENT_title = "title";
+	public static final String ELEMENT_pageHeader = "pageHeader";
+	public static final String ELEMENT_columnHeader = "columnHeader";
+	public static final String ELEMENT_detail = "detail";
+	public static final String ELEMENT_columnFooter = "columnFooter";
+	public static final String ELEMENT_pageFooter = "pageFooter";
+	public static final String ELEMENT_lastPageFooter = "lastPageFooter";
+	public static final String ELEMENT_summary = "summary";
+	public static final String ELEMENT_property = "property";
+		
 	/**
 	 *
 	 */

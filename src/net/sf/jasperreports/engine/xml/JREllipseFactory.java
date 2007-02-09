@@ -40,7 +40,11 @@ import org.xml.sax.Attributes;
 public class JREllipseFactory extends JRBaseFactory
 {
 
-
+	/**
+	 *
+	 */
+	public static final String ELEMENT_ellipse = "ellipse";
+	
 	/**
 	 *
 	 */

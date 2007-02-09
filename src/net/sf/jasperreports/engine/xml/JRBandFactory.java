@@ -43,8 +43,11 @@ public class JRBandFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_height = "height";
-	private static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
+	public static final String ELEMENT_band = "band";
+	public static final String ELEMENT_printWhenExpression = "printWhenExpression";
+	
+	public static final String ATTRIBUTE_height = "height";
+	public static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
 
 
 	/**

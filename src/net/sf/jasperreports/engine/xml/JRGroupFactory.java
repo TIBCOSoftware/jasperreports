@@ -43,12 +43,17 @@ public class JRGroupFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_isStartNewColumn = "isStartNewColumn";
-	private static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
-	private static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
-	private static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
-	private static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
+	public static final String ELEMENT_group = "group";
+	public static final String ELEMENT_groupExpression = "groupExpression";
+	public static final String ELEMENT_groupHeader = "groupHeader";
+	public static final String ELEMENT_groupFooter = "groupFooter";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_isStartNewColumn = "isStartNewColumn";
+	public static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
+	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
+	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
+	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
 
 
 	/**

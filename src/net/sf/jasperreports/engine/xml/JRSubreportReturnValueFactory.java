@@ -43,13 +43,12 @@ import org.xml.sax.Attributes;
  */
 public class JRSubreportReturnValueFactory extends JRBaseFactory
 {
-	private static final String ATTRIBUTE_subreportVariable = "subreportVariable";
-
-	private static final String ATTRIBUTE_toVariable = "toVariable";
-
-	private static final String ATTRIBUTE_calculation = "calculation";
-
-	private static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
+	public static final String ELEMENT_returnValue = "returnValue";
+	
+	public static final String ATTRIBUTE_subreportVariable = "subreportVariable";
+	public static final String ATTRIBUTE_toVariable = "toVariable";
+	public static final String ATTRIBUTE_calculation = "calculation";
+	public static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
 
 	/**
 	 * Creates an object from a subreport copied value XML element.

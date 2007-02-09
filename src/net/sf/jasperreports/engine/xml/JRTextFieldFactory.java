@@ -48,14 +48,16 @@ public class JRTextFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
-	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
-	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
-	private static final String ATTRIBUTE_pattern = "pattern";
-	private static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
-	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
+	public static final String ELEMENT_textField = "textField";
+	
+	public static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
+	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
+	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	public static final String ATTRIBUTE_pattern = "pattern";
+	public static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
+	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
+	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 
 
 	/**

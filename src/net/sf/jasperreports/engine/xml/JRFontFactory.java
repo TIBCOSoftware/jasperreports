@@ -48,16 +48,18 @@ public abstract class JRFontFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_reportFont = "reportFont";
-	private static final String ATTRIBUTE_fontName = "fontName";
-	private static final String ATTRIBUTE_isBold = "isBold";
-	private static final String ATTRIBUTE_isItalic = "isItalic";
-	private static final String ATTRIBUTE_isUnderline = "isUnderline";
-	private static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
-	private static final String ATTRIBUTE_size = "size";
-	private static final String ATTRIBUTE_pdfFontName = "pdfFontName";
-	private static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
-	private static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
+	public static final String ELEMENT_font = "font";
+	
+	public static final String ATTRIBUTE_reportFont = "reportFont";
+	public static final String ATTRIBUTE_fontName = "fontName";
+	public static final String ATTRIBUTE_isBold = "isBold";
+	public static final String ATTRIBUTE_isItalic = "isItalic";
+	public static final String ATTRIBUTE_isUnderline = "isUnderline";
+	public static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
+	public static final String ATTRIBUTE_size = "size";
+	public static final String ATTRIBUTE_pdfFontName = "pdfFontName";
+	public static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
+	public static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
 
 
 	/**

@@ -44,8 +44,9 @@ public class JRBreakFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_type = "type";
-
+	public static final String ELEMENT_break = "break";
+	
+	public static final String ATTRIBUTE_type = "type";
 
 	/**
 	 *

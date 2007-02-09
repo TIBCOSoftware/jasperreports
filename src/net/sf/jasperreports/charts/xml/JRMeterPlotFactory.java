@@ -42,6 +42,8 @@ import org.xml.sax.Attributes;
  */
 public class JRMeterPlotFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_meterPlot = "meterPlot";
+	
     public static final String ATTRIBUTE_shape = "shape";
     public static final String ATTRIBUTE_angle = "angle";
     public static final String ATTRIBUTE_units = "units";

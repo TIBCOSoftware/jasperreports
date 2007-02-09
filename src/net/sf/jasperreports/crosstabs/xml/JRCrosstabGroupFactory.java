@@ -39,6 +39,10 @@ import org.xml.sax.Attributes;
  */
 public abstract class JRCrosstabGroupFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_columnGroup = "columnGroup";
+	public static final String ELEMENT_crosstabColumnHeader = "crosstabColumnHeader";
+	public static final String ELEMENT_crosstabTotalColumnHeader = "crosstabTotalColumnHeader";
+
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_totalPosition = "totalPosition";
 	

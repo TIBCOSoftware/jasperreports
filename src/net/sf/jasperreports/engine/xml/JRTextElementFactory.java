@@ -43,11 +43,13 @@ public class JRTextElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_textAlignment = "textAlignment";
-	private static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
-	private static final String ATTRIBUTE_rotation = "rotation";
-	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
-	private static final String ATTRIBUTE_isStyledText = "isStyledText";
+	public static final String ELEMENT_textElement = "textElement";
+	
+	public static final String ATTRIBUTE_textAlignment = "textAlignment";
+	public static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
+	public static final String ATTRIBUTE_rotation = "rotation";
+	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
+	public static final String ATTRIBUTE_isStyledText = "isStyledText";
 
 
 	/**

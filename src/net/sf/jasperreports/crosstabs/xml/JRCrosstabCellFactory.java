@@ -38,6 +38,8 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabCellFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_crosstabCell = "crosstabCell";
+
 	public static final String ATTRIBUTE_rowTotalGroup = "rowTotalGroup";
 	public static final String ATTRIBUTE_columnTotalGroup = "columnTotalGroup";
 	public static final String ATTRIBUTE_width = "width";

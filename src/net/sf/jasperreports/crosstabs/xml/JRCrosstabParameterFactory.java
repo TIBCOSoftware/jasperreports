@@ -38,6 +38,13 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabParameterFactory extends JRParameterFactory
 {
+	public static final String ELEMENT_crosstabParameter = "crosstabParameter";
+	
+	public static final String ELEMENT_parameterValueExpression = "parameterValueExpression";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_class = "class";
+	
 	public Object createObject(Attributes atts)
 	{
 		JRDesignCrosstabParameter parameter = new JRDesignCrosstabParameter();
