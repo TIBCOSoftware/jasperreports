@@ -1490,7 +1490,7 @@ public class JRXmlWriter
 	private void writePlot(JRChartPlot plot) throws IOException
 	{
 		writer.startElement(JRChartPlotFactory.ELEMENT_plot);
-		writer.addAttribute(JRChartPlotFactory.ATTRIBUTE_backcolor, plot.getBackcolor());
+		writer.addAttribute(JRChartPlotFactory.ATTRIBUTE_backcolor, plot.getOwnBackcolor());
 		writer.addAttribute(JRChartPlotFactory.ATTRIBUTE_orientation, plot.getOrientation(), JRXmlConstants.getPlotOrientationMap(), PlotOrientation.VERTICAL);
 		writer.addAttribute(JRChartPlotFactory.ATTRIBUTE_backgroundAlpha, plot.getBackgroundAlpha(), 1.0f);
 		writer.addAttribute(JRChartPlotFactory.ATTRIBUTE_foregroundAlpha, plot.getForegroundAlpha(), 1.0f);
@@ -1597,13 +1597,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
-						plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
-						plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+						plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
+						plot.getCategoryAxisTickLabelMask(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1620,13 +1620,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getXAxisLabelColor(),
-				plot.getXAxisTickLabelFont(), plot.getXAxisTickLabelColor(),
-				plot.getXAxisTickLabelMask(), plot.getXAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
+				plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
+				plot.getXAxisTickLabelMask(), plot.getOwnXAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getYAxisLabelColor(),
-				plot.getYAxisTickLabelFont(), plot.getYAxisTickLabelColor(),
-				plot.getYAxisTickLabelMask(), plot.getYAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
+				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
+				plot.getYAxisTickLabelMask(), plot.getOwnYAxisLineColor());
 
 		writer.closeElement();
 	}
@@ -1644,13 +1644,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
-				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 		writer.closeElement();
 	}
@@ -1665,13 +1665,13 @@ public class JRXmlWriter
 		writePlot( plot );
 		
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
-				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
-				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getOwnTimeAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1691,13 +1691,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
-				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1833,13 +1833,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
-				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
-				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getOwnTimeAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1861,13 +1861,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_timeAxisLabelExpression, plot.getTimeAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getTimeAxisLabelColor(),
-				plot.getTimeAxisTickLabelFont(), plot.getTimeAxisTickLabelColor(),
-				plot.getTimeAxisTickLabelMask(), plot.getTimeAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_timeAxisFormat, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
+				plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
+				plot.getTimeAxisTickLabelMask(), plot.getOwnTimeAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1883,13 +1883,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_categoryAxisLabelExpression, plot.getCategoryAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getCategoryAxisLabelColor(),
-				plot.getCategoryAxisTickLabelFont(), plot.getCategoryAxisTickLabelColor(),
-				plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_categoryAxisFormat, plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
+				plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
+				plot.getCategoryAxisTickLabelMask(), plot.getOwnCategoryAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_valueAxisLabelExpression, plot.getValueAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getValueAxisLabelColor(),
-				plot.getValueAxisTickLabelFont(), plot.getValueAxisTickLabelColor(),
-				plot.getValueAxisTickLabelMask(), plot.getValueAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_valueAxisFormat, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
+				plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
+				plot.getValueAxisTickLabelMask(), plot.getOwnValueAxisLineColor());
 
 
 		writer.closeElement();
@@ -1923,13 +1923,13 @@ public class JRXmlWriter
 		writePlot(plot);
 
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_xAxisLabelExpression, plot.getXAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getXAxisLabelColor(),
-				plot.getXAxisTickLabelFont(), plot.getXAxisTickLabelColor(),
-				plot.getXAxisTickLabelMask(), plot.getXAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_xAxisFormat, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
+				plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
+				plot.getXAxisTickLabelMask(), plot.getOwnXAxisLineColor());
 		writer.writeExpression(JRChartPlotFactory.ELEMENT_yAxisLabelExpression, plot.getYAxisLabelExpression(), false);
-		writeAxisFormat(JRChartPlotFactory.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getYAxisLabelColor(),
-				plot.getYAxisTickLabelFont(), plot.getYAxisTickLabelColor(),
-				plot.getYAxisTickLabelMask(), plot.getYAxisLineColor());
+		writeAxisFormat(JRChartPlotFactory.ELEMENT_yAxisFormat, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
+				plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
+				plot.getYAxisTickLabelMask(), plot.getOwnYAxisLineColor());
 
 		writer.closeElement();
 	}
