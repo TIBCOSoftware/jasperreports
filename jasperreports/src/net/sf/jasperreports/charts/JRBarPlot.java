@@ -27,18 +27,15 @@
  */
 package net.sf.jasperreports.charts;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRFont;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBarPlot extends JRChartPlot
+public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxisFormat
 {
 
 	/**
@@ -49,68 +46,8 @@ public interface JRBarPlot extends JRChartPlot
 	/**
 	 * 
 	 */
-	public JRFont getCategoryAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getCategoryAxisLabelColor();
-	
-	/**
-	 * 
-	 */
-	public JRFont getCategoryAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getCategoryAxisTickLabelColor();
-		
-	/**
-	 * 
-	 */
-	public String getCategoryAxisTickLabelMask();
-	
-	/**
-	 * 
-	 */
-	public Color getCategoryAxisLineColor();
-	
-	/**
-	 * 
-	 */
 	public JRExpression getValueAxisLabelExpression();
 
-	/**
-	 * 
-	 */
-	public JRFont getValueAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getValueAxisLabelColor();
-
-	/**
-	 * 
-	 */
-	public JRFont getValueAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getValueAxisTickLabelColor();
-	
-	/**
-	 * 
-	 */
-	public String getValueAxisTickLabelMask();
-	
-	/**
-	 * 
-	 */
-	public Color getValueAxisLineColor();
-	
 	/**
 	 * 
 	 */

@@ -32,8 +32,10 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -47,12 +49,40 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	/**
 	 *
 	 */
+	protected JRFont categoryAxisLabelFont = null;
+	protected Color categoryAxisLabelColor = null;
+	protected JRFont categoryAxisTickLabelFont = null;
+	protected Color categoryAxisTickLabelColor = null;
+	protected Color categoryAxisLineColor = null;
+
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected Color valueAxisLineColor = null;
+
+	
+	/**
+	 *
+	 */
 	public JRFillBarPlot(
 		JRBarPlot barPlot, 
 		JRFillObjectFactory factory
 		)
 	{
 		super(barPlot, factory);
+
+		categoryAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
+		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
+		categoryAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
+		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
+		
+		valueAxisLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
+		valueAxisTickLabelFont = new JRBaseFont(null, null, barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
+		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 	}
 		
 
@@ -69,7 +99,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public JRFont getCategoryAxisLabelFont()
 	{
-		return ((JRBarPlot)parent).getCategoryAxisLabelFont();
+		return categoryAxisLabelFont;
 	}
 
 	/**
@@ -84,7 +114,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getCategoryAxisLabelColor()
 	{
-		return ((JRBarPlot)parent).getCategoryAxisLabelColor();
+		return JRStyleResolver.getCategoryAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnCategoryAxisLabelColor()
+	{
+		return categoryAxisLabelColor;
 	}
 
 	/**
@@ -99,7 +137,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public JRFont getCategoryAxisTickLabelFont()
 	{
-		return ((JRBarPlot)parent).getCategoryAxisTickLabelFont();
+		return categoryAxisTickLabelFont;
 	}
 
 	/**
@@ -114,7 +152,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getCategoryAxisTickLabelColor()
 	{
-		return ((JRBarPlot)parent).getCategoryAxisTickLabelColor();
+		return JRStyleResolver.getCategoryAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnCategoryAxisTickLabelColor()
+	{
+		return categoryAxisTickLabelColor;
 	}
 
 	/**
@@ -138,13 +184,21 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	public void setCategoryAxisTickLabelMask(String mask)
 	{
 	}
-
+	
 	/**
 	 *
 	 */
 	public Color getCategoryAxisLineColor()
 	{
-		return ((JRBarPlot)parent).getCategoryAxisLineColor();
+		return JRStyleResolver.getCategoryAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnCategoryAxisLineColor()
+	{
+		return categoryAxisLineColor;
 	}
 
 	/**
@@ -167,7 +221,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public JRFont getValueAxisLabelFont()
 	{
-		return ((JRBarPlot)parent).getValueAxisLabelFont();
+		return valueAxisLabelFont;
 	}
 
 	/**
@@ -182,7 +236,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return ((JRBarPlot)parent).getValueAxisLabelColor();
+		return JRStyleResolver.getValueAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
 	}
 
 	/**
@@ -197,7 +259,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public JRFont getValueAxisTickLabelFont()
 	{
-		return ((JRBarPlot)parent).getValueAxisTickLabelFont();
+		return valueAxisTickLabelFont;
 	}
 
 	/**
@@ -212,7 +274,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return ((JRBarPlot)parent).getValueAxisTickLabelColor();
+		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
 	}
 
 	/**
@@ -242,7 +312,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return ((JRBarPlot)parent).getValueAxisLineColor();
+		return JRStyleResolver.getValueAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLineColor()
+	{
+		return valueAxisLineColor;
 	}
 
 	/**
@@ -251,7 +329,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	public void setValueAxisLineColor(Color color)
 	{
 	}
-	
+
 	/**
 	 *
 	 */

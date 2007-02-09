@@ -30,13 +30,16 @@ package net.sf.jasperreports.charts.base;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -68,8 +71,8 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	/**
 	 * 
 	 */
-	protected JRBaseTimeSeriesPlot( JRChartPlot plot ){
-		super( plot );
+	protected JRBaseTimeSeriesPlot(JRChartPlot plot, JRChart chart){
+		super(plot, chart);
 	}
 	
 	/**
@@ -82,18 +85,18 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 		isShowShapes = plot.isShowShapes();
 		
 		timeAxisLabelExpression = factory.getExpression( plot.getTimeAxisLabelExpression() );
-		timeAxisLabelFont = factory.getFont(plot.getTimeAxisLabelFont());
-		timeAxisLabelColor = plot.getTimeAxisLabelColor();
-		timeAxisTickLabelFont = factory.getFont(plot.getTimeAxisTickLabelFont());
-		timeAxisTickLabelColor = plot.getTimeAxisTickLabelColor();
+		timeAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisLabelFont());
+		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
+		timeAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisTickLabelMask = plot.getTimeAxisTickLabelMask();
 		timeAxisLineColor = plot.getTimeAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( plot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = factory.getFont(plot.getValueAxisLabelFont());
-		valueAxisLabelColor = plot.getValueAxisLabelColor();
-		valueAxisTickLabelFont = factory.getFont(plot.getValueAxisTickLabelFont());
-		valueAxisTickLabelColor = plot.getValueAxisTickLabelColor();
+		valueAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisLabelFont());
+		valueAxisLabelColor = plot.getOwnValueAxisLabelColor();
+		valueAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = plot.getValueAxisTickLabelMask();
 		valueAxisLineColor = plot.getValueAxisTickLabelColor();
 	}
@@ -118,6 +121,14 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 */
 	public Color getTimeAxisLabelColor()
 	{
+		return JRStyleResolver.getTimeAxisLabelColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnTimeAxisLabelColor()
+	{
 		return timeAxisLabelColor;
 	}
 	
@@ -133,6 +144,14 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 * 
 	 */
 	public Color getTimeAxisTickLabelColor()
+	{
+		return JRStyleResolver.getTimeAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 * 
+	 */
+	public Color getOwnTimeAxisTickLabelColor()
 	{
 		return timeAxisTickLabelColor;
 	}
@@ -150,9 +169,17 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 */
 	public Color getTimeAxisLineColor()
 	{
+		return JRStyleResolver.getTimeAxisLineColor(this, this);
+	}
+
+	/**
+	 * 
+	 */
+	public Color getOwnTimeAxisLineColor()
+	{
 		return timeAxisLineColor;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -173,9 +200,17 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 */
 	public Color getValueAxisLabelColor()
 	{
+		return JRStyleResolver.getValueAxisLabelColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisLabelColor()
+	{
 		return valueAxisLabelColor;
 	}
-		
+	
 	/**
 	 * 
 	 */
@@ -188,6 +223,14 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 * 
 	 */
 	public Color getValueAxisTickLabelColor()
+	{
+		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisTickLabelColor()
 	{
 		return valueAxisTickLabelColor;
 	}
@@ -205,9 +248,17 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	 */
 	public Color getValueAxisLineColor()
 	{
+		return JRStyleResolver.getValueAxisLineColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisLineColor()
+	{
 		return valueAxisLineColor;
 	}
-
+	
 	/**
 	 * 
 	 */

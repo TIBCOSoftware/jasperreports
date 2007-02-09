@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.charts.base.JRBaseBar3DPlot;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -45,9 +46,9 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-	public JRDesignBar3DPlot(JRChartPlot barPlot)
+	public JRDesignBar3DPlot(JRChartPlot barPlot, JRChart chart)
 	{
-		super(barPlot);
+		super(barPlot, chart);
 	}
 
 	/**

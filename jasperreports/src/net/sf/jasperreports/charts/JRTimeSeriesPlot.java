@@ -27,17 +27,15 @@
  */
 package net.sf.jasperreports.charts;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTimeSeriesPlot extends JRChartPlot {
+public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat
+{
 
 	/**
 	 * 
@@ -47,68 +45,8 @@ public interface JRTimeSeriesPlot extends JRChartPlot {
 	/**
 	 * 
 	 */
-	public JRFont getTimeAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getTimeAxisLabelColor();
-	
-	/**
-	 * 
-	 */
-	public JRFont getTimeAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getTimeAxisTickLabelColor();
-
-	/**
-	 * 
-	 */
-	public String getTimeAxisTickLabelMask();
-
-	/**
-	 * 
-	 */
-	public Color getTimeAxisLineColor();
-	
-	/**
-	 * 
-	 */
 	public JRExpression getValueAxisLabelExpression();
 
-	/**
-	 * 
-	 */
-	public JRFont getValueAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getValueAxisLabelColor();
-
-	/**
-	 * 
-	 */
-	public JRFont getValueAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getValueAxisTickLabelColor();
-	
-	/**
-	 * 
-	 */
-	public String getValueAxisTickLabelMask();
-
-	/**
-	 * 
-	 */
-	public Color getValueAxisLineColor();
-	
 	/**
 	 * 
 	 */

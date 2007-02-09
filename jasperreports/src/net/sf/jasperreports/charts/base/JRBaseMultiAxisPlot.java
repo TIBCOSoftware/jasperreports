@@ -29,6 +29,7 @@ package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -68,9 +69,9 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
      * 
      * @param multiAxisPlot the plot to copy
      */
-    public JRBaseMultiAxisPlot(JRChartPlot multiAxisPlot)
+    public JRBaseMultiAxisPlot(JRChartPlot multiAxisPlot, JRChart chart)
     {
-        super(multiAxisPlot);
+        super(multiAxisPlot, chart);
     }
     
     /**

@@ -32,8 +32,10 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -46,12 +48,40 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	/**
 	 *
 	 */
+	protected JRFont timeAxisLabelFont = null;
+	protected Color timeAxisLabelColor = null;
+	protected JRFont timeAxisTickLabelFont = null;
+	protected Color timeAxisTickLabelColor = null;
+	protected Color timeAxisLineColor = null;
+
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected Color valueAxisLineColor = null;
+
+	
+	/**
+	 *
+	 */
 	public JRFillCandlestickPlot(
 		JRCandlestickPlot candlestickPlot,
 		JRFillObjectFactory factory
 		)
 	{
 		super(candlestickPlot, factory);
+
+		timeAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
+		timeAxisLabelColor = candlestickPlot.getOwnTimeAxisLabelColor();
+		timeAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
+		timeAxisLineColor = candlestickPlot.getTimeAxisLineColor();
+		
+		valueAxisLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = candlestickPlot.getOwnValueAxisLabelColor();
+		valueAxisTickLabelFont = new JRBaseFont(null, null, candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
+		valueAxisLineColor = candlestickPlot.getValueAxisTickLabelColor();
 	}
 
 	/**
@@ -67,7 +97,7 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public JRFont getTimeAxisLabelFont()
 	{
-		return ((JRCandlestickPlot)parent).getTimeAxisLabelFont();
+		return timeAxisLabelFont;
 	}
 
 	/**
@@ -82,7 +112,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisLabelColor()
 	{
-		return ((JRCandlestickPlot)parent).getTimeAxisLabelColor();
+		return JRStyleResolver.getTimeAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisLabelColor()
+	{
+		return timeAxisLabelColor;
 	}
 
 	/**
@@ -97,7 +135,7 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public JRFont getTimeAxisTickLabelFont()
 	{
-		return ((JRCandlestickPlot)parent).getTimeAxisTickLabelFont();
+		return timeAxisTickLabelFont;
 	}
 
 	/**
@@ -112,7 +150,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisTickLabelColor()
 	{
-		return ((JRCandlestickPlot)parent).getTimeAxisTickLabelColor();
+		return JRStyleResolver.getTimeAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisTickLabelColor()
+	{
+		return timeAxisTickLabelColor;
 	}
 
 	/**
@@ -142,7 +188,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisLineColor()
 	{
-		return ((JRCandlestickPlot)parent).getTimeAxisLineColor();
+		return JRStyleResolver.getTimeAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisLineColor()
+	{
+		return timeAxisLineColor;
 	}
 
 	/**
@@ -165,7 +219,7 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public JRFont getValueAxisLabelFont()
 	{
-		return ((JRCandlestickPlot)parent).getValueAxisLabelFont();
+		return valueAxisLabelFont;
 	}
 
 	/**
@@ -180,7 +234,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return ((JRCandlestickPlot)parent).getValueAxisLabelColor();
+		return JRStyleResolver.getValueAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
 	}
 
 	/**
@@ -195,7 +257,7 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public JRFont getValueAxisTickLabelFont()
 	{
-		return ((JRCandlestickPlot)parent).getValueAxisTickLabelFont();
+		return valueAxisTickLabelFont;
 	}
 
 	/**
@@ -210,7 +272,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return ((JRCandlestickPlot)parent).getValueAxisTickLabelColor();
+		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
 	}
 
 	/**
@@ -240,7 +310,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return ((JRCandlestickPlot)parent).getValueAxisLineColor();
+		return JRStyleResolver.getValueAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLineColor()
+	{
+		return valueAxisLineColor;
 	}
 
 	/**

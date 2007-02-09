@@ -274,29 +274,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		legendColor = chart.getOwnLegendColor();
 		legendBackgroundColor = chart.getOwnLegendBackgroundColor();
 
-		titleFont = 
-			new JRBaseFont(
-					null,
-					null,
-					chart,
-					chart.getTitleFont()
-					);
-
-		subtitleFont = 
-		new JRBaseFont(
-				null,
-				null,
-				chart,
-				chart.getSubtitleFont()
-				);
-
-		legendFont = 
-		new JRBaseFont(
-				null,
-				null,
-				chart,
-				chart.getLegendFont()
-				);
+		titleFont = new JRBaseFont(null, null, this, chart.getTitleFont());
+		subtitleFont = new JRBaseFont(null, null, this, chart.getSubtitleFont());
+		legendFont = new JRBaseFont(null, null, this, chart.getLegendFont());
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 		titleExpression = factory.getExpression(chart.getTitleExpression());

@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -53,9 +54,9 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	/**
 	 *
 	 */
-	public JRDesignHighLowPlot(JRChartPlot highLowPlot)
+	public JRDesignHighLowPlot(JRChartPlot highLowPlot, JRChart chart)
 	{
-		super(highLowPlot);
+		super(highLowPlot, chart);
 	}
 
 

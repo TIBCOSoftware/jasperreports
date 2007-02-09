@@ -45,9 +45,22 @@ public interface JRChartPlot
 
 
 	/**
+	 * Gets the chart associated with this chart plot, if available. 
+	 * Implementations can return null on this method, especially if the chart plot 
+	 * is reused by multiple charts, which is not recommended since it prevents style properties 
+	 * inheritence from parent chart.
+	 */
+	public JRChart getChart();
+	
+	/**
 	 * Gets the chart background color.
 	 */
 	public Color getBackcolor();
+	
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor();
 	
 	/**
 	 * Sets the chart background color.

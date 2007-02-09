@@ -30,8 +30,10 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -49,6 +51,11 @@ public class JRFillChartPlot implements JRChartPlot
 	 */
 	protected JRChartPlot parent = null;
 
+	/**
+	 *
+	 */
+	protected JRChart chart = null;
+
 
 	/**
 	 *
@@ -61,15 +68,33 @@ public class JRFillChartPlot implements JRChartPlot
 		factory.put(plot, this);
 
 		parent = plot;
+		
+		chart = factory.getChart(plot.getChart());
 	}
 
 
 	/**
 	 *
 	 */
+	public JRChart getChart()
+	{
+		return chart;
+	}
+	
+	/**
+	 *
+	 */
 	public Color getBackcolor()
 	{
-		return parent.getBackcolor();
+		return JRStyleResolver.getBackcolor(this);
+	}
+	
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor()
+	{
+		return parent.getOwnBackcolor();
 	}
 	
 	/**

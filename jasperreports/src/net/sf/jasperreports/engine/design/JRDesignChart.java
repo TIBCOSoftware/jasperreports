@@ -575,82 +575,82 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		switch(chartType) {
 			case CHART_TYPE_AREA:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignAreaPlot(plot);
+				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case CHART_TYPE_BAR:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBarPlot(plot);
+				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case CHART_TYPE_BAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBar3DPlot(plot);
+				plot = new JRDesignBar3DPlot(plot, this);
 				break;
 			case CHART_TYPE_BUBBLE:
 				dataset = new JRDesignXyzDataset(dataset);
-				plot = new JRDesignBubblePlot(plot);
+				plot = new JRDesignBubblePlot(plot, this);
 				break;
 			case CHART_TYPE_CANDLESTICK:
 				dataset = new JRDesignHighLowDataset(dataset);
-				plot = new JRDesignCandlestickPlot(plot);
+				plot = new JRDesignCandlestickPlot(plot, this);
 				break;
 			case CHART_TYPE_HIGHLOW:
 				dataset = new JRDesignHighLowDataset(dataset);
-				plot = new JRDesignHighLowPlot(plot);
+				plot = new JRDesignHighLowPlot(plot, this);
 				break;
 			case CHART_TYPE_LINE:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignLinePlot(plot);
+				plot = new JRDesignLinePlot(plot, this);
 				break;
 			case CHART_TYPE_METER:
 				dataset = new JRDesignValueDataset(dataset);
-				plot = new JRDesignMeterPlot(plot);
+				plot = new JRDesignMeterPlot(plot, this);
 				break;
 			case CHART_TYPE_MULTI_AXIS:
-				plot = new JRDesignMultiAxisPlot(plot);
+				plot = new JRDesignMultiAxisPlot(plot, this);
 				dataset = null;
 				break;
 			case CHART_TYPE_PIE:
 				dataset = new JRDesignPieDataset(dataset);
-				plot = new JRDesignPiePlot(plot);
+				plot = new JRDesignPiePlot(plot, this);
 				break;
 			case CHART_TYPE_PIE3D:
 				dataset = new JRDesignPieDataset(dataset);
-				plot = new JRDesignPie3DPlot(plot);
+				plot = new JRDesignPie3DPlot(plot, this);
 				break;
 			case CHART_TYPE_SCATTER:
 				dataset = new JRDesignXyDataset(dataset);
-				plot = new JRDesignScatterPlot(plot);
+				plot = new JRDesignScatterPlot(plot, this);
 				break;
 			case CHART_TYPE_STACKEDBAR:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBarPlot(plot);
+				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case CHART_TYPE_STACKEDBAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBar3DPlot(plot);
+				plot = new JRDesignBar3DPlot(plot, this);
 				break;
 			case CHART_TYPE_THERMOMETER:
 				dataset = new JRDesignValueDataset(dataset);
-				plot = new JRDesignThermometerPlot(plot);
+				plot = new JRDesignThermometerPlot(plot, this);
 				break;
 			case CHART_TYPE_TIMESERIES:
-				dataset = new JRDesignTimeSeriesDataset( dataset );//other datasets could be supported
-				plot = new JRDesignTimeSeriesPlot( plot );
+				dataset = new JRDesignTimeSeriesDataset(dataset);//other datasets could be supported
+				plot = new JRDesignTimeSeriesPlot(plot, this);
 				break;
 			case CHART_TYPE_XYAREA:
 				dataset = new JRDesignXyDataset(dataset);
-				plot = new JRDesignAreaPlot(plot);
+				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case CHART_TYPE_XYBAR:
-				plot = new JRDesignBarPlot(plot);
+				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case CHART_TYPE_XYLINE:
 				dataset = new JRDesignXyDataset(dataset);
-				plot = new JRDesignLinePlot(plot);
+				plot = new JRDesignLinePlot(plot, this);
 				break;
 			case CHART_TYPE_STACKEDAREA:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignAreaPlot(plot);
+				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			default:
 				throw new JRRuntimeException("Chart type not supported.");

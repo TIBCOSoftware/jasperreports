@@ -257,7 +257,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	protected JRBaseFont getFont(JRFont font)
 	{
 		JRBaseFont fillFont = null;

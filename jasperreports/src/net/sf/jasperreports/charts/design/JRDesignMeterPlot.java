@@ -27,16 +27,17 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseMeterPlot;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-
-import java.awt.Color;
 
 /**
  * A meter plot that displays a single value against a range of values.  The
@@ -60,9 +61,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
      * 
      * @param meterPlot the plot to copy
      */
-    public JRDesignMeterPlot(JRChartPlot meterPlot)
+    public JRDesignMeterPlot(JRChartPlot meterPlot, JRChart chart)
     {
-        super(meterPlot);
+        super(meterPlot, chart);
     }
     
     /**

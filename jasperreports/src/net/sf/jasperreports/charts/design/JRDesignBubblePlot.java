@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -45,9 +46,9 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-	public JRDesignBubblePlot(JRChartPlot bubblePlot)
+	public JRDesignBubblePlot(JRChartPlot bubblePlot, JRChart chart)
 	{
-		super(bubblePlot);
+		super(bubblePlot, chart);
 	}
 
 
