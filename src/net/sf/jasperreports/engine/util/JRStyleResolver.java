@@ -29,9 +29,15 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.charts.JRCategoryAxisFormat;
+import net.sf.jasperreports.charts.JRTimeAxisFormat;
+import net.sf.jasperreports.charts.JRValueAxisFormat;
+import net.sf.jasperreports.charts.JRXAxisFormat;
+import net.sf.jasperreports.charts.JRYAxisFormat;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
@@ -154,6 +160,17 @@ public class JRStyleResolver
 	/**
 	 *
 	 */
+	public static Color getForecolor(JRChartPlot plot)
+	{
+		JRChart chart = plot.getChart();
+		if (chart != null)
+			return getForecolor(chart);
+		return Color.black;
+	}
+
+	/**
+	 *
+	 */
 	public static Color getForecolor(JRPrintElement element)
 	{
 		if (element.getOwnForecolor() != null) 
@@ -200,6 +217,19 @@ public class JRStyleResolver
 		JRStyle style = getBaseStyle(element);
 		if (style != null && style.getBackcolor() != null)
 			return style.getBackcolor();
+		return Color.white;
+	}
+
+	/**
+	 *
+	 */
+	public static Color getBackcolor(JRChartPlot plot)
+	{
+		if (plot.getOwnBackcolor() != null) 
+			return plot.getOwnBackcolor();
+		JRChart chart = plot.getChart();
+		if (chart != null)
+			return getBackcolor(chart);
 		return Color.white;
 	}
 
@@ -1536,6 +1566,156 @@ public class JRStyleResolver
 		if (chart.getOwnLegendBackgroundColor() != null) 
 			return chart.getOwnLegendBackgroundColor();
 		return getBackcolor(chart);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getCategoryAxisLabelColor(JRCategoryAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnCategoryAxisLabelColor() != null) 
+			return axisFormat.getOwnCategoryAxisLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getCategoryAxisTickLabelColor(JRCategoryAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnCategoryAxisTickLabelColor() != null) 
+			return axisFormat.getOwnCategoryAxisTickLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getCategoryAxisLineColor(JRCategoryAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnCategoryAxisLineColor() != null) 
+			return axisFormat.getOwnCategoryAxisLineColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getValueAxisLabelColor(JRValueAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnValueAxisLabelColor() != null) 
+			return axisFormat.getOwnValueAxisLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getValueAxisTickLabelColor(JRValueAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnValueAxisTickLabelColor() != null) 
+			return axisFormat.getOwnValueAxisTickLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getValueAxisLineColor(JRValueAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnValueAxisLineColor() != null) 
+			return axisFormat.getOwnValueAxisLineColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getXAxisLabelColor(JRXAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnXAxisLabelColor() != null) 
+			return axisFormat.getOwnXAxisLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getXAxisTickLabelColor(JRXAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnXAxisTickLabelColor() != null) 
+			return axisFormat.getOwnXAxisTickLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getXAxisLineColor(JRXAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnXAxisLineColor() != null) 
+			return axisFormat.getOwnXAxisLineColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getYAxisLabelColor(JRYAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnYAxisLabelColor() != null) 
+			return axisFormat.getOwnYAxisLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getYAxisTickLabelColor(JRYAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnYAxisTickLabelColor() != null) 
+			return axisFormat.getOwnYAxisTickLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getYAxisLineColor(JRYAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnYAxisLineColor() != null) 
+			return axisFormat.getOwnYAxisLineColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getTimeAxisLabelColor(JRTimeAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnTimeAxisLabelColor() != null) 
+			return axisFormat.getOwnTimeAxisLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getTimeAxisTickLabelColor(JRTimeAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnTimeAxisTickLabelColor() != null) 
+			return axisFormat.getOwnTimeAxisTickLabelColor();
+		return getForecolor(plot);
+	}
+
+	/**
+	 *
+	 */
+	public static Color getTimeAxisLineColor(JRTimeAxisFormat axisFormat, JRChartPlot plot)
+	{
+		if (axisFormat.getOwnTimeAxisLineColor() != null) 
+			return axisFormat.getOwnTimeAxisLineColor();
+		return getForecolor(plot);
 	}
 
 }

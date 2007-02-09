@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -121,9 +122,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
      * 
      * @param meterPlot the meter to copy
      */
-    public JRBaseMeterPlot(JRChartPlot meterPlot)
+    public JRBaseMeterPlot(JRChartPlot meterPlot, JRChart chart)
     {
-        super(meterPlot);
+        super(meterPlot, chart);
     }
     
     /**

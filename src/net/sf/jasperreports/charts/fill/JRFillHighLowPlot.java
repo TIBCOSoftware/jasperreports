@@ -32,8 +32,10 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -46,12 +48,40 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	/**
 	 *
 	 */
+	protected JRFont timeAxisLabelFont = null;
+	protected Color timeAxisLabelColor = null;
+	protected JRFont timeAxisTickLabelFont = null;
+	protected Color timeAxisTickLabelColor = null;
+	protected Color timeAxisLineColor = null;
+
+	protected JRFont valueAxisLabelFont = null;
+	protected Color valueAxisLabelColor = null;
+	protected JRFont valueAxisTickLabelFont = null;
+	protected Color valueAxisTickLabelColor = null;
+	protected Color valueAxisLineColor = null;
+
+	
+	/**
+	 *
+	 */
 	public JRFillHighLowPlot(
 		JRHighLowPlot highLowPlot,
 		JRFillObjectFactory factory
 		)
 	{
 		super(highLowPlot, factory);
+
+		timeAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisLabelFont());
+		timeAxisLabelColor = highLowPlot.getOwnTimeAxisLabelColor();
+		timeAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelColor = highLowPlot.getOwnTimeAxisTickLabelColor();
+		timeAxisLineColor = highLowPlot.getTimeAxisLineColor();
+		
+		valueAxisLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = highLowPlot.getOwnValueAxisLabelColor();
+		valueAxisTickLabelFont = new JRBaseFont(null, null, highLowPlot.getChart(), highLowPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = highLowPlot.getOwnValueAxisTickLabelColor();
+		valueAxisLineColor = highLowPlot.getValueAxisTickLabelColor();
 	}
 
 	/**
@@ -67,7 +97,7 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public JRFont getTimeAxisLabelFont()
 	{
-		return ((JRHighLowPlot)parent).getTimeAxisLabelFont();
+		return timeAxisLabelFont;
 	}
 
 	/**
@@ -82,7 +112,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisLabelColor()
 	{
-		return ((JRHighLowPlot)parent).getTimeAxisLabelColor();
+		return JRStyleResolver.getTimeAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisLabelColor()
+	{
+		return timeAxisLabelColor;
 	}
 
 	/**
@@ -97,7 +135,7 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public JRFont getTimeAxisTickLabelFont()
 	{
-		return ((JRHighLowPlot)parent).getTimeAxisTickLabelFont();
+		return timeAxisTickLabelFont;
 	}
 
 	/**
@@ -112,7 +150,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisTickLabelColor()
 	{
-		return ((JRHighLowPlot)parent).getTimeAxisTickLabelColor();
+		return JRStyleResolver.getTimeAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisTickLabelColor()
+	{
+		return timeAxisTickLabelColor;
 	}
 
 	/**
@@ -142,7 +188,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisLineColor()
 	{
-		return ((JRHighLowPlot)parent).getTimeAxisLineColor();
+		return JRStyleResolver.getTimeAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnTimeAxisLineColor()
+	{
+		return timeAxisLineColor;
 	}
 
 	/**
@@ -165,7 +219,7 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public JRFont getValueAxisLabelFont()
 	{
-		return ((JRHighLowPlot)parent).getValueAxisLabelFont();
+		return valueAxisLabelFont;
 	}
 
 	/**
@@ -180,7 +234,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return ((JRHighLowPlot)parent).getValueAxisLabelColor();
+		return JRStyleResolver.getValueAxisLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLabelColor()
+	{
+		return valueAxisLabelColor;
 	}
 
 	/**
@@ -195,7 +257,7 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public JRFont getValueAxisTickLabelFont()
 	{
-		return ((JRHighLowPlot)parent).getValueAxisTickLabelFont();
+		return valueAxisTickLabelFont;
 	}
 
 	/**
@@ -210,7 +272,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return ((JRHighLowPlot)parent).getValueAxisTickLabelColor();
+		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisTickLabelColor()
+	{
+		return valueAxisTickLabelColor;
 	}
 
 	/**
@@ -240,7 +310,15 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return ((JRHighLowPlot)parent).getValueAxisLineColor();
+		return JRStyleResolver.getValueAxisLineColor(this, this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnValueAxisLineColor()
+	{
+		return valueAxisLineColor;
 	}
 
 	/**

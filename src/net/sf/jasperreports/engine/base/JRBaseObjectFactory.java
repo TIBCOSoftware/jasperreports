@@ -233,7 +233,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 *
-	 */
+	 *
 	public JRFont getFont(JRFont font)
 	{
 		JRBaseFont baseFont = null;

@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseThermometerPlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -56,9 +57,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
      * 
      * @param thermoPlot the plot to copy
      */
-    public JRDesignThermometerPlot(JRChartPlot thermoPlot)
+    public JRDesignThermometerPlot(JRChartPlot thermoPlot, JRChart chart)
     {
-        super(thermoPlot);
+        super(thermoPlot, chart);
     }
     
     /**

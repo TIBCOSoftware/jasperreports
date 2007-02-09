@@ -32,8 +32,10 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -44,8 +46,36 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	/**
 	 *
 	 */
+	protected JRFont xAxisLabelFont = null;
+	protected Color xAxisLabelColor = null;
+	protected JRFont xAxisTickLabelFont = null;
+	protected Color xAxisTickLabelColor = null;
+	protected Color xAxisLineColor = null;
+
+	protected JRFont yAxisLabelFont = null;
+	protected Color yAxisLabelColor = null;
+	protected JRFont yAxisTickLabelFont = null;
+	protected Color yAxisTickLabelColor = null;
+	protected Color yAxisLineColor = null;
+
+	
+	/**
+	 *
+	 */
 	public JRFillScatterPlot( JRScatterPlot plot, JRFillObjectFactory factory ){
 		super( plot, factory );
+		
+		xAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getXAxisLabelFont());
+		xAxisLabelColor = plot.getOwnXAxisLabelColor();
+		xAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getXAxisTickLabelFont());
+		xAxisTickLabelColor = plot.getOwnXAxisTickLabelColor();
+		xAxisLineColor = plot.getXAxisLineColor();
+		
+		yAxisLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getYAxisLabelFont());
+		yAxisLabelColor = plot.getOwnYAxisLabelColor();
+		yAxisTickLabelFont = new JRBaseFont(null, null, plot.getChart(), plot.getYAxisTickLabelFont());
+		yAxisTickLabelColor = plot.getOwnYAxisTickLabelColor();
+		yAxisLineColor = plot.getYAxisLineColor();
 	}
 	
 	/**
@@ -57,63 +87,51 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getXAxisLabelFont()
 	{
-		return ((JRScatterPlot)parent).getXAxisLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setXAxisLabelFont(JRFont font)
-	{
+		return xAxisLabelFont;
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	public Color getXAxisLabelColor()
 	{
-		return ((JRScatterPlot)parent).getXAxisLabelColor();
+		return JRStyleResolver.getXAxisLabelColor(this, this);
 	}
-
+		
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisLabelColor(Color color)
+	public Color getOwnXAxisLabelColor()
 	{
+		return xAxisLabelColor;
 	}
-
+		
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getXAxisTickLabelFont()
 	{
-		return ((JRScatterPlot)parent).getXAxisTickLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setXAxisTickLabelFont(JRFont font)
-	{
+		return xAxisTickLabelFont;
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	public Color getXAxisTickLabelColor()
 	{
-		return ((JRScatterPlot)parent).getXAxisTickLabelColor();
+		return JRStyleResolver.getXAxisTickLabelColor(this, this);
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisTickLabelColor(Color color)
+	public Color getOwnXAxisTickLabelColor()
 	{
+		return xAxisTickLabelColor;
 	}
 
 	/**
@@ -132,18 +150,19 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public Color getXAxisLineColor()
 	{
-		return ((JRScatterPlot)parent).getXAxisLineColor();
+		return JRStyleResolver.getXAxisLineColor(this, this);
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisLineColor(Color color)
+	public Color getOwnXAxisLineColor()
 	{
+		return xAxisLineColor;
 	}
 
 	/**
@@ -155,65 +174,53 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getYAxisLabelFont()
 	{
-		return ((JRScatterPlot)parent).getYAxisLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisLabelFont(JRFont font)
-	{
+		return yAxisLabelFont;
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	public Color getYAxisLabelColor()
 	{
-		return ((JRScatterPlot)parent).getYAxisLabelColor();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisLabelColor(Color color)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public JRFont getYAxisTickLabelFont()
-	{
-		return ((JRScatterPlot)parent).getYAxisTickLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisTickLabelFont(JRFont font)
-	{
+		return JRStyleResolver.getYAxisLabelColor(this, this);
 	}
 	
 	/**
-	 *
+	 * 
+	 */
+	public Color getOwnYAxisLabelColor()
+	{
+		return yAxisLabelColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRFont getYAxisTickLabelFont()
+	{
+		return yAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
 	 */
 	public Color getYAxisTickLabelColor()
 	{
-		return ((JRScatterPlot)parent).getYAxisTickLabelColor();
+		return JRStyleResolver.getYAxisTickLabelColor(this, this);
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public void setYAxisTickLabelColor(Color color)
+	public Color getOwnYAxisTickLabelColor()
 	{
+		return yAxisTickLabelColor;
 	}
-
+	
 	/**
 	 *
 	 */
@@ -230,20 +237,21 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public Color getYAxisLineColor()
 	{
-		return ((JRScatterPlot)parent).getYAxisLineColor();
+		return JRStyleResolver.getYAxisLineColor(this, this);
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public void setYAxisLineColor(Color color)
+	public Color getOwnYAxisLineColor()
 	{
+		return yAxisLineColor;
 	}
-
+	
 	/**
 	 *
 	 */

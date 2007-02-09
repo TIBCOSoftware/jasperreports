@@ -32,20 +32,51 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
+public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot 
+{
 
+	/**
+	 *
+	 */
+	protected JRFont xAxisLabelFont = null;
+	protected Color xAxisLabelColor = null;
+	protected JRFont xAxisTickLabelFont = null;
+	protected Color xAxisTickLabelColor = null;
+	protected Color xAxisLineColor = null;
+
+	protected JRFont yAxisLabelFont = null;
+	protected Color yAxisLabelColor = null;
+	protected JRFont yAxisTickLabelFont = null;
+	protected Color yAxisTickLabelColor = null;
+	protected Color yAxisLineColor = null;
+
+	
 	/**
 	 *
 	 */
 	public JRFillBubblePlot( JRBubblePlot bubblePlot, JRFillObjectFactory factory ){
 		super( bubblePlot, factory );
+		
+		xAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
+		xAxisLabelColor = bubblePlot.getOwnXAxisLabelColor();
+		xAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
+		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
+		xAxisLineColor = bubblePlot.getXAxisLineColor();
+		
+		yAxisLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
+		yAxisLabelColor = bubblePlot.getOwnYAxisLabelColor();
+		yAxisTickLabelFont = new JRBaseFont(null, null, bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
+		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
+		yAxisLineColor = bubblePlot.getYAxisLineColor();
 	}
 	
 	/**
@@ -57,52 +88,55 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getXAxisLabelFont()
 	{
-		return ((JRBubblePlot)parent).getXAxisLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setXAxisLabelFont(JRFont font)
-	{
+		return xAxisLabelFont;
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	public Color getXAxisLabelColor()
 	{
-		return ((JRBubblePlot)parent).getXAxisLabelColor();
+		return JRStyleResolver.getXAxisLabelColor(this, this);
 	}
-
+		
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisLabelColor(Color color)
+	public Color getOwnXAxisLabelColor()
 	{
+		return xAxisLabelColor;
 	}
-
+		
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getXAxisTickLabelFont()
 	{
-		return ((JRBubblePlot)parent).getXAxisTickLabelFont();
+		return xAxisTickLabelFont;
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisTickLabelFont(JRFont font)
+	public Color getXAxisTickLabelColor()
 	{
+		return JRStyleResolver.getXAxisTickLabelColor(this, this);
 	}
 
 	/**
-	 *
+	 * 
+	 */
+	public Color getOwnXAxisTickLabelColor()
+	{
+		return xAxisTickLabelColor;
+	}
+
+	/**
+	 * 
 	 */
 	public String getXAxisTickLabelMask()
 	{
@@ -110,40 +144,19 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 	}
 
 	/**
-	 *
-	 */
-	public void setXAxisTickLabelMask(String mask)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public Color getXAxisTickLabelColor()
-	{
-		return ((JRBubblePlot)parent).getXAxisTickLabelColor();
-	}
-
-	/**
-	 *
-	 */
-	public void setXAxisTickLabelColor(Color color)
-	{
-	}
-
-	/**
-	 *
+	 * 
 	 */
 	public Color getXAxisLineColor()
 	{
-		return ((JRBubblePlot)parent).getXAxisLineColor();
+		return JRStyleResolver.getXAxisLineColor(this, this);
 	}
 
 	/**
-	 *
+	 * 
 	 */
-	public void setXAxisLineColor(Color color)
+	public Color getOwnXAxisLineColor()
 	{
+		return xAxisLineColor;
 	}
 
 	/**
@@ -155,67 +168,55 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public JRFont getYAxisLabelFont()
 	{
-		return ((JRBubblePlot)parent).getYAxisLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisLabelFont(JRFont font)
-	{
+		return yAxisLabelFont;
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	public Color getYAxisLabelColor()
 	{
-		return ((JRBubblePlot)parent).getYAxisLabelColor();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisLabelColor(Color color)
-	{
-	}
-
-	/**
-	 *
-	 */
-	public JRFont getYAxisTickLabelFont()
-	{
-		return ((JRBubblePlot)parent).getYAxisTickLabelFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setYAxisTickLabelFont(JRFont font)
-	{
+		return JRStyleResolver.getYAxisLabelColor(this, this);
 	}
 	
 	/**
-	 *
+	 * 
+	 */
+	public Color getOwnYAxisLabelColor()
+	{
+		return yAxisLabelColor;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRFont getYAxisTickLabelFont()
+	{
+		return yAxisTickLabelFont;
+	}
+	
+	/**
+	 * 
 	 */
 	public Color getYAxisTickLabelColor()
 	{
-		return ((JRBubblePlot)parent).getYAxisTickLabelColor();
+		return JRStyleResolver.getYAxisTickLabelColor(this, this);
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public void setYAxisTickLabelColor(Color color)
+	public Color getOwnYAxisTickLabelColor()
 	{
+		return yAxisTickLabelColor;
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
 	public String getYAxisTickLabelMask()
 	{
@@ -223,27 +224,21 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot {
 	}
 
 	/**
-	 *
-	 */
-	public void setYAxisTickLabelMask(String mask)
-	{
-	}
-
-	/**
-	 *
+	 * 
 	 */
 	public Color getYAxisLineColor()
 	{
-		return ((JRBubblePlot)parent).getYAxisLineColor();
+		return JRStyleResolver.getYAxisLineColor(this, this);
 	}
-
+	
 	/**
-	 *
+	 * 
 	 */
-	public void setYAxisLineColor(Color color)
+	public Color getOwnYAxisLineColor()
 	{
+		return yAxisLineColor;
 	}
-
+	
 	/**
 	 *
 	 */

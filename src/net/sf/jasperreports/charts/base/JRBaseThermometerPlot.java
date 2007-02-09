@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -100,9 +101,9 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * 
 	 * @param thermoPlot the plot to copy
 	 */
-	public JRBaseThermometerPlot(JRChartPlot thermoPlot)
+	public JRBaseThermometerPlot(JRChartPlot thermoPlot, JRChart chart)
 	{
-		super(thermoPlot);
+		super(thermoPlot, chart);
 	}
 	
 	/**

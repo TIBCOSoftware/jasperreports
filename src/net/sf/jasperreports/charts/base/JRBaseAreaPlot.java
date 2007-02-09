@@ -30,13 +30,16 @@ package net.sf.jasperreports.charts.base;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -66,8 +69,8 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	/**
 	 * 
 	 */
-	public JRBaseAreaPlot( JRChartPlot areaPlot){
-		super( areaPlot);
+	public JRBaseAreaPlot( JRChartPlot areaPlot, JRChart chart){
+		super( areaPlot, chart);
 	}
 
 
@@ -78,20 +81,20 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 		super( areaPlot, factory );
 		
 		categoryAxisLabelExpression = factory.getExpression( areaPlot.getCategoryAxisLabelExpression() );
-		categoryAxisLabelFont = factory.getFont(areaPlot.getCategoryAxisLabelFont());
-		categoryAxisLabelColor = areaPlot.getCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = factory.getFont(areaPlot.getCategoryAxisTickLabelFont());
-		categoryAxisTickLabelColor = areaPlot.getCategoryAxisTickLabelColor();
+		categoryAxisLabelFont = new JRBaseFont(null, null, areaPlot.getChart(), areaPlot.getCategoryAxisLabelFont()); 
+		categoryAxisLabelColor = areaPlot.getOwnCategoryAxisLabelColor();
+		categoryAxisTickLabelFont = new JRBaseFont(null, null, areaPlot.getChart(), areaPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelColor = areaPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = areaPlot.getCategoryAxisTickLabelMask();
-		categoryAxisLineColor = areaPlot.getCategoryAxisLineColor();
+		categoryAxisLineColor = areaPlot.getOwnCategoryAxisLineColor();
 		
 		valueAxisLabelExpression = factory.getExpression( areaPlot.getValueAxisLabelExpression() );
-		valueAxisLabelFont = factory.getFont(areaPlot.getValueAxisLabelFont());
-		valueAxisLabelColor = areaPlot.getValueAxisLabelColor();
-		valueAxisTickLabelFont = factory.getFont(areaPlot.getValueAxisTickLabelFont());
-		valueAxisTickLabelColor = areaPlot.getValueAxisTickLabelColor();
+		valueAxisLabelFont = new JRBaseFont(null, null, areaPlot.getChart(), areaPlot.getValueAxisLabelFont());
+		valueAxisLabelColor = areaPlot.getOwnValueAxisLabelColor();
+		valueAxisTickLabelFont = new JRBaseFont(null, null, areaPlot.getChart(), areaPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelColor = areaPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = areaPlot.getValueAxisTickLabelMask();
-		valueAxisLineColor = areaPlot.getValueAxisLineColor();
+		valueAxisLineColor = areaPlot.getOwnValueAxisLineColor();
 	}
 	
 	/**
@@ -114,6 +117,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 */
 	public Color getCategoryAxisLabelColor()
 	{
+		return JRStyleResolver.getCategoryAxisLabelColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnCategoryAxisLabelColor()
+	{
 		return categoryAxisLabelColor;
 	}
 	
@@ -130,6 +141,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 */
 	public Color getCategoryAxisTickLabelColor()
 	{
+		return JRStyleResolver.getCategoryAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 * 
+	 */
+	public Color getOwnCategoryAxisTickLabelColor()
+	{
 		return categoryAxisTickLabelColor;
 	}
 
@@ -145,6 +164,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 * 
 	 */
 	public Color getCategoryAxisLineColor()
+	{
+		return JRStyleResolver.getCategoryAxisLineColor(this, this);
+	}
+		
+	/**
+	 * 
+	 */
+	public Color getOwnCategoryAxisLineColor()
 	{
 		return categoryAxisLineColor;
 	}
@@ -169,6 +196,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 */
 	public Color getValueAxisLabelColor()
 	{
+		return JRStyleResolver.getValueAxisLabelColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisLabelColor()
+	{
 		return valueAxisLabelColor;
 	}
 	
@@ -185,6 +220,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
+		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+	}
+
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisTickLabelColor()
+	{
 		return valueAxisTickLabelColor;
 	}
 
@@ -200,6 +243,14 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot {
 	 * 
 	 */
 	public Color getValueAxisLineColor()
+	{
+		return JRStyleResolver.getValueAxisLineColor(this, this);
+	}
+	
+	/**
+	 * 
+	 */
+	public Color getOwnValueAxisLineColor()
 	{
 		return valueAxisLineColor;
 	}

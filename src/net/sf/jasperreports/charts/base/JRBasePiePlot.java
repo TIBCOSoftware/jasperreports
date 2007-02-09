@@ -28,6 +28,7 @@
 package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -47,9 +48,9 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 *
 	 */
-	public JRBasePiePlot(JRChartPlot piePlot)
+	public JRBasePiePlot(JRChartPlot piePlot, JRChart chart)
 	{
-		super(piePlot);
+		super(piePlot, chart);
 	}
 
 

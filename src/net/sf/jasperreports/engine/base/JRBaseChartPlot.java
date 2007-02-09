@@ -32,8 +32,10 @@ import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -51,6 +53,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	protected JRChart chart = null;
 	protected Color backcolor = null;
 	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
 	protected float backgroundAlpha = 1;
@@ -62,10 +65,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	/**
 	 *
 	 */
-	protected JRBaseChartPlot(JRChartPlot plot)
+	protected JRBaseChartPlot(JRChartPlot plot, JRChart chart)
 	{
-		if (plot != null) {
-			backcolor = plot.getBackcolor();
+		this.chart = chart;
+
+		if (plot != null) 
+		{
+			backcolor = plot.getOwnBackcolor();
 			orientation = plot.getOrientation();
 			backgroundAlpha = plot.getBackgroundAlpha();
 			foregroundAlpha = plot.getForegroundAlpha();
@@ -86,7 +92,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	{
 		factory.put(plot, this);
 
-		backcolor = plot.getBackcolor();
+		chart = factory.getChart(plot.getChart());
+
+		backcolor = plot.getOwnBackcolor();
 		orientation = plot.getOrientation();
 		backgroundAlpha = plot.getBackgroundAlpha();
 		foregroundAlpha = plot.getForegroundAlpha();
@@ -98,7 +106,23 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	/**
 	 *
 	 */
+	public JRChart getChart()
+	{
+		return chart;
+	}
+
+	/**
+	 *
+	 */
 	public Color getBackcolor()
+	{
+		return JRStyleResolver.getBackcolor(this);
+	}
+
+	/**
+	 *
+	 */
+	public Color getOwnBackcolor()
 	{
 		return this.backcolor;
 	}

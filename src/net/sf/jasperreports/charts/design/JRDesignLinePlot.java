@@ -31,6 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -45,9 +46,9 @@ public class JRDesignLinePlot extends JRBaseLinePlot {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-	public JRDesignLinePlot(JRChartPlot linePlot)
+	public JRDesignLinePlot(JRChartPlot linePlot, JRChart chart)
 	{
-		super(linePlot);
+		super(linePlot, chart);
 	}
 
 

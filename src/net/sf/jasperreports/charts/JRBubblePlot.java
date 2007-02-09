@@ -27,17 +27,15 @@
  */
 package net.sf.jasperreports.charts;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBubblePlot extends JRChartPlot {
+public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
+{
 	
 	/**
 	 * 
@@ -47,68 +45,8 @@ public interface JRBubblePlot extends JRChartPlot {
 	/**
 	 * 
 	 */
-	public JRFont getXAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getXAxisLabelColor();
-	
-	/**
-	 * 
-	 */
-	public JRFont getXAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getXAxisTickLabelColor();
-
-	/**
-	 * 
-	 */
-	public String getXAxisTickLabelMask();
-
-	/**
-	 * 
-	 */
-	public Color getXAxisLineColor();
-
-	/**
-	 * 
-	 */
 	public JRExpression getYAxisLabelExpression();
 
-	/**
-	 * 
-	 */
-	public JRFont getYAxisLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getYAxisLabelColor();
-	
-	/**
-	 * 
-	 */
-	public JRFont getYAxisTickLabelFont();
-	
-	/**
-	 * 
-	 */
-	public Color getYAxisTickLabelColor();
-
-	/**
-	 * 
-	 */
-	public String getYAxisTickLabelMask();
-
-	/**
-	 * 
-	 */
-	public Color getYAxisLineColor();
-	
 	/**
 	 * 
 	 */

@@ -144,6 +144,7 @@ import org.jfree.chart.renderer.xy.HighLowRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
@@ -310,29 +311,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 
-		titleFont = 
-			new JRBaseFont(
-				null,
-				null,
-				chart,
-				chart.getTitleFont()
-				);
-
-		subtitleFont = 
-			new JRBaseFont(
-				null,
-				null,
-				chart,
-				chart.getSubtitleFont()
-				);
-
-		legendFont = 
-			new JRBaseFont(
-				null,
-				null,
-				chart,
-				chart.getLegendFont()
-				);
+		titleFont = new JRBaseFont(null, null, chart, chart.getTitleFont());
+		subtitleFont = new JRBaseFont(null, null, chart, chart.getSubtitleFont());
+		legendFont = new JRBaseFont(null, null, chart, chart.getLegendFont());
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
@@ -1004,8 +985,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			TextTitle title = chart.getTitle();
 			title.setPaint(getTitleColor());
 
-			Map attributes = JRFontUtil.getAttributes(getTitleFont());
-			title.setFont(new Font(attributes));
+			title.setFont(new Font(JRFontUtil.getAttributes(getTitleFont())));
 		}
 
 		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
@@ -1014,22 +994,29 @@ public class JRFillChart extends JRFillElement implements JRChart
 			TextTitle subtitle = new TextTitle(subtitleText);
 			subtitle.setPaint(getSubtitleColor());
 
-			Map attributes = JRFontUtil.getAttributes(getSubtitleFont());
-			subtitle.setFont(new Font(attributes));
+			subtitle.setFont(new Font(JRFontUtil.getAttributes(getSubtitleFont())));
 
 			chart.addSubtitle(subtitle);
 		}
 		
 		// Apply all of the legend formatting options
-		if (getLegendColor() != null)
-			chart.getLegend().setItemPaint(getLegendColor());
-		if (getLegendBackgroundColor() != null)
-			chart.getLegend().setBackgroundPaint(getLegendBackgroundColor());
-		if (getLegendFont() != null)
+		LegendTitle legend = chart.getLegend();
+		if (legend != null)
 		{
-			Map attributes = JRFontUtil.getAttributes(getLegendFont());
-			chart.getLegend().setItemFont(new Font(attributes));
+			legend.setItemPaint(getLegendColor());
+			
+			if (getOwnLegendBackgroundColor() == null)// in a way, legend backcolor inheritence from chart is useless
+			{
+				legend.setBackgroundPaint(TRANSPARENT_PAINT);
+			}
+			else
+			{
+				legend.setBackgroundPaint(getLegendBackgroundColor());
+			}
+
+			chart.getLegend().setItemFont(new Font(JRFontUtil.getAttributes(getLegendFont())));//FIXME put these in JRFontUtil
 		}
+		
 		configurePlot(chart.getPlot(), jrPlot);
 	}
 
@@ -1041,7 +1028,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		p.setOutlinePaint(TRANSPARENT_PAINT);
 
-		if (getPlot().getBackcolor() == null)
+		if (getPlot().getOwnBackcolor() == null)// in a way, plot backcolor inheritence from chart is useless
 		{
 			p.setBackgroundPaint(TRANSPARENT_PAINT);
 		}
@@ -1191,37 +1178,29 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 * 						<code>java.text.SimpleDateFormat</code> mask.
 	 * @param lineColor color to use when drawing the axis line and any tick marks
 	 */
-	private void configureAxis(Axis axis, JRFont labelFont, Color labelColor,
-								 JRFont tickLabelFont, Color tickLabelColor, String tickLabelMask,
-								 Color lineColor)
+	private void configureAxis(
+		Axis axis, 
+		JRFont labelFont, 
+		Color labelColor,
+		JRFont tickLabelFont, 
+		Color tickLabelColor, 
+		String tickLabelMask,
+		Color lineColor
+		)
 	{
-		if (labelFont != null)
-		{
-			Map attributes = JRFontUtil.getAttributes(labelFont);
-			axis.setLabelFont(new Font(attributes));
-		}
-		if (tickLabelFont != null)
-		{
-			Map attributes = JRFontUtil.getAttributes(tickLabelFont);
-			axis.setTickLabelFont(new Font(attributes));
-		}
+		axis.setLabelFont(new Font(JRFontUtil.getAttributes(labelFont)));
+		axis.setTickLabelFont(new Font(JRFontUtil.getAttributes(tickLabelFont)));
 		
 		if (labelColor != null)
 		{
 			axis.setLabelPaint(labelColor);
 		}
-		else
-		{
-			axis.setLabelPaint(getForecolor());
-		}
+
 		if (tickLabelColor != null)
 		{
 			axis.setTickLabelPaint(tickLabelColor);
 		}
-		else
-		{
-			axis.setTickLabelPaint(getForecolor());
-		}
+
 		if (lineColor != null)
 		{
 			axis.setAxisLinePaint(lineColor);
@@ -1566,10 +1545,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			piePlot3D.setLabelGenerator(labelGenerator);
 		}
-		// at this moment now there are no label font, label backcolor
+		
+		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart3D
-		piePlot3D.setLabelBackgroundPaint(getBackcolor());
+
+		piePlot3D.setLabelFont(new Font(JRFontUtil.getAttributes(new JRBaseFont(null, null, this, null))));
+		
 		piePlot3D.setLabelPaint(getForecolor());
+
 		return getPieRenderer(chart);
 	}
 
@@ -1599,10 +1582,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			piePlot.setLabelGenerator(labelGenerator);
 		}
-		// at this moment now there are no label font, label backcolor
+		
+		//FIXMECHART at this moment, there are no label font, label backcolor
 		// and label forecolor properties defined for the PieChart
-		piePlot.setLabelBackgroundPaint(getBackcolor());
+
+		piePlot.setLabelFont(new Font(JRFontUtil.getAttributes(new JRBaseFont(null, null, this, null))));
+		
 		piePlot.setLabelPaint(getForecolor());
+
 		return getPieRenderer(chart);
 	}
 
@@ -2058,18 +2045,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 		    {
 		        chartPlot.setValuePaint(display.getColor());
 		    }
-		    else
-		    {
-		    	chartPlot.setValuePaint(getForecolor());
-		    }
+
 		    if (display.getMask() != null)
 		    {
 		        chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
 		    }
 		    if (display.getFont() != null)
 		    {
-		        Map attributes = JRFontUtil.getAttributes(display.getFont());
-		        chartPlot.setValueFont(new Font(attributes));
+		        chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())));
 		    }
 		    
 		}
@@ -2151,8 +2134,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		    }
 		    if (display.getFont() != null)
 		    {
-		        Map attributes = JRFontUtil.getAttributes(display.getFont());
-		        chartPlot.setValueFont(new Font(attributes));
+		        chartPlot.setValueFont(new Font(JRFontUtil.getAttributes(display.getFont())));
 		    }
 		}
 		
