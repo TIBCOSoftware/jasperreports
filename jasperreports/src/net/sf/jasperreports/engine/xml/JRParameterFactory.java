@@ -43,9 +43,13 @@ public class JRParameterFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_class = "class";
-	private static final String ATTRIBUTE_isForPrompting = "isForPrompting";
+	public static final String ELEMENT_parameter = "parameter";
+	public static final String ELEMENT_parameterDescription = "parameterDescription";
+	public static final String ELEMENT_defaultValueExpression = "defaultValueExpression";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_class = "class";
+	public static final String ATTRIBUTE_isForPrompting = "isForPrompting";
 
 
 	/**

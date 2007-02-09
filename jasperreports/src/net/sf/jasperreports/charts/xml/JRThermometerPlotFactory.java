@@ -42,6 +42,11 @@ import org.xml.sax.Attributes;
  */
 public class JRThermometerPlotFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_meterPlot = "meterPlot";
+	public static final String ELEMENT_lowRange = "lowRange";
+	public static final String ELEMENT_mediumRange = "mediumRange";
+	public static final String ELEMENT_highRange = "highRange";
+	
     public static final String ATTRIBUTE_showValueLines = "isShowValueLines";
     public static final String ATTRIBUTE_valueLocation = "valueLocation";
     public static final String ATTRIBUTE_mercuryColor = "mercuryColor";

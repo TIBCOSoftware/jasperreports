@@ -43,54 +43,56 @@ import org.xml.sax.Attributes;
  */
 public class JRStyleFactory extends JRBaseFactory
 {
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_isDefault = "isDefault";
-	private static final String ATTRIBUTE_mode = "mode";
-	private static final String ATTRIBUTE_forecolor = "forecolor";
-	private static final String ATTRIBUTE_backcolor = "backcolor";
-	private static final String ATTRIBUTE_style = "style";
+	public static final String ELEMENT_style = "style";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_isDefault = "isDefault";
+	public static final String ATTRIBUTE_mode = "mode";
+	public static final String ATTRIBUTE_forecolor = "forecolor";
+	public static final String ATTRIBUTE_backcolor = "backcolor";
+	public static final String ATTRIBUTE_style = "style";
 
-	private static final String ATTRIBUTE_pen = "pen";
-	private static final String ATTRIBUTE_fill = "fill";
+	public static final String ATTRIBUTE_pen = "pen";
+	public static final String ATTRIBUTE_fill = "fill";
 
-	private static final String ATTRIBUTE_radius = "radius";
+	public static final String ATTRIBUTE_radius = "radius";
 
-	private static final String ATTRIBUTE_scaleImage = "scaleImage";
+	public static final String ATTRIBUTE_scaleImage = "scaleImage";
 	// these are inherited by both images and texts.
-	private static final String ATTRIBUTE_hAlign = "hAlign";
-	private static final String ATTRIBUTE_vAlign = "vAlign";
+	public static final String ATTRIBUTE_hAlign = "hAlign";
+	public static final String ATTRIBUTE_vAlign = "vAlign";
 
-	private static final String ATTRIBUTE_border = "border";
-	private static final String ATTRIBUTE_borderColor = "borderColor";
-	private static final String ATTRIBUTE_padding = "padding";
-	private static final String ATTRIBUTE_topBorder = "topBorder";
-	private static final String ATTRIBUTE_topBorderColor = "topBorderColor";
-	private static final String ATTRIBUTE_topPadding = "topPadding";
-	private static final String ATTRIBUTE_leftBorder = "leftBorder";
-	private static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
-	private static final String ATTRIBUTE_leftPadding = "leftPadding";
-	private static final String ATTRIBUTE_bottomBorder = "bottomBorder";
-	private static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
-	private static final String ATTRIBUTE_bottomPadding = "bottomPadding";
-	private static final String ATTRIBUTE_rightBorder = "rightBorder";
-	private static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
-	private static final String ATTRIBUTE_rightPadding = "rightPadding";
+	public static final String ATTRIBUTE_border = "border";
+	public static final String ATTRIBUTE_borderColor = "borderColor";
+	public static final String ATTRIBUTE_padding = "padding";
+	public static final String ATTRIBUTE_topBorder = "topBorder";
+	public static final String ATTRIBUTE_topBorderColor = "topBorderColor";
+	public static final String ATTRIBUTE_topPadding = "topPadding";
+	public static final String ATTRIBUTE_leftBorder = "leftBorder";
+	public static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
+	public static final String ATTRIBUTE_leftPadding = "leftPadding";
+	public static final String ATTRIBUTE_bottomBorder = "bottomBorder";
+	public static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
+	public static final String ATTRIBUTE_bottomPadding = "bottomPadding";
+	public static final String ATTRIBUTE_rightBorder = "rightBorder";
+	public static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
+	public static final String ATTRIBUTE_rightPadding = "rightPadding";
 
-	private static final String ATTRIBUTE_rotation = "rotation";
-	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
-	private static final String ATTRIBUTE_isStyledText = "isStyledText";
-	private static final String ATTRIBUTE_pattern = "pattern";
-	private static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
+	public static final String ATTRIBUTE_rotation = "rotation";
+	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
+	public static final String ATTRIBUTE_isStyledText = "isStyledText";
+	public static final String ATTRIBUTE_pattern = "pattern";
+	public static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
 
-	private static final String ATTRIBUTE_fontName = "fontName";
-	private static final String ATTRIBUTE_isBold = "isBold";
-	private static final String ATTRIBUTE_isItalic = "isItalic";
-	private static final String ATTRIBUTE_isUnderline = "isUnderline";
-	private static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
-	private static final String ATTRIBUTE_fontSize = "fontSize";
-	private static final String ATTRIBUTE_pdfFontName = "pdfFontName";
-	private static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
-	private static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
+	public static final String ATTRIBUTE_fontName = "fontName";
+	public static final String ATTRIBUTE_isBold = "isBold";
+	public static final String ATTRIBUTE_isItalic = "isItalic";
+	public static final String ATTRIBUTE_isUnderline = "isUnderline";
+	public static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
+	public static final String ATTRIBUTE_fontSize = "fontSize";
+	public static final String ATTRIBUTE_pdfFontName = "pdfFontName";
+	public static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
+	public static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
 
 
 	/**

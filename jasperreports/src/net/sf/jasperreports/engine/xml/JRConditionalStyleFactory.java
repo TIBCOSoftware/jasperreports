@@ -38,6 +38,10 @@ import org.xml.sax.Attributes;
  */
 public class JRConditionalStyleFactory extends JRBaseFactory
 {
+	
+	public static final String ELEMENT_conditionalStyle = "conditionalStyle";
+	public static final String ELEMENT_conditionExpression = "conditionExpression";
+	
 	/**
 	 *
 	 */

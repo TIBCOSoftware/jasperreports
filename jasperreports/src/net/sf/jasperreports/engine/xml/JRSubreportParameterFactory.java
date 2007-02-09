@@ -43,7 +43,10 @@ public class JRSubreportParameterFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
+	public static final String ELEMENT_subreportParameter = "subreportParameter";
+	public static final String ELEMENT_subreportParameterExpression = "subreportParameterExpression";
+	
+	public static final String ATTRIBUTE_name = "name";
 
 
 	/**

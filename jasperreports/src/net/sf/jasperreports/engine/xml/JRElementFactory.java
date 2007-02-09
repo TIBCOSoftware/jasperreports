@@ -49,22 +49,25 @@ public class JRElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_key = "key";
-	private static final String ATTRIBUTE_positionType = "positionType";
-	private static final String ATTRIBUTE_stretchType = "stretchType";
-	private static final String ATTRIBUTE_isPrintRepeatedValues = "isPrintRepeatedValues";
-	private static final String ATTRIBUTE_mode = "mode";
-	private static final String ATTRIBUTE_x = "x";
-	private static final String ATTRIBUTE_y = "y";
-	private static final String ATTRIBUTE_width = "width";
-	private static final String ATTRIBUTE_height = "height";
-	private static final String ATTRIBUTE_isRemoveLineWhenBlank = "isRemoveLineWhenBlank";
-	private static final String ATTRIBUTE_isPrintInFirstWholeBand = "isPrintInFirstWholeBand";
-	private static final String ATTRIBUTE_isPrintWhenDetailOverflows = "isPrintWhenDetailOverflows";
-	private static final String ATTRIBUTE_printWhenGroupChanges = "printWhenGroupChanges";
-	private static final String ATTRIBUTE_forecolor = "forecolor";
-	private static final String ATTRIBUTE_backcolor = "backcolor";
-	private static final String ATTRIBUTE_style = "style";
+	public static final String ELEMENT_reportElement = "reportElement";
+	public static final String ELEMENT_printWhenExpression = "printWhenExpression";
+	
+	public static final String ATTRIBUTE_key = "key";
+	public static final String ATTRIBUTE_positionType = "positionType";
+	public static final String ATTRIBUTE_stretchType = "stretchType";
+	public static final String ATTRIBUTE_isPrintRepeatedValues = "isPrintRepeatedValues";
+	public static final String ATTRIBUTE_mode = "mode";
+	public static final String ATTRIBUTE_x = "x";
+	public static final String ATTRIBUTE_y = "y";
+	public static final String ATTRIBUTE_width = "width";
+	public static final String ATTRIBUTE_height = "height";
+	public static final String ATTRIBUTE_isRemoveLineWhenBlank = "isRemoveLineWhenBlank";
+	public static final String ATTRIBUTE_isPrintInFirstWholeBand = "isPrintInFirstWholeBand";
+	public static final String ATTRIBUTE_isPrintWhenDetailOverflows = "isPrintWhenDetailOverflows";
+	public static final String ATTRIBUTE_printWhenGroupChanges = "printWhenGroupChanges";
+	public static final String ATTRIBUTE_forecolor = "forecolor";
+	public static final String ATTRIBUTE_backcolor = "backcolor";
+	public static final String ATTRIBUTE_style = "style";
 
 
 	/**

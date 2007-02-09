@@ -38,6 +38,10 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabRowGroupFactory extends JRCrosstabGroupFactory
 {
+	public static final String ELEMENT_rowGroup = "rowGroup";
+	public static final String ELEMENT_crosstabRowHeader = "crosstabRowHeader";
+	public static final String ELEMENT_crosstabTotalRowHeader = "crosstabTotalRowHeader";
+
 	public static final String ATTRIBUTE_width = "width";
 	public static final String ATTRIBUTE_headerPosition = "headerPosition";
 

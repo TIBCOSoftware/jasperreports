@@ -39,6 +39,9 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabMeasureFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_measure = "measure";
+	public static final String ELEMENT_measureExpression = "measureExpression";
+
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_class = "class";
 	public static final String ATTRIBUTE_calculation = "calculation";

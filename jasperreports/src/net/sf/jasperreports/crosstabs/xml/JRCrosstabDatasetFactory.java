@@ -39,6 +39,8 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabDatasetFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_crosstabDataset = "crosstabDataset";
+
 	public static final String ATTRIBUTE_isDataPreSorted = "isDataPreSorted";
 
 	public Object createObject(Attributes atts)

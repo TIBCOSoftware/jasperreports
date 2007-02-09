@@ -48,17 +48,20 @@ public class JRImageFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_scaleImage = "scaleImage";
-	private static final String ATTRIBUTE_hAlign = "hAlign";
-	private static final String ATTRIBUTE_vAlign = "vAlign";
-	private static final String ATTRIBUTE_isUsingCache = "isUsingCache";
-	private static final String ATTRIBUTE_isLazy = "isLazy";
-	private static final String ATTRIBUTE_onErrorType = "onErrorType";
-	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
-	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
-	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
+	public static final String ELEMENT_image = "image";
+	public static final String ELEMENT_imageExpression = "imageExpression";
+	
+	public static final String ATTRIBUTE_scaleImage = "scaleImage";
+	public static final String ATTRIBUTE_hAlign = "hAlign";
+	public static final String ATTRIBUTE_vAlign = "vAlign";
+	public static final String ATTRIBUTE_isUsingCache = "isUsingCache";
+	public static final String ATTRIBUTE_isLazy = "isLazy";
+	public static final String ATTRIBUTE_onErrorType = "onErrorType";
+	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
+	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
+	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 
 
 	/**

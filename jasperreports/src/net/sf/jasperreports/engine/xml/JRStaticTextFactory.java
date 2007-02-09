@@ -44,6 +44,12 @@ public class JRStaticTextFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	public static final String ELEMENT_staticText = "staticText";
+	public static final String ELEMENT_text = "text";
+	
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

@@ -44,14 +44,18 @@ public class JRVariableFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_class = "class";
-	private static final String ATTRIBUTE_resetType = "resetType";
-	private static final String ATTRIBUTE_resetGroup = "resetGroup";
-	private static final String ATTRIBUTE_incrementType = "incrementType";
-	private static final String ATTRIBUTE_incrementGroup = "incrementGroup";
-	private static final String ATTRIBUTE_calculation = "calculation";
-	private static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
+	public static final String ELEMENT_variable = "variable";
+	public static final String ELEMENT_variableExpression = "variableExpression";
+	public static final String ELEMENT_initialValueExpression = "initialValueExpression";
+
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_class = "class";
+	public static final String ATTRIBUTE_resetType = "resetType";
+	public static final String ATTRIBUTE_resetGroup = "resetGroup";
+	public static final String ATTRIBUTE_incrementType = "incrementType";
+	public static final String ATTRIBUTE_incrementGroup = "incrementGroup";
+	public static final String ATTRIBUTE_calculation = "calculation";
+	public static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
 
 
 	/**

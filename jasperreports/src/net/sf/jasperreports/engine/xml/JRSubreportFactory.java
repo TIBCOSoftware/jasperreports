@@ -44,7 +44,12 @@ public class JRSubreportFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_isUsingCache = "isUsingCache";
+	public static final String ELEMENT_subreport = "subreport";
+	public static final String ELEMENT_parametersMapExpression = "parametersMapExpression";
+	public static final String ELEMENT_connectionExpression = "connectionExpression";
+	public static final String ELEMENT_dataSourceExpression = "dataSourceExpression";
+	
+	public static final String ATTRIBUTE_isUsingCache = "isUsingCache";
 
 
 	/**

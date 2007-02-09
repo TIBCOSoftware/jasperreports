@@ -44,7 +44,9 @@ public class JRLineFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_direction = "direction";
+	public static final String ELEMENT_line = "line";
+	
+	public static final String ATTRIBUTE_direction = "direction";
 
 
 	/**

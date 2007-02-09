@@ -43,11 +43,59 @@ import org.xml.sax.Attributes;
 public class JRChartPlotFactory extends JRBaseFactory
 {
 
-	private static final String ATTRIBUTE_backcolor = "backcolor";
-	private static final String ATTRIBUTE_orientation = "orientation";
-	private static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
-	private static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
-	private static final String ATTRIBUTE_labelRotation = "labelRotation";
+	public static final String ELEMENT_plot = "plot";
+	public static final String ELEMENT_piePlot = "piePlot";
+	public static final String ELEMENT_pie3DPlot = "pie3DPlot";
+	public static final String ELEMENT_barPlot = "barPlot";
+	public static final String ELEMENT_bubblePlot = "bubblePlot";
+	public static final String ELEMENT_linePlot = "linePlot";
+	public static final String ELEMENT_timeSeriesPlot = "timeSeriesPlot";
+	public static final String ELEMENT_bar3DPlot = "bar3DPlot";
+	public static final String ELEMENT_highLowPlot = "highLowPlot";
+	public static final String ELEMENT_candlestickPlot = "candlestickPlot";
+	public static final String ELEMENT_areaPlot = "areaPlot";
+	public static final String ELEMENT_scatterPlot = "scatterPlot";
+	public static final String ELEMENT_multiAxisPlot = "multiAxisPlot";
+	
+	public static final String ELEMENT_valueDisplay = "valueDisplay";
+	public static final String ELEMENT_dataRange = "dataRange";
+	public static final String ELEMENT_meterInterval = "meterInterval";
+	public static final String ELEMENT_categoryAxisFormat = "categoryAxisFormat";
+	public static final String ELEMENT_valueAxisFormat = "valueAxisFormat";
+	public static final String ELEMENT_xAxisFormat = "xAxisFormat";
+	public static final String ELEMENT_yAxisFormat = "yAxisFormat";
+	public static final String ELEMENT_timeAxisFormat = "timeAxisFormat";
+	
+	public static final String ELEMENT_lowExpression = "lowExpression";
+	public static final String ELEMENT_highExpression = "highExpression";
+	public static final String ELEMENT_categoryAxisLabelExpression = "categoryAxisLabelExpression";
+	public static final String ELEMENT_valueAxisLabelExpression = "valueAxisLabelExpression";
+	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
+	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
+	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";
+	
+	public static final String ATTRIBUTE_backcolor = "backcolor";
+	public static final String ATTRIBUTE_orientation = "orientation";
+	public static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
+	public static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
+	public static final String ATTRIBUTE_labelRotation = "labelRotation";
+	
+	public static final String ATTRIBUTE_color = "color";
+	public static final String ATTRIBUTE_mask = "mask";
+	public static final String ATTRIBUTE_label = "label";
+	public static final String ATTRIBUTE_alpha = "alpha";
+	public static final String ATTRIBUTE_depthFactor = "depthFactor";
+	public static final String ATTRIBUTE_isShowLabels = "isShowLabels";
+	public static final String ATTRIBUTE_isShowTickLabels = "isShowTickLabels";
+	public static final String ATTRIBUTE_scaleType = "scaleType";
+	public static final String ATTRIBUTE_isShowTickMarks = "isShowTickMarks";
+	public static final String ATTRIBUTE_isShowLines = "isShowLines";
+	public static final String ATTRIBUTE_isShowShapes = "isShowShapes";
+	public static final String ATTRIBUTE_xOffset = "xOffset";
+	public static final String ATTRIBUTE_yOffset = "yOffset";
+	public static final String ATTRIBUTE_isShowOpenTicks = "isShowOpenTicks";
+	public static final String ATTRIBUTE_isShowCloseTicks = "isShowCloseTicks";
+	public static final String ATTRIBUTE_isShowVolume = "isShowVolume";
 
 
 	/**
@@ -84,6 +132,8 @@ public class JRChartPlotFactory extends JRBaseFactory
 	
 	public static class JRSeriesColorFactory extends JRBaseFactory
 	{
+		public static final String ELEMENT_seriesColor = "seriesColor";
+		
 		public static final String ATTRIBUTE_seriesOrder = "seriesOrder";
 		public static final String ATTRIBUTE_color = "color";
 		

@@ -41,6 +41,12 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_crosstab = "crosstab";
+	public static final String ELEMENT_whenNoDataCell = "whenNoDataCell";
+	public static final String ELEMENT_crosstabHeaderCell = "crosstabHeaderCell";
+	
+	public static final String ELEMENT_parametersMapExpression = "parametersMapExpression";
+	
 	public static final String ATTRIBUTE_columnBreakOffset = "columnBreakOffset";
 	public static final String ATTRIBUTE_isRepeatColumnHeaders = "isRepeatColumnHeaders";
 	public static final String ATTRIBUTE_isRepeatRowHeaders = "isRepeatRowHeaders";

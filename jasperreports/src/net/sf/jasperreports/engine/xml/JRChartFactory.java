@@ -46,13 +46,42 @@ import org.xml.sax.Attributes;
 public class JRChartFactory extends JRBaseFactory
 {
 
-	private static final String ATTRIBUTE_isShowLegend = "isShowLegend";
-	private static final String ATTRIBUTE_evaluationTime = "evaluationTime";
-	private static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
-	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
-	private static final String ATTRIBUTE_customizerClass = "customizerClass";
+	public static final String ELEMENT_chart = "chart";
+	public static final String ELEMENT_chartTitle = "chartTitle";
+	public static final String ELEMENT_titleExpression = "titleExpression";
+	public static final String ELEMENT_chartSubtitle = "chartSubtitle";
+	public static final String ELEMENT_subtitleExpression = "subtitleExpression";
+	public static final String ELEMENT_chartLegend = "chartLegend";
+
+	public static final String ELEMENT_pieChart = "pieChart";
+	public static final String ELEMENT_pie3DChart = "pie3DChart";
+	public static final String ELEMENT_barChart = "barChart";
+	public static final String ELEMENT_bar3DChart = "bar3DChart";
+	public static final String ELEMENT_bubbleChart = "bubbleChart";
+	public static final String ELEMENT_stackedBarChart = "stackedBarChart";
+	public static final String ELEMENT_stackedBar3DChart = "stackedBar3DChart";
+	public static final String ELEMENT_lineChart = "lineChart";
+	public static final String ELEMENT_highLowChart = "highLowChart";
+	public static final String ELEMENT_candlestickChart = "candlestickChart";
+	public static final String ELEMENT_areaChart = "areaChart";
+	public static final String ELEMENT_scatterChart = "scatterChart";
+	public static final String ELEMENT_timeSeriesChart = "timeSeriesChart";
+	public static final String ELEMENT_xyAreaChart = "xyAreaChart";
+	public static final String ELEMENT_xyBarChart = "xyBarChart";
+	public static final String ELEMENT_xyLineChart = "xyLineChart";
+	public static final String ELEMENT_meterChart = "meterChart";
+	public static final String ELEMENT_thermometerChart = "thermometerChart";
+	public static final String ELEMENT_multiAxisChart = "multiAxisChart";
+	public static final String ELEMENT_stackedAreaChart = "stackedAreaChart";
+	
+
+	public static final String ATTRIBUTE_isShowLegend = "isShowLegend";
+	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
+	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
+	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
+	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
+	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
+	public static final String ATTRIBUTE_customizerClass = "customizerClass";
 
 
 	/**
@@ -119,8 +148,8 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartTitleFactory extends JRBaseFactory
 	{
-		private static final String ATTRIBUTE_position = "position";
-		private static final String ATTRIBUTE_color = "color";
+		public static final String ATTRIBUTE_position = "position";
+		public static final String ATTRIBUTE_color = "color";
 
 
 		public Object createObject(Attributes atts)
@@ -148,7 +177,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartSubtitleFactory extends JRBaseFactory
 	{
-		private static final String ATTRIBUTE_color = "color";
+		public static final String ATTRIBUTE_color = "color";
 
 
 		public Object createObject(Attributes atts)
@@ -221,6 +250,21 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartAxisFormatFactory extends JRBaseFactory
 	{
+		/**
+		 * Element axisFormat
+		 */
+		public static final String ELEMENT_axisFormat = "axisFormat";
+		
+		/**
+		 * Subelement labelFont
+		 */
+		public static final String ELEMENT_labelFont = "labelFont";
+		
+		/**
+		 * Subelement tickLabelFont
+		 */
+		public static final String ELEMENT_tickLabelFont = "tickLabelFont";
+		
 		/**
 		 * Attribute to use to specify the color of the axis label.
 		 */

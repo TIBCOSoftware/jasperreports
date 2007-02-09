@@ -44,7 +44,9 @@ public class JRRectangleFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_radius = "radius";
+	public static final String ELEMENT_rectangle = "rectangle";
+	
+	public static final String ATTRIBUTE_radius = "radius";
 
 
 	/**

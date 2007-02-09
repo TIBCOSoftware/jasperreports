@@ -43,8 +43,10 @@ public class JRSortFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_name = "name";
-	private static final String ATTRIBUTE_order = "order";
+	public static final String ELEMENT_sortField = "sortField";
+	
+	public static final String ATTRIBUTE_name = "name";
+	public static final String ATTRIBUTE_order = "order";
 
 
 	/**

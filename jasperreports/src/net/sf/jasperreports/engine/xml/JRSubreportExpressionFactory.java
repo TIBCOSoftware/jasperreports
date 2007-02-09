@@ -44,7 +44,9 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_class = "class";
+	public static final String ELEMENT_subreportExpression = "subreportExpression";
+	
+	public static final String ATTRIBUTE_class = "class";
 
 
 	/**

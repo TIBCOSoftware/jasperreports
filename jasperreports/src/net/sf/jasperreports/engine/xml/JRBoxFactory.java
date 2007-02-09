@@ -45,21 +45,23 @@ public class JRBoxFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_border = "border";
-	private static final String ATTRIBUTE_borderColor = "borderColor";
-	private static final String ATTRIBUTE_padding = "padding";
-	private static final String ATTRIBUTE_topBorder = "topBorder";
-	private static final String ATTRIBUTE_topBorderColor = "topBorderColor";
-	private static final String ATTRIBUTE_topPadding = "topPadding";
-	private static final String ATTRIBUTE_leftBorder = "leftBorder";
-	private static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
-	private static final String ATTRIBUTE_leftPadding = "leftPadding";
-	private static final String ATTRIBUTE_bottomBorder = "bottomBorder";
-	private static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
-	private static final String ATTRIBUTE_bottomPadding = "bottomPadding";
-	private static final String ATTRIBUTE_rightBorder = "rightBorder";
-	private static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
-	private static final String ATTRIBUTE_rightPadding = "rightPadding";
+	public static final String ELEMENT_box = "box";
+	
+	public static final String ATTRIBUTE_border = "border";
+	public static final String ATTRIBUTE_borderColor = "borderColor";
+	public static final String ATTRIBUTE_padding = "padding";
+	public static final String ATTRIBUTE_topBorder = "topBorder";
+	public static final String ATTRIBUTE_topBorderColor = "topBorderColor";
+	public static final String ATTRIBUTE_topPadding = "topPadding";
+	public static final String ATTRIBUTE_leftBorder = "leftBorder";
+	public static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
+	public static final String ATTRIBUTE_leftPadding = "leftPadding";
+	public static final String ATTRIBUTE_bottomBorder = "bottomBorder";
+	public static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
+	public static final String ATTRIBUTE_bottomPadding = "bottomPadding";
+	public static final String ATTRIBUTE_rightBorder = "rightBorder";
+	public static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
+	public static final String ATTRIBUTE_rightPadding = "rightPadding";
 
 
 	/**

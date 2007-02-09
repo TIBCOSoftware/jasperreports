@@ -43,9 +43,11 @@ public class JRGraphicElementFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	private static final String ATTRIBUTE_stretchType = "stretchType";
-	private static final String ATTRIBUTE_pen = "pen";
-	private static final String ATTRIBUTE_fill = "fill";
+	public static final String ELEMENT_graphicElement = "graphicElement";
+	
+	public static final String ATTRIBUTE_stretchType = "stretchType";
+	public static final String ATTRIBUTE_pen = "pen";
+	public static final String ATTRIBUTE_fill = "fill";
 
 
 	/**
