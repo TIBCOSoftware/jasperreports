@@ -18,11 +18,11 @@
 	isTitleNewPage (true | false) "false"
 	isSummaryNewPage (true | false) "false"
 	isFloatColumnFooter (true | false) "false"
-	scriptletClass NMTOKEN #IMPLIED
+	scriptletClass CDATA #IMPLIED
 	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 	isIgnorePagination (true | false) "false"
-	formatFactoryClass NMTOKEN #IMPLIED
+	formatFactoryClass CDATA #IMPLIED
 >
 
 <!ELEMENT property EMPTY>
@@ -103,7 +103,7 @@
 <!ELEMENT subDataset (property*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*)>
 <!ATTLIST subDataset
 	name CDATA #REQUIRED
-	scriptletClass NMTOKEN #IMPLIED
+	scriptletClass CDATA #IMPLIED
 	resourceBundle CDATA #IMPLIED
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 >
@@ -111,7 +111,7 @@
 <!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
 <!ATTLIST parameter
 	name CDATA #REQUIRED
-	class NMTOKEN "java.lang.String"
+	class CDATA "java.lang.String"
 	isForPrompting (true | false) "true"
 >
 <!ELEMENT parameterDescription (#PCDATA)>
@@ -125,7 +125,7 @@
 <!ELEMENT field (fieldDescription?)>
 <!ATTLIST field
 	name CDATA #REQUIRED
-	class NMTOKEN "java.lang.String"
+	class CDATA "java.lang.String"
 >
 <!ELEMENT fieldDescription (#PCDATA)>
 
@@ -138,13 +138,13 @@
 <!ELEMENT variable (variableExpression?, initialValueExpression?)>
 <!ATTLIST variable
 	name CDATA #REQUIRED
-	class NMTOKEN "java.lang.String"
+	class CDATA "java.lang.String"
 	resetType (None | Report | Page | Column | Group) "Report"
 	resetGroup CDATA #IMPLIED
 	incrementType (None | Report | Page | Column | Group) "None"
 	incrementGroup CDATA #IMPLIED
 	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System | First) "Nothing"
-	incrementerFactoryClass NMTOKEN #IMPLIED
+	incrementerFactoryClass CDATA #IMPLIED
 >
 <!ELEMENT variableExpression (#PCDATA)>
 <!ELEMENT initialValueExpression (#PCDATA)>
@@ -276,7 +276,7 @@
 
 <!ELEMENT hyperlinkParameterExpression (#PCDATA)>
 <!ATTLIST hyperlinkParameterExpression
-	class NMTOKEN "java.lang.String"
+	class CDATA "java.lang.String"
 >
 
 
@@ -338,7 +338,7 @@
 	subreportVariable CDATA #IMPLIED
 	toVariable CDATA #IMPLIED
 	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
-	incrementerFactoryClass NMTOKEN #IMPLIED
+	incrementerFactoryClass CDATA #IMPLIED
 >
 
 <!ELEMENT connectionExpression (#PCDATA)>
@@ -358,7 +358,7 @@
 	hyperlinkType CDATA "None"
 	hyperlinkTarget (Self | Blank) "Self"
 	bookmarkLevel NMTOKEN "0"
-	customizerClass NMTOKEN #IMPLIED
+	customizerClass CDATA #IMPLIED
 >
 <!ELEMENT chartTitle (font?, titleExpression?)>
 <!ATTLIST chartTitle
@@ -619,7 +619,7 @@
 <!ELEMENT crosstabParameter (parameterValueExpression?)>
 <!ATTLIST crosstabParameter
 	name CDATA #REQUIRED
-	class NMTOKEN "java.lang.String"
+	class CDATA "java.lang.String"
 >
 
 <!ELEMENT parameterValueExpression (#PCDATA)>
@@ -662,7 +662,7 @@
 
 <!ELEMENT bucketExpression (#PCDATA)>
 <!ATTLIST bucketExpression
-	class NMTOKEN #REQUIRED
+	class CDATA #REQUIRED
 >
 
 <!ELEMENT comparatorExpression (#PCDATA)>
@@ -670,11 +670,11 @@
 <!ELEMENT measure (measureExpression?)>
 <!ATTLIST measure
 	name CDATA #REQUIRED
-	class NMTOKEN #IMPLIED
+	class CDATA #IMPLIED
 	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
-	incrementerFactoryClass NMTOKEN #IMPLIED
+	incrementerFactoryClass CDATA #IMPLIED
 	percentageOf (None | GrandTotal) "None"
-	percentageCalculatorClass NMTOKEN #IMPLIED
+	percentageCalculatorClass CDATA #IMPLIED
 >
 
 <!ELEMENT measureExpression (#PCDATA)>
