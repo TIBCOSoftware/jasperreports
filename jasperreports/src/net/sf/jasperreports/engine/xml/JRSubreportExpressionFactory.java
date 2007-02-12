@@ -40,15 +40,6 @@ import org.xml.sax.Attributes;
 public class JRSubreportExpressionFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_subreportExpression = "subreportExpression";
-	
-	public static final String ATTRIBUTE_class = "class";
-
-
 	/**
 	 *
 	 */
@@ -56,7 +47,7 @@ public class JRSubreportExpressionFactory extends JRBaseFactory
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		String value = atts.getValue(ATTRIBUTE_class);
+		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_class);
 		
 		if (value != null)
 		{

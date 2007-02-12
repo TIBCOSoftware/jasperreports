@@ -43,12 +43,6 @@ import org.xml.sax.Attributes;
  */
 public class JRSubreportReturnValueFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_returnValue = "returnValue";
-	
-	public static final String ATTRIBUTE_subreportVariable = "subreportVariable";
-	public static final String ATTRIBUTE_toVariable = "toVariable";
-	public static final String ATTRIBUTE_calculation = "calculation";
-	public static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
 
 	/**
 	 * Creates an object from a subreport copied value XML element.
@@ -61,7 +55,7 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);
 		JasperDesign design = (JasperDesign) digester.peek(digester.getCount() - 2);
 
-		String variableName = atts.getValue(ATTRIBUTE_toVariable);
+		String variableName = atts.getValue(JRXmlConstants.ATTRIBUTE_toVariable);
 		JRVariable variable = (JRVariable) design.getVariablesMap().get(variableName);
 		if (variable == null)
 		{
@@ -69,16 +63,16 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		}
 		
 		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
-		returnValue.setSubreportVariable(atts.getValue(ATTRIBUTE_subreportVariable));
+		returnValue.setSubreportVariable(atts.getValue(JRXmlConstants.ATTRIBUTE_subreportVariable));
 		returnValue.setToVariable(variableName);
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(ATTRIBUTE_calculation));
+		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			returnValue.setCalculation(calculation.byteValue());
 		}
 		
-		String incrementerFactoryClass = atts.getValue(ATTRIBUTE_incrementerFactoryClass);
+		String incrementerFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass);
 		if (incrementerFactoryClass != null)
 		{
 			returnValue.setIncrementerFactoryClassName(incrementerFactoryClass);

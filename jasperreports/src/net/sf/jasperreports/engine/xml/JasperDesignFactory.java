@@ -43,159 +43,115 @@ public class JasperDesignFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	public static final String DOCUMENT_docType = "-//JasperReports//DTD Report Design//EN";
-	public static final String DOCUMENT_uri = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
-	
-	public static final String ELEMENT_jasperReport = "jasperReport";
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_language = "language";
-	public static final String ATTRIBUTE_columnCount = "columnCount";
-	public static final String ATTRIBUTE_printOrder = "printOrder";
-	public static final String ATTRIBUTE_pageWidth = "pageWidth";
-	public static final String ATTRIBUTE_pageHeight = "pageHeight";
-	public static final String ATTRIBUTE_orientation = "orientation";
-	public static final String ATTRIBUTE_whenNoDataType = "whenNoDataType";
-	public static final String ATTRIBUTE_columnWidth = "columnWidth";
-	public static final String ATTRIBUTE_columnSpacing = "columnSpacing";
-	public static final String ATTRIBUTE_leftMargin = "leftMargin";
-	public static final String ATTRIBUTE_rightMargin = "rightMargin";
-	public static final String ATTRIBUTE_topMargin = "topMargin";
-	public static final String ATTRIBUTE_bottomMargin = "bottomMargin";
-	public static final String ATTRIBUTE_isTitleNewPage = "isTitleNewPage";
-	public static final String ATTRIBUTE_isSummaryNewPage = "isSummaryNewPage";
-	public static final String ATTRIBUTE_isFloatColumnFooter = "isFloatColumnFooter";
-	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
-	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
-	public static final String ATTRIBUTE_resourceBundle = "resourceBundle";
-	public static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
-	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
-
-	public static final String ATTRIBUTE_value = "value";
-	
-	public static final String ELEMENT_import = "import";
-	public static final String ELEMENT_background = "background";
-	public static final String ELEMENT_title = "title";
-	public static final String ELEMENT_pageHeader = "pageHeader";
-	public static final String ELEMENT_columnHeader = "columnHeader";
-	public static final String ELEMENT_detail = "detail";
-	public static final String ELEMENT_columnFooter = "columnFooter";
-	public static final String ELEMENT_pageFooter = "pageFooter";
-	public static final String ELEMENT_lastPageFooter = "lastPageFooter";
-	public static final String ELEMENT_summary = "summary";
-	public static final String ELEMENT_property = "property";
-		
-	/**
-	 *
-	 */
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = new JasperDesign();
 		
-		jasperDesign.setName(atts.getValue(ATTRIBUTE_name));
+		jasperDesign.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		jasperDesign.setLanguage(atts.getValue(ATTRIBUTE_language));
+		jasperDesign.setLanguage(atts.getValue(JRXmlConstants.ATTRIBUTE_language));
 		
-		String columnCount = atts.getValue(ATTRIBUTE_columnCount);
+		String columnCount = atts.getValue(JRXmlConstants.ATTRIBUTE_columnCount);
 		if (columnCount != null && columnCount.length() > 0)
 		{
 			jasperDesign.setColumnCount(Integer.parseInt(columnCount));
 		}
 
-		Byte printOrder = (Byte)JRXmlConstants.getPrintOrderMap().get(atts.getValue(ATTRIBUTE_printOrder));
+		Byte printOrder = (Byte)JRXmlConstants.getPrintOrderMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_printOrder));
 		if (printOrder != null)
 		{
 			jasperDesign.setPrintOrder(printOrder.byteValue());
 		}
 
-		String pageWidth = atts.getValue(ATTRIBUTE_pageWidth);
+		String pageWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_pageWidth);
 		if (pageWidth != null && pageWidth.length() > 0)
 		{
 			jasperDesign.setPageWidth(Integer.parseInt(pageWidth));
 		}
 		
-		String pageHeight = atts.getValue(ATTRIBUTE_pageHeight);
+		String pageHeight = atts.getValue(JRXmlConstants.ATTRIBUTE_pageHeight);
 		if (pageHeight != null && pageHeight.length() > 0)
 		{
 			jasperDesign.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(ATTRIBUTE_orientation));
+		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
 			jasperDesign.setOrientation(orientation.byteValue());
 		}
 
-		Byte whenNoDataType = (Byte)JRXmlConstants.getWhenNoDataTypeMap().get(atts.getValue(ATTRIBUTE_whenNoDataType));
+		Byte whenNoDataType = (Byte)JRXmlConstants.getWhenNoDataTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_whenNoDataType));
 		if (whenNoDataType != null)
 		{
 			jasperDesign.setWhenNoDataType(whenNoDataType.byteValue());
 		}
 
-		String columnWidth = atts.getValue(ATTRIBUTE_columnWidth);
+		String columnWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_columnWidth);
 		if (columnWidth != null && columnWidth.length() > 0)
 		{
 			jasperDesign.setColumnWidth(Integer.parseInt(columnWidth));
 		}
 
-		String columnSpacing = atts.getValue(ATTRIBUTE_columnSpacing);
+		String columnSpacing = atts.getValue(JRXmlConstants.ATTRIBUTE_columnSpacing);
 		if (columnSpacing != null && columnSpacing.length() > 0)
 		{
 			jasperDesign.setColumnSpacing(Integer.parseInt(columnSpacing));
 		}
 
-		String leftMargin = atts.getValue(ATTRIBUTE_leftMargin);
+		String leftMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_leftMargin);
 		if (leftMargin != null && leftMargin.length() > 0)
 		{
 			jasperDesign.setLeftMargin(Integer.parseInt(leftMargin));
 		}
 
-		String rightMargin = atts.getValue(ATTRIBUTE_rightMargin);
+		String rightMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_rightMargin);
 		if (rightMargin != null && rightMargin.length() > 0)
 		{
 			jasperDesign.setRightMargin(Integer.parseInt(rightMargin));
 		}
 
-		String topMargin = atts.getValue(ATTRIBUTE_topMargin);
+		String topMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_topMargin);
 		if (topMargin != null && topMargin.length() > 0)
 		{
 			jasperDesign.setTopMargin(Integer.parseInt(topMargin));
 		}
 
-		String bottomMargin = atts.getValue(ATTRIBUTE_bottomMargin);
+		String bottomMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomMargin);
 		if (bottomMargin != null && bottomMargin.length() > 0)
 		{
 			jasperDesign.setBottomMargin(Integer.parseInt(bottomMargin));
 		}
 
-		String isTitleNewPage = atts.getValue(ATTRIBUTE_isTitleNewPage);
+		String isTitleNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isTitleNewPage);
 		if (isTitleNewPage != null && isTitleNewPage.length() > 0)
 		{
 			jasperDesign.setTitleNewPage(Boolean.valueOf(isTitleNewPage).booleanValue());
 		}
 
-		String isSummaryNewPage = atts.getValue(ATTRIBUTE_isSummaryNewPage);
+		String isSummaryNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryNewPage);
 		if (isSummaryNewPage != null && isSummaryNewPage.length() > 0)
 		{
 			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage).booleanValue());
 		}
 
-		String isFloatColumnFooter = atts.getValue(ATTRIBUTE_isFloatColumnFooter);
+		String isFloatColumnFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isFloatColumnFooter);
 		if (isFloatColumnFooter != null && isFloatColumnFooter.length() > 0)
 		{
 			jasperDesign.setFloatColumnFooter(Boolean.valueOf(isFloatColumnFooter).booleanValue());
 		}
 
-		jasperDesign.setScriptletClass(atts.getValue(ATTRIBUTE_scriptletClass));
-		jasperDesign.setFormatFactoryClass(atts.getValue(ATTRIBUTE_formatFactoryClass));
-		jasperDesign.setResourceBundle(atts.getValue(ATTRIBUTE_resourceBundle));
+		jasperDesign.setScriptletClass(atts.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
+		jasperDesign.setFormatFactoryClass(atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass));
+		jasperDesign.setResourceBundle(atts.getValue(JRXmlConstants.ATTRIBUTE_resourceBundle));
 
-		Byte whenResourceMissingType = (Byte)JRXmlConstants.getWhenResourceMissingTypeMap().get(atts.getValue(ATTRIBUTE_whenResourceMissingType));
+		Byte whenResourceMissingType = (Byte)JRXmlConstants.getWhenResourceMissingTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_whenResourceMissingType));
 		if (whenResourceMissingType != null)
 		{
 			jasperDesign.setWhenResourceMissingType(whenResourceMissingType.byteValue());
 		}
 
-		String isIgnorePagination = atts.getValue(ATTRIBUTE_isIgnorePagination);
+		String isIgnorePagination = atts.getValue(JRXmlConstants.ATTRIBUTE_isIgnorePagination);
 		if (isIgnorePagination != null && isIgnorePagination.length() > 0)
 		{
 			jasperDesign.setIgnorePagination(Boolean.valueOf(isIgnorePagination).booleanValue());

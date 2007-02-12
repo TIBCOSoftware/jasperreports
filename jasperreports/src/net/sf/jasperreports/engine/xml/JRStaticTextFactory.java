@@ -39,13 +39,6 @@ import org.xml.sax.Attributes;
  */
 public class JRStaticTextFactory extends JRBaseFactory
 {
-
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_staticText = "staticText";
-	public static final String ELEMENT_text = "text";
 	
 	/**
 	 *

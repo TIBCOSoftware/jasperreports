@@ -40,24 +40,6 @@ import org.xml.sax.Attributes;
 public class JRVariableFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_variable = "variable";
-	public static final String ELEMENT_variableExpression = "variableExpression";
-	public static final String ELEMENT_initialValueExpression = "initialValueExpression";
-
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_class = "class";
-	public static final String ATTRIBUTE_resetType = "resetType";
-	public static final String ATTRIBUTE_resetGroup = "resetGroup";
-	public static final String ATTRIBUTE_incrementType = "incrementType";
-	public static final String ATTRIBUTE_incrementGroup = "incrementGroup";
-	public static final String ATTRIBUTE_calculation = "calculation";
-	public static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
-
-
 	/**
 	 *
 	 */
@@ -65,20 +47,20 @@ public class JRVariableFactory extends JRBaseFactory
 	{
 		JRDesignVariable variable = new JRDesignVariable();
 		
-		variable.setName(atts.getValue(ATTRIBUTE_name));
+		variable.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			variable.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			variable.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_resetType));
+		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			variable.setResetType(resetType.byteValue());
 		}
 		
-		String groupName = atts.getValue(ATTRIBUTE_resetGroup);
+		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_resetGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -86,13 +68,13 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setResetGroup(group);
 		}
 
-		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_incrementType));
+		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
 			variable.setIncrementType(incrementType.byteValue());
 		}
 		
-		groupName = atts.getValue(ATTRIBUTE_incrementGroup);
+		groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementGroup);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -100,15 +82,15 @@ public class JRVariableFactory extends JRBaseFactory
 			variable.setIncrementGroup(group);
 		}
 
-		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(ATTRIBUTE_calculation));
+		Byte calculation = (Byte)JRXmlConstants.getCalculationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_calculation));
 		if (calculation != null)
 		{
 			variable.setCalculation(calculation.byteValue());
 		}
 
-		if (atts.getValue(ATTRIBUTE_incrementerFactoryClass) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass) != null)
 		{
-			variable.setIncrementerFactoryClassName(atts.getValue(ATTRIBUTE_incrementerFactoryClass));
+			variable.setIncrementerFactoryClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass));
 		}
 
 		return variable;

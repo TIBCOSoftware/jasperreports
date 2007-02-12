@@ -40,25 +40,6 @@ import org.xml.sax.Attributes;
 public class JRPrintImageFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_scaleImage = "scaleImage";
-	private static final String ATTRIBUTE_hAlign = "hAlign";
-	private static final String ATTRIBUTE_vAlign = "vAlign";
-	private static final String ATTRIBUTE_isLazy = "isLazy";
-	private static final String ATTRIBUTE_onErrorType = "onErrorType";
-	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	private static final String ATTRIBUTE_anchorName = "anchorName";
-	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
-	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
-	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
-	public static final String ATTRIBUTE_hyperlinkTooltip = "hyperlinkTooltip";
-	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
-
-
 	/**
 	 *
 	 */
@@ -68,61 +49,61 @@ public class JRPrintImageFactory extends JRBaseFactory
 
 		JRBasePrintImage image = new JRBasePrintImage(jasperPrint.getDefaultStyleProvider());
 
-		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(ATTRIBUTE_scaleImage));
+		Byte scaleImage = (Byte)JRXmlConstants.getScaleImageMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_scaleImage));
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage);
 		}
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_hAlign));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
 		if (horizontalAlignment != null)
 		{
 			image.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_vAlign));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
 		if (verticalAlignment != null)
 		{
 			image.setVerticalAlignment(verticalAlignment);
 		}
 
-		String isLazy = atts.getValue(ATTRIBUTE_isLazy);
+		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);
 		if (isLazy != null && isLazy.length() > 0)
 		{
 			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
 		}
 
-		Byte onErrorType = (Byte)JRXmlConstants.getOnErrorTypeMap().get(atts.getValue(ATTRIBUTE_onErrorType));
+		Byte onErrorType = (Byte)JRXmlConstants.getOnErrorTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_onErrorType));
 		if (onErrorType != null)
 		{
 			image.setOnErrorType(onErrorType.byteValue());
 		}
 
-		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
+		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
 			image.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		if (hyperlinkTarget != null)
 		{
 			image.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
-		image.setAnchorName(atts.getValue(ATTRIBUTE_anchorName));
-		image.setHyperlinkReference(atts.getValue(ATTRIBUTE_hyperlinkReference));
-		image.setHyperlinkAnchor(atts.getValue(ATTRIBUTE_hyperlinkAnchor));
+		image.setAnchorName(atts.getValue(JRXmlConstants.ATTRIBUTE_anchorName));
+		image.setHyperlinkReference(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkReference));
+		image.setHyperlinkAnchor(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkAnchor));
 		
-		String hyperlinkPage = atts.getValue(ATTRIBUTE_hyperlinkPage);
+		String hyperlinkPage = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkPage);
 		if (hyperlinkPage != null)
 		{
 			image.setHyperlinkPage(new Integer(hyperlinkPage));
 		}
 		
-		image.setHyperlinkTooltip(atts.getValue(ATTRIBUTE_hyperlinkTooltip));
+		image.setHyperlinkTooltip(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip));
 
-		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			image.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));

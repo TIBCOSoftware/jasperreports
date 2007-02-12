@@ -45,31 +45,6 @@ import org.xml.sax.Attributes;
 public class JRElementFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_reportElement = "reportElement";
-	public static final String ELEMENT_printWhenExpression = "printWhenExpression";
-	
-	public static final String ATTRIBUTE_key = "key";
-	public static final String ATTRIBUTE_positionType = "positionType";
-	public static final String ATTRIBUTE_stretchType = "stretchType";
-	public static final String ATTRIBUTE_isPrintRepeatedValues = "isPrintRepeatedValues";
-	public static final String ATTRIBUTE_mode = "mode";
-	public static final String ATTRIBUTE_x = "x";
-	public static final String ATTRIBUTE_y = "y";
-	public static final String ATTRIBUTE_width = "width";
-	public static final String ATTRIBUTE_height = "height";
-	public static final String ATTRIBUTE_isRemoveLineWhenBlank = "isRemoveLineWhenBlank";
-	public static final String ATTRIBUTE_isPrintInFirstWholeBand = "isPrintInFirstWholeBand";
-	public static final String ATTRIBUTE_isPrintWhenDetailOverflows = "isPrintWhenDetailOverflows";
-	public static final String ATTRIBUTE_printWhenGroupChanges = "printWhenGroupChanges";
-	public static final String ATTRIBUTE_forecolor = "forecolor";
-	public static final String ATTRIBUTE_backcolor = "backcolor";
-	public static final String ATTRIBUTE_style = "style";
-
-
 	/**
 	 *
 	 */
@@ -81,75 +56,75 @@ public class JRElementFactory extends JRBaseFactory
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
 
-		element.setKey(atts.getValue(ATTRIBUTE_key));
+		element.setKey(atts.getValue(JRXmlConstants.ATTRIBUTE_key));
 
-		Byte positionType = (Byte)JRXmlConstants.getPositionTypeMap().get(atts.getValue(ATTRIBUTE_positionType));
+		Byte positionType = (Byte)JRXmlConstants.getPositionTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_positionType));
 		if (positionType != null)
 		{
 			element.setPositionType(positionType.byteValue());
 		}
 
-		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(ATTRIBUTE_stretchType));
+		Byte stretchType = (Byte)JRXmlConstants.getStretchTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
 			element.setStretchType(stretchType.byteValue());
 		}
 
-		String isPrintRepeatedValues = atts.getValue(ATTRIBUTE_isPrintRepeatedValues);
+		String isPrintRepeatedValues = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues);
 		if (isPrintRepeatedValues != null && isPrintRepeatedValues.length() > 0)
 		{
 			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues).booleanValue());
 		}
 		
-		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
+		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode);
 		}
 		
-		String x = atts.getValue(ATTRIBUTE_x);
+		String x = atts.getValue(JRXmlConstants.ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{
 			element.setX(Integer.parseInt(x));
 		}
 
-		String y = atts.getValue(ATTRIBUTE_y);
+		String y = atts.getValue(JRXmlConstants.ATTRIBUTE_y);
 		if (y != null && y.length() > 0)
 		{
 			element.setY(Integer.parseInt(y));
 		}
 
-		String width = atts.getValue(ATTRIBUTE_width);
+		String width = atts.getValue(JRXmlConstants.ATTRIBUTE_width);
 		if (width != null && width.length() > 0)
 		{
 			element.setWidth(Integer.parseInt(width));
 		}
 
-		String height = atts.getValue(ATTRIBUTE_height);
+		String height = atts.getValue(JRXmlConstants.ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			element.setHeight(Integer.parseInt(height));
 		}
 
-		String isRemoveLineWhenBlank = atts.getValue(ATTRIBUTE_isRemoveLineWhenBlank);
+		String isRemoveLineWhenBlank = atts.getValue(JRXmlConstants.ATTRIBUTE_isRemoveLineWhenBlank);
 		if (isRemoveLineWhenBlank != null && isRemoveLineWhenBlank.length() > 0)
 		{
 			element.setRemoveLineWhenBlank(Boolean.valueOf(isRemoveLineWhenBlank).booleanValue());
 		}
 
-		String isPrintInFirstWholeBand = atts.getValue(ATTRIBUTE_isPrintInFirstWholeBand);
+		String isPrintInFirstWholeBand = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintInFirstWholeBand);
 		if (isPrintInFirstWholeBand != null && isPrintInFirstWholeBand.length() > 0)
 		{
 			element.setPrintInFirstWholeBand(Boolean.valueOf(isPrintInFirstWholeBand).booleanValue());
 		}
 
-		String isPrintWhenDetailOverflows = atts.getValue(ATTRIBUTE_isPrintWhenDetailOverflows);
+		String isPrintWhenDetailOverflows = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows);
 		if (isPrintWhenDetailOverflows != null && isPrintWhenDetailOverflows.length() > 0)
 		{
 			element.setPrintWhenDetailOverflows(Boolean.valueOf(isPrintWhenDetailOverflows).booleanValue());
 		}
 
-		String groupName = atts.getValue(ATTRIBUTE_printWhenGroupChanges);
+		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_printWhenGroupChanges);
 		if (groupName != null)
 		{
 			JRDesignGroup group = new JRDesignGroup();
@@ -158,28 +133,28 @@ public class JRElementFactory extends JRBaseFactory
 			groupReprintedElements.add(element);
 		}
 
-		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
+		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
 		if (forecolor != null && forecolor.length() > 0)
 		{
 			element.setForecolor(JRXmlConstants.getColor(forecolor, null));
 		}
 
-		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
+		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
 		if (backcolor != null && backcolor.length() > 0)
 		{
 			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 		}
 		
-		if (atts.getValue(ATTRIBUTE_style) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
 		{
 			Map stylesMap = jasperDesign.getStylesMap();
 
-			if ( !stylesMap.containsKey(atts.getValue(ATTRIBUTE_style)) )
+			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
 			{
-				xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+				xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
 			}
 
-			element.setStyle((JRStyle) stylesMap.get(atts.getValue(ATTRIBUTE_style)));
+			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
 		}
 
 		return element;

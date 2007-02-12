@@ -39,19 +39,6 @@ import org.xml.sax.Attributes;
 public class JRTextElementFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_textElement = "textElement";
-	
-	public static final String ATTRIBUTE_textAlignment = "textAlignment";
-	public static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
-	public static final String ATTRIBUTE_rotation = "rotation";
-	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
-	public static final String ATTRIBUTE_isStyledText = "isStyledText";
-
-
 	/**
 	 *
 	 */
@@ -59,31 +46,31 @@ public class JRTextElementFactory extends JRBaseFactory
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
 			textElement.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
 			textElement.setVerticalAlignment(verticalAlignment);
 		}
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(ATTRIBUTE_rotation));
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			textElement.setRotation(rotation);
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
+		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			textElement.setLineSpacing(lineSpacing);
 		}
 
-		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
+		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			textElement.setStyledText(Boolean.valueOf(isStyledText));

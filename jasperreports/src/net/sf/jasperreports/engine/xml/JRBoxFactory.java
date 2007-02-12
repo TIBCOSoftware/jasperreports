@@ -41,29 +41,6 @@ import org.xml.sax.Attributes;
 public class JRBoxFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_box = "box";
-	
-	public static final String ATTRIBUTE_border = "border";
-	public static final String ATTRIBUTE_borderColor = "borderColor";
-	public static final String ATTRIBUTE_padding = "padding";
-	public static final String ATTRIBUTE_topBorder = "topBorder";
-	public static final String ATTRIBUTE_topBorderColor = "topBorderColor";
-	public static final String ATTRIBUTE_topPadding = "topPadding";
-	public static final String ATTRIBUTE_leftBorder = "leftBorder";
-	public static final String ATTRIBUTE_leftBorderColor = "leftBorderColor";
-	public static final String ATTRIBUTE_leftPadding = "leftPadding";
-	public static final String ATTRIBUTE_bottomBorder = "bottomBorder";
-	public static final String ATTRIBUTE_bottomBorderColor = "bottomBorderColor";
-	public static final String ATTRIBUTE_bottomPadding = "bottomPadding";
-	public static final String ATTRIBUTE_rightBorder = "rightBorder";
-	public static final String ATTRIBUTE_rightBorderColor = "rightBorderColor";
-	public static final String ATTRIBUTE_rightPadding = "rightPadding";
-
-
 	/**
 	 *
 	 */
@@ -77,91 +54,91 @@ public class JRBoxFactory extends JRBaseFactory
 
 	public static void setBoxAttributes(Attributes atts, JRBox box)
 	{
-		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_border));
+		Byte border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_border));
 		if (border != null)
 		{
 			box.setBorder(border);
 		}
 
-		Color borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_borderColor), null);
+		Color borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_borderColor), null);
 		if (borderColor != null)
 		{
 			box.setBorderColor(borderColor);
 		}
 
-		String padding = atts.getValue(ATTRIBUTE_padding);
+		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
 		if (padding != null && padding.length() > 0)
 		{
 			box.setPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_topBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
 		if (border != null)
 		{
 			box.setTopBorder(border);
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_topBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setTopBorderColor(borderColor);
 		}
 
-		padding = atts.getValue(ATTRIBUTE_topPadding);
+		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			box.setTopPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_leftBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
 		if (border != null)
 		{
 			box.setLeftBorder(border);
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_leftBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setLeftBorderColor(borderColor);
 		}
 
-		padding = atts.getValue(ATTRIBUTE_leftPadding);
+		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			box.setLeftPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_bottomBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
 		if (border != null)
 		{
 			box.setBottomBorder(border);
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_bottomBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setBottomBorderColor(borderColor);
 		}
 
-		padding = atts.getValue(ATTRIBUTE_bottomPadding);
+		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			box.setBottomPadding(Integer.parseInt(padding));
 		}
 
-		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_rightBorder));
+		border = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
 		if (border != null)
 		{
 			box.setRightBorder(border);
 		}
 
-		borderColor = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_rightBorderColor), Color.black);
+		borderColor = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorderColor), Color.black);
 		if (borderColor != null)
 		{
 			box.setRightBorderColor(borderColor);
 		}
 
-		padding = atts.getValue(ATTRIBUTE_rightPadding);
+		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);
 		if (padding != null && padding.length() > 0)
 		{
 			box.setRightPadding(Integer.parseInt(padding));

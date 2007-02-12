@@ -44,24 +44,6 @@ import org.xml.sax.Attributes;
 public abstract class JRFontFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_font = "font";
-	
-	public static final String ATTRIBUTE_reportFont = "reportFont";
-	public static final String ATTRIBUTE_fontName = "fontName";
-	public static final String ATTRIBUTE_isBold = "isBold";
-	public static final String ATTRIBUTE_isItalic = "isItalic";
-	public static final String ATTRIBUTE_isUnderline = "isUnderline";
-	public static final String ATTRIBUTE_isStrikeThrough = "isStrikeThrough";
-	public static final String ATTRIBUTE_size = "size";
-	public static final String ATTRIBUTE_pdfFontName = "pdfFontName";
-	public static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
-	public static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
-
-
 	/**
 	 *
 	 */
@@ -77,44 +59,44 @@ public abstract class JRFontFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		if (atts.getValue(ATTRIBUTE_reportFont) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont) != null)
 		{
 			Map fontsMap = jasperDesign.getFontsMap();
 
-			if ( !fontsMap.containsKey(atts.getValue(ATTRIBUTE_reportFont)) )
+			if ( !fontsMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)) )
 			{
-				xmlLoader.addError(new Exception("Unknown report font : " + atts.getValue(ATTRIBUTE_reportFont)));
+				xmlLoader.addError(new Exception("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
 			}
 
-			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(ATTRIBUTE_reportFont)));
+			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
 		}
 
-		if (atts.getValue(ATTRIBUTE_fontName) != null)
-			font.setFontName(atts.getValue(ATTRIBUTE_fontName));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
+			font.setFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_fontName));
 
-		if (atts.getValue(ATTRIBUTE_isBold) != null)
-			font.setBold(Boolean.valueOf(atts.getValue(ATTRIBUTE_isBold)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isBold) != null)
+			font.setBold(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isBold)));
 
-		if (atts.getValue(ATTRIBUTE_isItalic) != null)
-			font.setItalic(Boolean.valueOf(atts.getValue(ATTRIBUTE_isItalic)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic) != null)
+			font.setItalic(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isItalic)));
 
-		if (atts.getValue(ATTRIBUTE_isUnderline) != null)
-			font.setUnderline(Boolean.valueOf(atts.getValue(ATTRIBUTE_isUnderline)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline) != null)
+			font.setUnderline(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isUnderline)));
 
-		if (atts.getValue(ATTRIBUTE_isStrikeThrough) != null)
-			font.setStrikeThrough(Boolean.valueOf(atts.getValue(ATTRIBUTE_isStrikeThrough)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough) != null)
+			font.setStrikeThrough(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isStrikeThrough)));
 
-		if (atts.getValue(ATTRIBUTE_size) != null)
-			font.setFontSize(Integer.parseInt(atts.getValue(ATTRIBUTE_size)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_size) != null)
+			font.setFontSize(Integer.parseInt(atts.getValue(JRXmlConstants.ATTRIBUTE_size)));
 
-		if (atts.getValue(ATTRIBUTE_pdfFontName) != null)
-			font.setPdfFontName(atts.getValue(ATTRIBUTE_pdfFontName));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
+			font.setPdfFontName(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName));
 
-		if (atts.getValue(ATTRIBUTE_pdfEncoding) != null)
-			font.setPdfEncoding(atts.getValue(ATTRIBUTE_pdfEncoding));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding) != null)
+			font.setPdfEncoding(atts.getValue(JRXmlConstants.ATTRIBUTE_pdfEncoding));
 
-		if (atts.getValue(ATTRIBUTE_isPdfEmbedded) != null)
-			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(ATTRIBUTE_isPdfEmbedded)));
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded) != null)
+			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
 
 		return font;
 	}

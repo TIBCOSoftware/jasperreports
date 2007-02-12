@@ -39,16 +39,6 @@ import org.xml.sax.Attributes;
 public class JRFieldFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_field = "field";
-	public static final String ELEMENT_fieldDescription = "fieldDescription";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_class = "class";
-	
 	/**
 	 *
 	 */
@@ -56,11 +46,11 @@ public class JRFieldFactory extends JRBaseFactory
 	{
 		JRDesignField field = new JRDesignField();
 		
-		field.setName(atts.getValue(ATTRIBUTE_name));
+		field.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			field.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			field.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 
 		return field;

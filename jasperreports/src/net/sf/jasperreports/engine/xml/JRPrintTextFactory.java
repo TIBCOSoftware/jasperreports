@@ -40,34 +40,6 @@ import org.xml.sax.Attributes;
 public class JRPrintTextFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_textAlignment = "textAlignment";
-	private static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
-	private static final String ATTRIBUTE_rotation = "rotation";
-	private static final String ATTRIBUTE_runDirection = "runDirection";
-	private static final String ATTRIBUTE_textHeight = "textHeight";
-	private static final String ATTRIBUTE_lineSpacing = "lineSpacing";
-	private static final String ATTRIBUTE_isStyledText = "isStyledText";
-	private static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
-	private static final String ATTRIBUTE_leadingOffset = "leadingOffset";
-	private static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	private static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	private static final String ATTRIBUTE_anchorName = "anchorName";
-	private static final String ATTRIBUTE_hyperlinkReference = "hyperlinkReference";
-	private static final String ATTRIBUTE_hyperlinkAnchor = "hyperlinkAnchor";
-	private static final String ATTRIBUTE_hyperlinkPage = "hyperlinkPage";
-	public static final String ATTRIBUTE_hyperlinkTooltip = "hyperlinkTooltip";
-	private static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
-	public static final String ATTRIBUTE_valueClass = "valueClass";
-	public static final String ATTRIBUTE_pattern = "pattern";
-	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
-	public static final String ATTRIBUTE_locale = "locale";
-	public static final String ATTRIBUTE_timezone = "timezone";
-
-
 	/**
 	 *
 	 */
@@ -77,115 +49,115 @@ public class JRPrintTextFactory extends JRBaseFactory
 
 		JRBasePrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
-		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(ATTRIBUTE_textAlignment));
+		Byte horizontalAlignment = (Byte)JRXmlConstants.getHorizontalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
 		if (horizontalAlignment != null)
 		{
 			text.setHorizontalAlignment(horizontalAlignment);
 		}
 
-		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(ATTRIBUTE_verticalAlignment));
+		Byte verticalAlignment = (Byte)JRXmlConstants.getVerticalAlignMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
 		if (verticalAlignment != null)
 		{
 			text.setVerticalAlignment(verticalAlignment);
 		}
 
-		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(ATTRIBUTE_rotation));
+		Byte rotation = (Byte)JRXmlConstants.getRotationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
 			text.setRotation(rotation);
 		}
 
-		Byte runDirection = (Byte)JRXmlConstants.getRunDirectionMap().get(atts.getValue(ATTRIBUTE_runDirection));
+		Byte runDirection = (Byte)JRXmlConstants.getRunDirectionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_runDirection));
 		if (runDirection != null)
 		{
 			text.setRunDirection(runDirection.byteValue());
 		}
 
-		String textHeight = atts.getValue(ATTRIBUTE_textHeight);
+		String textHeight = atts.getValue(JRXmlConstants.ATTRIBUTE_textHeight);
 		if (textHeight != null && textHeight.length() > 0)
 		{
 			text.setTextHeight(Float.parseFloat(textHeight));
 		}
 
-		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(ATTRIBUTE_lineSpacing));
+		Byte lineSpacing = (Byte)JRXmlConstants.getLineSpacingMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
 			text.setLineSpacing(lineSpacing);
 		}
 
-		String isStyledText = atts.getValue(ATTRIBUTE_isStyledText);
+		String isStyledText = atts.getValue(JRXmlConstants.ATTRIBUTE_isStyledText);
 		if (isStyledText != null && isStyledText.length() > 0)
 		{
 			text.setStyledText(Boolean.valueOf(isStyledText));
 		}
 
-		String lineSpacingFactor = atts.getValue(ATTRIBUTE_lineSpacingFactor);
+		String lineSpacingFactor = atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacingFactor);
 		if (lineSpacingFactor != null && lineSpacingFactor.length() > 0)
 		{
 			text.setLineSpacingFactor(Float.parseFloat(lineSpacingFactor));
 		}
 
-		String leadingOffset = atts.getValue(ATTRIBUTE_leadingOffset);
+		String leadingOffset = atts.getValue(JRXmlConstants.ATTRIBUTE_leadingOffset);
 		if (leadingOffset != null && leadingOffset.length() > 0)
 		{
 			text.setLeadingOffset(Float.parseFloat(leadingOffset));
 		}
 
-		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
+		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
 			text.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		if (hyperlinkTarget != null)
 		{
 			text.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 
-		text.setAnchorName(atts.getValue(ATTRIBUTE_anchorName));
-		text.setHyperlinkReference(atts.getValue(ATTRIBUTE_hyperlinkReference));
-		text.setHyperlinkAnchor(atts.getValue(ATTRIBUTE_hyperlinkAnchor));
+		text.setAnchorName(atts.getValue(JRXmlConstants.ATTRIBUTE_anchorName));
+		text.setHyperlinkReference(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkReference));
+		text.setHyperlinkAnchor(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkAnchor));
 		
-		String hyperlinkPage = atts.getValue(ATTRIBUTE_hyperlinkPage);
+		String hyperlinkPage = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkPage);
 		if (hyperlinkPage != null)
 		{
 			text.setHyperlinkPage(new Integer(hyperlinkPage));
 		}
 		
-		text.setHyperlinkTooltip(atts.getValue(ATTRIBUTE_hyperlinkTooltip));
+		text.setHyperlinkTooltip(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip));
 
-		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			text.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
 		}
 		
-		String valueClass = atts.getValue(ATTRIBUTE_valueClass);
+		String valueClass = atts.getValue(JRXmlConstants.ATTRIBUTE_valueClass);
 		if (valueClass != null)
 		{
 			text.setValueClassName(valueClass);
 		}
 		
-		String pattern = atts.getValue(ATTRIBUTE_pattern);
+		String pattern = atts.getValue(JRXmlConstants.ATTRIBUTE_pattern);
 		if (pattern != null)
 		{
 			text.setPattern(pattern);
 		}
 		
-		String formatFactoryClass = atts.getValue(ATTRIBUTE_formatFactoryClass);
+		String formatFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass);
 		if (formatFactoryClass != null)
 		{
 			text.setFormatFactoryClass(formatFactoryClass);
 		}
 		
-		String locale = atts.getValue(ATTRIBUTE_locale);
+		String locale = atts.getValue(JRXmlConstants.ATTRIBUTE_locale);
 		if (locale != null)
 		{
 			text.setLocaleCode(locale);
 		}
 		
-		String timezone = atts.getValue(ATTRIBUTE_timezone);
+		String timezone = atts.getValue(JRXmlConstants.ATTRIBUTE_timezone);
 		if (timezone != null)
 		{
 			text.setTimeZoneId(timezone);

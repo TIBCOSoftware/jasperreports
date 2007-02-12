@@ -39,15 +39,6 @@ import org.xml.sax.Attributes;
  */
 public class JRLineFactory extends JRBaseFactory
 {
-	
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_line = "line";
-	
-	public static final String ATTRIBUTE_direction = "direction";
-
 
 	/**
 	 *
@@ -58,7 +49,7 @@ public class JRLineFactory extends JRBaseFactory
 
 		JRDesignLine line = new JRDesignLine(jasperDesign);
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(ATTRIBUTE_direction));
+		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
 			line.setDirection(direction.byteValue());

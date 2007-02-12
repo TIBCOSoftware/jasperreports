@@ -43,7 +43,6 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_datasetParameterExpression = "datasetParameterExpression";
 	
 	public Object createObject(Attributes attributes)
 	{

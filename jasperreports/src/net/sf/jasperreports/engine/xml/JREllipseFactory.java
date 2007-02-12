@@ -43,11 +43,6 @@ public class JREllipseFactory extends JRBaseFactory
 	/**
 	 *
 	 */
-	public static final String ELEMENT_ellipse = "ellipse";
-	
-	/**
-	 *
-	 */
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

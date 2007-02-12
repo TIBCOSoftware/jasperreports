@@ -38,9 +38,6 @@ import org.xml.sax.Attributes;
  */
 public class JRQueryFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_queryString = "queryString";
-	
-	public static final String ATTRIBUTE_language = "language";
 
 	/**
 	 *
@@ -49,7 +46,7 @@ public class JRQueryFactory extends JRBaseFactory
 	{
 		JRDesignQuery query = new JRDesignQuery();
 
-		String language = atts.getValue(ATTRIBUTE_language);
+		String language = atts.getValue(JRXmlConstants.ATTRIBUTE_language);
 		if (language != null)
 		{
 			query.setLanguage(language);

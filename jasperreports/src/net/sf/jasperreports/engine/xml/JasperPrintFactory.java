@@ -39,20 +39,6 @@ import org.xml.sax.Attributes;
 public class JasperPrintFactory extends JRBaseFactory
 {
 
-	
-	/**
-	 *
-	 */
-	public static final String ELEMENT_jasperPrint = "jasperPrint";
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_pageWidth = "pageWidth";
-	public static final String ATTRIBUTE_pageHeight = "pageHeight";
-	public static final String ATTRIBUTE_orientation = "orientation";
-	public static final String ATTRIBUTE_formatFactoryClass = "formatFactoryClass";
-	public static final String ATTRIBUTE_locale = "locale";
-	public static final String ATTRIBUTE_timezone = "timezone";
-
-
 	/**
 	 *
 	 */
@@ -60,39 +46,39 @@ public class JasperPrintFactory extends JRBaseFactory
 	{
 		JasperPrint jasperPrint = new JasperPrint();
 		
-		jasperPrint.setName(atts.getValue(ATTRIBUTE_name));
+		jasperPrint.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		String pageWidth = atts.getValue(ATTRIBUTE_pageWidth);
+		String pageWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_pageWidth);
 		if (pageWidth != null && pageWidth.length() > 0)
 		{
 			jasperPrint.setPageWidth(Integer.parseInt(pageWidth));
 		}
 
-		String pageHeight = atts.getValue(ATTRIBUTE_pageHeight);
+		String pageHeight = atts.getValue(JRXmlConstants.ATTRIBUTE_pageHeight);
 		if (pageHeight != null && pageHeight.length() > 0)
 		{
 			jasperPrint.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
-		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(ATTRIBUTE_orientation));
+		Byte orientation = (Byte)JRXmlConstants.getOrientationMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
 			jasperPrint.setOrientation(orientation.byteValue());
 		}
 		
-		String formatFactoryClass = atts.getValue(ATTRIBUTE_formatFactoryClass);
+		String formatFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass);
 		if (formatFactoryClass != null)
 		{
 			jasperPrint.setFormatFactoryClass(formatFactoryClass);
 		}
 		
-		String locale = atts.getValue(ATTRIBUTE_locale);
+		String locale = atts.getValue(JRXmlConstants.ATTRIBUTE_locale);
 		if (locale != null)
 		{
 			jasperPrint.setLocaleCode(locale);
 		}
 		
-		String timezone = atts.getValue(ATTRIBUTE_timezone);
+		String timezone = atts.getValue(JRXmlConstants.ATTRIBUTE_timezone);
 		if (timezone != null)
 		{
 			jasperPrint.setTimeZoneId(timezone);

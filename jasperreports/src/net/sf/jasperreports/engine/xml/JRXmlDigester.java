@@ -87,18 +87,18 @@ public class JRXmlDigester extends Digester
 			String dtd = null;
 			
 			if (
-				systemId.equals("http://jasperreports.sourceforge.net/dtds/jasperreport.dtd") ||
-				systemId.equals("http://www.jasperreports.com/dtds/jasperreport.dtd")
+				systemId.equals(JRXmlConstants.SOURCEFORGE_JASPERREPORT_DTD) ||
+				systemId.equals(JRXmlConstants.JASPERREPORT_DTD)
 				)
 			{
-				dtd = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
+				dtd = JRXmlConstants.LOCAL_JASPERREPORT_DTD;
 			}
 			else if (
-				systemId.equals("http://jasperreports.sourceforge.net/dtds/jasperprint.dtd") ||
-				systemId.equals("http://www.jasperreports.com/dtds/jasperprint.dtd")
+				systemId.equals(JRXmlConstants.SOURCEFORGE_JASPERPRINT_DTD) ||
+				systemId.equals(JRXmlConstants.JASPERPRINT_DTD)
 				)
 			{
-				dtd = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
+				dtd = JRXmlConstants.LOCAL_JASPERPRINT_DTD;
 			}
 			else
 			{

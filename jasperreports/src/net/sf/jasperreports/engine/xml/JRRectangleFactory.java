@@ -40,15 +40,6 @@ import org.xml.sax.Attributes;
 public class JRRectangleFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_rectangle = "rectangle";
-	
-	public static final String ATTRIBUTE_radius = "radius";
-
-
 	/**
 	 *
 	 */
@@ -58,7 +49,7 @@ public class JRRectangleFactory extends JRBaseFactory
 
 		JRDesignRectangle rectangle = new JRDesignRectangle(jasperDesign);
 		
-		String radius = atts.getValue(ATTRIBUTE_radius);
+		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
 			rectangle.setRadius(Integer.parseInt(radius));

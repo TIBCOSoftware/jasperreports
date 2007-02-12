@@ -43,18 +43,13 @@ import org.xml.sax.Attributes;
  */
 public class JRPrintHyperlinkParameterFactory extends JRBaseFactory
 {
-
-	public static final String ELEMENT_hyperlinkParameter = "hyperlinkParameter";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_class = "class";
 	
 	public Object createObject(Attributes attrs)
 	{
 		JRPrintHyperlinkParameter parameter = new JRPrintHyperlinkParameter();
-		parameter.setName(attrs.getValue(ATTRIBUTE_name));
+		parameter.setName(attrs.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		String valueClass = attrs.getValue(ATTRIBUTE_class);
+		String valueClass = attrs.getValue(JRXmlConstants.ATTRIBUTE_class);
 		if (valueClass != null)
 		{
 			parameter.setValueClass(valueClass);

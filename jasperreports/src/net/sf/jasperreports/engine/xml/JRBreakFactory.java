@@ -40,14 +40,6 @@ import org.xml.sax.Attributes;
 public class JRBreakFactory extends JRBaseFactory
 {
 	
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_break = "break";
-	
-	public static final String ATTRIBUTE_type = "type";
-
 	/**
 	 *
 	 */
@@ -57,7 +49,7 @@ public class JRBreakFactory extends JRBaseFactory
 
 		JRDesignBreak breakElement = new JRDesignBreak(jasperDesign);
 
-		Byte type = (Byte)JRXmlConstants.getBreakTypeMap().get(atts.getValue(ATTRIBUTE_type));
+		Byte type = (Byte)JRXmlConstants.getBreakTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_type));
 		if (type != null)
 		{
 			breakElement.setType(type.byteValue());

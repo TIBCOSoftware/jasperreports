@@ -38,20 +38,6 @@ import org.xml.sax.Attributes;
  */
 public class JRParameterFactory extends JRBaseFactory
 {
-
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_parameter = "parameter";
-	public static final String ELEMENT_parameterDescription = "parameterDescription";
-	public static final String ELEMENT_defaultValueExpression = "defaultValueExpression";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_class = "class";
-	public static final String ATTRIBUTE_isForPrompting = "isForPrompting";
-
-
 	/**
 	 *
 	 */
@@ -67,14 +53,14 @@ public class JRParameterFactory extends JRBaseFactory
 
 	protected void setParameterAttributes(JRDesignParameter parameter, Attributes atts)
 	{
-		parameter.setName(atts.getValue(ATTRIBUTE_name));
+		parameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			parameter.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			parameter.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 
-		String isForPrompting = atts.getValue(ATTRIBUTE_isForPrompting);
+		String isForPrompting = atts.getValue(JRXmlConstants.ATTRIBUTE_isForPrompting);
 		if (isForPrompting != null && isForPrompting.length() > 0)
 		{
 			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());

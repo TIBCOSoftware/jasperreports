@@ -39,16 +39,6 @@ import org.xml.sax.Attributes;
 public class JRSortFieldFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_sortField = "sortField";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_order = "order";
-
-
 	/**
 	 *
 	 */
@@ -56,9 +46,9 @@ public class JRSortFieldFactory extends JRBaseFactory
 	{
 		JRDesignSortField sortField = new JRDesignSortField();
 		
-		sortField.setName(atts.getValue(ATTRIBUTE_name));
+		sortField.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
-		Byte order = (Byte)JRXmlConstants.getSortOrderMap().get(atts.getValue(ATTRIBUTE_order));
+		Byte order = (Byte)JRXmlConstants.getSortOrderMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_order));
 		if (order != null)
 		{
 			sortField.setOrder(order.byteValue());

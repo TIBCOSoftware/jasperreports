@@ -39,23 +39,6 @@ import org.xml.sax.Attributes;
 public class JRGroupFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_group = "group";
-	public static final String ELEMENT_groupExpression = "groupExpression";
-	public static final String ELEMENT_groupHeader = "groupHeader";
-	public static final String ELEMENT_groupFooter = "groupFooter";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_isStartNewColumn = "isStartNewColumn";
-	public static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
-	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
-	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
-	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
-
-
 	/**
 	 *
 	 */
@@ -63,33 +46,33 @@ public class JRGroupFactory extends JRBaseFactory
 	{
 		JRDesignGroup group = new JRDesignGroup();
 		
-		group.setName(atts.getValue(ATTRIBUTE_name));
+		group.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 		
-		String isStartNewColumn = atts.getValue(ATTRIBUTE_isStartNewColumn);
+		String isStartNewColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewColumn);
 		if (isStartNewColumn != null && isStartNewColumn.length() > 0)
 		{
 			group.setStartNewColumn(Boolean.valueOf(isStartNewColumn).booleanValue());
 		}
 
-		String isStartNewPage = atts.getValue(ATTRIBUTE_isStartNewPage);
+		String isStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewPage);
 		if (isStartNewPage != null && isStartNewPage.length() > 0)
 		{
 			group.setStartNewPage(Boolean.valueOf(isStartNewPage).booleanValue());
 		}
 
-		String isResetPageNumber = atts.getValue(ATTRIBUTE_isResetPageNumber);
+		String isResetPageNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_isResetPageNumber);
 		if (isResetPageNumber != null && isResetPageNumber.length() > 0)
 		{
 			group.setResetPageNumber(Boolean.valueOf(isResetPageNumber).booleanValue());
 		}
 
-		String isReprintHeaderOnEachPage = atts.getValue(ATTRIBUTE_isReprintHeaderOnEachPage);
+		String isReprintHeaderOnEachPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage);
 		if (isReprintHeaderOnEachPage != null && isReprintHeaderOnEachPage.length() > 0)
 		{
 			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
 		}
 
-		String minHeightToStartNewPage = atts.getValue(ATTRIBUTE_minHeightToStartNewPage);
+		String minHeightToStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage);
 		if (minHeightToStartNewPage != null && minHeightToStartNewPage.length() > 0)
 		{
 			group.setMinHeightToStartNewPage(Integer.parseInt(minHeightToStartNewPage));

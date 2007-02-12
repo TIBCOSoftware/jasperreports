@@ -43,61 +43,6 @@ import org.xml.sax.Attributes;
 public class JRChartPlotFactory extends JRBaseFactory
 {
 
-	public static final String ELEMENT_plot = "plot";
-	public static final String ELEMENT_piePlot = "piePlot";
-	public static final String ELEMENT_pie3DPlot = "pie3DPlot";
-	public static final String ELEMENT_barPlot = "barPlot";
-	public static final String ELEMENT_bubblePlot = "bubblePlot";
-	public static final String ELEMENT_linePlot = "linePlot";
-	public static final String ELEMENT_timeSeriesPlot = "timeSeriesPlot";
-	public static final String ELEMENT_bar3DPlot = "bar3DPlot";
-	public static final String ELEMENT_highLowPlot = "highLowPlot";
-	public static final String ELEMENT_candlestickPlot = "candlestickPlot";
-	public static final String ELEMENT_areaPlot = "areaPlot";
-	public static final String ELEMENT_scatterPlot = "scatterPlot";
-	public static final String ELEMENT_multiAxisPlot = "multiAxisPlot";
-	
-	public static final String ELEMENT_valueDisplay = "valueDisplay";
-	public static final String ELEMENT_dataRange = "dataRange";
-	public static final String ELEMENT_meterInterval = "meterInterval";
-	public static final String ELEMENT_categoryAxisFormat = "categoryAxisFormat";
-	public static final String ELEMENT_valueAxisFormat = "valueAxisFormat";
-	public static final String ELEMENT_xAxisFormat = "xAxisFormat";
-	public static final String ELEMENT_yAxisFormat = "yAxisFormat";
-	public static final String ELEMENT_timeAxisFormat = "timeAxisFormat";
-	
-	public static final String ELEMENT_lowExpression = "lowExpression";
-	public static final String ELEMENT_highExpression = "highExpression";
-	public static final String ELEMENT_categoryAxisLabelExpression = "categoryAxisLabelExpression";
-	public static final String ELEMENT_valueAxisLabelExpression = "valueAxisLabelExpression";
-	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
-	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
-	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";
-	
-	public static final String ATTRIBUTE_backcolor = "backcolor";
-	public static final String ATTRIBUTE_orientation = "orientation";
-	public static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
-	public static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
-	public static final String ATTRIBUTE_labelRotation = "labelRotation";
-	
-	public static final String ATTRIBUTE_color = "color";
-	public static final String ATTRIBUTE_mask = "mask";
-	public static final String ATTRIBUTE_label = "label";
-	public static final String ATTRIBUTE_alpha = "alpha";
-	public static final String ATTRIBUTE_depthFactor = "depthFactor";
-	public static final String ATTRIBUTE_isShowLabels = "isShowLabels";
-	public static final String ATTRIBUTE_isShowTickLabels = "isShowTickLabels";
-	public static final String ATTRIBUTE_scaleType = "scaleType";
-	public static final String ATTRIBUTE_isShowTickMarks = "isShowTickMarks";
-	public static final String ATTRIBUTE_isShowLines = "isShowLines";
-	public static final String ATTRIBUTE_isShowShapes = "isShowShapes";
-	public static final String ATTRIBUTE_xOffset = "xOffset";
-	public static final String ATTRIBUTE_yOffset = "yOffset";
-	public static final String ATTRIBUTE_isShowOpenTicks = "isShowOpenTicks";
-	public static final String ATTRIBUTE_isShowCloseTicks = "isShowCloseTicks";
-	public static final String ATTRIBUTE_isShowVolume = "isShowVolume";
-
-
 	/**
 	 *
 	 */
@@ -105,25 +50,25 @@ public class JRChartPlotFactory extends JRBaseFactory
 	{
 		JRChartPlot plot = (JRChartPlot) digester.peek();
 
-		Color color = JRXmlConstants.getColor(atts.getValue(ATTRIBUTE_backcolor), Color.black);
+		Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor), Color.black);
 		if (color != null)
 		{
 			plot.setBackcolor(color);
 		}
 
-		String orientation = atts.getValue(ATTRIBUTE_orientation);
+		String orientation = atts.getValue(JRXmlConstants.ATTRIBUTE_orientation);
 		if (orientation != null && orientation.length() > 0)
 			plot.setOrientation((PlotOrientation)JRXmlConstants.getPlotOrientationMap().get(orientation));
 
-		String foregroundAlpha = atts.getValue(ATTRIBUTE_foregroundAlpha);
+		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
 			plot.setForegroundAlpha(Float.valueOf(foregroundAlpha).floatValue());
 
-		String backgroundAlpha = atts.getValue(ATTRIBUTE_backgroundAlpha);
+		String backgroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_backgroundAlpha);
 		if (backgroundAlpha != null && backgroundAlpha.length() > 0)
 			plot.setBackgroundAlpha(Float.valueOf(backgroundAlpha).floatValue());
 
-		String labelRotation = atts.getValue(ATTRIBUTE_labelRotation);
+		String labelRotation = atts.getValue(JRXmlConstants.ATTRIBUTE_labelRotation);
 		if (labelRotation != null && labelRotation.length() > 0)
 			plot.setLabelRotation(Double.valueOf(labelRotation).doubleValue());
 
@@ -132,21 +77,16 @@ public class JRChartPlotFactory extends JRBaseFactory
 	
 	public static class JRSeriesColorFactory extends JRBaseFactory
 	{
-		public static final String ELEMENT_seriesColor = "seriesColor";
-		
-		public static final String ATTRIBUTE_seriesOrder = "seriesOrder";
-		public static final String ATTRIBUTE_color = "color";
-		
 		public Object createObject(Attributes atts)
 		{
 			int seriesIndex = -1;
 			Color color = null;
 			
-			String seriesNumber = atts.getValue(ATTRIBUTE_seriesOrder);
+			String seriesNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_seriesOrder);
 			if (seriesNumber != null && seriesNumber.length() > 0)
 				seriesIndex = Integer.valueOf(seriesNumber).intValue();
 
-			String colorName = atts.getValue(ATTRIBUTE_color);
+			String colorName = atts.getValue(JRXmlConstants.ATTRIBUTE_color);
 			if (colorName != null && colorName.length() > 0)
 				color = JRXmlConstants.getColor(colorName, null);
 			
