@@ -74,7 +74,11 @@ import org.jfree.data.time.Year;
 public class JRXmlConstants
 {
 
-
+	public static final String DEFAULT_XML_ENCODING = "UTF-8";
+	public static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
+	public static final String HTML_FILES_SUFFIX = "_files";
+	public static final String IMAGE_PREFIX = "img_";
+	
 	/**
 	 *
 	 */
@@ -1209,6 +1213,8 @@ public class JRXmlConstants
 	public static final String ELEMENT_lastPageFooter = "lastPageFooter";
 	public static final String ELEMENT_summary = "summary";
 	public static final String ELEMENT_property = "property";
+	
+	public static final String ELEMENT_page = "page";
 		
 	/**
 	 * JasperPrintFactory associated constants
@@ -1582,6 +1588,7 @@ public class JRXmlConstants
 	 * JRImageFactory associated constants
 	 */
 	public static final String ELEMENT_image = "image";
+	public static final String ELEMENT_imageSource = "imageSource";
 	public static final String ELEMENT_imageExpression = "imageExpression";
 	
 	public static final String ATTRIBUTE_scaleImage = "scaleImage";
@@ -1669,6 +1676,7 @@ public class JRXmlConstants
 	 */
 	public static final String ELEMENT_staticText = "staticText";
 	public static final String ELEMENT_text = "text";
+	public static final String ELEMENT_textContent = "textContent";
 
 	/**
 	 * JRSubreportExpressionFactory associated constants
