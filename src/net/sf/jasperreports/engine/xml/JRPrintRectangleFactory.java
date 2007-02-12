@@ -40,13 +40,6 @@ import org.xml.sax.Attributes;
 public class JRPrintRectangleFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_radius = "radius";
-
-
 	/**
 	 *
 	 */
@@ -56,7 +49,7 @@ public class JRPrintRectangleFactory extends JRBaseFactory
 
 		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(jasperPrint.getDefaultStyleProvider());
 		
-		String radius = atts.getValue(ATTRIBUTE_radius);
+		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
 			rectangle.setRadius(Integer.parseInt(radius));

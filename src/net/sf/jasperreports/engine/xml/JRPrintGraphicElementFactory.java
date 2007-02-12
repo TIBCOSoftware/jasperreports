@@ -39,14 +39,6 @@ import org.xml.sax.Attributes;
 public class JRPrintGraphicElementFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_pen = "pen";
-	private static final String ATTRIBUTE_fill = "fill";
-
-
 	/**
 	 *
 	 */
@@ -54,13 +46,13 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 	{
 		JRBasePrintGraphicElement graphicElement = (JRBasePrintGraphicElement)digester.peek();
 		
-		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(ATTRIBUTE_pen));
+		Byte pen = (Byte)JRXmlConstants.getPenMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
 		if (pen != null)
 		{
 			graphicElement.setPen(pen);
 		}
 
-		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(ATTRIBUTE_fill));
+		Byte fill = (Byte)JRXmlConstants.getFillMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
 		if (fill != null)
 		{
 			graphicElement.setFill(fill);

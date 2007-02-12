@@ -39,15 +39,6 @@ import org.xml.sax.Attributes;
 public class JRTextFieldExpressionFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_textFieldExpression = "textFieldExpression";
-	
-	public static final String ATTRIBUTE_class = "class";
-
-
 	/**
 	 *
 	 */
@@ -55,9 +46,9 @@ public class JRTextFieldExpressionFactory extends JRBaseFactory
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			expression.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			expression.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 		else
 		{

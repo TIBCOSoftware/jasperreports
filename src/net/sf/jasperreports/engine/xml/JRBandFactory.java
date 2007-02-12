@@ -39,17 +39,6 @@ import org.xml.sax.Attributes;
 public class JRBandFactory extends JRBaseFactory
 {
 	
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_band = "band";
-	public static final String ELEMENT_printWhenExpression = "printWhenExpression";
-	
-	public static final String ATTRIBUTE_height = "height";
-	public static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
-
-
 	/**
 	 *
 	 */
@@ -57,13 +46,13 @@ public class JRBandFactory extends JRBaseFactory
 	{
 		JRDesignBand band = new JRDesignBand();
 		
-		String height = atts.getValue(ATTRIBUTE_height);
+		String height = atts.getValue(JRXmlConstants.ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			band.setHeight(Integer.parseInt(height));
 		}
 
-		String isSplitAllowed = atts.getValue(ATTRIBUTE_isSplitAllowed);
+		String isSplitAllowed = atts.getValue(JRXmlConstants.ATTRIBUTE_isSplitAllowed);
 		if (isSplitAllowed != null && isSplitAllowed.length() > 0)
 		{
 			band.setSplitAllowed(Boolean.valueOf(isSplitAllowed).booleanValue());

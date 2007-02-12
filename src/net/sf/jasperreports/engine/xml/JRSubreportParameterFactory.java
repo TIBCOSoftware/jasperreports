@@ -39,16 +39,6 @@ import org.xml.sax.Attributes;
 public class JRSubreportParameterFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_subreportParameter = "subreportParameter";
-	public static final String ELEMENT_subreportParameterExpression = "subreportParameterExpression";
-	
-	public static final String ATTRIBUTE_name = "name";
-
-
 	/**
 	 *
 	 */
@@ -56,7 +46,7 @@ public class JRSubreportParameterFactory extends JRBaseFactory
 	{
 		JRDesignSubreportParameter subreportParameter = new JRDesignSubreportParameter();
 		
-		subreportParameter.setName(atts.getValue(ATTRIBUTE_name));
+		subreportParameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
 		return subreportParameter;
 	}

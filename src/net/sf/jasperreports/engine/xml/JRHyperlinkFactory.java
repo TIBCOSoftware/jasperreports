@@ -41,28 +41,18 @@ import org.xml.sax.Attributes;
  */
 public class JRHyperlinkFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_hyperlinkTooltipExpression = "hyperlinkTooltipExpression";
-	public static final String ELEMENT_sectionHyperlink = "sectionHyperlink";
-	public static final String ELEMENT_itemHyperlink = "itemHyperlink";
-	public static final String ELEMENT_anchorNameExpression = "anchorNameExpression";
-	public static final String ELEMENT_hyperlinkReferenceExpression = "hyperlinkReferenceExpression";
-	public static final String ELEMENT_hyperlinkAnchorExpression = "hyperlinkAnchorExpression";
-	public static final String ELEMENT_hyperlinkPageExpression = "hyperlinkPageExpression";
-	
-	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 
 	public Object createObject(Attributes atts) throws Exception
 	{
 		JRDesignHyperlink link = new JRDesignHyperlink();
 
-		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
+		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
 			link.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		if (hyperlinkTarget != null)
 		{
 			link.setHyperlinkTarget(hyperlinkTarget.byteValue());

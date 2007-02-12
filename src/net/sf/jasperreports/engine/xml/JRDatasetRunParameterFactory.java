@@ -38,10 +38,6 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunParameterFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_datasetParameter = "datasetParameter";
-	
-	public static final String ATTRIBUTE_name = "name";
-
 
 	/**
 	 *
@@ -50,7 +46,7 @@ public class JRDatasetRunParameterFactory extends JRBaseFactory
 	{
 		JRDesignDatasetParameter datasetParameter = new JRDesignDatasetParameter();
 		
-		datasetParameter.setName(atts.getValue(ATTRIBUTE_name));
+		datasetParameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 
 		return datasetParameter;
 	}

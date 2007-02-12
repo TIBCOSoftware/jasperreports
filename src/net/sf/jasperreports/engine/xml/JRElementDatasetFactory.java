@@ -43,47 +43,6 @@ import org.xml.sax.Attributes;
 public class JRElementDatasetFactory extends JRBaseFactory
 {
 
-	public static final String ELEMENT_dataset = "dataset";
-	public static final String ELEMENT_categoryDataset = "categoryDataset";
-	public static final String ELEMENT_timeSeriesDataset = "timeSeriesDataset";
-	public static final String ELEMENT_timePeriodDataset = "timePeriodDataset";
-	public static final String ELEMENT_xyzDataset = "xyzDataset";
-	public static final String ELEMENT_xyDataset = "xyDataset";
-	public static final String ELEMENT_pieDataset = "pieDataset";
-	public static final String ELEMENT_valueDataset = "pieDataset";
-	public static final String ELEMENT_highLowDataset = "highLowDataset";
-	
-	public static final String ELEMENT_categorySeries = "categorySeries";
-	public static final String ELEMENT_xyzSeries = "xyzSeries";
-	public static final String ELEMENT_xySeries = "xySeries";
-	public static final String ELEMENT_timeSeries = "timeSeries";
-	public static final String ELEMENT_timePeriodSeries = "timePeriodSeries";
-	
-	public static final String ELEMENT_incrementWhenExpression = "incrementWhenExpression";
-	public static final String ELEMENT_keyExpression = "keyExpression";
-	public static final String ELEMENT_valueExpression = "valueExpression";
-	public static final String ELEMENT_labelExpression = "labelExpression";
-	public static final String ELEMENT_seriesExpression = "seriesExpression";
-	public static final String ELEMENT_categoryExpression = "categoryExpression";
-	public static final String ELEMENT_xValueExpression = "xValueExpression";
-	public static final String ELEMENT_yValueExpression = "yValueExpression";
-	public static final String ELEMENT_zValueExpression = "zValueExpression";
-	public static final String ELEMENT_timePeriodExpression = "timePeriodExpression";
-	public static final String ELEMENT_startDateExpression = "startDateExpression";
-	public static final String ELEMENT_endDateExpression = "endDateExpression";
-	public static final String ELEMENT_dateExpression = "dateExpression";
-	public static final String ELEMENT_highExpression = "highExpression";
-	public static final String ELEMENT_lowExpression = "lowExpression";
-	public static final String ELEMENT_openExpression = "openExpression";
-	public static final String ELEMENT_closeExpression = "closeExpression";
-	public static final String ELEMENT_volumeExpression = "volumeExpression";
-
-	public static final String ATTRIBUTE_resetType = "resetType";
-	public static final String ATTRIBUTE_resetGroup = "resetGroup";
-	public static final String ATTRIBUTE_incrementType = "incrementType";
-	public static final String ATTRIBUTE_incrementGroup = "incrementGroup";
-
-	public static final String ATTRIBUTE_timePeriod = "timePeriod";
 	
 	public Object createObject(Attributes atts)
 	{
@@ -99,7 +58,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Set groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 		
-		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_resetType));
+		Byte resetType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			dataset.setResetType(resetType.byteValue());
@@ -108,7 +67,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		{
 			groupBoundDatasets.add(dataset);
 
-			String groupName = atts.getValue(ATTRIBUTE_resetGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_resetGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -117,7 +76,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 			}
 		}
 
-		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(ATTRIBUTE_incrementType));
+		Byte incrementType = (Byte)JRXmlConstants.getResetTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_incrementType));
 		if (incrementType != null)
 		{
 			dataset.setIncrementType(incrementType.byteValue());
@@ -126,7 +85,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		{
 			groupBoundDatasets.add(dataset);
 
-			String groupName = atts.getValue(ATTRIBUTE_incrementGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_incrementGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();

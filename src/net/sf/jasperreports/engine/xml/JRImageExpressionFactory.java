@@ -39,13 +39,6 @@ import org.xml.sax.Attributes;
 public class JRImageExpressionFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_class = "class";
-
-
 	/**
 	 *
 	 */
@@ -53,9 +46,9 @@ public class JRImageExpressionFactory extends JRBaseFactory
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		if (atts.getValue(ATTRIBUTE_class) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
 		{
-			expression.setValueClassName(atts.getValue(ATTRIBUTE_class));
+			expression.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
 		}
 		else
 		{

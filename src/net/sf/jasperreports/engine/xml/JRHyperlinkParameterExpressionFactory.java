@@ -44,14 +44,11 @@ import org.xml.sax.Attributes;
  */
 public class JRHyperlinkParameterExpressionFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_hyperlinkParameterExpression = "hyperlinkParameterExpression";
-	
-	public static final String ATTRIBUTE_class = "class";
 	
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignExpression expression = new JRDesignExpression();
-		String valueClass = attributes.getValue(ATTRIBUTE_class);
+		String valueClass = attributes.getValue(JRXmlConstants.ATTRIBUTE_class);
 		if (valueClass == null)
 		{
 			expression.setValueClass(String.class); 

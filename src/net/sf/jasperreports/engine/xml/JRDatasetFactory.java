@@ -37,25 +37,17 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_subDataset = "subDataset";
-	public static final String ELEMENT_filterExpression = "filterExpression";
-	
-	public static final String ATTRIBUTE_name = "name";
-	public static final String ATTRIBUTE_scriptletClass = "scriptletClass";
-	public static final String ATTRIBUTE_resourceBundle = "resourceBundle";
-	public static final String ATTRIBUTE_whenResourceMissingType = "whenResourceMissingType";
-
 	
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignDataset dataset = new JRDesignDataset(false);
 		
-		dataset.setName(attributes.getValue(ATTRIBUTE_name));
-		dataset.setScriptletClass(attributes.getValue(ATTRIBUTE_scriptletClass));
+		dataset.setName(attributes.getValue(JRXmlConstants.ATTRIBUTE_name));
+		dataset.setScriptletClass(attributes.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
 		
-		dataset.setResourceBundle(attributes.getValue(ATTRIBUTE_resourceBundle));
+		dataset.setResourceBundle(attributes.getValue(JRXmlConstants.ATTRIBUTE_resourceBundle));
 
-		String resMissingAttr = attributes.getValue(ATTRIBUTE_whenResourceMissingType);
+		String resMissingAttr = attributes.getValue(JRXmlConstants.ATTRIBUTE_whenResourceMissingType);
 		if (resMissingAttr != null && resMissingAttr.length() > 0)
 		{
 			Byte whenResourceMissingType = (Byte) JRXmlConstants.getWhenResourceMissingTypeMap().get(resMissingAttr);

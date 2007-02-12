@@ -37,19 +37,12 @@ import org.xml.sax.Attributes;
  */
 public class JRDatasetRunFactory extends JRBaseFactory
 {
-	public static final String ELEMENT_datasetRun = "datasetRun";
-	
-	public static final String ELEMENT_parametersMapExpression = "parametersMapExpression";
-	public static final String ELEMENT_connectionExpression = "connectionExpression";
-	public static final String ELEMENT_dataSourceExpression = "dataSourceExpression";
-	
-	public static final String ATTRIBUTE_subDataset = "subDataset";
 	
 	public Object createObject(Attributes atts)
 	{
 		JRDesignDatasetRun datasetRun = new JRDesignDatasetRun();
 		
-		datasetRun.setDatasetName(atts.getValue(ATTRIBUTE_subDataset));
+		datasetRun.setDatasetName(atts.getValue(JRXmlConstants.ATTRIBUTE_subDataset));
 		
 		return datasetRun;
 	}

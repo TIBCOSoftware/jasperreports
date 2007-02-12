@@ -39,13 +39,6 @@ import org.xml.sax.Attributes;
  */
 public class JRPrintLineFactory extends JRBaseFactory
 {
-	
-
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_direction = "direction";
-
 
 	/**
 	 *
@@ -56,7 +49,7 @@ public class JRPrintLineFactory extends JRBaseFactory
 
 		JRBasePrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
 
-		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(ATTRIBUTE_direction));
+		Byte direction = (Byte)JRXmlConstants.getDirectionMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_direction));
 		if (direction != null)
 		{
 			line.setDirection(direction.byteValue());

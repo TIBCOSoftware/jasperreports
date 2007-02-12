@@ -44,22 +44,6 @@ import org.xml.sax.Attributes;
 public class JRTextFieldFactory extends JRBaseFactory
 {
 
-
-	/**
-	 *
-	 */
-	public static final String ELEMENT_textField = "textField";
-	
-	public static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
-	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
-	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
-	public static final String ATTRIBUTE_pattern = "pattern";
-	public static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
-	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
-	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
-	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
-
-
 	/**
 	 *
 	 */
@@ -71,13 +55,13 @@ public class JRTextFieldFactory extends JRBaseFactory
 
 		JRDesignTextField textField = new JRDesignTextField(jasperDesign);
 
-		String isStretchWithOverflow = atts.getValue(ATTRIBUTE_isStretchWithOverflow);
+		String isStretchWithOverflow = atts.getValue(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)
 		{
 			textField.setStretchWithOverflow(Boolean.valueOf(isStretchWithOverflow).booleanValue());
 		}
 
-		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(ATTRIBUTE_evaluationTime));
+		Byte evaluationTime = (Byte)JRXmlConstants.getEvaluationTimeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
 		if (evaluationTime != null)
 		{
 			textField.setEvaluationTime(evaluationTime.byteValue());
@@ -86,7 +70,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		{
 			groupEvaluatedTextFields.add(textField);
 			
-			String groupName = atts.getValue(ATTRIBUTE_evaluationGroup);
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
 			{
 				JRDesignGroup group = new JRDesignGroup();
@@ -95,27 +79,27 @@ public class JRTextFieldFactory extends JRBaseFactory
 			}
 		}
 		
-		textField.setPattern(atts.getValue(ATTRIBUTE_pattern));
+		textField.setPattern(atts.getValue(JRXmlConstants.ATTRIBUTE_pattern));
 
-		String isBlankWhenNull = atts.getValue(ATTRIBUTE_isBlankWhenNull);
+		String isBlankWhenNull = atts.getValue(JRXmlConstants.ATTRIBUTE_isBlankWhenNull);
 		if (isBlankWhenNull != null && isBlankWhenNull.length() > 0)
 		{
 			textField.setBlankWhenNull(Boolean.valueOf(isBlankWhenNull));
 		}
 
-		String hyperlinkType = atts.getValue(ATTRIBUTE_hyperlinkType);
+		String hyperlinkType = atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType);
 		if (hyperlinkType != null)
 		{
 			textField.setLinkType(hyperlinkType);
 		}
 
-		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(ATTRIBUTE_hyperlinkTarget));
+		Byte hyperlinkTarget = (Byte)JRXmlConstants.getHyperlinkTargetMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 		if (hyperlinkTarget != null)
 		{
 			textField.setHyperlinkTarget(hyperlinkTarget.byteValue());
 		}
 		
-		String bookmarkLevelAttr = atts.getValue(ATTRIBUTE_bookmarkLevel);
+		String bookmarkLevelAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_bookmarkLevel);
 		if (bookmarkLevelAttr != null)
 		{
 			textField.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));

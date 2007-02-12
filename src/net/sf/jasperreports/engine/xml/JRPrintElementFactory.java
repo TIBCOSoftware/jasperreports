@@ -44,22 +44,6 @@ import org.xml.sax.Attributes;
 public class JRPrintElementFactory extends JRBaseFactory
 {
 
-
-	public static final String ATTRIBUTE_key = "key";
-	
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_mode = "mode";
-	private static final String ATTRIBUTE_x = "x";
-	private static final String ATTRIBUTE_y = "y";
-	private static final String ATTRIBUTE_width = "width";
-	private static final String ATTRIBUTE_height = "height";
-	private static final String ATTRIBUTE_forecolor = "forecolor";
-	private static final String ATTRIBUTE_backcolor = "backcolor";
-	private static final String ATTRIBUTE_style = "style";
-
-
 	/**
 	 *
 	 */
@@ -69,43 +53,43 @@ public class JRPrintElementFactory extends JRBaseFactory
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 		JRBasePrintElement element = (JRBasePrintElement)digester.peek();
 
-		String key = atts.getValue(ATTRIBUTE_key);
+		String key = atts.getValue(JRXmlConstants.ATTRIBUTE_key);
 		if (key != null)
 		{
 			element.setKey(key);
 		}
 		
-		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(ATTRIBUTE_mode));
+		Byte mode = (Byte)JRXmlConstants.getModeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
 		{
 			element.setMode(mode);
 		}
 		
-		String x = atts.getValue(ATTRIBUTE_x);
+		String x = atts.getValue(JRXmlConstants.ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{
 			element.setX(Integer.parseInt(x));
 		}
 
-		String y = atts.getValue(ATTRIBUTE_y);
+		String y = atts.getValue(JRXmlConstants.ATTRIBUTE_y);
 		if (y != null && y.length() > 0)
 		{
 			element.setY(Integer.parseInt(y));
 		}
 
-		String width = atts.getValue(ATTRIBUTE_width);
+		String width = atts.getValue(JRXmlConstants.ATTRIBUTE_width);
 		if (width != null && width.length() > 0)
 		{
 			element.setWidth(Integer.parseInt(width));
 		}
 
-		String height = atts.getValue(ATTRIBUTE_height);
+		String height = atts.getValue(JRXmlConstants.ATTRIBUTE_height);
 		if (height != null && height.length() > 0)
 		{
 			element.setHeight(Integer.parseInt(height));
 		}
 
-		String forecolor = atts.getValue(ATTRIBUTE_forecolor);
+		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
 		if (forecolor != null)
 		{
 			if (forecolor.startsWith("#"))
@@ -118,7 +102,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 			}
 		}
 
-		String backcolor = atts.getValue(ATTRIBUTE_backcolor);
+		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
 		if (backcolor != null)
 		{
 			if (backcolor.startsWith("#"))
@@ -131,16 +115,16 @@ public class JRPrintElementFactory extends JRBaseFactory
 			}
 		}
 
-		if (atts.getValue(ATTRIBUTE_style) != null)
+		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
 		{
 			Map stylesMap = jasperPrint.getStylesMap();
 
-			if ( !stylesMap.containsKey(atts.getValue(ATTRIBUTE_style)) )
+			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
 			{
-				printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(ATTRIBUTE_style)));
+				printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
 			}
 
-			element.setStyle((JRStyle) stylesMap.get(atts.getValue(ATTRIBUTE_style)));
+			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
 		}
 
 		return element;

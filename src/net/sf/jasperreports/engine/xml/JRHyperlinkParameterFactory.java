@@ -42,14 +42,10 @@ import org.xml.sax.Attributes;
 public class JRHyperlinkParameterFactory extends JRBaseFactory
 {
 
-	public static final String ELEMENT_hyperlinkParameter = "hyperlinkParameter";
-	
-	public static final String ATTRIBUTE_name = "name";
-	
 	public Object createObject(Attributes atts)
 	{
 		JRDesignHyperlinkParameter parameter = new JRDesignHyperlinkParameter();
-		parameter.setName(atts.getValue(ATTRIBUTE_name));		
+		parameter.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));		
 		return parameter;
 	}	
 
