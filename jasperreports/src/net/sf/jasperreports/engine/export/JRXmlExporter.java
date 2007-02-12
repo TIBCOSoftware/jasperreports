@@ -345,14 +345,14 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.writeProlog(encoding);
 		xmlWriter.writePublicDoctype("jasperPrint", "-//JasperReports//DTD Report Design//EN", dtdLocation);
 
-		xmlWriter.startElement(JasperPrintFactory.ELEMENT_jasperPrint);
-		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_name, jasperPrint.getName());
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_pageWidth, jasperPrint.getPageWidth());
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_pageHeight, jasperPrint.getPageHeight());
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_orientation, jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
-		xmlWriter.addAttribute(JasperPrintFactory.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
-		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
-		xmlWriter.addEncodedAttribute(JasperPrintFactory.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_jasperPrint);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, jasperPrint.getName());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageWidth, jasperPrint.getPageWidth());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageHeight, jasperPrint.getPageHeight());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, jasperPrint.getOrientation(), JRXmlConstants.getOrientationMap(), JRReport.ORIENTATION_PORTRAIT);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -580,7 +580,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement("reportElement");
-		xmlWriter.addEncodedAttribute(JRPrintElementFactory.ATTRIBUTE_key, element.getKey());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)
 		{
@@ -660,7 +660,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addEncodedAttribute("hyperlinkReference", image.getHyperlinkReference());
 		xmlWriter.addEncodedAttribute("hyperlinkAnchor", image.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", image.getHyperlinkPage());
-		xmlWriter.addEncodedAttribute(JRPrintImageFactory.ATTRIBUTE_hyperlinkTooltip, image.getHyperlinkTooltip());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip, image.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", image.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
 
 		exportReportElement(image);
@@ -759,13 +759,13 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addEncodedAttribute("hyperlinkReference", text.getHyperlinkReference());
 		xmlWriter.addEncodedAttribute("hyperlinkAnchor", text.getHyperlinkAnchor());
 		xmlWriter.addAttribute("hyperlinkPage", text.getHyperlinkPage());
-		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_hyperlinkTooltip, text.getHyperlinkTooltip());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTooltip, text.getHyperlinkTooltip());
 		xmlWriter.addAttribute("bookmarkLevel", text.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
-		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_valueClass, text.getValueClassName());
-		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_pattern, text.getPattern());		
-		xmlWriter.addAttribute(JRPrintTextFactory.ATTRIBUTE_formatFactoryClass, text.getFormatFactoryClass());		
-		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_locale, text.getLocaleCode());		
-		xmlWriter.addEncodedAttribute(JRPrintTextFactory.ATTRIBUTE_timezone, text.getTimeZoneId());		
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_valueClass, text.getValueClassName());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, text.getPattern());		
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_formatFactoryClass, text.getFormatFactoryClass());		
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, text.getLocaleCode());		
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, text.getTimeZoneId());		
 		
 		exportReportElement(text);
 		exportBox(text);
@@ -906,14 +906,14 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportHyperlinkParameter(JRPrintHyperlinkParameter parameter) throws IOException
 	{
-		xmlWriter.startElement(JRPrintHyperlinkParameterFactory.ELEMENT_hyperlinkParameter);
-		xmlWriter.addEncodedAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_name, parameter.getName());
-		xmlWriter.addAttribute(JRPrintHyperlinkParameterFactory.ATTRIBUTE_class, parameter.getValueClass(), "java.lang.String");
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClass(), "java.lang.String");
 		
 		if (parameter.getValue() != null)
 		{
 			String data = JRValueStringUtils.serialize(parameter.getValueClass(), parameter.getValue());
-			xmlWriter.writeCDATAElement(JRPrintHyperlinkParameterValueFactory.ELEMENT_hyperlinkParameterValue, data);
+			xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_hyperlinkParameterValue, data);
 		}
 		
 		xmlWriter.closeElement();
