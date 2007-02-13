@@ -960,7 +960,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				leftToRightBuffer.append((char)ch);
 				// if ch is a backslash, it should be duplicated
-				if(ch == 92)
+				if(ch == '\\')
 				{
 					leftToRightBuffer.append((char)ch);
 				}
