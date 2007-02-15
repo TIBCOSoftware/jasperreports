@@ -80,13 +80,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.xml.JRPrintElementFactory;
-import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterFactory;
-import net.sf.jasperreports.engine.xml.JRPrintHyperlinkParameterValueFactory;
-import net.sf.jasperreports.engine.xml.JRPrintImageFactory;
-import net.sf.jasperreports.engine.xml.JRPrintTextFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
-import net.sf.jasperreports.engine.xml.JasperPrintFactory;
 
 import org.w3c.tools.codec.Base64Encoder;
 
@@ -102,6 +96,14 @@ import org.w3c.tools.codec.Base64Encoder;
  */
 public class JRXmlExporter extends JRAbstractExporter
 {
+
+	/**
+	 *
+	 */
+	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
+	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
+	protected static final String HTML_FILES_SUFFIX = "_files";
+	protected static final String IMAGE_PREFIX = "img_";
 
 	/**
 	 *
@@ -158,13 +160,13 @@ public class JRXmlExporter extends JRAbstractExporter
 			dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
 			if (dtdLocation == null)
 			{
-				dtdLocation = JRXmlConstants.SOURCEFORGE_JASPERPRINT_DTD;
+				dtdLocation = JRXmlConstants.JASPERPRINT_SYSTEM_ID;
 			}
 			
 			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
 			if (encoding == null)
 			{
-				encoding = JRXmlConstants.DEFAULT_XML_ENCODING;
+				encoding = DEFAULT_XML_ENCODING;
 			}
 			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
@@ -217,7 +219,7 @@ public class JRXmlExporter extends JRAbstractExporter
 							}
 						}
 						
-						imagesDir = new File(destFile.getParent(), destFile.getName() + JRXmlConstants.HTML_FILES_SUFFIX);
+						imagesDir = new File(destFile.getParent(), destFile.getName() + HTML_FILES_SUFFIX);
 						
 						Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
 						if (isEmbeddingImagesParameter == null)
@@ -343,7 +345,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter = new JRXmlWriteHelper(writer);
 		
 		xmlWriter.writeProlog(encoding);
-		xmlWriter.writePublicDoctype(JRXmlConstants.ELEMENT_jasperPrint, JRXmlConstants.DOCUMENT_docType, dtdLocation);
+		xmlWriter.writePublicDoctype(JRXmlConstants.ELEMENT_jasperPrint, JRXmlConstants.JASPERPRINT_PUBLIC_ID, dtdLocation);
 
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_jasperPrint);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, jasperPrint.getName());
@@ -696,7 +698,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					Base64Encoder encoder = new Base64Encoder(bais, baos);
 					encoder.process();
 					
-					imageSource = new String(baos.toByteArray(), JRXmlConstants.DEFAULT_XML_ENCODING);
+					imageSource = new String(baos.toByteArray(), DEFAULT_XML_ENCODING);
 				}
 				catch (IOException e)
 				{
@@ -717,7 +719,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					}
 					else
 					{
-						imageSource = JRXmlConstants.IMAGE_PREFIX + getNextImageId();
+						imageSource = IMAGE_PREFIX + getNextImageId();
 						imageNameToImageDataMap.put(imageSource, renderer.getImageData());
 						
 						imageSource = new File(imagesDir, imageSource).getPath();
@@ -908,7 +910,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClass(), JRXmlConstants.DEFAULT_OBJECT_TYPE);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClass(), DEFAULT_OBJECT_TYPE);
 		
 		if (parameter.getValue() != null)
 		{

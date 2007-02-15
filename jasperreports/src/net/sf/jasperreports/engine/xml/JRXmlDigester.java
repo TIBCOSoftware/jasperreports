@@ -86,19 +86,13 @@ public class JRXmlDigester extends Digester
 		{
 			String dtd = null;
 			
-			if (
-				systemId.equals(JRXmlConstants.SOURCEFORGE_JASPERREPORT_DTD) ||
-				systemId.equals(JRXmlConstants.JASPERREPORT_DTD)
-				)
+			if (JRXmlConstants.JASPERREPORT_SYSTEM_ID.equals(systemId))
 			{
-				dtd = JRXmlConstants.LOCAL_JASPERREPORT_DTD;
+				dtd = JRXmlConstants.JASPERREPORT_DTD;
 			}
-			else if (
-				systemId.equals(JRXmlConstants.SOURCEFORGE_JASPERPRINT_DTD) ||
-				systemId.equals(JRXmlConstants.JASPERPRINT_DTD)
-				)
+			else if (JRXmlConstants.JASPERPRINT_SYSTEM_ID.equals(systemId))
 			{
-				dtd = JRXmlConstants.LOCAL_JASPERPRINT_DTD;
+				dtd = JRXmlConstants.JASPERPRINT_DTD;
 			}
 			else
 			{

@@ -74,11 +74,7 @@ import org.jfree.data.time.Year;
 public class JRXmlConstants
 {
 
-	public static final String DEFAULT_XML_ENCODING = "UTF-8";
-	public static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
-	public static final String HTML_FILES_SUFFIX = "_files";
-	public static final String IMAGE_PREFIX = "img_";
-	
+
 	/**
 	 *
 	 */
@@ -1169,13 +1165,21 @@ public class JRXmlConstants
 		
 		return color;
 	}
-	
+
+
+	/**
+	 *
+	 */
+	public static final String JASPERREPORT_PUBLIC_ID = "-//JasperReports//DTD JasperReport//EN";
+	public static final String JASPERREPORT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
+	public static final String JASPERREPORT_DTD = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
+	public static final String JASPERPRINT_PUBLIC_ID = "-//JasperReports//DTD JasperPrint//EN";
+	public static final String JASPERPRINT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
+	public static final String JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
+
 	/**
 	 *	JasperDesignFactory associated constants
 	 */
-	public static final String DOCUMENT_docType = "-//JasperReports//DTD Report Design//EN";
-	public static final String DOCUMENT_uri = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
-	
 	public static final String ELEMENT_jasperReport = "jasperReport";
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_language = "language";
@@ -1291,7 +1295,6 @@ public class JRXmlConstants
 	public static final String ELEMENT_multiAxisChart = "multiAxisChart";
 	public static final String ELEMENT_stackedAreaChart = "stackedAreaChart";
 	
-
 	public static final String ATTRIBUTE_isShowLegend = "isShowLegend";
 	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
 	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
@@ -1476,11 +1479,6 @@ public class JRXmlConstants
 
 	public static final String ATTRIBUTE_timePeriod = "timePeriod";
 
-
-
-
-
-
 	/**
 	 * JRElementFactory associated constants
 	 */
@@ -1558,7 +1556,6 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
 	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
-
 
 	/**
 	 * JRHyperlinkFactory associated constants
@@ -1655,16 +1652,6 @@ public class JRXmlConstants
 	public static final String ELEMENT_rectangle = "rectangle";
 	
 	/**
-	 * JRXmlDigester associated constants
-	 */
-	public static final String SOURCEFORGE_JASPERREPORT_DTD = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
-	public static final String JASPERREPORT_DTD = "http://www.jasperreports.com/dtds/jasperreport.dtd";
-	public static final String LOCAL_JASPERREPORT_DTD = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
-	public static final String SOURCEFORGE_JASPERPRINT_DTD = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
-	public static final String JASPERPRINT_DTD = "http://www.jasperreports.com/dtds/jasperprint.dtd";
-	public static final String LOCAL_JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
-
-	/**
 	 * JRSortFieldFactory associated constants
 	 */
 	public static final String ELEMENT_sortField = "sortField";
@@ -1733,9 +1720,9 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_calculation = "calculation";
 	public static final String ATTRIBUTE_incrementerFactoryClass = "incrementerFactoryClass";
 
-
 	/**
 	 * JRReportFontFactory  associated constants
 	 */
 	public static final String ELEMENT_reportFont = "reportFont";
+
 }
