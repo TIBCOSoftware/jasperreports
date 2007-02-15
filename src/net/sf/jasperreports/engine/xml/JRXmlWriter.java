@@ -142,7 +142,6 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.xml.JRChartPlotFactory.JRSeriesColorFactory;
 
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -270,7 +269,7 @@ public class JRXmlWriter
 		writer = new JRXmlWriteHelper(out);
 		
 		writer.writeProlog(encoding);
-		writer.writePublicDoctype(JRXmlConstants.ELEMENT_jasperReport, JRXmlConstants.DOCUMENT_docType, JRXmlConstants.DOCUMENT_uri);
+		writer.writePublicDoctype(JRXmlConstants.ELEMENT_jasperReport, JRXmlConstants.JASPERREPORT_PUBLIC_ID, JRXmlConstants.JASPERREPORT_SYSTEM_ID);
 
 		writer.startElement(JRXmlConstants.ELEMENT_jasperReport);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, report.getName());
