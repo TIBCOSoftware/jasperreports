@@ -898,18 +898,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			int e = 0;
 			String str = plainText.substring(iterator.getIndex(), runLimit);
 			
-			String pattern = "\n";
-			String replace = "\\line ";
-			StringBuffer result = new StringBuffer();
-
-			while ((e = str.indexOf(pattern, s)) >= 0)
-			{
-				result.append(str.substring(s, e));
-				result.append(replace);
-				s = e + pattern.length();
-			}
-			result.append(str.substring(s));
-			
+			StringBuffer result = new StringBuffer(str);
 			writer.write(handleUnicodeText(result, text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL));
 			
 			// reset all styles in the paragraph
@@ -958,9 +947,15 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			else 
 			{
-				leftToRightBuffer.append((char)ch);
-				// if ch is a backslash, it should be duplicated
-				if(ch == '\\')
+				if(ch == '\n')
+				{
+					leftToRightBuffer.append("\\line");
+				}
+				else if(ch == '\\')
+				{
+					leftToRightBuffer.append((char)ch).append((char)ch);
+				}
+				else
 				{
 					leftToRightBuffer.append((char)ch);
 				}
