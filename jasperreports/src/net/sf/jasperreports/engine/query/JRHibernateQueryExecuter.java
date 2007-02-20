@@ -94,6 +94,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	private Query query;
 	private boolean queryRunning;
 	private ScrollableResults scrollableResults;
+	private boolean isClearCache;
 
 	
 	public JRHibernateQueryExecuter(JRDataset dataset, Map parameters)
@@ -102,6 +103,9 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		session = (Session) getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION);
 		reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
+		isClearCache = JRProperties.getBooleanProperty(dataset.getPropertiesMap(), 
+				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_CLEAR_CACHE,
+				false);
 
 		if (session == null)
 		{
@@ -424,6 +428,9 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		query.setFirstResult(firstIndex);
 		query.setMaxResults(resultCount);
+		if (isClearCache)
+			clearCache();
+		
 		return query.list();
 	}
 	
@@ -469,5 +476,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		return scrollableResults;
+	}
+	
+	public void clearCache()
+	{
+		session.flush();
+		session.clear();
 	}
 }
