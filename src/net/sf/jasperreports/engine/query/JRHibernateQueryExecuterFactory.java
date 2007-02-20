@@ -91,6 +91,15 @@ public class JRHibernateQueryExecuterFactory implements JRQueryExecuterFactory
 	public static final String PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE = JRProperties.PROPERTY_PREFIX + "hql.query.list.page.size";
 	
 	/**
+	 * Property specifying whether hibernate session cache should be cleared between two consecutive fetches when using pagination.
+	 * <p/>
+	 * By default, the cache cleanup is not performed.
+	 * <p/>
+	 * @see net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
+	 */
+	public static final String PROPERTY_HIBERNATE_CLEAR_CACHE = JRProperties.PROPERTY_PREFIX + "hql.clear.cache";
+	
+	/**
 	 * Property specifying whether field descriptions should be used to determine the mapping between the fields
 	 * and the query return values.
 	 */
