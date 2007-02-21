@@ -55,7 +55,6 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -78,6 +77,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
@@ -1489,7 +1489,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		java.util.List pages = jasperPrint.getPages();
 		JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-		Collection elements = page.getElements();
+		createHyperlinks(page.getElements(), 0, 0);
+	}
+
+	protected void createHyperlinks(List elements, int offsetX, int offsetY)
+	{
 		if(elements != null && elements.size() > 0)
 		{
 			for(Iterator it = elements.iterator(); it.hasNext();)
@@ -1534,8 +1538,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 					
 					link.setLocation(
-						(int)(element.getX() * realZoom), 
-						(int)(element.getY() * realZoom)
+						(int)((element.getX() + offsetX) * realZoom), 
+						(int)((element.getY() + offsetY) * realZoom)
 						);
 					link.setSize(
 						(int)(element.getWidth() * realZoom),
@@ -1556,6 +1560,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					
 					pnlLinks.add(link);
 					linksMap.put(link, element);
+				}
+				
+				if (element instanceof JRPrintFrame)
+				{
+					JRPrintFrame frame = (JRPrintFrame) element;
+					int frameOffsetX = offsetX + frame.getX() + frame.getLeftPadding();
+					int frameOffsetY = offsetY + frame.getY() + frame.getTopPadding();
+					createHyperlinks(frame.getElements(), frameOffsetX, frameOffsetY);
 				}
 			}
 		}
