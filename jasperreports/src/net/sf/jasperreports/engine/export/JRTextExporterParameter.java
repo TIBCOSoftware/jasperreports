@@ -83,7 +83,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 	/**
 	 * A string representing the separator between two lines of text. This parameter is useful since line separators can
-	 * vary from one operating system to another. The default value is "\n".
+	 * vary from one operating system to another. The default value is the system "line.separator" property.
 	 */
 	public static final JRTextExporterParameter LINE_SEPARATOR = new JRTextExporterParameter("Line Separator");
 
