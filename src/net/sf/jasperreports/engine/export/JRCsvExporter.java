@@ -267,7 +267,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(), null, 
+		JRGridLayout layout = new JRGridLayout(page.getElements(), 
 				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(), globalOffsetX, globalOffsetY,
 				JRGridLayout.TEXT_EXPORTER,
 				true, false, false, null);

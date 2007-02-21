@@ -25,6 +25,12 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Greg Hilton 
+ */
+
 package net.sf.jasperreports.engine.export;
 
 import java.io.File;
@@ -32,9 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +57,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -80,11 +83,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			this.rotation = rotation;
 		}
 	}
-	
-	/**
-	 * 
-	 */
-	protected int pageHeight = 0;
 
 	/**
 	 * 
@@ -288,8 +286,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 				if (isOnePagePerSheet)
 				{
-					pageHeight = jasperPrint.getPageHeight();
-					
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.currentThread().isInterrupted())
@@ -312,39 +308,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						sheetIndex++;
 						
 						/*   */
-						exportPage(null, page);
+						exportPage(page, /*xCuts*/null, /*startRow*/0);
 					}
 				}
 				else
 				{
-					pageHeight = jasperPrint.getPageHeight() * (endPageIndex - startPageIndex + 1);
-
-					List alterYs = new ArrayList();
-					JRPrintPage allPages = new JRBasePrintPage();
-					Collection elements = null;
-					JRPrintElement element = null;
-					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-					{
-						if (Thread.currentThread().isInterrupted())
-						{
-							throw new JRException("Current thread interrupted.");
-						}
-			
-						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-
-						elements = page.getElements();
-						if (elements != null && elements.size() > 0)
-						{
-							for(Iterator it = elements.iterator(); it.hasNext();)
-							{
-								element = (JRPrintElement)it.next();
-								allPages.addElement(element);
-							
-								alterYs.add(new Integer(element.getY() + jasperPrint.getPageHeight() * pageIndex));
-							}
-						}
-					}
-					
+					// Create the sheet before looping.
 					if (sheetNames != null && sheetIndex < sheetNames.length)
 					{
 						createSheet(getSheetName(sheetNames[sheetIndex]));
@@ -356,9 +325,26 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
+					
+					/*
+					 * Make a pass and calculate the X cuts for all pages on this sheet.
+					 * The Y cuts can be calculated as each page is exported.
+					 */
+					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getExporterElements());
+					setColumnWidths(xCuts);
 
-					/*   */
-					exportPage(alterYs, allPages);
+					int startRow = 0;
+					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					{
+						if (Thread.currentThread().isInterrupted())
+						{
+							throw new JRException("Current thread interrupted.");
+						}
+			
+						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+						int rowsAdded = exportPage(page, xCuts, startRow);
+						startRow += rowsAdded;
+					}
 				}
 			}
 		}
@@ -368,30 +354,28 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	/**
 	 *
+	 * @return the number of rows added.
 	 */
-	protected void exportPage(List alterYs, JRPrintPage page) throws JRException
+	protected int exportPage(JRPrintPage page, List xCuts, int startRow) throws JRException
 	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(), alterYs,
-				jasperPrint.getPageWidth(), pageHeight,
-				globalOffsetX, globalOffsetY, getExporterElements(), true, true, false, null);
+		JRGridLayout layout = new JRGridLayout(page.getElements(),
+				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
+				globalOffsetX, globalOffsetY, getExporterElements(), true, true, false, null,
+				xCuts);
 
 		JRExporterGridCell grid[][] = layout.getGrid();
-		boolean isRowNotEmpty[] = layout.getIsRowNotEmpty();
-		List xCuts = layout.getXCuts();
-
-		int width = 0;
-		for(int i = 1; i < xCuts.size(); i++)
-		{
-			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
-			setColumnWidth((short)(i - 1), (short)(width * 43));
+		
+		if (xCuts == null) {
+			xCuts = layout.getXCuts(); 
+			setColumnWidths(xCuts);
 		}
 
 		skippedRows = 0;
 		for(int y = 0; y < grid.length; y++)
 		{
-			int rowIndex = y - skippedRows;
+			int rowIndex = y - skippedRows + startRow;
 			
-			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
+			if (layout.isRowNotEmpty(y) || !isRemoveEmptySpace)
 			{
 				JRExporterGridCell[] gridRow = grid[y];
 				
@@ -481,6 +465,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
+		}
+		
+		// Return the number of rows added
+		return grid.length - skippedRows;
+	}
+
+
+	protected void setColumnWidths(List xCuts)
+	{
+		int width = 0;
+		for(int i = 1; i < xCuts.size(); i++)
+		{
+			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
+			setColumnWidth((short)(i - 1), (short)(width * 43));
 		}
 	}
 
