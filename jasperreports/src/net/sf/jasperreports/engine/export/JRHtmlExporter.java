@@ -1726,7 +1726,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRGridLayout getPageGridLayout(JRPrintPage page)
 	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(), null,
+		JRGridLayout layout = new JRGridLayout(page.getElements(),
 											   jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
 											   globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, null);
 		return layout;
@@ -1902,7 +1902,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		try
 		{
-			JRGridLayout layout = new JRGridLayout(frame.getElements(), null, frame.getWidth(), frame.getHeight(), 0, 0, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
+			JRGridLayout layout = new JRGridLayout(frame.getElements(), frame.getWidth(), frame.getHeight(), 0, 0, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
 			exportGrid(layout, false);
 		}
 		finally

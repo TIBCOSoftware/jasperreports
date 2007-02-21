@@ -25,6 +25,12 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+
+/*
+ * Contributors:
+ * Greg Hilton 
+ */
+
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
@@ -40,6 +46,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 
@@ -82,7 +89,6 @@ public class JRGridLayout
 		};
 	
 	private final List elements;
-	private final List alterYs;
 	private final int width;
 	private final int height;
 	private final int offsetX;
@@ -105,7 +111,6 @@ public class JRGridLayout
 	 * Constructor.
 	 * 
 	 * @param elements the elements that should arranged in a grid
-	 * @param alterYs list of modified Y element coordinates
 	 * @param width the width available for the grid
 	 * @param height the height available for the grid
 	 * @param offsetX horizontal element position offset
@@ -117,14 +122,44 @@ public class JRGridLayout
 	 * @param setElementIndexes whether to set element indexes
 	 * @param initialIndex initial element index
 	 */
-	public JRGridLayout(List elements, List alterYs, 
+	public JRGridLayout(List elements, 
 			int width, int height, int offsetX, int offsetY, 
 			ExporterElements elementsExporter, 
 			boolean deep, boolean spanCells,
 			boolean setElementIndexes, Integer[] initialIndex)
 	{
+		this(elements,
+				width, height, offsetX, offsetY,
+				elementsExporter,
+				deep, spanCells,
+				setElementIndexes, initialIndex,
+				null);
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param elements the elements that should arranged in a grid
+	 * @param width the width available for the grid
+	 * @param height the height available for the grid
+	 * @param offsetX horizontal element position offset
+	 * @param offsetY vertical element position offset
+	 * @param elementsExporter implementation of {@link ExporterElements ExporterElements} used to decide which
+	 * elements to skip during grid creation
+	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
+	 * @param spanCells whether the exporter handles cells span
+	 * @param setElementIndexes whether to set element indexes
+	 * @param initialIndex initial element index
+	 * @param xCuts An optional list of pre-calculated X cuts.
+	 */
+	public JRGridLayout(List elements, 
+			int width, int height, int offsetX, int offsetY, 
+			ExporterElements elementsExporter, 
+			boolean deep, boolean spanCells,
+			boolean setElementIndexes, Integer[] initialIndex,
+			List xCuts)
+	{
 		this.elements = elements;
-		this.alterYs = alterYs;
 		this.height = height;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -134,6 +169,7 @@ public class JRGridLayout
 		this.spanCells = spanCells;
 		this.setElementIndexes = setElementIndexes;
 		this.initialIndex = initialIndex;
+		this.xCuts = xCuts;
 		
 		boxesCache = new HashMap();
 
@@ -146,13 +182,17 @@ public class JRGridLayout
 	 */
 	protected void layoutGrid()
 	{
-		xCuts = new SortedList();
-		yCuts = new SortedList();
+		boolean createXCuts = (xCuts == null);
+		if (createXCuts)
+		{
+			xCuts = new SortedList();
+			xCuts.add(new Integer(0));
+		}
 		
-		xCuts.add(new Integer(0));
+		yCuts = new SortedList();
 		yCuts.add(new Integer(0));
 
-		createCuts(elements, alterYs, offsetX, offsetY);
+		createCuts(elements, offsetX, offsetY, createXCuts);
 		
 		xCuts.add(new Integer(width));
 		yCuts.add(new Integer(height));
@@ -184,26 +224,26 @@ public class JRGridLayout
 			}
 		}
 
-		setGridElements(elements, alterYs, offsetX, offsetY, initialIndex);
+		setGridElements(elements, offsetX, offsetY, initialIndex);
 	}
 
 
-	protected void createCuts(List elementsList, List alterYList, int elementOffsetX, int elementOffsetY)
+	protected void createCuts(List elementsList, int elementOffsetX, int elementOffsetY, boolean createXCuts)
 	{
-		Iterator alterYIt = alterYList == null ? null : alterYList.iterator();
 		for(Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement)it.next());
-			Integer alterY = alterYIt == null ? null : (Integer) alterYIt.next();
 			
 			int x0 = element.getX() + elementOffsetX;
-			int elementY = alterY == null ? element.getY() : alterY.intValue();
-			int y0 = elementY + elementOffsetY;
+			int y0 = element.getY() + elementOffsetY;
 			
 			if (elementsExporter.isToExport(element))
 			{
-				xCuts.add(new Integer(x0));
-				xCuts.add(new Integer((x0 + element.getWidth())));
+				if (createXCuts)
+				{
+					xCuts.add(new Integer(x0));
+					xCuts.add(new Integer((x0 + element.getWidth())));
+				}
 				
 				yCuts.add(new Integer(y0));
 				yCuts.add(new Integer((y0 + element.getHeight())));	
@@ -211,22 +251,22 @@ public class JRGridLayout
 			
 			if (deep && element instanceof JRPrintFrame)
 			{
-				createFrameCuts((JRPrintFrame) element, x0, y0);
+				createFrameCuts((JRPrintFrame) element, x0, y0, createXCuts);
 			}
 		}
 	}
 
 
-	protected void createFrameCuts(JRPrintFrame frame, int x0, int y0)
+	protected void createFrameCuts(JRPrintFrame frame, int x0, int y0, boolean createXCuts)
 	{
 		int topPadding = frame.getTopPadding();
 		int leftPadding = frame.getLeftPadding();
 
-		createCuts(frame.getElements(), null, x0 + leftPadding, y0 + topPadding);
+		createCuts(frame.getElements(), x0 + leftPadding, y0 + topPadding, createXCuts);
 	}
 
 
-	protected void setGridElements(List elementsList, List alterYList, int elementOffsetX, int elementOffsetY, Integer[] parentIndexes)
+	protected void setGridElements(List elementsList, int elementOffsetX, int elementOffsetY, Integer[] parentIndexes)
 	{
 		for(int i = elementsList.size() - 1; i >= 0; i--)
 		{
@@ -237,9 +277,8 @@ public class JRGridLayout
 			
 			if (toExport || frame != null)
 			{
-				int elementY = alterYList == null ? element.getY() : ((Integer) alterYList.get(i)).intValue();
 				int x0 = element.getX() + elementOffsetX;
-				int y0 = elementY + elementOffsetY;
+				int y0 = element.getY() + elementOffsetY;
 				
 				if (frame != null)
 				{
@@ -366,7 +405,7 @@ public class JRGridLayout
 		int topPadding = frame.getTopPadding();
 		int leftPadding = frame.getLeftPadding();
 
-		setGridElements(frame.getElements(), null, x0 + leftPadding, y0 + topPadding, getElementIndex(elementIndex, parentIndexes));
+		setGridElements(frame.getElements(), x0 + leftPadding, y0 + topPadding, getElementIndex(elementIndex, parentIndexes));
 	}
 
 
@@ -436,6 +475,17 @@ public class JRGridLayout
 		return isRowNotEmpty;
 	}
 
+	
+	/**
+	 * Decides whether a row is empty or not.
+	 * 
+	 * @param rowIdx the row index
+	 * @return <code>true</code> iff the row is not empty
+	 */
+	public boolean isRowNotEmpty(int rowIdx)
+	{
+		return isRowNotEmpty[rowIdx];
+	}
 
 	/**
 	 * Returns an array containing for each grid column a flag set to true if the column is not empty.
@@ -526,10 +576,74 @@ public class JRGridLayout
 		
 		return rowHeight;
 	}
+	
+	
+    /**
+	 * This static method calculates all the X cuts for a list of pages.
+	 * 
+	 * @param pages
+	 *            The list of pages.
+	 * @param startPageIndex
+	 *            The first page to consider.
+	 * @param endPageIndex
+	 *            The last page to consider.
+	 * @param offsetX
+	 *            horizontal element position offset
+	 * @param elementsExporter
+	 *            implementation of {@link ExporterElements ExporterElements}
+	 *            used to decide which elements to skip during grid creation
+	 */
+	public static List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX, ExporterElements elementsExporter)
+	{
+		List xCuts = new SortedList();
+		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+		{
+			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
+			addXCuts(page.getElements(), offsetX, elementsExporter, xCuts);
+		}
 
+		return xCuts;
+	}
+
+	/**
+	 * This static method calculates the X cuts for a list of print elements and
+	 * stores them in the list indicated by the xCuts parameter.
+	 * 
+	 * @param elementsList
+	 *            The list of elements to be used to determine the X cuts.
+	 * @param elementOffsetX
+	 *            horizontal element position offset
+	 * @param elementsExporter
+	 *            implementation of {@link ExporterElements ExporterElements}
+	 *            used to decide which elements to skip during grid creation
+	 * @param xCuts
+	 *            The list to which the X cuts are to be added.
+	 */
+	protected static void addXCuts(List elementsList, int elementOffsetX, ExporterElements elementsExporter, List xCuts)
+	{
+		for (Iterator it = elementsList.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = ((JRPrintElement) it.next());
+			int x0 = element.getX() + elementOffsetX;
+
+			if (elementsExporter.isToExport(element))
+			{
+				xCuts.add(new Integer(x0));
+				xCuts.add(new Integer(x0 + element.getWidth()));
+			}
+
+			if (element instanceof JRPrintFrame)
+			{
+				JRPrintFrame frame = (JRPrintFrame) element;
+				addXCuts(frame.getElements(), x0 + frame.getLeftPadding(), elementsExporter, xCuts);
+			}
+		}
+	}
 	
 	protected static class SortedList extends ArrayList
 	{
+		private static final long serialVersionUID = 6232843428269907513L;
+		
 		public boolean add(Object o)
 		{
 			int idx = Collections.binarySearch(this, o);
