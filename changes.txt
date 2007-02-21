@@ -2,12 +2,12 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 1.3.1 (2007-0x-xx)
+JasperReports 1.3.1 (2007-02-21)
 -----------------------------------
 
 - stacked area chart support added;
 
-- style properties inheritence for charts;
+- style properties inheritance for charts;
 
 - XMLA query executer mapped by default to the "mdx" and "MDX" query languages,
 just like the MDX query executer; the latter takes precedence;
