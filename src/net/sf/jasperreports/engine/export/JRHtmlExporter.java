@@ -1271,16 +1271,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
 	{
-		JRHyperlinkProducer customHandler = hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
-		if (hyperlinkProducerFactory == null)
-		{
-			customHandler = null;
-		}
-		else
-		{
-			customHandler = hyperlinkProducerFactory.getHandler(link.getLinkType());
-		}
-		return customHandler;
+		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 
