@@ -62,12 +62,14 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -93,6 +95,10 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRRtfExporter extends JRAbstractExporter
 {
+	/**
+	 *
+	 */
+	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 	protected JRExportProgressMonitor progressMonitor = null;
 	
 	protected Writer writer = null;
@@ -114,6 +120,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	private boolean isUnicode = false;
 	
 	private Map fontMap = null;
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	
 	
 	/**
@@ -143,7 +150,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			colorBuffer = new StringBuffer(";");
 			
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
-			
+			setHyperlinkProducerFactory();
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null) {
 				StringBuffer buffer = exportReportToBuffer();
@@ -199,6 +206,10 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 	}
 	
+	protected void setHyperlinkProducerFactory()
+	{
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+	}
 	
 	/**
 	 * Export report in .rtf format
@@ -273,7 +284,8 @@ public class JRRtfExporter extends JRAbstractExporter
 					}
 					
 					page = (JRPrintPage)pages.get(pageIndex);
-					
+					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
+
 					boolean lastPageFlag = false;
 					if(pageIndex == endPageIndex && reportIndex == (jasperPrintList.size() - 1)){
 						lastPageFlag = true;
@@ -468,7 +480,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	{
 		exportElements(page.getElements());
 		
-		if(lastPage == false){
+		if(!lastPage){
 			if(isUnicode){
 				writer.write("{\\pard\\pagebb\\par}\n" );
 			}
@@ -784,7 +796,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		
 		JRFont font = text;
-
 		writer.write("\\f");
 		writer.write(String.valueOf(getFontIndex(font)));
 		writer.write("\\cf");
@@ -838,7 +849,14 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\sl");
 		writer.write(String.valueOf(twip(text.getLineSpacingFactor() * font.getFontSize())));
 		writer.write(" ");
-
+		
+		if (text.getAnchorName() != null)
+		{
+			writeAnchor(text.getAnchorName());
+		}
+		
+		boolean startedHyperlink = startHyperlink(text);
+		
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
 		int runLimit = 0;
@@ -905,6 +923,10 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\plain");
 
 			iterator.setIndex(runLimit);
+		}
+		if (startedHyperlink)
+		{
+			endHyperlink();
 		}
 		
 		if(isUnicode) {
@@ -1128,7 +1150,14 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(twip(printImage.getY() + topPadding + globalOffsetY + getOffsetY())));
 			writer.write("\\dpysize");
 			writer.write(String.valueOf(twip(availableImageHeight)));
-			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pict\\jpegblip\\picwgoal");
+			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext ");
+			if(printImage.getAnchorName() != null)
+			{
+				writeAnchor(printImage.getAnchorName());
+			}
+			boolean startedHyperlink = startHyperlink(printImage);
+			
+			writer.write("{\\pict\\jpegblip\\picwgoal");
 			writer.write(String.valueOf(twip(availableImageWidth)));
 			writer.write("\\pichgoal");
 			writer.write(String.valueOf(twip(availableImageHeight)));
@@ -1154,7 +1183,10 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 
-			writer.write("\n}}}\n");
+			writer.write("\n}");
+			if(startedHyperlink)
+				endHyperlink();
+			writer.write("}}\n");
 		}
 
 		if (
@@ -1287,4 +1319,113 @@ public class JRRtfExporter extends JRAbstractExporter
 			finishGraphic(pen, bc, bg, 1);
 		}
 	}
+	
+	
+	
+	
+	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
+	{
+		String href = getHyperlinkURL(link);
+		boolean isHref = (href != null);
+		
+		if (isHref)
+		{
+			writer.write("{\\field {\\*\\fldinst HYPERLINK ");
+			writer.write(href);
+			writer.write("}{\\fldrslt ");
+		}
+		
+		return isHref;
+	}
+
+	protected String getHyperlinkURL(JRPrintHyperlink link)
+	{
+		String href = null;
+		JRHyperlinkProducer customHandler = getCustomHandler(link);		
+		if (customHandler == null)
+		{
+			switch(link.getHyperlinkType())
+			{
+				case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+				{
+					if (link.getHyperlinkReference() != null)
+					{
+						href = link.getHyperlinkReference();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+				{
+					if (link.getHyperlinkAnchor() != null)
+					{
+						href = "\\\\l "+link.getHyperlinkAnchor();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+				{
+					if (link.getHyperlinkPage() != null)
+					{
+						href = "\\\\l "+JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkAnchor() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+					}
+					break;
+				}
+				case JRHyperlink.HYPERLINK_TYPE_NONE :
+				default :
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			href = customHandler.getHyperlink(link);
+		}
+		
+		return href;
+	}
+
+
+	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
+	{
+		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
+	}
+
+
+	protected void endHyperlink() throws IOException
+	{
+		writer.write("}} ");
+	}
+
+	protected void writeAnchor(String anchorName) throws IOException
+	{
+		writer.write("{\\*\\bkmkstart ");
+		writer.write(anchorName);
+		writer.write("}{\\*\\bkmkend ");
+		writer.write(anchorName);
+		writer.write("}");
+	}
+	
 }
