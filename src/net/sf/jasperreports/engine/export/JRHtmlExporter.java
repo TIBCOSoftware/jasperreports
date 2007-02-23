@@ -149,7 +149,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isWhitePageBackground = true;
 	protected String encoding = null;
 	protected String sizeUnit = null;
-
+	protected boolean isUsingImagesToAlign = true;
 	/**
 	 *
 	 */
@@ -276,12 +276,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 	
 			Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
-			if (isUsingImagesToAlignParameter == null)
+			
+			if (isUsingImagesToAlignParameter != null)
 			{
-				isUsingImagesToAlignParameter = Boolean.TRUE;
+				isUsingImagesToAlign = isUsingImagesToAlignParameter.booleanValue();
 			}
 	
-			if (isUsingImagesToAlignParameter.booleanValue())
+			if (isUsingImagesToAlign)
 			{
 				emptyCellStringProvider =
 					new StringProvider()
@@ -295,7 +296,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 							return "<img alt=\"\" src=\"" + value + "px\" border=\"0\"/>";
 						}
 					};
-	
+
 				loadPxImage();
 			}
 			else
@@ -1421,211 +1422,213 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JRRenderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
 
-		boolean startedHyperlink = !imageMapRenderer && startHyperlink(image);
+		boolean startedHyperlink = false;
 
-		writer.write("<img");
-
-		String imagePath = null;
-		String imageMapName = null;
-		List imageMapAreas = null;
-
-		byte scaleImage = image.getScaleImage();
-		if (renderer != null)
+		if(renderer != null || isUsingImagesToAlign)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			startedHyperlink = !imageMapRenderer && startHyperlink(image);
+			writer.write("<img");
+			String imagePath = null;
+			String imageMapName = null;
+			List imageMapAreas = null;
+	
+			byte scaleImage = image.getScaleImage();
+			if (renderer != null)
 			{
-				imagePath = (String)rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-				if (image.isLazy())
+				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+					imagePath = (String)rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-					imagesToProcess.add(imageIndex);
-
-					String imageName = getImageName(imageIndex);
-					imagePath = imagesURI + imageName;
-
-					//backward compatibility with the IMAGE_MAP parameter
-					if (imageNameToImageDataMap != null)
+					if (image.isLazy())
 					{
-						if (renderer.getType() == JRRenderable.TYPE_SVG)
-						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
-									);
-						}
-						imageNameToImageDataMap.put(imageName, renderer.getImageData());
-					}
-					//END - backward compatibility with the IMAGE_MAP parameter
-				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
-			
-			if (imageMapRenderer)
-			{
-				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
-				
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-				{
-					imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
-				}
-
-				if (imageMapName == null)
-				{
-					imageMapName = "map_" + getElementIndex(gridCell).toString();
-					imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);
-					
-					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-					{
-						imageMaps.put(new Pair(renderer.getId(), renderingArea), imageMapName);
-					}
-				}
-			}
-		}
-		else
-		{
-			loadPxImage();
-			imagePath = imagesURI + "px";
-			scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
-		}
-
-		writer.write(" src=\"");
-		if (imagePath != null)
-			writer.write(imagePath);
-		writer.write("\"");
-
-		int borderWidth = 0;
-		switch (image.getPen())
-		{
-			case JRGraphicElement.PEN_DOTTED :
-			{
-				borderWidth = 1;
-				break;
-			}
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderWidth = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderWidth = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderWidth = 0;
-				break;
-			}
-			case JRGraphicElement.PEN_THIN :
-			{
-				borderWidth = 1;
-				break;
-			}
-			case JRGraphicElement.PEN_1_POINT :
-			default :
-			{
-				borderWidth = 1;
-				break;
-			}
-		}
-
-		writer.write(" border=\"");
-		writer.write(String.valueOf(borderWidth));
-		writer.write("\"");
-
-		int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
-		if (imageWidth < 0)
-		{
-			imageWidth = 0;
-		}
-
-		int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
-		if (imageHeight < 0)
-		{
-			imageHeight = 0;
-		}
-
-		switch (scaleImage)
-		{
-			case JRImage.SCALE_IMAGE_FILL_FRAME :
-			{
-				writer.write(" style=\"width: ");
-				writer.write(String.valueOf(imageWidth));
-				writer.write(sizeUnit);
-				writer.write("; height: ");
-				writer.write(String.valueOf(imageHeight));
-				writer.write(sizeUnit);
-				writer.write("\"");
-
-				break;
-			}
-			case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
-			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-			default :
-			{
-				double normalWidth = imageWidth;
-				double normalHeight = imageHeight;
-
-				if (!image.isLazy())
-				{
-					Dimension2D dimension = renderer.getDimension();
-					if (dimension != null)
-					{
-						normalWidth = dimension.getWidth();
-						normalHeight = dimension.getHeight();
-					}
-				}
-
-				if (imageHeight > 0)
-				{
-					double ratio = normalWidth / normalHeight;
-
-					if( ratio > (double)imageWidth / (double)imageHeight )
-					{
-						writer.write(" style=\"width: ");
-						writer.write(String.valueOf(imageWidth));
-						writer.write(sizeUnit);
-						writer.write("\"");
+						imagePath = ((JRImageRenderer)renderer).getImageLocation();
 					}
 					else
 					{
-						writer.write(" style=\"height: ");
-						writer.write(String.valueOf(imageHeight));
-						writer.write(sizeUnit);
-						writer.write("\"");
+						JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+						imagesToProcess.add(imageIndex);
+	
+						String imageName = getImageName(imageIndex);
+						imagePath = imagesURI + imageName;
+	
+						//backward compatibility with the IMAGE_MAP parameter
+						if (imageNameToImageDataMap != null)
+						{
+							if (renderer.getType() == JRRenderable.TYPE_SVG)
+							{
+								renderer =
+									new JRWrappingSvgRenderer(
+										renderer,
+										new Dimension(image.getWidth(), image.getHeight()),
+										JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+										);
+							}
+							imageNameToImageDataMap.put(imageName, renderer.getImageData());
+						}
+						//END - backward compatibility with the IMAGE_MAP parameter
+					}
+	
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
+				}
+				
+				if (imageMapRenderer)
+				{
+					Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
+					
+					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+					{
+						imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
+					}
+	
+					if (imageMapName == null)
+					{
+						imageMapName = "map_" + getElementIndex(gridCell).toString();
+						imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);
+						
+						if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+						{
+							imageMaps.put(new Pair(renderer.getId(), renderingArea), imageMapName);
+						}
 					}
 				}
 			}
-		}
+			else 		// ie: 	if(isUsingImagesToAlign)
+			{
+				loadPxImage();
+				imagePath = imagesURI + "px";
+				scaleImage = JRImage.SCALE_IMAGE_FILL_FRAME;
+			}
+	
+			writer.write(" src=\"");
+			if (imagePath != null)
+				writer.write(imagePath);
+			writer.write("\"");
 		
-		if (imageMapName != null)
-		{
-			writer.write(" usemap=\"#" + imageMapName + "\"");
-		}
+			int borderWidth = 0;
+			switch (image.getPen())
+			{
+				case JRGraphicElement.PEN_DOTTED :
+				{
+					borderWidth = 1;
+					break;
+				}
+				case JRGraphicElement.PEN_4_POINT :
+				{
+					borderWidth = 4;
+					break;
+				}
+				case JRGraphicElement.PEN_2_POINT :
+				{
+					borderWidth = 2;
+					break;
+				}
+				case JRGraphicElement.PEN_NONE :
+				{
+					borderWidth = 0;
+					break;
+				}
+				case JRGraphicElement.PEN_THIN :
+				{
+					borderWidth = 1;
+					break;
+				}
+				case JRGraphicElement.PEN_1_POINT :
+				default :
+				{
+					borderWidth = 1;
+					break;
+				}
+			}
 		
-		writer.write(" alt=\"\"/>");
-
-		if (startedHyperlink)
-		{
-			endHyperlink();
-		}
+			writer.write(" border=\"");
+			writer.write(String.valueOf(borderWidth));
+			writer.write("\"");
 		
-		if (imageMapAreas != null)
-		{
-			writer.write("\n");
-			writeImageMap(imageMapName, image, imageMapAreas);
+			int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
+			if (imageWidth < 0)
+			{
+				imageWidth = 0;
+			}
+		
+			int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
+			if (imageHeight < 0)
+			{
+				imageHeight = 0;
+			}
+		
+			switch (scaleImage)
+			{
+				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				{
+					writer.write(" style=\"width: ");
+					writer.write(String.valueOf(imageWidth));
+					writer.write(sizeUnit);
+					writer.write("; height: ");
+					writer.write(String.valueOf(imageHeight));
+					writer.write(sizeUnit);
+					writer.write("\"");
+		
+					break;
+				}
+				case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = imageWidth;
+					double normalHeight = imageHeight;
+		
+					if (!image.isLazy())
+					{
+						Dimension2D dimension = renderer.getDimension();
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+		
+					if (imageHeight > 0)
+					{
+						double ratio = normalWidth / normalHeight;
+		
+						if( ratio > (double)imageWidth / (double)imageHeight )
+						{
+							writer.write(" style=\"width: ");
+							writer.write(String.valueOf(imageWidth));
+							writer.write(sizeUnit);
+							writer.write("\"");
+						}
+						else
+						{
+							writer.write(" style=\"height: ");
+							writer.write(String.valueOf(imageHeight));
+							writer.write(sizeUnit);
+							writer.write("\"");
+						}
+					}
+				}
+			}
+			
+			if (imageMapName != null)
+			{
+				writer.write(" usemap=\"#" + imageMapName + "\"");
+			}
+			
+			writer.write(" alt=\"\"/>");
+		
+			if (startedHyperlink)
+			{
+				endHyperlink();
+			}
+			
+			if (imageMapAreas != null)
+			{
+				writer.write("\n");
+				writeImageMap(imageMapName, image, imageMapAreas);
+			}
 		}
-
 		writer.write("</td>\n");
 	}
 
