@@ -395,6 +395,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				)
 			);
 
+		boolean closeDocuments = true;
 		try
 		{
 			PdfWriter pdfWriter = PdfWriter.getInstance(document, os);
@@ -526,6 +527,10 @@ public class JRPdfExporter extends JRAbstractExporter
 					pdfContentByte.setLiteral("\n");
 				}
 			}
+			
+			closeDocuments = false;
+			document.close();
+			imageTesterDocument.close();
 		}
 		catch(DocumentException e)
 		{
@@ -537,8 +542,26 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		finally
 		{
-			document.close();
-			imageTesterDocument.close();
+			if (closeDocuments) //only on exception
+			{
+				try
+				{
+					document.close();
+				}
+				catch (Throwable e)
+				{
+					// ignore, let the original exception propagate 
+				}				
+				
+				try
+				{
+					imageTesterDocument.close();
+				}
+				catch (Throwable e)
+				{
+					// ignore, let the original exception propagate 
+				}				
+			}
 		}
 
 		//return os.toByteArray();
