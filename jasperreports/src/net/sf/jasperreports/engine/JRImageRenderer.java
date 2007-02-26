@@ -304,7 +304,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 			}
 			case JRImage.ON_ERROR_TYPE_BLANK :
 			{
-				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/pixel.GIF", JRImage.ON_ERROR_TYPE_ERROR);
+				//renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/pixel.GIF", JRImage.ON_ERROR_TYPE_ERROR);
 				break;
 			}
 			case JRImage.ON_ERROR_TYPE_ERROR :
