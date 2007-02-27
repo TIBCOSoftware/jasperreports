@@ -31,6 +31,10 @@ import java.awt.Image;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.print.attribute.Attribute;
+import javax.print.attribute.standard.PrinterIsAcceptingJobs;
+import javax.print.PrintService;
+
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -228,6 +232,19 @@ public class JasperPrintManager
 	}
 
 
+	public static boolean chkIfExistsAvailablePrinter() {
+		PrintService[] ss = java.awt.print.PrinterJob.lookupPrintServices();
+		for (int i=0;i<ss.length;i++) {
+			Attribute[] att = ss[i].getAttributes().toArray();
+			for (int j=0;j<att.length;j++) {
+				if (att[j].equals(PrinterIsAcceptingJobs.ACCEPTING_JOBS)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 *
 	 */
@@ -236,6 +253,9 @@ public class JasperPrintManager
 		boolean withPrintDialog
 		) throws JRException
 	{
+		if (!chkIfExistsAvailablePrinter()) {
+			throw new JRException("No printer available");
+		}
 		return printPages(
 			jasperPrint,
 			0,
