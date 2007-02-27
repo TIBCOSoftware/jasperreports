@@ -235,33 +235,17 @@ public class JasperPrintManager
 	/**
 	 *
 	 */
-	public static boolean checkAvailablePrinters() 
-	{
-		PrintService[] ss = java.awt.print.PrinterJob.lookupPrintServices();
-		for (int i=0;i<ss.length;i++) {
-			Attribute[] att = ss[i].getAttributes().toArray();
-			for (int j=0;j<att.length;j++) {
-				if (att[j].equals(PrinterIsAcceptingJobs.ACCEPTING_JOBS)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	
-	/**
-	 *
-	 */
 	public static boolean printReport(
 		JasperPrint jasperPrint,
 		boolean withPrintDialog
 		) throws JRException
 	{
+		//artf1936
 		if (!checkAvailablePrinters()) {
 			throw new JRException("No printer available.");
 		}
-
+		//END - artf1936
+		
 		return printPages(
 			jasperPrint,
 			0,
@@ -423,4 +407,20 @@ public class JasperPrintManager
 	}
 
 
+	// artf1936
+	private static boolean checkAvailablePrinters() 
+	{
+		PrintService[] ss = java.awt.print.PrinterJob.lookupPrintServices();
+		for (int i=0;i<ss.length;i++) {
+			Attribute[] att = ss[i].getAttributes().toArray();
+			for (int j=0;j<att.length;j++) {
+				if (att[j].equals(PrinterIsAcceptingJobs.ACCEPTING_JOBS)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	
 }
