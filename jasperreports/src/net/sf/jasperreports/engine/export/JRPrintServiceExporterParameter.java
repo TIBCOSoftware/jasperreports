@@ -64,12 +64,20 @@ public class JRPrintServiceExporterParameter extends JRExporterParameter
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PAGE_DIALOG = new JRPrintServiceExporterParameter("Display Page Dialog");
 
+	/**
+	 * A boolean value specifying whether a page setup dialog should be opened only once before printing in a batch export job.
+	 */
+	public static final JRPrintServiceExporterParameter DISPLAY_PAGE_DIALOG_ONLY_ONCE = new JRPrintServiceExporterParameter("Display Page Dialog Only Once");
 
 	/**
 	 * A boolean value specifying whether a print setup dialog should be opened before printing.
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PRINT_DIALOG = new JRPrintServiceExporterParameter("Display Print Dialog");
 
+	/**
+	 * A boolean value specifying whether a print setup dialog should be opened only once in a batch export job.
+	 */
+	public static final JRPrintServiceExporterParameter DISPLAY_PRINT_DIALOG_ONLY_ONCE = new JRPrintServiceExporterParameter("Display Page Dialog Only Once");
 
 	/**
 	 * An instance of <tt>javax.print.PrintService</tt>, useful if users do not want JPS to lookup for an available print service.

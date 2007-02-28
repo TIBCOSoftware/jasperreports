@@ -64,7 +64,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 */
 	protected JRGraphics2DExporter exporter = null;
 	protected boolean displayPageDialog = false;
+	protected boolean displayPageDialogOnlyOnce = false;
 	protected boolean displayPrintDialog = false;
+	protected boolean displayPrintDialogOnlyOnce = false;
 
 	protected int reportIndex = 0;
 	
@@ -103,12 +105,25 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				displayPageDialog = pageDialog.booleanValue();
 			}
 	
+			Boolean pageDialogOnlyOnce = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG_ONLY_ONCE);
+			if (displayPageDialog && pageDialogOnlyOnce != null)
+			{
+				// it can be (eventually) set to true only if displayPageDialog is true
+				displayPageDialogOnlyOnce = pageDialogOnlyOnce.booleanValue();
+			}
+	
 			Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
 			if (printDialog != null)
 			{
 				displayPrintDialog = printDialog.booleanValue();
 			}
 	
+			Boolean printDialogOnlyOnce = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG_ONLY_ONCE);
+			if (displayPrintDialog && printDialogOnlyOnce != null)
+			{
+//				 it can be (eventually) set to true only if displayPrintDialog is true
+				displayPrintDialogOnlyOnce = printDialogOnlyOnce.booleanValue();
+			}
 			PrinterJob printerJob = PrinterJob.getPrinterJob();
 			
 			JRPrinterAWT.initPrinterJobFields(printerJob);
@@ -137,6 +152,28 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				throw new JRException(e);
 			}
 
+			PrintRequestAttributeSet printRequestAttributeSet = null;
+			if(displayPrintDialogOnlyOnce || displayPageDialogOnlyOnce)
+			{
+				printRequestAttributeSet = new HashPrintRequestAttributeSet();
+				setDefaultPrintRequestAttributeSet(printRequestAttributeSet);
+				setOrientation((JasperPrint)jasperPrintList.get(0), printRequestAttributeSet);
+				if(displayPageDialogOnlyOnce)
+				{
+					if(printerJob.pageDialog(printRequestAttributeSet) == null)
+						return;
+					else
+						displayPageDialog = false;
+				}
+				if(displayPrintDialogOnlyOnce)
+				{
+					if(!printerJob.printDialog(printRequestAttributeSet))
+						return;
+					else
+						displayPrintDialog = false;
+				}
+			}
+			
 			// fix for bug ID artf1455 from jasperforge.org bug database
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
@@ -150,58 +187,17 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
 				exporter.setParameter(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE, parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE));
-		
-				PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
-				PrintRequestAttributeSet printRequestAttributeSetParam = 
-					(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
-				if (printRequestAttributeSetParam != null)
+				
+				if(displayPrintDialog || displayPageDialog ||
+						(!displayPrintDialogOnlyOnce && !displayPageDialogOnlyOnce))
 				{
-					printRequestAttributeSet.addAll(printRequestAttributeSetParam);
+					printRequestAttributeSet = new HashPrintRequestAttributeSet();
+					setDefaultPrintRequestAttributeSet(printRequestAttributeSet);
+					setOrientation(jasperPrint, printRequestAttributeSet);
 				}
 		
 				try 
 				{
-					if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
-					{
-						int printableWidth;
-						int printableHeight;
-						switch (jasperPrint.getOrientation())
-						{
-							case JRReport.ORIENTATION_LANDSCAPE:
-								printableWidth = jasperPrint.getPageHeight();
-								printableHeight = jasperPrint.getPageWidth();
-								break;
-							default:
-								printableWidth = jasperPrint.getPageWidth();
-								printableHeight = jasperPrint.getPageHeight();
-								break;
-						}
-						
-						printRequestAttributeSet.add(
-							new MediaPrintableArea(
-								0f, 
-								0f, 
-								printableWidth / 72f,
-								printableHeight / 72f,
-								MediaPrintableArea.INCH
-								)
-							);
-					}
-
-					if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
-					{
-						OrientationRequested orientation;
-						switch (jasperPrint.getOrientation())
-						{
-							case JRReport.ORIENTATION_LANDSCAPE:
-								orientation = OrientationRequested.LANDSCAPE;
-								break;
-							default:
-								orientation = OrientationRequested.PORTRAIT;
-								break;
-						}
-						printRequestAttributeSet.add(orientation);
-					}
 					
 					if (!isModeBatch)
 					{
@@ -214,7 +210,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 					{
 						printerJob.pageDialog(printRequestAttributeSet);
 					}
-					
 					if (displayPrintDialog)
 					{
 						if (printerJob.printDialog(printRequestAttributeSet))
@@ -271,4 +266,59 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	}
 
 
+	private void setOrientation(JasperPrint jPrint,PrintRequestAttributeSet printRequestAttributeSet)
+	{
+		if (!printRequestAttributeSet.containsKey(MediaPrintableArea.class))
+		{
+			int printableWidth;
+			int printableHeight;
+			switch (jPrint.getOrientation())
+			{
+				case JRReport.ORIENTATION_LANDSCAPE:
+					printableWidth = jPrint.getPageHeight();
+					printableHeight = jPrint.getPageWidth();
+					break;
+				default:
+					printableWidth = jPrint.getPageWidth();
+					printableHeight = jPrint.getPageHeight();
+					break;
+			}
+			
+			printRequestAttributeSet.add(
+				new MediaPrintableArea(
+					0f, 
+					0f, 
+					printableWidth / 72f,
+					printableHeight / 72f,
+					MediaPrintableArea.INCH
+					)
+				);
+		}
+
+		if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
+		{
+			OrientationRequested orientation;
+			switch (jPrint.getOrientation())
+			{
+				case JRReport.ORIENTATION_LANDSCAPE:
+					orientation = OrientationRequested.LANDSCAPE;
+					break;
+				default:
+					orientation = OrientationRequested.PORTRAIT;
+					break;
+			}
+			printRequestAttributeSet.add(orientation);
+		}
+		
+	}
+	
+	private void setDefaultPrintRequestAttributeSet(PrintRequestAttributeSet printRequestAttributeSet)
+	{
+		PrintRequestAttributeSet printRequestAttributeSetParam = 
+			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
+		if (printRequestAttributeSetParam != null)
+		{
+			printRequestAttributeSet.addAll(printRequestAttributeSetParam);
+		}
+	}
 }
