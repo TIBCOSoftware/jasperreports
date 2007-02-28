@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.util.JRProperties;
 
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -238,18 +239,32 @@ public class JRAntCompileTask extends MatchingTask
 				JRProperties.setProperty(JRProperties.COMPILER_CLASS, compiler);
 			}
 
+			JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);
+
+			AntClassLoader classLoader = null;
 			if (classpath != null)
 			{
 				JRProperties.setProperty(JRProperties.COMPILER_CLASSPATH, String.valueOf(classpath));
+				
+				ClassLoader parentClassLoader = getClass().getClassLoader();
+				classLoader = new AntClassLoader(parentClassLoader, getProject(), classpath, true);
+				classLoader.setThreadContextLoader();
 			}
 
-			JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);
-
-			/*   */
-			scanSrc();
-			
-			/*   */
-			compile();
+			try
+			{
+				/*   */
+				scanSrc();
+				/*   */
+				compile();
+			}
+			finally
+			{
+				if (classLoader != null)
+				{
+					classLoader.resetThreadContextLoader();
+				}				
+			}			
 		}
 		finally
 		{

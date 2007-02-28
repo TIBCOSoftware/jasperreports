@@ -3,11 +3,15 @@
 	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
 
 	<path id="classpath">
-		<pathelement location="./build/classes"/>
 		<pathelement location="../../../build/classes"/>
 		<fileset dir="../../../lib">
 			<include name="**/*.jar"/>
 		</fileset>
+	</path>
+	
+	<path id="runClasspath">
+		<path refid="classpath"/>
+		<pathelement location="./build/classes"/>
 	</path>
 
 	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
@@ -27,7 +31,7 @@
 				tempdir="./build/reports"
 				keepjava="true"
 				xmlvalidation="true">
-			<classpath refid="classpath"/>
+			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
 		</jrc>
 	</target> 
@@ -44,7 +48,7 @@
 					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
-			<classpath refid="classpath"/>
+			<classpath refid="runClasspath"/>
 		</jrc> 
 	</target> 
 
