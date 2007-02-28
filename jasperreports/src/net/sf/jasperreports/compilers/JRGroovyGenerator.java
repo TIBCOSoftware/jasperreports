@@ -235,7 +235,7 @@ public class JRGroovyGenerator
 			Collection parameterNames = parametersMap.keySet();
 			for (Iterator it = parameterNames.iterator(); it.hasNext();)
 			{
-				sb.append("    private property JRFillParameter parameter_");
+				sb.append("    private JRFillParameter parameter_");
 				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
@@ -246,7 +246,7 @@ public class JRGroovyGenerator
 			Collection fieldNames = fieldsMap.keySet();
 			for (Iterator it = fieldNames.iterator(); it.hasNext();)
 			{
-				sb.append("    private property JRFillField field_");
+				sb.append("    private JRFillField field_");
 				sb.append(JRStringUtil.getLiteral((String)it.next()));
 				sb.append(" = null;\n");
 			}
@@ -256,7 +256,7 @@ public class JRGroovyGenerator
 		{
 			for (int i = 0; i < variables.length; i++)
 			{
-				sb.append("    private property JRFillVariable variable_");
+				sb.append("    private JRFillVariable variable_");
 				sb.append(JRStringUtil.getLiteral(variables[i].getName()));
 				sb.append(" = null;\n");
 			}
