@@ -80,6 +80,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	{
 		CompilerConfiguration config = new CompilerConfiguration();
 		config.setUseNewGroovy(true);
+		config.setClasspath(classpath);
 		CompilationUnit unit = new CompilationUnit(config);
 		
 		for (int i = 0; i < units.length; i++)
