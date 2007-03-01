@@ -346,6 +346,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					initSubreportFiller(evaluator);
 					
 					checkReturnValues();
+					
+					saveReturnVariables();
 				}
 			}
 		}
@@ -374,6 +376,19 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		runner = getRunnerFactory().createSubreportRunner(this, subreportFiller);
 		subreportFiller.setSubreportRunner(runner);
+	}
+
+
+	protected void saveReturnVariables()
+	{
+		if (returnValues != null)
+		{
+			for (int i = 0; i < returnValues.length; i++)
+			{
+				String varName = returnValues[i].getToVariable();
+				band.saveVariable(varName);
+			}
+		}
 	}
 
 
@@ -767,30 +782,55 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return this.returnValues;
 	}
 	
+	
+	public boolean usesForReturnValue(String variableName)
+	{
+		boolean used = false;
+		if (returnValues != null)
+		{
+			for (int j = 0; j < returnValues.length; j++)
+			{
+				JRSubreportReturnValue returnValue = returnValues[j];
+				if (returnValue.getToVariable().equals(variableName))
+				{
+					used = true;
+					break;
+				}
+			}
+		}
+		return used;
+	}
 
 	/**
 	 * Copies the values from the subreport to the variables of the master report.
 	 */
-	private void copyValues()
+	protected void copyValues()
 	{
 		if (returnValues != null && returnValues.length > 0)
 		{
 			for (int i = 0; i < returnValues.length; i++)
 			{
-				try
-				{
-					JRFillVariable variable = filler.getVariable(returnValues[i].getToVariable());
-					Object value = subreportFiller.getVariableValue(returnValues[i].getSubreportVariable());
-					
-					Object newValue = returnValues[i].getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
-					variable.setOldValue(newValue);
-					variable.setValue(newValue);
-				}
-				catch (JRException e)
-				{
-					throw new JRRuntimeException(e);
-				}
+				copyValue(returnValues[i]);
 			}
+		}
+	}
+
+
+	protected void copyValue(JRFillSubreportReturnValue returnValue)
+	{
+		try
+		{
+			JRFillVariable variable = filler.getVariable(returnValue.getToVariable());
+			Object value = subreportFiller.getVariableValue(returnValue.getSubreportVariable());
+			
+			Object newValue = returnValue.getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
+			variable.setOldValue(newValue);
+			variable.setValue(newValue);
+			variable.setIncrementedValue(newValue);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
 
