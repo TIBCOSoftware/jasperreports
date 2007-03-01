@@ -29,16 +29,14 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRSubreport;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
 
 
 /**
@@ -64,6 +62,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	private Map isNewGroupMap = new HashMap();
 
 	private Set nowEvaluationTimes;
+	
+	// used by subreports to save values of variables used as return receptacles
+	// so that the values can be restored when the bands gets rewound
+	private Map savedVariableValues = new HashMap();
 
 	/**
 	 *
@@ -251,6 +253,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 		) throws JRException
 	{
 		rewind();
+		restoreSavedVariables();
 
 		return fill(availableStretchHeight);
 	}
@@ -336,28 +339,18 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	protected boolean isVariableUsedInSubreportReturns(String variableName)
 	{
 		boolean used = false;
-		JRElement[] bandElements = getElements();
-		if (bandElements != null)
+		if (deepElements != null)
 		{
-			elementsLoop:
-			for (int i = 0; i < bandElements.length; i++)
+			for (int i = 0; i < deepElements.length; i++)
 			{
-				JRElement element = bandElements[i];
-				if (element instanceof JRSubreport)
+				JRFillElement element = deepElements[i];
+				if (element instanceof JRFillSubreport)
 				{
-					JRSubreport subreport = (JRSubreport) element;
-					JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
-					if (returnValues != null)
+					JRFillSubreport subreport = (JRFillSubreport) element;
+					if (subreport.usesForReturnValue(variableName))
 					{
-						for (int j = 0; j < returnValues.length; j++)
-						{
-							JRSubreportReturnValue returnValue = returnValues[j];
-							if (returnValue.getToVariable().equals(variableName))
-							{
-								used = true;
-								break elementsLoop;
-							}
-						}
+						used = true;
+						break;
 					}
 				}
 			}
@@ -396,8 +389,36 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 
 	protected void evaluate(byte evaluation) throws JRException
 	{
+		resetSavedVariables();
 		evaluateConditionalStyles(evaluation);
 		super.evaluate(evaluation);
 	}
-
+	
+	protected void resetSavedVariables()
+	{
+		savedVariableValues.clear();
+	}
+	
+	protected void saveVariable(String variableName)
+	{
+		if (!savedVariableValues.containsKey(variableName))
+		{
+			Object value = filler.getVariableValue(variableName);
+			savedVariableValues.put(variableName, value);
+		}
+	}
+	
+	protected void restoreSavedVariables()
+	{
+		for (Iterator it = savedVariableValues.entrySet().iterator(); it.hasNext();)
+		{
+			Map.Entry entry = (Map.Entry) it.next();
+			String variableName = (String) entry.getKey();
+			Object value = entry.getValue();
+			JRFillVariable variable = filler.getVariable(variableName);
+			variable.setOldValue(value);
+			variable.setValue(value);
+			variable.setIncrementedValue(value);
+		}
+	}
 }
