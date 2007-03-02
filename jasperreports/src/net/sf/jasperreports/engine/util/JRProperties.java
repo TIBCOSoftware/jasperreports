@@ -146,7 +146,13 @@ public class JRProperties
 	 */
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
-	
+	/**
+	 * Whether to keep the java file generated when the report is compiled.
+	 * <p>
+	 * Defaults to <code>false</code>.
+	 */
+	public static final String XML_DS_SOCKET_FACTORY = PROPERTY_PREFIX + "datasource.xml.";
+        
 	protected static Properties props;
 	
 	protected static Properties savedProps;
