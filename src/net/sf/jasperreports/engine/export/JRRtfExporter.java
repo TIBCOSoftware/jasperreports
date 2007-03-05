@@ -973,9 +973,9 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					leftToRightBuffer.append("\\line ");
 				}
-				else if(ch == '\\')
+				else if(ch == '\\' || ch =='{' || ch =='}')
 				{
-					leftToRightBuffer.append((char)ch).append((char)ch);
+					leftToRightBuffer.append('\\').append((char)ch);
 				}
 				else
 				{
