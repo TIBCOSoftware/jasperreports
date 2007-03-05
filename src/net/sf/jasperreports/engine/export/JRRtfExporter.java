@@ -971,7 +971,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				if(ch == '\n')
 				{
-					leftToRightBuffer.append("\\line");
+					leftToRightBuffer.append("\\line ");
 				}
 				else if(ch == '\\')
 				{
