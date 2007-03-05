@@ -50,14 +50,4 @@ public class JRXlsExporterParameter extends JRXlsAbstractExporterParameter
 	{
 		super(name);
 	}
-
-	/**
-	 * This export parameter should be used when converting java format patterns to equivalent proprietary 
-	 * format patterns. It should be constructed as a Map containing java format patterns as keys and the 
-	 * correspondent proprietary format pattern as correspondent value
-	 * <p/>
-	 * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
-	 */
-	public static final JRExporterParameter FORMAT_PATTERNS_MAP = new JRXlsExporterParameter("Format Patterns Map");
-
 }
