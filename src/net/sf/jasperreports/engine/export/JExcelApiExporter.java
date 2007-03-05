@@ -129,11 +129,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	private Map numberFormats;
 	private Map dateFormats;
+
+	protected Map formatPatternsMap = null;
 	
 	public JExcelApiExporter()
 	{
 		numberFormats = new HashMap();
 		dateFormats = new HashMap();
+	}
+
+	protected void setParameters()
+	{
+		super.setParameters();
+		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 	}
 
 	protected void setBackground()
@@ -472,27 +480,29 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		public CellValue getResult()
 		{
 			return result;
-		}		
+		}	
 	}
 
 	protected jxl.write.NumberFormat getNumberFormat(String pattern)
 	{
-		jxl.write.NumberFormat cellFormat = (jxl.write.NumberFormat) numberFormats.get(pattern);
+		String convertedPattern = getConvertedPattern(pattern);
+		jxl.write.NumberFormat cellFormat = (jxl.write.NumberFormat) numberFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new jxl.write.NumberFormat(pattern);
-			numberFormats.put(pattern, cellFormat);
+			cellFormat = new jxl.write.NumberFormat(convertedPattern);
+			numberFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
 	}
 
 	protected jxl.write.DateFormat getDateFormat(String pattern)
 	{
-		jxl.write.DateFormat cellFormat = (jxl.write.DateFormat) dateFormats.get(pattern);
+		String convertedPattern = getConvertedPattern(pattern);
+		jxl.write.DateFormat cellFormat = (jxl.write.DateFormat) dateFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new jxl.write.DateFormat(pattern);
-			dateFormats.put(pattern, cellFormat);
+			cellFormat = new jxl.write.DateFormat(convertedPattern);
+			dateFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
 	}
@@ -1441,5 +1451,22 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			throw new JRException("Can't add cell.", e);
 		}
 	}
+	
+	/**
+	 * This method is intended to modify a given format pattern so to include 
+	 * only the accepted proprietary format characters. The resulted pattern 
+	 * will possibly truncate the original pattern
+	 * @param pattern
+	 * @return pattern converted to accepted proprietary formats
+	 */
+	private String getConvertedPattern(String pattern)
+	{
+		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
+		{
+			return (String) formatPatternsMap.get(pattern);
+		}
+		return pattern;
+	}
+	
 }
 
