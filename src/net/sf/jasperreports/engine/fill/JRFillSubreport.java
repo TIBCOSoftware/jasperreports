@@ -79,10 +79,6 @@ import org.apache.commons.logging.LogFactory;
 public class JRFillSubreport extends JRFillElement implements JRSubreport
 {
 
-
-	/**
-	 *
-	 */
 	private static final Log log = LogFactory.getLog(JRFillSubreport.class);
 	
 	private static final JRSingletonCache runnerFactoryCache = new JRSingletonCache(JRSubreportRunnerFactory.class);
@@ -356,6 +352,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected void initSubreportFiller(JREvaluator evaluator) throws JRException
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + filler.fillerId + ": creating subreport filler");
+		}
+		
 		switch (jasperReport.getPrintOrder())
 		{
 			case JRReport.PRINT_ORDER_HORIZONTAL :
@@ -569,11 +570,21 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			JRSubreportRunResult result;
 			if (filling)
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + filler.fillerId + ": resuming " + subreportFiller.fillerId);
+				}
+
 				result = runner.resume();
 			}
 			else if (toPrint)
 			{
 				setReprinted(reprinted);
+
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + filler.fillerId + ": starting " + subreportFiller.fillerId);
+				}
 
 				result = runner.start();
 			}
@@ -589,6 +600,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			if (result.getException() != null)
 			{
 				Throwable error = result.getException();
+				
+				if (log.isErrorEnabled())
+				{
+					log.error("Fill " + filler.fillerId + ": exception", error);
+				}
+				
 				if (error instanceof RuntimeException)
 				{
 					throw (RuntimeException) error;
@@ -599,7 +616,19 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 			if (result.hasFinished())
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + filler.fillerId + ": subreport " + subreportFiller.fillerId + " finished");
+				}
+				
 				copyValues();
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + filler.fillerId + ": subreport " + subreportFiller.fillerId + " to continue");
+				}
 			}
 
 			printPage = subreportFiller.getCurrentPage();
@@ -637,6 +666,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (subreportFiller == null)
 		{
 			return;
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + filler.fillerId + ": cancelling " + subreportFiller.fillerId);
 		}
 		
 		// marking the subreport filler for interruption
