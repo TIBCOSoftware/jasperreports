@@ -33,6 +33,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -46,6 +49,7 @@ import net.sf.jasperreports.engine.JRGroup;
 public class JRFillBand extends JRFillElementContainer implements JRBand
 {
 
+	private static final Log log = LogFactory.getLog(JRFillBand.class);
 
 	/**
 	 *
@@ -294,6 +298,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 			|| filler.isInterrupted()
 			)
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + filler.fillerId + ": interrupted");
+			}
+
 			// child fillers will stop if this parent filler was marked as interrupted
 			filler.setInterrupted(true);
 
@@ -421,4 +430,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 			variable.setIncrementedValue(value);
 		}
 	}
+
+
+	protected boolean isEmpty()
+	{
+		return this == filler.missingFillBand
+			|| (getHeight() == 0
+					&& (getElements() == null || getElements().length == 0)
+					&& getPrintWhenExpression() == null);
+	}
+
 }

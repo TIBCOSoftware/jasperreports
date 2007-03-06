@@ -48,7 +48,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -75,6 +74,9 @@ import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -83,6 +85,8 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualPrintPage.IdentityDataProvider//, JRDefaultFontProvider
 {
 
+	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
+	
 	/**
 	 * Map class to be used for bound elements.
 	 * <p/>
@@ -152,6 +156,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
+	protected final String fillerId;
+	
 	/**
 	 *
 	 */
@@ -331,6 +337,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
 	{
+		this.fillerId = Integer.toString(System.identityHashCode(this));
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + fillerId + ": created for " + jasperReport.getName());
+		}
+		
 		JRGraphEnvInitializer.initializeGraphEnv();
 
 		this.jasperReport = jasperReport;
@@ -422,13 +435,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		columnFooter = factory.getBand(jasperReport.getColumnFooter());
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
-		if (isEmpty(jasperReport.getSummary()))
+
+		summary = factory.getBand(jasperReport.getSummary());
+		if (summary != missingFillBand && summary.isEmpty())
 		{
 			summary = missingFillBand;
-		}
-		else
-		{
-			summary = factory.getBand(jasperReport.getSummary());
 		}
 
 		mainDataset.initElementDatasets(factory);
@@ -692,6 +703,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			parameterValues = new HashMap();
 		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + fillerId + ": filling report");
+		}
 
 		fillingThread = Thread.currentThread();
 		boolean urlHandlerFactorySet = false;
@@ -756,6 +772,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 //				jasperPrint.addStyle((JRStyle) it.next());
 //			}
 
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": ended");
+			}
+			
 			return jasperPrint;
 		}
 		finally
@@ -825,6 +846,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				JRBaseFiller subfiller = (JRBaseFiller) it.next();
 				if (subfiller.fillingThread != null)
 				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("Fill " + fillerId + ": Interrupting subfiller thread " + subfiller.fillingThread);
+					}
+					
 					subfiller.fillingThread.interrupt();
 				}
 			}
@@ -849,6 +875,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 			if (virtualizer != null)
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + fillerId + ": using virtualizer " + virtualizer);
+				}
+
 				fillContext.setUsingVirtualizer(true);
 				fillContext.setPerPageBoundElements(true);
 				JRVirtualizationContext.register(fillContext.getVirtualizationContext(), jasperPrint);
@@ -1241,11 +1272,28 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	public void cancelFill() throws JRException
 	{
-		if (!fillContext.cancelRunningQuery())
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + fillerId + ": cancelling");
+		}
+		
+		if (fillContext.cancelRunningQuery())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": query cancelled");
+			}
+		}
+		else
 		{
 			Thread t = fillingThread;
 			if (t != null)
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + fillerId + ": Interrupting thread " + t);
+				}
+				
 				t.interrupt();
 			}
 		}
@@ -1313,6 +1361,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		if (!isSubreport())
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": adding page " + (jasperPrint.getPages().size() + 1));
+			}
+			
 			jasperPrint.addPage(page);
 			fillContext.setPrintPage(page);
 		}
@@ -1610,14 +1663,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 //		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
 //	}
 	
-	protected final boolean isEmpty(JRBand band)
-	{
-		return band == null || 
-				(band.getHeight() == 0
-				&& (band.getElements() == null || band.getElements().length == 0)
-				&& band.getPrintWhenExpression() == null);
-	}
-	
 	protected void setSubreportRunner(JRSubreportRunner runner)
 	{
 		this.subreportRunner = runner;
@@ -1630,6 +1675,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			throw new JRRuntimeException("No subreport runner set.");
 		}
 
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + fillerId + ": suspeding subreport runner");
+		}
+		
 		subreportRunner.suspend();
 	}
+
 }

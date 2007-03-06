@@ -39,6 +39,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -68,6 +71,9 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
  */
 public class JRFillDataset implements JRDataset
 {
+	
+	private static final Log log = LogFactory.getLog(JRFillDataset.class);
+	
 	/**
 	 * The filler that created this object.
 	 */
@@ -666,6 +672,11 @@ public class JRFillDataset implements JRDataset
 
 		try
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + filler.fillerId + ": Creating " + query.getLanguage() + " query executer");
+			}
+			
 			JRQueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(query.getLanguage());
 			queryExecuter = queryExecuterFactory.createQueryExecuter(parent, parametersMap);
 			filler.fillContext.setRunningQueryExecuter(queryExecuter);
@@ -724,6 +735,11 @@ public class JRFillDataset implements JRDataset
 	{
 		if (queryExecuter != null)
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + filler.fillerId + ": closing query executer");
+			}
+
 			queryExecuter.close();
 			queryExecuter = null;
 		}

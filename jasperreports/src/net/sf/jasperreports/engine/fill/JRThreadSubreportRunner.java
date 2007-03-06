@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -43,6 +46,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSubreportRunner
 {
+	
+	private static final Log log = LogFactory.getLog(JRThreadSubreportRunner.class);
+	
 	private final JRBaseFiller subreportFiller;
 	
 	private Thread fillThread;
@@ -61,6 +67,12 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 	public JRSubreportRunResult start()
 	{
 		fillThread = new Thread(this, subreportFiller.getJasperReport().getName() + " subreport filler");
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": starting thread " + fillThread);
+		}
+		
 		fillThread.start();
 
 		return waitResult();
@@ -68,6 +80,11 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 
 	public JRSubreportRunResult resume()
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notifying to continue");
+		}
+		
 		//notifing the subreport fill thread that it can continue on the next page
 		subreportFiller.notifyAll();
 
@@ -76,6 +93,11 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 
 	protected JRSubreportRunResult waitResult()
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": waiting for fill result");
+		}
+
 		try
 		{
 			// waiting for the subreport fill thread to fill the current page
@@ -85,7 +107,17 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 		}
 		catch (InterruptedException e)
 		{
+			if (log.isErrorEnabled())
+			{
+				log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+			}
+			
 			throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notified of fill result");
 		}
 		
 		return runResult();
@@ -98,12 +130,22 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 	
 	public void cancel() throws JRException
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notifying to continue on cancel");
+		}
+
 		// notifying the subreport filling thread that it can continue.
 		// it will stop anyway when trying to fill the current band
 		subreportFiller.notifyAll();
 
 		if (isRunning())
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + subreportFiller.fillerId + ": still running, waiting");
+			}
+			
 			try
 			{
 				//waits until the master filler notifies it that can continue with the next page
@@ -111,15 +153,35 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 			}
 			catch(InterruptedException e)
 			{
+				if (log.isErrorEnabled())
+				{
+					log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+				}
+				
 				throw new JRException("Error encountered while waiting on the subreport filling thread.", e);
+			}
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + subreportFiller.fillerId + ": wait ended");
 			}
 		}
 	}
 
 	public void suspend() throws JRException
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notifying on suspend");
+		}
+		
 		//signals to the master filler that is has finished the page
 		subreportFiller.notifyAll();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": waiting to continue");
+		}
 
 		try
 		{
@@ -128,13 +190,28 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 		}
 		catch(InterruptedException e)
 		{
+			if (log.isErrorEnabled())
+			{
+				log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+			}
+			
 			throw new JRException("Error encountered while waiting on the subreport filling thread.", e);
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notified to continue");
 		}
 	}
 
 	public void run()
 	{
 		super.run();
+
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fill " + subreportFiller.fillerId + ": notifying of completion");
+		}
 
 		synchronized (subreportFiller)
 		{

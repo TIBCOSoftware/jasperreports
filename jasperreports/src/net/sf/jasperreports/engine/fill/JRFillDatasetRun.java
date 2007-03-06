@@ -30,6 +30,9 @@ package net.sf.jasperreports.engine.fill;
 import java.sql.Connection;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -48,6 +51,9 @@ import net.sf.jasperreports.engine.JRVariable;
  */
 public class JRFillDatasetRun implements JRDatasetRun
 {
+	
+	private static final Log log = LogFactory.getLog(JRFillDatasetRun.class);
+	
 	private final JRBaseFiller filler;
 
 	private final JRFillDataset dataset;
@@ -176,6 +182,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 	{
 		if (Thread.currentThread().isInterrupted() || filler.isInterrupted())
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + filler.fillerId + ": interrupting");
+			}
+
 			filler.setInterrupted(true);
 
 			throw new JRFillInterruptedException();

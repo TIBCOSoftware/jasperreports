@@ -29,6 +29,9 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -46,7 +49,7 @@ import net.sf.jasperreports.engine.JasperReport;
 public class JRHorizontalFiller extends JRBaseFiller
 {
 
-
+	private static final Log log = LogFactory.getLog(JRHorizontalFiller.class);
 
 	private int lastDetailOffsetX = -1;
 	private int lastDetailOffsetY = -1;
@@ -122,10 +125,20 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 		else
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": no data");
+			}
+			
 			switch (whenNoDataType)
 			{
 				case JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL :
 				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("Fill " + fillerId + ": all sections");
+					}
+					
 					scriptlet.callBeforeReportInit();
 					calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
 					scriptlet.callAfterReportInit();
@@ -153,6 +166,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 				case JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE :
 				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("Fill " + fillerId + ": blank page");
+					}
+					
 					printPage = newPage();
 					addPage(printPage);
 					break;
@@ -160,6 +178,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 				case JRReport.WHEN_NO_DATA_TYPE_NO_PAGES :
 				default :
 				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("Fill " + fillerId + ": no pages");
+					}
 				}
 			}
 		}
@@ -258,6 +280,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	 private void fillTitle() throws JRException
 	 {
+		if (log.isDebugEnabled() && !title.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": title");
+		}
+		 
 		title.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
 		if (title.isToPrint())
@@ -329,6 +356,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillPageHeader(byte evaluation) throws JRException
 	{
+		if (log.isDebugEnabled() && !pageHeader.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": page header");
+		}
+		
 		setNewPageColumnInBands();
 
 		pageHeader.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
@@ -402,6 +434,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillColumnHeaders(byte evaluation) throws JRException
 	{
+		if (log.isDebugEnabled() && !columnHeader.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": column headers");
+		}
+		
 		setNewPageColumnInBands();
 
 		for(columnIndex = 0; columnIndex < columnCount; columnIndex++)
@@ -485,6 +522,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillGroupHeader(JRFillGroup group) throws JRException
 	{
+		JRFillBand groupHeader = (JRFillBand)group.getGroupHeader();
+
+		if (log.isDebugEnabled() && !groupHeader.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": " + group.getName() + " header");
+		}
+		
 		byte evalPrevPage = (group.isTopLevelChange()?JRExpression.EVALUATION_OLD:JRExpression.EVALUATION_DEFAULT);
 
 		if ( 
@@ -500,8 +544,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 				);
 		}
 		
-		JRFillBand groupHeader = (JRFillBand)group.getGroupHeader();
-
 		groupHeader.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 		
 		if (groupHeader.isToPrint())
@@ -589,6 +631,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillDetail() throws JRException
 	{
+		if (log.isDebugEnabled() && !detail.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": detail");
+		}
+		
 		if (!detail.isPrintWhenExpressionNull())
 		{
 			calculator.estimateVariables();
@@ -689,6 +736,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		JRFillBand groupFooter = (JRFillBand)group.getGroupFooter();
 		
+		if (log.isDebugEnabled() && !groupFooter.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": " + group.getName() + " footer");
+		}
+		
 		groupFooter.evaluatePrintWhenExpression(evaluation);
 	
 		if (groupFooter.isToPrint())
@@ -718,6 +770,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	 private void fillColumnFooters(byte evaluation) throws JRException
 	 {
+		if (log.isDebugEnabled() && !columnFooter.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": column footers");
+		}
+		
 		/*
 		if (!isSubreport)
 		{
@@ -761,6 +818,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		JRFillBand crtPageFooter = getCurrentPageFooter();
 		
+		if (log.isDebugEnabled() && !crtPageFooter.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": " + (isLastPageFooter ? "last " : "") + "page footer");
+		}
+		
 		offsetX = leftMargin;
 
 		if (!isSubreport() && !fillContext.isIgnorePagination())
@@ -782,6 +844,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillSummary() throws JRException
 	{
+		if (log.isDebugEnabled() && !summary.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": summary");
+		}
+		
 		offsetX = leftMargin;
 		
 		if (lastPageFooter == missingFillBand)
@@ -1101,6 +1168,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillBackground() throws JRException
 	{
+		if (log.isDebugEnabled() && !background.isEmpty())
+		{
+			log.debug("Fill " + fillerId + ": background");
+		}
+		
 		//offsetX = leftMargin;
 
 		//if (!isSubreport)
