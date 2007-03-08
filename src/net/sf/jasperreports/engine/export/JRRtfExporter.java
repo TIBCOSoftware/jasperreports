@@ -480,15 +480,9 @@ public class JRRtfExporter extends JRAbstractExporter
 	{
 		exportElements(page.getElements());
 		
-		if(!lastPage){
-			if(isUnicode){
-				writer.write("{\\pard\\pagebb\\par}\n" );
-			}
-			else {
-				writer.write("\\page\n");
-			}
-			
-		}
+		if(!lastPage)
+			writer.write("{\\pard\\pagebb\\par}\n");
+		writer.flush();
 	}
 	
 	/**
@@ -593,8 +587,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write(String.valueOf(fillPattern));
 		writer.write("}\n");
 	}
-
-	
 	
 	/**
 	 * Get border adjustment for graphic elements depending on pen width used
@@ -765,36 +757,15 @@ public class JRRtfExporter extends JRAbstractExporter
 				break;
 		}
 		
-		/* 
-		 rtf text box does not allow unicode characters
-		 representation so if the report contains
-		 unicode characters above 127 the text box
-		 is replaced by paragraphs
-		 */
-		if(isUnicode) {
-			writer.write("{\\pard\\absw");
-			writer.write(String.valueOf(width));
-			writer.write("\\absh");
-			writer.write(String.valueOf(textHeight));
-			writer.write("\\phpg\\posx");
-			writer.write(String.valueOf(x));
-			writer.write("\\pvpg\\posy");
-			writer.write(String.valueOf(y + verticalAdjustment + topPadding));
-		}
-		else {
-			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
-			writer.write(String.valueOf(zorder++));
-			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(x + textBoxAdjustment));
-			writer.write("\\dpxsize");
-			writer.write(String.valueOf(width - textBoxAdjustment));
-			writer.write("\\dpy");
-			writer.write(String.valueOf(y + verticalAdjustment + topPadding + textBoxAdjustment));
-			writer.write("\\dpysize");
-			writer.write(String.valueOf(textHeight + bottomPadding - textBoxAdjustment));
-			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pard");
-		}
-		
+		writer.write("{\\pard\\absw");
+		writer.write(String.valueOf(width));
+		writer.write("\\absh");
+		writer.write(String.valueOf(textHeight));
+		writer.write("\\phpg\\posx");
+		writer.write(String.valueOf(x));
+		writer.write("\\pvpg\\posy");
+		writer.write(String.valueOf(y + verticalAdjustment + topPadding));
+			
 		JRFont font = text;
 		writer.write("\\f");
 		writer.write(String.valueOf(getFontIndex(font)));
@@ -802,6 +773,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write(String.valueOf(getColorIndex(text.getForecolor())));
 		writer.write("\\cb");
 		writer.write(String.valueOf(getColorIndex(bgcolor)));
+		writeTextBorder(text,text.getForecolor());
 		writer.write(" ");
 
 		if (leftPadding > 0)
@@ -929,14 +901,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			endHyperlink();
 		}
 		
-		if(isUnicode) {
-			writer.write("\\par}\n");
-		}
-		else {
-			writer.write("\\par}}}\n");
-		}
-
-		exportBox(text, x, y, width, height, text.getForecolor(), bgcolor);
+		writer.write("\\par}\n");
+		
 	}
 	
 	
@@ -1427,5 +1393,79 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write(anchorName);
 		writer.write("}");
 	}
+
+	/**
+	 * Add document control words that draw the paragraph border
+	 * @param pen pen dimension
+	 * @param fg foreground color
+	 * @throws IOException
+	 */
+	private void writeTextBorder(JRBox box, Color fg) throws IOException {
+		
+		Color borderColor = null;
+		int padding = 0;
+		byte pen = box.getLeftBorder();
+		if(pen != JRGraphicElement.PEN_NONE)
+		{
+			writer.write(" \\brdrl\\brdrs");
+			borderColor = box.getLeftBorderColor() == null ? fg : box.getLeftBorderColor();
+			padding = twip(box.getLeftPadding());
+			writeTextBorder(pen,getColorIndex(borderColor),padding);
+		}
+		pen = box.getTopBorder();
+		if(pen != JRGraphicElement.PEN_NONE)
+		{
+			writer.write(" \\brdrt\\brdrs");
+			borderColor = box.getTopBorderColor() == null ? fg : box.getTopBorderColor();
+			padding = twip(box.getTopPadding());
+			writeTextBorder(pen,getColorIndex(borderColor),padding);
+		}
+		
+		pen = box.getRightBorder();
+		if(pen != JRGraphicElement.PEN_NONE)
+		{
+			writer.write(" \\brdrr\\brdrs");
+			borderColor = box.getRightBorderColor() == null ? fg : box.getRightBorderColor();
+			padding = twip(box.getRightPadding());
+			writeTextBorder(pen,getColorIndex(borderColor),padding);
+		}
+		
+		pen = box.getBottomBorder();
+		if(pen != JRGraphicElement.PEN_NONE)
+		{
+			writer.write(" \\brdrb\\brdrs");
+			borderColor = box.getBottomBorderColor() == null ? fg : box.getBottomBorderColor();
+			padding = twip(box.getBottomPadding());
+			writeTextBorder(pen,getColorIndex(borderColor),padding);
+		}
+		writer.flush();
+	}
+	
+	private String getBorderThickness(byte pen){
+		switch(pen) {
+		case JRGraphicElement.PEN_THIN:
+			return("\\brdrw10");
+		case JRGraphicElement.PEN_1_POINT:
+			return("\\brdrw20");
+		case JRGraphicElement.PEN_2_POINT:
+			return("\\brdrw40");
+		case JRGraphicElement.PEN_4_POINT:
+			return("\\brdrw80");
+		case JRGraphicElement.PEN_DOTTED:
+			return("\\brdrdash");
+		case JRGraphicElement.PEN_NONE:
+			return("\\brdrnil");
+		default:
+			return("\\brdrnil");
+		}
+	}
+
+	private void writeTextBorder(byte pen, int colorIndex, int padding) throws IOException 
+	{
+		writer.write(getBorderThickness(pen));
+		writer.write("\\brdrcf" + colorIndex);
+		writer.write("\\brsp"+padding);
+	}
+	
 	
 }
