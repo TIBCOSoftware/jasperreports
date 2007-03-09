@@ -44,7 +44,9 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
+import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
+import net.sf.jasperreports.engine.design.JRDefaultCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 
 import org.apache.commons.logging.Log;
@@ -163,9 +165,9 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	}
 
 
-	protected String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
+	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
-		return JRGroovyGenerator.generateClass(sourceTask);
+		return new JRDefaultCompilationSourceCode(JRGroovyGenerator.generateClass(sourceTask), null);
 	}
 
 

@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 
 import net.sf.jasperreports.engine.design.JRDefaultCompiler;
+import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -214,10 +215,10 @@ public class JasperCompileManager
 
 	/**
 	 * Verifies the validity and consistency of the report design object.
-	 * Returns a collection of error messages (String), if problems are found in the report design.
+	 * Returns a collection of {@link JRValidationFault errors}, if problems are found in the report design.
 	 *
 	 * @param jasperDesign report design object to verify
-	 * @return collection of String messages if problems are found
+	 * @return collection of {@link JRValidationFault JRValidationFault} if problems are found
 	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign)

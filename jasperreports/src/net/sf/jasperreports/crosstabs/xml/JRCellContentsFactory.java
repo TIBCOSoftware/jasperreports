@@ -31,6 +31,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -78,7 +79,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 
 			if (!stylesMap.containsKey(styleName))
 			{
-				xmlLoader.addError(new Exception("Unknown report style : " + styleName));
+				xmlLoader.addError(new JRValidationException("Unknown report style : " + styleName, cell));
 			}
 
 			cell.setStyle((JRStyle) stylesMap.get(styleName));

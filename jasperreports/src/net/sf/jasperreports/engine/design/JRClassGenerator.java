@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -65,6 +66,9 @@ public class JRClassGenerator
 	 */
 	private static final int EXPR_MAX_COUNT_PER_METHOD = 100;
 
+	protected static final String SOURCE_EXPRESSION_ID_START = "$JR_EXPR_ID=";
+	protected static final int sOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
+	protected static final String SOURCE_EXPRESSION_ID_END = "$";
 
 	private static Map fieldPrefixMap = null;
 	private static Map variablePrefixMap = null;
@@ -113,14 +117,14 @@ public class JRClassGenerator
 	 * @return the source code
 	 * @throws JRException
 	 */
-	public static String generateClass(JRSourceCompileTask sourceTask) throws JRException
+	public static JRCompilationSourceCode generateClass(JRSourceCompileTask sourceTask) throws JRException
 	{
 		JRClassGenerator generator = new JRClassGenerator(sourceTask);
 		return generator.generateClass();
 	}
 	
 
-	protected String generateClass() throws JRException
+	protected JRCompilationSourceCode generateClass() throws JRException
 	{
 		StringBuffer sb = new StringBuffer();
 
@@ -152,7 +156,9 @@ public class JRClassGenerator
 		
 		sb.append("}\n");
 
-		return sb.toString();
+		String code = sb.toString();
+		JRExpression[] lineExpressions = parseSourceLines(code);
+		return new JRDefaultCompilationSourceCode(code, lineExpressions);
 	}
 
 
@@ -489,10 +495,9 @@ public class JRClassGenerator
 		sb.append("        switch (id)\n");
 		sb.append("        {\n");
 
-		JRExpression expression = null;
 		for (int i = 0; it.hasNext() && i < EXPR_MAX_COUNT_PER_METHOD; i++)
 		{
-			expression = (JRExpression)it.next();
+			JRExpression expression = (JRExpression)it.next();
 			
 			sb.append("            case "); 
 			sb.append(sourceTask.getExpressionId(expression)); 
@@ -502,7 +507,9 @@ public class JRClassGenerator
 			sb.append(expression.getValueClassName());
 			sb.append(")(");
 			sb.append(this.generateExpression(expression, evaluationType));
-			sb.append(");\n");
+			sb.append(");");
+			sb.append(expressionComment(expression));
+			sb.append("\n");
 			sb.append("                break;\n");
 			sb.append("            }\n");
 		}
@@ -567,7 +574,7 @@ public class JRClassGenerator
 				{
 					case JRExpressionChunk.TYPE_TEXT :
 					{
-						sb.append(chunkText);
+						appendExpressionText(expression, sb, chunkText);
 						break;
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
@@ -629,4 +636,79 @@ public class JRClassGenerator
 
 		return sb.toString();
 	}
+
+
+	protected void appendExpressionText(JRExpression expression, StringBuffer sb, String chunkText)
+	{
+		StringTokenizer tokenizer = new StringTokenizer(chunkText, "\n");
+		if (tokenizer.hasMoreTokens())
+		{
+			sb.append(tokenizer.nextToken());
+			while (tokenizer.hasMoreTokens())
+			{
+				sb.append(expressionComment(expression));
+				sb.append("\n");
+				sb.append(tokenizer.nextToken());
+			}
+		}
+	}
+
+
+	protected String expressionComment(JRExpression expression)
+	{
+		StringBuffer sb = new StringBuffer(24);
+		sb.append("/*");
+		sb.append(SOURCE_EXPRESSION_ID_START);
+		sb.append(sourceTask.getExpressionId(expression));
+		sb.append(SOURCE_EXPRESSION_ID_END);
+		sb.append("*/");
+		return sb.toString();
+	}
+
+	protected JRExpression[] parseSourceLines(String sourceCode)
+	{
+		List expressions = new ArrayList();
+		int start = 0;
+		int end = sourceCode.indexOf('\n');
+		while (end >= 0)
+		{
+			JRExpression expression = null;
+			if (start < end)
+			{
+				String line = sourceCode.substring(start, end);
+				expression = getLineExpression(line);
+			}
+			expressions.add(expression);
+			
+			start = end + 1;
+			end = sourceCode.indexOf('\n', start);
+		}
+		return (JRExpression[]) expressions.toArray(new JRExpression[expressions.size()]);
+	}
+
+
+	protected JRExpression getLineExpression(String line)
+	{
+		JRExpression expression = null;
+		int exprIdStart = line.indexOf(SOURCE_EXPRESSION_ID_START);
+		if (exprIdStart >= 0)
+		{
+			exprIdStart += sOURCE_EXPRESSION_ID_START_LENGTH;
+			int exprIdEnd = line.indexOf("$", exprIdStart);
+			if (exprIdEnd >= 0)
+			{
+				try
+				{
+					int exprId = Integer.parseInt(line.substring(exprIdStart, exprIdEnd));
+					expression = sourceTask.getExpression(exprId);
+				}
+				catch (NumberFormatException e)
+				{
+					// ignore
+				}							
+			}
+		}
+		return expression;
+	}
+	
 }

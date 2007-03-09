@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.design.JRDesignFont;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -65,7 +66,7 @@ public abstract class JRFontFactory extends JRBaseFactory
 
 			if ( !fontsMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)) )
 			{
-				xmlLoader.addError(new Exception("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
+				xmlLoader.addError(new JRValidationException("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont), font));
 			}
 
 			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));

@@ -126,6 +126,39 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		}
 	}	
 	
+
+	class CompilationUnit implements ICompilationUnit 
+	{
+		protected String srcCode;
+		protected String className;
+
+		public CompilationUnit(String srcCode, String className) 
+		{
+			this.srcCode = srcCode;
+			this.className = className;
+		}
+
+		public char[] getFileName() 
+		{
+			return className.toCharArray();
+		}
+
+		public char[] getContents() 
+		{
+			return srcCode.toCharArray();
+		}
+
+		public char[] getMainTypeName() 
+		{
+			return className.toCharArray();
+		}
+
+		public char[][] getPackageName() 
+		{
+			return new char[0][0];
+		}
+	}
+
 	
 	/**
 	 *
@@ -135,39 +168,38 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final StringBuffer problemBuffer = new StringBuffer();
 
 
-		class CompilationUnit implements ICompilationUnit 
+		INameEnvironment env = getNameEnvironment(units);
+
+		final IErrorHandlingPolicy policy = 
+			DefaultErrorHandlingPolicies.proceedWithAllProblems();
+
+		final Map settings = getJdtSettings();
+
+		final IProblemFactory problemFactory = 
+			new DefaultProblemFactory(Locale.getDefault());
+
+		final ICompilerRequestor requestor = getCompilerRequestor(units, problemBuffer);
+
+		ICompilationUnit[] compilationUnits = new ICompilationUnit[units.length];
+		for (int i = 0; i < compilationUnits.length; i++)
 		{
-			protected String srcCode;
-			protected String className;
-
-			public CompilationUnit(String srcCode, String className) 
-			{
-				this.srcCode = srcCode;
-				this.className = className;
-			}
-
-			public char[] getFileName() 
-			{
-				return className.toCharArray();
-			}
-
-			public char[] getContents() 
-			{
-				return srcCode.toCharArray();
-			}
-
-			public char[] getMainTypeName() 
-			{
-				return className.toCharArray();
-			}
-
-			public char[][] getPackageName() 
-			{
-				return new char[0][0];
-			}
+			compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
 		}
 
-		
+		Compiler compiler = 
+			new Compiler(env, policy, settings, requestor, problemFactory);
+		compiler.compile(compilationUnits);
+
+		if (problemBuffer.length() > 0) 
+		{
+			return problemBuffer.toString();
+		}
+
+		return null;  
+	}
+
+	protected INameEnvironment getNameEnvironment(final JRCompilationUnit[] units)
+	{
 		final INameEnvironment env = new INameEnvironment() 
 		{
 			public NameEnvironmentAnswer findType(char[][] compoundTypeName) 
@@ -358,14 +390,11 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		};
 
-		final IErrorHandlingPolicy policy = 
-			DefaultErrorHandlingPolicies.proceedWithAllProblems();
+		return env;
+	}
 
-		final Map settings = getJdtSettings();
-
-		final IProblemFactory problemFactory = 
-			new DefaultProblemFactory(Locale.getDefault());
-
+	protected ICompilerRequestor getCompilerRequestor(final JRCompilationUnit[] units, final StringBuffer problemBuffer)
+	{
 		final ICompilerRequestor requestor = 
 			new ICompilerRequestor() 
 			{
@@ -452,24 +481,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 			};
 
-		ICompilationUnit[] compilationUnits = new ICompilationUnit[units.length];
-		for (int i = 0; i < compilationUnits.length; i++)
-		{
-			compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
-		}
-
-		Compiler compiler = 
-			new Compiler(env, policy, settings, requestor, problemFactory);
-		compiler.compile(compilationUnits);
-
-		if (problemBuffer.length() > 0) 
-		{
-			return problemBuffer.toString();
-		}
-
-		return null;  
+		return requestor;
 	}
-
 
 	protected Map getJdtSettings()
 	{
@@ -578,7 +591,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}
 
 	
-	protected String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
+	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return JRClassGenerator.generateClass(sourceTask);
 	}

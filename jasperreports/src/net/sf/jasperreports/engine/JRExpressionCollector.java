@@ -142,6 +142,11 @@ public class JRExpressionCollector
 			}
 			return expressions;
 		}
+		
+		public JRExpression expression(int id)
+		{
+			return (JRExpression) ids.get(new Integer(id));
+		}
 	}
 	private GeneratedIds generatedIds = new GeneratedIds();
 	
@@ -345,6 +350,12 @@ public class JRExpressionCollector
 	public Integer getExpressionId(JRExpression expression)
 	{
 		return (Integer) expressionIds.get(expression);
+	}
+
+
+	public JRExpression getExpression(int expressionId)
+	{
+		return generatedIds.expression(expressionId);
 	}
 
 

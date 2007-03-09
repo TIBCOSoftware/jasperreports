@@ -158,4 +158,10 @@ public class JRSourceCompileTask
 	{
 		return expressionCollector.getExpressionId(expression);
 	}
+	
+	
+	public JRExpression getExpression(int expressionId)
+	{
+		return expressionCollector.getExpression(expressionId);
+	}
 }

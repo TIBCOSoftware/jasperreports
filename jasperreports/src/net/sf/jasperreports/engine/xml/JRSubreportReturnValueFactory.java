@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -54,15 +55,16 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);
 		JasperDesign design = (JasperDesign) digester.peek(digester.getCount() - 2);
+		
+		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
 
 		String variableName = atts.getValue(JRXmlConstants.ATTRIBUTE_toVariable);
 		JRVariable variable = (JRVariable) design.getVariablesMap().get(variableName);
 		if (variable == null)
 		{
-			xmlLoader.addError(new JRException("Unknown variable " + variableName));
+			xmlLoader.addError(new JRValidationException("Unknown variable " + variableName, returnValue));
 		}
 		
-		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
 		returnValue.setSubreportVariable(atts.getValue(JRXmlConstants.ATTRIBUTE_subreportVariable));
 		returnValue.setToVariable(variableName);
 
