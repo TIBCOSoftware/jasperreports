@@ -1021,7 +1021,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			textLength = styledText.length();
 		}
 
-		writeCellTDStart(gridCell);
+		writeCellTDStart(gridCell);//FIXME why dealing with cell style if no text to print (textLength == 0)?
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
