@@ -47,7 +47,7 @@ public class JRCompilationUnit
 	/**
 	 * The source code generated for the unit.
 	 */
-	private final String source;
+	private final JRCompilationSourceCode source;
 	
 	/**
 	 * The file where the source code was saved.
@@ -69,14 +69,14 @@ public class JRCompilationUnit
 	 * Creates a compilation unit.
 	 * 
 	 * @param name the name of the unit
-	 * @param source the source code generated for the unit
+	 * @param sourceCode the source code generated for the unit
 	 * @param sourceFile the file where the source code was saved
 	 * @param expressions the list of expressions
 	 */
-	public JRCompilationUnit(String name, String source, File sourceFile, List expressions)
+	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, List expressions)
 	{
 		this.name = name;
-		this.source = source;
+		this.source = sourceCode;
 		this.sourceFile = sourceFile;
 		this.expressions = expressions;
 	}
@@ -99,9 +99,19 @@ public class JRCompilationUnit
 	 */
 	public String getSourceCode()
 	{
-		return source;
+		return source.getCode();
 	}
 
+	
+	/**
+	 * Returns the compilation source code unit.
+	 * 
+	 * @return the compilation source code
+	 */
+	public JRCompilationSourceCode getCompilationSource()
+	{
+		return source;
+	}
 	
 	/**
 	 * Returns the file where the source code was saved.

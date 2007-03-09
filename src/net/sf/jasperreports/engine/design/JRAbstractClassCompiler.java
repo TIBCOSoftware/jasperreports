@@ -104,7 +104,7 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 	}
 
 	
-	protected String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
+	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return JRClassGenerator.generateClass(sourceTask);
 	}

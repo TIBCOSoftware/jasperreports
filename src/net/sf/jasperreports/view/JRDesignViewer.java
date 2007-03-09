@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
@@ -510,15 +511,7 @@ public class JRDesignViewer extends javax.swing.JPanel
 		Collection brokenRules = JasperCompileManager.verifyDesign(jasperDesign);
 		if (brokenRules != null && brokenRules.size() > 0)
 		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report definition not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			
-			throw new JRException(sbuffer.toString());
+			throw new JRValidationException(brokenRules);
 		}
 	}
 

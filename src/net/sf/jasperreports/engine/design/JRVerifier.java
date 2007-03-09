@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -148,9 +149,31 @@ public class JRVerifier
 		}
 	}
 
+	protected void addBrokenRule(String message, Object source)
+	{
+		JRValidationFault fault = new JRValidationFault();
+		fault.setMessage(message);
+		fault.setSource(source);
+		brokenRules.add(fault);
+	}
+
+	protected void addBrokenRule(Exception e, Object source)
+	{
+		JRValidationFault fault = new JRValidationFault();
+		fault.setMessage(e.getMessage());
+		fault.setSource(source);
+		brokenRules.add(fault);
+	}
 
 	/**
-	 *
+	 * Validates a {@link JasperDesign report design}.
+	 * 
+	 * @param jasperDesign the report design
+	 * @param expressionCollector a collector which was used to collect expressions from the report design;
+	 * 	if null, a new collector will be created and used to collect the expressions
+	 * 
+	 * @return a list of {@link JRValidationFault design faults};
+	 * 	the report design is valid iff the list is empty 
 	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
 	{
@@ -158,6 +181,14 @@ public class JRVerifier
 		return verifier.verifyDesign();
 	}
 
+	/**
+	 * Validates a {@link JasperDesign report design}.
+	 * 
+	 * @param jasperDesign the report design
+	 * 
+	 * @return a list of {@link JRValidationFault design faults};
+	 * 	the report design is valid iff the list is empty 
+	 */
 	public static Collection verifyDesign(JasperDesign jasperDesign)
 	{
 		return verifyDesign(jasperDesign, null);
@@ -206,52 +237,52 @@ public class JRVerifier
 	{
 		if (jasperDesign.getName() == null || jasperDesign.getName().trim().length() == 0)
 		{
-			brokenRules.add("Report name is missing.");
+			addBrokenRule("Report name is missing.", jasperDesign);
 		}
 		
 		if (jasperDesign.getColumnCount() <= 0)
 		{
-			brokenRules.add("Column count must be greater than zero.");
+			addBrokenRule("Column count must be greater than zero.", jasperDesign);
 		}
 
 		if (jasperDesign.getPageWidth() < 0)
 		{
-			brokenRules.add("Page width must be positive.");
+			addBrokenRule("Page width must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getPageHeight() < 0)
 		{
-			brokenRules.add("Page height must be positive.");
+			addBrokenRule("Page height must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getColumnWidth() < 0)
 		{
-			brokenRules.add("Column width must be positive.");
+			addBrokenRule("Column width must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getColumnSpacing() < 0)
 		{
-			brokenRules.add("Column spacing must be positive.");
+			addBrokenRule("Column spacing must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getLeftMargin() < 0)
 		{
-			brokenRules.add("Left margin must be positive.");
+			addBrokenRule("Left margin must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getRightMargin() < 0)
 		{
-			brokenRules.add("Right margin must be positive.");
+			addBrokenRule("Right margin must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getTopMargin() < 0)
 		{
-			brokenRules.add("Top margin must be positive.");
+			addBrokenRule("Top margin must be positive.", jasperDesign);
 		}
 
 		if (jasperDesign.getBottomMargin() < 0)
 		{
-			brokenRules.add("Bottom margin must be positive.");
+			addBrokenRule("Bottom margin must be positive.", jasperDesign);
 		}
 
 		if (
@@ -262,7 +293,7 @@ public class JRVerifier
 			jasperDesign.getPageWidth()
 			)
 		{
-			brokenRules.add("The columns and the margins do not fit the page width.");
+			addBrokenRule("The columns and the margins do not fit the page width.", jasperDesign);
 		}
 
 		if (
@@ -272,7 +303,7 @@ public class JRVerifier
 			jasperDesign.getPageHeight()
 			)
 		{
-			brokenRules.add("The background section and the margins do not fit the page height.");
+			addBrokenRule("The background section and the margins do not fit the page height.", jasperDesign);
 		}
 
 		if (jasperDesign.isTitleNewPage())
@@ -284,7 +315,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The title section and the margins do not fit the page height.");
+				addBrokenRule("The title section and the margins do not fit the page height.", jasperDesign);
 			}
 		}
 		else
@@ -300,7 +331,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The title section, the page and column headers and footers and the margins do not fit the page height.");
+				addBrokenRule("The title section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
 			}
 		}
 
@@ -314,7 +345,7 @@ public class JRVerifier
 			jasperDesign.getPageHeight()
 			)
 		{
-			brokenRules.add("The page and column headers and footers and the margins do not fit the page height.");
+			addBrokenRule("The page and column headers and footers and the margins do not fit the page height.", jasperDesign);
 		}
 
 		if (
@@ -327,7 +358,7 @@ public class JRVerifier
 			jasperDesign.getPageHeight()
 			)
 		{
-			brokenRules.add("The page and column headers and footers and the margins do not fit the last page height.");
+			addBrokenRule("The page and column headers and footers and the margins do not fit the last page height.", jasperDesign);
 		}
 
 		if (
@@ -337,7 +368,7 @@ public class JRVerifier
 			jasperDesign.getPageHeight()
 			)
 		{
-			brokenRules.add("The summary section and the margins do not fit the page height.");
+			addBrokenRule("The summary section and the margins do not fit the page height.", jasperDesign);
 		}
 
 		if (
@@ -351,7 +382,7 @@ public class JRVerifier
 			jasperDesign.getPageHeight()
 			)
 		{
-			brokenRules.add("The detail section, the page and column headers and footers and the margins do not fit the page height.");
+			addBrokenRule("The detail section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
 		}
 	}
 
@@ -368,7 +399,7 @@ public class JRVerifier
 			JRQueryExecuterFactory queryExecuterFactory = null;
 			if (language == null || language.length() == 0)
 			{
-				brokenRules.add("Query language not set.");
+				addBrokenRule("Query language not set.", query);
 			}
 			else
 			{
@@ -378,7 +409,7 @@ public class JRVerifier
 				}
 				catch (JRException e1)
 				{
-					brokenRules.add("Query executer factory for " + language + " cannot be created.");
+					addBrokenRule("Query executer factory for " + language + " cannot be created.", query);
 				}
 			}
 			
@@ -398,13 +429,22 @@ public class JRVerifier
 							JRParameter parameter = (JRParameter)parametersMap.get(queryChunk.getText());
 							if ( parameter == null )
 							{
-								brokenRules.add("Query parameter not found : " + queryChunk.getText());
+								addBrokenRule("Query parameter not found : " + queryChunk.getText(), query);
 							}
 							else if (queryExecuterFactory != null)
 							{
-								if (!queryExecuterFactory.supportsQueryParameterType(parameter.getValueClassName()))
+								String parameterType = null;
+								try
 								{
-									brokenRules.add("Parameter type not supported in query : " + queryChunk.getText() + " class " + parameter.getValueClassName());
+									parameterType = parameter.getValueClassName();
+								}
+								catch (JRRuntimeException e)
+								{
+									// ignore, already added when the parameter got verified
+								}								
+								if (parameterType != null && !queryExecuterFactory.supportsQueryParameterType(parameterType))
+								{
+									addBrokenRule("Parameter type not supported in query : " + queryChunk.getText() + " class " + parameterType, query);
 								}
 							}
 	
@@ -414,7 +454,7 @@ public class JRVerifier
 						{
 							if (!parametersMap.containsKey(queryChunk.getText()))
 							{
-								brokenRules.add("Query parameter not found : " + queryChunk.getText());
+								addBrokenRule("Query parameter not found : " + queryChunk.getText(), query);
 							}
 							break;
 						}
@@ -451,7 +491,7 @@ public class JRVerifier
 							{
 								if ( !variablesMap.containsKey(expressionChunk.getText()) )
 								{
-									brokenRules.add("Variable not found : " + expressionChunk.getText());
+									addBrokenRule("Variable not found : " + expressionChunk.getText(), expression);
 								}
 								break;
 							}
@@ -459,7 +499,7 @@ public class JRVerifier
 							{
 								if ( !fieldsMap.containsKey(expressionChunk.getText()) )
 								{
-									brokenRules.add("Field not found : " + expressionChunk.getText());
+									addBrokenRule("Field not found : " + expressionChunk.getText(), expression);
 								}
 								break;
 							}
@@ -467,7 +507,7 @@ public class JRVerifier
 							{
 								if ( !parametersMap.containsKey(expressionChunk.getText()) )
 								{
-									brokenRules.add("Parameter not found : " + expressionChunk.getText());
+									addBrokenRule("Parameter not found : " + expressionChunk.getText(), expression);
 								}
 								break;
 							}
@@ -507,7 +547,7 @@ public class JRVerifier
 				
 				if (font.getName() == null || font.getName().trim().length() == 0)
 				{
-					brokenRules.add("Report font name missing.");
+					addBrokenRule("Report font name missing.", font);
 				}
 			}
 		}
@@ -528,7 +568,7 @@ public class JRVerifier
 				
 				if (style.getName() == null || style.getName().trim().length() == 0)
 				{
-					brokenRules.add("Report style name missing.");
+					addBrokenRule("Report style name missing.", style);
 				}
 			}
 		}
@@ -549,33 +589,46 @@ public class JRVerifier
 				
 				if (parameter.getName() == null || parameter.getName().trim().length() == 0)
 				{
-					brokenRules.add("Parameter name missing.");
+					addBrokenRule("Parameter name missing.", parameter);
 				}
 
 				if (parameter.getValueClassName() == null)
 				{
-					brokenRules.add("Class not set for parameter : " + parameter.getName());
+					addBrokenRule("Class not set for parameter : " + parameter.getName(), parameter);
 				}
 				else
 				{
-					JRExpression expression = parameter.getDefaultValueExpression();
-					if (expression != null)
+					try
 					{
-						if (expression.getValueClass() == null) {
-							brokenRules.add("No value class defined for the expression in parameter: "+parameter.getName());
-						}
-						else {
-							if (
-								!parameter.getValueClass().isAssignableFrom(
-									expression.getValueClass()
-									)
-								)
+						Class parameterType = parameter.getValueClass();
+						JRExpression expression = parameter.getDefaultValueExpression();
+						if (expression != null)
+						{
+							try
 							{
-								brokenRules.add("The parameter default value expression class is not compatible with the parameter's class : " + parameter.getName());
+								if (expression.getValueClass() == null)
+								{
+									addBrokenRule("No value class defined for the expression in parameter: " + parameter.getName(), expression);
+								}
+								else
+								{
+									if (!parameterType.isAssignableFrom(expression.getValueClass()))
+									{
+										addBrokenRule("The parameter default value expression class is not compatible with the parameter's class : " + parameter.getName(), expression);
+									}
+								}
+							}
+							catch (JRRuntimeException e)
+							{
+								addBrokenRule(e, expression);
 							}
 						}
 					}
-				}
+					catch (JRRuntimeException e)
+					{
+						addBrokenRule(e, parameter);
+					}				
+				}				
 			}
 		}
 	}
@@ -595,15 +648,21 @@ public class JRVerifier
 				
 				if (field.getName() == null || field.getName().trim().length() == 0)
 				{
-					brokenRules.add("Field name missing.");
+					addBrokenRule("Field name missing.", field);
 				}
 
-				String className = field.getValueClassName();
-
-				if (className == null)
+				try
 				{
-					brokenRules.add("Class not set for field : " + field.getName());
+					Class fieldType = field.getValueClass();
+					if (fieldType == null)
+					{
+						addBrokenRule("Class not set for field : " + field.getName(), field);
+					}
 				}
+				catch (JRRuntimeException e)
+				{
+					addBrokenRule(e, field);
+				}				
 			}
 		}
 	}
@@ -625,7 +684,7 @@ public class JRVerifier
 				
 				if (sortFieldName == null || sortFieldName.trim().length() == 0)
 				{
-					brokenRules.add("Sort field name missing.");
+					addBrokenRule("Sort field name missing.", sortField);
 				}
 				else
 				{
@@ -640,7 +699,7 @@ public class JRVerifier
 					
 					if (!isFound)
 					{
-						brokenRules.add("Sort field \"" + sortFieldName + "\" not declared.");
+						addBrokenRule("Sort field \"" + sortFieldName + "\" not declared.", sortField);
 					}
 				}
 			}
@@ -651,7 +710,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyVariables(JRDesignDataset dataset)
+	private void verifyVariables(JRDesignDataset dataset) throws JRRuntimeException
 	{
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null && variables.length > 0)
@@ -663,49 +722,61 @@ public class JRVerifier
 				
 				if (variable.getName() == null || variable.getName().trim().length() == 0)
 				{
-					brokenRules.add("Variable name missing.");
+					addBrokenRule("Variable name missing.", variable);
 				}
 
-				Class valueClass = variable.getValueClass();
-
-				if (valueClass == null)
+				try
 				{
-					brokenRules.add("Class not set for variable : " + variable.getName());
-				}
-				else
-				{
-					JRExpression expression = variable.getExpression();
-					if (expression != null)
+					Class valueClass = variable.getValueClass();
+					if (valueClass == null)
 					{
-						if (expression.getValueClass() == null) {
-							brokenRules.add("No value class for the expression has been set in variable: "+variable.getName());
-						}
-						else {
-							if (
-								variable.getCalculation() != JRVariable.CALCULATION_COUNT
-								&& variable.getCalculation() != JRVariable.CALCULATION_DISTINCT_COUNT
-								&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM
-								&& !valueClass.isAssignableFrom(
-									expression.getValueClass()
-									)
-								)
+						addBrokenRule("Class not set for variable : " + variable.getName(), variable);
+					}
+					else
+					{
+						JRExpression expression = variable.getExpression();
+						if (expression != null)
+						{
+							try
 							{
-								brokenRules.add("The variable expression class is not compatible with the variable's class : " + variable.getName());
+								if (expression.getValueClass() == null)
+								{
+									addBrokenRule("No value class for the expression has been set in variable: " + variable.getName(), expression);
+								}
+								else
+								{
+									if (variable.getCalculation() != JRVariable.CALCULATION_COUNT && variable.getCalculation() != JRVariable.CALCULATION_DISTINCT_COUNT
+											&& variable.getCalculation() != JRVariable.CALCULATION_SYSTEM && !valueClass.isAssignableFrom(expression.getValueClass()))
+									{
+										addBrokenRule("The variable expression class is not compatible with the variable's class : " + variable.getName(), expression);
+									}
+								}
+							}
+							catch (JRRuntimeException e)
+							{
+								addBrokenRule(e, expression);
+							}
+						}
+
+						if (variable.getInitialValueExpression() != null)
+						{
+							try
+							{
+								if (!valueClass.isAssignableFrom(variable.getInitialValueExpression().getValueClass()))
+								{
+									addBrokenRule("The initial value class is not compatible with the variable's class : " + variable.getName(), variable.getInitialValueExpression());
+								}
+							}
+							catch (JRRuntimeException e)
+							{
+								addBrokenRule(e, variable.getInitialValueExpression());
 							}
 						}
 					}
-					
-					if (variable.getInitialValueExpression() != null)
-					{
-						if (
-							!valueClass.isAssignableFrom(
-								variable.getInitialValueExpression().getValueClass()
-								)
-							)
-						{
-							brokenRules.add("The initial value class is not compatible with the variable's class : " + variable.getName());
-						}
-					}
+				}
+				catch (JRRuntimeException e)
+				{
+					addBrokenRule(e, variable);
 				}
 				
 				byte resetType = variable.getResetType();
@@ -713,7 +784,7 @@ public class JRVerifier
 				{
 					if (variable.getResetGroup() == null)
 					{
-						brokenRules.add("Reset group missing for variable : " + variable.getName());
+						addBrokenRule("Reset group missing for variable : " + variable.getName(), variable);
 					}
 					else
 					{
@@ -721,7 +792,7 @@ public class JRVerifier
 		
 						if (!groupsMap.containsKey(variable.getResetGroup().getName()))
 						{
-							brokenRules.add("Reset group \"" + variable.getResetGroup().getName() + "\" not found for variable : " + variable.getName());
+							addBrokenRule("Reset group \"" + variable.getResetGroup().getName() + "\" not found for variable : " + variable.getName(), variable);
 						}
 					}
 				}
@@ -731,7 +802,7 @@ public class JRVerifier
 				{
 					if (variable.getIncrementGroup() == null)
 					{
-						brokenRules.add("Increment group missing for variable : " + variable.getName());
+						addBrokenRule("Increment group missing for variable : " + variable.getName(), variable);
 					}
 					else
 					{
@@ -739,7 +810,7 @@ public class JRVerifier
 		
 						if (!groupsMap.containsKey(variable.getIncrementGroup().getName()))
 						{
-							brokenRules.add("Increment group \"" + variable.getIncrementGroup().getName() + "\" not found for variable : " + variable.getName());
+							addBrokenRule("Increment group \"" + variable.getIncrementGroup().getName() + "\" not found for variable : " + variable.getName(), variable);
 						}
 					}
 				}
@@ -748,12 +819,12 @@ public class JRVerifier
 				{
 					if (resetType == JRVariable.RESET_TYPE_COLUMN || resetType == JRVariable.RESET_TYPE_PAGE)
 					{
-						brokenRules.add("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page reset type.");
+						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page reset type.", variable);
 					}
 					
 					if (incrementType == JRVariable.RESET_TYPE_COLUMN || incrementType == JRVariable.RESET_TYPE_PAGE)
 					{
-						brokenRules.add("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page increment type.");
+						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page increment type.", variable);
 					}
 				}
 			}
@@ -776,7 +847,7 @@ public class JRVerifier
 
 				if (group.getName() == null || group.getName().trim().length() == 0)
 				{
-					brokenRules.add("Group name missing.");
+					addBrokenRule("Group name missing.", group);
 				}
 
 				if (isMainDataset)
@@ -787,7 +858,7 @@ public class JRVerifier
 				{
 					if (group.getGroupHeader() != null || group.getGroupFooter() != null)
 					{
-						brokenRules.add("Group " + group.getName() + " cannot have header or footer sections.");
+						addBrokenRule("Group " + group.getName() + " cannot have header or footer sections.", group);
 					}
 				}
 				
@@ -795,12 +866,18 @@ public class JRVerifier
 				
 				if (expression != null)
 				{
-					Class clazz = expression.getValueClass();
-	
-					if (clazz == null)
+					try
 					{
-						brokenRules.add("Class not set for group expression : " + group.getName());
+						Class clazz = expression.getValueClass();
+						if (clazz == null)
+						{
+							addBrokenRule("Class not set for group expression : " + group.getName(), expression);
+						}
 					}
+					catch (JRRuntimeException e)
+					{
+						addBrokenRule(e, expression);
+					}					
 				}
 
 				if (isMainDataset)
@@ -828,7 +905,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The '" + group.getName() + "' group header section, the page and column headers and footers and the margins do not fit the page height.");
+				addBrokenRule("The '" + group.getName() + "' group header section, the page and column headers and footers and the margins do not fit the page height.", group.getGroupHeader());
 			}
 
 			if (
@@ -842,7 +919,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The '" + group.getName() + "' group footer section, the page and column headers and footers and the margins do not fit the page height.");
+				addBrokenRule("The '" + group.getName() + "' group footer section, the page and column headers and footers and the margins do not fit the page height.", group.getGroupFooter());
 			}
 		}
 		else
@@ -859,7 +936,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The '" + group.getName() + "' group header section, the title, the page and column headers and footers and the margins do not fit the first page height.");
+				addBrokenRule("The '" + group.getName() + "' group header section, the title, the page and column headers and footers and the margins do not fit the first page height.", group.getGroupHeader());
 			}
 
 			if (
@@ -874,7 +951,7 @@ public class JRVerifier
 				jasperDesign.getPageHeight()
 				)
 			{
-				brokenRules.add("The '" + group.getName() + "' group footer section, the title, the page and column headers and footers and the margins do not fit the first page height.");
+				addBrokenRule("The '" + group.getName() + "' group footer section, the title, the page and column headers and footers and the margins do not fit the first page height.", group.getGroupFooter());
 			}
 		}
 	}
@@ -894,16 +971,22 @@ public class JRVerifier
 				
 				if (expression != null)
 				{
-					Class clazz = expression.getValueClass();
-	
-					if (clazz == null)
+					try
 					{
-						brokenRules.add("Class not set for band \"print when\" expression.");
+						Class clazz = expression.getValueClass();
+						if (clazz == null)
+						{
+							addBrokenRule("Class not set for band \"print when\" expression.", expression);
+						}
+						else if (!java.lang.Boolean.class.isAssignableFrom(clazz))
+						{
+							addBrokenRule("Class " + clazz + " not supported for band \"print when\" expression. Use java.lang.Boolean instead.", expression);
+						}
 					}
-					else if (!java.lang.Boolean.class.isAssignableFrom(clazz))
+					catch (JRRuntimeException e)
 					{
-						brokenRules.add("Class " + clazz + " not supported for band \"print when\" expression. Use java.lang.Boolean instead.");
-					}
+						addBrokenRule(e, expression);
+					}					
 				}
 
 				for(int index = 0; index < elements.length; index++)
@@ -918,7 +1001,7 @@ public class JRVerifier
 						System.out.println(
 							"Warning : Element placed outside band area : y=" + element.getY()
 							);
-						//brokenRules.add("Element placed outside band area.");
+						//addBrokenRule("Element placed outside band area.");
 					}
 					else if (element.getY() + element.getHeight() > band.getHeight())
 					*/
@@ -930,10 +1013,11 @@ public class JRVerifier
 //								" height=" + element.getHeight() + 
 //								" band-height=" + band.getHeight()
 //								);
-						brokenRules.add(
+						addBrokenRule(
 							"Warning : Element bottom reaches outside band area : y=" + element.getY() + 
 							" height=" + element.getHeight() + 
-							" band-height=" + band.getHeight()
+							" band-height=" + band.getHeight(),
+							element
 							);
 					}
 
@@ -984,16 +1068,22 @@ public class JRVerifier
 		
 		if (expression != null)
 		{
-			Class clazz = expression.getValueClass();
-
-			if (clazz == null)
+			try
 			{
-				brokenRules.add("Class not set for element \"print when\" expression.");
+				Class clazz = expression.getValueClass();
+				if (clazz == null)
+				{
+					addBrokenRule("Class not set for element \"print when\" expression.", expression);
+				}
+				else if (!java.lang.Boolean.class.isAssignableFrom(clazz))
+				{
+					addBrokenRule("Class " + clazz + " not supported for element \"print when\" expression. Use java.lang.Boolean instead.", expression);
+				}
 			}
-			else if (!java.lang.Boolean.class.isAssignableFrom(clazz))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + clazz + " not supported for element \"print when\" expression. Use java.lang.Boolean instead.");
-			}
+				addBrokenRule(e, expression);
+			}			
 		}
 	}
 
@@ -1022,16 +1112,22 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				String className = expression.getValueClassName();
-
-				if (className == null)
+				try
 				{
-					brokenRules.add("Class not set for text field expression.");
+					String className = expression.getValueClassName();
+					if (className == null)
+					{
+						addBrokenRule("Class not set for text field expression.", expression);
+					}
+					else if (Arrays.binarySearch(getTextFieldClassNames(), className) < 0)
+					{
+						addBrokenRule("Class \"" + className + "\" not supported for text field expression.", expression);
+					}
 				}
-				else if (Arrays.binarySearch(getTextFieldClassNames(), className) < 0) 
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class \"" + className + "\" not supported for text field expression.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 		}
 	}
@@ -1050,7 +1146,7 @@ public class JRVerifier
 
 			if (!fontsMap.containsKey(reportFont.getName()))
 			{
-				brokenRules.add("Report font not found : " + reportFont.getName());
+				addBrokenRule("Report font not found : " + reportFont.getName(), font);
 			}
 		}
 	}
@@ -1067,21 +1163,27 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for anchor name expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for anchor name expression.", expression);
+					}
+					else if (!java.lang.String.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for anchor name expression. Use java.lang.String instead.", expression);
+					}
 				}
-				else if (!java.lang.String.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for anchor name expression. Use java.lang.String instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 			
 			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK && anchor.getBookmarkLevel() < 1)
 			{
-				brokenRules.add("Bookmark level should be " + JRAnchor.NO_BOOKMARK + " or greater than 0");
+				addBrokenRule("Bookmark level should be " + JRAnchor.NO_BOOKMARK + " or greater than 0", anchor);
 			}
 		}
 	}
@@ -1098,64 +1200,88 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for hyperlink reference expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for hyperlink reference expression.", expression);
+					}
+					else if (!java.lang.String.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for hyperlink reference expression. Use java.lang.String instead.", expression);
+					}
 				}
-				else if (!java.lang.String.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for hyperlink reference expression. Use java.lang.String instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			expression = hyperlink.getHyperlinkAnchorExpression();
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for hyperlink anchor expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for hyperlink anchor expression.", expression);
+					}
+					else if (!java.lang.String.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for hyperlink anchor expression. Use java.lang.String instead.", expression);
+					}
 				}
-				else if (!java.lang.String.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for hyperlink anchor expression. Use java.lang.String instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			expression = hyperlink.getHyperlinkPageExpression();
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for hyperlink page expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for hyperlink page expression.", expression);
+					}
+					else if (!java.lang.Integer.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for hyperlink page expression. Use java.lang.Integer instead.", expression);
+					}
 				}
-				else if (!java.lang.Integer.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for hyperlink page expression. Use java.lang.Integer instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			expression = hyperlink.getHyperlinkTooltipExpression();
 			
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for hyperlink tooltip expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for hyperlink tooltip expression.", expression);
+					}
+					else if (!java.lang.String.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for hyperlink tooltip expression. Use java.lang.String instead.", expression);
+					}
 				}
-				else if (!java.lang.String.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for hyperlink tooltip expression. Use java.lang.String instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 			
 			JRHyperlinkParameter[] parameters = hyperlink.getHyperlinkParameters();
@@ -1178,7 +1304,7 @@ public class JRVerifier
 			String name = parameter.getName();
 			if (name == null || name.length() == 0)
 			{
-				brokenRules.add("Hyperlink parameter name missing.");
+				addBrokenRule("Hyperlink parameter name missing.", parameter);
 			}
 		}
 	}
@@ -1198,16 +1324,22 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				String className = expression.getValueClassName();
-
-				if (className == null)
+				try
 				{
-					brokenRules.add("Class not set for image expression.");
+					String className = expression.getValueClassName();
+					if (className == null)
+					{
+						addBrokenRule("Class not set for image expression.", expression);
+					}
+					else if (Arrays.binarySearch(getImageClassNames(), className) < 0)
+					{
+						addBrokenRule("Class \"" + className + "\" not supported for image expression.", expression);
+					}
 				}
-				else if (Arrays.binarySearch(getImageClassNames(), className) < 0)
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class \"" + className + "\" not supported for image expression.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 		}
 	}
@@ -1224,32 +1356,44 @@ public class JRVerifier
 			
 			if (expression != null)
 			{
-				String className = expression.getValueClassName();
-
-				if (className == null)
+				try
 				{
-					brokenRules.add("Class not set for subreport expression.");
+					String className = expression.getValueClassName();
+					if (className == null)
+					{
+						addBrokenRule("Class not set for subreport expression.", expression);
+					}
+					else if (Arrays.binarySearch(getSubreportClassNames(), className) < 0)
+					{
+						addBrokenRule("Class \"" + className + "\" not supported for subreport expression.", expression);
+					}
 				}
-				else if (Arrays.binarySearch(getSubreportClassNames(), className) < 0) 
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class \"" + className + "\" not supported for subreport expression.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			expression = subreport.getParametersMapExpression();
 
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for subreport parameters map expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for subreport parameters map expression.", expression);
+					}
+					else if (!java.util.Map.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for subreport parameters map expression. Use java.util.Map instead.", expression);
+					}
 				}
-				else if (!java.util.Map.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for subreport parameters map expression. Use java.util.Map instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			JRSubreportParameter[] parameters = subreport.getParameters();
@@ -1261,19 +1405,25 @@ public class JRVerifier
 	
 					if (parameter.getName() == null || parameter.getName().trim().length() == 0)
 					{
-						brokenRules.add("Subreport parameter name missing.");
+						addBrokenRule("Subreport parameter name missing.", expression);
 					}
 
 					expression = parameter.getExpression();
 					
 					if (expression != null)
 					{
-						Class clazz = expression.getValueClass();
-		
-						if (clazz == null)
+						try
 						{
-							brokenRules.add("Class not set for subreport parameter expression : " + parameter.getName() + ". Use java.lang.Object class.");
+							Class clazz = expression.getValueClass();
+							if (clazz == null)
+							{
+								addBrokenRule("Class not set for subreport parameter expression : " + parameter.getName() + ". Use java.lang.Object class.", expression);
+							}
 						}
+						catch (JRRuntimeException e)
+						{
+							addBrokenRule(e, expression);
+						}						
 					}
 				}
 			}
@@ -1283,39 +1433,51 @@ public class JRVerifier
 				subreport.getDataSourceExpression() != null
 				)
 			{
-				brokenRules.add("Subreport cannot have both connection expresion and data source expression.");
+				addBrokenRule("Subreport cannot have both connection expresion and data source expression.", subreport);
 			}
 				
 			expression = subreport.getConnectionExpression();
 
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for subreport connection expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for subreport connection expression.", expression);
+					}
+					else if (!java.sql.Connection.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for subreport connection expression. Use java.sql.Connection instead.", expression);
+					}
 				}
-				else if (!java.sql.Connection.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for subreport connection expression. Use java.sql.Connection instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 
 			expression = subreport.getDataSourceExpression();
 
 			if (expression != null)
 			{
-				Class clazz = expression.getValueClass();
-
-				if (clazz == null)
+				try
 				{
-					brokenRules.add("Class not set for subreport data source expression.");
+					Class clazz = expression.getValueClass();
+					if (clazz == null)
+					{
+						addBrokenRule("Class not set for subreport data source expression.", expression);
+					}
+					else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
+					{
+						addBrokenRule("Class " + clazz + " not supported for subreport data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.", expression);
+					}
 				}
-				else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
+				catch (JRRuntimeException e)
 				{
-					brokenRules.add("Class " + clazz + " not supported for subreport data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.");
-				}
+					addBrokenRule(e, expression);
+				}				
 			}
 			
 			JRSubreportReturnValue[] returnValues = subreport.getReturnValues();
@@ -1327,17 +1489,17 @@ public class JRVerifier
 					
 					if (returnValue.getSubreportVariable() == null || returnValue.getSubreportVariable().trim().length() == 0)
 					{
-						brokenRules.add("Subreport return value variable name missing.");
+						addBrokenRule("Subreport return value variable name missing.", returnValue);
 					}
 					
 					if (returnValue.getToVariable() == null || returnValue.getToVariable().trim().length() == 0)
 					{
-						brokenRules.add("Subreport return value to variable name missing.");
+						addBrokenRule("Subreport return value to variable name missing.", returnValue);
 					}
 					
 					if (!jasperDesign.getVariablesMap().containsKey(returnValue.getToVariable()))
 					{
-						brokenRules.add("Subreport return value to variable not found.");
+						addBrokenRule("Subreport return value to variable not found.", returnValue);
 					}
 				}
 			}
@@ -1430,7 +1592,7 @@ public class JRVerifier
 		JRCrosstabDataset dataset = crosstab.getDataset();
 		if (dataset == null)
 		{
-			brokenRules.add("Crosstab dataset missing.");
+			addBrokenRule("Crosstab dataset missing.", crosstab);
 		}
 		else
 		{
@@ -1442,7 +1604,7 @@ public class JRVerifier
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		if (rowGroups == null || rowGroups.length == 0)
 		{
-			brokenRules.add("Crosstab should have at least one row group.");
+			addBrokenRule("Crosstab should have at least one row group.", crosstab);
 		}
 		else
 		{
@@ -1455,7 +1617,7 @@ public class JRVerifier
 		JRCrosstabColumnGroup[] colGroups = crosstab.getColumnGroups();
 		if (colGroups == null || colGroups.length == 0)
 		{
-			brokenRules.add("Crosstab should have at least one column group.");
+			addBrokenRule("Crosstab should have at least one column group.", crosstab);
 		}
 		else
 		{
@@ -1468,7 +1630,7 @@ public class JRVerifier
 		JRCrosstabMeasure[] measures = crosstab.getMeasures();
 		if (measures == null || measures.length == 0)
 		{
-			brokenRules.add("Crosstab should have at least one measure.");
+			addBrokenRule("Crosstab should have at least one measure.", crosstab);
 		}
 		else
 		{
@@ -1492,16 +1654,22 @@ public class JRVerifier
 
 		if (paramMapExpression != null)
 		{
-			Class clazz = paramMapExpression.getValueClass();
-
-			if (clazz == null)
+			try
 			{
-				brokenRules.add("Class not set for crosstab parameters map expression.");
+				Class clazz = paramMapExpression.getValueClass();
+				if (clazz == null)
+				{
+					addBrokenRule("Class not set for crosstab parameters map expression.", paramMapExpression);
+				}
+				else if (!java.util.Map.class.isAssignableFrom(clazz))
+				{
+					addBrokenRule("Class " + clazz + " not supported for crosstab parameters map expression. Use java.util.Map instead.", paramMapExpression);
+				}
 			}
-			else if (!java.util.Map.class.isAssignableFrom(clazz))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + clazz + " not supported for crosstab parameters map expression. Use java.util.Map instead.");
-			}
+				addBrokenRule(e, paramMapExpression);
+			}			
 		}
 		
 		JRCrosstabParameter[] parameters = crosstab.getParameters();
@@ -1514,30 +1682,43 @@ public class JRVerifier
 				String paramName = parameter.getName();
 				if (paramName == null || paramName.length() == 0)
 				{
-					brokenRules.add("Missing parameter name for crosstab.");
+					addBrokenRule("Missing parameter name for crosstab.", parameter);
 				}
 				
 				JRExpression expression = parameter.getExpression();
 				Class expressionClass = null;
 				if (expression != null)
 				{
-					expressionClass = expression.getValueClass();
-					
-					if (expressionClass == null)
+					try
 					{
-						brokenRules.add("Expression class not set for crosstab parameter " + paramName + ".");
+						expressionClass = expression.getValueClass();
+						if (expressionClass == null)
+						{
+							addBrokenRule("Expression class not set for crosstab parameter " + paramName + ".", expression);
+						}
 					}
+					catch (JRRuntimeException e)
+					{
+						addBrokenRule(e, expression);
+					}					
 				}
 				
-				Class valueClass = parameter.getValueClass();
-				if (valueClass == null)
+				try
 				{
-					brokenRules.add("Class not set for crosstab parameter " + paramName + ".");
+					Class valueClass = parameter.getValueClass();
+					if (valueClass == null)
+					{
+						addBrokenRule("Class not set for crosstab parameter " + paramName + ".", parameter);
+					}
+					else if (expressionClass != null && !valueClass.isAssignableFrom(expressionClass))
+					{
+						addBrokenRule("Incompatible expression class for crosstab parameter " + paramName + ".", parameter);
+					}
 				}
-				else if (expressionClass != null && !valueClass.isAssignableFrom(expressionClass))
+				catch (Exception e)
 				{
-					brokenRules.add("Incompatible expression class for crosstab parameter " + paramName + ".");
-				}
+					addBrokenRule(e, parameter);
+				}				
 			}
 		}
 	}
@@ -1560,7 +1741,7 @@ public class JRVerifier
 		String groupName = group.getName();
 		if (groupName == null || groupName.length() == 0)
 		{
-			brokenRules.add("Crosstab group name missing.");
+			addBrokenRule("Crosstab group name missing.", group);
 		}
 		
 		verifyCrosstabBucket(group);
@@ -1580,48 +1761,67 @@ public class JRVerifier
 		Class expressionClass = null;
 		if (expression == null)
 		{
-			brokenRules.add("Crosstab bucket expression missing for group " + group.getName() + ".");
+			addBrokenRule("Crosstab bucket expression missing for group " + group.getName() + ".", bucket);
 		}
 		else
 		{
-			expressionClass = expression.getValueClass();
-			
-			if (expressionClass == null)
+			try
 			{
-				brokenRules.add("Crosstab bucket expression class missing for group " + group.getName() + ".");
+				expressionClass = expression.getValueClass();
+				if (expressionClass == null)
+				{
+					addBrokenRule("Crosstab bucket expression class missing for group " + group.getName() + ".", expression);
+				}
 			}
+			catch (JRRuntimeException e)
+			{
+				addBrokenRule(e, expression);
+			}			
 		}
 		
-		Class valueClass = expression == null ? null : expression.getValueClass();		
-		if (valueClass == null)
+		try
 		{
-			brokenRules.add("Crosstab bucket value class missing for group " + group.getName() + ".");
-		}
-		else if (expressionClass != null && !valueClass.isAssignableFrom(expressionClass))
-		{
-			brokenRules.add("The class of the expression is not compatible with the class of the crosstab bucket for group " + group.getName() + ".");
-		}
-		
-		JRExpression comparatorExpression = bucket.getComparatorExpression();
-		if (comparatorExpression == null)
-		{
-			if (valueClass != null && !Comparable.class.isAssignableFrom(valueClass))
+			Class valueClass = expression == null ? null : expression.getValueClass();
+			if (valueClass == null)
 			{
-				brokenRules.add("No comparator expression specified and the value class is not comparable for crosstab group " + group.getName() + ".");
+				addBrokenRule("Crosstab bucket value class missing for group " + group.getName() + ".", bucket);
+			}
+			else if (expressionClass != null && !valueClass.isAssignableFrom(expressionClass))
+			{
+				addBrokenRule("The class of the expression is not compatible with the class of the crosstab bucket for group " + group.getName() + ".", expression);
+			}
+			JRExpression comparatorExpression = bucket.getComparatorExpression();
+			if (comparatorExpression == null)
+			{
+				if (valueClass != null && !Comparable.class.isAssignableFrom(valueClass))
+				{
+					addBrokenRule("No comparator expression specified and the value class is not comparable for crosstab group " + group.getName() + ".", bucket);
+				}
+			}
+			else
+			{
+				try
+				{
+					Class comparatorClass = comparatorExpression.getValueClass();
+					if (comparatorClass == null)
+					{
+						addBrokenRule("Crosstab bucket comparator expression class missing for group " + group.getName() + ".", comparatorExpression);
+					}
+					else if (!Comparator.class.isAssignableFrom(comparatorClass))
+					{
+						addBrokenRule("The comparator expression should be compatible with java.util.Comparator for crosstab group " + group.getName() + ".", comparatorExpression);
+					}
+				}
+				catch (JRRuntimeException e)
+				{
+					addBrokenRule(e, comparatorExpression);
+				}
 			}
 		}
-		else
+		catch (JRRuntimeException e)
 		{
-			Class comparatorClass = comparatorExpression.getValueClass();
-			if (comparatorClass == null)
-			{
-				brokenRules.add("Crosstab bucket comparator expression class missing for group " + group.getName() + ".");
-			}
-			else if (!Comparator.class.isAssignableFrom(comparatorClass))
-			{
-				brokenRules.add("The comparator expression should be compatible with java.util.Comparator for crosstab group " + group.getName() + ".");
-			}
-		}
+			addBrokenRule(e, expression);
+		}		
 	}
 	
 	
@@ -1634,12 +1834,12 @@ public class JRVerifier
 		JRCrosstabCell baseCell = cells[rowGroups.length][columnGroups.length];
 		if(baseCell == null || baseCell.getWidth() == null)
 		{
-			brokenRules.add("Crosstab base cell width not specified.");
+			addBrokenRule("Crosstab base cell width not specified.", crosstab);
 		}
 		
 		if(baseCell == null || baseCell.getHeight() == null)
 		{
-			brokenRules.add("Crosstab base cell height not specified.");
+			addBrokenRule("Crosstab base cell height not specified.", crosstab);
 		}
 		
 		for (int i = rowGroups.length; i >= 0 ; --i)
@@ -1659,7 +1859,7 @@ public class JRVerifier
 						JRCrosstabCell colCell = cells[rowGroups.length][j];
 						if (colCell != null && colCell.getContents().getWidth() != contents.getWidth())
 						{
-							brokenRules.add("Crosstab " + cellText + " width should be " + colCell.getContents().getWidth() + ".");
+							addBrokenRule("Crosstab " + cellText + " width should be " + colCell.getContents().getWidth() + ".", cell);
 						}
 					}
 					
@@ -1668,7 +1868,7 @@ public class JRVerifier
 						JRCrosstabCell rowCell = cells[i][columnGroups.length];
 						if (rowCell != null && rowCell.getContents().getHeight() != contents.getHeight())
 						{
-							brokenRules.add("Crosstab " + cellText + " height should be " + rowCell.getContents().getHeight() + ".");
+							addBrokenRule("Crosstab " + cellText + " height should be " + rowCell.getContents().getHeight() + ".", cell);
 						}
 					}
 					
@@ -1714,68 +1914,84 @@ public class JRVerifier
 		String measureName = measure.getName();
 		if (measureName == null || measureName.trim().length() == 0)
 		{
-			brokenRules.add("Measure name missing.");
+			addBrokenRule("Measure name missing.", measure);
 		}
 		
 		byte calculation = measure.getCalculation();
 		if (calculation == JRVariable.CALCULATION_SYSTEM)
 		{
-			brokenRules.add("Crosstab mesures cannot have system calculation");
+			addBrokenRule("Crosstab mesures cannot have system calculation", measure);
 		}
 		
 		JRExpression valueExpression = measure.getValueExpression();
 		Class expressionClass = null;
 		if (valueExpression == null)
 		{
-			brokenRules.add("Missing expression for measure " + measureName);
+			addBrokenRule("Missing expression for measure " + measureName, measure);
 		}
 		else
 		{
-			expressionClass = valueExpression.getValueClass();
-			if (expressionClass == null)
+			try
 			{
-				brokenRules.add("Crosstab measure expression class missing for " + measureName + ".");
-			}
-		}
-		
-		Class valueClass = measure.getValueClass();
-		if (valueClass == null)
-		{
-			brokenRules.add("Measure value class missing.");
-		}
-		else if (expressionClass != null 
-			&& calculation != JRVariable.CALCULATION_COUNT 
-			&& calculation != JRVariable.CALCULATION_DISTINCT_COUNT 
-			&& !valueClass.isAssignableFrom(expressionClass)
-			)
-		{
-			brokenRules.add("The class of the expression is not compatible with the class of the measure " + measureName + ".");
-		}
-		
-		if (measure.getPercentageOfType() != JRCrosstabMeasure.PERCENTAGE_TYPE_NONE)
-		{
-			Class percentageCalculatorClass = measure.getPercentageCalculatorClass();
-			if (percentageCalculatorClass == null)
-			{
-				if (valueClass != null && !JRPercentageCalculatorFactory.hasBuiltInCalculator(valueClass))
+				expressionClass = valueExpression.getValueClass();
+				if (expressionClass == null)
 				{
-					brokenRules.add("Percentage calculator class needs to be specified for measure " + measureName + ".");
+					addBrokenRule("Crosstab measure expression class missing for " + measureName + ".", valueExpression);
 				}
 			}
-			else
+			catch (JRRuntimeException e)
 			{
-				if (!JRPercentageCalculator.class.isAssignableFrom(percentageCalculatorClass))
+				addBrokenRule(e, valueExpression);
+			}			
+		}
+		
+		try
+		{
+			Class valueClass = measure.getValueClass();
+			if (valueClass == null)
+			{
+				addBrokenRule("Measure value class missing.", measure);
+			}
+			else if (expressionClass != null && calculation != JRVariable.CALCULATION_COUNT && calculation != JRVariable.CALCULATION_DISTINCT_COUNT && !valueClass.isAssignableFrom(expressionClass))
+			{
+				addBrokenRule("The class of the expression is not compatible with the class of the measure " + measureName + ".", valueExpression);
+			}
+			if (measure.getPercentageOfType() != JRCrosstabMeasure.PERCENTAGE_TYPE_NONE)
+			{
+				Class percentageCalculatorClass = measure.getPercentageCalculatorClass();
+				if (percentageCalculatorClass == null)
 				{
-					brokenRules.add("Incompatible percentage calculator class for measure " + measureName + ".");
+					if (valueClass != null && !JRPercentageCalculatorFactory.hasBuiltInCalculator(valueClass))
+					{
+						addBrokenRule("Percentage calculator class needs to be specified for measure " + measureName + ".", measure);
+					}
+				}
+				else
+				{
+					if (!JRPercentageCalculator.class.isAssignableFrom(percentageCalculatorClass))
+					{
+						addBrokenRule("Incompatible percentage calculator class for measure " + measureName + ".", measure);
+					}
 				}
 			}
 		}
-		
-		Class incrementerFactoryClass = measure.getIncrementerFactoryClass();
-		if (incrementerFactoryClass != null && !JRExtendedIncrementerFactory.class.isAssignableFrom(incrementerFactoryClass))
+		catch (JRRuntimeException e)
 		{
-			brokenRules.add("Crosstab measures need extended incrementers (net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory).");
+			addBrokenRule(e, measure);
 		}
+		
+		try
+		{
+			Class incrementerFactoryClass = measure.getIncrementerFactoryClass();
+			if (incrementerFactoryClass != null && !JRExtendedIncrementerFactory.class.isAssignableFrom(incrementerFactoryClass))
+			{
+				addBrokenRule("Crosstab measures need extended incrementers (net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory).", measure);
+			}
+		}
+		catch (JRRuntimeException e)
+		{
+			addBrokenRule(e, measure);
+		}		
 	}
 
 
@@ -1792,13 +2008,13 @@ public class JRVerifier
 	{
 		if (chart.getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO)
 		{
-			brokenRules.add("Charts do not support Auto evaluation time.");
+			addBrokenRule("Charts do not support Auto evaluation time.", chart);
 		}
 		
 		JRChartDataset dataset = chart.getDataset();
 		if (dataset == null)
 		{
-			brokenRules.add("Chart dataset missing.");
+			addBrokenRule("Chart dataset missing.", chart);
 		}
 		else
 		{
@@ -1843,14 +2059,16 @@ public class JRVerifier
 					
 					if (widthCalculated && element.getX() + element.getWidth() > avlblWidth)
 					{
-						brokenRules.add("Element reaches outside " + cellText + " width: x=" + element.getX() + ", width="
-								+ element.getWidth() + ", available width=" + avlblWidth + ".");
+						addBrokenRule("Element reaches outside " + cellText + " width: x=" + element.getX() + ", width="
+								+ element.getWidth() + ", available width=" + avlblWidth + ".", 
+								element);
 					}
 					
 					if (heightCalculated && element.getY() + element.getHeight() > avlblHeight)
 					{
-						brokenRules.add("Element reaches outside " + cellText + " height: y=" + element.getY() + ", height="
-								+ element.getHeight() + ", available height=" + avlblHeight + ".");
+						addBrokenRule("Element reaches outside " + cellText + " height: y=" + element.getY() + ", height="
+								+ element.getHeight() + ", available height=" + avlblHeight + ".",
+								element);
 					}
 					
 					if (element instanceof JRStaticText)
@@ -1863,7 +2081,7 @@ public class JRVerifier
 						
 						if (textField.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 						{
-							brokenRules.add("Elements with delayed evaluation time are not supported inside crosstab cells.");
+							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", textField);
 						}
 						
 						verifyTextField(textField);
@@ -1874,7 +2092,7 @@ public class JRVerifier
 						
 						if (image.getEvaluationTime() != JRExpression.EVALUATION_TIME_NOW)
 						{
-							brokenRules.add("Elements with delayed evaluation time are not supported inside crosstab cells.");
+							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", image);
 						}
 						
 						verifyImage(image);
@@ -1885,15 +2103,15 @@ public class JRVerifier
 					}
 					else if (element instanceof JRSubreport)
 					{
-						brokenRules.add("Subreports are not allowed inside crosstab cells.");
+						addBrokenRule("Subreports are not allowed inside crosstab cells.", element);
 					}
 					else if (element instanceof JRCrosstab)
 					{
-						brokenRules.add("Crosstabs are not allowed inside crosstab cells.");
+						addBrokenRule("Crosstabs are not allowed inside crosstab cells.", element);
 					}
 					else if (element instanceof JRChart)
 					{
-						brokenRules.add("Charts are not allowed inside crosstab cells.");
+						addBrokenRule("Charts are not allowed inside crosstab cells.", element);
 					}
 				}
 			}
@@ -1910,13 +2128,13 @@ public class JRVerifier
 			byte incrementType = dataset.getIncrementType();
 			if (incrementType == JRVariable.RESET_TYPE_PAGE || incrementType == JRVariable.RESET_TYPE_COLUMN)
 			{
-				brokenRules.add("Chart datasets with dataset run cannont have Column or Page increment type.");
+				addBrokenRule("Chart datasets with dataset run cannont have Column or Page increment type.", dataset);
 			}
 			
 			byte resetType = dataset.getResetType();
 			if (resetType == JRVariable.RESET_TYPE_PAGE || resetType == JRVariable.RESET_TYPE_COLUMN)
 			{
-				brokenRules.add("Chart datasets with dataset run cannont have Column or Page reset type.");
+				addBrokenRule("Chart datasets with dataset run cannont have Column or Page reset type.", dataset);
 			}
 			else if (resetType != JRVariable.RESET_TYPE_REPORT)
 			{
@@ -1929,15 +2147,22 @@ public class JRVerifier
 		JRExpression incrementWhenExpression = dataset.getIncrementWhenExpression();
 		if (incrementWhenExpression != null) 
 		{
-			Class valueClass = incrementWhenExpression.getValueClass();
-			if (valueClass == null)
+			try
 			{
-				brokenRules.add("Class not set for data set \"increment when\" expression.");
+				Class valueClass = incrementWhenExpression.getValueClass();
+				if (valueClass == null)
+				{
+					addBrokenRule("Class not set for data set \"increment when\" expression.", incrementWhenExpression);
+				}
+				else if (!Boolean.class.isAssignableFrom(valueClass))
+				{
+					addBrokenRule("Class " + valueClass + " not supported for dataset \"increment when\" expression. Use java.lang.Boolean instead.", incrementWhenExpression);
+				}
 			}
-			else if (!Boolean.class.isAssignableFrom(valueClass))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + valueClass + " not supported for dataset \"increment when\" expression. Use java.lang.Boolean instead.");
-			}
+				addBrokenRule(e, incrementWhenExpression);
+			}			
 		}
 	}
 
@@ -1949,7 +2174,7 @@ public class JRVerifier
 		String datasetName = datasetRun.getDatasetName();
 		if (datasetName == null || datasetName.length() == 0)
 		{
-			brokenRules.add("Dataset name is missing for dataset run.");
+			addBrokenRule("Dataset name is missing for dataset run.", datasetRun);
 		}
 		else
 		{
@@ -1957,7 +2182,7 @@ public class JRVerifier
 			
 			if (dataset == null)
 			{
-				brokenRules.add("Unknown dataset name " + datasetName + ".");
+				addBrokenRule("Unknown dataset name " + datasetName + ".", datasetRun);
 			}
 		}
 
@@ -1965,16 +2190,22 @@ public class JRVerifier
 
 		if (parametersMapExpression != null)
 		{
-			Class clazz = parametersMapExpression.getValueClass();
-
-			if (clazz == null)
+			try
 			{
-				brokenRules.add("Class not set for dataset " + datasetName + " parameters map expression.");
+				Class clazz = parametersMapExpression.getValueClass();
+				if (clazz == null)
+				{
+					addBrokenRule("Class not set for dataset " + datasetName + " parameters map expression.", parametersMapExpression);
+				}
+				else if (!java.util.Map.class.isAssignableFrom(clazz))
+				{
+					addBrokenRule("Class " + clazz + " not supported for dataset " + datasetName + " parameters map expression. Use java.util.Map instead.", parametersMapExpression);
+				}
 			}
-			else if (!java.util.Map.class.isAssignableFrom(clazz))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + clazz + " not supported for dataset " + datasetName + " parameters map expression. Use java.util.Map instead.");
-			}
+				addBrokenRule(e, parametersMapExpression);
+			}			
 		}
 
 		JRDatasetParameter[] parameters = datasetRun.getParameters();
@@ -1987,7 +2218,7 @@ public class JRVerifier
 				String paramName = parameter.getName();
 				if (paramName == null || paramName.trim().length() == 0)
 				{
-					brokenRules.add("Dataset " + datasetName + " parameter name missing.");
+					addBrokenRule("Dataset " + datasetName + " parameter name missing.", parameter);
 				}
 				
 				JRParameter datasetParam = null;
@@ -1997,7 +2228,7 @@ public class JRVerifier
 					
 					if (datasetParam == null)
 					{
-						brokenRules.add("Unknown parameter " + paramName + " in dataset " + datasetName + ".");
+						addBrokenRule("Unknown parameter " + paramName + " in dataset " + datasetName + ".", parameter);
 					}
 				}
 
@@ -2005,16 +2236,23 @@ public class JRVerifier
 				
 				if (expression != null)
 				{
-					Class clazz = expression.getValueClass();
-	
-					if (clazz == null)
+					try
 					{
-						brokenRules.add("Class not set for dataset " + datasetName + " parameter expression : " + paramName + ".");
+						Class clazz = expression.getValueClass();
+						if (clazz == null)
+						{
+							addBrokenRule("Class not set for dataset " + datasetName + " parameter expression : " + paramName + ".", expression);
+						}
+						else if (datasetParam != null && !datasetParam.getValueClass().isAssignableFrom(clazz))
+						{
+							addBrokenRule("Class " + clazz + " not supported for parameter " + paramName + " of dataset " + datasetName + ". Use " + datasetParam.getValueClass() + " instead.",
+									expression);
+						}
 					}
-					else if (datasetParam != null && !datasetParam.getValueClass().isAssignableFrom(clazz))
+					catch (JRRuntimeException e)
 					{
-						brokenRules.add("Class " + clazz + " not supported for parameter " + paramName + " of dataset " + datasetName + ". Use " + datasetParam.getValueClass() + " instead.");
-					}
+						addBrokenRule(e, expression);
+					}					
 				}
 			}
 		}
@@ -2024,35 +2262,48 @@ public class JRVerifier
 		
 		if (connectionExpression != null && dataSourceExpression != null)
 		{
-			brokenRules.add("Dataset " + datasetName + " cannot have both connection expresion and data source expression.");
+			addBrokenRule("Dataset " + datasetName + " cannot have both connection expresion and data source expression.", datasetRun);
 		}
 
 		if (connectionExpression != null)
 		{
-			Class clazz = connectionExpression.getValueClass();
-
-			if (clazz == null)
+			try
 			{
-				brokenRules.add("Class not set for dataset " + datasetName + " connection expression.");
+				Class clazz = connectionExpression.getValueClass();
+				if (clazz == null)
+				{
+					addBrokenRule("Class not set for dataset " + datasetName + " connection expression.", connectionExpression);
+				}
+				else if (!java.sql.Connection.class.isAssignableFrom(clazz))
+				{
+					addBrokenRule("Class " + clazz + " not supported for dataset " + datasetName + " connection expression. Use java.sql.Connection instead.", connectionExpression);
+				}
 			}
-			else if (!java.sql.Connection.class.isAssignableFrom(clazz))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + clazz + " not supported for dataset " + datasetName + " connection expression. Use java.sql.Connection instead.");
-			}
+				addBrokenRule(e, connectionExpression);
+			}			
 		}
 
 		if (dataSourceExpression != null)
 		{
-			Class clazz = dataSourceExpression.getValueClass();
-
-			if (clazz == null)
+			try
 			{
-				brokenRules.add("Class not set for dataset " + datasetName + " data source expression.");
+				Class clazz = dataSourceExpression.getValueClass();
+				if (clazz == null)
+				{
+					addBrokenRule("Class not set for dataset " + datasetName + " data source expression.", dataSourceExpression);
+				}
+				else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
+				{
+					addBrokenRule("Class " + clazz + " not supported for dataset " + datasetName + " data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.",
+							dataSourceExpression);
+				}
 			}
-			else if (!net.sf.jasperreports.engine.JRDataSource.class.isAssignableFrom(clazz))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + clazz + " not supported for dataset " + datasetName + " data source expression. Use net.sf.jasperreports.engine.JRDataSource instead.");
-			}
+				addBrokenRule(e, dataSourceExpression);
+			}			
 		}
 	}
 
@@ -2068,7 +2319,7 @@ public class JRVerifier
 				
 				if (dataset.getName() == null || dataset.getName().trim().length() == 0)
 				{
-					brokenRules.add("Dataset name is missing.");
+					addBrokenRule("Dataset name is missing.", dataset);
 				}
 				
 				verifyDataset(dataset);
@@ -2096,15 +2347,22 @@ public class JRVerifier
 		JRExpression filterExpression = dataset.getFilterExpression();
 		if (filterExpression != null) 
 		{
-			Class valueClass = filterExpression.getValueClass();
-			if (valueClass == null)
+			try
 			{
-				brokenRules.add("Class not set for filter expression.");
+				Class valueClass = filterExpression.getValueClass();
+				if (valueClass == null)
+				{
+					addBrokenRule("Class not set for filter expression.", filterExpression);
+				}
+				else if (!Boolean.class.isAssignableFrom(valueClass))
+				{
+					addBrokenRule("Class " + valueClass + " not supported for filter expression. Use java.lang.Boolean instead.", filterExpression);
+				}
 			}
-			else if (!Boolean.class.isAssignableFrom(valueClass))
+			catch (JRRuntimeException e)
 			{
-				brokenRules.add("Class " + valueClass + " not supported for filter expression. Use java.lang.Boolean instead.");
-			}
+				addBrokenRule(e, filterExpression);
+			}			
 		}
 	}
 
@@ -2128,14 +2386,14 @@ public class JRVerifier
 				
 				if (element.getX() + element.getWidth() > avlblWidth)
 				{
-					brokenRules.add("Element reaches outside frame width: x=" + element.getX() + ", width="
-							+ element.getWidth() + ", available width=" + avlblWidth + ".");
+					addBrokenRule("Element reaches outside frame width: x=" + element.getX() + ", width="
+							+ element.getWidth() + ", available width=" + avlblWidth + ".", element);
 				}
 				
 				if (element.getY() + element.getHeight() > avlblHeight)
 				{
-					brokenRules.add("Element reaches outside frame height: y=" + element.getY() + ", height="
-							+ element.getHeight() + ", available height=" + avlblHeight + ".");
+					addBrokenRule("Element reaches outside frame height: y=" + element.getY() + ", height="
+							+ element.getHeight() + ", available height=" + avlblHeight + ".", element);
 				}
 				
 				verifyElement(element);

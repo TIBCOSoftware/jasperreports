@@ -33,6 +33,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -85,7 +86,7 @@ public class JRStyleFactory extends JRBaseFactory
 			{
 				if (printXmlLoader == null)
 				{
-					xmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+					xmlLoader.addError(new JRValidationException("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style), style));
 				}
 				else
 				{

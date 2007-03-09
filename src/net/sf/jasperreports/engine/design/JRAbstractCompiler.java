@@ -257,14 +257,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign, expressionCollector);
 		if (brokenRules != null && brokenRules.size() > 0)
 		{
-			StringBuffer sbuffer = new StringBuffer();
-			sbuffer.append("Report design not valid : ");
-			int i = 1;
-			for(Iterator it = brokenRules.iterator(); it.hasNext(); i++)
-			{
-				sbuffer.append("\n\t " + i + ". " + (String)it.next());
-			}
-			throw new JRException(sbuffer.toString());
+			throw new JRValidationException(brokenRules);
 		}
 	}
 	
@@ -273,7 +266,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, dataset, nameSuffix);
 		
 		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, dataset, expressionCollector, unitName);
-		String sourceCode = generateSourceCode(sourceTask);
+		JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
@@ -285,7 +278,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab, expressionCollector, nameSuffix);
 		
 		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, crosstab, expressionCollector, unitName);
-		String sourceCode = generateSourceCode(sourceTask);
+		JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
@@ -293,7 +286,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	}
 
 
-	private File getSourceFile(File saveSourceDir, String unitName, String sourceCode) throws JRException
+	private File getSourceFile(File saveSourceDir, String unitName, JRCompilationSourceCode sourceCode) throws JRException
 	{
 		File sourceFile = null;
 		if (saveSourceDir != null)
@@ -301,7 +294,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			String fileName = getSourceFileName(unitName);
 			sourceFile = new File(saveSourceDir,  fileName);
 
-			JRSaver.saveClassSource(sourceCode, sourceFile);
+			JRSaver.saveClassSource(sourceCode.getCode(), sourceFile);
 		}
 		return sourceFile;
 	}
@@ -363,7 +356,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 * @return generated expression evaluator code
 	 * @throws JRException
 	 */
-	protected abstract String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;
+	protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;
 
 	
 	/**

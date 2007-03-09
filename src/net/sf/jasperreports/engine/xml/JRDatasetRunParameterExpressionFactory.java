@@ -29,10 +29,10 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -55,7 +55,7 @@ public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory
 		JRDesignDataset dataset = (JRDesignDataset) design.getDatasetMap().get(datasetRun.getDatasetName());
 		if (dataset == null)
 		{
-			xmlLoader.addError(new JRException("Unknown sub dataset " + datasetRun.getDatasetName()));
+			xmlLoader.addError(new JRValidationException("Unknown sub dataset " + datasetRun.getDatasetName(), datasetRun));
 		}
 		else
 		{
@@ -64,7 +64,7 @@ public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory
 			
 			if (param == null)
 			{
-				xmlLoader.addError(new JRException("Unknown parameter " + runParameter.getName() + " in sub dataset " + datasetRun.getDatasetName()));
+				xmlLoader.addError(new JRValidationException("Unknown parameter " + runParameter.getName() + " in sub dataset " + datasetRun.getDatasetName(), runParameter));
 			}
 			else
 			{

@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.apache.commons.digester.Digester;
@@ -302,9 +303,10 @@ public class JRXmlLoader
 					if (!ignoreConsistencyProblems && group == null)
 					{
 						throw 
-							new JRException(
+							new JRValidationException(
 								"Unknown reset group '" + groupName 
-								+ "' for variable : " + variable.getName()
+								+ "' for variable : " + variable.getName(),
+								variable
 								);
 					}
 
@@ -328,9 +330,10 @@ public class JRXmlLoader
 					if (!ignoreConsistencyProblems && group == null)
 					{
 						throw 
-							new JRException(
+							new JRValidationException(
 								"Unknown increment group '" + groupName 
-								+ "' for variable : " + variable.getName()
+								+ "' for variable : " + variable.getName(),
+								variable
 								);
 					}
 
@@ -351,15 +354,12 @@ public class JRXmlLoader
 	private void assignGroupsToElements() throws JRException
 	{
 		Map groupsMap = jasperDesign.getGroupsMap();
-		JRDesignElement element = null;
-		String groupName = null;
-		JRGroup group = null;
 		for(Iterator it = groupReprintedElements.iterator(); it.hasNext();)
 		{
-			element = (JRDesignElement)it.next();
+			JRDesignElement element = (JRDesignElement)it.next();
 
-			groupName = null;
-			group = element.getPrintWhenGroupChanges();
+			String groupName = null;
+			JRGroup group = element.getPrintWhenGroupChanges();
 			if (group != null)
 			{
 				groupName = group.getName();
@@ -368,7 +368,7 @@ public class JRXmlLoader
 
 			if (!ignoreConsistencyProblems && group == null)
 			{
-				throw new JRException("Unknown reprint group '" + groupName + "' for element.");
+				throw new JRValidationException("Unknown reprint group '" + groupName + "' for element.", element);
 			}
 
 			element.setPrintWhenGroupChanges(group);
@@ -382,15 +382,12 @@ public class JRXmlLoader
 	private void assignGroupsToImages() throws JRException
 	{
 		Map groupsMap = jasperDesign.getGroupsMap();
-		JRDesignImage image = null;
-		String groupName = null;
-		JRGroup group = null;
 		for(Iterator it = groupEvaluatedImages.iterator(); it.hasNext();)
 		{
-			image = (JRDesignImage)it.next();
+			JRDesignImage image = (JRDesignImage)it.next();
 
-			groupName = null;
-			group = image.getEvaluationGroup();
+			String groupName = null;
+			JRGroup group = image.getEvaluationGroup();
 			if (group != null)
 			{
 				groupName = group.getName();
@@ -399,7 +396,7 @@ public class JRXmlLoader
 
 			if (!ignoreConsistencyProblems && group == null)
 			{
-				throw new JRException("Unknown evaluation group '" + groupName + "' for image.");
+				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for image.", image);
 			}
 
 			image.setEvaluationGroup(group);
@@ -413,15 +410,12 @@ public class JRXmlLoader
 	private void assignGroupsToTextFields() throws JRException
 	{
 		Map groupsMap = jasperDesign.getGroupsMap();
-		JRDesignTextField textField = null;
-		String groupName = null;
-		JRGroup group = null;
 		for(Iterator it = groupEvaluatedTextFields.iterator(); it.hasNext();)
 		{
-			textField = (JRDesignTextField)it.next();
+			JRDesignTextField textField = (JRDesignTextField)it.next();
 
-			groupName = null;
-			group = textField.getEvaluationGroup();
+			String groupName = null;
+			JRGroup group = textField.getEvaluationGroup();
 			if (group != null)
 			{
 				groupName = group.getName();
@@ -430,7 +424,7 @@ public class JRXmlLoader
 
 			if (!ignoreConsistencyProblems && group == null)
 			{
-				throw new JRException("Unknown evaluation group '" + groupName + "' for text field.");
+				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for text field.", textField);
 			}
 
 			textField.setEvaluationGroup(group);
@@ -458,7 +452,7 @@ public class JRXmlLoader
 
 			if (!ignoreConsistencyProblems && group == null)
 			{
-				throw new JRException("Unknown evaluation group '" + groupName + "' for chart.");
+				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for chart.", chart);
 			}
 
 			chart.setEvaluationGroup(group);
@@ -505,7 +499,7 @@ public class JRXmlLoader
 
 				if (!ignoreConsistencyProblems && group == null)
 				{
-					throw new JRException("Unknown increment group '" + groupName + "' for chart dataset.");
+					throw new JRValidationException("Unknown increment group '" + groupName + "' for chart dataset.", dataset);
 				}
 
 				dataset.setIncrementGroup(group);
@@ -527,7 +521,7 @@ public class JRXmlLoader
 
 				if (!ignoreConsistencyProblems && group == null)
 				{
-					throw new JRException("Unknown reset group '" + groupName + "' for chart dataset.");
+					throw new JRValidationException("Unknown reset group '" + groupName + "' for chart dataset.", dataset);
 				}
 
 				dataset.setResetGroup(group);
