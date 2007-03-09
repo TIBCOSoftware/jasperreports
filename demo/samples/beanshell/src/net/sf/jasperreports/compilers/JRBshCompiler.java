@@ -33,7 +33,9 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
+import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
+import net.sf.jasperreports.engine.design.JRDefaultCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JREvaluator;
@@ -73,9 +75,9 @@ public class JRBshCompiler extends JRAbstractCompiler
 	}
 
 
-	protected String generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
+	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
-		return JRBshGenerator.generateScript(sourceTask);
+		return new JRDefaultCompilationSourceCode(JRBshGenerator.generateScript(sourceTask), null);
 	}
 
 
