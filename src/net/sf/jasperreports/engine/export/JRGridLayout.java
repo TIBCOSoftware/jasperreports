@@ -201,23 +201,23 @@ public class JRGridLayout
 		Collections.sort(yCuts);
 */		
 		
-		int xCellCount = xCuts.size() - 1;
-		int yCellCount = yCuts.size() - 1;
+		int colCount = xCuts.size() - 1;
+		int rowCount = yCuts.size() - 1;
 
-		grid = new JRExporterGridCell[yCellCount][xCellCount];
-		isRowNotEmpty = new boolean[yCellCount];
-		isColNotEmpty = new boolean[xCellCount];
+		grid = new JRExporterGridCell[rowCount][colCount];
+		isRowNotEmpty = new boolean[rowCount];
+		isColNotEmpty = new boolean[colCount];
 				
-		for(int j = 0; j < yCellCount; j++)
+		for(int row = 0; row < rowCount; row++)
 		{ 
-			for(int i = 0; i < xCellCount; i++)
+			for(int col = 0; col < colCount; col++)
 			{
-				grid[j][i] = 
+				grid[row][col] = 
 					new JRExporterGridCell(
 						null,
 						null,
-						((Integer)xCuts.get(i + 1)).intValue() - ((Integer)xCuts.get(i)).intValue(),
-						((Integer)yCuts.get(j + 1)).intValue() - ((Integer)yCuts.get(j)).intValue(),
+						((Integer)xCuts.get(col + 1)).intValue() - ((Integer)xCuts.get(col)).intValue(),
+						((Integer)yCuts.get(row + 1)).intValue() - ((Integer)yCuts.get(row)).intValue(),
 						1,
 						1
 						);
@@ -234,35 +234,35 @@ public class JRGridLayout
 		{
 			JRPrintElement element = ((JRPrintElement)it.next());
 			
-			int x0 = element.getX() + elementOffsetX;
-			int y0 = element.getY() + elementOffsetY;
+			int x = element.getX() + elementOffsetX;
+			int y = element.getY() + elementOffsetY;
 			
 			if (elementsExporter.isToExport(element))
 			{
 				if (createXCuts)
 				{
-					xCuts.add(new Integer(x0));
-					xCuts.add(new Integer((x0 + element.getWidth())));
+					xCuts.add(new Integer(x));
+					xCuts.add(new Integer((x + element.getWidth())));
 				}
 				
-				yCuts.add(new Integer(y0));
-				yCuts.add(new Integer((y0 + element.getHeight())));	
+				yCuts.add(new Integer(y));
+				yCuts.add(new Integer((y + element.getHeight())));	
 			}
 			
 			if (deep && element instanceof JRPrintFrame)
 			{
-				createFrameCuts((JRPrintFrame) element, x0, y0, createXCuts);
+				createFrameCuts((JRPrintFrame) element, x, y, createXCuts);
 			}
 		}
 	}
 
 
-	protected void createFrameCuts(JRPrintFrame frame, int x0, int y0, boolean createXCuts)
+	protected void createFrameCuts(JRPrintFrame frame, int x, int y, boolean createXCuts)
 	{
 		int topPadding = frame.getTopPadding();
 		int leftPadding = frame.getLeftPadding();
 
-		createCuts(frame.getElements(), x0 + leftPadding, y0 + topPadding, createXCuts);
+		createCuts(frame.getElements(), x + leftPadding, y + topPadding, createXCuts);
 	}
 
 
@@ -277,29 +277,29 @@ public class JRGridLayout
 			
 			if (toExport || frame != null)
 			{
-				int x0 = element.getX() + elementOffsetX;
-				int y0 = element.getY() + elementOffsetY;
+				int x = element.getX() + elementOffsetX;
+				int y = element.getY() + elementOffsetY;
 				
 				if (frame != null)
 				{
-					setFrameGridElements(frame, x0, y0, i, parentIndexes);
+					setFrameGridElements(frame, x, y, i, parentIndexes);
 				}
 
 				if (toExport)
 				{
-					int x1 = xCuts.indexOf(new Integer(x0));
-					int y1 = yCuts.indexOf(new Integer(y0));
-					int x2 = xCuts.indexOf(new Integer(x0 + element.getWidth()));
-					int y2 = yCuts.indexOf(new Integer(y0 + element.getHeight()));
+					int col1 = xCuts.indexOf(new Integer(x));
+					int row1 = yCuts.indexOf(new Integer(y));
+					int col2 = xCuts.indexOf(new Integer(x + element.getWidth()));
+					int row2 = yCuts.indexOf(new Integer(y + element.getHeight()));
 
-					if (!isOverlap(x1, y1, x2, y2))
+					if (!isOverlap(row1, col1, row2, col2))
 					{
-						setGridElement(element, x1, y1, x2, y2, i, parentIndexes);
+						setGridElement(element, row1, col1, row2, col2, i, parentIndexes);
 					}
 
 					if (frame != null)
 					{
-						setFrameCellsStyle(frame, x1, x2, y1, y2);
+						setFrameCellsStyle(frame, row1, col1, row2, col2);
 					}
 				}
 			}
@@ -307,65 +307,65 @@ public class JRGridLayout
 	}
 
 
-	protected boolean isOverlap(int x1, int y1, int x2, int y2)
+	protected boolean isOverlap(int row1, int col1, int row2, int col2)
 	{
-		boolean isOverlap;
+		boolean isOverlap = false;
 		if (spanCells)
 		{
-			isOverlap = false;
-
-			for (int yi = y1; yi < y2 && !isOverlap; ++yi)
+			is_overlap_out:
+			for (int row = row1; row < row2; row++)
 			{
-				for (int xi = x1; xi < x2 && !isOverlap; ++xi)
+				for (int col = col1; col < col2; col++)
 				{
-					if (grid[yi][xi].element != null)
+					if (grid[row][col].element != null)
 					{
 						isOverlap = true;
+						break is_overlap_out;
 					}
 				}
 			}
 		}
 		else
 		{
-			isOverlap = grid[y1][x1].element != null;
+			isOverlap = grid[row1][col1].element != null;
 		}
 		return isOverlap;
 	}
 
 
-	protected void setGridElement(JRPrintElement element, int x1, int y1, int x2, int y2, int elementIndex, Integer[] parentElements)
+	protected void setGridElement(JRPrintElement element, int row1, int col1, int row2, int col2, int elementIndex, Integer[] parentElements)
 	{
 		if (spanCells)
 		{
-			for (int yi = y1; yi < y2; ++yi)
+			for (int row = row1; row < row2; row++)
 			{
-				for (int xi = x1; xi < x2; ++xi)
+				for (int col = col1; col < col2; col++)
 				{
-					grid[yi][xi] = JRExporterGridCell.OCCUPIED_CELL;
+					grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
 				}
-				isRowNotEmpty[yi] = true;
+				isRowNotEmpty[row] = true;
 			}
 
-			for (int xi = x1; xi < x2; ++xi)
+			for (int col = col1; col < col2; col++)
 			{
-				isColNotEmpty[xi] = true;
+				isColNotEmpty[col] = true;
 			}
 		}
 		else
 		{
-			isRowNotEmpty[y1] = true;
-			isColNotEmpty[x1] = true;
+			isRowNotEmpty[row1] = true;
+			isColNotEmpty[col1] = true;
 		}
 
-		if (x2 - x1 != 0 && y2 - y1 != 0)
+		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
-			grid[y1][x1] = new JRExporterGridCell(
+			grid[row1][col1] = new JRExporterGridCell(
 					element,
 					getElementIndex(elementIndex, parentElements),
 					element.getWidth(), 
 					element.getHeight(), 
-					x2 - x1, 
-					y2 - y1);
+					col2 - col1, 
+					row2 - row1);
 			
 			JRBox cellBox = null;
 			if (element instanceof JRBox)
@@ -373,7 +373,7 @@ public class JRGridLayout
 				cellBox = (JRBox) element;
 			}
 			
-			grid[y1][x1].setBox(cellBox);
+			grid[row1][col1].setBox(cellBox);
 		}
 	}
 
@@ -400,24 +400,24 @@ public class JRGridLayout
 	}
 
 
-	protected void setFrameGridElements(JRPrintFrame frame, int x0, int y0, int elementIndex, Integer[] parentIndexes)
+	protected void setFrameGridElements(JRPrintFrame frame, int x, int y, int elementIndex, Integer[] parentIndexes)
 	{
 		int topPadding = frame.getTopPadding();
 		int leftPadding = frame.getLeftPadding();
 
-		setGridElements(frame.getElements(), x0 + leftPadding, y0 + topPadding, getElementIndex(elementIndex, parentIndexes));
+		setGridElements(frame.getElements(), x + leftPadding, y + topPadding, getElementIndex(elementIndex, parentIndexes));
 	}
 
 
-	protected void setFrameCellsStyle(JRPrintFrame frame, int x1, int x2, int y1, int y2)
+	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
 	{
 		Color backcolor = frame.getMode() == JRElement.MODE_OPAQUE ? frame.getBackcolor() : null;
 		
-		for (int yi = y1; yi < y2; ++yi)
+		for (int row = row1; row < row2; row++)
 		{	
-			for (int xi = x1; xi < x2; ++xi)
+			for (int col = col1; col < col2; col++)
 			{
-				JRExporterGridCell cell = grid[yi][xi];
+				JRExporterGridCell cell = grid[row][col];
 				
 				if (cell.getBackcolor() == null)
 				{
@@ -432,10 +432,10 @@ public class JRGridLayout
 					cell.setForecolor(frame.getForecolor());
 				}
 				
-				boolean left = xi == x1;
-				boolean right = xi == x2 - cell.colSpan;
-				boolean top = yi == y1;
-				boolean bottom = yi == y2 - cell.rowSpan;
+				boolean left = col == col1;
+				boolean right = col == col2 - cell.colSpan;
+				boolean top = row == row1;
+				boolean bottom = row == row2 - cell.rowSpan;
 					
 				if (left || right || top || bottom)
 				{
@@ -550,7 +550,7 @@ public class JRGridLayout
 		int colCount = row.length;
 		
 		int col;
-		for (col = 0; col < colCount; ++col)
+		for (col = 0; col < colCount; col++)
 		{
 			JRExporterGridCell cell = row[col];
 			
@@ -624,18 +624,18 @@ public class JRGridLayout
 		for (Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement) it.next());
-			int x0 = element.getX() + elementOffsetX;
+			int x = element.getX() + elementOffsetX;
 
 			if (elementsExporter.isToExport(element))
 			{
-				xCuts.add(new Integer(x0));
-				xCuts.add(new Integer(x0 + element.getWidth()));
+				xCuts.add(new Integer(x));
+				xCuts.add(new Integer(x + element.getWidth()));
 			}
 
 			if (element instanceof JRPrintFrame)
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(frame.getElements(), x0 + frame.getLeftPadding(), elementsExporter, xCuts);
+				addXCuts(frame.getElements(), x + frame.getLeftPadding(), elementsExporter, xCuts);
 			}
 		}
 	}
