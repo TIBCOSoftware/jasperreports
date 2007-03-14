@@ -430,6 +430,7 @@ public class JROdtExporter extends JRAbstractExporter
 				globalOffsetY, 
 				JRGridLayout.UNIVERSAL_EXPORTER, 
 				false, //deep 
+				true, //splitSharedRowSpan
 				true, //spanCells
 				true, //setElementIndexes
 				null
@@ -449,8 +450,6 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
-		gridLayout.splitSharedRowSpanIntoNestedGrids();
-		
 		List xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
