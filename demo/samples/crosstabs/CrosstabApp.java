@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.odt.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -68,6 +69,7 @@ public class CrosstabApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
 	private static final String TASK_RUN = "run";
 	
 	private static final String[] reportNames = {
@@ -245,6 +247,27 @@ public class CrosstabApp
 				}
 				System.exit(0);
 			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				for(int i = 0; i < reportNames.length; i++) {
+					long start = System.currentTimeMillis();
+					File sourceFile = new File(reportNames[i] + ".jrprint");
+		
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+					File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+				
+					JROdtExporter exporter = new JROdtExporter();
+				
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+					exporter.exportReport();
+
+					System.err.println("Report : " + reportNames[i] + ". ODT creation time : " + (System.currentTimeMillis() - start));
+				}
+				System.exit(0);
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				for(int i = 0; i< reportNames.length; i++) {
@@ -280,7 +303,7 @@ public class CrosstabApp
 	{
 		System.out.println( "CrosstabApp usage:" );
 		System.out.println( "\tjava CrosstabApp -Ttask" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
 	}
 
 

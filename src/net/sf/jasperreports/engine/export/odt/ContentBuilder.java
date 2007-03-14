@@ -131,9 +131,6 @@ public class ContentBuilder
 		writer.write("  <style:table-cell-properties fo:wrap-option=\"wrap\" style:shrink-to-fit=\"false\"");
 		writer.write(" fo:border=\"0in solid #000000\"/>\n");
 		writer.write(" </style:style>\n");
-//		writer.write(" <style:style style:name=\"empty-col\" style:family=\"table-column\">\n");
-//		writer.write("  <style:table-column-properties style:column-width=\"0in\"/>\n");
-//		writer.write(" </style:style>\n");
 		writer.write(" </office:automatic-styles>\n");
 		
 		writer.write("<office:body><office:text>\n");
