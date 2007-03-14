@@ -25,14 +25,6 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-
-/*
- * Special thanks to Google 'Summer of Code 2005' program for supporting this development
- * 
- * Contributors:
- * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
- */
 package net.sf.jasperreports.engine.export.odt;
 
 import java.io.BufferedReader;
