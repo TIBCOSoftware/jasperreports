@@ -31,9 +31,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
 	
 	
 /**
@@ -79,14 +77,13 @@ public class JRExporterGridCell
 	/**
 	 * @deprecated Replaced by {@link #JRExporterGridCell(JRPrintElement, Integer[], int, int, int, int)}.
 	 */
-	public JRExporterGridCell
-	(
+	public JRExporterGridCell(//FIXMEODT remove
 		JRPrintElement element, 
 		int width, 
 		int height,
 		int colSpan, 
 		int rowSpan
-	)
+		)
 	{
 		this(
 			element,
@@ -102,15 +99,14 @@ public class JRExporterGridCell
 	/**
 	 *
 	 */
-	public JRExporterGridCell
-	(
+	public JRExporterGridCell(
 		JRPrintElement element, 
 		Integer[] elementIndex,
 		int width, 
 		int height,
 		int colSpan, 
 		int rowSpan
-	)
+		)
 	{
 		this.element = element;
 		this.elementIndex = elementIndex;
@@ -121,82 +117,15 @@ public class JRExporterGridCell
 	}
 
 
-	/**
-	 *
-	 */
-	public JRExporterGridCell
-	(
-		JRPrintFrame frame,
-		int offsetX,
-		int offsetY,
-		ExporterElements elementsExporter,
-		Integer[] elementIndex,
-		int colSpan, 
-		int rowSpan
-	)
-	{
-		this(
-			frame,
-			offsetX,
-			offsetY,
-			elementsExporter,
-			elementIndex,
-			colSpan,
-			rowSpan,
-			null
-			);
-	}
-
-
-	/**
-	 *
-	 */
-	public JRExporterGridCell(
-		JRPrintFrame frame,
-		int offsetX,
-		int offsetY,
-		ExporterElements elementsExporter,
-		Integer[] elementIndex,
-		int colSpan, 
-		int rowSpan,
-		JRGridLayout layout
-		)
-	{
-		this(
-			frame,
-			elementIndex,
-			frame.getWidth(),
-			frame.getHeight(),
-			colSpan,
-			rowSpan
-			);
-		
-		if (layout == null)
-		{
-			this.layout =
-				new JRGridLayout(
-					frame.getElements(), 
-					frame.getWidth(), 
-					frame.getHeight(), 
-					offsetX, 
-					offsetY, 
-					elementsExporter, 
-					false, //deep 
-					true, //spanCells
-					true, //setElementIndexes
-					elementIndex
-					);
-		}
-		else
-		{
-			this.layout = layout;
-		}
-	}
-
-
 	public JRGridLayout getLayout()
 	{
 		return layout;
+	}
+
+
+	public void setLayout(JRGridLayout layout)
+	{
+		this.layout = layout;
 	}
 
 

@@ -679,6 +679,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				globalOffsetY, 
 				JRGridLayout.UNIVERSAL_EXPORTER, 
 				false, //deep 
+				false, //splitSharedRowSpan
 				true, //spanCells
 				true, //setElementIndexes
 				null
@@ -1900,8 +1901,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		try
 		{
-			JRGridLayout layout = new JRGridLayout(frame.getElements(), frame.getWidth(), frame.getHeight(), 0, 0, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, gridCell.elementIndex);
-			exportGrid(layout, false);
+			exportGrid(gridCell.getLayout(), false);
 		}
 		finally
 		{

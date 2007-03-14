@@ -358,10 +358,21 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected int exportPage(JRPrintPage page, List xCuts, int startRow) throws JRException
 	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(),
-				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
-				globalOffsetX, globalOffsetY, getExporterElements(), true, true, false, null,
-				xCuts);
+		JRGridLayout layout = 
+			new JRGridLayout(
+				page.getElements(),
+				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageHeight(),
+				globalOffsetX, 
+				globalOffsetY, 
+				getExporterElements(), 
+				true, //deep
+				false, //splitSharedRowSpan
+				true, //spanCells
+				false, //setElementIndexes
+				null,
+				xCuts
+				);
 
 		JRExporterGridCell grid[][] = layout.getGrid();
 		

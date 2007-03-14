@@ -267,10 +267,20 @@ public class JRCsvExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(), 
-				jasperPrint.getPageWidth(), jasperPrint.getPageHeight(), globalOffsetX, globalOffsetY,
+		JRGridLayout layout = 
+			new JRGridLayout(
+				page.getElements(), 
+				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageHeight(), 
+				globalOffsetX, 
+				globalOffsetY,
 				JRGridLayout.TEXT_EXPORTER,
-				true, false, false, null);
+				true, //deep
+				false, //splitSharedRowSpan
+				false, //spanCells
+				false, //setElementIndexes
+				null //initialIndex
+				);
 		
 		JRExporterGridCell[][] grid = layout.getGrid();
 		boolean[] isRowUsed = layout.getIsRowNotEmpty();
