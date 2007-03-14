@@ -130,22 +130,7 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	 */
 	public final static String XML_TIME_ZONE = "XML_TIME_ZONE";
 	
-        /**
-	 * Built-in parameter holding an URL from which take the XML file
-	 */
-	public final static String XML_URL = "XML_URL";
-        
-        /**
-	 * Built-in parameter holding an optional username to use with the XML_URL from which take the XML file
-	 */
-	public final static String XML_USERNAME = "XML_USERNAME";
-        
-        /**
-	 * Built-in parameter holding an optional password to use with the XML_URL from which take the XML file
-	 */
-	public final static String XML_PASSWORD = "XML_PASSWORD";
-        
-        private final static Object[] XPATH_BUILTIN_PARAMETERS = {
+	private final static Object[] XPATH_BUILTIN_PARAMETERS = {
 		PARAMETER_XML_DATA_DOCUMENT,  org.w3c.dom.Document.class,
 		XML_DATE_PATTERN, java.lang.String.class,
 		XML_NUMBER_PATTERN, java.lang.String.class,
@@ -167,9 +152,6 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 */		
 		XML_LOCALE, java.util.Locale.class,
 		XML_TIME_ZONE, java.util.TimeZone.class,
-                XML_URL, java.lang.String.class,
-                XML_USERNAME, java.lang.String.class,
-                XML_PASSWORD, java.lang.String.class,
 		};
 
 	public Object[] getBuiltinParameters()
@@ -180,7 +162,7 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters)
 			throws JRException
 	{
-                return new JRXPathQueryExecuter(dataset, parameters);
+		return new JRXPathQueryExecuter(dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className)
