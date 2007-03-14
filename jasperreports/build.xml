@@ -45,7 +45,7 @@
 		</copy>
 	</target>
 	
-	<target name="antlr.generate" description="Generete source files for ANTLR grammars">
+	<target name="antlr.generate" description="Generates source files for ANTLR grammars">
 		<mkdir dir="./build/antlr-generated-sources"/> 
 		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
 			<classpath>
@@ -58,14 +58,14 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar">
 			<manifest>
-				<attribute name="Built-By" value="JasperReports"/>
+				<attribute name="Built-By" value="JasperSoft"/>
 				<section name="net/sf/jasperreports/engine/">
 					<attribute name="Specification-Title" value="JasperReports Library"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="JasperReports"/>
+					<attribute name="Specification-Vendor" value="JasperSoft"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="JasperReports"/>
+					<attribute name="Implementation-Vendor" value="JasperSoft"/>
 				</section>
 			</manifest>		
 			<fileset dir="./build/classes"/>
