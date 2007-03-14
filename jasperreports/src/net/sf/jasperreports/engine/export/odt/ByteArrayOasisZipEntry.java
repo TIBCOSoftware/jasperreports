@@ -40,7 +40,7 @@ import java.io.Writer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
+ * @version $Id: JRCsvExporter.java 1632 2007-03-14 12:29:52Z teodord $
  */
 public class ByteArrayOasisZipEntry implements OasisZipEntry 
 {
