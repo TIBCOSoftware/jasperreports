@@ -58,68 +58,6 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	 */
 	public final static String XML_NUMBER_PATTERN = "XML_NUMBER_PATTERN";
 
-//	 uncomment below block when patterns will be more dedicated
-	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.math.BigDecimal instances.
-//	 */
-//	public final static String XML_BIGDECIMAL_PATTERN = "XML_BIGDECIMAL_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.math.BigInteger instances.
-//	 */
-//	public final static String XML_BIGINTEGER_PATTERN = "XML_BIGINTEGER_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Byte instances.
-//	 */
-//	public final static String XML_BYTE_PATTERN = "XML_BYTE_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Double instances.
-//	 */
-//	public final static String XML_DOUBLE_PATTERN = "XML_DOUBLE_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Float instances.
-//	 */
-//	public final static String XML_FLOAT_PATTERN = "XML_FLOAT_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Integer instances.
-//	 */
-//	public final static String XML_INTEGER_PATTERN = "XML_INTEGER_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Long instances.
-//	 */
-//	public final static String XML_LONG_PATTERN = "XML_LONG_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.Short instances.
-//	 */
-//	public final static String XML_SHORT_PATTERN = "XML_SHORT_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.sql.Date instances.
-//	 */
-//	public final static String XML_SQLDATE_PATTERN = "XML_SQLDATE_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.sql.Time instances.
-//	 */
-//	public final static String XML_SQLTIME_PATTERN = "XML_SQLTIME_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.sql.Timestamp instances.
-//	 */
-//	public final static String XML_SQLTIMESTAMP_PATTERN = "XML_SQLTIMESTAMP_PATTERN";
-//	
-//	/**
-//	 * Parameter holding the format pattern used to instantiate java.lang.String instances.
-//	 */
-//	public final static String XML_STRING_PATTERN = "XML_STRING_PATTERN";
-	
 	/**
 	 * Parameter holding the value of the datasource Locale
 	 */
@@ -134,22 +72,6 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 		PARAMETER_XML_DATA_DOCUMENT,  org.w3c.dom.Document.class,
 		XML_DATE_PATTERN, java.lang.String.class,
 		XML_NUMBER_PATTERN, java.lang.String.class,
-		
-		// uncomment below block when patterns will be more dedicated
-/*		
-		XML_BIGDECIMAL_PATTERN, java.lang.String.class,
-		XML_BIGINTEGER_PATTERN, java.lang.String.class,
-		XML_BYTE_PATTERN, java.lang.String.class,
-		XML_DOUBLE_PATTERN, java.lang.String.class,
-		XML_FLOAT_PATTERN, java.lang.String.class,
-		XML_INTEGER_PATTERN, java.lang.String.class,
-		XML_LONG_PATTERN, java.lang.String.class,
-		XML_SHORT_PATTERN, java.lang.String.class,
-		XML_SQLDATE_PATTERN, java.lang.String.class,
-		XML_SQLTIME_PATTERN, java.lang.String.class,
-		XML_SQLTIMESTAMP_PATTERN, java.lang.String.class,
-		XML_STRING_PATTERN, java.lang.String.class,
-*/		
 		XML_LOCALE, java.util.Locale.class,
 		XML_TIME_ZONE, java.util.TimeZone.class,
 		};
