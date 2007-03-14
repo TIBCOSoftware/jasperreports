@@ -31,7 +31,9 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
+import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
 	
 	
 /**
@@ -70,6 +72,8 @@ public class JRExporterGridCell
 	public int height = 0;
 	public int colSpan = 0;
 	public int rowSpan = 0;
+
+	private JRGridLayout layout = null;
 
 
 	/**
@@ -114,6 +118,85 @@ public class JRExporterGridCell
 		this.height = height;
 		this.colSpan = colSpan;
 		this.rowSpan = rowSpan;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExporterGridCell
+	(
+		JRPrintFrame frame,
+		int offsetX,
+		int offsetY,
+		ExporterElements elementsExporter,
+		Integer[] elementIndex,
+		int colSpan, 
+		int rowSpan
+	)
+	{
+		this(
+			frame,
+			offsetX,
+			offsetY,
+			elementsExporter,
+			elementIndex,
+			colSpan,
+			rowSpan,
+			null
+			);
+	}
+
+
+	/**
+	 *
+	 */
+	public JRExporterGridCell(
+		JRPrintFrame frame,
+		int offsetX,
+		int offsetY,
+		ExporterElements elementsExporter,
+		Integer[] elementIndex,
+		int colSpan, 
+		int rowSpan,
+		JRGridLayout layout
+		)
+	{
+		this(
+			frame,
+			elementIndex,
+			frame.getWidth(),
+			frame.getHeight(),
+			colSpan,
+			rowSpan
+			);
+		
+		if (layout == null)
+		{
+			this.layout =
+				new JRGridLayout(
+					frame.getElements(), 
+					frame.getWidth(), 
+					frame.getHeight(), 
+					offsetX, 
+					offsetY, 
+					elementsExporter, 
+					false, //deep 
+					true, //spanCells
+					true, //setElementIndexes
+					elementIndex
+					);
+		}
+		else
+		{
+			this.layout = layout;
+		}
+	}
+
+
+	public JRGridLayout getLayout()
+	{
+		return layout;
 	}
 
 

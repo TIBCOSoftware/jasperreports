@@ -670,7 +670,20 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		JRGridLayout layout = getPageGridLayout(page);
+		JRGridLayout layout = 
+			new JRGridLayout(
+				page.getElements(),
+				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageHeight(),
+				globalOffsetX, 
+				globalOffsetY, 
+				JRGridLayout.UNIVERSAL_EXPORTER, 
+				false, //deep 
+				true, //spanCells
+				true, //setElementIndexes
+				null
+				);
+
 		exportGrid(layout, isWhitePageBackground);
 
 		if (progressMonitor != null)
@@ -1715,15 +1728,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write(JRStringUtil.xmlEncode(hyperlink.getHyperlinkTooltip()));
 			writer.write("\"");
 		}
-	}
-
-
-	protected JRGridLayout getPageGridLayout(JRPrintPage page)
-	{
-		JRGridLayout layout = new JRGridLayout(page.getElements(),
-											   jasperPrint.getPageWidth(), jasperPrint.getPageHeight(),
-											   globalOffsetX, globalOffsetY, JRGridLayout.UNIVERSAL_EXPORTER, false, true, true, null);
-		return layout;
 	}
 
 
