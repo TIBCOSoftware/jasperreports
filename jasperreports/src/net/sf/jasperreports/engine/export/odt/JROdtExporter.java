@@ -95,10 +95,10 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "left";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "right";
+	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
+	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
 	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justify";
+	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
 
 	/**
 	 *
@@ -145,7 +145,7 @@ public class JROdtExporter extends JRAbstractExporter
 	private Color backcolor;
 	
 	private Set fontFaces = null;
-	private Map paragraphStyles = null;
+	private Map paragraphStyles = null;//FIXMEODT these should be soft cache
 	private int paragraphStylesCounter = 0;
 	private Map textSpanStyles = null;
 	private int textSpanStylesCounter = 0;
@@ -517,11 +517,11 @@ public class JROdtExporter extends JRAbstractExporter
 					}
 					else if (element instanceof JRPrintEllipse)
 					{
-						//FIXMEODT exportRectangle(tableBuilder, element, gridCell);
+						writeEmptyCell(null, gridCell.colSpan, gridCell.width, gridCell.height);//FIXMEODT
 					}
 					else if (element instanceof JRPrintImage)
 					{
-						//exportRectangle(tableBuilder, element, gridCell);
+						writeEmptyCell(null, gridCell.colSpan, gridCell.width, gridCell.height);//FIXMEODT
 					}
 					else if (element instanceof JRPrintText)
 					{

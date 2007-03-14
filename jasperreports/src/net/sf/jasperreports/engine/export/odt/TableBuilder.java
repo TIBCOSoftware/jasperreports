@@ -59,12 +59,7 @@ public class TableBuilder
 	private int cellCounter = -1;
 	private boolean isFrame = false;
 	
-//	private  int colIndex;
-//	private int rowIndex;
-//	private int cellIndex;
-//	
-//	private Hashtable coveredRows;
-//	
+
 	protected TableBuilder(
 		String name, 
 		Writer bodyWriter,
@@ -77,10 +72,6 @@ public class TableBuilder
 		this.styleWriter = styleWriter;
 
 		this.tableName = "table_" + name;
-//			coveredRows = new Hashtable();
-//			colIndex = 0;
-//			rowIndex = 0;
-//			cellIndex = 0;
 	}
 
 	protected TableBuilder(
@@ -97,27 +88,12 @@ public class TableBuilder
 		this.styleWriter = styleWriter;
 
 		this.tableName = "table_" + reportIndex + "_" + pageIndex;
-//		coveredRows = new Hashtable();
-//		colIndex = 0;
-//		rowIndex = 0;
-//		cellIndex = 0;
 	}
 
-//	public void setTableProperties(
-//			String name,
-//			String tableStyleName,
-//			Writer writer,
-//			int indent
-//	) {
-//		this.name = name;
-//		this.tableStyleName = tableStyleName;
-//		this.writer = writer;
-//		this.indent = indent;
-//	}
 
 	public void buildTableStyle() throws IOException 
 	{
-		styleWriter.write(" <style:style style:name=\"" + tableName + "\"");
+		styleWriter.write(" <style:style style:name=\"" + tableName + "\"");//FIXMEODT can we have only one page style per report?
 		if (!isFrame)
 		{
 			styleWriter.write(" style:master-page-name=\"master_" + reportIndex +"\"");
@@ -154,7 +130,6 @@ public class TableBuilder
 		bodyWriter.write(tableName);
 		bodyWriter.write("\"");
 		bodyWriter.write(">\n");
-//		bodyWriter.write("<table:table-column table:style-name=\"empty-col\"/>\n");
 	}
 	
 	public void buildTableFooter() throws IOException 
@@ -169,7 +144,7 @@ public class TableBuilder
 		styleWriter.write(" style:family=\"table-row\">\n");
 		styleWriter.write("   <style:table-row-properties");		
 		styleWriter.write(" style:use-optimal-row-height=\"false\""); 
-//		styleWriter.write(" style:use-optimal-row-height=\"true\""); 
+//FIXMEODT check this		styleWriter.write(" style:use-optimal-row-height=\"true\""); 
 		styleWriter.write(" style:row-height=\"" + Utility.translatePixelsToInches(rowHeight) + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
@@ -181,7 +156,6 @@ public class TableBuilder
 		bodyWriter.write("<table:table-row");
 		bodyWriter.write(" table:style-name=\"" + rowName + "\"");
 		bodyWriter.write(">\n");
-//		bodyWriter.write("<table:table-cell table:style-name=\"empty-cell\"/>\n");
 	}
 	
 	public void buildRowFooter() throws IOException 
