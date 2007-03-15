@@ -54,7 +54,7 @@ public class JRSourceCompileTask
 	private boolean onlyDefaultEvaluation;
 	
 	
-	protected JRSourceCompileTask(JasperDesign jasperDesign, String unitName, JRExpressionCollector expressionCollector, Map parametersMap, Map fieldsMap, Map variablesMap, JRVariable[] variables, List expressions, boolean onlyDefaultEvaluation)
+	protected JRSourceCompileTask(JasperDesign jasperDesign, String unitName, JRExpressionCollector expressionCollector, Map parametersMap, Map fieldsMap, Map variablesMap, JRVariable[] variables, boolean onlyDefaultEvaluation)
 	{
 		this.jasperDesign = jasperDesign;
 		this.unitName = unitName;
@@ -63,7 +63,7 @@ public class JRSourceCompileTask
 		this.fieldsMap = fieldsMap;
 		this.variablesMap = variablesMap;
 		this.variables = variables;
-		this.expressions = expressions;
+		this.expressions = expressionCollector.getExpressions();
 		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
 	}
 	
@@ -78,9 +78,9 @@ public class JRSourceCompileTask
 	 */
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, String unitName)
 	{
-		this(jasperDesign, unitName, expressionCollector,
+		this(jasperDesign, unitName, expressionCollector.getCollector(dataset),
 				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
-				expressionCollector.getExpressions(dataset), false);
+				false);
 	}
 	
 	
@@ -94,9 +94,9 @@ public class JRSourceCompileTask
 	 */
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, String unitName)
 	{
-		this(jasperDesign, unitName, expressionCollector,
+		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab),
 				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				expressionCollector.getExpressions(crosstab), true);
+				true);
 	}
 
 
