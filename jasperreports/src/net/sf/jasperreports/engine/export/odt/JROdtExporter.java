@@ -517,7 +517,7 @@ public class JROdtExporter extends JRAbstractExporter
 					}
 					else if (element instanceof JRPrintEllipse)
 					{
-						writeEmptyCell(null, gridCell.colSpan, gridCell.width, gridCell.height);//FIXMEODT
+						exportEllipse(tableBuilder, (JRPrintEllipse)element, gridCell);
 					}
 					else if (element instanceof JRPrintImage)
 					{
@@ -600,6 +600,30 @@ public class JROdtExporter extends JRAbstractExporter
 		tableBuilder.buildCellBorderStyle(rectangle, getBox(rectangle));
 		tableBuilder.buildCellStyleFooter();
 		tableBuilder.buildCellHeader(gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
+	{
+		tableBuilder.buildCellStyleHeader(ellipse);
+		tableBuilder.buildCellStyleFooter();
+		tableBuilder.buildCellHeader(gridCell.colSpan, gridCell.rowSpan);
+		tempBodyWriter.write(
+			"<text:p " 
+			//+ "text:style-name=\"Standard\"" 
+			+ ">" 
+			+ "<draw:ellipse text:anchor-type=\"paragraph\" draw:z-index=\"0\" " 
+			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
+			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
+			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
+			+ "svg:x=\"0in\" " 
+			+ "svg:y=\"0in\">" 
+			+ "<text:p/></draw:ellipse></text:p>"
+			);
 		tableBuilder.buildCellFooter();
 	}
 
