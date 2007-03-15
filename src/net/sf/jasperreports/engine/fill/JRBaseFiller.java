@@ -1229,9 +1229,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @param variableName
 	 *            the variable name
+	 *            
 	 * @return the variable value
+	 * 
+	 * @throws JRRuntimeException when the variable does not exist
 	 */
-	protected Object getVariableValue(String variableName)
+	public Object getVariableValue(String variableName)
 	{
 		return mainDataset.getVariableValue(variableName);
 	}
