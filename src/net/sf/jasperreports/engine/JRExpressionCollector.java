@@ -176,6 +176,10 @@ public class JRExpressionCollector
 			datasetCollectors = new HashMap();
 			crosstabCollectors = new HashMap();
 		}
+		else
+		{
+			expressionIds = this.parent.expressionIds;
+		}
 		
 		collectedStyles = new HashSet();
 	}
@@ -187,11 +191,11 @@ public class JRExpressionCollector
 	{
 		if (expression != null)
 		{
-			Integer id = getGlobalGeneratedId(expression);
+			Integer id = getExpressionId(expression);
 			if (id == null)
 			{
 				id = generatedIds.nextId();
-				setGlobalGeneratedId(expression, id);
+				setGeneratedId(expression, id);
 				generatedIds.put(id, expression);
 			}
 			else
@@ -200,56 +204,28 @@ public class JRExpressionCollector
 				if (existingExpression != null && !existingExpression.equals(expression))
 				{
 					Integer newId = generatedIds.nextId();
-					updateGlobalGeneratedId(existingExpression, id, newId);
+					updateGeneratedId(existingExpression, id, newId);
 					generatedIds.put(newId, existingExpression);
 				}
 			}
 		}
 	}
-	
-	private Integer getGlobalGeneratedId(JRExpression expression)
-	{
-		Integer generatedId;
-		if (parent == null)
-		{
-			generatedId = (Integer) expressionIds.get(expression);
-		}
-		else
-		{
-			generatedId = parent.getGlobalGeneratedId(expression);
-		}
-		return generatedId;
-	}
 
-	private void setGlobalGeneratedId(JRExpression expression, Integer id)
+	private void setGeneratedId(JRExpression expression, Integer id)
 	{
-		if (parent == null)
+		Object existingId = expressionIds.put(expression, id);
+		if (existingId != null && !existingId.equals(id))
 		{
-			Object existingId = expressionIds.put(expression, id);
-			if (existingId != null && !existingId.equals(id))
-			{
-				throw new JRRuntimeException("Expression \"" + expression.getText() + "\" has two generated IDs");
-			}
-		}
-		else
-		{
-			parent.setGlobalGeneratedId(expression, id);
+			throw new JRRuntimeException("Expression \"" + expression.getText() + "\" has two generated IDs");
 		}
 	}
 
-	private void updateGlobalGeneratedId(JRExpression expression, Integer currentId, Integer newId)
+	private void updateGeneratedId(JRExpression expression, Integer currentId, Integer newId)
 	{
-		if (parent == null)
+		Object existingId = expressionIds.put(expression, newId);
+		if (existingId == null || !existingId.equals(currentId))
 		{
-			Object existingId = expressionIds.put(expression, newId);
-			if (existingId == null || !existingId.equals(currentId))
-			{
-				throw new JRRuntimeException("Expression \"" + expression.getText() + "\" not found with id " + currentId);
-			}
-		}
-		else
-		{
-			parent.updateGlobalGeneratedId(expression, currentId, newId);
+			throw new JRRuntimeException("Expression \"" + expression.getText() + "\" not found with id " + currentId);
 		}
 	}
 
@@ -283,7 +259,14 @@ public class JRExpressionCollector
 		return collector;
 	}
 
-	private JRExpressionCollector getCollector(JRDataset dataset)
+	
+	/**
+	 * Returns the expression collector for a dataset.
+	 * 
+	 * @param dataset the dataset
+	 * @return the dataset expression collector
+	 */
+	public JRExpressionCollector getCollector(JRDataset dataset)
 	{
 		JRExpressionCollector collector;
 		
@@ -300,7 +283,13 @@ public class JRExpressionCollector
 	}
 
 	
-	private JRExpressionCollector getCollector(JRCrosstab crosstab)
+	/**
+	 * Returns the expression collector for a crosstab.
+	 * 
+	 * @param crosstab the crosstab
+	 * @return the crosstab expression collector
+	 */
+	public JRExpressionCollector getCollector(JRCrosstab crosstab)
 	{
 		JRExpressionCollector collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
 		if (collector == null)
