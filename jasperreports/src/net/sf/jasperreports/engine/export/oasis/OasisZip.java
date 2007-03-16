@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,7 +112,7 @@ public class OasisZip
 	/**
 	 *
 	 */
-	protected OasisZipEntry getContentEntry()
+	public OasisZipEntry getContentEntry()
 	{
 		return contentEntry;
 	}
@@ -120,7 +120,7 @@ public class OasisZip
 	/**
 	 *
 	 */
-	protected OasisZipEntry getStylesEntry()
+	public OasisZipEntry getStylesEntry()
 	{
 		return stylesEntry;
 	}
@@ -128,7 +128,7 @@ public class OasisZip
 	/**
 	 *
 	 */
-	protected void zipEntries(OutputStream os) throws IOException
+	public void zipEntries(OutputStream os) throws IOException
 	{
 		ZipOutputStream zipos = new ZipOutputStream(os);
 		zipos.setMethod(ZipOutputStream.DEFLATED);

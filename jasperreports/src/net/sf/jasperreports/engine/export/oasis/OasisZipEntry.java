@@ -25,67 +25,27 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Writer;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
  */
-public class EmptyOasisZipEntry implements OasisZipEntry 
+public interface OasisZipEntry 
 {
-	/**
-	 * 
-	 */
-	private String name = null;
+	public String getName();
 	
-	/**
-	 * 
-	 */
-	public EmptyOasisZipEntry(String name)
-	{
-		this.name = name;
-	}
+	public Writer getWriter() throws IOException;
 	
-	/**
-	 * 
-	 */
-	public String getName()
-	{
-		return name;
-	}
+	public InputStream getInputStream() throws IOException;
 	
-	/**
-	 * 
-	 */
-	public Writer getWriter() throws IOException
-	{
-		throw new JRRuntimeException("This method should not be called on this type");
-	}
+	public BufferedReader getReader() throws IOException;
 	
-	/**
-	 * 
-	 */
-	public InputStream getInputStream() throws IOException
-	{
-		return new ByteArrayInputStream(new byte[0]);
-	}
-	
-	/**
-	 * 
-	 */
-	public BufferedReader getReader() throws IOException
-	{
-		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(new byte[0])));
-	}
-	
+	//public void close() throws IOException;
 }

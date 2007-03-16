@@ -120,7 +120,7 @@ public class StyleBuilder
 		writer.write(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"");
 		writer.write(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
 		writer.write(" office:version=\"");		
-		writer.write(JROdtExporter.VERSION);		
+		writer.write(ContentBuilder.VERSION);		
 		writer.write("\">\n");		
 
 		writer.write(" <office:automatic-styles>\n");	
