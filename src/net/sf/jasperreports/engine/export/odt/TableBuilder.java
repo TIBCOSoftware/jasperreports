@@ -201,7 +201,7 @@ public class TableBuilder
 	{
 		if (element.getMode() == JRElement.MODE_OPAQUE)
 		{
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & JROdtExporter.colorMask).toUpperCase();
+			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & JROdtGridExporter.colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			styleWriter.append(" fo:background-color=\"#" + hexa + "\"");
 		}
@@ -320,7 +320,7 @@ public class TableBuilder
 			styleWriter.write("in ");
 			styleWriter.write(borderStyle); 
 			styleWriter.write(" #");
-			String hexa = Integer.toHexString(borderColor.getRGB() & JROdtExporter.colorMask).toUpperCase();
+			String hexa = Integer.toHexString(borderColor.getRGB() & JROdtGridExporter.colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			styleWriter.write(hexa);
 			styleWriter.write("\"");

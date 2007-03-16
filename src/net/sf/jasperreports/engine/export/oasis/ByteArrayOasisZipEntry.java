@@ -25,27 +25,69 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
+ * @version $Id: JRCsvExporter.java 1632 2007-03-14 12:29:52Z teodord $
  */
-public interface OasisZipEntry 
+public class ByteArrayOasisZipEntry implements OasisZipEntry 
 {
-	public String getName();
+	/**
+	 * 
+	 */
+	private String name = null;
+	private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	
-	public Writer getWriter() throws IOException;
+	/**
+	 * 
+	 */
+	public ByteArrayOasisZipEntry(String name)
+	{
+		this.name = name;
+	}
 	
-	public InputStream getInputStream() throws IOException;
+	/**
+	 * 
+	 */
+	public String getName()
+	{
+		return name;
+	}
 	
-	public BufferedReader getReader() throws IOException;
+	/**
+	 * 
+	 */
+	public Writer getWriter() throws IOException
+	{
+		return new BufferedWriter(new OutputStreamWriter(baos, "UTF-8"));//FIXMEODT deal with stream closing
+	}
 	
-	//public void close() throws IOException;
+	/**
+	 * 
+	 */
+	public InputStream getInputStream() throws IOException
+	{
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	/**
+	 * 
+	 */
+	public BufferedReader getReader() throws IOException
+	{
+		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray()), "UTF-8"));
+	}
+	
 }

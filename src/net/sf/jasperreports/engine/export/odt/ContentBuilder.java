@@ -41,6 +41,8 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sf.jasperreports.engine.export.oasis.OasisZipEntry;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -48,6 +50,11 @@ import java.util.Iterator;
  */
 public class ContentBuilder
 {
+	/**
+	 *
+	 */
+	public static final String VERSION = "1.0";
+
 	/**
 	 * 
 	 */
@@ -105,7 +112,7 @@ public class ContentBuilder
 		writer.write(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"");
 		writer.write(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
 		writer.write(" office:version=\"");
-		writer.write(JROdtExporter.VERSION);
+		writer.write(VERSION);
 		writer.write("\">\n");
 
 		writer.write(" <office:scripts/>\n");

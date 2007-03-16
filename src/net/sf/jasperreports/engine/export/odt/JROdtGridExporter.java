@@ -44,10 +44,8 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +56,7 @@ import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -68,6 +67,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.oasis.ByteArrayOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.OasisZip;
@@ -82,13 +82,8 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
  */
-public class JROdtExporter extends JRAbstractExporter
+public class JROdtGridExporter extends JRAbstractExporter
 {
-
-	/**
-	 *
-	 */
-	public static final String VERSION = "1.0";
 
 	/**
 	 *
@@ -156,7 +151,7 @@ public class JROdtExporter extends JRAbstractExporter
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 
 
-	public JROdtExporter()
+	public JROdtGridExporter()
 	{
 		backcolorStack = new LinkedList();
 		backcolor = null;
@@ -424,8 +419,22 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		Collection elements = page.getElements();
-		exportElements(elements);
+		JRGridLayout layout = 
+			new JRGridLayout(
+				page.getElements(),
+				jasperPrint.getPageWidth(), 
+				jasperPrint.getPageHeight(),
+				globalOffsetX, 
+				globalOffsetY, 
+				JRGridLayout.UNIVERSAL_EXPORTER, 
+				false, //deep 
+				true, //splitSharedRowSpan
+				true, //spanCells
+				true, //setElementIndexes
+				null
+				);
+
+		exportGrid(layout, null);
 
 		if (progressMonitor != null)
 		{
@@ -434,40 +443,134 @@ public class JROdtExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportElements(Collection elements) throws IOException, JRException
+	/**
+	 *
+	 */
+	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
-		if (elements != null && elements.size() > 0)
-		{
-			JRPrintElement element;
-			for(Iterator it = elements.iterator(); it.hasNext();)
-			{
-				element = (JRPrintElement)it.next();
+		List xCuts = gridLayout.getXCuts();
+		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
-				if (element instanceof JRPrintLine)
+		TableBuilder tableBuilder = frameIndex == null 
+			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
+			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
+		
+		tableBuilder.buildTableStyle();
+		tableBuilder.buildTableHeader();
+		
+		for(int col = 1; col < xCuts.size(); col++)
+		{
+			tableBuilder.buildColumnStyle(
+					col - 1, 
+					((Integer)xCuts.get(col)).intValue() - ((Integer)xCuts.get(col - 1)).intValue()
+					);
+			tableBuilder.buildColumnHeader(col - 1);
+			tableBuilder.buildColumnFooter();
+		}
+
+		JRPrintElement element = null;
+		for(int row = 0; row < grid.length; row++)
+		{
+			//JRExporterGridCell[] gridRow = grid[row];
+			
+			int emptyCellColSpan = 0;
+			int emptyCellWidth = 0;
+			int rowHeight = gridLayout.getRowHeight(row);
+			
+			tableBuilder.buildRowStyle(row, rowHeight);
+			tableBuilder.buildRowHeader(row);
+
+			for(int col = 0; col < grid[0].length; col++)
+			{
+				JRExporterGridCell gridCell = grid[row][col];
+				if (gridCell == JRExporterGridCell.OCCUPIED_CELL)
 				{
-					exportLine((JRPrintLine)element);
+					if (emptyCellColSpan > 0)
+					{
+						writeEmptyCell(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
+						emptyCellColSpan = 0;
+						emptyCellWidth = 0;
+					}
+
+					writeOccupiedCells(1);
 				}
-				else if (element instanceof JRPrintRectangle)
+				else if(gridCell.element != null)
 				{
-					exportRectangle((JRPrintRectangle)element);
+					if (emptyCellColSpan > 0)
+					{
+						writeEmptyCell(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
+						emptyCellColSpan = 0;
+						emptyCellWidth = 0;
+					}
+
+					element = gridCell.element;
+
+					if (element instanceof JRPrintLine)
+					{
+						exportLine(tableBuilder, (JRPrintLine)element, gridCell);
+					}
+					else if (element instanceof JRPrintRectangle)
+					{
+						exportRectangle(tableBuilder, (JRPrintRectangle)element, gridCell);
+					}
+					else if (element instanceof JRPrintEllipse)
+					{
+						exportEllipse(tableBuilder, (JRPrintEllipse)element, gridCell);
+					}
+					else if (element instanceof JRPrintImage)
+					{
+						writeEmptyCell(null, gridCell.colSpan, gridCell.width, gridCell.height);//FIXMEODT
+					}
+					else if (element instanceof JRPrintText)
+					{
+						exportText(tableBuilder, (JRPrintText)element, gridCell);
+					}
+					else if (element instanceof JRPrintFrame)
+					{
+						exportFrame(tableBuilder, (JRPrintFrame)element, gridCell);
+					}
+
+					//x += gridCell.colSpan - 1;
 				}
-				else if (element instanceof JRPrintEllipse)
+				else
 				{
-					exportEllipse((JRPrintEllipse)element);
-				}
-				else if (element instanceof JRPrintImage)
-				{
-					//exportImage((JRPrintImage)element);
-				}
-				else if (element instanceof JRPrintText)
-				{
-					//exportText((JRPrintText)element);
-				}
-				else if (element instanceof JRPrintFrame)
-				{
-					//exportFrame((JRPrintFrame) element);
+					emptyCellColSpan++;
+					emptyCellWidth += gridCell.width;
 				}
 			}
+
+			if (emptyCellColSpan > 0)
+			{
+				writeEmptyCell(null, emptyCellColSpan, emptyCellWidth, rowHeight);
+			}
+
+			tableBuilder.buildRowFooter();
+		}
+
+		tableBuilder.buildTableFooter();
+	}
+
+
+	private void writeEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan, int emptyCellWidth, int rowHeight) throws IOException
+	{
+		tempBodyWriter.write("<table:table-cell");
+		//tempBodyWriter.write(" office:value-type=\"string\"");
+		tempBodyWriter.write(" table:style-name=\"empty-cell\"");
+		if (emptyCellColSpan > 1)
+		{
+			tempBodyWriter.write(" table:number-columns-spanned=\"" + emptyCellColSpan + "\"");
+		}
+		tempBodyWriter.write("/>\n");
+
+		writeOccupiedCells(emptyCellColSpan - 1);
+	}
+
+
+	private void writeOccupiedCells(int count) throws IOException
+	{
+		for(int i = 0; i < count; i++)
+		{
+			tempBodyWriter.write("<table:covered-table-cell/>\n");
 		}
 	}
 
@@ -475,52 +578,51 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(JRPrintLine line) throws IOException
+	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		tempBodyWriter.write(
-			//"<text:p " 
-			//+ "text:style-name=\"Standard\"" 
-			//+ ">" 
-			"<draw:line text:anchor-type=\"page\" draw:z-index=\"0\" " 
-			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
-			+ "svg:x2=\"" + Utility.translatePixelsToInches(line.getX() + line.getWidth()) + "in\" " 
-			+ "svg:y2=\"" + Utility.translatePixelsToInches(line.getY() + line.getHeight()) + "in\" " 
-			+ "svg:x1=\"" + Utility.translatePixelsToInches(line.getX()) + "in\" " 
-			+ "svg:y1=\"" + Utility.translatePixelsToInches(line.getY()) + "in\">" 
-			//+ "<text:p/>" 
-			+ "</draw:line>" 
-			//+ "</text:p>"
-			);
+		tableBuilder.buildCellStyleHeader(line);
+		tableBuilder.buildCellBorderStyle(line, getBox(line));
+		tableBuilder.buildCellStyleFooter();
+		tableBuilder.buildCellHeader(gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellFooter();
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportRectangle(JRPrintRectangle rectangle) throws IOException
+	protected void exportRectangle(TableBuilder tableBuilder, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
+		tableBuilder.buildCellStyleHeader(rectangle);
+		tableBuilder.buildCellBackcolorStyle(rectangle);
+		tableBuilder.buildCellBorderStyle(rectangle, getBox(rectangle));
+		tableBuilder.buildCellStyleFooter();
+		tableBuilder.buildCellHeader(gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellFooter();
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException
+	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
+		tableBuilder.buildCellStyleHeader(ellipse);
+		tableBuilder.buildCellStyleFooter();
+		tableBuilder.buildCellHeader(gridCell.colSpan, gridCell.rowSpan);
 		tempBodyWriter.write(
-			//"<text:p " 
+			"<text:p " 
 			//+ "text:style-name=\"Standard\"" 
-			//+ ">" 
-			"<draw:ellipse text:anchor-type=\"page\" draw:z-index=\"0\" " 
+			+ ">" 
+			+ "<draw:ellipse text:anchor-type=\"paragraph\" draw:z-index=\"0\" " 
 			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
 			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
 			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
-			+ "svg:x=\"" + Utility.translatePixelsToInches(ellipse.getX()) + "in\" " 
-			+ "svg:y=\"" + Utility.translatePixelsToInches(ellipse.getY()) + "in\">" 
-			//+ "<text:p/>" 
-			+ "</draw:ellipse>" 
-			//+ "</text:p>"
+			+ "svg:x=\"0in\" " 
+			+ "svg:y=\"0in\">" 
+			+ "<text:p/></draw:ellipse></text:p>"
 			);
+		tableBuilder.buildCellFooter();
 	}
 
 
@@ -1403,7 +1505,14 @@ public class JROdtExporter extends JRAbstractExporter
 //		}
 		try
 		{
-			exportElements(frame.getElements());
+			JRGridLayout layout = gridCell.getLayout(); 
+			JRPrintElementIndex frameIndex =
+				new JRPrintElementIndex(
+						reportIndex,
+						pageIndex,
+						gridCell.elementIndex
+						);
+			exportGrid(layout, frameIndex);
 		}
 		finally
 		{
