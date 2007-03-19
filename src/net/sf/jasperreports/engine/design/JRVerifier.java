@@ -587,14 +587,20 @@ public class JRVerifier
 			{
 				JRParameter parameter = parameters[index];
 				
+				Object errorSource = parameter;
+				if (parameter.isSystemDefined())
+				{
+					errorSource = jasperDesign;
+				}
+				
 				if (parameter.getName() == null || parameter.getName().trim().length() == 0)
 				{
-					addBrokenRule("Parameter name missing.", parameter);
+					addBrokenRule("Parameter name missing.", errorSource);
 				}
 
 				if (parameter.getValueClassName() == null)
 				{
-					addBrokenRule("Class not set for parameter : " + parameter.getName(), parameter);
+					addBrokenRule("Class not set for parameter : " + parameter.getName(), errorSource);
 				}
 				else
 				{
@@ -626,7 +632,7 @@ public class JRVerifier
 					}
 					catch (JRRuntimeException e)
 					{
-						addBrokenRule(e, parameter);
+						addBrokenRule(e, errorSource);
 					}				
 				}				
 			}
