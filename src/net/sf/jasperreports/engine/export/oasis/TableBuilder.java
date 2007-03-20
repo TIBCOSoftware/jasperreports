@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -48,9 +48,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 
 public class TableBuilder 
 {
-	protected static final String VERTICAL_ALIGN_TOP = "top";
-	protected static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String VERTICAL_ALIGN_BOTTOM = "bottom";
 
 	private String tableName = null;
 	private int reportIndex = 0;
@@ -187,55 +184,6 @@ public class TableBuilder
 		bodyWriter.write("</table:table-column>\n");		
 	}
 	
-	public void buildCellStyleHeader(JRPrintElement element) throws IOException 
-	{
-		String cellName = tableName + "_cell_" + (++cellCounter);
-		styleWriter.append(" <style:style style:name=\"" + cellName + "\"");
-		styleWriter.append(" style:family=\"table-cell\">\n");
-		styleWriter.append("   <style:table-cell-properties");		
-		styleWriter.append(" fo:wrap-option=\"wrap\"");
-		styleWriter.append(" style:shrink-to-fit=\"false\"");
-	}
-	
-	public void buildCellBackcolorStyle(JRPrintElement element) throws IOException 
-	{
-		if (element.getMode() == JRElement.MODE_OPAQUE)
-		{
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & JROdtGridExporter.colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			styleWriter.append(" fo:background-color=\"#" + hexa + "\"");
-		}
-	}
-	
-	public void buildCellAlignmentStyle(JRAlignment alignment) throws IOException 
-	{
-		String verticalAlignment = VERTICAL_ALIGN_TOP;
-
-		switch (alignment.getVerticalAlignment())
-		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalAlignment = VERTICAL_ALIGN_MIDDLE;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
-			default :
-			{
-				verticalAlignment = VERTICAL_ALIGN_TOP;
-			}
-		}
-
-		if (!verticalAlignment.equals(VERTICAL_ALIGN_TOP))
-		{
-			styleWriter.write(" style:vertical-align=\"" + verticalAlignment + "\"");
-		}
-	}
-	
 	public void buildCellBorderStyle(JRPrintElement element, JRBox box) throws IOException 
 	{
 		if (box != null)
@@ -320,7 +268,7 @@ public class TableBuilder
 			styleWriter.write("in ");
 			styleWriter.write(borderStyle); 
 			styleWriter.write(" #");
-			String hexa = Integer.toHexString(borderColor.getRGB() & JROdtGridExporter.colorMask).toUpperCase();
+			String hexa = Integer.toHexString(borderColor.getRGB() & JROdtExporter.colorMask).toUpperCase();
 			hexa = ("000000" + hexa).substring(hexa.length());
 			styleWriter.write(hexa);
 			styleWriter.write("\"");
@@ -336,18 +284,13 @@ public class TableBuilder
 		}
 	}
 
-	public void buildCellStyleFooter() throws IOException 
+	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) throws IOException 
 	{
-		styleWriter.append("/>\n");
-		styleWriter.append(" </style:style>\n");
-	}
-	
-	public void buildCellHeader(int colSpan, int rowSpan) throws IOException 
-	{
-		String cellName = tableName + "_cell_" + cellCounter;
+		//String cellName = tableName + "_cell_" + cellCounter;
 		//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
 		bodyWriter.write("<table:table-cell");
-		bodyWriter.write(" table:style-name=\"" + cellName + "\"");
+		if (cellStyleName != null)
+			bodyWriter.write(" table:style-name=\"" + cellStyleName + "\"");
 		if (colSpan > 1)
 			bodyWriter.write(" table:number-columns-spanned=\"" + colSpan + "\"");
 		if (rowSpan > 1)

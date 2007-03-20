@@ -25,7 +25,7 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.oasis;
+package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.BufferedReader;
 import java.io.IOException;

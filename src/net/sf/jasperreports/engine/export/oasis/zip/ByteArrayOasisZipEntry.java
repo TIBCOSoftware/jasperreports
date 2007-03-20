@@ -25,40 +25,37 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.oasis;
+package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
+ * @version $Id: JRCsvExporter.java 1632 2007-03-14 12:29:52Z teodord $
  */
-public class FileOasisZipEntry implements OasisZipEntry 
+public class ByteArrayOasisZipEntry implements OasisZipEntry 
 {
 	/**
 	 * 
 	 */
 	private String name = null;
-	private File file = null;
-//	private Writer writer = null;
-//	private InputStream inputStream = null;
+	private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	
 	/**
 	 * 
 	 */
-	public FileOasisZipEntry(String name, File file)
+	public ByteArrayOasisZipEntry(String name)
 	{
 		this.name = name;
-		this.file = file;
 	}
 	
 	/**
@@ -74,12 +71,7 @@ public class FileOasisZipEntry implements OasisZipEntry
 	 */
 	public Writer getWriter() throws IOException
 	{
-//		if (writer == null)
-//		{
-//			writer = new BufferedWriter(new FileWriter(file));
-//		}
-//		return writer;
-		return new BufferedWriter(new FileWriter(file, true));
+		return new BufferedWriter(new OutputStreamWriter(baos, "UTF-8"));//FIXMEODT deal with stream closing
 	}
 	
 	/**
@@ -87,12 +79,7 @@ public class FileOasisZipEntry implements OasisZipEntry
 	 */
 	public InputStream getInputStream() throws IOException
 	{
-//		if (inputStream == null)
-//		{
-//			inputStream = new FileInputStream(file);
-//		}
-//		return inputStream;
-		return new FileInputStream(file);
+		return new ByteArrayInputStream(baos.toByteArray());
 	}
 	
 	/**
@@ -100,48 +87,7 @@ public class FileOasisZipEntry implements OasisZipEntry
 	 */
 	public BufferedReader getReader() throws IOException
 	{
-		return new BufferedReader(new FileReader(file));
+		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray()), "UTF-8"));
 	}
 	
-	/**
-	 * 
-	 *
-	public void close() throws IOException
-	{
-		try
-		{
-			if (writer != null)
-			{
-				writer.flush();
-			}
-		}
-		finally
-		{
-			if (writer != null)
-			{
-				try
-				{
-					writer.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (inputStream != null)
-			{
-				try
-				{
-					inputStream.close();
-				}
-				catch (IOException e)
-				{
-				}
-			}
-		}
-		
-		writer = null;
-		inputStream = null;
-	}
-	*/
 }

@@ -33,10 +33,9 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
-import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,15 +45,12 @@ import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -67,11 +63,10 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.oasis.ByteArrayOasisZipEntry;
-import net.sf.jasperreports.engine.export.oasis.OasisZip;
-import net.sf.jasperreports.engine.export.oasis.OasisZipEntry;
+import net.sf.jasperreports.engine.export.oasis.zip.ByteArrayOasisZipEntry;
+import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
+import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -82,7 +77,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
  */
-public class JROdtExporter extends JRAbstractExporter
+public class JROdtFrameExporter extends JRAbstractExporter
 {
 
 	/**
@@ -95,21 +90,6 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
-	/**
-	 *
-	 */
-	protected static final String HORIZONTAL_ALIGN_LEFT = "start";
-	protected static final String HORIZONTAL_ALIGN_RIGHT = "end";
-	protected static final String HORIZONTAL_ALIGN_CENTER = "center";
-	protected static final String HORIZONTAL_ALIGN_JUSTIFY = "justified";
-
-	/**
-	 *
-	 */
-	protected static final String VERTICAL_ALIGN_TOP = "top";
-	protected static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-	
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
@@ -138,8 +118,6 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-
 	protected boolean isWrapBreakWord = false;
 
 	protected Map fontMap = null;
@@ -147,16 +125,12 @@ public class JROdtExporter extends JRAbstractExporter
 	private LinkedList backcolorStack;
 	private Color backcolor;
 	
-	private Set fontFaces = null;
-	private Map paragraphStyles = null;//FIXMEODT these should be soft cache
-	private int paragraphStylesCounter = 0;
-	private Map textSpanStyles = null;
-	private int textSpanStylesCounter = 0;
+	private StyleCache styleCache = null;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 
 
-	public JROdtExporter()
+	public JROdtFrameExporter()
 	{
 		backcolorStack = new LinkedList();
 		backcolor = null;
@@ -354,11 +328,7 @@ public class JROdtExporter extends JRAbstractExporter
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();
 
-		fontFaces = new HashSet();
-		paragraphStyles = new HashMap();
-		paragraphStylesCounter = 0;
-		textSpanStyles = new HashMap();
-		textSpanStylesCounter = 0;
+		styleCache = new StyleCache(tempStyleWriter, fontMap);
 
 		Writer stylesWriter = oasisZip.getStylesEntry().getWriter();
 		
@@ -411,7 +381,7 @@ public class JROdtExporter extends JRAbstractExporter
 				oasisZip.getContentEntry(),
 				tempStyleEntry,
 				tempBodyEntry,
-				fontFaces
+				styleCache.getFontFaces()
 				);
 		contentBuilder.build();
 		
@@ -424,6 +394,8 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
+		//tempBodyWriter.write("<text:p text:style-name=\"PAGE_BREAK\"></text:p>");
+
 		Collection elements = page.getElements();
 		exportElements(elements);
 
@@ -461,7 +433,7 @@ public class JROdtExporter extends JRAbstractExporter
 				}
 				else if (element instanceof JRPrintText)
 				{
-					//exportText((JRPrintText)element);
+					exportText((JRPrintText)element);
 				}
 				else if (element instanceof JRPrintFrame)
 				{
@@ -477,19 +449,17 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException
 	{
+		String styleName = styleCache.getLineStyle(line);
+		
 		tempBodyWriter.write(
-			//"<text:p " 
-			//+ "text:style-name=\"Standard\"" 
-			//+ ">" 
-			"<draw:line text:anchor-type=\"page\" draw:z-index=\"0\" " 
-			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
-			+ "svg:x2=\"" + Utility.translatePixelsToInches(line.getX() + line.getWidth()) + "in\" " 
-			+ "svg:y2=\"" + Utility.translatePixelsToInches(line.getY() + line.getHeight()) + "in\" " 
-			+ "svg:x1=\"" + Utility.translatePixelsToInches(line.getX()) + "in\" " 
-			+ "svg:y1=\"" + Utility.translatePixelsToInches(line.getY()) + "in\">" 
-			//+ "<text:p/>" 
+			"\n<draw:line text:anchor-type=\"page\""
+			+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\""
+			+ " svg:x2=\"" + Utility.translatePixelsToInches(line.getX() + line.getWidth()) + "in\"" 
+			+ " svg:y2=\"" + Utility.translatePixelsToInches(line.getY() + line.getHeight()) + "in\"" 
+			+ " svg:x1=\"" + Utility.translatePixelsToInches(line.getX()) + "in\"" 
+			+ " svg:y1=\"" + Utility.translatePixelsToInches(line.getY()) + "in\">" 
+			+ " draw:style-name=\"" + styleName + "\""
 			+ "</draw:line>" 
-			//+ "</text:p>"
 			);
 	}
 
@@ -499,6 +469,15 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle) throws IOException
 	{
+		tempBodyWriter.write(
+			"<draw:rect text:anchor-type=\"page\"" 
+			+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\""
+			+ " svg:x=\"" + Utility.translatePixelsToInches(rectangle.getX()) + "in\"" 
+			+ " svg:y=\"" + Utility.translatePixelsToInches(rectangle.getY()) + "in\"" 
+			+ " svg:width=\"" + Utility.translatePixelsToInches(rectangle.getWidth()) + "in\"" 
+			+ " svg:height=\"" + Utility.translatePixelsToInches(rectangle.getHeight()) + "in\"" 
+			+ "></draw:rect>" 
+			);
 	}
 
 
@@ -508,18 +487,13 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException
 	{
 		tempBodyWriter.write(
-			//"<text:p " 
-			//+ "text:style-name=\"Standard\"" 
-			//+ ">" 
-			"<draw:ellipse text:anchor-type=\"page\" draw:z-index=\"0\" " 
-			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
-			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
-			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
-			+ "svg:x=\"" + Utility.translatePixelsToInches(ellipse.getX()) + "in\" " 
-			+ "svg:y=\"" + Utility.translatePixelsToInches(ellipse.getY()) + "in\">" 
-			//+ "<text:p/>" 
-			+ "</draw:ellipse>" 
-			//+ "</text:p>"
+			"<draw:ellipse text:anchor-type=\"page\"" 
+			+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\""
+			+ " svg:x=\"" + Utility.translatePixelsToInches(ellipse.getX()) + "in\"" 
+			+ " svg:y=\"" + Utility.translatePixelsToInches(ellipse.getY()) + "in\"" 
+			+ " svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\"" 
+			+ " svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\"" 
+			+ "></draw:ellipse>" 
 			);
 	}
 
@@ -527,6 +501,78 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected void exportText(JRPrintText text) throws IOException
+	{
+		JRStyledText styledText = getStyledText(text);
+
+		int textLength = 0;
+
+		if (styledText != null)
+		{
+			textLength = styledText.length();
+		}
+
+//		if (isWrapBreakWord)
+//		{
+//			styleBuffer.append("width: " + gridCell.width + "; ");
+//			styleBuffer.append("word-wrap: break-word; ");
+//		}
+		
+//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+//		{
+//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
+//		}
+
+//		if (styleBuffer.length() > 0)
+//		{
+//			writer.write(" style=\"");
+//			writer.write(styleBuffer.toString());
+//			writer.write("\"");
+//		}
+//
+//		writer.write(">");
+
+//		if (text.getAnchorName() != null)
+//		{
+//			writer.write("<a name=\"");
+//			writer.write(text.getAnchorName());
+//			writer.write("\"/>");
+//		}
+
+//		boolean startedHyperlink = startHyperlink(text);
+
+		tempBodyWriter.write(
+			"<draw:frame text:anchor-type=\"page\"" 
+			+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\""
+			+ " draw:style-name=\"" + styleCache.getFrameStyle(text) + "\""
+			+ " svg:x=\"" + Utility.translatePixelsToInches(text.getX()) + "in\"" 
+			+ " svg:y=\"" + Utility.translatePixelsToInches(text.getY()) + "in\"" 
+			+ " svg:width=\"" + Utility.translatePixelsToInches(text.getWidth()) + "in\"" 
+			+ " svg:height=\"" + Utility.translatePixelsToInches(text.getHeight()) + "in\"" 
+			+ "><draw:text-box>" 
+			);
+		tempBodyWriter.write("<text:p");
+		tempBodyWriter.write(" text:style-name=\"" + styleCache.getParagraphStyle(text) + "\"");
+		tempBodyWriter.write(">");
+		
+		if (textLength > 0) 
+		{
+			exportStyledText(styledText);
+		}
+		
+//		if (startedHyperlink)
+//		{
+//			endHyperlink();
+//		}
+
+		tempBodyWriter.write("</text:p>\n");		
+		tempBodyWriter.write("</draw:text-box></draw:frame>");
+	}
+
+
+	/**
+	 *
+	 *
 	protected void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellStyleHeader(text);
@@ -704,121 +750,10 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportStyledTextRun(Map attributes, String text) throws IOException
 	{
-		String fontFamily;
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
-		{
-			fontFamily = (String) fontMap.get(fontFamilyAttr);
-		}
-		else
-		{
-			fontFamily = fontFamilyAttr;
-		}
-		fontFaces.add(fontFamily);
-		
-		StringBuffer textSpanStyleIdBuffer = new StringBuffer();
-		textSpanStyleIdBuffer.append(fontFamily);
-
-		String forecolorHexa = null;
-		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		if (!Color.black.equals(forecolor))
-		{
-			forecolorHexa = Integer.toHexString(forecolor.getRGB() & colorMask).toUpperCase();
-			forecolorHexa = ("000000" + forecolorHexa).substring(forecolorHexa.length());
-			textSpanStyleIdBuffer.append(forecolorHexa);
-		}
-
-		String backcolorHexa = null;
-		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (runBackcolor != null)
-		{
-			backcolorHexa = Integer.toHexString(runBackcolor.getRGB() & colorMask).toUpperCase();
-			backcolorHexa = ("000000" + backcolorHexa).substring(backcolorHexa.length());
-			textSpanStyleIdBuffer.append(backcolorHexa);
-		}
-
-		String size = String.valueOf(attributes.get(TextAttribute.SIZE));
-		textSpanStyleIdBuffer.append(size);
-
-		String weight = null;
-		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT)))
-		{
-			weight = "bold";
-			textSpanStyleIdBuffer.append(weight);
-		}
-		String posture = null;
-		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE)))
-		{
-			posture = "italic";
-			textSpanStyleIdBuffer.append(posture);
-		}
-		String underline = null;
-		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
-		{
-			underline = "single";
-			textSpanStyleIdBuffer.append(underline);
-		}
-		String strikeThrough = null;
-		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
-		{
-			strikeThrough = "single";
-			textSpanStyleIdBuffer.append(strikeThrough);
-		}
-
-//		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-//		{
-//			textSpanStyleIdBuffer.append(" vertical-align: super;");
-//		}
-//		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-//		{
-//			textSpanStyleIdBuffer.append(" vertical-align: sub;");
-//		}
-
-		String textSpanStyleId = textSpanStyleIdBuffer.toString();
-		String textSpanStyleName = (String)textSpanStyles.get(textSpanStyleId);
-		if (textSpanStyleName == null)
-		{
-			textSpanStyleName = "T" + textSpanStylesCounter++;
-			textSpanStyles.put(textSpanStyleId, textSpanStyleName);
-			
-			tempStyleWriter.write("<style:style style:name=\"" + textSpanStyleName + "\"");
-			tempStyleWriter.write(" style:family=\"text\">\n");
-			tempStyleWriter.write("<style:text-properties");
-			if (forecolorHexa != null)
-			{
-				tempStyleWriter.write(" fo:color=\"#" + forecolorHexa+ "\"");
-			}
-			tempStyleWriter.write(" style:font-name=\"" + fontFamily + "\"");
-			tempStyleWriter.write(" fo:font-size=\"" + size + "pt\"");
-			if (posture != null)
-			{
-				tempStyleWriter.write(" fo:font-style=\"" + posture + "\"");
-			}
-			if (weight != null)
-			{
-				tempStyleWriter.write(" fo:font-weight=\"" + weight + "\"");
-			}
-			if (backcolorHexa != null)
-			{
-				tempStyleWriter.write(" fo:background-color=\"#" + backcolorHexa + "\"");
-			}
-//			tempStyleWriter.write(" style:text-rotation-angle=\"" + textRotationAngle + "\"");
-//			tempStyleWriter.write(" style:text-rotation-scale=\"" + textRotationScale + "\"");
-			if (underline != null)
-			{
-				tempStyleWriter.write(" style:text-underline-type=\"" + underline + "\"");
-			}
-			if (strikeThrough != null)
-			{
-				tempStyleWriter.write(" style:text-line-through-type=\"" + strikeThrough + "\"");
-			}
-			tempStyleWriter.write(">\n");
-			tempStyleWriter.write("</style:text-properties>\n");	
-			tempStyleWriter.write("</style:style>\n");
-		}
+		String textRunStyleName = styleCache.getTextSpanStyle(attributes, text);
 		
 		tempBodyWriter.write("<text:span");
-		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+		tempBodyWriter.write(" text:style-name=\"" + textRunStyleName + "\"");
 		tempBodyWriter.write(">");
 		
 		if (text != null) 
@@ -986,7 +921,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellStyleHeader(image);
@@ -1377,7 +1312,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 */
+	 *
 	protected void exportFrame(TableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		tableBuilder.buildCellStyleHeader(frame);

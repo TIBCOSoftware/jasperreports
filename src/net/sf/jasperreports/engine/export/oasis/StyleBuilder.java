@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -58,7 +58,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	protected StyleBuilder(List jasperPrintList, Writer writer)
+	public StyleBuilder(List jasperPrintList, Writer writer)
 	{
 		this.jasperPrintList = jasperPrintList;
 		this.writer = writer;
@@ -67,7 +67,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	protected void build() throws IOException
+	public void build() throws IOException
 	{
 		buildBeforeAutomaticStyles();
 		
