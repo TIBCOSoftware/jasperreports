@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>1.0-beta-10</version>
+			<version>1.0</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -188,11 +188,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>jpa</groupId>
-			<artifactId>jpa</artifactId>
-			<version>20060623</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/jpa.jar</systemPath>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
