@@ -98,6 +98,8 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 
@@ -383,6 +385,29 @@ public class JRVerifier
 			)
 		{
 			addBrokenRule("The detail section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
+		}
+		
+		verifyFormatFactoryClass();
+	}
+
+
+	protected void verifyFormatFactoryClass()
+	{
+		String formatFactoryClassName = jasperDesign.getFormatFactoryClass();
+		if (formatFactoryClassName != null)
+		{
+			try
+			{
+				Class formatFactoryClass = JRClassLoader.loadClassForName(formatFactoryClassName);
+				if (!FormatFactory.class.isAssignableFrom(formatFactoryClass))
+				{
+					addBrokenRule("The report format factory class is not compatible with " + FormatFactory.class.getName(), jasperDesign);
+				}
+			}
+			catch (ClassNotFoundException e)
+			{
+				addBrokenRule(e.toString(), jasperDesign);
+			}
 		}
 	}
 
