@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.FontKey;
 import net.sf.jasperreports.engine.export.PdfFont;
-import net.sf.jasperreports.engine.export.odt.JROdtExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 

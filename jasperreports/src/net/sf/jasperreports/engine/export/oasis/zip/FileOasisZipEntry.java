@@ -25,35 +25,40 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.export.oasis;
+package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Writer;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
  */
-public class EmptyOasisZipEntry implements OasisZipEntry 
+public class FileOasisZipEntry implements OasisZipEntry 
 {
 	/**
 	 * 
 	 */
 	private String name = null;
+	private File file = null;
+//	private Writer writer = null;
+//	private InputStream inputStream = null;
 	
 	/**
 	 * 
 	 */
-	public EmptyOasisZipEntry(String name)
+	public FileOasisZipEntry(String name, File file)
 	{
 		this.name = name;
+		this.file = file;
 	}
 	
 	/**
@@ -69,7 +74,12 @@ public class EmptyOasisZipEntry implements OasisZipEntry
 	 */
 	public Writer getWriter() throws IOException
 	{
-		throw new JRRuntimeException("This method should not be called on this type");
+//		if (writer == null)
+//		{
+//			writer = new BufferedWriter(new FileWriter(file));
+//		}
+//		return writer;
+		return new BufferedWriter(new FileWriter(file, true));
 	}
 	
 	/**
@@ -77,7 +87,12 @@ public class EmptyOasisZipEntry implements OasisZipEntry
 	 */
 	public InputStream getInputStream() throws IOException
 	{
-		return new ByteArrayInputStream(new byte[0]);
+//		if (inputStream == null)
+//		{
+//			inputStream = new FileInputStream(file);
+//		}
+//		return inputStream;
+		return new FileInputStream(file);
 	}
 	
 	/**
@@ -85,7 +100,48 @@ public class EmptyOasisZipEntry implements OasisZipEntry
 	 */
 	public BufferedReader getReader() throws IOException
 	{
-		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(new byte[0])));
+		return new BufferedReader(new FileReader(file));
 	}
 	
+	/**
+	 * 
+	 *
+	public void close() throws IOException
+	{
+		try
+		{
+			if (writer != null)
+			{
+				writer.flush();
+			}
+		}
+		finally
+		{
+			if (writer != null)
+			{
+				try
+				{
+					writer.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+
+			if (inputStream != null)
+			{
+				try
+				{
+					inputStream.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+		
+		writer = null;
+		inputStream = null;
+	}
+	*/
 }

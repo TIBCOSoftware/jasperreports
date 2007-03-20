@@ -33,7 +33,7 @@
  * Majid Ali Khan - majidkk@users.sourceforge.net
  * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
-package net.sf.jasperreports.engine.export.odt;
+package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +41,8 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.jasperreports.engine.export.oasis.OasisZipEntry;
+import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
+
 
 
 /**
@@ -67,7 +68,7 @@ public class ContentBuilder
 	/**
 	 * 
 	 */
-	protected ContentBuilder(
+	public ContentBuilder(
 		OasisZipEntry contentEntry,
 		OasisZipEntry styleEntry,
 		OasisZipEntry bodyEntry,
@@ -81,7 +82,7 @@ public class ContentBuilder
 	}
 	
 
-	protected void build() throws IOException
+	public void build() throws IOException
 	{
 		Writer writer = contentEntry.getWriter();
 		
