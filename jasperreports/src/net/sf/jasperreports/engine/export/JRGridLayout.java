@@ -88,11 +88,10 @@ public class JRGridLayout
 	private final int height;
 	private final int offsetX;
 	private final int offsetY;
-	private final ExporterNature exporterNature;
+	private final ExporterNature nature;
 	private final boolean deep;
 	private final boolean splitSharedRowSpan;
 	private final boolean spanCells;
-	private final boolean setElementIndexes;//FIXMEODT remove?
 	private final String address;
 	
 	private List xCuts;
@@ -118,8 +117,6 @@ public class JRGridLayout
 	 * elements to skip during grid creation
 	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
 	 * @param spanCells whether the exporter handles cells span
-	 * @param setElementIndexes whether to set element indexes
-	 * @param initialIndex initial element index
 	 */
 	public JRGridLayout(
 		List elements, 
@@ -127,11 +124,10 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		ExporterNature exporterNature, 
+		ExporterNature nature, 
 		boolean deep,
 		boolean splitSharedRowSpan,
-		boolean spanCells,
-		boolean setElementIndexes
+		boolean spanCells
 		)
 	{
 		this(
@@ -140,11 +136,10 @@ public class JRGridLayout
 			height, 
 			offsetX, 
 			offsetY,
-			exporterNature,
+			nature,
 			deep, 
 			splitSharedRowSpan,
 			spanCells,
-			setElementIndexes, 
 			null //xCuts
 			);
 	}
@@ -161,8 +156,6 @@ public class JRGridLayout
 	 * elements to skip during grid creation
 	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
 	 * @param spanCells whether the exporter handles cells span
-	 * @param setElementIndexes whether to set element indexes
-	 * @param initialIndex initial element index
 	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	public JRGridLayout(
@@ -171,11 +164,10 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		ExporterNature exporterNature, 
+		ExporterNature nature, 
 		boolean deep, 
 		boolean splitSharedRowSpan,
 		boolean spanCells,
-		boolean setElementIndexes, 
 		List xCuts
 		)
 	{
@@ -183,11 +175,10 @@ public class JRGridLayout
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.exporterNature = exporterNature;
+		this.nature = nature;
 		this.deep = deep;
 		this.splitSharedRowSpan = splitSharedRowSpan;
 		this.spanCells = spanCells;
-		this.setElementIndexes = setElementIndexes;
 		this.address = "";
 		this.xCuts = xCuts;
 		
@@ -215,8 +206,7 @@ public class JRGridLayout
 	 * elements to skip during grid creation
 	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
 	 * @param spanCells whether the exporter handles cells span
-	 * @param setElementIndexes whether to set element indexes
-	 * @param initialIndex initial element index
+	 * @param address element address
 	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	private JRGridLayout(
@@ -225,11 +215,10 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		ExporterNature exporterNature, 
+		ExporterNature nature, 
 		boolean deep, 
 		boolean splitSharedRowSpan,
 		boolean spanCells,
-		boolean setElementIndexes, 
 		String address,
 		List xCuts
 		)
@@ -238,18 +227,15 @@ public class JRGridLayout
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.exporterNature = exporterNature;
+		this.nature = nature;
 		this.deep = deep;
 		this.splitSharedRowSpan = splitSharedRowSpan;
 		this.spanCells = spanCells;
-		this.setElementIndexes = setElementIndexes;
 		this.address = address;
 		this.xCuts = xCuts;
 		
 		boxesCache = new HashMap();
 		
-		//virtualFrameIndex = wrappers.size();
-
 		layoutGrid(wrappers);
 		
 		if (splitSharedRowSpan)
@@ -314,11 +300,10 @@ public class JRGridLayout
 				frame.getHeight(), 
 				offsetX -((Integer)xCuts.get(col1)).intValue(),
 				offsetY -((Integer)yCuts.get(row1)).intValue(),
-				exporterNature, 
+				nature, 
 				false, //deep 
 				splitSharedRowSpan,
 				true, //spanCells
-				true, //setElementIndexes
 				virtualAddress,
 				null
 				)
@@ -384,7 +369,7 @@ public class JRGridLayout
 			int x = element.getX() + elementOffsetX;
 			int y = element.getY() + elementOffsetY;
 			
-			if (exporterNature.isToExport(element))
+			if (nature.isToExport(element))
 			{
 				if (createXCuts)
 				{
@@ -418,7 +403,7 @@ public class JRGridLayout
 			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 
-			boolean toExport = exporterNature.isToExport(element);
+			boolean toExport = nature.isToExport(element);
 			//JRPrintFrame frame = deep && element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
@@ -531,11 +516,10 @@ public class JRGridLayout
 						frame.getHeight(), 
 						0, //offsetX
 						0, //offsetY
-						exporterNature, 
+						nature, 
 						false, //deep 
 						splitSharedRowSpan,
 						true, //spanCells
-						true, //setElementIndexes
 						wrapper.getAddress(),
 						null
 						)
@@ -553,28 +537,6 @@ public class JRGridLayout
 			grid[row1][col1] = gridCell;
 		}
 	}
-
-
-//	protected static Integer[] getElementIndex(boolean setElementIndexes, int elementIndex, Integer[] parentElements)
-//	{
-//		if (!setElementIndexes)
-//		{
-//			return null;
-//		}
-//		
-//		Integer[] elementIndexes;
-//		if (parentElements == null)
-//		{
-//			elementIndexes = new Integer[]{new Integer(elementIndex)};
-//		}
-//		else
-//		{
-//			elementIndexes = new Integer[parentElements.length + 1];
-//			System.arraycopy(parentElements, 0, elementIndexes, 0, parentElements.length);
-//			elementIndexes[parentElements.length] = new Integer(elementIndex);
-//		}
-//		return elementIndexes;
-//	}
 
 
 	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
@@ -852,13 +814,13 @@ public class JRGridLayout
 	 *            implementation of {@link ExporterElements ExporterElements}
 	 *            used to decide which elements to skip during grid creation
 	 */
-	public static List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX, ExporterNature exporterNature)
+	public static List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX, ExporterNature nature)
 	{
 		List xCuts = new SortedList();
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
-			addXCuts(page.getElements(), offsetX, exporterNature, xCuts);
+			addXCuts(page.getElements(), offsetX, nature, xCuts);
 		}
 
 		return xCuts;
@@ -878,14 +840,14 @@ public class JRGridLayout
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
-	protected static void addXCuts(List elementsList, int elementOffsetX, ExporterNature exporterNature, List xCuts)
+	protected static void addXCuts(List elementsList, int elementOffsetX, ExporterNature nature, List xCuts)
 	{
 		for (Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement) it.next());
 			int x = element.getX() + elementOffsetX;
 
-			if (exporterNature.isToExport(element))
+			if (nature.isToExport(element))
 			{
 				xCuts.add(new Integer(x));
 				xCuts.add(new Integer(x + element.getWidth()));
@@ -894,7 +856,7 @@ public class JRGridLayout
 			if (element instanceof JRPrintFrame)
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(frame.getElements(), x + frame.getLeftPadding(), exporterNature, xCuts);
+				addXCuts(frame.getElements(), x + frame.getLeftPadding(), nature, xCuts);
 			}
 		}
 	}

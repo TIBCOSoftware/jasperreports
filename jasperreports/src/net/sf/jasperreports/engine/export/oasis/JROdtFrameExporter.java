@@ -228,54 +228,6 @@ public class JROdtFrameExporter extends JRAbstractExporter
 					}
 				}
 			}
-	
-//			if ((imagesToProcess != null && imagesToProcess.size() > 0))
-//			{
-//				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
-//				{
-//					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
-//
-//					JRPrintImage image = getImage(jasperPrintList, imageIndex);
-//					JRRenderable renderer = image.getRenderer();
-//					if (renderer.getType() == JRRenderable.TYPE_SVG)
-//					{
-//						renderer =
-//							new JRWrappingSvgRenderer(
-//								renderer,
-//								new Dimension(image.getWidth(), image.getHeight()),
-//								JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
-//								);
-//					}
-//
-//					byte[] imageData = renderer.getImageData();
-//
-//					File imageFile = new File(new File("Pictures"), getImageName(imageIndex));//FIXMEODT new File(imagesDir, getImageName(imageIndex));
-//					FileOutputStream fos = null;
-//
-//					try
-//					{
-//						fos = new FileOutputStream(imageFile);
-//						fos.write(imageData, 0, imageData.length);
-//					}
-//					catch (IOException e)
-//					{
-//						throw new JRException("Error writing to image file : " + imageFile, e);
-//					}
-//					finally
-//					{
-//						if (fos != null)
-//						{
-//							try
-//							{
-//								fos.close();
-//							}
-//							catch(IOException e)
-//							{
-//							}
-//						}
-//					}
-//				}
-//			}
 		}
 		finally
 		{
@@ -449,8 +401,6 @@ public class JROdtFrameExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line) throws IOException
 	{
-		String styleName = styleCache.getLineStyle(line);
-		
 		tempBodyWriter.write(
 			"\n<draw:line text:anchor-type=\"page\""
 			+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\""
@@ -458,7 +408,7 @@ public class JROdtFrameExporter extends JRAbstractExporter
 			+ " svg:y2=\"" + Utility.translatePixelsToInches(line.getY() + line.getHeight()) + "in\"" 
 			+ " svg:x1=\"" + Utility.translatePixelsToInches(line.getX()) + "in\"" 
 			+ " svg:y1=\"" + Utility.translatePixelsToInches(line.getY()) + "in\">" 
-			+ " draw:style-name=\"" + styleName + "\""
+			+ " draw:style-name=\"" + styleCache.getLineStyle(line) + "\""
 			+ "</draw:line>" 
 			);
 	}

@@ -278,7 +278,6 @@ public class JRCsvExporter extends JRAbstractExporter
 				true, //deep
 				false, //splitSharedRowSpan
 				false, //spanCells
-				false, //setElementIndexes
 				null //address
 				);
 		

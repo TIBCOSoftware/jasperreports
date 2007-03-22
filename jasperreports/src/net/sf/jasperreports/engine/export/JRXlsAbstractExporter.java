@@ -331,7 +331,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
 					 */
-					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getExporterNature());
+					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getNature());
 					setColumnWidths(xCuts);
 
 					int startRow = 0;
@@ -366,11 +366,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
 				globalOffsetY, 
-				getExporterNature(), 
+				getNature(), 
 				true, //deep
 				false, //splitSharedRowSpan
 				true, //spanCells
-				false, //setElementIndexes
 				xCuts
 				);
 
@@ -674,7 +673,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return sheetName + " " + currentIndex;
 	}
 	
-	protected abstract ExporterNature getExporterNature();
+	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
 	
