@@ -37,6 +37,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -48,14 +50,39 @@ public class ByteArrayOasisZipEntry implements OasisZipEntry
 	 * 
 	 */
 	private String name = null;
-	private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	private ByteArrayOutputStream baos = null;
 	
 	/**
 	 * 
 	 */
 	public ByteArrayOasisZipEntry(String name)
 	{
+		this(name, null);
+	}
+	
+	/**
+	 * 
+	 */
+	public ByteArrayOasisZipEntry(String name, byte[] bytes)
+	{
 		this.name = name;
+
+		if (bytes == null)
+		{
+			baos = new ByteArrayOutputStream();
+		}
+		else
+		{
+			baos = new ByteArrayOutputStream(bytes.length);
+			try
+			{
+				baos.write(bytes);
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
 	}
 	
 	/**
