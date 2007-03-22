@@ -39,9 +39,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 
@@ -53,7 +51,6 @@ public class TableBuilder
 	private int reportIndex = 0;
 	private Writer bodyWriter = null;
 	private Writer styleWriter = null;
-	private int cellCounter = -1;
 	private boolean isFrame = false;
 	
 
@@ -68,7 +65,7 @@ public class TableBuilder
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
 
-		this.tableName = "table_" + name;
+		this.tableName = "TBL_" + name;
 	}
 
 	protected TableBuilder(
@@ -84,7 +81,7 @@ public class TableBuilder
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
 
-		this.tableName = "table_" + reportIndex + "_" + pageIndex;
+		this.tableName = "TBL_" + reportIndex + "_" + pageIndex;
 	}
 
 
@@ -286,7 +283,6 @@ public class TableBuilder
 
 	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) throws IOException 
 	{
-		//String cellName = tableName + "_cell_" + cellCounter;
 		//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
 		bodyWriter.write("<table:table-cell");
 		if (cellStyleName != null)

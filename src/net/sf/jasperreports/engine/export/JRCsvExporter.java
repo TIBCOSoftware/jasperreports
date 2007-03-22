@@ -279,7 +279,7 @@ public class JRCsvExporter extends JRAbstractExporter
 				false, //splitSharedRowSpan
 				false, //spanCells
 				false, //setElementIndexes
-				null //initialIndex
+				null //address
 				);
 		
 		JRExporterGridCell[][] grid = layout.getGrid();
@@ -300,9 +300,9 @@ public class JRCsvExporter extends JRAbstractExporter
 				isFirstColumn = true;
 				for(int x = 0; x < grid[y].length; x++)
 				{
-					if(grid[y][x].element != null)
+					if(grid[y][x].getElementWrapper() != null)
 					{
-						element = grid[y][x].element;
+						element = grid[y][x].getElementWrapper().getElement();
 	
 						if (element instanceof JRPrintText)
 						{

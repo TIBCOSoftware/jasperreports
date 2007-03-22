@@ -563,7 +563,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
 
-		Integer[] elementIndexes = imageIndex.getElementIndexes();
+		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
 
 		for (int i = 1; i < elementIndexes.length; ++i)
@@ -682,7 +682,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				false, //splitSharedRowSpan
 				true, //spanCells
 				true, //setElementIndexes
-				null
+				null //address
 				);
 
 		exportGrid(layout, isWhitePageBackground);
@@ -747,7 +747,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.element != null)
+					if(gridCell.getElementWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -756,7 +756,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 
-						element = gridCell.element;
+						element = gridCell.getElementWrapper().getElement();
 
 						if (element instanceof JRPrintLine)
 						{
@@ -783,12 +783,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 							exportFrame((JRPrintFrame) element, gridCell);
 						}
 
-						x += gridCell.colSpan - 1;
+						x += gridCell.getColSpan() - 1;
 					}
 					else
 					{
 						emptyCellColSpan++;
-						emptyCellWidth += gridCell.width;
+						emptyCellWidth += gridCell.getWidth();
 					}
 				}
 
@@ -812,7 +812,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private boolean hasEmptyCell(JRExporterGridCell[] gridRow)
 	{
-		if (gridRow[0].element == null) // quick exit
+		if (gridRow[0].getElementWrapper() == null) // quick exit
 		{
 			return true;
 		}
@@ -820,7 +820,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		boolean hasEmptyCell = false;
 		for(int x = 1; x < gridRow.length; x++)
 		{
-			if (gridRow[x].element == null)
+			if (gridRow[x].getElementWrapper() == null)
 			{
 				hasEmptyCell = true;
 				break;
@@ -874,13 +874,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void writeCellTDStart(JRExporterGridCell gridCell) throws IOException
 	{
 		writer.write("  <td");
-		if (gridCell.colSpan > 1)
+		if (gridCell.getColSpan() > 1)
 		{
-			writer.write(" colspan=\"" + gridCell.colSpan +"\"");
+			writer.write(" colspan=\"" + gridCell.getColSpan() +"\"");
 		}
-		if (gridCell.rowSpan > 1)
+		if (gridCell.getRowSpan() > 1)
 		{
-			writer.write(" rowspan=\"" + gridCell.rowSpan + "\"");
+			writer.write(" rowspan=\"" + gridCell.getRowSpan() + "\"");
 		}
 	}
 
@@ -1117,7 +1117,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + gridCell.width + sizeUnit + "; ");
+			styleBuffer.append("width: " + gridCell.getWidth() + sizeUnit + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
@@ -1653,7 +1653,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.elementIndex
+					gridCell.getElementWrapper().getAddress()
 					);
 		return imageIndex;
 	}

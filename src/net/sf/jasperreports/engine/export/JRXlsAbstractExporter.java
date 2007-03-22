@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -330,7 +331,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
 					 */
-					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getExporterElements());
+					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getExporterNature());
 					setColumnWidths(xCuts);
 
 					int startRow = 0;
@@ -365,12 +366,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
 				globalOffsetY, 
-				getExporterElements(), 
+				getExporterNature(), 
 				true, //deep
 				false, //splitSharedRowSpan
 				true, //spanCells
 				false, //setElementIndexes
-				null,
 				xCuts
 				);
 
@@ -401,7 +401,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					setCell(x, rowIndex);
 	
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.element != null)
+					if(gridCell.getElementWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -414,7 +414,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 	
-						JRPrintElement element = gridCell.element;
+						JRPrintElement element = gridCell.getElementWrapper().getElement();
 	
 						if (element instanceof JRPrintLine)
 						{
@@ -441,12 +441,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
 						}
 
-						x += gridCell.colSpan - 1;
+						x += gridCell.getColSpan() - 1;
 					}
 					else
 					{
 						emptyCellColSpan++;
-						emptyCellWidth += gridCell.width;
+						emptyCellWidth += gridCell.getWidth();
 						addBlankCell(gridCell, x, rowIndex);
 					}
 				}
@@ -674,7 +674,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return sheetName + " " + currentIndex;
 	}
 	
-	protected abstract JRGridLayout.ExporterElements getExporterElements();
+	protected abstract ExporterNature getExporterNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
 	
