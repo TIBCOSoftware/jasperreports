@@ -195,7 +195,7 @@ public class JRGridLayout
 		
 		virtualFrameIndex = elements.size();
 
-		layoutGrid(createElementWrappers(elements, address));
+		layoutGrid(createWrappers(elements, address));
 		
 		if (splitSharedRowSpan)
 		{
@@ -220,7 +220,7 @@ public class JRGridLayout
 	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	private JRGridLayout(
-		ElementWrapper[] elementWrappers, 
+		ElementWrapper[] wrappers, 
 		int width, 
 		int height, 
 		int offsetX, 
@@ -248,9 +248,9 @@ public class JRGridLayout
 		
 		boxesCache = new HashMap();
 		
-		//virtualFrameIndex = elementWrappers.size();
+		//virtualFrameIndex = wrappers.size();
 
-		layoutGrid(elementWrappers);
+		layoutGrid(wrappers);
 		
 		if (splitSharedRowSpan)
 		{
@@ -270,7 +270,7 @@ public class JRGridLayout
 		)
 	{
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
-		List elementWrappers = new ArrayList();
+		List wrappers = new ArrayList();
 		
 		for(int row = row1; row < row2; row++)
 		{
@@ -278,10 +278,10 @@ public class JRGridLayout
 			{
 				JRExporterGridCell gridCell = grid[row][col];
 				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
-				ElementWrapper wrapper = gridCell.getElementWrapper();
+				ElementWrapper wrapper = gridCell.getWrapper();
 				if (gridCell != JRExporterGridCell.OCCUPIED_CELL && wrapper != null)
 				{
-					elementWrappers.add(wrapper);
+					wrappers.add(wrapper);
 					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
 				}
 			}
@@ -309,7 +309,7 @@ public class JRGridLayout
 		
 		gridCell.setLayout(
 			new JRGridLayout(
-				(ElementWrapper[]) elementWrappers.toArray(new ElementWrapper[elementWrappers.size()]), 
+				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]), 
 				frame.getWidth(), 
 				frame.getHeight(), 
 				offsetX -((Integer)xCuts.get(col1)).intValue(),
@@ -331,7 +331,7 @@ public class JRGridLayout
 	/**
 	 * Constructs the element grid.
 	 */
-	protected void layoutGrid(ElementWrapper[] elementWrappers)
+	protected void layoutGrid(ElementWrapper[] wrappers)
 	{
 		boolean createXCuts = (xCuts == null);
 		if (createXCuts)
@@ -343,7 +343,7 @@ public class JRGridLayout
 		yCuts = new SortedList();
 		yCuts.add(new Integer(0));
 
-		createCuts(elementWrappers, offsetX, offsetY, createXCuts);
+		createCuts(wrappers, offsetX, offsetY, createXCuts);
 		
 		xCuts.add(new Integer(width));
 		yCuts.add(new Integer(height));
@@ -370,15 +370,15 @@ public class JRGridLayout
 			}
 		}
 
-		setGridElements(elementWrappers, offsetX, offsetY);
+		setGridElements(wrappers, offsetX, offsetY);
 	}
 
 
-	protected void createCuts(ElementWrapper[] elementWrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
+	protected void createCuts(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
 	{
-		for(int elementIndex = 0; elementIndex < elementWrappers.length; elementIndex++)
+		for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
 		{
-			ElementWrapper wrapper = elementWrappers[elementIndex];
+			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 			
 			int x = element.getX() + elementOffsetX;
@@ -401,7 +401,7 @@ public class JRGridLayout
 			if (deep && frame != null)
 			{
 				createCuts(
-					wrapper.getElementWrappers(), 
+					wrapper.getWrappers(), 
 					x + frame.getLeftPadding(), 
 					y + frame.getTopPadding(), 
 					createXCuts
@@ -411,11 +411,11 @@ public class JRGridLayout
 	}
 
 
-	protected void setGridElements(ElementWrapper[] elementWrappers, int elementOffsetX, int elementOffsetY)
+	protected void setGridElements(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY)
 	{
-		for(int elementIndex = elementWrappers.length - 1; elementIndex >= 0; elementIndex--)
+		for(int elementIndex = wrappers.length - 1; elementIndex >= 0; elementIndex--)
 		{
-			ElementWrapper wrapper = elementWrappers[elementIndex];
+			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 
 			boolean toExport = exporterNature.isToExport(element);
@@ -430,7 +430,7 @@ public class JRGridLayout
 				if (deep && frame != null)
 				{
 					setGridElements(
-						wrapper.getElementWrappers(), 
+						wrapper.getWrappers(), 
 						x + frame.getLeftPadding(), 
 						y + frame.getTopPadding()
 						);
@@ -468,7 +468,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (grid[row][col].getElementWrapper() != null)
+					if (grid[row][col].getWrapper() != null)
 					{
 						isOverlap = true;
 						break is_overlap_out;
@@ -478,7 +478,7 @@ public class JRGridLayout
 		}
 		else
 		{
-			isOverlap = grid[row1][col1].getElementWrapper() != null;
+			isOverlap = grid[row1][col1].getWrapper() != null;
 		}
 		return isOverlap;
 	}
@@ -526,7 +526,7 @@ public class JRGridLayout
 			{
 				gridCell.setLayout(
 					new JRGridLayout(
-						wrapper.getElementWrappers(), 
+						wrapper.getWrappers(), 
 						frame.getWidth(), 
 						frame.getHeight(), 
 						0, //offsetX
@@ -911,9 +911,9 @@ public class JRGridLayout
 	/**
 	 * 
 	 */
-	private static ElementWrapper[] createElementWrappers(List elementsList, String parentAddress)
+	private static ElementWrapper[] createWrappers(List elementsList, String parentAddress)
 	{
-		ElementWrapper[] elementWrappers = new ElementWrapper[elementsList.size()];
+		ElementWrapper[] wrappers = new ElementWrapper[elementsList.size()];
 
 		for (int elementIndex = 0; elementIndex < elementsList.size(); elementIndex++)
 		{
@@ -921,17 +921,17 @@ public class JRGridLayout
 			
 			String address = parentAddress + "_" + elementIndex;
 
-			elementWrappers[elementIndex] = 
+			wrappers[elementIndex] = 
 				new ElementWrapper(
 					element, 
 					address,
 					element instanceof JRPrintFrame
-						? createElementWrappers(((JRPrintFrame)element).getElements(), address)
+						? createWrappers(((JRPrintFrame)element).getElements(), address)
 						: null
 					);
 		}
 		
-		return elementWrappers;
+		return wrappers;
 	}
 	
 	public static interface ExporterNature

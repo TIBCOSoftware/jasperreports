@@ -747,7 +747,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.getElementWrapper() != null)
+					if(gridCell.getWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -756,7 +756,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 
-						element = gridCell.getElementWrapper().getElement();
+						element = gridCell.getWrapper().getElement();
 
 						if (element instanceof JRPrintLine)
 						{
@@ -812,7 +812,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private boolean hasEmptyCell(JRExporterGridCell[] gridRow)
 	{
-		if (gridRow[0].getElementWrapper() == null) // quick exit
+		if (gridRow[0].getWrapper() == null) // quick exit
 		{
 			return true;
 		}
@@ -820,7 +820,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		boolean hasEmptyCell = false;
 		for(int x = 1; x < gridRow.length; x++)
 		{
-			if (gridRow[x].getElementWrapper() == null)
+			if (gridRow[x].getWrapper() == null)
 			{
 				hasEmptyCell = true;
 				break;
@@ -1653,7 +1653,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.getElementWrapper().getAddress()
+					gridCell.getWrapper().getAddress()
 					);
 		return imageIndex;
 	}

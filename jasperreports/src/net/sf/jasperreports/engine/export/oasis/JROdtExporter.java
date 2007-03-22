@@ -468,7 +468,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 					writeOccupiedCells(1);
 				}
-				else if(gridCell.getElementWrapper() != null)
+				else if(gridCell.getWrapper() != null)
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -477,7 +477,7 @@ public class JROdtExporter extends JRAbstractExporter
 						emptyCellWidth = 0;
 					}
 
-					element = gridCell.getElementWrapper().getElement();
+					element = gridCell.getWrapper().getElement();
 
 					if (element instanceof JRPrintLine)
 					{
@@ -935,7 +935,7 @@ public class JROdtExporter extends JRAbstractExporter
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.getElementWrapper().getAddress()
+					gridCell.getWrapper().getAddress()
 					);
 		return imageIndex;
 	}
@@ -1071,7 +1071,7 @@ public class JROdtExporter extends JRAbstractExporter
 				new JRPrintElementIndex(
 						reportIndex,
 						pageIndex,
-						gridCell.getElementWrapper().getAddress()
+						gridCell.getWrapper().getAddress()
 						);
 			exportGrid(layout, frameIndex);
 		}
