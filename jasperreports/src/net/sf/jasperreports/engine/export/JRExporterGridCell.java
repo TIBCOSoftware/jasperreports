@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
 	
 	
@@ -47,8 +46,7 @@ public class JRExporterGridCell
 	 */
 	public static final JRExporterGridCell OCCUPIED_CELL = 
 		new JRExporterGridCell(
-			new JRBasePrintElement(null),
-			null,
+			new ElementWrapper(new JRBasePrintElement(null), null, null),
 			0,
 			0,
 			1,
@@ -59,61 +57,66 @@ public class JRExporterGridCell
 	/**
 	 *
 	 */
-	public JRPrintElement element = null; 
-	public Integer[] elementIndex = null;
+	private ElementWrapper elementWrapper = null; 
 	
-	protected Color backcolor;
-	protected Color forecolor;
-	protected JRBox box;
+	private Color backcolor;
+	private Color forecolor;
+	private JRBox box;
 	
-	public int width = 0;
-	public int height = 0;
-	public int colSpan = 0;
-	public int rowSpan = 0;
+	private int width = 0;
+	private int height = 0;
+	private int colSpan = 0;
+	private int rowSpan = 0;
 
 	private JRGridLayout layout = null;
-
-
-	/**
-	 * @deprecated Replaced by {@link #JRExporterGridCell(JRPrintElement, Integer[], int, int, int, int)}.
-	 */
-	public JRExporterGridCell(//FIXMEODT remove
-		JRPrintElement element, 
-		int width, 
-		int height,
-		int colSpan, 
-		int rowSpan
-		)
-	{
-		this(
-			element,
-			null,
-			width,
-			height,
-			colSpan,
-			rowSpan
-			);
-	}
 
 
 	/**
 	 *
 	 */
 	public JRExporterGridCell(
-		JRPrintElement element, 
-		Integer[] elementIndex,
+		ElementWrapper elementWrapper, 
 		int width, 
 		int height,
 		int colSpan, 
 		int rowSpan
 		)
 	{
-		this.element = element;
-		this.elementIndex = elementIndex;
+		this.elementWrapper = elementWrapper;
 		this.width = width;
 		this.height = height;
 		this.colSpan = colSpan;
 		this.rowSpan = rowSpan;
+	}
+
+
+	public ElementWrapper getElementWrapper()
+	{
+		return elementWrapper;
+	}
+
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+
+	public int getHeight()
+	{
+		return height;
+	}
+
+
+	public int getColSpan()
+	{
+		return colSpan;
+	}
+
+
+	public int getRowSpan()
+	{
+		return rowSpan;
 	}
 
 
@@ -123,7 +126,7 @@ public class JRExporterGridCell
 	}
 
 
-	public void setLayout(JRGridLayout layout)
+	public void setLayout(JRGridLayout layout)//FIXMEODT need this?
 	{
 		this.layout = layout;
 	}

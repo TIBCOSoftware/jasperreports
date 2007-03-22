@@ -36,6 +36,7 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,13 +45,16 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -60,6 +64,9 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -241,54 +248,6 @@ public class JROdtExporter extends JRAbstractExporter
 					}
 				}
 			}
-	
-//			if ((imagesToProcess != null && imagesToProcess.size() > 0))
-//			{
-//				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
-//				{
-//					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
-//
-//					JRPrintImage image = getImage(jasperPrintList, imageIndex);
-//					JRRenderable renderer = image.getRenderer();
-//					if (renderer.getType() == JRRenderable.TYPE_SVG)
-//					{
-//						renderer =
-//							new JRWrappingSvgRenderer(
-//								renderer,
-//								new Dimension(image.getWidth(), image.getHeight()),
-//								JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
-//								);
-//					}
-//
-//					byte[] imageData = renderer.getImageData();
-//
-//					File imageFile = new File(new File("Pictures"), getImageName(imageIndex));//FIXMEODT new File(imagesDir, getImageName(imageIndex));
-//					FileOutputStream fos = null;
-//
-//					try
-//					{
-//						fos = new FileOutputStream(imageFile);
-//						fos.write(imageData, 0, imageData.length);
-//					}
-//					catch (IOException e)
-//					{
-//						throw new JRException("Error writing to image file : " + imageFile, e);
-//					}
-//					finally
-//					{
-//						if (fos != null)
-//						{
-//							try
-//							{
-//								fos.close();
-//							}
-//							catch(IOException e)
-//							{
-//							}
-//						}
-//					}
-//				}
-//			}
 		}
 		finally
 		{
@@ -305,7 +264,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 * 
-	 *
+	 */
 	public static JRPrintImage getImage(List jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
@@ -317,7 +276,7 @@ public class JROdtExporter extends JRAbstractExporter
 		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
 
-		Integer[] elementIndexes = imageIndex.getElementIndexes();
+		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
 
 		for (int i = 1; i < elementIndexes.length; ++i)
@@ -399,6 +358,33 @@ public class JROdtExporter extends JRAbstractExporter
 		contentBuilder.build();
 		
 		//FIXMEODT close/delete readers
+
+		if ((imagesToProcess != null && imagesToProcess.size() > 0))
+		{
+			for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+			{
+				JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+
+				JRPrintImage image = getImage(jasperPrintList, imageIndex);
+				JRRenderable renderer = image.getRenderer();
+				if (renderer.getType() == JRRenderable.TYPE_SVG)
+				{
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							new Dimension(image.getWidth(), image.getHeight()),
+							JRElement.MODE_OPAQUE == image.getMode() ? image.getBackcolor() : null
+							);
+				}
+
+				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
+					new ByteArrayOasisZipEntry(
+						"Pictures/" + getImageName(imageIndex),
+						renderer.getImageData()
+						)
+					);
+			}
+		}
 	}
 
 
@@ -419,7 +405,7 @@ public class JROdtExporter extends JRAbstractExporter
 				true, //splitSharedRowSpan
 				true, //spanCells
 				true, //setElementIndexes
-				null
+				null //address
 				);
 
 		exportGrid(layout, null);
@@ -482,7 +468,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 					writeOccupiedCells(1);
 				}
-				else if(gridCell.element != null)
+				else if(gridCell.getElementWrapper() != null)
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -491,7 +477,7 @@ public class JROdtExporter extends JRAbstractExporter
 						emptyCellWidth = 0;
 					}
 
-					element = gridCell.element;
+					element = gridCell.getElementWrapper().getElement();
 
 					if (element instanceof JRPrintLine)
 					{
@@ -507,7 +493,7 @@ public class JROdtExporter extends JRAbstractExporter
 					}
 					else if (element instanceof JRPrintImage)
 					{
-						writeEmptyCell(null, gridCell.colSpan, gridCell.width, gridCell.height);//FIXMEODT
+						exportImage(tableBuilder, (JRPrintImage)element, gridCell);
 					}
 					else if (element instanceof JRPrintText)
 					{
@@ -523,7 +509,7 @@ public class JROdtExporter extends JRAbstractExporter
 				else
 				{
 					emptyCellColSpan++;
-					emptyCellWidth += gridCell.width;
+					emptyCellWidth += gridCell.getWidth();
 				}
 			}
 
@@ -568,10 +554,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		//tableBuilder.buildCellStyleHeader(line);
-		//tableBuilder.buildCellBorderStyle(line, getBox(line));
-		//tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(null, gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 		tempBodyWriter.write(
 				"<text:p " 
 				//+ "text:style-name=\"Standard\"" 
@@ -594,11 +577,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportRectangle(TableBuilder tableBuilder, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws IOException
 	{
-//		tableBuilder.buildCellStyleHeader(rectangle);
-//		tableBuilder.buildCellBackcolorStyle(rectangle);
-//		tableBuilder.buildCellBorderStyle(rectangle, getBox(rectangle));
-//		tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(rectangle), gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(rectangle), gridCell.getColSpan(), gridCell.getRowSpan());
 		tableBuilder.buildCellFooter();
 	}
 
@@ -608,9 +587,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 	{
-//		tableBuilder.buildCellStyleHeader(ellipse);
-//		tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(null, gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 		tempBodyWriter.write(
 			"<text:p " 
 			//+ "text:style-name=\"Standard\"" 
@@ -632,14 +609,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell) throws IOException
 	{
-		
-		
-		//tableBuilder.buildCellStyleHeader(text);
-		//tableBuilder.buildCellBackcolorStyle(text);
-		//tableBuilder.buildCellBorderStyle(text, text);
-		//tableBuilder.buildCellAlignmentStyle(text);
-		//tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(text), gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(text), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		JRStyledText styledText = getStyledText(text);
 
@@ -898,113 +868,40 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws IOException
 	{
-//		tableBuilder.buildCellStyleHeader(image);
-//		tableBuilder.buildCellBackcolorStyle(image);
-//		tableBuilder.buildCellBorderStyle(image, getBox(image));
-//		tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(null, gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+		tempBodyWriter.write(
+				"<text:p " 
+				//+ "text:style-name=\"Standard\"" 
+				+ ">" 
+				+ "<draw:frame text:anchor-type=\"paragraph\" " 
+				//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
+				+ "svg:width=\"" + Utility.translatePixelsToInches(image.getWidth()) + "in\" " 
+				+ "svg:height=\"" + Utility.translatePixelsToInches(image.getHeight()) + "in\" " 
+				+ "svg:x=\"0in\" " 
+				+ "svg:y=\"0in\">" 
+				);
+		tempBodyWriter.write("<draw:image ");
+		tempBodyWriter.write(" xlink:href=\"" + getImagePath(image, gridCell) + "\"");
+		tempBodyWriter.write(" xlink:type=\"simple\"");
+		tempBodyWriter.write(" xlink:show=\"embed\"");
+		tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
+		tempBodyWriter.write("/>\n");
+		tempBodyWriter.write("</draw:frame></text:p>");
 		tableBuilder.buildCellFooter();
 	}
 
 
 	/**
 	 *
-	 *
-	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	 */
+	protected String getImagePath(JRPrintImage image, JRExporterGridCell gridCell) throws IOException
 	{
-		writeCellTDStart(gridCell);
-
-		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
-
-		switch (image.getHorizontalAlignment())
-		{
-			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
-			{
-				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
-			{
-				horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
-				break;
-			}
-			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
-			default :
-			{
-				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
-			}
-		}
-
-		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-		{
-			writer.write(" align=\"");
-			writer.write(horizontalAlignment);
-			writer.write("\"");
-		}
-
-		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-
-		switch (image.getVerticalAlignment())
-		{
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
-				break;
-			}
-			case JRAlignment.VERTICAL_ALIGN_TOP :
-			default :
-			{
-				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-			}
-		}
-
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
-			writer.write(" valign=\"");
-			writer.write(verticalAlignment);
-			writer.write("\"");
-		}
-
-		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(image, styleBuffer);
-		appendBorderStyle(image, image, styleBuffer);
-
-		if (styleBuffer.length() > 0)
-		{
-			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
-			writer.write("\"");
-		}
-
-		writer.write(">");
-
-		if (image.getAnchorName() != null)
-		{
-			writer.write("<a name=\"");
-			writer.write(image.getAnchorName());
-			writer.write("\"/>");
-		}
+		String imagePath = null;
 		
 		JRRenderable renderer = image.getRenderer();
-		JRRenderable originalRenderer = renderer;
-		boolean imageMapRenderer = renderer != null && renderer instanceof JRImageMapRenderer;
 
-		boolean startedHyperlink = false;
-
-		if(renderer != null)
+		if (renderer != null)
 		{
-			startedHyperlink = !imageMapRenderer && startHyperlink(image);
-			writer.write("<img");
-			String imagePath = null;
-			String imageMapName = null;
-			List imageMapAreas = null;
-	
-			byte scaleImage = image.getScaleImage();
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
 				imagePath = (String)rendererToImagePathMap.get(renderer.getId());
@@ -1021,158 +918,14 @@ public class JROdtExporter extends JRAbstractExporter
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
-					imagePath = "imagesURI" + imageName;
+					imagePath = "Pictures/" + imageName;
 				}
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
-			
-			if (imageMapRenderer)
-			{
-				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
-				
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-				{
-					imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
-				}
-
-				if (imageMapName == null)
-				{
-					imageMapName = "map_" + getElementIndex(gridCell).toString();
-					imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);
-					
-					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
-					{
-						imageMaps.put(new Pair(renderer.getId(), renderingArea), imageMapName);
-					}
-				}
-			}
-	
-			writer.write(" src=\"");
-			if (imagePath != null)
-				writer.write(imagePath);
-			writer.write("\"");
-		
-			int borderWidth = 0;
-			switch (image.getPen())
-			{
-				case JRGraphicElement.PEN_DOTTED :
-				{
-					borderWidth = 1;
-					break;
-				}
-				case JRGraphicElement.PEN_4_POINT :
-				{
-					borderWidth = 4;
-					break;
-				}
-				case JRGraphicElement.PEN_2_POINT :
-				{
-					borderWidth = 2;
-					break;
-				}
-				case JRGraphicElement.PEN_NONE :
-				{
-					borderWidth = 0;
-					break;
-				}
-				case JRGraphicElement.PEN_THIN :
-				{
-					borderWidth = 1;
-					break;
-				}
-				case JRGraphicElement.PEN_1_POINT :
-				default :
-				{
-					borderWidth = 1;
-					break;
-				}
-			}
-		
-			writer.write(" border=\"");
-			writer.write(String.valueOf(borderWidth));
-			writer.write("\"");
-		
-			int imageWidth = image.getWidth() - image.getLeftPadding() - image.getRightPadding();
-			if (imageWidth < 0)
-			{
-				imageWidth = 0;
-			}
-		
-			int imageHeight = image.getHeight() - image.getTopPadding() - image.getBottomPadding();
-			if (imageHeight < 0)
-			{
-				imageHeight = 0;
-			}
-		
-			switch (scaleImage)
-			{
-				case JRImage.SCALE_IMAGE_FILL_FRAME :
-				{
-					writer.write(" style=\"width: ");
-					writer.write(String.valueOf(imageWidth));
-					writer.write("; height: ");
-					writer.write(String.valueOf(imageHeight));
-					writer.write("\"");
-		
-					break;
-				}
-				case JRImage.SCALE_IMAGE_CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
-				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-				default :
-				{
-					double normalWidth = imageWidth;
-					double normalHeight = imageHeight;
-		
-					if (!image.isLazy())
-					{
-						Dimension2D dimension = renderer.getDimension();
-						if (dimension != null)
-						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-						}
-					}
-		
-					if (imageHeight > 0)
-					{
-						double ratio = normalWidth / normalHeight;
-		
-						if( ratio > (double)imageWidth / (double)imageHeight )
-						{
-							writer.write(" style=\"width: ");
-							writer.write(String.valueOf(imageWidth));
-							writer.write("\"");
-						}
-						else
-						{
-							writer.write(" style=\"height: ");
-							writer.write(String.valueOf(imageHeight));
-							writer.write("\"");
-						}
-					}
-				}
-			}
-			
-			if (imageMapName != null)
-			{
-				writer.write(" usemap=\"#" + imageMapName + "\"");
-			}
-			
-			writer.write(" alt=\"\"/>");
-		
-			if (startedHyperlink)
-			{
-				endHyperlink();
-			}
-			
-			if (imageMapAreas != null)
-			{
-				writer.write("\n");
-				writeImageMap(imageMapName, image, imageMapAreas);
-			}
 		}
-		writer.write("</td>\n");
+		
+		return imagePath;
 	}
 
 
@@ -1182,12 +935,15 @@ public class JROdtExporter extends JRAbstractExporter
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.elementIndex
+					gridCell.getElementWrapper().getAddress()
 					);
 		return imageIndex;
 	}
 
 
+	/**
+	 * 
+	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
@@ -1263,7 +1019,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 *
+	 */
 	public static String getImageName(JRPrintElementIndex printElementIndex)
 	{
 		return IMAGE_NAME_PREFIX + printElementIndex.toString();
@@ -1272,7 +1028,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 *
+	 */
 	public static JRPrintElementIndex getPrintElementIndex(String imageName)
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
@@ -1289,9 +1045,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportFrame(TableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-//		tableBuilder.buildCellStyleHeader(frame);
-//		tableBuilder.buildCellStyleFooter();
-		tableBuilder.buildCellHeader(null, gridCell.colSpan, gridCell.rowSpan);
+		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 
 //		StringBuffer styleBuffer = new StringBuffer();
 //		Color frameBackcolor = appendBackcolorStyle(frame, styleBuffer);
@@ -1317,7 +1071,7 @@ public class JROdtExporter extends JRAbstractExporter
 				new JRPrintElementIndex(
 						reportIndex,
 						pageIndex,
-						gridCell.elementIndex
+						gridCell.getElementWrapper().getAddress()
 						);
 			exportGrid(layout, frameIndex);
 		}

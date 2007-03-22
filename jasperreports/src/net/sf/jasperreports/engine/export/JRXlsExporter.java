@@ -53,7 +53,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
+import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -458,18 +458,18 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
-		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
+		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
 		{
-			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.rowSpan - 1), (short)(colIndex + gridCell.colSpan - 1)));
+			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.getRowSpan() - 1), (short)(colIndex + gridCell.getColSpan() - 1)));
 
-			for(int i = 0; i < gridCell.rowSpan; i++)
+			for(int i = 0; i < gridCell.getRowSpan(); i++)
 			{
 				HSSFRow spanRow = sheet.getRow(rowIndex + i); 
 				if (spanRow == null)
 				{
 					spanRow = sheet.createRow(rowIndex + i);
 				}
-				for(int j = 0; j < gridCell.colSpan; j++)
+				for(int j = 0; j < gridCell.getColSpan(); j++)
 				{
 					HSSFCell spanCell = spanRow.getCell((short)(colIndex + j));
 					if (spanCell == null)
@@ -754,7 +754,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		//nothing
 	}
 
-	protected ExporterElements getExporterElements()
+	protected ExporterNature getExporterNature()
 	{
 		return JRGridLayout.NO_IMAGES_EXPORTER;
 	}

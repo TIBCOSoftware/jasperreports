@@ -60,12 +60,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 public class JRGridLayout
 {
 	
-	public static interface ExporterElements
-	{
-		boolean isToExport(JRPrintElement element);
-	}
-	
-	public static final ExporterElements UNIVERSAL_EXPORTER = new ExporterElements()
+	public static final ExporterNature UNIVERSAL_EXPORTER = new ExporterNature()
 		{
 			public boolean isToExport(JRPrintElement element)
 			{
@@ -73,7 +68,7 @@ public class JRGridLayout
 			}	
 		};
 		
-	public static final ExporterElements NO_IMAGES_EXPORTER = new ExporterElements()
+	public static final ExporterNature NO_IMAGES_EXPORTER = new ExporterNature()
 		{
 			public boolean isToExport(JRPrintElement element)
 			{
@@ -81,7 +76,7 @@ public class JRGridLayout
 			}
 		};
 			
-	public static final ExporterElements TEXT_EXPORTER = new ExporterElements()
+	public static final ExporterNature TEXT_EXPORTER = new ExporterNature()
 		{
 			public boolean isToExport(JRPrintElement element)
 			{
@@ -93,12 +88,12 @@ public class JRGridLayout
 	private final int height;
 	private final int offsetX;
 	private final int offsetY;
-	private final ExporterElements elementsExporter;
+	private final ExporterNature exporterNature;
 	private final boolean deep;
 	private final boolean splitSharedRowSpan;
 	private final boolean spanCells;
-	private final boolean setElementIndexes;
-	private final Integer[] initialIndex;
+	private final boolean setElementIndexes;//FIXMEODT remove?
+	private final String address;
 	
 	private List xCuts;
 	private List yCuts;
@@ -132,12 +127,11 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		ExporterElements elementsExporter, 
+		ExporterNature exporterNature, 
 		boolean deep,
 		boolean splitSharedRowSpan,
 		boolean spanCells,
-		boolean setElementIndexes, 
-		Integer[] initialIndex
+		boolean setElementIndexes
 		)
 	{
 		this(
@@ -146,12 +140,11 @@ public class JRGridLayout
 			height, 
 			offsetX, 
 			offsetY,
-			elementsExporter,
+			exporterNature,
 			deep, 
 			splitSharedRowSpan,
 			spanCells,
 			setElementIndexes, 
-			initialIndex,
 			null //xCuts
 			);
 	}
@@ -178,12 +171,11 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		ExporterElements elementsExporter, 
+		ExporterNature exporterNature, 
 		boolean deep, 
 		boolean splitSharedRowSpan,
 		boolean spanCells,
 		boolean setElementIndexes, 
-		Integer[] initialIndex,
 		List xCuts
 		)
 	{
@@ -191,19 +183,74 @@ public class JRGridLayout
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.elementsExporter = elementsExporter;
+		this.exporterNature = exporterNature;
 		this.deep = deep;
 		this.splitSharedRowSpan = splitSharedRowSpan;
 		this.spanCells = spanCells;
 		this.setElementIndexes = setElementIndexes;
-		this.initialIndex = initialIndex;
+		this.address = "";
 		this.xCuts = xCuts;
 		
 		boxesCache = new HashMap();
 		
 		virtualFrameIndex = elements.size();
 
-		layoutGrid(elements);
+		layoutGrid(createElementWrappers(elements, address));
+		
+		if (splitSharedRowSpan)
+		{
+			splitSharedRowSpanIntoNestedGrids();
+		}
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param elements the elements that should arranged in a grid
+	 * @param width the width available for the grid
+	 * @param height the height available for the grid
+	 * @param offsetX horizontal element position offset
+	 * @param offsetY vertical element position offset
+	 * @param elementsExporter implementation of {@link ExporterElements ExporterElements} used to decide which
+	 * elements to skip during grid creation
+	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
+	 * @param spanCells whether the exporter handles cells span
+	 * @param setElementIndexes whether to set element indexes
+	 * @param initialIndex initial element index
+	 * @param xCuts An optional list of pre-calculated X cuts.
+	 */
+	private JRGridLayout(
+		ElementWrapper[] elementWrappers, 
+		int width, 
+		int height, 
+		int offsetX, 
+		int offsetY, 
+		ExporterNature exporterNature, 
+		boolean deep, 
+		boolean splitSharedRowSpan,
+		boolean spanCells,
+		boolean setElementIndexes, 
+		String address,
+		List xCuts
+		)
+	{
+		this.height = height;
+		this.width = width;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.exporterNature = exporterNature;
+		this.deep = deep;
+		this.splitSharedRowSpan = splitSharedRowSpan;
+		this.spanCells = spanCells;
+		this.setElementIndexes = setElementIndexes;
+		this.address = address;
+		this.xCuts = xCuts;
+		
+		boxesCache = new HashMap();
+		
+		//virtualFrameIndex = elementWrappers.size();
+
+		layoutGrid(elementWrappers);
 		
 		if (splitSharedRowSpan)
 		{
@@ -223,6 +270,7 @@ public class JRGridLayout
 		)
 	{
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
+		List elementWrappers = new ArrayList();
 		
 		for(int row = row1; row < row2; row++)
 		{
@@ -230,9 +278,11 @@ public class JRGridLayout
 			{
 				JRExporterGridCell gridCell = grid[row][col];
 				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
-				if (gridCell != JRExporterGridCell.OCCUPIED_CELL && gridCell.element != null)
+				ElementWrapper wrapper = gridCell.getElementWrapper();
+				if (gridCell != JRExporterGridCell.OCCUPIED_CELL && wrapper != null)
 				{
-					frame.addElement(gridCell.element);
+					elementWrappers.add(wrapper);
+					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
 				}
 			}
 		}
@@ -246,10 +296,11 @@ public class JRGridLayout
 			- ((Integer)yCuts.get(row1)).intValue()
 			);
 		
+		String virtualAddress = (address == null ? "" : address + "_") + getNextVirtualFrameIndex(); 
+		
 		JRExporterGridCell gridCell = 
 			new JRExporterGridCell(
-				frame,
-				getElementIndex(true, getNextVirtualFrameIndex(), initialIndex),
+				new ElementWrapper(frame, virtualAddress, null),
 				frame.getWidth(), 
 				frame.getHeight(), 
 				col2 - col1, 
@@ -258,17 +309,18 @@ public class JRGridLayout
 		
 		gridCell.setLayout(
 			new JRGridLayout(
-				frame.getElements(), 
+				(ElementWrapper[]) elementWrappers.toArray(new ElementWrapper[elementWrappers.size()]), 
 				frame.getWidth(), 
 				frame.getHeight(), 
 				offsetX -((Integer)xCuts.get(col1)).intValue(),
 				offsetY -((Integer)yCuts.get(row1)).intValue(),
-				elementsExporter, 
+				exporterNature, 
 				false, //deep 
 				splitSharedRowSpan,
 				true, //spanCells
 				true, //setElementIndexes
-				gridCell.elementIndex
+				virtualAddress,
+				null
 				)
 			);
 		
@@ -279,7 +331,7 @@ public class JRGridLayout
 	/**
 	 * Constructs the element grid.
 	 */
-	protected void layoutGrid(List elements)
+	protected void layoutGrid(ElementWrapper[] elementWrappers)
 	{
 		boolean createXCuts = (xCuts == null);
 		if (createXCuts)
@@ -291,7 +343,7 @@ public class JRGridLayout
 		yCuts = new SortedList();
 		yCuts.add(new Integer(0));
 
-		createCuts(elements, offsetX, offsetY, createXCuts);
+		createCuts(elementWrappers, offsetX, offsetY, createXCuts);
 		
 		xCuts.add(new Integer(width));
 		yCuts.add(new Integer(height));
@@ -310,7 +362,6 @@ public class JRGridLayout
 				grid[row][col] = 
 					new JRExporterGridCell(
 						null,
-						null,
 						((Integer)xCuts.get(col + 1)).intValue() - ((Integer)xCuts.get(col)).intValue(),
 						((Integer)yCuts.get(row + 1)).intValue() - ((Integer)yCuts.get(row)).intValue(),
 						1,
@@ -319,20 +370,21 @@ public class JRGridLayout
 			}
 		}
 
-		setGridElements(elements, offsetX, offsetY, initialIndex);
+		setGridElements(elementWrappers, offsetX, offsetY);
 	}
 
 
-	protected void createCuts(List elementsList, int elementOffsetX, int elementOffsetY, boolean createXCuts)
+	protected void createCuts(ElementWrapper[] elementWrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
 	{
-		for(Iterator it = elementsList.iterator(); it.hasNext();)
+		for(int elementIndex = 0; elementIndex < elementWrappers.length; elementIndex++)
 		{
-			JRPrintElement element = ((JRPrintElement)it.next());
+			ElementWrapper wrapper = elementWrappers[elementIndex];
+			JRPrintElement element = wrapper.getElement();
 			
 			int x = element.getX() + elementOffsetX;
 			int y = element.getY() + elementOffsetY;
 			
-			if (elementsExporter.isToExport(element))
+			if (exporterNature.isToExport(element))
 			{
 				if (createXCuts)
 				{
@@ -349,7 +401,7 @@ public class JRGridLayout
 			if (deep && frame != null)
 			{
 				createCuts(
-					frame.getElements(), 
+					wrapper.getElementWrappers(), 
 					x + frame.getLeftPadding(), 
 					y + frame.getTopPadding(), 
 					createXCuts
@@ -359,13 +411,14 @@ public class JRGridLayout
 	}
 
 
-	protected void setGridElements(List elementsList, int elementOffsetX, int elementOffsetY, Integer[] parentIndexes)
+	protected void setGridElements(ElementWrapper[] elementWrappers, int elementOffsetX, int elementOffsetY)
 	{
-		for(int elementIndex = elementsList.size() - 1; elementIndex >= 0; elementIndex--)
+		for(int elementIndex = elementWrappers.length - 1; elementIndex >= 0; elementIndex--)
 		{
-			JRPrintElement element = (JRPrintElement)elementsList.get(elementIndex);
+			ElementWrapper wrapper = elementWrappers[elementIndex];
+			JRPrintElement element = wrapper.getElement();
 
-			boolean toExport = elementsExporter.isToExport(element);
+			boolean toExport = exporterNature.isToExport(element);
 			//JRPrintFrame frame = deep && element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
@@ -377,10 +430,9 @@ public class JRGridLayout
 				if (deep && frame != null)
 				{
 					setGridElements(
-						frame.getElements(), 
+						wrapper.getElementWrappers(), 
 						x + frame.getLeftPadding(), 
-						y + frame.getTopPadding(), 
-						getElementIndex(setElementIndexes, elementIndex, parentIndexes)
+						y + frame.getTopPadding()
 						);
 				}
 
@@ -393,7 +445,7 @@ public class JRGridLayout
 
 					if (!isOverlap(row1, col1, row2, col2))
 					{
-						setGridElement(element, row1, col1, row2, col2, elementIndex, parentIndexes);
+						setGridElement(wrapper, row1, col1, row2, col2);
 					}
 
 					if (deep && frame != null)
@@ -416,7 +468,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (grid[row][col].element != null)
+					if (grid[row][col].getElementWrapper() != null)
 					{
 						isOverlap = true;
 						break is_overlap_out;
@@ -426,13 +478,13 @@ public class JRGridLayout
 		}
 		else
 		{
-			isOverlap = grid[row1][col1].element != null;
+			isOverlap = grid[row1][col1].getElementWrapper() != null;
 		}
 		return isOverlap;
 	}
 
 
-	protected void setGridElement(JRPrintElement element, int row1, int col1, int row2, int col2, int elementIndex, Integer[] parentElements)
+	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
 	{
 		if (spanCells)
 		{
@@ -458,33 +510,34 @@ public class JRGridLayout
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
+			JRPrintElement element = wrapper.getElement();
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
 			JRExporterGridCell gridCell = 
 				new JRExporterGridCell(
-					element,
-					getElementIndex(setElementIndexes, elementIndex, parentElements),
+					wrapper,
 					element.getWidth(), 
 					element.getHeight(), 
 					col2 - col1, 
 					row2 - row1
 					);
 			
-			if (frame != null)
+			if (frame != null)//FIXMEODT if deep, does this make sense?
 			{
 				gridCell.setLayout(
 					new JRGridLayout(
-						frame.getElements(), 
+						wrapper.getElementWrappers(), 
 						frame.getWidth(), 
 						frame.getHeight(), 
 						0, //offsetX
 						0, //offsetY
-						elementsExporter, 
+						exporterNature, 
 						false, //deep 
 						splitSharedRowSpan,
 						true, //spanCells
 						true, //setElementIndexes
-						gridCell.elementIndex
+						wrapper.getAddress(),
+						null
 						)
 					);
 			}
@@ -502,26 +555,26 @@ public class JRGridLayout
 	}
 
 
-	protected static Integer[] getElementIndex(boolean setElementIndexes, int elementIndex, Integer[] parentElements)
-	{
-		if (!setElementIndexes)
-		{
-			return null;
-		}
-		
-		Integer[] elementIndexes;
-		if (parentElements == null)
-		{
-			elementIndexes = new Integer[]{new Integer(elementIndex)};
-		}
-		else
-		{
-			elementIndexes = new Integer[parentElements.length + 1];
-			System.arraycopy(parentElements, 0, elementIndexes, 0, parentElements.length);
-			elementIndexes[parentElements.length] = new Integer(elementIndex);
-		}
-		return elementIndexes;
-	}
+//	protected static Integer[] getElementIndex(boolean setElementIndexes, int elementIndex, Integer[] parentElements)
+//	{
+//		if (!setElementIndexes)
+//		{
+//			return null;
+//		}
+//		
+//		Integer[] elementIndexes;
+//		if (parentElements == null)
+//		{
+//			elementIndexes = new Integer[]{new Integer(elementIndex)};
+//		}
+//		else
+//		{
+//			elementIndexes = new Integer[parentElements.length + 1];
+//			System.arraycopy(parentElements, 0, elementIndexes, 0, parentElements.length);
+//			elementIndexes[parentElements.length] = new Integer(elementIndex);
+//		}
+//		return elementIndexes;
+//	}
 
 
 	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
@@ -548,9 +601,9 @@ public class JRGridLayout
 				}
 				
 				boolean left = col == col1;
-				boolean right = col == col2 - cell.colSpan;
+				boolean right = col == col2 - cell.getColSpan();
 				boolean top = row == row1;
-				boolean bottom = row == row2 - cell.rowSpan;
+				boolean bottom = row == row2 - cell.getRowSpan();
 					
 				if (left || right || top || bottom)
 				{
@@ -620,10 +673,10 @@ public class JRGridLayout
 			for(int col = 0; col < grid[0].length; col++)
 			{
 				JRExporterGridCell gridCell = grid[row1 + row][col];
-				if (row + gridCell.rowSpan > rowSpan)
+				if (row + gridCell.getRowSpan() > rowSpan)
 				{
 					sharedSpanCount++;
-					rowSpan = row + gridCell.rowSpan;
+					rowSpan = row + gridCell.getRowSpan();
 				}
 			}
 		}
@@ -643,12 +696,12 @@ public class JRGridLayout
 			for(int row = row1; row < row2; row++)
 			{
 				JRExporterGridCell gridCell = grid[row][col1 + col];
-				if (col + gridCell.colSpan > colSpan)
+				if (col + gridCell.getColSpan() > colSpan)
 				{
 					isSharedSpan = true;
-					colSpan = col + gridCell.colSpan;
+					colSpan = col + gridCell.getColSpan();
 				}
-				else if (gridCell.rowSpan > 1)
+				else if (gridCell.getRowSpan() > 1)
 				{
 					isSharedSpan = true;
 				}
@@ -745,9 +798,9 @@ public class JRGridLayout
 	
 	public static int getRowHeight(JRExporterGridCell[] row)//FIXMEODT are we still using this?
 	{
-		if (row[0].rowSpan == 1 && row[0] != JRExporterGridCell.OCCUPIED_CELL) //quick exit
+		if (row[0].getRowSpan() == 1 && row[0] != JRExporterGridCell.OCCUPIED_CELL) //quick exit
 		{
-			return row[0].height;
+			return row[0].getHeight();
 		}
 		
 		int rowHeight = 0;
@@ -762,13 +815,13 @@ public class JRGridLayout
 			
 			if (cell != JRExporterGridCell.OCCUPIED_CELL)
 			{
-				if (cell.rowSpan == 1)
+				if (cell.getRowSpan() == 1)
 				{
-					rowHeight = cell.height;
+					rowHeight = cell.getHeight();
 					break;
 				}
 
-				if (cell.rowSpan < row[minSpanIdx].rowSpan)
+				if (cell.getRowSpan() < row[minSpanIdx].getRowSpan())
 				{
 					minSpanIdx = col;
 				}
@@ -777,7 +830,7 @@ public class JRGridLayout
 		
 		if (col >= colCount) //no cell with rowSpan = 1 was found, getting the height of the cell with min rowSpan
 		{
-			rowHeight = row[minSpanIdx].height;
+			rowHeight = row[minSpanIdx].getHeight();
 		}
 		
 		return rowHeight;
@@ -799,13 +852,13 @@ public class JRGridLayout
 	 *            implementation of {@link ExporterElements ExporterElements}
 	 *            used to decide which elements to skip during grid creation
 	 */
-	public static List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX, ExporterElements elementsExporter)
+	public static List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX, ExporterNature exporterNature)
 	{
 		List xCuts = new SortedList();
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
-			addXCuts(page.getElements(), offsetX, elementsExporter, xCuts);
+			addXCuts(page.getElements(), offsetX, exporterNature, xCuts);
 		}
 
 		return xCuts;
@@ -825,14 +878,14 @@ public class JRGridLayout
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
-	protected static void addXCuts(List elementsList, int elementOffsetX, ExporterElements elementsExporter, List xCuts)
+	protected static void addXCuts(List elementsList, int elementOffsetX, ExporterNature exporterNature, List xCuts)
 	{
 		for (Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement) it.next());
 			int x = element.getX() + elementOffsetX;
 
-			if (elementsExporter.isToExport(element))
+			if (exporterNature.isToExport(element))
 			{
 				xCuts.add(new Integer(x));
 				xCuts.add(new Integer(x + element.getWidth()));
@@ -841,7 +894,7 @@ public class JRGridLayout
 			if (element instanceof JRPrintFrame)
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(frame.getElements(), x + frame.getLeftPadding(), elementsExporter, xCuts);
+				addXCuts(frame.getElements(), x + frame.getLeftPadding(), exporterNature, xCuts);
 			}
 		}
 	}
@@ -855,6 +908,37 @@ public class JRGridLayout
 	}
 
 		
+	/**
+	 * 
+	 */
+	private static ElementWrapper[] createElementWrappers(List elementsList, String parentAddress)
+	{
+		ElementWrapper[] elementWrappers = new ElementWrapper[elementsList.size()];
+
+		for (int elementIndex = 0; elementIndex < elementsList.size(); elementIndex++)
+		{
+			JRPrintElement element = ((JRPrintElement) elementsList.get(elementIndex));
+			
+			String address = parentAddress + "_" + elementIndex;
+
+			elementWrappers[elementIndex] = 
+				new ElementWrapper(
+					element, 
+					address,
+					element instanceof JRPrintFrame
+						? createElementWrappers(((JRPrintFrame)element).getElements(), address)
+						: null
+					);
+		}
+		
+		return elementWrappers;
+	}
+	
+	public static interface ExporterNature
+	{
+		boolean isToExport(JRPrintElement element);
+	}
+	
 	protected static class SortedList extends ArrayList
 	{
 		private static final long serialVersionUID = 6232843428269907513L;

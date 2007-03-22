@@ -92,7 +92,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterElements;
+import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -532,11 +532,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addMergeRegion(JRExporterGridCell gridCell, int x, int y) throws JRException
 	{
-		if (gridCell.colSpan > 1 || gridCell.rowSpan > 1)
+		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
 		{
 			try
 			{
-				sheet.mergeCells(x, y, (x + gridCell.colSpan - 1), (y + gridCell.rowSpan - 1));
+				sheet.mergeCells(x, y, (x + gridCell.getColSpan() - 1), (y + gridCell.getRowSpan() - 1));
 			}
 			catch (JXLException e)
 			{
@@ -749,8 +749,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						new WritableImage(
 							x, 
 							y, 
-							gridCell.colSpan, 
-							gridCell.rowSpan, 
+							gridCell.getColSpan(), 
+							gridCell.getRowSpan(), 
 							JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
 							);
 					
@@ -1417,7 +1417,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
 	}
 
-	protected ExporterElements getExporterElements()
+	protected ExporterNature getExporterNature()
 	{
 		return JRGridLayout.UNIVERSAL_EXPORTER;
 	}

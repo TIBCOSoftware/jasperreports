@@ -27,10 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
+
 
 
 /**
@@ -46,7 +44,7 @@ public class JRPrintElementIndex
 	 */
 	private int reportIndex = 0;
 	private int pageIndex = 0;
-	private List elementIndexes = null;
+	private String address = null;
 
 
 	/**
@@ -55,12 +53,12 @@ public class JRPrintElementIndex
 	public JRPrintElementIndex(
 		int reportIndex,
 		int pageIndex,
-		Integer[] elementIndexes
+		String address
 		)
 	{
 		this.reportIndex = reportIndex;
 		this.pageIndex = pageIndex;
-		this.elementIndexes = Arrays.asList(elementIndexes);
+		this.address = address;
 	}
 
 
@@ -84,7 +82,7 @@ public class JRPrintElementIndex
 
 	/**
 	 *
-	 */
+	 *
 	public Integer[] getElementIndexes()
 	{
 		return (Integer[]) elementIndexes.toArray(new Integer[elementIndexes.size()]);
@@ -105,13 +103,27 @@ public class JRPrintElementIndex
 		str.append(reportIndex);
 		str.append('_');
 		str.append(pageIndex);
-		for (Iterator it = elementIndexes.iterator(); it.hasNext();)
-		{
-			Integer idx = (Integer) it.next();
-			str.append('_');
-			str.append(idx);			
-		}
+		str.append('_');
+		str.append(address);
 		return str.toString();
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Integer[] getAddressArray()
+	{
+		StringTokenizer tkzer = new StringTokenizer(address, "_");
+		
+		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
+		int c = 0;
+		while (tkzer.hasMoreTokens())
+		{
+			elementIndexes[c++] = Integer.valueOf(tkzer.nextToken());
+		}
+
+		return elementIndexes;
 	}
 	
 	
@@ -126,21 +138,15 @@ public class JRPrintElementIndex
 	{
 		StringTokenizer tkzer = new StringTokenizer(indexStr, "_");
 		
-		int reportIndex = Integer.parseInt(tkzer.nextToken());
-		int pageIndex = Integer.parseInt(tkzer.nextToken());
-
-		Integer[] elementIndexes = new Integer[tkzer.countTokens()];
-		int c = 0;
-		while (tkzer.hasMoreTokens())
-		{
-			elementIndexes[c++] = Integer.valueOf(tkzer.nextToken());
-		}
-
+		String reportIndexToken = tkzer.nextToken();
+		String pageIndexToken = tkzer.nextToken();
+		
 		return
 			new JRPrintElementIndex(
-				reportIndex,
-				pageIndex,
-				elementIndexes
+				Integer.parseInt(reportIndexToken),
+				Integer.parseInt(pageIndexToken),
+				indexStr.substring(reportIndexToken.length() + pageIndexToken.length() + 2)
 				);
 	}
+
 }
