@@ -404,7 +404,6 @@ public class JROdtExporter extends JRAbstractExporter
 				false, //deep 
 				true, //splitSharedRowSpan
 				true, //spanCells
-				true, //setElementIndexes
 				null //address
 				);
 

@@ -126,7 +126,7 @@ public class JRExporterGridCell
 	}
 
 
-	public void setLayout(JRGridLayout layout)//FIXMEODT need this?
+	public void setLayout(JRGridLayout layout)
 	{
 		this.layout = layout;
 	}

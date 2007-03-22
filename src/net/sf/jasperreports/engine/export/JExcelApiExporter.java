@@ -1417,7 +1417,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
 	}
 
-	protected ExporterNature getExporterNature()
+	protected ExporterNature getNature()
 	{
 		return JRGridLayout.UNIVERSAL_EXPORTER;
 	}

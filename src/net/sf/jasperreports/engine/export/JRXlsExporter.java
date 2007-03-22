@@ -754,7 +754,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		//nothing
 	}
 
-	protected ExporterNature getExporterNature()
+	protected ExporterNature getNature()
 	{
 		return JRGridLayout.NO_IMAGES_EXPORTER;
 	}

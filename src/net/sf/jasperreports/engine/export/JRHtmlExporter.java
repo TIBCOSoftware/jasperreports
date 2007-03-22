@@ -681,7 +681,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 				false, //deep 
 				false, //splitSharedRowSpan
 				true, //spanCells
-				true, //setElementIndexes
 				null //address
 				);
 
