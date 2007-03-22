@@ -128,6 +128,14 @@ public class OasisZip
 	/**
 	 *
 	 */
+	public void addEntry(OasisZipEntry entry)
+	{
+		oasisZipEntries.add(entry);
+	}
+	
+	/**
+	 *
+	 */
 	public void zipEntries(OutputStream os) throws IOException
 	{
 		ZipOutputStream zipos = new ZipOutputStream(os);
