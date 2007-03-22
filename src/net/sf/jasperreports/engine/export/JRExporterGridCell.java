@@ -57,7 +57,7 @@ public class JRExporterGridCell
 	/**
 	 *
 	 */
-	private ElementWrapper elementWrapper = null; 
+	private ElementWrapper wrapper = null; 
 	
 	private Color backcolor;
 	private Color forecolor;
@@ -75,14 +75,14 @@ public class JRExporterGridCell
 	 *
 	 */
 	public JRExporterGridCell(
-		ElementWrapper elementWrapper, 
+		ElementWrapper wrapper, 
 		int width, 
 		int height,
 		int colSpan, 
 		int rowSpan
 		)
 	{
-		this.elementWrapper = elementWrapper;
+		this.wrapper = wrapper;
 		this.width = width;
 		this.height = height;
 		this.colSpan = colSpan;
@@ -90,9 +90,9 @@ public class JRExporterGridCell
 	}
 
 
-	public ElementWrapper getElementWrapper()
+	public ElementWrapper getWrapper()
 	{
-		return elementWrapper;
+		return wrapper;
 	}
 
 

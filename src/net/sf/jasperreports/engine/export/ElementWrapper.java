@@ -43,17 +43,17 @@ public class ElementWrapper
 {
 	private JRPrintElement element = null;
 	private String address = null;
-	private ElementWrapper[] elementWrappers = null;
+	private ElementWrapper[] wrappers = null;
 	
 	public ElementWrapper(
 		JRPrintElement element, 
 		String address,
-		ElementWrapper[] elementWrappers
+		ElementWrapper[] wrappers
 		)
 	{
 		this.element = element;
 		this.address = address;
-		this.elementWrappers = elementWrappers;
+		this.wrappers = wrappers;
 	}
 	
 	public JRPrintElement getElement()
@@ -66,8 +66,8 @@ public class ElementWrapper
 		return address;
 	}
 	
-	public ElementWrapper[] getElementWrappers()
+	public ElementWrapper[] getWrappers()
 	{
-		return elementWrappers;
+		return wrappers;
 	}
 }

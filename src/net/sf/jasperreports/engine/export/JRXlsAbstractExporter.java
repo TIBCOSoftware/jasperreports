@@ -401,7 +401,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					setCell(x, rowIndex);
 	
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.getElementWrapper() != null)
+					if(gridCell.getWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -414,7 +414,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							emptyCellWidth = 0;
 						}
 	
-						JRPrintElement element = gridCell.getElementWrapper().getElement();
+						JRPrintElement element = gridCell.getWrapper().getElement();
 	
 						if (element instanceof JRPrintLine)
 						{

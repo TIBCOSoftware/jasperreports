@@ -300,9 +300,9 @@ public class JRCsvExporter extends JRAbstractExporter
 				isFirstColumn = true;
 				for(int x = 0; x < grid[y].length; x++)
 				{
-					if(grid[y][x].getElementWrapper() != null)
+					if(grid[y][x].getWrapper() != null)
 					{
-						element = grid[y][x].getElementWrapper().getElement();
+						element = grid[y][x].getWrapper().getElement();
 	
 						if (element instanceof JRPrintText)
 						{
