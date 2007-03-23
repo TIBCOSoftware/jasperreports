@@ -30,9 +30,9 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -40,27 +40,23 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
  */
-public class CellStyle extends BorderStyle
+public class GraphicStyle extends Style
 {
 	/**
 	 *
 	 */
-	private static final String VERTICAL_ALIGN_TOP = "top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "middle";
-	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-	
-	//private String fill = null;
 	private String backcolor = null;
+	private String forecolor = null;
+	private String style = null;
+	private String width = null;
 	
-	private String verticalAlignment = null;
-
 	
 	/**
 	 *
 	 */
-	public CellStyle(Writer styleWriter, JRPrintElement element)
+	public GraphicStyle(Writer styleWriter, JRPrintGraphicElement element)
 	{
-		super(styleWriter, element);
+		super(styleWriter);
 		
 		if (element.getMode() == JRElement.MODE_OPAQUE)
 		{
@@ -72,27 +68,51 @@ public class CellStyle extends BorderStyle
 			//fill = "none";
 		}
 
-		if (element instanceof JRAlignment)
+		forecolor = JRColorUtil.getColorHexa(element.getForecolor());
+
+		double doubleWidth = 0;
+
+		switch (element.getPen())
 		{
-			switch (((JRAlignment)element).getVerticalAlignment())
+			case JRGraphicElement.PEN_DOTTED :
 			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM :
-				{
-					verticalAlignment = VERTICAL_ALIGN_BOTTOM;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE :
-				{
-					verticalAlignment = VERTICAL_ALIGN_MIDDLE;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_TOP :
-				default :
-				{
-					verticalAlignment = VERTICAL_ALIGN_TOP;
-				}
+				style = "dash";
+				doubleWidth = 1;
+				break;
+			}
+			case JRGraphicElement.PEN_4_POINT :
+			{
+				style = "solid";
+				doubleWidth = 4;
+				break;
+			}
+			case JRGraphicElement.PEN_2_POINT :
+			{
+				style = "solid";
+				doubleWidth = 2;
+				break;
+			}
+			case JRGraphicElement.PEN_THIN :
+			{
+				style = "solid";
+				doubleWidth = 0.5f;
+				break;
+			}
+			case JRGraphicElement.PEN_NONE :
+			{
+				style = "none";
+				break;
+			}
+			case JRGraphicElement.PEN_1_POINT :
+			default :
+			{
+				style = "solid";
+				doubleWidth = 1;
+				break;
 			}
 		}
+
+		width = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(doubleWidth));
 	}
 	
 	/**
@@ -100,40 +120,31 @@ public class CellStyle extends BorderStyle
 	 */
 	public String getId()
 	{
-		return backcolor + super.getId() + (verticalAlignment != null ? "" : "|" + verticalAlignment); 
+		//return fill + "|" + backcolor
+		StringBuffer id = new StringBuffer();
+		id.append(backcolor);
+		id.append("|");
+		id.append(forecolor);
+		id.append("|");
+		id.append(style);
+		id.append("|");
+		id.append(width);
+		return id.toString();
 	}
 
 	/**
 	 *
 	 */
-	public void write(String cellStyleName) throws IOException
+	public void write(String lineStyleName) throws IOException
 	{
-		styleWriter.write("<style:style style:name=\"");
-		styleWriter.write(cellStyleName);
-		styleWriter.write("\"");
-		styleWriter.write(" style:family=\"table-cell\">\n");
-		styleWriter.write(" <style:table-cell-properties");		
-		styleWriter.write(" fo:wrap-option=\"wrap\"");
-		styleWriter.write(" style:shrink-to-fit=\"false\"");
-		if (backcolor != null)
-		{
-			styleWriter.write(" fo:background-color=\"#");
-			styleWriter.write(backcolor);
-			styleWriter.write("\"");
-		}
-		
-		writeBorder(TOP_BORDER);
-		writeBorder(LEFT_BORDER);
-		writeBorder(BOTTOM_BORDER);
-		writeBorder(RIGHT_BORDER);
-		
-		if (verticalAlignment != null)
-		{
-			styleWriter.write(" style:vertical-align=\"");
-			styleWriter.write(verticalAlignment);
-			styleWriter.write("\"");
-		}
-
+		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
+		styleWriter.write(" style:family=\"graphic\">\n");
+		styleWriter.write("   <style:graphic-properties");		
+		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
+		styleWriter.write(" draw:stroke=\"" + style + "\"");
+		styleWriter.write(" draw:stroke-dash=\"Dashed\"");
+		styleWriter.write(" svg:stroke-width=\"" + width + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write("</style:style>\n");
 	}

@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -136,8 +137,6 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-
 	protected boolean isWrapBreakWord = false;
 
 	protected Map fontMap = null;
@@ -554,18 +553,37 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportLine(TableBuilder tableBuilder, JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
 		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+
+		double x1, y1, x2, y2;
+		
+		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
+		{
+			x1 = Utility.translatePixelsToInches(0); 
+			y1 = Utility.translatePixelsToInches(0); 
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1); 
+			y2 = Utility.translatePixelsToInches(line.getHeight() - 1); 
+		}
+		else
+		{
+			x1 = Utility.translatePixelsToInches(0); 
+			y1 = Utility.translatePixelsToInches(line.getHeight() - 1); 
+			x2 = Utility.translatePixelsToInches(line.getWidth() - 1); 
+			y2 = Utility.translatePixelsToInches(0); 
+		}
+		
 		tempBodyWriter.write(
 				"<text:p " 
-				//+ "text:style-name=\"Standard\"" 
+//				+ "text:style-name=\"Standard\"" 
 				+ ">" 
 				+ "<draw:line text:anchor-type=\"paragraph\" " 
-				//+ " text:anchor-page-number=\"" + (pageIndex + 1) + "\" "
-				//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
-				+ "svg:x2=\"" + Utility.translatePixelsToInches(line.getWidth() - 1) + "in\" " 
-				+ "svg:y2=\"" + Utility.translatePixelsToInches(line.getHeight() - 1) + "in\" " 
-				+ "svg:x1=\"" + Utility.translatePixelsToInches(0) + "in\" " 
-				+ "svg:y1=\"" + Utility.translatePixelsToInches(0) + "in\">" 
-				+ "<text:p/></draw:line></text:p>"
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" " 
+				+ "svg:x1=\"" + x1 + "in\" " 
+				+ "svg:y1=\"" + y1 + "in\" " 
+				+ "svg:x2=\"" + x2 + "in\" " 
+				+ "svg:y2=\"" + y2 + "in\">" 
+				//+ "</draw:line>" 
+				+ "<text:p/></draw:line>" 
+				+ "</text:p>"
 				);
 		tableBuilder.buildCellFooter();
 	}
@@ -591,8 +609,8 @@ public class JROdtExporter extends JRAbstractExporter
 			"<text:p " 
 			//+ "text:style-name=\"Standard\"" 
 			+ ">" 
-			+ "<draw:ellipse text:anchor-type=\"paragraph\" draw:z-index=\"0\" " 
-			//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
+			+ "<draw:ellipse text:anchor-type=\"paragraph\" " 
+			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" " 
 			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" " 
 			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" " 
 			+ "svg:x=\"0in\" " 
@@ -845,23 +863,6 @@ public class JROdtExporter extends JRAbstractExporter
 	}
 
 
-	protected Color appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
-	{
-		if (element.getMode() == JRElement.MODE_OPAQUE && (backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()))
-		{
-			styleBuffer.append("background-color: #");
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			styleBuffer.append(hexa);
-			styleBuffer.append("; ");
-
-			return element.getBackcolor();
-		}
-
-		return null;
-	}
-
-
 	/**
 	 *
 	 */
@@ -1044,25 +1045,17 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportFrame(TableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-		tableBuilder.buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(frame), gridCell.getColSpan(), gridCell.getRowSpan());
 
-//		StringBuffer styleBuffer = new StringBuffer();
-//		Color frameBackcolor = appendBackcolorStyle(frame, styleBuffer);
-//		appendBorderStyle(frame, frame, styleBuffer);
-//
-//		if (styleBuffer.length() > 0)
-//		{
-//			writer.write(" style=\"");
-//			writer.write(styleBuffer.toString());
-//			writer.write("\"");
-//		}
-//
-//		writer.write(">\n");
-//
-//		if (frameBackcolor != null)
-//		{
-//			setBackcolor(frameBackcolor);
-//		}
+		boolean appendBackcolor = 
+			frame.getMode() == JRElement.MODE_OPAQUE 
+			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB()); 
+		
+		if (appendBackcolor)
+		{
+			setBackcolor(frame.getBackcolor());
+		}
+
 		try
 		{
 			JRGridLayout layout = gridCell.getLayout(); 
@@ -1076,10 +1069,10 @@ public class JROdtExporter extends JRAbstractExporter
 		}
 		finally
 		{
-//			if (frameBackcolor != null)
-//			{
-//				restoreBackcolor();
-//			}
+			if (appendBackcolor)
+			{
+				restoreBackcolor();
+			}
 		}
 
 		tableBuilder.buildCellFooter();
@@ -1087,7 +1080,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 	/**
 	 * 
-	 * 
+	 */
 	protected void setBackcolor(Color color)
 	{
 		backcolorStack.addLast(backcolor);
@@ -1100,7 +1093,6 @@ public class JROdtExporter extends JRAbstractExporter
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
-*/
 
 }
 

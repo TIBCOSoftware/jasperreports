@@ -126,11 +126,6 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected File imagesDir = null;
 
 	/**
-	 *
-	 */
-	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-	
-	/**
 	 * 
 	 */
 	private static int imageId = 0;

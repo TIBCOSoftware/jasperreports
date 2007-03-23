@@ -123,6 +123,11 @@ public class StyleBuilder
 		writer.write(ContentBuilder.VERSION);		
 		writer.write("\">\n");		
 
+		writer.write(" <office:styles>\n");	
+		writer.write("<draw:stroke-dash draw:name=\"Dashed\" draw:display-name=\"Dashed\" " +
+			"draw:style=\"rect\" draw:dots1=\"1\" draw:dots1-length=\"0.05cm\" draw:dots2=\"1\" " +
+			"draw:dots2-length=\"0.05cm\" draw:distance=\"0.05cm\"/>");
+		writer.write(" </office:styles>\n");	
 		writer.write(" <office:automatic-styles>\n");	
 	}
 	

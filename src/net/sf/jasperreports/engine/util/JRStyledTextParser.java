@@ -95,8 +95,6 @@ public class JRStyledTextParser
 	private static final String LESS = "<";
 	private static final String LESS_SLASH = "</";
 	private static final String GREATER = ">";
-	private static final String SIX_ZEROS = "000000";
-	private static final int colorMask = Integer.parseInt("FFFFFF", 16);
 
 	/**
 	 *
@@ -649,7 +647,7 @@ public class JRStyledTextParser
 			sbuffer.append(ATTRIBUTE_forecolor);
 			sbuffer.append(EQUAL_QUOTE);
 			sbuffer.append(SHARP);
-			sbuffer.append(getHexaColor((Color)value));
+			sbuffer.append(JRColorUtil.getColorHexa((Color)value));
 			sbuffer.append(QUOTE);
 		}
 
@@ -662,20 +660,11 @@ public class JRStyledTextParser
 			sbuffer.append(ATTRIBUTE_backcolor);
 			sbuffer.append(EQUAL_QUOTE);
 			sbuffer.append(SHARP);
-			sbuffer.append(getHexaColor((Color)value));
+			sbuffer.append(JRColorUtil.getColorHexa((Color)value));
 			sbuffer.append(QUOTE);
 		}
 		
 		return sbuffer;
-	}
-
-	/**
-	 * 
-	 */
-	private String getHexaColor(Color color)
-	{
-		String hexa = Integer.toHexString(color.getRGB() & colorMask).toUpperCase();
-		return (SIX_ZEROS + hexa).substring(hexa.length());
 	}
 
 }

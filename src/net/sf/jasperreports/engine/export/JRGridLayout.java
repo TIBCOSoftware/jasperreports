@@ -179,7 +179,7 @@ public class JRGridLayout
 		this.deep = deep;
 		this.splitSharedRowSpan = splitSharedRowSpan;
 		this.spanCells = spanCells;
-		this.address = "";
+		this.address = null;
 		this.xCuts = xCuts;
 		
 		boxesCache = new HashMap();
@@ -881,7 +881,7 @@ public class JRGridLayout
 		{
 			JRPrintElement element = ((JRPrintElement) elementsList.get(elementIndex));
 			
-			String address = parentAddress + "_" + elementIndex;
+			String address = (parentAddress == null ? "" : parentAddress + "_") + elementIndex;
 
 			wrappers[elementIndex] = 
 				new ElementWrapper(
