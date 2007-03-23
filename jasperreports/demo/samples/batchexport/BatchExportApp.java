@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -62,6 +63,7 @@ public class BatchExportApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
 	
 	
 	/**
@@ -205,6 +207,23 @@ public class BatchExportApp
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				List jasperPrintList = new ArrayList();
+				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				
+				JROdtExporter exporter = new JROdtExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, fileName);
+				
+				exporter.exportReport();
+
+				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else
 			{
 				usage();
@@ -231,7 +250,7 @@ public class BatchExportApp
 	{
 		System.out.println( "BatchExportApp usage:" );
 		System.out.println( "\tjava BatchExportApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv" );
+		System.out.println( "\tTasks : fill | pdf | html | rtf | xls | jxl | csv | odt" );
 	}
 
 

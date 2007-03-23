@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -65,6 +66,7 @@ public class BarbecueApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -206,6 +208,24 @@ public class BarbecueApp
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+				
+				JROdtExporter exporter = new JROdtExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				JasperRunManager.runReportToPdfFile(fileName, null, new JREmptyDataSource());
@@ -238,7 +258,7 @@ public class BarbecueApp
 	{
 		System.out.println( "BarbecueApp usage:" );
 		System.out.println( "\tjava BarbecueApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | run" );
 	}
 
 

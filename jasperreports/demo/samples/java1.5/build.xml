@@ -32,7 +32,7 @@
 		<antcall target="runAll"/>
 	</target>
 	
-	<target name="runAll" depends="javac,compile,fill,pdf,xml,html,xls,jxl,rtf,csv">
+	<target name="runAll" depends="javac, compile, fill, pdf, xml, html, xls, jxl, rtf, csv, odt">
 	</target>
 	
 	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application." depends="check1.5">
@@ -150,6 +150,14 @@
 		</java>
 	</target>
 
+	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file." depends="check1.5">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Todt"/>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced." depends="check1.5">
 		<java classname="${class.name}" fork="true">
 			<arg value="-Trun"/>
@@ -183,6 +191,7 @@
 			<fileset dir="." includes="**/*.rtf" />
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.odt" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
