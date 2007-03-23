@@ -37,6 +37,7 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -54,6 +55,7 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -866,17 +868,67 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws IOException
+	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		switch (image.getScaleImage())
+		{
+			case JRImage.SCALE_IMAGE_FILL_FRAME :
+			{
+				width = image.getWidth();
+				height = image.getHeight();
+				break;
+			}
+			case JRImage.SCALE_IMAGE_CLIP :
+			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+			default :
+			{
+				double normalWidth = image.getWidth();
+				double normalHeight = image.getHeight();
+				
+				if (!image.isLazy())
+				{
+					JRRenderable renderer = image.getRenderer();
+					Dimension2D dimension = renderer.getDimension();
+					if (dimension != null)
+					{
+						normalWidth = dimension.getWidth();
+						normalHeight = dimension.getHeight();
+					}
+				}
+		
+				if (image.getHeight() > 0)
+				{
+					double ratio = (double)normalWidth / (double)normalHeight;
+					
+					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
+					{
+						width = image.getWidth();
+						height = (int)(width/ratio);
+						
+					}
+					else
+					{
+						height = image.getHeight();
+						width = (int)(ratio * height);
+						
+					}
+				}
+			}
+		}
+		
 		tempBodyWriter.write(
 				"<text:p " 
 				//+ "text:style-name=\"Standard\"" 
 				+ ">" 
 				+ "<draw:frame text:anchor-type=\"paragraph\" " 
 				//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
-				+ "svg:width=\"" + Utility.translatePixelsToInches(image.getWidth()) + "in\" " 
-				+ "svg:height=\"" + Utility.translatePixelsToInches(image.getHeight()) + "in\" " 
+				+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" " 
+				+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\" " 
 				+ "svg:x=\"0in\" " 
 				+ "svg:y=\"0in\">" 
 				);
