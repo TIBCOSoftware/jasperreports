@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -70,6 +71,7 @@ public class I18nApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
 	
 	
 	/**
@@ -235,6 +237,26 @@ public class I18nApp
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				long start = System.currentTimeMillis();
+
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+				
+				JROdtExporter exporter = new JROdtExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				
+				exporter.exportReport();
+
+				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else
 			{
 				usage();
@@ -295,7 +317,7 @@ public class I18nApp
 	{
 		System.out.println( "I18nApp usage:" );
 		System.out.println( "\tjava I18nApp task file" );
-		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv" );
+		System.out.println( "\tTasks : fill | fillDefault | view | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt" );
 	}
 
 
