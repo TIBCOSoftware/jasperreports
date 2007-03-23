@@ -413,11 +413,11 @@ public class JRXmlWriteHelper
 		}
 	}
 	
-	public void addAttribute(String name, Color value)
+	public void addAttribute(String name, Color color)
 	{
-		if (value != null)
+		if (color != null)
 		{
-			writeAttribute(name, "#" + getHexaColor(value));
+			writeAttribute(name, "#" + JRColorUtil.getColorHexa(color));
 		}
 	}
 	
@@ -464,12 +464,5 @@ public class JRXmlWriteHelper
 		{
 			addAttribute(name, value, xmlValues);
 		}
-	}
-	
-	protected static final int COLOR_MASK = Integer.parseInt("FFFFFF", 16);
-	protected static String getHexaColor(Color color)
-	{
-		String hexa = Integer.toHexString(color.getRGB() & COLOR_MASK).toUpperCase();
-		return ("000000" + hexa).substring(hexa.length());
 	}
 }

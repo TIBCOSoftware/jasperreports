@@ -84,6 +84,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.Pair;
@@ -163,8 +164,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-
 	protected boolean isWrapBreakWord = false;
 
 	protected Map fontMap = null;
@@ -853,9 +852,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			)
 		{
 			writer.write(" bgcolor=\"#");
-			String hexa = Integer.toHexString(line.getForecolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			writer.write(hexa);
+			writer.write(JRColorUtil.getColorHexa(line.getForecolor()));
 			writer.write("\"");
 		}
 
@@ -897,9 +894,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			)
 		{
 			writer.write(" bgcolor=\"#");
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			writer.write(hexa);
+			writer.write(JRColorUtil.getColorHexa(element.getBackcolor()));
 			writer.write("\"");
 		}
 
@@ -954,9 +949,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (!Color.black.equals(forecolor))
 		{
 			writer.write("color: #");
-			String hexa = Integer.toHexString(forecolor.getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			writer.write(hexa);
+			writer.write(JRColorUtil.getColorHexa(forecolor));
 			writer.write("; ");
 		}
 
@@ -964,9 +957,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (runBackcolor != null)
 		{
 			writer.write("background-color: #");
-			String hexa = Integer.toHexString(runBackcolor.getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			writer.write(hexa);
+			writer.write(JRColorUtil.getColorHexa(runBackcolor));
 			writer.write("; ");
 		}
 
@@ -1336,9 +1327,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (element.getMode() == JRElement.MODE_OPAQUE && (backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()))
 		{
 			styleBuffer.append("background-color: #");
-			String hexa = Integer.toHexString(element.getBackcolor().getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			styleBuffer.append(hexa);
+			styleBuffer.append(JRColorUtil.getColorHexa(element.getBackcolor()));
 			styleBuffer.append("; ");
 
 			return element.getBackcolor();
@@ -1836,9 +1825,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			sb.append("border-");
 			sb.append(side);
 			sb.append("-color: #");
-			String hexa = Integer.toHexString(borderColor.getRGB() & colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			sb.append(hexa);
+			sb.append(JRColorUtil.getColorHexa(borderColor));
 			sb.append("; ");
 		}
 

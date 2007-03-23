@@ -42,6 +42,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 public class TableBuilder 
@@ -265,9 +266,7 @@ public class TableBuilder
 			styleWriter.write("in ");
 			styleWriter.write(borderStyle); 
 			styleWriter.write(" #");
-			String hexa = Integer.toHexString(borderColor.getRGB() & JROdtExporter.colorMask).toUpperCase();
-			hexa = ("000000" + hexa).substring(hexa.length());
-			styleWriter.write(hexa);
+			styleWriter.write(JRColorUtil.getColorHexa(borderColor));
 			styleWriter.write("\"");
 		}
 

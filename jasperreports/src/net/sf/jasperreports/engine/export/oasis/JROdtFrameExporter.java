@@ -408,7 +408,7 @@ public class JROdtFrameExporter extends JRAbstractExporter
 			+ " svg:y2=\"" + Utility.translatePixelsToInches(line.getY() + line.getHeight()) + "in\"" 
 			+ " svg:x1=\"" + Utility.translatePixelsToInches(line.getX()) + "in\"" 
 			+ " svg:y1=\"" + Utility.translatePixelsToInches(line.getY()) + "in\">" 
-			+ " draw:style-name=\"" + styleCache.getLineStyle(line) + "\""
+			+ " draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\""
 			+ "</draw:line>" 
 			);
 	}

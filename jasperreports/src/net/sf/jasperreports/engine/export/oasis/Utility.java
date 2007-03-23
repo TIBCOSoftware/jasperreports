@@ -60,7 +60,7 @@ public class Utility {
 		return inches;
 	}
 
-	public static double translatePixelsToInchesWithNoRoundOff(int pixels){
+	public static double translatePixelsToInchesWithNoRoundOff(double pixels){
 		double inches = 0.0;
 		inches = pixels/72.0;
 		return inches;

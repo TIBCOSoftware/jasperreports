@@ -39,11 +39,12 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBaseBox;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -52,11 +53,6 @@ import net.sf.jasperreports.engine.base.JRBaseBox;
  */
 public class StyleCache
 {
-	/**
-	 *
-	 */
-	protected static final int colorMask = Integer.parseInt("FFFFFF", 16);
-
 	/**
 	 *
 	 */
@@ -71,6 +67,8 @@ public class StyleCache
 	private int frameStylesCounter = 0;
 	private Map cellStyles = new HashMap();
 	private int cellStylesCounter = 0;
+	private Map graphicStyles = new HashMap();
+	private int graphicStylesCounter = 0;
 	private Map paragraphStyles = new HashMap();
 	private int paragraphStylesCounter = 0;
 	private Map textSpanStyles = new HashMap();
@@ -144,9 +142,31 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getLineStyle(JRPrintLine line)
+	public String getGraphicStyle(JRPrintGraphicElement element) throws IOException
 	{
-		return null;//FIXMEODT
+		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
+		
+		String graphicStyleId = graphicStyle.getId();
+		String graphicStyleName = (String)cellStyles.get(graphicStyleId);
+		
+		if (graphicStyleName == null)
+		{
+			graphicStyleName = "G" + graphicStylesCounter++;
+			graphicStyles.put(graphicStyleId, graphicStyleName);
+			
+			graphicStyle.write(graphicStyleName);
+		}
+		
+		return graphicStyleName;
+	}
+
+
+	/**
+	 *
+	 */
+	public String getCellStyle(JRPrintFrame frame) throws IOException
+	{
+		return getCellStyle(frame, frame);
 	}
 
 
@@ -246,8 +266,7 @@ public class StyleCache
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!Color.black.equals(forecolor))
 		{
-			forecolorHexa = Integer.toHexString(forecolor.getRGB() & colorMask).toUpperCase();
-			forecolorHexa = ("000000" + forecolorHexa).substring(forecolorHexa.length());
+			forecolorHexa = JRColorUtil.getColorHexa(forecolor);
 			textSpanStyleIdBuffer.append(forecolorHexa);
 		}
 
@@ -255,8 +274,7 @@ public class StyleCache
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (runBackcolor != null)
 		{
-			backcolorHexa = Integer.toHexString(runBackcolor.getRGB() & colorMask).toUpperCase();
-			backcolorHexa = ("000000" + backcolorHexa).substring(backcolorHexa.length());
+			backcolorHexa = JRColorUtil.getColorHexa(runBackcolor);
 			textSpanStyleIdBuffer.append(backcolorHexa);
 		}
 
