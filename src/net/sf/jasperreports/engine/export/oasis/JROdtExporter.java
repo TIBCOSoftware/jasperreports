@@ -86,7 +86,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * Exports a JasperReports document to ODF format. It has character output type and exports the document to a
  * grid-based layout.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
+ * @version $Id: JROdtExporter.java 1600 2007-02-23 15:12:16Z shertage $
  */
 public class JROdtExporter extends JRAbstractExporter
 {
