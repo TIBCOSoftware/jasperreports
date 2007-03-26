@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRValueParameter;
 
 
@@ -142,6 +143,12 @@ public class JRFillParameter implements JRValueParameter
 	public void setValue(Object value)
 	{
 		this.value = value;
+	}
+
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parent.getPropertiesMap();
 	}
 		
 

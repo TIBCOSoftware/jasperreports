@@ -32,6 +32,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -64,6 +65,8 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 *
 	 */
 	protected JRExpression defaultValueExpression = null;
+	
+	protected JRPropertiesMap propertiesMap;
 
 
 	/**
@@ -71,6 +74,7 @@ public class JRBaseParameter implements JRParameter, Serializable
 	 */
 	protected JRBaseParameter()
 	{
+		propertiesMap = new JRPropertiesMap();
 	}
 	
 	
@@ -88,6 +92,8 @@ public class JRBaseParameter implements JRParameter, Serializable
 		isForPrompting = parameter.isForPrompting();
 
 		defaultValueExpression = factory.getExpression(parameter.getDefaultValueExpression());
+		
+		propertiesMap = parameter.getPropertiesMap().cloneProperties();
 	}
 		
 
@@ -168,6 +174,12 @@ public class JRBaseParameter implements JRParameter, Serializable
 	public JRExpression getDefaultValueExpression()
 	{
 		return this.defaultValueExpression;
+	}
+
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return propertiesMap;
 	}
 
 

@@ -124,6 +124,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -295,7 +296,7 @@ public class JRXmlWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
 		
-		writeProperties(report.getPropertiesMap());
+		writeProperties(report);
 
 		/*   */
 		String[] imports = report.getImports();
@@ -415,8 +416,9 @@ public class JRXmlWriter
 	}
 
 
-	private void writeProperties(JRPropertiesMap propertiesMap) throws IOException
+	private void writeProperties(JRPropertiesHolder propertiesHolder) throws IOException
 	{
+		JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
 		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
 		{
@@ -562,6 +564,8 @@ public class JRXmlWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isForPrompting, parameter.isForPrompting(), true);
 
+		writeProperties(parameter);
+		
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_parameterDescription, parameter.getDescription());
 		writer.writeExpression(JRXmlConstants.ELEMENT_defaultValueExpression, parameter.getDefaultValueExpression(), false);
 
@@ -590,6 +594,8 @@ public class JRXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, field.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
 
+		writeProperties(field);
+		
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_fieldDescription, field.getDescription());
 		
 		writer.closeElement();
@@ -2479,7 +2485,7 @@ public class JRXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingType(), JRXmlConstants.getWhenResourceMissingTypeMap(), JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL);
 		
-		writeProperties(dataset.getPropertiesMap());
+		writeProperties(dataset);
 		
 		writeDatasetContents(dataset);
 		

@@ -29,39 +29,19 @@ package net.sf.jasperreports.engine;
 
 
 /**
- * An abstract representation of a data source field. Each row in a dataset consists of one or more fields with unique
- * names. These names can be used in report expressions.
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Interface to be implemented by objects that have properties attached.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRField extends JRPropertiesHolder
+public interface JRPropertiesHolder
 {
 
-
 	/**
-	 * Gets the field unique name.
+	 * Returns this object's properties map.
+	 *  
+	 * @return this object's properties map
 	 */
-	public String getName();
-		
-	/**
-	 * Gets the field optional description.
-	 */
-	public String getDescription();
-		
-	/**
-	 * Sets the field description.
-	 */
-	public void setDescription(String description);
-		
-	/**
-	 * Gets the field value class. Field types cannot be primitives.
-	 */
-	public Class getValueClass();
-		
-	/**
-	 * Gets the field value class name.
-	 */
-	public String getValueClassName();
-		
+	public JRPropertiesMap getPropertiesMap();
 
 }
