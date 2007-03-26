@@ -27,11 +27,11 @@
  */
 
 /*
+ * Special thanks to Google 'Summer of Code 2005' program for supporting this development
+ * 
  * Contributors:
- * Alex Parfenov - aparfeno@users.sourceforge.net
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
+ * Majid Ali Khan - majidkk@users.sourceforge.net
+ * Frank Schönheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
