@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  *  <p/>
  * @see org.apache.commons.beanutils.locale.converters.DateLocaleConverter
  * @author szaharia
- * @version $Id: JRParameter.java 1485 2006-11-14 18:23:17 +0000 (Tue, 14 Nov 2006) teodord $
+ * @version $Id$
  */
 
 public class JRDateLocaleConverter extends DateLocaleConverter 

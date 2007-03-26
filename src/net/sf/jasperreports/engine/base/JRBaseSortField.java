@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRSortField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseField.java,v 1.28 2006/04/19 10:17:59 teodord Exp $
+ * @version $Id$
  */
 public class JRBaseSortField implements JRSortField, Serializable
 {

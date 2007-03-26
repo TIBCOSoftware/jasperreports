@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRGridLayout.java 1632 2007-03-14 12:29:52Z teodord $
+ * @version $Id$
  */
 public class ElementWrapper
 {

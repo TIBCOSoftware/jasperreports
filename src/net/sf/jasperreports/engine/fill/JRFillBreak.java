@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFillLine.java 1357 2006-08-10 12:36:24 +0300 (Thu, 10 Aug 2006) lucianc $
+ * @version $Id$
  */
 public class JRFillBreak extends JRFillElement implements JRBreak
 {

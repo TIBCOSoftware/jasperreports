@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFieldFactory.java,v 1.12 2006/04/19 10:21:41 teodord Exp $
+ * @version $Id$
  */
 public class JRSortFieldFactory extends JRBaseFactory
 {

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.base.JRBaseSortField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDesignField.java,v 1.27 2006/04/19 10:18:52 teodord Exp $
+ * @version $Id$
  */
 public class JRDesignSortField extends JRBaseSortField
 {
