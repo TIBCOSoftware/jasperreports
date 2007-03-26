@@ -2,6 +2,19 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.3.2 (2007-03-xx)
+-----------------------------------
+
+- new Open Document Format exporter added;
+
+- enhanced RTF exporter;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.3.1 (2007-02-21)
 -----------------------------------
 
