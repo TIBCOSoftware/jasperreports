@@ -42,7 +42,7 @@ package net.sf.jasperreports.engine;
  * @see net.sf.jasperreports.engine.JRReport#getMainDataset()
  * @see net.sf.jasperreports.engine.JRReport#getDatasets()
  */
-public interface JRDataset
+public interface JRDataset extends JRPropertiesHolder
 {
 	/**
 	 * Return NULL when a resource is missing.
@@ -159,14 +159,6 @@ public interface JRDataset
 	 * @param whenResourceMissingType the resource missing handling type
 	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType);
-
-
-	/**
-	 * Returns this dataset's properties map.
-	 *  
-	 * @return this dataset's properties map
-	 */
-	public JRPropertiesMap getPropertiesMap();
 
 	
 	/**

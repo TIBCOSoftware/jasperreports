@@ -124,4 +124,21 @@ public class JRPropertiesMap implements Serializable
 	{
 		propertiesMap.remove(propName);
 	}
+	
+	
+	/**
+	 * Clones this property map.
+	 * 
+	 * @return a clone of this property map
+	 */
+	public JRPropertiesMap cloneProperties()
+	{
+		return new JRPropertiesMap(this);
+	}
+	
+	
+	public String toString()
+	{
+		return propertiesMap.toString();
+	}
 }

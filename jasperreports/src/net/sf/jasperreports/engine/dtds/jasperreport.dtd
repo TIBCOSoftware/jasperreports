@@ -108,7 +108,7 @@
 	whenResourceMissingType (Null | Empty | Key | Error) "Null"
 >
 
-<!ELEMENT parameter (parameterDescription?, defaultValueExpression?)>
+<!ELEMENT parameter (property*, parameterDescription?, defaultValueExpression?)>
 <!ATTLIST parameter
 	name CDATA #REQUIRED
 	class CDATA "java.lang.String"
@@ -122,7 +122,7 @@
 	language CDATA "sql"
 >
 
-<!ELEMENT field (fieldDescription?)>
+<!ELEMENT field (property*, fieldDescription?)>
 <!ATTLIST field
 	name CDATA #REQUIRED
 	class CDATA "java.lang.String"

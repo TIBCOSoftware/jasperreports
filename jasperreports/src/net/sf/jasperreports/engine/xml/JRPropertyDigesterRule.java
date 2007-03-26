@@ -25,43 +25,29 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.xml;
+
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+
+import org.apache.commons.digester.Rule;
+import org.xml.sax.Attributes;
 
 
 /**
- * An abstract representation of a data source field. Each row in a dataset consists of one or more fields with unique
- * names. These names can be used in report expressions.
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Digester rule that handles an object property.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRField extends JRPropertiesHolder
+public class JRPropertyDigesterRule extends Rule
 {
 
-
-	/**
-	 * Gets the field unique name.
-	 */
-	public String getName();
-		
-	/**
-	 * Gets the field optional description.
-	 */
-	public String getDescription();
-		
-	/**
-	 * Sets the field description.
-	 */
-	public void setDescription(String description);
-		
-	/**
-	 * Gets the field value class. Field types cannot be primitives.
-	 */
-	public Class getValueClass();
-		
-	/**
-	 * Gets the field value class name.
-	 */
-	public String getValueClassName();
-		
+	public void begin(String namespace, String name, Attributes attributes)
+	{
+		JRPropertiesHolder propertiesHolder = (JRPropertiesHolder) digester.peek();
+		String key = attributes.getValue(JRXmlConstants.ATTRIBUTE_name);
+		String value = attributes.getValue(JRXmlConstants.ATTRIBUTE_value);
+		propertiesHolder.getPropertiesMap().setProperty(key, value);
+	}
 
 }

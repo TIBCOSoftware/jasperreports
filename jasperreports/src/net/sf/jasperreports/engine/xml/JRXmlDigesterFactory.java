@@ -178,9 +178,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport", "setJasperDesign", JasperDesign.class.getName());
 
 		/*   */
-		digester.addCallMethod("*/property", "setProperty", 2);
-		digester.addCallParam("*/property", 0, "name");
-		digester.addCallParam("*/property", 1, "value");
+		digester.addRule("*/property", new JRPropertyDigesterRule());
 
 		/*   */
 		digester.addCallMethod("jasperReport/import", "addImport", 1);

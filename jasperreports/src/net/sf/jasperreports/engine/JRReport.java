@@ -35,7 +35,7 @@ package net.sf.jasperreports.engine;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
+public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider, JRPropertiesHolder
 {
 
 	
@@ -378,11 +378,4 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider
 	 */
 	public boolean isIgnorePagination();
 	
-	
-	/**
-	 * Returns this report's properties map.
-	 *  
-	 * @return this report's properties map
-	 */
-	public JRPropertiesMap getPropertiesMap();	
 }

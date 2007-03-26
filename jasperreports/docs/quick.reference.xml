@@ -1546,6 +1546,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <name>field</name>
   <description>Represents the definition of a data field that will store values retrieved from the data source of the report.</description>
   <contains>(
+    <a href="property">property</a>*,
     <a href="fieldDescription">fieldDescription</a>?
   )</contains>
   <attributes>
@@ -3198,6 +3199,7 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
   <name>parameter</name>
   <description>Represents the definition of a report parameter. Parameters are very useful for passing data to the report engine and can be used in the expressions or in the query string of the report.</description>
   <contains>(
+    <a href="property">property</a>*,
     <a href="parameterDescription">parameterDescription</a>?,
     <a href="defaultValueExpression">defaultValueExpression</a>?
   )</contains>
@@ -3400,17 +3402,17 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
 <!-- property -->
 <element>
   <name>property</name>
-  <description>Allows the creation of a name-value pair property for the report.</description>
+  <description>Allows the creation of a name-value pair property for a report object (e.g. the report itself, a field, a parameter, etc).</description>
   <contains>EMPTY</contains>
   <attributes>
     <attribute>
       <name>name</name>
-      <description>Name of the report property.</description>
+      <description>Name of the object property.</description>
       <required>true</required>
     </attribute>
     <attribute>
       <name>value</name>
-      <description>Value of the report property.</description>
+      <description>Value of the object property.</description>
     </attribute>
   </attributes>
 </element>

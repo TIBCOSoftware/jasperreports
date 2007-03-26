@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 
 
 /**
@@ -194,6 +195,12 @@ public class JRFillField implements JRField
 	public void setPreviousOldValue(Object previousOldValue)
 	{
 		this.previousOldValue = previousOldValue;
+	}
+
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parent.getPropertiesMap();
 	}
 	
 }

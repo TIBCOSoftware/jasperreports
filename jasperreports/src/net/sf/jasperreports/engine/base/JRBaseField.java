@@ -31,6 +31,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -56,6 +57,8 @@ public class JRBaseField implements JRField, Serializable
 	protected String valueClassName = java.lang.String.class.getName();
 
 	protected transient Class valueClass = null;
+	
+	protected JRPropertiesMap propertiesMap;
 
 
 	/**
@@ -63,6 +66,7 @@ public class JRBaseField implements JRField, Serializable
 	 */
 	protected JRBaseField()
 	{
+		this.propertiesMap = new JRPropertiesMap();
 	}
 	
 	
@@ -76,6 +80,8 @@ public class JRBaseField implements JRField, Serializable
 		name = field.getName();
 		description = field.getDescription();
 		valueClassName = field.getValueClassName();
+		
+		this.propertiesMap = field.getPropertiesMap().cloneProperties();
 	}
 		
 
@@ -132,6 +138,12 @@ public class JRBaseField implements JRField, Serializable
 	public String getValueClassName()
 	{
 		return this.valueClassName;
+	}
+
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return propertiesMap;
 	}
 		
 

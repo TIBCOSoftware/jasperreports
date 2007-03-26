@@ -81,7 +81,7 @@ public class JRBaseDataset implements JRDataset, Serializable
 		whenResourceMissingType = dataset.getWhenResourceMissingType();
 
 		/*   */
-		this.propertiesMap = new JRPropertiesMap(dataset.getPropertiesMap());
+		this.propertiesMap = dataset.getPropertiesMap().cloneProperties();
 
 		query = factory.getQuery(dataset.getQuery());
 
