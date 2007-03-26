@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.JRSortField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCsvDataSource.java,v 1.10 2006/03/20 08:15:51 lucianc Exp $
+ * @version $Id$
  */
 public class JRSortableDataSource implements JRRewindableDataSource
 {

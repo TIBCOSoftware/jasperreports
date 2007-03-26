@@ -42,7 +42,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRImageLoader.java 1229 2006-04-19 13:27:35 +0300 (Wed, 19 Apr 2006) teodord $
+ * @version $Id$
  */
 public class JRDefaultImageEncoder extends JRAbstractImageEncoder
 {

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBubblePlot.java 1384 2006-09-06 00:27:41 +0300 (Wed, 06 Sep 2006) bklawans $
+ * @version $Id$
  */
 public interface JRXAxisFormat
 {

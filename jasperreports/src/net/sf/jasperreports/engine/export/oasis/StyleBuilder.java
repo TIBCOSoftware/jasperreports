@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDataUtils.java 1330 2006-07-10 12:09:48 +0300 (Mon, 10 Jul 2006) lucianc $
+ * @version $Id$
  */
 public class StyleBuilder
 {

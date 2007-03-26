@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCsvExporter.java 1632 2007-03-14 12:29:52Z teodord $
+ * @version $Id$
  */
 public class ByteArrayOasisZipEntry implements OasisZipEntry 
 {

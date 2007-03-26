@@ -33,7 +33,7 @@ import java.io.Writer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
+ * @version $Id$
  */
 public abstract class Style
 {

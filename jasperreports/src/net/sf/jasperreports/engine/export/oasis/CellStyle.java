@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
+ * @version $Id$
  */
 public class CellStyle extends BorderStyle
 {

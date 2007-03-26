@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRField.java,v 1.11 2006/04/19 10:23:20 teodord Exp $
+ * @version $Id$
  */
 public interface JRSortField
 {

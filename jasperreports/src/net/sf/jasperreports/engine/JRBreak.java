@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
 /**
  * An abstract representation of a break element.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRLine.java 1229 2006-04-19 13:27:35 +0300 (Wed, 19 Apr 2006) teodord $
+ * @version $Id$
  */
 public interface JRBreak extends JRElement
 {
