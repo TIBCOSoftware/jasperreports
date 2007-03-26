@@ -57,6 +57,7 @@ public class TableBuilder
 	private Writer bodyWriter = null;
 	private Writer styleWriter = null;
 	private boolean isFrame = false;
+	private boolean isPageBreak = false;
 	
 
 	protected TableBuilder(
@@ -66,6 +67,7 @@ public class TableBuilder
 		) 
 	{
 		isFrame = true;
+		isPageBreak = false;
 		
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
@@ -81,6 +83,7 @@ public class TableBuilder
 		) 
 	{
 		isFrame = false;
+		isPageBreak = (reportIndex != 0 || pageIndex != 0);
 		
 		this.reportIndex = reportIndex;
 		this.bodyWriter = bodyWriter;
@@ -99,10 +102,9 @@ public class TableBuilder
 		}
 		styleWriter.write(" style:family=\"table\">\n");
 		styleWriter.write("   <style:table-properties");		
-//FIXMEODT
-//		if (breakAfter != null) 
-		if (!isFrame)
-			styleWriter.write(" fo:break-after=\"page\"");
+		if (isPageBreak)
+			styleWriter.write(" fo:break-before=\"page\"");
+//		FIXMEODT
 //		if (tableWidth != null)
 //			styleWriter.write(" style:width=\""+ tableWidth +"in\"");
 //		if (align != null)
