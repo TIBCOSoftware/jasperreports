@@ -36,7 +36,7 @@ import java.awt.*;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ChartsApp.java 1381 2006-09-06 00:15:13 +0300 (Wed, 06 Sep 2006) bklawans $
+ * @version $Id$
  */
 public class BarChartCustomizer implements JRChartCustomizer
 {
