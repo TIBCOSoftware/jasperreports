@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
- * @version $Id: JRAreaPlot.java 1384 2006-09-06 00:27:41 +0300 (Wed, 06 Sep 2006) bklawans $
+ * @version $Id$
  */
 public interface JRValueAxisFormat 
 {

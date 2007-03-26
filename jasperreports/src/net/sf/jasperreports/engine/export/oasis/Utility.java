@@ -37,6 +37,11 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.util.StringTokenizer;
 
+
+/**
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRHtmlExporter.java 1600 2007-02-23 15:12:16Z shertage $
+ */
 public class Utility {
 
 	public static String getIndent(int i) {
