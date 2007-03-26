@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id:$
  */
 public class ContentBuilder
 {
