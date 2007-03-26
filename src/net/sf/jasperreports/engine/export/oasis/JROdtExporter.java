@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -870,25 +871,42 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
+		int topPadding = image.getTopPadding();
+		int leftPadding = image.getLeftPadding();
+		int bottomPadding = image.getBottomPadding();
+		int rightPadding = image.getRightPadding();
 
-		int width = image.getWidth();
-		int height = image.getHeight();
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
+
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
+
+		int width = availableImageWidth;
+		int height = availableImageHeight;
 		
+		int xoffset = 0;
+		int yoffset = 0;
+
+		float xalignFactor = getXAlignFactor(image);
+		float yalignFactor = getYAlignFactor(image);
+
 		switch (image.getScaleImage())
 		{
 			case JRImage.SCALE_IMAGE_FILL_FRAME :
 			{
-				width = image.getWidth();
-				height = image.getHeight();
+				width = availableImageWidth;
+				height = availableImageHeight;
+				xoffset = 0;
+				yoffset = 0;
 				break;
 			}
 			case JRImage.SCALE_IMAGE_CLIP :
 			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 			default :
 			{
-				double normalWidth = image.getWidth();
-				double normalHeight = image.getHeight();
+				double normalWidth = availableImageWidth;
+				double normalHeight = availableImageHeight;
 				
 				if (!image.isLazy())
 				{
@@ -901,36 +919,39 @@ public class JROdtExporter extends JRAbstractExporter
 					}
 				}
 		
-				if (image.getHeight() > 0)
+				if (availableImageHeight > 0)
 				{
 					double ratio = (double)normalWidth / (double)normalHeight;
 					
-					if( ratio > (double)image.getWidth() / (double)image.getHeight() )
+					if( ratio > availableImageWidth / (double)availableImageHeight )
 					{
-						width = image.getWidth();
+						width = availableImageWidth;
 						height = (int)(width/ratio);
 						
 					}
 					else
 					{
-						height = image.getHeight();
+						height = availableImageHeight;
 						width = (int)(ratio * height);
-						
 					}
 				}
+
+				xoffset = (int)(xalignFactor * (availableImageWidth - width));
+				yoffset = (int)(yalignFactor * (availableImageHeight - height));
 			}
 		}
 		
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
 		tempBodyWriter.write(
 				"<text:p " 
 				//+ "text:style-name=\"Standard\"" 
 				+ ">" 
 				+ "<draw:frame text:anchor-type=\"paragraph\" " 
-				//+ "draw:style-name=\"gr1\" draw:text-style-name=\"P1\" " 
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" " 
+				+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" " 
+				+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" " 
 				+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" " 
-				+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\" " 
-				+ "svg:x=\"0in\" " 
-				+ "svg:y=\"0in\">" 
+				+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
 				);
 		tempBodyWriter.write("<draw:image ");
 		tempBodyWriter.write(" xlink:href=\"" + getImagePath(image, gridCell) + "\"");
@@ -1145,6 +1166,59 @@ public class JROdtExporter extends JRAbstractExporter
 	{
 		backcolor = (Color) backcolorStack.removeLast();
 	}
+
+
+	private float getXAlignFactor(JRPrintImage image)
+	{
+		float xalignFactor = 0f;
+		switch (image.getHorizontalAlignment())
+		{
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			{
+				xalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			{
+				xalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			default :
+			{
+				xalignFactor = 0f;
+				break;
+			}
+		}
+		return xalignFactor;
+	}
+
+
+	private float getYAlignFactor(JRPrintImage image)
+	{
+		float yalignFactor = 0f;
+		switch (image.getVerticalAlignment())
+		{
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			{
+				yalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			{
+				yalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_TOP :
+			default :
+			{
+				yalignFactor = 0f;
+				break;
+			}
+		}
+		return yalignFactor;
+	}
+
 
 }
 
