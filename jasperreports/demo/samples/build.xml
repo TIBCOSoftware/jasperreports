@@ -314,6 +314,7 @@
 		<ant dir="jcharts" target="xls" />
 		<ant dir="jcharts" target="jxl" />
 		<ant dir="jcharts" target="csv" />
+		<ant dir="jcharts" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -331,6 +332,7 @@
 		<ant dir="jfreechart" target="xls" />
 		<ant dir="jfreechart" target="jxl" />
 		<ant dir="jfreechart" target="csv" />
+		<ant dir="jfreechart" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -348,6 +350,7 @@
 		<ant dir="landscape" target="xls" />
 		<ant dir="landscape" target="jxl" />
 		<ant dir="landscape" target="csv" />
+		<ant dir="landscape" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -365,6 +368,7 @@
 		<ant dir="mondrian" target="xls" />
 		<ant dir="mondrian" target="jxl" />
 		<ant dir="mondrian" target="csv" />		
+		<ant dir="mondrian" target="odt" />		
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -382,6 +386,7 @@
 		<ant dir="nopagebreak" target="xls" />
 		<ant dir="nopagebreak" target="jxl" />
 		<ant dir="nopagebreak" target="csv" />
+		<ant dir="nopagebreak" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -398,6 +403,7 @@
 		<ant dir="noreport" target="xls" />
 		<ant dir="noreport" target="jxl" />
 		<ant dir="noreport" target="csv" />
+		<ant dir="noreport" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -416,6 +422,7 @@
 		<ant dir="noxmldesign" target="xls" />
 		<ant dir="noxmldesign" target="jxl" />
 		<ant dir="noxmldesign" target="csv" />
+		<ant dir="noxmldesign" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -451,6 +458,7 @@
 		<ant dir="query" target="xls" />
 		<ant dir="query" target="jxl" />
 		<ant dir="query" target="csv" />
+		<ant dir="query" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -468,6 +476,7 @@
 		<ant dir="rotation" target="xls" />
 		<ant dir="rotation" target="jxl" />
 		<ant dir="rotation" target="csv" />
+		<ant dir="rotation" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -485,6 +494,7 @@
 		<ant dir="scriptlet" target="xls" />
 		<ant dir="scriptlet" target="jxl" />
 		<ant dir="scriptlet" target="csv" />
+		<ant dir="scriptlet" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -502,6 +512,7 @@
 		<ant dir="shapes" target="xls" />
 		<ant dir="shapes" target="jxl" />
 		<ant dir="shapes" target="csv" />
+		<ant dir="shapes" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -519,6 +530,7 @@
 		<ant dir="stretch" target="xls" />
 		<ant dir="stretch" target="jxl" />
 		<ant dir="stretch" target="csv" />
+		<ant dir="stretch" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -536,6 +548,7 @@
 		<ant dir="styledtext" target="xls" />
 		<ant dir="styledtext" target="jxl" />
 		<ant dir="styledtext" target="csv" />
+		<ant dir="styledtext" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -554,6 +567,7 @@
 		<ant dir="subreport" target="xls" />
 		<ant dir="subreport" target="jxl" />
 		<ant dir="subreport" target="csv" />
+		<ant dir="subreport" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -571,6 +585,7 @@
 		<ant dir="table" target="xls" />
 		<ant dir="table" target="jxl" />
 		<ant dir="table" target="csv" />
+		<ant dir="table" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -588,6 +603,7 @@
 		<ant dir="tableofcontents" target="xls" />
 		<ant dir="tableofcontents" target="jxl" />
 		<ant dir="tableofcontents" target="csv" />
+		<ant dir="tableofcontents" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -616,6 +632,7 @@
 		<ant dir="unicode" target="xls" />
 		<ant dir="unicode" target="jxl" />
 		<ant dir="unicode" target="csv" />
+		<ant dir="unicode" target="odt" />
 
 		<echo message=""/>
 		<echo message="==================================="/>
@@ -649,6 +666,7 @@
 		<ant dir="xmldatasource" target="xls" />
 		<ant dir="xmldatasource" target="jxl" />
 		<ant dir="xmldatasource" target="csv" />
+		<ant dir="xmldatasource" target="odt" />
 	</target>
 
 

@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
@@ -77,6 +78,7 @@ public class XmlDataSourceApp
 	private static final String TASK_XLS = "xls";
 	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
+	private static final String TASK_ODT = "odt";
 	private static final String TASK_RUN = "run";
 	
 	
@@ -227,6 +229,25 @@ public class XmlDataSourceApp
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
 				System.exit(0);
 			}
+			else if (TASK_ODT.equals(taskName))
+			{
+				File sourceFile = new File(fileName);
+		
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+				
+				JROdtExporter exporter = new JROdtExporter();
+				
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+				//exporter.setParameter(JRCsvExporterParameter.FIELD_DELIMITER, "|");
+
+				exporter.exportReport();
+
+				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+				System.exit(0);
+			}
 			else if (TASK_RUN.equals(taskName))
 			{
 				Map params = new HashMap();
@@ -263,6 +284,6 @@ public class XmlDataSourceApp
 	{
 		System.out.println( "XmlDataSourceApp usage:" );
 		System.out.println( "\tjava XmlDataSourceApp -Ttask -Ffile" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf |xls | csv | run" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf |xls | csv | odt | run" );
 	}
 }

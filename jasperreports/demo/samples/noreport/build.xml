@@ -118,6 +118,14 @@
 		</java>
 	</target>
 
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="-Todt"/>
+			<arg value="-F${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
@@ -127,6 +135,7 @@
 			<fileset dir="." includes="**/*.rtf" />
 			<fileset dir="." includes="**/*.xls" />
 			<fileset dir="." includes="**/*.csv" />
+			<fileset dir="." includes="**/*.odt" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
 		<delete dir="${file.name}.jrpxml_files" />
