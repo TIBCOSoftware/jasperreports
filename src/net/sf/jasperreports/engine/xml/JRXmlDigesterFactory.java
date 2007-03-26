@@ -685,7 +685,7 @@ public class JRXmlDigesterFactory
 		// add plot labels 
 		digester.addFactoryCreate( "*/scatterPlot/xAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/scatterPlot/xAxisLabelExpression", "setXAxisLabelExpression", JRDesignExpression.class.getName() );
-		digester.addCallMethod( "*scatterPlot/xAxisLabelExpression", "setText", 0 );
+		digester.addCallMethod( "*/scatterPlot/xAxisLabelExpression", "setText", 0 );
 		
 		digester.addFactoryCreate( "*/scatterPlot/yAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/scatterPlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
