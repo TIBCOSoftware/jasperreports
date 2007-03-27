@@ -395,6 +395,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
 				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
 				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
+				"net.sf.jasperreports.view.save.JROdtSaveContributor",
 				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
 				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
 				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
