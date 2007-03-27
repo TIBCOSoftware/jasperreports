@@ -396,16 +396,12 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		JRGridLayout layout = 
-			new JRGridLayout(
+			new JROdtGridLayout(
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
 				globalOffsetY, 
-				JRGridLayout.UNIVERSAL_EXPORTER, 
-				false, //deep 
-				true, //splitSharedRowSpan
-				true, //spanCells
 				null //address
 				);
 

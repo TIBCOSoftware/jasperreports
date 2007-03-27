@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -331,7 +330,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
 					 */
-					List xCuts = JRGridLayout.calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX, getNature());
+					List xCuts = getGridLayoutInstance().calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX);
 					setColumnWidths(xCuts);
 
 					int startRow = 0;
@@ -360,16 +359,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int exportPage(JRPrintPage page, List xCuts, int startRow) throws JRException
 	{
 		JRGridLayout layout = 
-			new JRGridLayout(
+			createGridLayout( 
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
 				globalOffsetY, 
-				getNature(), 
-				true, //deep
-				false, //splitSharedRowSpan
-				true, //spanCells
 				xCuts
 				);
 
@@ -673,8 +668,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return sheetName + " " + currentIndex;
 	}
 	
-	protected abstract ExporterNature getNature();
-
+	protected abstract JRGridLayout createGridLayout(
+		List elements,
+		int width, 
+		int height,
+		int offsetX, 
+		int offsetY, 
+		List xCuts
+		);
+	
+	protected abstract JRGridLayout getGridLayoutInstance();
+		
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
 	
 	protected abstract void createSheet(String name);
