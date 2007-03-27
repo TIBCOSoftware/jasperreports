@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -53,7 +54,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -754,11 +754,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		//nothing
 	}
 
-	protected ExporterNature getNature()
-	{
-		return JRGridLayout.NO_IMAGES_EXPORTER;
-	}
-
 
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y)
 	{		
@@ -790,6 +785,33 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 	
 
+	protected JRGridLayout createGridLayout(
+		List elements,
+		int width, 
+		int height,
+		int offsetX, 
+		int offsetY, 
+		List xCuts
+		)
+	{
+		return 
+			new JRXlsGridLayout(
+				elements,
+				width, 
+				height,
+				offsetX, 
+				offsetY, 
+				xCuts
+				);
+	}
+			
+
+	protected JRGridLayout getGridLayoutInstance()
+	{
+		return JRXlsGridLayout.getInstance();
+	}
+	
+		
 	protected static class BoxStyle
 	{
 		protected final short topBorder;

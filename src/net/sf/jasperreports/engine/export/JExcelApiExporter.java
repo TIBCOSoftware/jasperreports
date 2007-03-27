@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jxl.CellView;
@@ -92,7 +93,6 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRGridLayout.ExporterNature;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -1417,11 +1417,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
 	}
 
-	protected ExporterNature getNature()
-	{
-		return JRGridLayout.UNIVERSAL_EXPORTER;
-	}
-
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y) throws JRException
 	{
 		addMergeRegion(gridCell, x, y);
@@ -1468,5 +1463,33 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return pattern;
 	}
 	
+	
+	protected JRGridLayout createGridLayout(
+		List elements,
+		int width, 
+		int height,
+		int offsetX, 
+		int offsetY, 
+		List xCuts
+		)
+	{
+		return 
+			new JExcelApiGridLayout(
+				elements,
+				width, 
+				height,
+				offsetX, 
+				offsetY, 
+				xCuts
+				);
+	}
+	
+
+	protected JRGridLayout getGridLayoutInstance()
+	{
+		return JExcelApiGridLayout.getInstance();
+	}
+	
+		
 }
 
