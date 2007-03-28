@@ -128,6 +128,15 @@ public class JRDesignExpression extends JRBaseExpression
 		this.chunks.add(chunk);
 	}
 		
+	protected void addChunk(byte type, String text)
+	{
+		JRDesignExpressionChunk chunk = new JRDesignExpressionChunk();
+		chunk.setType(type);
+		chunk.setText(text);
+		
+		this.chunks.add(chunk);
+	}
+		
 	/**
 	 *
 	 */
@@ -197,127 +206,93 @@ public class JRDesignExpression extends JRBaseExpression
 		
 		if (text != null)
 		{
-			int end = 0;
 			StringBuffer textChunk = new StringBuffer();
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "$", true);
-			String token = null;
-			boolean wasDelim = false;
+			int behindDelims = 0;
 			while (tkzer.hasMoreTokens())
 			{
-				token = tkzer.nextToken();
+				String token = tkzer.nextToken();
 	
 				if (token.equals("$"))
 				{
-					if (wasDelim)
+					if (behindDelims > 0)
 					{
 						textChunk.append("$");
 					}
 	
-					wasDelim = true;
+					++behindDelims;
 				}
 				else
 				{
-					if ( token.startsWith("P{") && wasDelim )
+					byte chunkType = JRExpressionChunk.TYPE_TEXT;
+					if (behindDelims > 0)
 					{
-						end = token.indexOf('}');
-						if (end > 0)
+						if (token.startsWith("P{"))
 						{
-							if (textChunk.length() > 0)
-							{
-								addTextChunk(textChunk.toString());					
-							}
-							addParameterChunk(token.substring(2, end));					
-							textChunk = new StringBuffer(token.substring(end + 1));
+							chunkType = JRExpressionChunk.TYPE_PARAMETER;
 						}
-						else
+						else if (token.startsWith("F{"))
 						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
+							chunkType = JRExpressionChunk.TYPE_FIELD;
+						}
+						else if (token.startsWith("V{"))
+						{
+							chunkType = JRExpressionChunk.TYPE_VARIABLE;
+						}
+						else if (token.startsWith("R{"))
+						{
+							chunkType = JRExpressionChunk.TYPE_RESOURCE;
 						}
 					}
-					else if ( token.startsWith("F{") && wasDelim )
+					
+					if (chunkType == JRExpressionChunk.TYPE_TEXT)
 					{
-						end = token.indexOf('}');
-						if (end > 0)
-						{
-							if (textChunk.length() > 0)
-							{
-								addTextChunk(textChunk.toString());					
-							}
-							addFieldChunk(token.substring(2, end));					
-							textChunk = new StringBuffer(token.substring(end + 1));
-						}
-						else
-						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
-						}
-					}
-					else if ( token.startsWith("V{") && wasDelim )
-					{
-						end = token.indexOf('}');
-						if (end > 0)
-						{
-							if (textChunk.length() > 0)
-							{
-								addTextChunk(textChunk.toString());					
-							}
-							addVariableChunk(token.substring(2, end));					
-							textChunk = new StringBuffer(token.substring(end + 1));
-						}
-						else
-						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
-						}
-					}
-					else if ( token.startsWith("R{") && wasDelim )
-					{
-						end = token.indexOf('}');
-						if (end > 0)
-						{
-							if (textChunk.length() > 0)
-							{
-								addTextChunk(textChunk.toString());					
-							}
-							addResourceChunk(token.substring(2, end));					
-							textChunk = new StringBuffer(token.substring(end + 1));
-						}
-						else
-						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
-						}
-					}
-					else
-					{
-						if (wasDelim)
+						if (behindDelims > 0)
 						{
 							textChunk.append("$");
 						}
 						textChunk.append(token);
 					}
+					else
+					{
+						int end = token.indexOf('}');
+						if (end > 0)
+						{
+							if (behindDelims > 1)
+							{
+								textChunk.append(token);
+							}
+							else
+							{
+								if (textChunk.length() > 0)
+								{
+									addTextChunk(textChunk.toString());					
+								}
+								
+								addChunk(chunkType, token.substring(2, end));					
+								textChunk = new StringBuffer(token.substring(end + 1));
+							}
+						}
+						else
+						{
+							if (behindDelims > 0)
+							{
+								textChunk.append("$");
+							}
+							textChunk.append(token);
+						}
+					}
 	
-					wasDelim = false;
+					behindDelims = 0;
 				}
 			}
-			if (wasDelim)
+
+			if (behindDelims > 0)
 			{
 				textChunk.append("$");
 			}
+
 			if (textChunk.length() > 0)
 			{
 				this.addTextChunk(textChunk.toString());					
