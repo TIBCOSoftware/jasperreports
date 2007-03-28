@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -235,7 +236,9 @@ public class JRBaseExpression implements JRExpression, Serializable
 					case JRExpressionChunk.TYPE_TEXT :
 					default :
 					{
-						sbuffer.append( chunks[i].getText() );
+						String textChunk = chunks[i].getText();
+						String escapedText = escapeTextChunk(textChunk);
+						sbuffer.append(escapedText);
 						break;
 					}
 				}
@@ -245,6 +248,32 @@ public class JRBaseExpression implements JRExpression, Serializable
 		}
 		
 		return text;
+	}
+	
+	protected String escapeTextChunk(String text)
+	{
+		if (text == null || text.indexOf('$') < 0)
+		{
+			return text;
+		}
+		
+		StringBuffer sb = new StringBuffer(text.length() + 4);
+		StringTokenizer tkzer = new StringTokenizer(text, "$", true);
+		boolean wasDelim = false;
+		while (tkzer.hasMoreElements())
+		{
+			String token = tkzer.nextToken();
+			if (wasDelim &&
+					(token.startsWith("P{") || token.startsWith("F{") || token.startsWith("V{") || token.startsWith("R{")) && 
+					token.indexOf('}') > 0)
+			{
+				sb.append('$');
+			}
+			sb.append(token);
+			wasDelim = token.equals("$");
+		}
+		
+		return sb.toString();
 	}
 
 
