@@ -28,8 +28,10 @@
 package net.sf.jasperreports.engine.query;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRQuery;
@@ -37,6 +39,8 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
+import net.sf.jasperreports.engine.util.JRQueryParser;
 
 /**
  * Base abstract query executer.
@@ -51,6 +55,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	private String queryString;
 	private List parameterNames;
+	private Set parameterClauseStack;
 	
 	
 	protected JRAbstractQueryExecuter(JRDataset dataset, Map parametersMap)
@@ -70,6 +75,8 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected void parseQuery()
 	{
+		parameterClauseStack = new HashSet();
+		
 		JRQuery query = dataset.getQuery();
 		
 		if (query != null)
@@ -78,36 +85,96 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			if (chunks != null && chunks.length > 0)
 			{
 				StringBuffer sbuffer = new StringBuffer();
-				JRQueryChunk chunk = null;
 				for(int i = 0; i < chunks.length; i++)
 				{
-					chunk = chunks[i];
-					switch (chunk.getType())
-					{
-						case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
-						{
-							String parameterName = chunk.getText();
-							Object parameterValue = getParameterValue(parameterName);
-							sbuffer.append(String.valueOf(parameterValue));
-							break;
-						}
-						case JRQueryChunk.TYPE_PARAMETER :
-						{
-							sbuffer.append(getParameterReplacement(chunk.getText()));
-							parameterNames.add(chunk.getText());
-							break;
-						}
-						case JRQueryChunk.TYPE_TEXT :
-						default :
-						{
-							sbuffer.append(chunk.getText());
-							break;
-						}
-					}
+					JRQueryChunk chunk = chunks[i];
+					appendQueryChunk(sbuffer, chunk);
 				}
 
 				queryString = sbuffer.toString();
 			}
+		}
+	}
+
+
+	protected void appendQueryChunk(StringBuffer sbuffer, JRQueryChunk chunk)
+	{
+		String chunkText = chunk.getText();
+		switch (chunk.getType())
+		{
+			case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
+			{
+				appendParameterClauseChunk(sbuffer, chunkText);
+				break;
+			}
+			case JRQueryChunk.TYPE_PARAMETER :
+			{
+				appendParameterChunk(sbuffer, chunkText);
+				break;
+			}
+			case JRQueryChunk.TYPE_TEXT :
+			default :
+			{
+				appendTextChunk(sbuffer, chunkText);
+				break;
+			}
+		}
+	}
+
+
+	protected void appendTextChunk(StringBuffer sbuffer, String text)
+	{
+		sbuffer.append(text);
+	}
+
+
+	protected void appendParameterChunk(StringBuffer sbuffer, String chunkText)
+	{
+		String parameterName = chunkText;
+		checkParameter(parameterName);
+
+		sbuffer.append(getParameterReplacement(parameterName));
+		parameterNames.add(chunkText);
+	}
+
+
+	protected void appendParameterClauseChunk(final StringBuffer sbuffer, String chunkText)
+	{
+		String parameterName = chunkText;
+		checkParameter(parameterName);
+		
+		if (!parameterClauseStack.add(parameterName))
+		{
+			throw new JRRuntimeException("The query contains circularly nested parameter clauses starting with " + parameterName);
+		}
+		
+		try
+		{
+			Object parameterValue = getParameterValue(parameterName);
+			String clauseText = String.valueOf(parameterValue);
+			JRQueryChunkHandler nestedChunkHandler = new JRQueryChunkHandler()
+			{
+
+				public void handleParameterChunk(String text)
+				{
+					appendParameterChunk(sbuffer, text);
+				}
+
+				public void handleParameterClauseChunk(String text)
+				{
+					appendParameterClauseChunk(sbuffer, text);
+				}
+
+				public void handleTextChunk(String text)
+				{
+					appendTextChunk(sbuffer, text);
+				}
+			};
+			JRQueryParser.instance().parse(clauseText, nestedChunkHandler);
+		}
+		finally
+		{
+			parameterClauseStack.remove(parameterName);
 		}
 	}
 
@@ -179,6 +246,15 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		return parameter;
 	}
 
+	
+	protected void checkParameter(String parameterName)
+	{
+		if (!parametersMap.containsKey(parameterName))
+		{
+			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
+		}
+	}
+	
 	
 	/**
 	 * Return a value parameter from the paramters map.

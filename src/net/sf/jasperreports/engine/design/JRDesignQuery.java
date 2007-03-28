@@ -31,11 +31,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQuery;
+import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
+import net.sf.jasperreports.engine.util.JRQueryParser;
 
 
 /**
@@ -61,6 +62,24 @@ public class JRDesignQuery extends JRBaseQuery
 	 */
 	protected List chunks = new ArrayList();
 
+	
+	private transient final JRQueryChunkHandler chunkAdder = new JRQueryChunkHandler()
+	{
+		public void handleParameterChunk(String text)
+		{
+			addParameterChunk(text);
+		}
+
+		public void handleParameterClauseChunk(String text)
+		{
+			addParameterClauseChunk(text);
+		}
+
+		public void handleTextChunk(String text)
+		{
+			addTextChunk(text);
+		}
+	};
 
 	/**
 	 *
@@ -137,97 +156,7 @@ public class JRDesignQuery extends JRBaseQuery
 	public void setText(String text)
 	{
 		chunks = new ArrayList();
-		
-		if (text != null)
-		{
-			int end = 0;
-			StringBuffer textChunk = new StringBuffer();
-			String parameterChunk = null;
-			String parameterClauseChunk = null;
-			
-			StringTokenizer tkzer = new StringTokenizer(text, "$", true);
-			String token = null;
-			boolean wasDelim = false;
-			while (tkzer.hasMoreTokens())
-			{
-				token = tkzer.nextToken();
-	
-				if (token.equals("$"))
-				{
-					if (wasDelim)
-					{
-						textChunk.append("$");
-					}
-	
-					wasDelim = true;
-				}
-				else
-				{
-					if ( token.startsWith("P{") && wasDelim )
-					{
-						end = token.indexOf('}');
-						if (end > 0)
-						{
-							if (textChunk.length() > 0)
-							{
-								this.addTextChunk(textChunk.toString());					
-							}
-							parameterChunk = token.substring(2, end);
-							this.addParameterChunk(parameterChunk);					
-							textChunk = new StringBuffer(token.substring(end + 1));
-						}
-						else
-						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
-						}
-					}
-					else if ( token.startsWith("P!{") && wasDelim )
-					{
-						end = token.indexOf('}');
-						if (end > 0)
-						{
-							if (textChunk.length() > 0)
-							{
-								this.addTextChunk(textChunk.toString());					
-							}
-							parameterClauseChunk = token.substring(3, end);
-							this.addParameterClauseChunk(parameterClauseChunk);					
-							textChunk = new StringBuffer(token.substring(end + 1));
-						}
-						else
-						{
-							if (wasDelim)
-							{
-								textChunk.append("$");
-							}
-							textChunk.append(token);
-						}
-					}
-					else
-					{
-						if (wasDelim)
-						{
-							textChunk.append("$");
-						}
-						textChunk.append(token);
-					}
-	
-					wasDelim = false;
-				}
-			}
-			if (wasDelim)
-			{
-				textChunk.append("$");
-			}
-			if (textChunk.length() > 0)
-			{
-				this.addTextChunk(textChunk.toString());					
-			}
-		}
+		JRQueryParser.instance().parse(text, chunkAdder);
 	}
 			
 
