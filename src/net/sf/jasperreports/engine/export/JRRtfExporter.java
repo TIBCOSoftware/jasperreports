@@ -33,6 +33,7 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.BufferedWriter;
@@ -74,6 +75,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -704,8 +706,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
 
-		int textBoxAdjustment = 20;
-		
 		int textHeight = twip(text.getTextHeight());
 		
 		if(textHeight <= 0) {
@@ -870,8 +870,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(getColorIndex(styleForeground)));
 			writer.write(" ");
 
-			int s = 0;
-			int e = 0;
 			String str = plainText.substring(iterator.getIndex(), runLimit);
 			
 			StringBuffer result = new StringBuffer(str);
@@ -987,6 +985,16 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		if (availableImageWidth > 0 && availableImageHeight > 0 && renderer != null)
 		{
+			if (renderer.getType() == JRRenderable.TYPE_SVG)
+			{
+				renderer = 
+					new JRWrappingSvgRenderer(
+						renderer, 
+						new Dimension(printImage.getWidth(), printImage.getHeight()),
+						JRElement.MODE_OPAQUE == printImage.getMode() ? printImage.getBackcolor() : null
+						);
+			}
+				
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
@@ -997,52 +1005,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				normalHeight = (int) dimension.getHeight();
 			}
 
-			float xalignFactor = 0f;
-			switch (printImage.getHorizontalAlignment())
-			{
-				case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-				{
-					xalignFactor = 1f;
-					break;
-				}
-				case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-				{
-					xalignFactor = 0.5f;
-					break;
-				}
-				case JRAlignment.HORIZONTAL_ALIGN_LEFT:
-				default:
-				{
-					xalignFactor = 0f;
-					break;
-				}
-			}
-
-			float yalignFactor = 0f;
-			switch (printImage.getVerticalAlignment())
-			{
-				case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-				{
-					yalignFactor = 1f;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-				{
-					yalignFactor = 0.5f;
-					break;
-				}
-				case JRAlignment.VERTICAL_ALIGN_TOP:
-				default:
-				{
-					yalignFactor = 0f;
-					break;
-				}
-			}
-
-//			BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
-//			Graphics2D grx = bi.createGraphics();
-//			grx.setColor(printImage.getBackcolor());//FIXMEIMAGE ignore mode? what about alpha channel above?
-//			grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+			float xalignFactor = getXAlignFactor(printImage);
+			float yalignFactor = getYAlignFactor(printImage);
 
 			int imageWidth = 0;
 			int imageHeight = 0;
@@ -1050,33 +1014,23 @@ public class JRRtfExporter extends JRAbstractExporter
 			int yoffset = 0;
 			int cropt = 0;
 			int cropl = 0;
-			int cropb = 0;
-			int cropr = 0;
 
 			switch (printImage.getScaleImage())
 			{
 				case JRImage.SCALE_IMAGE_CLIP:
 				{
-					xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-					yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+					cropl = - (int) (xalignFactor * (availableImageWidth - normalWidth));
+					cropt = - (int) (yalignFactor * (availableImageHeight - normalHeight));
 					imageWidth = availableImageWidth;
 					imageHeight = availableImageHeight;
-
-//					renderer.render(grx, new Rectangle(xoffset, yoffset,
-//							normalWidth, normalHeight));
-
 					break;
 				}
 				case JRImage.SCALE_IMAGE_FILL_FRAME:
 				{
-					xoffset = 0;
-					yoffset = 0;
+					normalWidth = availableImageWidth;
+					normalHeight = availableImageHeight;
 					imageWidth = availableImageWidth;
 					imageHeight = availableImageHeight;
-
-//					renderer.render(grx, new Rectangle(0, 0,
-//							availableImageWidth, availableImageHeight));
-
 					break;
 				}
 				case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
@@ -1101,9 +1055,6 @@ public class JRRtfExporter extends JRAbstractExporter
 						yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 						imageWidth = normalWidth;
 						imageHeight = normalHeight;
-						
-//						renderer.render(grx, new Rectangle(xoffset, yoffset,
-//								normalWidth, normalHeight));
 					}
 
 					break;
@@ -1127,21 +1078,17 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 			boolean startedHyperlink = startHyperlink(printImage);
 			
-			writer.write("{\\pict\\jpegblip\\picwgoal");
-			writer.write(String.valueOf(twip(imageWidth)));
+			writer.write("{\\pict\\jpegblip");
+			writer.write("\\picwgoal");
+			writer.write(String.valueOf(twip(normalWidth)));
 			writer.write("\\pichgoal");
-			writer.write(String.valueOf(twip(imageHeight)));
+			writer.write(String.valueOf(twip(normalHeight)));
 			writer.write("\\piccropt");
-			writer.write(String.valueOf(twip(5)));
+			writer.write(String.valueOf(twip(cropt)));
 			writer.write("\\piccropl");
-			writer.write(String.valueOf(twip(5)));
-			writer.write("\\piccropb");
-			writer.write(String.valueOf(twip(5)));
-			writer.write("\\piccropr");
-			writer.write(String.valueOf(twip(5)));
+			writer.write(String.valueOf(twip(cropl)));
 			writer.write("\n");
 			
-			//ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG));
 			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
 
 			int count = 0;
@@ -1480,5 +1427,54 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\brsp"+padding);
 	}
 	
+	private float getXAlignFactor(JRPrintImage image)
+	{
+		float xalignFactor = 0f;
+		switch (image.getHorizontalAlignment())
+		{
+			case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
+			{
+				xalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_CENTER :
+			{
+				xalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
+			default :
+			{
+				xalignFactor = 0f;
+				break;
+			}
+		}
+		return xalignFactor;
+	}
+
+	private float getYAlignFactor(JRPrintImage image)
+	{
+		float yalignFactor = 0f;
+		switch (image.getVerticalAlignment())
+		{
+			case JRAlignment.VERTICAL_ALIGN_BOTTOM :
+			{
+				yalignFactor = 1f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_MIDDLE :
+			{
+				yalignFactor = 0.5f;
+				break;
+			}
+			case JRAlignment.VERTICAL_ALIGN_TOP :
+			default :
+			{
+				yalignFactor = 0f;
+				break;
+			}
+		}
+		return yalignFactor;
+	}
 	
 }
