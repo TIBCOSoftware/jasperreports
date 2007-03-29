@@ -25,44 +25,64 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.query;
+
+import net.sf.jasperreports.engine.JRQueryChunk;
+
 
 /**
- * A query chunk handler.
+ * Query clause chunk wrapper.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRQueryParser#parse(String, JRQueryChunkHandler)
+ * @see JRQueryChunk#getTokens()
+ * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
  */
-public interface JRQueryChunkHandler
+public class JRClauseTokens
 {
 
+	private final String[] tokens;
+
 	/**
-	 * Handle a plain text query chunk.
+	 * Wraps an array of tokens.
 	 * 
-	 * @param text the text
+	 * @param tokens the tokens
 	 */
-	void handleTextChunk(String text);
+	public JRClauseTokens(final String[] tokens)
+	{
+		this.tokens = tokens;
+	}
 	
 	/**
-	 * Handle a parameter chunk (<code>$P{..}</code>).
+	 * Returns a token at a specified position.
+	 * <p>
+	 * If the specified position is greater than the number of tokens or
+	 * the token is empty, the method returns <code>null</code>.
+	 * </p>
 	 * 
-	 * @param text the chunk text, i.e. the parameter name
+	 * @param position the position
+	 * @return the token at the specified position 
 	 */
-	void handleParameterChunk(String text);
-	
-	/**
-	 * Handle a parameter clause chunk (<code>$P!{..}</code>).
-	 * 
-	 * @param text the chunk text, i.e. the parameter name
-	 */
-	void handleParameterClauseChunk(String text);
-	
-	/**
-	 * Handle a clause chunk (<code>$X{..}</code>).
-	 * 
-	 * @param tokens the chunk tokens
-	 */
-	void handleClauseChunk(String[] tokens);
+	public String getToken(int position)
+	{
+		String token;
+		if (tokens == null || tokens.length <= position)
+		{
+			token = null;
+		}
+		else
+		{
+			token = tokens[position];
+		}
+		if (token != null)
+		{
+			token = token.trim();
+			if (token.length() == 0)
+			{
+				token = null;
+			}
+		}
+		return token;
+	}
 
 }

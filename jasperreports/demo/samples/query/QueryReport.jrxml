@@ -20,9 +20,9 @@
 	&reportStyles;
 
 	<parameter name="ReportTitle" class="java.lang.String"/>
-	<parameter name="FilterClause" class="java.lang.String"/>
+	<parameter name="ExcludedCities" class="java.util.Collection"/>
 	<parameter name="OrderClause" class="java.lang.String"/>
-	<queryString><![CDATA[SELECT * FROM Address WHERE City NOT IN ( $P!{FilterClause} ) ORDER BY $P!{OrderClause}]]></queryString>
+	<queryString><![CDATA[SELECT * FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}]]></queryString>
 	<field name="Id" class="java.lang.Integer"/>
 	<field name="FirstName" class="java.lang.String"/>
 	<field name="LastName" class="java.lang.String"/>

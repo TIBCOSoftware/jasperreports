@@ -31,6 +31,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQueryChunk;
+import net.sf.jasperreports.engine.util.JRQueryParser;
 
 
 /**
@@ -51,6 +52,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	 */
 	protected byte type = TYPE_TEXT;
 	protected String text = null;
+	protected String[] tokens;
 
 
 	/**
@@ -70,6 +72,17 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 		
 		type = queryChunk.getType();
 		text = queryChunk.getText();
+		
+		String[] chunkTokens = queryChunk.getTokens();
+		if (chunkTokens == null)
+		{
+			tokens = null;
+		}
+		else
+		{
+			tokens = new String[chunkTokens.length];
+			System.arraycopy(chunkTokens, 0, tokens, 0, chunkTokens.length);
+		}
 	}
 		
 
@@ -86,7 +99,18 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	 */
 	public String getText()
 	{
+		if (type == TYPE_CLAUSE_TOKENS)
+		{
+			return JRQueryParser.instance().asClauseText(getTokens());
+		}
+		
 		return this.text;
+	}
+
+
+	public String[] getTokens()
+	{
+		return tokens;
 	}
 		
 

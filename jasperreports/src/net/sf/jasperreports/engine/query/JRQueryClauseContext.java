@@ -25,44 +25,48 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.query;
+
+import net.sf.jasperreports.engine.JRValueParameter;
+
 
 /**
- * A query chunk handler.
+ * A query clause handling context, as seen from a {@link JRClauseFunction clause function}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRQueryParser#parse(String, JRQueryChunkHandler)
  */
-public interface JRQueryChunkHandler
+public interface JRQueryClauseContext
 {
 
 	/**
-	 * Handle a plain text query chunk.
+	 * Returns the query text buffer.
 	 * 
-	 * @param text the text
+	 * @return the query text buffer
 	 */
-	void handleTextChunk(String text);
+	StringBuffer queryBuffer();
 	
 	/**
-	 * Handle a parameter chunk (<code>$P{..}</code>).
+	 * Return a value parameter from the report parameters map.
 	 * 
-	 * @param text the chunk text, i.e. the parameter name
+	 * @param parameterName the parameter name
+	 * @return the parameter
 	 */
-	void handleParameterChunk(String text);
+	JRValueParameter getValueParameter(String parameterName);
 	
 	/**
-	 * Handle a parameter clause chunk (<code>$P!{..}</code>).
+	 * Records a query parameter.
 	 * 
-	 * @param text the chunk text, i.e. the parameter name
+	 * @param parameterName the parameter name
 	 */
-	void handleParameterClauseChunk(String text);
+	void addQueryParameter(String parameterName);
 	
 	/**
-	 * Handle a clause chunk (<code>$X{..}</code>).
+	 * Records a multi-valued query parameter.
 	 * 
-	 * @param tokens the chunk tokens
+	 * @param parameterName the parameter name
+	 * @param count the value count
 	 */
-	void handleClauseChunk(String[] tokens);
+	void addQueryMultiParameters(String parameterName, int count);
 
 }
