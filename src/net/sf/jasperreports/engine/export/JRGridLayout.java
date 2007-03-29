@@ -83,10 +83,6 @@ public abstract class JRGridLayout
 	 * @param height the height available for the grid
 	 * @param offsetX horizontal element position offset
 	 * @param offsetY vertical element position offset
-	 * @param elementsExporter implementation of {@link ExporterElements ExporterElements} used to decide which
-	 * elements to skip during grid creation
-	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
-	 * @param spanCells whether the exporter handles cells span
 	 */
 	public JRGridLayout(
 		List elements, 
@@ -114,10 +110,6 @@ public abstract class JRGridLayout
 	 * @param height the height available for the grid
 	 * @param offsetX horizontal element position offset
 	 * @param offsetY vertical element position offset
-	 * @param elementsExporter implementation of {@link ExporterElements ExporterElements} used to decide which
-	 * elements to skip during grid creation
-	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
-	 * @param spanCells whether the exporter handles cells span
 	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	public JRGridLayout(
@@ -151,17 +143,12 @@ public abstract class JRGridLayout
 	/**
 	 * Constructor.
 	 * 
-	 * @param elements the elements that should arranged in a grid
+	 * @param wrappers the element wrappers that should arranged in a grid
 	 * @param width the width available for the grid
 	 * @param height the height available for the grid
 	 * @param offsetX horizontal element position offset
 	 * @param offsetY vertical element position offset
-	 * @param elementsExporter implementation of {@link ExporterElements ExporterElements} used to decide which
-	 * elements to skip during grid creation
-	 * @param deep whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
-	 * @param spanCells whether the exporter handles cells span
 	 * @param address element address
-	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	protected JRGridLayout(
 		ElementWrapper[] wrappers, 
@@ -745,9 +732,6 @@ public abstract class JRGridLayout
 	 *            The last page to consider.
 	 * @param offsetX
 	 *            horizontal element position offset
-	 * @param elementsExporter
-	 *            implementation of {@link ExporterElements ExporterElements}
-	 *            used to decide which elements to skip during grid creation
 	 */
 	public List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX)
 	{
@@ -769,9 +753,6 @@ public abstract class JRGridLayout
 	 *            The list of elements to be used to determine the X cuts.
 	 * @param elementOffsetX
 	 *            horizontal element position offset
-	 * @param elementsExporter
-	 *            implementation of {@link ExporterElements ExporterElements}
-	 *            used to decide which elements to skip during grid creation
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
@@ -915,10 +896,17 @@ public abstract class JRGridLayout
 
 	public abstract boolean isToExport(JRPrintElement element);
 	
+	
+	/**
+	 * Specified whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
+	 */
 	public abstract boolean isDeep();
 
 	public abstract boolean isSplitSharedRowSpan();
 
+	/**
+	 * Specifies whether the exporter handles cells span
+	 */
 	public abstract boolean isSpanCells();
 
 	public abstract boolean isIgnoreLastRow();
