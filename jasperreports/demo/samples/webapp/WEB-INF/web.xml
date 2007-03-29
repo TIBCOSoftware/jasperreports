@@ -40,6 +40,10 @@
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.RtfServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>OdtServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.OdtServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>JasperPrintServlet</servlet-name>
 		<servlet-class>servlets.JasperPrintServlet</servlet-class>
 	</servlet>
@@ -75,6 +79,10 @@
 	<servlet-mapping>
 		<servlet-name>RtfServlet</servlet-name>
 		<url-pattern>/servlets/rtf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>OdtServlet</servlet-name>
+		<url-pattern>/servlets/odt</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>JasperPrintServlet</servlet-name>
