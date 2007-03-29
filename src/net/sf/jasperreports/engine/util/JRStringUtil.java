@@ -196,16 +196,17 @@ public class JRStringUtil
 						ret.append("&quot;");
 						isEncodeSpace = false;
 						break;
-					case '\'' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&apos;");
-						isEncodeSpace = false;
-						break;
+// it does not work in IE
+//					case '\'' :
+//						if (last < i)
+//						{
+//							ret.append(text.substring(last, i));
+//						}
+//						last = i + 1;
+//						
+//						ret.append("&apos;");
+//						isEncodeSpace = false;
+//						break;
 					case '\n' :
 						if (last < i)
 						{
