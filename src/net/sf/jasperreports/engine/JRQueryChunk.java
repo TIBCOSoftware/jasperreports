@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.query.JRClauseFunction;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -42,6 +44,17 @@ public interface JRQueryChunk
 	public static final byte TYPE_TEXT = 1;
 	public static final byte TYPE_PARAMETER = 2;
 	public static final byte TYPE_PARAMETER_CLAUSE = 3;
+	
+	/**
+	 * A <code>$X{..}</code> query clause containing one or several comma-separated tokens.
+	 * <p>
+	 * The clause will be processed by the query executer.
+	 * The default implementation treats the first token as a function ID and delegates the processing
+	 * to a {@link JRClauseFunction function} registered for the ID. 
+	 * </p>
+	 * @see #getTokens()
+	 */
+	public static final byte TYPE_CLAUSE_TOKENS = 4;
 
 
 	/**
@@ -55,4 +68,10 @@ public interface JRQueryChunk
 	public String getText();
 		
 
+	/**
+	 * Returns the chunk tokens for {@link #TYPE_CLAUSE_TOKENS clause} chunks.
+	 * 
+	 * @return the chunk tokens
+	 */
+	public String[] getTokens();
 }

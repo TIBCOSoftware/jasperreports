@@ -79,6 +79,11 @@ public class JRDesignQuery extends JRBaseQuery
 		{
 			addTextChunk(text);
 		}
+
+		public void handleClauseChunk(String[] tokens)
+		{
+			addClauseChunk(tokens);
+		}
 	};
 
 	/**
@@ -148,7 +153,22 @@ public class JRDesignQuery extends JRBaseQuery
 
 		this.chunks.add(chunk);
 	}
-		
+	
+
+	/**
+	 * Adds a {@link JRQueryChunk#TYPE_CLAUSE_TOKENS clause chunk} to the query.
+	 * 
+	 * @param tokens the clause tokens
+	 * @see JRDesignQueryChunk#setTokens(String[])
+	 */
+	public void addClauseChunk(String[] tokens)
+	{
+		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
+		chunk.setType(JRQueryChunk.TYPE_CLAUSE_TOKENS);
+		chunk.setTokens(tokens);
+
+		this.chunks.add(chunk);
+	}
 
 	/**
 	 *

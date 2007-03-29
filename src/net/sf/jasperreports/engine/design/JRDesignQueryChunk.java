@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQueryChunk;
 
 
@@ -59,6 +60,17 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk
 	{
 		this.text = text;
 	}
-		
+	
+	
+	/**
+	 * Sets the clause tokens for chunks of type {@link JRQueryChunk#TYPE_CLAUSE_TOKENS TYPE_CLAUSE_TOKENS}.
+	 * 
+	 * @param tokens the clause tokens
+	 * @see #getTokens()
+	 */
+	public void setTokens(String[] tokens)
+	{
+		this.tokens = tokens;
+	}
 
 }

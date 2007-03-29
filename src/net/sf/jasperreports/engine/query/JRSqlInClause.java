@@ -25,44 +25,36 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.query;
+
 
 /**
- * A query chunk handler.
+ * SQL "IN" clause function.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRQueryParser#parse(String, JRQueryChunkHandler)
+ * @see #apply(JRClauseTokens, JRQueryClauseContext)
  */
-public interface JRQueryChunkHandler
+public class JRSqlInClause extends JRSqlAbstractInClause
 {
 
-	/**
-	 * Handle a plain text query chunk.
-	 * 
-	 * @param text the text
-	 */
-	void handleTextChunk(String text);
+	protected static final String OPERATOR_IN = "IN";
+	
+	protected static final JRSqlInClause singleton = new JRSqlInClause();
 	
 	/**
-	 * Handle a parameter chunk (<code>$P{..}</code>).
+	 * Returns the singleton function instance.
 	 * 
-	 * @param text the chunk text, i.e. the parameter name
+	 * @return the singleton function instance
 	 */
-	void handleParameterChunk(String text);
+	public static JRSqlInClause instance()
+	{
+		return singleton;
+	}
 	
-	/**
-	 * Handle a parameter clause chunk (<code>$P!{..}</code>).
-	 * 
-	 * @param text the chunk text, i.e. the parameter name
-	 */
-	void handleParameterClauseChunk(String text);
-	
-	/**
-	 * Handle a clause chunk (<code>$X{..}</code>).
-	 * 
-	 * @param tokens the chunk tokens
-	 */
-	void handleClauseChunk(String[] tokens);
+	protected void appendInOperator(StringBuffer sBuffer)
+	{
+		sBuffer.append(OPERATOR_IN);
+	}
 
 }

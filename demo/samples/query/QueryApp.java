@@ -29,7 +29,9 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
@@ -116,7 +118,13 @@ public class QueryApp
 				//Preparing parameters
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
-				parameters.put("FilterClause", "'Boston', 'Chicago', 'Oslo'");
+				
+				List excludedCities = new ArrayList();
+				excludedCities.add("Boston");
+				excludedCities.add("Chicago");
+				excludedCities.add("Oslo");
+				parameters.put("ExcludedCities", excludedCities);
+				
 				parameters.put("OrderClause", "City");
 				
 				if (TASK_FILL_IGNORE_PAGINATION.equals(taskName))
@@ -255,7 +263,13 @@ public class QueryApp
 				//Preparing parameters
 				Map parameters = new HashMap();
 				parameters.put("ReportTitle", "Address Report");
-				parameters.put("FilterClause", "'Boston', 'Chicago'");
+				
+				List excludedCities = new ArrayList();
+				excludedCities.add("Boston");
+				excludedCities.add("Chicago");
+				excludedCities.add("Oslo");
+				parameters.put("ExcludedCities", excludedCities);
+				
 				parameters.put("OrderClause", "City");
 				
 				JasperRunManager.runReportToPdfFile(fileName, parameters, getConnection());

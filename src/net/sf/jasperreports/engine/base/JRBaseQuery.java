@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRQueryParser;
 
 
 /**
@@ -100,44 +101,7 @@ public class JRBaseQuery implements JRQuery, Serializable
 	 */
 	public String getText()
 	{
-		String text = "";
-		
-		JRQueryChunk[] cks = this.getChunks();
-		if (cks != null && cks.length > 0)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-
-			for(int i = 0; i < cks.length; i++)
-			{
-				switch(cks[i].getType())
-				{
-					case JRQueryChunk.TYPE_PARAMETER :
-					{
-						sbuffer.append("$P{");
-						sbuffer.append( cks[i].getText() );
-						sbuffer.append("}");
-						break;
-					}
-					case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
-					{
-						sbuffer.append("$P!{");
-						sbuffer.append( cks[i].getText() );
-						sbuffer.append("}");
-						break;
-					}
-					case JRQueryChunk.TYPE_TEXT :
-					default :
-					{
-						sbuffer.append( cks[i].getText() );
-						break;
-					}
-				}
-			}
-
-			text = sbuffer.toString();
-		}
-		
-		return text;
+		return JRQueryParser.instance().asText(getChunks());
 	}
 
 

@@ -28,7 +28,9 @@
 package net.sf.jasperreports.engine.query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,11 +52,77 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
  */
 public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 {
+	
+	protected static final int CLAUSE_POSITION_ID = 0;
+
+	/**
+	 * A parameter present in the query.
+	 */
+	protected static class QueryParameter
+	{
+		protected static final int COUNT_SINGLE = -1;
+		
+		private final String name;
+		private final int count;
+		
+		public QueryParameter(String name)
+		{
+			this(name, COUNT_SINGLE);
+		}
+		
+		public QueryParameter(String name, int count)
+		{
+			this.name = name;
+			this.count = count;
+		}
+		
+		/**
+		 * Decides whether the parameter has multiple values.
+		 * 
+		 * @return whether the parameter has multiple values.
+		 */
+		public boolean isMulti()
+		{
+			return count != COUNT_SINGLE;
+		}
+		
+		/**
+		 * Returns the number of parameter values.
+		 * 
+		 * @return the number of parameter values
+		 * @see #isMulti()
+		 */
+		public int getCount()
+		{
+			return count;
+		}
+		
+		/**
+		 * Returns the name of the report parameter.
+		 * 
+		 * @return the name of the report parameter
+		 */
+		public String getName()
+		{
+			return name;
+		}
+	}
+	
+	/**
+	 * Clause function registry.
+	 */
+	protected final Map clauseFunctions = new HashMap();
+	
 	protected final JRDataset dataset;
 	private final Map parametersMap;
 	
 	private String queryString;
-	private List parameterNames;
+	
+	/**
+	 * List of {@link QueryParameter query parameters}.
+	 */
+	private List queryParameters;
+	
 	private Set parameterClauseStack;
 	
 	
@@ -64,9 +132,46 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		this.parametersMap = parametersMap;
 		
 		queryString = "";
-		parameterNames = new ArrayList();
+		queryParameters = new ArrayList();
+	}
+
+	/**
+	 * Registers a clause function.
+	 * 
+	 * @param id the function ID
+	 * @param function the function
+	 */
+	protected void registerClauseFunction(String id, JRClauseFunction function)
+	{
+		clauseFunctions.put(id, function);
 	}
 	
+	/**
+	 * Unregisters a clause function.
+	 * 
+	 * @param id the function ID
+	 */
+	protected void unregisterClauseFunction(String id)
+	{
+		clauseFunctions.remove(id);
+	}
+	
+	/**
+	 * Resolves a clause function ID to a function instance.
+	 * 
+	 * @param id the function ID
+	 * @return the clause function registered for the ID
+	 * @throws JRRuntimeException if no function for the ID is found
+	 */
+	protected JRClauseFunction resolveFunction(String id)
+	{
+		JRClauseFunction function = (JRClauseFunction) clauseFunctions.get(id);
+		if (function == null)
+		{
+			throw new JRRuntimeException("No clause function for id " + id + " found");
+		}
+		return function;
+	}
 	
 	/**
 	 * Parses the query and replaces the parameter clauses by the paramter values and
@@ -99,23 +204,27 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 
 	protected void appendQueryChunk(StringBuffer sbuffer, JRQueryChunk chunk)
 	{
-		String chunkText = chunk.getText();
 		switch (chunk.getType())
 		{
 			case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
 			{
-				appendParameterClauseChunk(sbuffer, chunkText);
+				appendParameterClauseChunk(sbuffer, chunk.getText());
 				break;
 			}
 			case JRQueryChunk.TYPE_PARAMETER :
 			{
-				appendParameterChunk(sbuffer, chunkText);
+				appendParameterChunk(sbuffer, chunk.getText());
+				break;
+			}
+			case JRQueryChunk.TYPE_CLAUSE_TOKENS :
+			{
+				appendClauseChunk(sbuffer, chunk.getTokens());
 				break;
 			}
 			case JRQueryChunk.TYPE_TEXT :
 			default :
 			{
-				appendTextChunk(sbuffer, chunkText);
+				appendTextChunk(sbuffer, chunk.getText());
 				break;
 			}
 		}
@@ -134,7 +243,35 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		checkParameter(parameterName);
 
 		sbuffer.append(getParameterReplacement(parameterName));
-		parameterNames.add(chunkText);
+		addQueryParameter(chunkText);
+	}
+
+
+	/**
+	 * Records a query parameter.
+	 * 
+	 * @param parameterName the parameter name
+	 * @see #getCollectedParameters()
+	 */
+	protected void addQueryParameter(String parameterName)
+	{
+		QueryParameter param = new QueryParameter(parameterName);
+		queryParameters.add(param);
+	}
+
+
+	/**
+	 * Records a multi-valued query parameter.
+	 * 
+	 * @param parameterName the parameter name
+	 * @param count the value count
+	 * @see #getCollectedParameters()
+	 * @see QueryParameter#isMulti()
+	 */
+	protected void addQueryMultiParameters(String parameterName, int count)
+	{
+		QueryParameter param = new QueryParameter(parameterName, count);
+		queryParameters.add(param);
 	}
 
 
@@ -154,7 +291,6 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			String clauseText = String.valueOf(parameterValue);
 			JRQueryChunkHandler nestedChunkHandler = new JRQueryChunkHandler()
 			{
-
 				public void handleParameterChunk(String text)
 				{
 					appendParameterChunk(sbuffer, text);
@@ -169,6 +305,11 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 				{
 					appendTextChunk(sbuffer, text);
 				}
+
+				public void handleClauseChunk(String[] tokens)
+				{
+					appendClauseChunk(sbuffer, tokens);
+				}
 			};
 			JRQueryParser.instance().parse(clauseText, nestedChunkHandler);
 		}
@@ -176,6 +317,63 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		{
 			parameterClauseStack.remove(parameterName);
 		}
+	}
+
+
+	/**
+	 * Handles a {@link JRQueryChunk#TYPE_CLAUSE_TOKENS clause query chunk}.
+	 * <p>
+	 * The default implementation considers the first token as a
+	 * {@link JRClauseFunction clause function} ID and delegates the call to the
+	 * function.
+	 * </p>
+	 * <p>
+	 * Extending query executers can override this to implement custom query clause handling.
+	 * </p>
+	 * 
+	 * @param sbuffer the query text buffer
+	 * @param clauseTokens clause tokens
+	 * @see #registerClauseFunction(String, JRClauseFunction)
+	 * @throws JRRuntimeException if there is no first token or no clause function is found for the ID
+	 */
+	protected void appendClauseChunk(final StringBuffer sbuffer, String[] clauseTokens)
+	{
+		JRClauseTokens tokens = new JRClauseTokens(clauseTokens);
+		String id = tokens.getToken(CLAUSE_POSITION_ID);
+		if (id == null)
+		{
+			throw new JRRuntimeException("Query clause ID/first token missing");
+		}
+		
+		JRClauseFunction function = resolveFunction(id);
+		applyClause(function, tokens, sbuffer);
+	}
+
+	
+	protected void applyClause(JRClauseFunction function, JRClauseTokens tokens, final StringBuffer sbuffer)
+	{
+		function.apply(tokens, new JRQueryClauseContext()
+		{
+			public void addQueryMultiParameters(String parameterName, int count)
+			{
+				JRAbstractQueryExecuter.this.addQueryMultiParameters(parameterName, count);
+			}
+
+			public void addQueryParameter(String parameterName)
+			{
+				JRAbstractQueryExecuter.this.addQueryParameter(parameterName);
+			}
+
+			public JRValueParameter getValueParameter(String parameterName)
+			{
+				return JRAbstractQueryExecuter.this.getValueParameter(parameterName);
+			}
+
+			public StringBuffer queryBuffer()
+			{
+				return sbuffer;
+			}
+		});
 	}
 
 	
@@ -198,7 +396,24 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected List getCollectedParameterNames()
 	{
+		List parameterNames = new ArrayList(queryParameters.size());
+		for (Iterator it = queryParameters.iterator(); it.hasNext();)
+		{
+			QueryParameter param = (QueryParameter) it.next();
+			parameterNames.add(param.getName());
+		}
 		return parameterNames;
+	}
+	
+	
+	/**
+	 * Returns the list of {@link QueryParameter query parameters} in the order in which they appear in the query.
+	 * 
+	 * @return the list of query parameters
+	 */
+	protected List getCollectedParameters()
+	{
+		return queryParameters;
 	}
 	
 	
@@ -278,9 +493,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 
 	
 	/**
-	 * Return a value parameter from the paramters map.
+	 * Return a value parameter from the parameters map.
 	 * 
-	 * @param parameterName the paramter name
+	 * @param parameterName the parameter name
 	 * @return the parameter
 	 */
 	protected JRValueParameter getValueParameter(String parameterName)

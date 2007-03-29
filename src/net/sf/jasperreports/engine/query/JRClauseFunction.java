@@ -25,44 +25,31 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.query;
+
+import net.sf.jasperreports.engine.JRQueryChunk;
+
+
 
 /**
- * A query chunk handler.
+ * A query clause chunk function.
+ * <p>
+ * Query executers can delegate the handling of a query clause chunk to such a function.
+ * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRQueryParser#parse(String, JRQueryChunkHandler)
+ * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
  */
-public interface JRQueryChunkHandler
+public interface JRClauseFunction
 {
 
 	/**
-	 * Handle a plain text query chunk.
+	 * Handles a query clause chunk.
 	 * 
-	 * @param text the text
+	 * @param clauseTokens the clause tokens
+	 * @param queryContext the query context
 	 */
-	void handleTextChunk(String text);
+	void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext);
 	
-	/**
-	 * Handle a parameter chunk (<code>$P{..}</code>).
-	 * 
-	 * @param text the chunk text, i.e. the parameter name
-	 */
-	void handleParameterChunk(String text);
-	
-	/**
-	 * Handle a parameter clause chunk (<code>$P!{..}</code>).
-	 * 
-	 * @param text the chunk text, i.e. the parameter name
-	 */
-	void handleParameterClauseChunk(String text);
-	
-	/**
-	 * Handle a clause chunk (<code>$X{..}</code>).
-	 * 
-	 * @param tokens the chunk tokens
-	 */
-	void handleClauseChunk(String[] tokens);
-
 }
