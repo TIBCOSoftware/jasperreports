@@ -32,6 +32,8 @@ import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -39,6 +41,10 @@ import java.util.Map;
  */
 public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private static final Map instanceMap = new HashMap(4);
 

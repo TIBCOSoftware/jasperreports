@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -878,6 +879,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	private static class DelayedEvaluations implements Serializable
 	{
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 		final Set fields;
 		final Set variables;
 
