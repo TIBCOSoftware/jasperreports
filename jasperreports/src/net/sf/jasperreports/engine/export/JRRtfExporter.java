@@ -33,11 +33,8 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
-import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -80,7 +77,6 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
@@ -115,9 +111,6 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
-	
-	// indicate that report containts Unicode characters with code > 127
-	private boolean isUnicode = false;
 	
 	private Map fontMap = null;
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
@@ -368,13 +361,6 @@ public class JRRtfExporter extends JRAbstractExporter
 								getColorIndex(text.getBottomBorderColor());
 								getColorIndex(text.getLeftBorderColor());
 								getColorIndex(text.getRightBorderColor());
-
-								for(int i = 0; i < text.getText().length(); i++ ){
-									if((text.getText().charAt(i)) > 127){
-										isUnicode = true;
-										break;
-									}
-								}
 
 								int runLimit = 0;
 								JRStyledText styledText = getStyledText((JRPrintText)element);
@@ -1053,27 +1039,43 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 
-			BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
-			Graphics2D grx = bi.createGraphics();
-			grx.setColor(printImage.getBackcolor());//FIXMEIMAGE ignore mode? what about alpha channel above?
-			grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+//			BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_RGB);
+//			Graphics2D grx = bi.createGraphics();
+//			grx.setColor(printImage.getBackcolor());//FIXMEIMAGE ignore mode? what about alpha channel above?
+//			grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+
+			int imageWidth = 0;
+			int imageHeight = 0;
+			int xoffset = 0;
+			int yoffset = 0;
+			int cropt = 0;
+			int cropl = 0;
+			int cropb = 0;
+			int cropr = 0;
 
 			switch (printImage.getScaleImage())
 			{
 				case JRImage.SCALE_IMAGE_CLIP:
 				{
-					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+					xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+					yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+					imageWidth = availableImageWidth;
+					imageHeight = availableImageHeight;
 
-					renderer.render(grx, new Rectangle(xoffset, yoffset,
-							normalWidth, normalHeight));
+//					renderer.render(grx, new Rectangle(xoffset, yoffset,
+//							normalWidth, normalHeight));
 
 					break;
 				}
 				case JRImage.SCALE_IMAGE_FILL_FRAME:
 				{
-					renderer.render(grx, new Rectangle(0, 0,
-							availableImageWidth, availableImageHeight));
+					xoffset = 0;
+					yoffset = 0;
+					imageWidth = availableImageWidth;
+					imageHeight = availableImageHeight;
+
+//					renderer.render(grx, new Rectangle(0, 0,
+//							availableImageWidth, availableImageHeight));
 
 					break;
 				}
@@ -1095,11 +1097,13 @@ public class JRRtfExporter extends JRAbstractExporter
 							normalHeight = availableImageHeight;
 						}
 
-						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
-
-						renderer.render(grx, new Rectangle(xoffset, yoffset,
-								normalWidth, normalHeight));
+						xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+						yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+						imageWidth = normalWidth;
+						imageHeight = normalHeight;
+						
+//						renderer.render(grx, new Rectangle(xoffset, yoffset,
+//								normalWidth, normalHeight));
 					}
 
 					break;
@@ -1109,13 +1113,13 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + globalOffsetX + getOffsetX())));
+			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + globalOffsetX + getOffsetX())));//FIXME is the offset doubled?
 			writer.write("\\dpxsize");
-			writer.write(String.valueOf(twip(availableImageWidth)));
+			writer.write(String.valueOf(twip(imageWidth)));
 			writer.write("\\dpy");
-			writer.write(String.valueOf(twip(printImage.getY() + topPadding + globalOffsetY + getOffsetY())));
+			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + globalOffsetY + getOffsetY())));
 			writer.write("\\dpysize");
-			writer.write(String.valueOf(twip(availableImageHeight)));
+			writer.write(String.valueOf(twip(imageHeight)));
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext ");
 			if(printImage.getAnchorName() != null)
 			{
@@ -1124,12 +1128,21 @@ public class JRRtfExporter extends JRAbstractExporter
 			boolean startedHyperlink = startHyperlink(printImage);
 			
 			writer.write("{\\pict\\jpegblip\\picwgoal");
-			writer.write(String.valueOf(twip(availableImageWidth)));
+			writer.write(String.valueOf(twip(imageWidth)));
 			writer.write("\\pichgoal");
-			writer.write(String.valueOf(twip(availableImageHeight)));
+			writer.write(String.valueOf(twip(imageHeight)));
+			writer.write("\\piccropt");
+			writer.write(String.valueOf(twip(5)));
+			writer.write("\\piccropl");
+			writer.write(String.valueOf(twip(5)));
+			writer.write("\\piccropb");
+			writer.write(String.valueOf(twip(5)));
+			writer.write("\\piccropr");
+			writer.write(String.valueOf(twip(5)));
 			writer.write("\n");
 			
-			ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG));
+			//ByteArrayInputStream bais = new ByteArrayInputStream(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG));
+			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
 
 			int count = 0;
 			int current = 0;

@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 
@@ -41,6 +42,12 @@ import net.sf.jasperreports.engine.JRGroup;
  */
 public class JREvaluationTime implements Serializable
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+
 	/**
 	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT JRExpression.EVALUATION_TIME_REPORT}.
 	 */
