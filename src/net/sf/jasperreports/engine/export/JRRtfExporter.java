@@ -125,6 +125,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
+		/*   */
+		setOffset();
 
 		try
 		{
@@ -1064,11 +1066,11 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + globalOffsetX + getOffsetX())));//FIXME is the offset doubled?
+			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
 			writer.write("\\dpxsize");
 			writer.write(String.valueOf(twip(imageWidth)));
 			writer.write("\\dpy");
-			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + globalOffsetY + getOffsetY())));
+			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
 			writer.write("\\dpysize");
 			writer.write(String.valueOf(twip(imageHeight)));
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext ");
