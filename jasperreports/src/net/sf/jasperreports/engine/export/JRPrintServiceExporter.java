@@ -35,6 +35,7 @@ import java.awt.print.PrinterJob;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import javax.print.attribute.Attribute;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.HashPrintServiceAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -42,6 +43,7 @@ import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.print.attribute.standard.PageRanges;
+import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -321,4 +323,20 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			printRequestAttributeSet.addAll(printRequestAttributeSetParam);
 		}
 	}
+
+	// artf1936
+	public static boolean checkAvailablePrinters() 
+	{
+		PrintService[] ss = java.awt.print.PrinterJob.lookupPrintServices();
+		for (int i=0;i<ss.length;i++) {
+			Attribute[] att = ss[i].getAttributes().toArray();
+			for (int j=0;j<att.length;j++) {
+				if (att[j].equals(PrinterIsAcceptingJobs.ACCEPTING_JOBS)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 }
