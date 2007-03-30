@@ -330,7 +330,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
 					 */
-					List xCuts = getGridLayoutInstance().calculateXCuts(pages, startPageIndex, endPageIndex, globalOffsetX);
+					List xCuts = getGridLayoutInstance().calculateXCuts(pages, startPageIndex, endPageIndex, 
+							jasperPrint.getPageWidth(), globalOffsetX);
 					setColumnWidths(xCuts);
 
 					int startRow = 0;

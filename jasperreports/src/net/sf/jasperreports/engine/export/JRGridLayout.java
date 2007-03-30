@@ -249,6 +249,7 @@ public abstract class JRGridLayout
 		{
 			xCuts = new SortedList();
 			xCuts.add(new Integer(0));
+			xCuts.add(new Integer(width));
 		}
 		
 		yCuts = new SortedList();
@@ -256,7 +257,6 @@ public abstract class JRGridLayout
 
 		createCuts(wrappers, offsetX, offsetY, createXCuts);
 		
-		xCuts.add(new Integer(width));
 		if (!isIgnoreLastRow())
 			yCuts.add(new Integer(height));
 			
@@ -730,12 +730,16 @@ public abstract class JRGridLayout
 	 *            The first page to consider.
 	 * @param endPageIndex
 	 *            The last page to consider.
+	 * @param width
+	 *            The page width
 	 * @param offsetX
 	 *            horizontal element position offset
 	 */
-	public List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int offsetX)
+	public List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{
 		List xCuts = new SortedList();
+		xCuts.add(new Integer(0));
+		xCuts.add(new Integer(width));
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
