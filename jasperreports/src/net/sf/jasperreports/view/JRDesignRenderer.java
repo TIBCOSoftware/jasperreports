@@ -1716,6 +1716,6 @@ public class JRDesignRenderer
 	
 	protected void resetZoom()
 	{
-		threadZoom.remove();
+		threadZoom.set(null);
 	}
 }
