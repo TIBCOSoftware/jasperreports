@@ -396,7 +396,8 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		JRGridLayout layout = 
-			new JROdtGridLayout(
+			new JRGridLayout(
+				JROdtExporterNature.getInstance(),
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),

@@ -33,112 +33,42 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 
 /**
- * Utility class used by grid exporters to create a grid for page layout.
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JExcelApiGridLayout extends JRGridLayout
+public class JRXlsExporterNature implements ExporterNature
 {
 	
 	/**
 	 * 
 	 */
-	private static final JExcelApiGridLayout INSTANCE = new JExcelApiGridLayout();
+	private static final JRXlsExporterNature INSTANCE = new JRXlsExporterNature();
 
 	/**
 	 * 
 	 */
-	public JExcelApiGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		boolean splitSharedRowSpan,
-		boolean spanCells
-		)
+	public static JRXlsExporterNature getInstance()
 	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY
-			);
+		return INSTANCE; 
+	}
+
+	/**
+	 * 
+	 */
+	private JRXlsExporterNature()
+	{
 	}
 	
 	/**
 	 * 
 	 */
-	public JExcelApiGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
-	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY,
-			xCuts
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JExcelApiGridLayout(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		String address
-		)
-	{
-		super(
-			wrappers, 
-			width, 
-			height, 
-			offsetX,
-			offsetY,
-			address
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JExcelApiGridLayout()
-	{
-		super(
-			new ElementWrapper[0], 
-			0, 
-			0, 
-			0,
-			0,
-			null
-			);
-	}
-
-
-	/**
-	 * 
-	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return true;
+		return !(element instanceof JRPrintImage);
 	}
 	
 	/**
@@ -171,37 +101,6 @@ public class JExcelApiGridLayout extends JRGridLayout
 	public boolean isIgnoreLastRow()
 	{
 		return false;
-	}
-	
-	/**
-	 * 
-	 */
-	public JRGridLayout newInstance(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX,
-		int offsetY,
-		String address
-		)
-	{
-		return 
-			new JExcelApiGridLayout(
-				wrappers, 
-				width, 
-				height, 
-				offsetX,
-				offsetY,
-				address
-				);
-	}
-	
-	/**
-	 * 
-	 */
-	public static JRGridLayout getInstance()
-	{
-		return INSTANCE; 
 	}
 		
 }

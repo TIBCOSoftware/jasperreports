@@ -39,7 +39,6 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAlignment;
@@ -785,33 +784,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 	
 
-	protected JRGridLayout createGridLayout(
-		List elements,
-		int width, 
-		int height,
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
+	protected ExporterNature getNature()
 	{
-		return 
-			new JRXlsGridLayout(
-				elements,
-				width, 
-				height,
-				offsetX, 
-				offsetY, 
-				xCuts
-				);
+		return JRXlsExporterNature.getInstance();
 	}
 			
 
-	protected JRGridLayout getGridLayoutInstance()
-	{
-		return JRXlsGridLayout.getInstance();
-	}
-	
-		
 	protected static class BoxStyle
 	{
 		protected final short topBorder;

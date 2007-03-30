@@ -44,7 +44,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import jxl.CellView;
@@ -1464,30 +1463,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 	
 	
-	protected JRGridLayout createGridLayout(
-		List elements,
-		int width, 
-		int height,
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
+	protected ExporterNature getNature()
 	{
-		return 
-			new JExcelApiGridLayout(
-				elements,
-				width, 
-				height,
-				offsetX, 
-				offsetY, 
-				xCuts
-				);
-	}
-	
-
-	protected JRGridLayout getGridLayoutInstance()
-	{
-		return JExcelApiGridLayout.getInstance();
+		return JExcelApiExporterNature.getInstance();
 	}
 	
 		

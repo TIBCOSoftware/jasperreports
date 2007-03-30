@@ -55,8 +55,10 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRGridLayout
+public final class JRGridLayout
 {
+	
+	private final ExporterNature nature;
 	
 	private final int width;
 	private final int height;
@@ -85,6 +87,7 @@ public abstract class JRGridLayout
 	 * @param offsetY vertical element position offset
 	 */
 	public JRGridLayout(
+		ExporterNature nature,
 		List elements, 
 		int width, 
 		int height, 
@@ -93,6 +96,7 @@ public abstract class JRGridLayout
 		)
 	{
 		this(
+			nature,
 			elements,
 			width, 
 			height, 
@@ -113,6 +117,7 @@ public abstract class JRGridLayout
 	 * @param xCuts An optional list of pre-calculated X cuts.
 	 */
 	public JRGridLayout(
+		ExporterNature nature,
 		List elements, 
 		int width, 
 		int height, 
@@ -121,6 +126,7 @@ public abstract class JRGridLayout
 		List xCuts
 		)
 	{
+		this.nature = nature;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -134,7 +140,7 @@ public abstract class JRGridLayout
 
 		layoutGrid(createWrappers(elements, address));
 		
-		if (isSplitSharedRowSpan())
+		if (nature.isSplitSharedRowSpan())
 		{
 			splitSharedRowSpanIntoNestedGrids();
 		}
@@ -151,6 +157,7 @@ public abstract class JRGridLayout
 	 * @param address element address
 	 */
 	protected JRGridLayout(
+		ExporterNature nature,
 		ElementWrapper[] wrappers, 
 		int width, 
 		int height, 
@@ -159,6 +166,7 @@ public abstract class JRGridLayout
 		String address
 		)
 	{
+		this.nature = nature;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -169,7 +177,7 @@ public abstract class JRGridLayout
 		
 		layoutGrid(wrappers);
 		
-		if (isSplitSharedRowSpan())
+		if (nature.isSplitSharedRowSpan())
 		{
 			splitSharedRowSpanIntoNestedGrids();
 		}
@@ -225,7 +233,8 @@ public abstract class JRGridLayout
 				);
 		
 		gridCell.setLayout(
-			newInstance(
+			new JRGridLayout(
+				nature,
 				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]), 
 				frame.getWidth(), 
 				frame.getHeight(), 
@@ -257,7 +266,7 @@ public abstract class JRGridLayout
 
 		createCuts(wrappers, offsetX, offsetY, createXCuts);
 		
-		if (!isIgnoreLastRow())
+		if (!nature.isIgnoreLastRow())
 			yCuts.add(new Integer(height));
 			
 		int colCount = xCuts.size() - 1;
@@ -296,7 +305,7 @@ public abstract class JRGridLayout
 			int x = element.getX() + elementOffsetX;
 			int y = element.getY() + elementOffsetY;
 			
-			if (isToExport(element))
+			if (nature.isToExport(element))
 			{
 				if (createXCuts)
 				{
@@ -310,7 +319,7 @@ public abstract class JRGridLayout
 			
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
-			if (isDeep() && frame != null)
+			if (nature.isDeep() && frame != null)
 			{
 				createCuts(
 					wrapper.getWrappers(), 
@@ -330,7 +339,7 @@ public abstract class JRGridLayout
 			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 
-			boolean toExport = isToExport(element);
+			boolean toExport = nature.isToExport(element);
 			//JRPrintFrame frame = deep && element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 			
@@ -339,7 +348,7 @@ public abstract class JRGridLayout
 				int x = element.getX() + elementOffsetX;
 				int y = element.getY() + elementOffsetY;
 				
-				if (isDeep() && frame != null)
+				if (nature.isDeep() && frame != null)
 				{
 					setGridElements(
 						wrapper.getWrappers(), 
@@ -360,7 +369,7 @@ public abstract class JRGridLayout
 						setGridElement(wrapper, row1, col1, row2, col2);
 					}
 
-					if (isDeep() && frame != null)
+					if (nature.isDeep() && frame != null)
 					{
 						setFrameCellsStyle(frame, row1, col1, row2, col2);
 					}
@@ -373,7 +382,7 @@ public abstract class JRGridLayout
 	protected boolean isOverlap(int row1, int col1, int row2, int col2)
 	{
 		boolean isOverlap = false;
-		if (isSpanCells())
+		if (nature.isSpanCells())
 		{
 			is_overlap_out:
 			for (int row = row1; row < row2; row++)
@@ -398,7 +407,7 @@ public abstract class JRGridLayout
 
 	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
 	{
-		if (isSpanCells())
+		if (nature.isSpanCells())
 		{
 			for (int row = row1; row < row2; row++)
 			{
@@ -437,7 +446,8 @@ public abstract class JRGridLayout
 			if (frame != null)//FIXMEODT if deep, does this make sense?
 			{
 				gridCell.setLayout(
-					newInstance(
+					new JRGridLayout(
+						nature,
 						wrapper.getWrappers(), 
 						frame.getWidth(), 
 						frame.getHeight(), 
@@ -735,7 +745,7 @@ public abstract class JRGridLayout
 	 * @param offsetX
 	 *            horizontal element position offset
 	 */
-	public List calculateXCuts(List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
+	public static List calculateXCuts(ExporterNature nature, List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{
 		List xCuts = new SortedList();
 		xCuts.add(new Integer(0));
@@ -743,7 +753,7 @@ public abstract class JRGridLayout
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
-			addXCuts(page.getElements(), offsetX, xCuts);
+			addXCuts(nature, page.getElements(), offsetX, xCuts);
 		}
 
 		return xCuts;
@@ -760,14 +770,14 @@ public abstract class JRGridLayout
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
-	protected void addXCuts(List elementsList, int elementOffsetX, List xCuts)
+	protected static void addXCuts(ExporterNature nature, List elementsList, int elementOffsetX, List xCuts)
 	{
 		for (Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement) it.next());
 			int x = element.getX() + elementOffsetX;
 
-			if (isToExport(element))
+			if (nature.isToExport(element))
 			{
 				xCuts.add(new Integer(x));
 				xCuts.add(new Integer(x + element.getWidth()));
@@ -776,7 +786,7 @@ public abstract class JRGridLayout
 			if (element instanceof JRPrintFrame)
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(frame.getElements(), x + frame.getLeftPadding(), xCuts);
+				addXCuts(nature, frame.getElements(), x + frame.getLeftPadding(), xCuts);
 			}
 		}
 	}
@@ -898,30 +908,4 @@ public abstract class JRGridLayout
 	}
 
 
-	public abstract boolean isToExport(JRPrintElement element);
-	
-	
-	/**
-	 * Specified whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
-	 */
-	public abstract boolean isDeep();
-
-	public abstract boolean isSplitSharedRowSpan();
-
-	/**
-	 * Specifies whether the exporter handles cells span
-	 */
-	public abstract boolean isSpanCells();
-
-	public abstract boolean isIgnoreLastRow();
-
-	public abstract JRGridLayout newInstance(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX,
-		int offsetY,
-		String address
-		);
-	
 }

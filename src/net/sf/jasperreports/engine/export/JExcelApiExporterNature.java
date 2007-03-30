@@ -33,84 +33,35 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
- * Utility class used by grid exporters to create a grid for page layout.
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHtmlGridLayout extends JRGridLayout
+public class JExcelApiExporterNature implements ExporterNature
 {
 	
 	/**
 	 * 
 	 */
-	public JRHtmlGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY 
-		)
+	private static final JExcelApiExporterNature INSTANCE = new JExcelApiExporterNature();
+
+	/**
+	 * 
+	 */
+	public static JExcelApiExporterNature getInstance()
 	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY
-			);
+		return INSTANCE; 
+	}
+		
+	/**
+	 * 
+	 */
+	private JExcelApiExporterNature()
+	{
 	}
 	
-	/**
-	 * 
-	 */
-	public JRHtmlGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
-	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY,
-			xCuts
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JRHtmlGridLayout(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		String address
-		)
-	{
-		super(
-			wrappers, 
-			width, 
-			height, 
-			offsetX,
-			offsetY,
-			address
-			);
-	}
-
-
 	/**
 	 * 
 	 */
@@ -124,7 +75,7 @@ public class JRHtmlGridLayout extends JRGridLayout
 	 */
 	public boolean isDeep()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -149,29 +100,6 @@ public class JRHtmlGridLayout extends JRGridLayout
 	public boolean isIgnoreLastRow()
 	{
 		return false;
-	}
-	
-	/**
-	 * 
-	 */
-	public JRGridLayout newInstance(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX,
-		int offsetY,
-		String address
-		)
-	{
-		return 
-			new JRHtmlGridLayout(
-				wrappers, 
-				width, 
-				height, 
-				offsetX,
-				offsetY,
-				address
-				);
 	}
 		
 }
