@@ -79,7 +79,7 @@ public class FileOasisZipEntry implements OasisZipEntry
 //			writer = new BufferedWriter(new FileWriter(file));
 //		}
 //		return writer;
-		return new BufferedWriter(new FileWriter(file, true));
+		return new BufferedWriter(new FileWriter(file));
 	}
 	
 	/**
