@@ -9,7 +9,16 @@ JasperReports 1.3.2 (2007-03-30)
 
 - enhanced RTF exporter;
 
-- support for custom name/value pair properties for report fields and report parameters;
+- improved error handling during report compilation to help detecting 
+the source of the problem;
+
+- support for custom name/value pair properties for report fields 
+and report parameters;
+
+- new $X{} syntax available and recursive expansion of $P!{} parameter 
+references in the <queryString> tag to help building dynamic queries;
+
+- recursive expansion of parameter references in <queryString>;
 
 - minor bug fixes and improvements;
 
