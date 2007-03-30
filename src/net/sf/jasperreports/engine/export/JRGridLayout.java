@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public final class JRGridLayout
+public class JRGridLayout
 {
 	
 	private final ExporterNature nature;
