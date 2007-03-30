@@ -33,113 +33,41 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 
 /**
- * Utility class used by grid exporters to create a grid for page layout.
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsGridLayout extends JRGridLayout
+public class JRHtmlExporterNature implements ExporterNature
 {
 	
 	/**
 	 * 
 	 */
-	private static final JRXlsGridLayout INSTANCE = new JRXlsGridLayout();
+	private static final JRHtmlExporterNature INSTANCE = new JRHtmlExporterNature();
 
 	/**
 	 * 
 	 */
-	public JRXlsGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		boolean splitSharedRowSpan,
-		boolean spanCells
-		)
+	public static JRHtmlExporterNature getInstance()
 	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY
-			);
+		return INSTANCE; 
+	}
+
+	/**
+	 * 
+	 */
+	private JRHtmlExporterNature()
+	{
 	}
 	
 	/**
 	 * 
 	 */
-	public JRXlsGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
-	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY,
-			xCuts
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JRXlsGridLayout(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		String address
-		)
-	{
-		super(
-			wrappers, 
-			width, 
-			height, 
-			offsetX,
-			offsetY,
-			address
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JRXlsGridLayout()
-	{
-		super(
-			new ElementWrapper[0], 
-			0, 
-			0, 
-			0,
-			0,
-			null
-			);
-	}
-
-
-	/**
-	 * 
-	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return !(element instanceof JRPrintImage);
+		return true;
 	}
 	
 	/**
@@ -147,7 +75,7 @@ public class JRXlsGridLayout extends JRGridLayout
 	 */
 	public boolean isDeep()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
@@ -174,35 +102,4 @@ public class JRXlsGridLayout extends JRGridLayout
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
-	public JRGridLayout newInstance(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX,
-		int offsetY,
-		String address
-		)
-	{
-		return 
-			new JRXlsGridLayout(
-				wrappers, 
-				width, 
-				height, 
-				offsetX,
-				offsetY,
-				address
-				);
-	}
-	
-	/**
-	 * 
-	 */
-	public static JRGridLayout getInstance()
-	{
-		return INSTANCE; 
-	}
-		
 }

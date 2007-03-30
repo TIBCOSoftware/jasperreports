@@ -670,7 +670,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		JRGridLayout layout = 
-			new JRHtmlGridLayout(
+			new JRGridLayout(
+				JRHtmlExporterNature.getInstance(),
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),

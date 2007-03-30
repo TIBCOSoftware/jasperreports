@@ -31,94 +31,44 @@
  * Greg Hilton 
  */
 
-package net.sf.jasperreports.engine.export.oasis;
-
-import java.util.List;
+package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.export.ElementWrapper;
-import net.sf.jasperreports.engine.export.JRGridLayout;
+import net.sf.jasperreports.engine.JRPrintText;
 
 /**
- * Utility class used by grid exporters to create a grid for page layout.
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdtGridLayout extends JRGridLayout
+public class JRCsvExporterNature implements ExporterNature
 {
 	
 	/**
 	 * 
 	 */
-	public JROdtGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY 
-		)
+	private static final JRCsvExporterNature INSTANCE = new JRCsvExporterNature();
+
+	/**
+	 * 
+	 */
+	public static JRCsvExporterNature getInstance()
 	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY
-			);
+		return INSTANCE; 
+	}
+
+	/**
+	 * 
+	 */
+	private JRCsvExporterNature()
+	{
 	}
 	
 	/**
 	 * 
 	 */
-	public JROdtGridLayout(
-		List elements, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		List xCuts
-		)
-	{
-		super(
-			elements,
-			width, 
-			height, 
-			offsetX, 
-			offsetY,
-			xCuts
-			);
-	}
-
-	/**
-	 * 
-	 */
-	private JROdtGridLayout(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX, 
-		int offsetY, 
-		String address
-		)
-	{
-		super(
-			wrappers, 
-			width, 
-			height, 
-			offsetX,
-			offsetY,
-			address
-			);
-	}
-
-
-	/**
-	 * 
-	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return true;
+		return element instanceof JRPrintText;
 	}
 	
 	/**
@@ -126,7 +76,7 @@ public class JROdtGridLayout extends JRGridLayout
 	 */
 	public boolean isDeep()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -134,7 +84,7 @@ public class JROdtGridLayout extends JRGridLayout
 	 */
 	public boolean isSplitSharedRowSpan()
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -142,7 +92,7 @@ public class JROdtGridLayout extends JRGridLayout
 	 */
 	public boolean isSpanCells()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
@@ -150,30 +100,7 @@ public class JROdtGridLayout extends JRGridLayout
 	 */
 	public boolean isIgnoreLastRow()
 	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public JRGridLayout newInstance(
-		ElementWrapper[] wrappers, 
-		int width, 
-		int height, 
-		int offsetX,
-		int offsetY,
-		String address
-		)
-	{
-		return 
-			new JROdtGridLayout(
-				wrappers, 
-				width, 
-				height, 
-				offsetX,
-				offsetY,
-				address
-				);
+		return false;
 	}
 		
 }
