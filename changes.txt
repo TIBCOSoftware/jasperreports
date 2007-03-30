@@ -18,8 +18,6 @@ and report parameters;
 - new $X{} syntax available and recursive expansion of $P!{} parameter 
 references in the <queryString> tag to help building dynamic queries;
 
-- recursive expansion of parameter references in <queryString>;
-
 - minor bug fixes and improvements;
 
 
