@@ -101,5 +101,10 @@ public class JExcelApiExporterNature implements ExporterNature
 	{
 		return false;
 	}
+
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return false;
+	}
 		
 }

@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.Pair;
@@ -103,6 +104,17 @@ import net.sf.jasperreports.engine.util.Pair;
 public class JRHtmlExporter extends JRAbstractExporter
 {
 
+	/**
+	 * This property serves as default value for the
+	 * {@link JRHtmlExporterParameter#FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
+	 * export parameter.
+	 * <p>
+	 * The propery itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
+	
 	/**
 	 *
 	 */
@@ -172,6 +184,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	private Color backcolor;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+	
+	protected boolean deepGrid;
 
 
 	public JRHtmlExporter()
@@ -318,6 +332,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 						
 			setHyperlinkProducerFactory();
+			setDeepGrid();
 	
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
@@ -549,6 +564,23 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
+	
+	
+	protected void setDeepGrid()
+	{
+		boolean nestedTables;
+		Boolean nestedTablesParam = (Boolean) parameters.get(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES);
+		if (nestedTablesParam == null)
+		{
+			nestedTables = JRProperties.getBooleanProperty(PROPERTY_FRAMES_AS_NESTED_TABLES);
+		}
+		else
+		{
+			nestedTables = nestedTablesParam.booleanValue();
+		}
+		
+		deepGrid = !nestedTables;
+	}
 
 
 	public static JRPrintImage getImage(List jasperPrintList, String imageName)
@@ -671,7 +703,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = 
 			new JRGridLayout(
-				JRHtmlExporterNature.getInstance(),
+				JRHtmlExporterNature.getInstance(deepGrid),
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),
@@ -687,7 +719,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			progressMonitor.afterPageExport();
 		}
 	}
-
+	
 
 	/**
 	 *
@@ -719,15 +751,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		writer.write("</tr>\n");
 
-		JRPrintElement element = null;
 		for(int y = 0; y < grid.length; y++)
 		{
 			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
 			{
 				JRExporterGridCell[] gridRow = grid[y];
 				
-				int emptyCellColSpan = 0;
-				int emptyCellWidth = 0;
 				int rowHeight = JRGridLayout.getRowHeight(gridRow);
 				
 				boolean hasEmptyCell = hasEmptyCell(gridRow);
@@ -742,16 +771,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.getWrapper() != null)
+					if(gridCell.getWrapper() == null)
 					{
-						if (emptyCellColSpan > 0)
-						{
-							writeEmptyCell(emptyCellColSpan, emptyCellWidth, rowHeight);
-							emptyCellColSpan = 0;
-							emptyCellWidth = 0;
-						}
-
-						element = gridCell.getWrapper().getElement();
+						writeEmptyCell(gridCell, rowHeight);						
+					}
+					else
+					{
+						JRPrintElement element = gridCell.getWrapper().getElement();
 
 						if (element instanceof JRPrintLine)
 						{
@@ -777,19 +803,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 						{
 							exportFrame((JRPrintFrame) element, gridCell);
 						}
-
-						x += gridCell.getColSpan() - 1;
 					}
-					else
-					{
-						emptyCellColSpan++;
-						emptyCellWidth += gridCell.getWidth();
-					}
-				}
 
-				if (emptyCellColSpan > 0)
-				{
-					writeEmptyCell(emptyCellColSpan, emptyCellWidth, rowHeight);
+					x += gridCell.getColSpan() - 1;
 				}
 
 				writer.write("</tr>\n");
@@ -826,14 +842,27 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	private void writeEmptyCell(int emptyCellColSpan, int emptyCellWidth, int rowHeight) throws IOException
+	protected void writeEmptyCell(JRExporterGridCell cell, int rowHeight) throws IOException
 	{
 		writer.write("  <td");
-		if (emptyCellColSpan > 1)
+		if (cell.getColSpan() > 1)
 		{
-			writer.write(" colspan=\"" + emptyCellColSpan + "\"");
+			writer.write(" colspan=\"" + cell.getColSpan() + "\"");
 		}
-		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, emptyCellWidth, rowHeight, sizeUnit) + "</td>\n");
+
+		StringBuffer styleBuffer = new StringBuffer();
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
+
+		if (styleBuffer.length() > 0)
+		{
+			writer.write(" style=\"");
+			writer.write(styleBuffer.toString());
+			writer.write("\"");
+		}
+
+		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, cell.getWidth(), rowHeight, sizeUnit));
+		writer.write("</td>\n");
 	}
 
 
@@ -1058,8 +1087,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(text, styleBuffer);
-		appendBorderStyle(text, text, styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBorderStyle(gridCell.getBox(), styleBuffer);
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1283,35 +1312,35 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void appendBorderStyle(JRPrintElement element, JRBox box, StringBuffer styleBuffer)
+	protected void appendBorderStyle(JRBox box, StringBuffer styleBuffer)
 	{
 		if (box != null)
 		{
 			appendBorder(
 				styleBuffer,
 				box.getTopBorder(),
-				box.getTopBorderColor() == null ? element.getForecolor() : box.getTopBorderColor(),
+				box.getTopBorderColor(),
 				box.getTopPadding(),
 				"top"
 				);
 			appendBorder(
 				styleBuffer,
 				box.getLeftBorder(),
-				box.getLeftBorderColor() == null ? element.getForecolor() : box.getLeftBorderColor(),
+				box.getLeftBorderColor(),
 				box.getLeftPadding(),
 				"left"
 				);
 			appendBorder(
 				styleBuffer,
 				box.getBottomBorder(),
-				box.getBottomBorderColor() == null ? element.getForecolor() : box.getBottomBorderColor(),
+				box.getBottomBorderColor(),
 				box.getBottomPadding(),
 				"bottom"
 				);
 			appendBorder(
 				styleBuffer,
 				box.getRightBorder(),
-				box.getRightBorderColor() == null ? element.getForecolor() : box.getRightBorderColor(),
+				box.getRightBorderColor(),
 				box.getRightPadding(),
 				"right"
 				);
@@ -1319,15 +1348,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected Color appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
+	protected Color appendBackcolorStyle(JRExporterGridCell gridCell, StringBuffer styleBuffer)
 	{
-		if (element.getMode() == JRElement.MODE_OPAQUE && (backcolor == null || element.getBackcolor().getRGB() != backcolor.getRGB()))
+		Color cellBackcolor = gridCell.getCellBackcolor();
+		if (cellBackcolor != null && (backcolor == null || cellBackcolor.getRGB() != backcolor.getRGB()))
 		{
 			styleBuffer.append("background-color: #");
-			styleBuffer.append(JRColorUtil.getColorHexa(element.getBackcolor()));
+			styleBuffer.append(JRColorUtil.getColorHexa(cellBackcolor));
 			styleBuffer.append("; ");
 
-			return element.getBackcolor();
+			return backcolor;
 		}
 
 		return null;
@@ -1398,8 +1428,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(image, styleBuffer);
-		appendBorderStyle(image, image, styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBorderStyle(gridCell.getBox(), styleBuffer);
 
 		if (styleBuffer.length() > 0)
 		{
@@ -1866,8 +1896,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writeCellTDStart(gridCell);
 
 		StringBuffer styleBuffer = new StringBuffer();
-		Color frameBackcolor = appendBackcolorStyle(frame, styleBuffer);
-		appendBorderStyle(frame, frame, styleBuffer);
+		Color frameBackcolor = appendBackcolorStyle(gridCell, styleBuffer);
+		appendBorderStyle(gridCell.getBox(), styleBuffer);
 
 		if (styleBuffer.length() > 0)
 		{

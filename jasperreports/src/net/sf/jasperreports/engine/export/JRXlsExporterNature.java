@@ -102,5 +102,10 @@ public class JRXlsExporterNature implements ExporterNature
 	{
 		return false;
 	}
+
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return false;
+	}
 		
 }

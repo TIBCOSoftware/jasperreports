@@ -102,5 +102,10 @@ public class JROdtExporterNature implements ExporterNature
 	{
 		return true;
 	}
+
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return false;
+	}
 	
 }

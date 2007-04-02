@@ -102,5 +102,10 @@ public class JRCsvExporterNature implements ExporterNature
 	{
 		return false;
 	}
+
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return false;
+	}
 		
 }

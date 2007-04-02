@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRPrintFrame;
 
 
 /**
@@ -160,4 +161,18 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 */
 	public static final String SIZE_UNIT_POINT = "pt";
 
+	
+	/**
+	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested HTML tables.
+	 * <p>
+	 * The type of the parameter is <code>java.lang.Boolean</code>.
+	 * </p>
+	 * <p>
+	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page HTML table.
+	 * This can be useful when exporting frames as nested tables causes output misalignments.
+	 * </p>
+	 * @see JRHtmlExporter#PROPERTY_FRAMES_AS_NESTED_TABLES
+	 */
+	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export frames as nested tables");
+	
 }
