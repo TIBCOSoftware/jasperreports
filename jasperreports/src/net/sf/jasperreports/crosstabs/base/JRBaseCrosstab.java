@@ -276,8 +276,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 			element = crosstab.getHeaderCell().getElementByKey(key);
 		}
 		
-		element = getHeadersElement(crosstab.getRowGroups(), key);
-		
+		if (element == null)
+		{
+			element = getHeadersElement(crosstab.getRowGroups(), key);
+		}		
+
 		if (element == null)
 		{
 			element = getHeadersElement(crosstab.getColumnGroups(), key);
