@@ -230,9 +230,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 			
 			Colour backcolor = WHITE;
-			if (gridCell.getBackcolor() != null)
+			if (gridCell.getCellBackcolor() != null)
 			{
-				backcolor = getNearestColour(gridCell.getBackcolor());
+				backcolor = getNearestColour(gridCell.getCellBackcolor());
 			}
 			
 			Pattern mode = backgroundMode;
@@ -284,15 +284,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getNearestColour(element.getBackcolor());
-		}
-		else if (gridCell.getBackcolor() != null)
-		{
-			mode = Pattern.SOLID;
-			backcolor = getNearestColour(gridCell.getBackcolor());
+			backcolor = getNearestColour(gridCell.getCellBackcolor());
 		}
 
 		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
@@ -330,15 +325,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Pattern mode = this.backgroundMode;
 			Colour backcolor = WHITE;
 
-			if (text.getMode() == JRElement.MODE_OPAQUE)
+			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
-				backcolor = getNearestColour(text.getBackcolor());
-			}
-			else if (gridCell.getBackcolor() != null)
-			{
-				mode = Pattern.SOLID;
-				backcolor = getNearestColour(gridCell.getBackcolor());
+				backcolor = getNearestColour(gridCell.getCellBackcolor());
 			}
 
 			StyleInfo baseStyle = new StyleInfo(mode, backcolor, 

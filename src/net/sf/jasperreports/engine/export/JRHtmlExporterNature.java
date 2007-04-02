@@ -45,21 +45,26 @@ public class JRHtmlExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	private static final JRHtmlExporterNature INSTANCE = new JRHtmlExporterNature();
+	private static final JRHtmlExporterNature INSTANCE = new JRHtmlExporterNature(false);
+	
+	private static final JRHtmlExporterNature INSTANCE_DEEP = new JRHtmlExporterNature(true);
 
 	/**
 	 * 
 	 */
-	public static JRHtmlExporterNature getInstance()
+	public static JRHtmlExporterNature getInstance(boolean deep)
 	{
-		return INSTANCE; 
+		return deep ? INSTANCE_DEEP : INSTANCE; 
 	}
 
+	private final boolean deep;
+	
 	/**
 	 * 
 	 */
-	private JRHtmlExporterNature()
+	private JRHtmlExporterNature(boolean deep)
 	{
+		this.deep = deep;
 	}
 	
 	/**
@@ -75,7 +80,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isDeep()
 	{
-		return false;
+		return deep;
 	}
 	
 	/**
@@ -101,5 +106,10 @@ public class JRHtmlExporterNature implements ExporterNature
 	{
 		return false;
 	}
-	
+
+	public boolean isHorizontallyMergeEmptyCells()
+	{
+		return true;
+	}
+
 }

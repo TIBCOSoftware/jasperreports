@@ -187,10 +187,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (gridCell.getBackcolor() != null)
+		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 		
 		short forecolor = blackIndex;
@@ -249,15 +249,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (element.getMode() == JRElement.MODE_OPAQUE)
+		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(element.getBackcolor()).getIndex();
-		}
-		else if (gridCell.getBackcolor() != null)
-		{
-			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		HSSFCellStyle cellStyle = 
@@ -299,15 +294,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		if (textElement.getMode() == JRElement.MODE_OPAQUE)
+		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(textElement.getBackcolor()).getIndex();
-		}
-		else if (gridCell.getBackcolor() != null)
-		{
-			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getBackcolor()).getIndex();
+			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		StyleInfo baseStyle = getStyleInfo(

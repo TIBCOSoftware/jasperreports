@@ -291,7 +291,9 @@ public class JRGridLayout
 			}
 		}
 
-		setGridElements(wrappers, offsetX, offsetY);
+		setGridElements(wrappers,
+				offsetX, offsetY,
+				0, 0, rowCount, colCount);
 	}
 
 
@@ -332,7 +334,9 @@ public class JRGridLayout
 	}
 
 
-	protected void setGridElements(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY)
+	protected void setGridElements(ElementWrapper[] wrappers, 
+			int elementOffsetX, int elementOffsetY,
+			int startRow, int startCol, int endRow, int endCol)
 	{
 		for(int elementIndex = wrappers.length - 1; elementIndex >= 0; elementIndex--)
 		{
@@ -348,36 +352,83 @@ public class JRGridLayout
 				int x = element.getX() + elementOffsetX;
 				int y = element.getY() + elementOffsetY;
 				
-				if (nature.isDeep() && frame != null)
+				int col1 = xCuts.indexOf(new Integer(x));
+				int row1 = yCuts.indexOf(new Integer(y));
+				int col2 = xCuts.indexOf(new Integer(x + element.getWidth()));
+				int row2 = yCuts.indexOf(new Integer(y + element.getHeight()));
+				
+				if (!isOverlap(row1, col1, row2, col2))
 				{
-					setGridElements(
-						wrapper.getWrappers(), 
-						x + frame.getLeftPadding(), 
-						y + frame.getTopPadding()
-						);
-				}
-
-				if (toExport)
-				{
-					int col1 = xCuts.indexOf(new Integer(x));
-					int row1 = yCuts.indexOf(new Integer(y));
-					int col2 = xCuts.indexOf(new Integer(x + element.getWidth()));
-					int row2 = yCuts.indexOf(new Integer(y + element.getHeight()));
-
-					if (!isOverlap(row1, col1, row2, col2))
-					{
-						setGridElement(wrapper, row1, col1, row2, col2);
-					}
-
 					if (nature.isDeep() && frame != null)
 					{
-						setFrameCellsStyle(frame, row1, col1, row2, col2);
+						setGridElements(
+							wrapper.getWrappers(), 
+							x + frame.getLeftPadding(), 
+							y + frame.getTopPadding(),
+							row1, col1, row2, col2
+							);
+					}
+
+					if (toExport)
+					{
+						if (nature.isDeep() && frame != null)
+						{
+							setFrameCellsStyle(frame, row1, col1, row2, col2);
+						}
+						else
+						{
+							setGridElement(wrapper, row1, col1, row2, col2);
+						}
 					}
 				}
 			}
 		}
+		
+		if (nature.isHorizontallyMergeEmptyCells())
+		{
+			horizontallyMergeEmptyCells(startRow, startCol, endRow, endCol);
+		}
 	}
 
+	protected void horizontallyMergeEmptyCells(int startRow, int startCol, int endRow, int endCol)
+	{
+		for (int row = startRow; row < endRow; ++row)
+		{
+			int startSpan = -1;
+			int spanWidth = 0;
+			int col = startCol;
+			for (; col < endCol; ++col)
+			{
+				JRExporterGridCell cell = grid[row][col];
+				if (cell.isEmpty())
+				{
+					if (startSpan == -1)
+					{
+						startSpan = col;
+					}
+					spanWidth += cell.getWidth();
+				}
+				else
+				{
+					if (startSpan != -1 && col - startSpan > 1)
+					{
+						JRExporterGridCell spanCell = grid[row][startSpan];
+						spanCell.setColSpan(col - startSpan);
+						spanCell.setWidth(spanWidth);
+						//TODO set OCCUPIED_CELL?
+					}
+					startSpan = -1;
+					spanWidth = 0;
+				}
+			}
+			if (startSpan != -1 && col - startSpan > 1)
+			{
+				JRExporterGridCell spanCell = grid[row][startSpan];
+				spanCell.setColSpan(col - startSpan);
+				spanCell.setWidth(spanWidth);
+			}
+		}
+	}
 
 	protected boolean isOverlap(int row1, int col1, int row2, int col2)
 	{
@@ -389,7 +440,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (grid[row][col].getWrapper() != null)
+					if (!grid[row][col].isEmpty())
 					{
 						isOverlap = true;
 						break is_overlap_out;

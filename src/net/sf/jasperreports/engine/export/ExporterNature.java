@@ -58,5 +58,7 @@ public interface ExporterNature
 	public abstract boolean isSpanCells();
 
 	public abstract boolean isIgnoreLastRow();
-	
+
+	public abstract boolean isHorizontallyMergeEmptyCells();
+
 }
