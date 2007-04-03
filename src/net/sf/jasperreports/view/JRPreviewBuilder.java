@@ -186,84 +186,66 @@ public class JRPreviewBuilder
 		JRBand band = report.getBackground();
 		if(band != null)
 			setElements(band.getChildren(), report.getPageHeight());
+
+		Color color = new Color(170, 170, 255);
 		
-		addBandElements(report.getTitle());
-		addBandElements(report.getPageHeader());
+		addBandElements(report.getTitle(), color);
+		addBandElements(report.getPageHeader(), color);
 		upColumns = offsetY;
-		addBandElements(report.getColumnHeader());
+		addBandElements(report.getColumnHeader(), color);
 		
 		JRGroup[] groups = report.getGroups();
 		if (groups != null)
 		{
 			for (int i = 0; i < groups.length ; i++)
 			{
-				addBandElements(groups[i].getGroupHeader());
+				addBandElements(groups[i].getGroupHeader(), color);
 			}
 		}
 		
-		addBandElements(report.getDetail());
+		addBandElements(report.getDetail(), color);
 
 		if (groups != null)
 		{
 			for (int i = 0; i < groups.length ; i++)
 			{
-				addBandElements(groups[i].getGroupFooter());
+				addBandElements(groups[i].getGroupFooter(), color);
 			}
 		}
 		
-		addBandElements(report.getColumnFooter());
+		addBandElements(report.getColumnFooter(), color);
 		downColumns = offsetY;
-		addBandElements(report.getPageFooter());
-		addBandElements(report.getLastPageFooter());
-		addBandElements(report.getSummary());
+		addBandElements(report.getPageFooter(), color);
+		addBandElements(report.getLastPageFooter(), color);
+		addBandElements(report.getSummary(), color);
 		jasperPrint.setPageHeight(offsetY + report.getBottomMargin());
 		
 		// contour lines
-		Color color = new Color(0,0,0);
-		byte pen = JRGraphicElement.PEN_THIN;
 		for(int i = 0; i < contourElementsList.size(); i++)
 		{
-			ContourElement contourElement = (ContourElement)contourElementsList.get(i);
-			pageElements.add(0,getContourShape(contourElement));
-//			addContourLines(contourElement);
+			pageElements.add(getContourShape((ContourElement)contourElementsList.get(i)));
 		}
-		color = new Color(170, 170, 255);
-		pen = JRGraphicElement.PEN_DOTTED;
+		
+		//band dotted delimitation
 		for(int i = 0; i < bandSeparatorList.size(); i++)
 		{
-			int[] bandSeparator = (int[])bandSeparatorList.get(i);
-			pageElements.add(0,getContourLine(
-					bandSeparator[0], 
-					bandSeparator[1], 
-					bandSeparator[2], 
-					0, 
-					color, 
-					pen
-					));
-			pageElements.add(0,getContourLine(
-					bandSeparator[0], 
-					bandSeparator[1]+bandSeparator[3], 
-					bandSeparator[2], 
-					0, 
-					color, 
-					pen
-					));
+			pageElements.add(0,getContourLine((ContourElement)bandSeparatorList.get(i)));
 		}
 		
 		// column dotted delimitation 
 		int leftColumnPos = report.getLeftMargin();
 		for(int i = 0; i< report.getColumnCount(); i++)
 		{
-			pageElements.add(0,getContourLine(leftColumnPos, upColumns, 0, downColumns - upColumns, color, pen));
+			pageElements.add(0,getContourLine(new ContourElement(leftColumnPos, upColumns, 0, downColumns - upColumns, color, JRGraphicElement.PEN_DOTTED)));
 			leftColumnPos += report.getColumnWidth();
-			pageElements.add(0,getContourLine(leftColumnPos, upColumns, 0, downColumns - upColumns, color, pen));
+			pageElements.add(0,getContourLine(new ContourElement(leftColumnPos, upColumns, 0, downColumns - upColumns, color, JRGraphicElement.PEN_DOTTED)));
 			leftColumnPos += report.getColumnSpacing();
 		}
 		// page dotted contour line
-		pageElements.add(0,getContourLine(0, report.getTopMargin(), pageWidth, 0, color, pen));
-		pageElements.add(0,getContourLine(0, offsetY, pageWidth, 0, color, pen));
-		pageElements.add(0,getContourLine(offsetX, 0, 0, jasperPrint.getPageHeight(), color, pen));
-		pageElements.add(0,getContourLine(pageWidth - report.getRightMargin(), 0, 0, jasperPrint.getPageHeight(), color, pen));
+		pageElements.add(0,getContourLine(new ContourElement(0, report.getTopMargin(), pageWidth, 0, color, JRGraphicElement.PEN_DOTTED)));
+		pageElements.add(0,getContourLine(new ContourElement(0, offsetY, pageWidth, 0, color, JRGraphicElement.PEN_DOTTED)));
+		pageElements.add(0,getContourLine(new ContourElement(offsetX, 0, 0, jasperPrint.getPageHeight(), color, JRGraphicElement.PEN_DOTTED)));
+		pageElements.add(0,getContourLine(new ContourElement(pageWidth - report.getRightMargin(), 0, 0, jasperPrint.getPageHeight(), color, JRGraphicElement.PEN_DOTTED)));
 
 		page.setElements(pageElements);
 		jasperPrint.addPage(page);
@@ -406,15 +388,17 @@ public class JRPreviewBuilder
 	 * The method is a caller for the main setElements() method
 	 * @param band the band where elements are picked up from
 	 */
-	private void addBandElements (JRBand band)
+	private void addBandElements (JRBand band, Color color)
 	{
 		if(band != null)
 		{
 			if(isFirstBand)
-				bandSeparatorList.add(new int[]{0, offsetY, pageWidth, 0});
+			{	
+				bandSeparatorList.add(new ContourElement(0, offsetY, pageWidth, 0, color, JRGraphicElement.PEN_DOTTED));
+			}
 			setElements(band.getChildren(), band.getHeight());
 			offsetY += band.getHeight();
-			bandSeparatorList.add(new int[]{0, offsetY, pageWidth, 0});
+			bandSeparatorList.add(new ContourElement(0, offsetY, pageWidth, 0, color, JRGraphicElement.PEN_DOTTED));
 			isFirstBand = false;
 		}
 	}
@@ -593,15 +577,15 @@ public class JRPreviewBuilder
 	 * @param pen the line style
 	 * @return JRPrintLine
 	 */
-	private JRPrintLine getContourLine(int x, int y, int width, int height, Color color, byte pen)
+	private JRPrintLine getContourLine(ContourElement contour)
 	{
 		JRPrintLine line = new JRBasePrintLine(defaultStyleProvider);
-		line.setX(x);
-		line.setY(y);
-		line.setWidth(width);
-		line.setHeight(height);
-		line.setPen(pen);
-		line.setForecolor(color);
+		line.setX(contour.getContourX());
+		line.setY(contour.getContourY());
+		line.setWidth(contour.getContourWidth());
+		line.setHeight(contour.getContourHeight());
+		line.setPen(contour.getContourPen());
+		line.setForecolor(contour.getContourColor());
 		line.setDirection(JRLine.DIRECTION_TOP_DOWN);
 		return line;
 	}
@@ -627,58 +611,6 @@ public class JRPreviewBuilder
 		staticText.setForecolor(contour.getContourColor());
 		staticText.setMode(JRElement.MODE_TRANSPARENT);
 		return staticText;
-	}
-	
-	/**
-	 * Sets a dotted contour line around an object with given rectangular geometry
-	 * @param contour the ContourElement object containing the geometry information
-	 * @return
-	 */
-	private void addContourLines(ContourElement contour)
-	{
-		int contourX = contour.getContourX();
-		int contourY = contour.getContourY();
-		int contourWidth = contour.getContourWidth();
-		int contourHeight = contour.getContourHeight();
-		byte contourPen = contour.getContourPen();
-		Color contourColor = contour.getContourColor();
-		
-		//horizontal lines
-		if (contourHeight != jasperPrint.getPageHeight())
-		{
-			pageElements.add(getContourLine(
-					contourX, 
-					contourY, 
-					contourWidth, 
-					0, 
-					contourColor, 
-					contourPen));
-			pageElements.add(getContourLine(
-					contourX, 
-					contourY + contourHeight, 
-					contourWidth, 
-					0, 
-					contourColor, 
-					contourPen));
-		}
-		//vertical lines
-		if(contourWidth != jasperPrint.getPageWidth())
-		{
-			pageElements.add(getContourLine(
-					contourX, 
-					contourY,
-					0,
-					contourHeight, 
-					contourColor, 
-					contourPen));
-			pageElements.add(getContourLine(
-					contourX + contourWidth, 
-					contourY,
-					0,
-					contourHeight, 
-					contourColor, 
-					contourPen));
-		}
 	}
 	
 	/**
@@ -983,15 +915,15 @@ public class JRPreviewBuilder
 	 */
 	private void addContourElement(JRBasePrintElement baseElement)
 	{
-		ContourElement contourElement = new JRPreviewBuilder().new ContourElement();
-
-		contourElement.setContourX(baseElement.getX());
-		contourElement.setContourY(baseElement.getY());
-		contourElement.setContourWidth(baseElement.getWidth());
-		contourElement.setContourHeight(baseElement.getHeight());
 		Color contourColor = baseElement.getForecolor() == null ? Color.BLACK : baseElement.getForecolor();
-		contourElement.setContourColor(contourColor);
-		contourElement.setContourPen(JRGraphicElement.PEN_THIN);
+		ContourElement contourElement = 
+			new ContourElement(baseElement.getX(),
+								baseElement.getY(),
+								baseElement.getWidth(),
+								baseElement.getHeight(),
+								contourColor,
+								JRGraphicElement.PEN_THIN
+								);
 		contourElementsList.add(contourElement);
 	}
 	
@@ -1353,6 +1285,21 @@ public class JRPreviewBuilder
 		private int contourHeight;
 		private byte contourPen;
 		private Color contourColor;
+		
+		public ContourElement()
+		{
+			
+		}
+		
+		public ContourElement(int x, int y, int width, int height, Color color, byte pen)
+		{
+			this.contourX = x;
+			this.contourY = y;
+			this.contourWidth = width;
+			this.contourHeight = height;
+			this.contourColor = color;
+			this.contourPen = pen;
+		}
 		
 		/**
 		 * @return the contourColor
