@@ -473,15 +473,28 @@ public class JRStyledTextParser
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
-				styledText.append("\n \u2022 ");
+				String tmpText = styledText.getText();
+				if(tmpText.length() > 0 && !tmpText.endsWith("\n"))
+				{
+					styledText.append("\n");
+				}
+				styledText.append(" \u2022 ");
 
 				int startIndex = styledText.length();
 				resizeRuns(styledText.getRuns(), startIndex, 1);
-
 				parseStyle(styledText, node);
 				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
 				
-				styledText.append("\n");
+				// if the text in the next node does not start with a '\n', or 
+				// if the next node is not a <li /> one, we have to append a new line
+				Node nextNode = node.getNextSibling();
+				String textContent = getFirstTextOccurence(nextNode);
+				if(nextNode == null || 
+						!((nextNode.getNodeType() == Node.ELEMENT_NODE &&
+								NODE_li.equalsIgnoreCase(nextNode.getNodeName()) ||
+						(textContent != null && textContent.startsWith("\n")))
+						))
+					styledText.append("\n");
 				resizeRuns(styledText.getRuns(), startIndex, 1);
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE)
@@ -654,6 +667,27 @@ public class JRStyledTextParser
 		}
 		
 		return sbuffer;
+	}
+	
+	/**
+	 * The method returns the first text occurence in a given node element
+	 * @param node
+	 * @return String
+	 */
+	private String getFirstTextOccurence(Node node){
+		if(node != null)
+		{
+			if(node.getNodeValue() != null)
+				return node.getNodeValue();
+			NodeList nodeList = node.getChildNodes();
+			for (int i=0; i< nodeList.getLength(); i++)
+			{
+				String firstOccurence = getFirstTextOccurence(nodeList.item(i));
+				if(firstOccurence != null)
+					return firstOccurence;
+			}
+		}
+		return null;
 	}
 
 }
