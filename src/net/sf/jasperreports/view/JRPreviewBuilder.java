@@ -609,7 +609,7 @@ public class JRPreviewBuilder
 		rectangle.setHeight(contour.getContourHeight());
 		rectangle.setPen(JRGraphicElement.PEN_THIN);
 		rectangle.setForecolor(contour.getContourColor());
-		//rectangle.setMode(JRElement.MODE_TRANSPARENT);
+		rectangle.setMode(JRElement.MODE_TRANSPARENT);
 		return rectangle;
 	}
 	
