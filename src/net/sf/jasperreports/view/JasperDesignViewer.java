@@ -30,10 +30,17 @@ package net.sf.jasperreports.view;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
-
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.design.JRValidationException;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -42,37 +49,151 @@ import net.sf.jasperreports.engine.JRReport;
 public class JasperDesignViewer extends javax.swing.JFrame 
 {
 
-	
-	/** Creates new form JasperDesignViewer */
-	public JasperDesignViewer(String sourceFile, boolean isXML)  throws JRException
-	{
-		initComponents();
+	/**
+	 *
+	 */
+	private JRViewer viewer = null;
 
-		JRDesignViewer viewer = new JRDesignViewer(sourceFile, isXML);
-		this.pnlMain.add(viewer, BorderLayout.CENTER);
+	/**
+	 *
+	 */
+	private boolean isExitOnClose = true;
+	
+	/**
+	 *
+	 */
+	protected JasperPrint jasperPrint;
+	
+	/** 
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		String sourceFile, 
+		boolean isXMLFile
+		) throws JRException
+	{
+		this(sourceFile, isXMLFile, true);
 	}
 
-	
-	/** Creates new form JasperDesignViewer */
-	public JasperDesignViewer(InputStream is, boolean isXML) throws JRException
+	/** 
+	 * Creates new form JasperViewer
+	 */
+	public JasperDesignViewer(
+		InputStream is,
+		boolean isXMLFile
+		) throws JRException
 	{
-		initComponents();
-
-		JRDesignViewer viewer = new JRDesignViewer(is, isXML);
-		this.pnlMain.add(viewer, BorderLayout.CENTER);
+		this(is, isXMLFile, true);
 	}
 
-	
-	/** Creates new form JasperDesignViewer */
-	public JasperDesignViewer(JRReport report) throws JRException
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		JasperPrint jasperPrint
+		)
 	{
-		initComponents();
-
-		JRDesignViewer viewer = new JRDesignViewer(report);
-		this.pnlMain.add(viewer, BorderLayout.CENTER);
+		this(jasperPrint, true);
 	}
 
-	
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		)  throws JRException
+	{
+		this(sourceFile, isXMLFile, isExitOnClose, null);
+	}
+
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		this(is, isXMLFile, isExitOnClose, null);
+	}
+
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose
+		)
+	{
+		this(jasperPrint, isExitOnClose, null);
+	}
+
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		)  throws JRException
+	{
+		if (locale != null)
+			setLocale(locale);
+
+		this.isExitOnClose = isExitOnClose;
+
+		initComponents();
+		loadReport(sourceFile,isXMLFile);
+		this.viewer = new JRViewer(jasperPrint, locale);
+		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		if (locale != null)
+			setLocale(locale);
+
+		this.isExitOnClose = isExitOnClose;
+
+		initComponents();
+		loadReport(is,isXMLFile);
+		this.viewer = new JRViewer(jasperPrint, locale);
+		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Creates new form JasperViewer 
+	 */
+	public JasperDesignViewer(
+		JasperPrint jrPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
+		if (locale != null)
+			setLocale(locale);
+
+		this.isExitOnClose = isExitOnClose;
+
+		initComponents();
+
+		this.viewer = new JRViewer(jrPrint, locale);
+		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -81,7 +202,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	private void initComponents() {//GEN-BEGIN:initComponents
 		pnlMain = new javax.swing.JPanel();
 
-		setTitle("JasperDesignViewer");
+		setTitle("JasperViewer");
 		setIconImage(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/jricon.GIF")).getImage());
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -94,38 +215,76 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		getContentPane().add(pnlMain, java.awt.BorderLayout.CENTER);
 
 		pack();
-		
+
 		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		java.awt.Dimension screenSize = toolkit.getScreenSize();
 		int screenResolution = toolkit.getScreenResolution();
 		float zoom = ((float) screenResolution) / JRViewer.REPORT_RESOLUTION;
-		
+
 		int height = (int) (550 * zoom);
 		if (height > screenSize.getHeight())
 		{
 			height = (int) screenSize.getHeight();
-		}		
+		}
 		int width = (int) (750 * zoom);
 		if (width > screenSize.getWidth())
 		{
 			width = (int) screenSize.getWidth();
 		}
-		
+
 		java.awt.Dimension dimension = new java.awt.Dimension(width, height);
 		setSize(dimension);
 		setLocation((screenSize.width-width)/2,(screenSize.height-height)/2);
 	}//GEN-END:initComponents
 
-	/** Exit the Application */
+	/** 
+	 * Exit the Application 
+	 */
 	void exitForm() {//GEN-FIRST:event_exitForm
-		System.exit(0);
+
+		if (this.isExitOnClose)
+		{
+			System.exit(0);
+		}
+		else
+		{
+			this.setVisible(false);
+			this.viewer.clear();
+			this.viewer = null;
+			this.getContentPane().removeAll();
+			this.dispose();
+		}
+
 	}//GEN-LAST:event_exitForm
 
-	
+	/**
+	 *
+	 */
+	public void setZoomRatio(float zoomRatio)
+	{
+		viewer.setZoomRatio(zoomRatio);
+	}
+
+	/**
+	 *
+	 */
+	public void setFitWidthZoomRatio()
+	{
+		viewer.setFitWidthZoomRatio();
+	}
+
+	/**
+	 *
+	 */
+	public void setFitPageZoomRatio()
+	{
+		viewer.setFitPageZoomRatio();
+	}
+
 	/**
 	* @param args the command line arguments
 	*/
-	public static void main(String args[]) 
+	public static void main(String args[])
 	{
 		String fileName = null;
 		boolean isXMLFile = false;
@@ -135,7 +294,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 			usage();
 			return;
 		}
-				
+
 		int k = 0;
 		while ( args.length > k )
 		{
@@ -143,13 +302,13 @@ public class JasperDesignViewer extends javax.swing.JFrame
 				fileName = args[k].substring(2);
 			if ( args[k].startsWith("-XML") )
 				isXMLFile = true;
-			
-			k++;	
+
+			k++;
 		}
 
 		try
 		{
-			viewReportDesign(fileName, isXMLFile);
+			viewReport(fileName, isXMLFile);
 		}
 		catch (JRException e)
 		{
@@ -158,49 +317,205 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		}
 	}
 
-	
+
 	/**
-	*
-	*/
+	 *
+	 */
 	private static void usage()
 	{
-		System.out.println( "JasperDesignViewer usage:" );
-		System.out.println( "\tjava JasperDesignViewer -XML -Ffile" );
+		System.out.println( "JasperViewer usage:" );
+		System.out.println( "\tjava JasperViewer -XML -Ffile" );
 	}
 
-	
+
 	/**
-	*
-	*/
-	public static void viewReportDesign(String sourceFile, boolean isXML) throws JRException
+	 *
+	 */
+	public static void viewReport(
+		String sourceFile,
+		boolean isXMLFile
+		) throws JRException
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(sourceFile, isXML);
-		jasperDesignViewer.setVisible(true);
+		viewReport(sourceFile, isXMLFile, true, null);
 	}
 
-	
 	/**
-	*
-	*/
-	public static void viewReportDesign(InputStream is, boolean isXML) throws JRException
+	 *
+	 */
+	public static void viewReport(
+		InputStream is,
+		boolean isXMLFile
+		) throws JRException
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(is, isXML);
-		jasperDesignViewer.setVisible(true);
+		viewReport(is, isXMLFile, true, null);
 	}
 
-	
 	/**
-	*
-	*/
-	public static void viewReportDesign(JRReport report) throws JRException
+	 *
+	 */
+	public static void viewReport(
+		JasperPrint jasperPrint
+		)
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(report);
-		jasperDesignViewer.setVisible(true);
+		viewReport(jasperPrint, true, null);
 	}
 
-	
+	/**
+	 *
+	 */
+	public static void viewReport(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		viewReport(sourceFile, isXMLFile, isExitOnClose, null);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		viewReport(is, isXMLFile, isExitOnClose, null);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose
+		)
+	{
+		viewReport(jasperPrint, isExitOnClose, null);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		JasperDesignViewer jasperViewer =
+			new JasperDesignViewer(
+				sourceFile,
+				isXMLFile,
+				isExitOnClose,
+				locale
+				);
+		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		JasperDesignViewer jasperViewer =
+			new JasperDesignViewer(
+				is,
+				isXMLFile,
+				isExitOnClose,
+				locale
+				);
+		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
+		JasperDesignViewer jasperViewer =
+			new JasperDesignViewer(
+				jasperPrint,
+				isExitOnClose,
+				locale
+				);
+		jasperViewer.setVisible(true);
+	}
+
+
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JPanel pnlMain;
 	// End of variables declaration//GEN-END:variables
 
+	/**
+	 * 
+	 */
+	private void loadReport(String fileName, boolean isXmlReport) throws JRException
+	{
+		if (isXmlReport)
+		{
+			JasperDesign jasperDesign = JRXmlLoader.load(fileName);
+			setReport(jasperDesign);
+		}
+		else
+		{
+			setReport((JRReport) JRLoader.loadObject(fileName));
+		}
+	}
+
+	/**
+	*/
+	private void loadReport(InputStream is, boolean isXmlReport) throws JRException
+	{
+		if (isXmlReport)
+		{
+			JasperDesign jasperDesign = JRXmlLoader.load(is);
+			setReport(jasperDesign);
+		}
+		else
+		{
+			setReport((JRReport) JRLoader.loadObject(is));
+		}
+	}
+
+
+	/**
+	*/
+	private void loadReport(JRReport rep) throws JRException
+	{
+		setReport(rep);
+	}
+	
+	private void setReport(JRReport report) throws JRException
+	{
+		if (report instanceof JasperDesign)
+		{
+			verifyDesign((JasperDesign) report);
+		}
+		this.jasperPrint = new JRPreviewBuilder(report).getJasperPrint();
+	}
+
+	/**
+	*/
+	private void verifyDesign(JasperDesign jasperDesign) throws JRException
+	{
+		/*   */
+		Collection brokenRules = JasperCompileManager.verifyDesign(jasperDesign);
+		if (brokenRules != null && brokenRules.size() > 0)
+		{
+			throw new JRValidationException(brokenRules);
+		}
+	}
+	
 }
