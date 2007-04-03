@@ -602,15 +602,15 @@ public class JRPreviewBuilder
 	 */
 	private JRBasePrintElement getContourShape(ContourElement contour)
 	{
-		JRBasePrintText staticText = new JRBasePrintText(defaultStyleProvider);
-		staticText.setX(contour.getContourX());
-		staticText.setY(contour.getContourY());
-		staticText.setWidth(contour.getContourWidth());
-		staticText.setHeight(contour.getContourHeight());
-		staticText.setBorder(JRGraphicElement.PEN_THIN);
-		staticText.setForecolor(contour.getContourColor());
-		staticText.setMode(JRElement.MODE_TRANSPARENT);
-		return staticText;
+		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(defaultStyleProvider);
+		rectangle.setX(contour.getContourX());
+		rectangle.setY(contour.getContourY());
+		rectangle.setWidth(contour.getContourWidth());
+		rectangle.setHeight(contour.getContourHeight());
+		rectangle.setPen(JRGraphicElement.PEN_THIN);
+		rectangle.setForecolor(contour.getContourColor());
+		//rectangle.setMode(JRElement.MODE_TRANSPARENT);
+		return rectangle;
 	}
 	
 	/**
