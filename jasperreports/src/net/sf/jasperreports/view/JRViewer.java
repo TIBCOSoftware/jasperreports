@@ -134,8 +134,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected int defaultZoomIndex = 2;
 
 	private int type = TYPE_FILE_NAME;
-	private boolean isXML = false;
-	private String reportFileName = null;
+	protected boolean isXML = false;
+	protected String reportFileName = null;
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
 	private float zoom = 0f;
@@ -171,6 +171,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	private java.util.List saveContributors = new ArrayList();
 	
+	/** Creates new form JRViewer */
+	protected JRViewer()
+	{
+	}
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException

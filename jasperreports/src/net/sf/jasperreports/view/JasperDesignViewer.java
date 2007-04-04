@@ -52,7 +52,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	/**
 	 *
 	 */
-	private JRViewer viewer = null;
+	private JRDesignViewer viewer = null;
 
 	/**
 	 *
@@ -148,7 +148,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 		loadReport(sourceFile,isXMLFile);
-		this.viewer = new JRViewer(jasperPrint, locale);
+		this.viewer = new JRDesignViewer(jasperPrint,isXMLFile, locale);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
@@ -169,7 +169,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 		loadReport(is,isXMLFile);
-		this.viewer = new JRViewer(jasperPrint, locale);
+		this.viewer = new JRDesignViewer(jasperPrint,isXMLFile, locale);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
@@ -189,7 +189,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(jrPrint, locale);
+		this.viewer = new JRDesignViewer(jrPrint, locale);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
