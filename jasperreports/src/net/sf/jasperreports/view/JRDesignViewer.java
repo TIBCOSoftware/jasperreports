@@ -110,7 +110,7 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(String fileName, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
 	{
 		super(fileName, isXML, locale, resBundle);
-		hideNavigation();
+		hideUnusedComponents();
 	}
 
 
@@ -118,7 +118,7 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(InputStream is, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
 	{
 		super(is, isXML, locale, resBundle);
-		hideNavigation();
+		hideUnusedComponents();
 	}
 
 
@@ -134,16 +134,17 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(JasperPrint jrPrint, Locale locale, ResourceBundle resBundle)
 	{
 		super(jrPrint, locale, resBundle);
-		hideNavigation();
+		hideUnusedComponents();
 	}
 
-	private void hideNavigation()
+	private void hideUnusedComponents()
 	{
 		btnFirst.setVisible(false);
 		btnLast.setVisible(false);
 		btnPrevious.setVisible(false);	
 		btnNext.setVisible(false);
 		txtGoTo.setVisible(false);
+		pnlStatus.setVisible(false);
 	}
 	
 	/**
