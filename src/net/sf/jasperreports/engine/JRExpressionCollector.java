@@ -711,7 +711,8 @@ public class JRExpressionCollector
 	public void collect( JRValueDataset valueDataset ){
 		collect((JRElementDataset) valueDataset);
 
-        addExpression(valueDataset.getValueExpression());		
+		JRExpressionCollector collector = getCollector(valueDataset);
+		collector.addExpression(valueDataset.getValueExpression());		
 	}
 		
 	/**
