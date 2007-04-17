@@ -1309,6 +1309,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	/**
 	*/
+	public int getPageIndex()
+	{
+		return pageIndex;
+	} 
+
+
+	/**
+	*/
 	private void setPageIndex(int index)
 	{
 		pageIndex = index;
