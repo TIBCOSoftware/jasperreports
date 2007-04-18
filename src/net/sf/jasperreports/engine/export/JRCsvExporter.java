@@ -395,7 +395,10 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			boolean putQuotes = false;
 			
-			if (source.indexOf(delimiter) >= 0)
+			if (
+				source.indexOf(delimiter) >= 0
+				|| source.indexOf(recordDelimiter) >= 0
+				)
 			{
 				putQuotes = true;
 			}
