@@ -443,9 +443,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		Object source = evaluateExpression(expression, evaluation);
 		if (source != null)
 		{
-			if (this.isUsingCache() && this.filler.fillContext.hasLoadedImage(source))
+			if (isUsingCache() && filler.fillContext.hasLoadedImage(source))
 			{
-				newRenderer = this.filler.fillContext.getLoadedImage(source).getRenderer();
+				newRenderer = filler.fillContext.getLoadedImage(source).getRenderer();
 			}
 			else
 			{
@@ -482,11 +482,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					newRenderer = (JRRenderable) source;
 				}
 
-				if (this.isUsingCache())
+				if (isUsingCache())
 				{
-					JRPrintImage img = new JRTemplatePrintImage(this.getJRTemplateImage());
+					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage());
 					img.setRenderer(newRenderer);
-					this.filler.fillContext.registerLoadedImage(source, img);
+					filler.fillContext.registerLoadedImage(source, img);
 				}
 			}
 		}

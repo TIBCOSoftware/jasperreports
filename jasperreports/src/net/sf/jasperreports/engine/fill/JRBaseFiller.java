@@ -253,8 +253,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	
 	protected URLStreamHandlerFactory urlHandlerFactory;
 
-	protected Map loadedSubreports = null;
-
 	protected JRFillContext fillContext;
 
 	/**
@@ -755,8 +753,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 					jasperPrint.addStyle(styles[i], true);
 				}
 			}
-
-			loadedSubreports = new HashMap();
 
 			createBoundElemementMaps();
 
