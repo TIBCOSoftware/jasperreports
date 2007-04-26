@@ -35,6 +35,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.FormatFactory;
 
@@ -50,6 +51,7 @@ import net.sf.jasperreports.engine.util.FormatFactory;
 public class JRFillContext
 {
 	private Map loadedImages;
+	private Map loadedSubreports;
 	private boolean usingVirtualizer = false;
 	private boolean perPageBoundElements = false;
 	private JRPrintPage printPage = null;
@@ -69,6 +71,7 @@ public class JRFillContext
 	public JRFillContext()
 	{
 		loadedImages = new HashMap();
+		loadedSubreports = new HashMap();
 	}
 	
 	
@@ -115,6 +118,48 @@ public class JRFillContext
 		{
 			virtualizationContext.cacheRenderer(image);
 		}
+	}
+
+	
+	/**
+	 * Checks whether a subreport given by source has already been loaded and cached.
+	 * 
+	 * @param source the source of the subreport
+	 * @return whether the subreport has been cached
+	 * @see #getLoadedSubreport(Object)
+	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 */
+	public boolean hasLoadedSubreport(Object source)
+	{
+		return loadedSubreports.containsKey(source); 
+	}
+	
+	
+	/**
+	 * Gets a cached subreport.
+	 * 
+	 * @param source the source of the subreport
+	 * @return the cached subreport
+	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 */
+	public JasperReport getLoadedSubreport(Object source)
+	{
+		return (JasperReport) loadedSubreports.get(source); 
+	}
+	
+	
+	/**
+	 * Registers a subreport loaded from a source.
+	 * <p>
+	 * The subreport is cached for further use.
+	 * 
+	 * @param source the source that was used to load the subreport
+	 * @param subreport the loaded subreport
+	 * @see #getLoadedSubreport(Object)
+	 */
+	public void registerLoadedSubreport(Object source, JasperReport subreport)
+	{
+		loadedSubreports.put(source, subreport);
 	}
 
 	

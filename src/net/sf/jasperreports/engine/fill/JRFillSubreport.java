@@ -257,94 +257,105 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			isPrintWhenTrue()))
 			)
 		{
-			JRExpression expression = getExpression();
-			Object source = evaluateExpression(expression, evaluation);
-			if (source != null) // FIXME put some default broken image like in browsers
-			{
-				JREvaluator evaluator = null;
-				
-				if (isUsingCache() && filler.loadedSubreports.containsKey(source))
-				{
-					jasperReport = (JasperReport)filler.loadedSubreports.get(source);
-					evaluator = (JREvaluator)loadedEvaluators.get(jasperReport);
+			evaluateSubreport(evaluation);
+		}
+	}
 
-					if (evaluator == null)
-					{
-						evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
-						loadedEvaluators.put(jasperReport, evaluator);
-					}
-				}
-				else
+
+	/**
+	 *
+	 */
+	protected void evaluateSubreport(
+		byte evaluation
+		) throws JRException
+	{
+		JRExpression expression = getExpression();
+		Object source = evaluateExpression(expression, evaluation);
+		if (source != null) // FIXME put some default broken image like in browsers
+		{
+			JREvaluator evaluator = null;
+			
+			if (isUsingCache() && filler.fillContext.hasLoadedSubreport(source))
+			{
+				jasperReport = filler.fillContext.getLoadedSubreport(source);
+				evaluator = (JREvaluator)loadedEvaluators.get(jasperReport);
+
+				if (evaluator == null)
 				{
-					Class expressionClass = expression.getValueClass();
-					
-					if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
-					{
-						jasperReport = (JasperReport)source;
-					}
-					else if (expressionClass.equals(java.io.InputStream.class))
-					{
-						jasperReport = (JasperReport)JRLoader.loadObject((InputStream)source);
-					}
-					else if (expressionClass.equals(java.net.URL.class))
-					{
-						jasperReport = (JasperReport)JRLoader.loadObject((URL)source);
-					}
-					else if (expressionClass.equals(java.io.File.class))
-					{
-						jasperReport = (JasperReport)JRLoader.loadObject((File)source);
-					}
-					else if (expressionClass.equals(java.lang.String.class))
-					{
-						jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader,
-								filler.urlHandlerFactory);
-					}
-					
-					if (jasperReport != null)
-					{
-						evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
-					}
-					
-					if (isUsingCache())
-					{
-						filler.loadedSubreports.put(source, jasperReport);
-						loadedEvaluators.put(jasperReport, evaluator);
-					}
+					evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
+					loadedEvaluators.put(jasperReport, evaluator);
+				}
+			}
+			else
+			{
+				Class expressionClass = expression.getValueClass();
+				
+				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
+				{
+					jasperReport = (JasperReport)source;
+				}
+				else if (expressionClass.equals(java.io.InputStream.class))
+				{
+					jasperReport = (JasperReport)JRLoader.loadObject((InputStream)source);
+				}
+				else if (expressionClass.equals(java.net.URL.class))
+				{
+					jasperReport = (JasperReport)JRLoader.loadObject((URL)source);
+				}
+				else if (expressionClass.equals(java.io.File.class))
+				{
+					jasperReport = (JasperReport)JRLoader.loadObject((File)source);
+				}
+				else if (expressionClass.equals(java.lang.String.class))
+				{
+					jasperReport = (JasperReport)JRLoader.loadObjectFromLocation((String)source, filler.reportClassLoader,
+							filler.urlHandlerFactory);
 				}
 				
 				if (jasperReport != null)
 				{
-					/*   */
-					expression = getConnectionExpression();
-					connection = (Connection) evaluateExpression(expression, evaluation);
-			
-					/*   */
-					expression = getDataSourceExpression();
-					dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
-					
-					parameterValues = 
-						getParameterValues(
-							filler, 
-							getParametersMapExpression(), 
-							getParameters(), 
-							evaluation, 
-							false, 
-							jasperReport.getResourceBundle() != null,//hasResourceBundle 
-							jasperReport.getFormatFactoryClass() != null//hasFormatFactory
-							);
-
-					if (subreportFiller != null)
-					{
-						filler.unregisterSubfiller(subreportFiller);
-					}
-		
-					/*   */
-					initSubreportFiller(evaluator);
-					
-					checkReturnValues();
-					
-					saveReturnVariables();
+					evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
 				}
+				
+				if (isUsingCache())
+				{
+					filler.fillContext.registerLoadedSubreport(source, jasperReport);
+					loadedEvaluators.put(jasperReport, evaluator);
+				}
+			}
+			
+			if (jasperReport != null)
+			{
+				/*   */
+				expression = getConnectionExpression();
+				connection = (Connection) evaluateExpression(expression, evaluation);
+		
+				/*   */
+				expression = getDataSourceExpression();
+				dataSource = (JRDataSource) evaluateExpression(expression, evaluation);
+				
+				parameterValues = 
+					getParameterValues(
+						filler, 
+						getParametersMapExpression(), 
+						getParameters(), 
+						evaluation, 
+						false, 
+						jasperReport.getResourceBundle() != null,//hasResourceBundle 
+						jasperReport.getFormatFactoryClass() != null//hasFormatFactory
+						);
+
+				if (subreportFiller != null)
+				{
+					filler.unregisterSubfiller(subreportFiller);
+				}
+	
+				/*   */
+				initSubreportFiller(evaluator);
+				
+				checkReturnValues();
+				
+				saveReturnVariables();
 			}
 		}
 	}
