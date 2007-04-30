@@ -62,7 +62,7 @@ public class JRJdk12Compiler extends JRAbstractMultiClassCompiler
 
 		try 
 		{
-			Class javacClass = JRClassLoader.loadClassForName("sun.tools.javac.Main");
+			Class javacClass = JRClassLoader.loadClassForRealName("sun.tools.javac.Main");
 			Constructor constructor = javacClass.getConstructor(new Class[] {OutputStream.class, String.class});
 			Method compileMethod = javacClass.getMethod("compile", new Class[] {String[].class});
 			Object javac = constructor.newInstance(new Object[] {baos, source[0]});

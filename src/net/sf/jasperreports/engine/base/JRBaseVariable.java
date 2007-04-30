@@ -55,7 +55,9 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	protected String name = null;
 	protected String valueClassName = java.lang.String.class.getName();
+	protected String valueClassRealName = null;
 	protected String incrementerFactoryClassName = null;
+	protected String incrementerFactoryClassRealName = null;
 	protected byte resetType = RESET_TYPE_REPORT;
 	protected byte incrementType = RESET_TYPE_NONE;
 	protected byte calculation = CALCULATION_NOTHING;
@@ -119,11 +121,12 @@ public class JRBaseVariable implements JRVariable, Serializable
 	{
 		if (valueClass == null)
 		{
-			if (valueClassName != null)
+			String className = getValueClassRealName();
+			if (className != null)
 			{
 				try
 				{
-					valueClass = JRClassLoader.loadClassForName(valueClassName);
+					valueClass = JRClassLoader.loadClassForName(className);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -142,7 +145,20 @@ public class JRBaseVariable implements JRVariable, Serializable
 	{
 		return valueClassName;
 	}
+
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
 		
+		return valueClassRealName;
+	}
+
 	/**
 	 *
 	 */
@@ -150,11 +166,12 @@ public class JRBaseVariable implements JRVariable, Serializable
 	{
 		if (incrementerFactoryClass == null)
 		{
-			if (incrementerFactoryClassName != null)
+			String className = getIncrementerFactoryClassRealName();
+			if (className != null)
 			{
 				try
 				{
-					incrementerFactoryClass = JRClassLoader.loadClassForName(incrementerFactoryClassName);
+					incrementerFactoryClass = JRClassLoader.loadClassForName(className);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -173,7 +190,20 @@ public class JRBaseVariable implements JRVariable, Serializable
 	{
 		return incrementerFactoryClassName;
 	}
+
+	/**
+	 *
+	 */
+	private String getIncrementerFactoryClassRealName()
+	{
+		if (incrementerFactoryClassRealName == null)
+		{
+			incrementerFactoryClassRealName = JRClassLoader.getClassRealName(incrementerFactoryClassName);
+		}
 		
+		return incrementerFactoryClassRealName;
+	}
+
 	/**
 	 *
 	 */

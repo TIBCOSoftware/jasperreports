@@ -54,6 +54,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 *
 	 */
 	protected String valueClassName = null;
+	protected String valueClassRealName = null;
 	protected int id = 0;
 
 	protected transient Class valueClass = null;
@@ -149,11 +150,12 @@ public class JRBaseExpression implements JRExpression, Serializable
 	{
 		if (valueClass == null)
 		{
-			if (valueClassName != null)
+			String className = getValueClassRealName();
+			if (className != null)
 			{
 				try
 				{
-					valueClass = JRClassLoader.loadClassForName(valueClassName);
+					valueClass = JRClassLoader.loadClassForName(className);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -173,6 +175,19 @@ public class JRBaseExpression implements JRExpression, Serializable
 		return valueClassName;
 	}
 	
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
+		
+		return valueClassRealName;
+	}
+
 	/**
 	 *
 	 */

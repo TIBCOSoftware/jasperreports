@@ -55,6 +55,7 @@ public class JRBaseField implements JRField, Serializable
 	protected String name = null;
 	protected String description = null;
 	protected String valueClassName = java.lang.String.class.getName();
+	protected String valueClassRealName = null;
 
 	protected transient Class valueClass = null;
 	
@@ -116,11 +117,12 @@ public class JRBaseField implements JRField, Serializable
 	{
 		if (valueClass == null)
 		{
-			if (valueClassName != null)
+			String className = getValueClassRealName();
+			if (className != null)
 			{
 				try
 				{
-					valueClass = JRClassLoader.loadClassForName(valueClassName);
+					valueClass = JRClassLoader.loadClassForName(className);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -138,6 +140,19 @@ public class JRBaseField implements JRField, Serializable
 	public String getValueClassName()
 	{
 		return this.valueClassName;
+	}
+
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
+		
+		return valueClassRealName;
 	}
 
 

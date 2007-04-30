@@ -74,9 +74,9 @@ public class JRImageLoader
 	{
 		try 
 		{
-			JRClassLoader.loadClassForName("javax.imageio.ImageIO");
+			JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
 
-			Class clazz = JRClassLoader.loadClassForName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
+			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageReader");	
 			imageReader = (JRImageReader) clazz.newInstance();
 		}
 		catch (Exception e)
@@ -86,9 +86,9 @@ public class JRImageLoader
 
 		try 
 		{
-			JRClassLoader.loadClassForName("javax.imageio.ImageIO");
+			JRClassLoader.loadClassForRealName("javax.imageio.ImageIO");
 
-			Class clazz = JRClassLoader.loadClassForName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
+			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.util.JRJdk14ImageEncoder");	
 			imageEncoder = (JRImageEncoder) clazz.newInstance();
 		}
 		catch (Exception e)
