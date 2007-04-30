@@ -59,6 +59,16 @@ public interface ExporterNature
 
 	public abstract boolean isIgnoreLastRow();
 
+	
+	/**
+	 * Flag that specifies that empty cells are to be horizontally merged.
+	 * <p>
+	 * If the flag is set and this nature is {@link #isDeep() deep}, the nature is required
+	 * to {@link #isToExport(JRPrintElement) export} {@link JRPrintFrame frames}.
+	 * </p>
+	 * 
+	 * @return whether empty cells are to be horizontally merged
+	 */
 	public abstract boolean isHorizontallyMergeEmptyCells();
 
 }

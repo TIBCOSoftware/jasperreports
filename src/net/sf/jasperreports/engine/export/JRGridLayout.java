@@ -357,7 +357,7 @@ public class JRGridLayout
 				int col2 = xCuts.indexOf(new Integer(x + element.getWidth()));
 				int row2 = yCuts.indexOf(new Integer(y + element.getHeight()));
 				
-				if (!isOverlap(row1, col1, row2, col2))
+				if (!(toExport && isOverlap(row1, col1, row2, col2)))
 				{
 					if (nature.isDeep() && frame != null)
 					{
