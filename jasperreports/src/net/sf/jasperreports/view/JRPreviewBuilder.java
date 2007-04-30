@@ -915,15 +915,16 @@ public class JRPreviewBuilder
 	 */
 	private void addContourElement(JRBasePrintElement baseElement)
 	{
-		Color contourColor = baseElement.getForecolor() == null ? Color.BLACK : baseElement.getForecolor();
+		Color contourColor = baseElement.getForecolor() == null ? Color.black : baseElement.getForecolor();
 		ContourElement contourElement = 
-			new ContourElement(baseElement.getX(),
-								baseElement.getY(),
-								baseElement.getWidth(),
-								baseElement.getHeight(),
-								contourColor,
-								JRGraphicElement.PEN_THIN
-								);
+			new ContourElement(
+				baseElement.getX(),
+				baseElement.getY(),
+				baseElement.getWidth(),
+				baseElement.getHeight(),
+				contourColor,
+				JRGraphicElement.PEN_THIN
+				);
 		contourElementsList.add(contourElement);
 	}
 	
