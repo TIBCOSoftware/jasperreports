@@ -56,6 +56,7 @@ public class JRBaseParameter implements JRParameter, Serializable
 	protected String name = null;
 	protected String description = null;
 	protected String valueClassName = java.lang.String.class.getName();
+	protected String valueClassRealName = null;
 	protected boolean isSystemDefined = false;
 	protected boolean isForPrompting = true;
 
@@ -128,11 +129,12 @@ public class JRBaseParameter implements JRParameter, Serializable
 	{
 		if (valueClass == null)
 		{
-			if (valueClassName != null)
+			String className = getValueClassRealName();
+			if (className != null)
 			{
 				try
 				{
-					valueClass = JRClassLoader.loadClassForName(valueClassName);
+					valueClass = JRClassLoader.loadClassForName(className);
 				}
 				catch(ClassNotFoundException e)
 				{
@@ -150,6 +152,19 @@ public class JRBaseParameter implements JRParameter, Serializable
 	public String getValueClassName()
 	{
 		return valueClassName;
+	}
+
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
+		
+		return valueClassRealName;
 	}
 
 	/**

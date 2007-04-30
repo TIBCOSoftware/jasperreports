@@ -115,7 +115,7 @@ public final class JRDefaultCompiler implements JRCompiler
 
 		try 
 		{
-			JRClassLoader.loadClassForName("org.eclipse.jdt.internal.compiler.Compiler");
+			JRClassLoader.loadClassForRealName("org.eclipse.jdt.internal.compiler.Compiler");
 			compiler = new JRJdtCompiler();
 		}
 		catch (Exception e)
@@ -126,7 +126,7 @@ public final class JRDefaultCompiler implements JRCompiler
 		{
 			try 
 			{
-				JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
+				JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
 				compiler = new JRJdk13Compiler();
 			}
 			catch (Exception e)
@@ -138,7 +138,7 @@ public final class JRDefaultCompiler implements JRCompiler
 		{
 			try 
 			{
-				JRClassLoader.loadClassForName("sun.tools.javac.Main");
+				JRClassLoader.loadClassForRealName("sun.tools.javac.Main");
 				compiler = new JRJdk12Compiler();
 			}
 			catch (Exception e)

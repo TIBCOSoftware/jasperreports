@@ -78,7 +78,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 
 		try 
 		{
-			Class clazz = JRClassLoader.loadClassForName("com.sun.tools.javac.Main");
+			Class clazz = JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
 			Object compiler = clazz.newInstance();
 			
 			try 

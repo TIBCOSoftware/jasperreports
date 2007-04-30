@@ -431,7 +431,7 @@ public class JasperPrintManager
 			try 
 			{
 				Class printServiceExporterClass = 
-					JRClassLoader.loadClassForName("net.sf.jasperreports.engine.export.JRPrintServiceExporter");
+					JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.export.JRPrintServiceExporter");
 				Method method = printServiceExporterClass.getMethod("checkAvailablePrinters", (Class[])null);
 				return ((Boolean)method.invoke(null, (Object[])null)).booleanValue();
 			}

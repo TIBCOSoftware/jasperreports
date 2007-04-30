@@ -575,7 +575,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			try
 			{
-				Class valueClass = JRClassLoader.loadClassForName(text.getValueClassName());
+				Class valueClass = JRClassLoader.loadClassForRealName(text.getValueClassName());
 				if (java.lang.Number.class.isAssignableFrom(valueClass))
 				{
 					textValue = getNumberCellValue(text, textStr);
@@ -652,7 +652,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			if (textStr != null && textStr.length() > 0)
 			{
-				Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForName(text.getValueClassName()));
+				Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForRealName(text.getValueClassName()));
 
 				if (value != null)
 				{

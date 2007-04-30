@@ -64,6 +64,48 @@ public class JRClassLoader extends ClassLoader
 	{
 		Class clazz = null;
 
+		String classRealName = className;
+		ClassNotFoundException initialEx = null;
+
+		try
+		{
+			clazz = loadClassForRealName(classRealName);
+		}
+		catch (ClassNotFoundException e)
+		{
+			initialEx = e;
+		}
+		
+		int lastDotIndex = 0;
+		while (clazz == null && (lastDotIndex = classRealName.lastIndexOf('.')) > 0)
+		{
+			classRealName = 
+				classRealName.substring(0, lastDotIndex) + "$" + classRealName.substring(lastDotIndex + 1);
+			try
+			{
+				clazz = loadClassForRealName(classRealName);
+			}
+			catch (ClassNotFoundException e)
+			{
+			}
+		}
+		
+		if (clazz == null)
+		{
+			throw initialEx;
+		}
+		
+		return clazz;
+	}
+
+
+	/**
+	 *
+	 */
+	public static Class loadClassForRealName(String className) throws ClassNotFoundException
+	{
+		Class clazz = null;
+
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
 		{
@@ -252,6 +294,50 @@ public class JRClassLoader extends ClassLoader
 				);
 
 		return clazz;
+	}
+
+
+	/**
+	 *
+	 */
+	public static String getClassRealName(String className)
+	{
+		if (className == null)
+		{
+			return null;
+		}
+		
+		int arrayDimension = 0;
+		int classNameEnd = className.length();
+		int index = 0;
+		int pos = 0;
+		while (index < classNameEnd && (pos = className.indexOf('[', index)) >= 0)
+		{
+			if (index == 0)
+			{
+				classNameEnd = pos;
+			}
+			index = pos;
+			arrayDimension++;
+		}
+
+		if (arrayDimension > 0)
+		{
+			StringBuffer sbuffer = new StringBuffer();
+			
+			for(int i = 0; i < arrayDimension; i++)
+			{
+				sbuffer.append('[');
+			}
+			
+			sbuffer.append('L');
+			sbuffer.append(className.substring(0, classNameEnd));
+			sbuffer.append(';');
+
+			return sbuffer.toString();
+		}
+		
+		return className;
 	}
 
 

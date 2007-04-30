@@ -49,13 +49,16 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 
 	protected String name;
 	protected String valueClassName;
+	protected String valueClassRealName = null;
 	protected Class valueClass;
 	protected JRExpression expression;
 	protected byte calculation = JRVariable.CALCULATION_COUNT;
 	protected String incrementerFactoryClassName;
+	protected String incrementerFactoryClassRealName;
 	protected Class incrementerFactoryClass;
 	protected byte percentageOfType = JRCrosstabMeasure.PERCENTAGE_TYPE_NONE;
 	protected String percentageCalculatorClassName;
+	protected String percentageCalculatorClassRealName;
 	protected Class percentageCalculatorClass;
 	protected JRVariable variable;
 
@@ -109,36 +112,70 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 
 	public Class getIncrementerFactoryClass()
 	{
-		if (incrementerFactoryClass == null && incrementerFactoryClassName != null)
+		if (incrementerFactoryClass == null)
 		{
-			try
+			String className = getIncrementerFactoryClassRealName();
+			if (className != null)
 			{
-				incrementerFactoryClass = JRClassLoader.loadClassForName(incrementerFactoryClassName);
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRRuntimeException("Could not load measure incrementer class", e);
+				try
+				{
+					incrementerFactoryClass = JRClassLoader.loadClassForName(className);
+				}
+				catch (ClassNotFoundException e)
+				{
+					throw new JRRuntimeException("Could not load measure incrementer class", e);
+				}
 			}
 		}
 		
 		return incrementerFactoryClass;
 	}
 
+	/**
+	 *
+	 */
+	private String getIncrementerFactoryClassRealName()
+	{
+		if (incrementerFactoryClassRealName == null)
+		{
+			incrementerFactoryClassRealName = JRClassLoader.getClassRealName(incrementerFactoryClassName);
+		}
+		
+		return incrementerFactoryClassRealName;
+	}
+
 	public Class getValueClass()
 	{
-		if (valueClass == null && valueClassName != null)
+		if (valueClass == null)
 		{
-			try
+			String className = getValueClassRealName();
+			if (className != null)
 			{
-				valueClass = JRClassLoader.loadClassForName(valueClassName);
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRRuntimeException("Could not load bucket value class", e);
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(className);
+				}
+				catch (ClassNotFoundException e)
+				{
+					throw new JRRuntimeException("Could not load bucket value class", e);
+				}
 			}
 		}
 		
 		return valueClass;
+	}
+
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
+		
+		return valueClassRealName;
 	}
 
 	public JRVariable getVariable()
@@ -153,18 +190,36 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 
 	public Class getPercentageCalculatorClass()
 	{
-		if (percentageCalculatorClass == null && percentageCalculatorClassName != null)
+		if (percentageCalculatorClass == null)
 		{
-			try
+			String className = getPercentageCalculatorClassRealName();
+			if (className != null)
 			{
-				percentageCalculatorClass = JRClassLoader.loadClassForName(percentageCalculatorClassName);
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRRuntimeException("Could not load measure percentage calculator class", e);
+				try
+				{
+					percentageCalculatorClass = JRClassLoader.loadClassForName(className);
+				}
+				catch (ClassNotFoundException e)
+				{
+					throw new JRRuntimeException("Could not load measure percentage calculator class", e);
+				}
 			}
 		}
 		
 		return percentageCalculatorClass;
 	}
+
+	/**
+	 *
+	 */
+	private String getPercentageCalculatorClassRealName()
+	{
+		if (percentageCalculatorClassRealName == null)
+		{
+			percentageCalculatorClassRealName = JRClassLoader.getClassRealName(percentageCalculatorClassName);
+		}
+		
+		return percentageCalculatorClassRealName;
+	}
+
 }
