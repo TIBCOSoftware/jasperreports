@@ -1,0 +1,5533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference>
+
+<!-- anchorNameExpression -->
+<element>
+  <name>anchorNameExpression</name>
+  <description>If specified, it will supply the name of the local anchor that will mark to the corresponding element.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- areaChart -->
+<element>
+  <name>areaChart</name>
+  <description>Defines an area chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="areaPlot">areaPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- areaPlot -->
+<element>
+  <name>areaPlot</name>
+  <description>Defines rendering options for an <a href="areaChart">&lt;areaChart&gt;</a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- axis -->
+<element>
+    <name>axis</name>
+    <description>Describes a range axis to use in a
+    <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.  Each
+    axis has its own range indicator and a data plot.</description>
+    <contains>(
+        <a href="barChart">barChart</a> |
+        <a href="bar">bar</a>3DChart |
+        <a href="xyBarChart">xyBarChart</a> |
+        <a href="stackedBarChart">stackedBarChart</a> |
+        <a href="stackedBar">stackedBar</a>3DChart |
+        <a href="lineChart">lineChart</a> |
+        <a href="xyLineChart">xyLineChart</a> |
+        <a href="areaChart">areaChart</a> |
+        <a href="xyAreaChart">xyAreaChart</a> |
+        <a href="scatterChart">scatterChart</a> |
+        <a href="bubbleChart">bubbleChart</a> |
+        <a href="timeSeriesChart">timeSeriesChart</a> |
+        <a href="highLowChart">highLowChart</a> |
+        <a href="candlestickChart">candlestickChart</a> |
+        <a href="stackedAreaChart">stackedBarChart</a>
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>position</name>
+            <description>Where relative to the chart to display the range axis
+                        for this chart</description>
+            <values>
+                <value>
+                    <name>leftOrTop</name>
+                    <description>Display the axis to the left (for charts with
+                    a Vertical orientation) or top (for charts with a
+                    Horizontal orientation.)</description>
+                </value>
+                <value>
+                    <name>rightOrBottom</name>
+                    <description>Display the axis to the right (for charts with
+                    a Vertical orientation) or bottom (for charts with a
+                    Horizontal orientation.)</description>
+                </value>
+            </values>
+            <default>leftOrTop</default>
+        </attribute>
+    </attributes>
+</element>
+
+
+<!-- axisFormat -->
+<element>
+    <name>axisFormat</name>
+    <description></description>
+    <contains>(
+        <a href="labelFont">labelFont</a>?,
+        <a href="tickLabelFont">tickLabelFont</a>?
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>labelColor</name>
+            <description>The color to use for the caption of the axis.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>tickLabelColor</name>
+            <description>The color to use for the label of each tick mark on the axis.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>tickLabelMask</name>
+            <description>A formatting mask to use for the label of each tick mark on the
+            axis.  Only used if the axis is time based or numeric based.  For numeric
+            axes the format of the mask is described in documentation for
+            <code>java.text.DecimalFormat</code>.  For a date axis the
+            format used is described in <code>java.text.SimpleDateFormat</code>.
+            Finally, for date axes the values "SHORT", "MEDIUM", "LONG" and
+            "FULL" can be used as described in <code>java.text.DateFormat</code>.
+            </description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>lineColor</name>
+            <description>The color to use when drawing the line showing the axis.</description>
+            <required>false</required>
+        </attribute>
+    </attributes>
+</element>
+
+
+<!-- background -->
+<element>
+  <name>background</name>
+  <description>Definition of the page background section for this report. The background section is displayed on every page and cannot overflow to the next page. Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements. This section allows creating watermark or other similar effects in documents.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- band -->
+<element>
+  <name>band</name>
+  <description>Generic definition of a report section.</description>
+  <contains>(
+    <a href="printWhenExpression">printWhenExpression</a>?, (
+    <a href="break">break</a> |
+    <a href="line">line</a> |
+    <a href="rectangle">rectangle</a> |
+    <a href="ellipse">ellipse</a> |
+    <a href="image">image</a> |
+    <a href="staticText">staticText</a> |
+    <a href="textField">textField</a> |
+    <a href="subreport">subreport</a> |
+    <a href="pieChart">pieChart</a> |
+    <a href="pie3DChart">pie3DChart</a> |
+    <a href="barChart">barChart</a> |
+    <a href="bar3DChart">bar3DChart</a> |
+    <a href="xyBarChart">xyBarChart</a> |
+    <a href="stackedBarChart">stackedBarChart</a> |
+    <a href="stackedBar3DChart">stackedBar3DChart</a> |
+    <a href="lineChart">lineChart</a> |
+    <a href="xyLineChart">xyLineChart</a> |
+    <a href="areaChart">areaChart</a> |
+    <a href="xyAreaChart">xyAreaChart</a> |
+    <a href="scatterChart">scatterChart</a> |
+    <a href="bubbleChart">bubbleChart</a> |
+    <a href="timeSeriesChart">timeSeriesChart</a> |
+    <a href="highLowChart">highLowChart</a> |
+    <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedBarChart">stackedAreaChart</a> |
+    <a href="elementGroup">elementGroup</a> |
+    <a href="crosstab">crosstab</a> |
+    <a href="frame">frame</a>
+  )*)</contains>
+  <attributes>
+    <attribute>
+      <name>height</name>
+      <description>Height of the band.</description>
+      <default>0</default>
+    </attribute>
+    <attribute>
+      <name>isSplitAllowed</name>
+      <description>Flag that indicates if the band is allowed to split when it stretches.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Page breaks are accepted within this band.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>When the band stretches and it does not fit on the current page, the content of the band will be transferred on the next new page. On this new page the flag will be ignored since the band has to be displayed even there is not enough space to acquire the stretch.</description>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- bar3DChart -->
+<element>
+  <name>bar3DChart</name>
+  <description>Defines a bar chart with 3D effect</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="bar3DPlot">bar3DPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- bar3DPlot -->
+<element>
+  <name>bar3DPlot</name>
+  <description>Defines plot options for a bar chart with 3D effect</description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLabels</name>
+      <description>Show labels flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>xOffset</name>
+      <description>Offset on the x axis</description>
+    </attribute>
+    <attribute>
+      <name>yOffset</name>
+      <description>Offset on the y axis</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- barChart -->
+<element>
+  <name>barChart</name>
+  <description>Defines a bar chart. Dataset used with this chart is <a href="categoryDataset"><code>&lt;categoryDataset&gt;</code></a>   </description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="barPlot">barPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- barPlot -->
+<element>
+  <name>barPlot</name>
+  <description>Plot options for a <a href="barChart"><code>&lt;barChart&gt;</code></a> </description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLabels</name>
+      <description>Show labels flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isShowTickMarks</name>
+      <description>Show tick marks on the value axis</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isShowTickLabels</name>
+      <description>Show tick labels on the value axis</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- box -->
+<element>
+  <name>box</name>
+  <description>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>border, topBorder, leftBorder, bottomBorder, rightBorder</name>
+      <description>Type of the border to draw around the element.</description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>No border.</description>
+        </value>
+        <value>
+          <name>Thin</name>
+          <description>Thin border.</description>
+        </value>
+        <value>
+          <name>1Point</name>
+          <description>Normal border.</description>
+        </value>
+        <value>
+          <name>2Point</name>
+          <description>Medium border.</description>
+        </value>
+        <value>
+          <name>4Point</name>
+          <description>Thick border.</description>
+        </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted border.</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>borderColor, topBorderColor, leftBorderColor, bottomBorderColor, rightBorderColor</name>
+      <description>Color used to draw the specified border.</description>
+      <default>forecolor</default>
+    </attribute>
+    <attribute>
+      <name>padding, topPadding, leftPadding, bottomPadding, rightPadding</name>
+      <description>The amount of empty space between the border and the element's content.</description>
+      <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- break -->
+<element>
+  <name>break</name>
+  <description>Introduces a page break or column break</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>type</name>
+      <description>Specifies the type of the break element.</description>
+      <values>
+        <value>
+          <name>Page</name>
+          <description>Page break.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>Column break.</description>
+        </value>
+      </values>
+      <default>Page</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- bubbleChart -->
+<element>
+  <name>bubbleChart</name>
+  <description>Creates a bubble chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="xyzDataset">xyzDataset</a>,
+    <a href="bubblePlot">bubblePlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- bubblePlot -->
+<element>
+  <name>bubblePlot</name>
+  <description>Plot options for a <a href="bubbleChart"><code>&lt;bubbleChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="xAxisLabelExpression">xAxisLabelExpression</a>?,
+    <a href="xAxisFormat">xAxisFormat</a>?,
+    <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
+    <a href="yAxisFormat">yAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>scaleType</name>
+      <description>Scale options for the bubble chart items</description>
+      <values>
+        <value>
+          <name>BothAxes</name>
+        </value>
+        <value>
+          <name>DomainAxis</name>
+        </value>
+        <value>
+          <name>RangeAxis</name>
+        </value>
+      </values>
+      <default>RangeAxis</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- bucket -->
+<element>
+  <name>bucket</name>
+  <description>Crosstab group bucketing information.</description>
+  <contains>(
+    <a href="bucketExpression">bucketExpression</a>,
+    <a href="comparatorExpression">comparatorExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>order</name>
+      <description>The bucket order type.</description>
+      <values>
+        <value>
+          <name>Ascending</name>
+          <description>The buckets will be sorted in ascending order by using the specified comparator or by the natural order if no comparator specified.</description>
+        </value>
+        <value>
+          <name>Descending</name>
+          <description>The buckets will be sorted in descending order by using the specified comparator or by the natural order if no comparator specified.</description>
+        </value>
+      </values>
+      <default>Ascending</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- bucketExpression -->
+<element>
+  <name>bucketExpression</name>
+  <description>Crosstab group bucketing expression.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>The bucket values class.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- candlestickChart -->
+<element>
+  <name>candlestickChart</name>
+  <description>Creates a candlestick chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="highLowDataset">highLowDataset</a>,
+    <a href="candlestickPlot">candlestickPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- candlestickPlot -->
+<element>
+  <name>candlestickPlot</name>
+  <description>Plot options for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowVolume</name>
+      <description>Flag that enables showing volume values for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- categoryAxisFormat -->
+<element>
+    <name>categoryAxisFormat</name>
+    <description>Specifies the formatting of a category axis, including how to
+    draw the axis line, its label and tick mark labels.  Any tick label mask
+    specified will be ignored.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- categoryAxisLabelExpression -->
+<element>
+  <name>categoryAxisLabelExpression</name>
+  <description>Expression that will be displayed on category axis</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- categoryDataset -->
+<element>
+  <name>categoryDataset</name>
+  <description>Creates a dataset with one or more series and values associated with categories</description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="categorySeries">categorySeries</a> +
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- categorySeries -->
+<element>
+  <name>categorySeries</name>
+  <description>Defines a series that will be mapped on the category axis </description>
+  <contains>(
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="categoryExpression">categoryExpression</a>,
+    <a href="valueExpression">valueExpression</a>,
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- cellContents -->
+<element>
+  <name>cellContents</name>
+  <description>Crosstab header or data cell contents.
+    <p/>
+     There are some restrictions/rules regarding crosstab cells:
+     <ul>
+       <li>Subreports, crosstabs and charts are not allowed.</li>
+       <li>Delayed evaluation for text fields and images is not allowed.</li>
+       <li>Cells cannot split on multiple pages.</li>
+     </ul>
+  </description>
+  <contains>(
+    <a href="box">box</a>?,
+      (
+    <a href="line">line</a> |
+    <a href="rectangle">rectangle</a> |
+    <a href="ellipse">ellipse</a> |
+    <a href="image">image</a> |
+    <a href="staticText">staticText</a> |
+    <a href="textField">textField</a> |
+    <a href="elementGroup">elementGroup</a> |
+    <a href="frame">frame</a>
+    )*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>backcolor</name>
+      <description>Crosstab cell background color.
+    <p/>
+     The cell is filled with the background color only if the cell has opaque mode.
+  </description>
+    </attribute>
+    <attribute>
+      <name>mode</name>
+      <description>Crosstab cell transparency mode.</description>
+      <values>
+        <value>
+          <name>Opaque</name>
+        </value>
+        <value>
+          <name>Transparent</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>style</name>
+      <description>Name of the report level style to use (see <a href="style"><code>&lt;style&gt;</code></a> element).
+	 <p/>
+	 The style is only used for cell background and borders and is not inherited by elements inside the cell.
+  </description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- chart -->
+<element>
+  <name>chart</name>
+  <description>Defines a chart report element</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="box">box</a>?,
+    <a href="chartTitle">chartTitle</a>?,
+    <a href="chartSubtitle">chartSubtitle</a>?,
+    <a href="chartLegend">chartLegend</a>?
+    <a href="anchorNameExpression">anchorNameExpression</a>?,
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLegend</name>
+      <description>Show legend flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>evaluationTime</name>
+      <description>The chart can be rendered at a specified moment. This could be useful, for example, when we want to have on the first page a chart that will be generated only after fetching all the data source rows.</description>
+      <values>
+        <value>
+          <name>Now</name>
+          <description>The chart is rendered when filling the current band (section).</description>
+        </value>
+        <value>
+          <name>Report</name>
+          <description>The chart is rendered when reaching the end of the report.</description>
+        </value>
+        <value>
+          <name>Page</name>
+          <description>The chart is rendered when reaching the end of the current page.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>The chart is rendered when reaching the end of the current column.</description>
+        </value>
+        <value>
+          <name>Group</name>
+          <description>The chart is rendered when the group specified by the <code>evaluationGroup</code> attribute changes.</description>
+        </value>
+        <value>
+          <name>Band</name>
+          <description>The chart is rendered after the parent band has finished rendering all the other elements.</description>
+        </value>
+      </values>
+      <default>Now</default>
+    </attribute>
+    <attribute>
+      <name>evaluationGroup</name>
+      <description>Used to specify the group at which to render the chart, when <code>evaluationTime</code> is "Group".</description>
+    </attribute>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+    <attribute>
+      <name>bookmarkLevel</name>
+      <description>The level of the bookmark corresponding to the anchor.
+	  <p/>
+	  The PDF exporter can create a bookmark tree using anchors defined in the report.
+	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  If set to "0" (the default), no bookmark will be created for the anchor.
+  </description>
+      <default>0</default>
+    </attribute>
+    <attribute>
+      <name>customizerClass</name>
+      <description>The name of the chart customizer class.
+	  <p/>
+	  A chart can have an associated customizer class to perform customizations that are not directly supported by JRXML.
+	  The customizer class should implement <code>net.sf.jasperreports.engine.JRChartCustomizer</code>.
+	  At fill time, the <code>customize()</code> method of this class will be called before the chart is rendered.
+	  <p/>
+	  If values of report parameters, variables or fields are needed in the customization, the customizer implementation
+should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code> to gain access to such values.
+  </description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- chartLegend -->
+<element>
+    <name>chartLegend</name>
+    <description>Specifies layout options for the legend of a chart.</description>
+    <contains>(
+        <a href="font">font</a>?
+    )</contains>
+    <attributes>
+        <attribute>
+            <name>textColor</name>
+            <description>The color of the text in the legend.</description>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>backgroundColor</name>
+            <description>The color of the background of the legend.</description>
+            <required>false</required>
+        </attribute>
+    </attributes>
+</element>
+
+
+<!-- chartSubtitle -->
+<element>
+  <name>chartSubtitle</name>
+  <description>Subtitle of the chart</description>
+  <contains>(
+    <a href="font">font</a>?,
+    <a href="subtitleExpression">subtitleExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>color</name>
+      <description>Color of the subtitle text</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- chartTitle -->
+<element>
+  <name>chartTitle</name>
+  <description>Title text of the chart</description>
+  <contains>(
+    <a href="font">font</a>?,
+    <a href="titleExpression">titleExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>position</name>
+      <description>Position of the title</description>
+      <values>
+        <value>
+          <name>Top</name>
+        </value>
+        <value>
+          <name>Bottom</name>
+        </value>
+        <value>
+          <name>Left</name>
+        </value>
+        <value>
+          <name>Right</name>
+        </value>
+      </values>
+      <default>Top</default>
+    </attribute>
+    <attribute>
+      <name>color</name>
+      <description>Color of the title text</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- closeExpression -->
+<element>
+  <name>closeExpression</name>
+  <description>Expression for the close value for <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a> </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- columnFooter -->
+<element>
+  <name>columnFooter</name>
+  <description>Definition of the column footer section for this report. The column footer is printed at the bottom of each column on the report. If the report's column count is 1, column header   and footer sections are ignored.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- columnHeader -->
+<element>
+  <name>columnHeader</name>
+  <description>Definition of the column header section for this report. The column header is printed at the beginning of each column on the report. If the report's column count is 1, column  header and footer sections are ignored.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- columnGroup -->
+<element>
+  <name>columnGroup</name>
+  <description>Crosstab column group definition.
+    <p/>
+   Each group in the crosstab has a variable that can be used inside the group header or inside the crosstab cells as the current group value.
+   The variable has the same name as the group and the same type as the bucket expression of the group.
+  </description>
+  <contains>(
+    <a href="bucket">bucket</a>,
+    <a href="crosstabColumnHeader">crosstabColumnHeader</a>?,
+    <a href="crosstabTotalColumnHeader">crosstabTotalColumnHeader</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Group name.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>height</name>
+      <description>The height of the column group header.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>totalPosition</name>
+      <description>The position of the total column for this group.
+    <p/>
+    A group can have a total column summing the values for all the entries in the group.
+    E.g. if there is a Year group having Month as a subgroup, the total column for the Year group would sum the values for all the years and the total column for the Month group would sum the values for all the months of an year.
+  </description>
+      <values>
+        <value>
+          <name>Start</name>
+          <description>The total column will be displayed before the group column.</description>
+        </value>
+        <value>
+          <name>End</name>
+          <description>The total column will be displayed after the group column.</description>
+        </value>
+        <value>
+          <name>None</name>
+          <description>The total column will not be displayed.</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>headerPosition</name>
+      <description>The position of the header contents on header span.
+    <p/>
+    The column group headers stretch horizontally by spanning when there are multiple sub group entries.
+    This attribute determines the way the header contents will be adjusted to the new width.
+  </description>
+      <values>
+        <value>
+          <name>Left</name>
+          <description>The contents will be rendered on the left side of the header</description>
+        </value>
+        <value>
+          <name>Center</name>
+          <description>The contents will be rendered on the center of the header</description>
+        </value>
+        <value>
+          <name>Right</name>
+          <description>The contents will be rendered on the right side of the header</description>
+        </value>
+        <value>
+          <name>Stretch</name>
+          <description>The contents will be proportionally stretched to the new header width</description>
+        </value>
+      </values>
+      <default>Left</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- comparatorExpression -->
+<element>
+  <name>comparatorExpression</name>
+  <description>Crosstab group bucket comparator expression.
+    <p/>
+     The result of this expression is used to sort the buckets, in ascending or descending order.
+     If no comparator expression is specified, the natural order will be used.
+  </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- conditionalStyle -->
+<element>
+  <name>conditionalStyle</name>
+  <description>Used for adding conditions to a current style, to create dynamic styles.
+	  <p/>
+	   Modifies the properties of the parent style, based on various conditions evaluated at fill time. It must be placed inside a top level style.
+  </description>
+  <contains>(
+    <a href="conditionExpression">conditionExpression</a>,
+	<a href="style">style</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- conditionExpression -->
+<element>
+  <name>conditionExpression</name>
+  <description>A boolean expression which indicates if the style properties associated with it should be applied to the parent style.
+  </description>
+  <contains>(
+	  #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- connectionExpression -->
+<element>
+  <name>connectionExpression</name>
+  <description>If present, it is used to pass the <code>java.sql.Connection</code> object to the subreport filling or subdataset iteration routines.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- crosstab -->
+<element>
+  <name>crosstab</name>
+  <description>Crosstab definition.
+	  <p/>
+	  To be noted that the crosstab will stretch downwards to fit the data but it will not exceed its report element width.
+  </description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="crosstabParameter">crosstabParameter</a>*,
+    <a href="parametersMapExpression">parametersMapExpression</a>?,
+    <a href="crosstabDataset">crosstabDataset</a>?,
+    <a href="crosstabHeaderCell">crosstabHeaderCell</a>?,
+    <a href="rowGroup">rowGroup</a>*,
+    <a href="columnGroup">columnGroup</a>*,
+    <a href="measure">measure</a>*,
+    <a href="crosstabCell">crosstabCell</a>*,
+    <a href="whenNoDataCell">whenNoDataCell</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isRepeatColumnHeaders</name>
+      <description>Flag that indicates whether the column headers will be reprinted after a page break.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The column headers will be reprinted after a page break.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The column headers will be printed only on the page where the crosstab starts.</description>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isRepeatRowHeaders</name>
+      <description>Flag that indicates whether the row headers will be reprinted after a crosstab column break.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The row headers will be reprinted after a crosstab column break.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The column headers will be printed for all rows only for the first set of columns and not after a column break.</description>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>columnBreakOffset</name>
+      <description>Offset used when a column break occurs and the filling is continued on the same page.
+    <p/>
+     When the crosstab columns do not fit the width, the crosstab breaks the columns and prints the ones that don't fit after printing the first set of columns for all rows.
+     This attribute is the offset to be used when continuing the printing after a column break.
+  </description>
+      <default>10</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- crosstabCell -->
+<element>
+  <name>crosstabCell</name>
+  <description>Crosstab data cell definition.
+    <p/>
+     A crosstab can have multiple data cells for row/groups totals.  Attributes <span class="attr">rowTotalGroup</span> and <span class="attr">columnTotalGroup</span> are used to specify that the cell corresponds to a total row/column.
+    <p/>
+      E.g. if the crosstab has Country and City (subgroup of Country) row groups and Year and Month column groups, one can specify the following cells:
+      <ul>
+        <li>no rowTotalGroup and columnTotalGroup - the crosstab base cell (total for a city and a year)</li>
+        <li>columnTotalGroup="Month" - total for a city and a year</li>
+        <li>columnTotalGroup="Year" - total for a city and all years</li>
+        <li>rowTotalGroup="City" - total for all cities of a country and a month</li>
+        <li>rowTotalGroup="City" columnTotalGroup="Month" - total for all cities of a country and a year</li>
+        <li>rowTotalGroup="City" columnTotalGroup="Year" - total for all cities of a country and all years</li>
+        <li>rowTotalGroup="Country" - total for all countries and a month</li>
+        <li>rowTotalGroup="Country" columnTotalGroup="Month" - total for all countries and a year</li>
+        <li>rowTotalGroup="Country" columnTotalGroup="Year" - grand total</li>
+      </ul>
+    <p/>
+    If the data cell for a total row/column is not specified, the cell will be inherited from lower level cells, if possible.
+    For example, if the "total for all countries and a year" cell is not specified, the "total for a country and a year" or "total for a city and a year" cell will be used (in this order).
+    <p/>
+    The data cell sizes are calculated from the base data cell sizes, i.e. the height of all data cells for a row will be the height of the base cell of that row.
+    The base cell sizes are also inherited, e.g. if the height of a total row is not specified the height of the base row will be used.
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>width</name>
+      <description>Crosstab cell width.
+    <p/>
+    The width should be specified only for the base cell of a column (the one with no rowTotalGroup).
+  </description>
+    </attribute>
+    <attribute>
+      <name>height</name>
+      <description>Crosstab cell height.
+    <p/>
+    The height should be specified only for the base cell of a row (the one with no columnTotalGroup).
+  </description>
+    </attribute>
+    <attribute>
+      <name>rowTotalGroup</name>
+      <description>If this cell corresponds to a total row, this attribute should specify the name of the corresponding row group.
+    The attribute should not be specified if the cell corresponds to a base (not total) row.
+  </description>
+    </attribute>
+    <attribute>
+      <name>columnTotalGroup</name>
+      <description>If this cell corresponds to a total column, this attribute should specify the name of the corresponding column group.
+    The attribute should not be specified if the cell corresponds to a base (not total) column.
+  </description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- crosstabColumnHeader -->
+<element>
+  <name>crosstabColumnHeader</name>
+  <description>Crosstab column header definition.
+    <p/>
+    The size of the column header cell is computed based on the following rules:
+    <ul>
+      <li>the height of the header is given by the <span class="attr">height</span> attribute of <a href="columnGroup">&lt;columnGroup&gt;</a></li>
+      <li>the width of the last column group header is given by the width of the base cell</li>
+      <li>the width of a non-last column group header is the sum of the next group header's width and
+        the next group total header's width (0 if the next group doesn't have a total header)</li>
+    </ul>
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+
+<!-- crosstabDataset -->
+<element>
+  <name>crosstabDataset</name>
+  <description>Crosstab dataset definition.</description>
+  <contains>(
+    <a href="dataset">dataset</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isDataPreSorted</name>
+      <description>Flag that indicates whether the crosstab data is already sorted according to the row bucket expressions and group bucket expressions (in this order).
+      <p/>
+      The crosstab calculation engine can optimize the calculations if the data is sorted by the row groups and column groups.
+      For example, if there are two row groups R1 and R2 (subgroup of R1) and three column groups C1, C2 and C3 the data should be sorted  by R1, R2, C1, C2, C3.
+  </description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The calculation engine will assume that the data is presorted.  If the data is not presorted, the outcome is undefined.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The crosstab dataset data is not presorted.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- crosstabHeaderCell -->
+<element>
+  <name>crosstabHeaderCell</name>
+  <description>Crosstab cell that will be rendered at the upper-left corner of the crosstab.
+     <p/>
+     The cell size will be calculated based on the row/column header cell widths/heights.
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- crosstabParameter -->
+<element>
+  <name>crosstabParameter</name>
+  <description>Crosstab parameter definition and value.  Values from the report can only be accessed inside crosstab elements by passing them as parameters.</description>
+  <contains>(
+    <a href="parameterValueExpression">parameterValueExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the parameter.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>class</name>
+      <description>Class of the parameter values.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- crosstabRowHeader -->
+<element>
+  <name>crosstabRowHeader</name>
+  <description>Crosstab row header definition.
+    <p/>
+    The size of the row header cell is computed based on the following rules:
+    <ul>
+      <li>the width of the header is given by the <span class="attr">width</span> attribute of <a href="rowGroup">&lt;rowGroup&gt;</a></li>
+      <li>the height of the last row group header is given by the height of the base cell</li>
+      <li>the height of a non-last row group header is the sum of the next group header's height and
+        the next group total header's height (0 if the next group doesn't have a total header)</li>
+    </ul>
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- crosstabTotalColumnHeader -->
+<element>
+  <name>crosstabTotalColumnHeader</name>
+  <description>Crosstab total column header definition.
+    <p/>
+    The size of a column group total header is computed based on the following rules:
+    <ul>
+      <li>the height is the sum the heights of this and subsequent column groups</li>
+      <li>the width is the width of the base cell for this total column</li>
+    </ul>
+    <p/>
+    The total column is only printed if the <span class="attr">totalPosition</span> attribute of the group is different than <span class="val">None</span>.
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- crosstabTotalRowHeader -->
+<element>
+  <name>crosstabTotalRowHeader</name>
+  <description>Crosstab total row header definition.
+    <p/>
+    The size of a row group total header is computed based on the following rules:
+    <ul>
+      <li>the width is the sum the widths of this and subsequent row groups</li>
+      <li>the height is the height of the base cell for this total row</li>
+    </ul>
+    <p/>
+    The total row is only printed if the <span class="attr">totalPosition</span> attribute of the group is different than <span class="val">None</span>.
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- dataset -->
+<element>
+  <name>dataset</name>
+  <description>Dataset definition for a chart or crosstab.</description>
+  <contains>(
+    <a href="incrementWhenExpression">incrementWhenExpression</a>?,
+    <a href="datasetRun">datasetRun</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>resetType</name>
+      <description>Reset type for the dataset</description>
+      <values>
+        <value>
+          <name>None</name>
+        </value>
+        <value>
+          <name>Report</name>
+        </value>
+        <value>
+          <name>Page</name>
+        </value>
+        <value>
+          <name>Column</name>
+        </value>
+        <value>
+          <name>Group</name>
+        </value>
+      </values>
+      <default>Report</default>
+    </attribute>
+    <attribute>
+      <name>resetGroup</name>
+      <description>Reset group name</description>
+    </attribute>
+    <attribute>
+      <name>incrementType</name>
+      <description>incrementType description</description>
+      <values>
+        <value>
+          <name>None</name>
+        </value>
+        <value>
+          <name>Report</name>
+        </value>
+        <value>
+          <name>Page</name>
+        </value>
+        <value>
+          <name>Column</name>
+        </value>
+        <value>
+          <name>Group</name>
+        </value>
+      </values>
+      <default>Report</default>
+    </attribute>
+    <attribute>
+      <name>incrementGroup</name>
+      <description>Increment group of the dataset</description>
+    </attribute>
+  </attributes>
+</element>
+  
+  
+<!-- datasetParameter -->
+<element>
+  <name>datasetParameter</name>
+  <description>Definition of a subdataset parameter.</description>
+  <contains>( 
+    <a href="datasetParameterExpression">datasetParameterExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>The name of the parameter that will be passed when iterating the subdataset.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- datasetParameterExpression -->
+<element>
+  <name>datasetParameterExpression</name>
+  <description>Definition of the expression associated with the subdataset parameter.</description>
+  <contains>( 
+		#PCDATA
+      )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- dataRange -->
+<element>
+  <name>dataRange</name>
+  <description>Defines a numeric range, such as the bounds of chart or a section of a chart.</description>
+  <contains>(
+    <a href="lowExpression">lowExpression</a>,
+    <a href="highExpression">highExpression</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- datasetRun -->
+<element>
+  <name>datasetRun</name>
+  <description>Subdataset instantiation information for a chart/crosstab dataset.</description>
+  <contains>(
+    <a href="parametersMapExpression">parametersMapExpression</a>?,
+    <a href="datasetParameter">datasetParameter</a>*, (
+    <a href="connectionExpression">connectionExpression</a> |
+    <a href="dataSourceExpression">dataSourceExpression</a> )?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>subDataset</name>
+      <description>The name of the <a href="subDataset">subdataset</a> to instantiate.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- dataSourceExpression -->
+<element>
+  <name>dataSourceExpression</name>
+  <description>If present, it is used to pass the <code>net.sf.jasperreports.engine.JRDataSource</code> object to the subreport filling or subdataset iteration routines.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- dateExpression -->
+<element>
+  <name>dateExpression</name>
+  <description>Represents a date expression used in <a href="timeSeriesChart">&lt;time series chart&gt;</a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- detail -->
+<element>
+  <name>detail</name>
+  <description>Definition of the detail section for this report. The detail section is repeted for each line of data supplied by the report's data source.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- defaultValueExpression -->
+<element>
+  <name>defaultValueExpression</name>
+  <description>Specifies the parameter default value to use when not supplied by the parent application at runtime.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- elementGroup -->
+<element>
+  <name>elementGroup</name>
+  <description>Element for grouping objects on the report.</description>
+  <contains>(
+    <a href="break">break</a> |
+    <a href="line">line</a> |
+    <a href="rectangle">rectangle</a> |
+    <a href="ellipse">ellipse</a> |
+    <a href="image">image</a> |
+    <a href="staticText">staticText</a> |
+    <a href="textField">textField</a> |
+    <a href="subreport">subreport</a> |
+    <a href="pieChart">pieChart</a> |
+    <a href="pie3DChart">pie3DChart</a> |
+    <a href="barChart">barChart</a> |
+    <a href="bar3DChart">bar3DChart</a> |
+    <a href="xyBarChart">xyBarChart</a> |
+    <a href="stackedBarChart">stackedBarChart</a> |
+    <a href="stackedBar3DChart">stackedBar3DChart</a> |
+    <a href="lineChart">lineChart</a> |
+    <a href="xyLineChart">xyLineChart</a> |
+    <a href="areaChart">areaChart</a> |
+    <a href="xyAreaChart">xyAreaChart</a> |
+    <a href="scatterChart">scatterChart</a> |
+    <a href="bubbleChart">bubbleChart</a> |
+    <a href="timeSeriesChart">timeSeriesChart</a> |
+    <a href="highLowChart">highLowChart</a> |
+    <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedBarChart">stackedAreaChart</a> |
+    <a href="elementGroup">elementGroup</a> |
+    <a href="crosstab">crosstab</a> |
+    <a href="frame">frame</a>
+  )*</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- ellipse -->
+<element>
+  <name>ellipse</name>
+  <description>Definition of an ellipse object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="graphicElement">graphicElement</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- field -->
+<element>
+  <name>field</name>
+  <description>Represents the definition of a data field that will store values retrieved from the data source of the report.</description>
+  <contains>(
+    <a href="property">property</a>*,
+    <a href="fieldDescription">fieldDescription</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the field.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>class</name>
+      <description>Class of the field values.</description>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- fieldDescription -->
+<element>
+  <name>fieldDescription</name>
+  <description>Can be used to specify a short text description for the field and is useful especially when creating special designed data sources and an extra information is needed in order  to extract the value of the field.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+  
+
+<!-- filterExpression -->
+<element>
+  <name>filterExpression</name>
+  <description>Boolean expression used to filter the rows of a data source.
+	 <p>
+	 This expression is used to filter the rows of the data source that this dataset will iterate on.
+	 </p>
+	 <p><![CDATA[
+	 This expression (if not null) is evaluated immediately after a new row is produced by the data source.
+	 The evaluation is performed using field and variable values corresponding to the new row. 
+	 When the result of the evaluation is <code>Boolean.TRUE</code> the row gets processed by the report filling engine.
+	 When the result is null or <code>Boolean.FALSE</code>, the current row will be skipped and the datasource will be asked for the next row.
+	 ]]></p>
+  </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- font -->
+<element>
+  <name>font</name>
+  <description>Defines the font to use with the text element.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>reportFont</name>
+      <description>Name of the report level font to use as base font (see <a href="reportFont"><code>&lt;reportFont&gt;</code></a> element).</description>
+    </attribute>
+    <attribute>
+      <name>fontName</name>
+      <description>Name of the font.</description>
+    </attribute>
+    <attribute>
+      <name>size</name>
+      <description>Size of the font.</description>
+    </attribute>
+    <attribute>
+      <name>isBold</name>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>isItalic</name>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>isUnderline</name>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>isStrikeThrough</name>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>pdfFontName</name>
+      <description>Name of the PDF font.</description>
+    </attribute>
+    <attribute>
+      <name>pdfEncoding</name>
+      <description>Encoding type to use with the PDF font.</description>
+    </attribute>
+    <attribute>
+      <name>isPdfEmbedded</name>
+      <description>Specifies if the PDF font should be embedded in the document.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- frame -->
+<element>
+  <name>frame</name>
+  <description>A frame is a report element that contains sub elements.  It has a backgroud, a border and it stretches to accommodate its content.
+    <p/>
+    For the Graphics2D and PDF exporters, a frame is equivalent to a rectangle placed behind a group of elements.
+    The HTML exporter creates sub-tables for frames and the XLS exporter includes the frame sub elements into the grid.
+    <p/>
+    For elements inside a frame, the coordinates, positionType and stretchType properties and relative to the frame instead of the band.
+  </description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="box">box</a>?,
+      (
+    <a href="break">break</a> |
+    <a href="line">line</a> |
+    <a href="rectangle">rectangle</a> |
+    <a href="ellipse">ellipse</a> |
+    <a href="image">image</a> |
+    <a href="staticText">staticText</a> |
+    <a href="textField">textField</a> |
+    <a href="subreport">subreport</a> |
+    <a href="pieChart">pieChart</a> |
+    <a href="pie3DChart">pie3DChart</a> |
+    <a href="barChart">barChart</a> |
+    <a href="bar3DChart">bar3DChart</a> |
+    <a href="xyBarChart">xyBarChart</a> |
+    <a href="stackedBarChart">stackedBarChart</a> |
+    <a href="stackedBar3DChart">stackedBar3DChart</a> |
+    <a href="lineChart">lineChart</a> |
+    <a href="xyLineChart">xyLineChart</a> |
+    <a href="areaChart">areaChart</a> |
+    <a href="xyAreaChart">xyAreaChart</a> |
+    <a href="scatterChart">scatterChart</a> |
+    <a href="bubbleChart">bubbleChart</a> |
+    <a href="timeSeriesChart">timeSeriesChart</a> |
+    <a href="highLowChart">highLowChart</a> |
+    <a href="candlestickChart">candlestickChart</a> |
+    <a href="meterChart">meterChart</a> |
+    <a href="thermometerChart">thermometerChart</a> |
+    <a href="multiAxisChart">multiAxisChart</a> |
+    <a href="stackedAreaChart">stackedAreaChart</a> |
+    <a href="elementGroup">elementGroup</a> |
+    <a href="crosstab">crosstab</a> |
+    <a href="frame">frame</a>
+    )*
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- graphicElement -->
+<element>
+  <name>graphicElement</name>
+  <description>Element used to specify the common properties of a graphic object on the report (line, rectangle, ellipse or image).</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>pen</name>
+      <description>Type of the lines used to draw the object.</description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>No line.</description>
+        </value>
+        <value>
+          <name>Thin</name>
+          <description>Thin line.</description>
+        </value>
+        <value>
+          <name>1Point</name>
+          <description>Normal line.</description>
+        </value>
+        <value>
+          <name>2Point</name>
+          <description>Medium line.</description>
+        </value>
+        <value>
+          <name>4Point</name>
+          <description>Thick line.</description>
+        </value>
+        <value>
+          <name>Dotted</name>
+          <description>Dotted line.</description>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>fill</name>
+      <description>Type of the fill pattern used to fill objects.</description>
+      <values>
+        <value>
+          <name>Solid</name>
+          <description>Solid fill.</description>
+        </value>
+      </values>
+      <default>Solid</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- group -->
+<element>
+  <name>group</name>
+  <description>Definition of a group on the report.</description>
+  <contains>(
+    <a href="groupExpression">groupExpression</a>?,
+    <a href="groupHeader">groupHeader</a>?,
+    <a href="groupFooter">groupFooter</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the group</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>isStartNewColumn</name>
+      <description>Flag that signals if the group header should be printed always on a new column.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Group header section is printed always on a new column.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Group header section is printed on the current column, if there is enough space.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isStartNewPage</name>
+      <description>Flag that signals if the group header should be printed always on a new page.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Group header section is printed always on a new page.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Group header section is printed on the current page, if there is enough space.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isResetPageNumber</name>
+      <description>Flag that signals if the group header should be printed always on a new page, along with the re-initialization of the page number.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Group header section is printed always on a new page and the page number is reinitialized.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Group header section is printed accordingly with the <code>isStartNewPage</code> attribute and the page number is not affected.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isReprintHeaderOnEachPage</name>
+      <description>Flag that signals if the group header should be reprinted at the beginning of each page.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Group header section is reprinted always at the beginning of a new page.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Group header section is not reprinted at the beginning of a new page.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>minHeightToStartNewPage</name>
+      <description>Minimum amount of vertically space needed at the bottom of the column in order to place the group header on the current column.</description>
+      <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- groupExpression -->
+<element>
+  <name>groupExpression</name>
+  <description>Specifies the expression that will be evaluated at runtime to determine the group ruptures.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- groupFooter -->
+<element>
+  <name>groupFooter</name>
+  <description>Contains the definition of the footer section for this group.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- groupHeader -->
+<element>
+  <name>groupHeader</name>
+  <description>Contains the definition of the header section for this group.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- highExpression -->
+<element>
+  <name>highExpression</name>
+  <description>High expresion in a <a href="highLowChart"><code>&lt;highLowchart&gt;</code></a>.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- highLowChart -->
+<element>
+  <name>highLowChart</name>
+  <description>Defines a high-low type chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="highLowDataset">highLowDataset</a>,
+    <a href="highLowPlot">highLowPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- highLowDataset -->
+<element>
+  <name>highLowDataset</name>
+  <description>Defines a dataset that can be used with a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a>.</description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="dateExpression">dateExpression</a> ,
+    <a href="highExpression">highExpression</a>,
+    <a href="lowExpression">lowExpression</a>,
+    <a href="openExpression">closeExpression</a>,
+    <a href="volumeExpression">volumeExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- highLowPlot -->
+<element>
+  <name>highLowPlot</name>
+  <description>Plot options for a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowCloseTicks</name>
+      <description>Show close tick flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isShowOpenTicks</name>
+      <description>Show open tick flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- highRange -->
+<element>
+  <name>highRange</name>
+  <description>Defines the high range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkAnchorExpression -->
+<element>
+  <name>hyperlinkAnchorExpression</name>
+  <description>Used in hyperlink elements to point to document anchors.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkPageExpression -->
+<element>
+  <name>hyperlinkPageExpression</name>
+  <description>Used in hyperlink elements to point to document pages.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkParameter -->
+<element>
+  <name>hyperlinkParameter</name>
+  <description>Definition of a hyperlink parameter.  Hyperlink parameters can be used to parametrize hyperlinks of custom types.</description>
+  <contains>(
+    <a href="hyperlinkParameterExpression">hyperlinkParameterExpression</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>The name of the hyperlink parameter.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkParameterExpression -->
+<element>
+  <name>hyperlinkParameterExpression</name>
+  <description>Expression that will produce the value for a hyperlink parameter.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Type of the parameter value.</description>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkReferenceExpression -->
+<element>
+  <name>hyperlinkReferenceExpression</name>
+  <description>Used in hyperlink elements to point to external documents and resources.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- hyperlinkTooltipExpression -->
+<element>
+  <name>hyperlinkTooltipExpression</name>
+  <description>Used in hyperlink elements to generate a tooltip for the hyperlink.  The type of the expression should be <code>java.lang.String</code>.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- image -->
+<element>
+  <name>image</name>
+  <description>Definition of an image object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="box">box</a>?,
+    <a href="graphicElement">graphicElement</a>?,
+    <a href="imageExpression">imageExpression</a>?,
+    <a href="anchorNameExpression">anchorNameExpression</a>?,
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>scaleImage</name>
+      <description>Image displaying type.</description>
+      <values>
+        <value>
+          <name>Clip</name>
+          <description>Only the portion of the image that fits the specified object width and height will be printed. Image is not stretched.</description>
+        </value>
+        <value>
+          <name>FillFrame</name>
+          <description>Image will be stretched to adapt to the specified object width and height.</description>
+        </value>
+        <value>
+          <name>RetainShape</name>
+          <description>Image will adapt to the specified object width or height keeping its original shape.</description>
+        </value>
+      </values>
+      <default>RetainShape</default>
+    </attribute>
+    <attribute>
+      <name>hAlign</name>
+      <description>Horizontal image alignment.</description>
+      <values>
+        <value>
+          <name>Left</name>
+        </value>
+        <value>
+          <name>Center</name>
+        </value>
+        <value>
+          <name>Right</name>
+        </value>
+      </values>
+      <default>Left</default>
+    </attribute>
+    <attribute>
+      <name>vAlign</name>
+      <description>Vertical image alignment.</description>
+      <values>
+        <value>
+          <name>Top</name>
+        </value>
+        <value>
+          <name>Middle</name>
+        </value>
+        <value>
+          <name>Bottom</name>
+        </value>
+      </values>
+      <default>Top</default>
+    </attribute>
+    <attribute>
+      <name>isUsingCache</name>
+      <description>If true, tells the report engine to cache the images that are loaded from the same location.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isLazy</name>
+      <description>Gives control over when the images are retrieved from their specified location.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The image is loaded from the specified location only when the document is viewed or exported to other formats.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The image is loaded during the report filling process and stored in the resulting document.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>onErrorType</name>
+      <description>Controls the behavior of the engine in case the image is not available.</description>
+      <values>
+        <value>
+          <name>Error</name>
+          <description>An exception is raised when loading the image.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>The exception is ignored and the image displays as blank.</description>
+        </value>
+        <value>
+          <name>Icon</name>
+          <description>The exception is ignored and an image replacement icon is displayed.</description>
+        </value>
+      </values>
+      <default>Error</default>
+    </attribute>
+    <attribute>
+      <name>evaluationTime</name>
+      <description>The image to be printed is supplied by the associated expression. This expression can be evaluated at a specified moment. This could be useful, for example, when we want to have on the first page a chart that will be generated only after fetching all the data source rows.</description>
+      <values>
+        <value>
+          <name>Now</name>
+          <description>The image expression is evaluated when filling the current band (section).</description>
+        </value>
+        <value>
+          <name>Report</name>
+          <description>The image expression is evaluated when reaching the end of the report.</description>
+        </value>
+        <value>
+          <name>Page</name>
+          <description>The image expression is evaluated when reaching the end of the current page.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>The image expression is evaluated when reaching the end of the current column.</description>
+        </value>
+        <value>
+          <name>Group</name>
+          <description>The image expression is evaluated when the group specified by the <code>evaluationGroup</code> attribute changes.</description>
+        </value>
+        <value>
+          <name>Band</name>
+          <description>The image expression is evaluated after the parent band has finished rendering all the other elements.</description>
+        </value>
+        <value>
+          <name>Auto</name>
+          <description>Evaluation time used when report elements having expressions that combine values evaluated at different times are required (e.g. percentage out of a total).
+<p/>
+Variables will be evaluated at a time corresponding to their reset type.
+Fields are evaluated "now", i.e. at the time the band the element lies on gets filled.
+<p/>
+NB: avoid using this evaluation type when other types suffice as it can lead to performance loss.
+  </description>
+        </value>
+       </values>
+      <default>Now</default>
+    </attribute>
+    <attribute>
+      <name>evaluationGroup</name>
+      <description>Used to specify the group at which to evaluate the image expression value, when <code>evaluationTime</code> is "Group".</description>
+    </attribute>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+    <attribute>
+      <name>bookmarkLevel</name>
+      <description>The level of the bookmark corresponding to the anchor.
+	  <p/>
+	  The PDF exporter can create a bookmark tree using anchors defined in the report.
+	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  If set to "0" (the default), no bookmark will be created for the anchor.
+  </description>
+      <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- imageExpression -->
+<element>
+  <name>imageExpression</name>
+  <description>Definition of the expression that will be used to determine the image to be displayed.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Class of the image source.</description>
+      <values>
+        <value>
+          <name>java.lang.String</name>
+          <description>Image location. First, the report engine tries to see whether the String represents an URL. If not, it tries to find the file on disk and finally, if the String does not represent a path file, it searches in the CLASSPATH to find the image as a resource.</description>
+        </value>
+        <value>
+          <name>java.io.File</name>
+          <description>Image loaded by opening an <code>java.io.InputStream</code> from this <code>java.io.File</code> object.</description>
+        </value>
+        <value>
+          <name>java.net.URL</name>
+          <description>Image loaded by opening an <code>java.io.InputStream</code> from this <code>java.net.URL</code> object.</description>
+        </value>
+        <value>
+          <name>java.io.InputStream</name>
+          <description>Image loaded from an <code>java.io.InputStream</code> object.</description>
+        </value>
+        <value>
+          <name>java.awt.Image</name>
+          <description>Image loaded from a <code>java.awt.Image</code> object.</description>
+        </value>
+        <value>
+          <name>net.sf.jasperreports.engine.JRRenderable</name>
+          <description>The image will be drawn directly on the target graphic context by a serializable instance of this interface.</description>
+        </value>
+      </values>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- import -->
+<element>
+  <name>import</name>
+  <description>Translates into an import statement inside the expression class order to eliminate the need to use complete class names in the report expressions.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>value</name>
+      <description>Class name or package to import.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+  
+
+<!-- incrementWhenExpression -->
+<element>
+  <name>incrementWhenExpression</name>
+  <description>Boolean expression that determines whether a chart or crosstab dataset will be incremented or not.
+	  <p><![CDATA[
+		  The expression is evaluated before each increment of the dataset.
+		  The increment will be carried on only when the result of the evaluation is <code>Boolean.TRUE</code>; if the result is <code>null</code> or <code>Boolean.FALSE</code>, the dataset will not be incremented.
+	  ]]></p>
+  </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- initialValueExpression -->
+<element>
+  <name>initialValueExpression</name>
+  <description>Definition of the expression that will be used to calculate the initial value of the variable, before any calculations are made.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- itemHyperlink -->
+<element>
+  <name>itemHyperlink</name>
+  <description>Hyperlink specification for chart items.  This hyperlink definition will be evaluated for every chart item and an image map will be created for the chart.</description>
+  <contains>(
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- jasperReport -->
+<element>
+  <name>jasperReport</name>
+  <description>Root element representing the definition of a report.</description>
+  <contains>(
+    <a href="property">property</a>*,
+    <a href="import">import</a>*,
+    <a href="reportFont">reportFont</a>*,
+    <a href="style">style</a>*,
+    <a href="subDataset">subDataset</a>*,
+    <a href="parameter">parameter</a>*,
+    <a href="queryString">queryString</a>?,
+    <a href="field">field</a>*,
+    <a href="sortField">sortField</a>*,
+    <a href="variable">variable</a>*,
+    <a href="filterExpression">filterExpression</a>?,
+    <a href="group">group</a>*,
+    <a href="background">background</a>?,
+    <a href="title">title</a>?,
+    <a href="pageHeader">pageHeader</a>?,
+    <a href="columnHeader">columnHeader</a>?,
+    <a href="detail">detail</a>?,
+    <a href="columnFooter">columnFooter</a>?,
+    <a href="pageFooter">pageFooter</a>?,
+    <a href="lastPageFooter">lastPageFooter</a>?,
+    <a href="summary">summary</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the report.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>language</name>
+      <description>Specifies the language used for the report expressions.</description>
+      <default>java</default>
+    </attribute>
+    <attribute>
+      <name>columnCount</name>
+      <description>Number of columns on the report.</description>
+      <default>1</default>
+    </attribute>
+    <attribute>
+      <name>printOrder</name>
+      <description>Columns filling order.</description>
+      <values>
+        <value>
+          <name>Vertical</name>
+          <description>Columns on the report are filled vertically.</description>
+        </value>
+        <value>
+          <name>Horizontal</name>
+          <description>Columns on the report are filled horizontally.</description>
+        </value>
+      </values>
+      <default>Vertical</default>
+    </attribute>
+    <attribute>
+      <name>pageWidth</name>
+      <description>Page width.</description>
+      <default>595</default>
+    </attribute>
+    <attribute>
+      <name>pageHeight</name>
+      <description>Page height.</description>
+      <default>842</default>
+    </attribute>
+    <attribute>
+      <name>orientation</name>
+      <description>Page printing orientation.</description>
+      <values>
+        <value>
+          <name>Portrait</name>
+        </value>
+        <value>
+          <name>Landscape</name>
+        </value>
+      </values>
+      <default>Portrait</default>
+    </attribute>
+    <attribute>
+      <name>whenNoDataType</name>
+      <description>Allows users to customize the behavior of the reporting engine when there are now rows in the data source.</description>
+      <values>
+        <value>
+          <name>NoPages</name>
+          <description>The generated document contains zero pages.</description>
+        </value>
+        <value>
+          <name>BlankPage</name>
+          <description>The generated document contains one blank page.</description>
+        </value>
+        <value>
+          <name>AllSectionsNoDetail</name>
+          <description>All the report sections except the detail section will get printed.</description>
+        </value>
+      </values>
+      <default>NoPages</default>
+    </attribute>
+    <attribute>
+      <name>columnWidth</name>
+      <description>Column width.</description>
+      <default>555</default>
+    </attribute>
+    <attribute>
+      <name>columnSpacing</name>
+      <description>Space between columns.</description>
+      <default>0</default>
+    </attribute>
+    <attribute>
+      <name>leftMargin</name>
+      <description>Left margin.</description>
+      <default>20</default>
+    </attribute>
+    <attribute>
+      <name>rightMargin</name>
+      <description>Right margin.</description>
+      <default>20</default>
+    </attribute>
+    <attribute>
+      <name>topMargin</name>
+      <description>Top margin.</description>
+      <default>30</default>
+    </attribute>
+    <attribute>
+      <name>bottomMargin</name>
+      <description>Bottom margin.</description>
+      <default>30</default>
+    </attribute>
+    <attribute>
+      <name>isTitleNewPage</name>
+      <description>Flag used to specify if the title section should be printed on a separate initial page.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Title section will be printed on a separate initial page.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Title section will be printed on the first page of the report, along with the other sections.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isSummaryNewPage</name>
+      <description>Flag used to specify if the summary section should be printed on a separate last page.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Summary section will be printed on a separate last page.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Summary section will be printed on the last page of the report, along with the other sections, if there is enough space.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isFloatColumnFooter</name>
+      <description>Flag used to specify if the column footer section should be printed at the bottom of the column or if it should immediately follow the last detail or group footer printed on the current column.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The column footer section is printed immediately after the last detail or group footer printed on the current column.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The column footer section is printed at the bottom of the current column.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>scriptletClass</name>
+      <description>Indicates which class implements the scriptlets functionality for this report. The specified class must be a subclass of <code>JRAbstractScriptlet</code> class. If omitted, an instance of <code>JRDefaultScriptlet</code> will be created.</description>
+      <default>net.sf.jasperreports.engine.JRDefaultScriptlet</default>
+    </attribute>
+    <attribute>
+      <name>resourceBundle</name>
+      <description>The base name of the report associated resource bundle.</description>
+    </attribute>
+    <attribute>
+      <name>whenResourceMissingType</name>
+      <description>Allows customizing the way the engine deals with missing resources in the resource bundle.</description>
+      <values>
+        <value>
+          <name>Null</name>
+          <description>Null is returned for the missing resource.</description>
+        </value>
+        <value>
+          <name>Empty</name>
+          <description>An empty string is returned for the missing resource.</description>
+        </value>
+        <value>
+          <name>Key</name>
+          <description>The key is returned for the missing resources.</description>
+        </value>
+        <value>
+          <name>Error</name>
+          <description>An exception is thrown when the resource with the specified key is missing.</description>
+        </value>
+      </values>
+      <default>Null</default>
+    </attribute>
+    <attribute>
+      <name>isIgnorePagination</name>
+      <description>Flag used to specify whether to use pagination.
+	  <p/>
+	  This attribute can be overridden at fill time by the IS_IGNORE_PAGINATION parameter.
+  </description>
+      <values>
+        <value>
+          <name>false</name>
+          <description>The report will be paginated according to the pageHeight attribute.</description>
+        </value>
+        <value>
+          <name>true</name>
+          <description>The report will be generated on one long page.  The specified page heigt will still be used for report design.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>formatFactoryClass</name>
+      <description>Specifies the name of the class implementing the <code>net.sf.jasperreports.engine.util.FormatFactory</code> interface to use with this report. If omitted, an instance of <code>net.sf.jasperreports.engine.util.DefaultFormatFactory</code> will be created.</description>
+      <default>net.sf.jasperreports.engine.util.DefaultFormatFactory</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- keyExpression -->
+<element>
+  <name>keyExpression</name>
+  <description>Defines a key in a <a href="pieDataset"><code>&lt;pieDataset&gt;</code></a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- labelExpression -->
+<element>
+  <name>labelExpression</name>
+  <description>Defines a label in a <a href="pieDataset"><code>&lt;pieDataset&gt;</code></a>.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- labelFont -->
+<element>
+    <name>labelFont</name>
+    <description>Specifies the font to use when drawing the label of an axis
+    in a chart.  The label of an axis is the text that describes the axis.</description>
+    <contains>(
+        <a hre="font">font</a>?
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- lastPageFooter -->
+<element>
+  <name>lastPageFooter</name>
+  <description>The page footer section to use on the last page instead of the normal page footer. This might not be the very last page of the document in case the summary section is also present. This section is sometimes useful when summary information has to be displayed at the bottom of the last page.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- line -->
+<element>
+  <name>line</name>
+  <description>Definition of a line object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="graphicElement">graphicElement</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>direction</name>
+      <description>Lines are drawn as diagonals of the rectangle defined by the report element properties. This attribute specifies which of the two diagonals should be drawn.</description>
+      <values>
+        <value>
+          <name>TopDown</name>
+          <description>The diagonal that starts in the top-left corner of the rectangle will be drawn.</description>
+        </value>
+        <value>
+          <name>BottomUp</name>
+          <description>The diagonal that starts in the bottom-left corner of the rectangle will be drawn.</description>
+        </value>
+      </values>
+      <default>TopDown</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- lineChart -->
+<element>
+  <name>lineChart</name>
+  <description>Defines a line chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="linePlot">linePlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- linePlot -->
+<element>
+  <name>linePlot</name>
+  <description>Defines plot options for a <a href="lineChart">&lt;line chart&gt;</a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="categoryAxisLabelExpression">categoryAxisLabelExpression</a>?,
+    <a href="categoryAxisFormat">categoryAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLines</name>
+      <description>Show lines flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isShowShapes</name>
+      <description>Show shapes flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- lowExpression -->
+<element>
+  <name>lowExpression</name>
+  <description>Low expression in a <a href="highLowChart"><code>&lt;highLowChart&gt;</code></a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- lowRange -->
+<element>
+  <name>lowRange</name>
+  <description>Defines the low range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- measure -->
+<element>
+  <name>measure</name>
+  <description>Crosstab measure definition.
+      <p/>
+      A measure is a value accumulated by the crosstab calculation engine and displayed in the crosstab data cells.
+      <p/>
+      Each measure in the crosstab has a variable that can be used inside the data cells as the current measure value.
+      The variable has the same name and type as the measure.
+	  <p/>
+	  Variables representing totals at different levels are also available.  The names of these variables are:
+	  <ul>
+		  <li>&lt;Measure&gt;_&lt;Row/Column Group&gt;_ALL - the total for the column/row group</li>
+		  <li>&lt;Measure&gt;_&lt;Row Group&gt;_&lt;Column Group&gt;_ALL - the combined total for the column and row groups</li>
+	  </ul>
+	  <p/>
+	  For instance, if one defines "Year" and "Month" column groups, a "City" row group and a "Sales" measure, then:
+	  <ul>
+		  <li>Sales_Month_ALL will hold the total for all months (i.e. for one year)</li>
+		  <li>Sales_City_Month_ALL will hold the total for all months (one year) and all cities</li>
+		  <li>Sales_City_Year_ALL will hold the grand total</li>
+	  </ul>
+  </description>
+  <contains>(
+    <a href="measureExpression">measureExpression</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Measure name.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>class</name>
+      <description>The measure values class.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>calculation</name>
+      <description>The calculation type to be performed on the measure values.</description>
+      <values>
+        <value>
+          <name>Nothing</name>
+          <description>No calculations are performed.</description>
+        </value>
+        <value>
+          <name>Count</name>
+          <description>The measure stores the number of the not null values.</description>
+        </value>
+        <value>
+          <name>DistinctCount</name>
+          <description>The measure stores the number of distinct not null values.</description>
+        </value>
+        <value>
+          <name>Sum</name>
+          <description>The measure stores the sum of the not null values.  Numeric measures only.</description>
+        </value>
+        <value>
+          <name>Average</name>
+          <description>The measure stores the average of the not null values.  Numeric measures only.</description>
+        </value>
+        <value>
+          <name>Lowest</name>
+          <description>The measure stores the lowest value.</description>
+        </value>
+        <value>
+          <name>Highest</name>
+          <description>The measure stores the highest value.</description>
+        </value>
+        <value>
+          <name>StandardDeviation</name>
+          <description>The measure stores the standard deviation of the not null values.  Numeric measures only.</description>
+        </value>
+        <value>
+          <name>Variance</name>
+          <description>The measure stores the variance of the not null values.  Numeric measures only.</description>
+        </value>
+        <value>
+          <name>First</name>
+          <description>The measure stores the first value encountered and ignores subsequent values.</description>
+        </value>
+      </values>
+      <default>Nothing</default>
+    </attribute>
+    <attribute>
+      <name>incrementerFactoryClass</name>
+      <description>The name of a class that implements the <code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance for this measure. Incrementers are objects that implement the <code>net.sf.jasperreports.engine.fill.JRIncrementer</code> interface and handle the incremental calculation performed on the measure's current value with every entry in the crosstab dataset.</description>
+    </attribute>
+    <attribute>
+      <name>percentageOf</name>
+      <description>The percentage calculation type performed on this measure.
+      <p/>
+      If percentage calculation is required, the value class should be one of the built-in supported percentage types or the percentage calculator class should be specified.
+      The classes with built-in support are <code>java.lang.Float</code>, <code>java.lang.Double</code>, <code>java.lang.Byte</code>, <code>java.lang.Short</code>, <code>java.lang.Integer</code>, <code>java.lang.Long</code>, <code>java.math.BigDecimal</code> and <code>java.math.BigInteger</code>.
+  </description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>The value will not be calculated as a percentage</description>
+        </value>
+        <value>
+          <name>GrandTotal</name>
+          <description>The value will be calculated as percentage of the grand total value</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>percentageCalculatorClass</name>
+      <description>The percentage calcualtor class name.
+      <p/>
+      The class should implement the <code>net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator</code> interface.
+  </description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- measureExpression -->
+<element>
+  <name>measureExpression</name>
+  <description>Crosstab measure expression.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- mediumRange -->
+<element>
+  <name>mediumRange</name>
+  <description>Defines the medium range in a <a href="thermometerChart"><code>&lt;thermometerChart&gt;</code>.</a></description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- meterChart -->
+<element>
+  <name>meterChart</name>
+  <description>Defines a meter chart.  A meter chart plots a single value on a dial.  In addition to the value being
+               plotted multiple ranges can be specified to help interpret the value.</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="valueDataset">valueDataset</a>,
+    <a href="meterPlot">meterPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- meterInterval -->
+<element>
+  <name>meterInterval</name>
+  <description>Describes a range of a <a href="meterChart">meterChart</a> to highlight.  A typical use is to
+  divide a meter up into sections such as "normal", "warning" and "critical" and color code them.</description>
+  <contains>(
+    <a href="dataRange">dataRange</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>label</name>
+      <description>The name of this region.  The name will appear in the meter's legend if the legend
+            is being displayed.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>color</name>
+      <description>The color used to shade the region in the meter.  If not set the region will have no
+         visual indicator.</description>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>alpha</name>
+      <description>The alpha (transparency) of the shading for the region.  The values range from 0.0
+            (completely transparent) to 1.0 (completely opaque).</description>
+      <default>1.0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- meterPlot -->
+<element>
+  <name>meterPlot</name>
+  <description>Plot options for a <a href="meterChart">meterChart</a>.</description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="valueDisplay">valueDisplay</a>?,
+    <a href="dataRange">dataRange</a>,
+    <a href="meterInterval">meterInterval</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>shape</name>
+      <description>Defines the shape of the meter.  The final appearance is determined by the combination of
+      this attribute and the <code>angle</code> attribute.  This attribute only matters when the meter
+      is using an angle over 180 degrees.
+      <p>
+      When a meter is over 180 degrees wide the space between the start and end of the meter can be filled
+      in several different ways.  The best way to visualize this is to think of a twelve hour clock.  If the angle of the meter is 240 degrees the
+      meter will start at 8, sweep up past 12 and down to 4.  This attribute specifies how to fill the area
+      between 4 o'clock and 8 o'clock.
+      </p>
+      </description>
+      <values>
+        <value>
+          <name>chord</name>
+          <description>A straight line is drawn between the start point and the end point, and the area bounded by
+          the meter and this line is shaded with the background color.</description>
+        </value>
+        <value>
+          <name>circle</name>
+          <description>The unused portion of the circle that describes the meter is shaded with the background color.</description>
+        </value>
+        <value>
+          <name>pie</name>
+          <description>The unused portion of the circle that describes the meter is not shaded at all.</description>
+        </value>
+      </values>
+      <default>pie</default>
+    </attribute>
+    <attribute>
+        <name>angle</name>
+        <description>The extent of the meter in degrees.  Use 180 for a semicircle.</description>
+        <default>180</default>
+    </attribute>
+    <attribute>
+        <name>units</name>
+        <description>An optional string that describes the unit that the meter is displaying.  This string will
+            be appended to the value.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>tickInterval</name>
+        <description>The amount of space between values to mark as "ticks" on the face of the meter.  If the meter has a data
+        range of 0-100 and the tick interval is 20, there will be 4 ticks at 20, 40, 60 and 80.</description>
+        <default>10</default>
+    </attribute>
+    <attribute>
+        <name>meterColor</name>
+        <description>The color of meter.  If <a href="meterInterval">meterIntervals</a> are defined they may
+        mask this color.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>needleColor</name>
+        <description>The color used to draw the needle in the meter.</description>
+        <required>false</required>
+    </attribute>
+    <attribute>
+        <name>tickColor</name>
+        <description>The color of the meter ticks, if any.</description>
+        <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- multiAxisChart -->
+<element>
+    <name>multiAxisChart</name>
+    <description>Definition of chart with multiple range axis, all sharing a common
+    domain axis.  The domain is determined by the dataset of each nested report, and
+    they must all use the same type of dataset.  The time period datasets (highLowDataset,
+    candlestickDataset and timeSeriesDataset) are considered the same and can be
+    mixed.
+    <br/><br/>
+    Each nested chart has its own range, so you can combine charts with significantly
+    different scales.  Each chart will have its own axis showing its range, and it is
+    highly recommended to color the data series and the axis to match.
+    <br/><br/>
+    The plot options of the nested reports are ignored - the plot is configured via the
+    multiAxisPlot.  The only exception to this is any seriesColors specified in the
+    plot of a nested report, which will be used to color a specific series in that
+    report.  In this case the seriesOrder in the seriesColor is an absolute specification
+    of a series to color, not a relative ordering.</description>
+    <contains>(
+        <a href="chart">chart</a>,
+        <a href="multiAxisPlot">multiAxisPlot</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+<!-- multiAxisPlot -->
+<element>
+    <name>multiAxisPlot</name>
+    <description>Plot options for a <a href="multiAxisChart"><code>&lt;multiAxisChart&gt;</code></a>.
+    The set plot options will be shared by all the charts inside this plot, and the
+    nested charts are specified via the <a href="axis"><code>&lt;axis&gt;</code></a> tags.
+    All nested charts must share the same type of domain axis - a category, a numeric (xy)
+    or a time based axis.
+    </description>
+    <contains>(
+        <a href="plot">plot</a>,
+        <a href="axis">axis</a>+
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+<!-- openExpression -->
+<element>
+  <name>openExpression</name>
+  <description>Open expression for a <a href="candlestickChart"><code>&lt;candlestickChart&gt;</code></a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- pageFooter -->
+<element>
+  <name>pageFooter</name>
+  <description>Definition of the page footer section for this report. The page footer is printed at the bottom of each page on the report.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- pageHeader -->
+<element>
+  <name>pageHeader</name>
+  <description>Definition of the page header section for this report. The page header is printed at the beginning of each page on the report.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- parameter -->
+<element>
+  <name>parameter</name>
+  <description>Represents the definition of a report parameter. Parameters are very useful for passing data to the report engine and can be used in the expressions or in the query string of the report.</description>
+  <contains>(
+    <a href="property">property</a>*,
+    <a href="parameterDescription">parameterDescription</a>?,
+    <a href="defaultValueExpression">defaultValueExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the parameter.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>class</name>
+      <description>Class of the parameter values.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>isForPrompting </name>
+      <description>Optional flag that might be used by the parent application to prompt the user for the parameter value.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- parameterDescription -->
+<element>
+  <name>parameterDescription</name>
+  <description>Can be used to specify a short text description for the parameter and is useful especially when prompting for the user to supply a value for this parameter at runtime.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- parameterValueExpression -->
+<element>
+  <name>parameterValueExpression</name>
+  <description>Crosstab parameter value expression.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- parametersMapExpression -->
+<element>
+  <name>parametersMapExpression</name>
+  <description>Allows bulk passing the parameters to the subreport/subdataset into a <code>java.lang.Map</code> object. There are cases when we want to pass to the subreport/subdataset the same parameters that the master report has received. This can be achieved by passing the system-defined parameter called REPORT_PARAMETERS_MAP and maybe adding to or overriding those parameters using additional <a href="subreportParameter"><code>&lt;subreportParameter&gt;</code></a> elements.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- pie3DChart -->
+<element>
+  <name>pie3DChart</name>
+  <description>Defines a pie chart with 3D effect</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="pieDataset">pieDataset</a>,
+    <a href="pie3DPlot">pie3DPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- pie3DPlot -->
+<element>
+  <name>pie3DPlot</name>
+  <description>Defines plot options for a <a href="pie3DChart"><code>&lt;pie3DChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>depthFactor</name>
+      <description>Depth factor for a pie chart plot</description>
+      <default>0.2</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- pieChart -->
+<element>
+  <name>pieChart</name>
+  <description>Defines a pie type chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="pieDataset">pieDataset</a>,
+    <a href="piePlot">piePlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- pieDataset -->
+<element>
+  <name>pieDataset</name>
+  <description>Defines a dataset to be used with <a href="pieChart"><code>&lt;pieChart&gt;</code></a></description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="keyExpression">keyExpression</a>,
+    <a href="valueExpression">valueExpression</a>,
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="sectionHyperlink">sectionHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- piePlot -->
+<element>
+  <name>piePlot</name>
+  <description>Plot options for a <a href="pieChart"><code>&lt;pieChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- plot -->
+<element>
+  <name>plot</name>
+  <description>Defines generic plot options for charts</description>
+  <contains>(
+    <a href="seriesColor">seriesColor</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>backcolor</name>
+      <description>Background color of the chart</description>
+    </attribute>
+    <attribute>
+      <name>orientation</name>
+      <description>Orientation of the chart</description>
+      <values>
+        <value>
+          <name>Horizontal</name>
+        </value>
+        <value>
+          <name>Vertical</name>
+        </value>
+      </values>
+      <default>Vertical</default>
+    </attribute>
+    <attribute>
+      <name>backgroundAlpha</name>
+      <description>Alpha (transparency) parameter for the background</description>
+      <default>1</default>
+    </attribute>
+    <attribute>
+      <name>foregroundAlpha</name>
+      <description>Alpha (transparency) parameter for the foreground</description>
+      <default>1</default>
+    </attribute>
+    <attribute>
+      <name>labelRotation</name>
+      <description>Degrees to rotate the text labels for the x axis of the chart.  Positive
+            values rotate the text clockwise and negative values rotate it counterclockwise.
+            This attribute has no effect on charts where the x axis is either numeric or a
+            date.</description>
+      <default>1</default>
+    </attribute>
+  </attributes>
+</element>
+  
+
+<!-- printWhenExpression -->
+<element>
+  <name>printWhenExpression</name>
+  <description>Definition of a Boolean expression that will determine if the element or the band should be printed or not.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- property -->
+<element>
+  <name>property</name>
+  <description>Allows the creation of a name-value pair property for a report object (e.g. the report itself, a field, a parameter, etc).</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the object property.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>value</name>
+      <description>Value of the object property.</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- queryString -->
+<element>
+  <name>queryString</name>
+  <description>Contains the SQL query that will be used to retrieve the data needed to fill the report.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>language</name>
+      <description>Specifies the query language.
+	  <p/>
+		Based on the query language, a corresponding
+		<code>net.sf.jasperreports.engine.query.JRQueryExecuterFactory</code> is used to create
+		<code>net.sf.jasperreports.engine.query.JRQueryExecuter</code> instance.
+		The query executer is responsible for executing the query and creating a <code>JRDataSource</code> from the result.
+	  <p/>
+		A executer for a query language is registered using a JR propery named
+		<code>net.sf.jasperreports.query.executer.factory.&lt;language&gt;</code>
+  </description>
+      <default>sql</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- rectangle -->
+<element>
+  <name>rectangle</name>
+  <description>Definition of a rectangle object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="graphicElement">graphicElement</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>radius</name>
+      <description>The radius of the arc corner.</description>
+      <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- reportElement -->
+<element>
+  <name>reportElement</name>
+  <description>Element used to specify the common properties of an object on the report.</description>
+  <contains>(
+    <a href="printWhenExpression">printWhenExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>key</name>
+      <description>This attribute is used to identify band elements by their "key" when wanting to alter their settings at runtime. The key value must be unique for elements within report band.</description>
+    </attribute>
+    <attribute>
+      <name>style</name>
+      <description>Name of the report level style to use as base style (see <a href="style"><code>&lt;style&gt;</code></a> element).</description>
+    </attribute>
+    <attribute>
+      <name>positionType</name>
+      <description>Specifies the object position when the report section is affected by stretch.</description>
+      <values>
+        <value>
+          <name>Float</name>
+          <description>The element moves relative to the size of the surrounding elements.</description>
+        </value>
+        <value>
+          <name>FixRelativeToTop</name>
+          <description>The element maintains its position relative to the top of the band.</description>
+        </value>
+        <value>
+          <name>FixRelativeToBottom</name>
+          <description>The element maintains its position relative to the bottom of the band.</description>
+        </value>
+      </values>
+      <default>FixRelativeToTop</default>
+    </attribute>
+    <attribute>
+      <name>stretchType</name>
+      <description>Specifies the graphic element stretch behavior when the report section is affected by stretch.</description>
+      <values>
+        <value>
+          <name>NoStretch</name>
+          <description>The graphic element won't stretch vertically as the band stretches to display field data.</description>
+        </value>
+        <value>
+          <name>RelativeToTallestObject</name>
+          <description>The graphic element will stretch to accommodate the tallest object in its the group. See the <a href="elementGroup"><code>&lt;elementGroup&gt;</code></a> element, to see how to group elements in bands.</description>
+        </value>
+        <value>
+          <name>RelativeToBandHeight</name>
+          <description>The graphic element will stretch to fit in the band.</description>
+        </value>
+      </values>
+      <default>NoStretch</default>
+    </attribute>
+    <attribute>
+      <name>isPrintRepeatedValues</name>
+      <description>This flag allows suppressing the repeating values for the dynamic elements such as text fields and image fields and to fully customize the behavior of the static elements like rectangles, lines, ellipses and static texts.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Dynamic elements will print even if their values repeat. Static elements will appear every time the band that contains them is started.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Suppresses the repeated values for the dynamic elements. The static elements will print only according to the other 3 attributes: <code>isPrintInFirstWholeBand</code>, <code>isPrintWhenDetailOverflows</code>, <code>printWhenGroupChanges</code>.</description>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>mode</name>
+      <description>Specifies whether the background of an object is transparent or opaque.</description>
+      <values>
+        <value>
+          <name>Opaque</name>
+        </value>
+        <value>
+          <name>Transparent</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>x</name>
+      <description>Specifies the x coordinate for the object within the band.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>y</name>
+      <description>Specifies the y coordinate for the object within the band.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>width</name>
+      <description>Width of the object.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>height</name>
+      <description>Height of the object.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>isRemoveLineWhenBlank</name>
+      <description>Collapses the band if the element is not printing and no other element is occupying the same horizontal space.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isPrintInFirstWholeBand</name>
+      <description>The element gets printed in the first band of a new page or column that is not an overflow from a previous page or column.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isPrintWhenDetailOverflows</name>
+      <description>The element will be printed when the band overflows to a new page or a new column.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>printWhenGroupChanges</name>
+      <description>The element will be printed when the specified group changes.</description>
+    </attribute>
+    <attribute>
+      <name>forecolor</name>
+      <description>Fore color to use when drawing the object. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <default>#000000</default>
+    </attribute>
+    <attribute>
+      <name>backcolor</name>
+      <description>Back color to use when drawing the object. Hexadecimal formatted values preceded by the # character or decimal values are accepted along with the following predefined color values: black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, yellow, white.</description>
+      <default>#FFFFFF</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- reportFont -->
+<element>
+  <name>reportFont</name>
+  <description>Represents the definition of a report font. Report fonts are used as default or base font settings in other font definitions throughout the report.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the report font definition.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>isDefault</name>
+      <description>The default report font is used as base font for all the font definitions that do not explicitly reference a report font definition.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>fontName</name>
+      <description>Name of the font.</description>
+      <default>sansserif</default>
+    </attribute>
+    <attribute>
+      <name>size </name>
+      <description>Size of the font.</description>
+      <default>10</default>
+    </attribute>
+    <attribute>
+      <name>isBold </name>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isItalic</name>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isUnderline</name>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>isStrikeThrough</name>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>pdfFontName</name>
+      <description>Name of the PDF font.</description>
+      <default>Helvetica</default>
+    </attribute>
+    <attribute>
+      <name>pdfEncoding</name>
+      <description>Encoding type to use with the PDF font.</description>
+      <default>CP1252</default>
+    </attribute>
+    <attribute>
+      <name>isPdfEmbedded</name>
+      <description>Specifies if the PDF font should be embedded in the document.</description>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- rowGroup -->
+<element>
+  <name>rowGroup</name>
+  <description>Crosstab row group definition.
+      <p/>
+   Each group in the crosstab has a variable that can be used inside the group header or inside the crosstab cells as the current group value.
+   The variable has the same name as the group and the same type as the bucket expression of the group.
+  </description>
+  <contains>(
+    <a href="bucket">bucket</a>,
+    <a href="crosstabRowHeader">crosstabRowHeader</a>?,
+    <a href="crosstabTotalRowHeader">crosstabTotalRowHeader</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Group name.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>width</name>
+      <description>The width of the row group header.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>totalPosition</name>
+      <description>The position of the total row for this group.
+      <p/>
+      A group can have a total row summing the values for all the entries in the group.
+      E.g. if there is a Year group having Month as a subgroup, the total row for the Year group would sum the values for all the years and the total row for the Month group would sum the values for all the months of an year.
+  </description>
+      <values>
+        <value>
+          <name>Start</name>
+          <description>The total row will be displayed before the group rows.</description>
+        </value>
+        <value>
+          <name>End</name>
+          <description>The total row will be displayed after the group rows.</description>
+        </value>
+        <value>
+          <name>None</name>
+          <description>The total row will not be displayed.</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>headerPosition</name>
+      <description>The position of the header contents on header span.
+      <p/>
+      The row group headers stretch vertically by spanning when there are multiple sub group entries.
+      This attribute determines the way the header contents will be adjusted to the new height.
+  </description>
+      <values>
+        <value>
+          <name>Top</name>
+          <description>The contents will be rendered at the top of the header</description>
+        </value>
+        <value>
+          <name>Middle</name>
+          <description>The contents will be rendered on the center of the header</description>
+        </value>
+        <value>
+          <name>Bottom</name>
+          <description>The contents will be rendered at the bottom of the header</description>
+        </value>
+        <value>
+          <name>Stretch</name>
+          <description>The contents will be proportionally stretched to the new header height</description>
+        </value>
+      </values>
+      <default>Top</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- returnValue -->
+<element>
+  <name>returnValue</name>
+  <description>Maps a subreport variable to a master report variable in order to allow returning values from subreport to the master report.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>subreportVariable</name>
+      <description>Name of the subreport variable whose value will be returned to the master report.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>toVariable</name>
+      <description>Name of the master report variable to which the value is returned. This should be a variable with <code>calculation="System"</code></description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>calculation</name>
+      <description>Calculation to perform on the master report variable when returning the value from the subreport.</description>
+      <values>
+        <value>
+          <name>Nothing</name>
+          <description>No calculations are performed.</description>
+        </value>
+        <value>
+          <name>Count</name>
+          <description>Variable stores the number of the not null values returned from the subreport.</description>
+        </value>
+        <value>
+          <name>DistinctCount</name>
+          <description>Variable stores the number of distinct not null values returned from the subreport.</description>
+        </value>
+        <value>
+          <name>Sum</name>
+          <description>Variable stores the sum of the not null values returned from the subreport. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Average</name>
+          <description>Variable stores the average of the not null values returned from the subreport. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Lowest</name>
+          <description>Variable stores the lowest value returned from the subreport.</description>
+        </value>
+        <value>
+          <name>Highest</name>
+          <description>Variable stores the highest value returned from the subreport.</description>
+        </value>
+        <value>
+          <name>StandardDeviation</name>
+          <description>Variable stores the standard deviation of the not null values returned from the subreport. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Variance</name>
+          <description>Variable stores the variance of the not null values returned from the subreport. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>First</name>
+          <description>Variable stores the first value encountered and ignores subsequent values.</description>
+        </value>
+      </values>
+      <default>Nothing</default>
+    </attribute>
+    <attribute>
+      <name>incrementerFactoryClass</name>
+      <description>The name of a class that implements the <code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance to handle the value returned from the subreport.</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- scatterChart -->
+<element>
+  <name>scatterChart</name>
+  <description>Defines a scatter chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="xyDataset">xyDataset</a>,
+    <a href="scatterPlot">scatterPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- scatterPlot -->
+<element>
+  <name>scatterPlot</name>
+  <description>Specifies the plot options for a <a href="scatterChart"><code>&lt;scatterChart&gt;</code></a></description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="xAxisLabelExpression">xAxisLabelExpression</a>?,
+    <a href="xAxisFormat">xAxisFormat</a>?,
+    <a href="yAxisLabelExpression">yAxisLabelExpression</a>?,
+    <a href="yAxisFormat">yAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLines</name>
+      <description>Show lines flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isShowShapes</name>
+      <description>Show shapes flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+  
+
+<!-- sectionHyperlink -->
+<element>
+  <name>sectionHyperlink</name>
+  <description>Hyperlink specification for pie chart sections.  This hyperlink definition will be evaluated for every chart section and a image map will be created for the chart.</description>
+  <contains>(
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- seriesColor -->
+<element>
+  <name>seriesColor</name>
+  <description>Defines the color to use for  a  series in the report.  If only one seriesColor
+  is specified it becomes the color of the first series.  If more than one seriesColor is
+  specified the chart will cycle through the supplied colors.  Meter and Thermometer charts
+  do not have series and
+  will ignore any seriesColor settings.
+  <br/><br/>
+  When used in a chart that part of a multi-axis chart series color is treated a bit
+  differently.  The default color series to cycle through is defined in the plot of the
+  multi axis chart, and the color series for the nested charts define series colors
+  for that chart only.  This is useful when a multiple axis chart contains several
+  line charts, each with one series.  By default every line will be the first in its
+  plot and will have the first color defined in the multi axis plot, so every line will
+  be the same color.  To solve this you can set a seriesColor for each nested chart to
+  override the default colors.</description>
+  <contains>(
+    EMPTY
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>seriesOrder</name>
+      <description>The relative order of this color.  All seriesColors are sorted
+      by the value of this attribute, and appear in that order when coloring the
+      series.
+      <br/><br/>
+      When the chart is nested inside a multiple axis chart the seriesOrder is
+      the actual series number to apply the color to.  Series use zero-based indexing.
+      </description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>color</name>
+      <description>The color to use for the series</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- seriesExpression -->
+<element>
+  <name>seriesExpression</name>
+  <description>Defines a series expression in a dataset</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- sortField -->
+<element>
+  <name>sortField</name>
+  <description>Introduces a field to use for sorting the data source.</description>
+  <contains>EMPTY</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the report field to use for sorting.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>order</name>
+      <description>The sort order for the field.</description>
+      <values>
+        <value>
+          <name>Ascending</name>
+        </value>
+        <value>
+          <name>Descending</name>
+        </value>
+      </values>
+      <default>Ascending</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- stackedBar3DChart -->
+<element>
+  <name>stackedBar3DChart</name>
+  <description>Defines a stacked bar chart with 3D effect</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="bar3DPlot">bar3DPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- stackedBarChart -->
+<element>
+  <name>stackedBarChart</name>
+  <description>Defines a stacked bar chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="barPlot">barPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+<!-- stackedAreaChart -->
+<element>
+  <name>stackedAreaChart</name>
+  <description>Defines a stacked area chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="categoryDataset">categoryDataset</a>,
+    <a href="areaPlot">areaPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- staticText -->
+<element>
+  <name>staticText</name>
+  <description>Definition of a static text object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="box">box</a>?,
+    <a href="textElement">textElement</a>?,
+    <a href="text">text</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- style -->
+<element>
+  <name>style</name>
+  <description>Definition of a report style.</description>
+  <contains>(
+	  <a href="conditionalStyle">conditionalStyle</a>*,
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the report style definition.</description>
+    </attribute>
+    <attribute>
+      <name>isDefault</name>
+      <description>The default report style is used as base style for all the elements that do not explicitly reference a report style definition.</description>
+      <values>
+        <value>
+          <name>true </name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>style</name>
+      <description>Parent style reference.</description>
+    </attribute>
+    <attribute>
+      <name>mode</name>
+    </attribute>
+    <attribute>
+      <name>forecolor</name>
+    </attribute>
+    <attribute>
+      <name>backcolor</name>
+    </attribute>
+    <attribute>
+      <name>pen</name>
+    </attribute>
+    <attribute>
+      <name>fill</name>
+    </attribute>
+    <attribute>
+      <name>radius</name>
+    </attribute>
+    <attribute>
+      <name>scaleImage</name>
+    </attribute>
+    <attribute>
+      <name>hAlign</name>
+    </attribute>
+    <attribute>
+      <name>vAlign</name>
+    </attribute>
+    <attribute>
+      <name>border</name>
+    </attribute>
+    <attribute>
+      <name>borderColor</name>
+    </attribute>
+    <attribute>
+      <name>padding</name>
+    </attribute>
+    <attribute>
+      <name>topBorder</name>
+    </attribute>
+    <attribute>
+      <name>topBorderColor</name>
+    </attribute>
+    <attribute>
+      <name>topPadding</name>
+    </attribute>
+    <attribute>
+      <name>leftBorder</name>
+    </attribute>
+    <attribute>
+      <name>leftBorderColor</name>
+    </attribute>
+    <attribute>
+      <name>leftPadding</name>
+    </attribute>
+    <attribute>
+      <name>bottomBorder</name>
+    </attribute>
+    <attribute>
+      <name>bottomBorderColor</name> 
+    </attribute>
+    <attribute>
+      <name>bottomPadding</name>
+    </attribute>
+    <attribute>
+      <name>rightBorder</name>
+    </attribute>
+    <attribute>
+      <name>rightBorderColor</name>
+    </attribute>
+    <attribute>
+      <name>rightPadding</name>
+    </attribute>
+    <attribute>
+      <name>rotation</name>
+    </attribute>
+    <attribute>
+      <name>lineSpacing</name>
+    </attribute>
+    <attribute>
+      <name>isStyledText</name>
+    </attribute>
+    <attribute>
+      <name>fontName</name>
+    </attribute>
+    <attribute>
+      <name>fontSize</name>
+    </attribute>
+    <attribute>
+      <name>isBold</name>
+    </attribute>
+    <attribute>
+      <name>isItalic</name>
+    </attribute>
+    <attribute>
+      <name>isUnderline</name>
+    </attribute>
+    <attribute>
+      <name>isStrikeThrough</name>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- subDataset -->
+<element>
+  <name>subDataset</name>
+  <description>Definition of a dataset.  A dataset can be used to feed data not present in the report to charts and crosstabs without using subreports.</description>
+  <contains>(
+    <a href="property">property</a>*,
+    <a href="parameter">parameter</a>*,
+    <a href="queryString">queryString</a>?,
+    <a href="field">field</a>*,
+    <a href="sortField">sortField</a>*,
+    <a href="variable">variable</a>*,
+    <a href="filterExpression">filterExpression</a>?,
+    <a href="group">group</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the dataset.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>scriptletClass</name>
+      <description>Indicates which class implements the scriptlets functionality for this dataset. The specified class must be a subclass of <code>JRAbstractScriptlet</code> class. If omitted, an instance of <code>JRDefaultScriptlet</code> will be created.</description>
+    </attribute>
+    <attribute>
+      <name>resourceBundle</name>
+      <description>The base name of the dataset associated resource bundle.</description>
+    </attribute>
+    <attribute>
+      <name>whenResourceMissingType</name>
+      <description>Allows customizing the way the engine deals with missing resources in the resource bundle.</description>
+      <values>
+        <value>
+          <name>Null</name>
+          <description>Null is returned for the missing resource.</description>
+        </value>
+        <value>
+          <name>Empty</name>
+          <description>An empty string is returned for the missing resource.</description>
+        </value>
+        <value>
+          <name>Key</name>
+          <description>The key is returned for the missing resources.</description>
+        </value>
+        <value>
+          <name>Error</name>
+          <description>An exception is thrown when the resource with the specified key is missing.</description>
+        </value>
+      </values>
+      <default>Null</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- subtitleExpression -->
+<element>
+  <name>subtitleExpression</name>
+  <description>Defines the expression for the chart subtitle</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- subreport -->
+<element>
+  <name>subreport</name>
+  <description>Definition of a subreport object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="parametersMapExpression">parametersMapExpression</a>?,
+    <a href="subreportParameter">subreportParameter</a>*, (
+    <a href="connectionExpression">connectionExpression</a> |
+    <a href="dataSourceExpression">dataSourceExpression</a> )?,
+    <a href="returnValue">returnValue</a>*, (
+    <a href="subreportExpression">subreportExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isUsingCache</name>
+      <description>If true, tells the report engine to cache the report definition objects that are loaded from the same location.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- subreportExpression -->
+<element>
+  <name>subreportExpression</name>
+  <description>Definition of the expression that will be used to determine the report object that will be loaded as a subreport.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Class of the image source.</description>
+      <values>
+        <value>
+          <name>java.lang.String</name>
+          <description>Subreport location. First, the report engine tries to see whether the String represents an URL. If not, it tries to find the file on disk and finally, if the String does not represent a path file, it searches in the CLASSPATH to find the report definition as a resource.</description>
+        </value>
+        <value>
+          <name>java.io.File</name>
+          <description>Subreport loaded by opening an <code>java.io.InputStream</code> from this <code>java.io.File</code> object.</description>
+        </value>
+        <value>
+          <name>java.net.URL</name>
+          <description>Subreport loaded by opening an <code>java.io.InputStream</code> from this <code>java.net.URL</code> object.</description>
+        </value>
+        <value>
+          <name>java.io.InputStream</name>
+          <description>Subreport loaded from an <code>java.io.InputStream</code> object.</description>
+        </value>
+        <value>
+          <name>net.sf.jasperreports.engine.JasperReport</name>
+          <description>Subreport supplied directly as a <code>net.sf.jasperreports.engine.JasperReport</code> object.</description>
+        </value>
+      </values>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- subreportParameter -->
+<element>
+  <name>subreportParameter</name>
+  <description>Definition of a subreport parameter.</description>
+  <contains>(
+    <a href="subreportParameterExpression">subreportParameterExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>The name of the parameter that will be passed when filling the subreport.</description>
+      <required>true</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- subreportParameterExpression -->
+<element>
+  <name>subreportParameterExpression</name>
+  <description>Definition of the expression associated with the subreport parameter.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- summary -->
+<element>
+  <name>summary</name>
+  <description>Definition of the summary section for this report. The summary section is printed only once at the end of the report.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- text -->
+<element>
+  <name>text</name>
+  <description>Specifies the text to print for a static text object.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- textElement -->
+<element>
+  <name>textElement</name>
+  <description>Element used to specify the common properties of a text object on the report (<a href="staticText"><code>&lt;staticText&gt;</code></a> or <a href="textField"><code>&lt;textField&gt;</code></a>).</description>
+  <contains>(
+    <a href="font">font</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>textAlignment</name>
+      <description>Type of alignment for the text object.</description>
+      <values>
+        <value>
+          <name>Left</name>
+          <description>Text is aligned to the left.</description>
+        </value>
+        <value>
+          <name>Center</name>
+          <description>Text is centered.</description>
+        </value>
+        <value>
+          <name>Right</name>
+          <description>Text is aligned to the right.</description>
+        </value>
+        <value>
+          <name>Justified</name>
+          <description>Text is justified.</description>
+        </value>
+      </values>
+      <default>Left</default>
+    </attribute>
+    <attribute>
+      <name>verticalAlignment</name>
+      <description>Type of vertical alignment for the text object.</description>
+      <values>
+        <value>
+          <name>Top</name>
+          <description>Text is aligned to the top.</description>
+        </value>
+        <value>
+          <name>Middle</name>
+          <description>Text is vertically centered.</description>
+        </value>
+        <value>
+          <name>Bottom</name>
+          <description>Text is aligned to the bottom.</description>
+        </value>
+      </values>
+      <default>Top</default>
+    </attribute>
+    <attribute>
+      <name>rotation</name>
+      <description>Type of rotation for the text object.</description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>Text runs horizontally from left to right and from top to bottom.</description>
+        </value>
+        <value>
+          <name>Left</name>
+          <description>Text runs vertically from bottom to top and from left to right.</description>
+        </value>
+        <value>
+          <name>Right</name>
+          <description>Text runs vertically from top to bottom and from right to left.</description>
+        </value>
+        <value>
+          <name>UpsideDown</name>
+          <description>Text is rotated with 180 degrees.</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>lineSpacing</name>
+      <description>Type of line spacing for the text object.</description>
+      <values>
+        <value>
+          <name>Single</name>
+          <description>Normal line spacing</description>
+        </value>
+        <value>
+          <name>1_1_2</name>
+          <description>Medium line spacing.</description>
+        </value>
+        <value>
+          <name>Double</name>
+          <description>Double line spacing</description>
+        </value>
+      </values>
+      <default>Single</default>
+    </attribute>
+    <attribute>
+      <name>isStyledText</name>
+      <description>When set to <code>true</code>, this attribute signals to the rendering engine that the text element contains preformatted text. Style information can be introduced in the text content using nested <code>&lt;style&gt;</code> tags that support the folowing attributes : <code>fontName, size, isBold, isItalic, isUnderline, isStrikeThrough, pdfFontName, pdfEncoding, isPdfEmbedded, forecolor, backcolor</code>.</description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>The text element contains text formatted using nested <code>&lt;style&gt;</code> tags.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>The text element has a pure text content, without style information.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- textField -->
+<element>
+  <name>textField</name>
+  <description>Definition of a text field object.</description>
+  <contains>(
+    <a href="reportElement">reportElement</a>,
+    <a href="box">box</a>?,
+    <a href="textElement">textElement</a>?,
+    <a href="textFieldExpression">textFieldExpression</a>?,
+    <a href="anchorNameExpression">anchorNameExpression</a>?,
+    <a href="hyperlinkReferenceExpression">hyperlinkReferenceExpression</a>?,
+    <a href="hyperlinkAnchorExpression">hyperlinkAnchorExpression</a>?,
+    <a href="hyperlinkPageExpression">hyperlinkPageExpression</a>?,
+    <a href="hyperlinkTooltipExpression">hyperlinkTooltipExpression</a>?,
+    <a href="hyperlinkParameter">hyperlinkParameter</a>*
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isStretchWithOverflow</name>
+      <description>Instructs the report engine to allow the text field to stretch downwards in order to display all its text when it doesn't fit in the defined text field height.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+      <name>evaluationTime</name>
+      <description>Text to be printed is supplied by the text field associated expression. This expression can be evaluated at a specified moment. This could be useful, for example, when we want to have on the first page the total number of pages. The total number of pages is known only after filling the entire report, so we can specify that the text filed that will represent the total number of pages placed at the beginning of the report should be evaluated only when reaching the end of the report.</description>
+      <values>
+        <value>
+          <name>Now</name>
+          <description>Text field expression is evaluated when filling the current band (section).</description>
+        </value>
+        <value>
+          <name>Report</name>
+          <description>Text field expression is evaluated when reaching the end of the report.</description>
+        </value>
+        <value>
+          <name>Page</name>
+          <description>Text field expression is evaluated when reaching the end of the current page.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>Text field expression is evaluated when reaching the end of the current column.</description>
+        </value>
+        <value>
+          <name>Group</name>
+          <description>Text field expression is evaluated when the group specified by the <code>evaluationGroup</code> attribute changes.</description>
+        </value>
+        <value>
+          <name>Band</name>
+          <description>Text field expression is evaluated after the parent band has finished rendering all the other elements.</description>
+        </value>
+        <value>
+          <name>Auto</name>
+          <description>Evaluation time used when report elements having expressions that combine values evaluated at different times are required (e.g. percentage out of a total).
+	 <p/>
+	 Variables will be evaluated at a time corresponding to their reset type.
+	 Fields are evaluated "now", i.e. at the time the band the element lies on gets filled.
+	 <p/>
+	 NB: avoid using this evaluation type when other types suffice as it can lead to performance loss.
+  </description>
+        </value>
+      </values>
+      <default>Now</default>
+    </attribute>
+    <attribute>
+      <name>evaluationGroup</name>
+      <description>Used to specify the group at which to evaluate the text field value, when <code>evaluationTime</code> is "Group".</description>
+    </attribute>
+    <attribute>
+      <name>pattern</name>
+      <description>Pattern to use when formatting the output of the text field expression.</description>
+    </attribute>
+    <attribute>
+      <name>isBlankWhenNull</name>
+      <description>Specifies that the text field should display a blank character instead of "null" when the text field expression evaluates to <code>null</code>.</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+    </attribute>
+    <attribute>
+      <name>hyperlinkType</name>
+      <description>
+      Indicates the type of the hyperlink element.
+      <p>
+      The type can be:
+      <ul>
+        <li>
+          One of the built-in types:
+          <dl>
+            <dt><code>None</code></dt>
+            <dd>The current element doesn't represent a hyperlink.</dd>
+            <dt><code>Reference</code></dt>
+            <dd>The current hyperlink points to an external resource specified by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element, usually an URL.</dd>
+            <dt><code>LocalAnchor</code></dt>
+            <dd>The current hyperlink points to a local anchor specified by the corresponding <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element.</dd>
+            <dt><code>LocalPage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index within the current document specified by the corresponding <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element.</dd>
+            <dt><code>RemoteAnchor</code></dt>
+            <dd>The current hyperlink points to an anchor specified by the <a href="hyperlinkAnchorExpression"><code>&lt;hyperlinkAnchorExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+            <dt><code>RemotePage</code></dt>
+            <dd>The current hyperlink points to a 1 based page index specified by the <a href="hyperlinkPageExpression"><code>&lt;hyperlinkPageExpression&gt;</code></a> element, within an external document indicated by the corresponding <a href="hyperlinkReferenceExpression"><code>&lt;hyperlinkReferenceExpression&gt;</code></a> element.</dd>
+          </dl>
+        </li>
+        <li>
+          A custom (arbitrary) type.
+        </li>
+      </ul>
+      </p>
+      </description>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>hyperlinkTarget</name>
+      <description>Indicates the target of the hyperlink.</description>
+      <values>
+        <value>
+          <name>Self</name>
+          <description>Loads the hyperlink destination document into the window in which the link was clicked.</description>
+        </value>
+        <value>
+          <name>Blank</name>
+          <description>Loads the hyperlink destination document into a new blank window.</description>
+        </value>
+      </values>
+      <default>Self</default>
+    </attribute>
+    <attribute>
+      <name>bookmarkLevel</name>
+      <description>The level of the bookmark corresponding to the anchor.
+	  <p/>
+	  The PDF exporter can create a bookmark tree using anchors defined in the report.
+	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  If set to "0" (the default), no bookmark will be created for the anchor.
+  </description>
+      <default>0</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- textFieldExpression -->
+<element>
+  <name>textFieldExpression</name>
+  <description>Defines the expression to use for this textField.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>class</name>
+      <description>Class for the text field values.</description>
+      <values>
+        <value>
+          <name>java.lang.Boolean</name>
+        </value>
+        <value>
+          <name>java.lang.Byte</name>
+        </value>
+        <value>
+          <name>java.util.Date</name>
+        </value>
+        <value>
+          <name>java.sql.Timestamp</name>
+        </value>
+        <value>
+          <name>java.sql.Time</name>
+        </value>
+        <value>
+          <name>java.lang.Double</name>
+        </value>
+        <value>
+          <name>java.lang.Float</name>
+        </value>
+        <value>
+          <name>java.lang.Integer</name>
+        </value>
+        <value>
+          <name>java.lang.Long</name>
+        </value>
+        <value>
+          <name>java.lang.Short</name>
+        </value>
+        <value>
+          <name>java.math.BigDecimal</name>
+        </value>
+        <value>
+          <name>java.lang.Number</name>
+        </value>
+        <value>
+          <name>java.lang.String</name>
+        </value>
+      </values>
+      <default>java.lang.String</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- thermometerChart -->
+<element>
+  <name>thermometerChart</name>
+  <description>Defines a thermometer chart.  A thermometer chart plots a single value on a thermometer.
+        In addition to the value being plotted three ranges can be specified to help interpret the value.</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="valueDataset">valueDataset</a>,
+    <a href="thermometerPlot">thermometerPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- thermometerPlot -->
+<element>
+  <name>thermometerPlot</name>
+  <description>Plot options for a <a href="thermometerChart">thermometerChart</a>.</description>
+  <contains>(
+    <a href="plot">plot</a>,
+    <a href="valueDisplay">valueDisplay</a>?,
+    <a href="dataRange">dataRange</a>,
+    <a href="lowRange">lowRange</a>,
+    <a href="mediumRange">mediumRange</a>,
+    <a href="highRange">highRange</a>
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>valueLocation</name>
+      <description>Defines where to display the textual representation of the value being displayed,
+                relative to the thermometer outline.
+      </description>
+      <values>
+        <value>
+          <name>none</name>
+          <description>The textual value is not displayed.</description>
+        </value>
+        <value>
+          <name>left</name>
+          <description>The text value is displayed to the left of the thermometer outline.</description>
+        </value>
+        <value>
+          <name>right</name>
+          <description>The text value is displayed to the left of the thermometer outline.</description>
+        </value>
+        <value>
+          <name>bulb</name>
+          <description>The text value is displayed in the bulb at the bottom of the thermometer.</description>
+        </value>
+      </values>
+      <default>bulb</default>
+    </attribute>
+    <attribute>
+      <name>isShowValueLines</name>
+      <description>Defines whether or not lines are drawn showing values on the thermometer.
+      </description>
+      <values>
+        <value>
+          <name>true</name>
+          <description>Value lines are drawn.</description>
+        </value>
+        <value>
+          <name>false</name>
+          <description>Value lines are not drawn.</description>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
+    <attribute>
+        <name>mercuryColor</name>
+        <description>The color used to fill the thermometer.
+            <p/>
+            If the value of the thermometer falls in one of the defined ranges the color specified in that range
+            will be used instead of this color.</description>
+        <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- tickLabelFont -->
+<element>
+    <name>tickLabelFont</name>
+    <description>Specifies the font to use when drawing the label for each tick
+    mark on an axis in a chart.</description>
+    <contains>(
+        <a hre="font">font</a>?
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- timeAxisFormat -->
+<element>
+    <name>timeAxisFormat</name>
+    <description>Specifies the formatting of a time axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a date mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- timeAxisLabelExpression -->
+<element>
+  <name>timeAxisLabelExpression</name>
+  <description>Defines the expression used for the time axis label</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timePeriodDataset -->
+<element>
+  <name>timePeriodDataset</name>
+  <description>Defines a time period dataset</description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="timePeriodSeries">timePeriodSeries</a> +
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timePeriodExpression -->
+<element>
+  <name>timePeriodExpression</name>
+  <description>Defines the expression used for a time period</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timePeriodSeries -->
+<element>
+  <name>timePeriodSeries</name>
+  <description>Defines a time period series for a <a href="timePeriodDataset"><code>&lt;timePeriodDataset&gt;</code></a></description>
+  <contains>(
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="startDateExpression">startDateExpression</a>,
+    <a href="endDateExpression">endDateExpression</a>,
+    <a href="valueExpression">valueExpression</a>,
+    <a href="labelExpression">labelExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timeSeries -->
+<element>
+  <name>timeSeries</name>
+  <description>Defines a time series for <a href="timeSeriesDataset"><code>&lt;timeSeriesDataset&gt;</code></a>.</description>
+  <contains>(
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="timePeriodExpression">timePeriodExpression</a>,
+    <a href="valueExpression">valueExpression</a>,
+    <a href="labelExpression">labelExpression</a>?,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timeSeriesChart -->
+<element>
+  <name>timeSeriesChart</name>
+  <description>Defines a time series chart</description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="timeSeriesDataset">timeSeriesDataset</a>,
+    <a href="timeSeriesPlot">timeSeriesPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- timeSeriesDataset -->
+<element>
+  <name>timeSeriesDataset</name>
+  <description>Defines a time series dataset</description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="timeSeries">timeSeries</a> +
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>timePeriod</name>
+      <description>Time period for the dataset </description>
+      <values>
+        <value>
+          <name>Year</name>
+        </value>
+        <value>
+          <name>Quarter</name>
+        </value>
+        <value>
+          <name>Month</name>
+        </value>
+        <value>
+          <name>Week</name>
+        </value>
+        <value>
+          <name>Day</name>
+        </value>
+        <value>
+          <name>Hour</name>
+        </value>
+        <value>
+          <name>Minute</name>
+        </value>
+        <value>
+          <name>Second</name>
+        </value>
+        <value>
+          <name>Milisecond</name>
+        </value>
+      </values>
+      <default>Day</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- timeSeriesPlot -->
+<element>
+  <name>timeSeriesPlot</name>
+  <description>Defines plot options for a <a href="timeSeriesChart"><code>&lt;timeSeriesChart&gt;</code></a></description>
+  <contains>(
+    <a href="indexos.htmk#plot">plot</a>,
+    <a href="timeAxisLabelExpression">timeAxisLabelExpression</a>?,
+    <a href="timeAxisFormat">timeAxisFormat</a>?,
+    <a href="valueAxisLabelExpression">valueAxisLabelExpression</a>?,
+    <a href="valueAxisFormat">valueAxisFormat</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>isShowLines</name>
+      <description>Show lines flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+    <attribute>
+      <name>isShowShapes</name>
+      <description>Show shapes flag</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>true</default>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- title -->
+<element>
+  <name>title</name>
+  <description>Definition of the title section for this report. The title section appears only once at the beginning of the report.</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- titleExpression -->
+<element>
+  <name>titleExpression</name>
+  <description>Title expression of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- valueAxisFormat -->
+<element>
+    <name>valueAxisFormat</name>
+    <description>Specifies the formatting of a value axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- valueAxisLabelExpression -->
+<element>
+  <name>valueAxisLabelExpression</name>
+  <description>Defines the expression for the value axis of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- valueDataset -->
+<element>
+  <name>valueDataset</name>
+  <description>Defines a dataset that contains a single value.</description>
+  <contains>(
+    <a href="dataset">dataset</a>?,
+    <a href="valueExpression">valueExpression</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- valueDisplay -->
+<element>
+  <name>valueDisplay</name>
+  <description>Controls how the single data value is displayed in a <a href="meterChart">meterChart</a> or
+        <a href="thermometerChart">thermometerChart</a>.</description>
+  <contains>(
+    <a href="font">font</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>color</name>
+      <description>The color to use when displaying the value.</description>
+      <default>Dependent on the chart type</default>
+      <required>false</required>
+    </attribute>
+    <attribute>
+      <name>mask</name>
+      <description>The formatting mask to use to display the value.  This mask must follow the rules
+            specified for a <code>java.text.DecimalFormat</code> pattern.
+            <p/>
+            This attribute is currently ignored for a <a href="meterChart">meterChart</a>.</description>
+      <required>false</required>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- valueExpression -->
+<element>
+  <name>valueExpression</name>
+  <description>Defines the expression for the value of a point in a chart.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- variable -->
+<element>
+  <name>variable</name>
+  <description>Represents the definition of a report variable. Variables are objects that store the values of their associated expressions or perform various calculations on those expression values. Expressions are java expressions build on top of fields and variables declared in the report. They are evaluated at runtime, when filling the report.</description>
+  <contains>(
+    <a href="variableExpression">variableExpression</a>?,
+    <a href="initialValueExpression">initialValueExpression</a>?
+  )</contains>
+  <attributes>
+    <attribute>
+      <name>name</name>
+      <description>Name of the variable.</description>
+      <required>true</required>
+    </attribute>
+    <attribute>
+      <name>class</name>
+      <description>Class of the variable values.</description>
+      <default>java.lang.String</default>
+    </attribute>
+    <attribute>
+      <name>resetType</name>
+      <description>Reset level for variables that perform calculations.</description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>Variable is never initialized using the initial value expression and only holds the values obtained by evaluating its main expression.</description>
+        </value>
+        <value>
+          <name>Report</name>
+          <description>Variable is initialized only once, at the beginning of the report.</description>
+        </value>
+        <value>
+          <name>Page</name>
+          <description>Variable is initialized at the beginning of each page.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>Variable is initialized at the beginning of each column.</description>
+        </value>
+        <value>
+          <name>Group</name>
+          <description>Variable is initialized when the group specified by the <code>resetGroup</code> attribute changes.</description>
+        </value>
+      </values>
+      <default>Report</default>
+    </attribute>
+    <attribute>
+      <name>resetGroup</name>
+      <description>Name of the group at which the variable is reinitialized, when <code>resetType</code> is "Group".</description>
+    </attribute>
+    <attribute>
+      <name>incrementType</name>
+      <description>Increment level for variables that perform calculations.</description>
+      <values>
+        <value>
+          <name>None</name>
+          <description>Variable is incremented with every record in the data source.</description>
+        </value>
+        <value>
+          <name>Report</name>
+          <description>Variable is incremented only once, at the end of the report.</description>
+        </value>
+        <value>
+          <name>Page</name>
+          <description>Variable is incremented at the end of each page.</description>
+        </value>
+        <value>
+          <name>Column</name>
+          <description>Variable is incremented at the end of each column.</description>
+        </value>
+        <value>
+          <name>Group</name>
+          <description>Variable is incremented when the group specified by the <code>incrementGroup</code> attribute changes.</description>
+        </value>
+      </values>
+      <default>None</default>
+    </attribute>
+    <attribute>
+      <name>incrementGroup</name>
+      <description>Name of the group at which the variable is incremented, when <code>incrementType</code> is "Group".</description>
+    </attribute>
+    <attribute>
+      <name>calculation</name>
+      <description>Calculation to perform on the variable expression when filling the report.</description>
+      <values>
+        <value>
+          <name>Nothing</name>
+          <description>No calculations are performed.</description>
+        </value>
+        <value>
+          <name>Count</name>
+          <description>Variable stores the number of the not null values encountered for the variable expression.</description>
+        </value>
+        <value>
+          <name>DistinctCount</name>
+          <description>Variable stores the number of distinct not null values encountered for the variable expression.</description>
+        </value>
+        <value>
+          <name>Sum</name>
+          <description>Variable stores the sum of the not null values encountered for the variable expression. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Average</name>
+          <description>Variable stores the average of the not null values encountered for the variable expression. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Lowest</name>
+          <description>Variable stores the lowest value encountered for the variable expression.</description>
+        </value>
+        <value>
+          <name>Highest</name>
+          <description>Variable stores the highest value encountered for the variable expression.</description>
+        </value>
+        <value>
+          <name>StandardDeviation</name>
+          <description>Variable stores the standard deviation of the not null values encountered for the variable expression. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>Variance</name>
+          <description>Variable stores the variance of the not null values encountered for the variable expression. Numeric variables only.</description>
+        </value>
+        <value>
+          <name>System</name>
+          <description>Variable stores a system (custom) calculated value.</description>
+        </value>
+        <value>
+          <name>First</name>
+          <description>Variable stores the first value encountered and ignores subsequent values.</description>
+        </value>
+      </values>
+      <default>Nothing</default>
+    </attribute>
+    <attribute>
+      <name>incrementerFactoryClass</name>
+      <description>The name of a class that implements the <code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance for this variable. Incrementers are objects that implement the <code>net.sf.jasperreports.engine.fill.JRIncrementer</code> interface and handle the incremental calculation performed on the variable's current value with every iteration in the data source.</description>
+    </attribute>
+  </attributes>
+</element>
+
+
+<!-- variableExpression -->
+<element>
+  <name>variableExpression</name>
+  <description>Definition of the expression associated with the variable. The value of this expression will be calculated at runtime and will represent the value of the corresponding variable or it will be used in calculation to obtain the value of the calculated variable.</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- volumeExpression -->
+<element>
+  <name>volumeExpression</name>
+  <description>Defines the volumeExpression for a <a href="highLowDataset"><code>&lt;highLowDataset&gt;</code></a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- whenNoDataCell -->
+<element>
+  <name>whenNoDataCell</name>
+  <description>Crosstab cell that will be rendered when no data was fed to the crosstab.
+     <p/>
+     If this cell is not specified for a crosstab, nothing will be rendered for an empty crosstab.
+     <p/>
+     The cell size is the same as the crosstab element size.
+  </description>
+  <contains>(
+    <a href="cellContents">cellContents</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xAxisFormat -->
+<element>
+    <name>xAxisFormat</name>
+    <description>Specifies the formatting of an x axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- xAxisLabelExpression -->
+<element>
+  <name>xAxisLabelExpression</name>
+  <description>Defines the expression for the label of the  X axis of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xValueExpression -->
+<element>
+  <name>xValueExpression</name>
+  <description>Defines the expression for the value of the X axis of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyAreaChart -->
+<element>
+  <name>xyAreaChart</name>
+  <description>Defines a area chart that uses an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a></description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="xyDataset">xyDataset</a>,
+    <a href="areaPlot">areaPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyBarChart -->
+<element>
+  <name>xyBarChart</name>
+  <description>Defines a bar chart that uses an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a> </description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="timePeriodDataset">timePeriodDataset</a>  |
+    <a href="timeSeriesDataset">timeSeriesDataset</a>  |
+    <a href="xyDataset">xyDataset</a>,
+    <a href="barPlot">barPlot</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyDataset -->
+<element>
+  <name>xyDataset</name>
+  <description>Defines an XY type dataset</description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="categorySeries">categorySeries</a>+ |
+    <a href="xySeries">xySeries</a>+
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyLineChart -->
+<element>
+  <name>xyLineChart</name>
+  <description>Defines a line chart that uses an <a href="xyzDataset">&lt;xyzDataset&gt;</a></description>
+  <contains>(
+    <a href="chart">chart</a>,
+    <a href="xyDataset">xyDataset</a>,
+    <a href="linePlot">linePlot</a>,
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xySeries -->
+<element>
+  <name>xySeries</name>
+  <description>Defines a series used in an <a href="xyDataset"><code>&lt;xyDataset&gt;</code></a></description>
+  <contains>(
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="xValueExpression">xValueExpression</a>,
+    <a href="yValueExpression">yValueExpression</a>,
+    <a href="labelExpression">labelExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyzDataset -->
+<element>
+  <name>xyzDataset</name>
+  <description>Defines a dataaset used for <a href="bubbleChart"><code>&lt;bubbleChart&gt;</code></a></description>
+  <contains>(
+    <a href="dataset">dataset</a>,
+    <a href="xyzSeries">xyzSeries</a>
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- xyzSeries -->
+<element>
+  <name>xyzSeries</name>
+  <description>Defines a series in an <a href="xyzDataset"><code>&lt;xyzDataset&gt;</code></a></description>
+  <contains>(
+    <a href="seriesExpression">seriesExpression</a>,
+    <a href="xValueExpression">xValueExpression</a>,
+    <a href="yValueExpression">yValueExpression</a>,
+    <a href="itemHyperlink">itemHyperlink</a>?
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- yAxisFormat -->
+<element>
+    <name>yAxisFormat</name>
+    <description>Specifies the formatting of a y axis, including how to
+    draw the axis line, its label and tick mark labels.  If a tick label mask
+    is specified it will be treated as a numeric mask.</description>
+    <contains>(
+        <a href="axisFormat">axisFormat</a>
+    )</contains>
+    <attributes>
+    </attributes>
+</element>
+
+
+<!-- yAxisLabelExpression -->
+<element>
+  <name>yAxisLabelExpression</name>
+  <description>Defines the expression for the Y axis label of the chart</description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- yValueExpression -->
+<element>
+  <name>yValueExpression</name>
+  <description>Defines the value for the Y axis </description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+
+<!-- zValueExpression -->
+<element>
+  <name>zValueExpression</name>
+  <description>Expression that defines the value for the Z axis in an <a href="xyzSeries"><code>&lt;xyzSeries&gt;</code></a></description>
+  <contains>(
+    #PCDATA
+  )</contains>
+  <attributes>
+  </attributes>
+</element>
+
+</reference>
