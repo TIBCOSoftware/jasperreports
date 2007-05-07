@@ -170,4 +170,21 @@ public class JRHyperlinkHelper
 		return type;
 	}
 
+	
+	/**
+	 * Decides whether a hyperlink is empty or not.
+	 * <p>
+	 * The hyperlink is considered empty when it's <code>null</code> or when
+	 * its type is {@link JRHyperlink#HYPERLINK_TYPE_NONE HYPERLINK_TYPE_NONE}
+	 * and it doesn't include a tooltip expression
+	 * </p>
+	 * @param hyperlink the hyperlink
+	 * @return whether the hyperlink is empty
+	 */
+	public static boolean isEmpty(JRHyperlink hyperlink)
+	{
+		return hyperlink == null
+			|| (hyperlink.getHyperlinkType() == JRHyperlink.HYPERLINK_TYPE_NONE
+				&& hyperlink.getHyperlinkTooltipExpression() == null);
+	}
 }

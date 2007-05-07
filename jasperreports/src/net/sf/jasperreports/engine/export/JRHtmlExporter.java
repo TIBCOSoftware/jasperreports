@@ -1674,7 +1674,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
+	protected void writeImageMap(String imageMapName, JRPrintImage image, List imageMapAreas) throws IOException
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
 
@@ -1684,25 +1684,25 @@ public class JRHtmlExporter extends JRAbstractExporter
 			JRPrintImageArea area = areaHyperlink.getArea();
 
 			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
-			writeImageAreaCoordinates(area);			
+			writeImageAreaCoordinates(area.getCoordinates());			
 			writeImageAreaHyperlink(areaHyperlink.getHyperlink());
 			writer.write("/>\n");
 		}
 		
-		if (mainHyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
+		if (image.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 		{
 			writer.write("  <area shape=\"default\"");
-			writeImageAreaHyperlink(mainHyperlink);
+			writeImageAreaCoordinates(new int[]{0, 0, image.getWidth(), image.getHeight()});//for IE
+			writeImageAreaHyperlink(image);
 			writer.write("/>\n");
 		}
 		
 		writer.write("</map>\n");
 	}
 
-
-	protected void writeImageAreaCoordinates(JRPrintImageArea area) throws IOException
+	
+	protected void writeImageAreaCoordinates(int[] coords) throws IOException
 	{
-		int[] coords = area.getCoordinates();
 		if (coords != null && coords.length > 0)
 		{
 			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
@@ -1712,9 +1712,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 				coordsEnum.append(',');
 				coordsEnum.append(coords[i]);
 			}
-			
 			writer.write(" coords=\"" + coordsEnum + "\"");
-		}
+		}		
 	}
 
 
