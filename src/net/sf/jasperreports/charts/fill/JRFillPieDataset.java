@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
@@ -202,7 +203,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	
 	public boolean hasSectionHyperlinks()
 	{
-		return getSectionHyperlink() != null;
+		return !JRHyperlinkHelper.isEmpty(getSectionHyperlink()); 
 	}
 	
 	public Map getSectionHyperlinks()

@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -185,7 +186,7 @@ public class JRFillXySeries implements JRXySeries
 	
 	public boolean hasItemHyperlinks()
 	{
-		return getItemHyperlink() != null;
+		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
 	}
 
 }

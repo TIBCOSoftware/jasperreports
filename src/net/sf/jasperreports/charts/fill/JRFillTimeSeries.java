@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -182,7 +183,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 
 	public boolean hasItemHyperlink()
 	{
-		return getItemHyperlink() != null;
+		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
 	}
 
 	
