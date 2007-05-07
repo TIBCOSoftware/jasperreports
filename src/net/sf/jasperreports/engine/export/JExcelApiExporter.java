@@ -113,6 +113,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;
 	
+	protected static final String EMPTY_SHEET_NAME = "Sheet1";
+	
 	private static Map colorsCache = new ReferenceMap();
 
 
@@ -181,6 +183,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void closeWorkbook(OutputStream os) throws JRException
 	{
+		if (sheet == null)//empty document
+		{
+			//creating an empty sheet so that write() doesn't fail
+			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
+		}
+		
 		try
 		{
 			workbook.write();
