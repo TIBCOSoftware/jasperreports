@@ -489,13 +489,16 @@ public class JRStyledTextParser
 				// if the next node is not a <li /> one, we have to append a new line
 				Node nextNode = node.getNextSibling();
 				String textContent = getFirstTextOccurence(nextNode);
-				if(nextNode == null || 
+				System.out.println("next node: "+nextNode);
+				if(nextNode != null && 
 						!((nextNode.getNodeType() == Node.ELEMENT_NODE &&
 								NODE_li.equalsIgnoreCase(nextNode.getNodeName()) ||
 						(textContent != null && textContent.startsWith("\n")))
 						))
+				{
 					styledText.append("\n");
-				resizeRuns(styledText.getRuns(), startIndex, 1);
+					resizeRuns(styledText.getRuns(), startIndex, 1);
+				}
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
