@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
@@ -899,4 +900,20 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		this.filterExpression = expression;
 	}
+
+
+	/**
+	 * 
+	 */
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (sortFieldsMap == null)
+			sortFieldsMap = new HashMap();
+			
+		if (sortFieldsList == null)
+			sortFieldsList = new ArrayList();
+	}
+
 }
