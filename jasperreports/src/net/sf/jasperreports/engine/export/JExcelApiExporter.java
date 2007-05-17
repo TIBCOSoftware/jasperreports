@@ -345,36 +345,36 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					rotation, cellFont, 
 					gridCell.getBox());
 			
-			try
+			String textStr = styledText.getText();
+			
+			String href = null;
+			JRHyperlinkProducer customHandler = getCustomHandler(text);		
+			if (customHandler == null)
 			{
-				String textStr = styledText.getText();
-				
-				String href = null;
-				JRHyperlinkProducer customHandler = getCustomHandler(text);		
-				if (customHandler == null)
+				switch (text.getHyperlinkType())
 				{
-					switch (text.getHyperlinkType())
+					case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
 					{
-						case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
-						{
-							href = text.getHyperlinkReference();
-							break;
-						}
-						case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-						case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
-						case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-						case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
-						case JRHyperlink.HYPERLINK_TYPE_NONE:
-						default:
-						{
-						}
+						href = text.getHyperlinkReference();
+						break;
+					}
+					case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+					case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+					case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+					case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+					case JRHyperlink.HYPERLINK_TYPE_NONE:
+					default:
+					{
 					}
 				}
-				else
-				{
-					href = customHandler.getHyperlink(text);
-				}
-				
+			}
+			else
+			{
+				href = customHandler.getHyperlink(text);
+			}
+
+			try
+			{
 				if (href == null)
 				{
 					addCell(x, y, text, textStr, baseStyle);
