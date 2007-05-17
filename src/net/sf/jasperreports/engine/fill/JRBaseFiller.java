@@ -889,6 +889,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
+		mainDataset.initDatasource();
 		
 		this.scriptlet = mainDataset.scriptlet;
 		

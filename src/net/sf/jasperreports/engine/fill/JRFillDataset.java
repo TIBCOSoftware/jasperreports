@@ -601,12 +601,10 @@ public class JRFillDataset implements JRDataset
 		scriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);
 		
 		setFillParameterValues(parameterValues);
-		
-		setDatasource();
 	}
 	
 	
-	private void setDatasource() throws JRException
+	protected void initDatasource() throws JRException
 	{
 		queryExecuter = null;
 		
