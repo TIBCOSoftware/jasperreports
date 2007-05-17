@@ -133,6 +133,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected Map formatPatternsMap = null;
 	
+	
 	public JExcelApiExporter()
 	{
 		numberFormats = new HashMap();
@@ -348,24 +349,41 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				String textStr = styledText.getText();
 				
-				switch (text.getHyperlinkType())
+				String href = null;
+				JRHyperlinkProducer customHandler = getCustomHandler(text);		
+				if (customHandler == null)
 				{
-					case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
+					switch (text.getHyperlinkType())
 					{
-						if (text.getHyperlinkReference() != null)
+						case JRHyperlink.HYPERLINK_TYPE_REFERENCE:
 						{
-							URL url = new URL(text.getHyperlinkReference());
-							WritableHyperlink hyperlink = new WritableHyperlink(x, y, x, y, url, textStr);
-							sheet.addHyperlink(hyperlink);
+							href = text.getHyperlinkReference();
 							break;
 						}
+						case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
+						case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+						case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
+						case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+						case JRHyperlink.HYPERLINK_TYPE_NONE:
+						default:
+						{
+						}
 					}
-					
-					case JRHyperlink.HYPERLINK_TYPE_NONE:
-					default:
-					{
-						addCell(x, y, text, textStr, baseStyle);
-					}
+				}
+				else
+				{
+					href = customHandler.getHyperlink(text);
+				}
+				
+				if (href == null)
+				{
+					addCell(x, y, text, textStr, baseStyle);
+				}
+				else
+				{
+					URL url = new URL(href);
+					WritableHyperlink hyperlink = new WritableHyperlink(x, y, x, y, url, textStr);
+					sheet.addHyperlink(hyperlink);
 				}
 			}
 			catch (Exception e)
@@ -403,6 +421,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return handler.getResult();
 	}
 
+	
 	protected class CellTextValueHandler implements TextValueHandler
 	{
 		private final int x;

@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -135,6 +136,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected Map sheetNamesMap = null;
 	
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+
+	
 	/**
 	 *
 	 */
@@ -144,6 +148,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 
 	
+	/**
+	 *
+	 */
+	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
+	{
+		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
+	}
+
+
 	/**
 	 *
 	 */
@@ -261,6 +274,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+
+		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
 
 	protected abstract void setBackground();
