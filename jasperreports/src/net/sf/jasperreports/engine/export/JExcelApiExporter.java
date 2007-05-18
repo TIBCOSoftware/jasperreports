@@ -238,13 +238,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				forecolor = getNearestColour(gridCell.getForecolor());
 			}
 			
+			Pattern mode = backgroundMode;
 			Colour backcolor = WHITE;
 			if (gridCell.getCellBackcolor() != null)
 			{
+				mode = Pattern.SOLID;
 				backcolor = getNearestColour(gridCell.getCellBackcolor());
 			}
-			
-			Pattern mode = backgroundMode;
 
 			WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
 			WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor, 
