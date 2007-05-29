@@ -76,6 +76,16 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 *
 	 */
+	public boolean isUsingCache();
+
+	/**
+	 *
+	 */
+	public void setUsingCache(boolean isUsingCache);
+	
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment();
 		
 	/**

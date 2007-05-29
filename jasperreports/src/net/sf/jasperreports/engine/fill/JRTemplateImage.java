@@ -61,6 +61,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 *
 	 */
 	private Byte scaleImage = null;
+	private Boolean isUsingCache = Boolean.TRUE;
 	private Byte horizontalAlignment = null;
 	private Byte verticalAlignment = null;
 	protected boolean isLazy = false;
@@ -143,6 +144,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		setBox(image);
 
 		setScaleImage(image.getScaleImage());
+		setUsingCache(image.isUsingCache());
 		setHorizontalAlignment(image.getHorizontalAlignment());
 		setVerticalAlignment(image.getVerticalAlignment());
 		setLazy(image.isLazy());
@@ -218,6 +220,22 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
+	public boolean isUsingCache()
+	{
+		return isUsingCache == null ? true : isUsingCache.booleanValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setUsingCache(boolean isUsingCache)
+	{
+		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment()
 	{
 		return JRStyleResolver.getHorizontalAlignment(this);
@@ -284,7 +302,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public boolean isLazy()
 	{
-		return this.isLazy;
+		return isLazy;
 	}
 
 	/**
@@ -300,7 +318,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public byte getOnErrorType()
 	{
-		return this.onErrorType;
+		return onErrorType;
 	}
 
 	/**
@@ -353,7 +371,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public byte getHyperlinkTarget()
 	{
-		return this.hyperlinkTarget;
+		return hyperlinkTarget;
 	}
 		
 	/**
