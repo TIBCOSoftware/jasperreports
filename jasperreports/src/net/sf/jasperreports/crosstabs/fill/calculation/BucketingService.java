@@ -40,8 +40,10 @@ import java.util.Map.Entry;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRCalculable;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Crosstab bucketing engine.
@@ -51,6 +53,9 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  */
 public class BucketingService
 {
+	
+	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRProperties.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
+	
 	protected static final byte DIMENSION_ROW = 0;
 
 	protected static final byte DIMENSION_COLUMN = 1;
@@ -85,7 +90,8 @@ public class BucketingService
 
 	private final MeasureValue[] zeroUserMeasureValues;
 
-
+	private final int bucketMeasureLimit;
+	private int runningBucketMeasureCount = 0;
 	
 	/**
 	 * Creates a crosstab bucketing engine.
@@ -136,6 +142,8 @@ public class BucketingService
 		bucketValueMap = createBucketMap(0);
 		
 		zeroUserMeasureValues = initUserMeasureValues();
+		
+		bucketMeasureLimit = JRProperties.getIntegerProperty(PROPERTY_BUCKET_MEASURE_LIMIT, 0);
 	}
 
 
@@ -219,6 +227,7 @@ public class BucketingService
 		bucketValueMap.clear();
 		processed = false;
 		dataCount = 0;
+		runningBucketMeasureCount = 0;
 	}
 	
 	protected BucketMap createBucketMap(int level)
@@ -296,6 +305,13 @@ public class BucketingService
 		{
 			values[i].addValue(measureValues[measureIndexes[i]]);
 		}
+	}
+	
+	protected void bucketMeasuresCreated()
+	{
+		runningBucketMeasureCount += origMeasureCount;
+		
+		checkBucketMeasureCount(runningBucketMeasureCount);
 	}
 
 	protected Bucket[] getBucketValues(Object[] bucketValues)
@@ -706,6 +722,8 @@ public class BucketingService
 			{
 				values = initMeasureValues();
 				levelMap.map.put(bucketValues[bucketValues.length - 1], values);
+				
+				bucketMeasuresCreated();
 			}
 
 			return values;
@@ -817,6 +835,8 @@ public class BucketingService
 
 			MeasureValue[] values = initMeasureValues();
 			map.add(bucketValues[i], values);
+			
+			bucketMeasuresCreated();
 
 			return values;
 		}
@@ -942,12 +962,27 @@ public class BucketingService
 			collectCols(collectedCols, bucketValueMap);
 		}
 		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, collectedCols, 0, false);
+		
+		int rowBuckets = collectedHeaders[BucketingService.DIMENSION_ROW].span;
+		int colBuckets = collectedHeaders[BucketingService.DIMENSION_COLUMN].span;
 
+		int bucketMeasureCount = rowBuckets * colBuckets * origMeasureCount;
+		checkBucketMeasureCount(bucketMeasureCount);
+		
 		colHeaders = createHeaders(BucketingService.DIMENSION_COLUMN, collectedHeaders);
 		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders);
 		
-		cells = new CrosstabCell[collectedHeaders[BucketingService.DIMENSION_ROW].span][collectedHeaders[BucketingService.DIMENSION_COLUMN].span];
+		cells = new CrosstabCell[rowBuckets][colBuckets];
 		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList(), new ArrayList());
+	}
+
+
+	protected void checkBucketMeasureCount(int bucketMeasureCount)
+	{
+		if (bucketMeasureLimit > 0 && bucketMeasureCount > bucketMeasureLimit)
+		{
+			throw new JRRuntimeException("Crosstab bucket/measure limit (" + bucketMeasureLimit + ") exceeded.");
+		}
 	}
 
 
