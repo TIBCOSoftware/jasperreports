@@ -125,6 +125,21 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
+	public boolean isUsingCache()
+	{
+		return ((JRTemplateImage)this.template).isUsingCache();
+	}
+
+	/**
+	 *
+	 */
+	public void setUsingCache(boolean isUsingCache)
+	{
+	}
+
+	/**
+	 *
+	 */
 	public byte getHorizontalAlignment()
 	{
 		return ((JRTemplateImage)this.template).getHorizontalAlignment();

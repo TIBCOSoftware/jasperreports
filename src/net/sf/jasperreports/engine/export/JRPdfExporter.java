@@ -1015,7 +1015,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					case JRImage.SCALE_IMAGE_FILL_FRAME :
 					{
-						if (loadedImagesMap.containsKey(renderer))
+						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
 						{
 							image = (com.lowagie.text.Image)loadedImagesMap.get(renderer);
 						}
@@ -1036,7 +1036,10 @@ public class JRPdfExporter extends JRAbstractExporter
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 
-							loadedImagesMap.put(renderer, image);
+							if (printImage.isUsingCache())
+							{
+								loadedImagesMap.put(renderer, image);
+							}
 						}
 
 						image.scaleAbsolute(availableImageWidth, availableImageHeight);
@@ -1045,7 +1048,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
 					default :
 					{
-						if (loadedImagesMap.containsKey(renderer))
+						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
 						{
 							image = (com.lowagie.text.Image)loadedImagesMap.get(renderer);
 						}
@@ -1066,7 +1069,10 @@ public class JRPdfExporter extends JRAbstractExporter
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 
-							loadedImagesMap.put(renderer, image);
+							if (printImage.isUsingCache())
+							{
+								loadedImagesMap.put(renderer, image);
+							}
 						}
 
 						image.scaleToFit(availableImageWidth, availableImageHeight);

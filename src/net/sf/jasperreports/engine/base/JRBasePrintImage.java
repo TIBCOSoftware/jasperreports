@@ -65,6 +65,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	protected JRRenderable renderer = null;
 	protected Byte scaleImage = null;
+	protected Boolean isUsingCache = Boolean.TRUE;
 	protected Byte horizontalAlignment = null;
 	protected Byte verticalAlignment = null;
 	protected boolean isLazy = false;
@@ -177,6 +178,22 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setScaleImage(Byte scaleImage)
 	{
 		this.scaleImage = scaleImage;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isUsingCache()
+	{
+		return isUsingCache == null ? true : isUsingCache.booleanValue();
+	}
+
+	/**
+	 *
+	 */
+	public void setUsingCache(boolean isUsingCache)
+	{
+		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
 	}
 
 	/**
