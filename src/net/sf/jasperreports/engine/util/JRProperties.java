@@ -552,6 +552,20 @@ public class JRProperties
 	}
 
 	/**
+	 * Returns the value of a property as an integer.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @return the property value
+	 */
+	public static int getIntegerProperty (String key, int defaultValue)
+	{
+		String value = getProperty(key);
+		
+		return value == null ? defaultValue : asInteger(value);
+	}
+
+	/**
 	 * Converts a <code>String</code> value into a <code>long</code>.
 	 * 
 	 * @param value the value
