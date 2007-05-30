@@ -657,11 +657,10 @@ public class JRClassGenerator
 	protected String expressionComment(JRExpression expression)
 	{
 		StringBuffer sb = new StringBuffer(24);
-		sb.append("/*");
+		sb.append("//");
 		sb.append(SOURCE_EXPRESSION_ID_START);
 		sb.append(sourceTask.getExpressionId(expression));
 		sb.append(SOURCE_EXPRESSION_ID_END);
-		sb.append("*/");
 		return sb.toString();
 	}
 
