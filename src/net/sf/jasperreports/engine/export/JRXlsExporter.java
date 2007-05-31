@@ -162,13 +162,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight)
 	{
-		row = sheet.getRow((short)rowIndex);		
+		row = sheet.getRow(rowIndex);		
 		if (row == null)
 		{
-			row = sheet.createRow((short)rowIndex);
+			row = sheet.createRow(rowIndex);
 		}
 		
-		row.setHeightInPoints((short)lastRowHeight);
+		row.setHeightInPoints(lastRowHeight);
 	}
 
 	protected void setCell(int colIndex, int rowIndex)
