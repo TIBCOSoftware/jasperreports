@@ -72,6 +72,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 
 	protected int reportIndex = 0;
 	
+	private PrintService printService = null;
+	
 	/**
 	 *
 	 */
@@ -133,21 +135,21 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			printerJob.setPrintable(this);
 			
 			// determining the print service only once
-			PrintService selectedService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
-			if (selectedService == null) {
+			printService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
+			if (printService == null) {
 				PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
 				if (services.length > 0)
-					selectedService = services[0];
+					printService = services[0];
 			}
 			
-			if (selectedService == null)
+			if (printService == null)
 			{
 				throw new JRException("No suitable print service found.");
 			}
 
 			try 
 			{
-				printerJob.setPrintService(selectedService);
+				printerJob.setPrintService(printService);
 			}
 			catch (PrinterException e) 
 			{ 
@@ -337,6 +339,14 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the {@link PrintService} instance used by the exporter last time the exportReport() method was run.
+	 */
+	public PrintService getPrintService() 
+	{
+		return printService;
 	}
 	
 }
