@@ -85,7 +85,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintLine;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -110,9 +109,6 @@ public class JRPreviewBuilder
 	private int offsetY;
 	private int upColumns;
 	private int downColumns;
-
-	private int leftMargin;
-	private int topMargin;
 	
 	/**
 	 * List containing ContourElement objects, containers for contour line coordinates and dimensions 
@@ -165,6 +161,7 @@ public class JRPreviewBuilder
 		jasperPrint.setDefaultFont(report.getDefaultFont());
 		jasperPrint.setDefaultStyle(report.getDefaultStyle());
 		jasperPrint.setFormatFactoryClass(report.getFormatFactoryClass());
+		//TODO: locale and timezone settings jasperprint object
 //		jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(Locale.getDefault()));
 //		jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(TimeZone.getDefault()));
 		jasperPrint.setName(report.getName());
@@ -172,8 +169,6 @@ public class JRPreviewBuilder
 		jasperPrint.setPageWidth(pageWidth);
 		offsetY = report.getTopMargin();
 		offsetX = report.getLeftMargin();
-		leftMargin = offsetX;
-		topMargin = offsetY;
 		
 		JRStyle[] styles = report.getStyles();
 		if (styles != null)
@@ -185,7 +180,7 @@ public class JRPreviewBuilder
 
 		JRBand band = report.getBackground();
 		if(band != null)
-			setElements(band.getChildren(), report.getPageHeight());
+			setElements(band.getChildren(), report.getPageHeight(), 0, 0, 0, 0, false);
 
 		Color color = new Color(170, 170, 255);
 		
@@ -257,10 +252,9 @@ public class JRPreviewBuilder
 	 * @param list list of JRDesignElement
 	 * @param bandHeight the band height 
 	 */
-	private void setElements(List list, int bandHeight)
+	private void setElements(List list, int bandHeight, int parentX, int parentY, int parentWidth, int parentHeight, boolean isFrameChild)
 	{
 		Iterator it = list.iterator();
-
 		while (it.hasNext())
 		{
 			Object element = it.next();
@@ -272,10 +266,7 @@ public class JRPreviewBuilder
 				//it extends both JRElement and JRElementGroup
 				JRFrame frameElement = (JRFrame)element;
 				baseElement = getFrameElement(frameElement);
-				setBaseElement(baseElement,(JRDesignElement)element, bandHeight);
-				
-				// one add elements in the pageElements list before setting the print 
-				// page elements, because dotted design lines should be painted first
+				setBaseElement(baseElement,(JRElement)element, bandHeight, parentX, parentY, parentWidth, parentHeight, isFrameChild);
 				if(baseElement.getHeight() > 0)
 					pageElements.add(baseElement);
 				
@@ -292,45 +283,23 @@ public class JRPreviewBuilder
 				
 				// setting frame children elements
 				List frameChildren = Arrays.asList(frameElement.getElements());
-				Iterator frameIt = frameChildren.iterator();
 				List availableElements = new ArrayList();
+				Iterator frameIt = frameChildren.iterator();
 				while(frameIt.hasNext())
 				{
-					Object frameChild = frameIt.next();
-					if(frameChild instanceof JRElement)
+					JRElement elem = (JRElement)frameIt.next();
+					// consider only elements
+					if(elem.getY() < frameElement.getHeight() && elem.getX() < frameElement.getWidth())
 					{
-						JRDesignElement designFrameChild = (JRDesignElement)frameChild;
-						
-						// one consider only the well defined children elements 
-						//(with (x,y) coordinates inside the frame area
-						if(designFrameChild.getY() < frameElement.getHeight() && designFrameChild.getX() < frameElement.getWidth())
-						{
-							// truncating the boundary elements dimensions, if necessary
-							if(designFrameChild.getHeight() > frameElement.getHeight() - designFrameChild.getY())
-							{
-								designFrameChild.setHeight(frameElement.getHeight() - designFrameChild.getY());
-							}
-							if(designFrameChild.getWidth() > frameElement.getWidth() - designFrameChild.getX())
-							{
-								designFrameChild.setWidth(frameElement.getWidth() - designFrameChild.getX());
-							}
-							
-							designFrameChild.setX(designFrameChild.getX()+ baseElement.getX() - leftMargin);
-							designFrameChild.setY(designFrameChild.getY()+ baseElement.getY() - topMargin);
-							availableElements.add(designFrameChild);
-						}
-					}
-					else
-					{
-						availableElements.add(frameChild);
+						availableElements.add(elem);
 					}
 				}
-				setElements(availableElements, bandHeight);	
+				setElements(availableElements,bandHeight,basePrintFrameElement.getX(),basePrintFrameElement.getY(),basePrintFrameElement.getWidth(),basePrintFrameElement.getHeight(), true);
 			}
 			else if(element instanceof JRElementGroup)
 			{
 				List children = ((JRElementGroup)element).getChildren();
-				setElements(children, bandHeight);
+				setElements(children, bandHeight, parentX, parentY, parentWidth, parentHeight, isFrameChild);
 			}
 			else
 			{
@@ -354,7 +323,7 @@ public class JRPreviewBuilder
 				}
 				else if(element instanceof JRCrosstab)
 				{
-					setElements(getCrosstabList((JRCrosstab)element), bandHeight);
+					setElements(getCrosstabList((JRCrosstab)element), bandHeight, parentX, parentY, parentWidth, parentHeight, isFrameChild);
 					continue;
 				}
 				else
@@ -362,7 +331,7 @@ public class JRPreviewBuilder
 					baseElement = new JRBasePrintElement(defaultStyleProvider);
 				}
 				
-				setBaseElement(baseElement,(JRDesignElement)element, bandHeight);
+				setBaseElement(baseElement,(JRElement)element, bandHeight, parentX, parentY, parentWidth, parentHeight, isFrameChild);
 				
 				if(element instanceof JRTextElement)
 				{
@@ -396,7 +365,7 @@ public class JRPreviewBuilder
 			{	
 				bandSeparatorList.add(new ContourElement(0, offsetY, pageWidth, 0, color, JRGraphicElement.PEN_DOTTED));
 			}
-			setElements(band.getChildren(), band.getHeight());
+			setElements(band.getChildren(), band.getHeight(), 0, 0, 0, 0, false);
 			offsetY += band.getHeight();
 			bandSeparatorList.add(new ContourElement(0, offsetY, pageWidth, 0, color, JRGraphicElement.PEN_DOTTED));
 			isFirstBand = false;
@@ -790,7 +759,6 @@ public class JRPreviewBuilder
 		basePrintFrameElement.setTopBorder(frameElement.getTopBorder());
 		basePrintFrameElement.setTopBorderColor(frameElement.getTopBorderColor());
 		basePrintFrameElement.setTopPadding(frameElement.getTopPadding());
-
 		return basePrintFrameElement;
 	}
 	
@@ -871,7 +839,7 @@ public class JRPreviewBuilder
 		TextMeasurer textMeasurer = new TextMeasurer(textElement);
 		textMeasurer.measure(
 				getStyledText(textElement), 
-				basePrintTextElement.getText(),
+				getStyledText(textElement).getText(),
 				0,
 				0
 				);
@@ -887,26 +855,49 @@ public class JRPreviewBuilder
 	 * @param designElement
 	 * @param bandHeight
 	 */
-	private void setBaseElement (JRBasePrintElement baseElement, JRDesignElement designElement, int bandHeight)
+	private void setBaseElement (JRBasePrintElement baseElement, JRElement designElement, int bandHeight, int parentX, int parentY, int parentWidth, int parentHeight, boolean isFrameChild)
 	{
 		baseElement.setBackcolor(designElement.getBackcolor());
 		baseElement.setForecolor(designElement.getForecolor());
 		baseElement.setKey(designElement.getKey());
 		baseElement.setMode(designElement.getMode());
 		baseElement.setStyle(designElement.getStyle());
-		baseElement.setWidth(designElement.getWidth());
-		baseElement.setX(designElement.getX() + offsetX);
-		baseElement.setY(designElement.getY() + offsetY);
 		
-		// truncating boundary elements, if necessary
-		if(designElement.getY() + designElement.getHeight() > bandHeight)
+		if(isFrameChild)
 		{
-			baseElement.setHeight(bandHeight - designElement.getY());
+			setBaseElementGeometry(baseElement, designElement, parentX, parentY, parentWidth, parentHeight);
 		}
 		else
 		{
-			baseElement.setHeight(designElement.getHeight());
+			setBaseElementGeometry(baseElement, designElement, offsetX, offsetY, pageWidth, bandHeight);
 		}
+	}
+	
+	private void setBaseElementGeometry (JRBasePrintElement baseElement, JRElement element,int parentX, int parentY, int parentWidth, int parentHeight)
+	{
+		baseElement.setX(element.getX() + parentX);
+		baseElement.setY(element.getY() + parentY);
+
+		baseElement.setWidth(element.getWidth());			
+		// truncating boundary elements, if necessary
+		if(element.getY() + element.getHeight() > parentHeight)
+		{
+			baseElement.setHeight(parentHeight - element.getY());
+		}
+		else
+		{
+			baseElement.setHeight(element.getHeight());
+		}
+
+		if(parentWidth > 0 && element.getX() + element.getWidth() > parentWidth)
+		{
+			baseElement.setWidth(parentWidth - element.getX());
+		}
+		else
+		{
+			baseElement.setWidth(element.getWidth());
+		}
+
 	}
 	
 	/**
@@ -984,7 +975,7 @@ public class JRPreviewBuilder
 	 * @param top
 	 * @return
 	 */
-	protected JRDesignFrame getCrosstabCellFrame(
+	protected JRFrame getCrosstabCellFrame(
 			JRCellContents cell, 
 			int x, 
 			int y, 
@@ -1244,7 +1235,7 @@ public class JRPreviewBuilder
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
