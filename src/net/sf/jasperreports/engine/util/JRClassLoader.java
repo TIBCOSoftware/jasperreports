@@ -31,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.ProtectionDomain;
 
 
 /**
@@ -40,6 +41,23 @@ import java.io.IOException;
 public class JRClassLoader extends ClassLoader
 {
 
+	protected static ProtectionDomain protectionDomain = JRClassLoader.class.getProtectionDomain();
+	
+	
+	/**
+	 * Sets the protection to be used for classes loaded via
+	 * the {@link #loadClassFromBytes(String, byte[]) loadClassFromBytes} method.
+	 *
+	 * By default, the protection domain of this class is used for the loaded classes. 
+	 * 
+	 * @param protectionDomain the protection domain to be used
+	 * @see #loadClassFromBytes(String, byte[])
+	 */
+	public static void setProtectionDomain(ProtectionDomain protectionDomain)
+	{
+		JRClassLoader.protectionDomain = protectionDomain;
+	}
+	
 	/**
 	 *
 	 */
@@ -290,7 +308,7 @@ public class JRClassLoader extends ClassLoader
 				bytecodes, 
 				0, 
 				bytecodes.length,
-				JRClassLoader.class.getProtectionDomain()
+				protectionDomain
 				);
 
 		return clazz;
