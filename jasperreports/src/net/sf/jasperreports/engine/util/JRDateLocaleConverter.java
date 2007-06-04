@@ -76,11 +76,14 @@ public class JRDateLocaleConverter extends DateLocaleConverter
 	protected Object parse(Object value, String pattern) throws ParseException 
 	{
 		SimpleDateFormat formatter = getFormatter(pattern, locale);
-		if (locPattern) {
-			formatter.applyLocalizedPattern(pattern);
-		}
-		else {
-			formatter.applyPattern(pattern);
+		if (pattern != null)
+		{
+			if (locPattern) {
+				formatter.applyLocalizedPattern(pattern);
+			}
+			else {
+				formatter.applyPattern(pattern);
+			}
 		}
 		return formatter.parse((String) value);
 	}
