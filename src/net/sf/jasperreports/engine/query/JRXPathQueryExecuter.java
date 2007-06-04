@@ -92,10 +92,10 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		if (document != null && xPath != null)
 		{
 			datasource = new JRXmlDataSource(document, xPath);
-			datasource.setLocale((Locale)getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE));
-			datasource.setDatePattern((String)getParameterValue(JRXPathQueryExecuterFactory.XML_DATE_PATTERN));
-			datasource.setNumberPattern((String)getParameterValue(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN));
-			datasource.setTimeZone((TimeZone)getParameterValue(JRXPathQueryExecuterFactory.XML_TIME_ZONE));
+			datasource.setLocale((Locale)getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE, true));
+			datasource.setDatePattern((String)getParameterValue(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, true));
+			datasource.setNumberPattern((String)getParameterValue(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, true));
+			datasource.setTimeZone((TimeZone)getParameterValue(JRXPathQueryExecuterFactory.XML_TIME_ZONE, true));
 		}
 		
 		return datasource;

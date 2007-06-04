@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -426,6 +427,12 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected Object getParameterValue(String parameterName, boolean ignoreMissing)
 	{
+		if (ignoreMissing)
+		{
+			JRValueParameter parameter = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
+			return ((Map)parameter.getValue()).get(parameterName);
+		}
+		
 		JRValueParameter parameter = getValueParameter(parameterName, ignoreMissing);
 		return parameter == null ? null : parameter.getValue();
 	}
