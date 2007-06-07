@@ -64,6 +64,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	 */
 	protected JasperPrint jasperPrint;
 	
+	private String reportFileName;
 	/** 
 	 * Creates new form JasperViewer 
 	 */
@@ -91,7 +92,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	 */
 	public JasperDesignViewer(
 		JasperPrint jasperPrint
-		)
+		) throws JRException
 	{
 		this(jasperPrint, true);
 	}
@@ -126,7 +127,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	public JasperDesignViewer(
 		JasperPrint jasperPrint,
 		boolean isExitOnClose
-		)
+		) throws JRException
 	{
 		this(jasperPrint, isExitOnClose, null);
 	}
@@ -148,8 +149,8 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 		loadReport(sourceFile,isXMLFile);
-		this.viewer = new JRDesignViewer(jasperPrint,isXMLFile, locale);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		viewer = new JRDesignViewer(reportFileName, jasperPrint,isXMLFile, locale);
+		pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 
 	/**
@@ -169,8 +170,8 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 		loadReport(is,isXMLFile);
-		this.viewer = new JRDesignViewer(jasperPrint,isXMLFile, locale);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		viewer = new JRDesignViewer(reportFileName, jasperPrint,isXMLFile, locale);
+		pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 
 	/**
@@ -180,7 +181,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		JasperPrint jrPrint,
 		boolean isExitOnClose,
 		Locale locale
-		)
+		) throws JRException
 	{
 		if (locale != null)
 			setLocale(locale);
@@ -189,8 +190,8 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRDesignViewer(jrPrint, locale);
-		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+		viewer = new JRDesignViewer(reportFileName, jrPrint, locale);
+		pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 
 
@@ -327,7 +328,6 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		System.out.println( "\tjava JasperViewer -XML -Ffile" );
 	}
 
-
 	/**
 	 *
 	 */
@@ -355,7 +355,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint
-		)
+		) throws JRException
 	{
 		viewReport(jasperPrint, true, null);
 	}
@@ -390,7 +390,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	public static void viewReport(
 		JasperPrint jasperPrint,
 		boolean isExitOnClose
-		)
+		) throws JRException
 	{
 		viewReport(jasperPrint, isExitOnClose, null);
 	}
@@ -442,7 +442,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		JasperPrint jasperPrint,
 		boolean isExitOnClose,
 		Locale locale
-		)
+		) throws JRException
 	{
 		JasperDesignViewer jasperViewer =
 			new JasperDesignViewer(
@@ -466,11 +466,11 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		if (isXmlReport)
 		{
 			JasperDesign jasperDesign = JRXmlLoader.load(fileName);
-			setReport(jasperDesign);
+			setReport(jasperDesign,fileName);
 		}
 		else
 		{
-			setReport((JRReport) JRLoader.loadObject(fileName));
+			setReport((JRReport) JRLoader.loadObject(fileName), fileName);
 		}
 	}
 
@@ -481,11 +481,12 @@ public class JasperDesignViewer extends javax.swing.JFrame
 		if (isXmlReport)
 		{
 			JasperDesign jasperDesign = JRXmlLoader.load(is);
-			setReport(jasperDesign);
+			setReport(jasperDesign,jasperDesign.getName()+".jrxml");
 		}
 		else
 		{
-			setReport((JRReport) JRLoader.loadObject(is));
+			JRReport report = (JRReport) JRLoader.loadObject(is);
+			setReport(report,report.getName());
 		}
 	}
 
@@ -494,16 +495,18 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	*/
 	private void loadReport(JRReport rep) throws JRException
 	{
-		setReport(rep);
+		setReport(rep, rep.getName());
+		
 	}
 	
-	private void setReport(JRReport report) throws JRException
+	private void setReport(JRReport report, String fileName) throws JRException
 	{
 		if (report instanceof JasperDesign)
 		{
 			verifyDesign((JasperDesign) report);
 		}
 		this.jasperPrint = new JRPreviewBuilder(report).getJasperPrint();
+		reportFileName = fileName;
 	}
 
 	/**
