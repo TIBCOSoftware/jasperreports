@@ -28,19 +28,11 @@
 
 package net.sf.jasperreports.view;
 
-import java.io.InputStream;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRValidationException;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 
 /**
@@ -50,91 +42,42 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 public class JRDesignViewer extends JRViewer
 {
 
-	private boolean isXML;
-	
 	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(String fileName, boolean isXML) throws JRException
+	public JRDesignViewer(String fileName, JasperPrint jrPrint) throws JRException
 	{
-		this(fileName, isXML, null);
-	}
-
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(InputStream is, boolean isXML) throws JRException
-	{
-		this(is, isXML, null);
-	}
-
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint)
-	{
-		this(jrPrint, null);
+		this(fileName, jrPrint, null);
 	}
 	
 	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint, boolean isXML)
+	public JRDesignViewer(String fileName, JasperPrint jrPrint, boolean isXmlFile) throws JRException
 	{
-		this(jrPrint, isXML, null);
-	}
-
-	
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(String fileName, boolean isXML, Locale locale) throws JRException
-	{
-		this(fileName, isXML, locale, null);
-	}
-
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(InputStream is, boolean isXML, Locale locale) throws JRException
-	{
-		this(is, isXML, locale, null);
-	}
-
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint, Locale locale)
-	{
-		this(jrPrint, locale, null);
+		this(fileName, jrPrint, isXmlFile, null);
 	}
 
 	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint, boolean isXML, Locale locale)
+	public JRDesignViewer(String fileName, JasperPrint jrPrint, Locale locale) throws JRException
 	{
-		this(jrPrint, isXML, locale, null);
+		this(fileName, jrPrint, locale, null);
 	}
 
-	
 	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(String fileName, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
+	public JRDesignViewer(String fileName, JasperPrint jrPrint, boolean isXmlFile, Locale locale) throws JRException
 	{
-		super(fileName, isXML, locale, resBundle);
-		hideUnusedComponents();
+		this(fileName, jrPrint, isXmlFile, locale, null);
 	}
 
-
 	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(InputStream is, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
-	{
-		super(is, isXML, locale, resBundle);
-		hideUnusedComponents();
-	}
-
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint, boolean isXML, Locale locale, ResourceBundle resBundle)
-	{
-		this(jrPrint, locale, resBundle);
-		loadReport(jrPrint, isXML);
-	}
-	
-
-	/** Creates new form JRDesignViewer */
-	public JRDesignViewer(JasperPrint jrPrint, Locale locale, ResourceBundle resBundle)
+	public JRDesignViewer(String fileName, JasperPrint jrPrint, boolean isXmlFile, Locale locale, ResourceBundle resBundle) throws JRException
 	{
 		super(jrPrint, locale, resBundle);
+		loadReport(fileName, jrPrint, isXmlFile);
 		hideUnusedComponents();
+	}
+
+	/** Creates new form JRDesignViewer */
+	public JRDesignViewer(String fileName, JasperPrint jrPrint, Locale locale, ResourceBundle resBundle) throws JRException
+	{
+		this(fileName, jrPrint, false, locale, resBundle);
 	}
 
 	private void hideUnusedComponents()
@@ -145,87 +88,17 @@ public class JRDesignViewer extends JRViewer
 		btnNext.setVisible(false);
 		txtGoTo.setVisible(false);
 		pnlStatus.setVisible(false);
+		btnReload.setEnabled(isXML);
 	}
 	
 	/**
 	 * 
 	 */
-	protected void loadReport(String fileName, boolean isXmlReport) throws JRException
+	protected void loadReport(String fileName, JasperPrint jrPrint, boolean isXmlFile)
 	{
-		
-		if (fileName != null && fileName.endsWith(".jrxml"))
-		{
-			JasperDesign jasperDesign = JRXmlLoader.load(fileName);
-			setReport(jasperDesign);
-		}
-		else
-		{
-			setReport((JRReport) JRLoader.loadObject(fileName));
-		}
-		// useful when reloading preview
-		isXML = isXmlReport;
+		jasperPrint = jrPrint;
 		reportFileName = fileName;
-	}
-
-
-	/**
-	 * 
-	 */
-	protected void loadReport(InputStream is, boolean isXmlReport) throws JRException
-	{
-		if (isXmlReport)
-		{
-			JasperDesign jasperDesign = JRXmlLoader.load(is);
-			setReport(jasperDesign);
-		}
-		else
-		{
-			setReport((JRReport) JRLoader.loadObject(is));
-		}
-		//useful when reloading preview
-		isXML = isXmlReport;
-	}
-
-
-	/**
-	 * 
-	 */
-	protected void loadReport(JasperPrint jrPrint, boolean isXmlFile)
-	{
-		jasperPrint = jrPrint;
-		if(isXmlFile)
-			reportFileName = jasperPrint.getName()+".jrxml";
-	}
-	
-	/**
-	 * 
-	 */
-	protected void loadReport(JasperPrint jrPrint)
-	{
-		jasperPrint = jrPrint;
-		if(isXML)
-			reportFileName = jasperPrint.getName()+".jrxml";
-	}
- 
-	private void setReport(JRReport report) throws JRException
-	{
-		if (report instanceof JasperDesign)
-		{
-			verifyDesign((JasperDesign) report);
-		}
-		jasperPrint = new JRPreviewBuilder(report).getJasperPrint();
-	}
-	
-	/**
-	 * 
-	 */
-	private void verifyDesign(JasperDesign jasperDesign) throws JRException
-	{
-		/*   */
-		Collection brokenRules = JasperCompileManager.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			throw new JRValidationException(brokenRules);
-		}
+		isXML = isXmlFile;
+		isPreview = true;
 	}
 }
