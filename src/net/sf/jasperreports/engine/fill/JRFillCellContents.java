@@ -173,7 +173,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	
-	public JRFillCellContents getBoxContents(boolean left, boolean top)
+	public JRFillCellContents getBoxContents(boolean left, boolean right, boolean top)
 	{
 		if (box == null)
 		{
@@ -181,14 +181,15 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		}
 		
 		boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
+		boolean copyRight = right && box.getRightBorder() == JRGraphicElement.PEN_NONE && box.getLeftBorder() != JRGraphicElement.PEN_NONE;
 		boolean copyTop = top && box.getTopBorder() == JRGraphicElement.PEN_NONE && box.getBottomBorder() != JRGraphicElement.PEN_NONE;
 		
-		if (!(copyLeft || copyTop))
+		if (!(copyLeft || copyRight || copyTop))
 		{
 			return this;
 		}
 		
-		Object key = new BoxContents(copyLeft, copyTop);
+		Object key = new BoxContents(copyLeft, copyRight, copyTop);
 		JRFillCellContents boxContents = (JRFillCellContents) boxContentsCache.get(key);
 		if (boxContents == null)
 		{
@@ -200,6 +201,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			{
 				newBox.setLeftBorder(box.getRightBorder());
 				newBox.setLeftBorderColor(box.getRightBorderColor());
+			}
+			
+			if (copyRight)
+			{
+				newBox.setRightBorder(box.getLeftBorder());
+				newBox.setRightBorderColor(box.getLeftBorderColor());
 			}
 			
 			if (copyTop)
@@ -432,15 +439,18 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	protected static class BoxContents
 	{
 		final boolean left;
+		final boolean right;
 		final boolean top;
 		final int hashCode;
 		
-		public BoxContents(boolean left, boolean top)
+		public BoxContents(boolean left, boolean right, boolean top)
 		{
 			this.left = left;
+			this.right = right;
 			this.top = top;
 			
 			int hash = left ? 1231 : 1237;
+			hash = 31*hash + (right ? 1231 : 1237);
 			hash = 31*hash + (top ? 1231 : 1237);
 			hashCode = hash;
 		}
@@ -455,7 +465,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			BoxContents b = (BoxContents) obj;
 			
 			return  
-				b.left == left && b.top == top;
+				b.left == left && b.right == right && b.top == top;
 		}
 
 		public int hashCode()

@@ -2250,6 +2250,7 @@ public class JRXmlWriter
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatColumnHeaders, crosstab.isRepeatColumnHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatRowHeaders, crosstab.isRepeatRowHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_columnBreakOffset, crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, crosstab.getRunDirection(), JRXmlConstants.getRunDirectionMap(), JRCrosstab.RUN_DIRECTION_LTR);
 		
 		writeReportElement(crosstab);
 		

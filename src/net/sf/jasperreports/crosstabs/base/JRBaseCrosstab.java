@@ -74,6 +74,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected int columnBreakOffset;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
+	protected byte runDirection;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
 	protected JRCellContents headerCell;
@@ -87,6 +88,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.columnBreakOffset = crosstab.getColumnBreakOffset();
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
 		this.repeatRowHeaders = crosstab.isRepeatRowHeaders();
+		this.runDirection = crosstab.getRunDirection();
 		
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
 		
@@ -358,5 +360,17 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	public JRVariable[] getVariables()
 	{
 		return variables;
+	}
+
+	
+	public byte getRunDirection()
+	{
+		return runDirection;
+	}
+
+	
+	public void setRunDirection(byte runDirection)
+	{
+		this.runDirection = runDirection;
 	}
 }

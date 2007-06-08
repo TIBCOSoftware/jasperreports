@@ -953,6 +953,7 @@ public class JRPreviewBuilder
 						crosstab.getX(), 
 						crosstab.getY(), 
 						false, 
+						false, 
 						false
 						));
 
@@ -963,7 +964,22 @@ public class JRPreviewBuilder
 		addCrosstabColumnHeaders(crosstab, rowHeadersXOffset, crosstabElements);
 		addCrosstabRows(crosstab, rowHeadersXOffset, colHeadersYOffset, crosstabElements);
 		
+		if (crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL)
+		{
+			mirrorElements(crosstabElements, crosstab.getX(), crosstab.getWidth());
+		}
+		
 		return crosstabElements;
+	}
+
+	protected void mirrorElements(List elements, int x, int width)
+	{
+		for (Iterator it = elements.iterator(); it.hasNext();)
+		{
+			JRElement element = (JRElement) it.next();
+			int mirrorX = 2 * x + width - element.getX() - element.getWidth();
+			element.setX(mirrorX);
+		}
 	}
 	
 	/**
@@ -980,6 +996,7 @@ public class JRPreviewBuilder
 			int x, 
 			int y, 
 			boolean left, 
+			boolean right, 
 			boolean top
 			)
 	{
@@ -999,12 +1016,19 @@ public class JRPreviewBuilder
 			frame.setBox(box);
 			
 			boolean copyLeft = left && box.getLeftBorder() == JRGraphicElement.PEN_NONE && box.getRightBorder() != JRGraphicElement.PEN_NONE;
+			boolean copyRight = right && box.getRightBorder() == JRGraphicElement.PEN_NONE && box.getLeftBorder() != JRGraphicElement.PEN_NONE;
 			boolean copyTop = top && box.getTopBorder() == JRGraphicElement.PEN_NONE && box.getBottomBorder() != JRGraphicElement.PEN_NONE;
 			
 			if (copyLeft)
 			{
 				frame.setLeftBorder(box.getRightBorder());
 				frame.setLeftBorderColor(box.getRightBorderColor());
+			}
+			
+			if (copyRight)
+			{
+				frame.setRightBorder(box.getLeftBorder());
+				frame.setRightBorderColor(box.getLeftBorderColor());
 			}
 			
 			if (copyTop)
@@ -1055,11 +1079,13 @@ public class JRPreviewBuilder
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
 				{
+					boolean firstOnRow = x == 0 && crosstab.getHeaderCell() == null;
 					crosstabElements.add(getCrosstabCellFrame(
 							totalHeader, 
 							crosstabX + rowHeadersXOffset + x, 
 							crosstabY + y, 
-							x == 0 && crosstab.getHeaderCell() == null, 
+							firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_LTR,
+							firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL,
 							false
 							));
 	
@@ -1068,14 +1094,17 @@ public class JRPreviewBuilder
 			}
 			
 			JRCellContents header = group.getHeader();
-			if (header.getWidth() != 0 && header.getHeight() != 0)
+			if (header.getWidth() != 0 && header.getHeight() != 0) {
+				boolean firstOnRow = x == 0 && crosstab.getHeaderCell() == null;
 				crosstabElements.add(getCrosstabCellFrame(
 						header, 
 						crosstabX + rowHeadersXOffset + x, 
 						crosstabY + y, 
-						x == 0 && crosstab.getHeaderCell() == null, 
+						firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_LTR,
+						firstOnRow && crosstab.getRunDirection() == JRCrosstab.RUN_DIRECTION_RTL,
 						false
 						));
+			}
 			
 			if (group.getTotalPosition() == BucketDefinition.TOTAL_POSITION_END)
 			{
@@ -1085,6 +1114,7 @@ public class JRPreviewBuilder
 							totalHeader, 
 							crosstabX + rowHeadersXOffset + x + header.getWidth(), 
 							crosstabY + y, 
+							false, 
 							false, 
 							false
 							));
@@ -1122,6 +1152,7 @@ public class JRPreviewBuilder
 							crosstabX + x, 
 							crosstabY + colHeadersYOffset + y, 
 							false, 
+							false, 
 							y == 0 && crosstab.getHeaderCell() == null
 							));
 					
@@ -1136,6 +1167,7 @@ public class JRPreviewBuilder
 						header, 
 						crosstabX + x, 
 						crosstabY + colHeadersYOffset + y, 
+						false, 
 						false, 
 						y == 0 && crosstab.getHeaderCell() == null
 						));
@@ -1154,6 +1186,7 @@ public class JRPreviewBuilder
 							totalHeader, 
 							crosstabX + x, 
 							crosstabY + colHeadersYOffset + y + header.getHeight(), 
+							false, 
 							false, 
 							false
 							));
@@ -1202,6 +1235,7 @@ public class JRPreviewBuilder
 							crosstabX + x, 
 							crosstabY, 
 							false, 
+							false, 
 							false
 							));
 					x += cells[rowIndex][i].getContents().getWidth();
@@ -1217,6 +1251,7 @@ public class JRPreviewBuilder
 							crosstabX + x, 
 							crosstabY, 
 							false, 
+							false, 
 							false
 							));
 			}
@@ -1229,6 +1264,7 @@ public class JRPreviewBuilder
 							cell, 
 							crosstabX + x + group.getHeader().getWidth(), 
 							crosstabY, 
+							false, 
 							false, 
 							false
 							));

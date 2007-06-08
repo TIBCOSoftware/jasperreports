@@ -95,6 +95,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected int columnBreakOffset = DEFAULT_COLUMN_BREAK_OFFSET;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
+	protected byte runDirection;
 	protected List cellsList;
 	protected Map cellsMap;
 	protected JRDesignCrosstabCell[][] crossCells;
@@ -1362,5 +1363,15 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	private JRDesignVariable getVariable(String varName)
 	{
 		return (JRDesignVariable) variablesList.get(varName);
+	}
+	
+	public byte getRunDirection()
+	{
+		return runDirection;
+	}
+	
+	public void setRunDirection(byte runDirection)
+	{
+		this.runDirection = runDirection;
 	}
 }

@@ -552,7 +552,24 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 	protected List getPrintElements()
 	{
-		return crosstabFiller.getPrintElements();
+		List printElements = crosstabFiller.getPrintElements();
+		
+		if (getRunDirection() == RUN_DIRECTION_RTL)
+		{
+			mirrorPrintElements(printElements);
+		}
+		
+		return printElements;
+	}
+
+	protected void mirrorPrintElements(List printElements)
+	{
+		for (Iterator it = printElements.iterator(); it.hasNext();)
+		{
+			JRPrintElement element = (JRPrintElement) it.next();
+			int mirrorX = getWidth() - element.getX() - element.getWidth();
+			element.setX(mirrorX);
+		}
 	}
 
 	protected void resolveElement(JRPrintElement element, byte evaluation)
@@ -1203,7 +1220,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				setGroupVariables(columnGroups, cell.getBucketValues());
 				
 				contents = contents.getTransformedContents(width, height, group.getPosition(), JRCellContents.POSITION_Y_TOP);
-				contents = contents.getBoxContents(columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null), false);
+				boolean firstOnRow = columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null);
+				contents = contents.getBoxContents(
+						firstOnRow && getRunDirection() == RUN_DIRECTION_LTR,
+						firstOnRow && getRunDirection() == RUN_DIRECTION_RTL,
+						false);
 				contents = contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
@@ -1483,7 +1504,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				setGroupVariables(columnGroups, data.getColumnBucketValues());
 				setMeasureVariables(data);
 				
-				contents = contents.getBoxContents(leftEmpty && column == startColumnIndex, topEmpty && rowIdx == 0);
+				boolean firstOnRow = leftEmpty && column == startColumnIndex;
+				contents = contents.getBoxContents(
+						firstOnRow && getRunDirection() == RUN_DIRECTION_LTR,
+						firstOnRow && getRunDirection() == RUN_DIRECTION_RTL,
+						topEmpty && rowIdx == 0);
 				contents = contents.getWorkingClone();
 				
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
@@ -1542,7 +1567,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 				{
 					contents = contents.getTransformedContents(contents.getWidth(), rowHeight, JRCellContents.POSITION_X_LEFT, JRCellContents.POSITION_Y_STRETCH);
 				}
-				contents = contents.getBoxContents(false, rowIdx + 1 == vSpan && (!printColumnHeaders || headerCell == null));
+				contents = contents.getBoxContents(false, false, rowIdx + 1 == vSpan && (!printColumnHeaders || headerCell == null));
 				contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
@@ -1733,7 +1758,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 					contents = contents.getTransformedContents(contents.getWidth(), headerHeight, JRCellContents.POSITION_X_LEFT, JRCellContents.POSITION_Y_STRETCH);
 				}
 				
-				contents = contents.getBoxContents(false, rowIdx == vSpan && (!printColumnHeaders || headerCell == null));
+				contents = contents.getBoxContents(false, false, rowIdx == vSpan && (!printColumnHeaders || headerCell == null));
 				contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
@@ -1941,4 +1966,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	{
 		return variables;
 	}
+
+	public byte getRunDirection()
+	{
+		return parentCrosstab.getRunDirection();
+	}
+
+	public void setRunDirection(byte direction)
+	{
+		// nothing
+	}
+
 }
