@@ -1094,6 +1094,26 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </description>
       <default>10</default>
     </attribute>
+    <attribute>
+      <name>runDirection</name>
+      <description>The crosstab run direction.
+    <p/>
+	 Crosstabs can either be filled from left to right (the default) or from right to left (mainly for reports in RTL languages).
+    <p/>
+	 When a crosstab is filled from right to left, the crosstab contents will start from the right extremity of the crosstab element area and grow towards the left.
+      </description>
+      <values>
+        <value>
+          <name>LTR</name>
+          <description>Left to right run direction.</description>
+        </value>
+        <value>
+          <name>RTL</name>
+          <description>Right to left run direction.</description>
+        </value>
+      </values>
+      <default>LTR</default>
+    </attribute>
   </attributes>
 </element>
 

@@ -614,6 +614,7 @@
 	isRepeatColumnHeaders (true | false) "true"
 	isRepeatRowHeaders (true | false) "true"
 	columnBreakOffset NMTOKEN "10"
+	runDirection (LTR | RTL) "LTR"
 >
 
 <!ELEMENT crosstabParameter (parameterValueExpression?)>

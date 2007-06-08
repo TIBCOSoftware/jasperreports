@@ -29,6 +29,7 @@ package net.sf.jasperreports.crosstabs;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -54,6 +55,21 @@ public interface JRCrosstab extends JRElement
 	 * Name of the built-in column count variable.
 	 */
 	public static final String VARIABLE_COLUMN_COUNT = "COLUMN_COUNT";
+
+	/**
+	 * Crosstab left to right run direction.
+	 */
+	public static final byte RUN_DIRECTION_LTR = JRPrintText.RUN_DIRECTION_LTR;
+
+	/**
+	 * Crosstab right to left run direction.
+	 * 
+	 * <p>
+	 * When a crosstab is filled from right to left, the crosstab contents will start
+	 * from the right extremity of the crosstab element area and grow towards the left.
+	 * </p>
+	 */
+	public static final byte RUN_DIRECTION_RTL = JRPrintText.RUN_DIRECTION_RTL;
 	
 	/**
 	 * Returns the ID of the crosstab.
@@ -249,4 +265,27 @@ public interface JRCrosstab extends JRElement
 	 * @see #VARIABLE_COLUMN_COUNT
 	 */
 	public JRVariable[] getVariables();
+	
+	
+	/**
+	 * Retrieves the run direction of this crosstab.
+	 * 
+	 * @return the run direction of this crosstab
+	 * @see #setRunDirection(byte)
+	 */
+	public byte getRunDirection();
+	
+	
+	/**
+	 * Sets the run direction of the crosstab.
+	 * <p>
+	 * Crosstabs can either be filled from left to right (the default)
+	 * or from right to left (mainly for reports in RTL languages).
+	 * </p>
+	 * 
+	 * @param direction one of {@link #RUN_DIRECTION_LTR RUN_DIRECTION_LTR}
+	 * and {@link #RUN_DIRECTION_RTL RUN_DIRECTION_RTL}
+	 */
+	public void setRunDirection(byte direction);
+	
 }
