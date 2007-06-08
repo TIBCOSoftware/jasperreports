@@ -86,7 +86,6 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
@@ -94,7 +93,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 
@@ -140,7 +138,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected String reportFileName = null;
 	JasperPrint jasperPrint = null;
 	private int pageIndex = 0;
-	private float zoom = 0f;
+	protected float zoom = 0f;
 
 	private JRGraphics2DExporter exporter = null;
 
@@ -173,8 +171,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	private java.util.List saveContributors = new ArrayList();
 
-	protected boolean isPreview;
-	
 	/** Creates new form JRViewer */
 	protected JRViewer()
 	{
@@ -1219,25 +1215,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				JOptionPane.showMessageDialog(this, getBundleString("error.loading"));
 			}
 
-			forceRefresh();
-		}
-		else if(isPreview && isXML)
-		{
-			try
-			{
-				JasperDesign jasperDesign = JRXmlLoader.load(reportFileName);
-				loadReport(new JRPreviewBuilder(jasperDesign).getJasperPrint(), isXML);
-			}
-			catch (JRException e)
-			{
-				e.printStackTrace();
-
-				jasperPrint = null;
-				setPageIndex(0);
-				refreshPage();
-
-				JOptionPane.showMessageDialog(this, getBundleString("error.loading"));
-			}
 			forceRefresh();
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
