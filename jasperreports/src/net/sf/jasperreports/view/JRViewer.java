@@ -172,11 +172,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private java.util.List saveContributors = new ArrayList();
 
 	/** Creates new form JRViewer */
-	protected JRViewer()
-	{
-	}
-
-	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
 		this(fileName, isXML, null);
@@ -1219,7 +1214,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}//GEN-LAST:event_btnReloadActionPerformed
 
-	private void forceRefresh()
+	protected void forceRefresh()
 	{
 		zoom = 0;//force pageRefresh()
 		realZoom = 0f;
@@ -1406,17 +1401,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		type = TYPE_JASPER_PRINT;
 		isXML = false;
 		btnReload.setEnabled(false);
-		setPageIndex(0);
-	}
-
-	/**
-	*/
-	protected void loadReport(JasperPrint jrPrint, boolean isXmlFile)
-	{
-		jasperPrint = jrPrint;
-		type = TYPE_JASPER_PRINT;
-		isXML = isXmlFile;
-		btnReload.setEnabled(isXmlFile);
 		setPageIndex(0);
 	}
 

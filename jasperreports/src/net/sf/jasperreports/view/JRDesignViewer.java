@@ -96,13 +96,6 @@ public class JRDesignViewer extends JRViewer
 		pnlStatus.setVisible(false);
 	}
 
-	private void forceRefresh()
-	{
-		zoom = 0;//force pageRefresh()
-		realZoom = 0f;
-		setZoomRatio(1);
-	}
-
 	private void reconfigureReloadButton()
 	{
         ActionListener[] actionListeners = btnReload.getActionListeners();
@@ -118,8 +111,7 @@ public class JRDesignViewer extends JRViewer
 	}
 	
 	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
-	{//GEN-HEADEREND:event_btnReloadActionPerformed
-		// Add your handling code here:
+	{
 		if (this.type == TYPE_FILE_NAME)
 		{
 			try
@@ -133,7 +125,7 @@ public class JRDesignViewer extends JRViewer
 				JOptionPane.showMessageDialog(this, "Error loading report design. See console for details.");
 			}
 		}
-	}//GEN-LAST:event_btnReloadActionPerformed
+	}
 
 
 	/**
