@@ -27,11 +27,8 @@
  */
 package net.sf.jasperreports.engine.export.oasis.zip;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -75,17 +72,23 @@ public class EmptyOasisZipEntry implements OasisZipEntry
 	/**
 	 * 
 	 */
-	public InputStream getInputStream() throws IOException
+	public OutputStream getOutputStream()
 	{
-		return new ByteArrayInputStream(new byte[0]);
+		throw new JRRuntimeException("This method should not be called on this type");
 	}
 	
 	/**
 	 * 
 	 */
-	public BufferedReader getReader() throws IOException
+	public void writeData(OutputStream os) throws IOException
 	{
-		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(new byte[0])));
+	}
+	
+	/**
+	 * 
+	 */
+	public void dispose()
+	{
 	}
 	
 }

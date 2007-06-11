@@ -133,13 +133,8 @@ public class JRPreviewBuilder
 	private boolean hasContour;
 
 	/**
-	 * Constructors
+	 *
 	 */
-	
-	public JRPreviewBuilder()
-	{
-	}
-	 
 	public JRPreviewBuilder(JRReport report)  throws JRException
 	{
 		createJasperPrint(report);
@@ -582,40 +577,6 @@ public class JRPreviewBuilder
 		return rectangle;
 	}
 	
-	/**
-	 * 
-	 * @param pen
-	 * @return
-	 */
-	private int getBorderWidth(byte pen)
-	{
-		int borderWidth = 1;
-		switch (pen)
-		{
-			case JRGraphicElement.PEN_4_POINT :
-			{
-				borderWidth = 4;
-				break;
-			}
-			case JRGraphicElement.PEN_2_POINT :
-			{
-				borderWidth = 2;
-				break;
-			}
-			case JRGraphicElement.PEN_NONE :
-			{
-				borderWidth = 0;
-				break;
-			}
-			default :
-			{
-				borderWidth = 1;
-				break;
-			}
-		}
-		return borderWidth;
-	}
-
 	/**
 	 * 
 	 * @param imageElement
@@ -1279,25 +1240,6 @@ public class JRPreviewBuilder
 	public JasperPrint getJasperPrint()
 	{
 		return this.jasperPrint;
-	}
-	
-	/**
-	 * 
-	 * @param jasperPrint
-	 */
-	public void setJasperPrint (JasperPrint jasperPrint)
-	{
-		this.jasperPrint = jasperPrint;
-	}
-	
-	/**
-	 * 
-	 * @param report
-	 * @throws JRException
-	 */
-	public void setJasperPrint (JRReport report) throws JRException
-	{
-		createJasperPrint(report);
 	}
 	
 	/**

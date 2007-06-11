@@ -27,9 +27,8 @@
  */
 package net.sf.jasperreports.engine.export.oasis.zip;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Writer;
 
 
@@ -43,9 +42,9 @@ public interface OasisZipEntry
 	
 	public Writer getWriter() throws IOException;
 	
-	public InputStream getInputStream() throws IOException;
+	public OutputStream getOutputStream();
+
+	public void writeData(OutputStream out) throws IOException;
 	
-	public BufferedReader getReader() throws IOException;
-	
-	//public void close() throws IOException;
+	public void dispose();
 }

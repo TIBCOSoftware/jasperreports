@@ -27,35 +27,33 @@
  */
 package net.sf.jasperreports.engine.export.oasis.zip;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ByteArrayOasisZipEntry implements OasisZipEntry 
+public class FileBufferedOasisZipEntry implements OasisZipEntry 
 {
 	/**
 	 * 
 	 */
 	private String name = null;
-	private ByteArrayOutputStream baos = null;
+	private FileBufferedOutputStream fbos = null;
+	private Writer writer = null;
 	
 	/**
 	 * 
 	 */
-	public ByteArrayOasisZipEntry(String name)
+	public FileBufferedOasisZipEntry(String name)
 	{
 		this(name, null);
 	}
@@ -63,20 +61,20 @@ public class ByteArrayOasisZipEntry implements OasisZipEntry
 	/**
 	 * 
 	 */
-	public ByteArrayOasisZipEntry(String name, byte[] bytes)
+	public FileBufferedOasisZipEntry(String name, byte[] bytes)
 	{
 		this.name = name;
 
 		if (bytes == null)
 		{
-			baos = new ByteArrayOutputStream();
+			fbos = new FileBufferedOutputStream();
 		}
 		else
 		{
-			baos = new ByteArrayOutputStream(bytes.length);
+			fbos = new FileBufferedOutputStream(bytes.length);
 			try
 			{
-				baos.write(bytes);
+				fbos.write(bytes);
 			}
 			catch (IOException e)
 			{
@@ -98,23 +96,37 @@ public class ByteArrayOasisZipEntry implements OasisZipEntry
 	 */
 	public Writer getWriter() throws IOException
 	{
-		return new BufferedWriter(new OutputStreamWriter(baos, "UTF-8"));//FIXMEODT deal with stream closing
+		if (writer == null)
+		{
+
+			writer = new BufferedWriter(new OutputStreamWriter(fbos, "UTF-8"));
+		}
+		
+		return writer;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public InputStream getInputStream() throws IOException
+	public OutputStream getOutputStream()
 	{
-		return new ByteArrayInputStream(baos.toByteArray());
+		return fbos;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public BufferedReader getReader() throws IOException
+	public void writeData(OutputStream os) throws IOException
 	{
-		return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray()), "UTF-8"));
+		fbos.writeData(os);
+	}
+
+	/**
+	 * 
+	 */
+	public void dispose()
+	{
+		fbos.dispose();
 	}
 	
 }
