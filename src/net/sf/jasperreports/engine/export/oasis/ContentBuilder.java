@@ -35,7 +35,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
@@ -133,7 +132,8 @@ public class ContentBuilder
 		
 		writer.write(" <office:automatic-styles>\n");
 		
-		copy(styleEntry.getReader(), writer);
+		writer.flush();
+		styleEntry.writeData(contentEntry.getOutputStream());
 
 		writer.write(" <style:style style:name=\"empty-cell\" style:family=\"table-cell\">\n");
 		writer.write("  <style:table-cell-properties fo:wrap-option=\"wrap\" style:shrink-to-fit=\"false\"");
@@ -142,7 +142,8 @@ public class ContentBuilder
 		writer.write(" </office:automatic-styles>\n");
 		
 		writer.write("<office:body><office:text>\n");
-		copy(bodyEntry.getReader(), writer);
+		writer.flush();
+		bodyEntry.writeData(contentEntry.getOutputStream());
 		writer.write("</office:text></office:body>\n");
 
 		writer.write("</office:document-content>\n");
@@ -151,18 +152,4 @@ public class ContentBuilder
 		writer.close();
 	}
 
-	/**
-	 * 
-	 */
-	private void copy(BufferedReader reader, Writer writer) throws IOException
-	{
-		String line = reader.readLine();
-
-		while(line != null) 
-		{
-			writer.write(line);
-			writer.write("\n");
-			line = reader.readLine();
-		}
-	}
 }

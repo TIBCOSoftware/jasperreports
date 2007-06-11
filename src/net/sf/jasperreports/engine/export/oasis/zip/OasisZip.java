@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.export.oasis.zip;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ import java.util.zip.ZipOutputStream;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class OasisZip
+public abstract class OasisZip
 {
 
 	/**
@@ -58,33 +57,47 @@ public class OasisZip
 	/**
 	 * 
 	 */
-	public OasisZip()
+	public OasisZip() throws IOException
 	{
 		oasisZipEntries = new ArrayList();
 
-		//FIXMEODT contentsEntry = new FileOasisZipEntry("content.xml", new File("content.xml"));
-		contentEntry = new ByteArrayOasisZipEntry("content.xml");
+		contentEntry = createEntry("content.xml");
 		oasisZipEntries.add(contentEntry);
 		
 		oasisZipEntries.add(new EmptyOasisZipEntry("meta.xml"));
 		oasisZipEntries.add(new EmptyOasisZipEntry("settings.xml"));
 
-		//stylesEntry = new FileOasisZipEntry("styles.xml", new File("styles.xml"));
-		stylesEntry = new ByteArrayOasisZipEntry("styles.xml");
+		stylesEntry = createEntry("styles.xml");
 		oasisZipEntries.add(stylesEntry);
 
+		OasisZipEntry mimeEntry = createEntry("mimetype");
+		Writer mimeWriter = null;
 		try
 		{
-			//OasisZipEntry mimeEntry = new FileOasisZipEntry("mimetype", new File("mimetype"));
-			OasisZipEntry mimeEntry = new ByteArrayOasisZipEntry("mimetype");
-			Writer mimeWriter = mimeEntry.getWriter();
+			mimeWriter = mimeEntry.getWriter();
 			mimeWriter.write("application/vnd.oasis.opendocument.text");
 			mimeWriter.flush();
 			oasisZipEntries.add(mimeEntry);
+		}
+		finally
+		{
+			if (mimeWriter != null)
+			{
+				try
+				{
+					mimeWriter.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
 
-			//OasisZipEntry manifestEntry = new FileOasisZipEntry("manifest.xml", new File("manifest.xml"));
-			OasisZipEntry manifestEntry = new ByteArrayOasisZipEntry("META-INF/manifest.xml");
-			Writer manifestWriter = manifestEntry.getWriter();
+		OasisZipEntry manifestEntry = createEntry("META-INF/manifest.xml");
+		Writer manifestWriter = null;
+		try
+		{
+			manifestWriter = manifestEntry.getWriter();
 			manifestWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \r\n");
 			manifestWriter.write("<!DOCTYPE manifest:manifest PUBLIC \"-//OpenOffice.org//DTD Manifest 1.0//EN\" \"Manifest.dtd\"> \r\n");
 			manifestWriter.write("<manifest:manifest xmlns:manifest=\"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0\"> \r\n");
@@ -100,14 +113,26 @@ public class OasisZip
 			manifestWriter.write("</manifest:manifest> \r\n");
 			manifestWriter.flush();
 			oasisZipEntries.add(manifestEntry);
-			//FIXMEODT close writers everytime
 		}
-		catch (IOException e)
+		finally
 		{
-			e.printStackTrace();
-			//FIXMEODT
+			if (mimeWriter != null)
+			{
+				try
+				{
+					mimeWriter.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
 		}
 	}
+	
+	/**
+	 *
+	 */
+	public abstract OasisZipEntry createEntry(String name);
 	
 	/**
 	 *
@@ -141,26 +166,28 @@ public class OasisZip
 		ZipOutputStream zipos = new ZipOutputStream(os);
 		zipos.setMethod(ZipOutputStream.DEFLATED);
 		
-		byte[] bytes = new byte[4096];
-		int bytesRead = 0;
-	
 		for (int i = 0; i < oasisZipEntries.size(); i++) 
 		{
 			OasisZipEntry oasisZipEntry = (OasisZipEntry)oasisZipEntries.get(i);
-			InputStream is = oasisZipEntry.getInputStream();
 			ZipEntry zipEntry = new ZipEntry(oasisZipEntry.getName());
 			zipos.putNextEntry(zipEntry);
-			
-			while ((bytesRead = is.read(bytes)) != -1)
-			{
-				zipos.write(bytes, 0, bytesRead);
-			}
-			
-			is.close(); 
+			oasisZipEntry.writeData(zipos);
 		}
 		
 		zipos.flush();
-		zipos.close();//FIXMEODT zip os needs to be closed
+		zipos.finish();
+	}
+	
+	/**
+	 *
+	 */
+	public void dispose()
+	{
+		for (int i = 0; i < oasisZipEntries.size(); i++) 
+		{
+			OasisZipEntry oasisZipEntry = (OasisZipEntry)oasisZipEntries.get(i);
+			oasisZipEntry.dispose();
+		}
 	}
 	
 }

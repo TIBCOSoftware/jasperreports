@@ -86,6 +86,8 @@ public class StyleBuilder
 		}
 
 		buildAfterMasterStyles();
+		
+		writer.flush();
 	}
 	
 	/**

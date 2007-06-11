@@ -76,7 +76,8 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.oasis.zip.ByteArrayOasisZipEntry;
+import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
+import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -118,7 +119,6 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected OasisZip oasisZip = new OasisZip();
 	protected Writer tempBodyWriter = null;
 	protected Writer tempStyleWriter = null;
 
@@ -202,8 +202,7 @@ public class JROdtExporter extends JRAbstractExporter
 			{
 				try
 				{
-					exportReportToOasisZip();
-					oasisZip.zipEntries(os);
+					exportReportToOasisZip(os);
 				}
 				catch (IOException e)
 				{
@@ -229,8 +228,7 @@ public class JROdtExporter extends JRAbstractExporter
 				try
 				{
 					os = new FileOutputStream(destFile);
-					exportReportToOasisZip();
-					oasisZip.zipEntries(os);
+					exportReportToOasisZip(os);
 				}
 				catch (IOException e)
 				{
@@ -294,10 +292,12 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportReportToOasisZip() throws JRException, IOException
+	protected void exportReportToOasisZip(OutputStream os) throws JRException, IOException
 	{
-		OasisZipEntry tempBodyEntry = new ByteArrayOasisZipEntry(null);
-		OasisZipEntry tempStyleEntry = new ByteArrayOasisZipEntry(null);
+		OasisZip oasisZip = new FileBufferedOasisZip();
+
+		OasisZipEntry tempBodyEntry = new FileBufferedOasisZipEntry(null);
+		OasisZipEntry tempStyleEntry = new FileBufferedOasisZipEntry(null);
 
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();
@@ -309,7 +309,6 @@ public class JROdtExporter extends JRAbstractExporter
 		StyleBuilder styleBuilder = new StyleBuilder(jasperPrintList, stylesWriter);
 		styleBuilder.build();
 
-		stylesWriter.flush();
 		stylesWriter.close();
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
@@ -359,7 +358,8 @@ public class JROdtExporter extends JRAbstractExporter
 				);
 		contentBuilder.build();
 		
-		//FIXMEODT close/delete readers
+		tempStyleEntry.dispose();
+		tempBodyEntry.dispose();
 
 		if ((imagesToProcess != null && imagesToProcess.size() > 0))
 		{
@@ -380,13 +380,17 @@ public class JROdtExporter extends JRAbstractExporter
 				}
 
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
-					new ByteArrayOasisZipEntry(
+					new FileBufferedOasisZipEntry(
 						"Pictures/" + getImageName(imageIndex),
 						renderer.getImageData()
 						)
 					);
 			}
 		}
+		
+		oasisZip.zipEntries(os);
+		
+		oasisZip.dispose();
 	}
 
 
