@@ -41,8 +41,21 @@ import java.security.ProtectionDomain;
 public class JRClassLoader extends ClassLoader
 {
 
-	protected static ProtectionDomain protectionDomain = JRClassLoader.class.getProtectionDomain();
+	private static ProtectionDomain protectionDomain = null;
 	
+	
+	/**
+	 *
+	 */
+	public static ProtectionDomain getProtectionDomain()
+	{
+		if (protectionDomain == null)
+		{
+			protectionDomain = JRClassLoader.class.getProtectionDomain();
+		}
+		
+		return protectionDomain;
+	}
 	
 	/**
 	 * Sets the protection to be used for classes loaded via
@@ -308,7 +321,7 @@ public class JRClassLoader extends ClassLoader
 				bytecodes, 
 				0, 
 				bytecodes.length,
-				protectionDomain
+				getProtectionDomain()
 				);
 
 		return clazz;
