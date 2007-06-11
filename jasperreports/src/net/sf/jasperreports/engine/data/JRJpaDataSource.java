@@ -226,7 +226,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewin
 			Object[] values = (Object[]) currentRow;
 			if (position < 0 || position >= values.length)
 			{
-				throw new JRRuntimeException("Index " + position + " out of bounds for query result of lenght " + values.length);
+				throw new JRRuntimeException("Index " + position + " out of bounds for query result of length " + values.length);
 			}
 			return values[position];
 		}	
@@ -248,7 +248,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource implements JRRewin
 			Object[] values = (Object[]) currentRow;
 			if (position < 0 || position >= values.length)
 			{
-				throw new JRRuntimeException("Index " + position + " out of bounds for query result of lenght " + values.length);
+				throw new JRRuntimeException("Index " + position + " out of bounds for query result of length " + values.length);
 			}
 			return getBeanProperty(values[position], property);
 		}
