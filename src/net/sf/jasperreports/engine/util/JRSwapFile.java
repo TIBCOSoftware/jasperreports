@@ -338,25 +338,25 @@ public class JRSwapFile
 
 		protected void growIfFull()
 		{
-			int valsLenght = vals.length;
-			if (size == valsLenght)
+			int valsLength = vals.length;
+			if (size == valsLength)
 			{
-				int newLength = (valsLenght * 3) / 2 + 1;
-				if (newLength - valsLenght < minGrowCount)
+				int newLength = (valsLength * 3) / 2 + 1;
+				if (newLength - valsLength < minGrowCount)
 				{
-					newLength = valsLenght + minGrowCount;
+					newLength = valsLength + minGrowCount;
 				}
 				
 				long[] newVals = new long[newLength];
-				System.arraycopy(vals, first, newVals, 0, valsLenght - first);
+				System.arraycopy(vals, first, newVals, 0, valsLength - first);
 				if (last > 0)
 				{
-					System.arraycopy(vals, 0, newVals, valsLenght - first, last);
+					System.arraycopy(vals, 0, newVals, valsLength - first, last);
 				}
 				
 				vals = newVals;
 				first = 0;
-				last = valsLenght;
+				last = valsLength;
 			}
 		}
 
