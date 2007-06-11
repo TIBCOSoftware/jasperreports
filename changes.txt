@@ -2,6 +2,17 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 1.3.4 (2007-06-xx)
+-----------------------------------
+
+- new "runDirection" attribute available for crosstabs to enable right-to-left rendering policy;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 1.3.3 (2007-04-30)
 -----------------------------------
 
