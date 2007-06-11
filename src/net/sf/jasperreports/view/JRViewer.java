@@ -119,9 +119,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 *
 	 */
-	private static final int TYPE_FILE_NAME = 1;
-	private static final int TYPE_INPUT_STREAM = 2;
-	private static final int TYPE_JASPER_PRINT = 3;
+	protected static final int TYPE_FILE_NAME = 1;
+	protected static final int TYPE_INPUT_STREAM = 2;
+	protected static final int TYPE_OBJECT = 3;
 	
 	/**
 	 * The DPI of the generated report.
@@ -133,7 +133,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
 
-	private int type = TYPE_FILE_NAME;
+	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
 	protected String reportFileName = null;
 	JasperPrint jasperPrint = null;
@@ -1398,7 +1398,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected void loadReport(JasperPrint jrPrint)
 	{
 		jasperPrint = jrPrint;
-		type = TYPE_JASPER_PRINT;
+		type = TYPE_OBJECT;
 		isXML = false;
 		btnReload.setEnabled(false);
 		setPageIndex(0);

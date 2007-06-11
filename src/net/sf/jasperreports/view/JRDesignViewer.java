@@ -28,7 +28,6 @@
 
 package net.sf.jasperreports.view;
 
-import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.Collection;
 
@@ -49,23 +48,13 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public class JRDesignViewer extends JRViewer
 {
-	/**
-	 *
-	 */
-	private static final int TYPE_FILE_NAME = 1;
-	private static final int TYPE_INPUT_STREAM = 2;
-	private static final int TYPE_JASPER_DESIGN = 3;
-
-	private int type = TYPE_FILE_NAME;
-	private boolean isXML = false;
-	private String reportFileName = null;
 	
 	/** Creates new form JRDesignViewer */
 	public JRDesignViewer(String fileName, boolean isXML) throws JRException
 	{
 		super(fileName, isXML);
         loadReport(fileName, isXML);
-		reconfigureReloadButton();
+		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
 	
@@ -74,7 +63,7 @@ public class JRDesignViewer extends JRViewer
 	{
 		super(is, isXML);
 		loadReport(is, isXML);
-		reconfigureReloadButton();
+		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
 	
@@ -82,7 +71,7 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(JRReport report) throws JRException
 	{
 		super(new JRPreviewBuilder(report).getJasperPrint());
-		reconfigureReloadButton();
+		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
 	
@@ -96,27 +85,13 @@ public class JRDesignViewer extends JRViewer
 		pnlStatus.setVisible(false);
 	}
 
-	private void reconfigureReloadButton()
-	{
-        ActionListener[] actionListeners = btnReload.getActionListeners();
-        if (actionListeners != null)
-	        for(int i=0; i<actionListeners.length; i++)
-	        	btnReload.removeActionListener(actionListeners[i]);
-        btnReload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReloadActionPerformed(evt);
-            }
-        });
-        btnReload.setEnabled(isXML);
-	}
-	
-	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReloadActionPerformed
+	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		if (this.type == TYPE_FILE_NAME)
 		{
 			try
 			{
-				this.loadReport(this.reportFileName, this.isXML);
+				loadReport(reportFileName, isXML);
 				forceRefresh();
 			}
 			catch (JRException e)
@@ -179,10 +154,10 @@ public class JRDesignViewer extends JRViewer
 
 	/**
 	*/
-	private void loadReport(JRReport rep) throws JRException
+	protected void loadReport(JRReport rep) throws JRException
 	{
 		setReport(rep);
-		this.type = TYPE_JASPER_DESIGN;
+		this.type = TYPE_OBJECT;
 		this.isXML = false;
 	}
 	
