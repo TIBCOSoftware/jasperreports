@@ -39,18 +39,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.xml.transform.TransformerException;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
+import net.sf.jasperreports.engine.util.xml.JRXPathExecuter;
+import net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils;
 
 import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
-import org.apache.xpath.CachedXPathAPI;
-import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -127,6 +125,7 @@ import org.xml.sax.InputSource;
  * </p>
  * @author Peter Severin (peter_p_s@sourceforge.net, contact@jasperassistant.com)
  * @version $Id$
+ * @see JRXPathExecuterUtils
  */
 public class JRXmlDataSource implements JRRewindableDataSource {
 
@@ -148,8 +147,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 	// current node index
 	private int currentNodeIndex = - 1;
 
-	// XPath API fa?ade
-	private CachedXPathAPI xpathAPI = new CachedXPathAPI();
+	private final JRXPathExecuter xPathExecuter;
 	
 	private LocaleConvertUtilsBean convertBean = null;
 	
@@ -185,6 +183,9 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 			throws JRException {
 		this.document = document;
 		this.selectExpression = selectExpression;
+		
+		this.xPathExecuter = JRXPathExecuterUtils.getXPathExecuter();
+		
 		moveFirst();
 	}
 
@@ -267,17 +268,12 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		if (selectExpression == null)
 			throw new JRException("selectExpression cannot be null");
 
-		try {
-			currentNode = null;
-			currentNodeIndex = -1;
-			nodeListLength = 0;
-			nodeList = xpathAPI.selectNodeList(document,
-					selectExpression);
-			nodeListLength = nodeList.getLength();
-		} catch (TransformerException e) {
-			throw new JRException("XPath selection failed. Expression: "
-					+ selectExpression, e);
-		}
+		currentNode = null;
+		currentNodeIndex = -1;
+		nodeListLength = 0;
+		nodeList = xPathExecuter.selectNodeList(document,
+				selectExpression);
+		nodeListLength = nodeList.getLength();
 	}
 
 	/*
@@ -311,21 +307,15 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		Class valueClass = jrField.getValueClass();
 		
 		if(Object.class != valueClass) {
-			String text = null;
+			Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
 			
-			try {
-				XObject list = xpathAPI.eval(currentNode, expression);
-				if (list.getType() == XObject.CLASS_NODESET) {
-					Node node = list.nodeset().nextNode();
-					if (node != null) {
-						text = getText(node);
-					}
+			String text = null;
+			if (selectedObject != null) {
+				if (selectedObject instanceof Node) {
+					text = getText((Node) selectedObject);
 				} else {
-					text = list.str();
+					text = selectedObject.toString();
 				}
-			} catch (TransformerException e) {
-				throw new JRException("XPath selection failed. Expression: "
-						+ expression, e);
 			}
 			
 			if(text != null) {
