@@ -117,6 +117,10 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 					value = list.get(0);
 				}
 			}
+			else if (object instanceof Number || object instanceof Boolean)
+			{
+				value = object;
+			}
 			else
 			{
 				value = object.toString();

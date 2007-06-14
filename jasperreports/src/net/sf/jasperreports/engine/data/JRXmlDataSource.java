@@ -35,6 +35,8 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -309,30 +311,83 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		if(Object.class != valueClass) {
 			Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
 			
-			String text = null;
 			if (selectedObject != null) {
 				if (selectedObject instanceof Node) {
-					text = getText((Node) selectedObject);
+					String text = getText((Node) selectedObject);
+					value = convertStringValue(text, valueClass);
+				} else if (selectedObject instanceof Boolean && valueClass.equals(Boolean.class)) {
+					value = selectedObject;
+				} else if (selectedObject instanceof Number && Number.class.isAssignableFrom(valueClass)) {
+					value = convertNumber((Number) selectedObject, valueClass);
 				} else {
-					text = selectedObject.toString();
+					String text = selectedObject.toString();
+					value = convertStringValue(text, valueClass);
 				}
 			}
-			
-			if(text != null) {
-				if (String.class.equals(valueClass))
-				{
-					value = text;
-				}
-				else if (Number.class.isAssignableFrom(valueClass))
-				{
-					value = getConvertBean().convert(text.trim(), valueClass, locale, numberPattern);
-				}
-				else if (Date.class.isAssignableFrom(valueClass))
-				{
-					value = getConvertBean().convert(text.trim(), valueClass, locale, datePattern);
-				}
-					
-			}
+		}
+		return value;
+	}
+
+	protected Object convertStringValue(String text, Class valueClass)
+	{
+		Object value = null;
+		if (String.class.equals(valueClass))
+		{
+			value = text;
+		}
+		else if (Number.class.isAssignableFrom(valueClass))
+		{
+			value = getConvertBean().convert(text.trim(), valueClass, locale, numberPattern);
+		}
+		else if (Date.class.isAssignableFrom(valueClass))
+		{
+			value = getConvertBean().convert(text.trim(), valueClass, locale, datePattern);
+		}
+		else if (Boolean.class.equals(valueClass))
+		{
+			value = Boolean.valueOf(text);
+		}
+		return value;
+	}
+
+	protected Object convertNumber(Number number, Class valueClass) throws JRException
+	{
+		Number value = null;
+		if (valueClass.equals(Byte.class))
+		{
+			value = new Byte(number.byteValue());
+		}
+		else if (valueClass.equals(Short.class))
+		{
+			value = new Short(number.shortValue());
+		}
+		else if (valueClass.equals(Integer.class))
+		{
+			value = new Integer(number.intValue());
+		}
+		else if (valueClass.equals(Long.class))
+		{
+			value = new Long(number.longValue());
+		}
+		else if (valueClass.equals(Float.class))
+		{
+			value = new Float(number.floatValue());
+		}
+		else if (valueClass.equals(Double.class))
+		{
+			value = new Double(number.doubleValue());
+		}
+		else if (valueClass.equals(BigInteger.class))
+		{
+			value = BigInteger.valueOf(number.longValue());
+		}
+		else if (valueClass.equals(BigDecimal.class))
+		{
+			value = BigDecimal.valueOf(number.doubleValue());
+		}
+		else
+		{
+			throw new JRException("Unknown number class " + valueClass.getName());
 		}
 		return value;
 	}
