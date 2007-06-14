@@ -72,6 +72,12 @@ public class XalanXPathExecuter implements JRXPathExecuter {
 				case XObject.CLASS_NODESET:
 					value = object.nodeset().nextNode();
 					break;
+				case XObject.CLASS_BOOLEAN:
+					value = object.bool() ? Boolean.TRUE : Boolean.FALSE;
+					break;
+				case XObject.CLASS_NUMBER:
+					value = new Double(object.num());
+					break;
 				default:
 					value = object.str();
 					break;

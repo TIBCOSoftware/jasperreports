@@ -63,7 +63,8 @@ public interface JRXPathExecuter
 	 * Selects an object by evaluating an XPath expression on a context node.
 	 * <p/>
 	 * If the expression evaluates to a node list, the first node in the list should be returned.
-	 * Otherwise, the primitive value resulted from the evaluation should be returned as a String.
+	 * Otherwise, the primitive value resulted from the evaluation should be returned as a
+	 * <code>java.lang.String</code>, <code>java.lang.Number</code> or <code>java.lang.Boolean</code>.
 	 * 
 	 * @param contextNode the context node (a document can also be used)
 	 * @param expression the XPath expression
