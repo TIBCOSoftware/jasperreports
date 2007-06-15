@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.j2ee.servlets;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -40,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -67,49 +67,54 @@ public class OdtServlet extends BaseHttpServlet
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
 		if (isBuffered.booleanValue())
 		{
+			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JROdtExporter exporter = new JROdtExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
 			try 
 			{
 				exporter.exportReport();
+				fbos.close();
+			
+				if (fbos.size() > 0)
+				{
+					response.setContentType("application/vnd.oasis.opendocument.text");
+	//				response.setHeader("Content-Disposition", "inline; filename=\"file.odt\"");
+					response.setContentLength(fbos.size());
+					ServletOutputStream ouputStream = response.getOutputStream();
+	
+					try
+					{
+						fbos.writeData(ouputStream);
+						fbos.dispose();
+						ouputStream.flush();
+					}
+					finally
+					{
+						if (ouputStream != null)
+						{
+							try
+							{
+								ouputStream.close();
+							}
+							catch (IOException ex)
+							{
+							}
+						}
+					}
+				}
 			} 
 			catch (JRException e) 
 			{
 				throw new ServletException(e);
 			}
-
-			byte[] bytes = baos.toByteArray();
-			
-			if (bytes != null && bytes.length > 0)
+			finally
 			{
-				response.setContentType("application/vnd.oasis.opendocument.text");
-//				response.setHeader("Content-Disposition", "inline; filename=\"file.odt\"");
-				response.setContentLength(bytes.length);
-				ServletOutputStream ouputStream = response.getOutputStream();
-
-				try
-				{
-					ouputStream.write(bytes, 0, bytes.length);
-					ouputStream.flush();
-				}
-				finally
-				{
-					if (ouputStream != null)
-					{
-						try
-						{
-							ouputStream.close();
-						}
-						catch (IOException ex)
-						{
-						}
-					}
-				}
+				fbos.close();
+				fbos.dispose();
 			}
+			
 //			else
 //			{
 //				response.setContentType("text/html");
