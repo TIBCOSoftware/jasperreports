@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.j2ee.servlets;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -41,6 +40,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
+import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
  */
 public abstract class AbstractXlsServlet extends BaseHttpServlet
 {
-
 
 	/**
 	 *
@@ -68,51 +67,53 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
 		if (isBuffered.booleanValue())
 		{
+			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRXlsAbstractExporter exporter = getXlsExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-			
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 			exporter.setParameter(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
 				exporter.exportReport();
+				fbos.close();
+
+				if (fbos.size()> 0)
+				{
+					response.setContentType("application/xls");
+					response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
+					response.setContentLength(fbos.size());
+					ServletOutputStream ouputStream = response.getOutputStream();
+					try
+					{
+						fbos.writeData(ouputStream);
+						fbos.dispose();
+						ouputStream.flush();				
+					}
+					finally
+					{
+						if (ouputStream != null)
+						{
+							try
+							{
+								ouputStream.close();
+							}
+							catch (IOException ex)
+							{
+							}
+						}
+					}
+				}
 			} 
 			catch (JRException e) 
 			{
 				throw new ServletException(e);
 			}
-
-			byte[] bytes = baos.toByteArray();
-			
-			if (bytes != null && bytes.length > 0)
+			finally
 			{
-				response.setContentType("application/xls");
-				response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
-				response.setContentLength(bytes.length);
-				ServletOutputStream ouputStream = response.getOutputStream();
-
-				try
-				{
-					ouputStream.write(bytes, 0, bytes.length);
-					ouputStream.flush();
-				}
-				finally
-				{
-					if (ouputStream != null)
-					{
-						try
-						{
-							ouputStream.close();
-						}
-						catch (IOException ex)
-						{
-						}
-					}
-				}
+				fbos.close();
+				fbos.dispose();
 			}
 //			else
 //			{
