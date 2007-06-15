@@ -207,7 +207,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("jasperPrint/reportFont", "addFont", JRReportFont.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperPrint/style", JRStyleFactory.class.getName());
+		digester.addFactoryCreate("jasperPrint/style", JRPrintStyleFactory.class.getName());
 		digester.addSetNext("jasperPrint/style", "addStyle", JRStyle.class.getName());
 
 		/*   */

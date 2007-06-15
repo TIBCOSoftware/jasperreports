@@ -28,13 +28,9 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
-import net.sf.jasperreports.engine.design.JRValidationException;
-import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
 
@@ -42,7 +38,7 @@ import org.xml.sax.Attributes;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStyleFactory extends JRBaseFactory
+public abstract class JRAbstractStyleFactory extends JRBaseFactory
 {
 
 	/**
@@ -64,37 +60,8 @@ public class JRStyleFactory extends JRBaseFactory
 		// get parent style
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
 		{
-			JRXmlLoader xmlLoader = null;
-			JRPrintXmlLoader printXmlLoader = null;
-			Map stylesMap = null;
-
-			Object loader = digester.peek(digester.getCount() - 1);
-			if (loader instanceof JRXmlLoader)
-			{
-				xmlLoader = (JRXmlLoader)loader;
-				JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-				stylesMap = jasperDesign.getStylesMap();
-			}
-			else
-			{
-				printXmlLoader = (JRPrintXmlLoader)loader;
-				JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-				stylesMap = jasperPrint.getStylesMap();
-			}
-
-			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
-			{
-				if (printXmlLoader == null)
-				{
-					xmlLoader.addError(new JRValidationException("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style), style));
-				}
-				else
-				{
-					printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
-				}
-			}
-
-			style.setParentStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+			JRStyle parent = resolveParentStyle(style, atts.getValue(JRXmlConstants.ATTRIBUTE_style));
+			style.setParentStyle(parent);
 		}
 
 
@@ -300,4 +267,7 @@ public class JRStyleFactory extends JRBaseFactory
 
 		return style;
 	}
+	
+	protected abstract JRStyle resolveParentStyle(JRStyle currentStyle, String parentStyleName);
+	
 }
