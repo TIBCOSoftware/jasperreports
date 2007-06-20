@@ -237,4 +237,13 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	{
 		this.key = key;
 	}
+
+
+	/**
+	 * Returns null as external style references are not allowed for print objects.
+	 */
+	public String getStyleNameReference()
+	{
+		return null;
+	}
 }

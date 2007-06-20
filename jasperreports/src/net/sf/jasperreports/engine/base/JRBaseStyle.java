@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -54,6 +55,7 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	protected JRDefaultStyleProvider defaultStyleProvider = null;
 	protected JRStyle parentStyle = null;
+	protected String parentStyleNameReference;
 
 	/**
 	 *
@@ -132,8 +134,26 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public JRBaseStyle(JRStyle style, JRAbstractObjectFactory factory)
 	{
-		name= style.getName();
-		parentStyle = factory.getStyle(style.getStyle());
+		name = style.getName();
+		
+		factory.setStyle(new JRStyleSetter()
+		{
+			public void setStyleDelayed(JRStyle aStyle)
+			{
+				parentStyle = aStyle;
+			}
+
+			public void setStyle(JRStyle aStyle)
+			{
+				parentStyle = aStyle;
+			}
+
+			public void setStyleNameReference(String name)
+			{
+				parentStyleNameReference = name;
+			}
+		}, style);
+		
 		isDefault = style.isDefault();
 
 		mode = style.getOwnMode();
@@ -215,6 +235,19 @@ public class JRBaseStyle implements JRStyle, Serializable
 		return name;
 	}
 
+	/**
+	 * Changes the name of this style.
+	 * <p/>
+	 * Note that this method is mostly meant to be used internally.
+	 * Use cautiously as it might have unexpected consequences.
+	 * 
+	 * @param newName the new name
+	 */
+	public void rename(String newName)
+	{
+		this.name = newName;
+	}
+	
 	/**
 	 *
 	 */
@@ -1137,4 +1170,10 @@ public class JRBaseStyle implements JRStyle, Serializable
 	{
 		return conditionalStyles;
 	}
+
+	public String getStyleNameReference()
+	{
+		return parentStyleNameReference;
+	}
+
 }

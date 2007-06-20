@@ -1176,6 +1176,21 @@ public class JRXmlConstants
 	public static final String JASPERPRINT_PUBLIC_ID = "-//JasperReports//DTD JasperPrint//EN";
 	public static final String JASPERPRINT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
 	public static final String JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
+	
+	/**
+	 * Template XML public ID.
+	 */
+	public static final String JASPERTEMPLATE_PUBLIC_ID = "-//JasperReports//DTD Template//EN";
+	
+	/**
+	 * Template XML system ID.
+	 */
+	public static final String JASPERTEMPLATE_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd";
+	
+	/**
+	 * DTD location for template XMLs.
+	 */
+	public static final String JASPERTEMPLATE_DTD = "net/sf/jasperreports/engine/dtds/jaspertemplate.dtd";
 
 	/**
 	 *	JasperDesignFactory associated constants
@@ -1724,5 +1739,7 @@ public class JRXmlConstants
 	 * JRReportFontFactory  associated constants
 	 */
 	public static final String ELEMENT_reportFont = "reportFont";
+	
+	public static final String ELEMENT_template = "template";
 
 }

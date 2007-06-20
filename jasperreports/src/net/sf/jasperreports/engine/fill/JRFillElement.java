@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -55,7 +56,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillElement implements JRElement, JRCloneable
+public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSetter
 {
 
 
@@ -109,7 +110,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 
 	protected JRFillElementContainer conditionalStylesContainer;
 	
-	protected final JRStyle initStyle;
+	protected JRStyle initStyle;
 	
 	/**
 	 * Flag indicating whether the element is shrinkable.
@@ -148,7 +149,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 			width = element.getWidth();
 			height = element.getHeight();
 			
-			initStyle = factory.getStyle(parent.getStyle());
+			factory.setStyle(this, parent);
 		}
 
 	
@@ -182,6 +183,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
+		//TODO lucian use the default style of the filler
 		return parent.getDefaultStyleProvider();
 	}
 
@@ -1205,4 +1207,27 @@ public abstract class JRFillElement implements JRElement, JRCloneable
 	{
 		return getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !isAutoEvaluateNow();
 	}
+	
+	
+	public void setStyleDelayed(JRStyle style)
+	{
+		initStyle = style;
+		conditionalStylesContainer.collectConditionalStyle(style);
+	}
+
+	public String getStyleNameReference()
+	{
+		return null;
+	}
+
+	public void setStyle(JRStyle style)
+	{
+		initStyle = style;
+	}
+
+	public void setStyleNameReference(String name)
+	{
+		throw new UnsupportedOperationException("Style name references not allowed at fill time");
+	}
+	
 }

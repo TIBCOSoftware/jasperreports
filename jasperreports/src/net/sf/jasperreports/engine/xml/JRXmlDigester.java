@@ -94,6 +94,10 @@ public class JRXmlDigester extends Digester
 			{
 				dtd = JRXmlConstants.JASPERPRINT_DTD;
 			}
+			else if (JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID.equals(systemId))
+			{
+				dtd = JRXmlConstants.JASPERTEMPLATE_DTD;
+			}
 			else
 			{
 				return new InputSource(systemId);

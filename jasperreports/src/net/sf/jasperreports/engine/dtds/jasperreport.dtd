@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, import*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, import*, template*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
 <!ATTLIST jasperReport
 	name CDATA #REQUIRED
 	language CDATA "java"
@@ -34,6 +34,11 @@
 <!ELEMENT import EMPTY>
 <!ATTLIST import
 	value CDATA #REQUIRED
+>
+
+<!ELEMENT template (#PCDATA)>
+<!ATTLIST template
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JRTemplate) "java.lang.String"
 >
 
 <!ELEMENT reportFont EMPTY>

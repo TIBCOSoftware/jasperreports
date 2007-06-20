@@ -43,8 +43,22 @@ public interface JRStyleContainer
 	public JRDefaultStyleProvider getDefaultStyleProvider();
 
 	/**
-	 *
+	 * Returns this object's style. 
+	 * 
+	 * @return this object's style
 	 */
 	public JRStyle getStyle();
-	
+
+	/**
+	 * Returns the name of an external style which is to be used by this object.
+	 * <p/>
+	 * External styles are defined in {@link JRTemplate templates} and are resolved
+	 * at fill time.
+	 * This attribute is only effective if no direct style (as returned by {@link #getStyle() getStyle()}
+	 * is specified for this object.
+	 * 
+	 * @return the name of an external style
+	 */
+	public String getStyleNameReference();
+
 }

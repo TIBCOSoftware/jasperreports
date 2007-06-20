@@ -121,4 +121,19 @@ public abstract class JRDesignElement extends JRBaseElement
 	{
 		this.parentStyle = style;
 	}
+	
+	/**
+	 * Set the name of the external style to be used for this element.
+	 * <p/>
+	 * An external style is only effective when there is no internal style set for this element,
+	 * i.e. {@link #getStyle() getStyle()} returns <code>null</code>
+	 * The external style will be resolved at fill time from the templates used in the report.
+	 * 
+	 * @param styleName the name of the external style
+	 * @see #getStyleNameReference()
+	 */
+	public void setStyleNameReference(String styleName)
+	{
+		this.parentStyleNameReference = styleName;
+	}
 }

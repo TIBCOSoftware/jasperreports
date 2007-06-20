@@ -25,35 +25,43 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.base;
 
-import java.util.Map;
+import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRReportTemplate;
 
 
 /**
+ * Base read-only implementation of {@link JRReportTemplate JRReportTemplate}.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintStyleFactory extends JRAbstractStyleFactory
+public class JRBaseReportTemplate implements JRReportTemplate, Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
+	protected JRExpression sourceExpression;
+
+	protected JRBaseReportTemplate()
 	{
-		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
+	}
 
-		if (!stylesMap.containsKey(parentStyleName))
-		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
-		}
+	public JRBaseReportTemplate(JRReportTemplate reportTemplate, JRAbstractObjectFactory factory)
+	{
+		factory.put(reportTemplate, this);
 		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
-		currentStyle.setParentStyle(parent);
+		sourceExpression = factory.getExpression(reportTemplate.getSourceExpression());
+	}
+	
+	public JRExpression getSourceExpression()
+	{
+		return sourceExpression;
 	}
 
 }

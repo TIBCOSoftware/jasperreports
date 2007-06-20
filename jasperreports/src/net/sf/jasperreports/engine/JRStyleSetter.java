@@ -25,35 +25,41 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
-
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
+package net.sf.jasperreports.engine;
 
 
 /**
+ * An interface implemented by objects upon which style attributes can be set.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRAbstractObjectFactory#setStyle(JRStyleSetter, JRStyleContainer)
  */
-public class JRPrintStyleFactory extends JRAbstractStyleFactory
+public interface JRStyleSetter
 {
 
-	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
-	{
-		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
-
-		if (!stylesMap.containsKey(parentStyleName))
-		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
-		}
-		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
-		currentStyle.setParentStyle(parent);
-	}
+	/**
+	 * Set the style on the object.
+	 * 
+	 * @param style the style to be used by the object
+	 */
+	void setStyle(JRStyle style);
+	
+	/**
+	 * Set the name of an external style that is to be used by the object.
+	 * 
+	 * @param name the name of an external style
+	 */
+	void setStyleNameReference(String name);
+	
+	/**
+	 * Delayed set of the style on the object.
+	 * <p/>
+	 * This method can be invoked after the object has requested its style to be set.
+	 * It is currently used to set the external style on an object after resolving it.
+	 * 
+	 * @param style the style to be used by the object
+	 */
+	void setStyleDelayed(JRStyle style);
 
 }

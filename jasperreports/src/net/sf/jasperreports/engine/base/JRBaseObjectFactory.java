@@ -116,7 +116,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -128,10 +127,13 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -228,6 +230,27 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseStyle;
+	}
+
+
+	/**
+	 * This method preserves both specified styles and external style name references.
+	 * 
+	 * @see JRAbstractObjectFactory#setStyle(JRStyleSetter, JRStyleContainer)
+	 */
+	public void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer)
+	{
+		JRStyle style = styleContainer.getStyle();
+		String nameReference = styleContainer.getStyleNameReference();
+		if (style != null)
+		{
+			JRStyle newStyle = getStyle(style);
+			setter.setStyle(newStyle);
+		}
+		else if (nameReference != null)
+		{
+			setter.setStyleNameReference(nameReference);
+		}
 	}
 
 
@@ -1515,4 +1538,19 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		return baseAxis;
 	}
+	
+	public JRReportTemplate getReportTemplate(JRReportTemplate template)
+	{
+		JRReportTemplate baseTemplate = null;
+		if (template != null)
+		{
+			baseTemplate = (JRReportTemplate) get(template);
+			if (baseTemplate == null)
+			{
+				baseTemplate = new JRBaseReportTemplate(template, this);
+			}
+		}
+		return baseTemplate;
+	}
+	
 }

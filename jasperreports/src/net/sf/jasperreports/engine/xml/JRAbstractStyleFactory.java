@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 
 import org.xml.sax.Attributes;
@@ -60,8 +59,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		// get parent style
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
 		{
-			JRStyle parent = resolveParentStyle(style, atts.getValue(JRXmlConstants.ATTRIBUTE_style));
-			style.setParentStyle(parent);
+			setParentStyle(style, atts.getValue(JRXmlConstants.ATTRIBUTE_style));
 		}
 
 
@@ -268,6 +266,6 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		return style;
 	}
 	
-	protected abstract JRStyle resolveParentStyle(JRStyle currentStyle, String parentStyleName);
+	protected abstract void setParentStyle(JRDesignStyle currentStyle, String parentStyleName);
 	
 }

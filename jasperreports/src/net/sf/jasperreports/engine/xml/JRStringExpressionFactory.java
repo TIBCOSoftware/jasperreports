@@ -36,27 +36,24 @@ import org.xml.sax.Attributes;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRImageExpressionFactory extends JRBaseFactory
+public class JRStringExpressionFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
 	public Object createObject(Attributes atts)
 	{
 		JRDesignExpression expression = new JRDesignExpression();
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
+		String className = atts.getValue(JRXmlConstants.ATTRIBUTE_class);
+		if (className == null)
 		{
-			expression.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
+			expression.setValueClass(java.lang.String.class);
 		}
 		else
 		{
-			expression.setValueClass(java.lang.String.class);
+			expression.setValueClassName(className);
 		}
 
 		return expression;
 	}
-			
 
 }

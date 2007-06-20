@@ -121,6 +121,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
@@ -131,6 +132,7 @@ import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -184,6 +186,8 @@ public class JRXmlDigesterFactory
 		digester.addCallMethod("jasperReport/import", "addImport", 1);
 		digester.addCallParam("jasperReport/import", 0, "value");
 
+		addTemplateRules(digester);
+		
 		/*   */
 		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
 		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
@@ -315,7 +319,7 @@ public class JRXmlDigesterFactory
 //		digester.addSetNext("*/box", "setBox", JRBox.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image/imageExpression", JRImageExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/image/imageExpression", JRStringExpressionFactory.class.getName());
 		digester.addSetNext("*/image/imageExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/image/imageExpression", "setText", 0);
 
@@ -340,7 +344,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("*/textField", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textField/textFieldExpression", JRTextFieldExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/textField/textFieldExpression", JRStringExpressionFactory.class.getName());
 		digester.addSetNext("*/textField/textFieldExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/textField/textFieldExpression", "setText", 0);
 
@@ -413,6 +417,18 @@ public class JRXmlDigesterFactory
 		addCrosstabRules(digester);
 		
 		addFrameRules(digester);
+	}
+
+
+	protected static void addTemplateRules(Digester digester)
+	{
+		String templatePattern = JRXmlConstants.ELEMENT_jasperReport + "/" + JRXmlConstants.ELEMENT_template;
+		//do not change the order
+		digester.addObjectCreate(templatePattern, JRDesignReportTemplate.class);
+		digester.addSetNext(templatePattern, "addTemplate", JRReportTemplate.class.getName());
+		digester.addFactoryCreate(templatePattern, JRStringExpressionFactory.class);
+		digester.addCallMethod(templatePattern, "setText", 0);
+		digester.addSetNext(templatePattern, "setSourceExpression", JRExpression.class.getName());
 	}
 
 
@@ -941,7 +957,7 @@ public class JRXmlDigesterFactory
 		digester.addSetNext(hyperlinkParameterPattern, "addHyperlinkParameter", JRHyperlinkParameter.class.getName());
 
 		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRXmlConstants.ELEMENT_hyperlinkParameterExpression;
-		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRHyperlinkParameterExpressionFactory.class.getName());
+		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRStringExpressionFactory.class.getName());
 		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
 

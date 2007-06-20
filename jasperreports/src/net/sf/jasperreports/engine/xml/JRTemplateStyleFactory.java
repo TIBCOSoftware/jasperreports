@@ -27,33 +27,34 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Map;
-
+import net.sf.jasperreports.engine.JRSimpleTemplate;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 
 
 /**
+ * Factory for {@link JRTemplate template} {@link JRStyle styles}.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintStyleFactory extends JRAbstractStyleFactory
+public class JRTemplateStyleFactory extends JRAbstractStyleFactory
 {
 
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
-		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
+		JRSimpleTemplate template = (JRSimpleTemplate) digester.peek(digester.getCount() - 1);
+		JRStyle parent = template.getStyle(parentStyleName);
 
-		if (!stylesMap.containsKey(parentStyleName))
+		if (parent == null)
 		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
+			currentStyle.setParentStyleNameReference(parentStyleName);
 		}
-		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
-		currentStyle.setParentStyle(parent);
+		else
+		{
+			currentStyle.setParentStyle(parent);
+		}
 	}
 
 }

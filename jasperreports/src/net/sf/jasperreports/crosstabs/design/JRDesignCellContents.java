@@ -49,6 +49,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style;
+	protected String styleNameReference;
 	
 	protected Byte mode;
 	private Color backcolor;
@@ -172,5 +173,26 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	public void setMode(Byte mode)
 	{
 		this.mode = mode;
+	}
+
+	public String getStyleNameReference()
+	{
+		return styleNameReference;
+	}
+
+	
+	/**
+	 * Set the name of the external style to be used for this cell.
+	 * <p/>
+	 * An external style is only effective when there is no internal style set for this cell,
+	 * i.e. {@link #getStyle() getStyle()} returns <code>null</code>
+	 * The external style will be resolved at fill time from the templates used in the report.
+	 * 
+	 * @param styleName the name of the external style
+	 * @see #getStyleNameReference()
+	 */
+	public void setStyleNameReference(String styleName)
+	{
+		this.styleNameReference = styleName;
 	}
 }
