@@ -144,7 +144,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 
 		loadEvaluator(filler.getJasperReport());
 
-		JRFillObjectFactory crosstabFactory = new JRFillObjectFactory(filler, crosstabEvaluator);
+		JRFillObjectFactory crosstabFactory = new JRFillObjectFactory(factory, crosstabEvaluator);
 		
 		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell());
 

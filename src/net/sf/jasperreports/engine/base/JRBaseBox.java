@@ -693,4 +693,10 @@ public class JRBaseBox implements JRBox, Serializable
 	}
 
 
+	public String getStyleNameReference()
+	{
+		return null;
+	}
+
+
 }

@@ -554,5 +554,11 @@ public class JRBaseFont implements JRFont, Serializable
 		this.isPdfEmbedded = isPdfEmbedded;
 	}
 
+
+	public String getStyleNameReference()
+	{
+		return styleContainer == null ? null : styleContainer.getStyleNameReference();
+	}
+
 	
 }

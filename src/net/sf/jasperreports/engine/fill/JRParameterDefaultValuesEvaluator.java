@@ -86,7 +86,7 @@ public class JRParameterDefaultValuesEvaluator
 	{
 		protected ObjectFactory()
 		{
-			super(null, null);
+			super((JRBaseFiller) null, null);
 		}
 
 		protected JRFillGroup getGroup(JRGroup group)

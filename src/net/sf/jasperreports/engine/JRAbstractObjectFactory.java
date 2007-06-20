@@ -92,6 +92,22 @@ public abstract class JRAbstractObjectFactory
 	public abstract JRStyle getStyle(JRStyle style);
 
 	/**
+	 * Sets a style or a style reference on an object.
+	 * <p/>
+	 * If the container includes a style (see {@link JRStyleContainer#getStyle() getStyle()},
+	 * a copy of this style will be created via {@link #getStyle(JRStyle) getStyle(JRStyle)}
+	 * and set on the object.
+	 * <p/>
+	 * In addition to this, the implementation needs to handle the case when the container includes
+	 * an external style reference (see {@link JRStyleContainer#getStyleNameReference() getStyleNameReference()}.
+	 * 
+	 * @param setter a setter for the object on which the style should be set.
+	 * @param styleContainer the original style container
+	 * @see #getStyle(JRStyle)
+	 */
+	public abstract void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer);
+	
+	/**
 	 *
 	 */
 	public abstract JRElementGroup getElementGroup(JRElementGroup elementGroup);

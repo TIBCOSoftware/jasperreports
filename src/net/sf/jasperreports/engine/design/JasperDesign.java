@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -74,6 +75,11 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/**
+	 * Report templates.
+	 */
+	private List templateList = new ArrayList();
+	
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
 	private Map stylesMap = new HashMap();
@@ -1033,4 +1039,32 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.setFilterExpression(expression);
 	}
+	
+	/**
+	 * Adds a report template.
+	 * 
+	 * @param template the template to add.
+	 * @see #getTemplates()
+	 */
+	public void addTemplate(JRReportTemplate template)
+	{
+		templateList.add(template);
+	}
+	
+	/**
+	 * Removes a report template.
+	 * 
+	 * @param template the template to remove
+	 * @return <code>true</code> iff the template has been found and removed
+	 */
+	public boolean removeTemplate(JRReportTemplate template)
+	{
+		return templateList.remove(template);
+	}
+	
+	public JRReportTemplate[] getTemplates()
+	{
+		return (JRReportTemplate[]) templateList.toArray(new JRReportTemplate[templateList.size()]);
+	}
+
 }

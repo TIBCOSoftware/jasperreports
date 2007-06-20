@@ -25,38 +25,60 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * A static template reference, consisting of a location from which the template
+ * can be loaded.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRTemplate#getIncludedTemplates()
+ * @see JRXmlTemplateLoader#load(String)
  */
-public class JRTextFieldExpressionFactory extends JRBaseFactory
+public class JRTemplateReference
 {
 
+	private String location;
+
 	/**
-	 *
+	 * Creates an empty reference.
 	 */
-	public Object createObject(Attributes atts)
+	public JRTemplateReference()
 	{
-		JRDesignExpression expression = new JRDesignExpression();
-
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_class) != null)
-		{
-			expression.setValueClassName(atts.getValue(JRXmlConstants.ATTRIBUTE_class));
-		}
-		else
-		{
-			expression.setValueClass(java.lang.String.class);
-		}
-
-		return expression;
 	}
-			
 
+	/**
+	 * Creates a reference for a specific location.
+	 * 
+	 * @param location the template location
+	 */
+	public JRTemplateReference(String location)
+	{
+		this.location = location;
+	}
+
+	/**
+	 * Returns the template location.
+	 * 
+	 * @return the template location
+	 */
+	public String getLocation()
+	{
+		return location;
+	}
+	
+	/**
+	 * Sets the template location.
+	 * 
+	 * @param location the location of the template
+	 */
+	public void setLocation(String location)
+	{
+		this.location = location;
+	}
+	
 }

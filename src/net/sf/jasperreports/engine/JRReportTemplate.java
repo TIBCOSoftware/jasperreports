@@ -25,39 +25,34 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.JRHyperlinkParameter;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-import net.sf.jasperreports.engine.design.JRDesignHyperlinkParameter;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
-import org.xml.sax.Attributes;
 
 /**
- * Factory that creates {@link JRHyperlinkParameter#getValueExpression() hyperlink parameter value expressions}
- * from <code>hyperlinkParameterExpression</code> XML elements.
+ * A template included in a report.
+ * <p/>
+ * A template inclusion in a report consits of an expression that should
+ * resolved at runtime to a {@link JRTemplate JRTemplate} instance.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRDesignHyperlinkParameter#setValueExpression(net.sf.jasperreports.engine.JRExpression)
+ * @see JRReport#getTemplates()
  */
-public class JRHyperlinkParameterExpressionFactory extends JRBaseFactory
+public interface JRReportTemplate
 {
-	
-	public Object createObject(Attributes attributes)
-	{
-		JRDesignExpression expression = new JRDesignExpression();
-		String valueClass = attributes.getValue(JRXmlConstants.ATTRIBUTE_class);
-		if (valueClass == null)
-		{
-			expression.setValueClass(String.class); 
-		}
-		else
-		{
-			expression.setValueClassName(valueClass);
-		}
 
-		return expression;
-	}
+	/**
+	 * Returns the template source expression.
+	 * <p/>
+	 * The expression type should be (compatible with) one of <code>java.lang.String</code>,
+	 * <code>java.io.File</code>, <code>java.net.URL</code>, <code>java.io.InputStream</code>
+	 * (in which cases the template is loaded via {@link JRXmlTemplateLoader}) or
+	 * <code>net.sf.jasperreports.engine.JRTemplate</code> .
+	 * 
+	 * @return the template source expression
+	 */
+	JRExpression getSourceExpression();
+
 }

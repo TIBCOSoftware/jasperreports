@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -141,7 +142,8 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS_MAIN = new Object[] { 
 		JRParameter.REPORT_VIRTUALIZER, JRVirtualizer.class, 
-		JRParameter.IS_IGNORE_PAGINATION, Boolean.class };
+		JRParameter.IS_IGNORE_PAGINATION, Boolean.class,
+		JRParameter.REPORT_TEMPLATES, Collection.class };
 
 	
 	/**

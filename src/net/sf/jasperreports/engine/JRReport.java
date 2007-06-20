@@ -377,5 +377,25 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * @return whether to use pagination when filling the report
 	 */
 	public boolean isIgnorePagination();
+
+	
+	/**
+	 * Returns the list of report templates.
+	 * <p/>
+	 * A report template is an expression which resolves at runtime to a {@link JRTemplate template}.
+	 * Templates include styles which can be used in the report.
+	 * <p/>
+	 * The order in which the templates are included in the report is important:
+	 * <ul>
+	 * 	<li>A style's parent must appear before the style itself.</li>
+	 * 	<li>A style overrides styles with the same name that are placed before it.
+	 * 		Also, report styles override templates styles with the same name.</li>
+	 * </ul>
+	 * 
+	 * @return the list of report templates, or <code>null</code> if none
+	 * @see JRTemplate
+	 * @see JRParameter#REPORT_TEMPLATES
+	 */
+	public JRReportTemplate[] getTemplates();
 	
 }

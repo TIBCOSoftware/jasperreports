@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.design.JRValidationException;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 
@@ -41,18 +41,20 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 public class JRDesignStyleFactory extends JRAbstractStyleFactory
 {
 
-	protected JRStyle resolveParentStyle(JRStyle currentStyle, String parentStyleName)
+	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);
 		JasperDesign jasperDesign = (JasperDesign) digester.peek(digester.getCount() - 2);
 		Map stylesMap = jasperDesign.getStylesMap();
 
-		if (!stylesMap.containsKey(parentStyleName))
+		if (stylesMap.containsKey(parentStyleName))
 		{
-			xmlLoader.addError(new JRValidationException("Unknown report style : " + parentStyleName, currentStyle));
+			JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
+			currentStyle.setParentStyle(parent);
 		}
-		
-		return (JRStyle) stylesMap.get(parentStyleName);
+		else
+		{
+			currentStyle.setParentStyleNameReference(parentStyleName);
+		}
 	}
 
 }

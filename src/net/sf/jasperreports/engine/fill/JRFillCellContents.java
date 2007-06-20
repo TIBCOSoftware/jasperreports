@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -53,7 +54,7 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRCloneable
+public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRCloneable, JRStyleSetter
 {
 	private final Map transformedContentsCache;
 	private final Map boxContentsCache;
@@ -75,7 +76,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private Map templateFrames;
 	
-	private final JRStyle initStyle;
+	private JRStyle initStyle;
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillObjectFactory factory)
 	{
@@ -88,7 +89,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		width = cell.getWidth();
 		height = cell.getHeight();
 		
-		initStyle = factory.getStyle(parentCell.getStyle());
+		factory.setStyle(this, parentCell);
 		
 		initElements();
 		
@@ -621,4 +622,26 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	{
 		return parentCell.getMode();
 	}
+
+	public String getStyleNameReference()
+	{
+		return null;
+	}
+
+	public void setStyleDelayed(JRStyle style)
+	{
+		this.initStyle = style;
+		collectConditionalStyle(style);
+	}
+
+	public void setStyle(JRStyle style)
+	{
+		this.initStyle = style;
+	}
+
+	public void setStyleNameReference(String name)
+	{
+		throw new UnsupportedOperationException("Style name references not allowed at fill time");
+	}
+
 }

@@ -25,35 +25,38 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
-
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
+package net.sf.jasperreports.engine;
 
 
 /**
+ * A template that can be used by report.
+ * <p/>
+ * Templates contain report styles that can be used by reports once the template is included in the report.
+ * This allows styles to be externalized and reused across several reports.
+ * <p/>
+ * A template can in its turn include other templates, see {@link #getIncludedTemplates() getIncludedTemplates()}.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRReport#getTemplates()
+ * @see JRParameter#REPORT_TEMPLATES
+ * @see JRStyleContainer#getStyleNameReference()
  */
-public class JRPrintStyleFactory extends JRAbstractStyleFactory
+public interface JRTemplate extends JRDefaultStyleProvider
 {
 
-	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
-	{
-		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
-
-		if (!stylesMap.containsKey(parentStyleName))
-		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
-		}
-		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
-		currentStyle.setParentStyle(parent);
-	}
+	/**
+	 * Returns the templates included/referenced by this template.
+	 * 
+	 * @return the included templates
+	 */
+	JRTemplateReference[] getIncludedTemplates();
+	
+	/**
+	 * Returns the styles defined in this template.
+	 * 
+	 * @return the template styles
+	 */
+	JRStyle[] getStyles();
 
 }

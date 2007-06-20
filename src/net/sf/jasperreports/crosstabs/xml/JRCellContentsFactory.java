@@ -31,11 +31,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.xml.sax.Attributes;
 
@@ -54,9 +52,6 @@ public class JRCellContentsFactory extends JRBaseFactory
 
 	public Object createObject(Attributes attributes)
 	{
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-		
 		JRDesignCellContents cell = new JRDesignCellContents();
 		
 		String backcolor = attributes.getValue(ATTRIBUTE_backcolor);
@@ -75,14 +70,18 @@ public class JRCellContentsFactory extends JRBaseFactory
 		String styleName = attributes.getValue(ATTRIBUTE_style);
 		if (styleName != null)
 		{
+			JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 			Map stylesMap = jasperDesign.getStylesMap();
 
-			if (!stylesMap.containsKey(styleName))
+			if (stylesMap.containsKey(styleName))
 			{
-				xmlLoader.addError(new JRValidationException("Unknown report style : " + styleName, cell));
+				JRStyle style = (JRStyle) stylesMap.get(styleName);
+				cell.setStyle(style);
 			}
-
-			cell.setStyle((JRStyle) stylesMap.get(styleName));
+			else
+			{
+				cell.setStyleNameReference(styleName);
+			}
 		}
 
 		return cell;

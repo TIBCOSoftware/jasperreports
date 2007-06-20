@@ -122,6 +122,18 @@ public interface JRParameter extends JRPropertiesHolder
 	 */
 	public static final String IS_IGNORE_PAGINATION = "IS_IGNORE_PAGINATION";
 
+	
+	/**
+	 * A {@link java.util.Collection collection} of {@link JRTemplate templates} passed to the
+	 * report at fill time.
+	 * <p/>
+	 * These templates add to the ones specified in the report (see {@link JRReport#getTemplates()}).
+	 * In the final templates list they are placed after the report templates; therefore styles from
+	 * these templates can use and override styles in the report templates.
+	 * They are, however, placed before the report styles hence report styles can use and override
+	 * styles from these templates.
+	 */
+	public static final String REPORT_TEMPLATES = "REPORT_TEMPLATES";
 
 	/**
 	 *

@@ -25,35 +25,52 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.design;
 
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.base.JRBaseReportTemplate;
 
 
 /**
+ * {@link JRReportTemplate} implementation to be used at report design time.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintStyleFactory extends JRAbstractStyleFactory
+public class JRDesignReportTemplate extends JRBaseReportTemplate
 {
 
-	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
-	{
-		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
-		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		if (!stylesMap.containsKey(parentStyleName))
-		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
-		}
-		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
-		currentStyle.setParentStyle(parent);
+	/**
+	 * Creates an empty report template.
+	 */
+	public JRDesignReportTemplate()
+	{
+		super();
 	}
 
+	/**
+	 * Creates a report template for a template source expression.
+	 */
+	public JRDesignReportTemplate(JRExpression sourceExpression)
+	{
+		super();
+
+		this.sourceExpression = sourceExpression;
+	}
+	
+	/**
+	 * Sets the template source expression.
+	 * 
+	 * @param sourceExpression the template source expression
+	 * @see #getSourceExpression()
+	 */
+	public void setSourceExpression(JRExpression sourceExpression)
+	{
+		this.sourceExpression = sourceExpression;
+	}
+	
 }

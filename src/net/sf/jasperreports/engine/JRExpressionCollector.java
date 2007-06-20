@@ -359,6 +359,8 @@ public class JRExpressionCollector
 	 */
 	public Collection collect()
 	{
+		collectTemplates();
+		
 		collect(report.getDefaultStyle());
 
 		collect(report.getMainDataset());
@@ -386,6 +388,24 @@ public class JRExpressionCollector
 		return getExpressions();
 	}
 
+
+	protected void collectTemplates()
+	{
+		JRReportTemplate[] templates = report.getTemplates();
+		if (templates != null)
+		{
+			for (int i = 0; i < templates.length; i++)
+			{
+				JRReportTemplate template = templates[i];
+				collect(template);
+			}
+		}
+	}
+
+	protected void collect(JRReportTemplate template)
+	{
+		addExpression(template.getSourceExpression());
+	}
 
 	/**
 	 *

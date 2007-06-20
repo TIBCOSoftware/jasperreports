@@ -112,4 +112,18 @@ public class JRDesignStyle extends JRBaseStyle
 		return conditionalStylesList;
 	}
 
+	/**
+	 * Set the name of the external style to be used as parent style.
+	 * <p/>
+	 * An external style is only effective when there is no internal parent style set,
+	 * i.e. {@link #getStyle() getStyle()} returns <code>null</code>
+	 * The external style will be resolved at fill time from the templates used in the report.
+	 * 
+	 * @param styleName the name of the external style
+	 * @see #getStyleNameReference()
+	 */
+	public void setParentStyleNameReference(String styleName)
+	{
+		this.parentStyleNameReference = styleName;
+	}
 }

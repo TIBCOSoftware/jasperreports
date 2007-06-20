@@ -933,12 +933,35 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getParameterValue(String parameterName)
 	{
+		return getParameterValue(parameterName, false);
+	}
+
+	
+	/**
+	 * Returns the value of a parameter.
+	 * 
+	 * @param parameterName the parameter name
+	 * @param ignoreMissing if set, <code>null</code> will be returned for inexisting parameters
+	 * @return the parameter value
+	 */
+	public Object getParameterValue(String parameterName, boolean ignoreMissing)
+	{
 		JRFillParameter param = (JRFillParameter) parametersMap.get(parameterName);
+		Object value;
 		if (param == null)
 		{
-			throw new JRRuntimeException("No such parameter " + parameterName);
+			if (!ignoreMissing)
+			{
+				throw new JRRuntimeException("No such parameter " + parameterName);
+			}
+			
+			value = null;//FIXME look into REPORT_PARAMETERS_MAP?  not yet required.
 		}
-		return param.getValue();
+		else
+		{
+			value = param.getValue();
+		}
+		return value;
 	}
 
 	

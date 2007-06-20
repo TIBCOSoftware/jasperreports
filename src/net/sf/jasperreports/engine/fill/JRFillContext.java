@@ -35,6 +35,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -52,6 +53,7 @@ public class JRFillContext
 {
 	private Map loadedImages;
 	private Map loadedSubreports;
+	private Map loadedTemplates;
 	private boolean usingVirtualizer = false;
 	private boolean perPageBoundElements = false;
 	private JRPrintPage printPage = null;
@@ -72,6 +74,7 @@ public class JRFillContext
 	{
 		loadedImages = new HashMap();
 		loadedSubreports = new HashMap();
+		loadedTemplates = new HashMap();
 	}
 	
 	
@@ -364,5 +367,47 @@ public class JRFillContext
 	public void setMasterTimeZone(TimeZone masterTimeZone)
 	{
 		this.masterTimeZone = masterTimeZone;
+	}
+
+	
+	/**
+	 * Checks whether a template given by source has already been loaded and cached.
+	 * 
+	 * @param source the source of the template
+	 * @return whether the template has been cached
+	 * @see #getLoadedTemplate(Object)
+	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 */
+	public boolean hasLoadedTemplate(Object source)
+	{
+		return loadedTemplates.containsKey(source); 
+	}
+	
+	
+	/**
+	 * Gets a cached template.
+	 * 
+	 * @param source the source of the templage
+	 * @return the cached templage
+	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 */
+	public JRTemplate getLoadedTemplate(Object source)
+	{
+		return (JRTemplate) loadedTemplates.get(source); 
+	}
+	
+	
+	/**
+	 * Registers a template loaded from a source.
+	 * <p>
+	 * The template is cached for further use.
+	 * 
+	 * @param source the source that was used to load the template
+	 * @param template the loaded templage
+	 * @see #getLoadedTemplate(Object)
+	 */
+	public void registerLoadedTemplate(Object source, JRTemplate template)
+	{
+		loadedTemplates.put(source, template);
 	}
 }

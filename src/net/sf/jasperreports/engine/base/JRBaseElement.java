@@ -83,6 +83,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;
+	protected String parentStyleNameReference;
 
 
 	/**
@@ -108,6 +109,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 		defaultStyleProvider = factory.getDefaultStyleProvider();
 
 		parentStyle = factory.getStyle(element.getStyle());
+		parentStyleNameReference = element.getStyleNameReference();
 
 		key = element.getKey();
 		positionType = element.getPositionType();
@@ -409,5 +411,10 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	public JRStyle getStyle()
 	{
 		return parentStyle;
+	}
+
+	public String getStyleNameReference()
+	{
+		return parentStyleNameReference;
 	}
 }

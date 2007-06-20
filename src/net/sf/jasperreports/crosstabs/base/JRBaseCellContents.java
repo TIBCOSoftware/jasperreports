@@ -50,6 +50,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style;
+	protected String styleNameReference;
 	
 	protected Byte mode;
 	protected Color backcolor;
@@ -63,6 +64,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		
 		this.defaultStyleProvider = factory.getDefaultStyleProvider();
 		style = factory.getStyle(cell.getStyle());
+		styleNameReference = cell.getStyleNameReference();
 		mode = cell.getMode();
 		backcolor = cell.getBackcolor();
 		box = cell.getBox();
@@ -103,5 +105,10 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	public Byte getMode()
 	{
 		return mode;
+	}
+
+	public String getStyleNameReference()
+	{
+		return styleNameReference;
 	}
 }

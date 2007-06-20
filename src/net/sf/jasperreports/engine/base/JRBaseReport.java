@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
@@ -92,6 +93,12 @@ public class JRBaseReport implements JRReport, Serializable
 	 *
 	 */
 	protected Set importsSet = null;
+	
+	/**
+	 * Report templates.
+	 */
+	protected JRReportTemplate[] templates;
+	
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
 	protected JRStyle defaultStyle = null;
@@ -165,6 +172,8 @@ public class JRBaseReport implements JRReport, Serializable
 
 		/*   */
 		JRBaseObjectFactory factory = new JRBaseObjectFactory(this, expressionCollector);
+
+		copyTemplates(report, factory);
 		
 		/*   */
 		defaultFont = factory.getReportFont(report.getDefaultFont());
@@ -218,6 +227,23 @@ public class JRBaseReport implements JRReport, Serializable
 	}
 
 	
+	protected void copyTemplates(JRReport report, JRBaseObjectFactory factory)
+	{
+		JRReportTemplate[] reportTemplates = report.getTemplates();
+		if (reportTemplates == null || reportTemplates.length == 0)
+		{
+			templates = null;
+		}
+		else
+		{
+			templates = new JRReportTemplate[reportTemplates.length];
+			for (int i = 0; i < reportTemplates.length; i++)
+			{
+				templates[i] = factory.getReportTemplate(reportTemplates[i]);
+			}
+		}
+	}
+
 	public JRBaseReport(JRReport report)
 	{
 		this(report, null);
@@ -626,5 +652,10 @@ public class JRBaseReport implements JRReport, Serializable
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mainDataset.getPropertiesMap();
+	}
+
+	public JRReportTemplate[] getTemplates()
+	{
+		return templates;
 	}
 }

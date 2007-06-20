@@ -36,7 +36,7 @@ import java.awt.Color;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBox extends JRStyleContainer
+public interface JRBox extends JRStyleContainer //FIXME why extend JRStyleContainer?
 {
 
 

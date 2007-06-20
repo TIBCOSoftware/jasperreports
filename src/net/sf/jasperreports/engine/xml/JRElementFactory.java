@@ -33,7 +33,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
-import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -52,7 +51,6 @@ public class JRElementFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 		Collection groupReprintedElements = xmlLoader.getGroupReprintedElements();
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
@@ -146,16 +144,21 @@ public class JRElementFactory extends JRBaseFactory
 			element.setBackcolor(JRXmlConstants.getColor(backcolor, null));
 		}
 		
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
+		String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_style);
+		if (styleName != null)
 		{
+			JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 			Map stylesMap = jasperDesign.getStylesMap();
 
-			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
+			if (stylesMap.containsKey(styleName))
 			{
-				xmlLoader.addError(new JRValidationException("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style), element));
+				JRStyle style = (JRStyle) stylesMap.get(styleName);
+				element.setStyle(style);
 			}
-
-			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+			else
+			{
+				element.setStyleNameReference(styleName);
+			}
 		}
 
 		return element;

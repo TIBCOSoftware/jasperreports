@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
@@ -94,6 +95,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
@@ -117,6 +119,10 @@ public class JRVerifier
 	private static String[] textFieldClassNames = null;
 	private static String[] imageClassNames = null;
 	private static String[] subreportClassNames = null;
+	
+	private static Class[] templateTypes = new Class[] {
+		String.class, java.io.File.class, java.net.URL.class, java.io.InputStream.class, 
+		JRTemplate.class};
 
 	/**
 	 *
@@ -207,6 +213,8 @@ public class JRVerifier
 		/*   */
 		verifyDesignAttributes();
 
+		verifyReportTemplates();
+		
 		/*   */
 		verifyReportFonts();
 		
@@ -578,6 +586,64 @@ public class JRVerifier
 		}
 	}
 
+
+	protected void verifyReportTemplates()
+	{
+		JRReportTemplate[] templates = jasperDesign.getTemplates();
+		if (templates != null)
+		{
+			for (int i = 0; i < templates.length; i++)
+			{
+				JRReportTemplate template = templates[i];
+				verifyTemplate(template);
+			}
+		}
+	}
+
+
+	protected void verifyTemplate(JRReportTemplate template)
+	{
+		JRExpression sourceExpression = template.getSourceExpression();
+		if (sourceExpression == null)
+		{
+			addBrokenRule("Template source expression missing.", template);
+		}
+		else
+		{
+			try
+			{
+				Class valueClass = sourceExpression.getValueClass();
+				if (valueClass == null)
+				{
+					addBrokenRule("Template source expression value class not set.", sourceExpression);
+				}
+				else if (!verifyTemplateSourceType(valueClass))
+				{
+					addBrokenRule("Template source expression value class " + valueClass.getName() + "not supported.", sourceExpression);
+				}
+			}
+			catch (JRRuntimeException e)
+			{
+				addBrokenRule(e, sourceExpression);
+			}			
+		}
+	}
+
+
+	protected boolean verifyTemplateSourceType(Class valueClass)
+	{
+		boolean valid = false;
+		for (int i = 0; i < templateTypes.length; i++)
+		{
+			Class type = templateTypes[i];
+			if (type.isAssignableFrom(valueClass))
+			{
+				valid = true;
+				break;
+			}
+		}
+		return valid;
+	}
 
 	/**
 	 *

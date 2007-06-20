@@ -246,4 +246,12 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	{
 		return template.getKey();
 	}
+
+	/**
+	 * Returns null as external style references are not allowed for print objects.
+	 */
+	public String getStyleNameReference()
+	{
+		return null;
+	}
 }

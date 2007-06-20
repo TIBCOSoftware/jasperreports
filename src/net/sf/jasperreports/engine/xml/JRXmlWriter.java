@@ -130,6 +130,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStaticText;
@@ -169,7 +170,6 @@ public class JRXmlWriter
 	 */
 	private JRXmlWriteHelper writer;
 	private Map fontsMap = new HashMap();
-	private Map stylesMap = new HashMap();
 
 
 	/**
@@ -314,6 +314,8 @@ public class JRXmlWriter
 			}
 		}
 
+		writeTemplates();
+		
 		/*   */
 		JRReportFont[] fonts = report.getFonts();
 		if (fonts != null && fonts.length > 0)
@@ -331,7 +333,6 @@ public class JRXmlWriter
 		{
 			for(int i = 0; i < styles.length; i++)
 			{
-				stylesMap.put(styles[i].getName(), styles[i]);
 				writeStyle(styles[i]);
 			}
 		}
@@ -440,6 +441,27 @@ public class JRXmlWriter
 	}
 
 
+	protected void writeTemplates() throws IOException
+	{
+		JRReportTemplate[] templates = report.getTemplates();
+		if (templates != null)
+		{
+			for (int i = 0; i < templates.length; i++)
+			{
+				JRReportTemplate template = templates[i];
+				writeTemplate(template);
+			}
+		}
+	}
+
+
+	protected void writeTemplate(JRReportTemplate template) throws IOException
+	{
+		writer.writeExpression(JRXmlConstants.ELEMENT_template, template.getSourceExpression(), 
+				true, String.class.getName());
+	}
+
+
 	/**
 	 *
 	 */
@@ -472,22 +494,7 @@ public class JRXmlWriter
 
 		if (style.getStyle() != null)
 		{
-			JRStyle baseStyle = 
-				(JRStyle)stylesMap.get(
-						style.getStyle().getName()
-					);
-			if(baseStyle != null)
-			{
-				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyle().getName());
-			}
-			else
-			{
-				throw 
-					new JRRuntimeException(
-						"Referenced report style not found : " 
-						+ style.getStyle().getName()
-						);
-			}
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyle().getName());
 		}
 	
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), JRXmlConstants.getModeMap());
