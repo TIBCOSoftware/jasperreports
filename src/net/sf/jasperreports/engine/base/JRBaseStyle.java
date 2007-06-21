@@ -139,11 +139,6 @@ public class JRBaseStyle implements JRStyle, Serializable
 		
 		factory.setStyle(new JRStyleSetter()
 		{
-			public void setStyleDelayed(JRStyle aStyle)
-			{
-				setParentStyle(aStyle);
-			}
-
 			public void setStyle(JRStyle aStyle)
 			{
 				setParentStyle(aStyle);

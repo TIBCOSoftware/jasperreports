@@ -40,6 +40,8 @@ public interface JRStyleSetter
 
 	/**
 	 * Set the style on the object.
+	 * <p/>
+	 * In some cases, this method is invoked after the object has requested its style to be set.
 	 * 
 	 * @param style the style to be used by the object
 	 */
@@ -51,15 +53,5 @@ public interface JRStyleSetter
 	 * @param name the name of an external style
 	 */
 	void setStyleNameReference(String name);
-	
-	/**
-	 * Delayed set of the style on the object.
-	 * <p/>
-	 * This method can be invoked after the object has requested its style to be set.
-	 * It is currently used to set the external style on an object after resolving it.
-	 * 
-	 * @param style the style to be used by the object
-	 */
-	void setStyleDelayed(JRStyle style);
 
 }

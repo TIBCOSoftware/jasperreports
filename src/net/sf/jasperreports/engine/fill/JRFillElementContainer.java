@@ -687,7 +687,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	 */
 	protected void initConditionalStyles()
 	{
-		collectConditionalStyle(filler.getDefaultStyle());
+		filler.addDefaultStyleListener(new JRBaseFiller.DefaultStyleListener(){
+			public void defaultStyleSet(JRStyle style)
+			{
+				collectConditionalStyle(style);
+			}
+		});
 		
 		for (int i = 0; i < deepElements.length; i++)
 		{

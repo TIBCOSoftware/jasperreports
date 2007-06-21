@@ -152,7 +152,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 			width = element.getWidth();
 			height = element.getHeight();
 			
-			factory.setStyle(this, parent);
+			factory.registerDelayedStyleSetter(this, parent);
 		}
 
 	
@@ -1210,13 +1210,6 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 	{
 		return getEvaluationTime() == JRExpression.EVALUATION_TIME_AUTO && !isAutoEvaluateNow();
 	}
-	
-	
-	public void setStyleDelayed(JRStyle style)
-	{
-		initStyle = style;
-		conditionalStylesContainer.collectConditionalStyle(style);
-	}
 
 	public String getStyleNameReference()
 	{
@@ -1226,6 +1219,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 	public void setStyle(JRStyle style)
 	{
 		initStyle = style;
+		conditionalStylesContainer.collectConditionalStyle(style);
 	}
 
 	public void setStyleNameReference(String name)

@@ -92,7 +92,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		width = cell.getWidth();
 		height = cell.getHeight();
 		
-		factory.setStyle(this, parentCell);
+		factory.registerDelayedStyleSetter(this, parentCell);
 		
 		initElements();
 		
@@ -633,15 +633,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		return null;
 	}
 
-	public void setStyleDelayed(JRStyle style)
-	{
-		this.initStyle = style;
-		collectConditionalStyle(style);
-	}
-
 	public void setStyle(JRStyle style)
 	{
 		this.initStyle = style;
+		collectConditionalStyle(style);
 	}
 
 	public void setStyleNameReference(String name)
