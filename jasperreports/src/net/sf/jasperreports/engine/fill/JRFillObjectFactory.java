@@ -111,6 +111,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
@@ -1649,6 +1650,11 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			
 			throw new JRRuntimeException(errorMsg.substring(0, errorMsg.length() - 2));
 		}
+	}
+
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return filler.getJasperPrint().getDefaultStyleProvider();
 	}
 
 }

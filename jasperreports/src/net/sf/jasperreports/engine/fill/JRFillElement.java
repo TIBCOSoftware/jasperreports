@@ -72,6 +72,8 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 	protected JRBaseFiller filler = null;
 	protected JRFillExpressionEvaluator expressionEvaluator = null;
 
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	
 	/**
 	 *
 	 */
@@ -139,6 +141,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 			this.parent = element;
 			this.filler = filler;
 			this.expressionEvaluator = factory.getExpressionEvaluator();
+			this.defaultStyleProvider = factory.getDefaultStyleProvider();
 
 			/*   */
 			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
@@ -160,6 +163,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 		this.parent = element.parent;
 		this.filler = element.filler;
 		this.expressionEvaluator = element.expressionEvaluator;
+		this.defaultStyleProvider = element.defaultStyleProvider;
 
 		/*   */
 		printWhenGroupChanges = element.printWhenGroupChanges;
@@ -183,8 +187,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
-		//TODO lucian use the default style of the filler
-		return parent.getDefaultStyleProvider();
+		return defaultStyleProvider;
 	}
 
 
