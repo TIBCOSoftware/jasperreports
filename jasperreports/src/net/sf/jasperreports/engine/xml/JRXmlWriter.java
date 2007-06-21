@@ -104,7 +104,6 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRChild;
-import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -155,7 +154,7 @@ import org.jfree.data.time.Day;
  * @author Minor enhancements by Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlWriter
+public class JRXmlWriter extends JRXmlBaseWriter
 {
 
 
@@ -168,7 +167,6 @@ public class JRXmlWriter
 	/**
 	 *
 	 */
-	private JRXmlWriteHelper writer;
 	private Map fontsMap = new HashMap();
 
 
@@ -267,7 +265,7 @@ public class JRXmlWriter
 	 */
 	protected void writeReport(Writer out) throws IOException
 	{
-		writer = new JRXmlWriteHelper(out);
+		useWriter(new JRXmlWriteHelper(out));
 		
 		writer.writeProlog(encoding);
 		writer.writePublicDoctype(JRXmlConstants.ELEMENT_jasperReport, JRXmlConstants.JASPERREPORT_PUBLIC_ID, JRXmlConstants.JASPERREPORT_SYSTEM_ID);
@@ -479,87 +477,6 @@ public class JRXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getPdfFontName());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getPdfEncoding());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isPdfEmbedded());
-		writer.closeElement();
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeStyle(JRStyle style) throws IOException
-	{
-		writer.startElement(JRXmlConstants.ELEMENT_style);
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault());
-
-		if (style.getStyle() != null)
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyle().getName());
-		}
-	
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), JRXmlConstants.getModeMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pen, style.getOwnPen(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFill(), JRXmlConstants.getFillMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage(), JRXmlConstants.getScaleImageMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignment(), JRXmlConstants.getHorizontalAlignMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignment(), JRXmlConstants.getVerticalAlignMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotation(), JRXmlConstants.getRotationMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacing(), JRXmlConstants.getLineSpacingMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStyledText, style.isOwnStyledText());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_border, style.getOwnBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderColor, style.getOwnBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_padding, style.getOwnPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorder, style.getOwnTopBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topBorderColor, style.getOwnTopBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_topPadding, style.getOwnTopPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorder, style.getOwnLeftBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftBorderColor, style.getOwnLeftBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftPadding, style.getOwnLeftPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorder, style.getOwnBottomBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomBorderColor, style.getOwnBottomBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bottomPadding, style.getOwnBottomPadding());
-		
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorder, style.getOwnRightBorder(), JRXmlConstants.getPenMap());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightBorderColor, style.getOwnRightBorderColor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightPadding, style.getOwnRightPadding());
-
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, style.getOwnFontName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontSize());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, style.isOwnBold());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, style.isOwnItalic());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, style.isOwnUnderline());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, style.isOwnStrikeThrough());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, style.getOwnPdfFontName());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, style.getOwnPdfEncoding());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, style.isOwnPdfEmbedded());
-
-		JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
-		if (!(style instanceof JRConditionalStyle) && conditionalStyles != null) {
-			for (int i = 0; i < conditionalStyles.length; i++)
-				writeConditionalStyle(conditionalStyles[i]);
-		}
-		
-		writer.closeElement();
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeConditionalStyle(JRConditionalStyle style) throws IOException
-	{
-		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
-		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
-		writeStyle(style);
 		writer.closeElement();
 	}
 
@@ -2662,4 +2579,11 @@ public class JRXmlWriter
 			writer.closeElement();
 		}
 	}
+
+
+	protected boolean toWriteConditionalStyles()
+	{
+		return true;
+	}
+	
 }

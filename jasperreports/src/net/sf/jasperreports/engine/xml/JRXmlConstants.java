@@ -1742,4 +1742,8 @@ public class JRXmlConstants
 	
 	public static final String ELEMENT_template = "template";
 
+	
+	public static final String TEMPLATE_ELEMENT_ROOT = "jasperTemplate";
+	public static final String TEMPLATE_ELEMENT_INCLUDED_TEMPLATE = "template";
+	
 }
