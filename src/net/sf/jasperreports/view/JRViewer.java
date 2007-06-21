@@ -44,6 +44,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -169,6 +171,20 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
+	private KeyListener keyNavigationListener =
+    	new KeyListener() {
+            public void keyTyped(KeyEvent evt) 
+            {
+            }
+            public void keyPressed(KeyEvent evt) 
+            {
+            	keyNavigate(evt);            
+            }
+            public void keyReleased(KeyEvent evt) 
+            {
+            }
+        };
+		
 	private java.util.List saveContributors = new ArrayList();
 
 	/** Creates new form JRViewer */
@@ -616,6 +632,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         setMinimumSize(new java.awt.Dimension(450, 150));
         setPreferredSize(new java.awt.Dimension(450, 150));
+        setFocusable(true);
         tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
@@ -629,7 +646,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnSaveActionPerformed(evt);
             }
         });
-
+        btnSave.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnSave);
 
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/print.GIF")));
@@ -643,7 +660,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnPrintActionPerformed(evt);
             }
         });
-
+        btnPrint.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnPrint);
 
         btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
@@ -657,7 +674,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnReloadActionPerformed(evt);
             }
         });
-
+        btnReload.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnReload);
 
         pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
@@ -674,7 +691,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnFirstActionPerformed(evt);
             }
         });
-
+        btnFirst.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnFirst);
 
         btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/previous.GIF")));
@@ -688,7 +705,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnPreviousActionPerformed(evt);
             }
         });
-
+        btnPrevious.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnPrevious);
 
         btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/next.GIF")));
@@ -702,7 +719,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnNextActionPerformed(evt);
             }
         });
-
+        btnNext.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnNext);
 
         btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/last.GIF")));
@@ -716,7 +733,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnLastActionPerformed(evt);
             }
         });
-
+        btnLast.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnLast);
 
         txtGoTo.setToolTipText(getBundleString("go.to.page"));
@@ -728,7 +745,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 txtGoToActionPerformed(evt);
             }
         });
-
+        txtGoTo.addKeyListener(keyNavigationListener);
         tlbToolBar.add(txtGoTo);
 
         pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
@@ -745,7 +762,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnActualSizeActionPerformed(evt);
             }
         });
-
+        btnActualSize.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnActualSize);
 
         btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitpage.GIF")));
@@ -759,7 +776,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnFitPageActionPerformed(evt);
             }
         });
-
+        btnFitPage.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnFitPage);
 
         btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitwidth.GIF")));
@@ -773,7 +790,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnFitWidthActionPerformed(evt);
             }
         });
-
+        btnFitWidth.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnFitWidth);
 
         pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
@@ -790,7 +807,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnZoomInActionPerformed(evt);
             }
         });
-
+        btnZoomIn.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnZoomIn);
 
         btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
@@ -804,7 +821,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 btnZoomOutActionPerformed(evt);
             }
         });
-
+        btnZoomOut.addKeyListener(keyNavigationListener);
         tlbToolBar.add(btnZoomOut);
 
         cmbZoom.setEditable(true);
@@ -822,33 +839,31 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
                 cmbZoomItemStateChanged(evt);
             }
         });
-
+        cmbZoom.addKeyListener(keyNavigationListener);
         tlbToolBar.add(cmbZoom);
 
         add(tlbToolBar, java.awt.BorderLayout.NORTH);
 
         pnlMain.setLayout(new java.awt.BorderLayout());
-
         pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 pnlMainComponentResized(evt);
             }
         });
-
+        
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         pnlInScroll.setLayout(new java.awt.GridBagLayout());
-
+        
         pnlPage.setLayout(new java.awt.BorderLayout());
-
         pnlPage.setMinimumSize(new java.awt.Dimension(100, 100));
         pnlPage.setPreferredSize(new java.awt.Dimension(100, 100));
+        
         jPanel4.setLayout(new java.awt.GridBagLayout());
-
         jPanel4.setMinimumSize(new java.awt.Dimension(100, 120));
         jPanel4.setPreferredSize(new java.awt.Dimension(100, 120));
+        
         pnlLinks.setLayout(null);
-
         pnlLinks.setMinimumSize(new java.awt.Dimension(5, 5));
         pnlLinks.setPreferredSize(new java.awt.Dimension(5, 5));
         pnlLinks.setOpaque(false);
@@ -937,9 +952,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         pnlInScroll.add(pnlPage, gridBagConstraints);
 
         scrollPane.setViewportView(pnlInScroll);
-
         pnlMain.add(scrollPane, java.awt.BorderLayout.CENTER);
-
         add(pnlMain, java.awt.BorderLayout.CENTER);
 
         pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
@@ -947,9 +960,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
         lblStatus.setFont(new java.awt.Font("Dialog", 1, 10));
         lblStatus.setText("Page i of n");
         pnlStatus.add(lblStatus);
-
         add(pnlStatus, java.awt.BorderLayout.SOUTH);
-
+    	addKeyListener(keyNavigationListener);
     }
     // </editor-fold>//GEN-END:initComponents
 
@@ -1319,35 +1331,39 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	*/
 	private void setPageIndex(int index)
 	{
-		pageIndex = index;
-		if (
-			jasperPrint != null && 
-			jasperPrint.getPages() != null &&
-			jasperPrint.getPages().size() > 0
-			)
+		if(index > -1 && index < jasperPrint.getPages().size())
 		{
-			btnFirst.setEnabled( (pageIndex > 0) );
-			btnPrevious.setEnabled( (pageIndex > 0) );
-			btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
-			btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
-			txtGoTo.setEnabled(btnFirst.isEnabled() || btnLast.isEnabled());
-			txtGoTo.setText("" + (pageIndex + 1));
-			lblStatus.setText(
-				MessageFormat.format(
-					getBundleString("page"),
-					new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
-					)
-				);
-		}
-		else
-		{
-			btnFirst.setEnabled(false);
-			btnPrevious.setEnabled(false);
-			btnNext.setEnabled(false);
-			btnLast.setEnabled(false);
-			txtGoTo.setEnabled(false);
-			txtGoTo.setText("");
-			lblStatus.setText("");
+			
+			if (
+				jasperPrint != null && 
+				jasperPrint.getPages() != null &&
+				jasperPrint.getPages().size() > 0
+				)
+			{
+				pageIndex = index;
+				btnFirst.setEnabled( (pageIndex > 0) );
+				btnPrevious.setEnabled( (pageIndex > 0) );
+				btnNext.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+				btnLast.setEnabled( (pageIndex < jasperPrint.getPages().size() - 1) );
+				txtGoTo.setEnabled(btnFirst.isEnabled() || btnLast.isEnabled());
+				txtGoTo.setText("" + (pageIndex + 1));
+				lblStatus.setText(
+					MessageFormat.format(
+						getBundleString("page"),
+						new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
+						)
+					);
+			}
+			else
+			{
+				btnFirst.setEnabled(false);
+				btnPrevious.setEnabled(false);
+				btnNext.setEnabled(false);
+				btnLast.setEnabled(false);
+				txtGoTo.setEnabled(false);
+				txtGoTo.setText("");
+				lblStatus.setText("");
+			}
 		}
 	}
 
@@ -1888,6 +1904,67 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	} 
 
+	private void keyNavigate(KeyEvent evt)
+	{
+    	switch (evt.getKeyCode())
+    	{
+    	case KeyEvent.VK_DOWN:
+    	case KeyEvent.VK_PAGE_DOWN:
+    		dnNavigate(evt);
+    		break;
+    	case KeyEvent.VK_UP:
+    	case KeyEvent.VK_PAGE_UP:
+    		upNavigate(evt);
+    		break;
+    	case KeyEvent.VK_HOME:
+    		homeEndNavigate(0);
+    		break;
+    	case KeyEvent.VK_END:
+    		homeEndNavigate(jasperPrint.getPages().size() - 1);
+    		break;
+    	default:
+    	
+    	}
+        refreshPage();
+	}
+	
+	private void dnNavigate(KeyEvent evt)
+	{
+		int bottomPosition = scrollPane.getVerticalScrollBar().getValue();
+		scrollPane.dispatchEvent(evt);
+		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() ||  
+				scrollPane.getVerticalScrollBar().getValue() == bottomPosition) && 
+				pageIndex < jasperPrint.getPages().size() - 1)
+		{
+			setPageIndex(pageIndex + 1);
+			if(scrollPane.isEnabled())
+				scrollPane.getVerticalScrollBar().setValue(0);
+		}
+	}
+
+	private void upNavigate(KeyEvent evt)
+	{
+		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() || 
+				scrollPane.getVerticalScrollBar().getValue() == 0) && 
+				pageIndex > 0)
+		{
+			setPageIndex(pageIndex - 1);
+			if(scrollPane.isEnabled())
+				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());            			
+		}
+		else
+		{
+			scrollPane.dispatchEvent(evt);
+		}
+	}
+
+	private void homeEndNavigate(int pageNumber)
+	{
+		setPageIndex(pageNumber);
+		if(scrollPane.isEnabled())
+			scrollPane.getVerticalScrollBar().setValue(0);
+	}
+	
 	/**
 	 * 
 	*/
@@ -1932,7 +2009,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}
 	
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JToggleButton btnActualSize;
     protected javax.swing.JButton btnFirst;
