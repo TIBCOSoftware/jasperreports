@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class JRXmlTemplateLoader
 {
-	//TODO lucian writer as well
 	
 	private static final Log log = LogFactory.getLog(JRXmlTemplateLoader.class);
 	

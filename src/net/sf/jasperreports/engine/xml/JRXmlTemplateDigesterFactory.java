@@ -78,12 +78,15 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		{
 			public void addRuleInstances(Digester digester)
 			{
-				digester.addObjectCreate("jasperTemplate", JRSimpleTemplate.class);
+				String rootPattern = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
+				digester.addObjectCreate(rootPattern, JRSimpleTemplate.class);
 				
-				digester.addCallMethod("jasperTemplate/template", "addIncludedTemplate", 0);
+				String includedTemplatePattern = rootPattern + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
+				digester.addCallMethod(includedTemplatePattern, "addIncludedTemplate", 0);
 				
-				digester.addFactoryCreate("jasperTemplate/style", JRTemplateStyleFactory.class);
-				digester.addSetNext("jasperTemplate/style", "addStyle", JRStyle.class.getName());
+				String stylePattern = rootPattern + "/" + JRXmlConstants.ELEMENT_style;
+				digester.addFactoryCreate(stylePattern, JRTemplateStyleFactory.class);
+				digester.addSetNext(stylePattern, "addStyle", JRStyle.class.getName());
 			}
 		};
 	}
