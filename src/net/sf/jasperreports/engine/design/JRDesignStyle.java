@@ -77,7 +77,7 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void setParentStyle(JRStyle parentStyle)
 	{
-		this.parentStyle = parentStyle;
+		super.setParentStyle(parentStyle);
 	}
 
 	/**

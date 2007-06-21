@@ -33,6 +33,7 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -140,12 +141,12 @@ public class JRBaseStyle implements JRStyle, Serializable
 		{
 			public void setStyleDelayed(JRStyle aStyle)
 			{
-				parentStyle = aStyle;
+				setParentStyle(aStyle);
 			}
 
 			public void setStyle(JRStyle aStyle)
 			{
-				parentStyle = aStyle;
+				setParentStyle(aStyle);
 			}
 
 			public void setStyleNameReference(String name)
@@ -206,6 +207,23 @@ public class JRBaseStyle implements JRStyle, Serializable
 			this.conditionalStyles = new JRConditionalStyle[condStyles.length];
 			for (int i = 0; i < condStyles.length; i++) {
 				this.conditionalStyles[i] = factory.getConditionalStyle(condStyles[i], this);
+			}
+		}
+	}
+
+	protected void setParentStyle(JRStyle parentStyle)
+	{
+		this.parentStyle = parentStyle;
+		checkCircularParent();
+	}
+	
+	protected void checkCircularParent()
+	{
+		for(JRStyle ancestor = parentStyle; ancestor != null; ancestor = ancestor.getStyle())
+		{
+			if (ancestor == this)
+			{
+				throw new JRRuntimeException("Circular dependency detected for style " + getName());
 			}
 		}
 	}
