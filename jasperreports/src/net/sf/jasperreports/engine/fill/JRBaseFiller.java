@@ -414,25 +414,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 
-		createDatasets(factory);
+		createDatasets();
 		mainDataset = factory.getDataset(jasperReport.getMainDataset());
 		groups = mainDataset.groups;
 
 		createReportTemplates(factory);
-		
-		/*   */
-		defaultStyle = factory.getStyle(jasperReport.getDefaultStyle());
-
-		/*   */
-		JRStyle[] jrStyles = jasperReport.getStyles();
-		if (jrStyles != null && jrStyles.length > 0)
-		{
-			styles = new JRStyle[jrStyles.length];
-			for (int i = 0; i < styles.length; i++)
-			{
-				styles[i] = factory.getStyle(jrStyles[i]);
-			}
-		}
 
 		/*   */
 		missingFillBand = factory.getBand(null);
@@ -729,7 +715,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			classLoaderSet = setClassLoader(parameterValues);
 			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
 			
-			loadReportTemplates();
+			loadStyles();
 
 			if (parentFiller != null)
 			{
@@ -814,16 +800,83 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-
-	protected void loadReportTemplates() throws JRException
+	protected static interface DefaultStyleListener
 	{
-		List externalStyles = collectTemplateStyles();
-		setExternalDefaultStyle(externalStyles);
-		
-		Collection includedStyles = factory.setExternalStyles(externalStyles);
-		addExternalStyles(includedStyles);
+		void defaultStyleSet(JRStyle style);
+	}
+	
+	private final List defaultStyleListeners = new ArrayList();
+	
+	protected void addDefaultStyleListener(DefaultStyleListener listener)
+	{
+		defaultStyleListeners.add(listener);
 	}
 
+	protected void setDefaultStyle(JRStyle style)
+	{
+		defaultStyle = style;
+		
+		for (Iterator it = defaultStyleListeners.iterator(); it.hasNext();)
+		{
+			DefaultStyleListener listener = (DefaultStyleListener) it.next();
+			listener.defaultStyleSet(style);
+		}
+	}
+	
+	protected void loadStyles() throws JRException
+	{
+		List styleList = collectStyles();
+		JRStyle reportDefaultStyle = jasperReport.getDefaultStyle();
+		if (reportDefaultStyle == null)
+		{
+			lookupExternalDefaultStyle(styleList);
+		}
+		
+		List includedStyles = factory.setStyles(styleList);
+		
+		styles = (JRStyle[]) includedStyles.toArray(new JRStyle[includedStyles.size()]);
+		
+		if (reportDefaultStyle != null)
+		{
+			setDefaultStyle(factory.getStyle(reportDefaultStyle));
+		}
+	}
+	
+	
+	private static final JRStyleSetter DUMMY_STYLE_SETTER = new JRStyleSetter()
+	{
+		public void setStyle(JRStyle style)
+		{
+		}
+
+		public void setStyleNameReference(String name)
+		{
+		}
+	};
+	
+	protected List collectStyles() throws JRException
+	{
+		List styleList = collectTemplateStyles();
+		
+		JRStyle[] reportStyles = jasperReport.getStyles();
+		if (reportStyles != null)
+		{
+			styles = new JRStyle[reportStyles.length];
+			
+			for (int i = 0; i < reportStyles.length; i++)
+			{
+				JRStyle style = reportStyles[i];
+				styleList.add(style);
+				
+				//add dummy style requester so that report styles are always included
+				//in the final list
+				factory.registerDelayedStyleSetter(DUMMY_STYLE_SETTER, style.getName());
+			}
+		}
+		
+		return styleList;
+	}
+	
 	protected List collectTemplateStyles() throws JRException
 	{
 		List externalStyles = new ArrayList();
@@ -893,56 +946,35 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 	}
-
-	protected void setExternalDefaultStyle(Collection externalStyles)
+	
+	protected void lookupExternalDefaultStyle(Collection styleList)
 	{
-		if (defaultStyle == null)
+		JRStyle defStyle = null;
+		for (Iterator it = styleList.iterator(); it.hasNext();)
 		{
-			JRStyle externalDefault = null;
-			for (Iterator it = externalStyles.iterator(); it.hasNext();)
+			JRStyle style = (JRStyle) it.next();
+			if (style.isDefault())
 			{
-				JRStyle style = (JRStyle) it.next();
-				if (style.isDefault())
-				{
-					externalDefault = style;
-				}
-			}
-			
-			if (externalDefault != null)
-			{
-				factory.addDelayedSetter(externalDefault.getName(), new JRStyleSetter()
-				{
-					public void setStyleDelayed(JRStyle style)
-					{
-						if (style.isDefault())
-						{
-							defaultStyle = style;
-						}						
-					}
-					
-					public void setStyle(JRStyle style)
-					{
-					}
-
-					public void setStyleNameReference(String name)
-					{
-					}
-				});
+				defStyle = style;
 			}
 		}
-	}
-
-	protected void addExternalStyles(Collection externalStyles)
-	{
-		if (!externalStyles.isEmpty())
+		
+		if (defStyle != null)
 		{
-			JRStyle[] newStyles = new JRStyle[externalStyles.size() + (styles == null ? 0 : styles.length)];
-			externalStyles.toArray(newStyles);
-			if (styles != null)
+			factory.registerDelayedStyleSetter(new JRStyleSetter()
 			{
-				System.arraycopy(styles, 0, newStyles, externalStyles.size(), styles.length);
-			}
-			styles = newStyles;
+				public void setStyle(JRStyle style)
+				{
+					if (style.isDefault())
+					{
+						setDefaultStyle(style);
+					}						
+				}
+
+				public void setStyleNameReference(String name)
+				{
+				}
+			}, defStyle.getName());
 		}
 	}
 
@@ -1607,7 +1639,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	private void createDatasets(JRFillObjectFactory factory) throws JRException
+	private void createDatasets() throws JRException
 	{
 		datasetMap = new HashMap();
 

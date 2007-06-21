@@ -162,9 +162,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	private List elementDatasets = new ArrayList();
 	private Map elementDatasetMap = new HashMap();
 	
-	private Set styleNamesSet = new HashSet();
 	private Map delayedStyleSettersByName = new HashMap();
-	private boolean externalStylesMode = false;
 	
 	protected static class StylesList
 	{
@@ -195,7 +193,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 	}
 	
-	private StylesList externalStylesMap = new StylesList();
+	private Set originalStyleList;
+	private StylesList stylesMap = new StylesList();
 
 
 	/**
@@ -286,9 +285,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillFont;
 	}
-
 	
-	protected void addDelayedSetter(String styleName, JRStyleSetter delayedSetter)
+	protected void registerDelayedStyleSetter(JRStyleSetter delayedSetter, String styleName)
 	{
 		if (parentFiller == null)
 		{
@@ -303,13 +301,24 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		else
 		{
-			parentFiller.addDelayedSetter(styleName, delayedSetter);
+			parentFiller.registerDelayedStyleSetter(delayedSetter, styleName);
+		}
+	}
+
+	public void registerDelayedStyleSetter(JRStyleSetter delayedSetter, JRStyleContainer styleContainer)
+	{
+		JRStyle style = styleContainer.getStyle();
+		String nameReference = styleContainer.getStyleNameReference();
+		if (style != null)
+		{
+			registerDelayedStyleSetter(delayedSetter, style.getName());
+		}
+		else if (nameReference != null)
+		{
+			registerDelayedStyleSetter(delayedSetter, nameReference);
 		}
 	}
 	
-	/**
-	 *
-	 */
 	public JRStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle fillStyle = null;
@@ -322,32 +331,25 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				fillStyle = new JRBaseStyle(style, this);
 				put(style, fillStyle);
 				
-				styleNamesSet.add(style.getName());
-				
-				if (externalStylesMode)
+				if (originalStyleList != null && originalStyleList.contains(style))
 				{
-					processExternalStyle(style);
-				}
+					renameExistingStyle(style.getName());
+					stylesMap.addStyle(style);
+				}				
 			}
 		}
 
 		return fillStyle;
 	}
 
-	protected void processExternalStyle(JRStyle originalStyle)
+	protected void renameExistingStyle(String name)
 	{
-		renameExistingExternalStyle(originalStyle.getName());
-		externalStylesMap.addStyle(originalStyle);
-	}
-
-	protected void renameExistingExternalStyle(String name)
-	{
-		JRStyle oldExternalStyle = externalStylesMap.getStyle(name);
-		if (oldExternalStyle != null)
+		JRStyle originalStyle = stylesMap.getStyle(name);
+		if (originalStyle != null)
 		{
 			//found a previous external style with the same name
 			//renaming the previous style
-			JRBaseStyle oldStyle = (JRBaseStyle) get(oldExternalStyle);
+			JRBaseStyle style = (JRBaseStyle) get(originalStyle);
 			
 			String newName;
 			int suf = 1;
@@ -356,11 +358,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				newName = name + suf;
 				++suf;
 			}
-			while(styleNamesSet.contains(newName));
+			while(stylesMap.containsStyle(newName));
 			
-			oldStyle.rename(newName);
-			externalStylesMap.renamed(name, newName);
-			styleNamesSet.add(newName);
+			style.rename(newName);
+			stylesMap.renamed(name, newName);
 		}
 	}
 
@@ -376,21 +377,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 		else if (nameReference != null)
 		{
-			if (externalStylesMode)
+			JRStyle originalStyle = stylesMap.getStyle(nameReference);
+			if (originalStyle == null)
 			{
-				JRStyle originalStyle = externalStylesMap.getStyle(nameReference);
-				if (originalStyle == null)
-				{
-					throw new JRRuntimeException("Style " + nameReference + " not found");
-				}
-				
-				JRStyle externalStyle = (JRStyle) get(originalStyle);
-				setter.setStyle(externalStyle);
+				throw new JRRuntimeException("Style " + nameReference + " not found");
 			}
-			else
-			{
-				addDelayedSetter(nameReference, setter);
-			}
+			
+			JRStyle externalStyle = (JRStyle) get(originalStyle);
+			setter.setStyle(externalStyle);
 		}
 	}
 
@@ -1503,27 +1497,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillTemplate;
 	}
 	
-	
-	public List setExternalStyles(List externalStyles)
+	public List setStyles(List styles)
 	{
-		externalStylesMode = true;
-
-		//immediately resolve delayed report styles
-		useReportDelayedStyles();
+		originalStyleList = new HashSet(styles);
 		
 		//filtering requested styles
-		Set requestedStyles = collectRequestedStyles(externalStyles);
+		Set requestedStyles = collectRequestedStyles(styles);
 		
 		//collect used styles
 		Map usedStylesMap = new SequencedHashMap();
 		Map allStylesMap = new HashMap();
-		for (Iterator it = externalStyles.iterator(); it.hasNext();)
+		for (Iterator it = styles.iterator(); it.hasNext();)
 		{
 			JRStyle style = (JRStyle) it.next();
 			allStylesMap.put(style.getName(), style);
 			if (requestedStyles.contains(style))
 			{
-				collectUsedStyle(style, usedStylesMap, allStylesMap);
+				collectUsedStyles(style, usedStylesMap, allStylesMap);
 			}
 		}
 		
@@ -1532,6 +1522,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		{
 			JRStyle style = (JRStyle) it.next();
 			JRStyle newStyle = getStyle(style);
+			
 			includedStyles.add(newStyle);
 			if (requestedStyles.contains(style))
 			{
@@ -1539,26 +1530,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}			
 		}
 		
-		renameExternalStyles();
-		
 		checkUnresolvedReferences();
 		
 		return includedStyles;
-	}
-
-	protected void useReportDelayedStyles()
-	{
-		if (filler.styles != null)
-		{
-			for (int i = 0; i < filler.styles.length; i++)
-			{
-				JRStyle style = filler.styles[i];
-				if (style.getName() != null)
-				{
-					useDelayedStyle(style);
-				}
-			}
-		}
 	}
 
 	protected Set collectRequestedStyles(List externalStyles)
@@ -1577,49 +1551,30 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return new HashSet(requestedStylesMap.values());
 	}
 
-	protected void collectUsedStyle(JRStyle style, Map usedStylesMap, Map allStylesMap)
+	protected void collectUsedStyles(JRStyle style, Map usedStylesMap, Map allStylesMap)
 	{
-		if (!usedStylesMap.containsKey(style))
+		if (!usedStylesMap.containsKey(style) && originalStyleList.contains(style))
 		{
-			collectUsedParentStyle(style, usedStylesMap, allStylesMap);
+			JRStyle parent = style.getStyle();
+			if (parent == null)
+			{
+				String parentName = style.getStyleNameReference();
+				if (parentName != null)
+				{
+					parent = (JRStyle) allStylesMap.get(parentName);
+					if (parent == null)
+					{
+						throw new JRRuntimeException("Style " + parentName + " not found");
+					}
+				}
+			}
+			
+			if (parent != null)
+			{
+				collectUsedStyles(parent, usedStylesMap, allStylesMap);
+			}
+			
 			usedStylesMap.put(style, null);
-		}
-	}
-
-	protected void collectUsedParentStyle(JRStyle style, Map usedStylesMap, Map allStylesMap)
-	{
-		JRStyle parent = style.getStyle();
-		if (parent == null)
-		{
-			String parentName = style.getStyleNameReference();
-			if (parentName != null)
-			{
-				parent = (JRStyle) allStylesMap.get(parentName);
-				if (parent == null)
-				{
-					throw new JRRuntimeException("Style " + parentName + " not found");
-				}
-			}
-		}
-		
-		if (parent != null)
-		{
-			collectUsedStyle(parent, usedStylesMap, allStylesMap);
-		}
-	}
-
-	protected void renameExternalStyles()
-	{
-		if (filler.styles != null)
-		{
-			for (int i = 0; i < filler.styles.length; i++)
-			{
-				String styleName = filler.styles[i].getName();
-				if (styleName != null)
-				{
-					renameExistingExternalStyle(styleName);
-				}
-			}
 		}
 	}
 	
@@ -1631,7 +1586,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			for (Iterator it = delayedSetters.iterator(); it.hasNext();)
 			{
 				JRStyleSetter setter = (JRStyleSetter) it.next();
-				setter.setStyleDelayed(style);
+				setter.setStyle(style);
 			}
 		}
 	}
