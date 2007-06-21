@@ -76,11 +76,14 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private Map templateFrames;
 	
+	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, JRFillObjectFactory factory)
 	{
 		super(filler, cell, factory);
+		
+		defaultStyleProvider = factory.getDefaultStyleProvider();
 		
 		parentCell = cell;
 		
@@ -110,6 +113,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	protected JRFillCellContents(JRFillCellContents cellContents, JRFillCloneFactory factory)
 	{
 		super(cellContents, factory);
+		
+		defaultStyleProvider = cellContents.defaultStyleProvider;
 		
 		parentCell = cellContents.parentCell;
 		
@@ -589,7 +594,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
-		return parentCell.getDefaultStyleProvider();
+		return defaultStyleProvider;
 	}
 
 	public JRStyle getStyle()
