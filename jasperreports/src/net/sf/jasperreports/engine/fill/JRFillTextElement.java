@@ -94,7 +94,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		reportFont = factory.getReportFont(textElement.getReportFont());
 		
 		/*   */
-		createTextMeasurer();
 		createTextChopper();
 	}
 	
@@ -105,7 +104,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		reportFont = textElement.reportFont;
 
-		createTextMeasurer();
 		createTextChopper();
 	}
 
@@ -115,6 +113,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		textMeasurer = new TextMeasurer(this);
 	}
 
+	protected void ensureTextMeasurer()
+	{
+		if (textMeasurer == null)
+		{
+			createTextMeasurer();
+		}
+	}
 
 	private void createTextChopper()
 	{
@@ -507,6 +512,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		int availableStretchHeight
 		)
 	{
+		ensureTextMeasurer();
+		
 		JRStyledText tmpStyledText = getStyledText();
 
 		if (tmpStyledText == null)
