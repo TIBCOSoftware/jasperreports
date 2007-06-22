@@ -607,6 +607,24 @@
 
 		<echo message=""/>
 		<echo message="==================================="/>
+		<echo message=" Templates Sample"/>
+		<echo message="==================================="/>
+		<ant dir="templates" target="clean" />
+		<ant dir="templates" target="javac" />
+		<ant dir="templates" target="compile" />
+		<ant dir="templates" target="fill" />
+		<ant dir="templates" target="pdf" />
+		<ant dir="templates" target="xmlEmbed" />
+		<ant dir="templates" target="xml" />
+		<ant dir="templates" target="html" />
+		<ant dir="templates" target="rtf" />
+		<ant dir="templates" target="xls" />
+		<ant dir="templates" target="jxl" />
+		<ant dir="templates" target="csv" />
+		<ant dir="templates" target="odt" />
+
+		<echo message=""/>
+		<echo message="==================================="/>
 		<echo message=" Text Export Sample"/>
 		<echo message="==================================="/>
 		<ant dir="text" target="clean" />
@@ -708,6 +726,7 @@
 		<ant dir="subreport" target="clean" />
 		<ant dir="table" target="clean" />
 		<ant dir="tableofcontents" target="clean" />
+		<ant dir="templates" target="clean" />
 		<ant dir="text" target="clean" />
 		<ant dir="unicode" target="clean" />
 		<ant dir="virtualizer" target="clean" />
