@@ -5,7 +5,7 @@
 
 <jasperTemplate>
 
-	<template><![CDATA[base_styles.xml]]></template>
+	<template><![CDATA[base_styles.jrtx]]></template>
 	
 	<!-- Override the default font from base_styles.xml -->
 	<style name="Regular" style="Base" isDefault="true" 
