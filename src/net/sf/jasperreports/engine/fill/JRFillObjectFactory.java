@@ -1510,11 +1510,11 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		for (Iterator it = styles.iterator(); it.hasNext();)
 		{
 			JRStyle style = (JRStyle) it.next();
-			allStylesMap.put(style.getName(), style);
 			if (requestedStyles.contains(style))
 			{
 				collectUsedStyles(style, usedStylesMap, allStylesMap);
 			}
+			allStylesMap.put(style.getName(), style);
 		}
 		
 		List includedStyles = new ArrayList();
