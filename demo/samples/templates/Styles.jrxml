@@ -5,7 +5,7 @@
 
 <jasperReport name="Styles" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
 
-	<template>"styles.xml"</template>
+	<template>"styles.jrtx"</template>
 
 	<style name="Right Aligned" style="Regular"
 		hAlign="Right"/>
