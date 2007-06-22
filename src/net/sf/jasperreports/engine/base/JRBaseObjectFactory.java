@@ -249,8 +249,13 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		else if (nameReference != null)
 		{
-			setter.setStyleNameReference(nameReference);
+			handleStyleNameReference(setter, nameReference);
 		}
+	}
+
+	protected void handleStyleNameReference(JRStyleSetter setter, String nameReference)
+	{
+		setter.setStyleNameReference(nameReference);
 	}
 
 

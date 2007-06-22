@@ -39,9 +39,11 @@ import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -68,14 +70,22 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintEllipse;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
@@ -92,7 +102,11 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
+import org.apache.commons.collections.SequencedHashMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -102,6 +116,8 @@ import org.xml.sax.SAXException;
 public class JRPreviewBuilder 
 {
 
+	protected final static Log log = LogFactory.getLog(JRPreviewBuilder.class);
+	
 	private JasperPrint jasperPrint;
 	private JRPrintPage page;
 	int pageWidth;
@@ -125,7 +141,9 @@ public class JRPreviewBuilder
 	 */
 	private List pageElements = new ArrayList();
 	
-	private JRDefaultStyleProvider defaultStyleProvider;
+	private StyleFactory styleFactory;
+	protected Map stylesMap;
+	protected JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
 
 	private boolean isFirstBand = true;
@@ -154,7 +172,6 @@ public class JRPreviewBuilder
 		pageWidth = report.getPageWidth();
 		
 		jasperPrint.setDefaultFont(report.getDefaultFont());
-		jasperPrint.setDefaultStyle(report.getDefaultStyle());
 		jasperPrint.setFormatFactoryClass(report.getFormatFactoryClass());
 		//TODO: locale and timezone settings jasperprint object
 //		jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(Locale.getDefault()));
@@ -165,13 +182,7 @@ public class JRPreviewBuilder
 		offsetY = report.getTopMargin();
 		offsetX = report.getLeftMargin();
 		
-		JRStyle[] styles = report.getStyles();
-		if (styles != null)
-			for (int i = 0; i < styles.length; i++)
-			{
-				jasperPrint.addStyle(styles[i]);
-			}
-			
+		setStyles(report);
 
 		JRBand band = report.getBackground();
 		if(band != null)
@@ -239,6 +250,120 @@ public class JRPreviewBuilder
 
 		page.setElements(pageElements);
 		jasperPrint.addPage(page);
+	}
+
+	protected void setStyles(JRReport report) throws JRException
+	{
+		styleFactory = new StyleFactory();
+		stylesMap = new SequencedHashMap();
+		
+		loadReportStyles(report);
+		
+		for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+		{
+			JRStyle style = (JRStyle) it.next();
+			jasperPrint.addStyle(style);
+		}
+
+		JRStyle reportDefault = report.getDefaultStyle();
+		JRStyle printDefault = null;
+		if (reportDefault == null)
+		{
+			//search for the last default style
+			for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+			{
+				JRStyle style = (JRStyle) it.next();
+				if (style.isDefault())
+				{
+					printDefault = style;
+				}
+			}
+		}
+		else
+		{
+			printDefault = reportDefault;
+		}
+		
+		if (printDefault != null)
+		{
+			jasperPrint.setDefaultStyle(printDefault);
+		}		
+	}
+
+	protected void loadReportStyles(JRReport report)
+	{
+		JRReportTemplate[] templates = report.getTemplates();
+		if (templates != null)
+		{
+			Set loadedLocations = new HashSet();
+			for (int i = 0; i < templates.length; i++)
+			{
+				loadReportTemplateStyles(templates[i], loadedLocations);
+			}
+		}
+		
+		collectStyles(report.getStyles());
+	}
+
+	protected void loadReportTemplateStyles(JRReportTemplate template, Set loadedLocations)
+	{
+		JRExpression sourceExpression = template.getSourceExpression();
+		if (sourceExpression != null)
+		{
+			String location = getSimpleExpressionString(sourceExpression);
+			if (location == null)
+			{
+				log.warn("Template source expression " + sourceExpression.getText() + "cannot be evaluated; some styles might remain unresolved.");
+			}
+			else
+			{
+				loadTemplateStyles(location, loadedLocations);
+			}
+		}
+	}
+
+	protected void loadTemplateStyles(String location, Set loadedLocations)
+	{
+		if (!loadedLocations.add(location))
+		{
+			throw new JRRuntimeException("Circular dependency found for template at location " + location);
+		}
+		
+		JRTemplate template;
+		try
+		{
+			template = JRXmlTemplateLoader.load(location);
+		}
+		catch (Exception e)
+		{
+			log.warn("Could not load template from location " + location + "; some styles might remain unresolved.");
+			return;
+		}
+		
+		JRTemplateReference[] includedTemplates = template.getIncludedTemplates();
+		if (includedTemplates != null)
+		{
+			for (int i = 0; i < includedTemplates.length; i++)
+			{
+				JRTemplateReference reference = includedTemplates[i];
+				loadTemplateStyles(reference.getLocation(), loadedLocations);
+			}
+		}
+		
+		collectStyles(template.getStyles());
+	}
+
+	protected void collectStyles(JRStyle[] styles)
+	{
+		if (styles != null)
+		{
+			for (int i = 0; i < styles.length; i++)
+			{
+				JRStyle style = styles[i];
+				JRStyle copy = styleFactory.getStyle(style);
+				stylesMap.put(copy.getName(), copy);
+			}
+		}
 	}
 
 	/**
@@ -382,7 +507,7 @@ public class JRPreviewBuilder
 	 * @param textElement
 	 * @return
 	 */
-	private JRStyledText getStyledText(JRTextElement textElement)
+	private JRStyledText getStyledText(JRTextElement textElement, JRPrintText printText)
 	{
 		JRStyledText styledText = null;
 
@@ -406,8 +531,8 @@ public class JRPreviewBuilder
 		}
 
 		Map attributes = new HashMap(); 
-		JRFontUtil.setAttributes(attributes, textElement);
-		attributes.put(TextAttribute.FOREGROUND, textElement.getForecolor());
+		JRFontUtil.setAttributes(attributes, printText);
+		attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
 
 		if (
 			textElement instanceof JRStaticText
@@ -434,6 +559,27 @@ public class JRPreviewBuilder
 		return styledText;
 	}
 	
+	
+	protected String getSimpleExpressionString(JRExpression expression)
+	{
+		String value = null;
+		if (expression != null)
+		{
+			JRExpressionChunk[] chunks = expression.getChunks();
+			if (chunks != null && chunks.length == 1 
+					&& chunks[0].getType() == JRExpressionChunk.TYPE_TEXT)
+			{
+				String chunk = chunks[0].getText().trim();
+				int chunkLength = chunk.length();
+				if (chunk.charAt(0) == '"' && chunk.charAt(chunkLength - 1) == '"')
+				{
+					value = chunk.substring(1, chunkLength - 1);
+				}
+			}
+		}
+		return value;
+	}
+	
 	 /**
 	  * 
 	  * @param imageElement
@@ -443,45 +589,33 @@ public class JRPreviewBuilder
 	{
 		JRRenderable imageRenderer = null;
 		Image awtImage = null;
-		JRExpression expression = imageElement.getExpression();
-		if(expression != null)
+		
+		String location = getSimpleExpressionString(imageElement.getExpression());
+		if(location != null)
 		{
-			if (expression.getChunks().length == 1)
+			try
 			{
-				JRExpressionChunk firstChunk = expression.getChunks()[0];
-				
-				if (firstChunk.getType() == JRExpressionChunk.TYPE_TEXT)
+				awtImage = JRImageLoader.loadImage(
+					JRLoader.loadBytesFromLocation(location)
+					);
+				if (awtImage == null)
 				{
-					String location = firstChunk.getText().trim();
-					if (location.startsWith("\"") && location.endsWith("\""))
-					{
-						location = location.substring(1, location.length() - 1);
-						try
-						{
-							awtImage = JRImageLoader.loadImage(
-								JRLoader.loadBytesFromLocation(location)
-								);
-							if (awtImage == null)
-							{
-								awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
-								imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-								imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
-							}
-							imageRenderer = JRImageRenderer.getInstance(
-									awtImage, 
-									imageElement.getOnErrorType()
-									);
-							return imageRenderer;
-						}
-						catch (JRException e)
-						{
-							e.printStackTrace();
-						}
-					}
+					awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
+					imageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
+					imageElement.setStretchType(JRElement.STRETCH_TYPE_NO_STRETCH);
 				}
+				imageRenderer = JRImageRenderer.getInstance(
+						awtImage, 
+						imageElement.getOnErrorType()
+						);
+				return imageRenderer;
 			}
-			
+			catch (JRException e)
+			{
+				e.printStackTrace();
+			}
 		}
+		
 		try
 		{
 			awtImage = JRImageLoader.getImage(JRImageLoader.NO_IMAGE);
@@ -590,30 +724,30 @@ public class JRPreviewBuilder
 				imageElement.getAnchorNameExpression())
 				);
 		basePrintImageElement.setBookmarkLevel(imageElement.getBookmarkLevel());
-		basePrintImageElement.setBorder(imageElement.getBorder());
-		basePrintImageElement.setBorderColor(imageElement.getBorderColor());
-		basePrintImageElement.setBottomBorder(imageElement.getBottomBorder());
-		basePrintImageElement.setBottomBorderColor(imageElement.getBottomBorderColor());
-		basePrintImageElement.setBottomPadding(imageElement.getBottomPadding());
-		basePrintImageElement.setFill(imageElement.getFill());
-		basePrintImageElement.setHorizontalAlignment(imageElement.getHorizontalAlignment());
+		basePrintImageElement.setBorder(imageElement.getOwnBorder());
+		basePrintImageElement.setBorderColor(imageElement.getOwnBorderColor());
+		basePrintImageElement.setBottomBorder(imageElement.getOwnBottomBorder());
+		basePrintImageElement.setBottomBorderColor(imageElement.getOwnBottomBorderColor());
+		basePrintImageElement.setBottomPadding(imageElement.getOwnBottomPadding());
+		basePrintImageElement.setFill(imageElement.getOwnFill());
+		basePrintImageElement.setHorizontalAlignment(imageElement.getOwnHorizontalAlignment());
 		basePrintImageElement.setLazy(imageElement.isLazy());
-		basePrintImageElement.setLeftBorder(imageElement.getLeftBorder());
-		basePrintImageElement.setLeftBorderColor(imageElement.getLeftBorderColor());
-		basePrintImageElement.setLeftPadding(imageElement.getLeftPadding());
+		basePrintImageElement.setLeftBorder(imageElement.getOwnLeftBorder());
+		basePrintImageElement.setLeftBorderColor(imageElement.getOwnLeftBorderColor());
+		basePrintImageElement.setLeftPadding(imageElement.getOwnLeftPadding());
 		basePrintImageElement.setLinkType(imageElement.getLinkType());
 		basePrintImageElement.setOnErrorType(imageElement.getOnErrorType());
-		basePrintImageElement.setPadding(imageElement.getPadding());
-		basePrintImageElement.setPen(imageElement.getPen());
-		basePrintImageElement.setRightBorder(imageElement.getRightBorder());
-		basePrintImageElement.setRightBorderColor(imageElement.getRightBorderColor());
-		basePrintImageElement.setRightPadding(imageElement.getRightPadding());
-		basePrintImageElement.setTopBorder(imageElement.getTopBorder());
-		basePrintImageElement.setTopBorderColor(imageElement.getTopBorderColor());
-		basePrintImageElement.setTopPadding(imageElement.getTopPadding());
-		basePrintImageElement.setVerticalAlignment(imageElement.getVerticalAlignment());
+		basePrintImageElement.setPadding(imageElement.getOwnPadding());
+		basePrintImageElement.setPen(imageElement.getOwnPen());
+		basePrintImageElement.setRightBorder(imageElement.getOwnRightBorder());
+		basePrintImageElement.setRightBorderColor(imageElement.getOwnRightBorderColor());
+		basePrintImageElement.setRightPadding(imageElement.getOwnRightPadding());
+		basePrintImageElement.setTopBorder(imageElement.getOwnTopBorder());
+		basePrintImageElement.setTopBorderColor(imageElement.getOwnTopBorderColor());
+		basePrintImageElement.setTopPadding(imageElement.getOwnTopPadding());
+		basePrintImageElement.setVerticalAlignment(imageElement.getOwnVerticalAlignment());
 		basePrintImageElement.setRenderer(getRenderer(imageElement));
-		basePrintImageElement.setScaleImage(imageElement.getScaleImage());
+		basePrintImageElement.setScaleImage(imageElement.getOwnScaleImage());
 		
 		hasContour = (basePrintImageElement.getBorder() != JRGraphicElement.PEN_NONE ||
 				(basePrintImageElement.getTopBorder() != JRGraphicElement.PEN_NONE &&
@@ -637,24 +771,24 @@ public class JRPreviewBuilder
 				imageElement.getAnchorNameExpression())
 				);
 		basePrintImageElement.setBookmarkLevel(imageElement.getBookmarkLevel());
-		basePrintImageElement.setBorder(imageElement.getBorder());
-		basePrintImageElement.setBorderColor(imageElement.getBorderColor());
-		basePrintImageElement.setBottomBorder(imageElement.getBottomBorder());
-		basePrintImageElement.setBottomBorderColor(imageElement.getBottomBorderColor());
-		basePrintImageElement.setBottomPadding(imageElement.getBottomPadding());
-		basePrintImageElement.setLeftBorder(imageElement.getLeftBorder());
-		basePrintImageElement.setLeftBorderColor(imageElement.getLeftBorderColor());
-		basePrintImageElement.setLeftPadding(imageElement.getLeftPadding());
+		basePrintImageElement.setBorder(imageElement.getOwnBorder());
+		basePrintImageElement.setBorderColor(imageElement.getOwnBorderColor());
+		basePrintImageElement.setBottomBorder(imageElement.getOwnBottomBorder());
+		basePrintImageElement.setBottomBorderColor(imageElement.getOwnBottomBorderColor());
+		basePrintImageElement.setBottomPadding(imageElement.getOwnBottomPadding());
+		basePrintImageElement.setLeftBorder(imageElement.getOwnLeftBorder());
+		basePrintImageElement.setLeftBorderColor(imageElement.getOwnLeftBorderColor());
+		basePrintImageElement.setLeftPadding(imageElement.getOwnLeftPadding());
 		basePrintImageElement.setLinkType(imageElement.getLinkType());
 		basePrintImageElement.setOnErrorType(JRImage.ON_ERROR_TYPE_ICON);
 		basePrintImageElement.setPadding(imageElement.getPadding());
 		basePrintImageElement.setPen(JRGraphicElement.PEN_THIN);
-		basePrintImageElement.setRightBorder(imageElement.getRightBorder());
-		basePrintImageElement.setRightBorderColor(imageElement.getRightBorderColor());
-		basePrintImageElement.setRightPadding(imageElement.getRightPadding());
-		basePrintImageElement.setTopBorder(imageElement.getTopBorder());
-		basePrintImageElement.setTopBorderColor(imageElement.getTopBorderColor());
-		basePrintImageElement.setTopPadding(imageElement.getTopPadding());
+		basePrintImageElement.setRightBorder(imageElement.getOwnRightBorder());
+		basePrintImageElement.setRightBorderColor(imageElement.getOwnRightBorderColor());
+		basePrintImageElement.setRightPadding(imageElement.getOwnRightPadding());
+		basePrintImageElement.setTopBorder(imageElement.getOwnTopBorder());
+		basePrintImageElement.setTopBorderColor(imageElement.getOwnTopBorderColor());
+		basePrintImageElement.setTopPadding(imageElement.getOwnTopPadding());
 		basePrintImageElement.setRenderer(getRenderer(imageElement));
 		basePrintImageElement.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
 		hasContour = (basePrintImageElement.getBorder() != JRGraphicElement.PEN_NONE ||
@@ -681,7 +815,7 @@ public class JRPreviewBuilder
 		else if(element instanceof JRRectangle)
 		{
 			baseElement = new JRBasePrintRectangle(defaultStyleProvider);
-			((JRBasePrintRectangle)baseElement).setRadius(((JRRectangle)element).getRadius());
+			((JRBasePrintRectangle)baseElement).setRadius(((JRRectangle)element).getOwnRadius());
 		}
 		else if(element instanceof JRLine)
 		{
@@ -690,8 +824,8 @@ public class JRPreviewBuilder
 		}
 		JRBasePrintGraphicElement basePrintGraphicElement = (JRBasePrintGraphicElement)baseElement;
 		JRGraphicElement graphicElement = (JRGraphicElement)element;
-		basePrintGraphicElement.setFill(graphicElement.getFill());
-		basePrintGraphicElement.setPen(graphicElement.getPen());
+		basePrintGraphicElement.setFill(graphicElement.getOwnFill());
+		basePrintGraphicElement.setPen(graphicElement.getOwnPen());
 		
 		hasContour = basePrintGraphicElement.getPen() != JRGraphicElement.PEN_NONE;
 		return basePrintGraphicElement;
@@ -705,21 +839,21 @@ public class JRPreviewBuilder
 	private JRBasePrintElement getFrameElement (JRFrame frameElement)
 	{
 		JRBasePrintFrame basePrintFrameElement = new JRBasePrintFrame(defaultStyleProvider);
-		basePrintFrameElement.setBorder(frameElement.getBorder());
-		basePrintFrameElement.setBorderColor(frameElement.getBorderColor());
-		basePrintFrameElement.setBottomBorder(frameElement.getBottomBorder());
-		basePrintFrameElement.setBottomBorderColor(frameElement.getBottomBorderColor());
-		basePrintFrameElement.setBottomPadding(frameElement.getBottomPadding());
-		basePrintFrameElement.setLeftBorder(frameElement.getLeftBorder());
-		basePrintFrameElement.setLeftBorderColor(frameElement.getLeftBorderColor());
-		basePrintFrameElement.setLeftPadding(frameElement.getLeftPadding());
-		basePrintFrameElement.setPadding(frameElement.getPadding());
-		basePrintFrameElement.setRightBorder(frameElement.getRightBorder());
-		basePrintFrameElement.setRightBorderColor(frameElement.getRightBorderColor());
-		basePrintFrameElement.setRightPadding(frameElement.getRightPadding());
-		basePrintFrameElement.setTopBorder(frameElement.getTopBorder());
-		basePrintFrameElement.setTopBorderColor(frameElement.getTopBorderColor());
-		basePrintFrameElement.setTopPadding(frameElement.getTopPadding());
+		basePrintFrameElement.setBorder(frameElement.getOwnBorder());
+		basePrintFrameElement.setBorderColor(frameElement.getOwnBorderColor());
+		basePrintFrameElement.setBottomBorder(frameElement.getOwnBottomBorder());
+		basePrintFrameElement.setBottomBorderColor(frameElement.getOwnBottomBorderColor());
+		basePrintFrameElement.setBottomPadding(frameElement.getOwnBottomPadding());
+		basePrintFrameElement.setLeftBorder(frameElement.getOwnLeftBorder());
+		basePrintFrameElement.setLeftBorderColor(frameElement.getOwnLeftBorderColor());
+		basePrintFrameElement.setLeftPadding(frameElement.getOwnLeftPadding());
+		basePrintFrameElement.setPadding(frameElement.getOwnPadding());
+		basePrintFrameElement.setRightBorder(frameElement.getOwnRightBorder());
+		basePrintFrameElement.setRightBorderColor(frameElement.getOwnRightBorderColor());
+		basePrintFrameElement.setRightPadding(frameElement.getOwnRightPadding());
+		basePrintFrameElement.setTopBorder(frameElement.getOwnTopBorder());
+		basePrintFrameElement.setTopBorderColor(frameElement.getOwnTopBorderColor());
+		basePrintFrameElement.setTopPadding(frameElement.getOwnTopPadding());
 		return basePrintFrameElement;
 	}
 	
@@ -732,36 +866,36 @@ public class JRPreviewBuilder
 	{
 		JRBasePrintText basePrintTextElement = new JRBasePrintText(defaultStyleProvider);
 		
-		basePrintTextElement.setBorder(textElement.getBorder());
-		basePrintTextElement.setBorderColor(textElement.getBorderColor());
-		basePrintTextElement.setBottomBorder(textElement.getBottomBorder());
-		basePrintTextElement.setBottomBorderColor(textElement.getBottomBorderColor());
-		basePrintTextElement.setBottomPadding(textElement.getBottomPadding());
-		basePrintTextElement.setLeftBorder(textElement.getLeftBorder());
-		basePrintTextElement.setLeftBorderColor(textElement.getLeftBorderColor());
-		basePrintTextElement.setLeftPadding(textElement.getLeftPadding());
-		basePrintTextElement.setPadding(textElement.getPadding());
-		basePrintTextElement.setRightBorder(textElement.getRightBorder());
-		basePrintTextElement.setRightBorderColor(textElement.getRightBorderColor());
-		basePrintTextElement.setRightPadding(textElement.getRightPadding());
-		basePrintTextElement.setTopBorder(textElement.getTopBorder());
-		basePrintTextElement.setTopBorderColor(textElement.getTopBorderColor());
-		basePrintTextElement.setTopPadding(textElement.getTopPadding());
-		basePrintTextElement.setBold(textElement.isBold());
-		basePrintTextElement.setFontName(textElement.getFontName());
-		basePrintTextElement.setFontSize(textElement.getFontSize());
-		basePrintTextElement.setHorizontalAlignment(textElement.getHorizontalAlignment());
-		basePrintTextElement.setItalic(textElement.isItalic());
-		basePrintTextElement.setLineSpacing(textElement.getLineSpacing());
-		basePrintTextElement.setPdfEmbedded(textElement.isPdfEmbedded());
-		basePrintTextElement.setPdfEncoding(textElement.getPdfEncoding());
-		basePrintTextElement.setPdfFontName(textElement.getPdfFontName());
+		basePrintTextElement.setBorder(textElement.getOwnBorder());
+		basePrintTextElement.setBorderColor(textElement.getOwnBorderColor());
+		basePrintTextElement.setBottomBorder(textElement.getOwnBottomBorder());
+		basePrintTextElement.setBottomBorderColor(textElement.getOwnBottomBorderColor());
+		basePrintTextElement.setBottomPadding(textElement.getOwnBottomPadding());
+		basePrintTextElement.setLeftBorder(textElement.getOwnLeftBorder());
+		basePrintTextElement.setLeftBorderColor(textElement.getOwnLeftBorderColor());
+		basePrintTextElement.setLeftPadding(textElement.getOwnLeftPadding());
+		basePrintTextElement.setPadding(textElement.getOwnPadding());
+		basePrintTextElement.setRightBorder(textElement.getOwnRightBorder());
+		basePrintTextElement.setRightBorderColor(textElement.getOwnRightBorderColor());
+		basePrintTextElement.setRightPadding(textElement.getOwnRightPadding());
+		basePrintTextElement.setTopBorder(textElement.getOwnTopBorder());
+		basePrintTextElement.setTopBorderColor(textElement.getOwnTopBorderColor());
+		basePrintTextElement.setTopPadding(textElement.getOwnTopPadding());
+		basePrintTextElement.setBold(textElement.isOwnBold());
+		basePrintTextElement.setFontName(textElement.getOwnFontName());
+		basePrintTextElement.setFontSize(textElement.getOwnFontSize());
+		basePrintTextElement.setHorizontalAlignment(textElement.getOwnHorizontalAlignment());
+		basePrintTextElement.setItalic(textElement.isOwnItalic());
+		basePrintTextElement.setLineSpacing(textElement.getOwnLineSpacing());
+		basePrintTextElement.setPdfEmbedded(textElement.isOwnPdfEmbedded());
+		basePrintTextElement.setPdfEncoding(textElement.getOwnPdfEncoding());
+		basePrintTextElement.setPdfFontName(textElement.getOwnPdfFontName());
 		basePrintTextElement.setReportFont(textElement.getReportFont());
-		basePrintTextElement.setRotation(textElement.getRotation());
-		basePrintTextElement.setStrikeThrough(textElement.isStrikeThrough());
-		basePrintTextElement.setStyledText(textElement.isStyledText());
-		basePrintTextElement.setUnderline(textElement.isUnderline());
-		basePrintTextElement.setVerticalAlignment(textElement.getVerticalAlignment());
+		basePrintTextElement.setRotation(textElement.getOwnRotation());
+		basePrintTextElement.setStrikeThrough(textElement.isOwnStrikeThrough());
+		basePrintTextElement.setStyledText(textElement.isOwnStyledText());
+		basePrintTextElement.setUnderline(textElement.isOwnUnderline());
+		basePrintTextElement.setVerticalAlignment(textElement.getOwnVerticalAlignment());
 
 		if(textElement instanceof JRStaticText)
 		{
@@ -775,7 +909,7 @@ public class JRPreviewBuilder
 					);
 			basePrintTextElement.setBookmarkLevel(textFieldElement.getBookmarkLevel());
 			basePrintTextElement.setLinkType(textFieldElement.getLinkType());
-			basePrintTextElement.setPattern(textFieldElement.getPattern());
+			basePrintTextElement.setPattern(textFieldElement.getOwnPattern());
 			basePrintTextElement.setText(
 					getExpressionText(textFieldElement.getExpression())
 					);
@@ -797,10 +931,13 @@ public class JRPreviewBuilder
 	 */
 	private void measureTextElement (JRBasePrintText basePrintTextElement, JRTextElement textElement)
 	{
-		TextMeasurer textMeasurer = new TextMeasurer(textElement);
+		TextMeasurer textMeasurer = new TextMeasurer(textElement.getWidth(), textElement.getHeight(), basePrintTextElement,
+				basePrintTextElement.getRotation(), basePrintTextElement.getLineSpacing(),
+				basePrintTextElement.isStyledText(), basePrintTextElement.getFontSize());
+		JRStyledText styledText = getStyledText(textElement, basePrintTextElement);
 		textMeasurer.measure(
-				getStyledText(textElement), 
-				getStyledText(textElement).getText(),
+				styledText, 
+				styledText.getText(),
 				0,
 				0
 				);
@@ -818,11 +955,11 @@ public class JRPreviewBuilder
 	 */
 	private void setBaseElement (JRBasePrintElement baseElement, JRElement designElement, int bandHeight, int parentX, int parentY, int parentWidth, int parentHeight, boolean isFrameChild)
 	{
-		baseElement.setBackcolor(designElement.getBackcolor());
-		baseElement.setForecolor(designElement.getForecolor());
+		baseElement.setBackcolor(designElement.getOwnBackcolor());
+		baseElement.setForecolor(designElement.getOwnForecolor());
 		baseElement.setKey(designElement.getKey());
-		baseElement.setMode(designElement.getMode());
-		baseElement.setStyle(designElement.getStyle());
+		baseElement.setMode(designElement.getOwnMode());
+		baseElement.setStyle(resolveStyle(designElement));
 		
 		if(isFrameChild)
 		{
@@ -832,6 +969,30 @@ public class JRPreviewBuilder
 		{
 			setBaseElementGeometry(baseElement, designElement, offsetX, offsetY, pageWidth, bandHeight);
 		}
+	}
+	
+	protected JRStyle resolveStyle(JRStyleContainer originalContainer)
+	{
+		JRStyle originalStyle = originalContainer.getStyle();
+		String nameReference = originalContainer.getStyleNameReference();
+		JRStyle style;
+		if (originalStyle != null)
+		{
+			style = styleFactory.getStyle(originalStyle);
+		}
+		else if (nameReference != null)
+		{
+			style = (JRStyle) stylesMap.get(nameReference);
+			if (style == null)
+			{
+				log.warn("Style " + nameReference + " could not be resolved.");
+			}
+		}
+		else
+		{
+			style = null;
+		}
+		return style;
 	}
 	
 	private void setBaseElementGeometry (JRBasePrintElement baseElement, JRElement element,int parentX, int parentY, int parentWidth, int parentHeight)
@@ -969,7 +1130,7 @@ public class JRPreviewBuilder
 		
 		frame.setMode(cell.getMode());
 		frame.setBackcolor(cell.getBackcolor());
-		frame.setStyle(cell.getStyle());
+		frame.setStyle(resolveStyle(cell));
 		
 		JRBox box = cell.getBox();
 		if (box != null)
@@ -1344,4 +1505,31 @@ public class JRPreviewBuilder
 			this.contourY = contourY;
 		}
 	}
+	
+	protected class StyleFactory extends JRBaseObjectFactory
+	{
+		public StyleFactory()
+		{
+			super(defaultStyleProvider);
+		}
+
+		public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
+		{
+			return expression;
+		}
+
+		protected void handleStyleNameReference(JRStyleSetter setter, String nameReference)
+		{
+			JRStyle style = (JRStyle) stylesMap.get(nameReference);
+			if (style == null)
+			{
+				log.warn("Style " + nameReference + " could not be resolved.");
+			}
+			else
+			{
+				setter.setStyle(style);
+			}
+		}
+	}
+	
 }
