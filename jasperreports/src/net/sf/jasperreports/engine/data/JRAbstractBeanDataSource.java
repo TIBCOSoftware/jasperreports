@@ -41,6 +41,13 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 {
 	
+	/**
+	 * Field mapping that produces the current bean.
+	 * <p/>
+	 * If the field name/description matches this constant (the case is important),
+	 * the data source will return the current bean as the field value.
+	 */
+	public static final String CURRENT_BEAN_MAPPING = "_THIS";
 
 	/**
 	 *
@@ -97,7 +104,11 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	{
 		Object value = null;
 		
-		if (bean != null)
+		if (isCurrentBeanMapping(propertyName))
+		{
+			value = bean;
+		}
+		else if (bean != null)
 		{
 			try
 			{
@@ -128,6 +139,10 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 		return value;
 	}
 
+	protected static boolean isCurrentBeanMapping(String propertyName)
+	{
+		return CURRENT_BEAN_MAPPING.equals(propertyName);
+	}
 
 	protected String getPropertyName(JRField field)
 	{
