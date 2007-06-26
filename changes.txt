@@ -9,6 +9,8 @@ JasperReports 1.3.5 (2007-0x-xx)
 
 - faster XML data source using Jaxen;
 
+- current bean mapping (_THIS) in bean data sources
+
 - minor bug fixes and improvements;
 
 
