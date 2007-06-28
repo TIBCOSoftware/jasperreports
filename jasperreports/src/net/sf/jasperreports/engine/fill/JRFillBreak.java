@@ -208,14 +208,14 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		{
 			if (getType() == JRBreak.TYPE_COLUMN)
 			{
-				if (!filler.isNewColumn || band.firstYElement != null)
+				if (!filler.isFirstColumnBand || band.firstYElement != null)
 				{
 					setStretchHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
 				}
 			}
 			else
 			{
-				if (!filler.isNewPage || band.firstYElement != null)
+				if (!filler.isFirstPageBand || band.firstYElement != null)
 				{
 					setStretchHeight(getHeight() + availableStretchHeight - getRelativeY() + getY() + getBandBottomY());
 					filler.columnIndex = filler.columnCount - 1;
