@@ -387,6 +387,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		columnHeaderOffsetY = offsetY;
 		
 		isNewPage = true;
+		isFirstPageBand = true;
 	}
 
 	
@@ -482,6 +483,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		isNewColumn = true;
+		isFirstColumnBand = true;
 	}
 
 
@@ -569,6 +571,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		group.setHeaderPrinted(true);
 
 		isNewGroup = true;
+		isFirstPageBand = false;
+		isFirstColumnBand = false;
 	}
 
 
@@ -613,6 +617,9 @@ public class JRVerticalFiller extends JRBaseFiller
 	
 				fillColumnBand(groupHeader, evaluation);
 			}
+			
+			isFirstPageBand = false;
+			isFirstColumnBand = false;
 		}
 	}
 
@@ -665,6 +672,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		isNewPage = false;
 		isNewColumn = false;
 		isNewGroup = false;
+		isFirstPageBand = false;
+		isFirstColumnBand = false;
 	}
 
 
@@ -723,7 +732,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		isNewPage = false;
 		isNewColumn = false;
-
+		isFirstPageBand = false;
+		isFirstColumnBand = false;
+		
 		group.setHeaderPrinted(false);
 		group.setFooterPrinted(true);
 	}

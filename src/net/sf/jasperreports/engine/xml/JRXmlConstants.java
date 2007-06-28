@@ -280,7 +280,7 @@ public class JRXmlConstants
 		{
 			breakTypeMap = new HashMap(4);
 			breakTypeMap.put(BREAK_TYPE_PAGE,   new Byte(JRBreak.TYPE_PAGE));
-			breakTypeMap.put(BREAK_TYPE_COLUMN, new Byte(JRPrintText.RUN_DIRECTION_RTL));
+			breakTypeMap.put(BREAK_TYPE_COLUMN, new Byte(JRBreak.TYPE_COLUMN));
 			breakTypeMap.put(new Byte(JRBreak.TYPE_PAGE),   BREAK_TYPE_PAGE);
 			breakTypeMap.put(new Byte(JRBreak.TYPE_COLUMN), BREAK_TYPE_COLUMN);
 		}

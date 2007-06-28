@@ -327,6 +327,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected boolean isNewPage = false;
 	protected boolean isNewColumn = false;
 	protected boolean isNewGroup = true;
+	protected boolean isFirstPageBand = false;
+	protected boolean isFirstColumnBand = false;
 
 	protected int columnIndex = 0;
 
