@@ -28,6 +28,7 @@
 package net.sf.jasperreports.olap.mondrian;
 
 import mondrian.olap.Axis;
+import mondrian.olap.AxisOrdinal;
 import mondrian.olap.Cell;
 import mondrian.olap.Query;
 import mondrian.olap.Result;
@@ -57,7 +58,8 @@ public class JRMondrianResult implements JROlapResult
 		axes = new JRMondrianAxis[resultAxes.length];
 		for (int i = 0; i < resultAxes.length; i++)
 		{
-			axes[i] = new JRMondrianAxis(resultAxes[i], query.getMdxHierarchiesOnAxis(i), factory);
+			AxisOrdinal ordinal = AxisOrdinal.forLogicalOrdinal(i);
+			axes[i] = new JRMondrianAxis(resultAxes[i], query.getMdxHierarchiesOnAxis(ordinal), factory);
 		}
 	}
 
