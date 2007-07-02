@@ -27,6 +27,8 @@
  */
 package net.sf.jasperreports.olap.mondrian;
 
+import java.util.Iterator;
+
 import mondrian.olap.Member;
 import mondrian.olap.Position;
 import net.sf.jasperreports.olap.result.JROlapMember;
@@ -44,11 +46,12 @@ public class JRMondrianTuple implements JROlapMemberTuple
 	
 	public JRMondrianTuple(Position position, JRMondrianFactory factory)
 	{
-		Member[] positionMembers = position.getMembers();
-		members = new JRMondrianMember[positionMembers.length];
-		for (int i = 0; i < positionMembers.length; i++)
+		members = new JRMondrianMember[position.size()];
+		int idx = 0;
+		for (Iterator it = position.iterator(); it.hasNext(); ++idx)
 		{
-			members[i] = factory.createMember(positionMembers[i]);
+			Member member = (Member) it.next();
+			members[idx] = factory.createMember(member);
 		}
 	}
 

@@ -27,6 +27,9 @@
  */
 package net.sf.jasperreports.olap.mondrian;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.olap.result.JROlapHierarchy;
 import net.sf.jasperreports.olap.result.JROlapMemberTuple;
 import net.sf.jasperreports.olap.result.JROlapResultAxis;
@@ -47,11 +50,14 @@ public class JRMondrianAxis implements JROlapResultAxis
 	
 	public JRMondrianAxis(Axis axis, Hierarchy[] axisHierarchies, JRMondrianFactory factory)
 	{
-		Position[] positions = axis.positions;
-		tuples = new JRMondrianTuple[positions.length];
-		for (int i = 0; i < positions.length; i++)
+		List positions = axis.getPositions();
+		tuples = new JRMondrianTuple[positions.size()];
+		
+		int idx = 0;
+		for (Iterator it = positions.iterator(); it.hasNext(); ++idx)
 		{
-			tuples[i] = new JRMondrianTuple(positions[i], factory);
+			Position position = (Position) it.next();
+			tuples[idx] = new JRMondrianTuple(position, factory);
 		}
 		
 		hierarchies = new JRMondrianHierarchy[axisHierarchies.length];

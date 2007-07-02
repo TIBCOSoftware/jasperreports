@@ -11,6 +11,8 @@ JasperReports 1.3.5 (2007-0x-xx)
 
 - current bean mapping (_THIS) in bean data sources
 
+- Mondrian 2.3.2 upgrade
+
 - minor bug fixes and improvements;
 
 

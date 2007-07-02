@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/png-encoder-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-javaflow-20060411.jar"/>
-	<classpathentry kind="lib" path="lib/mondrian-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jpa.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.jar"/>
@@ -27,5 +26,6 @@
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.7.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/mondrian-2.3.2.8944.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
