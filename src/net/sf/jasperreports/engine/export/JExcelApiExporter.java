@@ -60,6 +60,7 @@ import jxl.format.Orientation;
 import jxl.format.PageOrientation;
 import jxl.format.PaperSize;
 import jxl.format.Pattern;
+import jxl.format.RGB;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Blank;
@@ -99,9 +100,12 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -110,13 +114,18 @@ import org.apache.commons.collections.ReferenceMap;
  */
 public class JExcelApiExporter extends JRXlsAbstractExporter
 {
+	
+	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
+	
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;
 	
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 	
 	private static Map colorsCache = new ReferenceMap();
-
+	
+	private static Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK, 
+		Colour.DEFAULT_BACKGROUND, Colour.DEFAULT_BACKGROUND1, Colour.AUTOMATIC, Colour.UNKNOWN};
 
 	private Map loadedCellStyles = new HashMap();
 
@@ -133,6 +142,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected Map formatPatternsMap = null;
 	
+	protected boolean createCustomPalette;
+	protected Map workbookColours = new HashMap();
+	protected Map usedColours = new HashMap();
+	
 	
 	public JExcelApiExporter()
 	{
@@ -143,9 +156,57 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected void setParameters()
 	{
 		super.setParameters();
+		
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
+		
+		Boolean createCustomPaletteParameter = (Boolean)parameters.get(JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE);
+		if (createCustomPaletteParameter == null)
+		{
+			createCustomPalette = JRProperties.getBooleanProperty(JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE);
+		}
+		else
+		{
+			createCustomPalette = createCustomPaletteParameter.booleanValue();
+		}
+		
+		if (createCustomPalette)
+		{
+			initCustomPalette();
+		}
 	}
 
+	protected void initCustomPalette()
+	{
+		//mark "fixed" colours as always used
+		for (int i = 0; i < FIXED_COLOURS.length; i++)
+		{
+			Colour colour = FIXED_COLOURS[i];
+			setColourUsed(colour);
+		}
+	}
+
+	protected void setColourUsed(Colour colour)
+	{
+		usedColours.put(colour, colour.getDefaultRGB());
+	}
+
+	protected void setColourUsed(Colour colour, Color reportColour)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Modifying palette colour " + colour.getValue() + " to " + reportColour);
+		}
+		
+		int red = reportColour.getRed();
+		int green = reportColour.getGreen();
+		int blue = reportColour.getBlue();
+		
+		workbook.setColourRGB(colour, red, green, blue);
+		
+		RGB customRGB = new RGB(red, green, blue);
+		usedColours.put(colour, customRGB);
+	}
+	
 	protected void setBackground()
 	{
 		if (isWhitePageBackground)
@@ -235,7 +296,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Colour forecolor = BLACK;
 			if (gridCell.getForecolor() != null)
 			{
-				forecolor = getNearestColour(gridCell.getForecolor());
+				forecolor = getWorkbookColour(gridCell.getForecolor());
 			}
 			
 			Pattern mode = backgroundMode;
@@ -243,7 +304,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
-				backcolor = getNearestColour(gridCell.getCellBackcolor());
+				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 			}
 
 			WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
@@ -267,7 +328,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, x, y);
 
-		Colour forecolor2 = getNearestColour(line.getForecolor());
+		Colour forecolor2 = getWorkbookColour(line.getForecolor());
 		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor2.getValue());
 		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(Pattern.SOLID, forecolor2, Alignment.LEFT.getValue(),
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
@@ -289,14 +350,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, x, y);
 
-		Colour forecolor = getNearestColour(element.getForecolor());
+		Colour forecolor = getWorkbookColour(element.getForecolor());
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
 		if (gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getNearestColour(gridCell.getCellBackcolor());
+			backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 		}
 
 		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
@@ -323,7 +384,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		if (styledText != null)
 		{
-			Colour forecolor = getNearestColour(text.getForecolor());
+			Colour forecolor = getWorkbookColour(text.getForecolor());
 			WritableFont cellFont = this.getLoadedFont(text, forecolor.getValue());
 			
 			TextAlignHolder alignment = getTextAlignHolder(text);
@@ -337,7 +398,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if (gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
-				backcolor = getNearestColour(gridCell.getCellBackcolor());
+				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 			}
 
 			StyleInfo baseStyle = new StyleInfo(mode, backcolor, 
@@ -742,17 +803,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					
 					Pattern mode = this.backgroundMode;
 					Colour background = WHITE;
-					Colour forecolor = getNearestColour(element.getForecolor());
+					Colour forecolor = getWorkbookColour(element.getForecolor());
 					
 					if (element.getBorderColor() != null ){
-						forecolor = getNearestColour(element.getBorderColor());
+						forecolor = getWorkbookColour(element.getBorderColor());
 					}
 					
 					WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
 					
 					if(element.getMode() == JRElement.MODE_OPAQUE ){
 						mode = Pattern.SOLID;
-						background = getNearestColour(element.getBackcolor());
+						background = getWorkbookColour(element.getBackcolor());
 					}
 					
 					WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, background, Alignment.LEFT.getValue(),
@@ -787,6 +848,91 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		//}
 	}
 
+	protected Colour getWorkbookColour(Color awtColor)
+	{
+		Colour colour;
+		if (createCustomPalette)
+		{
+			colour = (Colour) workbookColours.get(awtColor);
+			if (colour == null)
+			{
+				colour = determineWorkbookColour(awtColor);
+				workbookColours.put(awtColor, colour);
+			}
+		}
+		else
+		{
+			colour = getNearestColour(awtColor);
+		}
+		return colour;
+	}
+	
+	protected Colour determineWorkbookColour(Color awtColor)
+	{
+		//nearest match
+		int minDist = 999;
+		Colour minColour = null;
+		
+		//nearest match among the available (not used) colours
+		int minDistAvailable = 999;
+		Colour minColourAvailable = null;
+
+		Colour[] colors = Colour.getAllColours();
+		for (int i = 0; i < colors.length; i++)
+		{
+			Colour colour = colors[i];
+			RGB customRGB = (RGB) usedColours.get(colour);
+
+			RGB rgb = customRGB == null ? colour.getDefaultRGB() : customRGB;
+			int dist = rgbDistance(awtColor, rgb);
+			if (dist < minDist)
+			{
+				minDist = dist;
+				minColour = colour;
+			}
+			
+			if (dist == 0)//exact match
+			{
+				break;
+			}
+
+			if (customRGB == null)//the colour is not used
+			{
+				if (dist < minDistAvailable)
+				{
+					minDistAvailable = dist;
+					minColourAvailable = colour;
+				}
+			}
+		}
+
+		Colour workbookColour;
+		if (minDist == 0)//exact match found
+		{
+			if (!usedColours.containsKey(minColour))
+			{
+				//if the colour is not marked as used, mark it
+				setColourUsed(minColour);
+			}
+			workbookColour = minColour;
+		}
+		else if (minColourAvailable == null)//all the colours are used
+		{
+			if (log.isWarnEnabled())
+			{
+				log.warn("No more available colours in the palette.  Using the nearest match for " + awtColor);
+			}
+			workbookColour = minColour;
+		}
+		else
+		{
+			//modifying the nearest available colour to the report colour
+			setColourUsed(minColourAvailable, awtColor);
+			workbookColour = minColourAvailable;
+		}
+		return workbookColour;
+	}
+
 	protected static Colour getNearestColour(Color awtColor)
 	{
 		Colour color = (Colour) colorsCache.get(awtColor);
@@ -796,20 +942,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			Colour[] colors = Colour.getAllColours();
 			if ((colors != null) && (colors.length > 0))
 			{
-				Colour crtColor = null;
-				int[] rgb = null;
-				int diff = 0;
 				int minDiff = 999;
 
 				for (int i = 0; i < colors.length; i++)
 				{
-					crtColor = colors[i];
-					rgb = new int[3];
-					rgb[0] = crtColor.getDefaultRGB().getRed();
-					rgb[1] = crtColor.getDefaultRGB().getGreen();
-					rgb[2] = crtColor.getDefaultRGB().getBlue();
-
-					diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
+					Colour crtColor = colors[i];
+					int diff = rgbDistance(awtColor, crtColor.getDefaultRGB());
 
 					if (diff < minDiff)
 					{
@@ -823,6 +961,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 		
 		return color;
+	}
+
+	protected static int rgbDistance(Color awtColor, RGB rgb)
+	{
+		int diff = Math.abs(rgb.getRed() - awtColor.getRed()) 
+			+ Math.abs(rgb.getGreen() - awtColor.getGreen()) 
+			+ Math.abs(rgb.getBlue() - awtColor.getBlue());
+		return diff;
 	}
 	
 	
@@ -923,7 +1069,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return cellFont;
 	}
 
-	protected static class BoxStyle
+	protected class BoxStyle
 	{
 		protected final BorderLineStyle topBorder;
 		protected final BorderLineStyle bottomBorder;
@@ -940,7 +1086,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if(box != null && box.getTopBorder() != JRGraphicElement.PEN_NONE)
 			{
 				topBorder = getBorderLineStyle(box.getTopBorder());
-				topBorderColour = getNearestColour(box.getTopBorderColor());
+				topBorderColour = getWorkbookColour(box.getTopBorderColor());
 			}
 			else
 			{
@@ -951,7 +1097,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if(box != null && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
 			{
 				bottomBorder = getBorderLineStyle(box.getBottomBorder());
-				bottomBorderColour = getNearestColour(box.getBottomBorderColor());
+				bottomBorderColour = getWorkbookColour(box.getBottomBorderColor());
 			}
 			else
 			{
@@ -962,7 +1108,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if(box != null && box.getLeftBorder()!= JRGraphicElement.PEN_NONE)
 			{
 				leftBorder = getBorderLineStyle(box.getLeftBorder());
-				leftBorderColour = getNearestColour(box.getLeftBorderColor());
+				leftBorderColour = getWorkbookColour(box.getLeftBorderColor());
 			}
 			else
 			{
@@ -973,7 +1119,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			if(box != null && box.getRightBorder() != JRGraphicElement.PEN_NONE)
 			{
 				rightBorder = getBorderLineStyle(box.getRightBorder());
-				rightBorderColour = getNearestColour(box.getRightBorderColor());
+				rightBorderColour = getWorkbookColour(box.getRightBorderColor());
 			}	
 			else
 			{
@@ -1027,7 +1173,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 	
-	protected static class StyleInfo
+	protected class StyleInfo
 	{
 		protected final Pattern mode;
 		protected final Colour backcolor;
@@ -1437,14 +1583,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, x, y);
 
-		Colour forecolor = getNearestColour(frame.getForecolor());
+		Colour forecolor = getWorkbookColour(frame.getForecolor());
 		Colour backcolor = WHITE;
 		Pattern mode = backgroundMode;
 
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
 			mode = Pattern.SOLID;
-			backcolor = getNearestColour(frame.getBackcolor());
+			backcolor = getWorkbookColour(frame.getBackcolor());
 		}
 
 		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
