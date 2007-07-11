@@ -10,9 +10,6 @@
 	
 	<path id="classpath">
 		<pathelement location="./build/classes"/>
-		<fileset dir="./lib">
-			<include name="**/*.jar"/>
-		</fileset>
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">
