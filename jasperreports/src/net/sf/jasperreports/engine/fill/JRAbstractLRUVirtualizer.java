@@ -37,11 +37,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -231,6 +235,94 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	protected static final int CLASSLOADER_IDX_NOT_SET = -1;
+	
+	protected static boolean isAncestorClassLoader(ClassLoader loader)
+	{
+		for (
+				ClassLoader ancestor = JRAbstractLRUVirtualizer.class.getClassLoader(); 
+				ancestor != null; 
+				ancestor = ancestor.getParent())
+		{
+			if (ancestor.equals(loader))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected final Map classLoadersIndexes = new HashMap();
+	protected final List classLoadersList = new ArrayList();
+	
+	protected class ClassLoaderAnnotationObjectOutputStream extends ObjectOutputStream
+	{
+		public ClassLoaderAnnotationObjectOutputStream(OutputStream out) throws IOException
+		{
+			super(out);
+		}
+
+		protected void annotateClass(Class clazz) throws IOException
+		{
+			super.annotateClass(clazz);
+			
+			ClassLoader classLoader = clazz.getClassLoader();
+			int loaderIdx;
+			if (clazz.isPrimitive()
+					|| classLoader == null 
+					|| isAncestorClassLoader(classLoader))
+			{
+				loaderIdx = CLASSLOADER_IDX_NOT_SET;
+			}
+			else
+			{
+				Integer idx = (Integer) classLoadersIndexes.get(classLoader);
+				if (idx == null)
+				{
+					idx = new Integer(classLoadersList.size());
+					classLoadersIndexes.put(classLoader, idx);
+					classLoadersList.add(classLoader);
+				}
+				loaderIdx = idx.intValue();
+			}
+			
+			writeShort(loaderIdx);
+		}
+	}
+	
+	protected class ClassLoaderAnnotationObjectInputStream extends ObjectInputStream
+	{
+		public ClassLoaderAnnotationObjectInputStream(InputStream in) throws IOException
+		{
+			super(in);
+		}
+
+		protected Class resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
+		{
+			Class clazz;
+			try
+			{
+				clazz = super.resolveClass(desc);
+				readShort();
+			}
+			catch (ClassNotFoundException e)
+			{
+				int loaderIdx = readShort();
+				if (loaderIdx == CLASSLOADER_IDX_NOT_SET)
+				{
+					throw e;
+				}
+				
+				ClassLoader loader = (ClassLoader) classLoadersList.get(loaderIdx);
+				clazz = Class.forName(desc.getName(), false, loader);
+			}
+			
+			return clazz;
+		}
+		
+		
+	}
+	
 	private final Cache pagedIn;
 
 	private final ReferenceMap pagedOut;
@@ -481,7 +573,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectOutputStream oos = new ObjectOutputStream(out);
+			ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out);
 			oos.writeObject(o.getIdentityData());
 			oos.writeObject(o.getVirtualData());
 			oos.flush();
@@ -507,7 +599,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream(in);
+			ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in);
 			o.setIdentityData(ois.readObject());
 			o.setVirtualData(ois.readObject());
 		}
