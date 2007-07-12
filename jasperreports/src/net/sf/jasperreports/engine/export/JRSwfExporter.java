@@ -37,8 +37,14 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,13 +55,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -65,6 +75,7 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -74,9 +85,12 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import com.iv.flash.api.AlphaColor;
 import com.iv.flash.api.FlashFile;
 import com.iv.flash.api.Frame;
+import com.iv.flash.api.Instance;
 import com.iv.flash.api.Matrix;
 import com.iv.flash.api.Rect;
 import com.iv.flash.api.Script;
+import com.iv.flash.api.image.Bitmap;
+import com.iv.flash.api.image.LLBitmap;
 import com.iv.flash.api.shape.FillStyle;
 import com.iv.flash.api.shape.LineStyle;
 import com.iv.flash.api.shape.Shape;
@@ -84,7 +98,9 @@ import com.iv.flash.api.text.Font;
 import com.iv.flash.api.text.FontDef;
 import com.iv.flash.api.text.Text;
 import com.iv.flash.api.text.TextItem;
+import com.iv.flash.util.FlashBuffer;
 import com.iv.flash.util.FlashOutput;
+import com.iv.flash.util.IVException;
 
 
 /**
@@ -147,7 +163,14 @@ public class JRSwfExporter extends JRAbstractExporter
 	
 	protected int zorder;
 
-
+	/**
+	 * if multiple pages involved, absoluteOffsetY calculates the total height of pages before current page 
+	 */
+	protected int absoluteOffsetY;
+	
+	protected int totalHeight;
+	protected int totalWidth;
+	;
 	/**
 	 *
 	 */
@@ -275,12 +298,14 @@ public class JRSwfExporter extends JRAbstractExporter
         script.setMain();
         flashFile.setMainScript( script );       // set main script for the file
         flashFrame = script.newFrame();        // create new frame and add to the end of the timeline
-		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 			
 			List pages = jasperPrint.getPages();
+        	totalHeight += pages.size() * jasperPrint.getPageHeight();
+        	totalWidth = Math.max(totalWidth, jasperPrint.getPageWidth());
+
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -305,6 +330,7 @@ public class JRSwfExporter extends JRAbstractExporter
 
 					/*   */
 					exportPage(page);
+					absoluteOffsetY += jasperPrint.getPageHeight();
 				}
 			}
 			else
@@ -312,7 +338,8 @@ public class JRSwfExporter extends JRAbstractExporter
 				//TODO: empty documents
 			}
 		}
-		
+		flashFile.setFrameSize(new Rect(0, 0, twip(totalWidth), twip(totalHeight)));
+
 		try
 		{
 			FlashOutput flashOutput = flashFile.generate();
@@ -383,7 +410,7 @@ public class JRSwfExporter extends JRAbstractExporter
 				}
 				else if (element instanceof JRPrintFrame)
 				{
-					//exportFrame((JRPrintFrame) element);
+					exportFrame((JRPrintFrame) element);
 				}
 			}
 		}
@@ -412,9 +439,9 @@ public class JRSwfExporter extends JRAbstractExporter
 			if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
 			{
 				x0 = twip(line.getX() + getOffsetX());
-				y0 = twip(line.getY() + getOffsetY());
+				y0 = twip(absoluteOffsetY + line.getY() + getOffsetY());
 				x = twip(line.getX() + getOffsetX() + lineWidth);
-				y = twip(line.getY() + getOffsetY() + lineHeight);
+				y = twip(absoluteOffsetY + line.getY() + getOffsetY() + lineHeight);
 				
 				shape.moveTo(x0,y0);
 				shape.lineTo(x,y);
@@ -422,9 +449,9 @@ public class JRSwfExporter extends JRAbstractExporter
 			else
 			{
 				x0 = twip(line.getX() + getOffsetX());
-				y0 = twip(line.getY() + getOffsetY() + lineHeight);
+				y0 = twip(absoluteOffsetY + line.getY() + getOffsetY() + lineHeight);
 				x = twip(line.getX() + getOffsetX() + lineWidth);
-				y = twip(line.getY() + getOffsetY());
+				y = twip(absoluteOffsetY + line.getY() + getOffsetY());
 				
 				shape.moveTo(x0,y0);
 				shape.lineTo(x,y);
@@ -457,9 +484,9 @@ public class JRSwfExporter extends JRAbstractExporter
 			shape.setFillStyle0(FillStyle.newSolid(getAlphaColor(rectangle.getBackcolor())));         
 		}
 		int x0 = twip(rectangle.getX() + getOffsetX());
-		int y0 = twip(rectangle.getY() + getOffsetY());
+		int y0 = twip(absoluteOffsetY + rectangle.getY() + getOffsetY());
 		int x = twip(rectangle.getX() + getOffsetX() + rectangle.getWidth());
-		int y = twip(rectangle.getY() + getOffsetY() + rectangle.getHeight());
+		int y = twip(absoluteOffsetY + rectangle.getY() + getOffsetY() + rectangle.getHeight());
 		
 		Rect r = new Rect(x0, y0, x, y);		// create Rect for the rectangle
 		int radius = rectangle.getRadius();
@@ -504,9 +531,9 @@ public class JRSwfExporter extends JRAbstractExporter
 			shape.setFillStyle0(FillStyle.newSolid(getAlphaColor(ellipse.getBackcolor())));         
 		}
 		int x0 = twip(ellipse.getX() + getOffsetX());
-		int y0 = twip(ellipse.getY() + getOffsetY());
+		int y0 = twip(absoluteOffsetY + ellipse.getY() + getOffsetY());
 		int x = twip(ellipse.getX() + getOffsetX() + ellipse.getWidth());
-		int y = twip(ellipse.getY() + getOffsetY() + ellipse.getHeight());
+		int y = twip(absoluteOffsetY + ellipse.getY() + getOffsetY() + ellipse.getHeight());
 		int ellipseHeight = twip(ellipse.getHeight()/2);
 		int ellipseWidth = twip(ellipse.getWidth()/2);
 		
@@ -531,11 +558,12 @@ public class JRSwfExporter extends JRAbstractExporter
 		{
 			return;
 		}
-
-		int textLength = styledText.length();
 		
+		exportBox((JRBox)text, text);
+		
+		int textLength = styledText.length();
 		int x = text.getX() + getOffsetX();
-		int y = text.getY() + getOffsetY();
+		int y = absoluteOffsetY + text.getY() + getOffsetY();
 		int width = text.getWidth();
 		int height = text.getHeight();
 		int topPadding = text.getTopPadding();
@@ -543,25 +571,6 @@ public class JRSwfExporter extends JRAbstractExporter
 		int bottomPadding = text.getBottomPadding();
 		int rightPadding = text.getRightPadding();
 
-		Shape shape = new Shape();                                      
-		if (text.getMode() == JRElement.MODE_OPAQUE)
-		{
-			Color backcolor = text.getBackcolor();
-			shape.setFillStyle0( FillStyle.newSolid( getAlphaColor(backcolor) ) );         
-		}
-
-		// set fill and line style
-		if(text.getBorder() > 0)
-		{
-			Color borderColor = text.getBorderColor() == null ? Color.BLACK : text.getBorderColor();
-			shape.setLineStyle( new LineStyle( getLineWidth(text.getBorder()), getAlphaColor(borderColor) ) );
-		}
-		
-		Rect r = new Rect(twip(x), twip(y), twip(x + width), twip(y + height));                // create Rect for the rectangle
-		shape.rectangle( r );                                           // draw rectangle (it's rather square :))
-		shape.setBounds( r );                                           // set bounding box for the shape
-		flashFrame.addInstance(shape, zorder++, new Matrix(), null);
-		
 		if (textLength > 0)
 		{
 			int horizontalAlignment = 0;
@@ -671,7 +680,7 @@ public class JRSwfExporter extends JRAbstractExporter
 			{
 				case JRTextElement.ROTATION_LEFT :
 				{
-					y = text.getY() + getOffsetY() + text.getHeight();
+					y = absoluteOffsetY + text.getY() + getOffsetY() + text.getHeight();
 					width = text.getHeight();
 					height = text.getWidth();
 					int tmpPadding = topPadding;
@@ -701,7 +710,7 @@ public class JRSwfExporter extends JRAbstractExporter
 				{
 					int tmpPadding = topPadding;
 					x = text.getX() + getOffsetX() + text.getWidth();
-					y = text.getY() + getOffsetY() + text.getHeight();
+					y = absoluteOffsetY + text.getY() + getOffsetY() + text.getHeight();
 					topPadding = bottomPadding;
 					bottomPadding = tmpPadding;
 					tmpPadding = leftPadding;
@@ -789,6 +798,13 @@ public class JRSwfExporter extends JRAbstractExporter
 		}
 	}
 
+	private void exportFrame(JRPrintFrame frame) throws JRException {
+		exportBox((JRBox)frame,frame);
+		setFrameElementsOffset(frame, false);
+		exportElements(frame.getElements());
+		restoreElementOffsets();
+	}
+	
 	private int twip(int points) {
 		return points * 10;
 	}
@@ -823,8 +839,86 @@ public class JRSwfExporter extends JRAbstractExporter
 		
 	}
 	
+	private void exportBox(JRBox box, JRPrintElement printElement){
+		
+		int x = printElement.getX() + getOffsetX();
+		int y = absoluteOffsetY + printElement.getY() + getOffsetY();
+		int width = printElement.getWidth();
+		int height = printElement.getHeight();
+		
+		if (printElement.getMode() == JRElement.MODE_OPAQUE)
+		{	Shape backgroundShape = new Shape();
+			backgroundShape.setFillStyle0( FillStyle.newSolid(getAlphaColor(printElement.getBackcolor())));   
+			Rect r = new Rect(twip(x), 
+					twip(y), 
+					twip(x + width), 
+					twip(y + height));                // create Rect for the rectangle
+			backgroundShape.rectangle( r );                                           // draw rectangle (it's rather square :))
+			backgroundShape.setBounds( r );                                           // set bounding box for the shape
+			flashFrame.addInstance(backgroundShape, zorder++, null, null);
+			
+		}
+		
+		if(box.getBorder() != JRGraphicElement.PEN_NONE)
+		{
+			Shape borderShape = new Shape();
+			Color borderColor = box.getBorderColor() == null ? printElement.getForecolor() : box.getBorderColor();
+			borderShape.setLineStyle( new LineStyle( getLineWidth(box.getBorder()), getAlphaColor(borderColor) ) );
+			
+			Rect r = new Rect(twip(x), twip(y), twip(x + width), twip(y + height));                // create Rect for the rectangle
+			borderShape.rectangle( r );                                           // draw rectangle (it's rather square :))
+			borderShape.setBounds( r );                                           // set bounding box for the shape
+			flashFrame.addInstance(borderShape, zorder++, null, null);
+		}
+		else
+		{
+			if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
+				Shape topBorderShape = new Shape();
+				Color topBorderColor = box.getTopBorderColor() == null ? printElement.getForecolor() : box.getTopBorderColor();
+				topBorderShape.setLineStyle( new LineStyle(getLineWidth(box.getTopBorder()), getAlphaColor(topBorderColor)));
+				topBorderShape.setBounds(new Rect(twip(x), twip(y), twip(x+width), twip(y)));
+				topBorderShape.moveTo(twip(x),twip(y));
+				topBorderShape.lineTo(twip(x+width), twip(y));
+				flashFrame.addInstance(topBorderShape, zorder++, null, null);
+			}
+			if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Shape leftBorderShape = new Shape();
+				Color leftBorderColor = box.getLeftBorderColor() == null ? printElement.getForecolor() : box.getLeftBorderColor();
+				leftBorderShape.setLineStyle( new LineStyle(getLineWidth(box.getLeftBorder()), getAlphaColor(leftBorderColor)));
+				leftBorderShape.setBounds(new Rect(twip(x), twip(y), twip(x), twip(y+height)));
+				leftBorderShape.moveTo(twip(x),twip(y));
+				leftBorderShape.lineTo(twip(x), twip(y+height));
+				flashFrame.addInstance(leftBorderShape, zorder++, null, null);
+			}
+	
+			if (box.getBottomBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Shape bottomBorderShape = new Shape();
+				Color bottomBorderColor = box.getBottomBorderColor() == null ? printElement.getForecolor() : box.getBottomBorderColor();
+				bottomBorderShape.setLineStyle( new LineStyle(getLineWidth(box.getBottomBorder()), getAlphaColor(bottomBorderColor)));
+				bottomBorderShape.setBounds(new Rect(twip(x), twip(y+height), twip(x+width), twip(y+height)));
+				bottomBorderShape.moveTo(twip(x),twip(y+height));
+				bottomBorderShape.lineTo(twip(x+width), twip(y+height));
+				flashFrame.addInstance(bottomBorderShape, zorder++, null, null);
+			}
+	
+			if (box.getRightBorder() != JRGraphicElement.PEN_NONE)
+			{
+				Shape rightBorderShape = new Shape();
+				Color rightBorderColor = box.getRightBorderColor() == null ? printElement.getForecolor() : box.getRightBorderColor();
+				rightBorderShape.setLineStyle( new LineStyle(getLineWidth(box.getRightBorder()), getAlphaColor(rightBorderColor)));
+				rightBorderShape.setBounds(new Rect(twip(x + width), twip(y), twip(x+width), twip(y+height)));
+				rightBorderShape.moveTo(twip(x + width),twip(y));
+				rightBorderShape.lineTo(twip(x+width), twip(y+height));
+				flashFrame.addInstance(rightBorderShape, zorder++, null, null);
+			}
+		}
+	}
+
 	private AlphaColor getAlphaColor(Color color)
 	{
 		return new AlphaColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}
+	
 }
