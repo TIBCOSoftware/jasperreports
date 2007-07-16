@@ -44,6 +44,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected boolean isCircular = false;
 	
 	/**
 	 *
@@ -60,6 +61,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public JRBasePiePlot(JRPiePlot piePlot, JRBaseObjectFactory factory)
 	{
 		super(piePlot, factory);
+		isCircular = piePlot.isCircular();
 	}
 	
 	/**
@@ -67,6 +69,22 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
+	}
+
+
+	/**
+	 * @return the isCircular
+	 */
+	public boolean isCircular() {
+		return isCircular;
+	}
+
+
+	/**
+	 * @param isCircular the isCircular to set
+	 */
+	public void setCircular(boolean isCircular) {
+		this.isCircular = isCircular;
 	}
 
 }

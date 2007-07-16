@@ -58,6 +58,7 @@ import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimePeriodDataset;
@@ -1443,7 +1444,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writePieDataset((JRPieDataset) chart.getDataset());
 
 		// write plot
+		JRPiePlot plot = (JRPiePlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_piePlot);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
 		writePlot(chart.getPlot());
 		writer.closeElement();
 
@@ -1464,6 +1467,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
 		writer.startElement(JRXmlConstants.ELEMENT_pie3DPlot);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_depthFactor, plot.getDepthFactor(), JRPie3DPlot.DEPTH_FACTOR_DEFAULT);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isCircular, plot.isCircular(), false);
 		writePlot(chart.getPlot());
 		writer.closeElement();
 

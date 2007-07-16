@@ -43,9 +43,20 @@ public class JRPiePlotFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	private static final String ATTRIBUTE_isCircular = "isCircular";
+
+	/**
+	 * 
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();
-		return (JRDesignPiePlot)chart.getPlot();	
+		JRDesignPiePlot piePlot = (JRDesignPiePlot)chart.getPlot();
+		String isCircular = atts.getValue(ATTRIBUTE_isCircular);
+		if (isCircular != null && isCircular.length() > 0) {
+			piePlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
+		}
+		
+		return piePlot;	
 	}
 }

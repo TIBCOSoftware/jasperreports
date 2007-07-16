@@ -44,6 +44,7 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 	 *
 	 */
 	private static final String ATTRIBUTE_depthFactor = "depthFactor";
+	private static final String ATTRIBUTE_isCircular = "isCircular";
 
 	/**
 	 *
@@ -59,6 +60,10 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 			pie3DPlot.setDepthFactor(Double.parseDouble(depthFactor));
 		}
 		
+		String isCircular = atts.getValue(ATTRIBUTE_isCircular);
+		if (isCircular != null && isCircular.length() > 0) {
+			pie3DPlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
+		}
 
 		return pie3DPlot;
 	}

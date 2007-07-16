@@ -50,7 +50,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected double depthFactor = 0.2;
-
+	protected boolean isCircular = false;
 	
 	/**
 	 *
@@ -69,6 +69,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		super(pie3DPlot, factory);
 		
 		depthFactor = pie3DPlot.getDepthFactor();
+		isCircular = pie3DPlot.isCircular();
 	}
 
 	
@@ -95,4 +96,21 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	{
 	}
 
+
+	/**
+	 * @return the isCircular
+	 */
+	public boolean isCircular() {
+		return isCircular;
+	}
+
+
+	/**
+	 * @param isCircular the isCircular to set
+	 */
+	public void setCircular(boolean isCircular) {
+		this.isCircular = isCircular;
+	}
+
+	
 }

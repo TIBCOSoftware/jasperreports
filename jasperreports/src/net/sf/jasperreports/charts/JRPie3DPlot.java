@@ -44,4 +44,5 @@ public interface JRPie3DPlot extends JRChartPlot
 	 */
 	public double getDepthFactor();
 	
+	public boolean isCircular();
 }

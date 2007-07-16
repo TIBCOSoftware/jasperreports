@@ -3313,6 +3313,19 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
       <description>Depth factor for a pie chart plot</description>
       <default>0.2</default>
     </attribute>
+    <attribute>
+      <name>isCircular</name>
+      <description>Indicates whether the pie chart is circular, or stretched into an elliptical shape</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
   </attributes>
 </element>
 
@@ -3355,6 +3368,19 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="plot">plot</a>
   )</contains>
   <attributes>
+    <attribute>
+      <name>isCircular</name>
+      <description>Indicates whether the pie chart is circular, or stretched into an elliptical shape</description>
+      <values>
+        <value>
+          <name>true</name>
+        </value>
+        <value>
+          <name>false</name>
+        </value>
+      </values>
+      <default>false</default>
+    </attribute>
   </attributes>
 </element>
 
