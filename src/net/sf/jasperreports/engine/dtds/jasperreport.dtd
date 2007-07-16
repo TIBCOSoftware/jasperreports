@@ -395,6 +395,9 @@
 >
 
 <!ELEMENT piePlot (plot)>
+<!ATTLIST piePlot
+	isCircular (true | false) "false"
+>
 
 <!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
 <!ATTLIST dataset
@@ -437,6 +440,7 @@
 <!ELEMENT pie3DPlot (plot)>
 <!ATTLIST pie3DPlot
 	depthFactor CDATA "0.2"
+	isCircular (true | false) "false"
 >
 
 <!ELEMENT barChart (chart, categoryDataset, barPlot)>

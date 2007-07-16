@@ -36,7 +36,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
@@ -75,6 +74,7 @@ import net.sf.jasperreports.charts.fill.JRFillMeterPlot;
 import net.sf.jasperreports.charts.fill.JRFillMultiAxisPlot;
 import net.sf.jasperreports.charts.fill.JRFillPie3DPlot;
 import net.sf.jasperreports.charts.fill.JRFillPieDataset;
+import net.sf.jasperreports.charts.fill.JRFillPiePlot;
 import net.sf.jasperreports.charts.fill.JRFillThermometerPlot;
 import net.sf.jasperreports.charts.fill.JRFillTimePeriodDataset;
 import net.sf.jasperreports.charts.fill.JRFillTimeSeriesDataset;
@@ -1539,6 +1539,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
 		piePlot3D.setDepthFactor(((JRFillPie3DPlot)getPlot()).getDepthFactor());
+		piePlot3D.setCircular(((JRFillPie3DPlot)getPlot()).isCircular());
 		
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
@@ -1576,7 +1577,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-
+		piePlot.setCircular(((JRFillPiePlot)getPlot()).isCircular());
+		
 		PieSectionLabelGenerator labelGenerator = ((JRFillPieDataset)getDataset()).getLabelGenerator();
 		if (labelGenerator != null)
 		{

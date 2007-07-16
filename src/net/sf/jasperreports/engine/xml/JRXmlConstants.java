@@ -1392,6 +1392,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isShowOpenTicks = "isShowOpenTicks";
 	public static final String ATTRIBUTE_isShowCloseTicks = "isShowCloseTicks";
 	public static final String ATTRIBUTE_isShowVolume = "isShowVolume";
+	public static final String ATTRIBUTE_isCircular = "isCircular";
 
     /**
      * JRSeriesColorFactory associated constants

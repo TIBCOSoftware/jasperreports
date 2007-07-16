@@ -36,4 +36,5 @@ import net.sf.jasperreports.engine.JRChartPlot;
  */
 public interface JRPiePlot extends JRChartPlot
 {
+	public boolean isCircular();
 }

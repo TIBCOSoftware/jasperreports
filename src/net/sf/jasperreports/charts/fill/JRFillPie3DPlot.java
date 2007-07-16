@@ -60,4 +60,8 @@ public class JRFillPie3DPlot extends JRFillChartPlot implements JRPie3DPlot
 		return ((JRPie3DPlot)parent).getDepthFactor();
 	}
 	
+	public boolean isCircular()
+	{
+		return ((JRPie3DPlot)parent).isCircular();
+	}
 }
