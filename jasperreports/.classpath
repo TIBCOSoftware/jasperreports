@@ -28,7 +28,5 @@
 	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/mondrian-2.3.2.8944.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b4.jar"/>
-	<classpathentry kind="lib" path="lib/fop.jar"/>
-	<classpathentry kind="lib" path="lib/jgen.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
