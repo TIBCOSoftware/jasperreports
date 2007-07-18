@@ -123,11 +123,6 @@ public class JRProperties
 	public static final String PDF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.pdf.fontdir.";
 	
 	/**
-	 * Prefix of properties that specify font directories for the SWF exporter. It could be the same as the PDF fonts directory
-	 */
-	public static final String SWF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.swf.fontdir";
-	
-	/**
 	 * Prefix for query executer factory properties.
 	 * <p/>
 	 * To obtain query executer factories, a property having the query language appended to this prefix is used 
