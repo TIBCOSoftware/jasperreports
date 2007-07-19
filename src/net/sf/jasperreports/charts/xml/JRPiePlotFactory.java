@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignPiePlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -40,10 +41,6 @@ import org.xml.sax.Attributes;
  */
 public class JRPiePlotFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
-	private static final String ATTRIBUTE_isCircular = "isCircular";
 
 	/**
 	 * 
@@ -52,7 +49,7 @@ public class JRPiePlotFactory extends JRBaseFactory
 	{
 		JRChart chart = (JRChart) digester.peek();
 		JRDesignPiePlot piePlot = (JRDesignPiePlot)chart.getPlot();
-		String isCircular = atts.getValue(ATTRIBUTE_isCircular);
+		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
 			piePlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
 		}
