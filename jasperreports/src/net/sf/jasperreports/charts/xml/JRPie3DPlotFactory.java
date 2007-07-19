@@ -30,6 +30,7 @@ package net.sf.jasperreports.charts.xml;
 import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
@@ -44,7 +45,6 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 	 *
 	 */
 	private static final String ATTRIBUTE_depthFactor = "depthFactor";
-	private static final String ATTRIBUTE_isCircular = "isCircular";
 
 	/**
 	 *
@@ -60,7 +60,7 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 			pie3DPlot.setDepthFactor(Double.parseDouble(depthFactor));
 		}
 		
-		String isCircular = atts.getValue(ATTRIBUTE_isCircular);
+		String isCircular = atts.getValue(JRXmlConstants.ATTRIBUTE_isCircular);
 		if (isCircular != null && isCircular.length() > 0) {
 			pie3DPlot.setCircular(Boolean.valueOf(isCircular).booleanValue());
 		}
