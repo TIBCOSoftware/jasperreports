@@ -1046,7 +1046,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		// Add your handling code here:
 		
 		JFileChooser fileChooser = new JFileChooser();
-
+		fileChooser.setLocale(this.getLocale());
+		fileChooser.updateUI();
 		for(int i = 0; i < saveContributors.size(); i++)
 		{
 			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
@@ -1056,8 +1057,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
 		}
-	
-		int retValue = fileChooser.showSaveDialog(this);
+        int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION)
 		{
 			FileFilter fileFilter = fileChooser.getFileFilter();
