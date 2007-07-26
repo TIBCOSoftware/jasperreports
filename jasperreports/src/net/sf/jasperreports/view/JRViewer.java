@@ -632,7 +632,6 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
         setMinimumSize(new java.awt.Dimension(450, 150));
         setPreferredSize(new java.awt.Dimension(450, 150));
-        setFocusable(true);
         tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
