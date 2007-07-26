@@ -383,7 +383,7 @@ public class JRXmlDataSource implements JRRewindableDataSource {
 		}
 		else if (valueClass.equals(BigDecimal.class))
 		{
-			value = BigDecimal.valueOf(number.doubleValue());
+			value = new BigDecimal(Double.toString(number.doubleValue()));
 		}
 		else
 		{
