@@ -254,7 +254,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected JRFillBand summary = null;
 
-	protected JRVirtualizer virtualizer = null;
+    protected JRFillBand noData = null;
+
+    protected JRVirtualizer virtualizer = null;
 
 	protected ClassLoader reportClassLoader = null;
 
@@ -432,12 +434,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		columnFooter = factory.getBand(jasperReport.getColumnFooter());
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
-
 		summary = factory.getBand(jasperReport.getSummary());
 		if (summary != missingFillBand && summary.isEmpty())
 		{
 			summary = missingFillBand;
 		}
+        noData = factory.getBand(jasperReport.getNoData());
 
 		mainDataset.initElementDatasets(factory);
 		initDatasets(factory);
@@ -519,7 +521,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		bands.add(columnHeader);
 		bands.add(columnFooter);
 		bands.add(detail);
-
+		bands.add(noData);
+		
 		if (groups != null && groups.length > 0)
 		{
 			for (int i = 0; i < groups.length; i++)
@@ -566,7 +569,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_PAGE);
 
-		summary.addNowEvaluationTimes(groupEvaluationTimes);
+        summary.addNowEvaluationTimes(groupEvaluationTimes);
+        noData.addNowEvaluationTimes(groupEvaluationTimes);
 	}
 
 

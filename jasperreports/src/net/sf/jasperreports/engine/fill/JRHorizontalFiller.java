@@ -175,6 +175,29 @@ public class JRHorizontalFiller extends JRBaseFiller
 					addPage(printPage);
 					break;
 				}
+				case JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION:
+				{
+                    if (log.isDebugEnabled())
+                    {
+                        log.debug("Fill " + fillerId + ": NoData section");
+                    }
+                    
+                    scriptlet.callBeforeReportInit();
+                    calculator.initializeVariables(JRVariable.RESET_TYPE_REPORT);
+                    scriptlet.callAfterReportInit();
+            
+                    printPage = newPage();
+                    addPage(printPage);
+                    setFirstColumn();
+                    offsetY = topMargin;
+            
+                    fillBackground();
+                    
+                    fillNoData();
+                    
+                    break;
+				    
+				}
 				case JRReport.WHEN_NO_DATA_TYPE_NO_PAGES :
 				default :
 				{
@@ -1172,38 +1195,38 @@ public class JRHorizontalFiller extends JRBaseFiller
 	}
 
 
-	/**
-	 *
-	 */
-	private void fillBackground() throws JRException
-	{
-		if (log.isDebugEnabled() && !background.isEmpty())
-		{
-			log.debug("Fill " + fillerId + ": background");
-		}
-		
-		//offsetX = leftMargin;
+    /**
+    *
+    */
+   private void fillBackground() throws JRException
+   {
+       if (log.isDebugEnabled() && !background.isEmpty())
+       {
+           log.debug("Fill " + fillerId + ": background");
+       }
+       
+       //offsetX = leftMargin;
 
-		//if (!isSubreport)
-		//{
-		//	offsetY = pageHeight - pageFooter.getHeight() - bottomMargin;
-		//}
+       //if (!isSubreport)
+       //{
+       //  offsetY = pageHeight - pageFooter.getHeight() - bottomMargin;
+       //}
 
-		if (background.getHeight() <= pageHeight - bottomMargin - offsetY)
-		{
-			background.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
-	
-			if (background.isToPrint())
-			{
-					background.evaluate(JRExpression.EVALUATION_DEFAULT);
-	
-					JRPrintBand printBand = background.fill(pageHeight - bottomMargin - offsetY - background.getHeight());
-	
-					fillBand(printBand);
-					//offsetY += printBand.getHeight();
-			}
-		}
-	}
+       if (background.getHeight() <= pageHeight - bottomMargin - offsetY)
+       {
+           background.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+   
+           if (background.isToPrint())
+           {
+                   background.evaluate(JRExpression.EVALUATION_DEFAULT);
+   
+                   JRPrintBand printBand = background.fill(pageHeight - bottomMargin - offsetY - background.getHeight());
+   
+                   fillBand(printBand);
+                   //offsetY += printBand.getHeight();
+           }
+       }
+   }
 
 
 	/**
@@ -1480,7 +1503,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		columnFooter.setNewPageColumn(true);
 		pageFooter.setNewPageColumn(true);
 		lastPageFooter.setNewPageColumn(true);
-		summary.setNewPageColumn(true);
+        summary.setNewPageColumn(true);
+        noData.setNewPageColumn(true);
 		
 		if (groups != null && groups.length > 0)
 		{
@@ -1540,5 +1564,66 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 	}
 
+    /**
+     *
+     */
+    private void fillNoData() throws JRException
+    {
+        if (log.isDebugEnabled() && !noData.isEmpty())
+        {
+            log.debug("Fill " + fillerId + ": noData");
+        }
+         
+        noData.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+
+        if (noData.isToPrint())
+        {
+            while (
+                    noData.getHeight() > pageHeight - bottomMargin - offsetY
+                )
+            {
+                addPage(false);
+            }
+    
+            noData.evaluate(JRExpression.EVALUATION_DEFAULT);
+
+            JRPrintBand printBand = noData.fill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+            
+            if (noData.willOverflow() && !noData.isSplitAllowed() && isSubreport())
+            {
+                resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
+                resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+                resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
+                scriptlet.callBeforePageInit();
+                calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+                scriptlet.callAfterPageInit();
+    
+                addPage(false);
+    
+                printBand = noData.refill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+            }
+
+            fillBand(printBand);
+            offsetY += printBand.getHeight();
+    
+            while (noData.willOverflow())
+            {
+                resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, false);
+                resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+                resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
+                scriptlet.callBeforePageInit();
+                calculator.initializeVariables(JRVariable.RESET_TYPE_PAGE);
+                scriptlet.callAfterPageInit();
+    
+                addPage(false);
+    
+                printBand = noData.fill(pageHeight - bottomMargin - offsetY - noData.getHeight());
+    
+                fillBand(printBand);
+                offsetY += printBand.getHeight();
+            }
+            resolveBandBoundElements(noData, JRExpression.EVALUATION_DEFAULT);
+        }
+    }
 
 }

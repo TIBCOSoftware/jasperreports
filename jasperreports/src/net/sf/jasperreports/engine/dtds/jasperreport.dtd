@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperReport (property*, import*, template*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?)>
+<!ELEMENT jasperReport (property*, import*, template*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?, noData?)>
 <!ATTLIST jasperReport
 	name CDATA #REQUIRED
 	language CDATA "java"
@@ -8,7 +8,7 @@
 	pageWidth NMTOKEN "595"
 	pageHeight NMTOKEN "842"
 	orientation (Portrait | Landscape) "Portrait"
-	whenNoDataType (NoPages | BlankPage | AllSectionsNoDetail) "NoPages"
+	whenNoDataType (NoPages | BlankPage | AllSectionsNoDetail | NoDataSection) "NoPages"
 	columnWidth NMTOKEN "555"
 	columnSpacing NMTOKEN "0"
 	leftMargin NMTOKEN "20"
@@ -178,6 +178,7 @@
 <!ELEMENT pageFooter (band?)>
 <!ELEMENT lastPageFooter (band?)>
 <!ELEMENT summary (band?)>
+<!ELEMENT noData (band?)>
 
 <!ELEMENT band (printWhenExpression?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | elementGroup | crosstab | frame)*)>
 <!ATTLIST band

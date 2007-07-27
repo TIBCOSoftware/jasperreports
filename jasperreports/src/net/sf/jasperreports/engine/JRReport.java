@@ -85,10 +85,15 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
 
 
-	/**
-	 * Specifies that in case of empty datasources, all sections except detail will displayed.
-	 */
-	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
+    /**
+     * Specifies that in case of empty datasources, all sections except detail will displayed.
+     */
+    public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
+
+    /**
+     * Specifies that in case of empty datasources, the NoData section will be displayed.
+     */
+    public static final byte WHEN_NO_DATA_TYPE_NO_DATA_SECTION = 4;
 
 
 	/**
@@ -331,10 +336,15 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 */
 	public JRBand getLastPageFooter();
 
-	/**
-	 *
-	 */
-	public JRBand getSummary();
+    /**
+    *
+    */
+   public JRBand getSummary();
+
+   /**
+   *
+   */
+   public JRBand getNoData();
 
 	/**
 	 * Returns the resource missing handling type.

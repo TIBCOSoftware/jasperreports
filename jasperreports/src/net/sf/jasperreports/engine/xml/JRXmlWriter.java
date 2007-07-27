@@ -403,12 +403,19 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.closeElement();
 		}
 
-		if (report.getSummary() != null)
-		{
-			writer.startElement(JRXmlConstants.ELEMENT_summary);
-			writeBand(report.getSummary());
-			writer.closeElement();
-		}
+        if (report.getSummary() != null)
+        {
+            writer.startElement(JRXmlConstants.ELEMENT_summary);
+            writeBand(report.getSummary());
+            writer.closeElement();
+        }
+
+        if (report.getNoData() != null)
+        {
+            writer.startElement(JRXmlConstants.ELEMENT_noData);
+            writeBand(report.getNoData());
+            writer.closeElement();
+        }
 
 		writer.closeElement();
 		

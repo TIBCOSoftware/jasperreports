@@ -2503,7 +2503,8 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     <a href="columnFooter">columnFooter</a>?,
     <a href="pageFooter">pageFooter</a>?,
     <a href="lastPageFooter">lastPageFooter</a>?,
-    <a href="summary">summary</a>?
+    <a href="summary">summary</a>?,
+    <a href="noData">noData</a>?
   )</contains>
   <attributes>
     <attribute>
@@ -2574,6 +2575,10 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
         <value>
           <name>AllSectionsNoDetail</name>
           <description>All the report sections except the detail section will get printed.</description>
+        </value>
+        <value>
+          <name>NoDataSection</name>
+          <description>The generated document contains the noData section.</description>
         </value>
       </values>
       <default>NoPages</default>
@@ -3175,6 +3180,17 @@ NB: avoid using this evaluation type when other types suffice as it can lead to 
     )</contains>
     <attributes>
     </attributes>
+</element>
+
+<!-- noData -->
+<element>
+  <name>noData</name>
+  <description>Definition of the noData section for this report. The noData section is printed only if whenNoDataType attribute is set to "NoDataSection".</description>
+  <contains>(
+    <a href="band">band</a>?
+  )</contains>
+  <attributes>
+  </attributes>
 </element>
 
 <!-- openExpression -->
