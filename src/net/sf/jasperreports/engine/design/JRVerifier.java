@@ -234,7 +234,8 @@ public class JRVerifier
 		verifyBand(jasperDesign.getColumnFooter());
 		verifyBand(jasperDesign.getPageFooter());
 		verifyBand(jasperDesign.getLastPageFooter());
-		verifyBand(jasperDesign.getSummary());
+        verifyBand(jasperDesign.getSummary());
+        verifyBand(jasperDesign.getNoData());
 
 		return brokenRules;
 	}
@@ -395,6 +396,16 @@ public class JRVerifier
 			addBrokenRule("The detail section, the page and column headers and footers and the margins do not fit the page height.", jasperDesign);
 		}
 		
+        if (
+                jasperDesign.getTopMargin() +
+                (jasperDesign.getNoData() != null ? jasperDesign.getNoData().getHeight() : 0) +
+                jasperDesign.getBottomMargin() >
+                jasperDesign.getPageHeight()
+                )
+        {
+            addBrokenRule("The noData section and the margins do not fit the page height.", jasperDesign);
+        }
+        
 		verifyFormatFactoryClass();
 	}
 

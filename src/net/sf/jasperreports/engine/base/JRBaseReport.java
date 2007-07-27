@@ -122,7 +122,8 @@ public class JRBaseReport implements JRReport, Serializable
 	protected JRBand columnFooter = null;
 	protected JRBand pageFooter = null;
 	protected JRBand lastPageFooter = null;
-	protected JRBand summary = null;
+    protected JRBand summary = null;
+    protected JRBand noData = null;
 
 	
 	/**
@@ -223,7 +224,8 @@ public class JRBaseReport implements JRReport, Serializable
 		columnFooter = factory.getBand(report.getColumnFooter());
 		pageFooter = factory.getBand(report.getPageFooter());
 		lastPageFooter = factory.getBand(report.getLastPageFooter());
-		summary = factory.getBand(report.getSummary());
+        summary = factory.getBand(report.getSummary());
+        noData = factory.getBand(report.getNoData());
 	}
 
 	
@@ -658,4 +660,11 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return templates;
 	}
+
+    /**
+     * @return the noData
+     */
+    public JRBand getNoData() {
+        return noData;
+    }
 }

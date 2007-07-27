@@ -218,7 +218,8 @@ public class JRPreviewBuilder
 		downColumns = offsetY;
 		addBandElements(report.getPageFooter(), color);
 		addBandElements(report.getLastPageFooter(), color);
-		addBandElements(report.getSummary(), color);
+        addBandElements(report.getSummary(), color);
+        addBandElements(report.getNoData(), color);
 		jasperPrint.setPageHeight(offsetY + report.getBottomMargin());
 		
 		// contour lines

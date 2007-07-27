@@ -383,7 +383,8 @@ public class JRExpressionCollector
 		collect(report.getColumnFooter());
 		collect(report.getPageFooter());
 		collect(report.getLastPageFooter());
-		collect(report.getSummary());
+        collect(report.getSummary());
+        collect(report.getNoData());
 		
 		return getExpressions();
 	}

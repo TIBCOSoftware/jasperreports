@@ -275,8 +275,10 @@ public class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport/pageFooter/band", "setPageFooter", JRBand.class.getName());
 		digester.addFactoryCreate("jasperReport/lastPageFooter/band", JRBandFactory.class.getName());
 		digester.addSetNext("jasperReport/lastPageFooter/band", "setLastPageFooter", JRBand.class.getName());
-		digester.addFactoryCreate("jasperReport/summary/band", JRBandFactory.class.getName());
-		digester.addSetNext("jasperReport/summary/band", "setSummary", JRBand.class.getName());
+        digester.addFactoryCreate("jasperReport/summary/band", JRBandFactory.class.getName());
+        digester.addSetNext("jasperReport/summary/band", "setSummary", JRBand.class.getName());
+        digester.addFactoryCreate("jasperReport/noData/band", JRBandFactory.class.getName());
+        digester.addSetNext("jasperReport/noData/band", "setNoData", JRBand.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/band/printWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());

@@ -260,14 +260,22 @@ public class JasperDesign extends JRBaseReport
 	}
 		
 
-	/**
-	 * Sets the summary band.
-	 */
-	public void setSummary(JRBand summary)
-	{
-		this.summary = summary;
-	}
-		
+    /**
+     * Sets the summary band.
+     */
+    public void setSummary(JRBand summary)
+    {
+        this.summary = summary;
+    }
+        
+    /**
+     * Sets the noData band.
+     */
+    public void setNoData(JRBand noData)
+    {
+        this.noData = noData;
+    }
+        
 
 	/**
 	 * Flag used to specify if the summary section should be printed on a separate last page.
@@ -959,7 +967,8 @@ public class JasperDesign extends JRBaseReport
 		collectCrosstabs(columnFooter);
 		collectCrosstabs(pageFooter);
 		collectCrosstabs(lastPageFooter);
-		collectCrosstabs(summary);
+        collectCrosstabs(summary);
+        collectCrosstabs(noData);
 		
 		JRGroup[] groups = getGroups();
 		if (groups != null)
