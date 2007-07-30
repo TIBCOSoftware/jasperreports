@@ -53,7 +53,7 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(String fileName, boolean isXML) throws JRException
 	{
 		super(fileName, isXML);
-        loadReport(fileName, isXML);
+		loadReport(fileName, isXML);
 		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}

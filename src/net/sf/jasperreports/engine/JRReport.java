@@ -337,14 +337,14 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public JRBand getLastPageFooter();
 
 	/**
-	*
-	*/
-   public JRBand getSummary();
+	 *
+	 */
+	public JRBand getSummary();
 
-   /**
-   *
-   */
-   public JRBand getNoData();
+	/**
+	 *
+	 */
+	public JRBand getNoData();
 
 	/**
 	 * Returns the resource missing handling type.

@@ -297,7 +297,7 @@ public class TextMeasurer
 			
 			textHeight += layout.getLeading() + lineSpacing * layout.getAscent();
 			
-			if (textHeight + layout.getDescent() <= maxHeight)   
+			if (textHeight + layout.getDescent() <= maxHeight)
 			{
 				lines++;
 
