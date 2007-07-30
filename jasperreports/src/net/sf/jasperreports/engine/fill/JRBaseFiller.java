@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -28,7 +28,7 @@
 
 /*
  * Contributors:
- * John Bindel - jbindel@users.sourceforge.net 
+ * John Bindel - jbindel@users.sourceforge.net
  */
 
 package net.sf.jasperreports.engine.fill;
@@ -91,7 +91,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 {
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
-	
+
 	/**
 	 * Map class to be used for bound elements.
 	 * <p/>
@@ -162,12 +162,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 	protected final String fillerId;
-	
+
 	/**
 	 *
 	 */
 	protected JRBaseFiller parentFiller = null;
-	
+
 	private final JRFillObjectFactory factory;
 
 	private JRStyledTextParser styledTextParser = new JRStyledTextParser();
@@ -218,7 +218,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected byte whenResourceMissingType = JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL;
 
 	protected JRFillReportTemplate[] reportTemplates;
-	
+
 	protected JRReportFont defaultFont = null;
 
 	protected JRReportFont[] fonts = null;
@@ -254,14 +254,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected JRFillBand summary = null;
 
-    protected JRFillBand noData = null;
+	protected JRFillBand noData = null;
 
-    protected JRVirtualizer virtualizer = null;
+	protected JRVirtualizer virtualizer = null;
 
 	protected ClassLoader reportClassLoader = null;
 
 	protected FormatFactory formatFactory = null;
-	
+
 	protected URLStreamHandlerFactory urlHandlerFactory;
 
 	protected JRFillContext fillContext;
@@ -318,7 +318,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected Map dateFormatCache = new HashMap();
 	protected Map numberFormatCache = new HashMap();
-	
+
 	private JRSubreportRunner subreportRunner;
 
 
@@ -342,19 +342,19 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected boolean isLastPageFooter = false;
 
-	
+
 	/**
 	 *
 	 */
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRBaseFiller parentFiller) throws JRException
 	{
 		this.fillerId = Integer.toString(System.identityHashCode(this));
-		
+
 		if (log.isDebugEnabled())
 		{
 			log.debug("Fill " + fillerId + ": created for " + jasperReport.getName());
 		}
-		
+
 		JRGraphEnvInitializer.initializeGraphEnv();
 
 		this.jasperReport = jasperReport;
@@ -439,7 +439,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			summary = missingFillBand;
 		}
-        noData = factory.getBand(jasperReport.getNoData());
+		noData = factory.getBand(jasperReport.getNoData());
 
 		mainDataset.initElementDatasets(factory);
 		initDatasets(factory);
@@ -522,7 +522,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		bands.add(columnFooter);
 		bands.add(detail);
 		bands.add(noData);
-		
+
 		if (groups != null && groups.length > 0)
 		{
 			for (int i = 0; i < groups.length; i++)
@@ -569,8 +569,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_COLUMN);
 		pageFooter.addNowEvaluationTime(JREvaluationTime.EVALUATION_TIME_PAGE);
 
-        summary.addNowEvaluationTimes(groupEvaluationTimes);
-        noData.addNowEvaluationTimes(groupEvaluationTimes);
+		summary.addNowEvaluationTimes(groupEvaluationTimes);
+		noData.addNowEvaluationTimes(groupEvaluationTimes);
 	}
 
 
@@ -704,7 +704,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			parameterValues = new HashMap();
 		}
-		
+
 		if (log.isDebugEnabled())
 		{
 			log.debug("Fill " + fillerId + ": filling report");
@@ -720,7 +720,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 			classLoaderSet = setClassLoader(parameterValues);
 			urlHandlerFactorySet = setUrlHandlerFactory(parameterValues);
-			
+
 			loadStyles();
 
 			if (parentFiller != null)
@@ -734,7 +734,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			jasperPrint.setOrientation(orientation);
 
 			jasperPrint.setDefaultFont(defaultFont);
-			
+
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
@@ -768,7 +768,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			fillReport();
 
 			// add consolidates styles as normal styles in the print object
-//			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();) 
+//			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();)
 //			{
 //				jasperPrint.addStyle((JRStyle) it.next());
 //			}
@@ -777,7 +777,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				log.debug("Fill " + fillerId + ": ended");
 			}
-			
+
 			return jasperPrint;
 		}
 		finally
@@ -793,7 +793,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 			//kill the subreport filler threads
 			killSubfillerThreads();
-			
+
 			if (classLoaderSet)
 			{
 				JRResourcesUtil.resetClassLoader();
@@ -810,9 +810,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		void defaultStyleSet(JRStyle style);
 	}
-	
+
 	private final List defaultStyleListeners = new ArrayList();
-	
+
 	protected void addDefaultStyleListener(DefaultStyleListener listener)
 	{
 		defaultStyleListeners.add(listener);
@@ -821,14 +821,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected void setDefaultStyle(JRStyle style)
 	{
 		defaultStyle = style;
-		
+
 		for (Iterator it = defaultStyleListeners.iterator(); it.hasNext();)
 		{
 			DefaultStyleListener listener = (DefaultStyleListener) it.next();
 			listener.defaultStyleSet(style);
 		}
 	}
-	
+
 	protected void loadStyles() throws JRException
 	{
 		List styleList = collectStyles();
@@ -837,18 +837,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			lookupExternalDefaultStyle(styleList);
 		}
-		
+
 		List includedStyles = factory.setStyles(styleList);
-		
+
 		styles = (JRStyle[]) includedStyles.toArray(new JRStyle[includedStyles.size()]);
-		
+
 		if (reportDefaultStyle != null)
 		{
 			setDefaultStyle(factory.getStyle(reportDefaultStyle));
 		}
 	}
-	
-	
+
+
 	private static final JRStyleSetter DUMMY_STYLE_SETTER = new JRStyleSetter()
 	{
 		public void setStyle(JRStyle style)
@@ -859,35 +859,35 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 		}
 	};
-	
+
 	protected List collectStyles() throws JRException
 	{
 		List styleList = collectTemplateStyles();
-		
+
 		JRStyle[] reportStyles = jasperReport.getStyles();
 		if (reportStyles != null)
 		{
 			styles = new JRStyle[reportStyles.length];
-			
+
 			for (int i = 0; i < reportStyles.length; i++)
 			{
 				JRStyle style = reportStyles[i];
 				styleList.add(style);
-				
+
 				//add dummy style requester so that report styles are always included
 				//in the final list
 				factory.registerDelayedStyleSetter(DUMMY_STYLE_SETTER, style.getName());
 			}
 		}
-		
+
 		return styleList;
 	}
-	
+
 	protected List collectTemplateStyles() throws JRException
 	{
 		List externalStyles = new ArrayList();
 		HashSet loadedLocations = new HashSet();
-		
+
 		if (reportTemplates != null)
 		{
 			for (int i = 0; i < reportTemplates.length; i++)
@@ -897,7 +897,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				collectStyles(template, externalStyles, loadedLocations);
 			}
 		}
-		
+
 		Collection paramTemplates = (Collection) mainDataset.getParameterValue(JRParameter.REPORT_TEMPLATES, true);
 		if (paramTemplates != null)
 		{
@@ -907,14 +907,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				collectStyles(template, externalStyles, loadedLocations);
 			}
 		}
-		
+
 		return externalStyles;
 	}
 
 	protected void collectStyles(JRTemplate template, List externalStyles, Set loadedLocations) throws JRException
 	{
 		collectIncludedTemplates(template, externalStyles, loadedLocations);
-		
+
 		JRStyle[] templateStyles = template.getStyles();
 		if (templateStyles != null)
 		{
@@ -926,7 +926,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				{
 					throw new JRRuntimeException("External style name not set.");
 				}
-				
+
 				externalStyles.add(style);
 			}
 		}
@@ -941,18 +941,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				JRTemplateReference reference = includedTemplates[i];
 				String location = reference.getLocation();
-				
+
 				if (!loadedLocations.add(location))
 				{
 					throw new JRRuntimeException("Circular dependency found for template at location " + location);
 				}
-				
+
 				JRTemplate includedTemplate = JRFillReportTemplate.loadTemplate(location, String.class, fillContext);
 				collectStyles(includedTemplate, externalStyles, loadedLocations);
 			}
 		}
 	}
-	
+
 	protected void lookupExternalDefaultStyle(Collection styleList)
 	{
 		JRStyle defStyle = null;
@@ -964,7 +964,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				defStyle = style;
 			}
 		}
-		
+
 		if (defStyle != null)
 		{
 			factory.registerDelayedStyleSetter(new JRStyleSetter()
@@ -974,7 +974,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 					if (style.isDefault())
 					{
 						setDefaultStyle(style);
-					}						
+					}
 				}
 
 				public void setStyleNameReference(String name)
@@ -1029,7 +1029,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 					{
 						log.debug("Fill " + fillerId + ": Interrupting subfiller thread " + subfiller.fillingThread);
 					}
-					
+
 					subfiller.fillingThread.interrupt();
 				}
 			}
@@ -1068,14 +1068,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		isPerPageBoundElements = fillContext.isPerPageBoundElements();
 
 		setFormatFactory(parameterValues);
-		
+
 		setIgnorePagination(parameterValues);
 
 		mainDataset.setParameterValues(parameterValues);
 		mainDataset.initDatasource();
-		
+
 		this.scriptlet = mainDataset.scriptlet;
-		
+
 		if (!isSubreport())
 		{
 			fillContext.setMasterFormatFactory(getFormatFactory());
@@ -1181,7 +1181,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return mainDataset.timeZone;
 	}
 
-	
+
 	/**
 	 * Returns the report format factory.
 	 *
@@ -1192,7 +1192,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return formatFactory;
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -1213,14 +1213,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return format;
 	}
 
-	
+
 	/**
 	 *
 	 */
 	protected Format getNumberFormat(String pattern)
 	{
 		Locale lc = getLocale();
-		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc); 
+		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc);
 		Format format = (Format)numberFormatCache.get(key);
 		if (format == null)
 		{
@@ -1233,23 +1233,23 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return format;
 	}
 
-	
+
 	protected boolean hasMasterFormatFactory()
 	{
-		return 
-			!isSubreport() 
+		return
+			!isSubreport()
 			|| getFormatFactory().getClass().getName().equals(
 				fillContext.getMasterFormatFactory().getClass().getName()
 				);
 	}
-	
-	
+
+
 	protected boolean hasMasterLocale()
 	{
 		return !isSubreport() || getLocale().equals(fillContext.getMasterLocale());
 	}
-	
-	
+
+
 	protected boolean hasMasterTimeZone()
 	{
 		return !isSubreport() || getTimeZone().equals(fillContext.getMasterTimeZone());
@@ -1409,9 +1409,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @param variableName
 	 *            the variable name
-	 *            
+	 *
 	 * @return the variable value
-	 * 
+	 *
 	 * @throws JRRuntimeException when the variable does not exist
 	 */
 	public Object getVariableValue(String variableName)
@@ -1459,7 +1459,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			log.debug("Fill " + fillerId + ": cancelling");
 		}
-		
+
 		if (fillContext.cancelRunningQuery())
 		{
 			if (log.isDebugEnabled())
@@ -1476,7 +1476,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				{
 					log.debug("Fill " + fillerId + ": Interrupting thread " + t);
 				}
-				
+
 				t.interrupt();
 			}
 		}
@@ -1548,7 +1548,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				log.debug("Fill " + fillerId + ": adding page " + (jasperPrint.getPages().size() + 1));
 			}
-			
+
 			jasperPrint.addPage(page);
 			fillContext.setPrintPage(page);
 		}
@@ -1833,24 +1833,24 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 	}
-	
-	
+
+
 //	protected JRStyle getConsolidatedStyle(String consolidatedStyleName)
 //	{
 //		return (JRStyle) consolidatedStyles.get(consolidatedStyleName);
 //	}
-//	
-//	
+//
+//
 //	protected void putConsolidatedStyle(JRStyle consolidatedStyle)
 //	{
 //		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
 //	}
-	
+
 	protected void setSubreportRunner(JRSubreportRunner runner)
 	{
 		this.subreportRunner = runner;
 	}
-	
+
 	protected void suspendSubreportRunner() throws JRException
 	{
 		if (subreportRunner == null)
@@ -1862,7 +1862,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			log.debug("Fill " + fillerId + ": suspeding subreport runner");
 		}
-		
+
 		subreportRunner.suspend();
 	}
 
@@ -1873,7 +1873,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		if (templates != null)
 		{
 			reportTemplates = new JRFillReportTemplate[templates.length];
-			
+
 			for (int i = 0; i < templates.length; i++)
 			{
 				JRReportTemplate template = templates[i];
@@ -1881,5 +1881,5 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 	}
-	
+
 }

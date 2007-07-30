@@ -229,10 +229,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 				JRField field = fields[i];
 				String fieldMapping = getFieldMapping(field);
 				
-		        MappingLexer lexer = new MappingLexer(new StringReader(fieldMapping));
-		        MappingParser parser = new MappingParser(lexer);
-		        parser.setMappingMetadata(this);
-		        Mapping mapping;
+				MappingLexer lexer = new MappingLexer(new StringReader(fieldMapping));
+				MappingParser parser = new MappingParser(lexer);
+				parser.setMappingMetadata(this);
+				Mapping mapping;
 				try
 				{
 					mapping = parser.mapping();

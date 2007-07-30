@@ -686,7 +686,7 @@ public class JRXmlConstants
 
 	private static Map hyperlinkTypeMap = null;
 
-	
+
 	/**
 	 * @deprecated {@link JRHyperlinkHelper JRHyperlinkHelper} should be used instead.
 	 */
@@ -827,9 +827,9 @@ public class JRXmlConstants
 
 		return scaleTypeMap;
 	}
-	
-	
-	
+
+
+
 	private static final String TIME_PERIOD_YEAR = "Year";
 	private static final String TIME_PERIOD_QUARTER = "Quarter";
 	private static final String TIME_PERIOD_MONTH = "Month";
@@ -839,9 +839,9 @@ public class JRXmlConstants
 	private static final String TIME_PERIOD_MINUTE = "Minute";
 	private static final String TIME_PERIOD_SECOND = "Second";
 	private static final String TIME_PERIOD_MILISECOND = "Milisecond";
-	
-	
-	
+
+
+
 	public static Class getTimePeriod( String timePeriod ) {
 		if( timePeriod.equals( TIME_PERIOD_YEAR ) ){
 			return Year.class;
@@ -870,10 +870,10 @@ public class JRXmlConstants
 		else {
 			return Millisecond.class;
 		}
-		
+
 	}
-	
-	
+
+
 	public static String getTimePeriodName( Class clazz  ){
 		if( clazz.equals( Year.class )){
 			return TIME_PERIOD_YEAR;
@@ -934,33 +934,33 @@ public class JRXmlConstants
 		return whenResourceMissingTypeMap;
 	}
 
-	
+
 	/**
 	 *
 	 */
 	private static final String METER_SHAPE_CHORD = "chord";
 	private static final String METER_SHAPE_CIRCLE = "circle";
 	private static final String METER_SHAPE_PIE = "pie";
-	
+
 	private static Map meterShapeMap = null;
-	
+
 	public static Map getMeterShapeMap()
 	{
 	   if (meterShapeMap == null)
 	   {
-	       meterShapeMap = new HashMap();
-	       meterShapeMap.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
-	       meterShapeMap.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
-	       meterShapeMap.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
-	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
-	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
-	       meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
+		   meterShapeMap = new HashMap();
+		   meterShapeMap.put(METER_SHAPE_CHORD, new Byte(JRMeterPlot.SHAPE_CHORD));
+		   meterShapeMap.put(METER_SHAPE_CIRCLE, new Byte(JRMeterPlot.SHAPE_CIRCLE));
+		   meterShapeMap.put(METER_SHAPE_PIE, new Byte(JRMeterPlot.SHAPE_PIE));
+		   meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CHORD), METER_SHAPE_CHORD);
+		   meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_CIRCLE), METER_SHAPE_CIRCLE);
+		   meterShapeMap.put(new Byte(JRMeterPlot.SHAPE_PIE), METER_SHAPE_PIE);
 	   }
-	   
+
 	   return meterShapeMap;
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -968,59 +968,59 @@ public class JRXmlConstants
 	private static final String THERMOMETER_VALUE_LOCATION_LEFT = "left";
 	private static final String THERMOMETER_VALUE_LOCATION_RIGHT = "right";
 	private static final String THERMOMETER_VALUE_LOCATION_BULB = "bulb";
-	
+
 	private static Map thermometerValueLocationMap = null;
-	
+
 	public static Map getThermometerValueLocationMap()
 	{
 	   if (thermometerValueLocationMap == null)
 	   {
-	       thermometerValueLocationMap = new HashMap();
-	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_NONE, new Byte(JRThermometerPlot.LOCATION_NONE));
-	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_LEFT, new Byte(JRThermometerPlot.LOCATION_LEFT));
-	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_RIGHT, new Byte(JRThermometerPlot.LOCATION_RIGHT));
-	       thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_BULB, new Byte(JRThermometerPlot.LOCATION_BULB));
-	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_NONE), THERMOMETER_VALUE_LOCATION_NONE);
-	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
-	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
-	       thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
+		   thermometerValueLocationMap = new HashMap();
+		   thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_NONE, new Byte(JRThermometerPlot.LOCATION_NONE));
+		   thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_LEFT, new Byte(JRThermometerPlot.LOCATION_LEFT));
+		   thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_RIGHT, new Byte(JRThermometerPlot.LOCATION_RIGHT));
+		   thermometerValueLocationMap.put(THERMOMETER_VALUE_LOCATION_BULB, new Byte(JRThermometerPlot.LOCATION_BULB));
+		   thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_NONE), THERMOMETER_VALUE_LOCATION_NONE);
+		   thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_LEFT), THERMOMETER_VALUE_LOCATION_LEFT);
+		   thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_RIGHT), THERMOMETER_VALUE_LOCATION_RIGHT);
+		   thermometerValueLocationMap.put(new Byte(JRThermometerPlot.LOCATION_BULB), THERMOMETER_VALUE_LOCATION_BULB);
 	   }
-	   
+
 	   return thermometerValueLocationMap;
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
 	private static final String AXIS_POSITION_LEFT_OR_TOP = "leftOrTop";
 	private static final String AXIS_POSITION_RIGHT_OR_BOTTOM = "rightOrBottom";
-	
+
 	private static Map axisPositionMap = null;
-	
+
 	public static Map getAxisPositionMap()
 	{
 	   if (axisPositionMap == null)
 	   {
-	       axisPositionMap = new HashMap();
-	       axisPositionMap.put(AXIS_POSITION_LEFT_OR_TOP, new Byte(JRChartAxis.POSITION_LEFT_OR_TOP));
-	       axisPositionMap.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
-	       axisPositionMap.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
-	       axisPositionMap.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
+		   axisPositionMap = new HashMap();
+		   axisPositionMap.put(AXIS_POSITION_LEFT_OR_TOP, new Byte(JRChartAxis.POSITION_LEFT_OR_TOP));
+		   axisPositionMap.put(AXIS_POSITION_RIGHT_OR_BOTTOM, new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM));
+		   axisPositionMap.put(new Byte(JRChartAxis.POSITION_LEFT_OR_TOP), AXIS_POSITION_LEFT_OR_TOP);
+		   axisPositionMap.put(new Byte(JRChartAxis.POSITION_RIGHT_OR_BOTTOM), AXIS_POSITION_RIGHT_OR_BOTTOM);
 	   }
-	   
+
 	   return axisPositionMap;
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
 	private static final String CROSSTAB_BUCKET_ORDER_ASCENDING = "Ascending";
 	private static final String CROSSTAB_BUCKET_ORDER_DESCENDING = "Descending";
-	
+
 	private static Map crosstabBucketOrderMap = null;
-	
+
 	public static Map getCrosstabBucketOrderMap()
 	{
 		if (crosstabBucketOrderMap == null)
@@ -1031,17 +1031,17 @@ public class JRXmlConstants
 			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_ASCENDING), CROSSTAB_BUCKET_ORDER_ASCENDING);
 			crosstabBucketOrderMap.put(new Byte(BucketDefinition.ORDER_DESCENDING), CROSSTAB_BUCKET_ORDER_DESCENDING);
 		}
-		
+
 		return crosstabBucketOrderMap;
 	}
-	
-	
+
+
 	private static final String CROSSTAB_PERCENTAGE_NONE = "None";
 	private static final String CROSSTAB_PERCENTAGE_GRAND_TOTAL = "GrandTotal";
-	
+
 	private static Map crosstabPercentageMap = null;
-	
-	
+
+
 	public static Map getCrosstabPercentageMap()
 	{
 		if (crosstabPercentageMap == null)
@@ -1052,18 +1052,18 @@ public class JRXmlConstants
 			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_NONE), CROSSTAB_PERCENTAGE_NONE);
 			crosstabPercentageMap.put(new Byte(JRCrosstabMeasure.PERCENTAGE_TYPE_GRAND_TOTAL), CROSSTAB_PERCENTAGE_GRAND_TOTAL);
 		}
-		
+
 		return crosstabPercentageMap;
 	}
-	
-	
+
+
 	private static final String CROSSTAB_TOTAL_POSITION_NONE = "None";
 	private static final String CROSSTAB_TOTAL_POSITION_START = "Start";
 	private static final String CROSSTAB_TOTAL_POSITION_END = "End";
-	
+
 	private static Map crosstabTotalPositionMap = null;
-	
-	
+
+
 	public static Map getCrosstabTotalPositionMap()
 	{
 		if (crosstabTotalPositionMap == null)
@@ -1076,19 +1076,19 @@ public class JRXmlConstants
 			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_START), CROSSTAB_TOTAL_POSITION_START);
 			crosstabTotalPositionMap.put(new Byte(BucketDefinition.TOTAL_POSITION_END), CROSSTAB_TOTAL_POSITION_END);
 		}
-		
+
 		return crosstabTotalPositionMap;
 	}
-	
-	
+
+
 	private static final String CROSSTAB_ROW_POSITION_TOP = "Top";
 	private static final String CROSSTAB_ROW_POSITION_MIDDLE = "Middle";
 	private static final String CROSSTAB_ROW_POSITION_BOTTOM = "Bottom";
 	private static final String CROSSTAB_ROW_POSITION_STRETCH = "Stretch";
-	
+
 	private static Map crosstabRowPositionMap = null;
-	
-	
+
+
 	public static Map getCrosstabRowPositionMap()
 	{
 		if (crosstabRowPositionMap == null)
@@ -1103,19 +1103,19 @@ public class JRXmlConstants
 			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_BOTTOM), CROSSTAB_ROW_POSITION_BOTTOM);
 			crosstabRowPositionMap.put(new Byte(JRCellContents.POSITION_Y_STRETCH), CROSSTAB_ROW_POSITION_STRETCH);
 		}
-		
+
 		return crosstabRowPositionMap;
 	}
-	
-	
+
+
 	private static final String CROSSTAB_COLUMN_POSITION_LEFT = "Left";
 	private static final String CROSSTAB_COLUMN_POSITION_CENTER = "Center";
 	private static final String CROSSTAB_COLUMN_POSITION_RIGHT = "Right";
 	private static final String CROSSTAB_COLUMN_POSITION_STRETCH = "Stretch";
-	
+
 	private static Map crosstabColumnPositionMap = null;
-	
-	
+
+
 	public static Map getCrosstabColumnPositionMap()
 	{
 		if (crosstabColumnPositionMap == null)
@@ -1130,10 +1130,10 @@ public class JRXmlConstants
 			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_RIGHT), CROSSTAB_COLUMN_POSITION_RIGHT);
 			crosstabColumnPositionMap.put(new Byte(JRCellContents.POSITION_X_STRETCH), CROSSTAB_COLUMN_POSITION_STRETCH);
 		}
-		
+
 		return crosstabColumnPositionMap;
 	}
-	
+
 
 	/**
 	 *
@@ -1141,7 +1141,7 @@ public class JRXmlConstants
 	public static Color getColor(String strColor, Color defaultColor)
 	{
 		Color color = null;
-		
+
 		if (strColor != null && strColor.length() > 0)
 		{
 			char firstChar = strColor.charAt(0);
@@ -1165,7 +1165,7 @@ public class JRXmlConstants
 				}
 			}
 		}
-		
+
 		return color;
 	}
 
@@ -1179,17 +1179,17 @@ public class JRXmlConstants
 	public static final String JASPERPRINT_PUBLIC_ID = "-//JasperReports//DTD JasperPrint//EN";
 	public static final String JASPERPRINT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
 	public static final String JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
-	
+
 	/**
 	 * Template XML public ID.
 	 */
 	public static final String JASPERTEMPLATE_PUBLIC_ID = "-//JasperReports//DTD Template//EN";
-	
+
 	/**
 	 * Template XML system ID.
 	 */
 	public static final String JASPERTEMPLATE_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd";
-	
+
 	/**
 	 * DTD location for template XMLs.
 	 */
@@ -1223,7 +1223,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isIgnorePagination = "isIgnorePagination";
 
 	public static final String ATTRIBUTE_value = "value";
-	
+
 	public static final String ELEMENT_import = "import";
 	public static final String ELEMENT_background = "background";
 	public static final String ELEMENT_title = "title";
@@ -1233,12 +1233,12 @@ public class JRXmlConstants
 	public static final String ELEMENT_columnFooter = "columnFooter";
 	public static final String ELEMENT_pageFooter = "pageFooter";
 	public static final String ELEMENT_lastPageFooter = "lastPageFooter";
-    public static final String ELEMENT_summary = "summary";
-    public static final String ELEMENT_noData = "noData";
+	public static final String ELEMENT_summary = "summary";
+	public static final String ELEMENT_noData = "noData";
 	public static final String ELEMENT_property = "property";
-	
+
 	public static final String ELEMENT_page = "page";
-		
+
 	/**
 	 * JasperPrintFactory associated constants
 	 */
@@ -1251,7 +1251,7 @@ public class JRXmlConstants
 	 */
 	public static final String ELEMENT_band = "band";
 	public static final String ELEMENT_printWhenExpression = "printWhenExpression";
-	
+
 	public static final String ATTRIBUTE_height = "height";
 	public static final String ATTRIBUTE_isSplitAllowed = "isSplitAllowed";
 
@@ -1259,7 +1259,7 @@ public class JRXmlConstants
 	 * JRBoxFactory associated constants
 	 */
 	public static final String ELEMENT_box = "box";
-	
+
 	public static final String ATTRIBUTE_border = "border";
 	public static final String ATTRIBUTE_borderColor = "borderColor";
 	public static final String ATTRIBUTE_padding = "padding";
@@ -1280,7 +1280,7 @@ public class JRXmlConstants
 	 * JRBreakFactory associated constants
 	 */
 	public static final String ELEMENT_break = "break";
-	
+
 	public static final String ATTRIBUTE_type = "type";
 
 	/**
@@ -1313,13 +1313,13 @@ public class JRXmlConstants
 	public static final String ELEMENT_thermometerChart = "thermometerChart";
 	public static final String ELEMENT_multiAxisChart = "multiAxisChart";
 	public static final String ELEMENT_stackedAreaChart = "stackedAreaChart";
-	
+
 	public static final String ATTRIBUTE_isShowLegend = "isShowLegend";
 	public static final String ATTRIBUTE_evaluationTime = "evaluationTime";
 	public static final String ATTRIBUTE_evaluationGroup = "evaluationGroup";
 	public static final String ATTRIBUTE_bookmarkLevel = "bookmarkLevel";
 	public static final String ATTRIBUTE_customizerClass = "customizerClass";
-	
+
 	/**
 	 * JRChartAxisFormatFactory associated constants
 	 */
@@ -1330,22 +1330,22 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_tickLabelColor = "tickLabelColor";
 	public static final String ATTRIBUTE_tickLabelMask = "tickLabelMask";
 	public static final String ATTRIBUTE_axisLineColor = "axisLineColor";
-    
-    /**
-     * JRChartLegendFactory associated constants
-     */		
+
+	/**
+	 * JRChartLegendFactory associated constants
+	 */
 	public static final String ATTRIBUTE_textColor = "textColor";
 	public static final String ATTRIBUTE_backgroundColor = "backgroundColor";
-    
-    /**
-     * JRChartTitleFactory associated constants
-     */		
+
+	/**
+	 * JRChartTitleFactory associated constants
+	 */
 	public static final String ATTRIBUTE_position = "position";
 	public static final String ATTRIBUTE_color = "color";
 
-    /**
-     * JRChartPlotFactory associated constants
-     */		
+	/**
+	 * JRChartPlotFactory associated constants
+	 */
 	public static final String ELEMENT_plot = "plot";
 	public static final String ELEMENT_piePlot = "piePlot";
 	public static final String ELEMENT_pie3DPlot = "pie3DPlot";
@@ -1359,7 +1359,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_areaPlot = "areaPlot";
 	public static final String ELEMENT_scatterPlot = "scatterPlot";
 	public static final String ELEMENT_multiAxisPlot = "multiAxisPlot";
-	
+
 	public static final String ELEMENT_valueDisplay = "valueDisplay";
 	public static final String ELEMENT_dataRange = "dataRange";
 	public static final String ELEMENT_meterInterval = "meterInterval";
@@ -1368,7 +1368,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_xAxisFormat = "xAxisFormat";
 	public static final String ELEMENT_yAxisFormat = "yAxisFormat";
 	public static final String ELEMENT_timeAxisFormat = "timeAxisFormat";
-	
+
 	public static final String ELEMENT_lowExpression = "lowExpression";
 	public static final String ELEMENT_highExpression = "highExpression";
 	public static final String ELEMENT_categoryAxisLabelExpression = "categoryAxisLabelExpression";
@@ -1376,11 +1376,11 @@ public class JRXmlConstants
 	public static final String ELEMENT_xAxisLabelExpression = "xAxisLabelExpression";
 	public static final String ELEMENT_yAxisLabelExpression = "yAxisLabelExpression";
 	public static final String ELEMENT_timeAxisLabelExpression = "timeAxisLabelExpression";
-	
+
 	public static final String ATTRIBUTE_backgroundAlpha = "backgroundAlpha";
 	public static final String ATTRIBUTE_foregroundAlpha = "foregroundAlpha";
 	public static final String ATTRIBUTE_labelRotation = "labelRotation";
-	
+
 	public static final String ATTRIBUTE_mask = "mask";
 	public static final String ATTRIBUTE_label = "label";
 	public static final String ATTRIBUTE_alpha = "alpha";
@@ -1398,24 +1398,24 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isShowVolume = "isShowVolume";
 	public static final String ATTRIBUTE_isCircular = "isCircular";
 
-    /**
-     * JRSeriesColorFactory associated constants
-     */		
+	/**
+	 * JRSeriesColorFactory associated constants
+	 */
 	public static final String ELEMENT_seriesColor = "seriesColor";
-	
+
 	public static final String ATTRIBUTE_seriesOrder = "seriesOrder";
 
-    /**
-     * JRConditionalStyleFactory associated constants
-     */		
+	/**
+	 * JRConditionalStyleFactory associated constants
+	 */
 	public static final String ELEMENT_conditionalStyle = "conditionalStyle";
 	public static final String ELEMENT_conditionExpression = "conditionExpression";
-	
-    /**
-     * JRStyleFactory associated constants
-     */		
+
+	/**
+	 * JRStyleFactory associated constants
+	 */
 	public static final String ELEMENT_style = "style";
-	
+
 	public static final String ATTRIBUTE_isDefault = "isDefault";
 	public static final String ATTRIBUTE_mode = "mode";
 	public static final String ATTRIBUTE_forecolor = "forecolor";
@@ -1433,37 +1433,37 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_isBlankWhenNull = "isBlankWhenNull";
 
 	public static final String ATTRIBUTE_fontSize = "fontSize";
-	
-    /**
-     * JRDatasetFactory associated constants
-     */		
+
+	/**
+	 * JRDatasetFactory associated constants
+	 */
 	public static final String ELEMENT_subDataset = "subDataset";
 	public static final String ELEMENT_filterExpression = "filterExpression";
 
-    /**
-     * JRDatasetRunFactory associated constants
-     */		
+	/**
+	 * JRDatasetRunFactory associated constants
+	 */
 	public static final String ELEMENT_datasetRun = "datasetRun";
-	
+
 	public static final String ELEMENT_parametersMapExpression = "parametersMapExpression";
 	public static final String ELEMENT_connectionExpression = "connectionExpression";
 	public static final String ELEMENT_dataSourceExpression = "dataSourceExpression";
-	
+
 	public static final String ATTRIBUTE_subDataset = "subDataset";
 
-    /**
-     * JRDatasetRunParameterExpressionFactory associated constants
-     */		
+	/**
+	 * JRDatasetRunParameterExpressionFactory associated constants
+	 */
 	public static final String ELEMENT_datasetParameterExpression = "datasetParameterExpression";
-	
-    /**
-     * JRDatasetRunParameterFactory associated constants
-     */		
+
+	/**
+	 * JRDatasetRunParameterFactory associated constants
+	 */
 	public static final String ELEMENT_datasetParameter = "datasetParameter";
 
-    /**
-     * JRElementDatasetFactory associated constants
-     */		
+	/**
+	 * JRElementDatasetFactory associated constants
+	 */
 	public static final String ELEMENT_dataset = "dataset";
 	public static final String ELEMENT_categoryDataset = "categoryDataset";
 	public static final String ELEMENT_timeSeriesDataset = "timeSeriesDataset";
@@ -1473,13 +1473,13 @@ public class JRXmlConstants
 	public static final String ELEMENT_pieDataset = "pieDataset";
 	public static final String ELEMENT_valueDataset = "pieDataset";
 	public static final String ELEMENT_highLowDataset = "highLowDataset";
-	
+
 	public static final String ELEMENT_categorySeries = "categorySeries";
 	public static final String ELEMENT_xyzSeries = "xyzSeries";
 	public static final String ELEMENT_xySeries = "xySeries";
 	public static final String ELEMENT_timeSeries = "timeSeries";
 	public static final String ELEMENT_timePeriodSeries = "timePeriodSeries";
-	
+
 	public static final String ELEMENT_incrementWhenExpression = "incrementWhenExpression";
 	public static final String ELEMENT_keyExpression = "keyExpression";
 	public static final String ELEMENT_valueExpression = "valueExpression";
@@ -1503,7 +1503,7 @@ public class JRXmlConstants
 	 * JRElementFactory associated constants
 	 */
 	public static final String ELEMENT_reportElement = "reportElement";
-	
+
 	public static final String ATTRIBUTE_key = "key";
 	public static final String ATTRIBUTE_positionType = "positionType";
 	public static final String ATTRIBUTE_stretchType = "stretchType";
@@ -1520,25 +1520,25 @@ public class JRXmlConstants
 	 * JRElementGroupFactory associated constants
 	 */
 	public static final String ELEMENT_elementGroup = "elementGroup";
-	
+
 	/**
 	 * JREllipseFactory associated constants
 	 */
 	public static final String ELEMENT_ellipse = "ellipse";
-	
+
 	/**
 	 * JRFieldFactory associated constants
 	 */
 	public static final String ELEMENT_field = "field";
 	public static final String ELEMENT_fieldDescription = "fieldDescription";
-	
+
 	public static final String ATTRIBUTE_class = "class";
 
 	/**
 	 * JRFieldFactory associated constants
 	 */
 	public static final String ELEMENT_font = "font";
-	
+
 	public static final String ATTRIBUTE_reportFont = "reportFont";
 	public static final String ATTRIBUTE_fontName = "fontName";
 	public static final String ATTRIBUTE_isBold = "isBold";
@@ -1559,7 +1559,7 @@ public class JRXmlConstants
 	 * JRGraphicElementFactory associated constants
 	 */
 	public static final String ELEMENT_graphicElement = "graphicElement";
-	
+
 	public static final String ATTRIBUTE_pen = "pen";
 	public static final String ATTRIBUTE_fill = "fill";
 
@@ -1570,7 +1570,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_groupExpression = "groupExpression";
 	public static final String ELEMENT_groupHeader = "groupHeader";
 	public static final String ELEMENT_groupFooter = "groupFooter";
-	
+
 	public static final String ATTRIBUTE_isStartNewColumn = "isStartNewColumn";
 	public static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
 	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
@@ -1587,7 +1587,7 @@ public class JRXmlConstants
 	public static final String ELEMENT_hyperlinkReferenceExpression = "hyperlinkReferenceExpression";
 	public static final String ELEMENT_hyperlinkAnchorExpression = "hyperlinkAnchorExpression";
 	public static final String ELEMENT_hyperlinkPageExpression = "hyperlinkPageExpression";
-	
+
 	public static final String ATTRIBUTE_hyperlinkType = "hyperlinkType";
 	public static final String ATTRIBUTE_hyperlinkTarget = "hyperlinkTarget";
 
@@ -1595,19 +1595,19 @@ public class JRXmlConstants
 	 * JRHyperlinkFactory associated constants
 	 */
 	public static final String ELEMENT_hyperlinkParameterExpression = "hyperlinkParameterExpression";
-	
+
 	/**
 	 * JRHyperlinkParameterFactory associated constants
 	 */
 	public static final String ELEMENT_hyperlinkParameter = "hyperlinkParameter";
-	
+
 	/**
 	 * JRImageFactory associated constants
 	 */
 	public static final String ELEMENT_image = "image";
 	public static final String ELEMENT_imageSource = "imageSource";
 	public static final String ELEMENT_imageExpression = "imageExpression";
-	
+
 	public static final String ATTRIBUTE_scaleImage = "scaleImage";
 	public static final String ATTRIBUTE_hAlign = "hAlign";
 	public static final String ATTRIBUTE_vAlign = "vAlign";
@@ -1619,16 +1619,16 @@ public class JRXmlConstants
 	 * JRLineFactory associated constants
 	 */
 	public static final String ELEMENT_line = "line";
-	
+
 	public static final String ATTRIBUTE_direction = "direction";
-	
+
 	/**
 	 * JRParameterFactory associated constants
 	 */
 	public static final String ELEMENT_parameter = "parameter";
 	public static final String ELEMENT_parameterDescription = "parameterDescription";
 	public static final String ELEMENT_defaultValueExpression = "defaultValueExpression";
-	
+
 	public static final String ATTRIBUTE_isForPrompting = "isForPrompting";
 
 	/**
@@ -1649,7 +1649,7 @@ public class JRXmlConstants
 	 * JRPrintImageSourceFactory associated constants
 	 */
 	public static final String ATTRIBUTE_isEmbedded = "isEmbedded";
-	
+
 	/**
 	 * JRPrintTextFactory associated constants
 	 */
@@ -1660,7 +1660,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
 	public static final String ATTRIBUTE_leadingOffset = "leadingOffset";
 	public static final String ATTRIBUTE_valueClass = "valueClass";
-	
+
 	/**
 	 * JRQueryFactory associated constants
 	 */
@@ -1670,12 +1670,12 @@ public class JRXmlConstants
 	 * JRRectangleFactory associated constants
 	 */
 	public static final String ELEMENT_rectangle = "rectangle";
-	
+
 	/**
 	 * JRSortFieldFactory associated constants
 	 */
 	public static final String ELEMENT_sortField = "sortField";
-	
+
 	public static final String ATTRIBUTE_order = "order";
 
 	/**
@@ -1705,7 +1705,7 @@ public class JRXmlConstants
 	 * JRSubreportReturnValueFactory associated constants
 	 */
 	public static final String ELEMENT_returnValue = "returnValue";
-	
+
 	public static final String ATTRIBUTE_subreportVariable = "subreportVariable";
 	public static final String ATTRIBUTE_toVariable = "toVariable";
 
@@ -1713,17 +1713,17 @@ public class JRXmlConstants
 	 * JRTextElementFactory associated constants
 	 */
 	public static final String ELEMENT_textElement = "textElement";
-	
+
 	/**
 	 * JRTextFieldExpressionFactory associated constants
 	 */
 	public static final String ELEMENT_textFieldExpression = "textFieldExpression";
-	
+
 	/**
 	 * JRTextFieldFactory  associated constants
 	 */
 	public static final String ELEMENT_textField = "textField";
-	
+
 	public static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
 
 	/**
@@ -1744,11 +1744,11 @@ public class JRXmlConstants
 	 * JRReportFontFactory  associated constants
 	 */
 	public static final String ELEMENT_reportFont = "reportFont";
-	
+
 	public static final String ELEMENT_template = "template";
 
-	
+
 	public static final String TEMPLATE_ELEMENT_ROOT = "jasperTemplate";
 	public static final String TEMPLATE_ELEMENT_INCLUDED_TEMPLATE = "template";
-	
+
 }

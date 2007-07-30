@@ -52,7 +52,7 @@ import antlr.collections.impl.BitSet;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class MappingParser extends antlr.LLkParser       implements MappingParserTokenTypes
+public class MappingParser extends antlr.LLkParser implements MappingParserTokenTypes
  {
 
 	private MappingMetadata mappingMeta;

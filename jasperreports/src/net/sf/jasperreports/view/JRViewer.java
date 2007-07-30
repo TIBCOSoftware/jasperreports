@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -117,14 +117,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 * </p>
 	 */
 	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = JRProperties.PROPERTY_PREFIX + "viewer.render.buffer.max.size";
-	
+
 	/**
 	 *
 	 */
 	protected static final int TYPE_FILE_NAME = 1;
 	protected static final int TYPE_INPUT_STREAM = 2;
 	protected static final int TYPE_OBJECT = 3;
-	
+
 	/**
 	 * The DPI of the generated report.
 	 */
@@ -172,19 +172,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		};
 
 	private KeyListener keyNavigationListener =
-    	new KeyListener() {
-            public void keyTyped(KeyEvent evt) 
-            {
-            }
-            public void keyPressed(KeyEvent evt) 
-            {
-            	keyNavigate(evt);            
-            }
-            public void keyReleased(KeyEvent evt) 
-            {
-            }
-        };
-		
+		new KeyListener() {
+			public void keyTyped(KeyEvent evt)
+			{
+			}
+			public void keyPressed(KeyEvent evt)
+			{
+				keyNavigate(evt);
+			}
+			public void keyReleased(KeyEvent evt)
+			{
+			}
+		};
+
 	private java.util.List saveContributors = new ArrayList();
 
 	/** Creates new form JRViewer */
@@ -207,7 +207,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		this(jrPrint, null);
 	}
 
-	
+
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML, Locale locale) throws JRException
 	{
@@ -228,7 +228,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		this(jrPrint, locale, null);
 	}
 
-	
+
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
 	{
@@ -291,13 +291,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		addHyperlinkListener(this);
 	}
 
-	
+
 	private void setScreenDetails()
 	{
 		screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -371,7 +371,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
 	/**
-	 * 
+	 *
 	 */
 	protected void initResources(Locale locale, ResourceBundle resBundle)
 	{
@@ -379,7 +379,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			setLocale(locale);
 		else
 			setLocale(Locale.getDefault());
-		
+
 		if (resBundle == null)
 		{
 			this.resourceBundle = ResourceBundle.getBundle("net/sf/jasperreports/view/viewer", getLocale());
@@ -392,20 +392,20 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 
 	/**
-	 * 
+	 *
 	 */
 	protected String getBundleString(String key)
 	{
 		return resourceBundle.getString(key);
 	}
 
-	
+
 	/**
 	 *
 	 */
 	protected void initSaveContributors()
 	{
-		final String[] DEFAULT_CONTRIBUTORS = 
+		final String[] DEFAULT_CONTRIBUTORS =
 			{
 				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
 				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
@@ -418,10 +418,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				"net.sf.jasperreports.view.save.JRXmlSaveContributor",
 				"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor"
 			};
-		
+
 		for(int i = 0; i < DEFAULT_CONTRIBUTORS.length; i++)
 		{
-			try 
+			try
 			{
 				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
 				Method method = saveContribClass.getMethod("getInstance", (Class[])null);
@@ -434,7 +434,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -489,11 +489,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						{
 							newY = maxY;
 						}
-			
+
 						viewport.setViewPosition(new Point(newX, newY));
 					}
 				}
-				
+
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
@@ -503,7 +503,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				{
 					page = hyperlink.getHyperlinkPage().intValue();
 				}
-				
+
 				if (page >= 1 && page <= jasperPrint.getPages().size() && page != pageIndex + 1)
 				{
 					setPageIndex(page - 1);
@@ -515,7 +515,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						viewport.setViewPosition(new Point(0, 0));
 					}
 				}
-				
+
 				break;
 			}
 			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
@@ -574,395 +574,395 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		return listenerCount == 0;
 	}
 
-	
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
 	 * always regenerated by the Form Editor.
 	 */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+	private void initComponents() {
+		java.awt.GridBagConstraints gridBagConstraints;
 
-        tlbToolBar = new javax.swing.JPanel();
-        btnSave = new javax.swing.JButton();
-        btnPrint = new javax.swing.JButton();
-        btnReload = new javax.swing.JButton();
-        pnlSep01 = new javax.swing.JPanel();
-        btnFirst = new javax.swing.JButton();
-        btnPrevious = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
-        btnLast = new javax.swing.JButton();
-        txtGoTo = new javax.swing.JTextField();
-        pnlSep02 = new javax.swing.JPanel();
-        btnActualSize = new javax.swing.JToggleButton();
-        btnFitPage = new javax.swing.JToggleButton();
-        btnFitWidth = new javax.swing.JToggleButton();
-        pnlSep03 = new javax.swing.JPanel();
-        btnZoomIn = new javax.swing.JButton();
-        btnZoomOut = new javax.swing.JButton();
-        cmbZoom = new javax.swing.JComboBox();
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for(int i = 0; i < zooms.length; i++)
-        {
-            model.addElement("" + zooms[i] + "%");
-        }
-        cmbZoom.setModel(model);
+		tlbToolBar = new javax.swing.JPanel();
+		btnSave = new javax.swing.JButton();
+		btnPrint = new javax.swing.JButton();
+		btnReload = new javax.swing.JButton();
+		pnlSep01 = new javax.swing.JPanel();
+		btnFirst = new javax.swing.JButton();
+		btnPrevious = new javax.swing.JButton();
+		btnNext = new javax.swing.JButton();
+		btnLast = new javax.swing.JButton();
+		txtGoTo = new javax.swing.JTextField();
+		pnlSep02 = new javax.swing.JPanel();
+		btnActualSize = new javax.swing.JToggleButton();
+		btnFitPage = new javax.swing.JToggleButton();
+		btnFitWidth = new javax.swing.JToggleButton();
+		pnlSep03 = new javax.swing.JPanel();
+		btnZoomIn = new javax.swing.JButton();
+		btnZoomOut = new javax.swing.JButton();
+		cmbZoom = new javax.swing.JComboBox();
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		for(int i = 0; i < zooms.length; i++)
+		{
+			model.addElement("" + zooms[i] + "%");
+		}
+		cmbZoom.setModel(model);
 
-        pnlMain = new javax.swing.JPanel();
-        scrollPane = new javax.swing.JScrollPane();
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(5);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(5);
+		pnlMain = new javax.swing.JPanel();
+		scrollPane = new javax.swing.JScrollPane();
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(5);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(5);
 
-        pnlInScroll = new javax.swing.JPanel();
-        pnlPage = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        pnlLinks = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        lblPage = new PageRenderer(this);
-        pnlStatus = new javax.swing.JPanel();
-        lblStatus = new javax.swing.JLabel();
+		pnlInScroll = new javax.swing.JPanel();
+		pnlPage = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
+		pnlLinks = new javax.swing.JPanel();
+		jPanel5 = new javax.swing.JPanel();
+		jPanel6 = new javax.swing.JPanel();
+		jPanel7 = new javax.swing.JPanel();
+		jPanel8 = new javax.swing.JPanel();
+		jLabel1 = new javax.swing.JLabel();
+		jPanel9 = new javax.swing.JPanel();
+		lblPage = new PageRenderer(this);
+		pnlStatus = new javax.swing.JPanel();
+		lblStatus = new javax.swing.JLabel();
 
-        setLayout(new java.awt.BorderLayout());
+		setLayout(new java.awt.BorderLayout());
 
-        setMinimumSize(new java.awt.Dimension(450, 150));
-        setPreferredSize(new java.awt.Dimension(450, 150));
-        tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
+		setMinimumSize(new java.awt.Dimension(450, 150));
+		setPreferredSize(new java.awt.Dimension(450, 150));
+		tlbToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 2));
 
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
-        btnSave.setToolTipText(getBundleString("save"));
-        btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-        btnSave.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnSave);
+		btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/save.GIF")));
+		btnSave.setToolTipText(getBundleString("save"));
+		btnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnSave.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnSave.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnSaveActionPerformed(evt);
+			}
+		});
+		btnSave.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnSave);
 
-        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/print.GIF")));
-        btnPrint.setToolTipText(getBundleString("print"));
-        btnPrint.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnPrint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrintActionPerformed(evt);
-            }
-        });
-        btnPrint.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnPrint);
+		btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/print.GIF")));
+		btnPrint.setToolTipText(getBundleString("print"));
+		btnPrint.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnPrint.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnPrint.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnPrintActionPerformed(evt);
+			}
+		});
+		btnPrint.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnPrint);
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
-        btnReload.setToolTipText(getBundleString("reload"));
-        btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnReload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReloadActionPerformed(evt);
-            }
-        });
-        btnReload.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnReload);
+		btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/reload.GIF")));
+		btnReload.setToolTipText(getBundleString("reload"));
+		btnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnReload.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnReload.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnReloadActionPerformed(evt);
+			}
+		});
+		btnReload.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnReload);
 
-        pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep01);
+		pnlSep01.setMaximumSize(new java.awt.Dimension(10, 10));
+		tlbToolBar.add(pnlSep01);
 
-        btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/first.GIF")));
-        btnFirst.setToolTipText(getBundleString("first.page"));
-        btnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnFirst.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnFirst.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFirstActionPerformed(evt);
-            }
-        });
-        btnFirst.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnFirst);
+		btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/first.GIF")));
+		btnFirst.setToolTipText(getBundleString("first.page"));
+		btnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnFirst.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnFirst.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnFirstActionPerformed(evt);
+			}
+		});
+		btnFirst.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnFirst);
 
-        btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/previous.GIF")));
-        btnPrevious.setToolTipText(getBundleString("previous.page"));
-        btnPrevious.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnPrevious.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousActionPerformed(evt);
-            }
-        });
-        btnPrevious.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnPrevious);
+		btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/previous.GIF")));
+		btnPrevious.setToolTipText(getBundleString("previous.page"));
+		btnPrevious.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnPrevious.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnPreviousActionPerformed(evt);
+			}
+		});
+		btnPrevious.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnPrevious);
 
-        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/next.GIF")));
-        btnNext.setToolTipText(getBundleString("next.page"));
-        btnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnNext.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-        btnNext.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnNext);
+		btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/next.GIF")));
+		btnNext.setToolTipText(getBundleString("next.page"));
+		btnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnNext.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnNext.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnNextActionPerformed(evt);
+			}
+		});
+		btnNext.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnNext);
 
-        btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/last.GIF")));
-        btnLast.setToolTipText(getBundleString("last.page"));
-        btnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnLast.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnLast.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLastActionPerformed(evt);
-            }
-        });
-        btnLast.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnLast);
+		btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/last.GIF")));
+		btnLast.setToolTipText(getBundleString("last.page"));
+		btnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnLast.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnLast.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnLastActionPerformed(evt);
+			}
+		});
+		btnLast.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnLast);
 
-        txtGoTo.setToolTipText(getBundleString("go.to.page"));
-        txtGoTo.setMaximumSize(new java.awt.Dimension(40, 23));
-        txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
-        txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
-        txtGoTo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGoToActionPerformed(evt);
-            }
-        });
-        txtGoTo.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(txtGoTo);
+		txtGoTo.setToolTipText(getBundleString("go.to.page"));
+		txtGoTo.setMaximumSize(new java.awt.Dimension(40, 23));
+		txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
+		txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
+		txtGoTo.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				txtGoToActionPerformed(evt);
+			}
+		});
+		txtGoTo.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(txtGoTo);
 
-        pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep02);
+		pnlSep02.setMaximumSize(new java.awt.Dimension(10, 10));
+		tlbToolBar.add(pnlSep02);
 
-        btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/actualsize.GIF")));
-        btnActualSize.setToolTipText(getBundleString("actual.size"));
-        btnActualSize.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnActualSize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualSizeActionPerformed(evt);
-            }
-        });
-        btnActualSize.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnActualSize);
+		btnActualSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/actualsize.GIF")));
+		btnActualSize.setToolTipText(getBundleString("actual.size"));
+		btnActualSize.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnActualSize.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnActualSize.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnActualSizeActionPerformed(evt);
+			}
+		});
+		btnActualSize.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnActualSize);
 
-        btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitpage.GIF")));
-        btnFitPage.setToolTipText(getBundleString("fit.page"));
-        btnFitPage.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnFitPage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFitPageActionPerformed(evt);
-            }
-        });
-        btnFitPage.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnFitPage);
+		btnFitPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitpage.GIF")));
+		btnFitPage.setToolTipText(getBundleString("fit.page"));
+		btnFitPage.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnFitPage.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnFitPage.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnFitPageActionPerformed(evt);
+			}
+		});
+		btnFitPage.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnFitPage);
 
-        btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitwidth.GIF")));
-        btnFitWidth.setToolTipText(getBundleString("fit.width"));
-        btnFitWidth.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFitWidthActionPerformed(evt);
-            }
-        });
-        btnFitWidth.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnFitWidth);
+		btnFitWidth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/fitwidth.GIF")));
+		btnFitWidth.setToolTipText(getBundleString("fit.width"));
+		btnFitWidth.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnFitWidth.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnFitWidthActionPerformed(evt);
+			}
+		});
+		btnFitWidth.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnFitWidth);
 
-        pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
-        tlbToolBar.add(pnlSep03);
+		pnlSep03.setMaximumSize(new java.awt.Dimension(10, 10));
+		tlbToolBar.add(pnlSep03);
 
-        btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomin.GIF")));
-        btnZoomIn.setToolTipText(getBundleString("zoom.in"));
-        btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZoomInActionPerformed(evt);
-            }
-        });
-        btnZoomIn.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnZoomIn);
+		btnZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomin.GIF")));
+		btnZoomIn.setToolTipText(getBundleString("zoom.in"));
+		btnZoomIn.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnZoomIn.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnZoomInActionPerformed(evt);
+			}
+		});
+		btnZoomIn.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnZoomIn);
 
-        btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
-        btnZoomOut.setToolTipText(getBundleString("zoom.out"));
-        btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZoomOutActionPerformed(evt);
-            }
-        });
-        btnZoomOut.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(btnZoomOut);
+		btnZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/zoomout.GIF")));
+		btnZoomOut.setToolTipText(getBundleString("zoom.out"));
+		btnZoomOut.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		btnZoomOut.setMaximumSize(new java.awt.Dimension(23, 23));
+		btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
+		btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
+		btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnZoomOutActionPerformed(evt);
+			}
+		});
+		btnZoomOut.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(btnZoomOut);
 
-        cmbZoom.setEditable(true);
-        cmbZoom.setToolTipText(getBundleString("zoom.ratio"));
-        cmbZoom.setMaximumSize(new java.awt.Dimension(80, 23));
-        cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
-        cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
-        cmbZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbZoomActionPerformed(evt);
-            }
-        });
-        cmbZoom.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbZoomItemStateChanged(evt);
-            }
-        });
-        cmbZoom.addKeyListener(keyNavigationListener);
-        tlbToolBar.add(cmbZoom);
+		cmbZoom.setEditable(true);
+		cmbZoom.setToolTipText(getBundleString("zoom.ratio"));
+		cmbZoom.setMaximumSize(new java.awt.Dimension(80, 23));
+		cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
+		cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
+		cmbZoom.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cmbZoomActionPerformed(evt);
+			}
+		});
+		cmbZoom.addItemListener(new java.awt.event.ItemListener() {
+			public void itemStateChanged(java.awt.event.ItemEvent evt) {
+				cmbZoomItemStateChanged(evt);
+			}
+		});
+		cmbZoom.addKeyListener(keyNavigationListener);
+		tlbToolBar.add(cmbZoom);
 
-        add(tlbToolBar, java.awt.BorderLayout.NORTH);
+		add(tlbToolBar, java.awt.BorderLayout.NORTH);
 
-        pnlMain.setLayout(new java.awt.BorderLayout());
-        pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                pnlMainComponentResized(evt);
-            }
-        });
-        
-        scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        pnlInScroll.setLayout(new java.awt.GridBagLayout());
-        
-        pnlPage.setLayout(new java.awt.BorderLayout());
-        pnlPage.setMinimumSize(new java.awt.Dimension(100, 100));
-        pnlPage.setPreferredSize(new java.awt.Dimension(100, 100));
-        
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-        jPanel4.setMinimumSize(new java.awt.Dimension(100, 120));
-        jPanel4.setPreferredSize(new java.awt.Dimension(100, 120));
-        
-        pnlLinks.setLayout(null);
-        pnlLinks.setMinimumSize(new java.awt.Dimension(5, 5));
-        pnlLinks.setPreferredSize(new java.awt.Dimension(5, 5));
-        pnlLinks.setOpaque(false);
-        pnlLinks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlLinksMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlLinksMouseReleased(evt);
-            }
-        });
-        pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                pnlLinksMouseDragged(evt);
-            }
-        });
+		pnlMain.setLayout(new java.awt.BorderLayout());
+		pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
+			public void componentResized(java.awt.event.ComponentEvent evt) {
+				pnlMainComponentResized(evt);
+			}
+		});
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel4.add(pnlLinks, gridBagConstraints);
+		scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		pnlInScroll.setLayout(new java.awt.GridBagLayout());
 
-        jPanel5.setBackground(java.awt.Color.gray);
-        jPanel5.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel5.setPreferredSize(new java.awt.Dimension(5, 5));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        jPanel4.add(jPanel5, gridBagConstraints);
+		pnlPage.setLayout(new java.awt.BorderLayout());
+		pnlPage.setMinimumSize(new java.awt.Dimension(100, 100));
+		pnlPage.setPreferredSize(new java.awt.Dimension(100, 100));
 
-        jPanel6.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel6.setPreferredSize(new java.awt.Dimension(5, 5));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        jPanel4.add(jPanel6, gridBagConstraints);
+		jPanel4.setLayout(new java.awt.GridBagLayout());
+		jPanel4.setMinimumSize(new java.awt.Dimension(100, 120));
+		jPanel4.setPreferredSize(new java.awt.Dimension(100, 120));
 
-        jPanel7.setBackground(java.awt.Color.gray);
-        jPanel7.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel7.setPreferredSize(new java.awt.Dimension(5, 5));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(jPanel7, gridBagConstraints);
+		pnlLinks.setLayout(null);
+		pnlLinks.setMinimumSize(new java.awt.Dimension(5, 5));
+		pnlLinks.setPreferredSize(new java.awt.Dimension(5, 5));
+		pnlLinks.setOpaque(false);
+		pnlLinks.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mousePressed(java.awt.event.MouseEvent evt) {
+				pnlLinksMousePressed(evt);
+			}
+			public void mouseReleased(java.awt.event.MouseEvent evt) {
+				pnlLinksMouseReleased(evt);
+			}
+		});
+		pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+			public void mouseDragged(java.awt.event.MouseEvent evt) {
+				pnlLinksMouseDragged(evt);
+			}
+		});
 
-        jPanel8.setBackground(java.awt.Color.gray);
-        jPanel8.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel8.setPreferredSize(new java.awt.Dimension(5, 5));
-        jLabel1.setText("jLabel1");
-        jPanel8.add(jLabel1);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 2;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		jPanel4.add(pnlLinks, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        jPanel4.add(jPanel8, gridBagConstraints);
+		jPanel5.setBackground(java.awt.Color.gray);
+		jPanel5.setMinimumSize(new java.awt.Dimension(5, 5));
+		jPanel5.setPreferredSize(new java.awt.Dimension(5, 5));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+		jPanel4.add(jPanel5, gridBagConstraints);
 
-        jPanel9.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel9.setPreferredSize(new java.awt.Dimension(5, 5));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        jPanel4.add(jPanel9, gridBagConstraints);
+		jPanel6.setMinimumSize(new java.awt.Dimension(5, 5));
+		jPanel6.setPreferredSize(new java.awt.Dimension(5, 5));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 2;
+		jPanel4.add(jPanel6, gridBagConstraints);
 
-        lblPage.setBackground(java.awt.Color.white);
-        lblPage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
-        lblPage.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel4.add(lblPage, gridBagConstraints);
+		jPanel7.setBackground(java.awt.Color.gray);
+		jPanel7.setMinimumSize(new java.awt.Dimension(5, 5));
+		jPanel7.setPreferredSize(new java.awt.Dimension(5, 5));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		jPanel4.add(jPanel7, gridBagConstraints);
 
-        pnlPage.add(jPanel4, java.awt.BorderLayout.CENTER);
+		jPanel8.setBackground(java.awt.Color.gray);
+		jPanel8.setMinimumSize(new java.awt.Dimension(5, 5));
+		jPanel8.setPreferredSize(new java.awt.Dimension(5, 5));
+		jLabel1.setText("jLabel1");
+		jPanel8.add(jLabel1);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnlInScroll.add(pnlPage, gridBagConstraints);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 2;
+		jPanel4.add(jPanel8, gridBagConstraints);
 
-        scrollPane.setViewportView(pnlInScroll);
-        pnlMain.add(scrollPane, java.awt.BorderLayout.CENTER);
-        add(pnlMain, java.awt.BorderLayout.CENTER);
+		jPanel9.setMinimumSize(new java.awt.Dimension(5, 5));
+		jPanel9.setPreferredSize(new java.awt.Dimension(5, 5));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 0;
+		jPanel4.add(jPanel9, gridBagConstraints);
 
-        pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+		lblPage.setBackground(java.awt.Color.white);
+		lblPage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+		lblPage.setOpaque(true);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 2;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		jPanel4.add(lblPage, gridBagConstraints);
 
-        lblStatus.setFont(new java.awt.Font("Dialog", 1, 10));
-        lblStatus.setText("Page i of n");
-        pnlStatus.add(lblStatus);
-        add(pnlStatus, java.awt.BorderLayout.SOUTH);
-    	addKeyListener(keyNavigationListener);
-    }
-    // </editor-fold>//GEN-END:initComponents
+		pnlPage.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+		pnlInScroll.add(pnlPage, gridBagConstraints);
+
+		scrollPane.setViewportView(pnlInScroll);
+		pnlMain.add(scrollPane, java.awt.BorderLayout.CENTER);
+		add(pnlMain, java.awt.BorderLayout.CENTER);
+
+		pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+
+		lblStatus.setFont(new java.awt.Font("Dialog", 1, 10));
+		lblStatus.setText("Page i of n");
+		pnlStatus.add(lblStatus);
+		add(pnlStatus, java.awt.BorderLayout.SOUTH);
+		addKeyListener(keyNavigationListener);
+	}
+	// </editor-fold>//GEN-END:initComponents
 
 	void txtGoToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGoToActionPerformed
 		try
@@ -1002,7 +1002,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			setRealZoomRatio(((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth());
 			btnFitWidth.setSelected(true);
 		}
-		
+
 	}//GEN-LAST:event_pnlMainComponentResized
 
 	void btnActualSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualSizeActionPerformed
@@ -1043,7 +1043,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 		// Add your handling code here:
-		
+
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setLocale(this.getLocale());
 		fileChooser.updateUI();
@@ -1051,19 +1051,19 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
 		}
-		
+
 		if (saveContributors.size() > 0)
 		{
 			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
 		}
-        int retValue = fileChooser.showSaveDialog(this);
+		int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION)
 		{
 			FileFilter fileFilter = fileChooser.getFileFilter();
 			File file = fileChooser.getSelectedFile();
 
 			JRSaveContributor contributor = null;
-			
+
 			if (fileFilter instanceof JRSaveContributor)
 			{
 				contributor = (JRSaveContributor)fileFilter;
@@ -1079,7 +1079,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						contributor = null;
 					}
 				}
-				
+
 				if (contributor == null)
 				{
 					contributor = new JRPrintSaveContributor();
@@ -1108,7 +1108,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			Point point = viewport.getViewPosition();
 			int newX = point.x - (evt.getX() - downX);
 			int newY = point.y - (evt.getY() - downY);
-			
+
 			int maxX = pnlInScroll.getWidth() - viewport.getWidth();
 			int maxY = pnlInScroll.getHeight() - viewport.getHeight();
 
@@ -1128,7 +1128,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				newY = maxY;
 			}
-			
+
 			viewport.setViewPosition(new Point(newX, newY));
 		}
 	}//GEN-LAST:event_pnlLinksMouseDragged
@@ -1141,7 +1141,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	void pnlLinksMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLinksMousePressed
 		// Add your handling code here:
 		pnlLinks.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-		
+
 		downX = evt.getX();
 		downY = evt.getY();
 	}//GEN-LAST:event_pnlLinksMousePressed
@@ -1149,18 +1149,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	void btnPrintActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPrintActionPerformed
 	{//GEN-HEADEREND:event_btnPrintActionPerformed
 		// Add your handling code here:
-		
-		Thread thread = 
+
+		Thread thread =
 			new Thread(
 				new Runnable()
 				{
 					public void run()
 					{
-						try 
+						try
 						{
 							JasperPrintManager.printReport(jasperPrint, true);
 						}
-						catch (Exception ex) 
+						catch (Exception ex)
 						{
 							ex.printStackTrace();
 							JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.printing"));
@@ -1168,7 +1168,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 				}
 			);
-		
+
 		thread.start();
 
 	}//GEN-LAST:event_btnPrintActionPerformed
@@ -1231,7 +1231,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		realZoom = 0f;
 		setZoomRatio(1);
 	}
-	
+
 	void btnZoomInActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnZoomInActionPerformed
 	{//GEN-HEADEREND:event_btnZoomInActionPerformed
 		// Add your handling code here:
@@ -1274,12 +1274,12 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{//GEN-HEADEREND:event_cmbZoomActionPerformed
 		// Add your handling code here:
 		float newZoom = getZoomRatio();
-		
+
 		if (newZoom < MIN_ZOOM)
 		{
 			newZoom = MIN_ZOOM;
 		}
-		
+
 		if (newZoom > MAX_ZOOM)
 		{
 			newZoom = MAX_ZOOM;
@@ -1294,7 +1294,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
-		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);		
+		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);
 		hyperlinkClicked(element);
 	}
 
@@ -1323,7 +1323,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public int getPageIndex()
 	{
 		return pageIndex;
-	} 
+	}
 
 
 	/**
@@ -1332,9 +1332,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		if(index > -1 && index < jasperPrint.getPages().size())
 		{
-			
+
 			if (
-				jasperPrint != null && 
+				jasperPrint != null &&
 				jasperPrint.getPages() != null &&
 				jasperPrint.getPages().size() > 0
 				)
@@ -1438,7 +1438,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			btnZoomIn.setEnabled(false);
 			btnZoomOut.setEnabled(false);
 			cmbZoom.setEnabled(false);
-			
+
 			if (jasperPrint != null)
 			{
 				JOptionPane.showMessageDialog(this, getBundleString("no.pages"));
@@ -1464,7 +1464,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlPage.setMaximumSize(dim);
 		pnlPage.setMinimumSize(dim);
 		pnlPage.setPreferredSize(dim);
-		
+
 		long maxImageSize = JRProperties.getLongProperty(VIEWER_RENDER_BUFFER_MAX_SIZE);
 		boolean renderImage;
 		if (maxImageSize <= 0)
@@ -1476,7 +1476,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			long imageSize = JRPrinterAWT.getImageSize(jasperPrint, realZoom);
 			renderImage = imageSize <= maxImageSize;
 		}
-		
+
 		lblPage.setRenderImage(renderImage);
 
 		if (renderImage)
@@ -1501,7 +1501,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		linksMap = new HashMap();
 
 		createHyperlinks();
-		
+
 		if (!renderImage)
 		{
 			lblPage.setIcon(null);
@@ -1526,7 +1526,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			for(Iterator it = elements.iterator(); it.hasNext();)
 			{
 				JRPrintElement element = (JRPrintElement)it.next();
-				
+
 				JRImageMapRenderer imageMap = null;
 				if (element instanceof JRPrintImage)
 				{
@@ -1537,14 +1537,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					}
 				}
 				boolean hasImageMap = imageMap != null;
-				
+
 				JRPrintHyperlink hyperlink = null;
 				if (!hasImageMap && element instanceof JRPrintHyperlink)
 				{
 					hyperlink = (JRPrintHyperlink) element;
 				}
 				boolean hasHyperlink = hyperlink != null && hyperlink.getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE;
-				
+
 				if (hasHyperlink || hasImageMap)
 				{
 					JPanel link;
@@ -1558,14 +1558,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						Rectangle renderingArea = new Rectangle(0, 0, element.getWidth(), element.getHeight());
 						link = new ImageMapPanel(renderingArea, imageMap);
 					}
-					
+
 					if (hasHyperlink)
 					{
 						link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					}
-					
+
 					link.setLocation(
-						(int)((element.getX() + offsetX) * realZoom), 
+						(int)((element.getX() + offsetX) * realZoom),
 						(int)((element.getY() + offsetY) * realZoom)
 						);
 					link.setSize(
@@ -1573,7 +1573,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						(int)(element.getHeight() * realZoom)
 						);
 					link.setOpaque(false);
-					
+
 					String toolTip;
 					if (hasHyperlink)
 					{
@@ -1584,11 +1584,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 						toolTip = "";//not null to register the panel as having a tool tip
 					}
 					link.setToolTipText(toolTip);
-					
+
 					pnlLinks.add(link);
 					linksMap.put(link, element);
 				}
-				
+
 				if (element instanceof JRPrintFrame)
 				{
 					JRPrintFrame frame = (JRPrintFrame) element;
@@ -1600,11 +1600,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 	}
 
-	
+
 	protected class ImageMapPanel extends JPanel implements MouseListener, MouseMotionListener
 	{
 		protected final List imageAreaHyperlinks;
-		
+
 		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
 		{
 			try
@@ -1615,11 +1615,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				throw new JRRuntimeException(e);
 			}
-			
+
 			addMouseListener(this);
 			addMouseMotionListener(this);
 		}
-		
+
 		public String getToolTipText(MouseEvent event)
 		{
 			String tooltip = null;
@@ -1628,15 +1628,15 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				tooltip = getHyperlinkTooltip(imageMapArea.getHyperlink());
 			}
-			
+
 			if (tooltip == null)
 			{
 				tooltip = super.getToolTipText(event);
 			}
-				
+
 			return tooltip;
 		}
-		
+
 		public void mouseDragged(MouseEvent e)
 		{
 		}
@@ -1644,7 +1644,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		public void mouseMoved(MouseEvent e)
 		{
 			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
-			if (imageArea != null 
+			if (imageArea != null
 					&& imageArea.getHyperlink().getHyperlinkType() != JRHyperlink.HYPERLINK_TYPE_NONE)
 			{
 				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1712,7 +1712,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		return toolTip;
 	}
 
-	
+
 	protected String getFallbackTooltip(JRPrintHyperlink hyperlink)
 	{
 		String toolTip = null;
@@ -1791,10 +1791,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		}
 
-		components = null; 
-		container.removeAll(); 
-		container = null; 
-	} 
+		components = null;
+		container.removeAll();
+		container = null;
+	}
 
 
 	/**
@@ -1802,10 +1802,10 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private float getZoomRatio()
 	{
 		float newZoom = zoom;
-		
+
 		try
 		{
-			newZoom = 
+			newZoom =
 				zoomDecimalFormat.parse(
 					String.valueOf(cmbZoom.getEditor().getItem())
 					).floatValue() / 100f;
@@ -1815,7 +1815,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 
 		return newZoom;
-	} 
+	}
 
 
 	/**
@@ -1827,7 +1827,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			cmbZoom.getEditor().setItem(
 				zoomDecimalFormat.format(newZoom * 100) + "%"
 				);
-			
+
 			if (zoom != newZoom)
 			{
 				zoom = newZoom;
@@ -1836,7 +1836,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				refreshPage();
 			}
 		}
-	} 
+	}
 
 
 	/**
@@ -1847,11 +1847,11 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			zoom = newZoom * REPORT_RESOLUTION / screenResolution;
 			realZoom = newZoom;
-			
+
 			cmbZoom.getEditor().setItem(
 				zoomDecimalFormat.format(zoom * 100) + "%"
 				);
-			
+
 			refreshPage();
 		}
 	}
@@ -1886,7 +1886,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				exporter.reset();
 			}
-			
+
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx);
 			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
@@ -1901,38 +1901,38 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			JOptionPane.showMessageDialog(this, getBundleString("error.displaying"));
 		}
 
-	} 
+	}
 
 	private void keyNavigate(KeyEvent evt)
 	{
-    	switch (evt.getKeyCode())
-    	{
-    	case KeyEvent.VK_DOWN:
-    	case KeyEvent.VK_PAGE_DOWN:
-    		dnNavigate(evt);
-    		break;
-    	case KeyEvent.VK_UP:
-    	case KeyEvent.VK_PAGE_UP:
-    		upNavigate(evt);
-    		break;
-    	case KeyEvent.VK_HOME:
-    		homeEndNavigate(0);
-    		break;
-    	case KeyEvent.VK_END:
-    		homeEndNavigate(jasperPrint.getPages().size() - 1);
-    		break;
-    	default:
-    	
-    	}
-        refreshPage();
+		switch (evt.getKeyCode())
+		{
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_PAGE_DOWN:
+			dnNavigate(evt);
+			break;
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_PAGE_UP:
+			upNavigate(evt);
+			break;
+		case KeyEvent.VK_HOME:
+			homeEndNavigate(0);
+			break;
+		case KeyEvent.VK_END:
+			homeEndNavigate(jasperPrint.getPages().size() - 1);
+			break;
+		default:
+
+		}
+		refreshPage();
 	}
-	
+
 	private void dnNavigate(KeyEvent evt)
 	{
 		int bottomPosition = scrollPane.getVerticalScrollBar().getValue();
 		scrollPane.dispatchEvent(evt);
-		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() ||  
-				scrollPane.getVerticalScrollBar().getValue() == bottomPosition) && 
+		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() ||
+				scrollPane.getVerticalScrollBar().getValue() == bottomPosition) &&
 				pageIndex < jasperPrint.getPages().size() - 1)
 		{
 			setPageIndex(pageIndex + 1);
@@ -1943,13 +1943,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	private void upNavigate(KeyEvent evt)
 	{
-		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() || 
-				scrollPane.getVerticalScrollBar().getValue() == 0) && 
+		if((scrollPane.getViewport().getHeight() > pnlPage.getHeight() ||
+				scrollPane.getVerticalScrollBar().getValue() == 0) &&
 				pageIndex > 0)
 		{
 			setPageIndex(pageIndex - 1);
 			if(scrollPane.isEnabled())
-				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());            			
+				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 		}
 		else
 		{
@@ -1963,28 +1963,28 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		if(scrollPane.isEnabled())
 			scrollPane.getVerticalScrollBar().setValue(0);
 	}
-	
+
 	/**
-	 * 
+	 *
 	*/
 	private void fitPage(){
 		float heightRatio = ((float)pnlInScroll.getVisibleRect().getHeight() - 20f) / jasperPrint.getPageHeight();
 		float widthRatio = ((float)pnlInScroll.getVisibleRect().getWidth() - 20f) / jasperPrint.getPageWidth();
 		setRealZoomRatio(heightRatio < widthRatio ? heightRatio : widthRatio);
 	}
-	
+
 	/**
 	*/
 	class PageRenderer extends JLabel
 	{
 		private boolean renderImage;
 		JRViewer viewer = null;
-		
+
 		public PageRenderer(JRViewer viewer)
 		{
 			this.viewer = viewer;
 		}
-		
+
 		public void paintComponent(Graphics g)
 		{
 			if (isRenderImage())
@@ -1996,52 +1996,52 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				viewer.paintPage((Graphics2D)g.create());
 			}
 		}
-		
+
 		public boolean isRenderImage()
 		{
 			return renderImage;
 		}
-		
+
 		public void setRenderImage(boolean renderImage)
 		{
 			this.renderImage = renderImage;
 		}
 	}
-	
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JToggleButton btnActualSize;
-    protected javax.swing.JButton btnFirst;
-    protected javax.swing.JToggleButton btnFitPage;
-    protected javax.swing.JToggleButton btnFitWidth;
-    protected javax.swing.JButton btnLast;
-    protected javax.swing.JButton btnNext;
-    protected javax.swing.JButton btnPrevious;
-    protected javax.swing.JButton btnPrint;
-    protected javax.swing.JButton btnReload;
-    protected javax.swing.JButton btnSave;
-    protected javax.swing.JButton btnZoomIn;
-    protected javax.swing.JButton btnZoomOut;
-    protected javax.swing.JComboBox cmbZoom;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private PageRenderer lblPage;
-    protected javax.swing.JLabel lblStatus;
-    private javax.swing.JPanel pnlInScroll;
-    private javax.swing.JPanel pnlLinks;
-    private javax.swing.JPanel pnlMain;
-    private javax.swing.JPanel pnlPage;
-    protected javax.swing.JPanel pnlSep01;
-    protected javax.swing.JPanel pnlSep02;
-    protected javax.swing.JPanel pnlSep03;
-    protected javax.swing.JPanel pnlStatus;
-    private javax.swing.JScrollPane scrollPane;
-    protected javax.swing.JPanel tlbToolBar;
-    protected javax.swing.JTextField txtGoTo;
-    // End of variables declaration//GEN-END:variables
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	protected javax.swing.JToggleButton btnActualSize;
+	protected javax.swing.JButton btnFirst;
+	protected javax.swing.JToggleButton btnFitPage;
+	protected javax.swing.JToggleButton btnFitWidth;
+	protected javax.swing.JButton btnLast;
+	protected javax.swing.JButton btnNext;
+	protected javax.swing.JButton btnPrevious;
+	protected javax.swing.JButton btnPrint;
+	protected javax.swing.JButton btnReload;
+	protected javax.swing.JButton btnSave;
+	protected javax.swing.JButton btnZoomIn;
+	protected javax.swing.JButton btnZoomOut;
+	protected javax.swing.JComboBox cmbZoom;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JPanel jPanel4;
+	private javax.swing.JPanel jPanel5;
+	private javax.swing.JPanel jPanel6;
+	private javax.swing.JPanel jPanel7;
+	private javax.swing.JPanel jPanel8;
+	private javax.swing.JPanel jPanel9;
+	private PageRenderer lblPage;
+	protected javax.swing.JLabel lblStatus;
+	private javax.swing.JPanel pnlInScroll;
+	private javax.swing.JPanel pnlLinks;
+	private javax.swing.JPanel pnlMain;
+	private javax.swing.JPanel pnlPage;
+	protected javax.swing.JPanel pnlSep01;
+	protected javax.swing.JPanel pnlSep02;
+	protected javax.swing.JPanel pnlSep03;
+	protected javax.swing.JPanel pnlStatus;
+	private javax.swing.JScrollPane scrollPane;
+	protected javax.swing.JPanel tlbToolBar;
+	protected javax.swing.JTextField txtGoTo;
+	// End of variables declaration//GEN-END:variables
 
 }

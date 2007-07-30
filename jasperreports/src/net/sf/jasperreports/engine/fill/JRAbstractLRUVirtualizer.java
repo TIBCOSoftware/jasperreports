@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2005 Works, Inc.  http://www.works.com/
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * Works, Inc.
  * 6034 West Courtyard Drive
  * Suite 210
@@ -62,7 +62,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Abstract base for LRU and serialization based virtualizer
- * 
+ *
  * @author John Bindel
  * @version $Id$
  */
@@ -79,58 +79,58 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			super(o, queue);
 			id = o.getUID();
 		}
-		
+
 		public String getId()
 		{
 			return id;
 		}
 	}
-	
+
 	/**
 	 * This class keeps track of how many objects are currently in memory, and
 	 * when there are too many, it pushes the last touched one to disk.
 	 */
 	protected class Cache
-	{		
+	{
 		protected class LRUScanMap extends LRUMap
 		{
 			private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-			
-		    public LRUScanMap(int maxSize)
-		    {
-		    	super(maxSize);
+
+			public LRUScanMap(int maxSize)
+			{
+				super(maxSize);
 			}
 
 			protected void removeLRU()
-		    {
-		        Map.Entry entry = getFirst();
-		        boolean found = isRemovable(entry);
-		        if (!found)
-		        {
-		        	Iterator entriesIt = entrySet().iterator();
-		        	entriesIt.next(); //skipping the first, which is already checked
-		        	while(!found && entriesIt.hasNext())
-		        	{
-		        		entry = (Entry) entriesIt.next();
-		        		found = isRemovable(entry);
-		        	}
-		        }
+			{
+				Map.Entry entry = getFirst();
+				boolean found = isRemovable(entry);
+				if (!found)
+				{
+					Iterator entriesIt = entrySet().iterator();
+					entriesIt.next(); //skipping the first, which is already checked
+					while(!found && entriesIt.hasNext())
+					{
+						entry = (Entry) entriesIt.next();
+						found = isRemovable(entry);
+					}
+				}
 
-		        if (!found)
-		        {
-		        	throw new JRRuntimeException("The virtualizer is used by more contexts than its in-memory cache size " + getMaximumSize());
-		        }
+				if (!found)
+				{
+					throw new JRRuntimeException("The virtualizer is used by more contexts than its in-memory cache size " + getMaximumSize());
+				}
 
-		        Object key = entry.getKey();
-		        Object value = entry.getValue();
-		        this.remove(key);
-		        processRemovedLRU(key,value);
-		    }
+				Object key = entry.getKey();
+				Object value = entry.getValue();
+				this.remove(key);
+				processRemovedLRU(key,value);
+			}
 
 			protected boolean isRemovable(Map.Entry entry)
 			{
-		        JRVirtualizable value = getMapValue(entry.getValue());
-		        return value == null || !lastObjectSet.containsKey(value);
+				JRVirtualizable value = getMapValue(entry.getValue());
+				return value == null || !lastObjectSet.containsKey(value);
 			}
 
 			protected void processRemovedLRU(Object key, Object value)
@@ -142,7 +142,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				}
 			}
 		}
-		
+
 		private final ReferenceQueue refQueue;
 		private final LRUScanMap map;
 
@@ -151,7 +151,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			map = new LRUScanMap(maxSize);
 			refQueue = new ReferenceQueue();
 		}
-		
+
 		protected JRVirtualizable getMapValue(Object val)
 		{
 			JRVirtualizable o;
@@ -173,12 +173,12 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 			return o;
 		}
-		
+
 		protected Object toMapValue(JRVirtualizable val)
 		{
 			return val == null ? null : new CacheReference(val, refQueue);
 		}
-		
+
 		protected void purge()
 		{
 			CacheReference ref;
@@ -191,28 +191,28 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		public JRVirtualizable get(String id)
 		{
 			purge();
-			
+
 			return getMapValue(map.get(id));
 		}
 
 		public JRVirtualizable put(String id, JRVirtualizable o)
 		{
 			purge();
-			
+
 			return getMapValue(map.put(id, toMapValue(o)));
 		}
 
 		public JRVirtualizable remove(String id)
 		{
 			purge();
-			
+
 			return getMapValue(map.remove(id));
 		}
-		
+
 		public Iterator idIterator()
 		{
 			purge();
-			
+
 			final Iterator valsIt = map.values().iterator();
 			return new Iterator()
 			{
@@ -230,18 +230,18 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				public void remove()
 				{
 					valsIt.remove();
-				}		
+				}
 			};
 		}
 	}
 
 	protected static final int CLASSLOADER_IDX_NOT_SET = -1;
-	
+
 	protected static boolean isAncestorClassLoader(ClassLoader loader)
 	{
 		for (
-				ClassLoader ancestor = JRAbstractLRUVirtualizer.class.getClassLoader(); 
-				ancestor != null; 
+				ClassLoader ancestor = JRAbstractLRUVirtualizer.class.getClassLoader();
+				ancestor != null;
 				ancestor = ancestor.getParent())
 		{
 			if (ancestor.equals(loader))
@@ -251,10 +251,10 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 		return false;
 	}
-	
+
 	protected final Map classLoadersIndexes = new HashMap();
 	protected final List classLoadersList = new ArrayList();
-	
+
 	protected class ClassLoaderAnnotationObjectOutputStream extends ObjectOutputStream
 	{
 		public ClassLoaderAnnotationObjectOutputStream(OutputStream out) throws IOException
@@ -265,11 +265,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		protected void annotateClass(Class clazz) throws IOException
 		{
 			super.annotateClass(clazz);
-			
+
 			ClassLoader classLoader = clazz.getClassLoader();
 			int loaderIdx;
 			if (clazz.isPrimitive()
-					|| classLoader == null 
+					|| classLoader == null
 					|| isAncestorClassLoader(classLoader))
 			{
 				loaderIdx = CLASSLOADER_IDX_NOT_SET;
@@ -285,11 +285,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				}
 				loaderIdx = idx.intValue();
 			}
-			
+
 			writeShort(loaderIdx);
 		}
 	}
-	
+
 	protected class ClassLoaderAnnotationObjectInputStream extends ObjectInputStream
 	{
 		public ClassLoaderAnnotationObjectInputStream(InputStream in) throws IOException
@@ -312,17 +312,17 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				{
 					throw e;
 				}
-				
+
 				ClassLoader loader = (ClassLoader) classLoadersList.get(loaderIdx);
 				clazz = Class.forName(desc.getName(), false, loader);
 			}
-			
+
 			return clazz;
 		}
-		
-		
+
+
 	}
-	
+
 	private final Cache pagedIn;
 
 	private final ReferenceMap pagedOut;
@@ -343,7 +343,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		this.pagedIn = new Cache(maxSize);
 		this.pagedOut = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
 		this.lastObject = null;
-		
+
 		this.lastObjectMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
 		this.lastObjectSet = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 	}
@@ -362,7 +362,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 		return virtualized;
 	}
-	
+
 	protected final void setLastObject(JRVirtualizable o)
 	{
 		if (lastObject != o)
@@ -392,11 +392,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	 * and any change in a virtualizable object's data is discarded.
 	 * <p/>
 	 * When the virtualizer is used for multiple virtualization contexts (in shared mode),
-	 * calling this method would override the read-only flags from all the contexts and all the 
+	 * calling this method would override the read-only flags from all the contexts and all the
 	 * objects will be manipulated in read-only mode.
 	 * Use {@link JRVirtualizationContext#setReadOnly(boolean) JRVirtualizationContext.setReadOnly(boolean)}
 	 * to set the read-only mode for one specific context.
-	 * 
+	 *
 	 * @param ro the read-only mode to set
 	 */
 	public void setReadOnly(boolean ro)
@@ -404,10 +404,10 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		this.readOnly = ro;
 	}
 
-	
+
 	/**
 	 * Determines whether the virtualizer is in read-only mode.
-	 * 
+	 *
 	 * @return whether the virtualizer is in read-only mode
 	 * @see #setReadOnly(boolean)
 	 */
@@ -448,7 +448,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 
 		synchronized(this)
-		{			
+		{
 			JRVirtualizable oldIn = pagedIn.remove(uid);
 			if (oldIn != null)
 			{
@@ -481,7 +481,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			setLastObject(pagedIn.get(o.getUID()));
 		}
 	}
-	
+
 	public void requestData(JRVirtualizable o)
 	{
 		String uid = o.getUID();
@@ -516,7 +516,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		{
 			// remove virtual data
 			dispose(uid);
-			
+
 			synchronized (this)
 			{
 				pagedOut.remove(uid);
@@ -541,7 +541,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				log.error("Error virtualizing object", e);
 				throw new JRRuntimeException(e);
 			}
-			
+
 			o.afterExternalization();
 
 			// Wait until we know it worked before tossing the data.
@@ -563,7 +563,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	/**
 	 * Writes serialized indentity and virtual data of a virtualizable object to a stream.
-	 * 
+	 *
 	 * @param o the serialized object
 	 * @param out the output stream
 	 * @throws JRRuntimeException
@@ -585,11 +585,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	
+
 	/**
 	 * Reads serialized identity and virtual data for a virtualizable object
 	 * from a stream.
-	 * 
+	 *
 	 * @param o the virtualizable object
 	 * @param in the input stream
 	 * @throws JRRuntimeException
@@ -656,25 +656,25 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	/**
 	 * Writes a virtualizable object's data to an external storage.
-	 * 
+	 *
 	 * @param o a virtualizable object
 	 * @throws IOException
 	 */
 	protected abstract void pageOut(JRVirtualizable o) throws IOException;
-	
+
 
 	/**
 	 * Reads a virtualizable object's data from an external storage.
-	 * 
+	 *
 	 * @param o a virtualizable object
 	 * @throws IOException
 	 */
 	protected abstract void pageIn(JRVirtualizable o) throws IOException;
-	
-	
+
+
 	/**
 	 * Removes the external data associated with a virtualizable object.
-	 * 
+	 *
 	 * @param virtualId the ID of the virtualizable object
 	 */
 	protected abstract void dispose(String virtualId);
