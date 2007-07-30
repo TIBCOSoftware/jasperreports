@@ -2,24 +2,24 @@
  * ============================================================================
  * GNU Lesser General Public License
  * ============================================================================
- * 
- * JasperReports - Free Java report-generating library. Copyright (C) 2001-2003
- * Teodor Danciu teodord@hotmail.com
- * 
+ *
+ * JasperReports - Free Java report-generating library.
+ * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation,
  * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -27,8 +27,8 @@
  */
 
 /*
- * Contributor: Manuel Paul <mpaul@ratundtat.com>, 
- *				Rat & Tat Beratungsgesellschaft mbH, 
+ * Contributor: Manuel Paul <mpaul@ratundtat.com>,
+ *				Rat & Tat Beratungsgesellschaft mbH,
  *				Muehlenkamp 6c,
  *				22303 Hamburg,
  *				Germany.
@@ -114,17 +114,17 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JExcelApiExporter extends JRXlsAbstractExporter
 {
-	
+
 	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
-	
+
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;
-	
+
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
-	
+
 	private static Map colorsCache = new ReferenceMap();
-	
-	private static Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK, 
+
+	private static Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK,
 		Colour.DEFAULT_BACKGROUND, Colour.DEFAULT_BACKGROUND1, Colour.AUTOMATIC, Colour.UNKNOWN};
 
 	private Map loadedCellStyles = new HashMap();
@@ -136,17 +136,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private WritableCellFormat emptyCellStyle = null;
 
 	private Pattern backgroundMode = Pattern.SOLID;
-	
+
 	private Map numberFormats;
 	private Map dateFormats;
 
 	protected Map formatPatternsMap = null;
-	
+
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
-	
-	
+
+
 	public JExcelApiExporter()
 	{
 		numberFormats = new HashMap();
@@ -156,9 +156,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected void setParameters()
 	{
 		super.setParameters();
-		
+
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
-		
+
 		Boolean createCustomPaletteParameter = (Boolean)parameters.get(JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE);
 		if (createCustomPaletteParameter == null)
 		{
@@ -168,7 +168,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			createCustomPalette = createCustomPaletteParameter.booleanValue();
 		}
-		
+
 		if (createCustomPalette)
 		{
 			initCustomPalette();
@@ -196,17 +196,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			log.debug("Modifying palette colour " + colour.getValue() + " to " + reportColour);
 		}
-		
+
 		int red = reportColour.getRed();
 		int green = reportColour.getGreen();
 		int blue = reportColour.getBlue();
-		
+
 		workbook.setColourRGB(colour, red, green, blue);
-		
+
 		RGB customRGB = new RGB(red, green, blue);
 		usedColours.put(colour, customRGB);
 	}
-	
+
 	protected void setBackground()
 	{
 		if (isWhitePageBackground)
@@ -250,7 +250,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			//creating an empty sheet so that write() doesn't fail
 			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
 		}
-		
+
 		try
 		{
 			workbook.write();
@@ -298,7 +298,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				forecolor = getWorkbookColour(gridCell.getForecolor());
 			}
-			
+
 			Pattern mode = backgroundMode;
 			Colour backcolor = WHITE;
 			if (gridCell.getCellBackcolor() != null)
@@ -308,10 +308,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 
 			WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
-			WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor, 
+			WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor,
 					Alignment.LEFT.getValue(), VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 					cellFont, gridCell);
-			
+
 			sheet.addCell(new Blank(colIndex, rowIndex, cellStyle));
 		}
 		catch (RowsExceededException e)
@@ -333,7 +333,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(Pattern.SOLID, forecolor2, Alignment.LEFT.getValue(),
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 																cellFont2, gridCell);
-		
+
 		Blank cell2 = new Blank(x, y, cellStyle2);
 
 		try
@@ -361,7 +361,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 
 		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
-		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, backcolor, Alignment.LEFT.getValue(), 
+		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, backcolor, Alignment.LEFT.getValue(),
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 																cellFont2, gridCell);
 		Blank cell2 = new Blank(x, y, cellStyle2);
@@ -386,7 +386,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			Colour forecolor = getWorkbookColour(text.getForecolor());
 			WritableFont cellFont = this.getLoadedFont(text, forecolor.getValue());
-			
+
 			TextAlignHolder alignment = getTextAlignHolder(text);
 			int horizontalAlignment = getHorizontalAlignment(alignment);
 			int verticalAlignment = getVerticalAlignment(alignment);
@@ -401,15 +401,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor());
 			}
 
-			StyleInfo baseStyle = new StyleInfo(mode, backcolor, 
-					horizontalAlignment, verticalAlignment, 
-					rotation, cellFont, 
+			StyleInfo baseStyle = new StyleInfo(mode, backcolor,
+					horizontalAlignment, verticalAlignment,
+					rotation, cellFont,
 					gridCell.getBox());
-			
+
 			String textStr = styledText.getText();
-			
+
 			String href = null;
-			JRHyperlinkProducer customHandler = getCustomHandler(text);		
+			JRHyperlinkProducer customHandler = getCustomHandler(text);
 			if (customHandler == null)
 			{
 				switch (text.getHyperlinkType())
@@ -469,7 +469,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			cellValue = getLabelCell(x, y, textStr, baseStyle);
 		}
-		
+
 		sheet.addCell(cellValue);
 	}
 
@@ -482,15 +482,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return handler.getResult();
 	}
 
-	
+
 	protected class CellTextValueHandler implements TextValueHandler
 	{
 		private final int x;
 		private final int y;
 		private final StyleInfo baseStyle;
-		
+
 		private CellValue result;
-		
+
 		public CellTextValueHandler(int x, int y, StyleInfo baseStyle)
 		{
 			this.x = x;
@@ -553,11 +553,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			return new Blank(x, y, cellStyle);
 		}
-		
+
 		public CellValue getResult()
 		{
 			return result;
-		}	
+		}
 	}
 
 	protected jxl.write.NumberFormat getNumberFormat(String pattern)
@@ -678,7 +678,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			try
 			{
 				JRRenderable renderer = element.getRenderer();
-				
+
 				int leftPadding = element.getLeftPadding();
 				int topPadding = element.getTopPadding();
 				int rightPadding = element.getRightPadding();
@@ -744,7 +744,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 							break;
 						}
 					}
-					
+
 					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
 					Graphics2D grx = bi.createGraphics();
 					if (JRElement.MODE_OPAQUE == element.getMode())
@@ -752,7 +752,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						grx.setColor(element.getBackcolor());
 						grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
 					}
-				
+
 					switch (element.getScaleImage())
 					{
 						case JRImage.SCALE_IMAGE_CLIP:
@@ -800,38 +800,38 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 							break;
 						}
 					}
-					
+
 					Pattern mode = this.backgroundMode;
 					Colour background = WHITE;
 					Colour forecolor = getWorkbookColour(element.getForecolor());
-					
+
 					if (element.getBorderColor() != null ){
 						forecolor = getWorkbookColour(element.getBorderColor());
 					}
-					
+
 					WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
-					
+
 					if(element.getMode() == JRElement.MODE_OPAQUE ){
 						mode = Pattern.SOLID;
 						background = getWorkbookColour(element.getBackcolor());
 					}
-					
+
 					WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, background, Alignment.LEFT.getValue(),
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 																cellFont2, gridCell);
-					
-				
+
+
 					sheet.addCell(new Blank(x, y, cellStyle2));
-					WritableImage image = 
+					WritableImage image =
 						new WritableImage(
-							x, 
-							y, 
-							gridCell.getColSpan(), 
-							gridCell.getRowSpan(), 
+							x,
+							y,
+							gridCell.getColSpan(),
+							gridCell.getRowSpan(),
 							JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
 							);
-					
-						
+
+
 					sheet.addImage(image);
 				}
 			}
@@ -866,13 +866,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 		return colour;
 	}
-	
+
 	protected Colour determineWorkbookColour(Color awtColor)
 	{
 		//nearest match
 		int minDist = 999;
 		Colour minColour = null;
-		
+
 		//nearest match among the available (not used) colours
 		int minDistAvailable = 999;
 		Colour minColourAvailable = null;
@@ -890,7 +890,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				minDist = dist;
 				minColour = colour;
 			}
-			
+
 			if (dist == 0)//exact match
 			{
 				break;
@@ -936,7 +936,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected static Colour getNearestColour(Color awtColor)
 	{
 		Colour color = (Colour) colorsCache.get(awtColor);
-		
+
 		if (color == null)
 		{
 			Colour[] colors = Colour.getAllColours();
@@ -956,33 +956,33 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					}
 				}
 			}
-			
+
 			colorsCache.put(awtColor, color);
 		}
-		
+
 		return color;
 	}
 
 	protected static int rgbDistance(Color awtColor, RGB rgb)
 	{
-		int diff = Math.abs(rgb.getRed() - awtColor.getRed()) 
-			+ Math.abs(rgb.getGreen() - awtColor.getGreen()) 
+		int diff = Math.abs(rgb.getRed() - awtColor.getRed())
+			+ Math.abs(rgb.getGreen() - awtColor.getGreen())
 			+ Math.abs(rgb.getBlue() - awtColor.getBlue());
 		return diff;
 	}
-	
-	
+
+
 	/*private static Colour getNearestColour(Color awtColor) {
 		Colour retVal = null;
 		Colour[] colors = Colour.getAllColours();
-		
+
 		int diff = 50;
-		
+
 		if (colors != null && colors.length > 0 ){
 			Colour crtColor = null;
 			for (int i = 0; i < colors.length; i++) {
 				crtColor = colors[i];
-				
+
 				int red = crtColor.getDefaultRGB().getRed();
 				if (Math.abs(awtColor.getRed() - red) < diff) {
 					int green = crtColor.getDefaultRGB().getGreen();
@@ -995,14 +995,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				}
 			}
 		}
-		
+
 		return retVal;
 	}*/
 
 	private WritableFont getLoadedFont(JRFont font, int forecolor) throws JRException
 	{
 		WritableFont cellFont = null;
-		
+
 		if (this.loadedFonts != null && this.loadedFonts.size() > 0)
 		{
 			for (int i = 0; i < this.loadedFonts.size(); i++)
@@ -1019,12 +1019,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					fontName = (String) fontMap.get(fontName);
 				}
 
-				if ((cf.getName().equals(fontName)) 
-						&& (cf.getColour().getValue() == forecolor) 
+				if ((cf.getName().equals(fontName))
+						&& (cf.getColour().getValue() == forecolor)
 						&& (cf.getPointSize() == fontSize)
-						&& (cf.getUnderlineStyle() == UnderlineStyle.SINGLE ? (font.isUnderline()) : (!font.isUnderline())) 
+						&& (cf.getUnderlineStyle() == UnderlineStyle.SINGLE ? (font.isUnderline()) : (!font.isUnderline()))
 						&& (cf.isStruckout() == font.isStrikeThrough())
-						&& (cf.getBoldWeight() == BoldStyle.BOLD.getValue() ? (font.isBold()) : (!font.isBold())) 
+						&& (cf.getBoldWeight() == BoldStyle.BOLD.getValue() ? (font.isBold()) : (!font.isBold()))
 						&& (cf.isItalic() == font.isItalic()))
 				{
 					cellFont = cf;
@@ -1047,17 +1047,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					fontName = (String) fontMap.get(fontName);
 				}
 
-				cellFont = 
+				cellFont =
 					new WritableFont(
 						WritableFont.createFont(fontName),
-						fontSize, 
-						font.isBold() ? WritableFont.BOLD : WritableFont.NO_BOLD, 
-					    font.isItalic(),
-					    font.isUnderline() ? UnderlineStyle.SINGLE : UnderlineStyle.NO_UNDERLINE,
-					    Colour.getInternalColour(forecolor)
-					    );
+						fontSize,
+						font.isBold() ? WritableFont.BOLD : WritableFont.NO_BOLD,
+						font.isItalic(),
+						font.isUnderline() ? UnderlineStyle.SINGLE : UnderlineStyle.NO_UNDERLINE,
+						Colour.getInternalColour(forecolor)
+						);
 				cellFont.setStruckout(font.isStrikeThrough());
-				
+
 				this.loadedFonts.add(cellFont);
 			}
 		}
@@ -1093,7 +1093,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				topBorder = BorderLineStyle.NONE;
 				topBorderColour = BLACK;
 			}
-				
+
 			if(box != null && box.getBottomBorder() != JRGraphicElement.PEN_NONE)
 			{
 				bottomBorder = getBorderLineStyle(box.getBottomBorder());
@@ -1104,7 +1104,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				bottomBorder = BorderLineStyle.NONE;
 				bottomBorderColour = BLACK;
 			}
-				
+
 			if(box != null && box.getLeftBorder()!= JRGraphicElement.PEN_NONE)
 			{
 				leftBorder = getBorderLineStyle(box.getLeftBorder());
@@ -1115,18 +1115,18 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				leftBorder = BorderLineStyle.NONE;
 				leftBorderColour = BLACK;
 			}
-				
+
 			if(box != null && box.getRightBorder() != JRGraphicElement.PEN_NONE)
 			{
 				rightBorder = getBorderLineStyle(box.getRightBorder());
 				rightBorderColour = getWorkbookColour(box.getRightBorderColor());
-			}	
+			}
 			else
 			{
 				rightBorder = BorderLineStyle.NONE;
 				rightBorderColour = BLACK;
 			}
-			
+
 			hash = computeHash();
 		}
 
@@ -1142,17 +1142,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			hashCode = 31*hashCode + rightBorderColour.hashCode();
 			return hashCode;
 		}
-		
+
 		public int hashCode()
 		{
 			return hash;
 		}
-		
+
 		public boolean equals(Object o)
 		{
 			BoxStyle b = (BoxStyle) o;
-			
-			return 
+
+			return
 				b.topBorder.equals(topBorder) &&
 				b.topBorderColour.equals(topBorderColour) &&
 				b.bottomBorder.equals(bottomBorder) &&
@@ -1162,7 +1162,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				b.rightBorder.equals(rightBorder) &&
 				b.rightBorderColour.equals(rightBorderColour);
 		}
-		
+
 		public String toString()
 		{
 			return "(" +
@@ -1172,7 +1172,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				rightBorder.getValue() + "/" + rightBorderColour.getValue() + ")";
 		}
 	}
-	
+
 	protected class StyleInfo
 	{
 		protected final Pattern mode;
@@ -1184,7 +1184,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		protected final BoxStyle box;
 		private DisplayFormat displayFormat;
 		private int hashCode;
-		
+
 		protected StyleInfo(Pattern mode, Colour backcolor, int horizontalAlignment, int verticalAlignment, int rotation, WritableFont font, JRBox box)
 		{
 			this.mode = mode;
@@ -1194,10 +1194,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			this.rotation = rotation;
 			this.font = font;
 			this.box = new BoxStyle(box);
-		
+
 			computeHash();
 		}
-		
+
 		protected void computeHash()
 		{
 			int hash = this.mode.hashCode();
@@ -1208,47 +1208,47 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			hash = 31*hash + this.font.hashCode();
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
-			
+
 			hashCode = hash;
 		}
-		
+
 		public int hashCode()
 		{
 			return hashCode;
 		}
-		
+
 		public boolean equals(Object o)
 		{
 			StyleInfo k = (StyleInfo) o;
-			
+
 			return k.mode.equals(mode) && k.backcolor.equals(backcolor) &&
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)));
 		}
-		
+
 		public DisplayFormat getDisplayFormat()
 		{
 			return displayFormat;
 		}
-		
+
 		public void setDisplayFormat(DisplayFormat displayFormat)
 		{
 			this.displayFormat = displayFormat;
 			computeHash();
 		}
-		
+
 		public String toString()
 		{
 			return "(" +
-				mode + "," + backcolor + "," + 
-				horizontalAlignment + "," + verticalAlignment + "," + 
+				mode + "," + backcolor + "," +
+				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
 				box + "," + displayFormat + ")";
 		}
 	}
-	
+
 	private WritableCellFormat getLoadedCellStyle(Pattern mode, Colour backcolor, int horizontalAlignment,
 			int verticalAlignment, int rotation, WritableFont font, JRExporterGridCell gridCell) throws JRException
 	{
@@ -1258,9 +1258,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 
 	protected WritableCellFormat getLoadedCellStyle(StyleInfo styleKey) throws JRException
-	{	
+	{
 		WritableCellFormat cellStyle = (WritableCellFormat) loadedCellStyles.get(styleKey);
-		
+
 		if (cellStyle == null)
 		{
 			try
@@ -1278,7 +1278,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(styleKey.verticalAlignment));
 				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
 				cellStyle.setWrap(true);
-				
+
 				BoxStyle box = styleKey.box;
 				cellStyle.setBorder(Border.TOP, box.topBorder, box.topBorderColour);
 				cellStyle.setBorder(Border.BOTTOM, box.bottomBorder, box.bottomBorderColour);
@@ -1289,13 +1289,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				throw new JRException("Error setting cellFormat-template.", e);
 			}
-			
+
 			loadedCellStyles.put(styleKey, cellStyle);
 		}
-		
+
 		return cellStyle;
 	}
-	
+
 	/**
 	 * @param lineStyle
 	 */
@@ -1305,24 +1305,24 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			case JRGraphicElement.PEN_THIN:
 				retVal =  BorderLineStyle.THIN;
 				break;
-				
+
 			case JRGraphicElement.PEN_1_POINT:
 			case JRGraphicElement.PEN_2_POINT:
 				retVal = BorderLineStyle.MEDIUM;
 				break;
-			
+
 			case JRGraphicElement.PEN_4_POINT:
 				retVal = BorderLineStyle.THICK;
 				break;
-				
+
 			case JRGraphicElement.PEN_DOTTED:
 				retVal = BorderLineStyle.DOTTED;
 				break;
-				
+
 			default:
 				retVal = BorderLineStyle.NONE;
 		}
-		
+
 		return retVal;
 	}
 
@@ -1413,7 +1413,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return ps;
 	}
 
-	
+
 	public static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
 	{
 		short horizontalAlignment;
@@ -1543,9 +1543,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
 	}
-	
-	
-	
+
+
+
 	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
 	// Die Angabe der Breite/H�he erfolgt in [mm].
 
@@ -1594,10 +1594,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 
 		WritableFont cellFont = getLoadedFont(getDefaultFont(), forecolor.getValue());
-		WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor, 
+		WritableCellFormat cellStyle = getLoadedCellStyle(mode, backcolor,
 				Alignment.LEFT.getValue(), VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 				cellFont, gridCell);
-		
+
 		Blank cell = new Blank(x, y, cellStyle);
 		try
 		{
@@ -1608,10 +1608,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			throw new JRException("Can't add cell.", e);
 		}
 	}
-	
+
 	/**
-	 * This method is intended to modify a given format pattern so to include 
-	 * only the accepted proprietary format characters. The resulted pattern 
+	 * This method is intended to modify a given format pattern so to include
+	 * only the accepted proprietary format characters. The resulted pattern
 	 * will possibly truncate the original pattern
 	 * @param pattern
 	 * @return pattern converted to accepted proprietary formats
@@ -1624,13 +1624,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 		return pattern;
 	}
-	
-	
+
+
 	protected ExporterNature getNature()
 	{
 		return JExcelApiExporterNature.getInstance();
 	}
-	
-		
+
+
 }
 
