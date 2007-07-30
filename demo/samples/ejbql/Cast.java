@@ -45,30 +45,30 @@ public class Cast {
 	private Movie movie;
 	private Person actor;
 	private String character;
-    private int importance;	
-    
-    public Cast() {
-    }
-    
-    public Cast(int id, Movie movie, Person actor, String character, int importance) {
-    	this.id = id;
-    	this.movie = movie;
-    	this.actor = actor;
-    	this.character = character;
-    	this.importance = importance;
-    }    
+	private int importance;	
+	
+	public Cast() {
+	}
+	
+	public Cast(int id, Movie movie, Person actor, String character, int importance) {
+		this.id = id;
+		this.movie = movie;
+		this.actor = actor;
+		this.character = character;
+		this.importance = importance;
+	}
 
-    @Id
-    public int getId() {
-        return id;
-    }
+	@Id
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    @JoinColumn(name="movie")
-    @ManyToOne
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@JoinColumn(name="movie")
+	@ManyToOne
 	public Movie getMovie() {
 		return movie;
 	}
@@ -77,8 +77,8 @@ public class Cast {
 		this.movie = movie;
 	}
 	
-    @JoinColumn(name="actor")
-    @ManyToOne
+	@JoinColumn(name="actor")
+	@ManyToOne
 	public Person getActor() {
 		return actor;
 	}
@@ -86,7 +86,7 @@ public class Cast {
 	public void setActor(Person actor) {
 		this.actor = actor;
 	}	
-    
+	
 	public String getCharacter() {
 		return character;
 	}
