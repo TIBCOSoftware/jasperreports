@@ -44,6 +44,6 @@ public class JRDataRangeFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-	   return new JRDesignDataRange(null);
+		return new JRDesignDataRange(null);
 	}
 }

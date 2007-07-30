@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -34,77 +34,77 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 
 /**
- * {@link JRChartAxis JRChartAxis} implementation to be used for report design. 
- * 
+ * {@link JRChartAxis JRChartAxis} implementation to be used for report design.
+ *
  * @author Barry Klawans (barry@users.sourceforge.net)
  * @version $Id$
  */
 public class JRDesignChartAxis extends JRBaseChartAxis
 {
-    
-    /**
-     * The multiple axis chart that this axis belongs to.
-     */
-    protected JRDesignChart parentChart = null;
 
-    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 * The multiple axis chart that this axis belongs to.
+	 */
+	protected JRDesignChart parentChart = null;
 
-    /**
-     * Construct a new axis that will be added to the specified chart.
-     * 
-     * @param parentChart the chart that the axis will be added to
-     */
-    public JRDesignChartAxis(JRDesignChart parentChart)
-    {
-    	this.parentChart = parentChart;
-    }
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-    /**
-     * Sets the position of this axis' value line relative to the multiple
-     * axis chart.
-     * 
-     * @param position the position of this axis
-     */
-    public void setPosition(byte position)
-    {
-        this.position = position;
-    }
-    
-    /**
-     * Set the chart that contains the dataset and plot to use for this
-     * axis.  The plot is used to figure out how to render the dataset (ie
-     * as a line or bar chart) when adding it to the multiple axis chart.
-     * 
-     * @param chart the chart that contains the dataset and plot for this axis
-     */
-    public void setChart(JRDesignChart chart)
-    {
-    	// Override the chart elements that we are going to ignore, as they
-    	// are supposed to be controlled by the multi chart's settings.
-    	chart.setBackcolor(parentChart.getBackcolor());
-    	chart.setShowLegend(parentChart.isShowLegend());
-    	chart.setTitleExpression(parentChart.getTitleExpression());
-    	chart.setTitleFont(parentChart.getTitleFont());
-    	chart.setTitlePosition(parentChart.getTitlePosition());
-    	chart.setTitleColor(parentChart.getTitleColor());
-    	chart.setSubtitleExpression(parentChart.getSubtitleExpression());
-    	chart.setSubtitleFont(parentChart.getSubtitleFont());
-    	chart.setSubtitleColor(parentChart.getSubtitleColor());
-    	chart.setLegendColor(parentChart.getLegendColor());
-    	chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
-    	chart.setLegendFont(parentChart.getLegendFont());
-        this.chart = chart;
-    }
+	/**
+	 * Construct a new axis that will be added to the specified chart.
+	 *
+	 * @param parentChart the chart that the axis will be added to
+	 */
+	public JRDesignChartAxis(JRDesignChart parentChart)
+	{
+		this.parentChart = parentChart;
+	}
 
-    /**
-     * Sets the chart that contains the dataset and plot for this axis.
-     * Identical to {@link #setChart} but is called by the XML digester
-     * when parsing the report source.
-     * 
-     * @param element
-     */
-    public void addElement(JRElement element)
-    {
-    	setChart((JRDesignChart)element);
-    }
+	/**
+	 * Sets the position of this axis' value line relative to the multiple
+	 * axis chart.
+	 *
+	 * @param position the position of this axis
+	 */
+	public void setPosition(byte position)
+	{
+		this.position = position;
+	}
+
+	/**
+	 * Set the chart that contains the dataset and plot to use for this
+	 * axis.  The plot is used to figure out how to render the dataset (ie
+	 * as a line or bar chart) when adding it to the multiple axis chart.
+	 *
+	 * @param chart the chart that contains the dataset and plot for this axis
+	 */
+	public void setChart(JRDesignChart chart)
+	{
+		// Override the chart elements that we are going to ignore, as they
+		// are supposed to be controlled by the multi chart's settings.
+		chart.setBackcolor(parentChart.getBackcolor());
+		chart.setShowLegend(parentChart.isShowLegend());
+		chart.setTitleExpression(parentChart.getTitleExpression());
+		chart.setTitleFont(parentChart.getTitleFont());
+		chart.setTitlePosition(parentChart.getTitlePosition());
+		chart.setTitleColor(parentChart.getTitleColor());
+		chart.setSubtitleExpression(parentChart.getSubtitleExpression());
+		chart.setSubtitleFont(parentChart.getSubtitleFont());
+		chart.setSubtitleColor(parentChart.getSubtitleColor());
+		chart.setLegendColor(parentChart.getLegendColor());
+		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
+		chart.setLegendFont(parentChart.getLegendFont());
+		this.chart = chart;
+	}
+
+	/**
+	 * Sets the chart that contains the dataset and plot for this axis.
+	 * Identical to {@link #setChart} but is called by the XML digester
+	 * when parsing the report source.
+	 *
+	 * @param element
+	 */
+	public void addElement(JRElement element)
+	{
+		setChart((JRDesignChart)element);
+	}
 }

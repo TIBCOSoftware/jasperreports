@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * "axis" is a bit of a misnomer, as it really contains information about
  * a new dataset to plot, the axis to plot it against, and how to render that
  * dataset.
- * 
+ *
  * @author Barry Klawans (barry@users.sourceforge.net)
  * @version $Id$
  */
@@ -46,35 +46,35 @@ public class JRFillChartAxis implements JRChartAxis
 {
 
 	protected JRChartAxis parent;
-	
-    /**
-     * The filled version of the <code>chart</code> field.  Contains evaluated
-     * expressions and data.
-     */
-    protected JRFillChart fillChart = null;
 
-    private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 * The filled version of the <code>chart</code> field.  Contains evaluated
+	 * expressions and data.
+	 */
+	protected JRFillChart fillChart = null;
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-    public JRFillChartAxis(JRChartAxis axis, JRFillObjectFactory factory)
+	public JRFillChartAxis(JRChartAxis axis, JRFillObjectFactory factory)
 	{
 		factory.put(axis, this);
-	
+
 		this.parent = axis;
-        this.fillChart = (JRFillChart) factory.getChart(axis.getChart());
+		this.fillChart = (JRFillChart) factory.getChart(axis.getChart());
 	}
 
 	/**
-     * Return the filled version of the chart with the dataset and plot for
-     * this axis.
-     * 
-     * @return the filled version of the chart with the dataset and plot for
-     * 		   this axis
-     */
-    public JRFillChart getFillChart()
-    {
-        return fillChart;
-    }
+	 * Return the filled version of the chart with the dataset and plot for
+	 * this axis.
+	 *
+	 * @return the filled version of the chart with the dataset and plot for
+	 * 		   this axis
+	 */
+	public JRFillChart getFillChart()
+	{
+		return fillChart;
+	}
 
 	public JRChart getChart()
 	{
