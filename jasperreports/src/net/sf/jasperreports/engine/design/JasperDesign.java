@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -79,7 +79,7 @@ public class JasperDesign extends JRBaseReport
 	 * Report templates.
 	 */
 	private List templateList = new ArrayList();
-	
+
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
 	private Map stylesMap = new HashMap();
@@ -95,9 +95,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private Map datasetMap = new HashMap();
 	private List datasetList = new ArrayList();
-	
+
 	private transient List crosstabs;
-	
+
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
 	 */
@@ -125,7 +125,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.language = language;
 	}
-		
+
 
 	/**
 	 * Specifies the number of report columns.
@@ -134,7 +134,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.columnCount = columnCount;
 	}
-		
+
 
 	/**
 	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
@@ -145,7 +145,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.printOrder = printOrder;
 	}
-		
+
 
 	/**
 	 * Sets page width (including margins etc.). Default is 595.
@@ -154,7 +154,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.pageWidth = pageWidth;
 	}
-		
+
 
 	/**
 	 * Sets page height (including margins etc.). Default is 842.
@@ -163,7 +163,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.pageHeight = pageHeight;
 	}
-		
+
 
 	/**
 	 * Sets the report orientation.
@@ -174,7 +174,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.orientation = orientation;
 	}
-		
+
 
 	/**
 	 * Sets the column width.
@@ -183,7 +183,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.columnWidth = columnWidth;
 	}
-		
+
 
 	/**
 	 * Sets the spacing between columns.
@@ -192,7 +192,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.columnSpacing = columnSpacing;
 	}
-		
+
 
 	/**
 	 * Sets the left margin. The working space is calculated by subtracting the margins from the page width.
@@ -201,7 +201,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.leftMargin = leftMargin;
 	}
-		
+
 
 	/**
 	 * Sets the right margin. The working space is calculated by subtracting the margins from the page width.
@@ -210,7 +210,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.rightMargin = rightMargin;
 	}
-		
+
 
 	/**
 	 * Sets the top margin. The working space is calculated by subtracting the margins from the page height.
@@ -219,7 +219,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.topMargin = topMargin;
 	}
-		
+
 
 	/**
 	 * Sets the top margin. The working space is calculated by subtracting the margins from the page height.
@@ -228,7 +228,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.bottomMargin = bottomMargin;
 	}
-		
+
 
 	/**
 	 * Sets the background band.
@@ -237,7 +237,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.background = background;
 	}
-		
+
 
 	/**
 	 * Sets the title band.
@@ -246,7 +246,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.title = title;
 	}
-		
+
 
 	/**
 	 * Flag used to specify if the title section should be printed on a separate initial page.
@@ -258,7 +258,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.isTitleNewPage = isTitleNewPage;
 	}
-		
+
 
 	/**
 	 * Sets the summary band.
@@ -287,7 +287,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.isSummaryNewPage = isSummaryNewPage;
 	}
-		
+
 
 	/**
 	 * Flag used to specify if the column footer section should be printed at the bottom of the column or if it
@@ -297,7 +297,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.isFloatColumnFooter = isFloatColumnFooter;
 	}
-		
+
 
 	/**
 	 * Sets the page header band.
@@ -306,7 +306,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.pageHeader = pageHeader;
 	}
-		
+
 
 	/**
 	 * Sets the page footer band.
@@ -315,7 +315,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.pageFooter = pageFooter;
 	}
-		
+
 
 	/**
 	 * Sets the last page footer band.
@@ -324,7 +324,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.lastPageFooter = lastPageFooter;
 	}
-		
+
 
 	/**
 	 * Sets the column header band.
@@ -333,7 +333,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.columnHeader = columnHeader;
 	}
-		
+
 
 	/**
 	 * Sets the column footer band.
@@ -342,7 +342,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.columnFooter = columnFooter;
 	}
-		
+
 
 	/**
 	 * Sets the detail band.
@@ -351,7 +351,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.detail = detail;
 	}
-		
+
 
 	/**
 	 *
@@ -360,7 +360,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.setScriptletClass(scriptletClass);
 	}
-		
+
 
 	/**
 	 *
@@ -369,7 +369,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.formatFactoryClass = formatFactoryClass;
 	}
-		
+
 
 	/**
 	 * Sets the base name of the report associated resource bundle.
@@ -378,7 +378,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.setResourceBundle(resourceBundle);
 	}
-		
+
 
 	/**
 	 * Adds an import (needed if report expression require additional classes in order to compile).
@@ -412,7 +412,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.defaultFont = font;
 	}
-		
+
 
 	/**
 	 * Gets an array of report level fonts. These fonts can be referenced by text elements.
@@ -421,12 +421,12 @@ public class JasperDesign extends JRBaseReport
 	public JRReportFont[] getFonts()
 	{
 		JRReportFont[] fontsArray = new JRReportFont[fontsList.size()];
-		
+
 		fontsList.toArray(fontsArray);
 
 		return fontsArray;
 	}
-	
+
 
 	/**
 	 * Gets a list of report level fonts. These fonts can be referenced by text elements.
@@ -436,7 +436,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return fontsList;
 	}
-	
+
 
 	/**
 	 * @deprecated
@@ -445,7 +445,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return fontsMap;
 	}
-	
+
 
 	/**
 	 * Adds a report font, that can be referenced by text elements.
@@ -460,13 +460,13 @@ public class JasperDesign extends JRBaseReport
 
 		fontsList.add(reportFont);
 		fontsMap.put(reportFont.getName(), reportFont);
-		
+
 		if (reportFont.isDefault())
 		{
 			setDefaultFont(reportFont);
 		}
 	}
-	
+
 
 	/**
 	 * Removes a report font from the list, based on the font name.
@@ -508,7 +508,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		this.defaultStyle = style;
 	}
-		
+
 
 	/**
 	 * Gets an array of report level styles. These styles can be referenced by report elements.
@@ -553,7 +553,7 @@ public class JasperDesign extends JRBaseReport
 
 		stylesList.add(style);
 		stylesMap.put(style.getName(), style);
-		
+
 		if (style.isDefault())
 		{
 			setDefaultStyle(style);
@@ -590,7 +590,7 @@ public class JasperDesign extends JRBaseReport
 
 		return style;
 	}
-	
+
 
 	/**
 	 * Gets a list of report parameters (including built-in ones).
@@ -599,7 +599,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getParametersList();
 	}
-	
+
 
 	/**
 	 * Gets a map of report parameters (including built-in ones).
@@ -608,7 +608,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getParametersMap();
 	}
-	
+
 
 	/**
 	 * Adds a report parameter.
@@ -617,7 +617,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.addParameter(parameter);
 	}
-	
+
 
 	/**
 	 * Removes a report parameter, based on its name.
@@ -653,7 +653,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getFieldsList();
 	}
-	
+
 
 	/**
 	 * Gets a map of report fields.
@@ -662,7 +662,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getFieldsMap();
 	}
-	
+
 
 	/**
 	 *
@@ -671,7 +671,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.addField(field);
 	}
-	
+
 
 	/**
 	 *
@@ -689,7 +689,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.removeField(field);
 	}
-	
+
 
 	/**
 	 * Gets a list of sort report fields.
@@ -698,7 +698,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getSortFieldsList();
 	}
-	
+
 
 	/**
 	 *
@@ -707,7 +707,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.addSortField(sortField);
 	}
-	
+
 
 	/**
 	 *
@@ -725,7 +725,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.removeSortField(sortField);
 	}
-	
+
 
 	/**
 	 * Gets a list of report variables.
@@ -734,7 +734,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getVariablesList();
 	}
-	
+
 
 	/**
 	 * Gets a map of report variables.
@@ -743,7 +743,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getVariablesMap();
 	}
-	
+
 
 	/**
 	 *
@@ -752,7 +752,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.addVariable(variable);
 	}
-	
+
 
 	/**
 	 *
@@ -770,7 +770,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.removeVariable(variable);
 	}
-	
+
 
 	/**
 	 * Gets an array of report groups.
@@ -779,7 +779,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getGroupsList();
 	}
-	
+
 
 	/**
 	 * Gets a list of report groups.
@@ -788,7 +788,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return mainDesignDataset.getGroupsMap();
 	}
-	
+
 
 	/**
 	 * Gets a map of report groups.
@@ -797,7 +797,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.addGroup(group);
 	}
-	
+
 
 	/**
 	 * Adds a new group to the report design. Groups are nested.
@@ -825,7 +825,7 @@ public class JasperDesign extends JRBaseReport
 		return JRExpressionCollector.collectExpressions(this);
 	}
 
-	
+
 	public JRDataset[] getDatasets()
 	{
 		JRDataset[] datasetArray = new JRDataset[datasetList.size()];
@@ -833,33 +833,33 @@ public class JasperDesign extends JRBaseReport
 		return datasetArray;
 	}
 
-	
-	
+
+
 	/**
 	 * Returns the list of report sub datasets.
-	 * 
+	 *
 	 * @return list of {@link JRDesignDataset JRDesignDataset} objects
 	 */
 	public List getDatasetsList()
 	{
 		return datasetList;
 	}
-	
-	
+
+
 	/**
 	 * Returns the sub datasets of the report indexed by name.
-	 * 
+	 *
 	 * @return the sub datasets of the report indexed by name
 	 */
 	public Map getDatasetMap()
 	{
 		return datasetMap;
 	}
-	
-	
+
+
 	/**
 	 * Adds a sub dataset to the report.
-	 * 
+	 *
 	 * @param dataset the dataset
 	 * @throws JRException
 	 */
@@ -873,11 +873,11 @@ public class JasperDesign extends JRBaseReport
 		datasetList.add(dataset);
 		datasetMap.put(dataset.getName(), dataset);
 	}
-	
+
 
 	/**
 	 * Removes a sub dataset from the report.
-	 * 
+	 *
 	 * @param datasetName the dataset name
 	 * @return the removed dataset
 	 */
@@ -891,7 +891,7 @@ public class JasperDesign extends JRBaseReport
 
 	/**
 	 * Removes a sub dataset from the report.
-	 * 
+	 *
 	 * @param dataset the dataset to be removed
 	 * @return the dataset
 	 */
@@ -902,27 +902,27 @@ public class JasperDesign extends JRBaseReport
 			datasetList.remove(dataset);
 			datasetMap.remove(dataset.getName());
 		}
-		
+
 		return dataset;
 	}
-	
-	
+
+
 	/**
 	 * Returns the main report dataset.
-	 * 
+	 *
 	 * @return the main report dataset
 	 */
 	public JRDesignDataset getMainDesignDataset()
 	{
 		return mainDesignDataset;
 	}
-	
-	
+
+
 	/**
 	 * Sets the main report dataset.
 	 * <p>
-	 * This method can be used as an alternative to setting the parameters, fields, etc directly on the report. 
-	 * 
+	 * This method can be used as an alternative to setting the parameters, fields, etc directly on the report.
+	 *
 	 * @param dataset the dataset
 	 */
 	public void setMainDataset(JRDesignDataset dataset)
@@ -930,32 +930,32 @@ public class JasperDesign extends JRBaseReport
 		this.mainDataset = this.mainDesignDataset = dataset;
 		this.mainDesignDataset.setName(getName());
 	}
-	
-	
+
+
 	/**
 	 * Performs preliminary processing and calculations prior to compilation.
 	 */
 	public void preprocess()
 	{
 		collectCrosstabs();
-		
+
 		for (Iterator it = crosstabs.iterator(); it.hasNext();)
 		{
 			JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 			crosstab.preprocess();
 		}
 	}
-	
+
 	protected List getCrosstabs()
 	{
 		if (crosstabs == null)
 		{
 			collectCrosstabs();
 		}
-		
+
 		return crosstabs;
 	}
-	
+
 	protected List collectCrosstabs()
 	{
 		crosstabs = new ArrayList();
@@ -967,9 +967,9 @@ public class JasperDesign extends JRBaseReport
 		collectCrosstabs(columnFooter);
 		collectCrosstabs(pageFooter);
 		collectCrosstabs(lastPageFooter);
-        collectCrosstabs(summary);
-        collectCrosstabs(noData);
-		
+		collectCrosstabs(summary);
+		collectCrosstabs(noData);
+
 		JRGroup[] groups = getGroups();
 		if (groups != null)
 		{
@@ -979,10 +979,10 @@ public class JasperDesign extends JRBaseReport
 				collectCrosstabs(groups[i].getGroupFooter());
 			}
 		}
-		
+
 		return crosstabs;
 	}
-	
+
 	protected void collectCrosstabs(JRBand band)
 	{
 		if (band != null)
@@ -1011,23 +1011,23 @@ public class JasperDesign extends JRBaseReport
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Sets the value of the ignore pagination flag.
-	 * 
-	 * @param ignorePagination whether to ignore pagination when generating the report 
+	 *
+	 * @param ignorePagination whether to ignore pagination when generating the report
 	 * @see net.sf.jasperreports.engine.JRReport#isIgnorePagination()
 	 */
 	public void setIgnorePagination(boolean ignorePagination)
 	{
 		this.ignorePagination = ignorePagination;
 	}
-	
-	
+
+
 	/**
 	 * Returns the main dataset filter expression.
-	 * 
+	 *
 	 * @return the main dataset filter expression
 	 * @see JRDataset#getFilterExpression()
 	 */
@@ -1036,10 +1036,10 @@ public class JasperDesign extends JRBaseReport
 		return mainDesignDataset.getFilterExpression();
 	}
 
-	
+
 	/**
 	 * Sets the main dataset filter expression.
-	 * 
+	 *
 	 * @param expression the boolean expression to use as main dataset filter expression
 	 * @see JRDesignDataset#setFilterExpression(JRExpression)
 	 * @see JRDataset#getFilterExpression()
@@ -1048,10 +1048,10 @@ public class JasperDesign extends JRBaseReport
 	{
 		mainDesignDataset.setFilterExpression(expression);
 	}
-	
+
 	/**
 	 * Adds a report template.
-	 * 
+	 *
 	 * @param template the template to add.
 	 * @see #getTemplates()
 	 */
@@ -1059,10 +1059,10 @@ public class JasperDesign extends JRBaseReport
 	{
 		templateList.add(template);
 	}
-	
+
 	/**
 	 * Removes a report template.
-	 * 
+	 *
 	 * @param template the template to remove
 	 * @return <code>true</code> iff the template has been found and removed
 	 */
@@ -1070,7 +1070,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		return templateList.remove(template);
 	}
-	
+
 	public JRReportTemplate[] getTemplates()
 	{
 		return (JRReportTemplate[]) templateList.toArray(new JRReportTemplate[templateList.size()]);

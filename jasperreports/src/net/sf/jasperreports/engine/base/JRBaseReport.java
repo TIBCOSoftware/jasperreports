@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -56,7 +56,7 @@ import net.sf.jasperreports.engine.JRVariable;
 public class JRBaseReport implements JRReport, Serializable
 {
 
-	
+
 	/**
 	 *
 	 */
@@ -93,27 +93,27 @@ public class JRBaseReport implements JRReport, Serializable
 	 *
 	 */
 	protected Set importsSet = null;
-	
+
 	/**
 	 * Report templates.
 	 */
 	protected JRReportTemplate[] templates;
-	
+
 	protected JRReportFont defaultFont = null;
 	protected JRReportFont[] fonts = null;
 	protected JRStyle defaultStyle = null;
 	protected JRStyle[] styles = null;
-	
+
 	/**
 	 * The main dataset of the report.
 	 */
 	protected JRDataset mainDataset;
-	
+
 	/**
 	 * Sub datasets of the report.
 	 */
 	protected JRDataset[] datasets;
-	
+
 	protected JRBand background = null;
 	protected JRBand title = null;
 	protected JRBand pageHeader = null;
@@ -122,20 +122,20 @@ public class JRBaseReport implements JRReport, Serializable
 	protected JRBand columnFooter = null;
 	protected JRBand pageFooter = null;
 	protected JRBand lastPageFooter = null;
-    protected JRBand summary = null;
-    protected JRBand noData = null;
+	protected JRBand summary = null;
+	protected JRBand noData = null;
 
-	
+
 	/**
 	 *
 	 */
 	public JRBaseReport()
 	{
 	}
-	
+
 	/**
 	 * Constructs a copy of a report.
-	 * 
+	 *
 	 * @param report the original report
 	 * @param expressionCollector expression collector used to provide new expression IDs
 	 */
@@ -162,7 +162,7 @@ public class JRBaseReport implements JRReport, Serializable
 		ignorePagination = report.isIgnorePagination();
 
 		formatFactoryClass = report.getFormatFactoryClass();
-		
+
 		/*   */
 		String[] imports = report.getImports();
 		if (imports != null && imports.length > 0)
@@ -175,7 +175,7 @@ public class JRBaseReport implements JRReport, Serializable
 		JRBaseObjectFactory factory = new JRBaseObjectFactory(this, expressionCollector);
 
 		copyTemplates(report, factory);
-		
+
 		/*   */
 		defaultFont = factory.getReportFont(report.getDefaultFont());
 
@@ -203,9 +203,9 @@ public class JRBaseReport implements JRReport, Serializable
 				styles[i] = factory.getStyle(jrStyles[i]);
 			}
 		}
-		
+
 		mainDataset = factory.getDataset(report.getMainDataset());
-		
+
 		JRDataset[] datasetArray = report.getDatasets();
 		if (datasetArray != null && datasetArray.length > 0)
 		{
@@ -224,11 +224,11 @@ public class JRBaseReport implements JRReport, Serializable
 		columnFooter = factory.getBand(report.getColumnFooter());
 		pageFooter = factory.getBand(report.getPageFooter());
 		lastPageFooter = factory.getBand(report.getLastPageFooter());
-        summary = factory.getBand(report.getSummary());
-        noData = factory.getBand(report.getNoData());
+		summary = factory.getBand(report.getSummary());
+		noData = factory.getBand(report.getNoData());
 	}
 
-	
+
 	protected void copyTemplates(JRReport report, JRBaseObjectFactory factory)
 	{
 		JRReportTemplate[] reportTemplates = report.getTemplates();
@@ -251,7 +251,7 @@ public class JRBaseReport implements JRReport, Serializable
 		this(report, null);
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -267,7 +267,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return language;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -275,7 +275,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return columnCount;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -283,7 +283,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return printOrder;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -291,7 +291,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return pageWidth;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -299,7 +299,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return pageHeight;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -307,7 +307,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return orientation;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -315,7 +315,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return whenNoDataType;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -331,7 +331,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return columnWidth;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -339,7 +339,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return columnSpacing;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -347,7 +347,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return leftMargin;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -355,7 +355,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return rightMargin;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -363,7 +363,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return topMargin;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -371,7 +371,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return bottomMargin;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -379,7 +379,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return isTitleNewPage;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -387,7 +387,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return isSummaryNewPage;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -395,7 +395,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return isFloatColumnFooter;
 	}
-		
+
 	/**
 	 *
 	 */
@@ -616,7 +616,7 @@ public class JRBaseReport implements JRReport, Serializable
 		return summary;
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -624,7 +624,7 @@ public class JRBaseReport implements JRReport, Serializable
 	{
 		return mainDataset.getWhenResourceMissingType();
 	}
-		
+
 	/**
 	 *
 	 */
@@ -633,19 +633,19 @@ public class JRBaseReport implements JRReport, Serializable
 		mainDataset.setWhenResourceMissingType(whenResourceMissingType);
 	}
 
-	
+
 	public JRDataset getMainDataset()
 	{
 		return mainDataset;
 	}
 
-	
+
 	public JRDataset[] getDatasets()
 	{
 		return datasets;
 	}
 
-	
+
 	public boolean isIgnorePagination()
 	{
 		return ignorePagination;
@@ -661,10 +661,10 @@ public class JRBaseReport implements JRReport, Serializable
 		return templates;
 	}
 
-    /**
-     * @return the noData
-     */
-    public JRBand getNoData() {
-        return noData;
-    }
+	/**
+	 * @return the noData
+	 */
+	public JRBand getNoData() {
+		return noData;
+	}
 }

@@ -110,7 +110,7 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	 *
 	 * @param collector the expression collector to use
 	 */
-   public void collectExpressions(JRExpressionCollector collector)
+	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
