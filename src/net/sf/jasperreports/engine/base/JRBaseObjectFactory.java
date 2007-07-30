@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -171,7 +171,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 * Constructs a base object factory.
-	 * 
+	 *
 	 * @param defaultStyleProvider the default style provider
 	 * @param expressionCollector the expression collector used as expression ID provider
 	 */
@@ -235,7 +235,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 	/**
 	 * This method preserves both specified styles and external style name references.
-	 * 
+	 *
 	 * @see JRAbstractObjectFactory#setStyle(JRStyleSetter, JRStyleContainer)
 	 */
 	public void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer)
@@ -890,7 +890,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
 		JRBaseTimePeriodSeries baseTimePeriodSeries = null;
@@ -945,7 +945,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
 		JRBaseLinePlot baseLinePlot = null;
@@ -964,7 +964,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRBaseAreaPlot baseAreaPlot = null;
@@ -982,7 +982,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/* 
+	/*
 	 *
 	 */
 	public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
@@ -1039,7 +1039,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 
 	/**
-	 * 
+	 *
 	 */
 	public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
 		JRBaseXyzSeries baseXyzSeries = null;
@@ -1150,26 +1150,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-    /**
-     *
-     */
-    public JRValueDataset getValueDataset(JRValueDataset valueDataset)
-    {
-        JRBaseValueDataset baseValueDataset = null;
-        
-        if (valueDataset != null)
-        {
-            baseValueDataset = (JRBaseValueDataset)get(valueDataset);
-            if (baseValueDataset == null)
-            {
-                baseValueDataset = new JRBaseValueDataset(valueDataset, this);
-            }
-        }
-        
-        return baseValueDataset;
-    }
+	/**
+	 *
+	 */
+	public JRValueDataset getValueDataset(JRValueDataset valueDataset)
+	{
+		JRBaseValueDataset baseValueDataset = null;
 
-    
+		if (valueDataset != null)
+		{
+			baseValueDataset = (JRBaseValueDataset)get(valueDataset);
+			if (baseValueDataset == null)
+			{
+				baseValueDataset = new JRBaseValueDataset(valueDataset, this);
+			}
+		}
+
+		return baseValueDataset;
+	}
+
+
 	/**
 	 *
 	 */
@@ -1189,7 +1189,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseMeterPlot;
 	}
 
-    
+
 	/**
 	 *
 	 */
@@ -1250,7 +1250,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	protected JRBaseSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
@@ -1528,8 +1528,8 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		return link;
 	}
-	
-	
+
+
 	public JRChartAxis getChartAxis(JRChartAxis axis)
 	{
 		JRChartAxis baseAxis = null;
@@ -1543,7 +1543,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		return baseAxis;
 	}
-	
+
 	public JRReportTemplate getReportTemplate(JRReportTemplate template)
 	{
 		JRReportTemplate baseTemplate = null;
@@ -1557,5 +1557,5 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 		return baseTemplate;
 	}
-	
+
 }

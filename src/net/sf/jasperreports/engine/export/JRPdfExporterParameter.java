@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -50,7 +50,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static Character PDF_VERSION_1_5 = new Character('5');
 	public static Character PDF_VERSION_1_6 = new Character('6');
 
-	
+
 	/**
 	 *
 	 */
@@ -58,7 +58,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	{
 		super(name);
 	}
-	
+
 	/**
 	 * A boolean value specifying  whether the PDF document should contain an outline section
 	 */
@@ -107,76 +107,76 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * that can be passed as parameters directly.
 	 */
 	public static final JRPdfExporterParameter PDF_VERSION = new JRPdfExporterParameter("PDF Version");
-    
-    /**
-     * The Title of the PDF document, as String. 
-     */
-    public static final JRPdfExporterParameter METADATA_TITLE = new JRPdfExporterParameter("Metadata Title");
-
-    /**
-     * The Author of the PDF document, as String.  
-     */
-    public static final JRPdfExporterParameter METADATA_AUTHOR = new JRPdfExporterParameter("Metadata Author");
-
-    /**
-     * The Subject of the PDF document, as String. 
-     */
-    public static final JRPdfExporterParameter METADATA_SUBJECT = new JRPdfExporterParameter("Metadata Subject");
-
-    /**
-     * The Keywords of the PDF document, as comma-separated String. 
-     */
-    public static final JRPdfExporterParameter METADATA_KEYWORDS = new JRPdfExporterParameter("Metadata Keywords");
-
-    /**
-     * The Creator or Application for the PDF document, as String, defaults to JasperReports. 
-     */
-    public static final JRPdfExporterParameter METADATA_CREATOR = new JRPdfExporterParameter("Metadata Creator");
-
-    
-    /**
-     * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
-     * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
-     * fill process.
-     * <p>
-     * The default line-breaking logic differs from AWT (which is used during the report fill) to iText (used by the PDF
-     * exporter).  By setting this flag, the logic used by AWT is imposed to iText.  The drawback is that the PDF export
-     * performance would drop.  Because of this, the flag is not set by default.
-     * <p>
-     * This flag can be set system-wide using the
-     * {@link net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY PDF_FORCE_LINEBREAK_POLICY} property.
-     * This export parameter overrides the property value.
-     * 
-     * @see net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY
-     * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
-     */
-    public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
-    
-
-    /**
-     * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
-     * 
-     * This allows rendering fonts as shapes and avoid font mapping issues that might cause Unicode 
-     * text not to show up properly, but has the disadvantage of producing larger PDF files.
-     * By default, the flag is set to true, mainly due to backward compatibility reasons.
-     * 
-     * To reduce PDF file size for documents containing SVG images such as charts, the flag should be 
-     * turned to false, and the PDF exporter font mappings should be correctly configured using the 
-     * {@link JRExporterParameter#FONT_MAP FONT_MAP} exporter parameter to ensure proper rendering of 
-     * text in the SVG.
-     * 
-     * This flag can be set system-wide using the
-     * {@link net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES PDF_FORCE_SVG_SHAPES} property.
-     * This export parameter overrides the property value.
-     * 
-     * @see net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES
-     * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
-     */
-    public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
-    
 
 	/**
-	 * The user defined JavaScript piece of code to be inserted in the generated PDF document 
+	 * The Title of the PDF document, as String.
+	 */
+	public static final JRPdfExporterParameter METADATA_TITLE = new JRPdfExporterParameter("Metadata Title");
+
+	/**
+	 * The Author of the PDF document, as String.
+	 */
+	public static final JRPdfExporterParameter METADATA_AUTHOR = new JRPdfExporterParameter("Metadata Author");
+
+	/**
+	 * The Subject of the PDF document, as String.
+	 */
+	public static final JRPdfExporterParameter METADATA_SUBJECT = new JRPdfExporterParameter("Metadata Subject");
+
+	/**
+	 * The Keywords of the PDF document, as comma-separated String.
+	 */
+	public static final JRPdfExporterParameter METADATA_KEYWORDS = new JRPdfExporterParameter("Metadata Keywords");
+
+	/**
+	 * The Creator or Application for the PDF document, as String, defaults to JasperReports.
+	 */
+	public static final JRPdfExporterParameter METADATA_CREATOR = new JRPdfExporterParameter("Metadata Creator");
+
+
+	/**
+	 * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
+	 * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
+	 * fill process.
+	 * <p>
+	 * The default line-breaking logic differs from AWT (which is used during the report fill) to iText (used by the PDF
+	 * exporter).  By setting this flag, the logic used by AWT is imposed to iText.  The drawback is that the PDF export
+	 * performance would drop.  Because of this, the flag is not set by default.
+	 * <p>
+	 * This flag can be set system-wide using the
+	 * {@link net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY PDF_FORCE_LINEBREAK_POLICY} property.
+	 * This export parameter overrides the property value.
+	 *
+	 * @see net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY
+	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
+	 */
+	public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
+
+
+	/**
+	 * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
+	 *
+	 * This allows rendering fonts as shapes and avoid font mapping issues that might cause Unicode
+	 * text not to show up properly, but has the disadvantage of producing larger PDF files.
+	 * By default, the flag is set to true, mainly due to backward compatibility reasons.
+	 *
+	 * To reduce PDF file size for documents containing SVG images such as charts, the flag should be
+	 * turned to false, and the PDF exporter font mappings should be correctly configured using the
+	 * {@link JRExporterParameter#FONT_MAP FONT_MAP} exporter parameter to ensure proper rendering of
+	 * text in the SVG.
+	 *
+	 * This flag can be set system-wide using the
+	 * {@link net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES PDF_FORCE_SVG_SHAPES} property.
+	 * This export parameter overrides the property value.
+	 *
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES
+	 * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
+	 */
+	public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
+
+
+	/**
+	 * The user defined JavaScript piece of code to be inserted in the generated PDF document
 	 */
 	public static final JRPdfExporterParameter PDF_JAVASCRIPT = new JRPdfExporterParameter("PDF JavaScript");
 }

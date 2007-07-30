@@ -49,7 +49,7 @@ public interface JRPrintAnchor
 	
 	/**
 	 * Returns the level of the bookmark corresponding to the anchor.
-	 *   
+	 * 
 	 * @return the level of the bookmark corresponding to the anchor (starting from 1)
 	 * or {@link JRAnchor#NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created for this anchor
 	 */

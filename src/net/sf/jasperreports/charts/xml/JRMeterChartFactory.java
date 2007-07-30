@@ -41,7 +41,7 @@ import org.xml.sax.Attributes;
  */
 public class JRMeterChartFactory extends JRBaseFactory
 {
-    
+
 	/**
 	 *
 	 */

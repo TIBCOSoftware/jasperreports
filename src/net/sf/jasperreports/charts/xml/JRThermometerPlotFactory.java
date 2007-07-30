@@ -59,7 +59,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignThermometerPlot thermometerPlot = (JRDesignThermometerPlot)chart.getPlot();
 
-	   String showValueLines = atts.getValue(ATTRIBUTE_showValueLines);
+		String showValueLines = atts.getValue(ATTRIBUTE_showValueLines);
 		if (showValueLines != null && showValueLines.length() > 0)
 		{
 			thermometerPlot.setShowValueLines(Boolean.valueOf(showValueLines).booleanValue());

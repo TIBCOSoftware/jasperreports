@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -38,7 +38,7 @@ package net.sf.jasperreports.engine;
 public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider, JRPropertiesHolder
 {
 
-	
+
 	/**
 	 * A constant used to specify that the language used by expressions is Java.
 	 */
@@ -85,15 +85,15 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
 
 
-    /**
-     * Specifies that in case of empty datasources, all sections except detail will displayed.
-     */
-    public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
+	/**
+	 * Specifies that in case of empty datasources, all sections except detail will displayed.
+	 */
+	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
 
-    /**
-     * Specifies that in case of empty datasources, the NoData section will be displayed.
-     */
-    public static final byte WHEN_NO_DATA_TYPE_NO_DATA_SECTION = 4;
+	/**
+	 * Specifies that in case of empty datasources, the NoData section will be displayed.
+	 */
+	public static final byte WHEN_NO_DATA_TYPE_NO_DATA_SECTION = 4;
 
 
 	/**
@@ -119,7 +119,7 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 */
 	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = JRDataset.WHEN_RESOURCE_MISSING_TYPE_ERROR;
 
-	
+
 	/**
 	 * Gets the report name.
 	 */
@@ -129,91 +129,91 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * Gets the report language. Should be Java or Groovy.
 	 */
 	public String getLanguage();
-		
+
 	/**
 	 * Gets the number of columns on each page
 	 */
 	public int getColumnCount();
-		
+
 	/**
 	 * Specifies whether columns will be filled horizontally or vertically.
 	 * @see JRReport PRINT_ORDER_VERTICAL,
 	 * @see JRReport PRINT_ORDER_HORIZONTAL
 	 */
 	public byte getPrintOrder();
-		
+
 	/**
 	 *
 	 */
 	public int getPageWidth();
-		
+
 	/**
 	 *
 	 */
 	public int getPageHeight();
-		
+
 	/**
 	 *
 	 */
 	public byte getOrientation();
-		
+
 	/**
 	 * Specifies the report behaviour in case of empty datasources.
 	 */
 	public byte getWhenNoDataType();
-		
+
 	/**
 	 * Sets the report behaviour in case of empty datasources.
 	 */
 	public void setWhenNoDataType(byte whenNoDataType);
-		
+
 	/**
 	 *
 	 */
 	public int getColumnWidth();
-		
+
 	/**
 	 * Specifies the space between columns on the same page.
 	 */
 	public int getColumnSpacing();
-		
+
 	/**
 	 *
 	 */
 	public int getLeftMargin();
-		
+
 	/**
 	 *
 	 */
 	public int getRightMargin();
-		
+
 	/**
 	 *
 	 */
 	public int getTopMargin();
-		
+
 	/**
 	 *
 	 */
 	public int getBottomMargin();
-		
+
 	/**
 	 * Specifies if the title section will be printed on a separate initial page.
 	 */
 	public boolean isTitleNewPage();
-		
+
 	/**
 	 * Specifies if the summary section will be printed on a separate last page.
 	 */
 	public boolean isSummaryNewPage();
-		
+
 	/**
 	 * Specifie if the column footer section will be printed at the bottom of the column or if it
 	 * will immediately follow the last detail or group footer printed on the current column.
 
 	 */
 	public boolean isFloatColumnFooter();
-		
+
 	/**
 	 *
 	 */
@@ -336,9 +336,9 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 */
 	public JRBand getLastPageFooter();
 
-    /**
-    *
-    */
+	/**
+	*
+	*/
    public JRBand getSummary();
 
    /**
@@ -350,32 +350,32 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * Returns the resource missing handling type.
 	 */
 	public byte getWhenResourceMissingType();
-		
+
 	/**
 	 * Sets the resource missing handling type.
 	 * @param whenResourceMissingType the resource missing handling type
 	 */
 	public void setWhenResourceMissingType(byte whenResourceMissingType);
 
-	
+
 	/**
 	 * Returns the main report dataset.
 	 * <p>
 	 * The main report dataset consists of all parameters, fields, variables and groups of the report.
-	 * 
+	 *
 	 * @return the main report dataset
 	 */
 	public JRDataset getMainDataset();
-	
-	
+
+
 	/**
 	 * Returns the datasets of this report.
-	 * 
+	 *
 	 * @return the datasets of this report
 	 */
 	public JRDataset[] getDatasets();
-	
-	
+
+
 	/**
 	 * Decides whether to use pagination when filling the report.
 	 * <p>
@@ -383,12 +383,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * <p>
 	 * The design attribute can be overridden at fill time by the {@link JRParameter#IS_IGNORE_PAGINATION IS_IGNORE_PAGINATION}
 	 * parameter.
-	 * 
+	 *
 	 * @return whether to use pagination when filling the report
 	 */
 	public boolean isIgnorePagination();
 
-	
+
 	/**
 	 * Returns the list of report templates.
 	 * <p/>
@@ -401,11 +401,11 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * 	<li>A style overrides styles with the same name that are placed before it.
 	 * 		Also, report styles override templates styles with the same name.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the list of report templates, or <code>null</code> if none
 	 * @see JRTemplate
 	 * @see JRParameter#REPORT_TEMPLATES
 	 */
 	public JRReportTemplate[] getTemplates();
-	
+
 }
