@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -43,7 +43,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 {
 
 
-	
+
 	/**
 	 *
 	 */
@@ -51,7 +51,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	{
 		super(thermoPlot, factory);
 	}
-	
+
 
 	/**
 	 *
@@ -60,15 +60,15 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	{
 		return ((JRThermometerPlot)parent).getDataRange();
 	}
-	
-    /**
-     *
-     */
-    public JRValueDisplay getValueDisplay()
-    {
-        return ((JRThermometerPlot)parent).getValueDisplay();
-    }
-        
+
+	/**
+	 *
+	 */
+	public JRValueDisplay getValueDisplay()
+	{
+		return ((JRThermometerPlot)parent).getValueDisplay();
+	}
+
 	/**
 	 *
 	 */
@@ -76,7 +76,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	{
 		return ((JRThermometerPlot)parent).isShowValueLines();
 	}
-		
+
 	/**
 	 *
 	 */
@@ -85,14 +85,14 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 		return ((JRThermometerPlot)parent).getValueLocation();
 	}
 
-    /**
-     *
-     */
-    public Color getMercuryColor()
-    {
-        return ((JRThermometerPlot)parent).getMercuryColor();
-    }
-    
+	/**
+	 *
+	 */
+	public Color getMercuryColor()
+	{
+		return ((JRThermometerPlot)parent).getMercuryColor();
+	}
+
 	/**
 	 *
 	 */
@@ -100,7 +100,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	{
 		return ((JRThermometerPlot)parent).getLowRange();
 	}
-		
+
 	/**
 	 *
 	 */
@@ -108,7 +108,7 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	{
 		return ((JRThermometerPlot)parent).getMediumRange();
 	}
-		
+
 	/**
 	 *
 	 */

@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -42,91 +42,91 @@ import java.util.List;
  */
 public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 {
-    
-    /**
-     *
-     */
-    public JRFillMeterPlot(JRMeterPlot meterPlot, JRFillObjectFactory factory)
-    {
-        super(meterPlot, factory);
-    }
-    
-    /**
-     *
-     */
-    public JRDataRange getDataRange()
-    {
-        return ((JRMeterPlot)parent).getDataRange();
-    }
-        
-    /**
-     *
-     */
-    public JRValueDisplay getValueDisplay()
-    {
-        return ((JRMeterPlot)parent).getValueDisplay();
-    }
-        
-    /**
-     *
-     */
-    public byte getShape()
-    {
-        return ((JRMeterPlot)parent).getShape();
-    }
 
-    /**
-     * 
-     */
-    public List getIntervals(){
-        return ((JRMeterPlot)parent).getIntervals();
-    }
-    
-    /**
-     * 
-     */
-    public int getMeterAngle()
-    {
-        return ((JRMeterPlot)parent).getMeterAngle();
-    }
+	/**
+	 *
+	 */
+	public JRFillMeterPlot(JRMeterPlot meterPlot, JRFillObjectFactory factory)
+	{
+		super(meterPlot, factory);
+	}
 
-    /**
-     * 
-     */
-    public String getUnits()
-    {
-        return ((JRMeterPlot)parent).getUnits();
-    }
+	/**
+	 *
+	 */
+	public JRDataRange getDataRange()
+	{
+		return ((JRMeterPlot)parent).getDataRange();
+	}
 
-    /**
-     * 
-     */
-    public double getTickInterval()
-    {
-        return ((JRMeterPlot)parent).getTickInterval();
-    }
+	/**
+	 *
+	 */
+	public JRValueDisplay getValueDisplay()
+	{
+		return ((JRMeterPlot)parent).getValueDisplay();
+	}
 
-    /**
-     * 
-     */
-    public Color getMeterBackgroundColor()
-    {
-        return ((JRMeterPlot)parent).getMeterBackgroundColor();
-    }
+	/**
+	 *
+	 */
+	public byte getShape()
+	{
+		return ((JRMeterPlot)parent).getShape();
+	}
 
-    /**
-     * 
-     */
-    public Color getNeedleColor()
-    {
-        return ((JRMeterPlot)parent).getNeedleColor();
-    }
+	/**
+	 *
+	 */
+	public List getIntervals(){
+		return ((JRMeterPlot)parent).getIntervals();
+	}
 
-    /**
-     * 
-     */
-    public Color getTickColor()
-    {
-        return ((JRMeterPlot)parent).getTickColor();
-    }
+	/**
+	 *
+	 */
+	public int getMeterAngle()
+	{
+		return ((JRMeterPlot)parent).getMeterAngle();
+	}
+
+	/**
+	 *
+	 */
+	public String getUnits()
+	{
+		return ((JRMeterPlot)parent).getUnits();
+	}
+
+	/**
+	 *
+	 */
+	public double getTickInterval()
+	{
+		return ((JRMeterPlot)parent).getTickInterval();
+	}
+
+	/**
+	 *
+	 */
+	public Color getMeterBackgroundColor()
+	{
+		return ((JRMeterPlot)parent).getMeterBackgroundColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getNeedleColor()
+	{
+		return ((JRMeterPlot)parent).getNeedleColor();
+	}
+
+	/**
+	 *
+	 */
+	public Color getTickColor()
+	{
+		return ((JRMeterPlot)parent).getTickColor();
+	}
 }

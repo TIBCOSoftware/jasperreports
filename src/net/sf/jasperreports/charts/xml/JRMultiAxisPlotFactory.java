@@ -41,7 +41,7 @@ import org.xml.sax.Attributes;
  */
 public class JRMultiAxisPlotFactory extends JRBaseFactory
 {
-    
+
 	/**
 	 *
 	 */
@@ -51,7 +51,7 @@ public class JRMultiAxisPlotFactory extends JRBaseFactory
 		JRDesignMultiAxisPlot multiAxisPlot = (JRDesignMultiAxisPlot)chart.getPlot();
 		multiAxisPlot.setChart(chart);
 
-        
+
 		return multiAxisPlot;
 	}
 }
