@@ -614,8 +614,8 @@ public class JRXmlConstants
 	 */
 	private static final String WHEN_NO_DATA_TYPE_NO_PAGES = "NoPages";
 	private static final String WHEN_NO_DATA_TYPE_BLANK_PAGE = "BlankPage";
-    private static final String WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = "AllSectionsNoDetail";
-    private static final String WHEN_NO_DATA_TYPE_NO_DATA_SECTION = "NoDataSection";
+	private static final String WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = "AllSectionsNoDetail";
+	private static final String WHEN_NO_DATA_TYPE_NO_DATA_SECTION = "NoDataSection";
 
 	private static Map whenNoDataTypeMap = null;
 
@@ -626,12 +626,12 @@ public class JRXmlConstants
 			whenNoDataTypeMap = new HashMap(6);
 			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_NO_PAGES,               new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES));
 			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_BLANK_PAGE,             new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE));
-            whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL, new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL));
-            whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_NO_DATA_SECTION, new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION));
+			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL, new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL));
+			whenNoDataTypeMap.put(WHEN_NO_DATA_TYPE_NO_DATA_SECTION,        new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION));
 			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_PAGES),               WHEN_NO_DATA_TYPE_NO_PAGES);
 			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_BLANK_PAGE),             WHEN_NO_DATA_TYPE_BLANK_PAGE);
-            whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
-            whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION), WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
+			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL), WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL);
+			whenNoDataTypeMap.put(new Byte(JRReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION),        WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
 		}
 
 		return whenNoDataTypeMap;
