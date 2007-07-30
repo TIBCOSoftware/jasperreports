@@ -1414,13 +1414,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private void writeChartAxis(JRChartAxis chartAxis) throws IOException
 	{
-	   writer.startElement(JRChartAxisFactory.ELEMENT_axis);
-	   writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPosition(),
-						   JRXmlConstants.getAxisPositionMap(), JRChartAxis.POSITION_LEFT_OR_TOP);
+		writer.startElement(JRChartAxisFactory.ELEMENT_axis);
+		writer.addAttribute(JRChartAxisFactory.ATTRIBUTE_position, chartAxis.getPosition(),
+							JRXmlConstants.getAxisPositionMap(), JRChartAxis.POSITION_LEFT_OR_TOP);
 
-	   // Let the nested chart describe itself
-	   writeChartTag(chartAxis.getChart());
-	   writer.closeElement();
+		// Let the nested chart describe itself
+		writeChartTag(chartAxis.getChart());
+		writer.closeElement();
 	}
 
 	/**
