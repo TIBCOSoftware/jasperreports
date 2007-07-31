@@ -226,6 +226,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			workbook = Workbook.createWorkbook(os);
 			emptyCellStyle = new WritableCellFormat();
 			emptyCellStyle.setBackground(WHITE, backgroundMode);
+			emptyCellStyle.setWrap(true);
 		}
 		catch (IOException e)
 		{
