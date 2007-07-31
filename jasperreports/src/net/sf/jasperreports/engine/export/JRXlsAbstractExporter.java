@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -100,11 +101,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isWhitePageBackground = true;
 
 	protected boolean isAutoDetectCellType = true;
+	
 	protected boolean isDetectCellType = false;
 
 	protected boolean isFontSizeFixEnabled = false;
 	
-	protected String[] sheetNames = null;
+    protected String[] sheetNames = null;
+    
+    protected String currentSheetName = null;
 
 	/**
 	 *
@@ -125,10 +129,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected JRFont defaultFont = null;
 
-	/**
-	 * used for counting the total number of sheets
-	 */
-	protected int sheetIndex = 0;
+    /**
+     * used for counting the total number of sheets
+     */
+    protected int sheetIndex = 0;
+
+    /**
+     * used for counting the number of sheets per page
+     */
+    protected int pageSheetIndex = 2;
 
 	/**
 	 * used when indexing the identical sheet generated names with ordering numbers;
@@ -138,6 +147,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 
+    protected int startRow = 0;
+    protected int maxRowNumberAllowed = 65536;
+    
 	
 	/**
 	 *
@@ -238,16 +250,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void setParameters()
 	{
 		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET);
-		if (isOnePagePerSheetParameter != null)
-		{
-			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
-		}
+		isOnePagePerSheet = isOnePagePerSheetParameter != null && isOnePagePerSheetParameter.booleanValue();
 
 		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-		if (isRemoveEmptySpaceParameter != null)
-		{
-			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
-		}
+		isRemoveEmptySpace = isRemoveEmptySpaceParameter != null && isRemoveEmptySpaceParameter.booleanValue();
 		
 		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
@@ -257,25 +263,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 		
 		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
-		if (isAutoDetectCellTypeParameter != null)
-		{
-			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
-		}
+		isAutoDetectCellType = isAutoDetectCellTypeParameter != null && isAutoDetectCellTypeParameter.booleanValue();
 		
 		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE);
 		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
 
 		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JRXlsAbstractExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
-		if (isFontSizeFixEnabledParameter != null)
-		{
-			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
-		}
+		isFontSizeFixEnabled = isFontSizeFixEnabledParameter != null && isFontSizeFixEnabledParameter.booleanValue();
 
 		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
 
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
+        
+        Integer maxRowNumberAllowedParameter = (Integer) parameters.get(JRXlsAbstractExporterParameter.MAXIMUM_ROW_NUMBER_ALLOWED);
+        if(maxRowNumberAllowedParameter != null && maxRowNumberAllowedParameter.intValue() > 0)
+            maxRowNumberAllowed = maxRowNumberAllowedParameter.intValue();
 	}
 
 	protected abstract void setBackground();
@@ -307,16 +311,19 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						{
 							throw new JRException("Current thread interrupted.");
 						}
+						pageSheetIndex = 2;
 						
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 						
 						if (sheetNames != null && sheetIndex < sheetNames.length)
 						{
-							createSheet(getSheetName(sheetNames[sheetIndex]));
+						    currentSheetName = getSheetName(sheetNames[sheetIndex]);
+							createSheet(currentSheetName);
 						}
 						else
 						{
-							createSheet("Page " + (sheetIndex + 1));
+						    currentSheetName = "Page " + (sheetIndex + 1);
+							createSheet(currentSheetName);
 						}
 
 						// we need to count all sheets generated for all exported documents
@@ -331,11 +338,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					// Create the sheet before looping.
 					if (sheetNames != null && sheetIndex < sheetNames.length)
 					{
-						createSheet(getSheetName(sheetNames[sheetIndex]));
+					    currentSheetName = getSheetName(sheetNames[sheetIndex]);
+						createSheet(currentSheetName);
 					}
 					else
 					{
-						createSheet(getSheetName(jasperPrint.getName()));
+					    currentSheetName = getSheetName(jasperPrint.getName());
+						createSheet(currentSheetName);
 					}
 					
 					// we need to count all sheets generated for all exported documents
@@ -349,17 +358,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							jasperPrint.getPageWidth(), globalOffsetX);
 					setColumnWidths(xCuts);
 
-					int startRow = 0;
+					startRow = 0;
+                    pageSheetIndex = 2;
+
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.currentThread().isInterrupted())
 						{
 							throw new JRException("Current thread interrupted.");
 						}
-			
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 						int rowsAdded = exportPage(page, xCuts, startRow);
-						startRow += rowsAdded;
+                        startRow += rowsAdded;
 					}
 				}
 			}
@@ -372,12 +382,22 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 *
 	 * @return the number of rows added.
 	 */
-	protected int exportPage(JRPrintPage page, List xCuts, int startRow) throws JRException
+	protected int exportPage(JRPrintPage page, List xCuts, int startingRow) throws JRException
 	{
-		JRGridLayout layout = 
+		List elementsList = page.getElements();
+		
+		/**
+		 * If the number of rows exceeds, a new sheet will be created, and will be filled with exceeding elements;
+		 * In order to do that, we have to remove all elements already exported, without altering the original page.
+		 * 
+		 */
+		List newPageElementsList = new ArrayList();
+		newPageElementsList.addAll(elementsList);
+		
+	    JRGridLayout layout = 
 			new JRGridLayout(
 				getNature(),
-				page.getElements(),
+				elementsList,
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
@@ -393,13 +413,24 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 
 		skippedRows = 0;
+		int rowsAdded = 0;
 		for(int y = 0; y < grid.length; y++)
 		{
-			int rowIndex = y - skippedRows + startRow;
+			int rowIndex = y - skippedRows + startingRow;
+
+			//if number of rows is too large a new sheet is created and populated with remaining elements
+			if(rowIndex >= maxRowNumberAllowed){
+			    createSheet(getSheetName(currentSheetName+"_"+pageSheetIndex++));
+			    startRow = 0;
+			    JRPrintPage newPage = new JRBasePrintPage();
+			    newPage.setElements(newPageElementsList);
+			    return exportPage(newPage, null, 0);
+			}
 			
 			if (layout.isRowNotEmpty(y) || !isRemoveEmptySpace)
 			{
-				JRExporterGridCell[] gridRow = grid[y];
+			    rowsAdded++;
+			    JRExporterGridCell[] gridRow = grid[y];
 				
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
@@ -451,7 +482,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						{
 							exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
 						}
-
+						newPageElementsList.remove(element);
+						
 						x += gridCell.getColSpan() - 1;
 					}
 					else
@@ -488,9 +520,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			progressMonitor.afterPageExport();
 		}
-		
 		// Return the number of rows added
-		return grid.length - skippedRows;
+		//return grid.length - skippedRows;
+		return rowsAdded;
 	}
 
 
@@ -682,6 +714,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		int currentIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
 		sheetNamesMap.put(sheetName, new Integer(currentIndex));
+		
 		return sheetName + " " + currentIndex;
 	}
 	
