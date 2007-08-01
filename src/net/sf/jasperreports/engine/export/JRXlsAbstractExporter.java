@@ -250,10 +250,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void setParameters()
 	{
 		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET);
-		isOnePagePerSheet = isOnePagePerSheetParameter != null && isOnePagePerSheetParameter.booleanValue();
+		if (isOnePagePerSheetParameter != null)
+		{
+			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
+		}
 
 		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-		isRemoveEmptySpace = isRemoveEmptySpaceParameter != null && isRemoveEmptySpaceParameter.booleanValue();
+		if (isRemoveEmptySpaceParameter != null)
+		{
+			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
+		}
 		
 		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND);
 		if (isWhitePageBackgroundParameter != null)
@@ -263,13 +269,19 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 		
 		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
-		isAutoDetectCellType = isAutoDetectCellTypeParameter != null && isAutoDetectCellTypeParameter.booleanValue();
+		if (isAutoDetectCellTypeParameter != null)
+		{
+			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
+		}
 		
 		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE);
 		isDetectCellType = isDetectCellTypeParameter != null && isDetectCellTypeParameter.booleanValue();
 
 		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JRXlsAbstractExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
-		isFontSizeFixEnabled = isFontSizeFixEnabledParameter != null && isFontSizeFixEnabledParameter.booleanValue();
+		if (isFontSizeFixEnabledParameter != null)
+		{
+			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
+		}
 
 		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
 
