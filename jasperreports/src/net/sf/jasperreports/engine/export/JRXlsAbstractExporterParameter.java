@@ -131,4 +131,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
      */
     public static final JRExporterParameter MAXIMUM_ROW_NUMBER_ALLOWED = new JRXlsExporterParameter("Maximum Row Number Allowed");
 
+	/**
+	 * Flag for ignoring graphic elements and exporting text elements only.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_IGNORE_GRAPHICS = new JRXlsAbstractExporterParameter("Is Ignore Graphics");
+	
 }
