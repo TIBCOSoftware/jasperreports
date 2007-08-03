@@ -53,7 +53,6 @@ import jxl.Workbook;
 import jxl.biff.DisplayFormat;
 import jxl.format.Alignment;
 import jxl.format.BoldStyle;
-import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
 import jxl.format.Orientation;
@@ -133,8 +132,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private WritableSheet sheet = null;
 
-	private WritableCellFormat emptyCellStyle = null;
-
 	private Pattern backgroundMode = Pattern.SOLID;
 
 	private Map numberFormats;
@@ -145,6 +142,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
+	
+	protected boolean isIgnoreGraphics = false;
 
 
 	public JExcelApiExporter()
@@ -157,6 +156,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		super.setParameters();
 
+		Boolean isIgnoreGraphicsParam = (Boolean)parameters.get(JExcelApiExporterParameter.IS_IGNORE_GRAPHICS);
+		if (isIgnoreGraphicsParam != null)
+		{
+			isIgnoreGraphics = isIgnoreGraphicsParam.booleanValue();
+		}
+		
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
 		Boolean createCustomPaletteParameter = (Boolean)parameters.get(JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE);
@@ -224,15 +229,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		try
 		{
 			workbook = Workbook.createWorkbook(os);
-			emptyCellStyle = new WritableCellFormat();
-			emptyCellStyle.setBackground(WHITE, backgroundMode);
 			emptyCellStyle.setWrap(true);
 		}
 		catch (IOException e)
-		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
-		}
-		catch (WriteException e)
 		{
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
 		}
@@ -614,7 +613,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			try
 			{
-				sheet.mergeCells(x, y, (x + gridCell.getColSpan() - 1), (y + gridCell.getRowSpan() - 1));
+				//sheet.mergeCells(x, y, (x + gridCell.getColSpan() - 1), (y + gridCell.getRowSpan() - 1));
+				sheet.mergeCells(x, y, (x + gridCell.getColSpan() - 1), y);
 			}
 			catch (JXLException e)
 			{
@@ -1280,11 +1280,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
 				cellStyle.setWrap(true);
 
-				BoxStyle box = styleKey.box;
-				cellStyle.setBorder(Border.TOP, box.topBorder, box.topBorderColour);
-				cellStyle.setBorder(Border.BOTTOM, box.bottomBorder, box.bottomBorderColour);
-				cellStyle.setBorder(Border.LEFT, box.leftBorder, box.leftBorderColour);
-				cellStyle.setBorder(Border.RIGHT, box.rightBorder, box.rightBorderColour);
+//				BoxStyle box = styleKey.box;
+//				cellStyle.setBorder(Border.TOP, box.topBorder, box.topBorderColour);
+//				cellStyle.setBorder(Border.BOTTOM, box.bottomBorder, box.bottomBorderColour);
+//				cellStyle.setBorder(Border.LEFT, box.leftBorder, box.leftBorderColour);
+//				cellStyle.setBorder(Border.RIGHT, box.rightBorder, box.rightBorderColour);
 			}
 			catch (Exception e)
 			{
@@ -1629,7 +1629,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature getNature()
 	{
-		return JExcelApiExporterNature.getInstance();
+		if (isIgnoreGraphics)
+		{
+			return JExcelApiTextOnlyExporterNature.getInstance();
+		}
+		else
+		{
+			return JExcelApiExporterNature.getInstance();
+		}
 	}
 
 
