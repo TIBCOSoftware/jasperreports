@@ -50,7 +50,7 @@ public class JExcelApiExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public static JExcelApiExporterNature getInstance()
+	public static ExporterNature getInstance()
 	{
 		return INSTANCE; 
 	}
@@ -58,7 +58,7 @@ public class JExcelApiExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	private JExcelApiExporterNature()
+	protected JExcelApiExporterNature()
 	{
 	}
 	
