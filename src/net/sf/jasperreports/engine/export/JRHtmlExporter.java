@@ -728,7 +728,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		List xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
-		boolean[] isRowNotEmpty = gridLayout.getIsRowNotEmpty();
 
 		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
 		if (whitePageBackground)
@@ -753,7 +752,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		for(int y = 0; y < grid.length; y++)
 		{
-			if (isRowNotEmpty[y] || !isRemoveEmptySpace)
+			if (gridLayout.isRowSpanned(y) || !isRemoveEmptySpace)
 			{
 				JRExporterGridCell[] gridRow = grid[y];
 				

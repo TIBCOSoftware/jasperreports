@@ -279,8 +279,6 @@ public class JRCsvExporter extends JRAbstractExporter
 				);
 		
 		JRExporterGridCell[][] grid = layout.getGrid();
-		boolean[] isRowUsed = layout.getIsRowNotEmpty();
-		boolean[] isColUsed = layout.getIsColumnNotEmpty();
 
 		StringBuffer rowbuffer = null;
 		
@@ -291,7 +289,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			rowbuffer = new StringBuffer();
 
-			if (isRowUsed[y])
+			if (layout.isRowNotEmpty(y))
 			{
 				isFirstColumn = true;
 				for(int x = 0; x < grid[y].length; x++)
@@ -324,7 +322,7 @@ public class JRCsvExporter extends JRAbstractExporter
 					}
 					else
 					{
-						if (isColUsed[x])
+						if (layout.isColNotEmpty(x))
 						{
 							if (!isFirstColumn)
 							{
