@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -73,12 +73,12 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 	/**
 	 * A boolean value specifying whether the exporter should try to automatically detect cell types based on the cell value.
-	 * 
+	 *
 	 * @deprecated The {@link #IS_DETECT_CELL_TYPE IS_DETECT_CELL_TYPE} offers more consistent numerical cell detection.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsAbstractExporterParameter("Is Auto Detect Cell Type");
-	
-	
+
+
 	/**
 	 * Flag used to indicate whether the exporter should take into consideration the type of the
 	 * original text field expressions and set the cell types and values accordingly.
@@ -89,12 +89,12 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * </p>
 	 * <p>
 	 * When this flag is set, the exporter will parse back the <code>String</code> value of numerical/date texts.
-	 * Numerical/date cells will be created and the original pattern of the text will be included 
+	 * Numerical/date cells will be created and the original pattern of the text will be included
 	 * as part of the cell style.
 	 * </p>
 	 * <p>
 	 * Note that this mechanism would not work when the text field overflows and splits on two pages/columns.
-	 * Also, it is required that the text field expression has a numerical or date type set. 
+	 * Also, it is required that the text field expression has a numerical or date type set.
 	 * </p>
 	 * <p>
 	 * This flag is off by default to ensure backwards compatibility.
@@ -105,7 +105,7 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 	/**
 	 * An array of strings representing custom sheet names. This is useful when used with the <i>IS_ONE_PAGE_PER_SHEET</i>
-	 * parameter. 
+	 * parameter.
 	 */
 	public static final JRXlsAbstractExporterParameter SHEET_NAMES = new JRXlsAbstractExporterParameter("Sheet Names");
 
@@ -114,26 +114,36 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * Flag for decreasing font size so that texts fit into the specified cell height.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JRXlsAbstractExporterParameter("Is Font Size Fix Enabled");
-	
-    /**
-     * This export parameter should be used when converting java format patterns to equivalent proprietary 
-     * format patterns. It should be constructed as a Map containing java format patterns as keys and the 
-     * correspondent proprietary format pattern as correspondent value
-     * <p/>
-     * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
-     * @see jxl.write.NumberFormat
-     */
-    public static final JRExporterParameter FORMAT_PATTERNS_MAP = new JRXlsExporterParameter("Format Patterns Map");
 
-    /**
-     * An integer value specifying the maximum number of rows allowed to be shown in a sheet.
-     * It depends on Excel version and defaults to 65,536.
-     */
-    public static final JRExporterParameter MAXIMUM_ROW_NUMBER_ALLOWED = new JRXlsExporterParameter("Maximum Row Number Allowed");
+	/**
+	 * This export parameter should be used when converting java format patterns to equivalent proprietary
+	 * format patterns. It should be constructed as a Map containing java format patterns as keys and the
+	 * correspondent proprietary format pattern as correspondent value
+	 * <p/>
+	 * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
+	 * @see jxl.write.NumberFormat
+	 */
+	public static final JRExporterParameter FORMAT_PATTERNS_MAP = new JRXlsExporterParameter("Format Patterns Map");
+
+	/**
+	 * An integer value specifying the maximum number of rows allowed to be shown in a sheet.
+	 * When set, a new sheet is created for the remaining rows to be displayed. Negative values or zero means that no limit has been set.
+	 */
+	public static final JRExporterParameter MAXIMUM_ROWS_PER_SHEET = new JRXlsExporterParameter("Maximum Rows Per Sheet");
 
 	/**
 	 * Flag for ignoring graphic elements and exporting text elements only.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_IGNORE_GRAPHICS = new JRXlsAbstractExporterParameter("Is Ignore Graphics");
-	
+
+	/**
+	 * Flag for collapsing row span and avoid merging cells across rows.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_COLLAPSE_ROW_SPAN = new JRXlsAbstractExporterParameter("Is Collapse Row Span");
+
+	/**
+	 * Flag for ignoring the cell border.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_IGNORE_CELL_BORDER = new JRXlsAbstractExporterParameter("Is Ignore Cell Border");
+
 }

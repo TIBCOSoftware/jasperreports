@@ -57,6 +57,8 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
  */
 public class JRGridLayout
 {
+	private final int USAGE_NOT_EMPTY = 1;
+	private final int USAGE_SPANNED = 2;
 	
 	private final ExporterNature nature;
 	
@@ -69,8 +71,8 @@ public class JRGridLayout
 	private List xCuts;
 	private List yCuts;
 	private JRExporterGridCell[][] grid;
-	private boolean[] isRowNotEmpty;
-	private boolean[] isColNotEmpty;
+	private int[] rowUsage;
+	private int[] colUsage;
 	
 	private Map boxesCache;
 
@@ -273,8 +275,8 @@ public class JRGridLayout
 		int rowCount = yCuts.size() - 1;
 
 		grid = new JRExporterGridCell[rowCount][colCount];
-		isRowNotEmpty = new boolean[rowCount];
-		isColNotEmpty = new boolean[colCount];
+		rowUsage = new int[rowCount];
+		colUsage = new int[colCount];
 				
 		for(int row = 0; row < rowCount; row++)
 		{ 
@@ -458,26 +460,21 @@ public class JRGridLayout
 
 	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
 	{
-		if (nature.isSpanCells())
+		rowUsage[row1] |= USAGE_NOT_EMPTY;
+		colUsage[col1] |= USAGE_NOT_EMPTY;
+		
+		for (int row = row1; row < row2; row++)
 		{
-			for (int row = row1; row < row2; row++)
-			{
-				for (int col = col1; col < col2; col++)
-				{
-					grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
-				}
-				isRowNotEmpty[row] = true;
-			}
-
 			for (int col = col1; col < col2; col++)
 			{
-				isColNotEmpty[col] = true;
+				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
 			}
+			rowUsage[row] |= USAGE_SPANNED;
 		}
-		else
+
+		for (int col = col1; col < col2; col++)
 		{
-			isRowNotEmpty[row1] = true;
-			isColNotEmpty[col1] = true;
+			colUsage[col] |= USAGE_SPANNED;
 		}
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
@@ -670,17 +667,6 @@ public class JRGridLayout
 
 
 	/**
-	 * Returns an array containing for each grid row a flag set to true if the row is not empty.
-	 * 
-	 * @return array of non empty flags for grid rows
-	 */
-	public boolean[] getIsRowNotEmpty()
-	{
-		return isRowNotEmpty;
-	}
-
-	
-	/**
 	 * Decides whether a row is empty or not.
 	 * 
 	 * @param rowIdx the row index
@@ -688,17 +674,40 @@ public class JRGridLayout
 	 */
 	public boolean isRowNotEmpty(int rowIdx)
 	{
-		return isRowNotEmpty[rowIdx];
+		return ((rowUsage[rowIdx] & USAGE_NOT_EMPTY) > 0);
 	}
 
 	/**
-	 * Returns an array containing for each grid column a flag set to true if the column is not empty.
+	 * Decides whether a row is occupied by spanning columns or not.
 	 * 
-	 * @return array of non empty flags for grid columns
+	 * @param rowIdx the row index
+	 * @return <code>true</code> iff the row is not empty
 	 */
-	public boolean[] getIsColumnNotEmpty()
+	public boolean isRowSpanned(int rowIdx)
 	{
-		return isColNotEmpty;
+		return ((rowUsage[rowIdx] & USAGE_SPANNED) > 0);
+	}
+
+	/**
+	 * Decides whether a column is empty or not.
+	 * 
+	 * @param colIdx the column index
+	 * @return <code>true</code> iff the column is not empty
+	 */
+	public boolean isColNotEmpty(int colIdx)
+	{
+		return ((colUsage[colIdx] & USAGE_NOT_EMPTY) > 0);
+	}
+
+	/**
+	 * Decides whether a column is occupied by spanning rows or not.
+	 * 
+	 * @param colIdx the column index
+	 * @return <code>true</code> iff the column is not empty
+	 */
+	public boolean isColSpanned(int colIdx)
+	{
+		return ((colUsage[colIdx] & USAGE_SPANNED) > 0);
 	}
 
 
@@ -738,6 +747,25 @@ public class JRGridLayout
 	public int getRowHeight(int row)
 	{
 		return ((Integer)yCuts.get(row + 1)).intValue() - ((Integer)yCuts.get(row)).intValue();
+	}
+	
+	
+	public static int getMaxRowHeight(JRExporterGridCell[] row)
+	{
+		int maxRowHeight = row[0].getHeight();
+		for (int col = 0; col < row.length; col++)
+		{
+			JRExporterGridCell cell = row[col];
+			
+			if (cell != JRExporterGridCell.OCCUPIED_CELL)
+			{
+				if (maxRowHeight < cell.getHeight())
+				{
+					maxRowHeight = cell.getHeight();
+				}
+			}
+		}
+		return maxRowHeight;
 	}
 	
 	
