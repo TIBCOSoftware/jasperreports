@@ -190,6 +190,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillBackground();
 
 					fillNoData();
+					
 					break;
 
 				}
