@@ -588,8 +588,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	protected void evaluate(byte evaluation) throws JRException
 	{
-		super.evaluate(evaluation);
 		evaluateConditionalStyles(evaluation);
+		super.evaluate(evaluation);
 	}
 
 	public JRDefaultStyleProvider getDefaultStyleProvider()
