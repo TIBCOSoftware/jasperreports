@@ -24,7 +24,7 @@
 			<exclude name="**/JRPrintServiceExporterParameter.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRConcurrentSwapFile.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRGroovy*.java" unless="using.jdk.1.4"/>
-			<exclude name="**/olap/**/*.java" unless="using.jdk.1.4"/>
+			<exclude name="**/olap/**/*.java" unless="using.jdk.1.5"/>
 			<exclude name="**/JRJdk14ImageReader.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRJdk14ImageEncoder.java" unless="using.jdk.1.4"/>
 			<exclude name="**/JRJpa*.java" unless="using.jdk.1.5"/>
@@ -171,6 +171,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStyleContainer.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRStyleSetter.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRSubreport.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRTextField.class"/>
