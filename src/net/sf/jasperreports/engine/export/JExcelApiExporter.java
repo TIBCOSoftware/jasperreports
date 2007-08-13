@@ -84,6 +84,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -672,179 +673,197 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		addMergeRegion(gridCell, x, y);
 
-		//if ((element.getRenderer() != null) && (element.getRenderer().getImageData() != null))
-		//{
-			try
+		try
+		{
+			int leftPadding = element.getLeftPadding();
+			int topPadding = element.getTopPadding();
+			int rightPadding = element.getRightPadding();
+			int bottomPadding = element.getBottomPadding();
+
+			int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
+			availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+			int availableImageHeight = element.getHeight() - topPadding - bottomPadding;
+			availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+			JRRenderable renderer = element.getRenderer();
+
+			if (
+				renderer != null &&
+				availableImageWidth > 0 &&
+				availableImageHeight > 0
+				)
 			{
-				JRRenderable renderer = element.getRenderer();
-
-				int leftPadding = element.getLeftPadding();
-				int topPadding = element.getTopPadding();
-				int rightPadding = element.getRightPadding();
-				int bottomPadding = element.getBottomPadding();
-
-				int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
-				availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-				int availableImageHeight = element.getHeight() - topPadding - bottomPadding;
-				availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
-
-				if (availableImageWidth > 0 && availableImageHeight > 0 && renderer != null)
+				if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 				{
-					int normalWidth = availableImageWidth;
-					int normalHeight = availableImageHeight;
-
-					Dimension2D dimension = renderer.getDimension();
-					if (dimension != null)
+					// Image renderers are all asked for their image data and dimension at some point. 
+					// Better to test and replace the renderer now, in case of lazy load error.
+					renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, element.getOnErrorType());
+					if (renderer != null)
 					{
-						normalWidth = (int) dimension.getWidth();
-						normalHeight = (int) dimension.getHeight();
+						renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorType());
 					}
+				}
+			}
+			else
+			{
+				renderer = null;
+			}
 
-					float xalignFactor = 0f;
-					switch (element.getHorizontalAlignment())
+			if (renderer != null)
+			{
+				int normalWidth = availableImageWidth;
+				int normalHeight = availableImageHeight;
+
+				Dimension2D dimension = renderer.getDimension();
+				if (dimension != null)
+				{
+					normalWidth = (int) dimension.getWidth();
+					normalHeight = (int) dimension.getHeight();
+				}
+
+				float xalignFactor = 0f;
+				switch (element.getHorizontalAlignment())
+				{
+					case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
 					{
-						case JRAlignment.HORIZONTAL_ALIGN_RIGHT:
-						{
-							xalignFactor = 1f;
-							break;
-						}
-						case JRAlignment.HORIZONTAL_ALIGN_CENTER:
-						{
-							xalignFactor = 0.5f;
-							break;
-						}
-						case JRAlignment.HORIZONTAL_ALIGN_LEFT:
-						default:
-						{
-							xalignFactor = 0f;
-							break;
-						}
+						xalignFactor = 1f;
+						break;
 					}
-
-					float yalignFactor = 0f;
-					switch (element.getVerticalAlignment())
+					case JRAlignment.HORIZONTAL_ALIGN_CENTER:
 					{
-						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-						{
-							yalignFactor = 1f;
-							break;
-						}
-						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-						{
-							yalignFactor = 0.5f;
-							break;
-						}
-						case JRAlignment.VERTICAL_ALIGN_TOP:
-						default:
-						{
-							yalignFactor = 0f;
-							break;
-						}
+						xalignFactor = 0.5f;
+						break;
 					}
-
-					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
-					Graphics2D grx = bi.createGraphics();
-					if (JRElement.MODE_OPAQUE == element.getMode())
+					case JRAlignment.HORIZONTAL_ALIGN_LEFT:
+					default:
 					{
-						grx.setColor(element.getBackcolor());
-						grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+						xalignFactor = 0f;
+						break;
 					}
+				}
 
-					switch (element.getScaleImage())
+				float yalignFactor = 0f;
+				switch (element.getVerticalAlignment())
+				{
+					case JRAlignment.VERTICAL_ALIGN_BOTTOM:
 					{
-						case JRImage.SCALE_IMAGE_CLIP:
+						yalignFactor = 1f;
+						break;
+					}
+					case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+					{
+						yalignFactor = 0.5f;
+						break;
+					}
+					case JRAlignment.VERTICAL_ALIGN_TOP:
+					default:
+					{
+						yalignFactor = 0f;
+						break;
+					}
+				}
+
+				BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
+				Graphics2D grx = bi.createGraphics();
+				if (JRElement.MODE_OPAQUE == element.getMode())
+				{
+					grx.setColor(element.getBackcolor());
+					grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
+				}
+
+				switch (element.getScaleImage())
+				{
+					case JRImage.SCALE_IMAGE_CLIP:
+					{
+						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
+						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+
+						renderer.render(grx, new Rectangle(xoffset, yoffset,
+							normalWidth, normalHeight));
+
+						break;
+					}
+					case JRImage.SCALE_IMAGE_FILL_FRAME:
+					{
+						renderer.render(grx, new Rectangle(0, 0,
+							availableImageWidth, availableImageHeight));
+
+						break;
+					}
+					case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
+					default:
+					{
+						if (element.getHeight() > 0)
 						{
+							double ratio = (double) normalWidth / (double) normalHeight;
+
+							if (ratio > (double) availableImageWidth / (double) availableImageHeight)
+							{
+								normalWidth = availableImageWidth;
+								normalHeight = (int) (availableImageWidth / ratio);
+							}
+							else
+							{
+								normalWidth = (int) (availableImageHeight * ratio);
+								normalHeight = availableImageHeight;
+							}
+
 							int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 							int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
 							renderer.render(grx, new Rectangle(xoffset, yoffset,
 								normalWidth, normalHeight));
-
-							break;
 						}
-						case JRImage.SCALE_IMAGE_FILL_FRAME:
-						{
-							renderer.render(grx, new Rectangle(0, 0,
-								availableImageWidth, availableImageHeight));
 
-							break;
-						}
-						case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
-						default:
-						{
-							if (element.getHeight() > 0)
-							{
-								double ratio = (double) normalWidth / (double) normalHeight;
-
-								if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-								{
-									normalWidth = availableImageWidth;
-									normalHeight = (int) (availableImageWidth / ratio);
-								}
-								else
-								{
-									normalWidth = (int) (availableImageHeight * ratio);
-									normalHeight = availableImageHeight;
-								}
-
-								int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-								int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
-
-								renderer.render(grx, new Rectangle(xoffset, yoffset,
-									normalWidth, normalHeight));
-							}
-
-							break;
-						}
+						break;
 					}
-
-					Pattern mode = this.backgroundMode;
-					Colour background = WHITE;
-					Colour forecolor = getWorkbookColour(element.getForecolor());
-
-					if (element.getBorderColor() != null ){
-						forecolor = getWorkbookColour(element.getBorderColor());
-					}
-
-					WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
-
-					if(element.getMode() == JRElement.MODE_OPAQUE ){
-						mode = Pattern.SOLID;
-						background = getWorkbookColour(element.getBackcolor());
-					}
-
-					WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, background, Alignment.LEFT.getValue(),
-																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
-																cellFont2, gridCell);
-
-
-					sheet.addCell(new Blank(x, y, cellStyle2));
-					WritableImage image =
-						new WritableImage(
-							x,
-							y,
-							gridCell.getColSpan(),
-							gridCell.getRowSpan(),
-							JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
-							);
-
-
-					sheet.addImage(image);
 				}
+
+				Pattern mode = this.backgroundMode;
+				Colour background = WHITE;
+				Colour forecolor = getWorkbookColour(element.getForecolor());
+
+				if (element.getBorderColor() != null ){
+					forecolor = getWorkbookColour(element.getBorderColor());
+				}
+
+				WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor.getValue());
+
+				if(element.getMode() == JRElement.MODE_OPAQUE ){
+					mode = Pattern.SOLID;
+					background = getWorkbookColour(element.getBackcolor());
+				}
+
+				WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, background, Alignment.LEFT.getValue(),
+															VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
+															cellFont2, gridCell);
+
+
+				sheet.addCell(new Blank(x, y, cellStyle2));
+				WritableImage image =
+					new WritableImage(
+						x,
+						y,
+						gridCell.getColSpan(),
+						gridCell.getRowSpan(),
+						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
+						);
+
+
+				sheet.addImage(image);
 			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				throw new JRException("The cell cannot be added", ex);
-			}
-			catch (Error err)
-			{
-				err.printStackTrace();
-				throw new JRException("The cell cannot be added", err);
-			}
-		//}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new JRException("The cell cannot be added", ex);
+		}
+		catch (Error err)
+		{
+			err.printStackTrace();
+			throw new JRException("The cell cannot be added", err);
+		}
 	}
 
 	protected Colour getWorkbookColour(Color awtColor)

@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
@@ -78,10 +77,7 @@ public class ImageServlet extends BaseHttpServlet
 			try
 			{
 				JRRenderable pxRenderer = 
-					JRImageRenderer.getInstance(
-						"net/sf/jasperreports/engine/images/pixel.GIF",
-						JRImage.ON_ERROR_TYPE_ERROR
-						);
+					JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
 				imageData = pxRenderer.getImageData();
 			}
 			catch (JRException e)

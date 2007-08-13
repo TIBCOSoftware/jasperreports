@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -1029,7 +1030,25 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		JRRenderable renderer = printImage.getRenderer();
 
-		if (availableImageWidth > 0 && availableImageHeight > 0 && renderer != null)
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			{
+				// Image renderers are all asked for their image data at some point. 
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
 		{
 			if (renderer.getType() == JRRenderable.TYPE_SVG)
 			{
@@ -1044,8 +1063,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = renderer.getDimension();
-			if (dimension != null)
+			// Image load might fail. 
+			JRRenderable tmpRenderer = 
+				JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorType());
+			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+			// If renderer was replaced, ignore image dimension.
+			if (tmpRenderer == renderer && dimension != null)
 			{
 				normalWidth = (int) dimension.getWidth();
 				normalHeight = (int) dimension.getHeight();

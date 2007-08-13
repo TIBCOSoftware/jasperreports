@@ -31,7 +31,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 
@@ -90,7 +89,7 @@ public class JRPrintImageSourceObject
 				Base64Decoder decoder = new Base64Decoder(bais, baos);
 				decoder.process();
 				
-				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray(), JRImage.ON_ERROR_TYPE_ERROR));
+				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));//, JRImage.ON_ERROR_TYPE_ERROR));
 			}
 			catch (Exception e)
 			{
@@ -99,12 +98,7 @@ public class JRPrintImageSourceObject
 		}
 		else
 		{
-			printImage.setRenderer(
-				JRImageRenderer.getInstance(
-					imageSource,
-					printImage.getOnErrorType()
-					)
-				);
+			printImage.setRenderer(JRImageRenderer.getInstance(imageSource));
 		}
 	}
 	
