@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -500,10 +501,28 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		JRRenderable renderer = printImage.getRenderer();
 		
 		if (
-			availableImageWidth > 0 
-			&& availableImageHeight > 0 
-			&& renderer != null
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
 			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			{
+				// Image renderers are all asked for their image data and dimension at some point. 
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+				if (renderer != null)
+				{
+					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorType());
+				}
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
 		{
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;

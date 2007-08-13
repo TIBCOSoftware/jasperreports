@@ -944,6 +944,20 @@ public class JRPdfExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			{
+				// Image renderers are all asked for their image data at some point. 
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
 			int xoffset = 0;
 			int yoffset = 0;
 
@@ -954,10 +968,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 			{
-				//java.awt.Image awtImage = JRImageLoader.loadImage(printImage.getImageData());
-
-				//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-				//com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(awtImage, null);
 				com.lowagie.text.Image image = null;
 
 				float xalignFactor = getXAlignFactor(printImage);
@@ -967,6 +977,18 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					case JRImage.SCALE_IMAGE_CLIP :
 					{
+						// Image load might fail, from given image data. 
+						// Better to test and replace the renderer now, in case of lazy load error.
+						renderer = 
+							JRImageRenderer.getOnErrorRendererForDimension(
+								renderer, 
+								printImage.getOnErrorType()
+								);
+						if (renderer == null)
+						{
+							break;
+						}
+						
 						int normalWidth = availableImageWidth;
 						int normalHeight = availableImageHeight;
 
@@ -1028,11 +1050,16 @@ public class JRPdfExporter extends JRAbstractExporter
 							}
 							catch(Exception e)
 							{
-								java.awt.Image awtImage =
-									JRImageRenderer.getInstance(
-										renderer.getImageData(),
+								JRImageRenderer tmpRenderer = 
+									JRImageRenderer.getOnErrorRendererForImage(
+										JRImageRenderer.getInstance(renderer.getImageData()), 
 										printImage.getOnErrorType()
-										).getImage();
+										);
+								if (tmpRenderer == null)
+								{
+									break;
+								}
+								java.awt.Image awtImage = tmpRenderer.getImage();
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 
@@ -1061,11 +1088,16 @@ public class JRPdfExporter extends JRAbstractExporter
 							}
 							catch(Exception e)
 							{
-								java.awt.Image awtImage =
-									JRImageRenderer.getInstance(
-										renderer.getImageData(),
+								JRImageRenderer tmpRenderer = 
+									JRImageRenderer.getOnErrorRendererForImage(
+										JRImageRenderer.getInstance(renderer.getImageData()), 
 										printImage.getOnErrorType()
-										).getImage();
+										);
+								if (tmpRenderer == null)
+								{
+									break;
+								}
+								java.awt.Image awtImage = tmpRenderer.getImage();
 								image = com.lowagie.text.Image.getInstance(awtImage, null);
 							}
 
@@ -1087,10 +1119,13 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 				}
 
-				chunk = new Chunk(image, -0.5f, 0.5f);
+				if (image != null)
+				{
+					chunk = new Chunk(image, -0.5f, 0.5f);
 
-				scaledWidth = image.scaledWidth();
-				scaledHeight = image.scaledHeight();
+					scaledWidth = image.scaledWidth();
+					scaledHeight = image.scaledHeight();
+				}
 			}
 			else
 			{
@@ -1188,23 +1223,26 @@ public class JRPdfExporter extends JRAbstractExporter
 			*/
 
 
-			setAnchor(chunk, printImage, printImage);
-			setHyperlinkInfo(chunk, printImage);
+			if (chunk != null)
+			{
+				setAnchor(chunk, printImage, printImage);
+				setHyperlinkInfo(chunk, printImage);
 
-			ColumnText colText = new ColumnText(pdfContentByte);
-			int upperY = jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset;
-			int lowerX = printImage.getX() + leftPadding + getOffsetX() + xoffset;
-			colText.setSimpleColumn(
-				new Phrase(chunk),
-				lowerX,
-				upperY - scaledHeight,
-				lowerX + scaledWidth,
-				upperY,
-				scaledHeight,
-				Element.ALIGN_LEFT
-				);
+				ColumnText colText = new ColumnText(pdfContentByte);
+				int upperY = jasperPrint.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset;
+				int lowerX = printImage.getX() + leftPadding + getOffsetX() + xoffset;
+				colText.setSimpleColumn(
+					new Phrase(chunk),
+					lowerX,
+					upperY - scaledHeight,
+					lowerX + scaledWidth,
+					upperY,
+					scaledHeight,
+					Element.ALIGN_LEFT
+					);
 
-			colText.go();
+				colText.go();
+			}
 		}
 
 

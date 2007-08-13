@@ -473,10 +473,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					if (isPxImageLoaded)
 					{
 						JRRenderable pxRenderer =
-							JRImageRenderer.getInstance(
-								"net/sf/jasperreports/engine/images/pixel.GIF",
-								JRImage.ON_ERROR_TYPE_ERROR
-								);
+							JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
 						byte[] imageData = pxRenderer.getImageData();
 	
 						File imageFile = new File(imagesDir, "px");
@@ -1609,8 +1606,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 					if (!image.isLazy())
 					{
-						Dimension2D dimension = renderer.getDimension();
-						if (dimension != null)
+						// Image load might fail. 
+						JRRenderable tmpRenderer = 
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
 						{
 							normalWidth = dimension.getWidth();
 							normalHeight = dimension.getHeight();
@@ -1755,10 +1756,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (imageNameToImageDataMap != null && !imageNameToImageDataMap.containsKey("px"))
 		{
 			JRRenderable pxRenderer =
-				JRImageRenderer.getInstance(
-					"net/sf/jasperreports/engine/images/pixel.GIF",
-					JRImage.ON_ERROR_TYPE_ERROR
-					);
+				JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
 			rendererToImagePathMap.put(pxRenderer.getId(), imagesURI + "px");
 			imageNameToImageDataMap.put("px", pxRenderer.getImageData());
 		}

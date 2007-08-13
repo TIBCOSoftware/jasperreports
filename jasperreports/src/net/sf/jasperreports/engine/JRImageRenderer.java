@@ -61,7 +61,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	private byte[] imageData = null;
 	private String imageLocation = null;
-	private byte onErrorType = JRImage.ON_ERROR_TYPE_ERROR;
 	private byte imageType = IMAGE_TYPE_UNKNOWN;
 
 	/**
@@ -73,10 +72,9 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private JRImageRenderer(byte[] imageData, byte onErrorType)
+	private JRImageRenderer(byte[] imageData)
 	{
 		this.imageData = imageData;
-		this.onErrorType = onErrorType;
 		
 		if(imageData != null) 
 		{
@@ -89,10 +87,9 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private JRImageRenderer(String imageLocation, byte onErrorType)
+	private JRImageRenderer(String imageLocation)
 	{
 		this.imageLocation = imageLocation;
-		this.onErrorType = onErrorType;
 	}
 
 
@@ -121,20 +118,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
 	{
-		return getInstance(imageData, JRImage.ON_ERROR_TYPE_ERROR);
-	}
-
-
-	/**
-	 *
-	 */
-	public static JRImageRenderer getInstance(byte[] imageData, byte onErrorType)
-	{
-//		if (imageData == null || imageData.length == 0)
-//		{
-//			return null;
-//		}
-		return new JRImageRenderer(imageData, onErrorType);
+		return new JRImageRenderer(imageData);
 	}
 
 
@@ -165,16 +149,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 	}
 
 	
-	public static JRRenderable getInstance(
-		String imageLocation, 
-		byte onErrorType, 
-		boolean isLazy, 
-		ClassLoader classLoader
-		) throws JRException
-	{
-		return getInstance(imageLocation, onErrorType, isLazy, classLoader);
-	}
-	
 	/**
 	 *
 	 */
@@ -193,13 +167,13 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 		if (isLazy)
 		{
-			return new JRImageRenderer(imageLocation, onErrorType);
+			return new JRImageRenderer(imageLocation);
 		}
 
 		try
 		{
 			byte[] data = JRLoader.loadBytesFromLocation(imageLocation, classLoader, urlHandlerFactory);
-			return new JRImageRenderer(data, onErrorType);
+			return new JRImageRenderer(data);
 		}
 		catch (JRException e)
 		{
@@ -230,7 +204,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(image, imageType), onErrorType);
+			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(image, imageType));
 		}
 		catch (JRException e)
 		{
@@ -246,7 +220,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(is), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(is));
 		}
 		catch (JRException e)
 		{
@@ -262,7 +236,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(url), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(url));
 		}
 		catch (JRException e)
 		{
@@ -278,7 +252,58 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(file), onErrorType);
+			return new JRImageRenderer(JRLoader.loadBytes(file));
+		}
+		catch (JRException e)
+		{
+			return getOnErrorRenderer(onErrorType, e); 
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static JRRenderable getOnErrorRendererForDimension(JRRenderable renderer, byte onErrorType) throws JRException
+	{
+		try
+		{
+			renderer.getDimension();
+			return renderer;
+		}
+		catch (JRException e)
+		{
+			return getOnErrorRenderer(onErrorType, e); 
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static JRRenderable getOnErrorRendererForImageData(JRRenderable renderer, byte onErrorType) throws JRException
+	{
+		try
+		{
+			renderer.getImageData();
+			return renderer;
+		}
+		catch (JRException e)
+		{
+			return getOnErrorRenderer(onErrorType, e); 
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static JRImageRenderer getOnErrorRendererForImage(JRImageRenderer renderer, byte onErrorType) throws JRException
+	{
+		try
+		{
+			renderer.getImage();
+			return renderer;
 		}
 		catch (JRException e)
 		{
@@ -298,13 +323,12 @@ public class JRImageRenderer extends JRAbstractRenderer
 		{
 			case JRImage.ON_ERROR_TYPE_ICON :
 			{
-				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/noimage.GIF", JRImage.ON_ERROR_TYPE_ERROR);
+				renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/noimage.GIF");
 				//FIXME cache these renderers
 				break;
 			}
 			case JRImage.ON_ERROR_TYPE_BLANK :
 			{
-				//renderer = new JRImageRenderer("net/sf/jasperreports/engine/images/pixel.GIF", JRImage.ON_ERROR_TYPE_ERROR);
 				break;
 			}
 			case JRImage.ON_ERROR_TYPE_ERROR :
@@ -323,17 +347,10 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public Image getImage() throws JRException
 	{
-		Image awtImage = null;
-		if (awtImageRef == null || awtImageRef.get() == null) {
-			try
-			{
-				awtImage = JRImageLoader.loadImage(getImageData());
-				awtImageRef = new SoftReference(awtImage);
-			}
-			catch (JRException e)
-			{
-				return getOnErrorRenderer(onErrorType, e).getImage();
-			}
+		if (awtImageRef == null || awtImageRef.get() == null)
+		{
+			Image awtImage = JRImageLoader.loadImage(getImageData());
+			awtImageRef = new SoftReference(awtImage);
 		}
 		return (Image) awtImageRef.get();
 	}
@@ -380,14 +397,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		if (imageData == null)
 		{
-			try
-			{
-				imageData = JRLoader.loadBytesFromLocation(imageLocation);
-			}
-			catch (JRException e)
-			{
-				imageData = getOnErrorRenderer(onErrorType, e).getImageData();
-			}
+			imageData = JRLoader.loadBytesFromLocation(imageLocation);
 		}
 
 		return imageData;

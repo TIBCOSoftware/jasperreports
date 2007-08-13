@@ -885,82 +885,110 @@ public class JROdtExporter extends JRAbstractExporter
 
 		int width = availableImageWidth;
 		int height = availableImageHeight;
-		
+
 		int xoffset = 0;
 		int yoffset = 0;
-
-		float xalignFactor = getXAlignFactor(image);
-		float yalignFactor = getYAlignFactor(image);
-
-		switch (image.getScaleImage())
-		{
-			case JRImage.SCALE_IMAGE_FILL_FRAME :
-			{
-				width = availableImageWidth;
-				height = availableImageHeight;
-				xoffset = 0;
-				yoffset = 0;
-				break;
-			}
-			case JRImage.SCALE_IMAGE_CLIP :
-			case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
-			default :
-			{
-				double normalWidth = availableImageWidth;
-				double normalHeight = availableImageHeight;
-				
-				if (!image.isLazy())
-				{
-					JRRenderable renderer = image.getRenderer();
-					Dimension2D dimension = renderer.getDimension();
-					if (dimension != null)
-					{
-						normalWidth = dimension.getWidth();
-						normalHeight = dimension.getHeight();
-					}
-				}
-		
-				if (availableImageHeight > 0)
-				{
-					double ratio = (double)normalWidth / (double)normalHeight;
-					
-					if( ratio > availableImageWidth / (double)availableImageHeight )
-					{
-						width = availableImageWidth;
-						height = (int)(width/ratio);
-						
-					}
-					else
-					{
-						height = availableImageHeight;
-						width = (int)(ratio * height);
-					}
-				}
-
-				xoffset = (int)(xalignFactor * (availableImageWidth - width));
-				yoffset = (int)(yalignFactor * (availableImageHeight - height));
-			}
-		}
 		
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(image), gridCell.getColSpan(), gridCell.getRowSpan());
-		tempBodyWriter.write(
-				"<text:p " 
-				//+ "text:style-name=\"Standard\"" 
-				+ ">" 
-				+ "<draw:frame text:anchor-type=\"paragraph\" " 
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" " 
-				+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" " 
-				+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" " 
-				+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" " 
-				+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
-				);
-		tempBodyWriter.write("<draw:image ");
-		tempBodyWriter.write(" xlink:href=\"" + getImagePath(image, gridCell) + "\"");
-		tempBodyWriter.write(" xlink:type=\"simple\"");
-		tempBodyWriter.write(" xlink:show=\"embed\"");
-		tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
-		tempBodyWriter.write("/>\n");
-		tempBodyWriter.write("</draw:frame></text:p>");
+
+		JRRenderable renderer = image.getRenderer();
+
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getType() == JRRenderable.TYPE_IMAGE && !image.isLazy())
+			{
+				// Non-lazy image renderers are all asked for their image data at some point. 
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorType());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			float xalignFactor = getXAlignFactor(image);
+			float yalignFactor = getYAlignFactor(image);
+	
+			switch (image.getScaleImage())
+			{
+				case JRImage.SCALE_IMAGE_FILL_FRAME :
+				{
+					width = availableImageWidth;
+					height = availableImageHeight;
+					xoffset = 0;
+					yoffset = 0;
+					break;
+				}
+				case JRImage.SCALE_IMAGE_CLIP :
+				case JRImage.SCALE_IMAGE_RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+					
+					if (!image.isLazy())
+					{
+						// Image load might fail. 
+						JRRenderable tmpRenderer = 
+							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorType());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+			
+					if (availableImageHeight > 0)
+					{
+						double ratio = (double)normalWidth / (double)normalHeight;
+						
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+							
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+						}
+					}
+	
+					xoffset = (int)(xalignFactor * (availableImageWidth - width));
+					yoffset = (int)(yalignFactor * (availableImageHeight - height));
+				}
+			}
+
+			tempBodyWriter.write(
+					"<text:p " 
+					//+ "text:style-name=\"Standard\"" 
+					+ ">" 
+					+ "<draw:frame text:anchor-type=\"paragraph\" " 
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" " 
+					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" " 
+					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" " 
+					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" " 
+					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
+					);
+			tempBodyWriter.write("<draw:image ");
+			tempBodyWriter.write(" xlink:href=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"");
+			tempBodyWriter.write(" xlink:type=\"simple\"");
+			tempBodyWriter.write(" xlink:show=\"embed\"");
+			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
+			tempBodyWriter.write("/>\n");
+			tempBodyWriter.write("</draw:frame></text:p>");
+		}
+		
 		tableBuilder.buildCellFooter();
 	}
 
@@ -968,12 +996,10 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getImagePath(JRPrintImage image, JRExporterGridCell gridCell) throws IOException
+	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell) throws IOException
 	{
 		String imagePath = null;
 		
-		JRRenderable renderer = image.getRenderer();
-
 		if (renderer != null)
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -982,7 +1008,7 @@ public class JROdtExporter extends JRAbstractExporter
 			}
 			else
 			{
-				if (image.isLazy())
+				if (isLazy)
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
 				}
