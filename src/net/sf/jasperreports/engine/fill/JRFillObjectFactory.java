@@ -116,7 +116,6 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRImage;
@@ -157,7 +156,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	private JRFillObjectFactory parentFiller;
 	
-	private JRFont defaultFont = null;
+//	private JRFont defaultFont = null;
 
 	private List elementDatasets = new ArrayList();
 	private Map elementDatasetMap = new HashMap();
