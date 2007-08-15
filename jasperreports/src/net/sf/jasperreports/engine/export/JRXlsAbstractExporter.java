@@ -387,8 +387,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							throw new JRException("Current thread interrupted.");
 						}
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-						int rowsAdded = exportPage(page, xCuts, startRow);
-						startRow += rowsAdded;
+						startRow = exportPage(page, xCuts, startRow);
 					}
 				}
 			}
