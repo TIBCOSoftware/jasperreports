@@ -370,6 +370,11 @@ public class JRTextExporter extends JRAbstractExporter
 		int columnCount = calculateXCoord(element.getWidth());
 		int x = calculateXCoord(element.getX() + getOffsetX());
 		int y = calculateYCoord(element.getY() + getOffsetY());
+		
+		if (x + columnCount > pageWidth) {
+			//if the text exceeds the page width, truncate the column count
+			columnCount = pageWidth - x;
+		}
 
 		String allText;
 		JRStyledText styledText = getStyledText(element);
