@@ -2,6 +2,19 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 2.0.1 (2007-08-xx)
+-----------------------------------
+
+- support for custom properties in generated documents (JasperPrint objects);
+
+- predefined JasperPrint custom properties used as exporter hints;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 2.0.0 (2007-08-14)
 -----------------------------------
 
