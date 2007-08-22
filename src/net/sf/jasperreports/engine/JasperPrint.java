@@ -55,7 +55,7 @@ import java.util.Map;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperPrint implements Serializable 
+public class JasperPrint implements Serializable, JRPropertiesHolder
 {
 	
 	/**
@@ -122,6 +122,8 @@ public class JasperPrint implements Serializable
 	private String formatFactoryClass;
 	private String localeCode;
 	private String timeZoneId;
+	
+	private JRPropertiesMap propertiesMap;
 
 
 	/**
@@ -130,6 +132,8 @@ public class JasperPrint implements Serializable
 	public JasperPrint()
 	{
 		defaultStyleProvider = new DefaultStyleProvider(null, null);
+
+		propertiesMap = new JRPropertiesMap();
 	}
 
 	/**
@@ -205,6 +209,46 @@ public class JasperPrint implements Serializable
 	public void setOrientation(byte orientation)
 	{
 		this.orientation = orientation;
+	}
+
+	/**
+	 * 
+	 */
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return propertiesMap;
+	}
+
+	/**
+	 *
+	 */
+	public String[] getPropertyNames()
+	{
+		return propertiesMap.getPropertyNames();
+	}
+
+	/**
+	 *
+	 */
+	public String getProperty(String propName)
+	{
+		return propertiesMap.getProperty(propName);
+	}
+
+	/**
+	 *
+	 */
+	public void setProperty(String propName, String value)
+	{
+		propertiesMap.setProperty(propName, value);
+	}
+
+	/**
+	 *
+	 */
+	public void removeProperty(String propName)
+	{
+		propertiesMap.removeProperty(propName);
 	}
 
 	/**

@@ -72,6 +72,8 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -351,6 +353,8 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
 		
+		exportProperties(jasperPrint);
+		
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{
@@ -393,6 +397,30 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.closeElement();
 		
 		writer.flush();
+	}
+
+
+	protected void exportProperties(JRPropertiesHolder propertiesHolder) throws IOException
+	{
+		JRPropertiesMap propertiesMap = propertiesHolder.getPropertiesMap();
+		if (propertiesMap != null)
+		{
+			String[] propertyNames = propertiesMap.getPropertyNames();
+			if (propertyNames != null && propertyNames.length > 0)
+			{
+				for(int i = 0; i < propertyNames.length; i++)
+				{
+					String value = propertiesMap.getProperty(propertyNames[i]);
+					if (value != null)
+					{
+						xmlWriter.startElement(JRXmlConstants.ELEMENT_property);
+						xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
+						xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
+						xmlWriter.closeElement();
+					}
+				}
+			}
+		}
 	}
 
 

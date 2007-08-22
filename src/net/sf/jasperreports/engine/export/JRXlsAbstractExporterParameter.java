@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -59,9 +60,29 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default state of the {@link #IS_ONE_PAGE_PER_SHEET IS_ONE_PAGE_PER_SHEET} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_ONE_PAGE_PER_SHEET = JRProperties.PROPERTY_PREFIX + "export.xls.one.page.per.sheet";
+
+
+	/**
 	 * A boolean value specifying whether the empty spaces that could appear between rows should be removed or not.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRXlsAbstractExporterParameter("Is Remove Empty Space Between Rows");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.emtpy.space.between.rows";
 
 
 	/**
@@ -69,6 +90,16 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * may vary depending on the XLS viewer properties or the operating system color scheme.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRXlsAbstractExporterParameter("Is White Page Background");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_WHITE_PAGE_BACKGROUND IS_WHITE_PAGE_BACKGROUND} export flag.
+	 * <p/>
+	 * This property is set by default (<code>true</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.white.page.background";
 
 
 	/**
@@ -104,6 +135,16 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default state of the {@link #IS_DETECT_CELL_TYPE IS_DETECT_CELL_TYPE} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_DETECT_CELL_TYPE = JRProperties.PROPERTY_PREFIX + "export.xls.detect.cell.type";
+
+
+	/**
 	 * An array of strings representing custom sheet names. This is useful when used with the <i>IS_ONE_PAGE_PER_SHEET</i>
 	 * parameter.
 	 */
@@ -115,6 +156,17 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final JRXlsAbstractExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JRXlsAbstractExporterParameter("Is Font Size Fix Enabled");
 
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_FONT_SIZE_FIX_ENABLED IS_FONT_SIZE_FIX_ENABLED} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
+
+
 	/**
 	 * This export parameter should be used when converting java format patterns to equivalent proprietary
 	 * format patterns. It should be constructed as a Map containing java format patterns as keys and the
@@ -125,25 +177,70 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final JRExporterParameter FORMAT_PATTERNS_MAP = new JRXlsExporterParameter("Format Patterns Map");
 
+	
 	/**
 	 * An integer value specifying the maximum number of rows allowed to be shown in a sheet.
 	 * When set, a new sheet is created for the remaining rows to be displayed. Negative values or zero means that no limit has been set.
 	 */
 	public static final JRExporterParameter MAXIMUM_ROWS_PER_SHEET = new JRXlsExporterParameter("Maximum Rows Per Sheet");
 
+	
+	/**
+	 * Property whose value is used as default of the {@link #MAXIMUM_ROWS_PER_SHEET MAXIMUM_ROWS_PER_SHEET} export parameter.
+	 * <p/>
+	 * This property is by default to zero.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_MAXIMUM_ROWS_PER_SHEET = JRProperties.PROPERTY_PREFIX + "export.xls.max.rows.per.sheet";
+
+
 	/**
 	 * Flag for ignoring graphic elements and exporting text elements only.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_IGNORE_GRAPHICS = new JRXlsAbstractExporterParameter("Is Ignore Graphics");
+
+	
+	/**
+	 * Property whose value is used as default state of the {@link #IS_IGNORE_GRAPHICS IS_IGNORE_GRAPHICS} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_IGNORE_GRAPHICS = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.graphics";
+
 
 	/**
 	 * Flag for collapsing row span and avoid merging cells across rows.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_COLLAPSE_ROW_SPAN = new JRXlsAbstractExporterParameter("Is Collapse Row Span");
 
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_COLLAPSE_ROW_SPAN IS_COLLAPSE_ROW_SPAN} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_COLLAPSE_ROW_SPAN = JRProperties.PROPERTY_PREFIX + "export.xls.collapse.row.span";
+
+
 	/**
 	 * Flag for ignoring the cell border.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_IGNORE_CELL_BORDER = new JRXlsAbstractExporterParameter("Is Ignore Cell Border");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_IGNORE_CELL_BORDER IS_IGNORE_CELL_BORDER} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_IGNORE_CELL_BORDER = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
+
 
 }

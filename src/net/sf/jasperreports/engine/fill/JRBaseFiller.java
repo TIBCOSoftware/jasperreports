@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -92,6 +93,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 
+	private static final String PROPERTIES_PRINT_TRANSFER_PREFIX = "net.sf.jasperreports.print.transfer";
+	
 	/**
 	 * Map class to be used for bound elements.
 	 * <p/>
@@ -391,7 +394,27 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		whenResourceMissingType = jasperReport.getWhenResourceMissingType();
 
 		jasperPrint = new JasperPrint();
-
+		
+		List transferPrefixProps = JRProperties.getProperties(PROPERTIES_PRINT_TRANSFER_PREFIX);
+		for (Iterator prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
+		{
+			JRProperties.PropertySuffix transferPrefixProp = (JRProperties.PropertySuffix) prefixIt.next();
+			String transferPrefix = transferPrefixProp.getValue();
+			if (transferPrefix != null && transferPrefix.length() > 0)
+			{
+				List transferProps = JRProperties.getProperties(jasperReport.getPropertiesMap(), transferPrefix);
+				for (Iterator propIt = transferProps.iterator(); propIt.hasNext();)
+				{
+					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();
+					String value = property.getValue();
+					if (value != null && value.length() > 0)
+					{
+						jasperPrint.setProperty(property.getKey(), value);
+					}
+				}
+			}
+		}
+		
 		if (initEvaluator == null)
 		{
 			calculator = JRFillDataset.createCalculator(jasperReport, jasperReport.getMainDataset());
