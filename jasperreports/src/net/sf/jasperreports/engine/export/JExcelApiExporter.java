@@ -161,7 +161,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Boolean createCustomPaletteParameter = (Boolean)parameters.get(JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE);
 		if (createCustomPaletteParameter == null)
 		{
-			createCustomPalette = JRProperties.getBooleanProperty(JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE);
+			createCustomPalette = 
+				JRProperties.getBooleanProperty(
+					jasperPrint.getPropertiesMap(),
+					JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE,
+					false
+					);
 		}
 		else
 		{

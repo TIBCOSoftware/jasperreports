@@ -496,6 +496,34 @@ public class JRProperties
 	}
 
 	/**
+	 * Returns the list of all properties for a key prefix.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param prefix the key prefix
+	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
+	 */
+	public static List getProperties(JRPropertiesMap propertiesMap, String prefix)
+	{
+		int prefixLength = prefix.length();
+		List values = new ArrayList();
+		String[] propertyNames = propertiesMap.getPropertyNames();
+		if (propertyNames != null)
+		{
+			for (int i = 0; i < propertyNames.length; i++)
+			{
+				String name = propertyNames[i];
+				if (name.startsWith(prefix))
+				{
+					String suffix = name.substring(prefixLength);
+					String value = propertiesMap.getProperty(name);
+					values.add(new PropertySuffix(name, suffix, value));
+				}
+			}
+		}
+		return values;
+	}
+
+	/**
 	 * Returns the value of a property, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 

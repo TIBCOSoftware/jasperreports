@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperPrint (reportFont*, style*, page*)>
+<!ELEMENT jasperPrint (property*, reportFont*, style*, page*)>
 <!ATTLIST jasperPrint
 	name CDATA #REQUIRED
 	pageWidth NMTOKEN "595"
@@ -8,6 +8,11 @@
 	formatFactoryClass NMTOKEN #IMPLIED
 	locale CDATA #IMPLIED
 	timezone CDATA #IMPLIED
+>
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
