@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://scm.jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-2-0-0</tag>
+		<tag>jr-2-0-1</tag>
 		<url>http://jasperforge.org/sf/scm/do/viewRepositorySource/projects.jasperreports/scm.jasperreports</url>
 	</scm>
 	<repositories>
@@ -118,9 +118,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>poi</groupId>
-			<artifactId>poi-2.0-final</artifactId>
-			<version>20040126</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.0.1-FINAL</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
