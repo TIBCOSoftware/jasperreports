@@ -105,15 +105,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 {
 
 	/**
-	 * This property serves as default value for the
-	 * {@link JRHtmlExporterParameter#FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
-	 * export parameter.
-	 * <p>
-	 * The propery itself defaults to <code>true</code>.
-	 * </p>
-	 * @see JRProperties
+	 * @deprecated Replaced by  {@link JRHtmlExporterParameter#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 	/**
 	 *
@@ -158,11 +152,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected File imagesDir = null;
 	protected String imagesURI = null;
 	protected boolean isOutputImagesToDir = false;
-	protected boolean isRemoveEmptySpace = false;
-	protected boolean isWhitePageBackground = true;
-	protected String encoding = null;
+	protected boolean isRemoveEmptySpace;
+	protected boolean isWhitePageBackground;
+	protected String encoding;
 	protected String sizeUnit = null;
-	protected boolean isUsingImagesToAlign = true;
+	protected boolean isUsingImagesToAlign;
+	protected boolean isWrapBreakWord;
+
 	/**
 	 *
 	 */
@@ -176,8 +172,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isWrapBreakWord = false;
-
 	protected Map fontMap = null;
 
 	private LinkedList backcolorStack;
@@ -233,17 +227,19 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 			}
 	
-			Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-			if (isRemoveEmptySpaceParameter != null)
-			{
-				isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
-			}
+			isRemoveEmptySpace = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+					JRHtmlExporterParameter.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+					false
+					);
 	
-			Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND);
-			if (isWhitePageBackgroundParameter != null)
-			{
-				isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
-			}
+			isWhitePageBackground = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+					JRHtmlExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
+					true
+					);
 	
 			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
 			if (isOutputImagesToDirParameter != null)
@@ -257,11 +253,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 				imagesURI = uri;
 			}
 	
-			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-			if (encoding == null)
-			{
-				encoding = "UTF-8";
-			}
+			encoding = 
+				getStringParameterOrDefault(
+					JRExporterParameter.CHARACTER_ENCODING, 
+					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+					);
 	
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();
@@ -276,25 +272,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 	//		}
 			//END - backward compatibility with the IMAGE_MAP parameter
 	
-			Boolean isWrapBreakWordParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD);
-			if (isWrapBreakWordParameter != null)
-			{
-				isWrapBreakWord = isWrapBreakWordParameter.booleanValue();
-			}
+			isWrapBreakWord = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_WRAP_BREAK_WORD,
+					JRHtmlExporterParameter.PROPERTY_WRAP_BREAK_WORD,
+					false
+					);
 	
-			sizeUnit = (String)parameters.get(JRHtmlExporterParameter.SIZE_UNIT);
-			if (sizeUnit == null)
-			{
-				sizeUnit = JRHtmlExporterParameter.SIZE_UNIT_PIXEL;
-			}
+			sizeUnit = 
+				getStringParameterOrDefault(
+					JRHtmlExporterParameter.SIZE_UNIT,
+					JRHtmlExporterParameter.PROPERTY_SIZE_UNIT
+					);
 	
-			Boolean isUsingImagesToAlignParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN);
-			
-			if (isUsingImagesToAlignParameter != null)
-			{
-				isUsingImagesToAlign = isUsingImagesToAlignParameter.booleanValue();
-			}
-	
+			isUsingImagesToAlign = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+					JRHtmlExporterParameter.PROPERTY_USING_IMAGES_TO_ALIGN,
+					true
+					);
+		
 			if (isUsingImagesToAlign)
 			{
 				emptyCellStringProvider =

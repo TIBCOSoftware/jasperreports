@@ -106,23 +106,23 @@ public class JRCsvExporter extends JRAbstractExporter
 			setPageRange();
 		}
 
-		String encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-		if (encoding == null)
-		{
-			encoding = "ISO-8859-1";
-		}
+		String encoding = 
+			getStringParameterOrDefault(
+				JRExporterParameter.CHARACTER_ENCODING, 
+				JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+				);
 		
-		delimiter = (String)parameters.get(JRCsvExporterParameter.FIELD_DELIMITER);
-		if (delimiter == null)
-		{
-			delimiter = ",";
-		}
+		delimiter = 
+			getStringParameterOrDefault(
+				JRCsvExporterParameter.FIELD_DELIMITER, 
+				JRCsvExporterParameter.PROPERTY_FIELD_DELIMITER
+				);
 		
-		recordDelimiter = (String)parameters.get(JRCsvExporterParameter.RECORD_DELIMITER);
-		if (recordDelimiter == null)
-		{
-			recordDelimiter = "\n";
-		}		
+		recordDelimiter = 
+			getStringParameterOrDefault(
+				JRCsvExporterParameter.RECORD_DELIMITER, 
+				JRCsvExporterParameter.PROPERTY_RECORD_DELIMITER
+				);
 		
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)

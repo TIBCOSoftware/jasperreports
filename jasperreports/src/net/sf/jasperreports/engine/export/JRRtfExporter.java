@@ -105,7 +105,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	protected int reportIndex = 0;
 	
-	// temporaray list of fonts and colors to be
+	// temporary list of fonts and colors to be
 	// added to the header or the document
 	private StringBuffer colorBuffer = null;
 	private StringBuffer fontBuffer = null;

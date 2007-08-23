@@ -28,6 +28,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -44,7 +45,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 {
 
 
-	public static Character PDF_VERSION_1_2 =  new Character('2');  // Not using iText constants in order not to depend on the library version
+	public static Character PDF_VERSION_1_2 = new Character('2');  // Not using iText constants in order not to depend on the library version
 	public static Character PDF_VERSION_1_3 = new Character('3');
 	public static Character PDF_VERSION_1_4 = new Character('4');
 	public static Character PDF_VERSION_1_5 = new Character('5');
@@ -59,25 +60,69 @@ public class JRPdfExporterParameter extends JRExporterParameter
 		super(name);
 	}
 
+	
 	/**
 	 * A boolean value specifying  whether the PDF document should contain an outline section
 	 */
 	public static final JRPdfExporterParameter IS_CREATING_BATCH_MODE_BOOKMARKS = new JRPdfExporterParameter("Is Creating Batch Mode Bookmarks");
 
+	
+	/**
+	 * Property whose value is used as default state of the {@link #IS_CREATING_BATCH_MODE_BOOKMARKS IS_CREATING_BATCH_MODE_BOOKMARKS} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRProperties.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
+
+	
 	/**
 	 * A boolean value specifying whether the PDF document should be compressed.
 	 */
 	public static final JRPdfExporterParameter IS_COMPRESSED = new JRPdfExporterParameter("Is Compressed");
+
+	
+	/**
+	 * Property whose value is used as default state of the {@link #IS_COMPRESSED IS_COMPRESSED} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_COMPRESSED = JRProperties.PROPERTY_PREFIX + "export.pdf.compressed";
+
 
 	/**
 	 * A boolean value specifying whether the final PDF document should be encrypted.
 	 */
 	public static final JRPdfExporterParameter IS_ENCRYPTED = new JRPdfExporterParameter("Is Encrypted");
 
+	
+	/**
+	 * Property whose value is used as default state of the {@link #IS_ENCRYPTED IS_ENCRYPTED} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_ENCRYPTED = JRProperties.PROPERTY_PREFIX + "export.pdf.encrypted";
+
+
 	/**
 	 * A boolean value specifying whether the encryption key is 128 bits.
 	 */
 	public static final JRPdfExporterParameter IS_128_BIT_KEY = new JRPdfExporterParameter("Is 128 Bit Key");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_128_BIT_KEY IS_128_BIT_KEY} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_128_BIT_KEY = JRProperties.PROPERTY_PREFIX + "export.pdf.128.bit.key";
 
 
 	/**
@@ -87,10 +132,26 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default for the {@link #USER_PASSWORD USER_PASSWORD} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_USER_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.pdf.user.password";
+
+
+	/**
 	 * The password belonging to the owner of the document, if it is encrypted. If the password is null, it will be replaced
 	 * by a random string.
 	 */
 	public static final JRPdfExporterParameter OWNER_PASSWORD = new JRPdfExporterParameter("Owner Password");
+
+
+	/**
+	 * Property whose value is used as default for the {@link #OWNER_PASSWORD OWNER_PASSWORD} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_OWNER_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.pdf.owner.password";
 
 
 	/**
@@ -107,6 +168,16 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * that can be passed as parameters directly.
 	 */
 	public static final JRPdfExporterParameter PDF_VERSION = new JRPdfExporterParameter("PDF Version");
+
+
+	/**
+	 * Property whose value is used as default for the {@link #PDF_VERSION PDF_VERSION} export parameter.
+	 * Possible values of the this property are 2, 3, 4, 5 and 6.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PDF_VERSION = JRProperties.PROPERTY_PREFIX + "export.pdf.version";
+
 
 	/**
 	 * The Title of the PDF document, as String.
@@ -144,15 +215,24 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * performance would drop.  Because of this, the flag is not set by default.
 	 * <p>
 	 * This flag can be set system-wide using the
-	 * {@link net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY PDF_FORCE_LINEBREAK_POLICY} property.
+	 * {@link #PROPERTY_FORCE_LINEBREAK_POLICY PROPERTY_FORCE_LINEBREAK_POLICY} property.
 	 * This export parameter overrides the property value.
 	 *
-	 * @see net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY
+	 * @see #PROPERTY_FORCE_LINEBREAK_POLICY
 	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
 	 */
 	public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
 
 
+	/**
+	 * Property that provides a default value for the {@link #FORCE_LINEBREAK_POLICY FORCE_LINEBREAK_POLICY}
+	 * PDF exporter parameter.
+	 * 
+	 * @see #FORCE_LINEBREAK_POLICY
+	 */
+	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRProperties.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
+	
+	
 	/**
 	 * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
 	 *
@@ -165,18 +245,34 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * {@link JRExporterParameter#FONT_MAP FONT_MAP} exporter parameter to ensure proper rendering of
 	 * text in the SVG.
 	 *
-	 * This flag can be set system-wide using the
-	 * {@link net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES PDF_FORCE_SVG_SHAPES} property.
-	 * This export parameter overrides the property value.
+	 * This flag can be set system-wide using the {@link #PROPERTY_FORCE_SVG_SHAPES PROPERTY_FORCE_SVG_SHAPES} 
+	 * property. This export parameter overrides the property value.
 	 *
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter#PDF_FORCE_SVG_SHAPES
+	 * @see #PDF_FORCE_SVG_SHAPES
 	 * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
 	 */
 	public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
 
 
 	/**
+	 * Property that provides a default value for the {@link #FORCE_SVG_SHAPES FORCE_SVG_SHAPES}
+	 * PDF exporter parameter.
+	 */
+	public static final String PROPERTY_FORCE_SVG_SHAPES = JRProperties.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
+
+	
+	/**
 	 * The user defined JavaScript piece of code to be inserted in the generated PDF document
 	 */
 	public static final JRPdfExporterParameter PDF_JAVASCRIPT = new JRPdfExporterParameter("PDF JavaScript");
+	
+	
+	/**
+	 * Property whose value is used as default for the {@link #PDF_JAVASCRIPT PDF_JAVASCRIPT} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_PDF_JAVASCRIPT = JRProperties.PROPERTY_PREFIX + "export.pdf.javascript";
+
+
 }

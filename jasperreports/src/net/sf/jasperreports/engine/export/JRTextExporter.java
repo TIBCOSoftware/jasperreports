@@ -108,11 +108,11 @@ public class JRTextExporter extends JRAbstractExporter
 			setPageRange();
 		}
 
-		String encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-		if (encoding == null)
-		{
-			encoding = "ISO-8859-1";
-		}
+		String encoding = 
+			getStringParameterOrDefault(
+				JRExporterParameter.CHARACTER_ENCODING, 
+				JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+				);
 
 		Integer characterWidthParam = (Integer) parameters.get(JRTextExporterParameter.CHARACTER_WIDTH);
 		if (characterWidthParam != null) {

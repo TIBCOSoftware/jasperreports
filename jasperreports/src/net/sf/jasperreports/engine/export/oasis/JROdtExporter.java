@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZipEntry;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -183,11 +184,15 @@ public class JROdtExporter extends JRAbstractExporter
 				setPageRange();
 			}
 	
-			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
-			if (encoding == null)
-			{
-				encoding = "UTF-8";
-			}
+			encoding = 
+				getStringParameter(
+					JRExporterParameter.CHARACTER_ENCODING, 
+					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+					);
+			encoding = 
+				encoding == null 
+				? JRProperties.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) 
+				: encoding;
 	
 			rendererToImagePathMap = new HashMap();
 			imageMaps = new HashMap();

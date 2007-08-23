@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -239,50 +238,26 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected void setParameters()
 	{
-		Boolean isOnePagePerSheetParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET);
-		if (isOnePagePerSheetParameter == null)
-		{
-			isOnePagePerSheet = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_ONE_PAGE_PER_SHEET,
-					false
-					);
-		}
-		else
-		{
-			isOnePagePerSheet = isOnePagePerSheetParameter.booleanValue();
-		}
+		isOnePagePerSheet = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET,
+				JRXlsAbstractExporterParameter.PROPERTY_ONE_PAGE_PER_SHEET,
+				false
+				);
 
-		Boolean isRemoveEmptySpaceParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS);
-		if (isRemoveEmptySpaceParameter == null)
-		{
-			isRemoveEmptySpace = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-					false
-					);
-		}
-		else
-		{
-			isRemoveEmptySpace = isRemoveEmptySpaceParameter.booleanValue();
-		}
+		isRemoveEmptySpace = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+				JRXlsAbstractExporterParameter.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+				false
+				);
 
-		Boolean isWhitePageBackgroundParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND);
-		if (isWhitePageBackgroundParameter == null)
-		{
-			isWhitePageBackground = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
-					true
-					);
-		}
-		else
-		{
-			isWhitePageBackground = isWhitePageBackgroundParameter.booleanValue();
-		}
+		isWhitePageBackground = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+				JRXlsAbstractExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
+				false
+				);
 		setBackground();
 
 		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
@@ -291,80 +266,40 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
 
-		Boolean isDetectCellTypeParameter = (Boolean) parameters.get(JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE);
-		if (isDetectCellTypeParameter == null)
-		{
-			isDetectCellType = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_DETECT_CELL_TYPE,
-					false
-					);
-		}
-		else
-		{
-			isDetectCellType = isDetectCellTypeParameter.booleanValue();
-		}
+		isWhitePageBackground = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE,
+				JRXlsAbstractExporterParameter.PROPERTY_DETECT_CELL_TYPE,
+				false
+				);
 
-		Boolean isFontSizeFixEnabledParameter = (Boolean) this.parameters.get(JRXlsAbstractExporterParameter.IS_FONT_SIZE_FIX_ENABLED);
-		if (isFontSizeFixEnabledParameter == null)
-		{
-			isFontSizeFixEnabled = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_FONT_SIZE_FIX_ENABLED,
-					false
-					);
-		}
-		else
-		{
-			isFontSizeFixEnabled = isFontSizeFixEnabledParameter.booleanValue();
-		}
+		isFontSizeFixEnabled = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_FONT_SIZE_FIX_ENABLED,
+				JRXlsAbstractExporterParameter.PROPERTY_FONT_SIZE_FIX_ENABLED,
+				false
+				);
 
-		Boolean isIgnoreGraphicsParam = (Boolean)parameters.get(JExcelApiExporterParameter.IS_IGNORE_GRAPHICS);
-		if (isIgnoreGraphicsParam == null)
-		{
-			isIgnoreGraphics = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_IGNORE_GRAPHICS,
-					false
-					);
-		}
-		else
-		{
-			isIgnoreGraphics = isIgnoreGraphicsParam.booleanValue();
-		}
+		isIgnoreGraphics = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_IGNORE_GRAPHICS,
+				JRXlsAbstractExporterParameter.PROPERTY_IGNORE_GRAPHICS,
+				false
+				);
 
-		Boolean isCollapseRowSpanParam = (Boolean)parameters.get(JExcelApiExporterParameter.IS_COLLAPSE_ROW_SPAN);
-		if (isCollapseRowSpanParam == null)
-		{
-			isCollapseRowSpan = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(), 
-					JRXlsAbstractExporterParameter.PROPERTY_COLLAPSE_ROW_SPAN, 
-					false
-					);
-		}
-		else
-		{
-			isCollapseRowSpan = isCollapseRowSpanParam.booleanValue();
-		}
+		isCollapseRowSpan = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_COLLAPSE_ROW_SPAN,
+				JRXlsAbstractExporterParameter.PROPERTY_COLLAPSE_ROW_SPAN,
+				false
+				);
 
-		Boolean isIgnoreCellBorderParam = (Boolean)parameters.get(JExcelApiExporterParameter.IS_IGNORE_CELL_BORDER);
-		if (isIgnoreCellBorderParam == null)
-		{
-			isIgnoreCellBorder = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_IGNORE_CELL_BORDER,
-					false
-					);
-		}
-		else
-		{
-			isIgnoreCellBorder = isIgnoreCellBorderParam.booleanValue();
-		}
+		isIgnoreCellBorder = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.IS_IGNORE_CELL_BORDER,
+				JRXlsAbstractExporterParameter.PROPERTY_IGNORE_CELL_BORDER,
+				false
+				);
 
 		sheetNames = (String[])parameters.get(JRXlsAbstractExporterParameter.SHEET_NAMES);
 
@@ -372,20 +307,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 
-		Integer maxRowsPerSheetParameter = (Integer) parameters.get(JRXlsAbstractExporterParameter.MAXIMUM_ROWS_PER_SHEET);
-		if(maxRowsPerSheetParameter == null)
-		{
-			maxRowsPerSheet = 
-				JRProperties.getIntegerProperty(
-					jasperPrint.getPropertiesMap(),
-					JRXlsAbstractExporterParameter.PROPERTY_MAXIMUM_ROWS_PER_SHEET,
-					0
-					);
-		}
-		else
-		{
-			maxRowsPerSheet = maxRowsPerSheetParameter.intValue();
-		}
+		maxRowsPerSheet = 
+			getIntegerParameter(
+				JRXlsAbstractExporterParameter.MAXIMUM_ROWS_PER_SHEET,
+				JRXlsAbstractExporterParameter.PROPERTY_MAXIMUM_ROWS_PER_SHEET,
+				0
+				);
 	}
 
 	protected abstract void setBackground();

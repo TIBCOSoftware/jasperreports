@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -171,6 +172,112 @@ public abstract class JRAbstractExporter implements JRExporter
 	}
 	
 
+	/**
+	 *
+	 */
+	protected String getStringParameter(JRExporterParameter parameter, String property)
+	{
+		if (parameters.containsKey(parameter))
+		{
+			return (String)parameters.get(parameter);
+		}
+		else
+		{
+			return 
+				JRProperties.getProperty(
+					jasperPrint.getPropertiesMap(),
+					property
+					);
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected String getStringParameterOrDefault(JRExporterParameter parameter, String property)
+	{
+		if (parameters.containsKey(parameter))
+		{
+			String value = (String)parameters.get(parameter);
+			if (value == null)
+			{
+				return JRProperties.getProperty(property);
+			}
+			else
+			{
+				return value;
+			}
+		}
+		else
+		{
+			return
+				JRProperties.getProperty(
+					jasperPrint.getPropertiesMap(),
+					property
+					);
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
+	{
+		if (parameters.containsKey(parameter))
+		{
+			Boolean booleanValue = (Boolean)parameters.get(parameter);
+			if (booleanValue == null)
+			{
+				return JRProperties.getBooleanProperty(property);
+			}
+			else
+			{
+				return booleanValue.booleanValue();
+			}
+		}
+		else
+		{
+			return 
+				JRProperties.getBooleanProperty(
+					jasperPrint.getPropertiesMap(),
+					property,
+					defaultValue
+					);
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	protected int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
+	{
+		if (parameters.containsKey(parameter))
+		{
+			Integer integerValue = (Integer)parameters.get(parameter);
+			if (integerValue == null)
+			{
+				return JRProperties.getIntegerProperty(property);
+			}
+			else
+			{
+				return integerValue.intValue();
+			}
+		}
+		else
+		{
+			return 
+				JRProperties.getIntegerProperty(
+					jasperPrint.getPropertiesMap(),
+					property,
+					defaultValue
+					);
+		}
+	}
+
+	
 	/**
 	 *
 	 */

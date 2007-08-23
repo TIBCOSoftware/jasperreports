@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -125,10 +126,30 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default state of the {@link #IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
+
+
+	/**
 	 * A boolean value specifying whether the report background should be white. If this parameter is not set, the default
 	 * background will appear, depending on the selected CSS styles.
 	 */
 	public static final JRHtmlExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRHtmlExporterParameter("Is White Page Background");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_WHITE_PAGE_BACKGROUND IS_WHITE_PAGE_BACKGROUND} export flag.
+	 * <p/>
+	 * This property is set by default (<code>true</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.white.page.background";
 
 
 	/**
@@ -139,9 +160,29 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property whose value is used as default state of the {@link #IS_USING_IMAGES_TO_ALIGN IS_USING_IMAGES_TO_ALIGN} export flag.
+	 * <p/>
+	 * This property is set by default (<code>true</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRProperties.PROPERTY_PREFIX + "export.html.using.images.to.align";
+
+
+	/**
 	 * A boolean value specifying whether the export engine should use force wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
 	 */
 	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_WRAP_BREAK_WORD IS_WRAP_BREAK_WORD} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_WRAP_BREAK_WORD = JRProperties.PROPERTY_PREFIX + "export.html.wrap.break.word";
 
 
 	/**
@@ -150,6 +191,14 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels. 
 	 */
 	public static final JRHtmlExporterParameter SIZE_UNIT = new JRHtmlExporterParameter("Size Unit");
+
+	/**
+	 * Property whose value is used as default for the {@link #SIZE_UNIT SIZE_UNIT} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SIZE_UNIT = JRProperties.PROPERTY_PREFIX + "export.html.size.unit";
+
 
 	/**
 	 * Possible value for the {@link JRHtmlExporterParameter#SIZE_UNIT} parameter indicated that measurements are made in pixels. 
@@ -175,4 +224,16 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 */
 	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export frames as nested tables");
 	
+
+	/**
+	 * This property serves as default value for the {@link #FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
+	 * export parameter.
+	 * <p>
+	 * The propery itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
+	
+
 }

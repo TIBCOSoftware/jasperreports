@@ -101,7 +101,6 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -158,21 +157,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
-		Boolean createCustomPaletteParameter = (Boolean)parameters.get(JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE);
-		if (createCustomPaletteParameter == null)
-		{
-			createCustomPalette = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE,
-					false
-					);
-		}
-		else
-		{
-			createCustomPalette = createCustomPaletteParameter.booleanValue();
-		}
-
+		createCustomPalette = 
+			getBooleanParameter(
+				JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE, 
+				JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
+				false
+				); 
+			
 		if (createCustomPalette)
 		{
 			initCustomPalette();
