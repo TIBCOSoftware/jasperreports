@@ -129,13 +129,9 @@ public class JRPdfExporter extends JRAbstractExporter
 {
 
 	/**
-	 * Property that provides a default value for the
-	 * {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_SVG_SHAPES JRPdfExporterParameter.FORCE_SVG_SHAPES}
-	 * PDF exporter parameter.
-	 *
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_SVG_SHAPES
+	 * @deprecated Replaced by {@link JRPdfExporterParameter#PROPERTY_FORCE_SVG_SHAPES}.
 	 */
-	public static final String PDF_FORCE_SVG_SHAPES = JRProperties.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
+	public static final String PDF_FORCE_SVG_SHAPES = JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES;
 
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 
@@ -162,14 +158,16 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isCreatingBatchModeBookmarks = false;
-	protected boolean isCompressed = false;
-	protected boolean isEncrypted = false;
-	protected boolean is128BitKey = false;
-	protected String userPassword = null;
-	protected String ownerPassword = null;
+	protected boolean forceSvgShapes;
+	protected boolean isCreatingBatchModeBookmarks;
+	protected boolean isCompressed;
+	protected boolean isEncrypted;
+	protected boolean is128BitKey;
+	protected String userPassword;
+	protected String ownerPassword;
 	protected int permissions = 0;
-	protected Character pdfVersion = null;
+	protected Character pdfVersion;
+	protected String pdfJavaScript;
 
 	/**
 	 *
@@ -181,11 +179,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private Map fontMap = null;
 
-	private boolean forceSvgShapes = true;
 	private SplitCharacter splitCharacter;
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
-
-	private String pdfJavaScript;
 
 	/**
 	 *
@@ -237,31 +232,52 @@ public class JRPdfExporter extends JRAbstractExporter
 				setPageRange();
 			}
 
-			Boolean isCreatingBatchModeBookmarksParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS);
-			if(isCreatingBatchModeBookmarksParameter != null){
-				isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarksParameter.booleanValue();
-			}
+			isCreatingBatchModeBookmarks = 
+				getBooleanParameter(
+					JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS,
+					JRPdfExporterParameter.PROPERTY_CREATE_BATCH_MODE_BOOKMARKS,
+					false
+					);
 
-			Boolean isCompressedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_COMPRESSED);
-			if (isCompressedParameter != null)
-			{
-				isCompressed = isCompressedParameter.booleanValue();
-			}
+			forceSvgShapes = 
+				getBooleanParameter(
+					JRPdfExporterParameter.FORCE_SVG_SHAPES,
+					JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES,
+					false
+					);
 
-			Boolean isEncryptedParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_ENCRYPTED);
-			if (isEncryptedParameter != null)
-			{
-				isEncrypted = isEncryptedParameter.booleanValue();
-			}
+			isCompressed = 
+				getBooleanParameter(
+					JRPdfExporterParameter.IS_COMPRESSED,
+					JRPdfExporterParameter.PROPERTY_COMPRESSED,
+					false
+					);
 
-			Boolean is128BitKeyParameter = (Boolean)parameters.get(JRPdfExporterParameter.IS_128_BIT_KEY);
-			if (is128BitKeyParameter != null)
-			{
-				is128BitKey = is128BitKeyParameter.booleanValue();
-			}
+			isEncrypted = 
+				getBooleanParameter(
+					JRPdfExporterParameter.IS_ENCRYPTED,
+					JRPdfExporterParameter.PROPERTY_ENCRYPTED,
+					false
+					);
 
-			userPassword = (String)parameters.get(JRPdfExporterParameter.USER_PASSWORD);
-			ownerPassword = (String)parameters.get(JRPdfExporterParameter.OWNER_PASSWORD);
+			is128BitKey = 
+				getBooleanParameter(
+					JRPdfExporterParameter.IS_128_BIT_KEY,
+					JRPdfExporterParameter.PROPERTY_128_BIT_KEY,
+					false
+					);
+
+			userPassword = 
+				getStringParameter(
+					JRPdfExporterParameter.USER_PASSWORD,
+					JRPdfExporterParameter.PROPERTY_USER_PASSWORD
+					);
+
+			ownerPassword = 
+				getStringParameter(
+					JRPdfExporterParameter.OWNER_PASSWORD,
+					JRPdfExporterParameter.PROPERTY_OWNER_PASSWORD
+					);
 
 			Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
 			if (permissionsParameter != null)
@@ -269,15 +285,26 @@ public class JRPdfExporter extends JRAbstractExporter
 				permissions = permissionsParameter.intValue();
 			}
 
-			pdfVersion = (Character) parameters.get(JRPdfExporterParameter.PDF_VERSION);
+			String strPdfVersion = 
+				getStringParameter(
+					JRPdfExporterParameter.PDF_VERSION,
+					JRPdfExporterParameter.PROPERTY_PDF_VERSION
+					);
+			pdfVersion = 
+				(strPdfVersion == null || strPdfVersion.length() == 0) 
+				? null 
+				: new Character(strPdfVersion.charAt(0));
 
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
-			setForceSvgShapes();
 			setSplitCharacter();
 			setHyperlinkProducerFactory();
 
-			pdfJavaScript =	(String)parameters.get(JRPdfExporterParameter.PDF_JAVASCRIPT);
+			pdfJavaScript = 
+				getStringParameter(
+					JRPdfExporterParameter.PDF_JAVASCRIPT,
+					JRPdfExporterParameter.PROPERTY_PDF_JAVASCRIPT
+					);
 
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
@@ -332,27 +359,18 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	protected void setForceSvgShapes()
-	{
-		Boolean forceSvgShapesParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_SVG_SHAPES);
-		if (forceSvgShapesParam == null)
-		{
-			forceSvgShapes = JRProperties.getBooleanProperty(PDF_FORCE_SVG_SHAPES);
-		}
-		else
-		{
-			forceSvgShapes = forceSvgShapesParam.booleanValue();
-		}
-	}
-
-
 	protected void setSplitCharacter()
 	{
 		boolean useFillSplitCharacter;
 		Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
 		if (useFillSplitCharacterParam == null)
 		{
-			useFillSplitCharacter = JRProperties.getBooleanProperty(JRProperties.PDF_FORCE_LINEBREAK_POLICY);
+			useFillSplitCharacter = 
+				JRProperties.getBooleanProperty(
+					jasperPrint.getPropertiesMap(),
+					JRPdfExporterParameter.PROPERTY_FORCE_LINEBREAK_POLICY,
+					false
+					);
 		}
 		else
 		{

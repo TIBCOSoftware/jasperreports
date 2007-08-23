@@ -37,6 +37,7 @@ import java.util.Properties;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -138,11 +139,7 @@ public class JRProperties
 	public static final String SUBREPORT_RUNNER_FACTORY = PROPERTY_PREFIX + "subreport.runner.factory";
 	
 	/**
-	 * Property that provides a default value for the 
-	 * {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY JRPdfExporterParameter.FORCE_LINEBREAK_POLICY}
-	 * PDF exporter parameter.
-	 * 
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY
+	 * @deprecated Replaced by {@link JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY}.
 	 */
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	

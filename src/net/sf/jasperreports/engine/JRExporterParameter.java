@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -178,6 +179,14 @@ public class JRExporterParameter
 	 * The character encoding used for export.
 	 */
 	public static final JRExporterParameter CHARACTER_ENCODING = new JRExporterParameter("Character Encoding");
+
+
+	/**
+	 * Property whose value is used as default for the {@link #CHARACTER_ENCODING CHARACTER_ENCODING} export parameter.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CHARACTER_ENCODING = JRProperties.PROPERTY_PREFIX + "export.character.encoding";
 
 
 	/**
