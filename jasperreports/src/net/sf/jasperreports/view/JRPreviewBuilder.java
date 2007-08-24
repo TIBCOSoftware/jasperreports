@@ -110,7 +110,7 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 /**
- * @author sanda zaharia 
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
 public class JRPreviewBuilder 
@@ -1112,7 +1112,6 @@ public class JRPreviewBuilder
 	 * @param y
 	 * @param left
 	 * @param top
-	 * @return
 	 */
 	protected JRFrame getCrosstabCellFrame(
 			JRCellContents cell, 
@@ -1397,7 +1396,6 @@ public class JRPreviewBuilder
 
 	/**
 	 * 
-	 * @return
 	 */	
 	public JasperPrint getJasperPrint()
 	{
@@ -1406,7 +1404,7 @@ public class JRPreviewBuilder
 	
 	/**
 	 * 
-	 * @author sanda zaharia
+	 * @author Sanda Zaharia (shertage@users.sourceforge.net)
 	 *
 	 */
 	protected class ContourElement
