@@ -34,7 +34,6 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
 
 /**
@@ -69,7 +68,7 @@ public class JExcelApiTextOnlyExporterNature extends JExcelApiExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return (element instanceof JRPrintText || element instanceof JRPrintFrame);
+		return (element instanceof JRPrintText);
 	}
 	
 }
