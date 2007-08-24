@@ -34,19 +34,19 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRXlsExporterNature.java 1696 2007-04-02 12:14:28Z lucianc $
  */
-public class JRXlsExporterNature implements ExporterNature
+public class JRXlsTextOnlyExporterNature extends JRXlsExporterNature
 {
 	
 	/**
 	 * 
 	 */
-	private static final JRXlsExporterNature INSTANCE = new JRXlsExporterNature();
+	private static final JRXlsTextOnlyExporterNature INSTANCE = new JRXlsTextOnlyExporterNature();
 
 	/**
 	 * 
@@ -59,7 +59,7 @@ public class JRXlsExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	protected JRXlsExporterNature()
+	private JRXlsTextOnlyExporterNature()
 	{
 	}
 	
@@ -68,47 +68,7 @@ public class JRXlsExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return !(element instanceof JRPrintImage);
+		return (element instanceof JRPrintText);
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean isDeep()
-	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isSpanCells()
-	{
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isIgnoreLastRow()
-	{
-		return false;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isHorizontallyMergeEmptyCells()
-	{
-		return false;
-	}
-		
 }

@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * The XLS exporter can send data to an output stream or file on disk. The engine looks among the export parameters in
  * order to find the selected output type in this order: OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
  *
- * @author Sanda Zaharia (szaharia@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
 public class JRXlsAbstractExporterParameter extends JRExporterParameter
@@ -82,7 +82,7 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * 
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.emtpy.space.between.rows";
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.rows";
 
 
 	/**

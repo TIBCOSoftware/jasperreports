@@ -449,7 +449,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		if (gridCell.getColSpan() > 1 || gridCell.getRowSpan() > 1)
 		{
-			sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.getRowSpan() - 1), (short)(colIndex + gridCell.getColSpan() - 1)));
+			if (isCollapseRowSpan)
+			{
+				sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, rowIndex, (short)(colIndex + gridCell.getColSpan() - 1)));
+			}
+			else
+			{
+				sheet.addMergedRegion(new Region(rowIndex, (short)colIndex, (rowIndex + gridCell.getRowSpan() - 1), (short)(colIndex + gridCell.getColSpan() - 1)));
+			}
 
 			for(int i = 0; i < gridCell.getRowSpan(); i++)
 			{
@@ -465,7 +472,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						spanCell = spanRow.createCell((short)(colIndex + j));
 					}
-					spanCell.setCellStyle(cellStyle);
+					//spanCell.setCellStyle(cellStyle);
 				}
 			}
 		}
@@ -655,15 +662,18 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 			
-			BoxStyle box = style.box;
-			cellStyle.setBorderTop(box.topBorder);
-			cellStyle.setTopBorderColor(box.topBorderColour);
-			cellStyle.setBorderLeft(box.leftBorder);
-			cellStyle.setLeftBorderColor(box.leftBorderColour);
-			cellStyle.setBorderBottom(box.bottomBorder);
-			cellStyle.setBottomBorderColor(box.bottomBorderColour);
-			cellStyle.setBorderRight(box.rightBorder);
-			cellStyle.setRightBorderColor(box.rightBorderColour);
+			if (!isIgnoreCellBorder)
+			{
+				BoxStyle box = style.box;
+				cellStyle.setBorderTop(box.topBorder);
+				cellStyle.setTopBorderColor(box.topBorderColour);
+				cellStyle.setBorderLeft(box.leftBorder);
+				cellStyle.setLeftBorderColor(box.leftBorderColour);
+				cellStyle.setBorderBottom(box.bottomBorder);
+				cellStyle.setBottomBorderColor(box.bottomBorderColour);
+				cellStyle.setBorderRight(box.rightBorder);
+				cellStyle.setRightBorderColor(box.rightBorderColour);
+			}
 			
 			loadedCellStyles.put(style, cellStyle);
 		}
@@ -776,7 +786,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature getNature()
 	{
-		return JRXlsExporterNature.getInstance();
+		if (isIgnoreGraphics)
+		{
+			return JRXlsTextOnlyExporterNature.getInstance();
+		}
+		else
+		{
+			return JRXlsExporterNature.getInstance();
+		}
 	}
 			
 
