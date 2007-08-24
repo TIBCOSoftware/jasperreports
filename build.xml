@@ -163,6 +163,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRPropertiesHolder.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPropertiesMap.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRenderable.class"/>
