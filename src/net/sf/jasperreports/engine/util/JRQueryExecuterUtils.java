@@ -50,11 +50,11 @@ public class JRQueryExecuterUtils
 	 */
 	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{
-		String factoryClassName = JRProperties.getProperty(JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language);
+		String factoryClassName = JRProperties.getProperty(JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language);
 		if (factoryClassName == null)
 		{
 			throw new JRException("No query executer factory class registered for " + language + " queries.  " +
-					"Create a propery named " + JRProperties.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
+					"Create a propery named " + JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language + ".");
 		}
 		
 		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);

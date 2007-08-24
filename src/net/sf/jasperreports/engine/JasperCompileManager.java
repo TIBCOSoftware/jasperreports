@@ -32,11 +32,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 
-import net.sf.jasperreports.engine.design.JRDefaultCompiler;
+import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.engine.design.JRCompiler;
+import net.sf.jasperreports.engine.design.JRJavacCompiler;
+import net.sf.jasperreports.engine.design.JRJdk12Compiler;
+import net.sf.jasperreports.engine.design.JRJdk13Compiler;
+import net.sf.jasperreports.engine.design.JRJdtCompiler;
 import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -125,7 +133,7 @@ public class JasperCompileManager
 		String destFileName
 		) throws JRException
 	{
-		JasperReport jasperReport = JRDefaultCompiler.getInstance().compileReport(jasperDesign);
+		JasperReport jasperReport = compileReport(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, destFileName);
 	}
@@ -178,7 +186,7 @@ public class JasperCompileManager
 		OutputStream outputStream
 		) throws JRException
 	{
-		JasperReport jasperReport = JRDefaultCompiler.getInstance().compileReport(jasperDesign);
+		JasperReport jasperReport = compileReport(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, outputStream);
 	}
@@ -209,7 +217,7 @@ public class JasperCompileManager
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
-		return JRDefaultCompiler.getInstance().compileReport(jasperDesign);
+		return getCompiler(jasperDesign).compileReport(jasperDesign);
 	}
 
 
@@ -227,6 +235,37 @@ public class JasperCompileManager
 	}
 
 
+	/**
+	 * 
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
+	{
+		JRCompiler compiler = getCompiler(jasperReport);
+		
+		return compiler.loadEvaluator(jasperReport, dataset);
+	}
+
+
+	/**
+	 * 
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
+	{
+		JRCompiler compiler = getCompiler(jasperReport);
+		
+		return compiler.loadEvaluator(jasperReport, crosstab);
+	}
+
+
+	/**
+	 * 
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
+	{
+		return loadEvaluator(jasperReport, jasperReport.getMainDataset());
+	}
+
+	
 	/**
 	 * Generates the XML representation of the report design loaded from the specified filename.
 	 * The result of this operation is an "UTF-8" encoded XML file having the same name as 
@@ -352,4 +391,150 @@ public class JasperCompileManager
 	}
 
 
+	/**
+	 *
+	 */
+	private static JRCompiler getJavaCompiler()
+	{
+		JRCompiler compiler = null;
+
+		try 
+		{
+			JRClassLoader.loadClassForRealName("org.eclipse.jdt.internal.compiler.Compiler");
+			compiler = new JRJdtCompiler();
+		}
+		catch (Exception e)
+		{
+		}
+
+		if (compiler == null)
+		{
+			try 
+			{
+				JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
+				compiler = new JRJdk13Compiler();
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if (compiler == null)
+		{
+			try 
+			{
+				JRClassLoader.loadClassForRealName("sun.tools.javac.Main");
+				compiler = new JRJdk12Compiler();
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if (compiler == null)
+		{
+			compiler = new JRJavacCompiler();
+		}
+		
+		return compiler;
+	}
+
+
+	/**
+	 *
+	 */
+	private static JRCompiler getCompiler(JasperReport jasperReport) throws JRException
+	{
+		JRCompiler compiler = null;
+		
+		String compilerClassName = jasperReport.getCompilerClass();
+
+		Class compilerClass = null;
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader != null)
+		{
+			try
+			{
+				compilerClass = classLoader.loadClass(compilerClassName);
+			}
+			catch(ClassNotFoundException e)
+			{
+			}
+		}
+		
+		if (compilerClass == null)
+		{
+			classLoader = JasperCompileManager.class.getClassLoader();
+			try
+			{
+				if (classLoader == null)
+				{
+					compilerClass = Class.forName(compilerClassName);
+				}
+				else
+				{
+					compilerClass = classLoader.loadClass(compilerClassName);
+				}
+			}
+			catch(ClassNotFoundException e)
+			{
+				throw new JRException("Report compiler class not found : " + compilerClassName);
+			}
+		}
+
+
+		try
+		{
+			compiler = (JRCompiler)compilerClass.newInstance();
+		}
+		catch (Exception e)
+		{
+			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
+		}
+		return compiler;
+	}
+
+	
+
+
+	/**
+	 *
+	 */
+	private static JRCompiler getCompiler(JasperDesign jasperDesign) throws JRException
+	{
+		JRCompiler compiler = null;
+
+		String compilerClassName = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
+		if (compilerClassName == null || compilerClassName.trim().length() == 0)
+		{
+			String language = jasperDesign.getLanguage();
+			compilerClassName = JRProperties.getProperty(JRCompiler.COMPILER_PREFIX + language);
+			if (compilerClassName == null || compilerClassName.trim().length() == 0)
+			{
+				if (JRReport.LANGUAGE_JAVA.equals(language))
+				{
+					return getJavaCompiler();
+				}
+				else
+				{
+					throw new JRException("No report compiler set for language : " + language);
+				}
+			}
+		}
+
+		try 
+		{
+			Class clazz = JRClassLoader.loadClassForName(compilerClassName);
+			compiler = (JRCompiler)clazz.newInstance();
+		}
+		catch (Exception e)
+		{
+			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
+		}
+		
+		return compiler;
+	}
+
+	
 }

@@ -77,8 +77,8 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -300,7 +300,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 	{
 		try
 		{
-			JREvaluator evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport, parentCrosstab);
+			JREvaluator evaluator = JasperCompileManager.loadEvaluator(jasperReport, parentCrosstab);
 			crosstabEvaluator = new JRCrosstabExpressionEvaluator(evaluator);
 		}
 		catch (JRException e)

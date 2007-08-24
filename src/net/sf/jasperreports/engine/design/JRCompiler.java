@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -42,6 +43,15 @@ public interface JRCompiler
 {
 
 
+	/**
+	 * Prefix for properties that map report compilers to expression languages.
+	 * <p/>
+	 * Properties having this prefix are used to indicate the JRCompiler implementation to be used when compiling
+	 * report designs that rely on the expression language specified as propety suffix.
+	 */
+	public static final String COMPILER_PREFIX = JRProperties.PROPERTY_PREFIX + "compiler.";
+
+	
 	/**
 	 * Compiles a report design.
 	 * <p>

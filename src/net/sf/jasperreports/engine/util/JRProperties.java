@@ -37,7 +37,6 @@ import java.util.Properties;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -75,6 +74,8 @@ public class JRProperties
 	 * The name of the class to be used for report compilation.
 	 * <p>
 	 * No default value.
+	 * 
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.design#COMPILER_PREFIX}.
 	 */
 	public static final String COMPILER_CLASS = PROPERTY_PREFIX + "compiler.class";
 	
@@ -124,22 +125,17 @@ public class JRProperties
 	public static final String PDF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.pdf.fontdir.";
 	
 	/**
-	 * Prefix for query executer factory properties.
-	 * <p/>
-	 * To obtain query executer factories, a property having the query language appended to this prefix is used 
-	 * to get the query executer factory name.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.query#QUERY_EXECUTER_FACTORY_PREFIX}.
 	 */
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
 	
-	
 	/**
-	 * Property specifying the {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory JRSubreportRunnerFactory}
-	 * implementation to use for creating subreport runners.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory#SUBREPORT_RUNNER_FACTORY}.
 	 */
 	public static final String SUBREPORT_RUNNER_FACTORY = PROPERTY_PREFIX + "subreport.runner.factory";
 	
 	/**
-	 * @deprecated Replaced by {@link JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY}.
 	 */
 	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	

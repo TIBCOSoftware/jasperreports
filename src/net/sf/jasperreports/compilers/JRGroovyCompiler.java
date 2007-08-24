@@ -49,8 +49,6 @@ import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.design.JRDefaultCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilationUnit;
@@ -66,12 +64,6 @@ import org.codehaus.groovy.control.Phases;
 public class JRGroovyCompiler extends JRAbstractJavaCompiler 
 {
 
-	/**
-	 *  
-	 */
-	private static final Log log = LogFactory.getLog(JRGroovyCompiler.class);
-
-	
 	public JRGroovyCompiler()
 	{
 		super(false);
@@ -153,13 +145,16 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 
 	protected void checkLanguage(String language) throws JRException
 	{
-		if (!JRReport.LANGUAGE_GROOVY.equals(language))
+		if (
+			!JRReport.LANGUAGE_GROOVY.equals(language)
+			&& !JRReport.LANGUAGE_JAVA.equals(language)
+			)
 		{
 			throw 
 				new JRException(
 					"Language \"" + language 
 					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"groovy\" instead."
+					+ "Expecting \"groovy\" or \"java\" instead."
 					);
 		}
 	}

@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -47,6 +48,17 @@ import net.sf.jasperreports.engine.JRValueParameter;
  */
 public interface JRQueryExecuterFactory
 {
+
+	
+	/**
+	 * Prefix for query executer factory properties.
+	 * <p/>
+	 * To obtain query executer factories, a property having the query language appended to this prefix is used 
+	 * to get the query executer factory name.
+	 */
+	public static final String QUERY_EXECUTER_FACTORY_PREFIX = JRProperties.PROPERTY_PREFIX + "query.executer.factory.";
+
+	
 	/**
 	 * Returns the built-in parameters associated with this query type.
 	 * <p/>
@@ -86,4 +98,6 @@ public interface JRQueryExecuterFactory
 	 * @return whether the parameter value type is supported
 	 */
 	public boolean supportsQueryParameterType(String className);
+
+
 }
