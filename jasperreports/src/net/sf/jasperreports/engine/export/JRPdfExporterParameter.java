@@ -248,7 +248,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * This flag can be set system-wide using the {@link #PROPERTY_FORCE_SVG_SHAPES PROPERTY_FORCE_SVG_SHAPES} 
 	 * property. This export parameter overrides the property value.
 	 *
-	 * @see #PDF_FORCE_SVG_SHAPES
+	 * @see #PROPERTY_FORCE_SVG_SHAPES
 	 * @see net.sf.jasperreports.engine.JRExporterParameter#FONT_MAP
 	 */
 	public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
