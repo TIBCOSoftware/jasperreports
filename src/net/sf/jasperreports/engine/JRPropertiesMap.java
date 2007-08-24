@@ -28,10 +28,10 @@
 package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.collections.SequencedHashMap;
 
 /**
  * Properties map of an JR element.
@@ -47,6 +47,7 @@ public class JRPropertiesMap implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final Map propertiesMap;
+	private final List propertiesList;
 	
 	
 	/**
@@ -54,7 +55,8 @@ public class JRPropertiesMap implements Serializable
 	 */
 	public JRPropertiesMap()
 	{
-		propertiesMap = new SequencedHashMap();
+		propertiesMap = new HashMap();
+		propertiesList = new ArrayList();
 	}
 
 	
@@ -65,7 +67,7 @@ public class JRPropertiesMap implements Serializable
 	 */
 	public JRPropertiesMap(JRPropertiesMap propertiesMap)
 	{
-		this.propertiesMap = new SequencedHashMap();
+		this();
 		
 		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
@@ -85,9 +87,7 @@ public class JRPropertiesMap implements Serializable
 	 */
 	public String[] getPropertyNames()
 	{
-		Set names = propertiesMap.keySet(); 
-		String[] namesArray = new String[names.size()];
-		return (String[]) names.toArray(namesArray);
+		return (String[]) propertiesList.toArray(new String[propertiesList.size()]);
 	}
 
 	
@@ -111,6 +111,10 @@ public class JRPropertiesMap implements Serializable
 	 */
 	public void setProperty(String propName, String value)
 	{
+		if (!propertiesMap.containsKey(propName))
+		{
+			propertiesList.add(propName);
+		}
 		propertiesMap.put(propName, value);
 	}
 	
@@ -122,7 +126,11 @@ public class JRPropertiesMap implements Serializable
 	 */	
 	public void removeProperty(String propName)
 	{
-		propertiesMap.remove(propName);
+		if (propertiesMap.containsKey(propName))
+		{
+			propertiesList.remove(propName);
+			propertiesMap.remove(propName);
+		}
 	}
 	
 	
