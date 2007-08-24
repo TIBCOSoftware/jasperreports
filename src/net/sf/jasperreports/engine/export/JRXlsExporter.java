@@ -234,8 +234,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
 		cell = row.createCell((short)colIndex);
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-		cell.setCellValue("");
+		//cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		//cell.setCellValue("");
 		cell.setCellStyle(cellStyle);
 	}
 
@@ -269,8 +269,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
 
 		cell = row.createCell((short)colIndex);
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
-		cell.setCellValue("");
+		//cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		//cell.setCellValue("");
 		cell.setCellStyle(cellStyle);
 	}
 	
