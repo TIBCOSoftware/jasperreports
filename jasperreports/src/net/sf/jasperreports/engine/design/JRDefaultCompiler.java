@@ -30,14 +30,13 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
-import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
+ * @deprecated Replaced by {@link JasperCompileManager}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -69,164 +68,35 @@ public final class JRDefaultCompiler implements JRCompiler
 
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#compileReport(JasperDesign)}.
 	 */
 	public JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
-		JRCompiler jrCompiler = null;
-
-		String compiler = JRProperties.getProperty(JRProperties.COMPILER_CLASS);
-		if (
-			(compiler == null 
-			|| compiler.trim().length() == 0)
-			&& JRReport.LANGUAGE_GROOVY.equals(jasperDesign.getLanguage())
-			)
-		{
-			compiler = "net.sf.jasperreports.compilers.JRGroovyCompiler";
-		}
-
-		if (compiler == null || compiler.trim().length() == 0)
-		{
-			jrCompiler = getJavaCompiler();
-		}
-		else
-		{
-			try 
-			{
-				Class clazz = JRClassLoader.loadClassForName(compiler);
-				jrCompiler = (JRCompiler)clazz.newInstance();
-			}
-			catch (Exception e)
-			{
-				throw new JRException("Could not instantiate report compiler : " + compiler, e);
-			}
-		}
-		
-		return jrCompiler.compileReport(jasperDesign);
+		return JasperCompileManager.compileReport(jasperDesign);
 	}
 
 
 	/**
-	 *
-	 */
-	private static JRCompiler getJavaCompiler()
-	{
-		JRCompiler compiler = null;
-
-		try 
-		{
-			JRClassLoader.loadClassForRealName("org.eclipse.jdt.internal.compiler.Compiler");
-			compiler = new JRJdtCompiler();
-		}
-		catch (Exception e)
-		{
-		}
-
-		if (compiler == null)
-		{
-			try 
-			{
-				JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
-				compiler = new JRJdk13Compiler();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-
-		if (compiler == null)
-		{
-			try 
-			{
-				JRClassLoader.loadClassForRealName("sun.tools.javac.Main");
-				compiler = new JRJdk12Compiler();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-
-		if (compiler == null)
-		{
-			compiler = new JRJavacCompiler();
-		}
-		
-		return compiler;
-	}
-
-
-	private static JRCompiler getCompiler(JasperReport jasperReport) throws JRException
-	{
-		JRCompiler compiler = null;
-		
-		String compilerClassName = jasperReport.getCompilerClass();
-
-		Class compilerClass = null;
-		
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		if (classLoader != null)
-		{
-			try
-			{
-				compilerClass = classLoader.loadClass(compilerClassName);
-			}
-			catch(ClassNotFoundException e)
-			{
-			}
-		}
-		
-		if (compilerClass == null)
-		{
-			classLoader = JRDefaultCompiler.class.getClassLoader();
-			try
-			{
-				if (classLoader == null)
-				{
-					compilerClass = Class.forName(compilerClassName);
-				}
-				else
-				{
-					compilerClass = classLoader.loadClass(compilerClassName);
-				}
-			}
-			catch(ClassNotFoundException e)
-			{
-				throw new JRException("Report compiler class not found : " + compilerClassName);
-			}
-		}
-
-
-		try
-		{
-			compiler = (JRCompiler)compilerClass.newInstance();
-		}
-		catch (Exception e)
-		{
-			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
-		}
-		return compiler;
-	}
-
-	
-	/**
-	 *
+	 * @deprecated Replaced by {@link JasperCompileManager#loadEvaluator(JasperReport, JRDataset)}.
 	 */
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
-		JRCompiler compiler = getCompiler(jasperReport);
-		
-		return compiler.loadEvaluator(jasperReport, dataset);
+		return JasperCompileManager.loadEvaluator(jasperReport, dataset);
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link JasperCompileManager#loadEvaluator(JasperReport, JRCrosstab)}.
+	 */
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
-		JRCompiler compiler = getCompiler(jasperReport);
-		
-		return compiler.loadEvaluator(jasperReport, crosstab);
+		return JasperCompileManager.loadEvaluator(jasperReport, crosstab);
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link JasperCompileManager#loadEvaluator(JasperReport)}.
+	 */
 	public JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
 	{
 		return loadEvaluator(jasperReport, jasperReport.getMainDataset());

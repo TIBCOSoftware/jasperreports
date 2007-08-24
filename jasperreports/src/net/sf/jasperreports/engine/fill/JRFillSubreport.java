@@ -59,8 +59,8 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JRDefaultCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -282,7 +282,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 				if (evaluator == null)
 				{
-					evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
+					evaluator = JasperCompileManager.loadEvaluator(jasperReport);
 					loadedEvaluators.put(jasperReport, evaluator);
 				}
 			}
@@ -314,7 +314,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				
 				if (jasperReport != null)
 				{
-					evaluator = JRDefaultCompiler.getInstance().loadEvaluator(jasperReport);
+					evaluator = JasperCompileManager.loadEvaluator(jasperReport);
 				}
 				
 				if (isUsingCache())
@@ -951,10 +951,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	protected static JRSubreportRunnerFactory getRunnerFactory() throws JRException
 	{
-		String factoryClassName = JRProperties.getProperty(JRProperties.SUBREPORT_RUNNER_FACTORY);
+		String factoryClassName = JRProperties.getProperty(JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY);
 		if (factoryClassName == null)
 		{
-			throw new JRException("Property \"" + JRProperties.SUBREPORT_RUNNER_FACTORY + "\" must be set");
+			throw new JRException("Property \"" + JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY + "\" must be set");
 		}
 		return (JRSubreportRunnerFactory) runnerFactoryCache.getCachedInstance(factoryClassName);
 	}

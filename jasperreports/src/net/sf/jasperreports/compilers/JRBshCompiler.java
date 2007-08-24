@@ -48,6 +48,11 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
 public class JRBshCompiler extends JRAbstractCompiler
 {
 
+	/**
+	 * A constant used to specify that the language used by expressions is BeanShell script.
+	 */
+	public static final String LANGUAGE_BSH = "bsh";
+
 
 	public JRBshCompiler()
 	{
@@ -63,13 +68,16 @@ public class JRBshCompiler extends JRAbstractCompiler
 
 	protected void checkLanguage(String language) throws JRException
 	{
-		if (!JRReport.LANGUAGE_JAVA.equals(language))
+		if (
+			!LANGUAGE_BSH.equals(language)
+			&& !JRReport.LANGUAGE_JAVA.equals(language)
+			)
 		{
 			throw 
 				new JRException(
 					"Language \"" + language 
 					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"java\" instead."
+					+ "Expecting \"bsh\" or \"java\" instead."
 					);
 		}
 	}

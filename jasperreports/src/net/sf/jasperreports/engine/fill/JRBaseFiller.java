@@ -93,7 +93,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 
-	private static final String PROPERTIES_PRINT_TRANSFER_PREFIX = "net.sf.jasperreports.print.transfer";
+	private static final String PROPERTIES_PRINT_TRANSFER_PREFIX = "net.sf.jasperreports.print.transfer.";
 	
 	/**
 	 * Map class to be used for bound elements.
