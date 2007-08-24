@@ -29,7 +29,7 @@
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="./build/reports" compiler="net.sf.jasperreports.compilers.JRBshCompiler">
+		<jrc destdir="./build/reports">
 			<src>
 				<fileset dir="./reports">
 					<include name="**/*.jrxml"/>
