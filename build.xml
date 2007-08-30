@@ -180,6 +180,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizationHelper.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizer.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseConditionalStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
