@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,8 +47,8 @@ public class JRPropertiesMap implements Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private final Map propertiesMap;
-	private final List propertiesList;
+	private Map propertiesMap;
+	private List propertiesList;
 	
 	
 	/**
@@ -149,4 +150,18 @@ public class JRPropertiesMap implements Serializable
 	{
 		return propertiesMap.toString();
 	}
+	
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (propertiesList == null)// an instance from an old version has been deserialized
+		{
+			//recreate the properties list and map
+			propertiesList = new ArrayList(propertiesMap.keySet());
+			propertiesMap = new HashMap(propertiesMap);
+		}
+	}
+	
 }
