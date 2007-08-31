@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -237,6 +238,12 @@ public class JRExporterParameter
 	 * hyperlink types during export.
 	 */
 	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");
+
+	
+	/**
+	 * Instance of the {@link ExporterFilter ExporterFilter} interface to be used by the exporter to filter the elements to be exported.
+	 */
+	public static final JRExporterParameter FILTER = new JRExporterParameter("Filter");
 
 	
 }

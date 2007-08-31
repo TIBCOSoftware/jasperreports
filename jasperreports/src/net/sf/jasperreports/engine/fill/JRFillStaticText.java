@@ -100,7 +100,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		JRTemplateText template = (JRTemplateText) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateText(filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = new JRTemplateText(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

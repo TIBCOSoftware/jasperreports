@@ -537,7 +537,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab
 			rectangle.setBackcolor(getBackcolor());
 			rectangle.setPen(JRGraphicElement.PEN_NONE);
 
-			template = new JRTemplateRectangle(filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
+			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
 			
 			registerTemplate(style, template);
 		}

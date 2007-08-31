@@ -34,6 +34,7 @@ import java.util.Random;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -62,6 +63,8 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	private Color forecolor = null;
 	private Color backcolor = null;
 
+	protected JROrigin origin = null;
+
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle = null;
 
@@ -70,8 +73,9 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	/**
 	 *
 	 */
-	protected JRTemplateElement(JRDefaultStyleProvider defaultStyleProvider)
+	protected JRTemplateElement(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider)
 	{
+		this.origin = origin;
 		this.defaultStyleProvider = defaultStyleProvider;
 		id = createId();
 	}
@@ -79,8 +83,9 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 	/**
 	 *
 	 */
-	protected JRTemplateElement(JRElement element)
+	protected JRTemplateElement(JROrigin origin, JRElement element)
 	{
+		this.origin = origin;
 		setElement(element);
 		id = createId();
 	}
@@ -108,6 +113,14 @@ public abstract class JRTemplateElement implements JRStyleContainer, Serializabl
 		mode = element.getOwnMode();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
+	}
+
+	/**
+	 *
+	 */
+	public JROrigin getOrigin()
+	{
+		return origin;
 	}
 
 	/**

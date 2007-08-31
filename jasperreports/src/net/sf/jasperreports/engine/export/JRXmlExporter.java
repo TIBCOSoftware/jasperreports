@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -355,6 +356,15 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		exportProperties(jasperPrint);
 		
+		JROrigin[] origins = jasperPrint.getOrigins();
+		if (origins != null && origins.length > 0)
+		{
+			for(int i = 0; i < origins.length; i++)
+			{
+				exportOrigin(origins[i]);
+			}
+		}
+
 		JRReportFont[] fonts = jasperPrint.getFonts();
 		if (fonts != null && fonts.length > 0)
 		{
@@ -526,6 +536,19 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	/**
 	 * @throws IOException 
+	 */
+	protected void exportOrigin(JROrigin origin) throws IOException
+	{
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_origin);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_report, origin.getReportName());
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_group, origin.getGroupName());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_band, origin.getBandType(), JRXmlConstants.getBandTypeMap());
+		xmlWriter.closeElement();
+	}
+
+
+	/**
+	 * @throws IOException 
 	 *
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
@@ -618,6 +641,11 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_height, element.getHeight());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
+		JROrigin origin = element.getOrigin();
+		if (origin != null)
+		{
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_origin, jasperPrint.getOriginsMap().get(origin));
+		}
 		xmlWriter.closeElement();
 	}
 

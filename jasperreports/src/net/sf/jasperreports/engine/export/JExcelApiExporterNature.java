@@ -34,6 +34,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -42,32 +43,26 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public class JExcelApiExporterNature implements ExporterNature
 {
 	
-	/**
-	 * 
-	 */
-	private static final JExcelApiExporterNature INSTANCE = new JExcelApiExporterNature();
+	private ExporterFilter filter = null;
+	private boolean isIgnoreGraphics = false;
 
 	/**
 	 * 
 	 */
-	public static ExporterNature getInstance()
+	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		return INSTANCE; 
-	}
-		
-	/**
-	 * 
-	 */
-	protected JExcelApiExporterNature()
-	{
+		this.filter = filter;
+		this.isIgnoreGraphics = isIgnoreGraphics;
 	}
 	
 	/**
-	 * 
+	 *
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return true;
+		return 
+			(!isIgnoreGraphics || (element instanceof JRPrintText))
+			&& (filter == null || filter.isToExport(element));
 	}
 	
 	/**
@@ -101,7 +96,10 @@ public class JExcelApiExporterNature implements ExporterNature
 	{
 		return false;
 	}
-
+	
+	/**
+	 * 
+	 */
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return false;

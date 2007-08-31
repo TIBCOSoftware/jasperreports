@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JREllipse;
+import net.sf.jasperreports.engine.JROrigin;
 
 
 /**
@@ -49,9 +50,9 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	protected JRTemplateEllipse(JRDefaultStyleProvider defaultStyleProvider, JREllipse ellipse)
+	protected JRTemplateEllipse(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JREllipse ellipse)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 
 		setEllipse(ellipse);
 	}

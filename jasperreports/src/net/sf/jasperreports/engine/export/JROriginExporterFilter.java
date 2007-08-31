@@ -33,40 +33,35 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: ExporterNature.java 1711 2007-04-30 15:43:58Z lucianc $
  */
-public interface ExporterNature extends ExporterFilter
+public class JROriginExporterFilter implements ExporterFilter
 {
 
-	/**
-	 * Specified whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
-	 */
-	public abstract boolean isDeep();
-
-	public abstract boolean isSplitSharedRowSpan();
-
-	/**
-	 * Specifies whether the exporter handles cells span
-	 */
-	public abstract boolean isSpanCells();
-
-	public abstract boolean isIgnoreLastRow();
-
+	private Set originsToExclude = new HashSet();
 	
-	/**
-	 * Flag that specifies that empty cells are to be horizontally merged.
-	 * <p>
-	 * If the flag is set and this nature is {@link #isDeep() deep}, the nature is required
-	 * to {@link #isToExport(JRPrintElement) export} {@link JRPrintFrame frames}.
-	 * </p>
-	 * 
-	 * @return whether empty cells are to be horizontally merged
-	 */
-	public abstract boolean isHorizontallyMergeEmptyCells();
-
+	public void addOrigin(JROrigin origin)
+	{
+		originsToExclude.add(origin);
+	}
+	
+	public void removeOrigin(JROrigin origin)
+	{
+		originsToExclude.remove(origin);
+	}
+	
+	public boolean isToExport(JRPrintElement element)
+	{
+		JROrigin origin = element.getOrigin();
+		return origin == null || !originsToExclude.contains(origin);
+	}
+	
 }

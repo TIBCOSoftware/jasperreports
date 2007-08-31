@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -596,23 +597,22 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							JRFillSubreport subreport = (JRFillSubreport)element;
 							
 							List fonts = subreport.subreportFiller.getJasperPrint().getFontsList();
-							if (fonts != null)
+							for(int j = 0; j < fonts.size(); j++)
 							{
-								for(int j = 0; j < fonts.size(); j++)
-								{
-									filler.getJasperPrint().addFont((JRReportFont)fonts.get(j), true);
-								}
+								filler.getJasperPrint().addFont((JRReportFont)fonts.get(j), true);
 							}
 							
 							List styles = subreport.subreportFiller.getJasperPrint().getStylesList();
-							if (styles != null)
+							for(int j = 0; j < styles.size(); j++)
 							{
-								for(int j = 0; j < styles.size(); j++)
-								{
-									filler.getJasperPrint().addStyle((JRStyle)styles.get(j), true);
-								}
+								filler.getJasperPrint().addStyle((JRStyle)styles.get(j), true);
 							}
 							
+							List origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
+							for(int j = 0; j < origins.size(); j++)
+							{
+								filler.getJasperPrint().addOrigin((JROrigin)origins.get(j));
+							}
 							
 							Collection printElements = subreport.getPrintElements();
 							addSubElements(printContainer, element, printElements);

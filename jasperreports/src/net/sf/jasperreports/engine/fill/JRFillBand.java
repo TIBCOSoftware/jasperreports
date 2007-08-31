@@ -33,13 +33,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JROrigin;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -71,6 +72,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	// so that the values can be restored when the bands gets rewound
 	private Map savedVariableValues = new HashMap();
 
+	protected JROrigin origin = null;
+
+	
 	/**
 	 *
 	 */
@@ -100,6 +104,25 @@ public class JRFillBand extends JRFillElementContainer implements JRBand
 	}
 
 
+	/**
+	 *
+	 */
+	protected JROrigin getOrigin()
+	{
+		return origin;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected void setOrigin(JROrigin origin)
+	{
+		this.origin = origin;
+		this.filler.getJasperPrint().addOrigin(origin);
+	}
+
+	
 	/**
 	 *
 	 */

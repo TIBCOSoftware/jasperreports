@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
@@ -125,6 +126,12 @@ public class JRPrintElementFactory extends JRBaseFactory
 			}
 
 			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+		}
+
+		String origin = atts.getValue(JRXmlConstants.ATTRIBUTE_origin); 
+		if (origin != null && origin.length() > 0)
+		{
+			element.setOrigin((JROrigin)jasperPrint.getOriginsList().get(Integer.parseInt(origin)));
 		}
 
 		return element;

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -52,9 +53,9 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 * 
 	 * @param cell the cell
 	 */
-	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell)
+	public JRTemplateFrame(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRFillCellContents cell)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 		
 		parentStyle = cell.getStyle();
 		
@@ -69,9 +70,9 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox
 	 * 
 	 * @param frame the frame
 	 */
-	public JRTemplateFrame(JRDefaultStyleProvider defaultStyleProvider, JRFillFrame frame)
+	public JRTemplateFrame(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRFillFrame frame)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 
 		setElement(frame);
 		setBox(frame);

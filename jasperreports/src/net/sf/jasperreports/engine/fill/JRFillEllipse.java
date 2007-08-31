@@ -76,7 +76,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		JRTemplateEllipse template = (JRTemplateEllipse) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateEllipse(filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = new JRTemplateEllipse(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

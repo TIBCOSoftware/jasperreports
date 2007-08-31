@@ -25,50 +25,33 @@
  * San Francisco, CA 94107
  * http://www.jaspersoft.com
  */
+package net.sf.jasperreports.engine.xml;
 
-/*
- * Contributors:
- * Greg Hilton 
- */
+import net.sf.jasperreports.engine.JROrigin;
 
-package net.sf.jasperreports.engine.export;
+import org.xml.sax.Attributes;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JExcelApiExporterNature.java 1696 2007-04-02 12:14:28Z lucianc $
+ * @version $Id: JRPrintPageFactory.java 1229 2006-04-19 10:27:35Z teodord $
  */
-public class JExcelApiTextOnlyExporterNature extends JExcelApiExporterNature
+public class JROriginFactory extends JRBaseFactory
 {
 	
-	/**
-	 * 
-	 */
-	private static final JExcelApiTextOnlyExporterNature INSTANCE = new JExcelApiTextOnlyExporterNature();
 
 	/**
-	 * 
+	 *
 	 */
-	public static ExporterNature getInstance()
+	public Object createObject(Attributes atts)
 	{
-		return INSTANCE; 
-	}
-		
-	/**
-	 * 
-	 */
-	private JExcelApiTextOnlyExporterNature()
-	{
+		return 
+			new JROrigin(
+				atts.getValue(JRXmlConstants.ATTRIBUTE_report),
+				atts.getValue(JRXmlConstants.ATTRIBUTE_group),
+				((Byte)JRXmlConstants.getBandTypeMap().get(atts.getValue(JRXmlConstants.ATTRIBUTE_band))).byteValue()
+				);
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean isToExport(JRPrintElement element)
-	{
-		return (element instanceof JRPrintText);
-	}
-	
+
 }

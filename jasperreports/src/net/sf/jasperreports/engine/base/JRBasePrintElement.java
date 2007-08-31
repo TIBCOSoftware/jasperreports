@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -51,6 +52,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected JROrigin origin;
 	protected String key;
 	
 	/**
@@ -85,6 +87,22 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return defaultStyleProvider;
 	}
 	
+	/**
+	 *
+	 */
+	public JROrigin getOrigin()
+	{
+		return origin;
+	}
+	
+	/**
+	 *
+	 */
+	public void setOrigin(JROrigin origin)
+	{
+		this.origin = origin;
+	}
+
 	/**
 	 *
 	 */

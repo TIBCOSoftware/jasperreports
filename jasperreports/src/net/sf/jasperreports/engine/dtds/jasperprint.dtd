@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT jasperPrint (property*, reportFont*, style*, page*)>
+<!ELEMENT jasperPrint (property*, origin*, reportFont*, style*, page*)>
 <!ATTLIST jasperPrint
 	name CDATA #REQUIRED
 	pageWidth NMTOKEN "595"
@@ -13,6 +13,12 @@
 <!ATTLIST property
 	name CDATA #REQUIRED
 	value CDATA #IMPLIED
+>
+<!ELEMENT origin EMPTY>
+<!ATTLIST origin
+	report CDATA #IMPLIED
+	group CDATA #IMPLIED
+	band (unknown | background | title | pageHeader | columnHeader | groupHeader | detail | groupFooter | columnFooter | pageFooter | lastPageFooter | summary | noData) "unknown"
 >
 <!ELEMENT reportFont EMPTY>
 <!ATTLIST reportFont
@@ -88,6 +94,7 @@
 	height NMTOKEN #REQUIRED
 	forecolor CDATA #IMPLIED
 	backcolor CDATA #IMPLIED
+	origin NMTOKEN #IMPLIED
 >
 <!ELEMENT graphicElement EMPTY>
 <!ATTLIST graphicElement

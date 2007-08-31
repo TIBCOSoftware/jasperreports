@@ -37,7 +37,11 @@ import java.awt.Color;
 public interface JRPrintElement extends JRStyleContainer
 {
 
-
+	/**
+	 *
+	 */
+	public JROrigin getOrigin();
+	
 	/**
 	 *
 	 */
