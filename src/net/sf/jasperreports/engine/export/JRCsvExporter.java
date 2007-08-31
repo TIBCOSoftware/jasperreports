@@ -86,6 +86,8 @@ public class JRCsvExporter extends JRAbstractExporter
 	protected Writer writer = null;
 	protected JRExportProgressMonitor progressMonitor = null;
 
+	protected ExporterNature nature = null;
+
 	
 	/**
 	 *
@@ -105,6 +107,8 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			setPageRange();
 		}
+		
+		nature = new JRCsvExporterNature(filter);
 
 		String encoding = 
 			getStringParameterOrDefault(
@@ -269,7 +273,7 @@ public class JRCsvExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = 
 			new JRGridLayout(
-				JRCsvExporterNature.getInstance(),
+				nature,
 				page.getElements(), 
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(), 

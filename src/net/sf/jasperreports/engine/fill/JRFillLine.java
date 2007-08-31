@@ -91,7 +91,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		JRTemplateLine template = (JRTemplateLine) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateLine(filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = new JRTemplateLine(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
 			registerTemplate(style, template);
 		}
 		return template;

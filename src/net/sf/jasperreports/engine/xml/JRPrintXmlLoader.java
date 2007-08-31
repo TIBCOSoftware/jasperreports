@@ -40,6 +40,7 @@ import javax.xml.parsers.SAXParserFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -204,6 +205,10 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 		/*   */
 		digester.addRule("*/property", new JRPropertyDigesterRule());
+
+		/*   */
+		digester.addFactoryCreate("jasperPrint/origin", JROriginFactory.class.getName());
+		digester.addSetNext("jasperPrint/origin", "addOrigin", JROrigin.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperPrint/reportFont", JRReportFontFactory.class.getName());

@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -49,8 +50,8 @@ public class JRFillGroup implements JRGroup
 	/**
 	 *
 	 */
-	private JRBand groupHeader = null;
-	private JRBand groupFooter = null;
+	private JRFillBand groupHeader = null;
+	private JRFillBand groupFooter = null;
 	private JRVariable countVariable = null;
 
 	/**
@@ -74,8 +75,32 @@ public class JRFillGroup implements JRGroup
 
 		parent = group;
 
+		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+		
 		groupHeader = factory.getBand(group.getGroupHeader());
+		if (groupHeader != factory.getFiller().missingFillBand)
+		{
+			groupHeader.setOrigin(
+				new JROrigin(
+					reportName,
+					group.getName(),
+					JROrigin.GROUP_HEADER
+					)
+				);
+		}
+
 		groupFooter = factory.getBand(group.getGroupFooter());
+		if (groupFooter != factory.getFiller().missingFillBand)
+		{
+			groupFooter.setOrigin(
+				new JROrigin(
+					reportName,
+					group.getName(),
+					JROrigin.GROUP_FOOTER
+					)
+				);
+		}
+
 		countVariable = factory.getVariable(group.getCountVariable());
 	}
 

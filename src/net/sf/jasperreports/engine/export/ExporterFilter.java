@@ -34,41 +34,14 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXlsExporterNature.java 1696 2007-04-02 12:14:28Z lucianc $
+ * @version $Id: ExporterNature.java 1711 2007-04-30 15:43:58Z lucianc $
  */
-public class JRXlsTextOnlyExporterNature extends JRXlsExporterNature
+public interface ExporterFilter
 {
-	
-	/**
-	 * 
-	 */
-	private static final JRXlsTextOnlyExporterNature INSTANCE = new JRXlsTextOnlyExporterNature();
 
-	/**
-	 * 
-	 */
-	public static ExporterNature getInstance()
-	{
-		return INSTANCE; 
-	}
-
-	/**
-	 * 
-	 */
-	private JRXlsTextOnlyExporterNature()
-	{
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean isToExport(JRPrintElement element)
-	{
-		return (element instanceof JRPrintText);
-	}
+	public boolean isToExport(JRPrintElement element);
 	
 }

@@ -143,6 +143,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
+	
+	protected ExporterNature nature = null;
 
 
 	public JExcelApiExporter()
@@ -168,6 +170,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			initCustomPalette();
 		}
+
+		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics);
 	}
 
 	protected void initCustomPalette()
@@ -1645,14 +1649,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature getNature()
 	{
-		if (isIgnoreGraphics)
-		{
-			return JExcelApiTextOnlyExporterNature.getInstance();
-		}
-		else
-		{
-			return JExcelApiExporterNature.getInstance();
-		}
+		return nature;
 	}
 
 

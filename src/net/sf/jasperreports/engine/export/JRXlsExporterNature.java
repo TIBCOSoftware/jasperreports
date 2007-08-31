@@ -35,6 +35,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -43,24 +44,16 @@ import net.sf.jasperreports.engine.JRPrintImage;
 public class JRXlsExporterNature implements ExporterNature
 {
 	
-	/**
-	 * 
-	 */
-	private static final JRXlsExporterNature INSTANCE = new JRXlsExporterNature();
+	private ExporterFilter filter = null;
+	private boolean isIgnoreGraphics = false;
 
 	/**
 	 * 
 	 */
-	public static ExporterNature getInstance()
+	protected JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		return INSTANCE; 
-	}
-
-	/**
-	 * 
-	 */
-	protected JRXlsExporterNature()
-	{
+		this.filter = filter;
+		this.isIgnoreGraphics = isIgnoreGraphics;
 	}
 	
 	/**
@@ -68,7 +61,10 @@ public class JRXlsExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return !(element instanceof JRPrintImage);
+		return 
+			(!(isIgnoreGraphics || (element instanceof JRPrintImage)) || (element instanceof JRPrintText))
+			&& (filter == null || filter.isToExport(element));
+			
 	}
 	
 	/**

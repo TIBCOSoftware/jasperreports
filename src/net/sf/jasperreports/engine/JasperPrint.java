@@ -113,6 +113,8 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private List fontsList = new ArrayList();
 	private Map stylesMap = new HashMap();
 	private List stylesList = new ArrayList();
+	private Map originsMap = new HashMap();
+	private List originsList = new ArrayList();
 
 	private List pages = new ArrayList();
 
@@ -482,6 +484,60 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		}
 		
 		return style;
+	}
+
+	/**
+	 * Gets an array of report origins.
+	 */
+	public JROrigin[] getOrigins()
+	{
+		return (JROrigin[]) originsList.toArray(new JROrigin[originsList.size()]);
+	}
+
+	/**
+	 * Gets a list of report origins.
+	 */
+	public List getOriginsList()
+	{
+		return originsList;
+	}
+
+	/**
+	 * Gets a map of report origins.
+	 */
+	public Map getOriginsMap()
+	{
+		return originsMap;
+	}
+
+	/**
+	 * Adds a new style to the report origins.
+	 */
+	public synchronized void addOrigin(JROrigin origin)
+	{
+		if (!originsMap.containsKey(origin))
+		{
+			originsList.add(origin);
+			originsMap.put(origin, new Integer(originsList.size() - 1));
+		}
+	}
+
+	/**
+	 *
+	 */
+	public synchronized JROrigin removeOrigin(JROrigin origin)
+	{
+		if (originsMap.containsKey(origin))
+		{
+			originsList.remove(origin);
+			originsMap = new HashMap();
+			for(int i = 0; i < originsList.size(); i++)
+			{
+				originsMap.put(originsList.get(i), new Integer(i));
+			}
+		}
+		
+		return origin;
 	}
 
 	/**

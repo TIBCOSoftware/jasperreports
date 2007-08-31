@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSortField;
@@ -1134,7 +1135,64 @@ public class JRXmlConstants
 		return crosstabColumnPositionMap;
 	}
 
+	
+	/**
+	 *
+	 */
+	private static final String UNKNOWN = "unknown";
+	private static final String BACKGROUND = "background";
+	private static final String TITLE = "title";
+	private static final String PAGE_HEADER = "pageHeader";
+	private static final String COLUMN_HEADER = "columnHeader";
+	private static final String GROUP_HEADER = "groupHeader";
+	private static final String DETAIL = "detail";
+	private static final String GROUP_FOOTER = "groupFooter";
+	private static final String COLUMN_FOOTER = "columnFooter";
+	private static final String PAGE_FOOTER = "pageFooter";
+	private static final String LAST_PAGE_FOOTER = "lastPageFooter";
+	private static final String SUMMARY = "summary";
+	private static final String NO_DATA = "noData";
 
+	
+	private static Map bandTypeMap = null;
+
+	public static Map getBandTypeMap()
+	{
+		if (bandTypeMap == null)
+		{
+			bandTypeMap = new HashMap(24);
+			bandTypeMap.put(UNKNOWN,          new Byte(JROrigin.UNKNOWN));
+			bandTypeMap.put(BACKGROUND,       new Byte(JROrigin.BACKGROUND));
+			bandTypeMap.put(TITLE,            new Byte(JROrigin.TITLE));
+			bandTypeMap.put(PAGE_HEADER,      new Byte(JROrigin.PAGE_HEADER));
+			bandTypeMap.put(COLUMN_HEADER,    new Byte(JROrigin.COLUMN_HEADER));
+			bandTypeMap.put(GROUP_HEADER,     new Byte(JROrigin.GROUP_HEADER));
+			bandTypeMap.put(DETAIL,           new Byte(JROrigin.DETAIL));
+			bandTypeMap.put(GROUP_FOOTER,     new Byte(JROrigin.GROUP_FOOTER));
+			bandTypeMap.put(COLUMN_FOOTER,    new Byte(JROrigin.COLUMN_FOOTER));
+			bandTypeMap.put(PAGE_FOOTER,      new Byte(JROrigin.PAGE_FOOTER));
+			bandTypeMap.put(LAST_PAGE_FOOTER, new Byte(JROrigin.LAST_PAGE_FOOTER));
+			bandTypeMap.put(SUMMARY,          new Byte(JROrigin.SUMMARY));
+			bandTypeMap.put(NO_DATA,          new Byte(JROrigin.NO_DATA));
+			bandTypeMap.put(new Byte(JROrigin.UNKNOWN),          UNKNOWN);
+			bandTypeMap.put(new Byte(JROrigin.BACKGROUND),       BACKGROUND);
+			bandTypeMap.put(new Byte(JROrigin.TITLE),            TITLE);
+			bandTypeMap.put(new Byte(JROrigin.PAGE_HEADER),      PAGE_HEADER);
+			bandTypeMap.put(new Byte(JROrigin.COLUMN_HEADER),    COLUMN_HEADER);
+			bandTypeMap.put(new Byte(JROrigin.GROUP_HEADER),     GROUP_HEADER);
+			bandTypeMap.put(new Byte(JROrigin.DETAIL),           DETAIL);
+			bandTypeMap.put(new Byte(JROrigin.GROUP_FOOTER),     GROUP_FOOTER);
+			bandTypeMap.put(new Byte(JROrigin.COLUMN_FOOTER),    COLUMN_FOOTER);
+			bandTypeMap.put(new Byte(JROrigin.PAGE_FOOTER),      PAGE_FOOTER);
+			bandTypeMap.put(new Byte(JROrigin.LAST_PAGE_FOOTER), LAST_PAGE_FOOTER);
+			bandTypeMap.put(new Byte(JROrigin.SUMMARY),          SUMMARY);
+			bandTypeMap.put(new Byte(JROrigin.NO_DATA),          NO_DATA);
+		}
+
+		return bandTypeMap;
+	}
+
+	
 	/**
 	 *
 	 */
@@ -1245,6 +1303,14 @@ public class JRXmlConstants
 	public static final String ELEMENT_jasperPrint = "jasperPrint";
 	public static final String ATTRIBUTE_locale = "locale";
 	public static final String ATTRIBUTE_timezone = "timezone";
+
+	/**
+	 * JROriginFactory associated constants
+	 */
+	public static final String ELEMENT_origin = "origin";
+	public static final String ATTRIBUTE_report = "report";
+	public static final String ATTRIBUTE_group = "group";
+	public static final String ATTRIBUTE_band = "band";
 
 	/**
 	 * JRBandFactory associated constants
@@ -1421,6 +1487,7 @@ public class JRXmlConstants
 	public static final String ATTRIBUTE_forecolor = "forecolor";
 	public static final String ATTRIBUTE_backcolor = "backcolor";
 	public static final String ATTRIBUTE_style = "style";
+	public static final String ATTRIBUTE_origin = "origin";
 
 	public static final String ATTRIBUTE_radius = "radius";
 

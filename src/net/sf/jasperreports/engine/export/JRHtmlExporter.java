@@ -180,6 +180,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
 	
 	protected boolean deepGrid;
+	
+	protected ExporterNature nature = null;
 
 
 	public JRHtmlExporter()
@@ -330,6 +332,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 						
 			setHyperlinkProducerFactory();
 			setDeepGrid();
+			
+			nature = new JRHtmlExporterNature(filter, deepGrid);
 	
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
@@ -697,7 +701,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = 
 			new JRGridLayout(
-				JRHtmlExporterNature.getInstance(deepGrid),
+				nature,
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),

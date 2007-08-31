@@ -42,28 +42,15 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public class JRHtmlExporterNature implements ExporterNature
 {
 	
-	/**
-	 * 
-	 */
-	private static final JRHtmlExporterNature INSTANCE = new JRHtmlExporterNature(false);
-	
-	private static final JRHtmlExporterNature INSTANCE_DEEP = new JRHtmlExporterNature(true);
-
-	/**
-	 * 
-	 */
-	public static JRHtmlExporterNature getInstance(boolean deep)
-	{
-		return deep ? INSTANCE_DEEP : INSTANCE; 
-	}
-
+	private ExporterFilter filter = null;
 	private final boolean deep;
 	
 	/**
 	 * 
 	 */
-	private JRHtmlExporterNature(boolean deep)
+	public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
 	{
+		this.filter = filter;
 		this.deep = deep;
 	}
 	
@@ -72,7 +59,7 @@ public class JRHtmlExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return true;
+		return filter == null || filter.isToExport(element);
 	}
 	
 	/**

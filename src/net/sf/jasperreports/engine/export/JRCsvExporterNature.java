@@ -34,7 +34,6 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -43,24 +42,14 @@ import net.sf.jasperreports.engine.JRPrintText;
 public class JRCsvExporterNature implements ExporterNature
 {
 	
+	private ExporterFilter filter = null;
+	
 	/**
 	 * 
 	 */
-	private static final JRCsvExporterNature INSTANCE = new JRCsvExporterNature();
-
-	/**
-	 * 
-	 */
-	public static JRCsvExporterNature getInstance()
+	public JRCsvExporterNature(ExporterFilter filter)
 	{
-		return INSTANCE; 
-	}
-
-	/**
-	 * 
-	 */
-	private JRCsvExporterNature()
-	{
+		this.filter = filter;
 	}
 	
 	/**
@@ -68,7 +57,7 @@ public class JRCsvExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return element instanceof JRPrintText;
+		return filter == null || filter.isToExport(element);
 	}
 	
 	/**

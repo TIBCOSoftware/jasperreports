@@ -111,12 +111,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFDataFormat dataFormat = null;
 	protected Map formatPatternsMap = null;
 
+	protected ExporterNature nature = null;
+
 	
 	protected void setParameters()
 	{
 		super.setParameters();
 		
 		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
+
+		nature = new JRXlsExporterNature(filter, isIgnoreGraphics);
 	}
 
 
@@ -786,14 +790,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature getNature()
 	{
-		if (isIgnoreGraphics)
-		{
-			return JRXlsTextOnlyExporterNature.getInstance();
-		}
-		else
-		{
-			return JRXlsExporterNature.getInstance();
-		}
+		return nature;
 	}
 			
 

@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
@@ -111,9 +112,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText)
+	protected JRTemplateText(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRStaticText staticText)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 		
 		setStaticText(staticText);
 	}
@@ -121,9 +122,9 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	protected JRTemplateText(JRDefaultStyleProvider defaultStyleProvider, JRTextField textField)
+	protected JRTemplateText(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRTextField textField)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 		
 		setTextField(textField);
 	}

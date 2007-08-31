@@ -298,7 +298,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		JRTemplateFrame boxTemplate = (JRTemplateFrame) templatesMap.get(style);
 		if (boxTemplate == null)
 		{
-			boxTemplate = new JRTemplateFrame(filler.getJasperPrint().getDefaultStyleProvider(), this);
+			boxTemplate = new JRTemplateFrame(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
 			if (first)
 			{
 				if (!fillBottomBorder) //remove the bottom border

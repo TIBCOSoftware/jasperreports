@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -56,17 +57,17 @@ public class JRTemplateGraphicElement extends JRTemplateElement
 	/**
 	 *
 	 */
-	protected JRTemplateGraphicElement(JRDefaultStyleProvider defaultStyleProvider)
+	protected JRTemplateGraphicElement(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 	}
 
 	/**
 	 *
 	 */
-	protected JRTemplateGraphicElement(JRDefaultStyleProvider defaultStyleProvider, JRGraphicElement graphicElement)
+	protected JRTemplateGraphicElement(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRGraphicElement graphicElement)
 	{
-		super(defaultStyleProvider);
+		super(origin, defaultStyleProvider);
 
 		setGraphicElement(graphicElement);
 	}

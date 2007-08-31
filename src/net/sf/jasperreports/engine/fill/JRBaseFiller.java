@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -447,22 +448,124 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		createReportTemplates(factory);
 
+		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+		
 		/*   */
 		missingFillBand = factory.getBand(null);
+
 		background = factory.getBand(jasperReport.getBackground());
+		if (background != missingFillBand)
+		{
+			background.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.BACKGROUND
+					)
+				);
+		}
+		
 		title = factory.getBand(jasperReport.getTitle());
+		if (title != missingFillBand)
+		{
+			title.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.TITLE
+					)
+				);
+		}
+
 		pageHeader = factory.getBand(jasperReport.getPageHeader());
+		if (pageHeader != missingFillBand)
+		{
+			pageHeader.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.PAGE_HEADER
+					)
+				);
+		}
+		
 		columnHeader = factory.getBand(jasperReport.getColumnHeader());
+		if (columnHeader != missingFillBand)
+		{
+			columnHeader.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.COLUMN_HEADER
+					)
+				);
+		}
+		
 		detail = factory.getBand(jasperReport.getDetail());
+		if (detail != missingFillBand)
+		{
+			detail.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.DETAIL
+					)
+				);
+		}
+		
 		columnFooter = factory.getBand(jasperReport.getColumnFooter());
+		if (columnFooter != missingFillBand)
+		{
+			columnFooter.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.COLUMN_FOOTER
+					)
+				);
+		}
+		
 		pageFooter = factory.getBand(jasperReport.getPageFooter());
+		if (pageFooter != missingFillBand)
+		{
+			pageFooter.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.PAGE_FOOTER
+					)
+				);
+		}
+		
 		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
+		if (lastPageFooter != missingFillBand)
+		{
+			lastPageFooter.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.LAST_PAGE_FOOTER
+					)
+				);
+		}
+		
 		summary = factory.getBand(jasperReport.getSummary());
 		if (summary != missingFillBand && summary.isEmpty())
 		{
 			summary = missingFillBand;
 		}
+		if (summary != missingFillBand)
+		{
+			summary.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.SUMMARY
+					)
+				);
+		}
+		
 		noData = factory.getBand(jasperReport.getNoData());
+		if (noData != missingFillBand)
+		{
+			noData.setOrigin(
+				new JROrigin(
+					reportName,
+					JROrigin.NO_DATA
+					)
+				);
+		}
 
 		mainDataset.initElementDatasets(factory);
 		initDatasets(factory);
