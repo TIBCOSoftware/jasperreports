@@ -2,6 +2,19 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 2.0.2 (2007-09-xx)
+-----------------------------------
+
+- support for element origin information in generated documents;
+
+- support for exporter element filtering based on element origin;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 2.0.1 (2007-08-24)
 -----------------------------------
 
