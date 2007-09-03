@@ -86,6 +86,22 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * A boolean value specifying whether the empty spaces that could appear between columns should be removed or not.
+	 */
+	public static final JRXlsAbstractExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = new JRXlsAbstractExporterParameter("Is Remove Empty Space Between Columns");
+
+
+	/**
+	 * Property whose value is used as default state of the {@link #IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS} export flag.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
+
+
+	/**
 	 * A boolean value specifying whether the page background should be white or the default XLS background color. This background
 	 * may vary depending on the XLS viewer properties or the operating system color scheme.
 	 */
