@@ -52,10 +52,9 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 public class JROriginExporterFilter implements ExporterFilter
 {
 
-	private static final String ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.exclude.origin.";
-	private static final String ORIGIN_EXPORTER_FILTER_BAND_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "band.";
-	private static final String ORIGIN_EXPORTER_FILTER_GROUP_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "group.";
-	private static final String ORIGIN_EXPORTER_FILTER_REPORT_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "report.";
+	private static final String BAND_PREFIX = "band.";
+	private static final String GROUP_PREFIX = "group.";
+	private static final String REPORT_PREFIX = "report.";
 	
 	private Set originsToExclude = new HashSet();
 	
@@ -75,12 +74,12 @@ public class JROriginExporterFilter implements ExporterFilter
 		return origin == null || !originsToExclude.contains(origin);
 	}
 	
-	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap)
+	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap, String originFilterPrefix)
 	{
 		JROriginExporterFilter filter = null;
 		
-		List properties = JRProperties.getProperties(ORIGIN_EXPORTER_FILTER_BAND_PREFIX);
-		properties.addAll(JRProperties.getProperties(propertiesMap, ORIGIN_EXPORTER_FILTER_BAND_PREFIX));
+		List properties = JRProperties.getProperties(originFilterPrefix + BAND_PREFIX);
+		properties.addAll(JRProperties.getProperties(propertiesMap, originFilterPrefix + BAND_PREFIX));
 		
 		if (!properties.isEmpty())
 		{
@@ -98,8 +97,8 @@ public class JROriginExporterFilter implements ExporterFilter
 				{
 					filter.addOrigin(
 						new JROrigin(
-							JRProperties.getProperty(propertiesMap, ORIGIN_EXPORTER_FILTER_REPORT_PREFIX + suffix),
-							JRProperties.getProperty(propertiesMap, ORIGIN_EXPORTER_FILTER_GROUP_PREFIX + suffix),
+							JRProperties.getProperty(propertiesMap, originFilterPrefix + REPORT_PREFIX + suffix),
+							JRProperties.getProperty(propertiesMap, originFilterPrefix + GROUP_PREFIX + suffix),
 							bandType.byteValue()
 							)
 						);

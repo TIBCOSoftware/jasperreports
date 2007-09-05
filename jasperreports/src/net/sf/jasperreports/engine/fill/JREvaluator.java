@@ -290,7 +290,7 @@ public abstract class JREvaluator
 			}
 			case JRReport.WHEN_RESOURCE_MISSING_TYPE_ERROR:
 			{
-				throw new JRRuntimeException("Resource nout found for key \"" + key + "\".", e);
+				throw new JRRuntimeException("Resource not found for key \"" + key + "\".", e);
 			}
 			case JRReport.WHEN_RESOURCE_MISSING_TYPE_NULL:
 			default:
