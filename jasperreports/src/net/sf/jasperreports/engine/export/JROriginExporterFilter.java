@@ -79,8 +79,10 @@ public class JROriginExporterFilter implements ExporterFilter
 	{
 		JROriginExporterFilter filter = null;
 		
-		List properties = JRProperties.getProperties(propertiesMap, ORIGIN_EXPORTER_FILTER_BAND_PREFIX);
-		if (properties != null && !properties.isEmpty())
+		List properties = JRProperties.getProperties(ORIGIN_EXPORTER_FILTER_BAND_PREFIX);
+		properties.addAll(JRProperties.getProperties(propertiesMap, ORIGIN_EXPORTER_FILTER_BAND_PREFIX));
+		
+		if (!properties.isEmpty())
 		{
 			filter = new JROriginExporterFilter();
 			
@@ -88,13 +90,16 @@ public class JROriginExporterFilter implements ExporterFilter
 			{
 				PropertySuffix propertySuffix = (PropertySuffix)it.next();
 				String suffix = propertySuffix.getSuffix();
-				Byte bandType = (Byte)JRXmlConstants.getBandTypeMap().get(propertiesMap.getProperty(propertySuffix.getKey()));
+				Byte bandType = 
+					(Byte)JRXmlConstants.getBandTypeMap().get(
+						JRProperties.getProperty(propertiesMap, propertySuffix.getKey())
+						);
 				if (bandType != null)
 				{
 					filter.addOrigin(
 						new JROrigin(
-							propertiesMap.getProperty(ORIGIN_EXPORTER_FILTER_REPORT_PREFIX + suffix),
-							propertiesMap.getProperty(ORIGIN_EXPORTER_FILTER_GROUP_PREFIX + suffix),
+							JRProperties.getProperty(propertiesMap, ORIGIN_EXPORTER_FILTER_REPORT_PREFIX + suffix),
+							JRProperties.getProperty(propertiesMap, ORIGIN_EXPORTER_FILTER_GROUP_PREFIX + suffix),
 							bandType.byteValue()
 							)
 						);
