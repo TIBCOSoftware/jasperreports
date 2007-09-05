@@ -34,10 +34,16 @@
 package net.sf.jasperreports.engine.export;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -46,6 +52,11 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public class JROriginExporterFilter implements ExporterFilter
 {
 
+	private static final String ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.exclude.origin.";
+	private static final String ORIGIN_EXPORTER_FILTER_BAND_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "band.";
+	private static final String ORIGIN_EXPORTER_FILTER_GROUP_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "group.";
+	private static final String ORIGIN_EXPORTER_FILTER_REPORT_PREFIX = ORIGIN_EXPORTER_FILTER_PREFIX + "report.";
+	
 	private Set originsToExclude = new HashSet();
 	
 	public void addOrigin(JROrigin origin)
@@ -62,6 +73,36 @@ public class JROriginExporterFilter implements ExporterFilter
 	{
 		JROrigin origin = element.getOrigin();
 		return origin == null || !originsToExclude.contains(origin);
+	}
+	
+	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap)
+	{
+		JROriginExporterFilter filter = null;
+		
+		List properties = JRProperties.getProperties(propertiesMap, ORIGIN_EXPORTER_FILTER_BAND_PREFIX);
+		if (properties != null && !properties.isEmpty())
+		{
+			filter = new JROriginExporterFilter();
+			
+			for(Iterator it = properties.iterator(); it.hasNext();)
+			{
+				PropertySuffix propertySuffix = (PropertySuffix)it.next();
+				String suffix = propertySuffix.getSuffix();
+				Byte bandType = (Byte)JRXmlConstants.getBandTypeMap().get(propertiesMap.getProperty(propertySuffix.getKey()));
+				if (bandType != null)
+				{
+					filter.addOrigin(
+						new JROrigin(
+							propertiesMap.getProperty(ORIGIN_EXPORTER_FILTER_REPORT_PREFIX + suffix),
+							propertiesMap.getProperty(ORIGIN_EXPORTER_FILTER_GROUP_PREFIX + suffix),
+							bandType.byteValue()
+							)
+						);
+				}
+			}
+		}
+		
+		return filter;
 	}
 	
 }

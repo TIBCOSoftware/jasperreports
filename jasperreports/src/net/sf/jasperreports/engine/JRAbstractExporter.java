@@ -48,6 +48,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.JROriginExporterFilter;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -439,6 +440,10 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 		
 		filter = (ExporterFilter)parameters.get(JRExporterParameter.FILTER);
+		if (!parameters.containsKey(JRExporterParameter.FILTER))
+		{
+			filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap());
+		}
 	}
 	
 
