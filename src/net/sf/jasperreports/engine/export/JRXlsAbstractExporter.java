@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -71,6 +72,9 @@ import org.xml.sax.SAXException;
 public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 {
 
+	private static final String XLS_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.exclude.origin.";
+
+	
 	protected static class TextAlignHolder
 	{
 		public final short horizontalAlignment;
@@ -177,6 +181,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			/*   */
 			setInput();
 
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), XLS_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
+			
 			/*   */
 			if (!isModeBatch)
 			{
