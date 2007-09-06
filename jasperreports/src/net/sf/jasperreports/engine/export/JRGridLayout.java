@@ -35,7 +35,6 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -57,9 +56,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
  */
 public class JRGridLayout
 {
-	private final int USAGE_NOT_EMPTY = 1;
-	private final int USAGE_SPANNED = 2;
-	
 	private final ExporterNature nature;
 	
 	private final int width;
@@ -68,11 +64,9 @@ public class JRGridLayout
 	private final int offsetY;
 	private final String address;
 	
-	private List xCuts;
-	private List yCuts;
+	private CutsInfo xCuts;
+	private CutsInfo yCuts;
 	private JRExporterGridCell[][] grid;
-	private int[] rowUsage;
-	private int[] colUsage;
 	
 	private Map boxesCache;
 
@@ -125,7 +119,7 @@ public class JRGridLayout
 		int height, 
 		int offsetX, 
 		int offsetY, 
-		List xCuts
+		CutsInfo xCuts
 		)
 	{
 		this.nature = nature;
@@ -214,14 +208,8 @@ public class JRGridLayout
 			}
 		}
 		
-		frame.setWidth(
-			((Integer)xCuts.get(col2)).intValue() 
-			- ((Integer)xCuts.get(col1)).intValue()
-			);
-		frame.setHeight(
-			((Integer)yCuts.get(row2)).intValue() 
-			- ((Integer)yCuts.get(row1)).intValue()
-			);
+		frame.setWidth(xCuts.getCut(col2) - xCuts.getCut(col1));
+		frame.setHeight(yCuts.getCut(row2) - yCuts.getCut(row1));
 		
 		String virtualAddress = (address == null ? "" : address + "_") + getNextVirtualFrameIndex(); 
 		
@@ -240,8 +228,8 @@ public class JRGridLayout
 				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]), 
 				frame.getWidth(), 
 				frame.getHeight(), 
-				offsetX -((Integer)xCuts.get(col1)).intValue(),
-				offsetY -((Integer)yCuts.get(row1)).intValue(),
+				offsetX -xCuts.getCut(col1),
+				offsetY -yCuts.getCut(row1),
 				virtualAddress
 				)
 			);
@@ -256,27 +244,19 @@ public class JRGridLayout
 	protected void layoutGrid(ElementWrapper[] wrappers)
 	{
 		boolean createXCuts = (xCuts == null);
-		if (createXCuts)
-		{
-			xCuts = new SortedList();
-			xCuts.add(new Integer(0));
-			xCuts.add(new Integer(width));
-		}
-		
-		yCuts = new SortedList();
-		yCuts.add(new Integer(0));
+
+		xCuts = createXCuts ? new CutsInfo(width) : xCuts;
+		yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
 
 		createCuts(wrappers, offsetX, offsetY, createXCuts);
 		
-		if (!nature.isIgnoreLastRow())
-			yCuts.add(new Integer(height));
-			
+		xCuts.use();
+		yCuts.use();
+
 		int colCount = xCuts.size() - 1;
 		int rowCount = yCuts.size() - 1;
 
 		grid = new JRExporterGridCell[rowCount][colCount];
-		rowUsage = new int[rowCount];
-		colUsage = new int[colCount];
 				
 		for(int row = 0; row < rowCount; row++)
 		{ 
@@ -285,8 +265,8 @@ public class JRGridLayout
 				grid[row][col] = 
 					new JRExporterGridCell(
 						null,
-						((Integer)xCuts.get(col + 1)).intValue() - ((Integer)xCuts.get(col)).intValue(),
-						((Integer)yCuts.get(row + 1)).intValue() - ((Integer)yCuts.get(row)).intValue(),
+						xCuts.getCut(col + 1) - xCuts.getCut(col),
+						yCuts.getCut(row + 1) - yCuts.getCut(row),
 						1,
 						1
 						);
@@ -306,19 +286,14 @@ public class JRGridLayout
 			ElementWrapper wrapper = wrappers[elementIndex];
 			JRPrintElement element = wrapper.getElement();
 			
-			int x = element.getX() + elementOffsetX;
-			int y = element.getY() + elementOffsetY;
-			
 			if (nature.isToExport(element))
 			{
 				if (createXCuts)
 				{
-					xCuts.add(new Integer(x));
-					xCuts.add(new Integer((x + element.getWidth())));
+					xCuts.addXCuts(element, elementOffsetX);
 				}
 				
-				yCuts.add(new Integer(y));
-				yCuts.add(new Integer((y + element.getHeight())));	
+				yCuts.addYCuts(element, elementOffsetY);
 			}
 			
 			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
@@ -327,8 +302,8 @@ public class JRGridLayout
 			{
 				createCuts(
 					wrapper.getWrappers(), 
-					x + frame.getLeftPadding(), 
-					y + frame.getTopPadding(), 
+					element.getX() + elementOffsetX + frame.getLeftPadding(), 
+					element.getY() + elementOffsetY + frame.getTopPadding(), 
 					createXCuts
 					);
 			}
@@ -354,10 +329,10 @@ public class JRGridLayout
 				int x = element.getX() + elementOffsetX;
 				int y = element.getY() + elementOffsetY;
 				
-				int col1 = xCuts.indexOf(new Integer(x));
-				int row1 = yCuts.indexOf(new Integer(y));
-				int col2 = xCuts.indexOf(new Integer(x + element.getWidth()));
-				int row2 = yCuts.indexOf(new Integer(y + element.getHeight()));
+				int col1 = xCuts.indexOfCut(x);
+				int row1 = yCuts.indexOfCut(y);
+				int col2 = xCuts.indexOfCut(x + element.getWidth());
+				int row2 = yCuts.indexOfCut(y + element.getHeight());
 				
 				if (!(toExport && isOverlap(row1, col1, row2, col2)))
 				{
@@ -460,8 +435,8 @@ public class JRGridLayout
 
 	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
 	{
-		rowUsage[row1] |= USAGE_NOT_EMPTY;
-		colUsage[col1] |= USAGE_NOT_EMPTY;
+		yCuts.addUsage(row1, CutsInfo.USAGE_NOT_EMPTY);
+		xCuts.addUsage(col1, CutsInfo.USAGE_NOT_EMPTY);
 		
 		for (int row = row1; row < row2; row++)
 		{
@@ -469,12 +444,12 @@ public class JRGridLayout
 			{
 				grid[row][col] = JRExporterGridCell.OCCUPIED_CELL;
 			}
-			rowUsage[row] |= USAGE_SPANNED;
+			yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
 		}
 
 		for (int col = col1; col < col2; col++)
 		{
-			colUsage[col] |= USAGE_SPANNED;
+			xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
 		}
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
@@ -667,56 +642,11 @@ public class JRGridLayout
 
 
 	/**
-	 * Decides whether a row is empty or not.
-	 * 
-	 * @param rowIdx the row index
-	 * @return <code>true</code> iff the row is not empty
-	 */
-	public boolean isRowNotEmpty(int rowIdx)
-	{
-		return ((rowUsage[rowIdx] & USAGE_NOT_EMPTY) > 0);
-	}
-
-	/**
-	 * Decides whether a row is occupied by spanning columns or not.
-	 * 
-	 * @param rowIdx the row index
-	 * @return <code>true</code> iff the row is not empty
-	 */
-	public boolean isRowSpanned(int rowIdx)
-	{
-		return ((rowUsage[rowIdx] & USAGE_SPANNED) > 0);
-	}
-
-	/**
-	 * Decides whether a column is empty or not.
-	 * 
-	 * @param colIdx the column index
-	 * @return <code>true</code> iff the column is not empty
-	 */
-	public boolean isColNotEmpty(int colIdx)
-	{
-		return ((colUsage[colIdx] & USAGE_NOT_EMPTY) > 0);
-	}
-
-	/**
-	 * Decides whether a column is occupied by spanning rows or not.
-	 * 
-	 * @param colIdx the column index
-	 * @return <code>true</code> iff the column is not empty
-	 */
-	public boolean isColSpanned(int colIdx)
-	{
-		return ((colUsage[colIdx] & USAGE_SPANNED) > 0);
-	}
-
-
-	/**
 	 * Returns the list of cut points on the X axis for the grid.
 	 * 
 	 * @return the list of cut points on the X axis for the grid
 	 */
-	public List getXCuts()
+	public CutsInfo getXCuts()
 	{
 		return xCuts;
 	}
@@ -725,14 +655,14 @@ public class JRGridLayout
 	/**
 	 * Returns the list of cut points on the Y axis for the grid.
 	 * 
-	 * @return the list of cut points on the X axis for the grid
+	 * @return the list of cut points on the Y axis for the grid
 	 */
-	public List getYCuts()
+	public CutsInfo getYCuts()
 	{
 		return yCuts;
 	}
-	
-	
+
+
 	/**
 	 * Returns the width available for the grid.
 	 * 
@@ -746,7 +676,7 @@ public class JRGridLayout
 	
 	public int getRowHeight(int row)
 	{
-		return ((Integer)yCuts.get(row + 1)).intValue() - ((Integer)yCuts.get(row)).intValue();
+		return yCuts.getCut(row + 1) - yCuts.getCut(row);
 	}
 	
 	
@@ -824,11 +754,10 @@ public class JRGridLayout
 	 * @param offsetX
 	 *            horizontal element position offset
 	 */
-	public static List calculateXCuts(ExporterNature nature, List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
+	public static CutsInfo calculateXCuts(ExporterNature nature, List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{
-		List xCuts = new SortedList();
-		xCuts.add(new Integer(0));
-		xCuts.add(new Integer(width));
+		CutsInfo xCuts = new CutsInfo(width);
+
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
 			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
@@ -849,23 +778,26 @@ public class JRGridLayout
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
-	protected static void addXCuts(ExporterNature nature, List elementsList, int elementOffsetX, List xCuts)
+	protected static void addXCuts(ExporterNature nature, List elementsList, int elementOffsetX, CutsInfo xCuts)
 	{
 		for (Iterator it = elementsList.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = ((JRPrintElement) it.next());
-			int x = element.getX() + elementOffsetX;
 
 			if (nature.isToExport(element))
 			{
-				xCuts.add(new Integer(x));
-				xCuts.add(new Integer(x + element.getWidth()));
+				xCuts.addXCuts(element, elementOffsetX);
 			}
 
 			if (element instanceof JRPrintFrame)
 			{
 				JRPrintFrame frame = (JRPrintFrame) element;
-				addXCuts(nature, frame.getElements(), x + frame.getLeftPadding(), xCuts);
+				addXCuts(
+					nature, 
+					frame.getElements(), 
+					element.getX() + elementOffsetX + frame.getLeftPadding(), 
+					xCuts
+					);
 			}
 		}
 	}
@@ -905,36 +837,10 @@ public class JRGridLayout
 		return wrappers;
 	}
 	
-	protected static class SortedList extends ArrayList
-	{
-		private static final long serialVersionUID = 6232843428269907513L;
-		
-		public boolean add(Object o)
-		{
-			int idx = Collections.binarySearch(this, o);
-			
-			if (idx >= 0)
-			{
-				return false;
-			}
-			
-			add(-idx - 1, o);
-			return true;
-		}
-		
-		public int indexOf(Object o)
-		{
-			int idx = Collections.binarySearch(this, o);
-			
-			if (idx < 0)
-			{
-				idx = -1;
-			}
-			
-			return idx;
-		}
-	}
 	
+	/**
+	 * 
+	 */
 	protected static class BoxKey
 	{
 		final JRBox box;

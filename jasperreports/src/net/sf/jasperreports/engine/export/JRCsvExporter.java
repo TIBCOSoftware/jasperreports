@@ -284,6 +284,9 @@ public class JRCsvExporter extends JRAbstractExporter
 		
 		JRExporterGridCell[][] grid = layout.getGrid();
 
+		CutsInfo xCuts = layout.getXCuts();
+		CutsInfo yCuts = layout.getYCuts();
+
 		StringBuffer rowbuffer = null;
 		
 		JRPrintElement element = null;
@@ -293,7 +296,7 @@ public class JRCsvExporter extends JRAbstractExporter
 		{
 			rowbuffer = new StringBuffer();
 
-			if (layout.isRowNotEmpty(y))
+			if (yCuts.isCutNotEmpty(y))
 			{
 				isFirstColumn = true;
 				for(int x = 0; x < grid[y].length; x++)
@@ -326,7 +329,7 @@ public class JRCsvExporter extends JRAbstractExporter
 					}
 					else
 					{
-						if (layout.isColNotEmpty(x))
+						if (xCuts.isCutNotEmpty(x))
 						{
 							if (!isFirstColumn)
 							{

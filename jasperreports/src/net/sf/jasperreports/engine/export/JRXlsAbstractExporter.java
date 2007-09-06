@@ -400,9 +400,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
 					 */
-					List xCuts = JRGridLayout.calculateXCuts(getNature(), pages, startPageIndex, endPageIndex,
-							jasperPrint.getPageWidth(), globalOffsetX);
-//					setColumnWidths(xCuts);
+					CutsInfo xCuts = 
+						JRGridLayout.calculateXCuts(
+							getNature(), pages, startPageIndex, endPageIndex,
+							jasperPrint.getPageWidth(), globalOffsetX
+							);
 
 					int startRow = 0;
 
@@ -415,6 +417,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
 						startRow = exportPage(page, xCuts, startRow);
 					}
+					
+					if (isRemoveEmptySpaceBetweenColumns)
+					{
+						removeEmptyColumns(xCuts);
+					}
 				}
 			}
 		}
@@ -426,7 +433,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 *
 	 * @return the number of rows added.
 	 */
-	protected int exportPage(JRPrintPage page, List xCuts, int startRow) throws JRException
+	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow) throws JRException
 	{
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -441,13 +448,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		JRExporterGridCell grid[][] = layout.getGrid();
 
-		if (xCuts == null) {
+		boolean createXCuts = (xCuts == null); 
+		
+		if (createXCuts) 
+		{
 			xCuts = layout.getXCuts();
-//			setColumnWidths(xCuts);
 		}
+
+		CutsInfo yCuts = layout.getYCuts();
 
 		int skippedRows = 0;
 		int rowIndex = startRow;
+		boolean columnsWidthsToSet = true;
 		for(int y = 0; y < grid.length; y++)
 		{
 			rowIndex = y - skippedRows + startRow;
@@ -459,17 +471,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				startRow = 0;
 				rowIndex = 0;
 				skippedRows = y;
-//				setColumnWidths(xCuts);
+				columnsWidthsToSet = true;
 			}
 			
-			if (rowIndex == 0)
+			if (columnsWidthsToSet)
 			{
-				setColumnWidths(layout, xCuts);
+				setColumnWidths(xCuts);
+				columnsWidthsToSet = false;
 			}
 
 			if (
-				layout.isRowNotEmpty(y)
-				|| ((!isRemoveEmptySpaceBetweenRows || layout.isRowSpanned(y))
+				yCuts.isCutNotEmpty(y)
+				|| ((!isRemoveEmptySpaceBetweenRows || yCuts.isCutSpanned(y))
 				&& !isCollapseRowSpan)
 				)
 			{
@@ -485,72 +498,58 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						: JRGridLayout.getRowHeight(gridRow)
 					);
 
-				int skippedCols = 0;
-				int colIndex = 0;
 				for(int x = 0; x < gridRow.length; x++)
 				{
-					colIndex = x - skippedCols;
-					
-					if (
-						layout.isColNotEmpty(x)
-						|| (!isRemoveEmptySpaceBetweenColumns || layout.isColSpanned(x))
-						)
+					setCell(x, rowIndex);
+
+					JRExporterGridCell gridCell = gridRow[x];
+					if(gridCell.getWrapper() != null)
 					{
-						setCell(colIndex, rowIndex);
-
-						JRExporterGridCell gridCell = gridRow[x];
-						if(gridCell.getWrapper() != null)
+						if (emptyCellColSpan > 0)
 						{
-							if (emptyCellColSpan > 0)
+							if (emptyCellColSpan > 1)
 							{
-								if (emptyCellColSpan > 1)
-								{
-									//sbuffer.append(" colspan=" + emptyCellColSpan);
-									//sheet.addMergedRegion(new Region(y, (short)(x - emptyCellColSpan - 1), y, (short)(x - 1)));
-								}
-								emptyCellColSpan = 0;
-								emptyCellWidth = 0;
+								//sbuffer.append(" colspan=" + emptyCellColSpan);
+								//sheet.addMergedRegion(new Region(y, (short)(x - emptyCellColSpan - 1), y, (short)(x - 1)));
 							}
-
-							JRPrintElement element = gridCell.getWrapper().getElement();
-
-							if (element instanceof JRPrintLine)
-							{
-								exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintRectangle)
-							{
-								exportRectangle(element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintEllipse)
-							{
-								exportRectangle(element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintImage)
-							{
-								exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintText)
-							{
-								exportText((JRPrintText)element, gridCell, colIndex, rowIndex);
-							}
-							else if (element instanceof JRPrintFrame)
-							{
-								exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
-							}
-
-							x += gridCell.getColSpan() - 1;
+							emptyCellColSpan = 0;
+							emptyCellWidth = 0;
 						}
-						else
+
+						JRPrintElement element = gridCell.getWrapper().getElement();
+
+						if (element instanceof JRPrintLine)
 						{
-							emptyCellColSpan++;
-							emptyCellWidth += gridCell.getWidth();
-							addBlankCell(gridCell, colIndex, rowIndex);
+							exportLine((JRPrintLine)element, gridCell, x, rowIndex);
 						}
+						else if (element instanceof JRPrintRectangle)
+						{
+							exportRectangle(element, gridCell, x, rowIndex);
+						}
+						else if (element instanceof JRPrintEllipse)
+						{
+							exportRectangle(element, gridCell, x, rowIndex);
+						}
+						else if (element instanceof JRPrintImage)
+						{
+							exportImage((JRPrintImage) element, gridCell, x, rowIndex);
+						}
+						else if (element instanceof JRPrintText)
+						{
+							exportText((JRPrintText)element, gridCell, x, rowIndex);
+						}
+						else if (element instanceof JRPrintFrame)
+						{
+							exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
+						}
+
+						x += gridCell.getColSpan() - 1;
 					}
 					else
 					{
-						skippedCols++;
+						emptyCellColSpan++;
+						emptyCellWidth += gridCell.getWidth();
+						addBlankCell(gridCell, x, rowIndex);
 					}
 				}
 
@@ -576,6 +575,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			}
 		}
 
+		if (createXCuts && isRemoveEmptySpaceBetweenColumns)
+		{
+			removeEmptyColumns(xCuts);
+		}
+		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -586,25 +590,25 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 
 
-	protected void setColumnWidths(JRGridLayout layout, List xCuts)
+	protected void setColumnWidths(CutsInfo xCuts)
 	{
-		int skippedCols = 0;
-		int colIndex = 0;
-		int width = 0;
-		for(int x = 0; x < xCuts.size() - 1; x++)
+		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			colIndex = x - skippedCols;
-			if (
-				layout.isColNotEmpty(x)
-				|| (!isRemoveEmptySpaceBetweenColumns || layout.isColSpanned(x))
-				)
+			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
-				width = ((Integer)xCuts.get(x + 1)).intValue() - ((Integer)xCuts.get(x)).intValue();
-				setColumnWidth((short)(colIndex), (short)(width * 43));
+				int width = xCuts.getCut(col + 1) - xCuts.getCut(col);
+				setColumnWidth((short)(col), (short)(width * 43));
 			}
-			else
+		}
+	}
+
+	protected void removeEmptyColumns(CutsInfo xCuts)
+	{
+		for(int col = xCuts.size() - 1; col >= 0; col--)
+		{
+			if (!(xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
-				skippedCols++;
+				removeColumn(col);
 			}
 		}
 	}
@@ -801,7 +805,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 
-	protected abstract void setColumnWidth (short index, short width);
+	protected abstract void setColumnWidth (int col, int width);
+
+	protected abstract void removeColumn (int col);
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 
