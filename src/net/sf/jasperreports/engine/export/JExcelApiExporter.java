@@ -259,11 +259,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setColumnWidth(short index, short width)
+	protected void setColumnWidth(int col, int width)
 	{
 		CellView cv = new CellView();
 		cv.setSize(width);
-		sheet.setColumnView(index, cv);
+		sheet.setColumnView(col, cv);
 	}
 
 	protected void setRowHeight(int y, int lastRowHeight) throws JRException
@@ -280,6 +280,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void setCell(int x, int y)
 	{
+	}
+
+	protected void removeColumn(int col)
+	{
+		sheet.removeColumn(col);
 	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException

@@ -724,7 +724,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, boolean whitePageBackground) throws IOException, JRException
 	{
-		List xCuts = gridLayout.getXCuts();
+		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
 		writer.write("<table style=\"width: " + gridLayout.getWidth() + sizeUnit + "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"");
@@ -743,14 +743,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
 		{
-			width = ((Integer)xCuts.get(i)).intValue() - ((Integer)xCuts.get(i - 1)).intValue();
+			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
 			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1, sizeUnit) + "</td>\n");
 		}
 		writer.write("</tr>\n");
 
 		for(int y = 0; y < grid.length; y++)
 		{
-			if (gridLayout.isRowSpanned(y) || !isRemoveEmptySpace)
+			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpace)
 			{
 				JRExporterGridCell[] gridRow = grid[y];
 				

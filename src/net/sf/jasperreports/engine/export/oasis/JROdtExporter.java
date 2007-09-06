@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -429,7 +430,7 @@ public class JROdtExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
-		List xCuts = gridLayout.getXCuts();
+		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null 
@@ -443,7 +444,7 @@ public class JROdtExporter extends JRAbstractExporter
 		{
 			tableBuilder.buildColumnStyle(
 					col - 1, 
-					((Integer)xCuts.get(col)).intValue() - ((Integer)xCuts.get(col - 1)).intValue()
+					xCuts.getCut(col) - xCuts.getCut(col - 1)
 					);
 			tableBuilder.buildColumnHeader(col - 1);
 			tableBuilder.buildColumnFooter();

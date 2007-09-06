@@ -159,9 +159,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setColumnWidth(short index, short width)
+	protected void setColumnWidth(int col, int width)
 	{
-		sheet.setColumnWidth(index, width);
+		sheet.setColumnWidth((short)col, (short)width);
 	}
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight)
@@ -183,6 +183,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			emptyCell = row.createCell((short)colIndex);
 			emptyCell.setCellStyle(emptyCellStyle);
 		}
+	}
+
+	protected void removeColumn(int colIndex)
+	{
+		sheet.setColumnHidden((short)colIndex, true);
+//		sheet.setColumnGroupCollapsed((short)colIndex, true);
+//		for(int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--)
+//		{
+//			HSSFRow row = sheet.getRow(rowIndex);
+//			HSSFCell cell = row.getCell((short)colIndex);
+//			if (cell != null)
+//			{
+//				row.removeCell(cell);
+//			}
+//		}
 	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
