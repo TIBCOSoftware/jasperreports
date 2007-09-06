@@ -135,7 +135,7 @@ public class JRSwfExporter extends JRAbstractExporter
 
 	protected int reportIndex = 0;
 
-    private String fontDir = "../../fonts";
+    private String fontDir = "fonts";
     private Map fontMap = new HashMap();
     
 	protected int zorder;
