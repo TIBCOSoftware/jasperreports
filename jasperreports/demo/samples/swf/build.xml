@@ -2,6 +2,7 @@
 
 	<description>Shows how the chart element could be used to render different types of charts.</description>
 
+    <property name="version" value="1.0.0"/>
 	<property name="class.name" value="SwfApp" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
@@ -64,6 +65,34 @@
         </java>
     </target>
 
+    <target name="jar" depends="clean, javac" description="Builds the swf JAR files.">
+        <mkdir dir="./dist"/> 
+        <jar jarfile="./dist/swf-export-${version}.jar">
+            <manifest>
+                <attribute name="Built-By" value="JasperSoft"/>
+                <section name="net/sf/jasperreports/engine/export/">
+                    <attribute name="Specification-Title" value="SWF Exporter Library"/>
+                    <attribute name="Specification-Version" value="${version}"/>
+                    <attribute name="Specification-Vendor" value="JasperSoft"/>
+                    <attribute name="Implementation-Title" value="net.sf.jasperreports.engine.export"/>
+                    <attribute name="Implementation-Version" value="${version}"/> 
+                    <attribute name="Implementation-Vendor" value="JasperSoft"/>
+                </section>
+            </manifest>     
+            <fileset dir="./build/classes"/>
+            <fileset dir="./">
+                <exclude name="**/_svn/**"/>
+                <exclude name="**/build/**"/>
+                <exclude name="**/dist/**"/>
+                <exclude name="**/lib/**"/>
+                <exclude name="**/reports/**"/>
+                <exclude name="**/src/**"/>
+                <exclude name="build.xml"/>
+                <exclude name="readme.txt"/>
+                <exclude name="SwfApp.class"/>
+            </fileset>
+        </jar>
+    </target>
     
 	<target name="clean" description="Deletes all the generated files.">
 		<delete includeemptydirs="true" failonerror="false">
@@ -71,8 +100,9 @@
 			<fileset dir="./build/reports" includes="**/*.jasper" />
 			<fileset dir="./build/reports" includes="**/*.jasper.jrxml" />
 			<fileset dir="./build/reports" includes="**/*.jrprint" />
-			<fileset dir="./build/reports" includes="**/*.swf" />
+            <fileset dir="./build/reports" includes="**/*.swf" />
 		</delete>
+	    <delete dir="./dist" failonerror="false"/>
 	</target>
 
 </project>
