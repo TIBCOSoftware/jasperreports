@@ -59,8 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBox;
@@ -86,6 +84,7 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.FontKey;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -951,18 +950,13 @@ public class JRSwfExporter extends JRAbstractExporter
                 xoffset = (xoffset < 0 ? 0 : xoffset);
                 yoffset = (yoffset < 0 ? 0 : yoffset);
                 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    ImageIO.write(bi, "png", baos);
-                } catch (IOException e1) {
-                    throw new JRException(e1);
-                }
+                byte[] byteArr = JRImageLoader.loadImageDataFromAWTImage(bi,JRRenderable.IMAGE_TYPE_PNG);
                 
                 switch(printImage.getScaleImage()) {
                     case JRImage.SCALE_IMAGE_CLIP: {
 
                         try {
-                            bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
+                            bm = LLBitmap.newBitmap(new FlashBuffer(byteArr));
                             instance = bm.newInstance();
                             AffineTransform atrans =AffineTransform.getTranslateInstance(
                                     getOffsetX() + twip(printImage.getX() + printImage.getLeftPadding() + xoffset),
@@ -975,7 +969,8 @@ public class JRSwfExporter extends JRAbstractExporter
                     }
                     case JRImage.SCALE_IMAGE_FILL_FRAME:
                         try {
-                            bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
+                            bm = LLBitmap.newBitmap(new FlashBuffer(byteArr));
+                            //bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
                         } catch (IVException e) {
                             throw new JRException(e);
                         }
@@ -991,7 +986,8 @@ public class JRSwfExporter extends JRAbstractExporter
                     case JRImage.SCALE_IMAGE_RETAIN_SHAPE:
                     default :
                         try {
-                            bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
+                            bm = LLBitmap.newBitmap(new FlashBuffer(byteArr));
+                            //bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
                         } catch (IVException e) {
                             throw new JRException(e);
                         }
@@ -1066,17 +1062,9 @@ public class JRSwfExporter extends JRAbstractExporter
                 xoffset = (xoffset < 0 ? 0 : xoffset);
                 yoffset = (yoffset < 0 ? 0 : yoffset);
                 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try
-                {
-                    ImageIO.write(bi, "png", baos);
-                }
-                catch(IOException e1)
-                {
-                    throw new JRException(e1);
-                }
+                byte[] byteArr = JRImageLoader.loadImageDataFromAWTImage(bi,JRRenderable.IMAGE_TYPE_PNG);
                 try {
-                    bm = LLBitmap.newBitmap(new FlashBuffer(baos.toByteArray()));
+                    bm = LLBitmap.newBitmap(new FlashBuffer(byteArr));
                     instance = bm.newInstance();
                     AffineTransform atrans = AffineTransform.getTranslateInstance(
                             getOffsetX() + twip(printImage.getX() + printImage.getLeftPadding() + xoffset),
@@ -1104,7 +1092,7 @@ public class JRSwfExporter extends JRAbstractExporter
     
     private void registerFonts(Map fontMapParameter)
     {
-        //logical fonts
+        //logical font names
         fontMap.put(new FontKey("serif", false, false), FontDef.load(fontDir + File.separator + "TimesGNewGRoman" + JRSwfExporter.FONT_FILE_EXT));
         fontMap.put(new FontKey("serif", true, false), FontDef.load(fontDir + File.separator + "BTimesGNewGRoman" + JRSwfExporter.FONT_FILE_EXT));
         fontMap.put(new FontKey("serif", false, true), FontDef.load(fontDir + File.separator + "ITimesGNewGRoman" + JRSwfExporter.FONT_FILE_EXT));
