@@ -104,7 +104,12 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		JRTemplateRectangle template = (JRTemplateRectangle) getTemplate(style);
 		if (template == null)
 		{
-			template = new JRTemplateRectangle(band.getOrigin(), filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template = 
+				new JRTemplateRectangle(
+					band == null ? null : band.getOrigin(), 
+					filler.getJasperPrint().getDefaultStyleProvider(), 
+					this
+					);
 			registerTemplate(style, template);
 		}
 		return template;
