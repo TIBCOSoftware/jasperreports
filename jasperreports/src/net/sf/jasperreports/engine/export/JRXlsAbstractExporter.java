@@ -283,7 +283,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
 		}
 
-		isWhitePageBackground = 
+		isDetectCellType = 
 			getBooleanParameter(
 				JRXlsAbstractExporterParameter.IS_DETECT_CELL_TYPE,
 				JRXlsAbstractExporterParameter.PROPERTY_DETECT_CELL_TYPE,
@@ -405,7 +405,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							getNature(), pages, startPageIndex, endPageIndex,
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
-
+					//clear the filter's internal cache that might have built up
+					if (filter instanceof ResetableExporterFilter)
+						((ResetableExporterFilter)filter).reset();
+					
 					int startRow = 0;
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
