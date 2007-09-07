@@ -188,7 +188,7 @@ public class SwfApp
 	{
 		System.out.println( "ChartsApp usage:" );
 		System.out.println( "\tjava ChartsApp -Ttask" );
-		System.out.println( "\tTasks : fill | pdf | html" );
+		System.out.println( "\tTasks : fill | swf | view | jar" );
 	}
 
 
