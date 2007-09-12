@@ -70,7 +70,17 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	 */
 	public int getWidth()
 	{
-		return filler.columnWidth;
+		int width;
+		switch (getType())
+		{
+			case JRBreak.TYPE_PAGE:
+				width = filler.pageWidth - filler.leftMargin - filler.rightMargin;
+				break;
+			default:
+				width = filler.columnWidth;
+				break;
+		}
+		return width;
 	}
 
 	/**
