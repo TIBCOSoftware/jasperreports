@@ -107,6 +107,11 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public void addElement(JRElement element)
 	{
+		if (element instanceof JRDesignElement)
+		{
+			((JRDesignElement) element).setElementGroup(this);
+		}
+
 		children.add(element);
 	}
 	
@@ -119,6 +124,11 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public boolean removeElement(JRElement element)
 	{
+		if (element instanceof JRDesignElement)
+		{
+			((JRDesignElement) element).setElementGroup(null);
+		}
+
 		return children.remove(element);
 	}
 
@@ -130,6 +140,11 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public void addElementGroup(JRElementGroup group)
 	{
+		if (group instanceof JRDesignElementGroup)
+		{
+			((JRDesignElementGroup) group).setElementGroup(this);
+		}
+		
 		children.add(group);
 	}
 	
@@ -142,6 +157,11 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public boolean removeElementGroup(JRElementGroup group)
 	{
+		if (group instanceof JRDesignElementGroup)
+		{
+			((JRDesignElementGroup) group).setElementGroup(null);
+		}
+		
 		return children.remove(group);
 	}
 
