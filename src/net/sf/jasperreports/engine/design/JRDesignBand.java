@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JROrigin;
 
 
 /**
@@ -56,6 +57,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	protected JRExpression printWhenExpression = null;
 	
+	private JROrigin origin;
 
 	/**
 	 *
@@ -103,6 +105,28 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	public void setPrintWhenExpression(JRExpression expression)
 	{
 		this.printWhenExpression = expression;
+	}
+
+	/**
+	 * Returns the band origin, i.e. its location/role within the report
+	 * (e.g. detail/title/group header/etc).
+	 * The location is automatically set when the band is inserted
+	 * into the report (via one of the
+	 * {@link JasperDesign#setDetail(JRBand) setDetail}/
+	 * {@link JasperDesign#setTitle(JRBand) setTitle}/
+	 * {@link JRDesignGroup#setGroupHeader(JRBand) setGroupHeader}
+	 * methods).
+	 * 
+	 * @return the band origin
+	 */
+	public JROrigin getOrigin()
+	{
+		return origin;
+	}
+
+	void setOrigin(JROrigin origin)
+	{
+		this.origin = origin;
 	}
 	
 

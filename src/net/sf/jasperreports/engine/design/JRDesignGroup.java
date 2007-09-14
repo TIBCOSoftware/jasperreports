@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseGroup;
 
@@ -69,6 +70,7 @@ public class JRDesignGroup extends JRBaseGroup
 	public void setGroupHeader(JRBand groupHeader)
 	{
 		this.groupHeader = groupHeader;
+		setBandOrigin(this.groupHeader, JROrigin.GROUP_HEADER);
 	}
 		
 	/**
@@ -77,6 +79,7 @@ public class JRDesignGroup extends JRBaseGroup
 	public void setGroupFooter(JRBand groupFooter)
 	{
 		this.groupFooter = groupFooter;
+		setBandOrigin(this.groupFooter, JROrigin.GROUP_FOOTER);
 	}
 
 	/**
@@ -87,5 +90,12 @@ public class JRDesignGroup extends JRBaseGroup
 		this.countVariable = countVariable;
 	}
 
-
+	protected void setBandOrigin(JRBand band, byte type)
+	{
+		if (band instanceof JRDesignBand)
+		{
+			JROrigin origin = new JROrigin(null, getName(), type);
+			((JRDesignBand) band).setOrigin(origin);
+		}
+	}
 }

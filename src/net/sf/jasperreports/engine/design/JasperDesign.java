@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
@@ -236,6 +237,7 @@ public class JasperDesign extends JRBaseReport
 	public void setBackground(JRBand background)
 	{
 		this.background = background;
+		setBandOrigin(this.background, JROrigin.BACKGROUND);
 	}
 
 
@@ -245,6 +247,7 @@ public class JasperDesign extends JRBaseReport
 	public void setTitle(JRBand title)
 	{
 		this.title = title;
+		setBandOrigin(this.title, JROrigin.TITLE);
 	}
 
 
@@ -266,6 +269,7 @@ public class JasperDesign extends JRBaseReport
 	public void setSummary(JRBand summary)
 	{
 		this.summary = summary;
+		setBandOrigin(this.summary, JROrigin.SUMMARY);
 	}
 
 	/**
@@ -274,6 +278,7 @@ public class JasperDesign extends JRBaseReport
 	public void setNoData(JRBand noData)
 	{
 		this.noData = noData;
+		setBandOrigin(this.noData, JROrigin.NO_DATA);
 	}
 
 
@@ -305,6 +310,7 @@ public class JasperDesign extends JRBaseReport
 	public void setPageHeader(JRBand pageHeader)
 	{
 		this.pageHeader = pageHeader;
+		setBandOrigin(this.pageHeader, JROrigin.PAGE_HEADER);
 	}
 
 
@@ -314,6 +320,7 @@ public class JasperDesign extends JRBaseReport
 	public void setPageFooter(JRBand pageFooter)
 	{
 		this.pageFooter = pageFooter;
+		setBandOrigin(this.pageFooter, JROrigin.PAGE_FOOTER);
 	}
 
 
@@ -323,6 +330,7 @@ public class JasperDesign extends JRBaseReport
 	public void setLastPageFooter(JRBand lastPageFooter)
 	{
 		this.lastPageFooter = lastPageFooter;
+		setBandOrigin(this.lastPageFooter, JROrigin.LAST_PAGE_FOOTER);
 	}
 
 
@@ -332,6 +340,7 @@ public class JasperDesign extends JRBaseReport
 	public void setColumnHeader(JRBand columnHeader)
 	{
 		this.columnHeader = columnHeader;
+		setBandOrigin(this.columnHeader, JROrigin.COLUMN_HEADER);
 	}
 
 
@@ -341,6 +350,7 @@ public class JasperDesign extends JRBaseReport
 	public void setColumnFooter(JRBand columnFooter)
 	{
 		this.columnFooter = columnFooter;
+		setBandOrigin(this.columnFooter, JROrigin.COLUMN_FOOTER);
 	}
 
 
@@ -350,6 +360,7 @@ public class JasperDesign extends JRBaseReport
 	public void setDetail(JRBand detail)
 	{
 		this.detail = detail;
+		setBandOrigin(this.detail, JROrigin.DETAIL);
 	}
 
 
@@ -1076,4 +1087,12 @@ public class JasperDesign extends JRBaseReport
 		return (JRReportTemplate[]) templateList.toArray(new JRReportTemplate[templateList.size()]);
 	}
 
+	protected void setBandOrigin(JRBand band, byte type)
+	{
+		if (band instanceof JRDesignBand)
+		{
+			JROrigin origin = new JROrigin(type);
+			((JRDesignBand) band).setOrigin(origin);
+		}
+	}
 }
