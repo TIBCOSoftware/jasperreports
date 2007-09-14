@@ -513,11 +513,11 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 */
 	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
 	{
-		JRBaseElementGroup baseElementGroup = null;
+		JRElementGroup baseElementGroup = null;
 
 		if (elementGroup != null)
 		{
-			baseElementGroup = (JRBaseElementGroup)get(elementGroup);
+			baseElementGroup = (JRElementGroup)get(elementGroup);
 			if (baseElementGroup == null)
 			{
 				baseElementGroup = new JRBaseElementGroup(elementGroup, this);
