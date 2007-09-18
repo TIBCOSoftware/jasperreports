@@ -35,6 +35,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -106,6 +107,8 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.tools.ant.taskdefs.Available;
 
 
 /**
@@ -146,6 +149,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	protected ExporterNature nature = null;
 
+    protected int topBorderCorrection;
+    protected int leftBorderCorrection;
+    protected int rightBorderCorrection;
+    protected int bottomBorderCorrection;
+	
 
 	public JExcelApiExporter()
 	{
@@ -768,31 +776,37 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						break;
 					}
 				}
-
-				BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
+				setBorderCorrection(element);
+				BufferedImage bi = new BufferedImage(availableImageWidth, 
+				        availableImageHeight, 
+				        BufferedImage.TYPE_INT_ARGB);
 				Graphics2D grx = bi.createGraphics();
 				if (JRElement.MODE_OPAQUE == element.getMode())
 				{
 					grx.setColor(element.getBackcolor());
 					grx.fillRect(0, 0, availableImageWidth, availableImageHeight);
 				}
-
+				
 				switch (element.getScaleImage())
 				{
 					case JRImage.SCALE_IMAGE_CLIP:
 					{
-						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth)) + leftBorderCorrection;
+						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight)) + topBorderCorrection;
 
-						renderer.render(grx, new Rectangle(xoffset, yoffset,
-							normalWidth, normalHeight));
+						renderer.render(grx, new Rectangle(xoffset, 
+						        yoffset,
+						        Math.min(normalWidth, availableImageWidth-leftBorderCorrection-rightBorderCorrection), 
+						        Math.min(normalHeight, availableImageHeight - topBorderCorrection - bottomBorderCorrection)));
 
 						break;
 					}
 					case JRImage.SCALE_IMAGE_FILL_FRAME:
 					{
-						renderer.render(grx, new Rectangle(0, 0,
-							availableImageWidth, availableImageHeight));
+						renderer.render(grx, new Rectangle(leftBorderCorrection, 
+						        topBorderCorrection, 
+						        availableImageWidth - leftBorderCorrection - rightBorderCorrection, 
+						        availableImageHeight - topBorderCorrection - bottomBorderCorrection));
 
 						break;
 					}
@@ -814,11 +828,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 								normalHeight = availableImageHeight;
 							}
 
-							int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-							int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+	                        int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth)) + leftBorderCorrection;
+	                        int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight)) + topBorderCorrection;
 
-							renderer.render(grx, new Rectangle(xoffset, yoffset,
-								normalWidth, normalHeight));
+	                        renderer.render(grx, new Rectangle(xoffset, 
+	                                yoffset,
+	                                Math.min(normalWidth, availableImageWidth-leftBorderCorrection-rightBorderCorrection), 
+	                                Math.min(normalHeight, availableImageHeight - topBorderCorrection - bottomBorderCorrection)));
 						}
 
 						break;
@@ -854,8 +870,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						gridCell.getRowSpan(),
 						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
 						);
-
-
 				sheet.addImage(image);
 			}
 		}
@@ -1657,6 +1671,62 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return nature;
 	}
 
+	protected void setBorderCorrection(JRPrintImage jrPrintImage)
+	{
+	    if(jrPrintImage.getBorder() > 0)
+	    {
+	        topBorderCorrection = leftBorderCorrection = rightBorderCorrection = bottomBorderCorrection =getBorderCorrection(jrPrintImage.getBorder());
+	    }
+	    else
+	    {
+            if(jrPrintImage.getTopBorder() > 0)
+            {
+                topBorderCorrection = getBorderCorrection(jrPrintImage.getTopBorder());
+            }
+            if(jrPrintImage.getRightBorder()  > 0)
+            {
+                rightBorderCorrection = getBorderCorrection(jrPrintImage.getRightBorder());
+            }
+            if(jrPrintImage.getBottomBorder()  > 0)
+            {
+                bottomBorderCorrection = getBorderCorrection(jrPrintImage.getBottomBorder());
+            }
+            if(jrPrintImage.getLeftBorder()  > 0)
+            {
+                leftBorderCorrection = getBorderCorrection(jrPrintImage.getLeftBorder());
+            }
+	    }
+	}
 
+    protected static int getBorderCorrection(byte pen)
+    {
+        int borderCorrection = 0;
+        
+        switch (pen)
+        {
+            case JRGraphicElement.PEN_4_POINT :
+            {
+                borderCorrection = 2;
+                break;
+            }
+            case JRGraphicElement.PEN_NONE :
+            {
+                borderCorrection = 0;
+                break;
+            }
+            case JRGraphicElement.PEN_2_POINT :
+            case JRGraphicElement.PEN_DOTTED :
+            case JRGraphicElement.PEN_THIN :
+            case JRGraphicElement.PEN_1_POINT :
+            default :
+            {
+                borderCorrection = 1;
+                break;
+            }
+        }
+        
+        return borderCorrection;
+    }
+	
 }
 
