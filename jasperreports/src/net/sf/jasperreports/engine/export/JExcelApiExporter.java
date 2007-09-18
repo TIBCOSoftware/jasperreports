@@ -145,11 +145,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected Map usedColours = new HashMap();
 	
 	protected ExporterNature nature = null;
-
-	protected int topBorderCorrection;
-	protected int leftBorderCorrection;
-	protected int rightBorderCorrection;
-	protected int bottomBorderCorrection;
 	
 
 	public JExcelApiExporter()
@@ -774,7 +769,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					}
 				}
 				
-				setBorderCorrection(element);
+				int topBorderCorrection = getBorderCorrection(element.getTopBorder());
+				int rightBorderCorrection = getBorderCorrection(element.getRightBorder());
+				int bottomBorderCorrection = getBorderCorrection(element.getBottomBorder());
+				int leftBorderCorrection = getBorderCorrection(element.getLeftBorder());
 				
 				BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D grx = bi.createGraphics();
@@ -1681,14 +1679,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected ExporterNature getNature()
 	{
 		return nature;
-	}
-
-	protected void setBorderCorrection(JRPrintImage jrPrintImage)
-	{
-		topBorderCorrection = getBorderCorrection(jrPrintImage.getTopBorder());
-		rightBorderCorrection = getBorderCorrection(jrPrintImage.getRightBorder());
-		bottomBorderCorrection = getBorderCorrection(jrPrintImage.getBottomBorder());
-		leftBorderCorrection = getBorderCorrection(jrPrintImage.getLeftBorder());
 	}
 
 	protected static int getBorderCorrection(byte pen)
