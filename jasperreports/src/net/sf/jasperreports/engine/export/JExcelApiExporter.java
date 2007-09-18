@@ -1673,29 +1673,22 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void setBorderCorrection(JRPrintImage jrPrintImage)
 	{
-	    if(jrPrintImage.getBorder() > 0)
-	    {
-	        topBorderCorrection = leftBorderCorrection = rightBorderCorrection = bottomBorderCorrection =getBorderCorrection(jrPrintImage.getBorder());
-	    }
-	    else
-	    {
-            if(jrPrintImage.getTopBorder() > 0)
-            {
-                topBorderCorrection = getBorderCorrection(jrPrintImage.getTopBorder());
-            }
-            if(jrPrintImage.getRightBorder()  > 0)
-            {
-                rightBorderCorrection = getBorderCorrection(jrPrintImage.getRightBorder());
-            }
-            if(jrPrintImage.getBottomBorder()  > 0)
-            {
-                bottomBorderCorrection = getBorderCorrection(jrPrintImage.getBottomBorder());
-            }
-            if(jrPrintImage.getLeftBorder()  > 0)
-            {
-                leftBorderCorrection = getBorderCorrection(jrPrintImage.getLeftBorder());
-            }
-	    }
+        if(jrPrintImage.getTopBorder() > 0)
+        {
+            topBorderCorrection = getBorderCorrection(jrPrintImage.getTopBorder());
+        }
+        if(jrPrintImage.getRightBorder()  > 0)
+        {
+            rightBorderCorrection = getBorderCorrection(jrPrintImage.getRightBorder());
+        }
+        if(jrPrintImage.getBottomBorder()  > 0)
+        {
+            bottomBorderCorrection = getBorderCorrection(jrPrintImage.getBottomBorder());
+        }
+        if(jrPrintImage.getLeftBorder()  > 0)
+        {
+            leftBorderCorrection = getBorderCorrection(jrPrintImage.getLeftBorder());
+        }
 	}
 
     protected static int getBorderCorrection(byte pen)
