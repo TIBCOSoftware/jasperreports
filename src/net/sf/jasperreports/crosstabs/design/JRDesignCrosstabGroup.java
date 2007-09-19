@@ -27,6 +27,7 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -40,6 +41,8 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 {
 	protected JRDesignVariable designVariable;
+	
+	protected JRDesignCrosstab parent;
 	
 	protected JRDesignCrosstabGroup()
 	{
@@ -105,6 +108,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		}
 		
 		this.header = header;
+		setParent(this.header);
 	}
 
 	
@@ -122,5 +126,33 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		}
 		
 		this.totalHeader = totalHeader;
+		setParent(this.totalHeader);
+	}
+
+	/**
+	 * Returns the group parent crosstab.
+	 * <p/>
+	 * The parent is automatically set when the group is added to the crosstab.
+	 * 
+	 * @return the parent crosstab
+	 */
+	public JRDesignCrosstab getParent()
+	{
+		return parent;
+	}
+
+	void setParent(JRDesignCrosstab parent)
+	{
+		this.parent = parent;
+		setParent(this.header);
+		setParent(this.totalHeader);
+	}
+	
+	protected void setParent(JRCellContents cell)
+	{
+		if (cell instanceof JRDesignCellContents)
+		{
+			((JRDesignCellContents) cell).setParent(getParent());
+		}
 	}
 }
