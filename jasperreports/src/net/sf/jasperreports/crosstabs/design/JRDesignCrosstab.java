@@ -296,6 +296,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		rowGroups.add(group);
 		
 		addRowGroupVars(group);
+		
+		setParent(group);
 	}
 
 	
@@ -340,6 +342,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		columnGroups.add(group);
 		
 		addColGroupVars(group);
+		
+		setParent(group);
 	}
 	
 	
@@ -728,6 +732,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		cellsMap.put(cellKey, cell);
 		cellsList.add(cell);
+		
+		setParent(cell.getContents());
 	}
 	
 	
@@ -1286,6 +1292,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void setWhenNoDataCell(JRDesignCellContents whenNoDataCell)
 	{
 		this.whenNoDataCell = whenNoDataCell;
+		setParent(this.whenNoDataCell);
 	}
 
 	
@@ -1315,6 +1322,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void setHeaderCell(JRDesignCellContents headerCell)
 	{
 		this.headerCell = headerCell;
+		setParent(this.headerCell);
 	}
 
 	
@@ -1373,5 +1381,29 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void setRunDirection(byte runDirection)
 	{
 		this.runDirection = runDirection;
+	}
+	
+	protected void setParent(JRCellContents cell)
+	{
+		if (cell instanceof JRDesignCellContents)
+		{
+			setParent((JRDesignCellContents) cell);
+		}
+	}
+	
+	protected void setParent(JRDesignCellContents cell)
+	{
+		if (cell != null)
+		{
+			cell.setParent(this);
+		}
+	}
+	
+	protected void setParent(JRDesignCrosstabGroup group)
+	{
+		if (group != null)
+		{
+			group.setParent(this);
+		}
 	}
 }
