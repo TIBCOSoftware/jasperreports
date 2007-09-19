@@ -108,7 +108,6 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		}
 		
 		this.header = header;
-		setParent(this.header);
 	}
 
 	
@@ -126,7 +125,6 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 		}
 		
 		this.totalHeader = totalHeader;
-		setParent(this.totalHeader);
 	}
 
 	/**
@@ -144,15 +142,13 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup
 	void setParent(JRDesignCrosstab parent)
 	{
 		this.parent = parent;
-		setParent(this.header);
-		setParent(this.totalHeader);
 	}
 	
-	protected void setParent(JRCellContents cell)
+	protected void setCellOrigin(JRCellContents cell, JRCrosstabOrigin origin)
 	{
 		if (cell instanceof JRDesignCellContents)
 		{
-			((JRDesignCellContents) cell).setParent(getParent());
+			((JRDesignCellContents) cell).setOrigin(origin);
 		}
 	}
 }

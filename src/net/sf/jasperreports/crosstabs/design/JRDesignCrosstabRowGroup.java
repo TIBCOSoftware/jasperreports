@@ -82,4 +82,34 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	{
 		this.width = width;
 	}
+
+	public void setHeader(JRDesignCellContents header)
+	{
+		super.setHeader(header);
+		
+		setCellOrigin(this.header, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_HEADER,
+						getName(), null));
+	}
+
+	public void setTotalHeader(JRDesignCellContents totalHeader)
+	{
+		super.setTotalHeader(totalHeader);
+		
+		setCellOrigin(this.totalHeader, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_TOTAL_HEADER,
+						getName(), null));
+	}
+
+	void setParent(JRDesignCrosstab parent)
+	{
+		super.setParent(parent);
+		
+		setCellOrigin(this.header, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_HEADER,
+						getName(), null));
+		setCellOrigin(this.totalHeader, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_TOTAL_HEADER,
+						getName(), null));
+	}
 }

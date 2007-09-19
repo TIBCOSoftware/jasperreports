@@ -733,7 +733,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		cellsMap.put(cellKey, cell);
 		cellsList.add(cell);
 		
-		setParent(cell.getContents());
+		setCellOrigin(cell.getContents(),
+				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_DATA_CELL,
+						rowTotalGroup, columnTotalGroup));
 	}
 	
 	
@@ -1292,7 +1294,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void setWhenNoDataCell(JRDesignCellContents whenNoDataCell)
 	{
 		this.whenNoDataCell = whenNoDataCell;
-		setParent(this.whenNoDataCell);
+		
+		setCellOrigin(this.whenNoDataCell,
+				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_WHEN_NO_DATA_CELL));
 	}
 
 	
@@ -1322,7 +1326,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public void setHeaderCell(JRDesignCellContents headerCell)
 	{
 		this.headerCell = headerCell;
-		setParent(this.headerCell);
+		
+		setCellOrigin(this.headerCell,
+				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_HEADER_CELL));
 	}
 
 	
@@ -1383,19 +1389,19 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		this.runDirection = runDirection;
 	}
 	
-	protected void setParent(JRCellContents cell)
+	protected void setCellOrigin(JRCellContents cell, JRCrosstabOrigin origin)
 	{
 		if (cell instanceof JRDesignCellContents)
 		{
-			setParent((JRDesignCellContents) cell);
+			setCellOrigin((JRDesignCellContents) cell, origin);
 		}
 	}
 	
-	protected void setParent(JRDesignCellContents cell)
+	protected void setCellOrigin(JRDesignCellContents cell, JRCrosstabOrigin origin)
 	{
 		if (cell != null)
 		{
-			cell.setParent(this);
+			cell.setOrigin(origin);
 		}
 	}
 	

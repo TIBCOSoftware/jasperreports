@@ -86,4 +86,34 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 	{
 		this.height = height;
 	}
+
+	public void setHeader(JRDesignCellContents header)
+	{
+		super.setHeader(header);
+		
+		setCellOrigin(this.header, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_COLUMN_GROUP_HEADER,
+						null, getName()));
+	}
+
+	public void setTotalHeader(JRDesignCellContents totalHeader)
+	{
+		super.setTotalHeader(totalHeader);
+		
+		setCellOrigin(this.totalHeader, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_COLUMN_GROUP_TOTAL_HEADER,
+						null, getName()));
+	}
+
+	void setParent(JRDesignCrosstab parent)
+	{
+		super.setParent(parent);
+		
+		setCellOrigin(this.header, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_COLUMN_GROUP_HEADER,
+						null, getName()));
+		setCellOrigin(this.totalHeader, 
+				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_COLUMN_GROUP_TOTAL_HEADER,
+						null, getName()));
+	}
 }
