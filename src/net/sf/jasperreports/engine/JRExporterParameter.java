@@ -245,5 +245,24 @@ public class JRExporterParameter
 	 */
 	public static final JRExporterParameter FILTER = new JRExporterParameter("Filter");
 
+
+	/**
+	 * A (per system) property that establishes the priority of export parameters against
+	 * report hints.
+	 * 
+	 * If the property is true, export parameters override report hints; this is the
+	 * default behavior.
+	 * 
+	 * This property cannot be used as a report export hint.
+	 */
+	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
+		JRProperties.PROPERTY_PREFIX + "export.parameters.override.report.hints";
+	
+	/**
+	 * Export parameter that can override the 
+	 * {@link #PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS}
+	 * property.
+	 */
+	public static final JRExporterParameter PARAMETERS_OVERRIDE_REPORT_HINTS = new JRExporterParameter("Parameters override hints flag");
 	
 }
