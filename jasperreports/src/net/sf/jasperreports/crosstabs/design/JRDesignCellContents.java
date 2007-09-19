@@ -57,7 +57,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	private int width = JRCellContents.NOT_CALCULATED;
 	private int height = JRCellContents.NOT_CALCULATED;
 
-	private JRDesignCrosstab parent;
+	private JRCrosstabOrigin origin;
 	
 	/**
 	 * Creates an empty cell contents.
@@ -197,21 +197,13 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		this.styleNameReference = styleName;
 	}
 	
-	/**
-	 * Returns the parent crosstab.
-	 * <p/>
-	 * The parent crosstab is set automatically when the cell is
-	 * inserted into the crosstab.
-	 * 
-	 * @return the parent crosstab
-	 */
-	public JRDesignCrosstab getParent()
+	public JRCrosstabOrigin getOrigin()
 	{
-		return parent;
+		return origin;
 	}
 	
-	void setParent(JRDesignCrosstab parent)
+	void setOrigin(JRCrosstabOrigin origin)
 	{
-		this.parent = parent;
+		this.origin = origin;
 	}
 }
