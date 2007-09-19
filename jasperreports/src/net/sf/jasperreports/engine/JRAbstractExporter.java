@@ -74,16 +74,6 @@ import org.xml.sax.SAXException;
 public abstract class JRAbstractExporter implements JRExporter
 {
 
-	/**
-	 * A (per system) property that establishes the priority of export parameters against
-	 * report hints.
-	 * 
-	 * If the property is true, export parameters override report hints; this is the
-	 * default behavior.
-	 */
-	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
-		JRProperties.PROPERTY_PREFIX + "export.parameters.override.report.hints";
-
 	protected static interface ParameterResolver
 	{
 		String getStringParameter(JRExporterParameter parameter, String property);
@@ -349,16 +339,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRAbstractExporter()
 	{
-		boolean paramsOverrideHints = 
-			JRProperties.getBooleanProperty(PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS);
-		if (paramsOverrideHints)
-		{
-			parameterResolver = new ParameterOverrideResolver();
-		}
-		else
-		{
-			parameterResolver = new ParameterOverriddenResolver();
-		}
 	}
 	
 	
@@ -408,13 +388,40 @@ public abstract class JRAbstractExporter implements JRExporter
 		return parameters;
 	}
 	
+	protected ParameterResolver getParameterResolver()
+	{
+		if (parameterResolver == null)
+		{
+			boolean parametersOverrideHints;
+			Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
+			if (param == null)
+			{
+				parametersOverrideHints = JRProperties.getBooleanProperty(JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS);
+			}
+			else
+			{
+				parametersOverrideHints = param.booleanValue();
+			}
+			
+			if (parametersOverrideHints)
+			{
+				parameterResolver = new ParameterOverrideResolver();
+			}
+			else
+			{
+				parameterResolver = new ParameterOverriddenResolver();
+			}
+		}
+		
+		return parameterResolver;
+	}
 
 	/**
 	 *
 	 */
 	protected String getStringParameter(JRExporterParameter parameter, String property)
 	{
-		return parameterResolver.getStringParameter(parameter, property);
+		return getParameterResolver().getStringParameter(parameter, property);
 	}
 
 	
@@ -423,7 +430,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected String getStringParameterOrDefault(JRExporterParameter parameter, String property)
 	{
-		return parameterResolver.getStringParameterOrDefault(parameter, property);
+		return getParameterResolver().getStringParameterOrDefault(parameter, property);
 	}
 
 	
@@ -432,7 +439,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
 	{
-		return parameterResolver.getBooleanParameter(parameter, property, defaultValue);
+		return getParameterResolver().getBooleanParameter(parameter, property, defaultValue);
 	}
 
 	
@@ -441,7 +448,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
 	{
-		return parameterResolver.getIntegerParameter(parameter, property, defaultValue);
+		return getParameterResolver().getIntegerParameter(parameter, property, defaultValue);
 	}
 
 	
