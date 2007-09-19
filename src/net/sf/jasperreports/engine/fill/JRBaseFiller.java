@@ -408,10 +408,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				{
 					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();
 					String value = property.getValue();
-					if (value != null && value.length() > 0)
-					{
-						jasperPrint.setProperty(property.getKey(), value);
-					}
+					jasperPrint.setProperty(property.getKey(), value);
 				}
 			}
 		}
