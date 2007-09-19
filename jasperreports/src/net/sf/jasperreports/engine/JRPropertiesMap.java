@@ -102,6 +102,20 @@ public class JRPropertiesMap implements Serializable
 	{
 		return (String)propertiesMap.get(propName);
 	}
+	
+	
+	/**
+	 * Decides whether the map contains a specified property.
+	 * 
+	 * The method returns true even if the property value is null.
+	 * 
+	 * @param propName the property name
+	 * @return <code>true</code> iff the map contains the property
+	 */
+	public boolean containsProperty(String propName)
+	{
+		return propertiesMap.containsKey(propName);
+	}
 
 	
 	/**

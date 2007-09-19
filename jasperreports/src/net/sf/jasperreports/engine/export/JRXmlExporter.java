@@ -420,14 +420,14 @@ public class JRXmlExporter extends JRAbstractExporter
 			{
 				for(int i = 0; i < propertyNames.length; i++)
 				{
+					xmlWriter.startElement(JRXmlConstants.ELEMENT_property);
+					xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
 					{
-						xmlWriter.startElement(JRXmlConstants.ELEMENT_property);
-						xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 						xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
-						xmlWriter.closeElement();
 					}
+					xmlWriter.closeElement();
 				}
 			}
 		}

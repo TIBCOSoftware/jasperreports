@@ -74,9 +74,234 @@ import org.xml.sax.SAXException;
 public abstract class JRAbstractExporter implements JRExporter
 {
 
+	/**
+	 * A (per system) property that establishes the priority of export parameters against
+	 * report hints.
+	 * 
+	 * If the property is true, export parameters override report hints; this is the
+	 * default behavior.
+	 */
+	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
+		JRProperties.PROPERTY_PREFIX + "export.parameters.override.report.hints";
+
+	protected static interface ParameterResolver
+	{
+		String getStringParameter(JRExporterParameter parameter, String property);
+		
+		String getStringParameterOrDefault(JRExporterParameter parameter, String property);
+		
+		boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue);
+		
+		int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue);
+	}
+	
+	protected class ParameterOverrideResolver implements ParameterResolver
+	{
+		
+		public String getStringParameter(JRExporterParameter parameter, String property)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				return (String)parameters.get(parameter);
+			}
+			else
+			{
+				return 
+					JRProperties.getProperty(
+						jasperPrint.getPropertiesMap(),
+						property
+						);
+			}
+		}
+
+		public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				String value = (String)parameters.get(parameter);
+				if (value == null)
+				{
+					return JRProperties.getProperty(property);
+				}
+				else
+				{
+					return value;
+				}
+			}
+			else
+			{
+				return
+					JRProperties.getProperty(
+						jasperPrint.getPropertiesMap(),
+						property
+						);
+			}
+		}
+
+		public boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				Boolean booleanValue = (Boolean)parameters.get(parameter);
+				if (booleanValue == null)
+				{
+					return JRProperties.getBooleanProperty(property);
+				}
+				else
+				{
+					return booleanValue.booleanValue();
+				}
+			}
+			else
+			{
+				return 
+					JRProperties.getBooleanProperty(
+						jasperPrint.getPropertiesMap(),
+						property,
+						defaultValue
+						);
+			}
+		}
+
+		public int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
+		{
+			if (parameters.containsKey(parameter))
+			{
+				Integer integerValue = (Integer)parameters.get(parameter);
+				if (integerValue == null)
+				{
+					return JRProperties.getIntegerProperty(property);
+				}
+				else
+				{
+					return integerValue.intValue();
+				}
+			}
+			else
+			{
+				return 
+					JRProperties.getIntegerProperty(
+						jasperPrint.getPropertiesMap(),
+						property,
+						defaultValue
+						);
+			}
+		}
+	}
+	
+	protected class ParameterOverriddenResolver implements ParameterResolver
+	{
+		
+		public String getStringParameter(JRExporterParameter parameter, String property)
+		{
+			String value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				value = hintsMap.getProperty(property);
+			}
+			else
+			{
+				value = (String) parameters.get(parameter);
+				
+				if (value == null)
+				{
+					value = JRProperties.getProperty(property);
+				}
+			}
+			return value;
+		}
+
+		public String getStringParameterOrDefault(JRExporterParameter parameter, String property)
+		{
+			String value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				value = hintsMap.getProperty(property);
+			}
+			else
+			{
+				value = (String) parameters.get(parameter);
+			}
+			
+			if (value == null)
+			{
+				value = JRProperties.getProperty(property);
+			}
+			
+			return value;
+		}
+
+		public boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
+		{
+			boolean value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				String prop = hintsMap.getProperty(property);
+				if (prop == null)
+				{
+					value = JRProperties.getBooleanProperty(property);
+				}
+				else
+				{
+					value = JRProperties.asBoolean(prop);
+				}
+			}
+			else
+			{
+				Boolean param = (Boolean) parameters.get(parameter);
+				if (param == null)
+				{
+					value = JRProperties.getBooleanProperty(property);
+				}
+				else
+				{
+					value = param.booleanValue();
+				}
+			}
+			return value;
+		}
+
+		public int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
+		{
+			int value;
+			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
+			if (hintsMap != null && hintsMap.containsProperty(property))
+			{
+				String prop = hintsMap.getProperty(property);
+				if (prop == null)
+				{
+					value = JRProperties.getIntegerProperty(property);
+				}
+				else
+				{
+					value = JRProperties.asInteger(prop);
+				}
+			}
+			else
+			{
+				Integer param = (Integer) parameters.get(parameter);
+				if (param == null)
+				{
+					value = JRProperties.getIntegerProperty(property);
+				}
+				else
+				{
+					value = param.intValue();
+				}
+			}
+			return value;
+		}
+
+	}
+	
 	//FIXMENOW this would make the applet require logging library
 	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
 
+	private ParameterResolver parameterResolver;
+	
 	/**
 	 *
 	 */
@@ -124,6 +349,16 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRAbstractExporter()
 	{
+		boolean paramsOverrideHints = 
+			JRProperties.getBooleanProperty(PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS);
+		if (paramsOverrideHints)
+		{
+			parameterResolver = new ParameterOverrideResolver();
+		}
+		else
+		{
+			parameterResolver = new ParameterOverriddenResolver();
+		}
 	}
 	
 	
@@ -179,18 +414,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected String getStringParameter(JRExporterParameter parameter, String property)
 	{
-		if (parameters.containsKey(parameter))
-		{
-			return (String)parameters.get(parameter);
-		}
-		else
-		{
-			return 
-				JRProperties.getProperty(
-					jasperPrint.getPropertiesMap(),
-					property
-					);
-		}
+		return parameterResolver.getStringParameter(parameter, property);
 	}
 
 	
@@ -199,26 +423,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected String getStringParameterOrDefault(JRExporterParameter parameter, String property)
 	{
-		if (parameters.containsKey(parameter))
-		{
-			String value = (String)parameters.get(parameter);
-			if (value == null)
-			{
-				return JRProperties.getProperty(property);
-			}
-			else
-			{
-				return value;
-			}
-		}
-		else
-		{
-			return
-				JRProperties.getProperty(
-					jasperPrint.getPropertiesMap(),
-					property
-					);
-		}
+		return parameterResolver.getStringParameterOrDefault(parameter, property);
 	}
 
 	
@@ -227,27 +432,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue)
 	{
-		if (parameters.containsKey(parameter))
-		{
-			Boolean booleanValue = (Boolean)parameters.get(parameter);
-			if (booleanValue == null)
-			{
-				return JRProperties.getBooleanProperty(property);
-			}
-			else
-			{
-				return booleanValue.booleanValue();
-			}
-		}
-		else
-		{
-			return 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					property,
-					defaultValue
-					);
-		}
+		return parameterResolver.getBooleanParameter(parameter, property, defaultValue);
 	}
 
 	
@@ -256,27 +441,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue)
 	{
-		if (parameters.containsKey(parameter))
-		{
-			Integer integerValue = (Integer)parameters.get(parameter);
-			if (integerValue == null)
-			{
-				return JRProperties.getIntegerProperty(property);
-			}
-			else
-			{
-				return integerValue.intValue();
-			}
-		}
-		else
-		{
-			return 
-				JRProperties.getIntegerProperty(
-					jasperPrint.getPropertiesMap(),
-					property,
-					defaultValue
-					);
-		}
+		return parameterResolver.getIntegerParameter(parameter, property, defaultValue);
 	}
 
 	

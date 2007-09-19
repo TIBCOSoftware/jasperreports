@@ -433,14 +433,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				for(int i = 0; i < propertyNames.length; i++)
 				{
+					writer.startElement(JRXmlConstants.ELEMENT_property);
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
 					{
-						writer.startElement(JRXmlConstants.ELEMENT_property);
-						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
-						writer.closeElement();
 					}
+					writer.closeElement();
 				}
 			}
 		}
