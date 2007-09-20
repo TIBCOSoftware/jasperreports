@@ -103,11 +103,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected byte hyperlinkType = JRHyperlink.HYPERLINK_TYPE_NULL;
 	protected String linkType;
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
-	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
+	protected byte titlePosition = JRChart.EDGE_TOP;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
+	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 
 	/**
 	 *
@@ -411,6 +412,22 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		this.legendFont = legendFont;
 	}
 	
+	/**
+	 *
+	 */
+	public byte getLegendPosition()
+	{
+		return legendPosition;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(byte legendPosition)
+	{
+		this.legendPosition = legendPosition;
+	}
+
 	/**
 	 *
 	 */

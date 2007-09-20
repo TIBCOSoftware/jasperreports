@@ -93,6 +93,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis
 		chart.setLegendColor(parentChart.getLegendColor());
 		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
 		chart.setLegendFont(parentChart.getLegendFont());
+		chart.setLegendPosition(parentChart.getLegendPosition());
 		this.chart = chart;
 	}
 

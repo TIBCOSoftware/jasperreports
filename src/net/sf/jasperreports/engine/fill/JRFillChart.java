@@ -155,6 +155,7 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
+import org.jfree.ui.RectangleEdge;
 
 
 /**
@@ -524,6 +525,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 	public JRFont getLegendFont()
 	{
 		return legendFont;
+	}
+
+	/**
+	 *
+	 */
+	public byte getLegendPosition()
+	{
+		return ((JRChart)parent).getLegendPosition();
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(byte legendPosition)
+	{
 	}
 
 	/**
@@ -980,12 +996,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 			chart.setBackgroundPaint(TRANSPARENT_PAINT);
 		}
 
+		RectangleEdge titleEdge = getEdge(getTitlePosition());
+		
 		if (chart.getTitle() != null)
 		{
 			TextTitle title = chart.getTitle();
 			title.setPaint(getTitleColor());
 
 			title.setFont(new Font(JRFontUtil.getAttributes(getTitleFont())));
+			title.setPosition(titleEdge);
 		}
 
 		String subtitleText = (String)evaluateExpression(getSubtitleExpression(), evaluation);
@@ -995,6 +1014,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			subtitle.setPaint(getSubtitleColor());
 
 			subtitle.setFont(new Font(JRFontUtil.getAttributes(getSubtitleFont())));
+			subtitle.setPosition(titleEdge);
 
 			chart.addSubtitle(subtitle);
 		}
@@ -1015,6 +1035,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 
 			chart.getLegend().setItemFont(new Font(JRFontUtil.getAttributes(getLegendFont())));//FIXME put these in JRFontUtil
+			chart.getLegend().setPosition(getEdge(getLegendPosition()));
 		}
 
 		configurePlot(chart.getPlot(), jrPlot);
@@ -2916,4 +2937,37 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 		return chartRenderer;
 	}
+
+	/**
+	 *
+	 */
+	private static RectangleEdge getEdge(byte position)
+	{
+		RectangleEdge edge = RectangleEdge.TOP;
+		switch (position)
+		{
+			case EDGE_TOP :
+			{
+				edge = RectangleEdge.TOP;
+				break;
+			}
+			case EDGE_BOTTOM :
+			{
+				edge = RectangleEdge.BOTTOM;
+				break;
+			}
+			case EDGE_LEFT :
+			{
+				edge = RectangleEdge.LEFT;
+				break;
+			}
+			case EDGE_RIGHT :
+			{
+				edge = RectangleEdge.RIGHT;
+				break;
+			}
+		}
+		return edge;
+	}
+
 }
