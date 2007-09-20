@@ -116,7 +116,7 @@ public class JRChartFactory extends JRBaseFactory
 
 			String position = atts.getValue(JRXmlConstants.ATTRIBUTE_position);
 			if (position != null && position.length() > 0)
-				chart.setTitlePosition(((Byte)JRXmlConstants.getChartTitlePositionMap().get(position)).byteValue());
+				chart.setTitlePosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)).byteValue());
 
 
 			Color color = JRXmlConstants.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_color), Color.black);
@@ -180,6 +180,10 @@ public class JRChartFactory extends JRBaseFactory
 				Color color = JRXmlConstants.getColor(attrValue, null);
 				chart.setLegendBackgroundColor(color);
 			}
+
+			String position = atts.getValue(JRXmlConstants.ATTRIBUTE_position);
+			if (position != null && position.length() > 0)
+				chart.setLegendPosition(((Byte)JRXmlConstants.getChartEdgeMap().get(position)).byteValue());
 
 			// Any font set will be put in the chart directly by the digester
 

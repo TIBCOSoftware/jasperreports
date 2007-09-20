@@ -381,6 +381,7 @@
 <!ATTLIST chartLegend
 	textColor CDATA #IMPLIED
 	backgroundColor CDATA #IMPLIED
+	position (Top | Bottom | Left | Right) "Bottom"
 >
 
 <!ELEMENT pieChart (chart, pieDataset, piePlot)>

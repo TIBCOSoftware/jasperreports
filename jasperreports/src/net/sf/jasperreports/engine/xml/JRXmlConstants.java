@@ -739,31 +739,39 @@ public class JRXmlConstants
 	/**
 	 *
 	 */
-	public static final String TITLE_POSITION_TOP = "Top";
-	public static final String TITLE_POSITION_BOTTOM = "Bottom";
-	public static final String TITLE_POSITION_LEFT = "Left";
-	public static final String TITLE_POSITION_RIGHT = "Right";
+	private static final String EDGE_TOP = "Top";
+	private static final String EDGE_BOTTOM = "Bottom";
+	private static final String EDGE_LEFT = "Left";
+	private static final String EDGE_RIGHT = "Right";
 
-	public static Map chartTitlePositionMap = null;
+	private static Map chartEdgeMap = null;
 
-	public static Map getChartTitlePositionMap()
+	public static Map getChartEdgeMap()
 	{
-		if (chartTitlePositionMap == null)
+		if (chartEdgeMap == null)
 		{
-			chartTitlePositionMap = new HashMap(4);
-			chartTitlePositionMap.put(TITLE_POSITION_TOP,    new Byte(JRChart.TITLE_POSITION_TOP));
-			chartTitlePositionMap.put(TITLE_POSITION_BOTTOM, new Byte(JRChart.TITLE_POSITION_BOTTOM));
-			chartTitlePositionMap.put(TITLE_POSITION_LEFT,   new Byte(JRChart.TITLE_POSITION_LEFT));
-			chartTitlePositionMap.put(TITLE_POSITION_RIGHT,  new Byte(JRChart.TITLE_POSITION_RIGHT));
-			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_TOP),    TITLE_POSITION_TOP);
-			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_BOTTOM), TITLE_POSITION_BOTTOM);
-			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_LEFT),   TITLE_POSITION_LEFT);
-			chartTitlePositionMap.put(new Byte(JRChart.TITLE_POSITION_RIGHT),  TITLE_POSITION_RIGHT);
+			chartEdgeMap = new HashMap(4);
+			chartEdgeMap.put(EDGE_TOP,    new Byte(JRChart.EDGE_TOP));
+			chartEdgeMap.put(EDGE_BOTTOM, new Byte(JRChart.EDGE_BOTTOM));
+			chartEdgeMap.put(EDGE_LEFT,   new Byte(JRChart.EDGE_LEFT));
+			chartEdgeMap.put(EDGE_RIGHT,  new Byte(JRChart.EDGE_RIGHT));
+			chartEdgeMap.put(new Byte(JRChart.EDGE_TOP),    EDGE_TOP);
+			chartEdgeMap.put(new Byte(JRChart.EDGE_BOTTOM), EDGE_BOTTOM);
+			chartEdgeMap.put(new Byte(JRChart.EDGE_LEFT),   EDGE_LEFT);
+			chartEdgeMap.put(new Byte(JRChart.EDGE_RIGHT),  EDGE_RIGHT);
 		}
 
-		return chartTitlePositionMap;
+		return chartEdgeMap;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getChartPositionMap()}.
+	 */
+	public static Map getChartTitlePositionMap()
+	{
+		return getChartEdgeMap();
+	}
+	
 	/**
 	 *
 	 */

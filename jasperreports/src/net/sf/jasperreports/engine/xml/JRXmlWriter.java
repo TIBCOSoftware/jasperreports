@@ -1043,7 +1043,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		// write title
 		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePosition(), JRXmlConstants.getChartTitlePositionMap(), JRChart.TITLE_POSITION_TOP);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getTitlePosition(), JRXmlConstants.getChartEdgeMap(), JRChart.EDGE_TOP);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chart.getOwnTitleColor());
 		writeFont(chart.getTitleFont());
 		if (chart.getTitleExpression() != null)
@@ -1068,6 +1068,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chart.getOwnLegendColor());
 		if (chart.getOwnLegendBackgroundColor() != null)
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chart.getOwnLegendBackgroundColor());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chart.getLegendPosition(), JRXmlConstants.getChartEdgeMap(), JRChart.EDGE_BOTTOM);
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 

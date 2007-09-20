@@ -101,11 +101,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected byte hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
-	protected byte titlePosition = JRChart.TITLE_POSITION_TOP;
+	protected byte titlePosition = JRChart.EDGE_TOP;
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
+	protected byte legendPosition = JRChart.EDGE_BOTTOM;
 
 	/**
 	 *
@@ -273,6 +274,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		subtitleColor = chart.getOwnSubtitleColor();
 		legendColor = chart.getOwnLegendColor();
 		legendBackgroundColor = chart.getOwnLegendBackgroundColor();
+		legendPosition = chart.getLegendPosition();
 
 		titleFont = new JRBaseFont(null, null, this, chart.getTitleFont());
 		subtitleFont = new JRBaseFont(null, null, this, chart.getSubtitleFont());
@@ -461,6 +463,22 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		this.legendColor = legendColor;
 	}
 	
+	/**
+	 *
+	 */
+	public byte getLegendPosition()
+	{
+		return legendPosition;
+	}
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(byte legendPosition)
+	{
+		this.legendPosition = legendPosition;
+	}
+
 	/**
 	 *
 	 */

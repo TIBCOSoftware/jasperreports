@@ -44,10 +44,27 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	/**
 	 *
 	 */
-	public static final byte TITLE_POSITION_TOP = 1;
-	public static final byte TITLE_POSITION_BOTTOM = 2;
-	public static final byte TITLE_POSITION_LEFT = 3;
-	public static final byte TITLE_POSITION_RIGHT = 4;
+	public static final byte EDGE_TOP = 1;
+	public static final byte EDGE_BOTTOM = 2;
+	public static final byte EDGE_LEFT = 3;
+	public static final byte EDGE_RIGHT = 4;
+
+	/**
+	 * @deprecated Replaced by {@link #EDGE_TOP}.
+	 */
+	public static final byte TITLE_POSITION_TOP = EDGE_TOP;
+	/**
+	 * @deprecated Replaced by {@link #EDGE_BOTTOM}.
+	 */
+	public static final byte TITLE_POSITION_BOTTOM = EDGE_BOTTOM;
+	/**
+	 * @deprecated Replaced by {@link #EDGE_LEFT}.
+	 */
+	public static final byte TITLE_POSITION_LEFT = EDGE_LEFT;
+	/**
+	 * @deprecated Replaced by {@link #EDGE_RIGHT}.
+	 */
+	public static final byte TITLE_POSITION_RIGHT = EDGE_RIGHT;
 
 
 	/**
@@ -207,6 +224,18 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox
 	 */
 	public JRFont getLegendFont();
 	
+	/**
+	 *
+	 */
+	public byte getLegendPosition();
+
+
+	/**
+	 *
+	 */
+	public void setLegendPosition(byte legendPosition);
+	
+
 	/**
 	 * Gets the chart dataset. Most chart types have different dataset structures, depending on the chart type.
 	 */
