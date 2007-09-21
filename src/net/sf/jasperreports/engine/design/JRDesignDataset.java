@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
@@ -72,6 +73,28 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 public class JRDesignDataset extends JRBaseDataset
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_FIELDS = "fields";
+
+	public static final String PROPERTY_FILTER_EXPRESSION = "filterExpression";
+
+	public static final String PROPERTY_GROUPS = "groups";
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_PARAMETERS = "parameters";
+	
+	public static final String PROPERTY_QUERY = "query";
+	
+	public static final String PROPERTY_RESOURCE_BUNDLE = "resourceBundle";
+	
+	public static final String PROPERTY_SCRIPTLET_CLASS = "scriptletClass";
+	
+	public static final String PROPERTY_SORT_FIELDS = "sortFields";
+	
+	public static final String PROPERTY_VARIABLES = "variables";
+	
+	private transient JRPropertyChangeSupport eventSupport;
 
 	/**
 	 * Parameters mapped by name.
@@ -307,7 +330,9 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 	
@@ -359,6 +384,8 @@ public class JRDesignDataset extends JRBaseDataset
 
 		parametersList.add(parameter);
 		parametersMap.put(parameter.getName(), parameter);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, parametersList.size() - 1);
 	}
 
 	
@@ -400,6 +427,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setQuery(JRDesignQuery query)
 	{
+		Object old = query;
 		String oldLanguage = null;
 		if (this.query != null)
 		{
@@ -414,6 +442,7 @@ public class JRDesignDataset extends JRBaseDataset
 			newLanguage = query.getLanguage();
 		}
 		queryLanguageChanged(oldLanguage, newLanguage);
+		getEventSupport().firePropertyChange(PROPERTY_QUERY, old, this.query);
 	}
 
 	
@@ -427,6 +456,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setScriptletClass(String scriptletClass)
 	{
+		Object old = this.scriptletClass;
 		this.scriptletClass = scriptletClass;
 		if (scriptletClass == null)
 		{
@@ -436,6 +466,7 @@ public class JRDesignDataset extends JRBaseDataset
 		{
 			((JRDesignParameter) parametersMap.get(JRParameter.REPORT_SCRIPTLET)).setValueClassName(scriptletClass);
 		}
+		getEventSupport().firePropertyChange(PROPERTY_SCRIPTLET_CLASS, old, this.scriptletClass);
 	}
 
 	
@@ -486,6 +517,8 @@ public class JRDesignDataset extends JRBaseDataset
 
 		fieldsList.add(field);
 		fieldsMap.put(field.getName(), field);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_FIELDS, field, fieldsList.size() - 1);
 	}
 
 	
@@ -555,6 +588,8 @@ public class JRDesignDataset extends JRBaseDataset
 
 		sortFieldsList.add(sortField);
 		sortFieldsMap.put(sortField.getName(), sortField);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SORT_FIELDS, sortField, sortFieldsList.size() - 1);
 	}
 
 	
@@ -769,6 +804,8 @@ public class JRDesignDataset extends JRBaseDataset
 
 		groupsList.add(group);
 		groupsMap.put(group.getName(), group);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUPS, group, groupsList.size() - 1);
 	}
 
 	
@@ -811,7 +848,9 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setResourceBundle(String resourceBundle)
 	{
+		Object old = this.resourceBundle;
 		this.resourceBundle = resourceBundle;
+		getEventSupport().firePropertyChange(PROPERTY_RESOURCE_BUNDLE, old, this.resourceBundle);
 	}
 	
 	
@@ -885,6 +924,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setProperty(String propName, String value)
 	{
+		//TODO event
 		getPropertiesMap().setProperty(propName, value);
 	}
 	
@@ -900,7 +940,9 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setFilterExpression(JRExpression expression)
 	{
+		Object old = this.filterExpression;
 		this.filterExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_FILTER_EXPRESSION, old, this.filterExpression);
 	}
 
 
@@ -916,6 +958,19 @@ public class JRDesignDataset extends JRBaseDataset
 			
 		if (sortFieldsList == null)
 			sortFieldsList = new ArrayList();
+	}
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

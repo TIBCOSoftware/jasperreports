@@ -55,6 +55,8 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 
 
 /**
@@ -76,6 +78,80 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_BACKGROUND = "background";
+
+	public static final String PROPERTY_BOTTOM_MARGIN = "bottomMargin";
+
+	public static final String PROPERTY_COLUMN_COUNT = "columnCount";
+
+	public static final String PROPERTY_COLUMN_FOOTER = "columnFooter";
+
+	public static final String PROPERTY_COLUMN_HEADER = "columnHeader";
+
+	public static final String PROPERTY_COLUMN_SPACING = "columnSpacing";
+
+	public static final String PROPERTY_COLUMN_WIDTH = "columnWidth";
+
+	public static final String PROPERTY_DATASETS = "datasets";
+
+	public static final String PROPERTY_DEFAULT_FONT = "defaultFont";
+
+	public static final String PROPERTY_DEFAULT_STLYE = "defaultStyle";
+
+	public static final String PROPERTY_DETAIL = "detail";
+
+	public static final String PROPERTY_FLOAT_COLUMN_FOOTER = "floatColumnFooter";
+
+	public static final String PROPERTY_FONTS = "fonts";
+
+	public static final String PROPERTY_FORMAT_FACTORY_CLASS = "formatFactoryClass";
+
+	public static final String PROPERTY_IGNORE_PAGINATION = "ignorePagination";
+
+	public static final String PROPERTY_IMPORTS = "imports";
+
+	public static final String PROPERTY_LANGUAGE = "language";
+
+	public static final String PROPERTY_LAST_PAGE_FOOTER = "lastPageFooter";
+
+	public static final String PROPERTY_LEFT_MARGIN = "leftMargin";
+
+	public static final String PROPERTY_MAIN_DATASET = "mainDataset";
+	
+	public static final String PROPERTY_NAME = "name";
+
+	public static final String PROPERTY_NO_DATA = "noData";
+
+	public static final String PROPERTY_ORIENTATION = "orientation";
+
+	public static final String PROPERTY_PAGE_FOOTER = "pageFooter";
+
+	public static final String PROPERTY_PAGE_HEADER = "pageHeader";
+
+	public static final String PROPERTY_PAGE_HEIGHT = "pageHeight";
+
+	public static final String PROPERTY_PAGE_WIDTH = "pageWidth";
+
+	public static final String PROPERTY_PRINT_ORDER = "printOrder";
+
+	public static final String PROPERTY_RIGHT_MARGIN = "rightMargin";
+
+	public static final String PROPERTY_STYLES = "styles";
+
+	public static final String PROPERTY_SUMMARY = "summary";
+
+	public static final String PROPERTY_SUMMARY_NEW_PAGE = "summaryNewPage";
+
+	public static final String PROPERTY_TEMPLATES = "templates";
+
+	public static final String PROPERTY_TITLE = "title";
+
+	public static final String PROPERTY_TITLE_NEW_PAGE = "titleNewPage";
+
+	public static final String PROPERTY_TOP_MARGIN = "topMargin";
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
 	/**
 	 * Report templates.
 	 */
@@ -114,8 +190,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
 		this.mainDesignDataset.setName(name);
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 
@@ -124,7 +202,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setLanguage(String language)
 	{
+		Object old = this.language;
 		this.language = language;
+		getEventSupport().firePropertyChange(PROPERTY_LANGUAGE, old, this.language);
 	}
 
 
@@ -133,7 +213,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnCount(int columnCount)
 	{
+		int old = this.columnCount;
 		this.columnCount = columnCount;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_COUNT, old, this.columnCount);
 	}
 
 
@@ -144,7 +226,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setPrintOrder(byte printOrder)
 	{
+		int old = this.printOrder;
 		this.printOrder = printOrder;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
 	}
 
 
@@ -153,7 +237,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setPageWidth(int pageWidth)
 	{
+		int old = this.pageWidth;
 		this.pageWidth = pageWidth;
+		getEventSupport().firePropertyChange(PROPERTY_PAGE_WIDTH, old, this.pageWidth);
 	}
 
 
@@ -162,7 +248,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setPageHeight(int pageHeight)
 	{
+		int old = this.pageHeight;
 		this.pageHeight = pageHeight;
+		getEventSupport().firePropertyChange(PROPERTY_PAGE_HEIGHT, old, this.pageHeight);
 	}
 
 
@@ -173,7 +261,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setOrientation(byte orientation)
 	{
+		int old = this.orientation;
 		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
 
@@ -182,7 +272,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnWidth(int columnWidth)
 	{
+		int old = columnWidth;
 		this.columnWidth = columnWidth;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_WIDTH, old, this.columnWidth);
 	}
 
 
@@ -191,7 +283,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnSpacing(int columnSpacing)
 	{
+		int old = this.columnSpacing;
 		this.columnSpacing = columnSpacing;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_SPACING, old, this.columnSpacing);
 	}
 
 
@@ -200,7 +294,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setLeftMargin(int leftMargin)
 	{
+		int old = this.leftMargin;
 		this.leftMargin = leftMargin;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_MARGIN, old, this.leftMargin);
 	}
 
 
@@ -209,7 +305,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setRightMargin(int rightMargin)
 	{
+		int old = this.rightMargin;
 		this.rightMargin = rightMargin;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_MARGIN, old, this.rightMargin);
 	}
 
 
@@ -218,7 +316,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setTopMargin(int topMargin)
 	{
+		int old = this.topMargin;
 		this.topMargin = topMargin;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_MARGIN, old, this.topMargin);
 	}
 
 
@@ -227,7 +327,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setBottomMargin(int bottomMargin)
 	{
+		int old = this.bottomMargin;
 		this.bottomMargin = bottomMargin;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_MARGIN, old, this.bottomMargin);
 	}
 
 
@@ -236,8 +338,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setBackground(JRBand background)
 	{
+		Object old = this.background;
 		this.background = background;
 		setBandOrigin(this.background, JROrigin.BACKGROUND);
+		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND, old, this.background);
 	}
 
 
@@ -246,8 +350,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setTitle(JRBand title)
 	{
+		Object old = this.title;
 		this.title = title;
 		setBandOrigin(this.title, JROrigin.TITLE);
+		getEventSupport().firePropertyChange(PROPERTY_TITLE, old, this.title);
 	}
 
 
@@ -259,7 +365,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setTitleNewPage(boolean isTitleNewPage)
 	{
+		boolean old = this.isTitleNewPage;
 		this.isTitleNewPage = isTitleNewPage;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_NEW_PAGE, old, this.isTitleNewPage);
 	}
 
 
@@ -268,8 +376,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setSummary(JRBand summary)
 	{
+		Object old = this.summary;
 		this.summary = summary;
 		setBandOrigin(this.summary, JROrigin.SUMMARY);
+		getEventSupport().firePropertyChange(PROPERTY_SUMMARY, old, this.summary);
 	}
 
 	/**
@@ -277,8 +387,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setNoData(JRBand noData)
 	{
+		Object old = this.noData;
 		this.noData = noData;
 		setBandOrigin(this.noData, JROrigin.NO_DATA);
+		getEventSupport().firePropertyChange(PROPERTY_NO_DATA, old, this.noData);
 	}
 
 
@@ -290,7 +402,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setSummaryNewPage(boolean isSummaryNewPage)
 	{
+		boolean old = this.isSummaryNewPage;
 		this.isSummaryNewPage = isSummaryNewPage;
+		getEventSupport().firePropertyChange(PROPERTY_SUMMARY_NEW_PAGE, old, this.isSummaryNewPage);
 	}
 
 
@@ -300,7 +414,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setFloatColumnFooter(boolean isFloatColumnFooter)
 	{
+		boolean old = this.isFloatColumnFooter;
 		this.isFloatColumnFooter = isFloatColumnFooter;
+		getEventSupport().firePropertyChange(PROPERTY_FLOAT_COLUMN_FOOTER, old, this.isFloatColumnFooter);
 	}
 
 
@@ -309,8 +425,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setPageHeader(JRBand pageHeader)
 	{
+		Object old = this.pageHeader;
 		this.pageHeader = pageHeader;
 		setBandOrigin(this.pageHeader, JROrigin.PAGE_HEADER);
+		getEventSupport().firePropertyChange(PROPERTY_PAGE_HEADER, old, this.pageHeader);
 	}
 
 
@@ -319,8 +437,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setPageFooter(JRBand pageFooter)
 	{
+		Object old = this.pageFooter;
 		this.pageFooter = pageFooter;
 		setBandOrigin(this.pageFooter, JROrigin.PAGE_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_PAGE_FOOTER, old, this.pageFooter);
 	}
 
 
@@ -329,8 +449,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setLastPageFooter(JRBand lastPageFooter)
 	{
+		Object old = this.lastPageFooter;
 		this.lastPageFooter = lastPageFooter;
 		setBandOrigin(this.lastPageFooter, JROrigin.LAST_PAGE_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_LAST_PAGE_FOOTER, old, this.lastPageFooter);
 	}
 
 
@@ -339,8 +461,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnHeader(JRBand columnHeader)
 	{
+		Object old = this.columnHeader;
 		this.columnHeader = columnHeader;
 		setBandOrigin(this.columnHeader, JROrigin.COLUMN_HEADER);
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_HEADER, old, this.columnHeader);
 	}
 
 
@@ -349,8 +473,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnFooter(JRBand columnFooter)
 	{
+		Object old = this.columnFooter;
 		this.columnFooter = columnFooter;
 		setBandOrigin(this.columnFooter, JROrigin.COLUMN_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_FOOTER, old, this.columnFooter);
 	}
 
 
@@ -359,8 +485,10 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setDetail(JRBand detail)
 	{
+		Object old = this.detail;
 		this.detail = detail;
 		setBandOrigin(this.detail, JROrigin.DETAIL);
+		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detail);
 	}
 
 
@@ -378,7 +506,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{
+		Object old = this.formatFactoryClass;
 		this.formatFactoryClass = formatFactoryClass;
+		getEventSupport().firePropertyChange(PROPERTY_FORMAT_FACTORY_CLASS, old, this.formatFactoryClass);
 	}
 
 
@@ -400,7 +530,11 @@ public class JasperDesign extends JRBaseReport
 		{
 			importsSet = new HashSet();
 		}
-		importsSet.add(value);
+		
+		if (importsSet.add(value))
+		{
+			getEventSupport().fireCollectionElementAddedEvent(PROPERTY_IMPORTS, value, importsSet.size() - 1);
+		}
 	}
 
 
@@ -421,7 +555,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setDefaultFont(JRReportFont font)
 	{
+		Object old = this.defaultFont;
 		this.defaultFont = font;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_FONT, old, this.defaultFont);
 	}
 
 
@@ -476,6 +612,8 @@ public class JasperDesign extends JRBaseReport
 		{
 			setDefaultFont(reportFont);
 		}
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_FONTS, reportFont, fontsList.size() - 1);
 	}
 
 
@@ -517,7 +655,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setDefaultStyle(JRStyle style)
 	{
+		Object old = this.defaultStyle;
 		this.defaultStyle = style;
+		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_STLYE, old, this.defaultStyle);
 	}
 
 
@@ -569,6 +709,8 @@ public class JasperDesign extends JRBaseReport
 		{
 			setDefaultStyle(style);
 		}
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_STYLES, style, stylesList.size() - 1);
 	}
 
 
@@ -883,6 +1025,8 @@ public class JasperDesign extends JRBaseReport
 
 		datasetList.add(dataset);
 		datasetMap.put(dataset.getName(), dataset);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_DATASETS, dataset, datasetList.size() - 1);
 	}
 
 
@@ -938,8 +1082,11 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setMainDataset(JRDesignDataset dataset)
 	{
+		Object old = this.background;
 		this.mainDataset = this.mainDesignDataset = dataset;
 		this.mainDesignDataset.setName(getName());
+		this.mainDesignDataset.getEventSupport().addPropertyChangeListener(new PropagationChangeListener(getEventSupport()));
+		getEventSupport().firePropertyChange(PROPERTY_MAIN_DATASET, old, this.mainDataset);
 	}
 
 
@@ -1032,7 +1179,9 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setIgnorePagination(boolean ignorePagination)
 	{
+		boolean old = this.ignorePagination;
 		this.ignorePagination = ignorePagination;
+		getEventSupport().firePropertyChange(PROPERTY_IGNORE_PAGINATION, old, this.ignorePagination);
 	}
 
 
@@ -1069,6 +1218,8 @@ public class JasperDesign extends JRBaseReport
 	public void addTemplate(JRReportTemplate template)
 	{
 		templateList.add(template);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TEMPLATES, template, templateList.size() - 1);
 	}
 
 	/**
@@ -1095,4 +1246,18 @@ public class JasperDesign extends JRBaseReport
 			((JRDesignBand) band).setOrigin(origin);
 		}
 	}
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
+	
 }
