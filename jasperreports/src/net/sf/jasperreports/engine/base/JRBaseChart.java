@@ -53,13 +53,11 @@ import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -69,8 +67,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -565,21 +563,15 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getChart(this);
-	}
-
-
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeChartTag(this);
+		visitor.visitChart(this);
 	}
 
 

@@ -27,18 +27,14 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -196,14 +192,6 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getSubreport(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -212,12 +200,12 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeSubreport(this);
+		visitor.visitSubreport(this);
 	}
 
-
+	
 	/**
 	 * Returns the list of values to be copied from the subreport into the master.
 	 * 

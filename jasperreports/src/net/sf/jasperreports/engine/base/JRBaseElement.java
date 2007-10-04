@@ -128,7 +128,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 
 		printWhenExpression = factory.getExpression(element.getPrintWhenExpression());
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
-		elementGroup = factory.getElementGroup(element.getElementGroup());
+		elementGroup = (JRElementGroup)factory.getVisitResult(element.getElementGroup());
 	}
 
 

@@ -27,16 +27,12 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -108,9 +104,9 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getRectangle(this);
+		visitor.visitRectangle(this);
 	}
 
 	/**
@@ -120,14 +116,5 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	{
 		collector.collect(this);
 	}
-
-	/**
-	 *
-	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
-	{
-		xmlWriter.writeRectangle(this);
-	}
-
 
 }

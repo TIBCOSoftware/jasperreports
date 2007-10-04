@@ -28,19 +28,17 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.engine.JRFrame JRFrame}.
@@ -65,7 +63,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 			for (Iterator it = frameChildren.iterator(); it.hasNext();)
 			{
 				JRChild child = (JRChild) it.next();
-				children.add(child.getCopy(factory));
+				children.add(factory.getVisitResult(child));
 			}
 		}
 		
@@ -101,16 +99,14 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		collector.collect(this);
 	}
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	/**
+	 *
+	 */
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getFrame(this);
+		visitor.visitFrame(this);
 	}
-
-	public void writeXml(JRXmlWriter writer) throws IOException
-	{
-		writer.writeFrame(this);
-	}
-
+	
 	public List getChildren()
 	{
 		return children;

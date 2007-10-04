@@ -27,15 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRStaticText;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.JRVisitor;
 
 
 /**
@@ -96,14 +92,6 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getStaticText(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -112,10 +100,9 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeStaticText(this);
+		visitor.visitStaticText(this);
 	}
-
 
 }

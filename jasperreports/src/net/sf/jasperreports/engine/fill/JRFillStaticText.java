@@ -27,17 +27,13 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.JRVisitor;
 
 
 /**
@@ -239,14 +235,6 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getStaticText(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -255,12 +243,12 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeStaticText(this);
+		visitor.visitStaticText(this);
 	}
 
-		
+	
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing

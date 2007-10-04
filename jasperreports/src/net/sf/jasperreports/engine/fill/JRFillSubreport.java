@@ -28,7 +28,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
@@ -40,8 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
@@ -59,6 +56,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
@@ -66,7 +64,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -732,14 +729,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getSubreport(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -748,11 +737,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeSubreport(this);
+		visitor.visitSubreport(this);
 	}
-
+	
 
 	private JRFillSubreportReturnValue addReturnValue (JRSubreportReturnValue parentReturnValue, List returnValueList, JRFillObjectFactory factory)
 	{

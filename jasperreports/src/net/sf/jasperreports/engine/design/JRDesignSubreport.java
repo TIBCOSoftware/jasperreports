@@ -27,14 +27,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
@@ -43,8 +40,8 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -236,14 +233,6 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getSubreport(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -252,11 +241,11 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeSubreport(this);
+		visitor.visitSubreport(this);
 	}
-
+	
 	
 	/**
 	 * Adds a return value to the subreport.

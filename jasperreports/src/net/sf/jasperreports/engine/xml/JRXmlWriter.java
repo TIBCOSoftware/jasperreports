@@ -170,6 +170,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	private Map fontsMap = new HashMap();
 
+	private XmlWriterVisitor xmlWriterVisitor = new XmlWriterVisitor(this);
+
 
 	/**
 	 *
@@ -627,7 +629,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild)children.get(i)).writeXml(this);
+				((JRChild)children.get(i)).visit(xmlWriterVisitor);
 			}
 		}
 
@@ -648,8 +650,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				JRChild child = (JRChild)children.get(i);
-				child.writeXml(this);
+				((JRChild)children.get(i)).visit(xmlWriterVisitor);
 			}
 		}
 
@@ -2397,8 +2398,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				for (Iterator it = children.iterator(); it.hasNext();)
 				{
-					JRChild element = (JRChild) it.next();
-					element.writeXml(this);
+					((JRChild)it.next()).visit(xmlWriterVisitor);
 				}
 			}
 
@@ -2536,8 +2536,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for (Iterator it = children.iterator(); it.hasNext();)
 			{
-				JRChild element = (JRChild) it.next();
-				element.writeXml(this);
+				((JRChild)it.next()).visit(xmlWriterVisitor);
 			}
 		}
 

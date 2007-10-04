@@ -46,7 +46,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -320,8 +319,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	private int elementOffsetX = globalOffsetX;
 	private int elementOffsetY = globalOffsetY;
 
-	private Map penBoxes = new HashMap();//FIXMENOW is this working properly? forecolor is not part of the key
-
 	/**
 	 *
 	 */
@@ -349,7 +346,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		parameters = new HashMap();
 		elementOffsetStack = new LinkedList();
-		penBoxes = new HashMap();
 	}
 	
 	
@@ -797,23 +793,6 @@ public abstract class JRAbstractExporter implements JRExporter
 		int[] offsets = (int[]) elementOffsetStack.removeLast();
 		elementOffsetX = offsets[0];
 		elementOffsetY = offsets[1];
-	}
-
-	
-	protected JRBox getBox(JRPrintGraphicElement element)
-	{
-		byte pen = element.getPen();
-		Object key = new Byte(pen);
-		JRBox box = (JRBox) penBoxes.get(key);
-		
-		if (box == null)
-		{
-			box = new JRBaseBox(pen, element.getForecolor());
-			
-			penBoxes.put(key, box);
-		}
-		
-		return box;
 	}
 
 	

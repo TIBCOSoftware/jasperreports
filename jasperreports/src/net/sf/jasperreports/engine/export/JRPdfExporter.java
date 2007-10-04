@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -181,7 +182,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private SplitCharacter splitCharacter;
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
-
+	
 	/**
 	 *
 	 */
@@ -1273,7 +1274,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			if (printImage.getPen() != JRGraphicElement.PEN_NONE)
 			{
-				exportBox(getBox(printImage), printImage);
+				exportBox(new JRBaseBox(printImage.getPen(), printImage.getForecolor()), printImage);
 			}
 		}
 		else

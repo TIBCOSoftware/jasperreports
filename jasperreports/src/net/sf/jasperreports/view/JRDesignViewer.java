@@ -36,6 +36,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -53,8 +54,6 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(String fileName, boolean isXML) throws JRException
 	{
 		super(fileName, isXML);
-		loadReport(fileName, isXML);
-		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
 	
@@ -62,15 +61,13 @@ public class JRDesignViewer extends JRViewer
 	public JRDesignViewer(InputStream is, boolean isXML) throws JRException
 	{
 		super(is, isXML);
-		loadReport(is, isXML);
-		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
 	
 	/** Creates new form JRDesignViewer */
 	public JRDesignViewer(JRReport report) throws JRException
 	{
-		super(new JRPreviewBuilder(report).getJasperPrint());
+		super(new ReportConverter(report, false).getJasperPrint());
 		//reconfigureReloadButton();
 		hideUnusedComponents();
 	}
@@ -167,6 +164,6 @@ public class JRDesignViewer extends JRViewer
 		{
 			verifyDesign((JasperDesign) report);
 		}
-		this.jasperPrint = new JRPreviewBuilder(report).getJasperPrint();		
+		this.jasperPrint = new ReportConverter(report, false).getJasperPrint();		
 	}
 }

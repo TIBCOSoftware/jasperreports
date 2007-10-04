@@ -47,14 +47,13 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.crosstabs.JRCrosstab;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractObjectFactory
+public abstract class JRAbstractObjectFactory implements JRVisitor
 {
 
 
@@ -62,6 +61,7 @@ public abstract class JRAbstractObjectFactory
 	 *
 	 */
 	private Map objectsMap = new HashMap();
+	private Object visitResult = null;
 
 
 	/**
@@ -78,6 +78,29 @@ public abstract class JRAbstractObjectFactory
 	public void put(Object object, Object copy)
 	{
 		objectsMap.put(object, copy);
+	}
+
+
+	/**
+	 *
+	 */
+	public Object getVisitResult(JRVisitable visitable)
+	{
+		if (visitable != null)
+		{
+			visitable.visit(this);
+			return visitResult;
+		}
+		return null;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void setVisitResult(Object visitResult)
+	{
+		this.visitResult = visitResult;
 	}
 
 
@@ -107,52 +130,6 @@ public abstract class JRAbstractObjectFactory
 	 */
 	public abstract void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer);
 	
-	/**
-	 *
-	 */
-	public abstract JRElementGroup getElementGroup(JRElementGroup elementGroup);
-
-	/**
-	 *
-	 */
-	public abstract JRBreak getBreak(JRBreak breakElement);
-
-	/**
-	 *
-	 */
-	public abstract JRLine getLine(JRLine line);
-
-	/**
-	 *
-	 */
-	public abstract JRRectangle getRectangle(JRRectangle rectangle);
-
-	/**
-	 *
-	 */
-	public abstract JREllipse getEllipse(JREllipse ellipse);
-
-	/**
-	 *
-	 */
-	public abstract JRImage getImage(JRImage image);
-
-	/**
-	 *
-	 */
-	public abstract JRStaticText getStaticText(JRStaticText staticText);
-
-	/**
-	 *
-	 */
-	public abstract JRTextField getTextField(JRTextField textField);
-
-	/**
-	 *
-	 */
-	public abstract JRSubreport getSubreport(JRSubreport subreport);
-
-
 	/**
 	 *
 	 */
@@ -250,13 +227,6 @@ public abstract class JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public abstract JRChart getChart(JRChart chart);
-
-
-	public abstract JRCrosstab getCrosstab(JRCrosstab crosstab);
-
-	public abstract JRFrame getFrame(JRFrame frame);
-
 	public abstract JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle parentStyle);
 
 	public abstract JRExpression getExpression(JRExpression expression, boolean assignNotUsedId);

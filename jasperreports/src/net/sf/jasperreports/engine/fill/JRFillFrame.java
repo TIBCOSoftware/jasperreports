@@ -28,24 +28,21 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseBox;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * Fill time implementation of a frame element.
@@ -351,16 +348,14 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		collector.collect(this);
 	}
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	/**
+	 *
+	 */
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getFrame(this);
+		visitor.visitFrame(this);
 	}
-
-	public void writeXml(JRXmlWriter writer) throws IOException
-	{
-		writer.writeFrame(this);
-	}
-
+	
 	
 	public JRElement getElementByKey(String key)
 	{

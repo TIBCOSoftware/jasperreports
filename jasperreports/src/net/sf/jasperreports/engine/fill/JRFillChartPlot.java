@@ -69,7 +69,7 @@ public class JRFillChartPlot implements JRChartPlot
 
 		parent = plot;
 		
-		chart = factory.getChart(plot.getChart());
+		chart = (JRChart)factory.getVisitResult(plot.getChart());
 	}
 
 

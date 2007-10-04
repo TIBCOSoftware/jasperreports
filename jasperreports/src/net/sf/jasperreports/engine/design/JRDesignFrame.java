@@ -28,22 +28,19 @@
 package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFrame;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRFrame JRFrame} to be used at design time.
@@ -84,14 +81,12 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		collector.collect(this);
 	}
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	/**
+	 *
+	 */
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getFrame(this);
-	}
-
-	public void writeXml(JRXmlWriter writer) throws IOException
-	{
-		writer.writeFrame(this);
+		visitor.visitFrame(this);
 	}
 
 	public JRElement[] getElements()

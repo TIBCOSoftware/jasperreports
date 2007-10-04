@@ -27,7 +27,6 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,17 +40,15 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * Base read-only {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -224,14 +221,9 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		collector.collect(this);
 	}
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getCrosstab(this);
-	}
-
-	public void writeXml(JRXmlWriter writer) throws IOException
-	{
-		writer.writeCrosstab(this);
+		visitor.visitCrosstab(this);
 	}
 
 	public int getColumnBreakOffset()
