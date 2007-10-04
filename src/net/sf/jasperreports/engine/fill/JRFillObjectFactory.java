@@ -526,7 +526,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
+	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		JRFillElementGroup fillElementGroup = null;
 
@@ -539,14 +539,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillElementGroup;
+		setVisitResult(fillElementGroup);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRBreak getBreak(JRBreak breakElement)
+	public void visitBreak(JRBreak breakElement)
 	{
 		JRFillBreak fillBreak = null;
 
@@ -559,14 +559,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillBreak;
+		setVisitResult(fillBreak);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRLine getLine(JRLine line)
+	public void visitLine(JRLine line)
 	{
 		JRFillLine fillLine = null;
 
@@ -579,14 +579,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillLine;
+		setVisitResult(fillLine);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRRectangle getRectangle(JRRectangle rectangle)
+	public void visitRectangle(JRRectangle rectangle)
 	{
 		JRFillRectangle fillRectangle = null;
 
@@ -599,14 +599,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillRectangle;
+		setVisitResult(fillRectangle);
 	}
 
 
 	/**
 	 *
 	 */
-	public JREllipse getEllipse(JREllipse ellipse)
+	public void visitEllipse(JREllipse ellipse)
 	{
 		JRFillEllipse fillEllipse = null;
 
@@ -619,14 +619,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillEllipse;
+		setVisitResult(fillEllipse);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRImage getImage(JRImage image)
+	public void visitImage(JRImage image)
 	{
 		JRFillImage fillImage = null;
 
@@ -639,14 +639,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillImage;
+		setVisitResult(fillImage);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRStaticText getStaticText(JRStaticText staticText)
+	public void visitStaticText(JRStaticText staticText)
 	{
 		JRFillStaticText fillStaticText = null;
 
@@ -659,14 +659,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillStaticText;
+		setVisitResult(fillStaticText);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRTextField getTextField(JRTextField textField)
+	public void visitTextField(JRTextField textField)
 	{
 		JRFillTextField fillTextField = null;
 
@@ -679,14 +679,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillTextField;
+		setVisitResult(fillTextField);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRSubreport getSubreport(JRSubreport subreport)
+	public void visitSubreport(JRSubreport subreport)
 	{
 		JRFillSubreport fillSubreport = null;
 
@@ -699,11 +699,11 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillSubreport;
+		setVisitResult(fillSubreport);
 	}
 
 
-	public JRChart getChart(JRChart chart)
+	public void visitChart(JRChart chart)
 	{
 		JRFillChart fillChart = null;
 
@@ -716,7 +716,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillChart;
+		setVisitResult(fillChart);
 	}
 
 
@@ -1227,7 +1227,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRCrosstab getCrosstab(JRCrosstab crosstabElement)
+	public void visitCrosstab(JRCrosstab crosstabElement)
 	{
 		JRFillCrosstab fillCrosstab = null;
 
@@ -1240,7 +1240,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillCrosstab;
+		setVisitResult(fillCrosstab);
 	}
 
 
@@ -1420,7 +1420,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRFrame getFrame(JRFrame frame)
+	public void visitFrame(JRFrame frame)
 	{
 		JRFillFrame fillFrame = null;
 
@@ -1433,7 +1433,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return fillFrame;
+		setVisitResult(fillFrame);
 	}
 
 

@@ -27,17 +27,13 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.JRVisitor;
 
 
 /**
@@ -123,14 +119,6 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getEllipse(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -139,9 +127,9 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWriter.writeEllipse(this);
+		visitor.visitEllipse(this);
 	}
 
 	/**

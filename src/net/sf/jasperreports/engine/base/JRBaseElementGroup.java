@@ -27,20 +27,18 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.engine.JRVisitor;
 
 
 /**
@@ -85,12 +83,12 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 			for(int i = 0; i < list.size(); i++)
 			{
 				JRChild child = (JRChild)list.get(i);
-				child = child.getCopy(factory);
+				child = (JRChild)factory.getVisitResult(child);
 				children.add(child);
 			}
 		}
 
-		this.elementGroup = factory.getElementGroup(elementGrp.getElementGroup());
+		this.elementGroup = (JRElementGroup)factory.getVisitResult(elementGrp.getElementGroup());
 	}
 		
 
@@ -200,18 +198,9 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getElementGroup(this);
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeXml(JRXmlWriter xmlWriter) throws IOException
-	{
-		xmlWriter.writeElementGroup(this);
+		visitor.visitElementGroup(this);
 	}
 
 

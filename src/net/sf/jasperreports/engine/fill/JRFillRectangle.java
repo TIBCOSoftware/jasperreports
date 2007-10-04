@@ -27,18 +27,14 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.io.IOException;
-
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -151,14 +147,6 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getRectangle(this);
-	}
-
-	/**
-	 *
-	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -167,9 +155,9 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	/**
 	 *
 	 */
-	public void writeXml(JRXmlWriter xmlWrite) throws IOException
+	public void visit(JRVisitor visitor)
 	{
-		xmlWrite.writeRectangle(this);
+		visitor.visitRectangle(this);
 	}
 
 	/**

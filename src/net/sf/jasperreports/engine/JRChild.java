@@ -27,9 +27,7 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.io.IOException;
 
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -39,19 +37,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChild
+public interface JRChild extends JRVisitable
 {
-
-
-	/**
-	 *
-	 */
-	public JRChild getCopy(JRAbstractObjectFactory factory);
-
-	/**
-	 *
-	 */
-	public void writeXml(JRXmlWriter writer) throws IOException;
-
-	
 }

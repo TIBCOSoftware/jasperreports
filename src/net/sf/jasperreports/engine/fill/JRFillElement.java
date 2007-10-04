@@ -145,7 +145,7 @@ public abstract class JRFillElement implements JRElement, JRCloneable, JRStyleSe
 
 			/*   */
 			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
-			elementGroup = (JRFillElementGroup)factory.getElementGroup(element.getElementGroup());
+			elementGroup = (JRFillElementGroup)factory.getVisitResult(element.getElementGroup());
 			
 			x = element.getX();
 			y = element.getY();

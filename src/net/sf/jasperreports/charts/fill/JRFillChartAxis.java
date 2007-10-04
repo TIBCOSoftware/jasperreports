@@ -61,7 +61,7 @@ public class JRFillChartAxis implements JRChartAxis
 		factory.put(axis, this);
 
 		this.parent = axis;
-		this.fillChart = (JRFillChart) factory.getChart(axis.getChart());
+		this.fillChart = (JRFillChart)factory.getVisitResult(axis.getChart());
 	}
 
 	/**

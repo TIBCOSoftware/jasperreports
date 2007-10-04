@@ -158,7 +158,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 * Expression collector used to retrieve generated expression IDs.
 	 */
 	private JRExpressionCollector expressionCollector;
-
+	
 
 	/**
 	 *
@@ -511,7 +511,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public JRElementGroup getElementGroup(JRElementGroup elementGroup)
+	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		JRElementGroup baseElementGroup = null;
 
@@ -524,14 +524,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseElementGroup;
+		setVisitResult(baseElementGroup);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRBreak getBreak(JRBreak breakElement)
+	public void visitBreak(JRBreak breakElement)
 	{
 		JRBaseBreak baseBreak = null;
 
@@ -544,14 +544,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseBreak;
+		setVisitResult(baseBreak);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRLine getLine(JRLine line)
+	public void visitLine(JRLine line)
 	{
 		JRBaseLine baseLine = null;
 
@@ -564,14 +564,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseLine;
+		setVisitResult(baseLine);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRRectangle getRectangle(JRRectangle rectangle)
+	public void visitRectangle(JRRectangle rectangle)
 	{
 		JRBaseRectangle baseRectangle = null;
 
@@ -584,14 +584,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseRectangle;
+		setVisitResult(baseRectangle);
 	}
 
 
 	/**
 	 *
 	 */
-	public JREllipse getEllipse(JREllipse ellipse)
+	public void visitEllipse(JREllipse ellipse)
 	{
 		JRBaseEllipse baseEllipse = null;
 
@@ -604,14 +604,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseEllipse;
+		setVisitResult(baseEllipse);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRImage getImage(JRImage image)
+	public void visitImage(JRImage image)
 	{
 		JRBaseImage baseImage = null;
 
@@ -624,14 +624,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseImage;
+		setVisitResult(baseImage);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRStaticText getStaticText(JRStaticText staticText)
+	public void visitStaticText(JRStaticText staticText)
 	{
 		JRBaseStaticText baseStaticText = null;
 
@@ -644,14 +644,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseStaticText;
+		setVisitResult(baseStaticText);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRTextField getTextField(JRTextField textField)
+	public void visitTextField(JRTextField textField)
 	{
 		JRBaseTextField baseTextField = null;
 
@@ -664,14 +664,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseTextField;
+		setVisitResult(baseTextField);
 	}
 
 
 	/**
 	 *
 	 */
-	public JRSubreport getSubreport(JRSubreport subreport)
+	public void visitSubreport(JRSubreport subreport)
 	{
 		JRBaseSubreport baseSubreport = null;
 
@@ -684,7 +684,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseSubreport;
+		setVisitResult(baseSubreport);
 	}
 
 
@@ -1233,7 +1233,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	public JRChart getChart(JRChart chart)
+	public void visitChart(JRChart chart)
 	{
 		JRBaseChart baseChart = null;
 
@@ -1246,7 +1246,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseChart;
+		setVisitResult(baseChart);
 	}
 
 	/**
@@ -1373,7 +1373,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRCrosstab getCrosstab(JRCrosstab crosstab)
+	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		JRBaseCrosstab baseCrosstab = null;
 
@@ -1392,7 +1392,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseCrosstab;
+		setVisitResult(baseCrosstab);
 	}
 
 
@@ -1481,7 +1481,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	public JRFrame getFrame(JRFrame frame)
+	public void visitFrame(JRFrame frame)
 	{
 		JRBaseFrame baseFrame = null;
 
@@ -1494,7 +1494,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 
-		return baseFrame;
+		setVisitResult(baseFrame);
 	}
 
 

@@ -29,7 +29,6 @@ package net.sf.jasperreports.crosstabs.design;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.io.Serializable;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
@@ -53,8 +52,6 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -63,11 +60,11 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.collections.SequencedHashMap;
 
@@ -250,16 +247,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		collector.collect(this);
 	}
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
+	/**
+	 *
+	 */
+	public void visit(JRVisitor visitor)
 	{
-		return factory.getCrosstab(this);
+		visitor.visitCrosstab(this);
 	}
 
-	public void writeXml(JRXmlWriter writer) throws IOException
-	{
-		writer.writeCrosstab(this);
-	}
-	
 	
 	/**
 	 * Sets the crosstab input dataset.

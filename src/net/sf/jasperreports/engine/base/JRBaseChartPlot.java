@@ -92,7 +92,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable
 	{
 		factory.put(plot, this);
 
-		chart = factory.getChart(plot.getChart());
+		chart = (JRChart)factory.getVisitResult(plot.getChart());
 
 		backcolor = plot.getOwnBackcolor();
 		orientation = plot.getOrientation();

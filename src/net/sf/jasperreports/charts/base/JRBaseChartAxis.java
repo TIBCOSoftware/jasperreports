@@ -67,7 +67,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		factory.put(axis, this);
 
 		this.position = axis.getPosition();
-		this.chart = factory.getChart(axis.getChart());
+		this.chart = (JRChart)factory.getVisitResult(axis.getChart());
 	}
 
 	/**

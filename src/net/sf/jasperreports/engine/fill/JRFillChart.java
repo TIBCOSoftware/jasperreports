@@ -82,13 +82,11 @@ import net.sf.jasperreports.charts.fill.JRFillXyDataset;
 import net.sf.jasperreports.charts.fill.JRFillXyzDataset;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
-import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -102,12 +100,12 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.renderers.JFreeChartRenderer;
 import net.sf.jasperreports.renderers.JRCategoryChartImageMapRenderer;
 import net.sf.jasperreports.renderers.JRHighLowChartImageMapRenderer;
@@ -961,12 +959,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	public JRChild getCopy(JRAbstractObjectFactory factory)
-	{
-		return factory.getChart(this);
-	}
-
-
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -974,14 +966,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 
 	/**
-	 * The method is never called for fill charts
-	 * @param writer
+	 *
 	 */
-	public void writeXml(JRXmlWriter writer)
+	public void visit(JRVisitor visitor)
 	{
+		visitor.visitChart(this);
 	}
 
-
+	
 	/**
 	 *
 	 */
