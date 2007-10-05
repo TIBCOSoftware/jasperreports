@@ -100,7 +100,7 @@ public class ReportConverter
 	/**
 	 *
 	 */
-	public ReportConverter(JRReport report, boolean ignoreContent) throws JRException
+	public ReportConverter(JRReport report, boolean ignoreContent)
 	{
 		this.report = report;
 		
@@ -113,7 +113,7 @@ public class ReportConverter
 	 * @param report the JRReport object
 	 * @throws JRException
 	 */
-	protected void convert(boolean ignoreContent) throws JRException
+	protected void convert(boolean ignoreContent)
 	{
 		jasperPrint = new JasperPrint();
 		
@@ -191,17 +191,24 @@ public class ReportConverter
 		}
 	}
 
-	protected void setStyles(JRReport report) throws JRException
+	protected void setStyles(JRReport report)
 	{
 		styleFactory = new StyleFactory();
 		stylesMap = new SequencedHashMap();
 		
 		loadReportStyles(report);
 		
-		for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+		try
 		{
-			JRStyle style = (JRStyle) it.next();
-			jasperPrint.addStyle(style);
+			for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+			{
+				JRStyle style = (JRStyle) it.next();
+				jasperPrint.addStyle(style);
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 
 		JRStyle reportDefault = report.getDefaultStyle();
