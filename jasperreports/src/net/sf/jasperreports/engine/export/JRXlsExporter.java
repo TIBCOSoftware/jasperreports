@@ -491,7 +491,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						spanCell = spanRow.createCell((short)(colIndex + j));
 					}
-					//spanCell.setCellStyle(cellStyle);
+					spanCell.setCellStyle(cellStyle);
 				}
 			}
 		}
