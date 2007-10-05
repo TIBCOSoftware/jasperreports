@@ -29,15 +29,12 @@
 package net.sf.jasperreports.view;
 
 import java.io.InputStream;
-import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -102,18 +99,6 @@ public class JRDesignViewer extends JRViewer
 
 	/**
 	*/
-	private void verifyDesign(JasperDesign jasperDesign) throws JRException
-	{
-		/*   */
-		Collection brokenRules = JasperCompileManager.verifyDesign(jasperDesign);
-		if (brokenRules != null && brokenRules.size() > 0)
-		{
-			throw new JRValidationException(brokenRules);
-		}
-	}
-
-	/**
-	*/
 	protected void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
 		if (isXmlReport)
@@ -160,10 +145,6 @@ public class JRDesignViewer extends JRViewer
 	
 	private void setReport(JRReport report) throws JRException
 	{
-		if (report instanceof JasperDesign)
-		{
-			verifyDesign((JasperDesign) report);
-		}
 		this.jasperPrint = new ReportConverter(report, false).getJasperPrint();		
 	}
 }
