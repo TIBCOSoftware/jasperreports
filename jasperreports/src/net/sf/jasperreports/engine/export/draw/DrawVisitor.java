@@ -77,7 +77,7 @@ public class DrawVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	public DrawVisitor(JRReport report, Graphics2D grx) throws JRException
+	public DrawVisitor(JRReport report, Graphics2D grx)
 	{
 		this(new ReportConverter(report, true), grx);
 	}
@@ -85,7 +85,7 @@ public class DrawVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	public DrawVisitor(ReportConverter reportConverter, Graphics2D grx) throws JRException
+	public DrawVisitor(ReportConverter reportConverter, Graphics2D grx)
 	{
 		this.convertVisitor = new ConvertVisitor(reportConverter);
 		setGraphics2D(grx);
