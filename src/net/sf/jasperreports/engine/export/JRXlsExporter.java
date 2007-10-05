@@ -767,7 +767,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return border;
 	}
 
-	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols)
 	{
 		//nothing
 	}

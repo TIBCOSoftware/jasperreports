@@ -501,11 +501,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						: JRGridLayout.getRowHeight(gridRow)
 					);
 
-				for(int x = 0; x < gridRow.length; x++)
+				int emptyCols = 0;
+				for(int colIndex = 0; colIndex < gridRow.length; colIndex++)
 				{
-					setCell(x, rowIndex);
+					emptyCols += (isRemoveEmptySpaceBetweenColumns && (!(xCuts.isCutNotEmpty(colIndex) || xCuts.isCutSpanned(colIndex))) ? 1 : 0);
+					
+					setCell(colIndex, rowIndex);
 
-					JRExporterGridCell gridCell = gridRow[x];
+					JRExporterGridCell gridCell = gridRow[colIndex];
 					if(gridCell.getWrapper() != null)
 					{
 						if (emptyCellColSpan > 0)
@@ -523,36 +526,36 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						if (element instanceof JRPrintLine)
 						{
-							exportLine((JRPrintLine)element, gridCell, x, rowIndex);
+							exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintRectangle)
 						{
-							exportRectangle(element, gridCell, x, rowIndex);
+							exportRectangle(element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle(element, gridCell, x, rowIndex);
+							exportRectangle(element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							exportImage((JRPrintImage) element, gridCell, x, rowIndex);
+							exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex, emptyCols);
 						}
 						else if (element instanceof JRPrintText)
 						{
-							exportText((JRPrintText)element, gridCell, x, rowIndex);
+							exportText((JRPrintText)element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintFrame)
 						{
-							exportFrame((JRPrintFrame) element, gridCell, x, y);//FIXME rowIndex?
+							exportFrame((JRPrintFrame) element, gridCell, colIndex, y);//FIXME rowIndex?
 						}
 
-						x += gridCell.getColSpan() - 1;
+						colIndex += gridCell.getColSpan() - 1;
 					}
 					else
 					{
 						emptyCellColSpan++;
 						emptyCellWidth += gridCell.getWidth();
-						addBlankCell(gridCell, x, rowIndex);
+						addBlankCell(gridCell, colIndex, rowIndex);
 					}
 				}
 
@@ -820,7 +823,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols) throws JRException;
 
 	protected abstract void exportRectangle(JRPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 

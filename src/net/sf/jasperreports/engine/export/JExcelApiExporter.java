@@ -322,9 +322,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
-		addMergeRegion(gridCell, x, y);
+		addMergeRegion(gridCell, col, row);
 
 		Colour forecolor2 = getWorkbookColour(line.getForecolor());
 		WritableFont cellFont2 = this.getLoadedFont(getDefaultFont(), forecolor2.getValue());
@@ -332,7 +332,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 																cellFont2, gridCell);
 
-		Blank cell2 = new Blank(x, y, cellStyle2);
+		Blank cell2 = new Blank(col, row, cellStyle2);
 
 		try
 		{
@@ -344,9 +344,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportRectangle(JRPrintElement element, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
-		addMergeRegion(gridCell, x, y);
+		addMergeRegion(gridCell, col, row);
 
 		Colour forecolor = getWorkbookColour(element.getForecolor());
 		Colour backcolor = WHITE;
@@ -362,7 +362,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		WritableCellFormat cellStyle2 = this.getLoadedCellStyle(mode, backcolor, Alignment.LEFT.getValue(),
 																VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 																cellFont2, gridCell);
-		Blank cell2 = new Blank(x, y, cellStyle2);
+		Blank cell2 = new Blank(col, row, cellStyle2);
 
 		try
 		{
@@ -374,9 +374,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportText(JRPrintText text, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportText(JRPrintText text, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
-		addMergeRegion(gridCell, x, y);
+		addMergeRegion(gridCell, col, row);
 
 		JRStyledText styledText = getStyledText(text);
 
@@ -436,12 +436,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				if (href == null)
 				{
-					addCell(x, y, text, textStr, baseStyle);
+					addCell(col, row, text, textStr, baseStyle);
 				}
 				else
 				{
 					URL url = new URL(href);
-					WritableHyperlink hyperlink = new WritableHyperlink(x, y, x, y, url, textStr);
+					WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url, textStr);
 					sheet.addHyperlink(hyperlink);
 				}
 			}
@@ -674,9 +674,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportImage(JRPrintImage element, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportImage(JRPrintImage element, JRExporterGridCell gridCell, int col, int row, int emptyCols) throws JRException
 	{
-		addMergeRegion(gridCell, x, y);
+		addMergeRegion(gridCell, col, row);
 
 		try
 		{
@@ -871,11 +871,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 															cellFont2, gridCell);
 
 
-				sheet.addCell(new Blank(x, y, cellStyle2));
+				sheet.addCell(new Blank(col, row, cellStyle2));
 				WritableImage image =
 					new WritableImage(
-						x,
-						y,
+						col - emptyCols,
+						row,
 						gridCell.getColSpan(),
 						gridCell.getRowSpan(),
 						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
@@ -1629,9 +1629,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
 	}
 
-	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y) throws JRException
+	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int col, int row) throws JRException
 	{
-		addMergeRegion(gridCell, x, y);
+		addMergeRegion(gridCell, col, row);
 
 		Colour forecolor = getWorkbookColour(frame.getForecolor());
 		Colour backcolor = WHITE;
@@ -1648,7 +1648,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				Alignment.LEFT.getValue(), VerticalAlignment.TOP.getValue(), Orientation.HORIZONTAL.getValue(),
 				cellFont, gridCell);
 
-		Blank cell = new Blank(x, y, cellStyle);
+		Blank cell = new Blank(col, row, cellStyle);
 		try
 		{
 			sheet.addCell(cell);
