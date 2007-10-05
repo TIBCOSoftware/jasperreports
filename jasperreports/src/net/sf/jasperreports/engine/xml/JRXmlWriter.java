@@ -478,15 +478,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_reportFont);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, font.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, font.isDefault());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getFontName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getFontSize());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isBold());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isItalic());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isUnderline());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isStrikeThrough());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getPdfFontName());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getPdfEncoding());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isPdfEmbedded());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
 		writer.closeElement();
 	}
 
