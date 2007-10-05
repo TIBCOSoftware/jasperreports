@@ -434,16 +434,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 			try
 			{
-				if (href == null)
-				{
-					addCell(col, row, text, textStr, baseStyle);
-				}
-				else
+				if (href != null)
 				{
 					URL url = new URL(href);
-					WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url, textStr);
+					WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url);
 					sheet.addHyperlink(hyperlink);
 				}
+				addCell(col, row, text, textStr, baseStyle);
 			}
 			catch (Exception e)
 			{
