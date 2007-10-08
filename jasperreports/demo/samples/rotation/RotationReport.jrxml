@@ -45,7 +45,7 @@ verticalAlignment="Middle"]]></text>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="UpsideDown">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[rotation="Left"
+				<text><![CDATA[rotation="UpsideDown"
 textAlignment="Right"
 verticalAlignment="Top"]]></text>
 			</staticText>
