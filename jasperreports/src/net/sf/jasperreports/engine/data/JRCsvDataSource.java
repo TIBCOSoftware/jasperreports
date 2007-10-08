@@ -230,7 +230,8 @@ public class JRCsvDataSource implements JRDataSource
 			}
 		}
 
-		throw new JRException("Unknown column name : " + fieldName);
+		//throw new JRException("Unknown column name : " + fieldName);
+		return null;
 	}
 
 
@@ -248,7 +249,7 @@ public class JRCsvDataSource implements JRDataSource
 		fields = new Vector();
 
 		String row = getRow();
-		if (row == null || row.length() == 0)
+		if (row == null)// || row.length() == 0)
 			return false;
 
 		while (pos < row.length()) {
@@ -336,8 +337,10 @@ public class JRCsvDataSource implements JRDataSource
 		StringBuffer row = new StringBuffer();
 		char c;
 
-		while (true) {
-			try {
+		while (true) 
+		{
+			try 
+			{
 				c = getChar();
 
 				// searches for the first character of the record delimiter
@@ -360,8 +363,17 @@ public class JRCsvDataSource implements JRDataSource
 				}
 
 				row.append(c);
-			} catch (JRException e) {
-				return row.toString();
+			}
+			catch (JRException e) 
+			{
+				if (row.length() == 0)
+				{
+					return null;
+				}
+				else
+				{
+					return row.toString();
+				}
 			}
 
 		} // end while
