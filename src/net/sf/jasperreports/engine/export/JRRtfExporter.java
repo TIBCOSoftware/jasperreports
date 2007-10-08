@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -749,20 +750,65 @@ public class JRRtfExporter extends JRAbstractExporter
 			startGraphic("dprect", x, y, width, height);
 			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), bgcolor, 1);
 		}
-		
-		int verticalAdjustment = topPadding;
-		switch (text.getVerticalAlignment())
+        int horizontalAdjustment = 0;
+        int verticalAdjustment = 0;
+        
+        switch (text.getVerticalAlignment())
+        {
+            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+                if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_LEFT)
+                {
+                    horizontalAdjustment =(width - leftPadding - rightPadding - twip(text.getTextHeight())) / 2;
+                }
+                else if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_RIGHT)
+                {
+                    horizontalAdjustment = - (width - leftPadding + rightPadding - twip(text.getTextHeight())) / 2;
+                }
+                else
+                    verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
+                break;
+            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+                if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_LEFT)
+                {
+                    horizontalAdjustment =(width - leftPadding - rightPadding - twip(text.getTextHeight()));
+                }
+                else if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_RIGHT)
+                {
+                    horizontalAdjustment = -(width - leftPadding - twip(text.getTextHeight()));
+                }
+                else
+                    verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight()));
+                break;
+        }
+		if(!isUnicode)
 		{
-			case JRAlignment.VERTICAL_ALIGN_TOP:
-				verticalAdjustment = 0;
-				break;
-			case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-				verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
-				break;
-			case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-				verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight()));
-				break;
-		}
+            switch (text.getRotation())
+            {
+                case JRTextElement.ROTATION_LEFT :
+                {
+                    int tmpPadding = topPadding;
+                    topPadding = leftPadding;
+                    leftPadding = bottomPadding;
+                    bottomPadding = rightPadding;
+                    rightPadding = tmpPadding;
+                    break;
+                }
+                case JRTextElement.ROTATION_RIGHT :
+                {
+                    int tmpPadding = topPadding;
+                    topPadding = rightPadding;
+                    rightPadding = bottomPadding;
+                    bottomPadding = leftPadding;
+                    leftPadding = tmpPadding;
+                    break;
+                }
+                case JRTextElement.ROTATION_UPSIDE_DOWN :
+                case JRTextElement.ROTATION_NONE :
+                default :
+                {
+                }
+            }
+	    }
 		
 		/* 
 		 rtf text box does not allow unicode characters
@@ -784,13 +830,32 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(x + textBoxAdjustment));
+			writer.write(String.valueOf(x + textBoxAdjustment + horizontalAdjustment));
 			writer.write("\\dpxsize");
 			writer.write(String.valueOf(width - textBoxAdjustment));
 			writer.write("\\dpy");
 			writer.write(String.valueOf(y + verticalAdjustment + topPadding + textBoxAdjustment));
 			writer.write("\\dpysize");
-			writer.write(String.valueOf(textHeight + bottomPadding - textBoxAdjustment));
+			writer.write(String.valueOf(height + bottomPadding - textBoxAdjustment));
+	        switch (text.getRotation())
+	        {
+	            case JRTextElement.ROTATION_LEFT :
+	            {
+	                writer.write("\\dptxbtlr");
+	                break;
+	            }
+	            case JRTextElement.ROTATION_RIGHT :
+	            {
+	                writer.write("\\dptxtbrl");
+	                break;
+	            }
+	            case JRTextElement.ROTATION_UPSIDE_DOWN :
+	            case JRTextElement.ROTATION_NONE :
+	            default :
+	            {
+	            }
+	        }
+			
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pard");
 		}
 		
