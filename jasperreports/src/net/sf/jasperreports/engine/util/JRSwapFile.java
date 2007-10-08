@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 
 
 /**
@@ -54,6 +55,14 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRSwapFile
 {
 	private static final Log log = LogFactory.getLog(JRSwapFile.class);
+	
+	/**
+	 * Property that instructs whether {@link File#deleteOnExit() deleteOnExit} is to be requested
+	 * for swap files.
+	 * 
+	 * Swap files are explicitly deleted on {@link #dispose() dispose()} and garbage collection.
+	 */
+	public static final String PROPERTY_DELETE_ON_EXIT = JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT;
 
 	private final File swapFile;
 	protected final RandomAccessFile file;
@@ -82,7 +91,12 @@ public class JRSwapFile
 				log.debug("Creating swap file " + swapFile.getPath());
 			}
 			boolean fileExists = swapFile.exists();
-			swapFile.deleteOnExit();
+			
+			if (JRProperties.getBooleanProperty(PROPERTY_DELETE_ON_EXIT))
+			{
+				swapFile.deleteOnExit();
+			}
+			
 			file = new RandomAccessFile(swapFile, "rw");
 
 			this.blockSize = blockSize;
