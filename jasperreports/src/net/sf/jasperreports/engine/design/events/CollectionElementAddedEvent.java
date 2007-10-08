@@ -27,7 +27,7 @@
  */
 package net.sf.jasperreports.engine.design.events;
 
-import java.beans.IndexedPropertyChangeEvent;
+import java.beans.PropertyChangeEvent;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -36,15 +36,19 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class CollectionElementAddedEvent extends IndexedPropertyChangeEvent
+public class CollectionElementAddedEvent extends PropertyChangeEvent
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private final int addedIndex;
+	
 	public CollectionElementAddedEvent(Object source, String propertyName,  
 			Object addedValue, int addedIndex)
 	{
-		super(source, propertyName, null, addedValue, addedIndex);
+		super(source, propertyName, null, addedValue);
+		
+		this.addedIndex = addedIndex;
 	}
 
 	public Object getAddedValue()
@@ -54,7 +58,7 @@ public class CollectionElementAddedEvent extends IndexedPropertyChangeEvent
 	
 	public int getAddedIndex()
 	{
-		return getIndex();
+		return addedIndex;
 	}
 	
 }
