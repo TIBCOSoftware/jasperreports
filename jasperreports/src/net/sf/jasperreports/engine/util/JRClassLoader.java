@@ -41,20 +41,16 @@ import java.security.ProtectionDomain;
 public class JRClassLoader extends ClassLoader
 {
 
-	private static ProtectionDomain protectionDomain = null;
+	private static ProtectionDomainFactory protectionDomainFactory = null;
 	
-	
-	/**
-	 *
-	 */
-	public static ProtectionDomain getProtectionDomain()
+	protected static synchronized ProtectionDomainFactory getProtectionDomainFactory()
 	{
-		if (protectionDomain == null)
+		if (protectionDomainFactory == null)
 		{
-			protectionDomain = JRClassLoader.class.getProtectionDomain();
+			protectionDomainFactory = new SingleProtectionDomainFactory(JRClassLoader.class.getProtectionDomain());
 		}
-		
-		return protectionDomain;
+
+		return protectionDomainFactory;
 	}
 	
 	/**
@@ -68,8 +64,28 @@ public class JRClassLoader extends ClassLoader
 	 */
 	public static void setProtectionDomain(ProtectionDomain protectionDomain)
 	{
-		JRClassLoader.protectionDomain = protectionDomain;
+		SingleProtectionDomainFactory factory = new SingleProtectionDomainFactory(protectionDomain);
+		setProtectionDomainFactory(factory);
 	}
+	
+	/**
+	 * Sets a protection domain factory to be used for creating protection domains
+	 * for the classes loaded by instances of this class.
+	 * <p>
+	 * For every instance of this class,
+	 * {@link ProtectionDomainFactory#getProtectionDomain(ClassLoader) getProtectionDomain} is called
+	 * and the resulting protection domain is used when loading classes through the newly created
+	 * classloader.
+	 * 
+	 * @param protectionDomainFactory the protection domain factory.
+	 * @see ProtectionDomainFactory#getProtectionDomain(ClassLoader)
+	 */
+	public static void setProtectionDomainFactory(ProtectionDomainFactory protectionDomainFactory)
+	{
+		JRClassLoader.protectionDomainFactory = protectionDomainFactory;
+	}
+	
+	private ProtectionDomain protectionDomain;
 	
 	/**
 	 *
@@ -307,7 +323,15 @@ public class JRClassLoader extends ClassLoader
 		return loadClass(className, baos.toByteArray());
 	}
 
-
+	protected synchronized ProtectionDomain getProtectionDomain()
+	{
+		if (protectionDomain == null)
+		{
+			protectionDomain = getProtectionDomainFactory().getProtectionDomain(this);
+		}
+		return protectionDomain;
+	}
+	
 	/**
 	 *
 	 */
