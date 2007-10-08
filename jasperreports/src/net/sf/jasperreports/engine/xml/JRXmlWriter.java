@@ -694,11 +694,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_reportElement);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
-		JRStyle style = element.getStyle();
-		if (style != null)
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getName());
-		}
+		writeStyleReferenceAttr(element);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_positionType, element.getPositionType(), JRXmlConstants.getPositionTypeMap(), JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, element.getStretchType(), JRXmlConstants.getStretchTypeMap(), JRElement.STRETCH_TYPE_NO_STRETCH);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues, element.isPrintRepeatedValues(), true);
@@ -2385,11 +2381,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.startElement(JRCellContentsFactory.ELEMENT_cellContents);
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_backcolor, contents.getBackcolor());
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getMode(), JRXmlConstants.getModeMap());
-			JRStyle style = contents.getStyle();
-			if (style != null)
-			{
-				writer.addEncodedAttribute(JRCellContentsFactory.ATTRIBUTE_style, style.getName());
-			}
+			writeStyleReferenceAttr(contents);
 
 			writeBox(contents.getBox());
 

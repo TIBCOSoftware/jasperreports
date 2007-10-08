@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 
 
@@ -66,16 +67,7 @@ public abstract class JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_style);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault());
-
-		if (style.getStyle() != null)
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyle().getName());
-		}
-		else if (style.getStyleNameReference() != null)
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyleNameReference());
-		}
-	
+		writeStyleReferenceAttr(style);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode(), JRXmlConstants.getModeMap());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
@@ -134,6 +126,18 @@ public abstract class JRXmlBaseWriter
 		}
 
 		writer.closeElement();
+	}
+
+	protected void writeStyleReferenceAttr(JRStyleContainer styleContainer)
+	{
+		if (styleContainer.getStyle() != null)
+		{
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyle().getName());
+		}
+		else if (styleContainer.getStyleNameReference() != null)
+		{
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyleNameReference());
+		}
 	}
 
 	/**
