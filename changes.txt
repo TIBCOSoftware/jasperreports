@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 2.0.2 (2007-10-08)
+JasperReports 2.0.2 (2007-10-09)
 -----------------------------------
 
 - support for element origin information in generated documents;
