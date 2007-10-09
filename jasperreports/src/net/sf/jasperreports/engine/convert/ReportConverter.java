@@ -108,10 +108,7 @@ public class ReportConverter
 	}
 	
 	/**
-	 * This method reads a JRReport object and creates a simmilar JasperPrint object
-	 * containing the design representation information.
-	 * @param report the JRReport object
-	 * @throws JRException
+	 *
 	 */
 	protected void convert(boolean ignoreContent)
 	{

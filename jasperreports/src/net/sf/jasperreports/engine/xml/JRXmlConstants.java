@@ -765,7 +765,7 @@ public class JRXmlConstants
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getChartPositionMap()}.
+	 * @deprecated Replaced by {@link #getChartEdgeMap()}.
 	 */
 	public static Map getChartTitlePositionMap()
 	{
