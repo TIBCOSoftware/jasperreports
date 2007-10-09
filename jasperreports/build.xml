@@ -135,7 +135,7 @@
 				<include name="**/net/sf/jasperreports/charts/util/XYDatasetLabelGenerator.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/XYZElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractSvgRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAlignment.class"/>
@@ -162,6 +162,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRImageMapRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
+				<include name="**/net/sf/jasperreports/engine/JROrigin.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPropertiesHolder.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPropertiesMap.class"/>
@@ -179,6 +180,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizationHelper.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizer.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRVisitable.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseConditionalStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
@@ -193,6 +195,13 @@
 				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/BoxDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/ElementDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/EllipseDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/ImageDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/LineDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/RectangleDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/TextDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>
@@ -216,6 +225,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRStyleResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/ProtectionDomainFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/xml/JRXmlConstants.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
