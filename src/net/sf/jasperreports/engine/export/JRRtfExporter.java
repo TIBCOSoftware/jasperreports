@@ -726,8 +726,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		int width = twip(text.getWidth());
 		int height = twip(text.getHeight());
 
-		int textBoxAdjustment = 20;
-		
 		int textHeight = twip(text.getTextHeight());
 		
 		if(textHeight <= 0) {
@@ -750,65 +748,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			startGraphic("dprect", x, y, width, height);
 			finishGraphic(JRGraphicElement.PEN_NONE, text.getForecolor(), bgcolor, 1);
 		}
-        int horizontalAdjustment = 0;
-        int verticalAdjustment = 0;
-        
-        switch (text.getVerticalAlignment())
-        {
-            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-                if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_LEFT)
-                {
-                    horizontalAdjustment =(width - leftPadding - rightPadding - twip(text.getTextHeight())) / 2;
-                }
-                else if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_RIGHT)
-                {
-                    horizontalAdjustment = - (width - leftPadding + rightPadding - twip(text.getTextHeight())) / 2;
-                }
-                else
-                    verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight())) / 2;
-                break;
-            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-                if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_LEFT)
-                {
-                    horizontalAdjustment =(width - leftPadding - rightPadding - twip(text.getTextHeight()));
-                }
-                else if(!isUnicode && text.getRotation() == JRTextElement.ROTATION_RIGHT)
-                {
-                    horizontalAdjustment = -(width - leftPadding - twip(text.getTextHeight()));
-                }
-                else
-                    verticalAdjustment = (height - topPadding - bottomPadding - twip(text.getTextHeight()));
-                break;
-        }
-		if(!isUnicode)
-		{
-            switch (text.getRotation())
-            {
-                case JRTextElement.ROTATION_LEFT :
-                {
-                    int tmpPadding = topPadding;
-                    topPadding = leftPadding;
-                    leftPadding = bottomPadding;
-                    bottomPadding = rightPadding;
-                    rightPadding = tmpPadding;
-                    break;
-                }
-                case JRTextElement.ROTATION_RIGHT :
-                {
-                    int tmpPadding = topPadding;
-                    topPadding = rightPadding;
-                    rightPadding = bottomPadding;
-                    bottomPadding = leftPadding;
-                    leftPadding = tmpPadding;
-                    break;
-                }
-                case JRTextElement.ROTATION_UPSIDE_DOWN :
-                case JRTextElement.ROTATION_NONE :
-                default :
-                {
-                }
-            }
-	    }
+
+		int textBoxAdjustment = 20;
 		
 		/* 
 		 rtf text box does not allow unicode characters
@@ -816,45 +757,177 @@ public class JRRtfExporter extends JRAbstractExporter
 		 unicode characters above 127 the text box
 		 is replaced by paragraphs
 		 */
-		if(isUnicode) {
-			writer.write("{\\pard\\absw");
+		if(isUnicode) 
+		{
+	        int paraY = 0;
+	        
+	        switch (text.getVerticalAlignment())
+	        {
+		        case JRAlignment.VERTICAL_ALIGN_TOP:
+		        {
+		        	paraY = y + topPadding;
+		            break;
+		        }
+	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+	            {
+	            	paraY = y + (height + topPadding - bottomPadding - textHeight) / 2;
+	                break;
+	            }
+	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+	            {
+	            	paraY = y + height - bottomPadding - textHeight;
+	                break;
+	            }
+	        }
+
+	        writer.write("{\\pard\\absw");
 			writer.write(String.valueOf(width));
 			writer.write("\\absh");
 			writer.write(String.valueOf(textHeight));
 			writer.write("\\phpg\\posx");
 			writer.write(String.valueOf(x));
 			writer.write("\\pvpg\\posy");
-			writer.write(String.valueOf(y + verticalAdjustment + topPadding));
+			writer.write(String.valueOf(paraY));
 		}
-		else {
-			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
+		else 
+		{
+			int textBoxX = 0;
+			int textBoxY = 0;
+			int textBoxWidth = 0;
+			int textBoxHeight = 0;
+			String rotation = null;
+	        
+            switch (text.getRotation())
+            {
+                case JRTextElement.ROTATION_LEFT :
+                {
+        	        switch (text.getVerticalAlignment())
+        	        {
+        		        case JRAlignment.VERTICAL_ALIGN_TOP:
+        		        {
+			            	textBoxX = x + textBoxAdjustment + leftPadding;
+			            	textBoxY = y + textBoxAdjustment;
+        		            break;
+        		        }
+        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+        	            {
+		                	textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
+		                	textBoxY = y + textBoxAdjustment;
+        	                break;
+        	            }
+        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+        	            {
+		                	textBoxX = x + textBoxAdjustment + width - rightPadding - textHeight;
+		                	textBoxY = y + textBoxAdjustment;
+        	                break;
+        	            }
+        	        }
+        			textBoxWidth = textHeight - textBoxAdjustment;
+        			textBoxHeight = height - textBoxAdjustment;
+                    leftPadding = bottomPadding;
+                    rightPadding = topPadding;
+	                rotation = "\\dptxbtlr";
+                    break;
+                }
+                case JRTextElement.ROTATION_RIGHT :
+                {
+        	        switch (text.getVerticalAlignment())
+        	        {
+        		        case JRAlignment.VERTICAL_ALIGN_TOP:
+        		        {
+			            	textBoxX = x + textBoxAdjustment + width - textHeight - rightPadding;
+			            	textBoxY = y + textBoxAdjustment;
+        		            break;
+        		        }
+        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+        	            {
+		                	textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
+		                	textBoxY = y + textBoxAdjustment;
+        	                break;
+        	            }
+        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+        	            {
+		                	textBoxX = x + textBoxAdjustment + leftPadding;
+		                	textBoxY = y + textBoxAdjustment;
+        	                break;
+        	            }
+        	        }
+        			textBoxWidth = textHeight - textBoxAdjustment;
+        			textBoxHeight = height - textBoxAdjustment;
+                    rightPadding = bottomPadding;
+                    leftPadding = topPadding;
+	                rotation = "\\dptxtbrl";
+                    break;
+                }
+                case JRTextElement.ROTATION_UPSIDE_DOWN :
+                {
+        	        switch (text.getVerticalAlignment())
+        	        {
+        		        case JRAlignment.VERTICAL_ALIGN_TOP:
+        		        {
+			            	textBoxX = x + textBoxAdjustment;
+		                	textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
+        		            break;
+        		        }
+        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+        	            {
+		                	textBoxX = x + textBoxAdjustment;
+		                	textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
+        	                break;
+        	            }
+        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+        	            {
+		                	textBoxX = x + textBoxAdjustment;
+			            	textBoxY = y + topPadding + textBoxAdjustment;
+        	                break;
+        	            }
+        	        }
+        			textBoxWidth = width - textBoxAdjustment;
+        			textBoxHeight = textHeight - textBoxAdjustment;
+	                rotation = "";
+	                break;
+                }
+                case JRTextElement.ROTATION_NONE :
+                default :
+                {
+        	        switch (text.getVerticalAlignment())
+        	        {
+        		        case JRAlignment.VERTICAL_ALIGN_TOP:
+        		        {
+			            	textBoxX = x + textBoxAdjustment;
+			            	textBoxY = y + topPadding + textBoxAdjustment;
+        		            break;
+        		        }
+        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+        	            {
+		                	textBoxX = x + textBoxAdjustment;
+		                	textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
+        	                break;
+        	            }
+        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+        	            {
+		                	textBoxX = x + textBoxAdjustment;
+		                	textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
+        	                break;
+        	            }
+        	        }
+        			textBoxWidth = width - textBoxAdjustment;
+        			textBoxHeight = textHeight - textBoxAdjustment;
+	                rotation = "";
+                }
+            }
+
+            writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
-			writer.write(String.valueOf(x + textBoxAdjustment + horizontalAdjustment));
+			writer.write(String.valueOf(textBoxX));
 			writer.write("\\dpxsize");
-			writer.write(String.valueOf(width - textBoxAdjustment));
+			writer.write(String.valueOf(textBoxWidth));
 			writer.write("\\dpy");
-			writer.write(String.valueOf(y + verticalAdjustment + topPadding + textBoxAdjustment));
+			writer.write(String.valueOf(textBoxY));
 			writer.write("\\dpysize");
-			writer.write(String.valueOf(height + bottomPadding - textBoxAdjustment));
-	        switch (text.getRotation())
-	        {
-	            case JRTextElement.ROTATION_LEFT :
-	            {
-	                writer.write("\\dptxbtlr");
-	                break;
-	            }
-	            case JRTextElement.ROTATION_RIGHT :
-	            {
-	                writer.write("\\dptxtbrl");
-	                break;
-	            }
-	            case JRTextElement.ROTATION_UPSIDE_DOWN :
-	            case JRTextElement.ROTATION_NONE :
-	            default :
-	            {
-	            }
-	        }
+			writer.write(String.valueOf(textBoxHeight));
+            writer.write(rotation);
 			
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pard");
 		}
