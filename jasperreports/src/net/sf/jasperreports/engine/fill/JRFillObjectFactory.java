@@ -1422,11 +1422,16 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	public void visitFrame(JRFrame frame)
 	{
-		JRFillFrame fillFrame = null;
+		Object fillFrame = null;
+		// This is the only place where an object gets replaced in the factory map by something else,
+		// and we can no longer make a precise cast when getting it.
+		// The JRFillFrame object is replaced in the map by a JRFillFrameElements object.
+		//JRFillFrame fillFrame = null;
 
 		if (frame != null)
 		{
-			fillFrame = (JRFillFrame) get(frame);
+			fillFrame = get(frame);
+			//fillFrame = (JRFillFrame) get(frame);
 			if (fillFrame == null)
 			{
 				fillFrame = new JRFillFrame(filler, frame, this);
