@@ -5,21 +5,21 @@
  *
  * JasperReports - Free Java report-generating library.
  * Copyright (C) 2001-2006 JasperSoft Corporation http://www.jaspersoft.com
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA.
- * 
+ *
  * JasperSoft Corporation
  * 303 Second Street, Suite 450 North
  * San Francisco, CA 94107
@@ -100,12 +100,12 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 	protected JRExportProgressMonitor progressMonitor = null;
-	
+
 	protected Writer writer = null;
 	protected File destFile = null;
-	
+
 	protected int reportIndex = 0;
-	
+
 	// temporary list of fonts and colors to be
 	// added to the header or the document
 	private StringBuffer colorBuffer = null;
@@ -115,21 +115,21 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
-	
+
 	// indicate that report containts Unicode characters with code > 127
 	private boolean isUnicode = false;
-	
+
 	private Map fontMap = null;
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
-	
-	
+
+
 	/**
 	 * Export report in .rtf format
 	 */
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-		
+
 		/*   */
 		setOffset();
 
@@ -137,7 +137,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			/*   */
 			setExportContext();
-	
+
 			/*   */
 			setInput();
 
@@ -150,7 +150,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			colors = new ArrayList();
 			colors.add(null);
 			colorBuffer = new StringBuffer(";");
-			
+
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 			setHyperlinkProducerFactory();
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
@@ -163,7 +163,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				if (outWriter != null) {
 					try {
 						writer = outWriter;
-						
+
 						// export report
 						exportReportToStream();
 					}
@@ -176,7 +176,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					if(os != null) {
 						try {
 							writer = new OutputStreamWriter(os);
-							
+
 							// export report
 							exportReportToStream();
 						}
@@ -195,7 +195,7 @@ public class JRRtfExporter extends JRAbstractExporter
 								throw new JRException("No output specified for the exporter");
 							}
 						}
-						
+
 						// export report
 						exportReportToFile();
 					}
@@ -207,12 +207,12 @@ public class JRRtfExporter extends JRAbstractExporter
 			resetExportContext();
 		}
 	}
-	
+
 	protected void setHyperlinkProducerFactory()
 	{
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);
 	}
-	
+
 	/**
 	 * Export report in .rtf format
 	 * @return report in .rtf format in a StringBuffer object
@@ -226,34 +226,34 @@ public class JRRtfExporter extends JRAbstractExporter
 		catch (IOException ex) {
 			throw new JRException("Error while exporting report to the buffer");
 		}
-		
+
 		return buffer.getBuffer();
 	}
-	
-	
+
+
 	/**
 	 * Export report in .rtf format to a stream
 	 * @throws JRException
 	 * @throws IOException
 	 */
 	protected void exportReportToStream() throws JRException, IOException {
-		
-		// create the header of the rtf file 
+
+		// create the header of the rtf file
 		writer.write("{\\rtf1\\ansi\\deff0\n");
 		// create font and color tables
 		createColorAndFontEntries();
 		writer.write("{\\fonttbl ");
-		writer.write(fontBuffer.toString()); 
+		writer.write(fontBuffer.toString());
 		writer.write("}\n");
-		
+
 		writer.write("{\\colortbl ");
 		writer.write(colorBuffer.toString());
 		writer.write("}\n");
-		
-		
+
+
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
-			
+
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0){
 				if (isModeBatch)
@@ -262,29 +262,29 @@ public class JRRtfExporter extends JRAbstractExporter
 					endPageIndex = pages.size() - 1;
 				}
 				JRPrintPage page = null;
-				
+
 				writer.write("{\\info{\\nofpages");
 				writer.write(String.valueOf(pages.size()));
 				writer.write("}}\n");
-				
+
 				writer.write("\\viewkind1\\paperw");
 				writer.write(String.valueOf(twip(jasperPrint.getPageWidth())));
 				writer.write("\\paperh");
 				writer.write(String.valueOf(twip(jasperPrint.getPageHeight())));
-				
+
 				writer.write("\\marglsxn0\\margrsxn0\\margtsxn0\\margbsxn0");
-				
+
 				if (jasperPrint.getOrientation() == JRReport.ORIENTATION_LANDSCAPE) {
 					writer.write("\\lndscpsxn");
 				}
-				
-				
+
+
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
 					writer.write("\n");
 					if(Thread.currentThread().isInterrupted()){
 						throw new JRException("Current thread intrerrupted");
 					}
-					
+
 					page = (JRPrintPage)pages.get(pageIndex);
 					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
@@ -294,15 +294,15 @@ public class JRRtfExporter extends JRAbstractExporter
 					}
 					exportPage(page, lastPageFlag);
 				}
-			}	
+			}
 		}
 		writer.write("}\n");
 		writer.flush();
 	}
-	
-	
+
+
 	/**
-	 * Export report to a file in the .rtf format 
+	 * Export report to a file in the .rtf format
 	 */
 	protected void exportReportToFile() throws JRException {
 		try {
@@ -319,17 +319,17 @@ public class JRRtfExporter extends JRAbstractExporter
 					writer.close();
 				}
 				catch(IOException ex) {
-					
+
 				}
 			}
 		}
 	}
-	
-	
+
+
 	/**
-	 * Create color and font entries for the header of .rtf file. 
-	 * Each color is represented by values of the red, 
-	 * green and blue components. 
+	 * Create color and font entries for the header of .rtf file.
+	 * Each color is represented by values of the red,
+	 * green and blue components.
 	 * @throws JRException
 	 */
 	protected void createColorAndFontEntries() throws JRException {
@@ -337,7 +337,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
 
 			getFontIndex(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
-			
+
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0) {
 				if (isModeBatch) {
@@ -402,14 +402,14 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 	}
-	
-	
+
+
 	/**
-	 * Return color index from header of the .rtf file. If a color is not 
+	 * Return color index from header of the .rtf file. If a color is not
 	 * found is automatically added to the header of the rtf file. The
 	 * method is called first when the header of the .rtf file is constructed
 	 * and when a componenent needs a color for foreground or background
-	 * @param color Color for which the index is required. 
+	 * @param color Color for which the index is required.
 	 * @return index of the color from .rtf file header
 	 */
 	private int getColorIndex(Color color)
@@ -426,8 +426,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		return colorNdx;
 	}
-	
-	
+
+
 	/**
 	 * Return font index from the header of the .rtf file. The method is
 	 * called first when the header of the .rtf document is constructed and when a
@@ -435,24 +435,24 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param font the font for which the index is required
 	 * @return index of the font from .rtf file header
 	 */
-	private int getFontIndex(JRFont font) 
+	private int getFontIndex(JRFont font)
 	{
-		String fontName = font.getFontName(); 
+		String fontName = font.getFontName();
 		if(fontMap != null && fontMap.containsKey(fontName)){
 			fontName = (String)fontMap.get(fontName);
 		}
-		
+
 		int fontIndex = fonts.indexOf(fontName);
-		
+
 		if(fontIndex < 0) {
 			fontIndex = fonts.size();
 			fonts.add(fontName);
 			fontBuffer.append("{\\f").append(fontIndex).append("\\fnil ").append(fontName).append(";}");
 		}
-		
+
 		return fontIndex;
 	}
-	
+
 	/**
 	 * Convert a int value from points to twips (multiply with 20)
 	 * @param points value that needs to be converted
@@ -461,8 +461,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	private int twip(int points) {
 		return points * 20;
 	}
-	
-	
+
+
 	/**
 	 * Convert a float value to twips (multiply with 20)
 	 * @param points value that need to be converted
@@ -471,8 +471,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	private int twip(float points) {
 		return (int)(points * 20);
 	}
-	
-	
+
+
 	/**
 	 * Exports a report page
 	 * @param page Page that will be exported
@@ -481,7 +481,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page, boolean lastPage) throws JRException, IOException
 	{
 		exportElements(page.getElements());
-		
+
 		if(!lastPage){
 			if(isUnicode){
 				writer.write("{\\pard\\pagebb\\par}\n" );
@@ -489,37 +489,37 @@ public class JRRtfExporter extends JRAbstractExporter
 			else {
 				writer.write("\\page\n");
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * Add a graphic element to the .rtf document
 	 * @param type Type of the graphic element
 	 * @param x x axis position of the graphic element
-	 * @param y y axis position of the graphic 
+	 * @param y y axis position of the graphic
 	 * @param w width of the graphic element
 	 * @param h height of the graphic element
 	 * @throws IOException
 	 */
-	private void startGraphic(String type, int x, int y, int w, int h) throws IOException {  
+	private void startGraphic(String type, int x, int y, int w, int h) throws IOException {
 		writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 		writer.write(String.valueOf(zorder++));
-		
+
 		writer.write("\\");
 		writer.write(type);
-		
+
 		writer.write("\\dpx");
 		writer.write(String.valueOf(x));
 		writer.write("\\dpy");
 		writer.write(String.valueOf(y));
-		
+
 		writer.write("\\dpxsize");
 		writer.write(String.valueOf(w));
 		writer.write("\\dpysize");
 		writer.write(String.valueOf(h));
 	}
-	
+
 	/**
 	 * Add document control words that marks the end of a graphic element
 	 * @param element Graphic element
@@ -530,13 +530,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		if(element.getMode() == JRElement.MODE_OPAQUE) {
 			mode = 1;
 		}
-		
+
 		finishGraphic( element.getPen(),
 					element.getForecolor(),
 					element.getBackcolor(),
 					mode );
 	}
-	
+
 	/**
 	 * Add document control words that marks the end of a graphic element
 	 * @param pen pen dimension
@@ -569,33 +569,33 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write("\\dplinew20");
 				break;
 		}
-		
+
 		writer.write("\\dplinecor");
 		writer.write(String.valueOf(fg.getRed()));
 		writer.write("\\dplinecob");
 		writer.write(String.valueOf(fg.getBlue()));
 		writer.write("\\dplinecog");
 		writer.write(String.valueOf(fg.getGreen()));
-		
+
 		writer.write("\\dpfillfgcr");
 		writer.write(String.valueOf(fg.getRed()));
 		writer.write("\\dplinefgcb");
 		writer.write(String.valueOf(fg.getBlue()));
 		writer.write("\\dpfillfgcg");
 		writer.write(String.valueOf(fg.getGreen()));
-		
+
 		writer.write("\\dpfillbgcr");
 		writer.write(String.valueOf(bg.getRed()));
 		writer.write("\\dpfillbgcg");
 		writer.write(String.valueOf(bg.getGreen()));
 		writer.write("\\dpfillbgcb");
 		writer.write(String.valueOf(bg.getBlue()));
-		
+
 		writer.write("\\dpfillpat");
 		writer.write(String.valueOf(fillPattern));
 		writer.write("}\n");
 	}
-	
+
 	/**
 	 * Get border adjustment for graphic elements depending on pen width used
 	 * @param pen
@@ -620,8 +620,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				return 0;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Draw a line object
 	 * @param line JasperReports line object - JRPrintLine
@@ -672,47 +672,47 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		finishGraphic(line);
 	}
-	
-	
+
+
 	/**
 	 * Draw a rectangle
 	 * @param rect JasperReports rectangle object (JRPrintRectangle)
 	 */
 	protected void exportRectangle(JRPrintRectangle rect) throws IOException {
 		startGraphic("dprect" + (rect.getRadius() > 0 ? "\\dproundr" : ""),
-				twip(rect.getX() + getOffsetX()), 
-				twip(rect.getY() + getOffsetY()), 
+				twip(rect.getX() + getOffsetX()),
+				twip(rect.getY() + getOffsetY()),
 				twip(rect.getWidth()),
 				twip(rect.getHeight())
 				);
 		finishGraphic(rect);
 	}
-	
-	
+
+
 	/**
 	 * Draw a ellipse object
 	 * @param ellipse JasperReports ellipse object (JRPrintElipse)
 	 */
 	protected void exportEllipse(JRPrintEllipse ellipse) throws IOException {
 		startGraphic(
-			"dpellipse", 
-			twip(ellipse.getX() + getOffsetX()), 
+			"dpellipse",
+			twip(ellipse.getX() + getOffsetX()),
 			twip(ellipse.getY() + getOffsetY()),
-			twip(ellipse.getWidth()), 
+			twip(ellipse.getWidth()),
 			twip(ellipse.getHeight())
 		);
 		finishGraphic(ellipse);
 	}
 
-	
+
 	/**
 	 * Draw a text box
 	 * @param text JasperReports text object (JRPrintText)
-	 * @throws JRException 
+	 * @throws JRException
 	 */
 	protected void exportText(JRPrintText text) throws IOException, JRException {
-		
-		
+
+
 		// use styled text
 		JRStyledText styledText = getStyledText(text);
 		if (styledText == null)
@@ -727,14 +727,14 @@ public class JRRtfExporter extends JRAbstractExporter
 		int height = twip(text.getHeight());
 
 		int textHeight = twip(text.getTextHeight());
-		
+
 		if(textHeight <= 0) {
 			if(height <= 0 ){
 				throw new JRException("Invalid text height");
 			}
 			textHeight = height;
 		}
-		
+
 		// padding for the text
 		int topPadding = twip(text.getTopPadding());
 		int leftPadding = twip(text.getLeftPadding());
@@ -742,7 +742,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		int rightPadding = twip(text.getRightPadding());
 
 		Color bgcolor = text.getBackcolor();
-		
+
 		if (text.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
@@ -750,37 +750,37 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 
 		int textBoxAdjustment = 20;
-		
-		/* 
+
+		/*
 		 rtf text box does not allow unicode characters
 		 representation so if the report contains
 		 unicode characters above 127 the text box
 		 is replaced by paragraphs
 		 */
-		if(isUnicode) 
+		if(isUnicode)
 		{
-	        int paraY = 0;
-	        
-	        switch (text.getVerticalAlignment())
-	        {
-		        case JRAlignment.VERTICAL_ALIGN_TOP:
-		        {
-		        	paraY = y + topPadding;
-		            break;
-		        }
-	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-	            {
-	            	paraY = y + (height + topPadding - bottomPadding - textHeight) / 2;
-	                break;
-	            }
-	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-	            {
-	            	paraY = y + height - bottomPadding - textHeight;
-	                break;
-	            }
-	        }
+			int paraY = 0;
 
-	        writer.write("{\\pard\\absw");
+			switch (text.getVerticalAlignment())
+			{
+				case JRAlignment.VERTICAL_ALIGN_TOP:
+				{
+					paraY = y + topPadding;
+					break;
+				}
+				case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+				{
+					paraY = y + (height + topPadding - bottomPadding - textHeight) / 2;
+					break;
+				}
+				case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+				{
+					paraY = y + height - bottomPadding - textHeight;
+					break;
+				}
+			}
+
+			writer.write("{\\pard\\absw");
 			writer.write(String.valueOf(width));
 			writer.write("\\absh");
 			writer.write(String.valueOf(textHeight));
@@ -789,135 +789,135 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\pvpg\\posy");
 			writer.write(String.valueOf(paraY));
 		}
-		else 
+		else
 		{
 			int textBoxX = 0;
 			int textBoxY = 0;
 			int textBoxWidth = 0;
 			int textBoxHeight = 0;
 			String rotation = null;
-	        
-            switch (text.getRotation())
-            {
-                case JRTextElement.ROTATION_LEFT :
-                {
-        	        switch (text.getVerticalAlignment())
-        	        {
-        		        case JRAlignment.VERTICAL_ALIGN_TOP:
-        		        {
-			            	textBoxX = x + textBoxAdjustment + leftPadding;
-			            	textBoxY = y + textBoxAdjustment;
-        		            break;
-        		        }
-        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-        	            {
-		                	textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
-		                	textBoxY = y + textBoxAdjustment;
-        	                break;
-        	            }
-        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-        	            {
-		                	textBoxX = x + textBoxAdjustment + width - rightPadding - textHeight;
-		                	textBoxY = y + textBoxAdjustment;
-        	                break;
-        	            }
-        	        }
-        			textBoxWidth = textHeight - textBoxAdjustment;
-        			textBoxHeight = height - textBoxAdjustment;
-                    leftPadding = bottomPadding;
-                    rightPadding = topPadding;
-	                rotation = "\\dptxbtlr";
-                    break;
-                }
-                case JRTextElement.ROTATION_RIGHT :
-                {
-        	        switch (text.getVerticalAlignment())
-        	        {
-        		        case JRAlignment.VERTICAL_ALIGN_TOP:
-        		        {
-			            	textBoxX = x + textBoxAdjustment + width - textHeight - rightPadding;
-			            	textBoxY = y + textBoxAdjustment;
-        		            break;
-        		        }
-        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-        	            {
-		                	textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
-		                	textBoxY = y + textBoxAdjustment;
-        	                break;
-        	            }
-        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-        	            {
-		                	textBoxX = x + textBoxAdjustment + leftPadding;
-		                	textBoxY = y + textBoxAdjustment;
-        	                break;
-        	            }
-        	        }
-        			textBoxWidth = textHeight - textBoxAdjustment;
-        			textBoxHeight = height - textBoxAdjustment;
-                    rightPadding = bottomPadding;
-                    leftPadding = topPadding;
-	                rotation = "\\dptxtbrl";
-                    break;
-                }
-                case JRTextElement.ROTATION_UPSIDE_DOWN :
-                {
-        	        switch (text.getVerticalAlignment())
-        	        {
-        		        case JRAlignment.VERTICAL_ALIGN_TOP:
-        		        {
-			            	textBoxX = x + textBoxAdjustment;
-		                	textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
-        		            break;
-        		        }
-        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-        	            {
-		                	textBoxX = x + textBoxAdjustment;
-		                	textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
-        	                break;
-        	            }
-        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-        	            {
-		                	textBoxX = x + textBoxAdjustment;
-			            	textBoxY = y + topPadding + textBoxAdjustment;
-        	                break;
-        	            }
-        	        }
-        			textBoxWidth = width - textBoxAdjustment;
-        			textBoxHeight = textHeight - textBoxAdjustment;
-	                rotation = "";
-	                break;
-                }
-                case JRTextElement.ROTATION_NONE :
-                default :
-                {
-        	        switch (text.getVerticalAlignment())
-        	        {
-        		        case JRAlignment.VERTICAL_ALIGN_TOP:
-        		        {
-			            	textBoxX = x + textBoxAdjustment;
-			            	textBoxY = y + topPadding + textBoxAdjustment;
-        		            break;
-        		        }
-        	            case JRAlignment.VERTICAL_ALIGN_MIDDLE:
-        	            {
-		                	textBoxX = x + textBoxAdjustment;
-		                	textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
-        	                break;
-        	            }
-        	            case JRAlignment.VERTICAL_ALIGN_BOTTOM:
-        	            {
-		                	textBoxX = x + textBoxAdjustment;
-		                	textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
-        	                break;
-        	            }
-        	        }
-        			textBoxWidth = width - textBoxAdjustment;
-        			textBoxHeight = textHeight - textBoxAdjustment;
-	                rotation = "";
-                }
-            }
 
-            writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
+			switch (text.getRotation())
+			{
+				case JRTextElement.ROTATION_LEFT :
+				{
+					switch (text.getVerticalAlignment())
+					{
+						case JRAlignment.VERTICAL_ALIGN_TOP:
+						{
+							textBoxX = x + textBoxAdjustment + leftPadding;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+						{
+							textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+						{
+							textBoxX = x + textBoxAdjustment + width - rightPadding - textHeight;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+					}
+					textBoxWidth = textHeight - textBoxAdjustment;
+					textBoxHeight = height - textBoxAdjustment;
+					leftPadding = bottomPadding;
+					rightPadding = topPadding;
+					rotation = "\\dptxbtlr";
+					break;
+				}
+				case JRTextElement.ROTATION_RIGHT :
+				{
+					switch (text.getVerticalAlignment())
+					{
+						case JRAlignment.VERTICAL_ALIGN_TOP:
+						{
+							textBoxX = x + textBoxAdjustment + width - textHeight - rightPadding;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+						{
+							textBoxX = x + textBoxAdjustment + (width + leftPadding - rightPadding - textHeight) / 2;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+						{
+							textBoxX = x + textBoxAdjustment + leftPadding;
+							textBoxY = y + textBoxAdjustment;
+							break;
+						}
+					}
+					textBoxWidth = textHeight - textBoxAdjustment;
+					textBoxHeight = height - textBoxAdjustment;
+					rightPadding = bottomPadding;
+					leftPadding = topPadding;
+					rotation = "\\dptxtbrl";
+					break;
+				}
+				case JRTextElement.ROTATION_UPSIDE_DOWN :
+				{
+					switch (text.getVerticalAlignment())
+					{
+						case JRAlignment.VERTICAL_ALIGN_TOP:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + topPadding + textBoxAdjustment;
+							break;
+						}
+					}
+					textBoxWidth = width - textBoxAdjustment;
+					textBoxHeight = textHeight - textBoxAdjustment;
+					rotation = "";
+					break;
+				}
+				case JRTextElement.ROTATION_NONE :
+				default :
+				{
+					switch (text.getVerticalAlignment())
+					{
+						case JRAlignment.VERTICAL_ALIGN_TOP:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + topPadding + textBoxAdjustment;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_MIDDLE:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + textBoxAdjustment + (height + topPadding - bottomPadding - textHeight) / 2;
+							break;
+						}
+						case JRAlignment.VERTICAL_ALIGN_BOTTOM:
+						{
+							textBoxX = x + textBoxAdjustment;
+							textBoxY = y + textBoxAdjustment + height - bottomPadding - textHeight;
+							break;
+						}
+					}
+					textBoxWidth = width - textBoxAdjustment;
+					textBoxHeight = textHeight - textBoxAdjustment;
+					rotation = "";
+				}
+			}
+
+			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
 			writer.write(String.valueOf(textBoxX));
@@ -927,11 +927,11 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(textBoxY));
 			writer.write("\\dpysize");
 			writer.write(String.valueOf(textBoxHeight));
-            writer.write(rotation);
-			
+			writer.write(rotation);
+
 			writer.write("\\dpfillpat0\\dplinehollow{\\dptxbxtext {\\pard");
 		}
-		
+
 		JRFont font = text;
 		writer.write("\\f");
 		writer.write(String.valueOf(getFontIndex(font)));
@@ -986,14 +986,14 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\sl");
 		writer.write(String.valueOf(twip(text.getLineSpacingFactor() * font.getFontSize())));
 		writer.write(" ");
-		
+
 		if (text.getAnchorName() != null)
 		{
 			writeAnchor(text.getAnchorName());
 		}
-		
+
 		boolean startedHyperlink = startHyperlink(text);
-		
+
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
 		int runLimit = 0;
@@ -1009,7 +1009,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			JRFont styleFont = new JRBaseFont(styledTextAttributes);
 			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
 			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
-			
+
 			writer.write("\\f");
 			writer.write(String.valueOf(getFontIndex(styleFont)));
 			writer.write("\\fs");
@@ -1040,7 +1040,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			{
 				writer.write("\\sub");
 			}
-			
+
 			if(!(null == styleBackground || styleBackground.equals(bgcolor))){
 				writer.write("\\highlight");
 				writer.write(String.valueOf(getColorIndex(styleBackground)));
@@ -1050,10 +1050,10 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(" ");
 
 			String str = plainText.substring(iterator.getIndex(), runLimit);
-			
+
 			StringBuffer result = new StringBuffer(str);
 			writer.write(handleUnicodeText(result, text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL));
-			
+
 			// reset all styles in the paragraph
 			writer.write("\\plain");
 
@@ -1063,7 +1063,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			endHyperlink();
 		}
-		
+
 		if(isUnicode) {
 			writer.write("\\par}\n");
 		}
@@ -1073,18 +1073,18 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		exportBox(text, x, y, width, height, text.getForecolor(), bgcolor);
 	}
-	
-	
+
+
 	/**
 	 * Replace Unicode characters with RTF Unicode control words
 	 * @param source source text
-	 * @return text with Unicode characters replaced 
+	 * @return text with Unicode characters replaced
 	 */
 	private String handleUnicodeText(StringBuffer source, boolean isRightToLeft)
 	{
 		StringBuffer resultBuffer = new StringBuffer();
 		StringBuffer leftToRightBuffer = new StringBuffer();
-		
+
 		for(int i = 0; i < source.length(); i++ )
 		{
 			long ch = source.charAt(i);
@@ -1094,15 +1094,15 @@ public class JRRtfExporter extends JRAbstractExporter
 				{
 					resultBuffer.insert(0, leftToRightBuffer.toString());
 					leftToRightBuffer = new StringBuffer();
-					
+
 					resultBuffer.insert(0, "\\u" + ch + '?');
 				}
-				else 
+				else
 				{
 					leftToRightBuffer.append("\\u" + ch + '?');
 				}
 			}
-			else 
+			else
 			{
 				if(ch == '\n')
 				{
@@ -1118,25 +1118,25 @@ public class JRRtfExporter extends JRAbstractExporter
 				}
 			}
 		}
-		
+
 		if(leftToRightBuffer != null && leftToRightBuffer.length() > 0)
 		{
 			if(isRightToLeft)
 			{
 				resultBuffer.insert(0, leftToRightBuffer.toString());
 			}
-			else 
+			else
 			{
 				resultBuffer.append(leftToRightBuffer.toString());
 			}
 		}
-		
+
 		return resultBuffer.toString();
 	}
-	
-	
+
+
 	/**
-	 * Export a image object 
+	 * Export a image object
 	 * @param printImage JasperReports image object (JRPrintImage)
 	 * @throws JRException
 	 * @throws IOException
@@ -1176,7 +1176,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 			{
-				// Image renderers are all asked for their image data at some point. 
+				// Image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
 				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorType());
 			}
@@ -1190,19 +1190,19 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			if (renderer.getType() == JRRenderable.TYPE_SVG)
 			{
-				renderer = 
+				renderer =
 					new JRWrappingSvgRenderer(
-						renderer, 
+						renderer,
 						new Dimension(printImage.getWidth(), printImage.getHeight()),
 						JRElement.MODE_OPAQUE == printImage.getMode() ? printImage.getBackcolor() : null
 						);
 			}
-				
+
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			// Image load might fail. 
-			JRRenderable tmpRenderer = 
+			// Image load might fail.
+			JRRenderable tmpRenderer =
 				JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorType());
 			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
 			// If renderer was replaced, ignore image dimension.
@@ -1267,7 +1267,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					break;
 				}
 			}
-			
+
 			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\dptxbx\\dpx");
@@ -1284,7 +1284,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				writeAnchor(printImage.getAnchorName());
 			}
 			boolean startedHyperlink = startHyperlink(printImage);
-			
+
 			writer.write("{\\pict\\jpegblip");
 			writer.write("\\picwgoal");
 			writer.write(String.valueOf(twip(normalWidth)));
@@ -1295,7 +1295,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("\\piccropl");
 			writer.write(String.valueOf(twip(cropl)));
 			writer.write("\n");
-			
+
 			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
 
 			int count = 0;
@@ -1340,9 +1340,9 @@ public class JRRtfExporter extends JRAbstractExporter
 			exportBox(printImage, x, y, width, height, printImage.getForecolor(), printImage.getBackcolor());
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param frame
 	 * @throws JRException
 	 */
@@ -1351,22 +1351,22 @@ public class JRRtfExporter extends JRAbstractExporter
 		int y = twip(frame.getY() + getOffsetY());
 		int width = twip(frame.getWidth());
 		int height = twip(frame.getHeight());
-		
+
 		if (frame.getMode() == JRElement.MODE_OPAQUE)
 		{
 			startGraphic("dprect", x, y, width, height);
 			finishGraphic(JRGraphicElement.PEN_NONE, frame.getForecolor(),
 					frame.getBackcolor(), 1);
 		}
-		
+
 		setFrameElementsOffset(frame, false);
 		exportElements(frame.getElements());
 		restoreElementOffsets();
-		
-		exportBox(frame, x, y, width, height, frame.getForecolor(), frame.getBackcolor());		
+
+		exportBox(frame, x, y, width, height, frame.getForecolor(), frame.getBackcolor());
 	}
-	
-	
+
+
 	protected void exportElements(Collection elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
 			for (Iterator it = elements.iterator(); it.hasNext();) {
@@ -1392,7 +1392,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 	}
-	
+
 	/**
 	 * Exports a JRBox that represents the border of a JasperReports object
 	 * @param box
@@ -1405,18 +1405,18 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @throws IOException
 	 */
 	private void exportBox(JRBox box, int x, int y, int width, int height, Color fg, Color bg) throws IOException{
-		
+
 		if (box.getTopBorder() != JRGraphicElement.PEN_NONE) {
 			Color bc = box.getTopBorderColor();
 			byte pen = box.getTopBorder();
-			
+
 			int a = getAdjustment(box.getTopBorder());
 			if (bc == null) {
 				bc = fg;
 			}
 			startGraphic("dpline", x, y + a, width, 0);
 			finishGraphic(pen, bc, bg, 1);
-			
+
 		}
 		if (box.getLeftBorder() != JRGraphicElement.PEN_NONE)
 		{
@@ -1452,29 +1452,29 @@ public class JRRtfExporter extends JRAbstractExporter
 			finishGraphic(pen, bc, bg, 1);
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
 		String href = getHyperlinkURL(link);
 		boolean isHref = (href != null);
-		
+
 		if (isHref)
 		{
 			writer.write("{\\field {\\*\\fldinst HYPERLINK ");
 			writer.write(href);
 			writer.write("}{\\fldrslt ");
 		}
-		
+
 		return isHref;
 	}
 
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);		
+		JRHyperlinkProducer customHandler = getCustomHandler(link);
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkType())
@@ -1536,7 +1536,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		{
 			href = customHandler.getHyperlink(link);
 		}
-		
+
 		return href;
 	}
 
@@ -1610,5 +1610,5 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 		return yalignFactor;
 	}
-	
+
 }
