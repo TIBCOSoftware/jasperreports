@@ -32,6 +32,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextElement;
 
 
 /**
@@ -57,7 +58,8 @@ public class ParagraphStyle extends Style
 
 	private String verticalAlignment = null;
 	private String horizontalAlignment = null;
-	private String runDirection = null;
+    private String runDirection = null;
+    private String textRotation = "0";
 
 	/**
 	 *
@@ -116,6 +118,17 @@ public class ParagraphStyle extends Style
 		{
 			runDirection = "rl";
 		}
+		
+		switch(text.getRotation())
+		{
+            case JRTextElement.ROTATION_LEFT:
+                textRotation = "90";
+                break;
+            case JRTextElement.ROTATION_RIGHT:
+                textRotation = "270";
+                break;
+		        
+		}
 	}
 	
 	/**
@@ -123,7 +136,7 @@ public class ParagraphStyle extends Style
 	 */
 	public String getId()
 	{
-		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection;
+		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|"+textRotation;
 	}
 
 	/**
@@ -150,6 +163,10 @@ public class ParagraphStyle extends Style
 		}
 		styleWriter.write("> \r\n");
 		styleWriter.write("</style:paragraph-properties>\n");
+        styleWriter.write("<style:text-properties");
+        styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
+        styleWriter.write("> \r\n");
+        styleWriter.write("</style:text-properties>\n");
 		styleWriter.write("</style:style>\n");
 	}
 
