@@ -2,6 +2,19 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 2.0.3 (2007-1x-xx)
+-----------------------------------
+
+- the default value of the deprecated JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE
+exporter parameter is now "false"; the newer IS_DETECT_CELL_TYPE exporter parameter
+should be used to control the cell types in the generated XLS documents;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 2.0.2 (2007-10-09)
 -----------------------------------
 
