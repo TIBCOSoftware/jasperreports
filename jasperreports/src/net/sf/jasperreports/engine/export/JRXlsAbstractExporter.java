@@ -101,7 +101,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isRemoveEmptySpaceBetweenRows;
 	protected boolean isRemoveEmptySpaceBetweenColumns;
 	protected boolean isWhitePageBackground;
-	protected boolean isAutoDetectCellType = true;
+	protected boolean isAutoDetectCellType = false;
 	protected boolean isDetectCellType;
 	protected boolean isFontSizeFixEnabled;
 	protected boolean isIgnoreGraphics;
