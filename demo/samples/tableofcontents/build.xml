@@ -3,13 +3,14 @@
 	<description>Shows how table-of-contents structures could be created for the generated reports.</description>
 
 	<property name="class.name" value="TableOfContentsApp" />
-	<property name="file.name" value="${basedir}/TableOfContentsReport" />
+	<property name="file.name" value="${basedir}/build/reports/TableOfContentsReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
 	
 	<path id="classpath">
-		<pathelement location="./"/>
+		<pathelement location="./build/classes"/>
+		<pathelement location="./build/reports"/>
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${fonts.dir}" />
 		<fileset dir="${lib.dir}">
@@ -18,18 +19,20 @@
 	</path>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
-		<javac srcdir="./" destdir="./" debug="true" optimize="false" deprecation="false">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="./">
+		<jrc destdir="./build/reports">
 			<src>
-				<fileset dir="./">
+				<fileset dir="./reports">
 					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
@@ -179,20 +182,7 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete>
-			<fileset dir="." includes="**/*.class" />
-			<fileset dir="." includes="**/*.jasper" />
-			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.rtf" />
-			<fileset dir="." includes="**/*.xls" />
-			<fileset dir="." includes="**/*.csv" />
-			<fileset dir="." includes="**/*.odt" />
-			<fileset dir="." includes="**/*.pdf" />
-		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
+		<delete dir="./build" />
 	</target>
 
 </project>

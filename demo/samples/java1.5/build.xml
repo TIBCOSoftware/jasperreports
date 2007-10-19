@@ -81,14 +81,6 @@
 		</java>
 	</target>
 
-	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer." depends="check1.5">
-		<java classname="${class.name}">
-			<arg value="-Tprint"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
 	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file." depends="check1.5">
 		<java classname="${class.name}">
 			<arg value="-Tpdf"/>

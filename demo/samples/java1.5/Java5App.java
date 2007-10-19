@@ -57,7 +57,6 @@ public class Java5App
 {
 	
 	private static final String TASK_FILL = "fill";
-	private static final String TASK_PRINT = "print";
 	private static final String TASK_PDF = "pdf";
 
 	
@@ -94,11 +93,6 @@ public class Java5App
 				JasperFillManager.fillReportToFile(fileName, parameters, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_PRINT.equals(taskName))
-			{
-				JasperPrintManager.printReport(fileName, true);
-				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
@@ -123,7 +117,7 @@ public class Java5App
 	{
 		System.out.println("Java5App usage:");
 		System.out.println("\tjava GroovyApp -Ttask -Ffile");
-		System.out.println("\tTasks : fill | print | pdf");
+		System.out.println("\tTasks : fill | pdf");
 	}
 
 }
