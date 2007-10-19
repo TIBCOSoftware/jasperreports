@@ -3,7 +3,7 @@
 	<description>Shows how the Groovy scripting languages could be used inside report templates.</description>
 
 	<property name="class.name" value="GroovyApp" />
-	<property name="file.name" value="GroovyReport" />
+	<property name="file.name" value="${basedir}/GroovyReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -46,16 +46,16 @@
 	</target>
 
 	<target name="fill" if="using.jdk.1.4" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
-			<arg value="-F./${file.name}.jasper"/>
+			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="view" if="using.jdk.1.4" description="Launches the report viewer to preview the report stored in the .jrprint file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<arg value="-F./${file.name}.jrprint"/>
+			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -63,15 +63,15 @@
 	<target name="viewXML" if="using.jdk.1.4" description="Launches the report viewer to preview the generated report stored in an XML file.">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F./${file.name}.jrpxml"/>
+			<arg value="-F${file.name}.jrpxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="pdf" if="using.jdk.1.4" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
-			<arg value="-F./${file.name}.jrprint"/>
+			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -79,14 +79,14 @@
 	<target name="viewDesignXML" if="using.jdk.1.4" description="Launches the design viewer to preview the XML report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="-XML"/>
-			<arg value="-F./${file.name}.jrxml"/>
+			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign" if="using.jdk.1.4" description="Launches the design viewer to preview the compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="-F./${file.name}.jasper"/>
+			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

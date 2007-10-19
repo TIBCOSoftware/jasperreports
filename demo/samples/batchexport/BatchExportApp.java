@@ -26,6 +26,7 @@
  * http://www.jaspersoft.com
  */
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -96,18 +98,29 @@ public class BatchExportApp
 			long start = System.currentTimeMillis();
 			if (TASK_FILL.equals(taskName))
 			{
-				JasperFillManager.fillReportToFile("Report1.jasper", null, new JREmptyDataSource(2));
-				JasperFillManager.fillReportToFile("Report2.jasper", null, new JREmptyDataSource(2));
-				JasperFillManager.fillReportToFile("Report3.jasper", null, new JREmptyDataSource(2));
+				JasperFillManager.fillReportToFile(
+					new File(new File(fileName), "Report1.jasper").getAbsolutePath(),
+					null, 
+					new JREmptyDataSource(2)
+					);
+				JasperFillManager.fillReportToFile(
+					new File(new File(fileName), "Report2.jasper").getAbsolutePath(),
+					null, 
+					new JREmptyDataSource(2)
+					);
+				JasperFillManager.fillReportToFile(
+					new File(new File(fileName), "Report3.jasper").getAbsolutePath(),
+					null, 
+					new JREmptyDataSource(2)
+					);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JRPdfExporter exporter = new JRPdfExporter();
 				
@@ -118,14 +131,13 @@ public class BatchExportApp
 				exporter.exportReport();
 				
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				
@@ -135,14 +147,13 @@ public class BatchExportApp
 				exporter.exportReport();
 				
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JRRtfExporter exporter = new JRRtfExporter();
 				
@@ -152,14 +163,13 @@ public class BatchExportApp
 				exporter.exportReport();
 
 				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JRXlsExporter exporter = new JRXlsExporter();
 				
@@ -170,14 +180,13 @@ public class BatchExportApp
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JExcelApiExporter exporter = new JExcelApiExporter();
 				
@@ -188,14 +197,13 @@ public class BatchExportApp
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JRCsvExporter exporter = new JRCsvExporter();
 				
@@ -205,14 +213,13 @@ public class BatchExportApp
 				exporter.exportReport();
 
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_ODT.equals(taskName))
 			{
 				List jasperPrintList = new ArrayList();
-				jasperPrintList.add(JRLoader.loadObject("Report1.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report2.jrprint"));
-				jasperPrintList.add(JRLoader.loadObject("Report3.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report1.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report2.jrprint"));
+				jasperPrintList.add(JRLoader.loadObjectFromLocation("Report3.jrprint"));
 				
 				JROdtExporter exporter = new JROdtExporter();
 				
@@ -222,23 +229,19 @@ public class BatchExportApp
 				exporter.exportReport();
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

@@ -3,7 +3,7 @@
 	<description>Shows how the pure text exporter could be used to export reports to simple text files.</description>
 
 	<property name="class.name" value="TextApp" />
-	<property name="file.name" value="TextReport" />
+	<property name="file.name" value="${basedir}/TextReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -24,7 +24,7 @@
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tcompile"/>
 			<arg value="-F${file.name}.jrxml"/>
 			<classpath refid="classpath"/>
@@ -32,7 +32,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -47,7 +47,7 @@
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -55,7 +55,7 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -63,7 +63,7 @@
 	</target>
 
 	<target name="text" description="Generates a pure text version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Ttext"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>

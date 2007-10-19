@@ -3,7 +3,7 @@
 	<description>Shows how Java 1.5 could be used inside report templates.</description>
 
 	<property name="class.name" value="Java5App" />
-	<property name="file.name" value="Java5Report" />
+	<property name="file.name" value="${basedir}/Java5Report" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -35,7 +35,7 @@
 		<antcall target="runAll"/>
 	</target>
 	
-	<target name="runAll" depends="javac, compile, fill, pdf, xml, html, xls, jxl, rtf, csv, odt">
+	<target name="runAll" depends="javac, compile, fill, pdf">
 	</target>
 	
 	<target name="javac" if="using.jdk.1.5" description="Compiles the java source files of the test application." depends="check1.5">
@@ -59,7 +59,7 @@
 	</target>
 
 	<target name="fill" if="using.jdk.1.5" description="Fills the compiled report design with data and produces the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -82,7 +82,7 @@
 	</target>
 
 	<target name="print" if="using.jdk.1.5" description="Sends the report in the .jrprint file to the printer." depends="check1.5">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -90,81 +90,9 @@
 	</target>
 
 	<target name="pdf" if="using.jdk.1.5" description="Generates a PDF version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="xml" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Txml"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="xmlEmbed" if="using.jdk.1.5" description="Generates an XML version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-TxmlEmbed"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="html" if="using.jdk.1.5" description="Generates an HTML version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Thtml"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="rtf" if="using.jdk.1.5" description="Generates an RTF version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Trtf"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="xls" if="using.jdk.1.5" description="Generates an XLS version of the report by converting the .jrprint file using the POI library." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Txls"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tjxl"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="csv" if="using.jdk.1.5" description="Generates a CSV version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Tcsv"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="odt" if="using.jdk.1.5" description="Generates an ODT version of the report by converting the .jrprint file." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Todt"/>
-			<arg value="-F${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
-	<target name="run" if="using.jdk.1.5" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced." depends="check1.5">
-		<java classname="${class.name}" fork="true">
-			<arg value="-Trun"/>
-			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -189,16 +117,8 @@
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.jasper" />
 			<fileset dir="." includes="**/*.jrprint" />
-			<fileset dir="." includes="**/*.jrpxml" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.rtf" />
-			<fileset dir="." includes="**/*.xls" />
-			<fileset dir="." includes="**/*.csv" />
-			<fileset dir="." includes="**/*.odt" />
 			<fileset dir="." includes="**/*.pdf" />
 		</delete>
-		<delete dir="${file.name}.jrpxml_files" />
-		<delete dir="${file.name}.html_files" />
 	</target>
 
 </project>

@@ -86,7 +86,6 @@ public class PdfEncryptApp
 			{
 				JasperFillManager.fillReportToFile(fileName, null, new JREmptyDataSource());
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
@@ -112,23 +111,19 @@ public class PdfEncryptApp
 				exporter.exportReport();
 
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

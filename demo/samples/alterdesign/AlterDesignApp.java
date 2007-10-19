@@ -112,35 +112,29 @@ public class AlterDesignApp
 				JRSaver.saveObject(jasperPrint, destFile);
 				
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
 				JasperPrintManager.printReport(fileName, true);
 				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

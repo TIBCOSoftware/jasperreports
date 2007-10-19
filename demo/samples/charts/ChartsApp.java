@@ -92,6 +92,7 @@ public class ChartsApp
 	public static void main(String[] args)
 	{
 		String taskName = null;
+		String fileName = null;
 
 		if(args.length == 0)
 		{
@@ -104,6 +105,8 @@ public class ChartsApp
 		{
 			if ( args[k].startsWith("-T") )
 				taskName = args[k].substring(2);
+			if ( args[k].startsWith("-F") )
+				fileName = args[k].substring(2);
 			
 			k++;	
 		}
@@ -118,60 +121,60 @@ public class ChartsApp
 				for(int i = 0; i < reportNames.length; i++)
 				{
 					long start = System.currentTimeMillis();
-					JasperFillManager.fillReportToFile(reportNames[i] + ".jasper", parameters, getConnection());
+					JasperFillManager.fillReportToFile(
+						new File(new File(fileName), reportNames[i] + ".jasper").getAbsolutePath(), 
+						parameters, 
+						getConnection()
+						);
 					System.err.println("Report : " + reportNames[i] + ". Filling time : " + (System.currentTimeMillis() - start));
 				}
-
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				for(int i = 0; i < reportNames.length; i++)
 				{
 					long start = System.currentTimeMillis();
-					JasperExportManager.exportReportToPdfFile(reportNames[i] + ".jrprint");
+					JasperExportManager.exportReportToPdfFile(
+						new File(new File(fileName), reportNames[i] + ".jrprint").getAbsolutePath()
+						);
 					System.err.println("Report : " + reportNames[i] + ". PDF export time : " + (System.currentTimeMillis() - start));
 				}
-
-				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
 				for(int i = 0; i < reportNames.length; i++)
 				{
 					long start = System.currentTimeMillis();
-					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
+					JasperExportManager.exportReportToHtmlFile(
+						new File(new File(fileName), reportNames[i] + ".jrprint").getAbsolutePath()
+						);
 					System.err.println("Report : " + reportNames[i] + ". Html export time : " + (System.currentTimeMillis() - start));
 				}
-
-				System.exit(0);
 			}
 			else if (TASK_WRITE_XML.equals(taskName))
 			{
 				for(int i = 0; i < reportNames.length; i++)
 				{
 					long start = System.currentTimeMillis();
-					JasperCompileManager.writeReportToXmlFile(reportNames[i] + ".jasper", reportNames[i] + ".jasper.jrxml");
+					JasperCompileManager.writeReportToXmlFile(
+						new File(new File(fileName), reportNames[i] + ".jasper").getAbsolutePath(), 
+						new File(new File(fileName), reportNames[i] + ".jasper.jrxml").getAbsolutePath()
+						);
 					System.err.println("Report : " + reportNames[i] + ". XML write time : " + (System.currentTimeMillis() - start));
 				}
-
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
