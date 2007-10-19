@@ -3,7 +3,7 @@
 	<description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
 
 	<property name="class.name" value="AlterDesignApp" />
-	<property name="file.name" value="AlterDesignReport" />
+	<property name="file.name" value="${basedir}/AlterDesignReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -38,7 +38,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -53,7 +53,7 @@
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -61,7 +61,7 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>

@@ -201,7 +201,6 @@ public class MondrianApp
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
@@ -261,12 +260,10 @@ public class MondrianApp
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

@@ -125,7 +125,6 @@ public class HibernateApp
 				
 				transaction.rollback();
 				session.close();
-				System.exit(0);
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
@@ -135,7 +134,6 @@ public class HibernateApp
 					JasperPrintManager.printReport(reportNames[i] + ".jrprint", true);
 					System.err.println("Report : " + reportNames[i] + ". Printing time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
@@ -145,7 +143,6 @@ public class HibernateApp
 					JasperExportManager.exportReportToPdfFile(reportNames[i] + ".jrprint");
 					System.err.println("Report : " + reportNames[i] + ". PDF creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
@@ -167,7 +164,6 @@ public class HibernateApp
 
 					System.err.println("Report : " + reportNames[i] + ". RTF creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_XML.equals(taskName))
 			{
@@ -177,7 +173,6 @@ public class HibernateApp
 					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", false);
 					System.err.println("Report : " + reportNames[i] + ". XML creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
@@ -187,7 +182,6 @@ public class HibernateApp
 					JasperExportManager.exportReportToXmlFile(reportNames[i] + ".jrprint", true);
 					System.err.println("Report : " + reportNames[i] + ". XML creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
@@ -197,7 +191,6 @@ public class HibernateApp
 					JasperExportManager.exportReportToHtmlFile(reportNames[i] + ".jrprint");
 					System.err.println("Report : " + reportNames[i] + ". HTML creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
@@ -220,7 +213,6 @@ public class HibernateApp
 
 					System.err.println("Report : " + reportNames[i] + ". XLS creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
@@ -243,7 +235,6 @@ public class HibernateApp
 
 					System.err.println("Report : " + reportNames[i] + ". XLS creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
@@ -265,7 +256,6 @@ public class HibernateApp
 
 					System.err.println("Report : " + reportNames[i] + ". CSV creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_ODT.equals(taskName))
 			{
@@ -287,7 +277,6 @@ public class HibernateApp
 
 					System.err.println("Report : " + reportNames[i] + ". ODT creation time : " + (System.currentTimeMillis() - start));
 				}
-				System.exit(0);
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
@@ -304,18 +293,15 @@ public class HibernateApp
 
 				transaction.rollback();
 				session.close();
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

@@ -3,7 +3,7 @@
 	<description>Shows how custom or JavaBean-based data sources implementation could be used to fill reports.</description>
 
 	<property name="class.name" value="CsvDataSourceApp" />
-	<property name="file.name" value="CsvDataSourceReport" />
+	<property name="file.name" value="${basedir}/CsvDataSourceReport" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -38,7 +38,7 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data from the CSVDatasource.txt file, using the JRCsvDataSource implementation, and produces the .jrprint file">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>
@@ -61,7 +61,7 @@
 	</target>
 
 	<target name="print" description="Sends the report in the .jrprint file to the printer.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tprint"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -69,7 +69,7 @@
 	</target>
 
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -77,7 +77,7 @@
 	</target>
 
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Txml"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -85,7 +85,7 @@
 	</target>
 
 	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-TxmlEmbed"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -93,7 +93,7 @@
 	</target>
 
 	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Thtml"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -101,7 +101,7 @@
 	</target>
 
 	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Trtf"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -109,7 +109,7 @@
 	</target>
 
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Txls"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -117,7 +117,7 @@
 	</target>
 
 	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tjxl"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -125,7 +125,7 @@
 	</target>
 
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tcsv"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -133,7 +133,7 @@
 	</target>
 
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Todt"/>
 			<arg value="-F${file.name}.jrprint"/>
 			<classpath refid="classpath"/>
@@ -141,7 +141,7 @@
 	</target>
 
 	<target name="run" description="Generates a PDF file by filling the .jasper report design. No intermediate .jrprint file is produced.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Trun"/>
 			<arg value="-F${file.name}.jasper"/>
 			<classpath refid="classpath"/>

@@ -37,8 +37,9 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tfill"/>
+			<arg value="-F${basedir}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
@@ -51,22 +52,25 @@
 	</target>
 	
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Tpdf"/>
+			<arg value="-F${basedir}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 	
 	<target name="html" description="Generates a HTML version of the report by converting the .jrprint file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-Thtml"/>
+			<arg value="-F${basedir}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="writeXml" description="Generates a report design XML file from a .jasper file.">
-		<java classname="${class.name}" fork="true">
+		<java classname="${class.name}">
 			<arg value="-TwriteXml"/>
+			<arg value="-F${basedir}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

@@ -113,7 +113,7 @@ public class XmlDataSourceApp
 			if (TASK_FILL.equals(taskName))
 			{
 				Map params = new HashMap();
-				Document document = JRXmlUtils.parse(new File("northwind.xml"));
+				Document document = JRXmlUtils.parse(JRLoader.getLocationInputStream("northwind.xml"));
 				params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 				params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd");
 				params.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, "#,##0.##");
@@ -122,19 +122,16 @@ public class XmlDataSourceApp
 				
 				JasperFillManager.fillReportToFile(fileName, params);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
 				JasperPrintManager.printReport(fileName, true);
 				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PDF.equals(taskName))
 			{
 				JasperExportManager.exportReportToPdfFile(fileName);
 				System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_RTF.equals(taskName))
 			{
@@ -152,25 +149,21 @@ public class XmlDataSourceApp
 				exporter.exportReport();
 
 				System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_XML.equals(taskName))
 			{
 				JasperExportManager.exportReportToXmlFile(fileName, false);
 				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_XML_EMBED.equals(taskName))
 			{
 				JasperExportManager.exportReportToXmlFile(fileName, true);
 				System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_HTML.equals(taskName))
 			{
 				JasperExportManager.exportReportToHtmlFile(fileName);
 				System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_XLS.equals(taskName))
 			{
@@ -189,7 +182,6 @@ public class XmlDataSourceApp
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_JXL.equals(taskName))
 			{
@@ -208,7 +200,6 @@ public class XmlDataSourceApp
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_CSV.equals(taskName))
 			{
@@ -227,7 +218,6 @@ public class XmlDataSourceApp
 				exporter.exportReport();
 
 				System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_ODT.equals(taskName))
 			{
@@ -246,7 +236,6 @@ public class XmlDataSourceApp
 				exporter.exportReport();
 
 				System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_RUN.equals(taskName))
 			{
@@ -256,23 +245,19 @@ public class XmlDataSourceApp
 				
 				JasperRunManager.runReportToPdfFile(fileName, params);
 				System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

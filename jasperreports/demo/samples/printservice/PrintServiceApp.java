@@ -104,7 +104,6 @@ public class PrintServiceApp
 				JasperPrint jasperPrint = getJasperPrint();
 				JRSaver.saveObject(jasperPrint, fileName);
 				System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else if (TASK_PRINT.equals(taskName))
 			{
@@ -126,23 +125,19 @@ public class PrintServiceApp
 				exporter.exportReport();
 
 				System.err.println("Printing time : " + (System.currentTimeMillis() - start));
-				System.exit(0);
 			}
 			else
 			{
 				usage();
-				System.exit(0);
 			}
 		}
 		catch (JRException e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
