@@ -9,6 +9,9 @@ JasperReports 2.0.3 (2007-1x-xx)
 exporter parameter is now "false"; the newer IS_DETECT_CELL_TYPE exporter parameter
 should be used to control the cell types in the generated XLS documents;
 
+- exporter filter support added to all exporters, including support for 
+origin exporter filter hints;
+
 - minor bug fixes and improvements;
 
 
