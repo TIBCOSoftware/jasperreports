@@ -40,12 +40,10 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
@@ -57,6 +55,8 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
+import net.sf.jasperreports.engine.util.JRElementsVisitor;
+import net.sf.jasperreports.engine.util.JRVisitorSupport;
 
 
 /**
@@ -174,8 +174,6 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private Map datasetMap = new HashMap();
 	private List datasetList = new ArrayList();
-
-	private transient List crosstabs;
 
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
@@ -1097,9 +1095,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void preprocess()
 	{
-		collectCrosstabs();
-
-		for (Iterator it = crosstabs.iterator(); it.hasNext();)
+		for (Iterator it = getCrosstabs().iterator(); it.hasNext();)
 		{
 			JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 			crosstab.preprocess();
@@ -1108,70 +1104,15 @@ public class JasperDesign extends JRBaseReport
 
 	protected List getCrosstabs()
 	{
-		if (crosstabs == null)
+		final List crosstabs = new ArrayList();
+		JRElementsVisitor.visitReport(this, new JRVisitorSupport()
 		{
-			collectCrosstabs();
-		}
-
-		return crosstabs;
-	}
-
-	protected List collectCrosstabs()
-	{
-		crosstabs = new ArrayList();
-		
-		//TODO use JRElementsVisitor?
-		collectCrosstabs(background);
-		collectCrosstabs(title);
-		collectCrosstabs(pageHeader);
-		collectCrosstabs(columnHeader);
-		collectCrosstabs(detail);
-		collectCrosstabs(columnFooter);
-		collectCrosstabs(pageFooter);
-		collectCrosstabs(lastPageFooter);
-		collectCrosstabs(summary);
-		collectCrosstabs(noData);
-
-		JRGroup[] groups = getGroups();
-		if (groups != null)
-		{
-			for (int i = 0; i < groups.length; i++)
+			public void visitCrosstab(JRCrosstab crosstab)
 			{
-				collectCrosstabs(groups[i].getGroupHeader());
-				collectCrosstabs(groups[i].getGroupFooter());
+				crosstabs.add(crosstab);
 			}
-		}
-
+		});
 		return crosstabs;
-	}
-
-	protected void collectCrosstabs(JRBand band)
-	{
-		if (band != null)
-		{
-			collectCrosstabs(band.getElements());
-		}
-	}
-
-
-	protected void collectCrosstabs(JRElement[] elements)
-	{
-		if (elements != null)
-		{
-			for (int i = 0; i < elements.length; i++)
-			{
-				JRElement element = elements[i];
-				if (element instanceof JRCrosstab)
-				{
-					crosstabs.add(element);
-				}
-				else if (element instanceof JRFrame)
-				{
-					JRFrame frame = (JRFrame) element;
-					collectCrosstabs(frame.getElements());
-				}
-			}
-		}
 	}
 
 
