@@ -12,6 +12,8 @@ should be used to control the cell types in the generated XLS documents;
 - exporter filter support added to all exporters, including support for 
 origin exporter filter hints;
 
+- refactored RTF exporter to remove limitations related to Unicode texts;
+
 - minor bug fixes and improvements;
 
 
