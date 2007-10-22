@@ -104,6 +104,8 @@ import net.sf.jasperreports.engine.util.Pair;
 public class JRHtmlExporter extends JRAbstractExporter
 {
 
+	private static final String HTML_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.exclude.origin.";
+
 	/**
 	 * @deprecated Replaced by  {@link JRHtmlExporterParameter#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
@@ -208,7 +210,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 			/*   */
 			setInput();
-	
+			
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), HTML_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
+
 			/*   */
 			if (!isModeBatch)
 			{
