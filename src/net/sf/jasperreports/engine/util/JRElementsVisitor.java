@@ -59,6 +59,18 @@ public class JRElementsVisitor extends JRDelegationVisitor
 {
 
 	/**
+	 * Visits all the elements of a report.
+	 * 
+	 * @param report the report
+	 * @param visitor the element visitor
+	 */
+	public static void visitReport(JRReport report, JRVisitor visitor)
+	{
+		JRElementsVisitor reportVisitor = new JRElementsVisitor(visitor);
+		reportVisitor.visitReport(report);
+	}
+	
+	/**
 	 * Creates a report visitor.
 	 * 
 	 * @param visitor the elements visitor
@@ -82,7 +94,9 @@ public class JRElementsVisitor extends JRDelegationVisitor
 		visitBand(report.getDetail());
 		visitBand(report.getColumnFooter());
 		visitBand(report.getPageFooter());
+		visitBand(report.getLastPageFooter());
 		visitBand(report.getSummary());
+		visitBand(report.getNoData());
 		
 		JRGroup[] groups = report.getGroups();
 		if (groups != null)
