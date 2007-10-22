@@ -52,6 +52,22 @@ public abstract class JRDesignElement extends JRBaseElement
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_ELEMENT_GROUP = "elementGroup";
+	
+	public static final String PROPERTY_HEIGHT = "height";
+	
+	public static final String PROPERTY_KEY = "key";
+	
+	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
+	
+	public static final String PROPERTY_PRINT_WHEN_GROUP_CHANGES = "printWhenGroupChanges";
+	
+	public static final String PROPERTY_PARENT_STYLE = "parentStyle";
+	
+	public static final String PROPERTY_PARENT_STYLE_NAME_REFERENCE = "parentStyleNameReference";
+	
+	public static final String PROPERTY_Y = "y";
 
 
 	/**
@@ -70,7 +86,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setKey(String key)
 	{
+		Object old = this.key;
 		this.key = key;
+		getEventSupport().firePropertyChange(PROPERTY_KEY, old, this.key);
 	}
 		
 	/**
@@ -78,7 +96,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setY(int y)
 	{
+		int old = this.y;
 		this.y = y;
+		getEventSupport().firePropertyChange(PROPERTY_Y, old, this.y);
 	}
 	
 	/**
@@ -86,7 +106,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setHeight(int height)
 	{
+		int old = this.height;
 		this.height = height;
+		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 	
 	/**
@@ -95,7 +117,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setPrintWhenExpression(JRExpression expression)
 	{
+		Object old = this.printWhenExpression;
 		this.printWhenExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_WHEN_EXPRESSION, old, this.printWhenExpression);
 	}
 	
 	/**
@@ -104,7 +128,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setPrintWhenGroupChanges(JRGroup group)
 	{
+		Object old = this.printWhenGroupChanges;
 		this.printWhenGroupChanges = group;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_WHEN_GROUP_CHANGES, old, this.printWhenGroupChanges);
 	}
 	
 	/**
@@ -114,12 +140,16 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setElementGroup(JRElementGroup elementGroup)
 	{
+		Object old = this.elementGroup;
 		this.elementGroup = elementGroup;
+		getEventSupport().firePropertyChange(PROPERTY_ELEMENT_GROUP, old, this.elementGroup);
 	}
 	
 	public void setStyle(JRStyle style)
 	{
+		Object old = this.parentStyle;
 		this.parentStyle = style;
+		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE, old, this.parentStyle);
 	}
 	
 	/**
@@ -134,6 +164,8 @@ public abstract class JRDesignElement extends JRBaseElement
 	 */
 	public void setStyleNameReference(String styleName)
 	{
+		Object old = this.parentStyleNameReference;
 		this.parentStyleNameReference = styleName;
+		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE_NAME_REFERENCE, old, this.parentStyleNameReference);
 	}
 }

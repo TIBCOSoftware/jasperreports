@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseExpressionChunk;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -42,13 +43,19 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_TEXT = "text";
+	
+	public static final String PROPERTY_TYPE = "type";
 
 	/**
 	 *
 	 */
 	public void setType(byte type)
 	{
+		byte old = this.type;
 		this.type = type;
+		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
 	}
 		
 	/**
@@ -56,7 +63,24 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk
 	 */
 	public void setText(String text)
 	{
+		Object old = this.text;
 		this.text = text;
+		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

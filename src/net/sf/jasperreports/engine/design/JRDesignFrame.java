@@ -52,6 +52,36 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_BORDER = "border";
+	
+	public static final String PROPERTY_BORDER_COLOR = "borderColor";
+	
+	public static final String PROPERTY_BOTTOM_BORDER = "bottomBorder";
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = "bottomBorderColor";
+	
+	public static final String PROPERTY_BOTTOM_PADDING = "bottomPadding";
+	
+	public static final String PROPERTY_LEFT_BORDER = "leftBorder";
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = "leftBorderColor";
+	
+	public static final String PROPERTY_LEFT_PADDING = "leftPadding";
+	
+	public static final String PROPERTY_PADDING = "padding";
+	
+	public static final String PROPERTY_RIGHT_BORDER = "rightBorder";
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = "rightBorderColor";
+	
+	public static final String PROPERTY_RIGHT_PADDING = "rightPadding";
+	
+	public static final String PROPERTY_TOP_BORDER = "topBorder";
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = "topBorderColor";
+	
+	public static final String PROPERTY_TOP_PADDING = "topPadding";
+	
 	private List children;
 
 	/**
@@ -208,12 +238,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setBorder(byte border)
 	{
-		this.border = new Byte(border);
+		setBorder(new Byte(border));
 	}
 
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	public Color getBorderColor()
@@ -228,7 +260,9 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	public int getPadding()
@@ -243,12 +277,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setPadding(int padding)
 	{
-		this.padding = new Integer(padding);
+		setPadding(new Integer(padding));
 	}
 
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	public byte getTopBorder()
@@ -263,12 +299,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setTopBorder(byte topBorder)
 	{
-		this.topBorder = new Byte(topBorder);
+		setTopBorder(new Byte(topBorder));
 	}
 
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	public Color getTopBorderColor()
@@ -283,7 +321,9 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	public int getTopPadding()
@@ -298,12 +338,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setTopPadding(int topPadding)
 	{
-		this.topPadding = new Integer(topPadding);
+		setTopPadding(new Integer(topPadding));
 	}
 
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	public byte getLeftBorder()
@@ -318,12 +360,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setLeftBorder(byte leftBorder)
 	{
-		this.leftBorder = new Byte(leftBorder);
+		setLeftBorder(new Byte(leftBorder));
 	}
 
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	public Color getLeftBorderColor()
@@ -338,7 +382,9 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	public int getLeftPadding()
@@ -353,12 +399,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setLeftPadding(int leftPadding)
 	{
-		this.leftPadding = new Integer(leftPadding);
+		setLeftPadding(new Integer(leftPadding));
 	}
 
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	public byte getBottomBorder()
@@ -373,12 +421,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setBottomBorder(byte bottomBorder)
 	{
-		this.bottomBorder = new Byte(bottomBorder);
+		setBottomBorder(new Byte(bottomBorder));
 	}
 
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	public Color getBottomBorderColor()
@@ -393,7 +443,9 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	public int getBottomPadding()
@@ -408,12 +460,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setBottomPadding(int bottomPadding)
 	{
-		this.bottomPadding = new Integer(bottomPadding);
+		setBottomPadding(new Integer(bottomPadding));
 	}
 
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	public byte getRightBorder()
@@ -428,12 +482,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setRightBorder(byte rightBorder)
 	{
-		this.rightBorder = new Byte(rightBorder);
+		setRightBorder(new Byte(rightBorder));
 	}
 
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	public Color getRightBorderColor()
@@ -448,7 +504,9 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	public int getRightPadding()
@@ -463,12 +521,14 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 
 	public void setRightPadding(int rightPadding)
 	{
-		this.rightPadding = new Integer(rightPadding);
+		setRightPadding(new Integer(rightPadding));
 	}
 
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 	
 	
@@ -481,21 +541,21 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	{
 		if (box != null)
 		{
-			border = box.getOwnBorder();
-			topBorder = box.getOwnTopBorder();
-			leftBorder = box.getOwnLeftBorder();
-			bottomBorder = box.getOwnBottomBorder();
-			rightBorder = box.getOwnRightBorder();
-			borderColor = box.getOwnBorderColor();
-			topBorderColor = box.getOwnTopBorderColor();
-			leftBorderColor = box.getOwnLeftBorderColor();
-			bottomBorderColor = box.getOwnBottomBorderColor();
-			rightBorderColor = box.getOwnRightBorderColor();
-			padding = box.getOwnPadding();
-			topPadding = box.getOwnTopPadding();
-			leftPadding = box.getOwnLeftPadding();
-			bottomPadding = box.getOwnBottomPadding();
-			rightPadding = box.getOwnRightPadding();
+			setBorder(box.getOwnBorder());
+			setTopBorder(box.getOwnTopBorder());
+			setLeftBorder(box.getOwnLeftBorder());
+			setBottomBorder(box.getOwnBottomBorder());
+			setRightBorder(box.getOwnRightBorder());
+			setBorderColor(box.getOwnBorderColor());
+			setTopBorderColor(box.getOwnTopBorderColor());
+			setLeftBorderColor(box.getOwnLeftBorderColor());
+			setBottomBorderColor(box.getOwnBottomBorderColor());
+			setRightBorderColor(box.getOwnRightBorderColor());
+			setPadding(box.getOwnPadding());
+			setTopPadding(box.getOwnTopPadding());
+			setLeftPadding(box.getOwnLeftPadding());
+			setBottomPadding(box.getOwnBottomPadding());
+			setRightPadding(box.getOwnRightPadding());
 		}
 	}
 }

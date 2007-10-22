@@ -43,13 +43,19 @@ public class JRDesignField extends JRBaseField
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 
 	/**
 	 *
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 	
 	/**
@@ -65,8 +71,10 @@ public class JRDesignField extends JRBaseField
 	 */
 	public void setValueClassName(String className)
 	{
+		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
 

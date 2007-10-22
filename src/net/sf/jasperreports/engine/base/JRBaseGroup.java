@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -48,6 +49,16 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE = "minHeightToStartNewPage";
+	
+	public static final String PROPERTY_RESET_PAGE_NUMBER = "resetPageNumber";
+	
+	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "reprintHeaderOnEachPage";
+	
+	public static final String PROPERTY_START_NEW_COLUMN = "startNewColumn";
+	
+	public static final String PROPERTY_START_NEW_PAGE = "startNewPage";
 
 	/**
 	 *
@@ -119,7 +130,9 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 */
 	public void setStartNewColumn(boolean isStart)
 	{
+		boolean old = this.isStartNewColumn;
 		this.isStartNewColumn = isStart;
+		getEventSupport().firePropertyChange(PROPERTY_START_NEW_COLUMN, old, this.isStartNewColumn);
 	}
 		
 	/**
@@ -135,7 +148,9 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 */
 	public void setStartNewPage(boolean isStart)
 	{
+		boolean old = this.isStartNewPage;
 		this.isStartNewPage = isStart;
+		getEventSupport().firePropertyChange(PROPERTY_START_NEW_PAGE, old, this.isStartNewPage);
 	}
 		
 	/**
@@ -151,7 +166,9 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 */
 	public void setResetPageNumber(boolean isReset)
 	{
+		boolean old = this.isResetPageNumber;
 		this.isResetPageNumber = isReset;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_PAGE_NUMBER, old, this.isResetPageNumber);
 	}
 		
 	/**
@@ -167,7 +184,9 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 */
 	public void setReprintHeaderOnEachPage(boolean isReprint)
 	{
+		boolean old = this.isReprintHeaderOnEachPage;
 		this.isReprintHeaderOnEachPage = isReprint;
+		getEventSupport().firePropertyChange(PROPERTY_REPRINT_HEADER_ON_EACH_PAGE, old, this.isReprintHeaderOnEachPage);
 	}
 		
 	/**
@@ -183,7 +202,9 @@ public class JRBaseGroup implements JRGroup, Serializable
 	 */
 	public void setMinHeightToStartNewPage(int minHeight)
 	{
+		int old = this.minHeightToStartNewPage;
 		this.minHeightToStartNewPage = minHeight;
+		getEventSupport().firePropertyChange(PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE, old, this.minHeightToStartNewPage);
 	}
 		
 	/**
@@ -218,5 +239,20 @@ public class JRBaseGroup implements JRGroup, Serializable
 		return this.countVariable;
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

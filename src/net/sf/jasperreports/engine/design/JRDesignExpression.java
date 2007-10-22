@@ -39,6 +39,7 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -51,6 +52,10 @@ public class JRDesignExpression extends JRBaseExpression
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_TEXT = "text";
+	
+	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 
 	/**
 	 *
@@ -82,8 +87,10 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setValueClassName(String className)
 	{
+		Object old = this.valueClassName;
 		valueClassName = className;
 		valueClass = null;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
 	}
 
 	/**
@@ -202,6 +209,8 @@ public class JRDesignExpression extends JRBaseExpression
 	 */
 	public void setText(String text)
 	{
+		Object old = getText();
+		
 		chunks.clear();
 		
 		if (text != null)
@@ -298,6 +307,23 @@ public class JRDesignExpression extends JRBaseExpression
 				this.addTextChunk(textChunk.toString());					
 			}
 		}
+		
+		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, text);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

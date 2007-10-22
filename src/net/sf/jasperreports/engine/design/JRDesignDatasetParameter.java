@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseDatasetParameter;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -46,13 +47,19 @@ public class JRDesignDatasetParameter extends JRBaseDatasetParameter
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_EXPRESSION = "expression";
 
 	/**
 	 *
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 	
 	/**
@@ -60,7 +67,24 @@ public class JRDesignDatasetParameter extends JRBaseDatasetParameter
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 

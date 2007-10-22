@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report desing.
@@ -50,6 +51,14 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 
 	private Map parametersMap;
 	private List parametersList;
+	
+	public static final String PROPERTY_CONNECTION_EXPRESSION = "connectionExpression";
+	
+	public static final String PROPERTY_DATASET_NAME = "datasetName";
+	
+	public static final String PROPERTY_DATA_SOURCE_EXPRESSION = "dataSourceExpression";
+	
+	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
 	
 	/**
@@ -125,7 +134,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 */
 	public void setConnectionExpression(JRExpression connectionExpression)
 	{
+		Object old = this.connectionExpression;
 		this.connectionExpression = connectionExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CONNECTION_EXPRESSION, old, this.connectionExpression);
 	}
 
 	
@@ -137,7 +148,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 */
 	public void setDatasetName(String datasetName)
 	{
+		Object old = this.datasetName;
 		this.datasetName = datasetName;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET_NAME, old, this.datasetName);
 	}
 
 	
@@ -149,7 +162,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 */
 	public void setDataSourceExpression(JRExpression dataSourceExpression)
 	{
+		Object old = this.dataSourceExpression;
 		this.dataSourceExpression = dataSourceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_DATA_SOURCE_EXPRESSION, old, this.dataSourceExpression);
 	}
 
 	
@@ -161,7 +176,9 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 	 */
 	public void setParametersMapExpression(JRExpression parametersMapExpression)
 	{
+		Object old = this.parametersMapExpression;
 		this.parametersMapExpression = parametersMapExpression;
+		getEventSupport().firePropertyChange(PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 
 	public JRDatasetParameter[] getParameters()
@@ -169,6 +186,21 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun
 		JRDatasetParameter[] params = new JRDatasetParameter[parametersList.size()];
 		parametersList.toArray(params);
 		return params;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

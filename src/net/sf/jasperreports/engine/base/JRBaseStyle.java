@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -49,6 +50,82 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = 10001;
+	
+	public static final String PROPERTY_BACKCOLOR = "backcolor";
+	
+	public static final String PROPERTY_BLANK_WHEN_NULL = "blankWhenNull";
+	
+	public static final String PROPERTY_BOLD = "bold";
+	
+	public static final String PROPERTY_BORDER = "border";
+	
+	public static final String PROPERTY_BORDER_COLOR = "borderColor";
+	
+	public static final String PROPERTY_BOTTOM_BORDER = "bottomBorder";
+	
+	public static final String PROPERTY_BOTTOM_BORDER_COLOR = "bottomBorderColor";
+	
+	public static final String PROPERTY_BOTTOM_PADDING = "bottomPadding";
+	
+	public static final String PROPERTY_FILL = "fill";
+	
+	public static final String PROPERTY_FONT_NAME = "fontName";
+	
+	public static final String PROPERTY_FONT_SIZE = "fontSize";
+	
+	public static final String PROPERTY_FORECOLOR = "forecolor";
+	
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = "horizontalAlignment";
+	
+	public static final String PROPERTY_ITALIC = "italic";
+	
+	public static final String PROPERTY_LEFT_BORDER = "leftBorder";
+	
+	public static final String PROPERTY_LEFT_BORDER_COLOR = "leftBorderColor";
+	
+	public static final String PROPERTY_LEFT_PADDING = "leftPadding";
+	
+	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
+	
+	public static final String PROPERTY_MODE = "mode";
+	
+	public static final String PROPERTY_PADDING = "padding";
+	
+	public static final String PROPERTY_PATTERN = "pattern";
+	
+	public static final String PROPERTY_PDF_EMBEDDED = "pdfEmbedded";
+	
+	public static final String PROPERTY_PDF_ENCODING = "pdfEncoding";
+	
+	public static final String PROPERTY_PDF_FONT_NAME = "pdfFontName";
+	
+	public static final String PROPERTY_PEN = "pen";
+	
+	public static final String PROPERTY_RADIUS = "radius";
+	
+	public static final String PROPERTY_RIGHT_BORDER = "rightBorder";
+	
+	public static final String PROPERTY_RIGHT_BORDER_COLOR = "rightBorderColor";
+	
+	public static final String PROPERTY_RIGHT_PADDING = "rightPadding";
+	
+	public static final String PROPERTY_ROTATION = "rotation";
+	
+	public static final String PROPERTY_SCALE_IMAGE = "scaleImage";
+	
+	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
+	
+	public static final String PROPERTY_IS_STYLED_TEXT = "isStyledText";
+	
+	public static final String PROPERTY_TOP_BORDER = "topBorder";
+	
+	public static final String PROPERTY_TOP_BORDER_COLOR = "topBorderColor";
+	
+	public static final String PROPERTY_TOP_PADDING = "topPadding";
+	
+	public static final String PROPERTY_UNDERLINE = "underline";
+	
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = "verticalAlignment";
 
 
 	/**
@@ -661,7 +738,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setForecolor(Color forecolor)
 	{
+		Object old = this.forecolor;
 		this.forecolor = forecolor;
+		getEventSupport().firePropertyChange(PROPERTY_FORECOLOR, old, this.forecolor);
 	}
 
 	/**
@@ -669,7 +748,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBackcolor(Color backcolor)
 	{
+		Object old = this.backcolor;
 		this.backcolor = backcolor;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**
@@ -685,7 +766,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setMode(Byte mode)
 	{
+		Object old = this.mode;
 		this.mode = mode;
+		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
 	}
 
 	/**
@@ -701,7 +784,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPen(Byte pen)
 	{
+		Object old = this.pen;
 		this.pen = pen;
+		getEventSupport().firePropertyChange(PROPERTY_PEN, old, this.pen);
 	}
 
 	/**
@@ -717,7 +802,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setFill(Byte fill)
 	{
+		Object old = this.fill;
 		this.fill = fill;
+		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fill);
 	}
 
 	/**
@@ -733,7 +820,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setRadius(Integer radius)
 	{
+		Object old = this.radius;
 		this.radius = radius;
+		getEventSupport().firePropertyChange(PROPERTY_RADIUS, old, this.radius);
 	}
 
 	/**
@@ -749,7 +838,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setScaleImage(Byte scaleImage)
 	{
+		Object old = this.scaleImage;
 		this.scaleImage = scaleImage;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImage);
 	}
 
 	/**
@@ -765,7 +856,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setHorizontalAlignment(Byte horizontalAlignment)
 	{
+		Object old = this.horizontalAlignment;
 		this.horizontalAlignment = horizontalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignment);
 	}
 
 	/**
@@ -781,7 +874,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setVerticalAlignment(Byte verticalAlignment)
 	{
+		Object old = this.verticalAlignment;
 		this.verticalAlignment = verticalAlignment;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignment);
 	}
 
 	/**
@@ -797,7 +892,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBorder(Byte border)
 	{
+		Object old = this.border;
 		this.border = border;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER, old, this.border);
 	}
 
 	/**
@@ -805,7 +902,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBorderColor(Color borderColor)
 	{
+		Object old = this.borderColor;
 		this.borderColor = borderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.borderColor);
 	}
 
 	/**
@@ -821,7 +920,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPadding(Integer padding)
 	{
+		Object old = this.padding;
 		this.padding = padding;
+		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
 	/**
@@ -837,7 +938,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
+		Object old = this.topBorder;
 		this.topBorder = topBorder;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER, old, this.topBorder);
 	}
 
 	/**
@@ -845,7 +948,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
+		Object old = this.topBorderColor;
 		this.topBorderColor = topBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_BORDER_COLOR, old, this.topBorderColor);
 	}
 
 	/**
@@ -861,7 +966,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
+		Object old = this.topPadding;
 		this.topPadding = topPadding;
+		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
 	/**
@@ -877,7 +984,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
+		Object old = this.leftBorder;
 		this.leftBorder = leftBorder;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER, old, this.leftBorder);
 	}
 
 	/**
@@ -885,7 +994,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
+		Object old = this.leftBorderColor;
 		this.leftBorderColor = leftBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_BORDER_COLOR, old, this.leftBorderColor);
 	}
 
 	/**
@@ -901,7 +1012,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
+		Object old = this.leftPadding;
 		this.leftPadding = leftPadding;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
 	/**
@@ -917,7 +1030,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
+		Object old = this.bottomBorder;
 		this.bottomBorder = bottomBorder;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_BORDER, old, this.bottomBorder);
 	}
 
 	/**
@@ -925,7 +1040,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
+		Object old = this.bottomBorderColor;
 		this.bottomBorderColor = bottomBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_BORDER_COLOR, old, this.bottomBorderColor);
 	}
 
 	/**
@@ -941,7 +1058,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
+		Object old = this.bottomPadding;
 		this.bottomPadding = bottomPadding;
+		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
 	/**
@@ -957,7 +1076,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
+		Object old = this.rightBorder;
 		this.rightBorder = rightBorder;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER, old, this.rightBorder);
 	}
 
 	/**
@@ -965,7 +1086,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
+		Object old = this.rightBorderColor;
 		this.rightBorderColor = rightBorderColor;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_BORDER_COLOR, old, this.rightBorderColor);
 	}
 
 	/**
@@ -981,7 +1104,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
+		Object old = this.rightPadding;
 		this.rightPadding = rightPadding;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_PADDING, old, this.rightPadding);
 	}
 
 	/**
@@ -997,7 +1122,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setRotation(Byte rotation)
 	{
+		Object old = this.rotation;
 		this.rotation = rotation;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	/**
@@ -1005,7 +1132,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setFontName(String fontName)
 	{
+		Object old = this.fontName;
 		this.fontName = fontName;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 
 	/**
@@ -1021,7 +1150,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBold(Boolean bold)
 	{
+		Object old = this.isBold;
 		this.isBold = bold;
+		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
 	}
 
 	/**
@@ -1037,7 +1168,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setItalic(Boolean italic)
 	{
+		Object old = this.isItalic;
 		this.isItalic = italic;
+		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 
 	/**
@@ -1053,7 +1186,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPdfEmbedded(Boolean pdfEmbedded)
 	{
+		Object old = this.isPdfEmbedded;
 		this.isPdfEmbedded = pdfEmbedded;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
 	/**
@@ -1069,7 +1204,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setStrikeThrough(Boolean strikeThrough)
 	{
+		Object old = this.isStrikeThrough;
 		this.isStrikeThrough = strikeThrough;
+		getEventSupport().firePropertyChange(PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
 	/**
@@ -1085,7 +1222,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setStyledText(Boolean styledText)
 	{
+		Object old = this.isStyledText;
 		this.isStyledText = styledText;
+		getEventSupport().firePropertyChange(PROPERTY_IS_STYLED_TEXT, old, this.isStyledText);
 	}
 
 	/**
@@ -1101,7 +1240,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setBlankWhenNull(Boolean isBlankWhenNull)
 	{
+		Object old = this.isBlankWhenNull;
 		this.isBlankWhenNull = isBlankWhenNull;
+		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
 	/**
@@ -1117,7 +1258,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setUnderline(Boolean underline)
 	{
+		Object old = this.isUnderline;
 		this.isUnderline = underline;
+		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
 	/**
@@ -1133,7 +1276,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
+		Object old = this.lineSpacing;
 		this.lineSpacing = lineSpacing;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
 	}
 
 	/**
@@ -1141,7 +1286,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPattern(String pattern)
 	{
+		Object old = this.pattern;
 		this.pattern = pattern;
+		getEventSupport().firePropertyChange(PROPERTY_PATTERN, old, this.pattern);
 	}
 
 	/**
@@ -1149,7 +1296,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPdfEncoding(String pdfEncoding)
 	{
+		Object old = this.pdfEncoding;
 		this.pdfEncoding = pdfEncoding;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_ENCODING, old, this.pdfEncoding);
 	}
 
 	/**
@@ -1157,7 +1306,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setPdfFontName(String pdfFontName)
 	{
+		Object old = this.pdfFontName;
 		this.pdfFontName = pdfFontName;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_FONT_NAME, old, this.pdfFontName);
 	}
 
 	/**
@@ -1173,7 +1324,9 @@ public class JRBaseStyle implements JRStyle, Serializable
 	 */
 	public void setFontSize(Integer fontSize)
 	{
+		Object old = this.fontSize;
 		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	/**
@@ -1187,6 +1340,21 @@ public class JRBaseStyle implements JRStyle, Serializable
 	public String getStyleNameReference()
 	{
 		return parentStyleNameReference;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

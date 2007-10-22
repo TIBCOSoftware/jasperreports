@@ -48,6 +48,10 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_FILL = "fill";
+	
+	public static final String PROPERTY_PEN = "pen";
 
 	/**
 	 *
@@ -83,7 +87,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public void setPen(byte pen)
 	{
-		this.pen = new Byte(pen);
+		setPen(new Byte(pen));
 	}
 
 	/**
@@ -91,7 +95,9 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public void setPen(Byte pen)
 	{
+		Object old = this.pen;
 		this.pen = pen;
+		getEventSupport().firePropertyChange(PROPERTY_PEN, old, this.pen);
 	}
 
 	/**
@@ -112,7 +118,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public void setFill(byte fill)
 	{
-		this.fill = new Byte(fill);
+		setFill(new Byte(fill));
 	}
 
 	/**
@@ -120,7 +126,9 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public void setFill(Byte fill)
 	{
+		Object old = this.fill;
 		this.fill = fill;
+		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fill);
 	}
 
 }

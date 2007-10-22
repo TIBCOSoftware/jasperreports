@@ -46,6 +46,12 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_HEIGHT = "height";
+
+	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
+
+	public static final String PROPERTY_SPLIT_ALLOWED = "splitAllowed";
+
 	/**
 	 *
 	 */
@@ -72,7 +78,9 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	public void setHeight(int height)
 	{
+		int old = this.height;
 		this.height = height;
+		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 
 	/**
@@ -88,7 +96,9 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	public void setSplitAllowed(boolean isSplitAllowed)
 	{
+		boolean old = this.isSplitAllowed;
 		this.isSplitAllowed = isSplitAllowed;
+		getEventSupport().firePropertyChange(PROPERTY_SPLIT_ALLOWED, old, this.isSplitAllowed);
 	}
 
 	/**
@@ -104,7 +114,9 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	public void setPrintWhenExpression(JRExpression expression)
 	{
+		Object old = this.printWhenExpression;
 		this.printWhenExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_WHEN_EXPRESSION, old, this.printWhenExpression);
 	}
 
 	/**

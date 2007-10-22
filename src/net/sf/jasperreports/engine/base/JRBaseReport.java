@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -61,6 +62,8 @@ public class JRBaseReport implements JRReport, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
 
 	/**
 	 *
@@ -321,7 +324,9 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public void setWhenNoDataType(byte whenNoDataType)
 	{
+		byte old = getWhenNoDataType();
 		this.whenNoDataType = whenNoDataType;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, getWhenNoDataType());
 	}
 
 	/**
@@ -666,5 +671,20 @@ public class JRBaseReport implements JRReport, Serializable
 	 */
 	public JRBand getNoData() {
 		return noData;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

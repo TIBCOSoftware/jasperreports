@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 
@@ -54,6 +55,26 @@ public class JRBaseFont implements JRFont, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_BOLD = "bold";
+	
+	public static final String PROPERTY_FONT_NAME = "fontName";
+	
+	public static final String PROPERTY_FONT_SIZE = "fontSize";
+	
+	public static final String PROPERTY_ITALIC = "italic";
+	
+	public static final String PROPERTY_PDF_EMBEDDED = "pdfEmbedded";
+	
+	public static final String PROPERTY_PDF_ENCODING = "pdfEncoding";
+	
+	public static final String PROPERTY_PDF_FONT_NAME = "pdfFontName";
+	
+	public static final String PROPERTY_REPORT_FONT = "reportFont";
+	
+	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
+	
+	public static final String PROPERTY_UNDERLINE = "underline";
 
 	/**
 	 *
@@ -245,7 +266,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setReportFont(JRReportFont reportFont)
 	{
+		Object old = this.reportFont;
 		this.reportFont = reportFont;
+		getEventSupport().firePropertyChange(PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**
@@ -269,7 +292,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setFontName(String fontName)
 	{
+		Object old = this.fontName;
 		this.fontName = fontName;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 	
 
@@ -303,7 +328,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setBold(Boolean isBold)
 	{
+		Object old = this.isBold;
 		this.isBold = isBold;
+		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
 	}
 
 	
@@ -337,7 +364,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setItalic(Boolean isItalic) 
 	{
+		Object old = this.isItalic;
 		this.isItalic = isItalic;
+		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 	
 	/**
@@ -370,7 +399,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setUnderline(Boolean isUnderline) 
 	{
+		Object old = this.isUnderline;
 		this.isUnderline = isUnderline;
+		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
 	/**
@@ -403,7 +434,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setStrikeThrough(Boolean isStrikeThrough) 
 	{
+		Object old = this.isStrikeThrough;
 		this.isStrikeThrough = isStrikeThrough;
+		getEventSupport().firePropertyChange(PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
 	/**
@@ -436,7 +469,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setFontSize(Integer fontSize) 
 	{
+		Object old = this.fontSize;
 		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	/**
@@ -492,7 +527,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setPdfFontName(String pdfFontName)
 	{
+		Object old = this.pdfFontName;
 		this.pdfFontName = pdfFontName;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_FONT_NAME, old, this.pdfFontName);
 	}
 
 	
@@ -517,7 +554,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setPdfEncoding(String pdfEncoding)
 	{
+		Object old = this.pdfEncoding;
 		this.pdfEncoding = pdfEncoding;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_ENCODING, old, this.pdfEncoding);
 	}
 
 
@@ -551,7 +590,9 @@ public class JRBaseFont implements JRFont, Serializable
 	 */
 	public void setPdfEmbedded(Boolean isPdfEmbedded) 
 	{
+		Object old = this.isPdfEmbedded;
 		this.isPdfEmbedded = isPdfEmbedded;
+		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
 
@@ -560,5 +601,20 @@ public class JRBaseFont implements JRFont, Serializable
 		return styleContainer == null ? null : styleContainer.getStyleNameReference();
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 	
 }

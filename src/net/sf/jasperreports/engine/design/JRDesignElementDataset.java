@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 
@@ -49,6 +50,18 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DATASET_RUN = "datasetRun";
+	
+	public static final String PROPERTY_INCREMENT_GROUP = "incrementGroup";
+	
+	public static final String PROPERTY_INCREMENT_TYPE = "incrementType";
+	
+	public static final String PROPERTY_INCREMENT_WHEN_EXPRESSION = "incrementWhenExpression";
+	
+	public static final String PROPERTY_RESET_GROUP = "resetGroup";
+	
+	public static final String PROPERTY_RESET_TYPE = "resetType";
 
 	
 	public JRDesignElementDataset()
@@ -79,7 +92,9 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setResetType(byte resetType)
 	{
+		byte old = this.resetType;
 		this.resetType = resetType;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetType);
 	}
 		
 	/**
@@ -87,7 +102,9 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setIncrementType(byte incrementType)
 	{
+		byte old = this.incrementType;
 		this.incrementType = incrementType;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementType);
 	}
 		
 	/**
@@ -95,7 +112,9 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setResetGroup(JRGroup group)
 	{
+		Object old = this.resetGroup;
 		this.resetGroup = group;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_GROUP, old, this.resetGroup);
 	}
 		
 	/**
@@ -103,7 +122,9 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setIncrementGroup(JRGroup group)
 	{
+		Object old = this.incrementGroup;
 		this.incrementGroup = group;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_GROUP, old, this.incrementGroup);
 	}
 	
 	
@@ -115,7 +136,9 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setDatasetRun(JRDatasetRun datasetRun)
 	{
+		Object old = this.datasetRun;
 		this.datasetRun = datasetRun;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, old, this.datasetRun);
 	}
 	
 	
@@ -129,6 +152,23 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset
 	 */
 	public void setIncrementWhenExpression(JRExpression expression)
 	{
+		Object old = this.incrementWhenExpression;
 		this.incrementWhenExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_WHEN_EXPRESSION, old, this.incrementWhenExpression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

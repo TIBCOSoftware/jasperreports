@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
@@ -49,6 +50,8 @@ import net.sf.jasperreports.engine.JRVariable;
 public class JRBaseDataset implements JRDataset, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_WHEN_RESOURCE_MISSING_TYPE = "whenResourceMissingType";
 
 	protected final boolean isMain;
 	protected String name = null;
@@ -227,7 +230,9 @@ public class JRBaseDataset implements JRDataset, Serializable
 
 	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
+		byte old = this.whenResourceMissingType;
 		this.whenResourceMissingType = whenResourceMissingType;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
 	}
 
 	public JRPropertiesMap getPropertiesMap()
@@ -238,5 +243,20 @@ public class JRBaseDataset implements JRDataset, Serializable
 	public JRExpression getFilterExpression()
 	{
 		return filterExpression;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

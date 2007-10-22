@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -46,12 +47,16 @@ public class JRDesignElementGroup extends JRBaseElementGroup
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
+	public static final String PROPERTY_ELEMENT_GROUP = "elementGroup";
+
 	/**
 	 *
 	 */
 	public void setElementGroup(JRElementGroup elementGroup)
 	{
+		Object old = this.elementGroup;
 		this.elementGroup = elementGroup;
+		getEventSupport().firePropertyChange(PROPERTY_ELEMENT_GROUP, old, this.elementGroup);
 	}
 
 	/**
@@ -98,5 +103,20 @@ public class JRDesignElementGroup extends JRBaseElementGroup
 		return elemGrp;
 	}
 
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 
 }

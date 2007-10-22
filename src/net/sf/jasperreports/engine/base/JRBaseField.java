@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 
@@ -48,6 +49,8 @@ public class JRBaseField implements JRField, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DESCRIPTION = "description";
 
 	/**
 	 *
@@ -107,7 +110,9 @@ public class JRBaseField implements JRField, Serializable
 	 */
 	public void setDescription(String description)
 	{
+		Object old = this.description;
 		this.description = description;
+		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
 	}
 	
 	/**
@@ -160,6 +165,21 @@ public class JRBaseField implements JRField, Serializable
 	{
 		return propertiesMap;
 	}
+
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
 		
+		return eventSupport;
+	}
 
 }
