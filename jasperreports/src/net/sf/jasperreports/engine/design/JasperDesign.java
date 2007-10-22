@@ -149,10 +149,6 @@ public class JasperDesign extends JRBaseReport
 	public static final String PROPERTY_TITLE_NEW_PAGE = "titleNewPage";
 
 	public static final String PROPERTY_TOP_MARGIN = "topMargin";
-
-	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
-	
-	private transient JRPropertyChangeSupport eventSupport;
 	
 	/**
 	 * Report templates.
@@ -1190,26 +1186,6 @@ public class JasperDesign extends JRBaseReport
 			JROrigin origin = new JROrigin(type);
 			((JRDesignBand) band).setOrigin(origin);
 		}
-	}
-	
-	public JRPropertyChangeSupport getEventSupport()
-	{
-		synchronized (this)
-		{
-			if (eventSupport == null)
-			{
-				eventSupport = new JRPropertyChangeSupport(this);
-			}
-		}
-		
-		return eventSupport;
-	}
-
-	public void setWhenNoDataType(byte whenNoDataType)
-	{
-		byte old = getWhenNoDataType();
-		super.setWhenNoDataType(whenNoDataType);
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, getWhenNoDataType());
 	}
 	
 }

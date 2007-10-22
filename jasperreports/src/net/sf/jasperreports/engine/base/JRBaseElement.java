@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -55,6 +56,28 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String PROPERTY_BACKCOLOR = "backcolor";
+
+	public static final String PROPERTY_FORECOLOR = "forecolor";
+
+	public static final String PROPERTY_MODE = "mode";
+
+	public static final String PROPERTY_POSITION_TYPE = "positionType";
+
+	public static final String PROPERTY_PRINT_IN_FIRST_WHOLE_BAND = "isPrintInFirstWholeBand";
+
+	public static final String PROPERTY_PRINT_REPEATED_VALUES = "isPrintRepeatedValues";
+
+	public static final String PROPERTY_PRINT_WHEN_DETAIL_OVERFLOWS = "isPrintWhenDetailOverflows";
+
+	public static final String PROPERTY_REMOVE_LINE_WHEN_BLANK = "isRemoveLineWhenBlank";
+
+	public static final String PROPERTY_STRETCH_TYPE = "stretchType";
+
+	public static final String PROPERTY_WIDTH = "width";
+
+	public static final String PROPERTY_X = "x";
 
 	/**
 	 *
@@ -173,7 +196,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setPositionType(byte positionType)
 	{
+		byte old = this.positionType;
 		this.positionType = positionType;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionType);
 	}
 
 	/**
@@ -189,7 +214,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setStretchType(byte stretchType)
 	{
+		byte old = this.stretchType;
 		this.stretchType = stretchType;
+		getEventSupport().firePropertyChange(PROPERTY_STRETCH_TYPE, old, this.stretchType);
 	}
 
 	/**
@@ -205,7 +232,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setPrintRepeatedValues(boolean isPrintRepeatedValues)
 	{
+		boolean old = this.isPrintRepeatedValues;
 		this.isPrintRepeatedValues = isPrintRepeatedValues;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_REPEATED_VALUES, old, this.isPrintRepeatedValues);
 	}
 
 	/**
@@ -229,7 +258,7 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setMode(byte mode)
 	{
-		this.mode = new Byte(mode);
+		setMode(new Byte(mode));
 	}
 
 	/**
@@ -237,7 +266,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setMode(Byte mode)
 	{
+		Object old = this.mode;
 		this.mode = mode;
+		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
 	}
 
 	/**
@@ -253,7 +284,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setX(int x)
 	{
+		int old = this.x;
 		this.x = x;
+		getEventSupport().firePropertyChange(PROPERTY_X, old, this.x);
 	}
 
 	/**
@@ -277,7 +310,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setWidth(int width)
 	{
+		int old = this.width;
 		this.width = width;
+		getEventSupport().firePropertyChange(PROPERTY_WIDTH, old, this.width);
 	}
 
 	/**
@@ -301,7 +336,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setRemoveLineWhenBlank(boolean isRemoveLine)
 	{
+		boolean old = this.isRemoveLineWhenBlank;
 		this.isRemoveLineWhenBlank = isRemoveLine;
+		getEventSupport().firePropertyChange(PROPERTY_REMOVE_LINE_WHEN_BLANK, old, this.isRemoveLineWhenBlank);
 	}
 
 	/**
@@ -317,7 +354,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setPrintInFirstWholeBand(boolean isPrint)
 	{
+		boolean old = this.isPrintInFirstWholeBand;
 		this.isPrintInFirstWholeBand = isPrint;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_IN_FIRST_WHOLE_BAND, old, this.isPrintInFirstWholeBand);
 	}
 
 	/**
@@ -333,7 +372,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setPrintWhenDetailOverflows(boolean isPrint)
 	{
+		boolean old = this.isPrintWhenDetailOverflows;
 		this.isPrintWhenDetailOverflows = isPrint;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_WHEN_DETAIL_OVERFLOWS, old, this.isPrintWhenDetailOverflows);
 	}
 
 	/**
@@ -357,7 +398,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setForecolor(Color forecolor)
 	{
+		Object old = this.forecolor;
 		this.forecolor = forecolor;
+		getEventSupport().firePropertyChange(PROPERTY_FORECOLOR, old, this.forecolor);
 	}
 
 	/**
@@ -381,7 +424,9 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	 */
 	public void setBackcolor(Color backcolor)
 	{
+		Object old = this.backcolor;
 		this.backcolor = backcolor;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**
@@ -416,5 +461,20 @@ public abstract class JRBaseElement implements JRElement, Serializable
 	public String getStyleNameReference()
 	{
 		return parentStyleNameReference;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

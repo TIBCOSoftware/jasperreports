@@ -93,10 +93,6 @@ public class JRDesignDataset extends JRBaseDataset
 	public static final String PROPERTY_SORT_FIELDS = "sortFields";
 	
 	public static final String PROPERTY_VARIABLES = "variables";
-	
-	public static final String PROPERTY_WHEN_RESOURCE_MISSING_TYPE = "whenResourceMissingType";
-	
-	private transient JRPropertyChangeSupport eventSupport;
 
 	/**
 	 * Parameters mapped by name.
@@ -960,26 +956,6 @@ public class JRDesignDataset extends JRBaseDataset
 			
 		if (sortFieldsList == null)
 			sortFieldsList = new ArrayList();
-	}
-	
-	public JRPropertyChangeSupport getEventSupport()
-	{
-		synchronized (this)
-		{
-			if (eventSupport == null)
-			{
-				eventSupport = new JRPropertyChangeSupport(this);
-			}
-		}
-		
-		return eventSupport;
-	}
-
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
-	{
-		byte old = this.whenResourceMissingType;
-		super.setWhenResourceMissingType(whenResourceMissingType);
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
 	}
 
 }

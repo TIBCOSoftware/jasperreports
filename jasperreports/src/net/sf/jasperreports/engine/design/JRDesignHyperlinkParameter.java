@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseHyperlinkParameter;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -43,6 +44,10 @@ import net.sf.jasperreports.engine.base.JRBaseHyperlinkParameter;
 public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_NAME = "name";
+	
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 
 	
 	/**
@@ -61,7 +66,9 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
 	
@@ -76,7 +83,24 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter
 	 */
 	public void setValueExpression(JRExpression valueExpression)
 	{
+		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 }

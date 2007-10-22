@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseHyperlink;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
@@ -50,6 +51,18 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_HYPERLINK_ANCHOR_EXPRESSION = "hyperlinkAnchorExpression";
+	
+	public static final String PROPERTY_HYPERLINK_PAGE_EXPRESSION = "hyperlinkPageExpression";
+	
+	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = "hyperlinkReferenceExpression";
+	
+	public static final String PROPERTY_HYPERLINK_TARGET = "hyperlinkTarget";
+	
+	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
+	
+	public static final String PROPERTY_LINK_TYPE = "linkType";
 	
 	private List hyperlinkParameters;
 	
@@ -83,7 +96,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setHyperlinkTarget(byte hyperlinkTarget)
 	{
+		byte old = this.hyperlinkTarget;
 		this.hyperlinkTarget = hyperlinkTarget;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTarget);
 	}
 
 
@@ -103,7 +118,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setHyperlinkReferenceExpression(JRExpression hyperlinkReferenceExpression)
 	{
+		Object old = this.hyperlinkReferenceExpression;
 		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_REFERENCE_EXPRESSION, old, this.hyperlinkReferenceExpression);
 	}
 
 
@@ -121,7 +138,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression)
 	{
+		Object old = this.hyperlinkAnchorExpression;
 		this.hyperlinkAnchorExpression = hyperlinkAnchorExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_ANCHOR_EXPRESSION, old, this.hyperlinkAnchorExpression);
 	}
 
 
@@ -139,7 +158,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setHyperlinkPageExpression(JRExpression hyperlinkPageExpression)
 	{
+		Object old = this.hyperlinkPageExpression;
 		this.hyperlinkPageExpression = hyperlinkPageExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 
 
@@ -154,7 +175,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setLinkType(String type)
 	{
+		Object old = this.linkType;
 		this.linkType = type;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
 
@@ -238,7 +261,24 @@ public class JRDesignHyperlink extends JRBaseHyperlink
 	 */
 	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression)
 	{
+		Object old = this.hyperlinkTooltipExpression;
 		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTooltipExpression);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 	
 }

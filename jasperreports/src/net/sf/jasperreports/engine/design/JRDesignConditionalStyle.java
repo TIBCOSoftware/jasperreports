@@ -44,6 +44,10 @@ public class JRDesignConditionalStyle extends JRBaseConditionalStyle implements 
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_CONDITION_EXPRESSION = "conditionExpression";
+	
+	public static final String PROPERTY_PARENT_STYLE = "parentStyle";
 
 
 	/**
@@ -58,7 +62,9 @@ public class JRDesignConditionalStyle extends JRBaseConditionalStyle implements 
 	 */
 	public void setConditionExpression(JRExpression conditionExpression)
 	{
+		Object old = this.conditionExpression;
 		this.conditionExpression = conditionExpression;
+		getEventSupport().firePropertyChange(PROPERTY_CONDITION_EXPRESSION, old, this.conditionExpression);
 	}
 
 	/**
@@ -66,7 +72,9 @@ public class JRDesignConditionalStyle extends JRBaseConditionalStyle implements 
 	 */
 	public void setParentStyle(JRStyle parentStyle)
 	{
+		Object old = this.parentStyle;
 		this.parentStyle = parentStyle;
+		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE, old, this.parentStyle);
 	}
 
 }

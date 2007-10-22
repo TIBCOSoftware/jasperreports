@@ -47,13 +47,25 @@ public class JRDesignGroup extends JRBaseGroup
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_COUNT_VARIABLE = "countVariable";
+	
+	public static final String PROPERTY_EXPRESSION = "expression";
+	
+	public static final String PROPERTY_GROUP_FOOTER = "groupFooter";
+	
+	public static final String PROPERTY_GROUP_HEADER = "groupHeader";
+	
+	public static final String PROPERTY_NAME = "name";
 
 	/**
 	 *
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 		
 	/**
@@ -61,7 +73,9 @@ public class JRDesignGroup extends JRBaseGroup
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
 	/**
@@ -69,8 +83,10 @@ public class JRDesignGroup extends JRBaseGroup
 	 */
 	public void setGroupHeader(JRBand groupHeader)
 	{
+		Object old = this.groupHeader;
 		this.groupHeader = groupHeader;
 		setBandOrigin(this.groupHeader, JROrigin.GROUP_HEADER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_HEADER, old, this.groupHeader);
 	}
 		
 	/**
@@ -78,8 +94,10 @@ public class JRDesignGroup extends JRBaseGroup
 	 */
 	public void setGroupFooter(JRBand groupFooter)
 	{
+		Object old = this.groupFooter;
 		this.groupFooter = groupFooter;
 		setBandOrigin(this.groupFooter, JROrigin.GROUP_FOOTER);
+		getEventSupport().firePropertyChange(PROPERTY_GROUP_FOOTER, old, this.groupFooter);
 	}
 
 	/**
@@ -87,7 +105,9 @@ public class JRDesignGroup extends JRBaseGroup
 	 */
 	public void setCountVariable(JRVariable countVariable)
 	{
+		Object old = this.countVariable;
 		this.countVariable = countVariable;
+		getEventSupport().firePropertyChange(PROPERTY_COUNT_VARIABLE, old, this.countVariable);
 	}
 
 	protected void setBandOrigin(JRBand band, byte type)
