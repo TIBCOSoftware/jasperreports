@@ -271,11 +271,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			{
 				JRPrintElement element = (JRPrintElement)it.next();
 				
-				if (!clipArea.intersects(
+				if (
+					(filter != null && !filter.isToExport(element))
+					|| !clipArea.intersects(
 						element.getX() + getOffsetX() - ELEMENT_RECTANGLE_PADDING, 
 						element.getY() + getOffsetY() - ELEMENT_RECTANGLE_PADDING, 
 						element.getWidth() + 2 * ELEMENT_RECTANGLE_PADDING, 
-						element.getHeight() + 2 * ELEMENT_RECTANGLE_PADDING))
+						element.getHeight() + 2 * ELEMENT_RECTANGLE_PADDING)
+					)
 				{
 					continue;
 				}

@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -152,6 +153,7 @@ public class JROdtExporter extends JRAbstractExporter
 	private StyleCache styleCache = null;
 
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+	protected ExporterNature nature = null;
 
 
 	public JROdtExporter()
@@ -203,6 +205,8 @@ public class JROdtExporter extends JRAbstractExporter
 						
 			setHyperlinkProducerFactory();
 	
+			nature = new JROdtExporterNature(filter);
+
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
 			{
@@ -407,7 +411,7 @@ public class JROdtExporter extends JRAbstractExporter
 	{
 		JRGridLayout layout = 
 			new JRGridLayout(
-				JROdtExporterNature.getInstance(),
+				nature,
 				page.getElements(),
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),

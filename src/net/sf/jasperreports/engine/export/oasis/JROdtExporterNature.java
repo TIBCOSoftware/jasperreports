@@ -34,6 +34,7 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 
 /**
@@ -43,24 +44,14 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 public class JROdtExporterNature implements ExporterNature
 {
 	
-	/**
-	 * 
-	 */
-	private static final JROdtExporterNature INSTANCE = new JROdtExporterNature();
+	private ExporterFilter filter = null;
 
 	/**
 	 * 
 	 */
-	public static JROdtExporterNature getInstance()
+	public JROdtExporterNature(ExporterFilter filter)
 	{
-		return INSTANCE; 
-	}
-
-	/**
-	 * 
-	 */
-	private JROdtExporterNature()
-	{
+		this.filter = filter;
 	}
 	
 	/**
@@ -68,7 +59,7 @@ public class JROdtExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return true;
+		return (filter == null || filter.isToExport(element));
 	}
 	
 	/**

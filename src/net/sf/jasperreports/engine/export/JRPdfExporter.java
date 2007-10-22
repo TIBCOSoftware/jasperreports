@@ -611,29 +611,32 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				element = (JRPrintElement)it.next();
 
-				if (element instanceof JRPrintLine)
+				if (filter == null || filter.isToExport(element))
 				{
-					exportLine((JRPrintLine)element);
-				}
-				else if (element instanceof JRPrintRectangle)
-				{
-					exportRectangle((JRPrintRectangle)element);
-				}
-				else if (element instanceof JRPrintEllipse)
-				{
-					exportEllipse((JRPrintEllipse)element);
-				}
-				else if (element instanceof JRPrintImage)
-				{
-					exportImage((JRPrintImage)element);
-				}
-				else if (element instanceof JRPrintText)
-				{
-					exportText((JRPrintText)element);
-				}
-				else if (element instanceof JRPrintFrame)
-				{
-					exportFrame((JRPrintFrame) element);
+					if (element instanceof JRPrintLine)
+					{
+						exportLine((JRPrintLine)element);
+					}
+					else if (element instanceof JRPrintRectangle)
+					{
+						exportRectangle((JRPrintRectangle)element);
+					}
+					else if (element instanceof JRPrintEllipse)
+					{
+						exportEllipse((JRPrintEllipse)element);
+					}
+					else if (element instanceof JRPrintImage)
+					{
+						exportImage((JRPrintImage)element);
+					}
+					else if (element instanceof JRPrintText)
+					{
+						exportText((JRPrintText)element);
+					}
+					else if (element instanceof JRPrintFrame)
+					{
+						exportFrame((JRPrintFrame) element);
+					}
 				}
 			}
 		}
