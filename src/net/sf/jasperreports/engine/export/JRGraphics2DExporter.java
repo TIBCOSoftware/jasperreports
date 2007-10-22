@@ -92,6 +92,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 */
 	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRProperties.PROPERTY_PREFIX + "export.graphics2d.min.job.size";
 
+	private static final String GRAPHICS2D_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.graphics2d.exclude.origin.";
+
 	/**
 	 *
 	 */
@@ -133,7 +135,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 			/*   */
 			setInput();
-	
+			
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), GRAPHICS2D_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
+
 			/*   */
 			setPageRange();
 	

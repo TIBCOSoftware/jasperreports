@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -64,6 +65,7 @@ import org.xml.sax.SAXException;
 public class JRCsvExporter extends JRAbstractExporter
 {
 
+	private static final String CSV_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.exclude.origin.";
 
 	/**
 	 *
@@ -101,6 +103,11 @@ public class JRCsvExporter extends JRAbstractExporter
 
 		/*   */
 		setInput();
+		
+		if (!parameters.containsKey(JRExporterParameter.FILTER))
+		{
+			filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), CSV_ORIGIN_EXPORTER_FILTER_PREFIX);
+		}
 
 		/*   */
 		if (!isModeBatch)

@@ -134,6 +134,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public static final String PDF_FORCE_SVG_SHAPES = JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES;
 
+	private static final String PDF_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.pdf.exclude.origin.";
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 
 	/**
@@ -226,6 +227,11 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			/*   */
 			setInput();
+	
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), PDF_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
 
 			/*   */
 			if (!isModeBatch)

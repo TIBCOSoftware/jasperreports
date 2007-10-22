@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -103,6 +104,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	private static final String XML_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.exclude.origin.";
 	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
 	protected static final String HTML_FILES_SUFFIX = "_files";
@@ -152,6 +154,11 @@ public class JRXmlExporter extends JRAbstractExporter
 			/*   */
 			setInput();
 	
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), XML_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
+
 			/*   */
 			setPageRange();
 	

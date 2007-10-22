@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.engine.export.JROriginExporterFilter;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZip;
 import net.sf.jasperreports.engine.export.oasis.zip.FileBufferedOasisZipEntry;
 import net.sf.jasperreports.engine.export.oasis.zip.OasisZip;
@@ -95,6 +96,8 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JROdtExporter extends JRAbstractExporter
 {
+
+	private static final String ODT_ORIGIN_EXPORTER_FILTER_PREFIX = JRProperties.PROPERTY_PREFIX + "export.odt.exclude.origin.";
 
 	/**
 	 *
@@ -180,7 +183,12 @@ public class JROdtExporter extends JRAbstractExporter
 	
 			/*   */
 			setInput();
-	
+			
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = JROriginExporterFilter.getFilter(jasperPrint.getPropertiesMap(), ODT_ORIGIN_EXPORTER_FILTER_PREFIX);
+			}
+
 			/*   */
 			if (!isModeBatch)
 			{
