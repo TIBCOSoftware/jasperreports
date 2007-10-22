@@ -1132,9 +1132,6 @@ public class JRRtfExporter extends JRAbstractExporter
 				normalHeight = (int) dimension.getHeight();
 			}
 
-			float xalignFactor = 0;// = getXAlignFactor(printImage);
-			float yalignFactor = 0;// = getYAlignFactor(printImage);
-
 			int imageWidth = 0;
 			int imageHeight = 0;
 			int xoffset = 0;
@@ -1152,13 +1149,13 @@ public class JRRtfExporter extends JRAbstractExporter
 					{
 						case JRAlignment.HORIZONTAL_ALIGN_RIGHT :
 						{
-							cropLeft = availableImageWidth - normalWidth;
+							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
 							cropRight = 0;
 							break;
 						}
 						case JRAlignment.HORIZONTAL_ALIGN_CENTER :
 						{
-							cropLeft = (availableImageWidth - normalWidth) / 2;
+							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth / 2;
 							cropRight = cropLeft;
 							break;
 						}
@@ -1166,7 +1163,7 @@ public class JRRtfExporter extends JRAbstractExporter
 						default :
 						{
 							cropLeft = 0;
-							cropRight = availableImageWidth - normalWidth;
+							cropRight = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
 							break;
 						}
 					}
@@ -1175,19 +1172,19 @@ public class JRRtfExporter extends JRAbstractExporter
 						case JRAlignment.VERTICAL_ALIGN_TOP :
 						{
 							cropTop = 0;
-							cropBottom = - availableImageHeight + normalHeight;
+							cropBottom = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
 							break;
 						}
 						case JRAlignment.VERTICAL_ALIGN_MIDDLE :
 						{
-							cropTop = (availableImageHeight - normalHeight) / 2;
+							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight / 2;
 							cropBottom = cropTop;
 							break;
 						}
 						case JRAlignment.VERTICAL_ALIGN_BOTTOM :
 						default :
 						{
-							cropTop = availableImageHeight - normalHeight;
+							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
 							cropBottom = 0;
 							break;
 						}
@@ -1222,8 +1219,8 @@ public class JRRtfExporter extends JRAbstractExporter
 							normalHeight = availableImageHeight;
 						}
 
-						xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-						yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 						imageWidth = normalWidth;
 						imageHeight = normalHeight;
 					}
@@ -1248,18 +1245,19 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
 			writer.write("{\\sp{\\sn shapeType}{\\sv 75}}");
 			writer.write("{\\sp{\\sn fFilled}{\\sv 0}}");
+			writer.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");
 
 			writer.write("{\\sp{\\sn cropFromTop}{\\sv ");
-			writer.write(String.valueOf(0));
+			writer.write(String.valueOf(cropTop));
 			writer.write("}}");
 			writer.write("{\\sp{\\sn cropFromLeft}{\\sv ");
-			writer.write(String.valueOf(0));
+			writer.write(String.valueOf(cropLeft));
 			writer.write("}}");
 			writer.write("{\\sp{\\sn cropFromBottom}{\\sv ");
-			writer.write(String.valueOf(0));
+			writer.write(String.valueOf(cropBottom));
 			writer.write("}}");
 			writer.write("{\\sp{\\sn cropFromRight}{\\sv ");
-			writer.write(String.valueOf(0));
+			writer.write(String.valueOf(cropRight));
 			writer.write("}}");
 
 //			writer.write("{\\*\\do\\dobxpage\\dobypage\\dodhgt");
@@ -1420,7 +1418,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 
 	/**
-	 *
+	 * FIXMERTF hyperlinks
 	 */
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
@@ -1527,7 +1525,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("}");
 	}
 
-	private float getXAlignFactors(JRPrintImage image)
+	private float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
 		switch (image.getHorizontalAlignment())
@@ -1545,7 +1543,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			case JRAlignment.HORIZONTAL_ALIGN_LEFT :
 			default :
 			{
-				xalignFactor = -1f;
+				xalignFactor = 0f;
 				break;
 			}
 		}
