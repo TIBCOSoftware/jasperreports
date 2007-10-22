@@ -149,6 +149,8 @@ public class JasperDesign extends JRBaseReport
 	public static final String PROPERTY_TITLE_NEW_PAGE = "titleNewPage";
 
 	public static final String PROPERTY_TOP_MARGIN = "topMargin";
+
+	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
@@ -1117,6 +1119,8 @@ public class JasperDesign extends JRBaseReport
 	protected List collectCrosstabs()
 	{
 		crosstabs = new ArrayList();
+		
+		//TODO use JRElementsVisitor?
 		collectCrosstabs(background);
 		collectCrosstabs(title);
 		collectCrosstabs(pageHeader);
@@ -1258,6 +1262,13 @@ public class JasperDesign extends JRBaseReport
 		}
 		
 		return eventSupport;
+	}
+
+	public void setWhenNoDataType(byte whenNoDataType)
+	{
+		byte old = getWhenNoDataType();
+		super.setWhenNoDataType(whenNoDataType);
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, getWhenNoDataType());
 	}
 	
 }

@@ -94,6 +94,8 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	public static final String PROPERTY_VARIABLES = "variables";
 	
+	public static final String PROPERTY_WHEN_RESOURCE_MISSING_TYPE = "whenResourceMissingType";
+	
 	private transient JRPropertyChangeSupport eventSupport;
 
 	/**
@@ -971,6 +973,13 @@ public class JRDesignDataset extends JRBaseDataset
 		}
 		
 		return eventSupport;
+	}
+
+	public void setWhenResourceMissingType(byte whenResourceMissingType)
+	{
+		byte old = this.whenResourceMissingType;
+		super.setWhenResourceMissingType(whenResourceMissingType);
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
 	}
 
 }
