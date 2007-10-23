@@ -42,6 +42,8 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
+
 	protected JRExpression valueExpression;
 
 	
@@ -65,6 +67,8 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 	 */
 	public void setExpression(JRExpression expression)
 	{
+		Object old = this.valueExpression;
 		this.valueExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 }

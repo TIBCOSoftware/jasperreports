@@ -77,6 +77,22 @@ import org.apache.commons.collections.SequencedHashMap;
 public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_COLUMN_BREAK_OFFSET = "columnBreakOffset";
+	
+	public static final String PROPERTY_DATASET = "dataset";
+	
+	public static final String PROPERTY_HEADER_CELL = "headerCell";
+	
+	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
+	
+	public static final String PROPERTY_REPEAT_COLUMN_HEADERS = "repeatColumnHeaders";
+	
+	public static final String PROPERTY_REPEAT_ROW_HEADERS = "repeatRowHeaders";
+	
+	public static final String PROPERTY_RUN_DIRECTION = "runDirection";
+	
+	public static final String PROPERTY_WHEN_NO_DATA_CELL = "whenNoDataCell";
 
 	protected List parametersList;
 	protected Map parametersMap;
@@ -264,7 +280,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setDataset(JRDesignCrosstabDataset dataset)
 	{
+		Object old = this.dataset;
 		this.dataset = dataset;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 	
 	
@@ -660,7 +678,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setRepeatColumnHeaders(boolean repeatColumnHeaders)
 	{
+		boolean old = this.repeatColumnHeaders;
 		this.repeatColumnHeaders = repeatColumnHeaders;
+		getEventSupport().firePropertyChange(PROPERTY_REPEAT_COLUMN_HEADERS, old, this.repeatColumnHeaders);
 	}
 
 	public boolean isRepeatRowHeaders()
@@ -677,7 +697,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setRepeatRowHeaders(boolean repeatRowHeaders)
 	{
+		boolean old = this.repeatRowHeaders;
 		this.repeatRowHeaders = repeatRowHeaders;
+		getEventSupport().firePropertyChange(PROPERTY_REPEAT_ROW_HEADERS, old, this.repeatRowHeaders);
 	}
 
 	public JRCrosstabCell[][] getCells()
@@ -912,7 +934,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setParametersMapExpression(JRExpression expression)
 	{
+		Object old = this.parametersMapExpression;
 		this.parametersMapExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 	
 	
@@ -966,7 +990,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setColumnBreakOffset(int columnBreakOffset)
 	{
+		int old = this.columnBreakOffset;
 		this.columnBreakOffset = columnBreakOffset;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_BREAK_OFFSET, old, this.columnBreakOffset);
 	}
 
 	
@@ -1288,10 +1314,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setWhenNoDataCell(JRDesignCellContents whenNoDataCell)
 	{
+		Object old = this.whenNoDataCell;
 		this.whenNoDataCell = whenNoDataCell;
-		
-		setCellOrigin(this.whenNoDataCell,
-				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_WHEN_NO_DATA_CELL));
+		setCellOrigin(this.whenNoDataCell, new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_WHEN_NO_DATA_CELL));
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_CELL, old, this.whenNoDataCell);
 	}
 
 	
@@ -1320,10 +1346,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public void setHeaderCell(JRDesignCellContents headerCell)
 	{
+		Object old = this.headerCell;
 		this.headerCell = headerCell;
-		
-		setCellOrigin(this.headerCell,
-				new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_HEADER_CELL));
+		setCellOrigin(this.headerCell, new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_HEADER_CELL));
+		getEventSupport().firePropertyChange(PROPERTY_HEADER_CELL, old, this.headerCell);
 	}
 
 	
@@ -1381,7 +1407,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public void setRunDirection(byte runDirection)
 	{
+		byte old = this.runDirection;
 		this.runDirection = runDirection;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
 	
 	protected void setCellOrigin(JRCellContents cell, JRCrosstabOrigin origin)

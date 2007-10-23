@@ -31,6 +31,8 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabBucket;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket corsstab group bucket}
@@ -39,11 +41,15 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket
+public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRChangeEventsSupport
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_COMPARATOR_EXPRESSION = "comparatorExpression";
+
 	public static final String PROPERTY_EXPRESSION = "expression";
+
+	public static final String PROPERTY_ORDER = "order";
 
 	
 	/**
@@ -65,7 +71,9 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket
 	 */
 	public void setComparatorExpression(JRExpression comparatorExpression)
 	{
+		Object old = this.comparatorExpression;
 		this.comparatorExpression = comparatorExpression;
+		getEventSupport().firePropertyChange(PROPERTY_COMPARATOR_EXPRESSION, old, this.comparatorExpression);
 	}
 
 	
@@ -77,7 +85,9 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket
 	 */
 	public void setExpression(JRDesignExpression expression)
 	{
+		Object old = this.expression;
 		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 
 	
@@ -93,6 +103,23 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket
 	 */
 	public void setOrder(byte order)
 	{
+		byte old = this.order;
 		this.order = order;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }

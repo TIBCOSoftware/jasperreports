@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 
 /**
@@ -46,6 +47,16 @@ import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 public class JRDesignCellContents extends JRDesignElementGroup implements JRCellContents
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_BACKCOLOR = JRBaseStyle.PROPERTY_BACKCOLOR;
+	
+	public static final String PROPERTY_BOX = "box";
+	
+	public static final String PROPERTY_MODE = JRBaseStyle.PROPERTY_MODE;
+	
+	public static final String PROPERTY_STYLE = "style";
+	
+	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style;
@@ -81,7 +92,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public void setBackcolor(Color color)
 	{
+		Object old = this.backcolor;
 		backcolor = color;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	public JRBox getBox()
@@ -98,7 +111,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public void setBox(JRBox box)
 	{
+		Object old = this.box;
 		this.box = box;
+		getEventSupport().firePropertyChange(PROPERTY_BOX, old, this.box);
 	}
 
 	public int getHeight()
@@ -156,7 +171,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public void setStyle(JRStyle style)
 	{
+		Object old = this.style;
 		this.style = style;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE, old, this.style);
 	}
 
 	public Byte getMode()
@@ -173,7 +190,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public void setMode(Byte mode)
 	{
+		Object old = this.mode;
 		this.mode = mode;
+		getEventSupport().firePropertyChange(PROPERTY_MODE, old, this.mode);
 	}
 
 	public String getStyleNameReference()
@@ -194,7 +213,9 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	public void setStyleNameReference(String styleName)
 	{
+		Object old = this.styleNameReference;
 		this.styleNameReference = styleName;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE_NAME_REFERENCE, old, this.styleNameReference);
 	}
 	
 	public JRCrosstabOrigin getOrigin()
